@@ -8,11 +8,11 @@ import { HttpEndpoints, createRequester, type Requester } from './utils';
 
 export {
   ApplicationError,
+  errorResultAsJson,
   genericError,
   logApplicationError,
   logError,
   tryResult,
-  errorResultAsJson,
 } from './utils';
 
 export type { Requester };
@@ -57,26 +57,22 @@ export function createWithHttpClientDecorator<U extends HttpEndpoints, T>(
 export type NextApiClientHandler<U extends HttpEndpoints, T, P = any> = (
   req: NextApiRequest,
   res: NextApiResponse<P>,
-  client: HttpClient<U, T>,
+  extra: {
+    client: HttpClient<U, T>;
+    ok: (a: P) => void;
+  },
 ) => unknown | Promise<unknown>;
 
 export function createWithHttpClientDecoratorForHttpHandlers<
   U extends HttpEndpoints,
   T,
-  P,
 >(client: HttpClient<U, T>) {
-  return function inside(handler: NextApiClientHandler<U, T, P>) {
-    return (req: NextApiRequest, res: NextApiResponse<P>) =>
-      handler(req, res, client);
+  return function inside<P>(handler: NextApiClientHandler<U, T, P>) {
+    return (req: NextApiRequest, res: NextApiResponse<P>) => {
+      function ok(val: P) {
+        res.status(200).json(val);
+      }
+      return handler(req, res, { client, ok });
+    };
   };
 }
-
-// const externalGraphqlUrls = {
-//   entur: "https://api.entur.io/journey-planner/v3/graphql/",
-// } as const;
-
-// export function createGraphqlClient(
-//   baseUrlType: keyof typeof externalGraphqlUrls
-// ) {
-//   const baseUrl = externalHttpUrls[baseUrlType];
-// }

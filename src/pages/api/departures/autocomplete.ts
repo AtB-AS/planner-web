@@ -1,12 +1,13 @@
-import { errorResultAsJson, tryResult } from '@atb/modules/api-client';
-import { handlerWithDepartureClient } from '@atb/page-modules/departures';
+import { errorResultAsJson, tryResult } from '@atb/modules/api-server';
+import type { AutocompleteApiReturnType } from '@atb/page-modules/departures/client';
+import { handlerWithDepartureClient } from '@atb/page-modules/departures/server';
 import { ServerText } from '@atb/translations';
 import { constants } from 'http2';
-import type { NextApiRequest, NextApiResponse } from 'next';
 import { z } from 'zod';
 
-export default handlerWithDepartureClient(
-  async (req: NextApiRequest, res: NextApiResponse, client) => {
+export default handlerWithDepartureClient<AutocompleteApiReturnType>(
+  async (req, res, { client, ok }) => {
+    console.log('Helloooo');
     // Only allow GET handlers
     // @TODO extend to "modern" handler (GET function in object).
     if (req.method !== 'GET') {
@@ -28,8 +29,7 @@ export default handlerWithDepartureClient(
     }
 
     return tryResult(req, res, async () => {
-      const recentTickets = await client.autocomplete(String(query.data));
-      return res.status(constants.HTTP_STATUS_OK).json(recentTickets);
+      return ok(await client.autocomplete(String(query.data)));
     });
   },
 );
