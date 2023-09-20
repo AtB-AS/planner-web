@@ -1,22 +1,10 @@
-import { GlobalCookiesData, getGlobalCookies } from '@atb/modules/cookies';
-import { IncomingHttpHeaders } from 'http';
-import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
-import { NextApiRequestCookies } from 'next/dist/server/api-utils';
+import { type GlobalCookiesData, getGlobalCookies } from '@atb/modules/cookies';
+import type { GetServerSideProps } from 'next';
+import type { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 
 export type AllData = GlobalCookiesData;
 
 export type WithGlobalData<T> = T & AllData;
-
-async function getGlobalData(req: {
-  cookies: NextApiRequestCookies;
-  headers: IncomingHttpHeaders;
-}): Promise<AllData> {
-  return getGlobalCookies(req);
-}
-
-export type GlobalPropGetter<P extends {} = {}> = (
-  context: GetServerSidePropsContext,
-) => Promise<GetServerSidePropsResult<P>>;
 
 /**
  * Higher order function to wrap default getServerSideProps to provide default
@@ -25,12 +13,12 @@ export type GlobalPropGetter<P extends {} = {}> = (
  * Used in relation with ./layouts/default to provide with global data,
  **/
 export function withGlobalData<P extends {} = {}>(
-  propGetter?: GlobalPropGetter<P>,
+  propGetter?: GetServerSideProps<P>,
 ) {
   return async function inside(
     ctx: GetServerSidePropsContext,
   ): Promise<GetServerSidePropsResult<WithGlobalData<P>>> {
-    const initialData = await getGlobalData(ctx.req);
+    const initialData = getGlobalCookies(ctx.req);
 
     const composedProps: GetServerSidePropsResult<P> | undefined =
       await propGetter?.({

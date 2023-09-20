@@ -14,3 +14,4 @@ export {
 } from './language-context';
 
 export * as CommonText from './common';
+export * as ServerText from './server';
