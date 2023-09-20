@@ -1,24 +1,24 @@
-import { useHtmlDarkMode, useTheme } from "@atb/modules/theme";
+import {useHtmlDarkMode, useTheme} from '@atb/modules/theme';
 import {
   CommonText,
   Language,
   TranslatedString,
   useLanguageSettings,
   useTranslation,
-} from "@atb/translations";
-import Head from "next/head";
-import { PropsWithChildren } from "react";
+} from '@atb/translations';
+import Head from 'next/head';
+import {PropsWithChildren} from 'react';
 
 export type BaseLayoutProps = PropsWithChildren<{
   title?: TranslatedString;
 }>;
-export function BaseLayout({ children, title }: BaseLayoutProps) {
+export function BaseLayout({children, title}: BaseLayoutProps) {
   useHtmlDarkMode();
   const theme = useTheme();
-  const { t } = useTranslation();
+  const {t} = useTranslation();
 
   const siteTitle = usePageTitle(title);
-  const { language, languages, setLanguage } = useLanguageSettings();
+  const {language, languages, setLanguage} = useLanguageSettings();
 
   return (
     <div>
@@ -60,7 +60,7 @@ export function BaseLayout({ children, title }: BaseLayoutProps) {
 }
 
 function usePageTitle(title: TranslatedString | undefined): string {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   const siteTitle = t(CommonText.Titles.siteTitle);
   if (!title) {
     return siteTitle;

@@ -1,9 +1,9 @@
-import { useLanguageCookie } from "@atb/modules/cookies";
-import { Language } from "@atb/translations";
-import { appLanguages, DEFAULT_LANGUAGE } from "@atb/translations/commons";
-import { initLobot } from "@leile/lobo-t";
-import detectNearestBrowserLocale from "detect-nearest-browser-locale";
-import detectNearestLocale from "detect-nearest-locale";
+import {useLanguageCookie} from '@atb/modules/cookies';
+import {Language} from '@atb/translations';
+import {appLanguages, DEFAULT_LANGUAGE} from '@atb/translations/commons';
+import {initLobot} from '@leile/lobo-t';
+import detectNearestBrowserLocale from 'detect-nearest-browser-locale';
+import detectNearestLocale from 'detect-nearest-locale';
 import {
   createContext,
   PropsWithChildren,
@@ -11,14 +11,14 @@ import {
   useContext,
   useEffect,
   useState,
-} from "react";
+} from 'react';
 
 export const lobot = initLobot<typeof Language>(DEFAULT_LANGUAGE);
 
 export const useTranslation = lobot.useTranslation;
 
 function useSelectedLanguage(
-  onServerside: Language
+  onServerside: Language,
 ): [Language, (lang: Language) => void] {
   const [selectedLanguage, setLanguageInternal] = useLanguageCookie();
 
@@ -26,7 +26,7 @@ function useSelectedLanguage(
   const preferredLanguage = usePreferredBrowserLanguage(onServerside);
 
   const lang =
-    typeof selectedLanguage !== "undefined"
+    typeof selectedLanguage !== 'undefined'
       ? mapLanguageStringToEnum(selectedLanguage)
       : preferredLanguage;
 
@@ -84,7 +84,7 @@ export default function AppLanguageProvider({
 
   return (
     <LanguageContext.Provider
-      value={{ toggleLanguage, setLanguage, language, languages: appLanguages }}
+      value={{toggleLanguage, setLanguage, language, languages: appLanguages}}
     >
       <lobot.LanguageProvider value={language}>
         {children}
@@ -108,7 +108,7 @@ export function useLanguageSettings() {
 
 export function getLocalesFromAcceptLanguage(headerStr: string) {
   const preferred =
-    headerStr?.split(",").map((type) => type.split(";")[0].trim()) ?? [];
+    headerStr?.split(',').map((type) => type.split(';')[0].trim()) ?? [];
   const selected = detectNearestLocale(appLanguages, preferred);
   return mapLanguageStringToEnum(selected);
 }
@@ -119,19 +119,19 @@ function usePreferredBrowserLanguage(onServerside: Language) {
     useState<Language>(onServerside);
 
   const deps =
-    typeof window !== "undefined" && "lanuage" in window.navigator
+    typeof window !== 'undefined' && 'lanuage' in window.navigator
       ? navigator.language
-      : "";
+      : '';
 
   useEffect(
     function () {
-      if (typeof window === "undefined") return;
+      if (typeof window === 'undefined') return;
       const defaultLocale = detectNearestBrowserLocale(appLanguages);
       const selectedLanguage = mapLanguageStringToEnum(defaultLocale);
 
       setPreferredLanguage(selectedLanguage);
     },
-    [deps]
+    [deps],
   );
 
   return preferredLanguage;

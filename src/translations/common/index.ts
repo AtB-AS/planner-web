@@ -1,2 +1,2 @@
-export { Titles } from "./titles";
-export { Layout } from "./layout";
+export {Titles} from './titles';
+export {Layout} from './layout';

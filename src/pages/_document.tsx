@@ -1,13 +1,13 @@
-import { getGlobalCookies } from "@atb/modules/cookies";
-import { DEFAULT_LANGUAGE } from "@atb/translations";
-import { getLocalesFromAcceptLanguage } from "@atb/translations/language-context";
+import {getGlobalCookies} from '@atb/modules/cookies';
+import {DEFAULT_LANGUAGE} from '@atb/translations';
+import {getLocalesFromAcceptLanguage} from '@atb/translations/language-context';
 import Document, {
   DocumentContext,
   Head,
   Html,
   Main,
   NextScript,
-} from "next/document";
+} from 'next/document';
 
 type Props = {
   darkmode?: boolean;
@@ -22,11 +22,11 @@ class MyDocument extends Document<Props> {
       d.initialCookies.language ||
       getLocalesFromAcceptLanguage(d.headersAcceptLanguage);
 
-    return { ...initialProps, darkmode: d.initialCookies.darkmode, language };
+    return {...initialProps, darkmode: d.initialCookies.darkmode, language};
   }
 
   render() {
-    const className = this.props.darkmode ? "dark" : "light override-light";
+    const className = this.props.darkmode ? 'dark' : 'light override-light';
     const language = this.props.language || DEFAULT_LANGUAGE;
     return (
       <Html lang={language} className={className}>

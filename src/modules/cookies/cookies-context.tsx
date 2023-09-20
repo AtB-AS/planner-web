@@ -1,17 +1,17 @@
-import { getCookie, setCookie } from "cookies-next";
-import { addDays } from "date-fns";
+import {getCookie, setCookie} from 'cookies-next';
+import {addDays} from 'date-fns';
 import {
   createContext,
   PropsWithChildren,
   useCallback,
   useContext,
   useState,
-} from "react";
+} from 'react';
 import {
   DARKMODE_COOKIE_NAME,
   LANGUAGE_COOKIE_NAME,
   SETTINGS_STORETIME_DAYS,
-} from "./constants";
+} from './constants';
 
 type CookieState = {
   darkmode: [boolean | undefined, (val: boolean) => void];
@@ -36,16 +36,16 @@ export function AppCookiesProvider({
   const language = useCookie<string>(
     LANGUAGE_COOKIE_NAME,
     initialCookies.language ?? undefined,
-    (i) => String(i ?? "")
+    (i) => String(i ?? ''),
   );
   const darkmode = useCookie<boolean>(
     DARKMODE_COOKIE_NAME,
     initialCookies.darkmode ?? undefined,
-    (i) => i == true
+    (i) => i == true,
   );
 
   return (
-    <CookiesContext.Provider value={{ language, darkmode }}>
+    <CookiesContext.Provider value={{language, darkmode}}>
       {children}
     </CookiesContext.Provider>
   );
@@ -55,17 +55,17 @@ export function AppCookiesTestProvider({
   children,
   initialCookies,
 }: AppCookiesProviderProps) {
-  const language: CookieState["language"] = [
+  const language: CookieState['language'] = [
     initialCookies.language ?? undefined,
     (val: string) => {},
   ];
-  const darkmode: CookieState["darkmode"] = [
+  const darkmode: CookieState['darkmode'] = [
     initialCookies.darkmode ?? undefined,
     (val: boolean) => {},
   ];
 
   return (
-    <CookiesContext.Provider value={{ language, darkmode }}>
+    <CookiesContext.Provider value={{language, darkmode}}>
       {children}
     </CookiesContext.Provider>
   );
@@ -87,12 +87,12 @@ export function useLanguageCookie() {
 function useCookie<T extends string | number | boolean>(
   key: string,
   initialValue: T | undefined,
-  mapper: (val: string | boolean | null | undefined) => T
+  mapper: (val: string | boolean | null | undefined) => T,
 ): [T | undefined, (value: T) => void] {
   const [storedValue, setStoredValue] = useState<T | undefined>(() => {
     try {
       const data = getCookie(key);
-      if (typeof data === "undefined") return initialValue;
+      if (typeof data === 'undefined') return initialValue;
 
       return mapper(data);
     } catch (e) {
@@ -107,17 +107,17 @@ function useCookie<T extends string | number | boolean>(
         // Save state
         setStoredValue(value);
         // Save to cookie
-        if (typeof window !== "undefined") {
+        if (typeof window !== 'undefined') {
           setCookie(key, value, {
             expires: addDays(new Date(), SETTINGS_STORETIME_DAYS),
-            path: "/",
-            sameSite: "lax",
-            secure: process.env.NEXT_PUBLIC_COOKIE_SECURE === "true",
+            path: '/',
+            sameSite: 'lax',
+            secure: process.env.NEXT_PUBLIC_COOKIE_SECURE === 'true',
           });
         }
       } catch (error) {}
     },
-    [key]
+    [key],
   );
   return [storedValue, setValue];
 }
