@@ -1,6 +1,6 @@
-import {TFunc} from '@leile/lobo-t';
+import { TFunc } from '@leile/lobo-t';
 
-import type {Translatable} from '@leile/lobo-t';
+import type { Translatable } from '@leile/lobo-t';
 
 export enum Language {
   Norwegian = 'no',

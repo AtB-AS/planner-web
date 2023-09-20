@@ -1,5 +1,5 @@
-import {getCookie, setCookie} from 'cookies-next';
-import {addDays} from 'date-fns';
+import { getCookie, setCookie } from 'cookies-next';
+import { addDays } from 'date-fns';
 import {
   createContext,
   PropsWithChildren,
@@ -45,7 +45,7 @@ export function AppCookiesProvider({
   );
 
   return (
-    <CookiesContext.Provider value={{language, darkmode}}>
+    <CookiesContext.Provider value={{ language, darkmode }}>
       {children}
     </CookiesContext.Provider>
   );
@@ -65,7 +65,7 @@ export function AppCookiesTestProvider({
   ];
 
   return (
-    <CookiesContext.Provider value={{language, darkmode}}>
+    <CookiesContext.Provider value={{ language, darkmode }}>
       {children}
     </CookiesContext.Provider>
   );

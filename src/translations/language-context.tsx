@@ -1,7 +1,7 @@
-import {useLanguageCookie} from '@atb/modules/cookies';
-import {Language} from '@atb/translations';
-import {appLanguages, DEFAULT_LANGUAGE} from '@atb/translations/commons';
-import {initLobot} from '@leile/lobo-t';
+import { useLanguageCookie } from '@atb/modules/cookies';
+import { Language } from '@atb/translations';
+import { appLanguages, DEFAULT_LANGUAGE } from '@atb/translations/commons';
+import { initLobot } from '@leile/lobo-t';
 import detectNearestBrowserLocale from 'detect-nearest-browser-locale';
 import detectNearestLocale from 'detect-nearest-locale';
 import {
@@ -84,7 +84,7 @@ export default function AppLanguageProvider({
 
   return (
     <LanguageContext.Provider
-      value={{toggleLanguage, setLanguage, language, languages: appLanguages}}
+      value={{ toggleLanguage, setLanguage, language, languages: appLanguages }}
     >
       <lobot.LanguageProvider value={language}>
         {children}

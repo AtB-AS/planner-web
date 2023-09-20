@@ -1,10 +1,10 @@
 import DefaultLayout from '@atb/layouts/default';
-import {WithGlobalData, withGlobalData} from '@atb/layouts/global-data';
-import {CommonText, useTranslation} from '@atb/translations';
-import type {NextPage} from 'next';
+import { WithGlobalData, withGlobalData } from '@atb/layouts/global-data';
+import { CommonText, useTranslation } from '@atb/translations';
+import type { NextPage } from 'next';
 
 function IndexContent() {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   return <h1>{t(CommonText.Titles.siteTitle)}</h1>;
 }
 

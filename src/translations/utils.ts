@@ -1,4 +1,4 @@
-import {WEBSHOP_ORGS} from '@atb/modules/org-data';
+import { WEBSHOP_ORGS } from '@atb/modules/org-data';
 import merge from 'lodash/merge';
 
 export type LanguageOverrides<T> = {
@@ -6,7 +6,7 @@ export type LanguageOverrides<T> = {
 };
 export function orgSpecificTranslations<T>(
   translationTexts: T,
-  overrides: Partial<{[org in WEBSHOP_ORGS]: LanguageOverrides<T>}>,
+  overrides: Partial<{ [org in WEBSHOP_ORGS]: LanguageOverrides<T> }>,
   orgId: WEBSHOP_ORGS = 'atb',
 ) {
   return merge({}, translationTexts, overrides[orgId]);

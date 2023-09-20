@@ -25,7 +25,7 @@ const nextConfig = {
         // regexEqual(rule.test, /\.module\.(scss|sass)$/)
       );
       if (moduleCssRule) {
-        const cssLoader = moduleCssRule.use.find(({loader}) =>
+        const cssLoader = moduleCssRule.use.find(({ loader }) =>
           loader.includes('css-loader'),
         );
         if (cssLoader) {
