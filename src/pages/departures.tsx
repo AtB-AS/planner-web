@@ -16,8 +16,8 @@ function DeparturesContent({ autocompleteFeatures }: DeparturesContentProps) {
     <div>
       <h1>{t(CommonText.Titles.siteTitle)}</h1>
 
-      {autocompleteFeatures.map((f) => (
-        <div>{f.name}</div>
+      {autocompleteFeatures.map((f, i) => (
+        <div key={i}>{f.name}</div>
       ))}
     </div>
   );
