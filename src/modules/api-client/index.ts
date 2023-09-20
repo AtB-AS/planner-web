@@ -1,10 +1,18 @@
-import type { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
-import { createRequester, HttpEndpoints, type Requester } from './utils';
+import type {
+  GetServerSidePropsContext,
+  GetServerSidePropsResult,
+  NextApiRequest,
+  NextApiResponse,
+} from 'next';
+import { HttpEndpoints, createRequester, type Requester } from './utils';
+
 export {
   ApplicationError,
+  genericError,
   logApplicationError,
   logError,
-  genericError,
+  tryResult,
+  errorResultAsJson,
 } from './utils';
 
 export type { Requester };
@@ -21,7 +29,7 @@ export function createHttpClient<T, U extends HttpEndpoints>(
   baseUrlType: U,
   apiFn: (request: Requester<U>) => T,
 ): HttpClient<U, T> {
-  const request = createRequester(baseUrlType, undefined);
+  let request = createRequester(baseUrlType);
 
   return {
     ...apiFn(request),
@@ -43,6 +51,23 @@ export function createWithHttpClientDecorator<U extends HttpEndpoints, T>(
         client,
       });
     };
+  };
+}
+
+export type NextApiClientHandler<U extends HttpEndpoints, T, P = any> = (
+  req: NextApiRequest,
+  res: NextApiResponse<P>,
+  client: HttpClient<U, T>,
+) => unknown | Promise<unknown>;
+
+export function createWithHttpClientDecoratorForHttpHandlers<
+  U extends HttpEndpoints,
+  T,
+  P,
+>(client: HttpClient<U, T>) {
+  return function inside(handler: NextApiClientHandler<U, T, P>) {
+    return (req: NextApiRequest, res: NextApiResponse<P>) =>
+      handler(req, res, client);
   };
 }
 
