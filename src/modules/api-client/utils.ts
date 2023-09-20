@@ -116,7 +116,7 @@ export function resD(
   return res.status(code).json(data);
 }
 
-export type ServerErrormessage = {
+export type ServerErrorMessage = {
   message: TranslatedString;
 };
 
