@@ -1,4 +1,4 @@
-export type {TranslateFunction, TranslatedString} from './commons';
+export type { TranslateFunction, TranslatedString } from './commons';
 export {
   Language,
   DEFAULT_LANGUAGE,

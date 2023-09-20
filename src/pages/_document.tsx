@@ -1,6 +1,6 @@
-import {getGlobalCookies} from '@atb/modules/cookies';
-import {DEFAULT_LANGUAGE} from '@atb/translations';
-import {getLocalesFromAcceptLanguage} from '@atb/translations/language-context';
+import { getGlobalCookies } from '@atb/modules/cookies';
+import { DEFAULT_LANGUAGE } from '@atb/translations';
+import { getLocalesFromAcceptLanguage } from '@atb/translations/language-context';
 import Document, {
   DocumentContext,
   Head,
@@ -22,7 +22,7 @@ class MyDocument extends Document<Props> {
       d.initialCookies.language ||
       getLocalesFromAcceptLanguage(d.headersAcceptLanguage);
 
-    return {...initialProps, darkmode: d.initialCookies.darkmode, language};
+    return { ...initialProps, darkmode: d.initialCookies.darkmode, language };
   }
 
   render() {

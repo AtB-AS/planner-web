@@ -1,7 +1,7 @@
-import {GlobalCookiesData, getGlobalCookies} from '@atb/modules/cookies';
-import {IncomingHttpHeaders} from 'http';
-import {GetServerSidePropsContext, GetServerSidePropsResult} from 'next';
-import {NextApiRequestCookies} from 'next/dist/server/api-utils';
+import { GlobalCookiesData, getGlobalCookies } from '@atb/modules/cookies';
+import { IncomingHttpHeaders } from 'http';
+import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
+import { NextApiRequestCookies } from 'next/dist/server/api-utils';
 
 export type AllData = GlobalCookiesData;
 
@@ -38,7 +38,7 @@ export function withGlobalData<P extends {} = {}>(
       });
 
     if (!composedProps) {
-      return {props: initialData as WithGlobalData<P>};
+      return { props: initialData as WithGlobalData<P> };
     }
 
     if ('props' in composedProps) {

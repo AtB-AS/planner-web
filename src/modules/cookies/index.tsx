@@ -1,7 +1,7 @@
-import {IncomingHttpHeaders} from 'http';
-import {NextApiRequestCookies} from 'next/dist/server/api-utils';
-import {DARKMODE_COOKIE_NAME, LANGUAGE_COOKIE_NAME} from './constants';
-import {InitialCookieData} from './cookies-context';
+import { IncomingHttpHeaders } from 'http';
+import { NextApiRequestCookies } from 'next/dist/server/api-utils';
+import { DARKMODE_COOKIE_NAME, LANGUAGE_COOKIE_NAME } from './constants';
+import { InitialCookieData } from './cookies-context';
 
 export {
   AppCookiesProvider,
@@ -10,7 +10,7 @@ export {
   useLanguageCookie,
 } from './cookies-context';
 
-export type {InitialCookieData};
+export type { InitialCookieData };
 
 export type GlobalCookiesData = {
   initialCookies: InitialCookieData;

@@ -1,7 +1,7 @@
-import {createThemesFor, ThemeVariant} from '@atb-as/theme';
-import {useDarkmodeCookie} from '@atb/modules/cookies';
-import {currentOrg, WEBSHOP_ORGS} from '@atb/modules/org-data';
-import {useEffect} from 'react';
+import { createThemesFor, ThemeVariant } from '@atb-as/theme';
+import { useDarkmodeCookie } from '@atb/modules/cookies';
+import { currentOrg, WEBSHOP_ORGS } from '@atb/modules/org-data';
+import { useEffect } from 'react';
 
 export const theme = createThemesFor(getThemeVariant(currentOrg));
 
