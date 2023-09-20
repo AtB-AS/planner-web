@@ -1,10 +1,10 @@
-import DefaultLayout from "@atb/layouts/default";
-import { withGlobalData } from "@atb/layouts/global-data";
-import { withDepartureClient } from "@atb/page-modules/departures";
-import { CommonText, useTranslation } from "@atb/translations";
-import type { WithGlobalData } from "@atb/layouts/global-data";
-import type { AutocompleteFeature } from "@atb/page-modules/departures";
-import type { NextPage } from "next";
+import DefaultLayout from '@atb/layouts/default';
+import { withGlobalData } from '@atb/layouts/global-data';
+import { withDepartureClient } from '@atb/page-modules/departures';
+import { CommonText, useTranslation } from '@atb/translations';
+import type { WithGlobalData } from '@atb/layouts/global-data';
+import type { AutocompleteFeature } from '@atb/page-modules/departures';
+import type { NextPage } from 'next';
 
 type DeparturesContentProps = {
   autocompleteFeatures: AutocompleteFeature[];
@@ -36,12 +36,12 @@ export default Departures;
 
 export const getServerSideProps = withGlobalData<DeparturesContentProps>(
   withDepartureClient(async function ({ client }) {
-    const result = await client.autocomplete("Kongens gate");
+    const result = await client.autocomplete('Kongens gate');
 
     return {
       props: {
         autocompleteFeatures: result,
       },
     };
-  })
+  }),
 );

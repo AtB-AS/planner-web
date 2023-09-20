@@ -1,5 +1,5 @@
-import {translation as _} from '@atb/translations/commons';
-import {orgSpecificTranslations} from '../utils';
+import { translation as _ } from '@atb/translations/commons';
+import { orgSpecificTranslations } from '../utils';
 
 const EndpointsInternal = {
   empty: _('', '', ''),

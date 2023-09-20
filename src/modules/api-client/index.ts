@@ -1,11 +1,11 @@
-import type { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
-import { createRequester, HttpEndpoints, type Requester } from "./utils";
+import type { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
+import { createRequester, HttpEndpoints, type Requester } from './utils';
 export {
   ApplicationError,
   logApplicationError,
   logError,
   genericError,
-} from "./utils";
+} from './utils';
 
 export type { Requester };
 
@@ -14,12 +14,12 @@ export type HttpClient<U extends HttpEndpoints, T> = T & {
 };
 
 type HttpPropGetter<U extends HttpEndpoints, T, P extends {} = {}> = (
-  context: GetServerSidePropsContext & { client: HttpClient<U, T> }
+  context: GetServerSidePropsContext & { client: HttpClient<U, T> },
 ) => Promise<GetServerSidePropsResult<P>>;
 
 export function createHttpClient<T, U extends HttpEndpoints>(
   baseUrlType: U,
-  apiFn: (request: Requester<U>) => T
+  apiFn: (request: Requester<U>) => T,
 ): HttpClient<U, T> {
   const request = createRequester(baseUrlType, undefined);
 
@@ -30,13 +30,13 @@ export function createHttpClient<T, U extends HttpEndpoints>(
 }
 
 export function createWithHttpClientDecorator<U extends HttpEndpoints, T>(
-  client: HttpClient<U, T>
+  client: HttpClient<U, T>,
 ) {
   return function handler<P extends {} = {}>(
-    propGetter: HttpPropGetter<U, T, P>
+    propGetter: HttpPropGetter<U, T, P>,
   ) {
     return async function inside(
-      ctx: GetServerSidePropsContext
+      ctx: GetServerSidePropsContext,
     ): Promise<GetServerSidePropsResult<P>> {
       return propGetter({
         ...ctx,

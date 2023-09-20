@@ -1,11 +1,11 @@
-import { ServerText, TranslatedString, translation } from "@atb/translations";
-import { NextApiRequest, NextApiResponse } from "next";
-import bunyan from "bunyan";
-import { v4 as uuidv4 } from "uuid";
+import { ServerText, TranslatedString, translation } from '@atb/translations';
+import { NextApiRequest, NextApiResponse } from 'next';
+import bunyan from 'bunyan';
+import { v4 as uuidv4 } from 'uuid';
 
 export const logger = bunyan.createLogger({
-  name: "planner-web",
-  streams: [{ stream: process.stdout, level: "info" }],
+  name: 'planner-web',
+  streams: [{ stream: process.stdout, level: 'info' }],
   serializers: {
     req: (req: Request) => {
       return {
@@ -30,7 +30,7 @@ export const logger = bunyan.createLogger({
 });
 
 export function logError(e: any) {
-  if (process.env.NODE_ENV === "development") {
+  if (process.env.NODE_ENV === 'development') {
     console.error(e);
   } else {
     logger.error(e);
@@ -40,9 +40,9 @@ export function logError(e: any) {
 export function logApplicationError(
   e: ApplicationError,
   req: Request | NextApiRequest,
-  res: Response | NextApiResponse<any>
+  res: Response | NextApiResponse<any>,
 ) {
-  if (process.env.NODE_ENV === "development") {
+  if (process.env.NODE_ENV === 'development') {
     console.error(e);
   } else {
     logger.error(
@@ -52,29 +52,29 @@ export function logApplicationError(
         req,
         err: e,
       },
-      e.message
+      e.message,
     );
   }
 }
 
 const externalHttpUrls = {
-  entur: "https://api.entur.io",
+  entur: 'https://api.entur.io',
 } as const;
 
 export type HttpEndpoints = keyof typeof externalHttpUrls;
 
 export type Requester<T extends HttpEndpoints> = (
   url: `/${string}`,
-  init?: RequestInit | undefined
+  init?: RequestInit | undefined,
 ) => Promise<Response>;
 
 export function createRequester<T extends HttpEndpoints>(
   baseUrlKey: T,
-  correlationId: string | undefined
+  correlationId: string | undefined,
 ): Requester<T> {
   return async function request(
     url: `/${string}`,
-    init?: RequestInit | undefined
+    init?: RequestInit | undefined,
   ) {
     const baseUrl = externalHttpUrls[baseUrlKey];
     const actualUrl = `${baseUrl}${url}`;
@@ -84,10 +84,10 @@ export function createRequester<T extends HttpEndpoints>(
         ...init,
         headers: {
           ...init?.headers,
-          "ET-Client-Name": "FOO",
-          "X-Correlation-Id": correlationId ?? uuidv4(),
-          Accept: "application/json",
-          "Content-Type": "application/json",
+          'ET-Client-Name': 'FOO',
+          'X-Correlation-Id': correlationId ?? uuidv4(),
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
         },
       });
 
@@ -101,7 +101,7 @@ export function createRequester<T extends HttpEndpoints>(
 export function resT(
   res: NextApiResponse,
   code: number,
-  text: TranslatedString
+  text: TranslatedString,
 ) {
   return res.status(code).json({
     message: text,
@@ -111,7 +111,7 @@ export function resT(
 export function resD(
   res: NextApiResponse,
   code: number,
-  data: ServerErrorMessage
+  data: ServerErrorMessage,
 ) {
   return res.status(code).json(data);
 }
@@ -140,7 +140,7 @@ export async function tryResult(
   req: NextApiRequest,
   res: NextApiResponse<any>,
   fn: () => Promise<void>,
-  errorMapper?: (e: ApplicationError) => ApplicationError
+  errorMapper?: (e: ApplicationError) => ApplicationError,
 ) {
   try {
     return await fn();
@@ -157,14 +157,14 @@ export async function tryResult(
 }
 
 export async function throwErrorFromResponse(result: Response) {
-  if (result.headers.get("content-type")?.includes("application/json")) {
+  if (result.headers.get('content-type')?.includes('application/json')) {
     const data = await result.json();
     throw new ApplicationError(mapServerToMessage(data), result.status, result);
-  } else if (result.headers.get("content-type")?.includes("text/html")) {
+  } else if (result.headers.get('content-type')?.includes('text/html')) {
     throw new ApplicationError(
       mapServerToMessage(result.statusText),
       result.status,
-      result
+      result,
     );
   } else {
     const data = await result.text();
@@ -174,7 +174,7 @@ export async function throwErrorFromResponse(result: Response) {
           message: ServerText.Endpoints.accessError,
         },
         result.status,
-        result
+        result,
       );
     }
     throw new ApplicationError(mapServerToMessage(data), result.status, result);
@@ -182,7 +182,7 @@ export async function throwErrorFromResponse(result: Response) {
 }
 
 function mapServerToMessage(e: any): ServerErrorMessage {
-  if (typeof e === "string") {
+  if (typeof e === 'string') {
     return { message: translation(e, e, e) };
   }
   if (!isInternalServerError(e)) {
@@ -207,7 +207,7 @@ function mapServerToMessage(e: any): ServerErrorMessage {
       message: translation(
         upstreamError.shortNorwegian,
         upstreamError.shortEnglish,
-        upstreamError.shortNorwegian
+        upstreamError.shortNorwegian,
       ),
     };
   } catch (_err) {
@@ -220,23 +220,23 @@ export function genericError() {
 }
 
 function isMessagedError(e: any): e is MessagedServerError {
-  return "message" in e;
+  return 'message' in e;
 }
 
 function isInternalServerError(e: any): e is InternalServerError {
-  return "error" in e;
+  return 'error' in e;
 }
 
 function isInternalServerErrorWithUpstream(
-  e: any
+  e: any,
 ): e is InternalServerErrorWithUpstream {
-  return "upstreamError" in e;
+  return 'upstreamError' in e;
 }
 
 function isInternalUpstreamServerError(
-  e: any
+  e: any,
 ): e is InternalUpstreamServerError {
-  return "errorCode" in e && "shortNorwegian" in e;
+  return 'errorCode' in e && 'shortNorwegian' in e;
 }
 
 export class ApplicationError extends Error {
@@ -247,7 +247,7 @@ export class ApplicationError extends Error {
   constructor(
     error: ServerErrorMessage,
     status: number = 500,
-    upstreamResponse?: Response | NextApiResponse<any>
+    upstreamResponse?: Response | NextApiResponse<any>,
   ) {
     super();
     this.data = error;
