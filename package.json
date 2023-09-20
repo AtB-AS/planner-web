@@ -7,7 +7,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "clean-assets": "rimraf ./public/assets/",
+    "setup": "generate-assets all $NEXT_PUBLIC_WEBSHOP_ORG_ID -o ./public/assets/ -ts -ts-o ./src/components/icon"
   },
   "dependencies": {
     "@atb-as/theme": "^7.1.1",
@@ -26,9 +28,11 @@
     "typescript": "5.2.2"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.198"
+    "@atb-as/generate-assets": "^9.0.0",
+    "@types/lodash": "^4.14.198",
     "eslint": "8.49.0",
     "eslint-config-next": "13.5.1",
     "prettier": "^3.0.3",
+    "rimraf": "^5.0.1"
   }
 }
