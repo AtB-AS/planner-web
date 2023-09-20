@@ -49,6 +49,7 @@ export function logApplicationError(
     logger.error(
       {
         upstream: e.upstreamResponse,
+        correlationId: e.correlationId,
         res,
         req,
         err: e,
@@ -79,6 +80,7 @@ export function createRequester<T extends HttpEndpoints>(
   ) {
     const baseUrl = externalHttpUrls[baseUrlKey];
     const actualUrl = `${baseUrl}${url}`;
+    const actualCorrelation = correlationId ?? uuidv4();
 
     const orgId = currentOrg;
 
@@ -88,7 +90,7 @@ export function createRequester<T extends HttpEndpoints>(
         headers: {
           ...init?.headers,
           'ET-Client-Name': `${orgId}-planner-web`,
-          'X-Correlation-Id': correlationId ?? uuidv4(),
+          'X-Correlation-Id': actualCorrelation,
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
@@ -96,7 +98,7 @@ export function createRequester<T extends HttpEndpoints>(
 
       return data;
     } catch (e) {
-      throw new ApplicationError(mapServerToMessage(e), 500);
+      throw new ApplicationError(mapServerToMessage(e), 500, actualCorrelation);
     }
   };
 }
@@ -162,11 +164,17 @@ export async function tryResult(
 export async function throwErrorFromResponse(result: Response) {
   if (result.headers.get('content-type')?.includes('application/json')) {
     const data = await result.json();
-    throw new ApplicationError(mapServerToMessage(data), result.status, result);
+    throw new ApplicationError(
+      mapServerToMessage(data),
+      result.status,
+      undefined,
+      result,
+    );
   } else if (result.headers.get('content-type')?.includes('text/html')) {
     throw new ApplicationError(
       mapServerToMessage(result.statusText),
       result.status,
+      undefined,
       result,
     );
   } else {
@@ -177,10 +185,16 @@ export async function throwErrorFromResponse(result: Response) {
           message: ServerText.Endpoints.accessError,
         },
         result.status,
+        undefined,
         result,
       );
     }
-    throw new ApplicationError(mapServerToMessage(data), result.status, result);
+    throw new ApplicationError(
+      mapServerToMessage(data),
+      result.status,
+      undefined,
+      result,
+    );
   }
 }
 
@@ -245,16 +259,19 @@ function isInternalUpstreamServerError(
 export class ApplicationError extends Error {
   data: ServerErrorMessage;
   status: number;
+  correlationId?: string;
   upstreamResponse?: Response | NextApiResponse<any>;
 
   constructor(
     error: ServerErrorMessage,
     status: number = 500,
+    correlationId?: string,
     upstreamResponse?: Response | NextApiResponse<any>,
   ) {
     super();
     this.data = error;
     this.status = status;
+    this.correlationId = correlationId;
     this.upstreamResponse = upstreamResponse;
   }
 }
