@@ -111,7 +111,7 @@ export function resT(
 export function resD(
   res: NextApiResponse,
   code: number,
-  data: ServerErrormessage
+  data: ServerErrorMessage
 ) {
   return res.status(code).json(data);
 }
@@ -181,7 +181,7 @@ export async function throwErrorFromResponse(result: Response) {
   }
 }
 
-function mapServerToMessage(e: any): ServerErrormessage {
+function mapServerToMessage(e: any): ServerErrorMessage {
   if (typeof e === "string") {
     return { message: translation(e, e, e) };
   }
@@ -240,12 +240,12 @@ function isInternalUpstreamServerError(
 }
 
 export class ApplicationError extends Error {
-  data!: ServerErrormessage;
+  data!: ServerErrorMessage;
   status: number;
   upstreamResponse?: Response | NextApiResponse<any>;
 
   constructor(
-    error: ServerErrormessage,
+    error: ServerErrorMessage,
     status: number = 500,
     upstreamResponse?: Response | NextApiResponse<any>
   ) {

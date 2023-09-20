@@ -5,6 +5,7 @@ import {
 import { createAutocompleteApi } from "./autocomplete";
 
 export type { AutocompleteFeature } from "./autocomplete";
+
 export const departureClient = createHttpClient("entur", createAutocompleteApi);
 
 export const withDepartureClient =
