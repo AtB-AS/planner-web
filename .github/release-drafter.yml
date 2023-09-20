@@ -1,0 +1,48 @@
+name-template: 'v$RESOLVED_VERSION'
+tag-template: 'v$RESOLVED_VERSION'
+template: |
+  # What's changed
+  $CHANGES
+
+  **Full Changelog**: https://github.com/$OWNER/$REPOSITORY/compare/$PREVIOUS_TAG...v$RESOLVED_VERSION
+
+categories:
+  - title: 'Breaking changes'
+    label: 'breaking'
+  - title: 'New features'
+    label: 'C-feature'
+  - title: 'Bug fixes'
+    label: 'C-bug'
+  - title: 'Maintenance'
+    label: 'C-chore'
+
+version-resolver:
+  major:
+    labels:
+      - 'breaking'
+  minor:
+    labels:
+      - 'C-feature'
+  patch:
+    labels:
+      - 'C-bug'
+      - 'C-chore'
+
+exclude-labels:
+  - 'skip-changelog'
+
+commitish: 'refs/heads/main'
+
+autolabeler:
+  - label: 'C-chore'
+    title:
+      - '/chore:/'
+  - label: 'C-bug'
+    title:
+      - '/fix:/'
+  - label: 'C-feature'
+    title:
+      - '/feat:/'
+  - label: 'breaking'
+    title:
+      - '/breaking-change:/'
