@@ -1,7 +1,7 @@
-import { AppCookiesProvider } from "@atb/modules/cookies";
-import { WithGlobalData } from "@atb/layouts/global-data";
-import { AppLanguageProvider } from "@atb/translations";
-import { BaseLayout, BaseLayoutProps } from "./base";
+import {AppCookiesProvider} from '@atb/modules/cookies';
+import {WithGlobalData} from '@atb/layouts/global-data';
+import {AppLanguageProvider} from '@atb/translations';
+import {BaseLayout, BaseLayoutProps} from './base';
 
 type DefaultLayoutProps = BaseLayoutProps & WithGlobalData<{}>;
 function DefaultLayout<T>({

@@ -1,17 +1,17 @@
-import { createThemesFor, ThemeVariant } from "@atb-as/theme";
-import { useDarkmodeCookie } from "@atb/modules/cookies";
-import { currentOrg, WEBSHOP_ORGS } from "@atb/modules/org-data";
-import { useEffect } from "react";
+import {createThemesFor, ThemeVariant} from '@atb-as/theme';
+import {useDarkmodeCookie} from '@atb/modules/cookies';
+import {currentOrg, WEBSHOP_ORGS} from '@atb/modules/org-data';
+import {useEffect} from 'react';
 
 export const theme = createThemesFor(getThemeVariant(currentOrg));
 
 function getThemeVariant(orgId: WEBSHOP_ORGS): ThemeVariant {
   switch (orgId) {
-    case "atb":
+    case 'atb':
       return ThemeVariant.AtB;
-    case "nfk":
+    case 'nfk':
       return ThemeVariant.Nfk;
-    case "fram":
+    case 'fram':
       return ThemeVariant.FRAM;
   }
 }
@@ -19,7 +19,7 @@ function getThemeVariant(orgId: WEBSHOP_ORGS): ThemeVariant {
 export function useTheme() {
   const [isDarkMode, toggleDarkmode] = useDarkMode();
   return {
-    ...theme[isDarkMode ? "dark" : "light"],
+    ...theme[isDarkMode ? 'dark' : 'light'],
     isDarkMode,
     toggleDarkmode,
   };
@@ -39,12 +39,12 @@ export function useHtmlDarkMode() {
 
   useEffect(
     function () {
-      if (typeof window === "undefined") return;
-      document.documentElement.classList.toggle("dark", isDarkMode);
-      document.documentElement.classList.toggle("override-dark", isDarkMode);
-      document.documentElement.classList.toggle("light", !isDarkMode);
-      document.documentElement.classList.toggle("override-light", !isDarkMode);
+      if (typeof window === 'undefined') return;
+      document.documentElement.classList.toggle('dark', isDarkMode);
+      document.documentElement.classList.toggle('override-dark', isDarkMode);
+      document.documentElement.classList.toggle('light', !isDarkMode);
+      document.documentElement.classList.toggle('override-light', !isDarkMode);
     },
-    [isDarkMode]
+    [isDarkMode],
   );
 }

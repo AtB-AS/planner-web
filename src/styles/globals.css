@@ -1,0 +1,108 @@
+@import '@atb/theme/theme.css';
+@import '@atb/theme/typography.css';
+
+:root {
+  --ws-icon-size-xLarge: 2.5rem;
+
+  --ws-colors-header-border-bottom: #ffffff;
+}
+@media (max-width: 400px) {
+  :root {
+    --ws-icon-size-xLarge: 1.75rem;
+  }
+}
+
+html {
+  box-sizing: border-box;
+}
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  /* Use browsers default font size. */
+  font-size: 100%;
+  display: flex;
+  height: -webkit-fill-available;
+
+  color: var(--static-background-background_1-text);
+  background-color: var(--static-background-background_1-background);
+  transition:
+    background-color 150ms ease-in,
+    color 150ms ease-in;
+}
+
+@media (max-width: 500px) {
+  html {
+    /* Global change to reduce every size */
+    font-size: 14px !important;
+  }
+}
+
+body {
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+  margin: 0;
+}
+body,
+#__next,
+.overlayContainer {
+  display: flex;
+  width: 100%;
+  flex: 1;
+}
+
+body.menuOpen {
+  overflow: hidden;
+}
+
+input,
+select,
+button {
+  font-family: var(--font-main);
+  font-size: 1rem;
+  line-height: var(--baseTypo-body__primary-lineHeight, 1.25rem);
+  letter-spacing: var(--baseTypo-body__primary-letterSpacing, 0.03125rem);
+}
+
+input[type='color'],
+input[type='date'],
+input[type='datetime'],
+input[type='datetime-local'],
+input[type='email'],
+input[type='month'],
+input[type='number'],
+input[type='password'],
+input[type='search'],
+input[type='tel'],
+input[type='text'],
+input[type='time'],
+input[type='url'],
+input[type='week'],
+select:focus,
+textarea {
+  /* Explicitly set font size as 16px to avoid mobile zoom on focus. */
+  font-size: 16px;
+}
+
+.light,
+.dark {
+  --maxPageWidth: 1024px;
+  --contentPadding: var(--spacings-xLarge);
+}
+
+a,
+a:visited {
+  transition: color 100ms ease-in;
+  color: var(--text-colors-primary);
+}
+a:hover {
+  color: var(--text-colors-secondary);
+}
