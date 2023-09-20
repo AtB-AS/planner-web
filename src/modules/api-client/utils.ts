@@ -1,6 +1,6 @@
 import { ServerText, TranslatedString, translation } from '@atb/translations';
-import { NextApiRequest, NextApiResponse } from 'next';
 import bunyan from 'bunyan';
+import { NextApiRequest, NextApiResponse } from 'next';
 import { v4 as uuidv4 } from 'uuid';
 
 export const logger = bunyan.createLogger({
@@ -240,7 +240,7 @@ function isInternalUpstreamServerError(
 }
 
 export class ApplicationError extends Error {
-  data!: ServerErrorMessage;
+  data: ServerErrorMessage;
   status: number;
   upstreamResponse?: Response | NextApiResponse<any>;
 
