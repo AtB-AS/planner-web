@@ -2,6 +2,7 @@ import { ServerText, TranslatedString, translation } from '@atb/translations';
 import bunyan from 'bunyan';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { v4 as uuidv4 } from 'uuid';
+import { currentOrg } from '../org-data';
 
 export const logger = bunyan.createLogger({
   name: 'planner-web',
@@ -79,12 +80,14 @@ export function createRequester<T extends HttpEndpoints>(
     const baseUrl = externalHttpUrls[baseUrlKey];
     const actualUrl = `${baseUrl}${url}`;
 
+    const orgId = currentOrg;
+
     try {
       const data = await fetch(actualUrl, {
         ...init,
         headers: {
           ...init?.headers,
-          'ET-Client-Name': 'FOO',
+          'ET-Client-Name': `${orgId}-planner-web`,
           'X-Correlation-Id': correlationId ?? uuidv4(),
           Accept: 'application/json',
           'Content-Type': 'application/json',
