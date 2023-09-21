@@ -4,7 +4,14 @@ import type {
   NextApiRequest,
   NextApiResponse,
 } from 'next';
-import { HttpEndpoints, createRequester, type Requester } from './utils';
+import {
+  HttpEndpoints,
+  createRequester,
+  type Requester,
+  errorResultAsJson,
+} from './utils';
+import { constants } from 'http2';
+import { ServerText } from '@atb/translations';
 
 export {
   ApplicationError,
@@ -63,16 +70,55 @@ export type NextApiClientHandler<U extends HttpEndpoints, T, P = any> = (
   },
 ) => unknown | Promise<unknown>;
 
+type EndpointMapping<U extends HttpEndpoints, T, P = any> = Partial<
+  Record<'GET' | 'POST' | 'DELETE' | 'PUT', NextApiClientHandler<U, T, P>>
+>;
+
+type ApiHandler<U extends HttpEndpoints, T, P = any> =
+  | NextApiClientHandler<U, T, P>
+  | EndpointMapping<U, T, P>;
+
 export function createWithHttpClientDecoratorForHttpHandlers<
   U extends HttpEndpoints,
   T,
 >(client: HttpClient<U, T>) {
-  return function inside<P>(handler: NextApiClientHandler<U, T, P>) {
+  return function inside<P>(handler: ApiHandler<U, T, P>) {
     return (req: NextApiRequest, res: NextApiResponse<P>) => {
       function ok(val: P) {
         res.status(200).json(val);
       }
-      return handler(req, res, { client, ok });
+
+      if (isRecordHandler(handler)) {
+        const potential = Object.entries(handler).find(
+          ([method]) => req.method === method,
+        );
+        if (potential) {
+          const [, properHandle] = potential;
+          return properHandle(req, res, { client, ok });
+        }
+      } else if (isFunction(handler)) {
+        return handler(req, res, { client, ok });
+      }
+
+      return errorResultAsJson(
+        res,
+        constants.HTTP_STATUS_METHOD_NOT_ALLOWED,
+        ServerText.Endpoints.invalidMethod,
+      );
     };
   };
+}
+
+function isRecordHandler<U extends HttpEndpoints, T, P = any>(
+  handlers: any,
+): handlers is EndpointMapping<U, T, P> {
+  return Object.keys(handlers).some((m) =>
+    ['GET', 'POST', 'DELETE', 'PUT'].includes(m),
+  );
+}
+
+function isFunction<U extends HttpEndpoints, T, P = any>(
+  fn: any,
+): fn is NextApiClientHandler<U, T, P> {
+  return fn && {}.toString.call(fn) === '[object Function]';
 }
