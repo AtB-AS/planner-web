@@ -95,9 +95,21 @@ export function createRequester<T extends HttpEndpoints>(
         },
       });
 
+      if (!data.ok) {
+        throw await errorFromResponse(data);
+      }
+
       return data;
     } catch (e) {
-      throw new ApplicationError(mapServerToMessage(e), 500, actualCorrelation);
+      if (e instanceof ApplicationError) {
+        throw e;
+      } else {
+        throw new ApplicationError(
+          mapServerToMessage(e),
+          500,
+          actualCorrelation,
+        );
+      }
     }
   };
 }
@@ -155,17 +167,17 @@ export async function tryResult(
   }
 }
 
-export async function throwErrorFromResponse(result: Response) {
+export async function errorFromResponse(result: Response) {
   if (result.headers.get('content-type')?.includes('application/json')) {
     const data = await result.json();
-    throw new ApplicationError(
+    return new ApplicationError(
       mapServerToMessage(data),
       result.status,
       undefined,
       result,
     );
   } else if (result.headers.get('content-type')?.includes('text/html')) {
-    throw new ApplicationError(
+    return new ApplicationError(
       mapServerToMessage(result.statusText),
       result.status,
       undefined,
@@ -174,7 +186,7 @@ export async function throwErrorFromResponse(result: Response) {
   } else {
     const data = await result.text();
     if (result.status === 401) {
-      throw new ApplicationError(
+      return new ApplicationError(
         {
           message: ServerText.Endpoints.accessError,
         },
@@ -183,7 +195,7 @@ export async function throwErrorFromResponse(result: Response) {
         result,
       );
     }
-    throw new ApplicationError(
+    return new ApplicationError(
       mapServerToMessage(data),
       result.status,
       undefined,
