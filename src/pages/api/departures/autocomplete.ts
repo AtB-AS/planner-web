@@ -5,18 +5,8 @@ import { ServerText } from '@atb/translations';
 import { constants } from 'http2';
 import { z } from 'zod';
 
-export default handlerWithDepartureClient<AutocompleteApiReturnType>(
-  async (req, res, { client, ok }) => {
-    // Only allow GET handlers
-    // @TODO extend to "modern" handler (GET function in object).
-    if (req.method !== 'GET') {
-      return errorResultAsJson(
-        res,
-        constants.HTTP_STATUS_METHOD_NOT_ALLOWED,
-        ServerText.Endpoints.invalidMethod,
-      );
-    }
-
+export default handlerWithDepartureClient<AutocompleteApiReturnType>({
+  async GET(req, res, { client, ok }) {
     // Validate input as string
     const query = z.string().safeParse(req.query.q);
     if (!query.success) {
@@ -31,4 +21,4 @@ export default handlerWithDepartureClient<AutocompleteApiReturnType>(
       return ok(await client.autocomplete(String(query.data)));
     });
   },
-);
+});
