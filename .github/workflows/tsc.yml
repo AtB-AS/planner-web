@@ -1,4 +1,4 @@
-name: TypeScript Check
+name: TypeScript Check & Lint
 on:
   push:
     paths:
@@ -20,3 +20,4 @@ jobs:
         env:
           NEXT_PUBLIC_WEBSHOP_ORG_ID: atb
       - run: yarn tsc
+      - run: yarn lint
