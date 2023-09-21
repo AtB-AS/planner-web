@@ -38,8 +38,8 @@ function DeparturesContent({ autocompleteFeatures }: DeparturesContentProps) {
   );
 }
 
-type DeparturesProps = WithGlobalData<DeparturesContentProps>;
-const Departures: NextPage<DeparturesProps> = (props) => {
+export type DeparturesPageProps = WithGlobalData<DeparturesContentProps>;
+const DeparturesPage: NextPage<DeparturesPageProps> = (props) => {
   return (
     <DefaultLayout {...props}>
       <DeparturesContent {...props} />
@@ -47,7 +47,7 @@ const Departures: NextPage<DeparturesProps> = (props) => {
   );
 };
 
-export default Departures;
+export default DeparturesPage;
 
 export const getServerSideProps = withGlobalData<DeparturesContentProps>(
   withDepartureClient(async function ({ client }) {

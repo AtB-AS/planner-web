@@ -21,9 +21,7 @@ export function withGlobalData<P extends {} = {}>(
     const initialData = getGlobalCookies(ctx.req);
 
     const composedProps: GetServerSidePropsResult<P> | undefined =
-      await propGetter?.({
-        ...ctx,
-      });
+      await propGetter?.(ctx);
 
     if (!composedProps) {
       return { props: initialData as WithGlobalData<P> };
