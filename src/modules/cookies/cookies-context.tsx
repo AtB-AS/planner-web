@@ -1,31 +1,34 @@
 import { getCookie, setCookie } from 'cookies-next';
 import { addDays } from 'date-fns';
 import {
+  type PropsWithChildren,
   createContext,
-  PropsWithChildren,
   useCallback,
   useContext,
   useState,
 } from 'react';
+
 import {
   DARKMODE_COOKIE_NAME,
   LANGUAGE_COOKIE_NAME,
   SETTINGS_STORETIME_DAYS,
 } from './constants';
 
-type CookieState = {
+export type AppCookiesContextState = {
   darkmode: [boolean | undefined, (val: boolean) => void];
   language: [string | undefined, (val: string) => void];
 };
 
-const CookiesContext = createContext<CookieState | undefined>(undefined);
+const CookiesContext = createContext<AppCookiesContextState | undefined>(
+  undefined,
+);
 
 export type InitialCookieData = {
   darkmode: boolean | null;
   language: string | null;
 };
 
-type AppCookiesProviderProps = PropsWithChildren<{
+export type AppCookiesProviderProps = PropsWithChildren<{
   initialCookies: InitialCookieData;
 }>;
 
@@ -43,26 +46,6 @@ export function AppCookiesProvider({
     initialCookies.darkmode ?? undefined,
     (i) => i == true,
   );
-
-  return (
-    <CookiesContext.Provider value={{ language, darkmode }}>
-      {children}
-    </CookiesContext.Provider>
-  );
-}
-
-export function AppCookiesTestProvider({
-  children,
-  initialCookies,
-}: AppCookiesProviderProps) {
-  const language: CookieState['language'] = [
-    initialCookies.language ?? undefined,
-    (val: string) => {},
-  ];
-  const darkmode: CookieState['darkmode'] = [
-    initialCookies.darkmode ?? undefined,
-    (val: boolean) => {},
-  ];
 
   return (
     <CookiesContext.Provider value={{ language, darkmode }}>

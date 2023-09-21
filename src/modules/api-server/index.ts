@@ -54,8 +54,8 @@ export function createWithHttpClientDecorator<U extends HttpEndpoints, T>(
       ctx: GetServerSidePropsContext,
     ): Promise<GetServerSidePropsResult<P>> {
       return propGetter({
-        ...ctx,
         client,
+        ...ctx,
       });
     };
   };
