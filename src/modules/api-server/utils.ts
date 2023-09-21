@@ -72,7 +72,7 @@ export type Requester<T extends HttpEndpoints> = (
 
 export function createRequester<T extends HttpEndpoints>(
   baseUrlKey: T,
-  correlationId: string | undefined,
+  correlationId?: string,
 ): Requester<T> {
   return async function request(
     url: `/${string}`,
@@ -81,7 +81,6 @@ export function createRequester<T extends HttpEndpoints>(
     const baseUrl = externalHttpUrls[baseUrlKey];
     const actualUrl = `${baseUrl}${url}`;
     const actualCorrelation = correlationId ?? uuidv4();
-
     const orgId = currentOrg;
 
     try {
@@ -103,22 +102,17 @@ export function createRequester<T extends HttpEndpoints>(
   };
 }
 
-export function resT(
+export function errorResultAsJson(
   res: NextApiResponse,
   code: number,
-  text: TranslatedString,
+  text: TranslatedString | ServerErrorMessage,
 ) {
-  return res.status(code).json({
-    message: text,
-  });
-}
-
-export function resD(
-  res: NextApiResponse,
-  code: number,
-  data: ServerErrorMessage,
-) {
-  return res.status(code).json(data);
+  const ret = isServerErrorMessage(text)
+    ? text
+    : {
+        message: text,
+      };
+  return res.status(code).json(ret);
 }
 
 export type ServerErrorMessage = {
@@ -153,10 +147,10 @@ export async function tryResult(
     if (e instanceof ApplicationError) {
       const properError = errorMapper?.(e) ?? e;
       logApplicationError(properError, req, res);
-      return resD(res, properError.status, properError.data);
+      return errorResultAsJson(res, properError.status, properError.data);
     } else {
       logError(e);
-      return resT(res, 500, ServerText.Endpoints.serverError);
+      return errorResultAsJson(res, 500, ServerText.Endpoints.serverError);
     }
   }
 }
@@ -248,6 +242,9 @@ function isInternalServerErrorWithUpstream(
   e: any,
 ): e is InternalServerErrorWithUpstream {
   return 'upstreamError' in e;
+}
+function isServerErrorMessage(e: any): e is ServerErrorMessage {
+  return 'message' in e;
 }
 
 function isInternalUpstreamServerError(

@@ -1,9 +1,6 @@
-import { type Requester, genericError } from '@atb/modules/api-client';
+import { genericError, type Requester } from '@atb/modules/api-server';
+import type { AutocompleteFeature } from '../../types';
 import { autocompleteRootSchema } from './encoders';
-
-export type AutocompleteFeature = {
-  name: string;
-};
 
 export type AutocompleteApi = {
   autocomplete(query: string): Promise<AutocompleteFeature[]>;
