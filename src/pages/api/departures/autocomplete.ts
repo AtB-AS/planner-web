@@ -7,7 +7,6 @@ import { z } from 'zod';
 
 export default handlerWithDepartureClient<AutocompleteApiReturnType>(
   async (req, res, { client, ok }) => {
-    console.log('Helloooo');
     // Only allow GET handlers
     // @TODO extend to "modern" handler (GET function in object).
     if (req.method !== 'GET') {
