@@ -10,7 +10,7 @@
     "start": "next start",
     "lint": "next lint",
     "clean-assets": "rimraf ./public/assets/",
-    "setup": "generate-assets all $NEXT_PUBLIC_WEBSHOP_ORG_ID -o ./public/assets/ -ts -ts-o ./src/components/icon"
+    "setup": "generate-assets all $NEXT_PUBLIC_PLANNER_ORG_ID -o ./public/assets/ -ts -ts-o ./src/components/icon"
   },
   "dependencies": {
     "@atb-as/theme": "^7.1.1",
