@@ -1,0 +1,23 @@
+name: TypeScript Check & Lint
+on:
+  push:
+    paths:
+      - '**.js'
+      - '**.ts'
+      - '**.tsx'
+jobs:
+  build:
+    name: tsc
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'yarn'
+      - run: yarn
+      - run: yarn setup
+        env:
+          NEXT_PUBLIC_WEBSHOP_ORG_ID: atb
+      - run: yarn tsc
+      - run: yarn lint

@@ -4,6 +4,7 @@
   "private": true,
   "license": "EUPL-1.2",
   "scripts": {
+    "test": "vitest",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -32,12 +33,13 @@
   },
   "devDependencies": {
     "@atb-as/generate-assets": "^9.0.0",
+    "@types/bunyan": "^1.8.9",
     "@types/lodash": "^4.14.198",
+    "@types/uuid": "^9.0.4",
     "eslint": "8.49.0",
     "eslint-config-next": "13.5.1",
     "prettier": "^3.0.3",
     "rimraf": "^5.0.1",
-    "@types/bunyan": "^1.8.9",
-    "@types/uuid": "^9.0.4"
+    "vitest": "^0.34.4"
   }
 }
