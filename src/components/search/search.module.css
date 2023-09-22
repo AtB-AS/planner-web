@@ -1,0 +1,82 @@
+@value typo-body__secondary from "@atb/theme/typography.module.css";
+
+.container {
+  --height: 2.75rem;
+
+  min-width: 10rem;
+  max-width: 32rem;
+  display: flex;
+  position: relative;
+}
+
+.label {
+  composes: typo-body__secondary;
+
+  height: var(--height);
+  display: flex;
+  align-items: center;
+  background-color: var(--static-background-background_0-background);
+  padding: var(--spacings-small);
+  padding-right: var(--spacings-xLarge);
+  border-bottom-left-radius: 0.75rem;
+  border-top-left-radius: 0.75rem;
+}
+
+.inputContainer {
+  flex-grow: 1;
+}
+
+.input {
+  height: var(--height);
+  padding: var(--spacings-small);
+  padding-right: var(--spacings-xLarge);
+  border: none;
+  width: 100%;
+}
+
+.myPositionButton {
+  height: var(--height);
+  background-color: var(--static-background-background_0-background);
+  border: none;
+  padding: var(--spacings-small);
+  border-bottom-right-radius: 0.75rem;
+  border-top-right-radius: 0.75rem;
+  cursor: pointer;
+}
+
+.menu {
+  width: 100%;
+  background-color: var(--static-background-background_0-background);
+  border-radius: 0.75rem;
+  position: absolute;
+  top: calc(100% + var(--spacings-xSmall));
+  overflow: hidden;
+  max-height: 20rem;
+  overflow-y: auto;
+}
+
+.item {
+  padding: var(--spacings-small);
+  height: var(--height);
+  display: flex;
+  align-items: center;
+}
+
+.item:not(:last-child) {
+  border-bottom: 1px solid var(--border-primary);
+}
+
+.itemIcon {
+  padding: var(--spacings-small);
+  padding-right: var(--spacings-xLarge);
+}
+
+.itemNameBold {
+  font-weight: bold;
+}
+
+.itemLocality {
+  composes: typo-body__secondary;
+  color: var(--text-colors-secondary);
+  margin-left: var(--spacings-large);
+}

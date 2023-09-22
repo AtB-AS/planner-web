@@ -23,6 +23,9 @@ export function createAutocompleteApi(
 
       return parsed.data.features.map((f) => ({
         name: f.properties.name,
+        locality: f.properties.locality,
+        category: f.properties.category,
+        layer: f.properties.layer,
       }));
     },
   };

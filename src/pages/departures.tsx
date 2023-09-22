@@ -7,6 +7,7 @@ import { withDepartureClient } from '@atb/page-modules/departures/server';
 import { CommonText, useTranslation } from '@atb/translations';
 import type { NextPage } from 'next';
 import { useState } from 'react';
+import Search from '@atb/components/search';
 
 type DeparturesContentProps = {
   autocompleteFeatures: AutocompleteFeature[];
@@ -23,17 +24,23 @@ function DeparturesContent({ autocompleteFeatures }: DeparturesContentProps) {
       <input type="text" onChange={(e) => setQuery(e.currentTarget.value)} />
 
       {autocompleteFeatures.map((f, i) => (
-        <div key={i}>{f.name}</div>
+        <div key={i}>
+          {f.name} - {f.locality} | {f.category.join(', ')} | {f.layer}
+        </div>
       ))}
 
       {result.data && (
         <>
           <h3>Search:</h3>
           {result.data.map((f, i) => (
-            <div key={i}>{f.name}</div>
+            <div key={i}>
+              {f.name} - {f.locality} | {f.category.join(', ')} | {f.layer}
+            </div>
           ))}
         </>
       )}
+
+      <Search label="Fra" onChange={console.log} />
     </div>
   );
 }
