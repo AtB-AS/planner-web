@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 
-const orgId = process.env.NEXT_PUBLIC_WEBSHOP_ORG_ID;
+const orgId = process.env.NEXT_PUBLIC_PLANNER_ORG_ID;
 
 const nextConfig = {
   optimizeFonts: false,
