@@ -7,6 +7,7 @@
     "test": "vitest",
     "dev": "next dev",
     "build": "next build",
+    "build:all": "sh ./scripts/build.sh",
     "start": "next start",
     "lint": "next lint",
     "clean-assets": "rimraf ./public/assets/",
