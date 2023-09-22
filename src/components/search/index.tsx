@@ -63,7 +63,6 @@ export default function Search({ label, onChange }: SearchProps) {
                   <li
                     className={style.item}
                     {...getItemProps({
-                      key: item.name + index,
                       index,
                       item,
                       style: {
@@ -71,6 +70,7 @@ export default function Search({ label, onChange }: SearchProps) {
                           highlightedIndex === index ? 'lightgray' : 'white',
                       },
                     })}
+                    key={item.name + index}
                   >
                     <div className={style.itemIcon}>⬛</div>
                     <span className={style.itemName}>
