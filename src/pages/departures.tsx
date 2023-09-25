@@ -60,9 +60,7 @@ function DeparturesContent({ autocompleteFeatures }: DeparturesContentProps) {
         }}
       >
         <div>Departures container</div>
-        <div>
-          <Map initialPosition={selectedPosition} />
-        </div>
+        <Map initialPosition={selectedPosition} />
       </div>
     </>
   );
