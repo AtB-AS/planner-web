@@ -1,3 +1,4 @@
+import { Map, Position } from '@atb/components/map';
 import DefaultLayout from '@atb/layouts/default';
 import type { WithGlobalData } from '@atb/layouts/global-data';
 import { withGlobalData } from '@atb/layouts/global-data';
@@ -16,25 +17,54 @@ function DeparturesContent({ autocompleteFeatures }: DeparturesContentProps) {
   const { t } = useTranslation();
   const [query, setQuery] = useState('');
   const result = useAutocomplete(query);
+  const [selectedPosition, setSelectedPosition] = useState<
+    Position | undefined
+  >();
 
   return (
-    <div>
-      <h1>{t(CommonText.Titles.siteTitle)}</h1>
-      <input type="text" onChange={(e) => setQuery(e.currentTarget.value)} />
+    <>
+      <div>
+        <h1>{t(CommonText.Titles.siteTitle)}</h1>
+        <input type="text" onChange={(e) => setQuery(e.currentTarget.value)} />
 
-      {autocompleteFeatures.map((f, i) => (
-        <div key={i}>{f.name}</div>
-      ))}
+        {autocompleteFeatures.map((f, i) => (
+          <div key={i}>{f.name}</div>
+        ))}
 
-      {result.data && (
-        <>
-          <h3>Search:</h3>
-          {result.data.map((f, i) => (
-            <div key={i}>{f.name}</div>
-          ))}
-        </>
-      )}
-    </div>
+        {result.data && (
+          <>
+            <h3>Search:</h3>
+            {result.data.map((f, i) => (
+              <div
+                style={{ cursor: 'pointer' }}
+                key={i}
+                onClick={() => {
+                  setSelectedPosition({
+                    lng: f.geometry.coordinates[0],
+                    lat: f.geometry.coordinates[1],
+                  });
+                }}
+              >
+                {f.name} - {f.locality} | {f.category.join(', ')} | {f.layer}
+              </div>
+            ))}
+          </>
+        )}
+      </div>
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: '1fr 1fr',
+          minHeight: '600px',
+          marginTop: '2rem',
+        }}
+      >
+        <div>Departures container</div>
+        <div>
+          <Map initialPosition={selectedPosition} />
+        </div>
+      </div>
+    </>
   );
 }
 
