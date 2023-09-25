@@ -1,7 +1,8 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 import mapboxgl from 'mapbox-gl';
 import style from './map.module.css';
 import 'mapbox-gl/dist/mapbox-gl.css';
+import { mapboxData } from '@atb/modules/org-data';
 
 export type Position = {
   lat: number;
@@ -20,8 +21,8 @@ export function Map({ initialPosition = defaultPosition }: MapProps) {
     if (!mapContainer.current) return;
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
-      accessToken: process.env.NEXT_PUBLIC_MAPBOX_API_TOKEN,
-      style: process.env.NEXT_PUBLIC_MAPBOX_STOP_PLACES_STYLE_URL,
+      accessToken: mapboxData.accessToken,
+      style: mapboxData.style,
       center: [initialPosition.lat, initialPosition.lng],
       zoom: 13,
     });
@@ -39,6 +40,6 @@ export function Map({ initialPosition = defaultPosition }: MapProps) {
 }
 
 const defaultPosition: Position = {
-  lat: Number(process.env.NEXT_PUBLIC_MAPBOX_DEFAULT_LNG),
-  lng: Number(process.env.NEXT_PUBLIC_MAPBOX_DEFAULT_LAT),
+  lat: mapboxData.defaultLat,
+  lng: mapboxData.defaultLng,
 };
