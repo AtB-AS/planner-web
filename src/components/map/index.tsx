@@ -23,7 +23,7 @@ export function Map({ initialPosition = defaultPosition }: MapProps) {
       container: mapContainer.current,
       accessToken: mapboxData.accessToken,
       style: mapboxData.style,
-      center: [initialPosition.lat, initialPosition.lng],
+      center: [initialPosition.lng, initialPosition.lat],
       zoom: 13,
     });
 
@@ -32,7 +32,7 @@ export function Map({ initialPosition = defaultPosition }: MapProps) {
 
   useEffect(() => {
     if (map.current) {
-      map.current.setCenter([initialPosition.lat, initialPosition.lng]);
+      map.current.setCenter([initialPosition.lng, initialPosition.lat]);
     }
   }, [initialPosition]);
 
