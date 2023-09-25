@@ -1,4 +1,5 @@
-import { Map, Position } from '@atb/components/map';
+import { Map } from '@atb/components/map';
+import { Position } from 'geojson';
 import DefaultLayout from '@atb/layouts/default';
 import type { WithGlobalData } from '@atb/layouts/global-data';
 import { withGlobalData } from '@atb/layouts/global-data';
@@ -39,10 +40,7 @@ function DeparturesContent({ autocompleteFeatures }: DeparturesContentProps) {
                 style={{ cursor: 'pointer' }}
                 key={i}
                 onClick={() => {
-                  setSelectedPosition({
-                    lng: f.geometry.coordinates[0],
-                    lat: f.geometry.coordinates[1],
-                  });
+                  setSelectedPosition(f.geometry.coordinates);
                 }}
               >
                 {f.name} - {f.locality} | {f.category.join(', ')} | {f.layer}
