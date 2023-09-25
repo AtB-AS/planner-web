@@ -2,7 +2,11 @@ import React, { useRef, useEffect, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import style from './map.module.css';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { Position } from 'geojson';
+
+export type Position = {
+  lat: number;
+  lng: number;
+};
 
 export type MapProps = {
   initialPosition?: Position;
@@ -18,7 +22,7 @@ export function Map({ initialPosition = defaultPosition }: MapProps) {
       container: mapContainer.current,
       accessToken: process.env.NEXT_PUBLIC_MAPBOX_API_TOKEN,
       style: process.env.NEXT_PUBLIC_MAPBOX_STOP_PLACES_STYLE_URL,
-      center: [initialPosition[0], initialPosition[1]],
+      center: [initialPosition.lat, initialPosition.lng],
       zoom: 13,
     });
 
@@ -27,14 +31,14 @@ export function Map({ initialPosition = defaultPosition }: MapProps) {
 
   useEffect(() => {
     if (map.current) {
-      map.current.setCenter([initialPosition[0], initialPosition[1]]);
+      map.current.setCenter([initialPosition.lat, initialPosition.lng]);
     }
   }, [initialPosition]);
 
   return <div ref={mapContainer} className={style.mapContainer} />;
 }
 
-const defaultPosition: Position = [
-  Number(process.env.NEXT_PUBLIC_MAPBOX_DEFAULT_LNG),
-  Number(process.env.NEXT_PUBLIC_MAPBOX_DEFAULT_LAT),
-];
+const defaultPosition: Position = {
+  lat: Number(process.env.NEXT_PUBLIC_MAPBOX_DEFAULT_LNG),
+  lng: Number(process.env.NEXT_PUBLIC_MAPBOX_DEFAULT_LAT),
+};
