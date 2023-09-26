@@ -1,1 +1,2 @@
-export { Loading } from './loading';
+export { Loading } from "./loading";
+export { VenueIcon } from "./venue-icon";

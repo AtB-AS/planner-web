@@ -3,6 +3,9 @@ import { useState } from 'react';
 import { useAutocomplete } from '@atb/page-modules/departures/client';
 import style from './search.module.css';
 import { split } from 'lodash';
+import { MonoIcon } from '@atb/assets/mono-icon';
+import VenueIcon from '@atb/components/venue-icon';
+import { andIf } from '@atb/utils/css';
 
 type SearchProps = {
   label: string;
@@ -54,25 +57,26 @@ export default function Search({ label, onChange }: SearchProps) {
               alert('Get my position');
             }}
           >
-            ⬛
+            <MonoIcon src="places/City.svg" />
           </button>
 
           <ul className={style.menu} {...getMenuProps()}>
             {isOpen && data
               ? data.map((item, index) => (
                   <li
-                    className={style.item}
+                    className={andIf({
+                      [style.item]: true,
+                      [style.itemHighlighted]: highlightedIndex === index,
+                    })}
                     {...getItemProps({
                       index,
                       item,
-                      style: {
-                        backgroundColor:
-                          highlightedIndex === index ? 'lightgray' : 'white',
-                      },
                     })}
                     key={item.name + index}
                   >
-                    <div className={style.itemIcon}>⬛</div>
+                    <div className={style.itemIcon} aria-hidden>
+                      <VenueIcon category={item.category} />
+                    </div>
                     <span className={style.itemName}>
                       {highlight(item.name, inputValue).map((part, index) => {
                         if (!part.length || !inputValue) return;
