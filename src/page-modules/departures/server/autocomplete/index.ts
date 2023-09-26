@@ -23,6 +23,7 @@ export function createAutocompleteApi(
       }
 
       return parsed.data.features.map((f) => ({
+        id: f.properties.id,
         name: f.properties.name,
         locality: f.properties.locality,
         category: f.properties.category as FeatureCategory[],
