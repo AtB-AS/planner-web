@@ -2,7 +2,7 @@ import Downshift from 'downshift';
 import { useState } from 'react';
 import { useAutocomplete } from '@atb/page-modules/departures/client';
 import style from './search.module.css';
-import { split } from 'lodash';
+import { debounce, split } from 'lodash';
 import { MonoIcon } from '@atb/assets/mono-icon';
 import VenueIcon from '@atb/components/venue-icon';
 import { andIf } from '@atb/utils/css';
@@ -25,7 +25,9 @@ export default function Search({ label, onChange }: SearchProps) {
   return (
     <Downshift
       initialInputValue={query}
-      onInputValueChange={(inputValue) => setQuery(inputValue || '')}
+      onInputValueChange={(inputValue) =>
+        debounce(setQuery, 500)(inputValue || '')
+      }
       onChange={onChange}
       itemToString={(item) => (item ? item.name : '')}
     >
