@@ -18,12 +18,14 @@ describe('departure page', function () {
     const initialProps: DeparturesPageProps = {
       autocompleteFeatures: [
         {
+          id: '1',
           name: 'Result 1',
           category: [],
           layer: '',
           locality: '',
         },
         {
+          id: '2',
           name: 'Result 2',
           category: [],
           layer: '',
@@ -43,7 +45,7 @@ describe('departure page', function () {
 
   it('Should return props from getServerSideProps', async () => {
     const expectedResult = [
-      { name: 'Test', category: [], layer: '', locality: '' },
+      { id: 'Test ID', name: 'Test', category: [], layer: '', locality: '' },
     ];
 
     const client: HttpClient<'entur', AutocompleteApi> = {
