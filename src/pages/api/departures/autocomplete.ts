@@ -17,6 +17,11 @@ export default handlerWithDepartureClient<AutocompleteApiReturnType>({
       );
     }
 
+    // Don't run autocomplete if the query is empty.
+    if (query.data === '') {
+      return ok([]);
+    }
+
     return tryResult(req, res, async () => {
       return ok(await client.autocomplete(String(query.data)));
     });

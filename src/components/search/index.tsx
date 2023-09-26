@@ -25,9 +25,7 @@ export default function Search({ label, onChange }: SearchProps) {
   return (
     <Downshift
       initialInputValue={query}
-      onInputValueChange={(inputValue) =>
-        debounce(setQuery, 500)(inputValue || '')
-      }
+      onInputValueChange={(inputValue) => setQuery(inputValue || '')}
       onChange={onChange}
       itemToString={(item) => (item ? item.name : '')}
     >
