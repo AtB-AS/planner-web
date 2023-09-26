@@ -10,10 +10,15 @@ import { andIf } from '@atb/utils/css';
 type SearchProps = {
   label: string;
   onChange: (selection: any) => void;
+  initialQuery?: string;
 };
 
-export default function Search({ label, onChange }: SearchProps) {
-  const [query, setQuery] = useState('');
+export default function Search({
+  label,
+  onChange,
+  initialQuery = '',
+}: SearchProps) {
+  const [query, setQuery] = useState(initialQuery);
   const { data } = useAutocomplete(query);
 
   const highlight = (name: string, inputValue: string | null) => {
@@ -72,7 +77,7 @@ export default function Search({ label, onChange }: SearchProps) {
                       index,
                       item,
                     })}
-                    key={item.name + index}
+                    key={item.id}
                   >
                     <div className={style.itemIcon} aria-hidden>
                       <VenueIcon category={item.category} />
