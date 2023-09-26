@@ -13,7 +13,7 @@ export type MapProps = {
   position?: Position;
 };
 
-export function Map({ initialPosition = defaultPosition }: MapProps) {
+export function Map({ position = defaultPosition }: MapProps) {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map>();
 
@@ -23,7 +23,7 @@ export function Map({ initialPosition = defaultPosition }: MapProps) {
       container: mapContainer.current,
       accessToken: mapboxData.accessToken,
       style: mapboxData.style,
-      center: [initialPosition.lng, initialPosition.lat],
+      center: [position.lng, position.lat],
       zoom: 13,
     });
 
@@ -32,9 +32,9 @@ export function Map({ initialPosition = defaultPosition }: MapProps) {
 
   useEffect(() => {
     if (map.current) {
-      map.current.setCenter([initialPosition.lng, initialPosition.lat]);
+      map.current.setCenter([position.lng, position.lat]);
     }
-  }, [initialPosition.lng, initialPosition.lat]);
+  }, [position.lng, position.lat]);
 
   return <div ref={mapContainer} className={style.mapContainer} />;
 }
