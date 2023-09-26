@@ -10,7 +10,7 @@ export type Position = {
 };
 
 export type MapProps = {
-  initialPosition?: Position;
+  position?: Position;
 };
 
 export function Map({ initialPosition = defaultPosition }: MapProps) {
