@@ -75,6 +75,8 @@
 }
 
 .itemIcon {
+  display: flex;
+  align-items: center;
   padding: var(--spacings-small);
   padding-right: var(--spacings-xLarge);
 }
