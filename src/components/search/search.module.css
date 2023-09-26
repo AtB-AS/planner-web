@@ -32,6 +32,8 @@
   padding-right: var(--spacings-xLarge);
   border: none;
   width: 100%;
+  background-color: var(--static-background-background_0-background);
+  color: var(--static-background-background_0-text);
 }
 
 .myPositionButton {
@@ -42,6 +44,8 @@
   border-bottom-right-radius: 0.75rem;
   border-top-right-radius: 0.75rem;
   cursor: pointer;
+  display: flex;
+  align-items: center;
 }
 
 .menu {
@@ -64,6 +68,10 @@
 
 .item:not(:last-child) {
   border-bottom: 1px solid var(--border-primary);
+}
+
+.itemHighlighted {
+  background-color: var(--interactive-interactive_2-active-background);
 }
 
 .itemIcon {
