@@ -1,6 +1,7 @@
 import { genericError, type Requester } from '@atb/modules/api-server';
 import type { AutocompleteFeature } from '../../types';
 import { autocompleteRootSchema } from './encoders';
+import { FeatureCategory } from '@atb/components/venue-icon';
 
 export type AutocompleteApi = {
   autocomplete(query: string): Promise<AutocompleteFeature[]>;
@@ -24,7 +25,7 @@ export function createAutocompleteApi(
       return parsed.data.features.map((f) => ({
         name: f.properties.name,
         locality: f.properties.locality,
-        category: f.properties.category,
+        category: f.properties.category as FeatureCategory[],
         layer: f.properties.layer,
       }));
     },
