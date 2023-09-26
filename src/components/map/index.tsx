@@ -34,7 +34,7 @@ export function Map({ initialPosition = defaultPosition }: MapProps) {
     if (map.current) {
       map.current.setCenter([initialPosition.lng, initialPosition.lat]);
     }
-  }, [initialPosition]);
+  }, [initialPosition.lng, initialPosition.lat]);
 
   return <div ref={mapContainer} className={style.mapContainer} />;
 }
