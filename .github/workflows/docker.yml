@@ -7,9 +7,30 @@ on:
     branches: ['main']
 
 jobs:
-  build:
+  build-atb:
     uses: atb-as/workflows/.github/workflows/cluster-docker-build-tag-push.yaml@v2
     with:
       image: gcr.io/atb-mobility-platform/planner-web
+      push_overlay: atb-staging-c420
+      release_overlay: atb-prod-2e7e
+      overlays_base: manifests/amp/overlays
+    secrets:
+      github_pat: ${{ secrets.GH_PAT }}
+  build-nfk:
+    uses: atb-as/workflows/.github/workflows/cluster-docker-build-tag-push.yaml@v2
+    with:
+      image: gcr.io/atb-mobility-platform/planner-web
+      push_overlay: nfk-staging-dac7
+      release_overlay: nfk-prod-ce66
+      overlays_base: manifests/amp/overlays
+    secrets:
+      github_pat: ${{ secrets.GH_PAT }}
+  build-fram:
+    uses: atb-as/workflows/.github/workflows/cluster-docker-build-tag-push.yaml@v2
+    with:
+      image: gcr.io/atb-mobility-platform/planner-web
+      push_overlay: fram-staging-dc00
+      release_overlay: fram-prod-019b
+      overlays_base: manifests/amp/overlays
     secrets:
       github_pat: ${{ secrets.GH_PAT }}
