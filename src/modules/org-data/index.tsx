@@ -35,7 +35,7 @@ function getMapboxData(): MAPBOX_DATA {
   return {
     accessToken,
     style,
-    defaultLat: parseFloat(defaultLat, 10),
-    defaultLng: parseFloat(defaultLng, 10),
+    defaultLat: parseFloat(parseFloat(defaultLat).toFixed(10)),
+    defaultLng: parseFloat(parseFloat(defaultLng).toFixed(10)),
   };
 }
