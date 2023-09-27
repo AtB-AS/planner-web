@@ -8,8 +8,20 @@ on:
 
 jobs:
   build:
+    strategy:
+      matrix:
+        include:
+          - push_overlay: 'atb-staging-c420'
+            release_overlay: 'atb-prod-2e7e'
+          - push_overlay: 'nfk-staging-dac7'
+            release_overlay: 'nfk-prod-ce66'
+          - push_overlay: 'fram-staging-dc00'
+            release_overlay: 'fram-prod-019b'
     uses: atb-as/workflows/.github/workflows/cluster-docker-build-tag-push.yaml@v2
     with:
       image: gcr.io/atb-mobility-platform/planner-web
+      push_overlay: ${{ matrix.push_overlay }}
+      release_overlay: ${{ matrix.release_overlay }}
+      overlays_base: manifests/amp/overlays
     secrets:
       github_pat: ${{ secrets.GH_PAT }}
