@@ -36,6 +36,23 @@ type HttpPropGetter<U extends HttpEndpoints, T, P extends {} = {}> = (
   context: GetServerSidePropsContext & { client: HttpClient<U, T> },
 ) => Promise<GetServerSidePropsResult<P>>;
 
+export function composeClientFactories<
+  U1 extends HttpEndpoints,
+  T1,
+  U2 extends HttpEndpoints,
+  T2,
+>(
+  client1: HttpClientFactory<U1, T1>,
+  client2: HttpClientFactory<U2, T2>,
+): HttpClientFactory<U1 | U2, T1 & T2> {
+  return function (req?: IncomingMessage) {
+    return {
+      ...client1(req),
+      ...client2(req),
+    };
+  };
+}
+
 export function createHttpClient<T, U extends HttpEndpoints>(
   baseUrlType: U,
   apiFn: (request: Requester<U>) => T,
