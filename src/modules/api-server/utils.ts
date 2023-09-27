@@ -3,6 +3,7 @@ import bunyan from 'bunyan';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { v4 as uuidv4 } from 'uuid';
 import { currentOrg } from '../org-data';
+import { IncomingHttpHeaders, IncomingMessage } from 'http';
 
 export const logger = bunyan.createLogger({
   name: 'planner-web',
@@ -59,6 +60,14 @@ export function logApplicationError(
   }
 }
 
+const repassableHeaders = {
+  installId: 'Atb-Install-Id',
+  correlationId: 'X-Correlation-Id',
+} as const;
+
+type RepassableHeaders =
+  (typeof repassableHeaders)[keyof typeof repassableHeaders];
+
 const externalHttpUrls = {
   entur: 'https://api.entur.io',
 } as const;
@@ -70,9 +79,12 @@ export type Requester<T extends HttpEndpoints> = (
   init?: RequestInit | undefined,
 ) => Promise<Response>;
 
+type ReqWithHeaders = {
+  headers: IncomingHttpHeaders;
+};
 export function createRequester<T extends HttpEndpoints>(
   baseUrlKey: T,
-  correlationId?: string,
+  req?: ReqWithHeaders,
 ): Requester<T> {
   return async function request(
     url: `/${string}`,
@@ -80,16 +92,20 @@ export function createRequester<T extends HttpEndpoints>(
   ) {
     const baseUrl = externalHttpUrls[baseUrlKey];
     const actualUrl = `${baseUrl}${url}`;
-    const actualCorrelation = correlationId ?? uuidv4();
     const orgId = currentOrg;
+
+    // Pass on from the potentially incoming request.
+    const headers = passOnHeadersFromRequest(req, {
+      'X-Correlation-Id': uuidv4(),
+    });
 
     try {
       const data = await fetch(actualUrl, {
         ...init,
         headers: {
           ...init?.headers,
+          ...headers,
           'ET-Client-Name': `${orgId}-planner-web`,
-          'X-Correlation-Id': actualCorrelation,
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
@@ -107,11 +123,30 @@ export function createRequester<T extends HttpEndpoints>(
         throw new ApplicationError(
           mapServerToMessage(e),
           500,
-          actualCorrelation,
+          headers['X-Correlation-Id'],
         );
       }
     }
   };
+}
+
+function passOnHeadersFromRequest(
+  req: ReqWithHeaders | undefined,
+  defaults: Partial<Record<RepassableHeaders, string>>,
+) {
+  let headers: HeadersInit = {};
+
+  if (!req) {
+    return defaults;
+  }
+
+  for (let headerName of Object.values(repassableHeaders)) {
+    const headerNameTyped = headerName as RepassableHeaders;
+    headers[headerName] =
+      req.headers[headerName]?.toString() ?? defaults[headerNameTyped] ?? '';
+  }
+
+  return headers;
 }
 
 export function errorResultAsJson(

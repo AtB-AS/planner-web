@@ -1,3 +1,6 @@
+import { ServerText } from '@atb/translations';
+import { IncomingMessage } from 'http';
+import { constants } from 'http2';
 import type {
   GetServerSidePropsContext,
   GetServerSidePropsResult,
@@ -7,11 +10,9 @@ import type {
 import {
   HttpEndpoints,
   createRequester,
-  type Requester,
   errorResultAsJson,
+  type Requester,
 } from './utils';
-import { constants } from 'http2';
-import { ServerText } from '@atb/translations';
 
 export {
   ApplicationError,
@@ -27,6 +28,9 @@ export type { Requester };
 export type HttpClient<U extends HttpEndpoints, T> = T & {
   request: Requester<U>;
 };
+export type HttpClientFactory<U extends HttpEndpoints, T> = (
+  req?: IncomingMessage,
+) => HttpClient<U, T>;
 
 type HttpPropGetter<U extends HttpEndpoints, T, P extends {} = {}> = (
   context: GetServerSidePropsContext & { client: HttpClient<U, T> },
@@ -35,17 +39,19 @@ type HttpPropGetter<U extends HttpEndpoints, T, P extends {} = {}> = (
 export function createHttpClient<T, U extends HttpEndpoints>(
   baseUrlType: U,
   apiFn: (request: Requester<U>) => T,
-): HttpClient<U, T> {
-  let request = createRequester(baseUrlType);
+): HttpClientFactory<U, T> {
+  return function (req?: IncomingMessage) {
+    let request = createRequester(baseUrlType, req);
 
-  return {
-    ...apiFn(request),
-    request,
+    return {
+      ...apiFn(request),
+      request,
+    };
   };
 }
 
 export function createWithHttpClientDecorator<U extends HttpEndpoints, T>(
-  client: HttpClient<U, T>,
+  clientCreate: HttpClientFactory<U, T>,
 ) {
   return function handler<P extends {} = {}>(
     propGetter: HttpPropGetter<U, T, P>,
@@ -54,7 +60,7 @@ export function createWithHttpClientDecorator<U extends HttpEndpoints, T>(
       ctx: GetServerSidePropsContext,
     ): Promise<GetServerSidePropsResult<P>> {
       return propGetter({
-        client,
+        client: clientCreate(ctx.req),
         ...ctx,
       });
     };
@@ -81,7 +87,7 @@ type ApiHandler<U extends HttpEndpoints, T, P = any> =
 export function createWithHttpClientDecoratorForHttpHandlers<
   U extends HttpEndpoints,
   T,
->(client: HttpClient<U, T>) {
+>(createClient: HttpClientFactory<U, T>) {
   return function inside<P>(handler: ApiHandler<U, T, P>) {
     return (req: NextApiRequest, res: NextApiResponse<P>) => {
       function ok(val: P) {
@@ -94,10 +100,10 @@ export function createWithHttpClientDecoratorForHttpHandlers<
         );
         if (potential) {
           const [, properHandle] = potential;
-          return properHandle(req, res, { client, ok });
+          return properHandle(req, res, { client: createClient(req), ok });
         }
       } else if (isFunction(handler)) {
-        return handler(req, res, { client, ok });
+        return handler(req, res, { client: createClient(req), ok });
       }
 
       return errorResultAsJson(
