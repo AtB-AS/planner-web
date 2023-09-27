@@ -15,7 +15,7 @@ type SearchProps = {
 export default function Search({
   label,
   onChange,
-  initialQuery = 'No',
+  initialQuery = '',
 }: SearchProps) {
   const [query, setQuery] = useState(initialQuery);
   const { data } = useAutocomplete(query);
@@ -78,6 +78,7 @@ export default function Search({
                   <span className={style.itemName}>
                     {highlightSearchText(inputValue, item.name).map(
                       ({ part, highlight }) => {
+                        if (!part) return null;
                         if (highlight)
                           return <strong key={item.id + part}>{part}</strong>;
                         else return <span key={item.id + part}>{part}</span>;
