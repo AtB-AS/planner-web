@@ -19,9 +19,21 @@ describe('departure page', function () {
       autocompleteFeatures: [
         {
           name: 'Result 1',
+          category: [],
+          layer: '',
+          locality: '',
+          geometry: {
+            coordinates: [62.47, 6.14],
+          },
         },
         {
           name: 'Result 2',
+          category: [],
+          layer: '',
+          locality: '',
+          geometry: {
+            coordinates: [62.47, 6.14],
+          },
         },
       ],
       headersAcceptLanguage: 'en',
@@ -36,7 +48,17 @@ describe('departure page', function () {
   });
 
   it('Should return props from getServerSideProps', async () => {
-    const expectedResult = [{ name: 'Test' }];
+    const expectedResult = [
+      {
+        name: 'Test',
+        category: [],
+        layer: '',
+        locality: '',
+        geometry: {
+          coordinates: [62.47, 6.14],
+        },
+      },
+    ];
 
     const client: HttpClient<'entur', AutocompleteApi> = {
       async autocomplete() {

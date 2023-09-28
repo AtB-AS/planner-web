@@ -54,9 +54,7 @@ body {
 body,
 #__next,
 .overlayContainer {
-  display: flex;
   width: 100%;
-  flex: 1;
 }
 
 body.menuOpen {
