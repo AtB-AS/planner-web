@@ -8,6 +8,7 @@
     "dev": "next dev",
     "build": "next build",
     "build:all": "sh ./scripts/build.sh",
+    "build:docker": "sh ./scripts/build-docker.sh",
     "start": "next start",
     "lint": "next lint",
     "clean-assets": "rimraf ./public/assets/",
