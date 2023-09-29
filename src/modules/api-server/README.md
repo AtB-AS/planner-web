@@ -64,4 +64,45 @@ export default graphQlApiHandler<string>(function (req, res, { client, ok }) {
 });
 ```
 
+```ts
+// Combining external resources
+
+const myHttpApiCreator = createExternalClient('http-entur', function (request) {
+  return {
+    myFunction: (a: string) => request(`/geocoder?q=${a}`),
+  };
+});
+
+const myGraphQL = createExternalClient(
+  'graphql-journeyPlanner3',
+  function (client) {
+    return {
+      myGraphQLQuery: (input: string) => client.query(`MY QUERY HERE ${input}`),
+    };
+  },
+);
+
+const combinedFactories = composeClientFactories(myHttpApiCreator, myGraphQL);
+
+export const ssrHttpClientDecorator =
+  createWithExternalClientDecorator(combinedFactories);
+
+// inside Page
+
+// This will be removed to the client, only executed on SSR
+export const getServerSideProps = ssrHttpClientDecorator(async function ({
+  client,
+}) {
+  const result = await client.myFunction('Kongens gate');
+  const result2 = await client.myGraphQLQuery('Kongens gate');
+
+  return {
+    props: {
+      autocompleteFeatures: result,
+      data: result2,
+    },
+  };
+});
+```
+
 See tests for more examples.
