@@ -1,4 +1,14 @@
-import { afterEach, describe, it, expect, vi, Mock, beforeEach } from 'vitest';
+import {
+  afterEach,
+  describe,
+  it,
+  expect,
+  vi,
+  Mock,
+  beforeEach,
+  afterAll,
+  beforeAll,
+} from 'vitest';
 import Search from '@atb/components/search';
 import {
   cleanup,
@@ -26,12 +36,23 @@ const mockGeolocation = {
   getCurrentPosition: vi.fn(),
 };
 
-Object.defineProperty(global.navigator, 'geolocation', {
-  writable: true,
-  value: mockGeolocation,
+const initialGeolocation = global.navigator.geolocation;
+
+beforeAll(() => {
+  Object.defineProperty(global.navigator, 'geolocation', {
+    writable: true,
+    value: mockGeolocation,
+  });
 });
 
 afterEach(() => cleanup());
+
+afterAll(() => {
+  Object.defineProperty(global.navigator, 'geolocation', {
+    writable: true,
+    value: initialGeolocation,
+  });
+});
 
 const customRender = (ui: React.ReactNode, renderOptions?: RenderOptions) => {
   render(
