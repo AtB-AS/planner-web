@@ -1,43 +1,16 @@
 import { ServerText, TranslatedString, translation } from '@atb/translations';
-import bunyan from 'bunyan';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { v4 as uuidv4 } from 'uuid';
 import { currentOrg } from '../org-data';
-import { IncomingHttpHeaders, IncomingMessage } from 'http';
-
-export const logger = bunyan.createLogger({
-  name: 'planner-web',
-  streams: [{ stream: process.stdout, level: 'info' }],
-  serializers: {
-    req: (req: Request) => {
-      return {
-        method: req.method,
-        url: req.url,
-        headers: {
-          ...req.headers,
-          cookie: null,
-        },
-      };
-    },
-    res: bunyan.stdSerializers.res,
-    upstream: (up: Response) => {
-      return {
-        statusCode: up.status,
-        url: up.url,
-        statusText: up.statusText,
-      };
-    },
-    err: bunyan.stdSerializers.err,
-  },
-});
-
-export function logError(e: any) {
-  if (process.env.NODE_ENV === 'development') {
-    console.error(e);
-  } else {
-    logger.error(e);
-  }
-}
+import { logResponse } from './log-response';
+import { logger } from './logger';
+import { Timer } from './timer';
+import {
+  HttpEndpoints,
+  ReqWithHeaders,
+  Requester,
+  externalHttpUrls,
+} from './types';
 
 export function logApplicationError(
   e: ApplicationError,
@@ -68,20 +41,6 @@ const repassableHeaders = {
 type RepassableHeaders =
   (typeof repassableHeaders)[keyof typeof repassableHeaders];
 
-const externalHttpUrls = {
-  entur: 'https://api.entur.io',
-} as const;
-
-export type HttpEndpoints = keyof typeof externalHttpUrls;
-
-export type Requester<T extends HttpEndpoints> = (
-  url: `/${string}`,
-  init?: RequestInit | undefined,
-) => Promise<Response>;
-
-type ReqWithHeaders = {
-  headers: IncomingHttpHeaders;
-};
 export function createRequester<T extends HttpEndpoints>(
   baseUrlKey: T,
   req?: ReqWithHeaders,
@@ -100,6 +59,8 @@ export function createRequester<T extends HttpEndpoints>(
     });
 
     try {
+      const timer = new Timer();
+
       const data = await fetch(actualUrl, {
         ...init,
         headers: {
@@ -109,6 +70,16 @@ export function createRequester<T extends HttpEndpoints>(
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
+      });
+
+      logResponse({
+        message: 'http call',
+        method: init?.method,
+        url: data.url,
+        statusCode: data.status,
+        responseHeaders: data.headers,
+        requestHeaders: headers,
+        duration: timer.getElapsedMs(),
       });
 
       if (!data.ok) {
@@ -196,7 +167,7 @@ export async function tryResult(
       logApplicationError(properError, req, res);
       return errorResultAsJson(res, properError.status, properError.data);
     } else {
-      logError(e);
+      logger.error(e);
       return errorResultAsJson(res, 500, ServerText.Endpoints.serverError);
     }
   }
