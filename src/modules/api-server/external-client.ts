@@ -17,7 +17,7 @@ import {
 } from './requesters/types';
 import { errorResultAsJson } from './requesters/utils';
 
-type HttpPropGetter<U extends HttpEndpoints, T, P extends {} = {}> = (
+type HttpPropGetter<U extends AllEndpoints, T, P extends {} = {}> = (
   context: GetServerSidePropsContext & { client: ExternalClient<U, T> },
 ) => Promise<GetServerSidePropsResult<P>>;
 
@@ -51,7 +51,7 @@ export function createExternalClient<U extends AllEndpoints, T>(
   };
 }
 
-export function createWithExternalClientDecorator<U extends HttpEndpoints, T>(
+export function createWithExternalClientDecorator<U extends AllEndpoints, T>(
   clientCreate: ExternalClientFactory<U, T>,
 ) {
   return function handler<P extends {} = {}>(
@@ -68,7 +68,7 @@ export function createWithExternalClientDecorator<U extends HttpEndpoints, T>(
   };
 }
 
-export type NextApiClientHandler<U extends HttpEndpoints, T, P = any> = (
+export type NextApiClientHandler<U extends AllEndpoints, T, P = any> = (
   req: NextApiRequest,
   res: NextApiResponse<P>,
   extra: {
@@ -77,16 +77,16 @@ export type NextApiClientHandler<U extends HttpEndpoints, T, P = any> = (
   },
 ) => unknown | Promise<unknown>;
 
-type EndpointMapping<U extends HttpEndpoints, T, P = any> = Partial<
+type EndpointMapping<U extends AllEndpoints, T, P = any> = Partial<
   Record<'GET' | 'POST' | 'DELETE' | 'PUT', NextApiClientHandler<U, T, P>>
 >;
 
-type ApiHandler<U extends HttpEndpoints, T, P = any> =
+type ApiHandler<U extends AllEndpoints, T, P = any> =
   | NextApiClientHandler<U, T, P>
   | EndpointMapping<U, T, P>;
 
 export function createWithExternalClientDecoratorForHttpHandlers<
-  U extends HttpEndpoints,
+  U extends AllEndpoints,
   T,
 >(createClient: ExternalClientFactory<U, T>) {
   return function inside<P>(handler: ApiHandler<U, T, P>) {
@@ -116,7 +116,7 @@ export function createWithExternalClientDecoratorForHttpHandlers<
   };
 }
 
-function isRecordHandler<U extends HttpEndpoints, T, P = any>(
+function isRecordHandler<U extends AllEndpoints, T, P = any>(
   handlers: any,
 ): handlers is EndpointMapping<U, T, P> {
   return Object.keys(handlers).some((m) =>
@@ -124,7 +124,7 @@ function isRecordHandler<U extends HttpEndpoints, T, P = any>(
   );
 }
 
-function isFunction<U extends HttpEndpoints, T, P = any>(
+function isFunction<U extends AllEndpoints, T, P = any>(
   fn: any,
 ): fn is NextApiClientHandler<U, T, P> {
   return fn && {}.toString.call(fn) === '[object Function]';

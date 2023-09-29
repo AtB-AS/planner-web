@@ -10,9 +10,14 @@ import {
 } from 'vitest';
 import {
   ExternalClient,
+  GraphQlRequester,
+  HttpRequester,
   composeClientFactories,
   createExternalClient,
+  createWithExternalClientDecorator,
+  createWithExternalClientDecoratorForHttpHandlers,
 } from '..';
+import { NextApiRequest, NextApiResponse } from 'next';
 
 const initialFetch = global.fetch;
 let mockFetch: Mock;
@@ -200,5 +205,137 @@ describe('requester client', () => {
     // @ts-expect-error answer is not a string
     assertType<string>(client.api3('test'));
     assertType<number>(client.api3(1));
+  });
+
+  it('should work all from creating client to ssr decorator', () => {
+    const myHttpApiCreator = createExternalClient(
+      'http-entur',
+      function (requester) {
+        assertType<HttpRequester<'http-entur'>>(requester);
+
+        return {
+          myFunction: async (a: string) => a,
+        };
+      },
+    );
+
+    const ssrHttpClientDecorator =
+      createWithExternalClientDecorator(myHttpApiCreator);
+
+    // this would be inside Page like getServerSideProps
+    const _getServerSideProps = ssrHttpClientDecorator(async function ({
+      client,
+    }) {
+      assertType<Function>(client.myFunction);
+
+      const result = await client.myFunction('Kongens gate');
+
+      return {
+        props: {
+          autocompleteFeatures: result,
+        },
+      };
+    });
+
+    assertType<Function>(_getServerSideProps);
+  });
+
+  it('should work all from creating GraphQL client to ssr decorator', () => {
+    const myGraphQL = createExternalClient(
+      'graphql-journeyPlanner3',
+      function (client) {
+        assertType<GraphQlRequester<'graphql-journeyPlanner3'>>(client);
+
+        return {
+          myFunction: async (a: string) => a,
+        };
+      },
+    );
+
+    const ssrHttpClientDecorator = createWithExternalClientDecorator(myGraphQL);
+
+    // this would be inside Page like getServerSideProps
+    const _getServerSideProps = ssrHttpClientDecorator(async function ({
+      client,
+    }) {
+      assertType<Function>(client.myFunction);
+
+      const result = await client.myFunction('Kongens gate');
+
+      return {
+        props: {
+          autocompleteFeatures: result,
+        },
+      };
+    });
+
+    assertType<Function>(_getServerSideProps);
+  });
+
+  it('should work all from creating GraphQL client to ssr decorator', () => {
+    const myGraphQL = createExternalClient(
+      'graphql-journeyPlanner3',
+      function (client) {
+        assertType<GraphQlRequester<'graphql-journeyPlanner3'>>(client);
+
+        return {
+          myFunction: async (a: string) => a,
+        };
+      },
+    );
+
+    const ssrHttpClientDecorator =
+      createWithExternalClientDecoratorForHttpHandlers(myGraphQL);
+
+    // this would be in /api/page-handler.ts in "export default"
+    ssrHttpClientDecorator<string>(function (req, res, { client, ok }) {
+      assertType<NextApiRequest>(req);
+      assertType<NextApiResponse<string>>(res);
+      assertType<Function>(client.myFunction);
+
+      // Should return same as generic on decorator
+      assertType<(a: string) => void>(ok);
+    });
+  });
+
+  it('should work all from creating composed GraphQL and HTTP client to ssr', () => {
+    const myGraphQL = createExternalClient(
+      'graphql-journeyPlanner3',
+      function () {
+        return {
+          myFunction1: async (a: string) => a,
+        };
+      },
+    );
+    const myHttp = createExternalClient('http-entur', function () {
+      return {
+        myFunction2: async (a: string) => a,
+      };
+    });
+
+    const ssrHttpClientDecorator = createWithExternalClientDecorator(
+      composeClientFactories(myGraphQL, myHttp),
+    );
+
+    // this would be inside Page like getServerSideProps
+    const _getServerSideProps = ssrHttpClientDecorator(async function ({
+      client,
+    }) {
+      assertType<Function>(client.myFunction1);
+      assertType<Function>(client.myFunction2);
+
+      // @ts-expect-error answer is not defined
+      assertType<Function>(client.myFunction3);
+
+      const result = await client.myFunction1('Kongens gate');
+
+      return {
+        props: {
+          autocompleteFeatures: result,
+        },
+      };
+    });
+
+    assertType<Function>(_getServerSideProps);
   });
 });
