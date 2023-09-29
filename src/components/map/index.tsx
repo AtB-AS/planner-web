@@ -1,22 +1,24 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState, useCallback } from 'react';
 import mapboxgl from 'mapbox-gl';
 import style from './map.module.css';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { mapboxData } from '@atb/modules/org-data';
 import { isFeaturePoint, isStopPlace } from './utils';
-
-export type Position = {
-  lat: number;
-  lng: number;
-};
+import { ColorIcon } from '@atb/assets/color-icon';
 
 export type LngLatPosition = [number, number];
-
 export type MapProps = {
   position?: LngLatPosition;
+  layer?: string;
   onSelectStopPlace: (id: string) => void;
 };
-
+type Marker = HTMLElement &
+  React.DetailedReactHTMLElement<
+    {
+      className: string;
+    },
+    HTMLElement
+  >;
 const INTERACTIVE_LAYERS = [
   'boat.nr.api',
   'bus.nsr.api',
@@ -29,10 +31,12 @@ const INTERACTIVE_LAYERS = [
 
 export function Map({
   position = defaultPosition,
+  layer,
   onSelectStopPlace,
 }: MapProps) {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map>();
+  const [marker, setMarker] = useState<mapboxgl.Marker | undefined>();
 
   useEffect(() => {
     if (!mapContainer.current) return;
@@ -48,6 +52,7 @@ export function Map({
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useMapInteractions(map, onSelectStopPlace);
+  useMapPin(map, position, layer);
 
   useEffect(() => {
     if (map.current) {
@@ -62,6 +67,50 @@ const defaultPosition: LngLatPosition = [
   mapboxData.defaultLng,
   mapboxData.defaultLat,
 ];
+
+function useMapPin(
+  mapRef: React.MutableRefObject<mapboxgl.Map | undefined>,
+  position: LngLatPosition,
+  layer?: string,
+) {
+  const [marker, setMarker] = useState<mapboxgl.Marker | undefined>();
+
+  const createMapPin = useCallback(() => {
+    const pinSvg = React.createElement(
+      'span',
+      { className: style.positionMarker },
+      [<ColorIcon key="pin" src="Pin.svg" />],
+    ) as Marker;
+
+    return new mapboxgl.Marker(pinSvg);
+  }, []);
+
+  const setMapPinPosition = useCallback(
+    (position: LngLatPosition) => {
+      if (!mapRef || !mapRef.current) return;
+      const map = mapRef.current;
+      if (!marker) {
+        const newMarker = createMapPin();
+        setMarker(newMarker as mapboxgl.Marker);
+      }
+
+      if (marker) marker.setLngLat(position).addTo(map);
+    },
+    [createMapPin, mapRef, marker],
+  );
+
+  const removeMarkerFromMap = useCallback(() => {
+    if (!marker) return;
+    marker.remove();
+  }, [marker]);
+
+  useEffect(() => {
+    if (layer === 'address') {
+      setMapPinPosition(position);
+    }
+    if (layer !== 'address') removeMarkerFromMap();
+  }, [layer, position, setMapPinPosition, removeMarkerFromMap]);
+}
 
 function useMapInteractions(
   mapRef: React.MutableRefObject<mapboxgl.Map | undefined>,
