@@ -12,7 +12,10 @@
     "start": "next start",
     "lint": "next lint",
     "clean-assets": "rimraf ./public/assets/",
-    "setup": "generate-assets all $NEXT_PUBLIC_PLANNER_ORG_ID -o ./public/assets/ -ts -ts-o ./src/components/icon"
+    "setup": "generate-assets all $NEXT_PUBLIC_PLANNER_ORG_ID -o ./public/assets/ -ts -ts-o ./src/components/icon",
+    "generate": "graphql-codegen",
+    "prestart": "yarn generate",
+    "predev": "yarn generate"
   },
   "dependencies": {
     "@apollo/client": "^3.8.4",
@@ -40,6 +43,12 @@
   },
   "devDependencies": {
     "@atb-as/generate-assets": "^9.0.0",
+    "@graphql-codegen/cli": "^5.0.0",
+    "@graphql-codegen/near-operation-file-preset": "^3.0.0",
+    "@graphql-codegen/typescript": "^4.0.1",
+    "@graphql-codegen/typescript-generic-sdk": "^4.0.0",
+    "@graphql-codegen/typescript-operations": "^4.0.1",
+    "@testing-library/dom": "^9.3.3",
     "@testing-library/jest-dom": "^6.1.3",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.5.1",
@@ -50,9 +59,11 @@
     "@vitejs/plugin-react": "^4.0.4",
     "eslint": "8.49.0",
     "eslint-config-next": "13.5.1",
+    "graphql-tag": "^2.12.6",
     "happy-dom": "^12.1.5",
     "prettier": "^3.0.3",
     "rimraf": "^5.0.1",
+    "vite": "^4.4.9",
     "vitest": "^0.34.4"
   }
 }

@@ -13,12 +13,11 @@ import { ExternalClient, ExternalClientFactory } from './external-client';
 export type {
   AllEndpoints,
   HttpRequester,
-  GraphQlRequester,
   ExternalClient,
   ExternalClientFactory,
 };
 
-export { ApplicationError };
+export { GraphQlRequester, ApplicationError };
 
 export {
   createExternalClient,

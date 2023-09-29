@@ -1,1 +1,1 @@
-export type { GeocoderFeature } from './types';
+export type { GeocoderFeature, DeparturesData } from './types';
