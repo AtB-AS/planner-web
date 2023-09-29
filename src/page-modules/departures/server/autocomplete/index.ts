@@ -1,4 +1,4 @@
-import { genericError, type Requester } from '@atb/modules/api-server';
+import { genericError, type HttpRequester } from '@atb/modules/api-server';
 import type { AutocompleteFeature } from '../../types';
 import { autocompleteRootSchema } from './encoders';
 
@@ -7,7 +7,7 @@ export type AutocompleteApi = {
 };
 
 export function createAutocompleteApi(
-  request: Requester<'entur'>,
+  request: HttpRequester<'http-entur'>,
 ): AutocompleteApi {
   const client: AutocompleteApi = {
     async autocomplete(query) {

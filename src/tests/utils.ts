@@ -1,5 +1,4 @@
-import { HttpClient } from '@atb/modules/api-server';
-import { HttpEndpoints } from '@atb/modules/api-server/utils';
+import type { AllEndpoints, ExternalClient } from '@atb/modules/api-server';
 import type {
   GetServerSideProps,
   GetServerSidePropsContext,
@@ -19,11 +18,11 @@ export async function expectProps<T>(
 }
 
 export async function getServerSidePropsWithClient<
-  U extends HttpEndpoints,
+  U extends AllEndpoints,
   M,
   T extends { [key: string]: any } = { [key: string]: any },
 >(
-  client: HttpClient<U, M>,
+  client: ExternalClient<U, M>,
   propsHandler: GetServerSideProps<T>,
   context?: GetServerSidePropsContext<T>,
 ) {

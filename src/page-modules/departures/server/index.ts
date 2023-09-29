@@ -1,14 +1,17 @@
 import {
-  createHttpClient,
-  createWithHttpClientDecorator,
-  createWithHttpClientDecoratorForHttpHandlers,
+  createExternalClient,
+  createWithExternalClientDecorator,
+  createWithExternalClientDecoratorForHttpHandlers,
 } from '@atb/modules/api-server';
 import { createAutocompleteApi } from './autocomplete';
 
-export const departureClient = createHttpClient('entur', createAutocompleteApi);
+export const departureClient = createExternalClient(
+  'http-entur',
+  createAutocompleteApi,
+);
 
 export const withDepartureClient =
-  createWithHttpClientDecorator(departureClient);
+  createWithExternalClientDecorator(departureClient);
 
 export const handlerWithDepartureClient =
-  createWithHttpClientDecoratorForHttpHandlers(departureClient);
+  createWithExternalClientDecoratorForHttpHandlers(departureClient);

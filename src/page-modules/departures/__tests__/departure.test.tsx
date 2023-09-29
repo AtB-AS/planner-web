@@ -1,6 +1,6 @@
 import { cleanup, render } from '@testing-library/react';
 import { afterEach, describe, expect, it } from 'vitest';
-import { HttpClient } from '@atb/modules/api-server';
+import { ExternalClient } from '@atb/modules/api-server';
 import { AutocompleteApi } from '@atb/page-modules/departures/server/autocomplete';
 import { expectProps, getServerSidePropsWithClient } from '@atb/tests/utils';
 
@@ -60,11 +60,11 @@ describe('departure page', function () {
       },
     ];
 
-    const client: HttpClient<'entur', AutocompleteApi> = {
+    const client: ExternalClient<'http-entur', AutocompleteApi> = {
       async autocomplete() {
         return expectedResult;
       },
-      async request() {
+      async client() {
         return new Response();
       },
     };

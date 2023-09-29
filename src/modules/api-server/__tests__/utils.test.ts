@@ -1,5 +1,5 @@
 import { Mock, afterAll, describe, beforeEach, expect, it, vi } from 'vitest';
-import { createRequester } from '../utils';
+import { createRequester } from '../requesters/http-requester';
 
 const initialFetch = global.fetch;
 let mockFetch: Mock;
@@ -16,7 +16,7 @@ describe('requester utils', () => {
   it('should pass on X-Correlation-Id from request', async () => {
     const expectedCorrelationId = 'abc';
 
-    const requester = createRequester('entur', {
+    const requester = createRequester('http-entur', {
       headers: {
         'X-Correlation-Id': expectedCorrelationId,
       },
@@ -37,7 +37,7 @@ describe('requester utils', () => {
   });
 
   it('should create new X-Correlation-Id if not provided', async () => {
-    const requester = createRequester('entur');
+    const requester = createRequester('http-entur');
 
     try {
       await requester('/');
@@ -54,7 +54,7 @@ describe('requester utils', () => {
   });
 
   it('should create new X-Correlation-Id if headers sent but without existing correlation id', async () => {
-    const requester = createRequester('entur', {
+    const requester = createRequester('http-entur', {
       headers: { 'Atb-Install-Id': 'foo' },
     });
 
@@ -76,7 +76,7 @@ describe('requester utils', () => {
     const expectedCorrelationId = 'abc';
     const expectedInstallId = 'install';
 
-    const requester = createRequester('entur', {
+    const requester = createRequester('http-entur', {
       headers: {
         'Atb-Install-Id': expectedInstallId,
         'X-Correlation-Id': expectedCorrelationId,
@@ -102,7 +102,7 @@ describe('requester utils', () => {
     const expectedCorrelationId = 'abc';
     const expectedInstallId = 'install';
 
-    const requester = createRequester('entur', {
+    const requester = createRequester('http-entur', {
       headers: {
         'Atb-Install-Id': expectedInstallId,
         'X-Correlation-Id': expectedCorrelationId,
@@ -127,7 +127,7 @@ describe('requester utils', () => {
     const expectedCorrelationId = 'abc';
     const expectedInstallId = 'install';
 
-    const requester = createRequester('entur', {
+    const requester = createRequester('http-entur', {
       headers: {
         'Atb-Install-Id': expectedInstallId,
         'X-Correlation-Id': expectedCorrelationId,
