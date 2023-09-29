@@ -11,6 +11,7 @@ jobs:
           node-version: 16
           cache: 'yarn'
       - run: yarn
+      - run: yarn generate
       - run: yarn setup
         env:
           NEXT_PUBLIC_PLANNER_ORG_ID: atb

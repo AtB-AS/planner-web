@@ -6,6 +6,7 @@ WORKDIR /app
 
 COPY package.json yarn.lock* ./
 RUN yarn --frozen-lockfile
+RUN yarn generate
 
 # Rebuild the source code only when needed
 FROM node:18-alpine AS builder
