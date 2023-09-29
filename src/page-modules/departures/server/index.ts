@@ -3,9 +3,9 @@ import {
   createWithHttpClientDecorator,
   createWithHttpClientDecoratorForHttpHandlers,
 } from '@atb/modules/api-server';
-import { createAutocompleteApi } from './autocomplete';
+import { createGeocoderApi } from './geocoder';
 
-export const departureClient = createHttpClient('entur', createAutocompleteApi);
+export const departureClient = createHttpClient('entur', createGeocoderApi);
 
 export const withDepartureClient =
   createWithHttpClientDecorator(departureClient);

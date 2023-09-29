@@ -29,14 +29,13 @@
 .input {
   height: var(--height);
   padding: var(--spacings-small);
-  padding-right: var(--spacings-xLarge);
   border: none;
   width: 100%;
   background-color: var(--static-background-background_0-background);
   color: var(--static-background-background_0-text);
 }
 
-.myPositionButton {
+.geolocationButton {
   height: var(--height);
   background-color: var(--static-background-background_0-background);
   border: none;

@@ -1,7 +1,7 @@
 import { cleanup, render } from '@testing-library/react';
 import { afterEach, describe, expect, it } from 'vitest';
 import { HttpClient } from '@atb/modules/api-server';
-import { AutocompleteApi } from '@atb/page-modules/departures/server/autocomplete';
+import { GeocoderApi } from '../server/geocoder';
 import { expectProps, getServerSidePropsWithClient } from '@atb/tests/utils';
 
 import DeparturesPage, {
@@ -44,13 +44,23 @@ describe('departure page', function () {
   });
 
   it('Should return props from getServerSideProps', async () => {
-    const expectedResult = [
+    const expectedAutocompleteResult = [
       { id: 'Test ID', name: 'Test', category: [], layer: '', locality: '' },
     ];
+    const expectedReverseResult = {
+      id: 'Test ID',
+      name: 'Test',
+      category: [],
+      layer: '',
+      locality: '',
+    };
 
-    const client: HttpClient<'entur', AutocompleteApi> = {
+    const client: HttpClient<'entur', GeocoderApi> = {
       async autocomplete() {
-        return expectedResult;
+        return expectedAutocompleteResult;
+      },
+      async reverse() {
+        return expectedReverseResult;
       },
       async request() {
         return new Response();
@@ -62,7 +72,7 @@ describe('departure page', function () {
     );
 
     (await expectProps(result)).toContain({
-      autocompleteFeatures: expectedResult,
+      autocompleteFeatures: expectedAutocompleteResult,
     });
   });
 });

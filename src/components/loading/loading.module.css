@@ -1,0 +1,17 @@
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacings-medium);
+}
+
+.loading__icon {
+  display: block;
+  animation: loading-circle 1s ease-in-out infinite;
+}
+
+@keyframes loading-circle {
+  to {
+    transform: rotate(360deg);
+  }
+}

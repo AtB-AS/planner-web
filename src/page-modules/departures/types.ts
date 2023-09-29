@@ -1,6 +1,6 @@
 import { FeatureCategory } from '@atb/components/venue-icon';
 
-export type AutocompleteFeature = {
+export type GeocoderFeature = {
   id: string;
   name: string;
   locality?: string;

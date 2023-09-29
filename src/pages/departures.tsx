@@ -1,7 +1,7 @@
 import DefaultLayout from '@atb/layouts/default';
 import type { WithGlobalData } from '@atb/layouts/global-data';
 import { withGlobalData } from '@atb/layouts/global-data';
-import type { AutocompleteFeature } from '@atb/page-modules/departures';
+import type { GeocoderFeature } from '@atb/page-modules/departures';
 import { useAutocomplete } from '@atb/page-modules/departures/client';
 import { withDepartureClient } from '@atb/page-modules/departures/server';
 import { CommonText, useTranslation } from '@atb/translations';
@@ -10,7 +10,7 @@ import { useState } from 'react';
 import Search from '@atb/components/search';
 
 type DeparturesContentProps = {
-  autocompleteFeatures: AutocompleteFeature[];
+  autocompleteFeatures: GeocoderFeature[];
 };
 
 function DeparturesContent({ autocompleteFeatures }: DeparturesContentProps) {
