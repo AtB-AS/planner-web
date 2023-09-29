@@ -16,9 +16,9 @@ This is to:
 ```ts
 // Create a HTTP API to use for getServerSideProps
 
-const myHttpApiCreator = createExternalClient('http-entur', function () {
+const myHttpApiCreator = createExternalClient('http-entur', function (request) {
   return {
-    myFunction: async (a: string) => a,
+    myFunction: (a: string) => request(`/geocoder?q=${a}`),
   };
 });
 
@@ -49,6 +49,7 @@ const myGraphQL = createExternalClient(
   function (client) {
     return {
       myFunction: async (a: string) => a,
+      myGraphQLQuery: (input: string) => client.query(`MY QUERY HERE ${input}`),
     };
   },
 );
