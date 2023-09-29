@@ -36,7 +36,6 @@ export function Map({
 }: MapProps) {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map>();
-  const [marker, setMarker] = useState<mapboxgl.Marker | undefined>();
 
   useEffect(() => {
     if (!mapContainer.current) return;
