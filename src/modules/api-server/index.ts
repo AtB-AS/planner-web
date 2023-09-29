@@ -1,36 +1,40 @@
 import { IncomingMessage } from 'http';
 import {
-  HttpClient,
-  HttpClientFactory,
-  HttpEndpoints,
-  Requester,
-} from './types';
-
-export {
+  HttpRequester,
   ApplicationError,
-  errorResultAsJson,
-  genericError,
-  logApplicationError,
-  tryResult,
-} from './utils';
+  AllEndpoints,
+  GraphQlRequester,
+} from './requesters/types';
 
-export type { Requester, HttpClientFactory, HttpClient, HttpEndpoints };
+export { genericError, tryResult, errorResultAsJson } from './requesters/utils';
+
+import { ExternalClient, ExternalClientFactory } from './external-client';
+
+export type {
+  AllEndpoints,
+  HttpRequester,
+  GraphQlRequester,
+  ExternalClient,
+  ExternalClientFactory,
+};
+
+export { ApplicationError };
 
 export {
-  createHttpClient,
-  createWithHttpClientDecorator,
-  createWithHttpClientDecoratorForHttpHandlers,
-} from './http-client';
+  createExternalClient,
+  createWithExternalClientDecorator,
+  createWithExternalClientDecoratorForHttpHandlers,
+} from './external-client';
 
 export function composeClientFactories<
-  U1 extends HttpEndpoints,
+  U1 extends AllEndpoints,
   T1,
-  U2 extends HttpEndpoints,
+  U2 extends AllEndpoints,
   T2,
 >(
-  client1: HttpClientFactory<U1, T1>,
-  client2: HttpClientFactory<U2, T2>,
-): HttpClientFactory<U1 | U2, T1 & T2> {
+  client1: ExternalClientFactory<U1, T1>,
+  client2: ExternalClientFactory<U2, T2>,
+): ExternalClientFactory<U1 | U2, T1 & T2> {
   return function (req?: IncomingMessage) {
     return {
       ...client1(req),

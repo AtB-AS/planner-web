@@ -1,7 +1,7 @@
 /* eslint no-console: 0 */
 
 import { IncomingHttpHeaders } from 'http';
-import { logger } from './logger';
+import { logger } from '../logger';
 
 type LogResponseParams = {
   message: string;

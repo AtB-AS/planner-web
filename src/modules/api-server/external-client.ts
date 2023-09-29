@@ -7,42 +7,52 @@ import type {
   NextApiRequest,
   NextApiResponse,
 } from 'next';
-import type {
-  HttpClient,
-  HttpClientFactory,
-  HttpEndpoints,
-  Requester,
-} from './types';
-import { createRequester, errorResultAsJson } from './utils';
-
-export {
-  ApplicationError,
-  errorResultAsJson,
-  genericError,
-  logApplicationError,
-  tryResult,
-} from './utils';
+import { createGraphQlRequester } from './requesters/graphql-requester';
+import { createRequester } from './requesters/http-requester';
+import {
+  isGraphQlEndpoint,
+  type AllEndpoints,
+  type ConditionalRequester,
+  type HttpEndpoints,
+} from './requesters/types';
+import { errorResultAsJson } from './requesters/utils';
 
 type HttpPropGetter<U extends HttpEndpoints, T, P extends {} = {}> = (
-  context: GetServerSidePropsContext & { client: HttpClient<U, T> },
+  context: GetServerSidePropsContext & { client: ExternalClient<U, T> },
 ) => Promise<GetServerSidePropsResult<P>>;
 
-export function createHttpClient<T, U extends HttpEndpoints>(
-  baseUrlType: U,
-  apiFn: (request: Requester<U>) => T,
-): HttpClientFactory<U, T> {
-  return function (req?: IncomingMessage) {
-    let request = createRequester(baseUrlType, req);
+export type ExternalClient<U extends AllEndpoints, T> = T & {
+  client: ConditionalRequester<U>;
+};
+export type ExternalClientFactory<U extends AllEndpoints, T> = (
+  req?: IncomingMessage,
+) => ExternalClient<U, T>;
 
-    return {
-      ...apiFn(request),
-      request,
-    };
+export function createExternalClient<U extends AllEndpoints, T>(
+  baseUrlType: U,
+  apiFn: (request: ConditionalRequester<U>) => T,
+): ExternalClientFactory<U, T> {
+  return function (req?: IncomingMessage) {
+    if (isGraphQlEndpoint(baseUrlType)) {
+      let client = createGraphQlRequester(baseUrlType, req);
+
+      return {
+        ...apiFn(client as ConditionalRequester<U>),
+        client: client as ConditionalRequester<U>,
+      };
+    } else {
+      let client = createRequester(baseUrlType, req);
+
+      return {
+        ...apiFn(client as ConditionalRequester<U>),
+        client: client as ConditionalRequester<U>,
+      };
+    }
   };
 }
 
-export function createWithHttpClientDecorator<U extends HttpEndpoints, T>(
-  clientCreate: HttpClientFactory<U, T>,
+export function createWithExternalClientDecorator<U extends HttpEndpoints, T>(
+  clientCreate: ExternalClientFactory<U, T>,
 ) {
   return function handler<P extends {} = {}>(
     propGetter: HttpPropGetter<U, T, P>,
@@ -62,7 +72,7 @@ export type NextApiClientHandler<U extends HttpEndpoints, T, P = any> = (
   req: NextApiRequest,
   res: NextApiResponse<P>,
   extra: {
-    client: HttpClient<U, T>;
+    client: ExternalClient<U, T>;
     ok: (a: P) => void;
   },
 ) => unknown | Promise<unknown>;
@@ -75,10 +85,10 @@ type ApiHandler<U extends HttpEndpoints, T, P = any> =
   | NextApiClientHandler<U, T, P>
   | EndpointMapping<U, T, P>;
 
-export function createWithHttpClientDecoratorForHttpHandlers<
+export function createWithExternalClientDecoratorForHttpHandlers<
   U extends HttpEndpoints,
   T,
->(createClient: HttpClientFactory<U, T>) {
+>(createClient: ExternalClientFactory<U, T>) {
   return function inside<P>(handler: ApiHandler<U, T, P>) {
     return (req: NextApiRequest, res: NextApiResponse<P>) => {
       function ok(val: P) {

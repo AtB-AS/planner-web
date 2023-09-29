@@ -1,57 +1,27 @@
-import { ServerText, TranslatedString, translation } from '@atb/translations';
-import { NextApiRequest, NextApiResponse } from 'next';
+import { ServerText, translation } from '@atb/translations';
 import { v4 as uuidv4 } from 'uuid';
-import { currentOrg } from '../org-data';
 import { logResponse } from './log-response';
-import { logger } from './logger';
 import { Timer } from './timer';
 import {
+  ApplicationError,
   HttpEndpoints,
   ReqWithHeaders,
-  Requester,
+  HttpRequester,
+  ServerErrorMessage,
   externalHttpUrls,
 } from './types';
-
-export function logApplicationError(
-  e: ApplicationError,
-  req: Request | NextApiRequest,
-  res: Response | NextApiResponse<any>,
-) {
-  if (process.env.NODE_ENV === 'development') {
-    console.error(e);
-  } else {
-    logger.error(
-      {
-        upstream: e.upstreamResponse,
-        correlationId: e.correlationId,
-        res,
-        req,
-        err: e,
-      },
-      e.message,
-    );
-  }
-}
-
-const repassableHeaders = {
-  installId: 'Atb-Install-Id',
-  correlationId: 'X-Correlation-Id',
-} as const;
-
-type RepassableHeaders =
-  (typeof repassableHeaders)[keyof typeof repassableHeaders];
+import { getEtNameHeaders, passOnHeadersFromRequest } from './utils';
 
 export function createRequester<T extends HttpEndpoints>(
   baseUrlKey: T,
   req?: ReqWithHeaders,
-): Requester<T> {
+): HttpRequester<T> {
   return async function request(
     url: `/${string}`,
     init?: RequestInit | undefined,
   ) {
     const baseUrl = externalHttpUrls[baseUrlKey];
     const actualUrl = `${baseUrl}${url}`;
-    const orgId = currentOrg;
 
     // Pass on from the potentially incoming request.
     const headers = passOnHeadersFromRequest(req, {
@@ -65,8 +35,8 @@ export function createRequester<T extends HttpEndpoints>(
         ...init,
         headers: {
           ...init?.headers,
+          ...getEtNameHeaders(),
           ...headers,
-          'ET-Client-Name': `${orgId}-planner-web`,
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
@@ -101,42 +71,6 @@ export function createRequester<T extends HttpEndpoints>(
   };
 }
 
-function passOnHeadersFromRequest(
-  req: ReqWithHeaders | undefined,
-  defaults: Partial<Record<RepassableHeaders, string>>,
-) {
-  let headers: HeadersInit = {};
-
-  if (!req) {
-    return defaults;
-  }
-
-  for (let headerName of Object.values(repassableHeaders)) {
-    const headerNameTyped = headerName as RepassableHeaders;
-    headers[headerName] =
-      req.headers[headerName]?.toString() ?? defaults[headerNameTyped] ?? '';
-  }
-
-  return headers;
-}
-
-export function errorResultAsJson(
-  res: NextApiResponse,
-  code: number,
-  text: TranslatedString | ServerErrorMessage,
-) {
-  const ret = isServerErrorMessage(text)
-    ? text
-    : {
-        message: text,
-      };
-  return res.status(code).json(ret);
-}
-
-export type ServerErrorMessage = {
-  message: TranslatedString;
-};
-
 type InternalServerError = {
   error: string;
 };
@@ -153,27 +87,7 @@ type InternalUpstreamServerError = {
   shortEnglish: string;
 };
 
-export async function tryResult(
-  req: NextApiRequest,
-  res: NextApiResponse<any>,
-  fn: () => Promise<void>,
-  errorMapper?: (e: ApplicationError) => ApplicationError,
-) {
-  try {
-    return await fn();
-  } catch (e) {
-    if (e instanceof ApplicationError) {
-      const properError = errorMapper?.(e) ?? e;
-      logApplicationError(properError, req, res);
-      return errorResultAsJson(res, properError.status, properError.data);
-    } else {
-      logger.error(e);
-      return errorResultAsJson(res, 500, ServerText.Endpoints.serverError);
-    }
-  }
-}
-
-export async function errorFromResponse(result: Response) {
+async function errorFromResponse(result: Response) {
   if (result.headers.get('content-type')?.includes('application/json')) {
     const data = await result.json();
     return new ApplicationError(
@@ -244,10 +158,6 @@ function mapServerToMessage(e: any): ServerErrorMessage {
   }
 }
 
-export function genericError() {
-  return new ApplicationError({ message: ServerText.Endpoints.serverError });
-}
-
 function isMessagedError(e: any): e is MessagedServerError {
   return 'message' in e;
 }
@@ -261,32 +171,8 @@ function isInternalServerErrorWithUpstream(
 ): e is InternalServerErrorWithUpstream {
   return 'upstreamError' in e;
 }
-function isServerErrorMessage(e: any): e is ServerErrorMessage {
-  return 'message' in e;
-}
-
 function isInternalUpstreamServerError(
   e: any,
 ): e is InternalUpstreamServerError {
   return 'errorCode' in e && 'shortNorwegian' in e;
-}
-
-export class ApplicationError extends Error {
-  data: ServerErrorMessage;
-  status: number;
-  correlationId?: string;
-  upstreamResponse?: Response | NextApiResponse<any>;
-
-  constructor(
-    error: ServerErrorMessage,
-    status: number = 500,
-    correlationId?: string,
-    upstreamResponse?: Response | NextApiResponse<any>,
-  ) {
-    super();
-    this.data = error;
-    this.status = status;
-    this.correlationId = correlationId;
-    this.upstreamResponse = upstreamResponse;
-  }
 }

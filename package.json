@@ -15,6 +15,7 @@
     "setup": "generate-assets all $NEXT_PUBLIC_PLANNER_ORG_ID -o ./public/assets/ -ts -ts-o ./src/components/icon"
   },
   "dependencies": {
+    "@apollo/client": "^3.8.4",
     "@atb-as/theme": "^7.1.1",
     "@leile/lobo-t": "^1.0.5",
     "@types/node": "20.6.2",
@@ -25,6 +26,7 @@
     "date-fns": "^2.30.0",
     "detect-nearest-browser-locale": "^19.0.0",
     "detect-nearest-locale": "^1.0.1",
+    "graphql": "^16.8.1",
     "lodash": "^4.17.21",
     "mapbox-gl": "^2.15.0",
     "next": "13.4.19",
