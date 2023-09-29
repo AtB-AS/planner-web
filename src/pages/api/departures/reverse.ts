@@ -7,10 +7,10 @@ import { type ReverseApiReturnType } from '@atb/page-modules/departures/client';
 
 export default handlerWithDepartureClient<ReverseApiReturnType>({
   async GET(req, res, { client, ok }) {
-    const latQuery = z.string().safeParse(req.query.lat);
-    const lonQuery = z.string().safeParse(req.query.lon);
+    const lat = z.string().safeParse(req.query.lat);
+    const lon = z.string().safeParse(req.query.lon);
 
-    if (!latQuery.success || !lonQuery.success) {
+    if (!lat.success || !lon.success) {
       return errorResultAsJson(
         res,
         constants.HTTP_STATUS_BAD_REQUEST,
@@ -18,15 +18,10 @@ export default handlerWithDepartureClient<ReverseApiReturnType>({
       );
     }
 
-    const lat = parseFloat(latQuery.data);
-    const lon = parseFloat(lonQuery.data);
-
-    if (lat === 0 || lon === 0) {
-      return ok(undefined);
-    }
-
     return tryResult(req, res, async () => {
-      return ok(await client.reverse(lat, lon));
+      return ok(
+        await client.reverse(parseFloat(lat.data), parseFloat(lon.data)),
+      );
     });
   },
 });
