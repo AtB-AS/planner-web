@@ -10,7 +10,9 @@ export function useAutocomplete(q: string) {
   const debouncedQuery = useDebounce(q, 500);
 
   return useSWR<AutocompleteApiReturnType>(
-    `/api/departures/autocomplete?q=${debouncedQuery}`,
+    debouncedQuery !== ''
+      ? `/api/departures/autocomplete?q=${debouncedQuery}`
+      : null,
     swrFetcher,
   );
 }
