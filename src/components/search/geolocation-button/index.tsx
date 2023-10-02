@@ -15,8 +15,6 @@ function GeolocationButton({ onGeolocate, className }: GeolocationButtonProps) {
 
   if (isUnavailable) return null;
 
-  // TODO: Hide or disable the button if user blocks geolocation?
-
   return isLoading ? (
     <div className={className}>
       <LoadingIcon />
