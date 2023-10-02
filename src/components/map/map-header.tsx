@@ -19,7 +19,7 @@ export function MapHeader({
   name,
   layer,
   streetName,
-  finalStopPlaceType = 'onstreetBus_onstreetTram',
+  finalStopPlaceType,
 }: MapHeaderProps) {
   const { t } = useTranslation();
   return (
