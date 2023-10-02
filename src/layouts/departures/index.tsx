@@ -30,7 +30,7 @@ function DeparturesLayout({ children }: DeparturesLayoutProps) {
           <Button
             title={t(PageText.Departures.search.button.title)}
             className={style.searchButton}
-            mode={'interactive_0'}
+            mode="interactive_0"
             disabled={!selectedFeature}
             onClick={() => {
               if (selectedFeature) {
