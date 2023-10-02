@@ -5,30 +5,45 @@ import {
   StopPlaceQuayDeparturesQueryVariables,
 } from './journey-gql/departures.generated';
 import {
-  DepartureData,
-  StopPlaceInfo,
-  departureDataSchema,
-  stopPlaceSchema,
-} from './validators';
+  NearestStopPlacesDocument,
+  NearestStopPlacesQuery,
+  NearestStopPlacesQueryVariables,
+} from './journey-gql/nearest-stop-places.generated';
 import {
   GetStopPlaceDocument,
   GetStopPlaceQuery,
   GetStopPlaceQueryVariables,
 } from './journey-gql/stop-place.generated';
+import {
+  DepartureData,
+  NearestStopPlacesData,
+  StopPlaceInfo,
+  departureDataSchema,
+  nearestStopPlaces,
+  stopPlaceSchema,
+} from './validators';
 
-export type DepartureQuery = {
+export type DepartureInput = {
   id: string;
 };
 export type { DepartureData };
 
-export type StopPlaceQuery = {
+export type StopPlaceInput = {
   id: string;
 };
 export type { StopPlaceInfo };
 
+export type NearestStopPlacesInput = {
+  lat: number;
+  lon: number;
+};
+
 export type JourneyPlannerApi = {
-  departures(input: DepartureQuery): Promise<DepartureData>;
-  stopPlace(input: StopPlaceQuery): Promise<StopPlaceInfo>;
+  departures(input: DepartureInput): Promise<DepartureData>;
+  stopPlace(input: StopPlaceInput): Promise<StopPlaceInfo>;
+  nearestStopPlaces(
+    input: NearestStopPlacesInput,
+  ): Promise<NearestStopPlacesData>;
 };
 
 export function createJourneyApi(
@@ -97,6 +112,46 @@ export function createJourneyApi(
       };
 
       const validated = stopPlaceSchema.safeParse(data);
+      if (!validated.success) {
+        throw validated.error;
+      }
+
+      return validated.data;
+    },
+
+    async nearestStopPlaces(input) {
+      const result = await client.query<
+        NearestStopPlacesQuery,
+        NearestStopPlacesQueryVariables
+      >({
+        query: NearestStopPlacesDocument,
+        variables: {
+          // Max distance in meters
+          distance: 900,
+
+          latitude: input.lat,
+          longitude: input.lon,
+        },
+      });
+
+      if (result.error) {
+        throw result.error;
+      }
+
+      const data: RecursivePartial<NearestStopPlacesData> =
+        result.data.nearest?.edges?.reduce(function (acc, edge) {
+          if (!edge.node?.place || !('id' in edge.node?.place)) {
+            return acc;
+          }
+
+          return acc.concat({
+            id: edge.node?.place.id,
+            name: edge.node?.place.name,
+          });
+        }, [] as NearestStopPlacesData) ?? [];
+
+      const validated = nearestStopPlaces.safeParse(data);
+
       if (!validated.success) {
         throw validated.error;
       }

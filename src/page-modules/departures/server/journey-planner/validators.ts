@@ -24,3 +24,6 @@ export const departureDataSchema = z.object({
 
 export type DepartureData = z.infer<typeof departureDataSchema>;
 export type StopPlaceInfo = z.infer<typeof stopPlaceSchema>;
+
+export const nearestStopPlaces = z.array(stopPlaceSchema);
+export type NearestStopPlacesData = z.infer<typeof nearestStopPlaces>;
