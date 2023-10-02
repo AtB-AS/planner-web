@@ -1,5 +1,5 @@
 .pageHeader {
-  background-color: var(--static-background-background_accent_0-background);
+  background-color: var(--static-background-background_0-background);
 }
 
 .pageHeader__content {
@@ -12,8 +12,8 @@
 
 .pageHeader__inner {
   display: flex;
-  background-color: var(--static-background-background_accent_0-background);
-  color: var(--static-background-background_accent_0-text);
+  background-color: var(--static-background-background_0-background);
+  color: var(--static-background-background_0-text);
   position: relative;
   z-index: 150;
 }
@@ -44,7 +44,7 @@
   align-items: center;
   flex: 1;
 
-  color: var(--static-background-background_accent_0-text);
+  color: var(--static-background-background_0-text);
 }
 
 .pageHeader__nav--modal {
@@ -79,7 +79,7 @@
   position: absolute;
   height: 5px;
   width: 100%;
-  background: var(--static-background-background_accent_0-text);
+  background: var(--static-background-background_0-text);
   border-radius: 9px;
   opacity: 1;
   left: 0;
@@ -175,7 +175,7 @@
   .pageHeader__nav nav {
     position: relative;
     z-index: 150;
-    background-color: var(--static-background-background_accent_0-background);
+    background-color: var(--static-background-background_0-background);
   }
 
   .pageHeader__nav ul {
@@ -217,7 +217,7 @@
 
 .pageHeader__logoLink,
 .pageHeader__logoLink:visited {
-  color: var(--static-background-background_accent_0-text);
+  color: var(--static-background-background_0-text);
   text-decoration: none;
 
   display: flex;
@@ -247,7 +247,7 @@
 .pageHeader__button {
   padding: var(--spacings-medium);
   text-decoration: none;
-  color: var(--static-background-background_accent_0-text);
+  color: var(--static-background-background_0-text);
 }
 
 .pageHeader__link:hover,

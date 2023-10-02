@@ -38,7 +38,7 @@ export default function PageHeader({ withoutMenu = false }: PageHeaderProps) {
                   alt=""
                   role="none"
                   size="normal"
-                  overrideColor="white"
+                  overrideColor="black"
                 />
                 <span>{t(CommonText.Titles.siteTitle)}</span>
               </Link>
