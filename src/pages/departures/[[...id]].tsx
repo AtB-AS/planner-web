@@ -11,7 +11,7 @@ function DeparturesIdContent() {
   const router = useRouter();
 
   console.log(router);
-  return <h1>{router.query.id}</h1>;
+  return <h3>{router.query.id}</h3>;
 }
 
 export type DeparturesPageProps = WithGlobalData<DeparturesLayoutProps>;

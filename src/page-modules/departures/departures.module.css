@@ -23,3 +23,9 @@
   /* TODO: There is no spacings variable for 1rem, which the design asks for. */
   margin-bottom: var(--spacings-medium);
 }
+
+@media (max-width: 650px) {
+  .searchWrapper {
+    padding: 0;
+  }
+}
