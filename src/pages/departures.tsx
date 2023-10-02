@@ -4,7 +4,7 @@ import DefaultLayout from '@atb/layouts/default';
 import type { WithGlobalData } from '@atb/layouts/global-data';
 import { withGlobalData } from '@atb/layouts/global-data';
 import type {
-  DeparturesData,
+  DepartureData,
   GeocoderFeature,
 } from '@atb/page-modules/departures';
 import { useAutocomplete } from '@atb/page-modules/departures/client';
@@ -15,7 +15,7 @@ import { useState } from 'react';
 
 type DeparturesContentProps = {
   autocompleteFeatures: GeocoderFeature[];
-  departures?: DeparturesData;
+  departures?: DepartureData;
 };
 
 function DeparturesContent({
@@ -48,7 +48,7 @@ function DeparturesContent({
           Stop Place: {departures?.stopPlace?.name} ({departures?.stopPlace?.id}
           )
         </h2>
-        {departures?.stopPlace?.quays?.map((q) => (
+        {departures?.quays?.map((q) => (
           <div key={q.id}>
             <h3>
               {q.name} {q.publicCode}

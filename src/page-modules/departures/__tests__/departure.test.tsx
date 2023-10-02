@@ -90,7 +90,7 @@ describe('departure page', function () {
       JourneyPlannerApi
     > = {
       async departures() {
-        return {};
+        return {} as any;
       },
       client: null as any,
     };
