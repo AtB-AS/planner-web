@@ -2,9 +2,10 @@ import Downshift from 'downshift';
 import { useState } from 'react';
 import { useAutocomplete } from '@atb/page-modules/departures/client';
 import style from './search.module.css';
-import { MonoIcon } from '@atb/assets/mono-icon';
 import VenueIcon from '@atb/components/venue-icon';
 import { andIf } from '@atb/utils/css';
+import GeolocationButton from '@atb/components/search/geolocation-button';
+import { GeocoderFeature } from '@atb/page-modules/departures';
 
 type SearchProps = {
   label: string;
@@ -21,11 +22,11 @@ export default function Search({
   const { data } = useAutocomplete(query);
 
   return (
-    <Downshift
+    <Downshift<GeocoderFeature>
       initialInputValue={query}
       onInputValueChange={(inputValue) => setQuery(inputValue || '')}
       onChange={onChange}
-      itemToString={(item) => (item ? item.name : '')}
+      itemToString={(item) => (item ? `${item.name}, ${item.locality}` : '')}
     >
       {({
         getInputProps,
@@ -36,6 +37,7 @@ export default function Search({
         inputValue,
         highlightedIndex,
         getRootProps,
+        selectItem,
       }) => (
         <div className={style.container}>
           <label className={style.label} {...getLabelProps()}>
@@ -49,14 +51,10 @@ export default function Search({
             <input className={style.input} {...getInputProps()} />
           </div>
 
-          <button
-            className={style.myPositionButton}
-            onClick={() => {
-              alert('Get my position');
-            }}
-          >
-            <MonoIcon src="places/City.svg" />
-          </button>
+          <GeolocationButton
+            className={style.geolocationButton}
+            onGeolocate={selectItem}
+          />
 
           <ul className={style.menu} {...getMenuProps()}>
             {isOpen &&
@@ -80,8 +78,9 @@ export default function Search({
                       ({ part, highlight }) => {
                         if (!part) return null;
                         if (highlight)
+                          return <span key={item.id + part}>{part}</span>;
+                        else
                           return <strong key={item.id + part}>{part}</strong>;
-                        else return <span key={item.id + part}>{part}</span>;
                       },
                     )}
                   </span>

@@ -1,4 +1,14 @@
-import { afterEach, describe, it, expect, vi } from 'vitest';
+import {
+  afterEach,
+  describe,
+  it,
+  expect,
+  vi,
+  Mock,
+  beforeEach,
+  afterAll,
+  beforeAll,
+} from 'vitest';
 import Search from '@atb/components/search';
 import {
   cleanup,
@@ -22,7 +32,27 @@ const result = [
   },
 ];
 
+const mockGeolocation = {
+  getCurrentPosition: vi.fn(),
+};
+
+const initialGeolocation = global.navigator.geolocation;
+
+beforeAll(() => {
+  Object.defineProperty(global.navigator, 'geolocation', {
+    writable: true,
+    value: mockGeolocation,
+  });
+});
+
 afterEach(() => cleanup());
+
+afterAll(() => {
+  Object.defineProperty(global.navigator, 'geolocation', {
+    writable: true,
+    value: initialGeolocation,
+  });
+});
 
 const customRender = (ui: React.ReactNode, renderOptions?: RenderOptions) => {
   render(
@@ -139,12 +169,28 @@ describe('search box', () => {
     await userEvent.type(input, 'test');
 
     await waitFor(async () => {
-      const option = screen.getByRole('option', { name: /1/i });
+      const list = screen.getByRole('listbox', {
+        name: /test/i,
+      });
 
-      await userEvent.click(option);
+      expect(list.children.length).toBeGreaterThan(0);
 
-      expect(input).toHaveValue('1');
+      await userEvent.keyboard('{ArrowDown}{Enter}');
+
+      expect(input).toHaveValue('1, 1');
       expect(fn).toHaveBeenCalled();
     });
+  });
+
+  it('should call getCurrentPosition when geolocating', async () => {
+    customRender(<Search label="Test" onChange={() => {}} />);
+
+    const geolocationButton = screen.getByRole('button', {
+      name: 'Finn min posisjon',
+    });
+
+    await userEvent.click(geolocationButton);
+
+    expect(mockGeolocation.getCurrentPosition).toHaveBeenCalled();
   });
 });
