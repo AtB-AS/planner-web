@@ -4,9 +4,8 @@ FROM node:18-alpine AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-COPY package.json yarn.lock* ./
+COPY package.json yarn.lock* codegen.ts ./
 RUN yarn --frozen-lockfile
-RUN yarn generate
 
 # Rebuild the source code only when needed
 FROM node:18-alpine AS builder
@@ -24,6 +23,9 @@ ARG NFK_NEXT_PUBLIC_MAPBOX_DEFAULT_LNG
 
 ARG FRAM_NEXT_PUBLIC_MAPBOX_DEFAULT_LAT
 ARG FRAM_NEXT_PUBLIC_MAPBOX_DEFAULT_LNG
+
+# Generate GraphQL files
+RUN yarn generate
 
 # Build AtB
 ENV NEXT_PUBLIC_PLANNER_ORG_ID="atb"
