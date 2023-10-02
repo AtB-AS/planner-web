@@ -27,11 +27,11 @@ export const propertiesSchema = z.object({
   name: z.string(),
   street: z.string().optional(),
   accuracy: z.string(),
-  country_a: z.string(),
-  county: z.string(),
-  county_gid: z.string(),
-  locality: z.string(),
-  locality_gid: z.string(),
+  country_a: z.string().optional(),
+  county: z.string().optional(),
+  county_gid: z.string().optional(),
+  locality: z.string().optional(),
+  locality_gid: z.string().optional(),
   borough: z.string().optional(),
   borough_gid: z.string().optional(),
   label: z.string(),
@@ -40,9 +40,9 @@ export const propertiesSchema = z.object({
 });
 
 export const querySchema = z.object({
-  text: z.string(),
-  parser: z.string(),
-  tokens: z.array(z.string()),
+  text: z.string().optional(),
+  parser: z.string().optional(),
+  tokens: z.array(z.string()).optional(),
   size: z.number(),
   layers: z.array(z.string()),
   sources: z.array(z.string()),
@@ -65,11 +65,11 @@ export const geocodingSchema = z.object({
   timestamp: z.number(),
 });
 
-export const autocompleteRootSchema = z.object({
+export const geocoderRootSchema = z.object({
   geocoding: geocodingSchema,
   type: z.string(),
   features: z.array(featureSchema),
   bbox: z.array(z.number()),
 });
 
-export type AutocompleteRoot = z.infer<typeof autocompleteRootSchema>;
+export type GeocoderRoot = z.infer<typeof geocoderRootSchema>;

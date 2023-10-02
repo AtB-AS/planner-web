@@ -1,1 +1,1 @@
-export type { AutocompleteFeature } from './types';
+export type { GeocoderFeature } from './types';

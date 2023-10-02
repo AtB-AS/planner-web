@@ -3,11 +3,11 @@ import {
   createWithExternalClientDecorator,
   createWithExternalClientDecoratorForHttpHandlers,
 } from '@atb/modules/api-server';
-import { createAutocompleteApi } from './autocomplete';
+import { createGeocoderApi } from './geocoder';
 
 export const departureClient = createExternalClient(
   'http-entur',
-  createAutocompleteApi,
+  createGeocoderApi,
 );
 
 export const withDepartureClient =
