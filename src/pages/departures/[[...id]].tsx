@@ -1,11 +1,11 @@
 import DefaultLayout from '@atb/layouts/default';
 import type { WithGlobalData } from '@atb/layouts/global-data';
 import type { NextPage } from 'next';
-import DeparturesLayout, {
-  DeparturesLayoutProps,
-} from '@atb/layouts/departures';
 import { withGlobalData } from '@atb/layouts/global-data';
 import { useRouter } from 'next/router';
+import DeparturesLayout, {
+  DeparturesLayoutProps,
+} from '@atb/page-modules/departures/layout';
 
 function DeparturesIdContent() {
   const router = useRouter();
