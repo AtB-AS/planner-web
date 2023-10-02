@@ -137,7 +137,7 @@ export default function Footer({ withoutSettings = false }: FooterProps) {
           <div className={style.footer__some}>
             {facebookLink && (
               <ButtonLink
-                mode="interactive_1"
+                mode={isDarkMode ? 'interactive_2' : 'interactive_1'}
                 radius="top-bottom"
                 display="inline"
                 radiusSize="circular"
@@ -152,7 +152,7 @@ export default function Footer({ withoutSettings = false }: FooterProps) {
             )}
             {instagramLink && (
               <ButtonLink
-                mode="interactive_1"
+                mode={isDarkMode ? 'interactive_2' : 'interactive_1'}
                 radius="top-bottom"
                 display="inline"
                 radiusSize="circular"
@@ -167,7 +167,7 @@ export default function Footer({ withoutSettings = false }: FooterProps) {
             )}
             {twitterLink && (
               <ButtonLink
-                mode="interactive_1"
+                mode={isDarkMode ? 'interactive_2' : 'interactive_1'}
                 radius="top-bottom"
                 display="inline"
                 radiusSize="circular"
