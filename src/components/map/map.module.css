@@ -1,4 +1,86 @@
-.mapContainer {
+.mapWithHeader {
   height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacings-medium);
+  background: var(--static-background-background_0-background);
+  color: var(--static-background-background_0-text);
+  border-radius: var(--border-radius-regular) var(--border-radius-regular) 0 0;
+  padding: var(--spacings-medium);
+}
+
+.header__icons {
+  display: flex;
+  gap: var(--spacings-medium);
+}
+
+.header__icons div {
+  background-color: var(--static-background-background_accent_0-background);
+  color: var(--static-background-background_accent_0-text);
+  padding: 6px;
   border-radius: var(--border-radius-regular);
+  width: 40px;
+  height: 40px;
+}
+
+.header__info {
+  display: flex;
+  flex-direction: column;
+}
+
+.header__info__secondary {
+  color: var(--text-colors-secondary);
+}
+
+.flexOrder__2 {
+  order: 2;
+}
+
+.header__buttons {
+  display: flex;
+  gap: var(--spacings-medium);
+  margin-left: auto;
+}
+
+.mapContainer {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.header__leftContainer {
+  display: flex;
+  gap: var(--spacings-medium);
+}
+
+.header__button {
+  text-align: center;
+}
+
+@media only screen and (max-width: 650px) {
+  .header {
+    flex-direction: column;
+    background: inherit;
+    color: inherit;
+    padding: var(--spacings-medium) 0;
+  }
+  .header__buttons {
+    margin-left: 0;
+    width: 100%;
+    align-items: center;
+  }
+  .header__button {
+    width: 100%;
+    text-align: center;
+  }
+
+  .mapContainer {
+    display: none; /** @TODO: handle mobile view */
+    margin: var(--spacings-medium) 0;
+  }
 }

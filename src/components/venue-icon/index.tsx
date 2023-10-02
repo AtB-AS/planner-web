@@ -1,13 +1,16 @@
 import { ComponentText, useTranslation } from '@atb/translations';
 import { MonoIcon } from '@atb/components/icon';
 
+export type VenuIconProps = {
+  category: FeatureCategory[];
+  multiple?: boolean;
+};
+
 export default function VenueIcon({
   category,
   multiple,
-}: {
-  category: FeatureCategory[];
-  multiple?: boolean;
-}) {
+  ...props
+}: VenuIconProps) {
   const venueIconTypes = getVenueIconTypes(category);
 
   if (!venueIconTypes.length) {
@@ -51,7 +54,10 @@ export enum FeatureCategory {
 }
 
 type VenueIconType = 'bus' | 'tram' | 'rail' | 'airport' | 'boat' | 'unknown';
-function IconComponent({ iconType }: { iconType: VenueIconType }) {
+type IconComponentProps = {
+  iconType: VenueIconType;
+};
+function IconComponent({ iconType, ...props }: IconComponentProps) {
   const { t } = useTranslation();
   switch (iconType) {
     case 'bus':
