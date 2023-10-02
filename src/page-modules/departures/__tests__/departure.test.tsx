@@ -92,6 +92,12 @@ describe('departure page', function () {
       async departures() {
         return {} as any;
       },
+      nearestStopPlaces() {
+        return {} as any;
+      },
+      stopPlace() {
+        return {} as any;
+      },
       client: null as any,
     };
 
