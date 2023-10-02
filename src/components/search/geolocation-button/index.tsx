@@ -24,9 +24,7 @@ function GeolocationButton({ onGeolocate, className }: GeolocationButtonProps) {
   ) : (
     <button
       className={className}
-      onClick={() => {
-        getPosition();
-      }}
+      onClick={getPosition}
       title={t(ComponentText.GeolocationButton.alt)}
       aria-label={t(ComponentText.GeolocationButton.alt)}
     >
