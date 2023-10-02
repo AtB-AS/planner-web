@@ -1,13 +1,14 @@
-import { cleanup, render } from '@testing-library/react';
-import { afterEach, describe, expect, it } from 'vitest';
 import { ExternalClient } from '@atb/modules/api-server';
 import { GeocoderApi } from '../server/geocoder';
 import { expectProps, getServerSidePropsWithClient } from '@atb/tests/utils';
+import { cleanup, render } from '@testing-library/react';
+import { afterEach, describe, expect, it } from 'vitest';
 
 import DeparturesPage, {
   DeparturesPageProps,
   getServerSideProps,
 } from '@atb/pages/departures';
+import { JourneyPlannerApi } from '../server/journey-planner';
 
 afterEach(function () {
   cleanup();
@@ -84,8 +85,24 @@ describe('departure page', function () {
         return new Response();
       },
     };
+    const gqlClient: ExternalClient<
+      'graphql-journeyPlanner3',
+      JourneyPlannerApi
+    > = {
+      async departures() {
+        return {} as any;
+      },
+      nearestStopPlaces() {
+        return {} as any;
+      },
+      stopPlace() {
+        return {} as any;
+      },
+      client: null as any,
+    };
+
     const result = await getServerSidePropsWithClient(
-      client,
+      { ...client, ...gqlClient },
       getServerSideProps,
     );
 

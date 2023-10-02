@@ -40,3 +40,6 @@ next-env.d.ts
 public/assets/
 src/components/icon/generated-icons.ts
 
+
+
+*.generated.ts
