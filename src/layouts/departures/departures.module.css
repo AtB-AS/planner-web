@@ -1,0 +1,25 @@
+.searchWrapper {
+  background-color: var(--static-background-background_accent_0-background);
+  padding: 0 7.5rem;
+}
+
+.searchContainer {
+  max-width: var(--maxPageWidth);
+  height: 100%;
+  margin: 0 auto;
+  position: relative;
+  padding: var(--spacings-xLarge);
+  padding-bottom: 5.25rem;
+}
+
+.searchButton {
+  position: absolute;
+  bottom: var(--spacings-xLarge);
+  right: var(--spacings-xLarge);
+}
+
+.searchInputLabel {
+  color: var(--static-background-background_accent_0-text);
+  /* TODO: There is no spacings variable for 1rem, which the design asks for. */
+  margin-bottom: var(--spacings-medium);
+}
