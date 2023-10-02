@@ -14,6 +14,5 @@ export {
 } from './language-context';
 
 export * as CommonText from './common';
-export * as ComponentText from './components';
 export * as ServerText from './server';
 export * as ComponentText from './components';
