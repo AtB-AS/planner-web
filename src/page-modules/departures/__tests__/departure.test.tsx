@@ -2,7 +2,7 @@ import { ExternalClient } from '@atb/modules/api-server';
 import { GeocoderApi } from '../server/geocoder';
 import { expectProps, getServerSidePropsWithClient } from '@atb/tests/utils';
 import { cleanup, render } from '@testing-library/react';
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import DeparturesPage, {
   DeparturesPageProps,
@@ -13,6 +13,8 @@ import { JourneyPlannerApi } from '../server/journey-planner';
 afterEach(function () {
   cleanup();
 });
+
+vi.mock('next/router', () => require('next-router-mock'));
 
 describe('departure page', function () {
   it('Should show list as provided from initial props ', async () => {
