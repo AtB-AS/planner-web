@@ -1,6 +1,6 @@
 import style from './map.module.css';
 
-import { ButtonLink } from '../button';
+import { ButtonLink } from '@atb/components/button';
 import { ComponentText, useTranslation } from '@atb/translations';
 import VenueIcon, { FeatureCategory } from '../venue-icon';
 import { MonoIcon } from '@atb/assets/mono-icon';
