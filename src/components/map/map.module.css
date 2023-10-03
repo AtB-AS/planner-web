@@ -24,8 +24,9 @@
   color: var(--static-background-background_accent_0-text);
   padding: var(--spacings-small);
   border-radius: var(--border-radius-regular);
-  width: 2.5rem;
-  height: 2.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .header__info {
