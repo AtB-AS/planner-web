@@ -10,6 +10,9 @@
   position: relative;
   padding: var(--spacings-xLarge);
   padding-bottom: 5.25rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: var(--spacings-xLarge);
 }
 
 .searchButton {
@@ -27,5 +30,9 @@
 @media (max-width: 650px) {
   .searchWrapper {
     padding: 0;
+  }
+
+  .searchContainer {
+    grid-template-columns: 1fr;
   }
 }

@@ -1,0 +1,113 @@
+.departureDateSelector {
+  display: flex;
+  flex-direction: column;
+  /* TODO: Spacing not in variables. Use variable instead? */
+  gap: .375rem;
+}
+
+.options {
+  --container-height: 2.75rem;
+  --option-height: 2.25rem;
+  --container-border-radius: 0.75rem;
+  --option-border-radius: var(--border-radius-regular);
+
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  padding: var(--spacings-xSmall);
+  background: var(--static-background-background_0-background);
+  width: fit-content;
+  border-radius: var(--container-border-radius);
+  height: var(--container-height);
+  align-items: center;
+}
+
+.options:focus-within {
+  border-radius: var(--border-radius-regular);
+  outline: 0;
+  box-shadow: inset 0 0 0 var(--border-width-medium) var(--interactive-interactive_2-outline-background);
+}
+
+.option label span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: var(--spacings-small);
+  border-radius: var(--option-border-radius);
+  height: var(--option-height);
+}
+
+.option input {
+  clip: rect(0 0 0 0);
+  clip-path: inset(100%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+  display: block;
+}
+
+.option label input:checked + span {
+  background: var(--interactive-interactive_1-default-background);
+  color: var(--interactive-interactive_1-default-text);
+}
+
+
+.dateAndTimeSelectors {
+  display: flex;
+  gap: var(--spacings-medium);
+}
+
+.dateSelector, .timeSelector {
+  --height: 2.75rem;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  background-color: var(--static-background-background_0-background);
+  display: flex;
+}
+
+.dateSelector label,
+.timeSelector label {
+  padding: var(--spacings-medium);
+  padding-right: 0;
+  min-width: 3rem;
+}
+
+.dateSelector input[type="date"],
+.timeSelector input[type="time"] {
+  height: var(--height);
+  padding: var(--spacings-medium);
+  border: none;
+  background-color: transparent;
+  color: var(--static-background-background_0-text);
+  flex: 1;
+  border-top-right-radius: 0.75rem;
+  border-bottom-right-radius: 0.75rem;
+}
+
+.dateSelector input[type="date"]:focus,
+.timeSelector input[type="time"]:focus {
+  outline: 0;
+}
+
+.dateSelector:focus-within,
+.timeSelector:focus-within {
+  box-shadow: inset 0 0 0 var(--border-width-medium) var(--interactive-interactive_2-outline-background);
+}
+
+:global(.dark) .dateSelector input[type="date"]::-webkit-calendar-picker-indicator,
+:global(.dark) .timeSelector input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+
+@media (max-width: 650px) {
+  .dateAndTimeSelectors {
+    flex-direction: column;
+    gap: .375rem;
+  }
+
+  .options {
+    width: 100%;
+  }
+}
