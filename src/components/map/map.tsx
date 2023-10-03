@@ -9,7 +9,7 @@ import Button from '../button/button';
 import { MonoIcon } from '@atb/assets/mono-icon';
 import { ComponentText, useTranslation } from '@atb/translations';
 
-export type LngLatPosition = [number, number];
+export type LngLatPosition = [lng: number, lat: number]
 export type MapProps = {
   position?: LngLatPosition;
   layer?: string;
