@@ -111,11 +111,6 @@ export function Map({
         <div className={style.map__buttons}>
           <Button
             size="small"
-            icon={{ left: <MonoIcon src="actions/Filter.svg" /> }}
-            onClick={() => alert('Not implemented yet')}
-          />
-          <Button
-            size="small"
             icon={{ left: <MonoIcon src="places/City.svg" /> }}
             onClick={() => centerMap(position)}
           />
