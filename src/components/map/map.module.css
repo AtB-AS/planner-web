@@ -81,7 +81,7 @@
   position: absolute;
   top: var(--spacings-xLarge);
   left: var(--spacings-xLarge);
-  display: none;
+  display: none !important;
 }
 
 .buttonsContainer {
@@ -116,7 +116,7 @@
     flex: none;
   }
   .closeButton {
-    display: block;
+    display: block !important;
   }
   .mapWrapper {
     display: none;
