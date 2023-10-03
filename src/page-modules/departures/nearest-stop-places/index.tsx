@@ -7,6 +7,7 @@ import Link from 'next/link';
 import type { StopPlaceWithDistance } from '..';
 
 import style from './nearest-stop-places.module.css';
+import { Typo } from '@atb/components/typography';
 
 export type NearestStopPlacesProps = {
   activeLocation: GeocoderFeature;
@@ -48,9 +49,11 @@ export default function StopPlaceItem({ item }: StopPlaceItemProps) {
       href={`/departures/${item.stopPlace.id}`}
       className={style.stopPlaceItem}
     >
-      <h3>{item.stopPlace.name}</h3>
-      <span>Holdeplass</span>
-      <span>{item.distance.toFixed(0)} m</span>
+      <Typo.h3 textType="body__primary--bold">{item.stopPlace.name}</Typo.h3>
+      <Typo.span textType="body__primary">Holdeplass</Typo.span>
+      <Typo.span textType="body__secondary" className={style.secondaryText}>
+        {item.distance.toFixed(0)} m
+      </Typo.span>
     </Link>
   );
 }

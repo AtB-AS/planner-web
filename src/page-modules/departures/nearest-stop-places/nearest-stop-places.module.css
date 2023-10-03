@@ -7,7 +7,6 @@
   grid-template-areas: 'stop-places map';
   gap: var(--spacings-small);
 }
-
 .mapContainer {
   grid-area: map;
 }
@@ -17,7 +16,6 @@
   flex-direction: column;
   gap: var(--spacings-small);
 }
-
 .stopPlaceItem {
   composes: interactive-interactive_2;
   display: flex;
@@ -27,4 +25,8 @@
   flex-direction: column;
   padding: var(--spacings-medium);
   border-radius: var(--border-radius-regular);
+}
+
+.secondaryText {
+  color: var(--text-colors-secondary);
 }
