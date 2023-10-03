@@ -58,10 +58,6 @@
   gap: var(--spacings-medium);
 }
 
-.header__button {
-  text-align: center;
-}
-
 .map__buttons {
   position: absolute;
   bottom: var(--spacings-xLarge);
@@ -71,6 +67,14 @@
 
 .map__buttons button {
   margin: var(--spacings-medium);
+}
+
+.map__closeButton {
+  display: none;
+}
+
+.map__showButton {
+  display: none !important;
 }
 
 @media only screen and (max-width: 650px) {
@@ -87,11 +91,27 @@
   }
   .header__button {
     width: 100%;
-    text-align: center;
+    text-align: center !important;
   }
-
   .mapContainer {
-    display: none; /** @TODO: handle mobile view */
-    margin: var(--spacings-medium) 0;
+    display: none;
+    position: absolute !important;
+    top: 0;
+    left: 0;
+  }
+  .map__closeButton {
+    display: flex;
+    position: absolute;
+    top: var(--spacings-medium);
+    left: var(--spacings-medium);
+    z-index: 1;
+  }
+  .map__showButton {
+    display: flex !important;
+    justify-content: center;
+    border: 2px solid #000000 !important;
+  }
+  .map__showButton span {
+    flex: none;
   }
 }

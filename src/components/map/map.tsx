@@ -7,6 +7,7 @@ import { isFeaturePoint, isStopPlace } from './utils';
 import { ColorIcon } from '@atb/assets/color-icon';
 import Button from '../button/button';
 import { MonoIcon } from '@atb/assets/mono-icon';
+import { ComponentText, useTranslation } from '@atb/translations';
 
 export type LngLatPosition = [number, number];
 export type MapProps = {
@@ -43,6 +44,7 @@ export function Map({
 }: MapProps) {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map>();
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (!mapContainer.current) return;
@@ -57,7 +59,7 @@ export function Map({
     return () => map.current?.remove();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const { centerMap } = useMapInteractions(map, onSelectStopPlace);
+  const { centerMap, reziseMap } = useMapInteractions(map, onSelectStopPlace);
   useMapPin(map, position, layer);
 
   useEffect(() => {
@@ -70,9 +72,42 @@ export function Map({
     }
   }, [position]);
 
+  const openFullscreenMap = () => {
+    const element = document.getElementById('mapContainer');
+    if (element) {
+      element.style.display = 'block';
+      centerMap(position);
+      reziseMap();
+    }
+  };
+
+  const closeFullscreenMap = () => {
+    const element = document.getElementById('mapContainer');
+    if (element) {
+      element.style.display = '';
+      reziseMap();
+    }
+  };
   return (
     <div className={style.mapWithHeader}>
-      <div ref={mapContainer} className={style.mapContainer}>
+      <Button
+        className={style.map__showButton}
+        title={t(ComponentText.Map.map.openFullscreenButton)}
+        icon={{ left: <MonoIcon src="map/Map.svg" /> }}
+        onClick={openFullscreenMap}
+      />
+      <div ref={mapContainer} className={style.mapContainer} id="mapContainer">
+        <Button
+          className={style.map__closeButton}
+          onClick={closeFullscreenMap}
+          size="small"
+          icon={{
+            left: (
+              <MonoIcon src="navigation/ArrowLeft.svg" overrideColor="white" />
+            ),
+          }}
+          mode="interactive_0"
+        />
         <div className={style.map__buttons}>
           <Button
             size="small"
@@ -184,5 +219,10 @@ function useMapInteractions(
     mapRef.current.flyTo({ center: position, zoom: 15, speed: 2 });
   };
 
-  return { centerMap };
+  const reziseMap = () => {
+    if (!mapRef || !mapRef.current) return;
+    mapRef.current.resize();
+  };
+
+  return { centerMap, reziseMap };
 }
