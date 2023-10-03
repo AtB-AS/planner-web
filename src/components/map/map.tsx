@@ -9,7 +9,7 @@ import Button from '../button/button';
 import { MonoIcon } from '@atb/assets/mono-icon';
 import { ComponentText, useTranslation } from '@atb/translations';
 
-export type LngLatPosition = [lng: number, lat: number]
+export type LngLatPosition = [lng: number, lat: number];
 export type MapProps = {
   position?: LngLatPosition;
   layer?: string;
@@ -35,6 +35,11 @@ const INTERACTIVE_LAYERS = [
   'metro.tram.nsr.api',
   'railway.nsr.api',
   'tram.nsr.api',
+];
+
+const defaultPosition: LngLatPosition = [
+  mapboxData.defaultLng,
+  mapboxData.defaultLat,
 ];
 
 export function Map({
@@ -105,11 +110,6 @@ export function Map({
     </div>
   );
 }
-
-const defaultPosition: LngLatPosition = [
-  mapboxData.defaultLng,
-  mapboxData.defaultLat,
-];
 
 function useMapPin(
   mapRef: React.MutableRefObject<mapboxgl.Map | undefined>,
