@@ -84,6 +84,10 @@
   display: none !important;
 }
 
+.closeButton img {
+  display: block;
+}
+
 .buttonsContainer {
   position: absolute;
   right: var(--spacings-xLarge);
