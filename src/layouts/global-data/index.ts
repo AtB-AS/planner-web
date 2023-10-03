@@ -1,6 +1,7 @@
 import { type GlobalCookiesData, getGlobalCookies } from '@atb/modules/cookies';
 import type { GetServerSideProps } from 'next';
 import type { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
+import { ParsedUrlQuery } from 'node:querystring';
 
 export type AllData = GlobalCookiesData;
 
@@ -12,11 +13,12 @@ export type WithGlobalData<T> = T & AllData;
  *
  * Used in relation with ./layouts/default to provide with global data,
  **/
-export function withGlobalData<P extends {} = {}>(
-  propGetter?: GetServerSideProps<P>,
-) {
+export function withGlobalData<
+  P extends {} = {},
+  Params extends ParsedUrlQuery = ParsedUrlQuery,
+>(propGetter?: GetServerSideProps<P, Params>) {
   return async function inside(
-    ctx: GetServerSidePropsContext,
+    ctx: GetServerSidePropsContext<Params>,
   ): Promise<GetServerSidePropsResult<WithGlobalData<P>>> {
     const initialData = getGlobalCookies(ctx.req);
 
