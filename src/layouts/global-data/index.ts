@@ -29,19 +29,22 @@ export function withGlobalData<
       return { props: initialData as WithGlobalData<P> };
     }
 
-    if ('props' in composedProps) {
+    if ('notFound' in composedProps || 'redirect' in composedProps) {
+      return composedProps;
+    }
+
+    if (!('props' in composedProps)) {
       return {
-        ...composedProps,
-        props: {
-          ...(composedProps.props as P),
-          ...(initialData as AllData),
-        },
-      };
-    } else {
-      return {
-        ...composedProps,
         props: initialData as WithGlobalData<P>,
       };
     }
+
+    return {
+      ...composedProps,
+      props: {
+        ...(composedProps.props as P),
+        ...(initialData as AllData),
+      },
+    };
   };
 }
