@@ -31,5 +31,11 @@ export const departureDataSchema = z.object({
 export type DepartureData = z.infer<typeof departureDataSchema>;
 export type StopPlaceInfo = z.infer<typeof stopPlaceSchema>;
 
-export const nearestStopPlaces = z.array(stopPlaceSchema);
+const stopPlaceWithDistance = z.object({
+  stopPlace: stopPlaceSchema,
+  distance: z.number(),
+});
+
+export const nearestStopPlaces = z.array(stopPlaceWithDistance);
+export type StopPlaceWithDistance = z.infer<typeof stopPlaceWithDistance>;
 export type NearestStopPlacesData = z.infer<typeof nearestStopPlaces>;

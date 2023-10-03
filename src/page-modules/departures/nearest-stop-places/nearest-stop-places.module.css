@@ -1,8 +1,11 @@
+@value interactive-interactive_2 from "@atb/theme/theme.module.css";
+
 .nearestContainer {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(31.25rem, 1fr));
   grid-auto-rows: minmax(37.5rem, auto) auto;
   grid-template-areas: 'stop-places map';
+  gap: var(--spacings-small);
 }
 
 .mapContainer {
@@ -10,4 +13,18 @@
 }
 .stopPlacesList {
   grid-area: stop-places;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacings-small);
+}
+
+.stopPlaceItem {
+  composes: interactive-interactive_2;
+  display: flex;
+  text-decoration: none;
+  gap: var(--spacings-xSmall);
+
+  flex-direction: column;
+  padding: var(--spacings-medium);
+  border-radius: var(--border-radius-regular);
 }

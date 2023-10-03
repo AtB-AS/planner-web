@@ -4,7 +4,7 @@ import type {
   NearestStopPlacesData,
 } from '@atb/page-modules/departures';
 import Link from 'next/link';
-import { StopPlaceInfo } from '../server/journey-planner';
+import type { StopPlaceWithDistance } from '..';
 
 import style from './nearest-stop-places.module.css';
 
@@ -29,9 +29,9 @@ export function NearestStopPlaces({
       </div>
 
       <ul className={style.stopPlacesList}>
-        {nearestStopPlaces.map((stopPlace) => (
-          <li key={stopPlace.id}>
-            <StopPlaceItem stopPlace={stopPlace} />
+        {nearestStopPlaces.map((item) => (
+          <li key={item.stopPlace.id}>
+            <StopPlaceItem item={item} />
           </li>
         ))}
       </ul>
@@ -40,8 +40,17 @@ export function NearestStopPlaces({
 }
 
 export type StopPlaceItemProps = {
-  stopPlace: StopPlaceInfo;
+  item: StopPlaceWithDistance;
 };
-export default function StopPlaceItem({ stopPlace }: StopPlaceItemProps) {
-  return <Link href={`/departures/${stopPlace.id}`}>{stopPlace.name}</Link>;
+export default function StopPlaceItem({ item }: StopPlaceItemProps) {
+  return (
+    <Link
+      href={`/departures/${item.stopPlace.id}`}
+      className={style.stopPlaceItem}
+    >
+      <h3>{item.stopPlace.name}</h3>
+      <span>Holdeplass</span>
+      <span>{item.distance.toFixed(0)} m</span>
+    </Link>
+  );
 }

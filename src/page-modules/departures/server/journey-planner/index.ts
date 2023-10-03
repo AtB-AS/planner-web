@@ -18,6 +18,7 @@ import {
   DepartureData,
   NearestStopPlacesData,
   StopPlaceInfo,
+  StopPlaceWithDistance,
   departureDataSchema,
   nearestStopPlaces,
   stopPlaceSchema,
@@ -31,13 +32,12 @@ export type { DepartureData };
 export type StopPlaceInput = {
   id: string;
 };
-export type { StopPlaceInfo };
 
 export type NearestStopPlacesInput = {
   lat: number;
   lon: number;
 };
-export type { NearestStopPlacesData };
+export type { StopPlaceInfo, NearestStopPlacesData, StopPlaceWithDistance };
 
 export type JourneyPlannerApi = {
   departures(input: DepartureInput): Promise<DepartureData>;
@@ -156,12 +156,15 @@ export function createJourneyApi(
           }
 
           return acc.concat({
-            id: edge.node?.place.id,
-            name: edge.node?.place.name,
-            position: {
-              lat: edge.node?.place.latitude,
-              lon: edge.node?.place.longitude,
+            stopPlace: {
+              id: edge.node?.place.id,
+              name: edge.node?.place.name,
+              position: {
+                lat: edge.node?.place.latitude,
+                lon: edge.node?.place.longitude,
+              },
             },
+            distance: edge.node.distance,
           });
         }, [] as RecursivePartial<NearestStopPlacesData>) ?? [];
 
