@@ -10,7 +10,6 @@ import DeparturesLayout, {
 function DeparturesIdContent() {
   const router = useRouter();
 
-  console.log(router);
   return <h3>{router.query.id}</h3>;
 }
 
