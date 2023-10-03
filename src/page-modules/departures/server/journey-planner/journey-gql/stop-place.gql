@@ -2,6 +2,10 @@ query getStopPlace($id: String!) {
   stopPlace(id: $id) {
     name
     id
+
+    latitude
+    longitude
+
     quays {
       id
     }

@@ -37,6 +37,8 @@ query nearestStopPlaces(
             transportMode
             description
             id
+            latitude
+            longitude
           }
         }
       }

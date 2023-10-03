@@ -1,8 +1,14 @@
 import { z } from 'zod';
 
+export const locationSchema = z.object({
+  lat: z.number(),
+  lon: z.number(),
+});
+
 export const stopPlaceSchema = z.object({
   id: z.string(),
   name: z.string(),
+  position: locationSchema,
 });
 
 export const departureSchema = z.object({

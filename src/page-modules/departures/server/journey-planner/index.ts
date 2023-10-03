@@ -71,6 +71,11 @@ export function createJourneyApi(
         stopPlace: {
           id: result.data.stopPlace?.id,
           name: result.data.stopPlace?.name,
+
+          position: {
+            lat: result.data.stopPlace?.latitude,
+            lon: result.data.stopPlace?.longitude,
+          },
         },
         quays: result.data.stopPlace?.quays?.map((q) => ({
           name: q.name,
@@ -109,6 +114,11 @@ export function createJourneyApi(
       const data: RecursivePartial<StopPlaceInfo> = {
         id: result.data.stopPlace?.id,
         name: result.data.stopPlace?.name,
+
+        position: {
+          lat: result.data.stopPlace?.latitude,
+          lon: result.data.stopPlace?.longitude,
+        },
       };
 
       const validated = stopPlaceSchema.safeParse(data);
@@ -147,8 +157,12 @@ export function createJourneyApi(
           return acc.concat({
             id: edge.node?.place.id,
             name: edge.node?.place.name,
+            position: {
+              lat: edge.node?.place.latitude,
+              lon: edge.node?.place.longitude,
+            },
           });
-        }, [] as NearestStopPlacesData) ?? [];
+        }, [] as RecursivePartial<NearestStopPlacesData>) ?? [];
 
       const validated = nearestStopPlaces.safeParse(data);
 
