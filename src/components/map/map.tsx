@@ -5,6 +5,8 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import { mapboxData } from '@atb/modules/org-data';
 import { isFeaturePoint, isStopPlace } from './utils';
 import { ColorIcon } from '@atb/assets/color-icon';
+import Button from '../button/button';
+import { MonoIcon } from '@atb/assets/mono-icon';
 
 export type LngLatPosition = [number, number];
 export type MapProps = {
@@ -55,7 +57,7 @@ export function Map({
     return () => map.current?.remove();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  useMapInteractions(map, onSelectStopPlace);
+  const { centerMap } = useMapInteractions(map, onSelectStopPlace);
   useMapPin(map, position, layer);
 
   useEffect(() => {
@@ -70,7 +72,20 @@ export function Map({
 
   return (
     <div className={style.mapWithHeader}>
-      <div ref={mapContainer} className={style.mapContainer} />
+      <div ref={mapContainer} className={style.mapContainer}>
+        <div className={style.map__buttons}>
+          <Button
+            size="small"
+            icon={{ left: <MonoIcon src="actions/Filter.svg" /> }}
+            onClick={() => alert('Not implemented yet')}
+          />
+          <Button
+            size="small"
+            icon={{ left: <MonoIcon src="places/City.svg" /> }}
+            onClick={() => centerMap(position)}
+          />
+        </div>
+      </div>
     </div>
   );
 }
@@ -164,5 +179,10 @@ function useMapInteractions(
     }
   }, [mapRef, onSelectStopPlace]);
 
-  return {};
+  const centerMap = (position: LngLatPosition) => {
+    if (!mapRef || !mapRef.current) return;
+    mapRef.current.flyTo({ center: position, zoom: 15, speed: 2 });
+  };
+
+  return { centerMap };
 }
