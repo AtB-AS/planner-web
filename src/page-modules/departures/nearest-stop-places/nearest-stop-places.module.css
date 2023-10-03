@@ -1,0 +1,14 @@
+.nearestContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-auto-rows: minmax(37.5rem, auto);
+  grid-template-areas: 'stop-places map';
+  margintop: 2rem;
+}
+
+.mapContainer {
+  grid-area: map;
+}
+.stopPlacesList {
+  grid-area: stop-places;
+}
