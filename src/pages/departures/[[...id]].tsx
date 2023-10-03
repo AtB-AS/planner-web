@@ -8,7 +8,6 @@ import DeparturesLayout, {
 } from '@atb/page-modules/departures/layout';
 import { withDepartureClient } from '@atb/page-modules/departures/server';
 import { DepartureData } from '@atb/page-modules/departures';
-import _ from 'lodash';
 
 function DeparturesContent({ departures }: DeparturesContentProps) {
   const router = useRouter();
@@ -53,23 +52,21 @@ const DeparturesPage: NextPage<DeparturesPageProps> = (props) => {
 
 export default DeparturesPage;
 
-export const getServerSideProps = withGlobalData<DeparturesContentProps>(
-  withDepartureClient<DeparturesContentProps>(async function ({
-    client,
-    query,
-  }) {
-    const id = _.first(query.id);
+export const getServerSideProps = withGlobalData(
+  withDepartureClient<DeparturesContentProps, { id: string[] | undefined }>(
+    async function ({ client, params }) {
+      const id = params?.id?.[0];
+      if (!id) {
+        return { props: {} };
+      }
 
-    if (!id) {
-      return { props: {} };
-    }
+      const departures: DepartureData = await client.departures({ id });
 
-    const departures: DepartureData = await client.departures({ id });
-
-    return {
-      props: {
-        departures,
-      },
-    };
-  }),
+      return {
+        props: {
+          departures,
+        },
+      };
+    },
+  ),
 );

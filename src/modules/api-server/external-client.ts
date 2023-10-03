@@ -16,9 +16,15 @@ import {
   type HttpEndpoints,
 } from './requesters/types';
 import { errorResultAsJson } from './requesters/utils';
+import { ParsedUrlQuery } from 'node:querystring';
 
-type HttpPropGetter<U extends AllEndpoints, T, P extends {} = {}> = (
-  context: GetServerSidePropsContext & { client: ExternalClient<U, T> },
+type HttpPropGetter<
+  U extends AllEndpoints,
+  T,
+  P extends {} = {},
+  Params extends ParsedUrlQuery = ParsedUrlQuery,
+> = (
+  context: GetServerSidePropsContext<Params> & { client: ExternalClient<U, T> },
 ) => Promise<GetServerSidePropsResult<P>>;
 
 export type ExternalClient<U extends AllEndpoints, T> = T & {
@@ -54,11 +60,12 @@ export function createExternalClient<U extends AllEndpoints, T>(
 export function createWithExternalClientDecorator<U extends AllEndpoints, T>(
   clientCreate: ExternalClientFactory<U, T>,
 ) {
-  return function handler<P extends {} = {}>(
-    propGetter: HttpPropGetter<U, T, P>,
-  ) {
+  return function handler<
+    P extends {} = {},
+    Params extends ParsedUrlQuery = ParsedUrlQuery,
+  >(propGetter: HttpPropGetter<U, T, P, Params>) {
     return async function inside(
-      ctx: GetServerSidePropsContext,
+      ctx: GetServerSidePropsContext<Params>,
     ): Promise<GetServerSidePropsResult<P>> {
       return propGetter({
         client: clientCreate(ctx.req),

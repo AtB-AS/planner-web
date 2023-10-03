@@ -1,15 +1,15 @@
 import { cleanup, render } from '@testing-library/react';
-import { afterEach, describe, expect, it, vi } from 'vitest';
 import mockRouter from 'next-router-mock';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 
+import { ExternalClient } from '@atb/modules/api-server';
+import { JourneyPlannerApi } from '@atb/page-modules/departures/server/journey-planner';
 import DeparturesPage, {
   DeparturesPageProps,
   getServerSideProps,
 } from '@atb/pages/departures/[[...id]]';
+import { expectProps } from '@atb/tests/utils';
 import { createDynamicRouteParser } from 'next-router-mock/dynamic-routes';
-import { ExternalClient } from '@atb/modules/api-server';
-import { JourneyPlannerApi } from '@atb/page-modules/departures/server/journey-planner';
-import { expectProps, getServerSidePropsWithClient } from '@atb/tests/utils';
 
 afterEach(function () {
   cleanup();
@@ -70,16 +70,15 @@ describe('departure page', function () {
     };
 
     const context = {
-      query: {
-        id: 'NSR:StopPlace:123',
+      params: {
+        id: ['NSR:StopPlace:123'],
       },
     };
 
-    const result = await getServerSidePropsWithClient(
-      { ...gqlClient },
-      getServerSideProps,
-      context as any,
-    );
+    const result = await getServerSideProps({
+      client: gqlClient,
+      ...context,
+    } as any);
 
     (await expectProps(result)).toContain({
       departures: expectedDeparturesResult,
