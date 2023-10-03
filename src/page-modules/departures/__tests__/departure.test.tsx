@@ -4,8 +4,12 @@ import mockRouter from 'next-router-mock';
 
 import DeparturesPage, {
   DeparturesPageProps,
+  getServerSideProps,
 } from '@atb/pages/departures/[[...id]]';
 import { createDynamicRouteParser } from 'next-router-mock/dynamic-routes';
+import { ExternalClient } from '@atb/modules/api-server';
+import { JourneyPlannerApi } from '@atb/page-modules/departures/server/journey-planner';
+import { expectProps, getServerSidePropsWithClient } from '@atb/tests/utils';
 
 afterEach(function () {
   cleanup();
@@ -28,6 +32,57 @@ describe('departure page', function () {
     };
 
     const output = render(<DeparturesPage {...initialProps} />);
-    expect(output.getByText('NSR:StopPlace:123')).toBeInTheDocument();
+    expect(output.getByText('Query: NSR:StopPlace:123')).toBeInTheDocument();
+  });
+
+  it('should return props from getServerSideProps', async () => {
+    await mockRouter.push('/departures/NSR:StopPlace:123');
+
+    const expectedDeparturesResult = {
+      stopPlace: {
+        id: 'NSR:StopPlace:123',
+        name: 'Test Stop Place',
+      },
+      quays: [
+        {
+          id: 'NSR:Quay:123',
+          name: 'Test Quay',
+          publicCode: '123',
+          departures: [],
+        },
+      ],
+    };
+
+    const gqlClient: ExternalClient<
+      'graphql-journeyPlanner3',
+      JourneyPlannerApi
+    > = {
+      async departures() {
+        return expectedDeparturesResult;
+      },
+      nearestStopPlaces() {
+        return {} as any;
+      },
+      stopPlace() {
+        return {} as any;
+      },
+      client: null as any,
+    };
+
+    const context = {
+      query: {
+        id: 'NSR:StopPlace:123',
+      },
+    };
+
+    const result = await getServerSidePropsWithClient(
+      { ...gqlClient },
+      getServerSideProps,
+      context as any,
+    );
+
+    (await expectProps(result)).toContain({
+      departures: expectedDeparturesResult,
+    });
   });
 });
