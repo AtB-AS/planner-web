@@ -37,6 +37,7 @@ export type NearestStopPlacesInput = {
   lat: number;
   lon: number;
 };
+export type { NearestStopPlacesData };
 
 export type JourneyPlannerApi = {
   departures(input: DepartureInput): Promise<DepartureData>;
