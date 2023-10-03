@@ -22,10 +22,10 @@
 .header__icons div {
   background-color: var(--static-background-background_accent_0-background);
   color: var(--static-background-background_accent_0-text);
-  padding: 6px;
+  padding: var(--spacings-small);
   border-radius: var(--border-radius-regular);
-  width: 40px;
-  height: 40px;
+  width: 2.5rem;
+  height: 2.5rem;
 }
 
 .header__info {
@@ -58,23 +58,36 @@
   gap: var(--spacings-medium);
 }
 
-.map__buttons {
-  position: absolute;
-  bottom: var(--spacings-xLarge);
-  right: var(--spacings-medium);
+.map {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.mapWrapper {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.fullscreenButton {
+  display: none !important;
+}
+
+.closeButton {
   z-index: 1;
-}
-
-.map__buttons button {
-  margin: var(--spacings-medium);
-}
-
-.map__closeButton {
+  position: absolute;
+  top: var(--spacings-xLarge);
+  left: var(--spacings-xLarge);
   display: none;
 }
 
-.map__showButton {
-  display: none !important;
+.buttonsContainer {
+  position: absolute;
+  right: var(--spacings-xLarge);
+  bottom: 3rem;
+  z-index: 1;
 }
 
 @media only screen and (max-width: 650px) {
@@ -93,25 +106,21 @@
     width: 100%;
     text-align: center !important;
   }
-  .mapContainer {
-    display: none;
-    position: absolute !important;
-    top: 0;
-    left: 0;
-  }
-  .map__closeButton {
-    display: flex;
-    position: absolute;
-    top: var(--spacings-medium);
-    left: var(--spacings-medium);
-    z-index: 1;
-  }
-  .map__showButton {
+  .fullscreenButton {
     display: flex !important;
     justify-content: center;
     border: 2px solid #000000 !important;
   }
-  .map__showButton span {
+  .fullscreenButton span {
     flex: none;
+  }
+  .closeButton {
+    display: block;
+  }
+  .mapWrapper {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
   }
 }

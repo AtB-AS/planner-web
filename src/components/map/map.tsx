@@ -59,7 +59,8 @@ export function Map({
     return () => map.current?.remove();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const { centerMap, reziseMap } = useMapInteractions(map, onSelectStopPlace);
+  const { centerMap } = useMapInteractions(map, onSelectStopPlace);
+  const { mapWrapperRef, toggleFullscreen } = useFullscreenMap(map);
   useMapPin(map, position, layer);
 
   useEffect(() => {
@@ -72,34 +73,19 @@ export function Map({
     }
   }, [position]);
 
-  const openFullscreenMap = () => {
-    const element = document.getElementById('mapContainer');
-    if (element) {
-      element.style.display = 'block';
-      centerMap(position);
-      reziseMap();
-    }
-  };
-
-  const closeFullscreenMap = () => {
-    const element = document.getElementById('mapContainer');
-    if (element) {
-      element.style.display = '';
-      reziseMap();
-    }
-  };
   return (
-    <div className={style.mapWithHeader}>
+    <div className={style.map}>
       <Button
-        className={style.map__showButton}
+        className={style.fullscreenButton}
         title={t(ComponentText.Map.map.openFullscreenButton)}
         icon={{ left: <MonoIcon src="map/Map.svg" /> }}
-        onClick={openFullscreenMap}
+        onClick={toggleFullscreen}
       />
-      <div ref={mapContainer} className={style.mapContainer} id="mapContainer">
+
+      <div className={style.mapWrapper} ref={mapWrapperRef}>
         <Button
-          className={style.map__closeButton}
-          onClick={closeFullscreenMap}
+          className={style.closeButton}
+          onClick={toggleFullscreen}
           size="small"
           icon={{
             left: (
@@ -108,13 +94,13 @@ export function Map({
           }}
           mode="interactive_0"
         />
-        <div className={style.map__buttons}>
-          <Button
-            size="small"
-            icon={{ left: <MonoIcon src="places/City.svg" /> }}
-            onClick={() => centerMap(position)}
-          />
-        </div>
+        <Button
+          className={style.buttonsContainer}
+          size="small"
+          icon={{ left: <MonoIcon src="places/City.svg" /> }}
+          onClick={() => centerMap(position)}
+        />
+        <div ref={mapContainer} className={style.mapContainer} />
       </div>
     </div>
   );
@@ -220,4 +206,29 @@ function useMapInteractions(
   };
 
   return { centerMap, reziseMap };
+}
+
+function useFullscreenMap(
+  mapRef: React.MutableRefObject<mapboxgl.Map | undefined>,
+) {
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const mapWrapperRef = useRef<HTMLDivElement>(null);
+
+  const toggleFullscreen = () => {
+    setIsFullscreen(!isFullscreen);
+  };
+
+  useEffect(() => {
+    if (!mapWrapperRef.current) return;
+
+    if (isFullscreen) {
+      mapWrapperRef.current.style.display = 'block';
+      mapRef.current?.resize();
+    } else {
+      mapWrapperRef.current.style.display = '';
+      mapRef.current?.resize();
+    }
+  }, [isFullscreen, mapWrapperRef, mapRef]);
+
+  return { mapWrapperRef, isFullscreen, toggleFullscreen };
 }
