@@ -2,7 +2,7 @@ import style from './map.module.css';
 
 import { ButtonLink } from '@atb/components/button';
 import { ComponentText, useTranslation } from '@atb/translations';
-import VenueIcon, { FeatureCategory } from '../venue-icon';
+import VenueIcon, { FeatureCategory } from '@atb/components/venue-icon';
 import { MonoIcon } from '@atb/assets/mono-icon';
 import { and } from '@atb/utils/css';
 
