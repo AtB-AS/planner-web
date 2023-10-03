@@ -1,9 +1,4 @@
-import type { AllEndpoints, ExternalClient } from '@atb/modules/api-server';
-import type {
-  GetServerSideProps,
-  GetServerSidePropsContext,
-  GetServerSidePropsResult,
-} from 'next/types';
+import type { GetServerSidePropsResult } from 'next/types';
 import { Assertion, expect } from 'vitest';
 
 export async function expectProps<T>(
@@ -15,16 +10,4 @@ export async function expectProps<T>(
 
   const props = await potential.props;
   return expect(props);
-}
-
-export async function getServerSidePropsWithClient<
-  U extends AllEndpoints,
-  M,
-  T extends { [key: string]: any } = { [key: string]: any },
->(
-  client: ExternalClient<U, M>,
-  propsHandler: GetServerSideProps<T>,
-  context?: GetServerSidePropsContext<T>,
-) {
-  return propsHandler({ ...context, client } as GetServerSidePropsContext<T>);
 }

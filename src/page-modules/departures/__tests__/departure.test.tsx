@@ -1,14 +1,15 @@
-import { ExternalClient } from '@atb/modules/api-server';
-import { GeocoderApi } from '../server/geocoder';
-import { expectProps, getServerSidePropsWithClient } from '@atb/tests/utils';
 import { cleanup, render } from '@testing-library/react';
+import mockRouter from 'next-router-mock';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
+import { ExternalClient } from '@atb/modules/api-server';
+import { JourneyPlannerApi } from '@atb/page-modules/departures/server/journey-planner';
 import DeparturesPage, {
   DeparturesPageProps,
   getServerSideProps,
-} from '@atb/pages/departures';
-import { JourneyPlannerApi } from '../server/journey-planner';
+} from '@atb/pages/departures/[[...id]]';
+import { expectProps } from '@atb/tests/utils';
+import { createDynamicRouteParser } from 'next-router-mock/dynamic-routes';
 
 afterEach(function () {
   cleanup();
@@ -16,31 +17,13 @@ afterEach(function () {
 
 vi.mock('next/router', () => require('next-router-mock'));
 
+mockRouter.useParser(createDynamicRouteParser(['/departures/[id]']));
+
 describe('departure page', function () {
-  it('Should show list as provided from initial props ', async () => {
+  it('should show id provided in route', async () => {
+    await mockRouter.push('/departures/NSR:StopPlace:123');
+
     const initialProps: DeparturesPageProps = {
-      autocompleteFeatures: [
-        {
-          id: '1',
-          name: 'Result 1',
-          category: [],
-          layer: '',
-          locality: '',
-          geometry: {
-            coordinates: [62.47, 6.14],
-          },
-        },
-        {
-          id: '2',
-          name: 'Result 2',
-          category: [],
-          layer: '',
-          locality: '',
-          geometry: {
-            coordinates: [62.47, 6.14],
-          },
-        },
-      ],
       headersAcceptLanguage: 'en',
       initialCookies: {
         darkmode: false,
@@ -49,50 +32,33 @@ describe('departure page', function () {
     };
 
     const output = render(<DeparturesPage {...initialProps} />);
-    expect(await output.findAllByText(/^Result/)).toHaveLength(2);
+    expect(output.getByText('Query: NSR:StopPlace:123')).toBeInTheDocument();
   });
 
-  it('Should return props from getServerSideProps', async () => {
-    const expectedAutocompleteResult = [
-      {
-        id: 'Test ID',
-        name: 'Test',
-        category: [],
-        layer: '',
-        locality: '',
-        geometry: {
-          coordinates: [62.47, 6.14],
+  it('should return props from getServerSideProps', async () => {
+    await mockRouter.push('/departures/NSR:StopPlace:123');
+
+    const expectedDeparturesResult = {
+      stopPlace: {
+        id: 'NSR:StopPlace:123',
+        name: 'Test Stop Place',
+      },
+      quays: [
+        {
+          id: 'NSR:Quay:123',
+          name: 'Test Quay',
+          publicCode: '123',
+          departures: [],
         },
-      },
-    ];
-    const expectedReverseResult = {
-      id: 'Test ID',
-      name: 'Test',
-      category: [],
-      layer: '',
-      locality: '',
-      geometry: {
-        coordinates: [62.47, 6.14],
-      },
+      ],
     };
 
-    const client: ExternalClient<'http-entur', GeocoderApi> = {
-      async autocomplete() {
-        return expectedAutocompleteResult;
-      },
-      async reverse() {
-        return expectedReverseResult;
-      },
-      async client() {
-        return new Response();
-      },
-    };
     const gqlClient: ExternalClient<
       'graphql-journeyPlanner3',
       JourneyPlannerApi
     > = {
       async departures() {
-        return {} as any;
+        return expectedDeparturesResult;
       },
       nearestStopPlaces() {
         return {} as any;
@@ -103,13 +69,19 @@ describe('departure page', function () {
       client: null as any,
     };
 
-    const result = await getServerSidePropsWithClient(
-      { ...client, ...gqlClient },
-      getServerSideProps,
-    );
+    const context = {
+      params: {
+        id: ['NSR:StopPlace:123'],
+      },
+    };
+
+    const result = await getServerSideProps({
+      client: gqlClient,
+      ...context,
+    } as any);
 
     (await expectProps(result)).toContain({
-      autocompleteFeatures: expectedAutocompleteResult,
+      departures: expectedDeparturesResult,
     });
   });
 });
