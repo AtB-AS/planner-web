@@ -10,31 +10,31 @@ export type MapHeaderProps = {
   id: string;
   name: string; // StopPlace name or address
   layer: 'address' | 'venue';
-  streetName?: string;
-  finalStopPlaceType?: string;
+  street?: string;
+  category?: FeatureCategory[];
 };
 
 export function MapHeader({
   id,
   name,
   layer,
-  streetName,
-  finalStopPlaceType,
+  street,
+  category,
 }: MapHeaderProps) {
   const { t } = useTranslation();
   return (
     <div className={style.header}>
       <div className={style.header__leftContainer}>
         <div className={style.header__icons}>
-          {layer === 'address' || !finalStopPlaceType ? (
+          {layer === 'address' || !category ? (
             <div>
               <MonoIcon size="large" src="map/Pin.svg" overrideColor="white" />
             </div>
           ) : (
-            finalStopPlaceType.split('_').map((type) => (
+            category.map((type) => (
               <div key={[type, 'icon'].join('-')}>
                 <VenueIcon
-                  category={[type] as FeatureCategory[]}
+                  category={[type]}
                   size="large"
                   overrideColor="white"
                 />
@@ -58,7 +58,7 @@ export function MapHeader({
             )}
           >
             {layer === 'venue'
-              ? t(ComponentText.Map.header.venue(streetName || '?')) // @TODO: better types
+              ? t(ComponentText.Map.header.venue(street || '?')) // @TODO: better types
               : t(ComponentText.Map.header.address)}
           </p>
         </div>
