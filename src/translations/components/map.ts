@@ -5,7 +5,7 @@ export const Map = {
     address: _(
       'Holdeplasser i nærheten av',
       'Stops near',
-      'Stoppestader i nærleiken av',
+      'Haldeplasser i nærleiken av',
     ),
     venue: (address: string) =>
       _(`Ligger i ${address}`, `Located on ${address}`, `Ligg i ${address}`),
