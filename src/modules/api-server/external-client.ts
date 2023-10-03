@@ -13,7 +13,6 @@ import {
   isGraphQlEndpoint,
   type AllEndpoints,
   type ConditionalRequester,
-  type HttpEndpoints,
 } from './requesters/types';
 import { errorResultAsJson } from './requesters/utils';
 import { ParsedUrlQuery } from 'node:querystring';
