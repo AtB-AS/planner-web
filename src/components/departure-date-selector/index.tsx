@@ -94,7 +94,6 @@ export default function DepartureDateSelector({
   );
 }
 
-// TODO: Add translations.
 function stateToLabel(
   state: DepartureDateState,
   t: TFunc<typeof Language>,
