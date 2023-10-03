@@ -11,13 +11,14 @@ export enum DepartureDateState {
 
 type DepartureDateSelectorProps = {
   initialState?: DepartureDateState;
-  onStateChange?: (state: DepartureDateState) => void;
+  onStateChange: (state: DepartureDateState) => void;
   onDateChange: (date: Date) => void;
   onTimeChange: (time: string) => void;
 };
 
 export default function DepartureDateSelector({
   initialState = DepartureDateState.Now,
+  onStateChange,
   onDateChange,
   onTimeChange,
 }: DepartureDateSelectorProps) {
@@ -33,6 +34,10 @@ export default function DepartureDateSelector({
     return `${hours}:${minutes}`;
   });
 
+  const internalOnStateChange = (state: DepartureDateState) => {
+    setSelectedOption(state);
+    onStateChange(state);
+  };
   const internalOnDateChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSelectedDate(new Date(event.target.value));
     onDateChange(new Date(event.target.value));
@@ -54,7 +59,7 @@ export default function DepartureDateSelector({
                 name="departureDateSelector"
                 value={state}
                 checked={selectedOption === state}
-                onChange={() => setSelectedOption(state)}
+                onChange={() => internalOnStateChange(state)}
                 aria-label={stateToLabel(state, t)}
               />
               <span aria-hidden>{stateToLabel(state, t)}</span>
