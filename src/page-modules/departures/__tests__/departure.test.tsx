@@ -13,8 +13,6 @@ import DeparturesPage, {
 } from '@atb/pages/departures/[[...id]]';
 import { expectProps } from '@atb/tests/utils';
 import { createDynamicRouteParser } from 'next-router-mock/dynamic-routes';
-import { GeocoderApi } from '../server/geocoder';
-import { GeocoderFeature } from '../types';
 
 afterEach(function () {
   cleanup();
@@ -29,6 +27,7 @@ describe('departure page', function () {
     await mockRouter.push('/departures/NSR:StopPlace:123');
 
     const initialProps: DeparturesPageProps = {
+      stopPlace: true,
       headersAcceptLanguage: 'en',
       initialCookies: {
         darkmode: false,
