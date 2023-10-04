@@ -1,6 +1,6 @@
-import { ColorIcon, ColorIconProps } from '@atb/assets/color-icon';
 import { ComponentText, useTranslation } from '@atb/translations';
 import style from './loading.module.css';
+import { ColorIcon, ColorIconProps } from '@atb/components/icon';
 
 export type LoadingProps = {
   /**
@@ -21,10 +21,9 @@ export function Loading({ text, testID }: LoadingProps) {
       data-testid={testID}
     >
       <ColorIcon
-        src="/status/Spinner.svg"
+        icon="status/Spinner"
         className={style.loading__icon}
         alt={t(ComponentText.Loading.alt)}
-        darkable
       />
       <p>{text}</p>
     </div>
@@ -36,11 +35,10 @@ export function LoadingIcon({ size }: { size?: ColorIconProps['size'] }) {
 
   return (
     <ColorIcon
-      src="/status/Spinner.svg"
+      icon="status/Spinner"
       size={size}
       className={style.loading__icon}
       alt={t(ComponentText.Loading.alt)}
-      darkable
     />
   );
 }

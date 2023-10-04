@@ -1,9 +1,9 @@
-import { MonoIcon } from '@atb/assets/mono-icon';
 import { Component, useEffect, useState } from 'react';
 import { LoadingIcon } from '@atb/components/loading';
 import { reverse } from '@atb/page-modules/departures/client';
 import { GeocoderFeature } from '@atb/page-modules/departures';
 import { ComponentText, useTranslation } from '@atb/translations';
+import { MonoIcon } from '@atb/components/icon';
 
 type GeolocationButtonProps = {
   onGeolocate: (feature: GeocoderFeature) => void;
@@ -26,7 +26,7 @@ function GeolocationButton({ onGeolocate, className }: GeolocationButtonProps) {
       title={t(ComponentText.GeolocationButton.alt)}
       aria-label={t(ComponentText.GeolocationButton.alt)}
     >
-      <MonoIcon src="places/City.svg" />
+      <MonoIcon icon="places/City" />
     </button>
   );
 }

@@ -1,5 +1,5 @@
 import { ComponentText, useTranslation } from '@atb/translations';
-import { MonoIcon } from '@atb/assets/mono-icon';
+import { MonoIcon } from '@atb/components/icon';
 
 export default function VenueIcon({
   category,
@@ -11,7 +11,7 @@ export default function VenueIcon({
   const venueIconTypes = getVenueIconTypes(category);
 
   if (!venueIconTypes.length) {
-    return <MonoIcon src="map/Pin.svg" key="unknown" />;
+    return <MonoIcon icon="map/Pin" key="unknown" />;
   }
 
   if (multiple) {
@@ -57,7 +57,7 @@ function IconComponent({ iconType }: { iconType: VenueIconType }) {
     case 'bus':
       return (
         <MonoIcon
-          src="transportation-entur/Bus.svg"
+          icon="transportation-entur/Bus"
           key="bus"
           role="img"
           alt={t(ComponentText.VenueIcon.bus)}
@@ -66,7 +66,7 @@ function IconComponent({ iconType }: { iconType: VenueIconType }) {
     case 'tram':
       return (
         <MonoIcon
-          src="transportation-entur/Tram.svg"
+          icon="transportation-entur/Tram"
           key="tram"
           role="img"
           alt={t(ComponentText.VenueIcon.tram)}
@@ -75,7 +75,7 @@ function IconComponent({ iconType }: { iconType: VenueIconType }) {
     case 'rail':
       return (
         <MonoIcon
-          src="transportation-entur/Train.svg"
+          icon="transportation-entur/Train"
           key="rail"
           role="img"
           alt={t(ComponentText.VenueIcon.rail)}
@@ -84,7 +84,7 @@ function IconComponent({ iconType }: { iconType: VenueIconType }) {
     case 'airport':
       return (
         <MonoIcon
-          src="transportation-entur/Plane.svg"
+          icon="transportation-entur/Plane"
           key="airport"
           role="img"
           alt={t(ComponentText.VenueIcon.air)}
@@ -93,7 +93,7 @@ function IconComponent({ iconType }: { iconType: VenueIconType }) {
     case 'boat':
       return (
         <MonoIcon
-          src="transportation-entur/Ferry.svg"
+          icon="transportation-entur/Ferry"
           key="boat"
           role="img"
           alt={t(ComponentText.VenueIcon.water)}
@@ -103,7 +103,7 @@ function IconComponent({ iconType }: { iconType: VenueIconType }) {
     default:
       return (
         <MonoIcon
-          src="map/Pin.svg"
+          icon="map/Pin"
           key="unknown"
           role="img"
           alt={t(ComponentText.VenueIcon.unknown)}
