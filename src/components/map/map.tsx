@@ -8,7 +8,7 @@ import Button from '../button/button';
 import { MonoIcon } from '@atb/components/icon';
 import { ComponentText, useTranslation } from '@atb/translations';
 import { createRoot } from 'react-dom/client';
-import { FocusScope } from 'react-aria';
+import { FocusScope } from '@react-aria/focus';
 
 export type LngLatPosition = [lng: number, lat: number];
 export type MapProps = {
