@@ -88,14 +88,18 @@ export function Map({
             left: <MonoIcon icon="navigation/ArrowLeft" overrideMode="dark" />,
           }}
           mode="interactive_0"
-          ariaLabel={t(ComponentText.Map.map.closeFullscreenButton)}
+          buttonProps={{
+            'aria-label': t(ComponentText.Map.map.closeFullscreenButton),
+          }}
         />
         <Button
           className={style.buttonsContainer}
           size="small"
           icon={{ left: <MonoIcon icon="places/City" /> }}
           onClick={() => centerMap(position)}
-          ariaLabel={t(ComponentText.Map.map.centerMapButton)}
+          buttonProps={{
+            'aria-label': t(ComponentText.Map.map.centerMapButton),
+          }}
         />
         <div ref={mapContainer} className={style.mapContainer} />
       </div>
