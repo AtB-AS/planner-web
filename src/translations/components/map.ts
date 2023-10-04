@@ -12,6 +12,12 @@ export const Map = {
   },
   map: {
     openFullscreenButton: _('Se i kart', 'See in map', 'Sjå i kart'),
+    closeFullscreenButton: _('Lukk kart', 'Close map', 'Lukk kart'),
+    centerMapButton: _(
+      'Tilbakestill kartvisning',
+      'Reset map view',
+      'Tilbakestill kartvisning',
+    ),
   },
   button: {
     travelFrom: _('Reis fra', 'Travel from', 'Reis frå'),
