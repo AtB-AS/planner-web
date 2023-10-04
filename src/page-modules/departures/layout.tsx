@@ -1,7 +1,7 @@
 import type { WithGlobalData } from '@atb/layouts/global-data';
 import type { GeocoderFeature } from '@atb/page-modules/departures';
 import { PageText, useTranslation } from '@atb/translations';
-import { PropsWithChildren, useState } from 'react';
+import { FormEventHandler, PropsWithChildren, useState } from 'react';
 import Search from '@atb/components/search';
 import { Button } from '@atb/components/button';
 import style from './departures.module.css';
@@ -14,10 +14,26 @@ function DeparturesLayout({ children }: DeparturesLayoutProps) {
 
   const [selectedFeature, setSelectedFeature] = useState<GeocoderFeature>();
 
+  const onSubmitHandler: FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault();
+    if (selectedFeature?.layer == 'venue') {
+      router.push(`/departures/${selectedFeature.id}`);
+    } else if (selectedFeature?.layer == 'address') {
+      const [lon, lat] = selectedFeature.geometry.coordinates;
+      router.push({
+        href: '/departures',
+        query: {
+          lon,
+          lat,
+        },
+      });
+    }
+  };
+
   return (
     <div className={style.departuresPage}>
       <div className={style.searchWrapper}>
-        <div className={style.searchContainer}>
+        <form className={style.searchContainer} onSubmit={onSubmitHandler}>
           <p className={style.searchInputLabel}>
             {t(PageText.Departures.search.input.label)}
           </p>
@@ -32,13 +48,9 @@ function DeparturesLayout({ children }: DeparturesLayoutProps) {
             className={style.searchButton}
             mode="interactive_0"
             disabled={!selectedFeature}
-            onClick={() => {
-              if (selectedFeature) {
-                router.push(`/departures/${selectedFeature.id}`);
-              }
-            }}
+            buttonProps={{ type: 'submit' }}
           />
-        </div>
+        </form>
       </div>
 
       {children}

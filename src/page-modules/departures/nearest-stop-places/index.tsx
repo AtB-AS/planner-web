@@ -10,7 +10,7 @@ import style from './nearest-stop-places.module.css';
 import { Typo } from '@atb/components/typography';
 
 export type NearestStopPlacesProps = {
-  activeLocation: GeocoderFeature;
+  activeLocation: GeocoderFeature | undefined;
   nearestStopPlaces: NearestStopPlacesData;
 };
 
@@ -21,12 +21,14 @@ export function NearestStopPlaces({
   return (
     <section className={style.nearestContainer}>
       <div className={style.mapContainer}>
-        <Map
-          position={{
-            lat: activeLocation.geometry.coordinates[1],
-            lng: activeLocation.geometry.coordinates[0],
-          }}
-        />
+        {activeLocation && (
+          <Map
+            position={{
+              lat: activeLocation.geometry.coordinates[1],
+              lng: activeLocation.geometry.coordinates[0],
+            }}
+          />
+        )}
       </div>
 
       <ul className={style.stopPlacesList}>

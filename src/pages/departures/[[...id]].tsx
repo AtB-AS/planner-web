@@ -19,6 +19,7 @@ type DeparturesStopPlaceProps = {
 };
 
 type DeparturesContentProps =
+  | { empty: true }
   | DeparturesStopPlaceProps
   | (NearestStopPlacesProps & { address: true });
 
@@ -82,10 +83,10 @@ export default DeparturesPage;
 
 export const getServerSideProps = withGlobalData(
   withDepartureClient<DeparturesContentProps, { id: string[] | undefined }>(
-    async function ({ client, params }) {
+    async function ({ client, params, query }) {
       const id = params?.id?.[0];
-
-      if (id) {
+      const stopPlace = id ? await client.departures({ id }) : null;
+      if (id && stopPlace) {
         const departures = await client.departures({ id });
         return {
           props: {
@@ -93,33 +94,25 @@ export const getServerSideProps = withGlobalData(
             departures,
           },
         };
-      } else {
-        const autocompleteFeatures =
-          await client.autocomplete('Fylkeshusa Molde');
+      } else if (query.lat && query.lon) {
+        const position = {
+          lat: parseFloat(query.lat.toString()),
+          lon: parseFloat(query.lon.toString()),
+        };
+        const nearestStopPlaces = await client.nearestStopPlaces(position);
 
-        const data = autocompleteFeatures[0];
-
-        if (!data) {
-          // TODO fix notFound
-          return {
-            props: {
-              stopPlace: true,
-            },
-          };
-        }
-
-        const [lon, lat] = data.geometry.coordinates;
-        const nearestStopPlaces = await client.nearestStopPlaces({
-          lat,
-          lon,
-        });
+        const activeLocation = await client.reverse(position.lat, position.lon);
 
         return {
           props: {
             address: true,
-            activeLocation: data,
+            activeLocation,
             nearestStopPlaces,
           },
+        };
+      } else {
+        return {
+          props: { empty: true },
         };
       }
     },
