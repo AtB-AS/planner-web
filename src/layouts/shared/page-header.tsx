@@ -1,4 +1,3 @@
-import { MonoIcon } from '@atb/assets/mono-icon';
 import { CommonText, PageText, useTranslation } from '@atb/translations';
 import { and, andIf } from '@atb/utils/css';
 import Link from 'next/link';
@@ -6,6 +5,7 @@ import { useRouter } from 'next/router';
 import { MutableRefObject, useRef } from 'react';
 import { Hamburger, useTogglableBurgerMenu } from './menu-utils';
 import style from './page-header.module.css';
+import { MonoIcon } from '@atb/components/icon';
 
 export type PageHeaderProps = {
   withoutMenu?: boolean;
@@ -34,11 +34,11 @@ export default function PageHeader({ withoutMenu = false }: PageHeaderProps) {
                 data-testid="homeButton"
               >
                 <MonoIcon
-                  src="/logo/logo.svg"
+                  icon="logo/logo"
                   alt=""
                   role="none"
                   size="normal"
-                  overrideColor="black"
+                  overrideMode="light"
                 />
                 <span>{t(CommonText.Titles.siteTitle)}</span>
               </Link>
