@@ -23,29 +23,18 @@ afterEach(function () {
 });
 
 describe('MapHeader', function () {
-  it('should render travel to and from links', async () => {
+  it('should render travel to and from links for stop place', async () => {
     const output = render(<MapHeader {...stopPlaceMock} />);
 
     expect(output.getByText('Reis fra')).toBeInTheDocument();
     expect(output.getByText('Reis til')).toBeInTheDocument();
   });
 
-  it('should not render travel to and from links', async () => {
+  it('should not render travel to and from links for address', async () => {
     const output = render(<MapHeader {...addressMock} />);
 
     expect(output.queryByText('Reis fra')).not.toBeInTheDocument();
     expect(output.queryByText('Reis til')).not.toBeInTheDocument();
-  });
-
-  it('should show icons for travel method', async () => {
-    const output = render(
-      <MapHeader
-        {...stopPlaceMock}
-        category={[FeatureCategory.ONSTREET_BUS, FeatureCategory.ONSTREET_TRAM]}
-      />,
-    );
-    expect(output.getByAltText('Buss')).toBeInTheDocument();
-    expect(output.getByAltText('Trikk')).toBeInTheDocument();
   });
 
   it('should show icons for travel method', async () => {
