@@ -95,6 +95,10 @@
   z-index: 1;
 }
 
+.pinSvg__fill {
+  fill: var(--interactive-interactive_0-default-background);
+}
+
 @media only screen and (max-width: 650px) {
   .header {
     flex-direction: column;
