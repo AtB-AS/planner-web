@@ -8,6 +8,7 @@ import Button from '../button/button';
 import { MonoIcon } from '@atb/components/icon';
 import { ComponentText, useTranslation } from '@atb/translations';
 import { createRoot } from 'react-dom/client';
+import { FocusScope } from 'react-aria';
 
 export type LngLatPosition = [lng: number, lat: number];
 export type MapProps = {
@@ -39,6 +40,7 @@ export function Map({
   layer,
   onSelectStopPlace,
 }: MapProps) {
+  const mapWrapper = useRef<HTMLDivElement>(null);
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map>();
   const { t } = useTranslation();
@@ -57,7 +59,10 @@ export function Map({
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const { centerMap } = useMapInteractions(map, onSelectStopPlace);
-  const { mapWrapperRef, toggleFullscreen } = useFullscreenMap(map);
+  const { openFullscreen, closeFullscreen, isFullscreen } = useFullscreenMap(
+    mapWrapper,
+    map,
+  );
   useMapPin(map, position, layer);
 
   useEffect(() => {
@@ -76,32 +81,40 @@ export function Map({
         className={style.fullscreenButton}
         title={t(ComponentText.Map.map.openFullscreenButton)}
         icon={{ left: <MonoIcon icon="map/Map" /> }}
-        onClick={toggleFullscreen}
+        onClick={openFullscreen}
       />
 
-      <div className={style.mapWrapper} ref={mapWrapperRef}>
-        <Button
-          className={style.closeButton}
-          onClick={toggleFullscreen}
-          size="small"
-          icon={{
-            left: <MonoIcon icon="navigation/ArrowLeft" overrideMode="dark" />,
-          }}
-          mode="interactive_0"
-          buttonProps={{
-            'aria-label': t(ComponentText.Map.map.closeFullscreenButton),
-          }}
-        />
-        <Button
-          className={style.buttonsContainer}
-          size="small"
-          icon={{ left: <MonoIcon icon="places/City" /> }}
-          onClick={() => centerMap(position)}
-          buttonProps={{
-            'aria-label': t(ComponentText.Map.map.centerMapButton),
-          }}
-        />
-        <div ref={mapContainer} className={style.mapContainer} />
+      <div className={style.mapWrapper} ref={mapWrapper}>
+        <FocusScope
+          contain={isFullscreen}
+          restoreFocus
+          autoFocus={isFullscreen}
+        >
+          <Button
+            className={style.closeButton}
+            onClick={closeFullscreen}
+            size="small"
+            icon={{
+              left: (
+                <MonoIcon icon="navigation/ArrowLeft" overrideMode="dark" />
+              ),
+            }}
+            mode="interactive_0"
+            buttonProps={{
+              'aria-label': t(ComponentText.Map.map.closeFullscreenButton),
+            }}
+          />
+          <Button
+            className={style.buttonsContainer}
+            size="small"
+            icon={{ left: <MonoIcon icon="places/City" /> }}
+            onClick={() => centerMap(position)}
+            buttonProps={{
+              'aria-label': t(ComponentText.Map.map.centerMapButton),
+            }}
+          />
+          <div ref={mapContainer} className={style.mapContainer} />
+        </FocusScope>
       </div>
     </div>
   );
@@ -193,38 +206,52 @@ function useMapInteractions(
     mapRef.current.flyTo({ center: position, zoom: 15, speed: 2 });
   };
 
-  const reziseMap = () => {
-    if (!mapRef || !mapRef.current) return;
-    mapRef.current.resize();
-  };
-
-  return { centerMap, reziseMap };
+  return { centerMap };
 }
 
-function useFullscreenMap(
+const useFullscreenMap = (
+  mapWrapperRef: React.MutableRefObject<HTMLDivElement | null>,
   mapRef: React.MutableRefObject<mapboxgl.Map | undefined>,
-) {
-  const [isFullscreen, setIsFullscreen] = useState(false);
-  const mapWrapperRef = useRef<HTMLDivElement>(null);
+) => {
+  const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
 
-  const toggleFullscreen = () => {
-    setIsFullscreen(!isFullscreen);
+  const openFullscreen = () => {
+    if (!mapWrapperRef.current || !mapRef.current) return;
+    mapWrapperRef.current.style.display = 'block';
+    mapRef.current.resize();
+    setIsFullscreen(true);
   };
+
+  const closeFullscreen = useCallback(() => {
+    if (!mapWrapperRef.current || !mapRef.current) return;
+    mapWrapperRef.current.style.display = '';
+    mapRef.current.resize();
+    setIsFullscreen(false);
+  }, [mapWrapperRef, mapRef]);
+
+  const handlEscapeKey = useCallback(
+    (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        closeFullscreen();
+      }
+    },
+    [closeFullscreen],
+  );
 
   useEffect(() => {
-    if (!mapWrapperRef.current) return;
-
     if (isFullscreen) {
-      mapWrapperRef.current.style.display = 'block';
-      mapRef.current?.resize();
+      document.addEventListener('keydown', handlEscapeKey);
     } else {
-      mapWrapperRef.current.style.display = '';
-      mapRef.current?.resize();
+      document.removeEventListener('keydown', handlEscapeKey);
     }
-  }, [isFullscreen, mapWrapperRef, mapRef]);
 
-  return { mapWrapperRef, isFullscreen, toggleFullscreen };
-}
+    return () => {
+      document.removeEventListener('keydown', handlEscapeKey);
+    };
+  }, [isFullscreen, handlEscapeKey]);
+
+  return { openFullscreen, closeFullscreen, isFullscreen };
+};
 
 function PinSvg() {
   return (
