@@ -8,6 +8,7 @@ import { ColorIcon } from '@atb/assets/color-icon';
 import Button from '../button/button';
 import { MonoIcon } from '@atb/assets/mono-icon';
 import { ComponentText, useTranslation } from '@atb/translations';
+import { createRoot } from 'react-dom/client';
 
 export type LngLatPosition = [lng: number, lat: number];
 export type MapProps = {
@@ -119,13 +120,11 @@ function useMapPin(
   const [marker, setMarker] = useState<mapboxgl.Marker | undefined>();
 
   const createMapPin = useCallback(() => {
-    const pinSvg = React.createElement(
-      'span',
-      { className: style.positionMarker },
-      [<ColorIcon key="pin" src="Pin.svg" />],
-    ) as Marker;
+    const div = document.createElement('div');
+    const root = createRoot(div);
+    root.render(<MonoIcon key="pin" src="map/Pin.svg" />);
 
-    return new mapboxgl.Marker(pinSvg);
+    return new mapboxgl.Marker(div);
   }, []);
 
   const setMapPinPosition = useCallback(
