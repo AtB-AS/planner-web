@@ -30,3 +30,11 @@
 .secondaryText {
   color: var(--text-colors-secondary);
 }
+
+@media only screen and (max-width: 650px) {
+  .nearestContainer {
+    grid-template-areas: 'map' 'stop-places';
+    grid-template-columns: auto;
+    grid-template-rows: auto;
+  }
+}
