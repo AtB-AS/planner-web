@@ -25,6 +25,7 @@ function GeolocationButton({ onGeolocate, className }: GeolocationButtonProps) {
       onClick={getPosition}
       title={t(ComponentText.GeolocationButton.alt)}
       aria-label={t(ComponentText.GeolocationButton.alt)}
+      type="button"
     >
       <MonoIcon icon="places/City" />
     </button>

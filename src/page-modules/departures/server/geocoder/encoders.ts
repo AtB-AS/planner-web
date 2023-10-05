@@ -18,10 +18,12 @@ export const geometrySchema = z.object({
   coordinates: z.array(z.number()),
 });
 
+export const layerSchema = z.union([z.literal('address'), z.literal('venue')]);
+
 export const propertiesSchema = z.object({
   id: z.string(),
   gid: z.string(),
-  layer: z.string(),
+  layer: layerSchema,
   source: z.string(),
   source_id: z.string(),
   name: z.string(),
@@ -44,7 +46,7 @@ export const querySchema = z.object({
   parser: z.string().optional(),
   tokens: z.array(z.string()).optional(),
   size: z.number(),
-  layers: z.array(z.string()),
+  layers: z.array(layerSchema),
   sources: z.array(z.string()),
   private: z.boolean(),
   lang: langSchema,
@@ -73,3 +75,4 @@ export const geocoderRootSchema = z.object({
 });
 
 export type GeocoderRoot = z.infer<typeof geocoderRootSchema>;
+export type Layer = z.infer<typeof layerSchema>;

@@ -18,6 +18,7 @@ import {
   DepartureData,
   NearestStopPlacesData,
   StopPlaceInfo,
+  StopPlaceWithDistance,
   departureDataSchema,
   nearestStopPlaces,
   stopPlaceSchema,
@@ -31,12 +32,12 @@ export type { DepartureData };
 export type StopPlaceInput = {
   id: string;
 };
-export type { StopPlaceInfo };
 
 export type NearestStopPlacesInput = {
   lat: number;
   lon: number;
 };
+export type { StopPlaceInfo, NearestStopPlacesData, StopPlaceWithDistance };
 
 export type JourneyPlannerApi = {
   departures(input: DepartureInput): Promise<DepartureData>;
@@ -71,6 +72,11 @@ export function createJourneyApi(
         stopPlace: {
           id: result.data.stopPlace?.id,
           name: result.data.stopPlace?.name,
+
+          position: {
+            lat: result.data.stopPlace?.latitude,
+            lon: result.data.stopPlace?.longitude,
+          },
         },
         quays: result.data.stopPlace?.quays?.map((q) => ({
           name: q.name,
@@ -109,6 +115,11 @@ export function createJourneyApi(
       const data: RecursivePartial<StopPlaceInfo> = {
         id: result.data.stopPlace?.id,
         name: result.data.stopPlace?.name,
+
+        position: {
+          lat: result.data.stopPlace?.latitude,
+          lon: result.data.stopPlace?.longitude,
+        },
       };
 
       const validated = stopPlaceSchema.safeParse(data);
@@ -145,10 +156,17 @@ export function createJourneyApi(
           }
 
           return acc.concat({
-            id: edge.node?.place.id,
-            name: edge.node?.place.name,
+            stopPlace: {
+              id: edge.node?.place.id,
+              name: edge.node?.place.name,
+              position: {
+                lat: edge.node?.place.latitude,
+                lon: edge.node?.place.longitude,
+              },
+            },
+            distance: edge.node.distance,
           });
-        }, [] as NearestStopPlacesData) ?? [];
+        }, [] as RecursivePartial<NearestStopPlacesData>) ?? [];
 
       const validated = nearestStopPlaces.safeParse(data);
 

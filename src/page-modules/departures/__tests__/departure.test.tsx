@@ -3,7 +3,10 @@ import mockRouter from 'next-router-mock';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { ExternalClient } from '@atb/modules/api-server';
-import { JourneyPlannerApi } from '@atb/page-modules/departures/server/journey-planner';
+import {
+  DepartureData,
+  JourneyPlannerApi,
+} from '@atb/page-modules/departures/server/journey-planner';
 import DeparturesPage, {
   DeparturesPageProps,
   getServerSideProps,
@@ -24,6 +27,7 @@ describe('departure page', function () {
     await mockRouter.push('/departures/NSR:StopPlace:123');
 
     const initialProps: DeparturesPageProps = {
+      stopPlace: true,
       headersAcceptLanguage: 'en',
       initialCookies: {
         darkmode: false,
@@ -35,13 +39,17 @@ describe('departure page', function () {
     expect(output.getByText('Query: NSR:StopPlace:123')).toBeInTheDocument();
   });
 
-  it('should return props from getServerSideProps', async () => {
+  it('Should return props from getServerSideProps', async () => {
     await mockRouter.push('/departures/NSR:StopPlace:123');
 
-    const expectedDeparturesResult = {
+    const expectedDeparturesResult: DepartureData = {
       stopPlace: {
         id: 'NSR:StopPlace:123',
         name: 'Test Stop Place',
+        position: {
+          lat: 0,
+          lon: 0,
+        },
       },
       quays: [
         {

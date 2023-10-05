@@ -5,7 +5,7 @@ export type GeocoderFeature = {
   name: string;
   locality?: string;
   category: FeatureCategory[];
-  layer: string;
+  layer: 'address' | 'venue';
   geometry: {
     coordinates: number[];
   };

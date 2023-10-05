@@ -33,7 +33,7 @@ export function composeClientFactories<
 >(
   client1: ExternalClientFactory<U1, T1>,
   client2: ExternalClientFactory<U2, T2>,
-): ExternalClientFactory<U1 | U2, T1 & T2> {
+): ExternalClientFactory<U1 | U2, T2 & T1> {
   return function (req?: IncomingMessage) {
     return {
       ...client1(req),

@@ -6,6 +6,8 @@ query stopPlaceQuayDepartures(
   stopPlace(id: $id) {
     id
     name
+    latitude
+    longitude
     quays(filterByInUse: true) {
       id
       name
