@@ -46,6 +46,7 @@ describe('departure page', function () {
       stopPlace: {
         id: 'NSR:StopPlace:123',
         name: 'Test Stop Place',
+        description: null,
         position: {
           lat: 0,
           lon: 0,
