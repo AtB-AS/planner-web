@@ -36,3 +36,9 @@
     grid-template-columns: 1fr;
   }
 }
+
+.contentContainer {
+  margin: 0 auto;
+  max-width: var(--maxPageWidth);
+  padding: var(--spacings-xLarge);
+}
