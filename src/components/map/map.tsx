@@ -28,6 +28,7 @@ const INTERACTIVE_LAYERS = [
   'railway.nsr.api',
   'tram.nsr.api',
 ];
+
 const defaultPosition: LngLatPosition = [
   mapboxData.defaultLng,
   mapboxData.defaultLat,
@@ -51,7 +52,7 @@ export function Map({
       accessToken: mapboxData.accessToken,
       style: mapboxData.style,
       center: position,
-      zoom: 13,
+      zoom: ZOOM_LEVEL,
     });
 
     return () => map.current?.remove();
