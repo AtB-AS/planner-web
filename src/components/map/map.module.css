@@ -73,7 +73,7 @@
 }
 
 .fullscreenButton {
-  display: none !important;
+  display: none;
 }
 
 .closeButton {
@@ -81,7 +81,7 @@
   position: absolute;
   top: var(--spacings-xLarge);
   left: var(--spacings-xLarge);
-  display: none !important;
+  display: none;
 }
 
 .closeButton img {
@@ -113,18 +113,18 @@
   }
   .header__button {
     width: 100%;
-    text-align: center !important;
+    text-align: center;
   }
   .fullscreenButton {
-    display: flex !important;
+    display: flex;
     justify-content: center;
-    border: 2px solid #000000 !important;
+    border: 2px solid #000000;
   }
   .fullscreenButton span {
     flex: none;
   }
   .closeButton {
-    display: block !important;
+    display: block;
   }
   .mapWrapper {
     z-index: 250;
