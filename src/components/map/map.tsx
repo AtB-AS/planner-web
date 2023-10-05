@@ -28,11 +28,11 @@ const INTERACTIVE_LAYERS = [
   'railway.nsr.api',
   'tram.nsr.api',
 ];
-
 const defaultPosition: LngLatPosition = [
   mapboxData.defaultLng,
   mapboxData.defaultLat,
 ];
+const ZOOM_LEVEL = 16.5;
 
 export function Map({
   position = defaultPosition,
@@ -68,7 +68,7 @@ export function Map({
     if (map.current) {
       map.current.flyTo({
         center: position,
-        zoom: 15,
+        zoom: ZOOM_LEVEL,
         speed: 2,
       });
     }
@@ -201,7 +201,7 @@ function useMapInteractions(
 
   const centerMap = (position: LngLatPosition) => {
     if (!mapRef || !mapRef.current) return;
-    mapRef.current.flyTo({ center: position, zoom: 15, speed: 2 });
+    mapRef.current.flyTo({ center: position, zoom: ZOOM_LEVEL, speed: 2 });
   };
 
   return { centerMap };
