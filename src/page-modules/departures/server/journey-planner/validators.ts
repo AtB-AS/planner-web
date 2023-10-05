@@ -8,6 +8,7 @@ export const locationSchema = z.object({
 export const stopPlaceSchema = z.object({
   id: z.string(),
   name: z.string(),
+  description: z.string().nullable(),
   position: locationSchema,
 });
 

@@ -23,4 +23,17 @@ export const Departures = {
       title: _('Finn avganger', 'Find departures', 'Finn avganger'),
     },
   },
+
+  nearest: {
+    stopPlaceItem: {
+      stopPlace: _('Holdeplass', 'Stop', 'Haldeplass'),
+
+      uuTitle: (name: string, distance: string) =>
+        _(
+          `Holdeplass ${name}. ${distance} meter gåavstand.`,
+          `Stop place ${name}. ${distance} meters walking distance`,
+          `Holdeplass ${name}. ${distance} meter gåavstand`,
+        ),
+    },
+  },
 };
