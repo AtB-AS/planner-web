@@ -23,10 +23,19 @@
   display: flex;
   text-decoration: none;
   gap: var(--spacings-xSmall);
+  align-items: center;
 
-  flex-direction: column;
   padding: var(--spacings-medium);
   border-radius: var(--border-radius-regular);
+}
+.stopPlaceItem__text {
+  display: flex;
+  gap: var(--spacings-xSmall);
+
+  flex-direction: column;
+}
+.stopPlaceItem__icon {
+  margin-left: auto;
 }
 
 .secondaryText {
