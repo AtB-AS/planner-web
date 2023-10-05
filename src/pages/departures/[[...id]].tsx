@@ -82,39 +82,49 @@ const DeparturesPage: NextPage<DeparturesPageProps> = (props) => {
 export default DeparturesPage;
 
 export const getServerSideProps = withGlobalData(
-  withDepartureClient<DeparturesContentProps, { id: string[] | undefined }>(
-    async function ({ client, params, query }) {
-      const id = params?.id?.[0];
-      const stopPlace = id ? await client.departures({ id }) : null;
-      if (id && stopPlace) {
-        const departures = await client.departures({ id });
-        return {
-          props: {
-            stopPlace: true,
-            departures,
-          },
-        };
-      } else if (query.lat && query.lon) {
-        const position = {
-          lat: parseFloat(query.lat.toString()),
-          lon: parseFloat(query.lon.toString()),
-        };
-        const nearestStopPlaces = await client.nearestStopPlaces(position);
+  withDepartureClient<
+    DeparturesLayoutProps & DeparturesContentProps,
+    { id: string[] | undefined }
+  >(async function ({ client, params, query }) {
+    const id = params?.id?.[0];
+    const stopPlace = id ? await client.stopPlace({ id }) : null;
+    if (id && stopPlace) {
+      const departures = await client.departures({ id });
+      // TODO find out how we can get this better...
+      // This won't give the correct result
+      const activeLocation = await client.reverse(
+        stopPlace.position.lat,
+        stopPlace.position.lon,
+      );
 
-        const activeLocation = await client.reverse(position.lat, position.lon);
+      return {
+        props: {
+          stopPlace: true,
+          initialSelectedFeature: activeLocation,
+          departures,
+        },
+      };
+    } else if (query.lat && query.lon) {
+      const position = {
+        lat: parseFloat(query.lat.toString()),
+        lon: parseFloat(query.lon.toString()),
+      };
+      const nearestStopPlaces = await client.nearestStopPlaces(position);
 
-        return {
-          props: {
-            address: true,
-            activeLocation,
-            nearestStopPlaces,
-          },
-        };
-      } else {
-        return {
-          props: { empty: true },
-        };
-      }
-    },
-  ),
+      const activeLocation = await client.reverse(position.lat, position.lon);
+
+      return {
+        props: {
+          address: true,
+          initialSelectedFeature: activeLocation,
+          activeLocation,
+          nearestStopPlaces,
+        },
+      };
+    } else {
+      return {
+        props: { empty: true },
+      };
+    }
+  }),
 );

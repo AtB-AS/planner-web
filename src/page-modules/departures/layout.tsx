@@ -1,39 +1,46 @@
-import type { WithGlobalData } from "@atb/layouts/global-data";
-import type { GeocoderFeature } from "@atb/page-modules/departures";
-import { PageText, useTranslation } from "@atb/translations";
-import { FormEventHandler, PropsWithChildren, useState } from "react";
-import Search from "@atb/components/search";
-import { Button } from "@atb/components/button";
-import style from "./departures.module.css";
-import { useRouter } from "next/router";
+import type { WithGlobalData } from '@atb/layouts/global-data';
+import type { GeocoderFeature } from '@atb/page-modules/departures';
+import { PageText, useTranslation } from '@atb/translations';
+import { FormEventHandler, PropsWithChildren, useState } from 'react';
+import Search from '@atb/components/search';
+import { Button } from '@atb/components/button';
+import style from './departures.module.css';
+import { useRouter } from 'next/router';
 import DepartureDateSelector, {
   DepartureDate,
   DepartureDateState,
 } from '@atb/components/departure-date-selector';
 
-export type DeparturesLayoutProps = PropsWithChildren<WithGlobalData<{}>>;
+export type DeparturesLayoutProps = PropsWithChildren<{
+  initialSelectedFeature?: GeocoderFeature;
+}>;
 
-function DeparturesLayout({ children }: DeparturesLayoutProps) {
+function DeparturesLayout({
+  children,
+  initialSelectedFeature,
+}: DeparturesLayoutProps) {
   const { t } = useTranslation();
   const router = useRouter();
 
-  const [selectedFeature, setSelectedFeature] = useState<GeocoderFeature>();
+  const [selectedFeature, setSelectedFeature] = useState<
+    GeocoderFeature | undefined
+  >(initialSelectedFeature);
   const [departureDate, setDepartureDate] = useState<DepartureDate>({
     type: DepartureDateState.Now,
   });
 
   const onSubmitHandler: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    if (selectedFeature?.layer == "venue") {
+    if (selectedFeature?.layer == 'venue') {
       router.push(`/departures/${selectedFeature.id}`);
-    } else if (selectedFeature?.layer == "address") {
+    } else if (selectedFeature?.layer == 'address') {
       const [lon, lat] = selectedFeature.geometry.coordinates;
       router.push({
-        href: "/departures",
+        href: '/departures',
         query: {
           lon,
-          lat
-        }
+          lat,
+        },
       });
     }
   };
@@ -50,6 +57,11 @@ function DeparturesLayout({ children }: DeparturesLayoutProps) {
             <Search
               label={t(PageText.Departures.search.input.from)}
               onChange={setSelectedFeature}
+              initialQuery={
+                !selectedFeature
+                  ? undefined
+                  : `${selectedFeature.name}, ${selectedFeature.locality}`
+              }
             />
           </div>
 
@@ -69,7 +81,7 @@ function DeparturesLayout({ children }: DeparturesLayoutProps) {
             className={style.searchButton}
             mode="interactive_0"
             disabled={!selectedFeature}
-            buttonProps={{ type: "submit" }}
+            buttonProps={{ type: 'submit' }}
           />
         </form>
       </div>
