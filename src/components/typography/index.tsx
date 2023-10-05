@@ -1,5 +1,4 @@
 import type { TextNames } from '@atb-as/theme';
-// import style from './typography.module.css';
 import { and } from '@atb/utils/css';
 
 type BaseTypographyInternal<E extends React.ElementType = React.ElementType> = {
