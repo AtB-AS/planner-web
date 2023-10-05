@@ -9,22 +9,31 @@ export enum DepartureDateState {
   Departure = 'departure',
 }
 
+export type DepartureDate =
+  | {
+      type: DepartureDateState.Now;
+    }
+  | {
+      type: DepartureDateState.Arrival;
+      dateTime: number;
+    }
+  | {
+      type: DepartureDateState.Departure;
+      dateTime: number;
+    };
+
 type DepartureDateSelectorProps = {
-  initialState?: DepartureDateState;
-  onStateChange: (state: DepartureDateState) => void;
-  onDateChange: (date: Date) => void;
-  onTimeChange: (time: string) => void;
+  initialState?: DepartureDate;
+  onChange: (state: DepartureDate) => void;
 };
 
 export default function DepartureDateSelector({
-  initialState = DepartureDateState.Now,
-  onStateChange,
-  onDateChange,
-  onTimeChange,
+  initialState = { type: DepartureDateState.Now },
+  onChange,
 }: DepartureDateSelectorProps) {
   const { t } = useTranslation();
   const [selectedOption, setSelectedOption] =
-    useState<DepartureDateState>(initialState);
+    useState<DepartureDate>(initialState);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedTime, setSelectedTime] = useState(() => {
     const now = new Date();
@@ -35,17 +44,45 @@ export default function DepartureDateSelector({
   });
 
   const internalOnStateChange = (state: DepartureDateState) => {
-    setSelectedOption(state);
-    onStateChange(state);
+    const newState =
+      state === DepartureDateState.Now
+        ? {
+            type: state,
+          }
+        : {
+            type: state,
+            dateTime: new Date(
+              selectedDate.toISOString().slice(0, 10) + 'T' + selectedTime,
+            ).getTime(),
+          };
+
+    setSelectedOption(newState);
+
+    onChange(newState);
   };
+
   const internalOnDateChange = (event: ChangeEvent<HTMLInputElement>) => {
+    if (!event.target.value) return;
+
     setSelectedDate(new Date(event.target.value));
-    onDateChange(new Date(event.target.value));
+
+    onChange({
+      type: selectedOption.type,
+      dateTime: new Date(event.target.value + 'T' + selectedTime).getTime(),
+    });
   };
 
   const internalOnTimeChange = (event: ChangeEvent<HTMLInputElement>) => {
+    if (!event.target.value) return;
+
     setSelectedTime(event.target.value);
-    onTimeChange(event.target.value);
+
+    onChange({
+      type: selectedOption.type,
+      dateTime: new Date(
+        selectedDate.toISOString().slice(0, 10) + 'T' + event.target.value,
+      ).getTime(),
+    });
   };
 
   return (
@@ -58,7 +95,7 @@ export default function DepartureDateSelector({
                 type="radio"
                 name="departureDateSelector"
                 value={state}
-                checked={selectedOption === state}
+                checked={selectedOption.type === state}
                 onChange={() => internalOnStateChange(state)}
                 aria-label={stateToLabel(state, t)}
               />
@@ -68,7 +105,7 @@ export default function DepartureDateSelector({
         ))}
       </div>
 
-      {selectedOption !== DepartureDateState.Now && (
+      {selectedOption.type !== DepartureDateState.Now && (
         <div className={style.dateAndTimeSelectors}>
           <div className={style.dateSelector}>
             <label htmlFor="departureDateSelector">

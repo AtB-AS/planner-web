@@ -1,12 +1,13 @@
 import type { WithGlobalData } from "@atb/layouts/global-data";
 import type { GeocoderFeature } from "@atb/page-modules/departures";
 import { PageText, useTranslation } from "@atb/translations";
-import { PropsWithChildren, useState } from "react";
+import { FormEventHandler, PropsWithChildren, useState } from "react";
 import Search from "@atb/components/search";
 import { Button } from "@atb/components/button";
 import style from "./departures.module.css";
 import { useRouter } from "next/router";
 import DepartureDateSelector, {
+  DepartureDate,
   DepartureDateState,
 } from '@atb/components/departure-date-selector';
 
@@ -17,11 +18,9 @@ function DeparturesLayout({ children }: DeparturesLayoutProps) {
   const router = useRouter();
 
   const [selectedFeature, setSelectedFeature] = useState<GeocoderFeature>();
-  const [departureDateState, setDepartureDateState] = useState(
-    DepartureDateState.Now,
-  );
-  const [_departureDate, setDepartureDate] = useState<Date>();
-  const [_departureTime, setDepartureTime] = useState<string>();
+  const [departureDate, setDepartureDate] = useState<DepartureDate>({
+    type: DepartureDateState.Now,
+  });
 
   const onSubmitHandler: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
@@ -60,10 +59,8 @@ function DeparturesLayout({ children }: DeparturesLayoutProps) {
             </p>
 
             <DepartureDateSelector
-              initialState={departureDateState}
-              onStateChange={setDepartureDateState}
-              onDateChange={setDepartureDate}
-              onTimeChange={setDepartureTime}
+              initialState={departureDate}
+              onChange={setDepartureDate}
             />
           </div>
 

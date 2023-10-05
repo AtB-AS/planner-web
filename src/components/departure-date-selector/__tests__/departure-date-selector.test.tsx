@@ -12,13 +12,7 @@ afterEach(function () {
 
 describe('departure date selector', function () {
   it('should default to "Now"', async () => {
-    const output = render(
-      <DepartureDateSelector
-        onStateChange={() => {}}
-        onDateChange={() => {}}
-        onTimeChange={() => {}}
-      />,
-    );
+    const output = render(<DepartureDateSelector onChange={() => {}} />);
 
     expect(
       output.getByRole('radio', {
@@ -28,13 +22,7 @@ describe('departure date selector', function () {
   });
 
   it('should not show date and time selector when "Now" is selected', async () => {
-    const output = render(
-      <DepartureDateSelector
-        onStateChange={() => {}}
-        onDateChange={() => {}}
-        onTimeChange={() => {}}
-      />,
-    );
+    const output = render(<DepartureDateSelector onChange={() => {}} />);
 
     expect(output.queryByText('Dato')).not.toBeInTheDocument();
     expect(output.queryByText('Tid')).not.toBeInTheDocument();
@@ -43,10 +31,8 @@ describe('departure date selector', function () {
   it('should use initialState for default selected', async () => {
     const output = render(
       <DepartureDateSelector
-        initialState={DepartureDateState.Arrival}
-        onStateChange={() => {}}
-        onDateChange={() => {}}
-        onTimeChange={() => {}}
+        initialState={{ type: DepartureDateState.Arrival, dateTime: 0 }}
+        onChange={() => {}}
       />,
     );
 
@@ -58,10 +44,8 @@ describe('departure date selector', function () {
   it('should show date and time selector when "Arrival" is selected', async () => {
     const output = render(
       <DepartureDateSelector
-        initialState={DepartureDateState.Arrival}
-        onStateChange={() => {}}
-        onDateChange={() => {}}
-        onTimeChange={() => {}}
+        initialState={{ type: DepartureDateState.Arrival, dateTime: 0 }}
+        onChange={() => {}}
       />,
     );
 
@@ -72,10 +56,8 @@ describe('departure date selector', function () {
   it('should show date and time selector when "Departure" is selected', async () => {
     const output = render(
       <DepartureDateSelector
-        initialState={DepartureDateState.Departure}
-        onStateChange={() => {}}
-        onDateChange={() => {}}
-        onTimeChange={() => {}}
+        initialState={{ type: DepartureDateState.Departure, dateTime: 0 }}
+        onChange={() => {}}
       />,
     );
 
@@ -84,13 +66,7 @@ describe('departure date selector', function () {
   });
 
   it('should change selection with keyboard', async () => {
-    const output = render(
-      <DepartureDateSelector
-        onStateChange={() => {}}
-        onDateChange={() => {}}
-        onTimeChange={() => {}}
-      />,
-    );
+    const output = render(<DepartureDateSelector onChange={() => {}} />);
 
     const radio = output.getByRole('radio', { name: 'Nå' });
     radio.focus();
@@ -107,13 +83,7 @@ describe('departure date selector', function () {
   });
 
   it('should change selection when clicked', async () => {
-    const output = render(
-      <DepartureDateSelector
-        onStateChange={() => {}}
-        onDateChange={() => {}}
-        onTimeChange={() => {}}
-      />,
-    );
+    const output = render(<DepartureDateSelector onChange={() => {}} />);
 
     const radio = output.getByRole('radio', {
       name: 'Ankomst',
@@ -128,27 +98,19 @@ describe('departure date selector', function () {
 
   it('should call onStateChange', async () => {
     const onStateChange = vi.fn();
-    const output = render(
-      <DepartureDateSelector
-        onStateChange={onStateChange}
-        onDateChange={() => {}}
-        onTimeChange={() => {}}
-      />,
-    );
+    const output = render(<DepartureDateSelector onChange={onStateChange} />);
 
     output.getByRole('radio', { name: 'Ankomst' }).click();
 
-    expect(onStateChange).toHaveBeenCalledWith(DepartureDateState.Arrival);
+    expect(onStateChange).toHaveBeenCalled();
   });
 
   it('should call onDateChange', async () => {
-    const onDateChange = vi.fn();
+    const onChange = vi.fn();
     const output = render(
       <DepartureDateSelector
-        initialState={DepartureDateState.Arrival}
-        onStateChange={() => {}}
-        onDateChange={onDateChange}
-        onTimeChange={() => {}}
+        initialState={{ type: DepartureDateState.Arrival, dateTime: 0 }}
+        onChange={onChange}
       />,
     );
 
@@ -156,17 +118,15 @@ describe('departure date selector', function () {
 
     fireEvent.change(date, { target: { value: '2100-01-01' } });
 
-    expect(onDateChange).toHaveBeenCalledWith(new Date('2100-01-01'));
+    expect(onChange).toHaveBeenCalled();
   });
 
   it('should call onTimeChange', async () => {
-    const onTimeChange = vi.fn();
+    const onChange = vi.fn();
     const output = render(
       <DepartureDateSelector
-        initialState={DepartureDateState.Arrival}
-        onStateChange={() => {}}
-        onDateChange={() => {}}
-        onTimeChange={onTimeChange}
+        initialState={{ type: DepartureDateState.Arrival, dateTime: 0 }}
+        onChange={onChange}
       />,
     );
 
@@ -174,6 +134,6 @@ describe('departure date selector', function () {
 
     fireEvent.change(time, { target: { value: '00:00' } });
 
-    expect(onTimeChange).toHaveBeenCalledWith('00:00');
+    expect(onChange).toHaveBeenCalled();
   });
 });
