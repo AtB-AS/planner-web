@@ -12,6 +12,13 @@ export const Departures = {
       ),
       from: _('Fra', 'From', 'Frå'),
     },
+    date: {
+      label: _(
+        'Når vil du reise?',
+        'When do you want to travel?',
+        'Når vil du reise?',
+      ),
+    },
     button: {
       title: _('Finn avganger', 'Find departures', 'Finn avganger'),
     },

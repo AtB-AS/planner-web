@@ -1,31 +1,39 @@
-import type { WithGlobalData } from '@atb/layouts/global-data';
-import type { GeocoderFeature } from '@atb/page-modules/departures';
-import { PageText, useTranslation } from '@atb/translations';
-import { FormEventHandler, PropsWithChildren, useState } from 'react';
-import Search from '@atb/components/search';
-import { Button } from '@atb/components/button';
-import style from './departures.module.css';
-import { useRouter } from 'next/router';
+import type { WithGlobalData } from "@atb/layouts/global-data";
+import type { GeocoderFeature } from "@atb/page-modules/departures";
+import { PageText, useTranslation } from "@atb/translations";
+import { FormEventHandler, PropsWithChildren, useState } from "react";
+import Search from "@atb/components/search";
+import { Button } from "@atb/components/button";
+import style from "./departures.module.css";
+import { useRouter } from "next/router";
+import DepartureDateSelector, {
+  DepartureDate,
+  DepartureDateState,
+} from '@atb/components/departure-date-selector';
 
 export type DeparturesLayoutProps = PropsWithChildren<WithGlobalData<{}>>;
+
 function DeparturesLayout({ children }: DeparturesLayoutProps) {
   const { t } = useTranslation();
   const router = useRouter();
 
   const [selectedFeature, setSelectedFeature] = useState<GeocoderFeature>();
+  const [departureDate, setDepartureDate] = useState<DepartureDate>({
+    type: DepartureDateState.Now,
+  });
 
   const onSubmitHandler: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    if (selectedFeature?.layer == 'venue') {
+    if (selectedFeature?.layer == "venue") {
       router.push(`/departures/${selectedFeature.id}`);
-    } else if (selectedFeature?.layer == 'address') {
+    } else if (selectedFeature?.layer == "address") {
       const [lon, lat] = selectedFeature.geometry.coordinates;
       router.push({
-        href: '/departures',
+        href: "/departures",
         query: {
           lon,
-          lat,
-        },
+          lat
+        }
       });
     }
   };
@@ -34,21 +42,34 @@ function DeparturesLayout({ children }: DeparturesLayoutProps) {
     <div className={style.departuresPage}>
       <div className={style.searchWrapper}>
         <form className={style.searchContainer} onSubmit={onSubmitHandler}>
-          <p className={style.searchInputLabel}>
-            {t(PageText.Departures.search.input.label)}
-          </p>
+          <div className={style.searchInput}>
+            <p className={style.searchInputLabel}>
+              {t(PageText.Departures.search.input.label)}
+            </p>
 
-          <Search
-            label={t(PageText.Departures.search.input.from)}
-            onChange={setSelectedFeature}
-          />
+            <Search
+              label={t(PageText.Departures.search.input.from)}
+              onChange={setSelectedFeature}
+            />
+          </div>
+
+          <div className={style.searchDate}>
+            <p className={style.searchInputLabel}>
+              {t(PageText.Departures.search.date.label)}
+            </p>
+
+            <DepartureDateSelector
+              initialState={departureDate}
+              onChange={setDepartureDate}
+            />
+          </div>
 
           <Button
             title={t(PageText.Departures.search.button.title)}
             className={style.searchButton}
             mode="interactive_0"
             disabled={!selectedFeature}
-            buttonProps={{ type: 'submit' }}
+            buttonProps={{ type: "submit" }}
           />
         </form>
       </div>
