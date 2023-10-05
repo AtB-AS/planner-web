@@ -1,30 +1,33 @@
 import { ComponentText, useTranslation } from '@atb/translations';
-import { MonoIcon } from '@atb/components/icon';
+import { MonoIcon, MonoIconProps } from '@atb/components/icon';
+
+export type VenuIconProps = {
+  category: FeatureCategory[];
+  multiple?: boolean;
+} & Omit<MonoIconProps, 'icon'>;
 
 export default function VenueIcon({
   category,
   multiple,
-}: {
-  category: FeatureCategory[];
-  multiple?: boolean;
-}) {
+  ...props
+}: VenuIconProps) {
   const venueIconTypes = getVenueIconTypes(category);
 
   if (!venueIconTypes.length) {
-    return <MonoIcon icon="map/Pin" key="unknown" />;
+    return <MonoIcon icon="map/Pin" key="unknown" {...props} />;
   }
 
   if (multiple) {
     return (
       <>
         {venueIconTypes.map((it) => (
-          <IconComponent iconType={it} key={it} />
+          <IconComponent iconType={it} key={it} {...props} />
         ))}
       </>
     );
   }
 
-  return <IconComponent iconType={venueIconTypes[0]} />;
+  return <IconComponent iconType={venueIconTypes[0]} {...props} />;
 }
 
 export enum FeatureCategory {
@@ -51,7 +54,10 @@ export enum FeatureCategory {
 }
 
 type VenueIconType = 'bus' | 'tram' | 'rail' | 'airport' | 'boat' | 'unknown';
-function IconComponent({ iconType }: { iconType: VenueIconType }) {
+type IconComponentProps = {
+  iconType: VenueIconType;
+} & Omit<MonoIconProps, 'icon'>;
+function IconComponent({ iconType, ...props }: IconComponentProps) {
   const { t } = useTranslation();
   switch (iconType) {
     case 'bus':
@@ -61,6 +67,7 @@ function IconComponent({ iconType }: { iconType: VenueIconType }) {
           key="bus"
           role="img"
           alt={t(ComponentText.VenueIcon.bus)}
+          {...props}
         />
       );
     case 'tram':
@@ -70,6 +77,7 @@ function IconComponent({ iconType }: { iconType: VenueIconType }) {
           key="tram"
           role="img"
           alt={t(ComponentText.VenueIcon.tram)}
+          {...props}
         />
       );
     case 'rail':
@@ -79,6 +87,7 @@ function IconComponent({ iconType }: { iconType: VenueIconType }) {
           key="rail"
           role="img"
           alt={t(ComponentText.VenueIcon.rail)}
+          {...props}
         />
       );
     case 'airport':
@@ -88,6 +97,7 @@ function IconComponent({ iconType }: { iconType: VenueIconType }) {
           key="airport"
           role="img"
           alt={t(ComponentText.VenueIcon.air)}
+          {...props}
         />
       );
     case 'boat':
@@ -97,6 +107,7 @@ function IconComponent({ iconType }: { iconType: VenueIconType }) {
           key="boat"
           role="img"
           alt={t(ComponentText.VenueIcon.water)}
+          {...props}
         />
       );
     case 'unknown':
@@ -107,6 +118,7 @@ function IconComponent({ iconType }: { iconType: VenueIconType }) {
           key="unknown"
           role="img"
           alt={t(ComponentText.VenueIcon.unknown)}
+          {...props}
         />
       );
   }

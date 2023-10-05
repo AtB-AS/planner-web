@@ -9,4 +9,5 @@ export type GeocoderFeature = {
   geometry: {
     coordinates: number[];
   };
+  street?: string;
 };

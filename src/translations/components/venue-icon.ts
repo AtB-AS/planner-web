@@ -1,4 +1,4 @@
-import {translation as _} from '@atb/translations/commons';
+import { translation as _ } from '@atb/translations/commons';
 
 export const VenueIcon = {
   bus: _('Buss', 'Bus', 'Buss'),

@@ -1,4 +1,136 @@
-.mapContainer {
+.mapWithHeader {
   height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacings-medium);
+  background: var(--static-background-background_0-background);
+  color: var(--static-background-background_0-text);
+  border-radius: var(--border-radius-regular) var(--border-radius-regular) 0 0;
+  padding: var(--spacings-medium);
+}
+
+.header__icons {
+  display: flex;
+  gap: var(--spacings-medium);
+}
+
+.header__icons div {
+  background-color: var(--static-background-background_accent_0-background);
+  color: var(--static-background-background_accent_0-text);
+  padding: var(--spacings-small);
   border-radius: var(--border-radius-regular);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header__info {
+  display: flex;
+  flex-direction: column;
+}
+
+.header__info__secondary {
+  color: var(--text-colors-secondary);
+}
+
+.flexOrder__2 {
+  order: 2;
+}
+
+.header__buttons {
+  display: flex;
+  gap: var(--spacings-medium);
+  margin-left: auto;
+}
+
+.mapContainer {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.header__leftContainer {
+  display: flex;
+  gap: var(--spacings-medium);
+}
+
+.map {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.mapWrapper {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.fullscreenButton {
+  display: none;
+}
+
+.closeButton {
+  z-index: 250;
+  position: absolute;
+  top: var(--spacings-xLarge);
+  left: var(--spacings-xLarge);
+  display: none;
+}
+
+.closeButton img {
+  display: block;
+}
+
+.buttonsContainer {
+  position: absolute;
+  right: var(--spacings-xLarge);
+  bottom: 3rem;
+  z-index: 250;
+}
+
+.pinSvg__fill {
+  fill: var(--interactive-interactive_0-default-background);
+}
+
+@media only screen and (max-width: 650px) {
+  .header {
+    flex-direction: column;
+    background: inherit;
+    color: inherit;
+    padding: var(--spacings-medium) 0;
+  }
+  .header__buttons {
+    margin-left: 0;
+    width: 100%;
+    align-items: center;
+  }
+  .header__button {
+    width: 100%;
+    text-align: center;
+  }
+  .fullscreenButton {
+    display: flex;
+    justify-content: center;
+    border: 2px solid #000000;
+  }
+  .fullscreenButton span {
+    flex: none;
+  }
+  .closeButton {
+    display: block;
+  }
+  .mapWrapper {
+    z-index: 250;
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
 }

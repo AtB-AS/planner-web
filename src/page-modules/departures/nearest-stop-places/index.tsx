@@ -1,4 +1,4 @@
-import { Map } from '@atb/components/map';
+import { MapWithHeader } from '@atb/components/map';
 import type {
   GeocoderFeature,
   NearestStopPlacesData,
@@ -8,6 +8,7 @@ import type { StopPlaceWithDistance } from '..';
 
 import style from './nearest-stop-places.module.css';
 import { Typo } from '@atb/components/typography';
+import { useRouter } from 'next/router';
 
 export type NearestStopPlacesProps = {
   activeLocation: GeocoderFeature | undefined;
@@ -18,15 +19,23 @@ export function NearestStopPlaces({
   nearestStopPlaces,
   activeLocation,
 }: NearestStopPlacesProps) {
+  const router = useRouter();
   return (
     <section className={style.nearestContainer}>
       <div className={style.mapContainer}>
         {activeLocation && (
-          <Map
-            position={{
-              lat: activeLocation.geometry.coordinates[1],
-              lng: activeLocation.geometry.coordinates[0],
-            }}
+          <MapWithHeader
+            id={activeLocation.id}
+            name={activeLocation.name}
+            layer="address"
+            street={activeLocation.street}
+            position={[
+              activeLocation.geometry.coordinates[0],
+              activeLocation.geometry.coordinates[1],
+            ]}
+            onSelectStopPlace={(stopPlaceId) =>
+              router.push(`/departures/${stopPlaceId}`)
+            }
           />
         )}
       </div>

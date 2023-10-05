@@ -1,5 +1,5 @@
-import React, {MouseEventHandler} from 'react';
-import {ButtonBase, ButtonBaseProps, getBaseButtonClassName} from './utils';
+import React, { MouseEventHandler } from 'react';
+import { ButtonBase, ButtonBaseProps, getBaseButtonClassName } from './utils';
 
 export type ButtonProps = {
   /** Action when clicked */
@@ -15,7 +15,7 @@ export type ButtonProps = {
 } & ButtonBaseProps;
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  function Button({onClick, testID, buttonProps, ...props}, ref) {
+  function Button({ onClick, testID, buttonProps, ...props }, ref) {
     const className = getBaseButtonClassName(props);
     return (
       <button
