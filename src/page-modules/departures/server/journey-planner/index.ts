@@ -23,6 +23,8 @@ import {
   nearestStopPlaces,
   stopPlaceSchema,
 } from './validators';
+import { TransportMode as GraphqlTransportMode } from '@atb/modules/graphql-types';
+import { TransportMode } from '@atb/components/transport-mode/types';
 
 export type DepartureInput = {
   id: string;
@@ -72,19 +74,32 @@ export function createJourneyApi(
         stopPlace: {
           id: result.data.stopPlace?.id,
           name: result.data.stopPlace?.name,
-
           position: {
             lat: result.data.stopPlace?.latitude,
             lon: result.data.stopPlace?.longitude,
           },
+          transportMode: filterTransportModes(
+            result.data.stopPlace?.transportMode,
+          ),
+          transportSubmode: result.data.stopPlace?.transportSubmode,
+          description: result.data.stopPlace?.description,
         },
         quays: result.data.stopPlace?.quays?.map((q) => ({
           name: q.name,
           id: q.id,
           publicCode: q.publicCode,
+          description: q.description,
           departures: q.estimatedCalls.map((e) => ({
             id: e.serviceJourney.id,
             name: e.destinationDisplay?.frontText,
+            date: e.date,
+            expectedDepartureTime: e.expectedDepartureTime,
+            aimedDepartureTime: e.aimedDepartureTime,
+            transportMode: isTransportMode(e.serviceJourney.line.transportMode)
+              ? e.serviceJourney.line.transportMode
+              : undefined,
+            transportSubmode: e.serviceJourney.line.transportSubmode,
+            publicCode: e.serviceJourney.line.publicCode,
           })),
         })),
       };
@@ -190,4 +205,20 @@ type RecursivePartial<T> = {
     : T[P] extends object | undefined
     ? RecursivePartial<T[P]>
     : T[P];
+};
+
+const filterTransportModes = (
+  modes: GraphqlTransportMode[] | undefined,
+): TransportMode[] | undefined => {
+  if (!modes) return undefined;
+  const transportModes: TransportMode[] = [];
+  modes.forEach((transportMode) => {
+    if (isTransportMode(transportMode)) transportModes.push(transportMode);
+  });
+  if (transportModes.length === 0) return undefined;
+  return transportModes;
+};
+
+const isTransportMode = (a: any): a is TransportMode => {
+  return Object.values(TransportMode).includes(a);
 };

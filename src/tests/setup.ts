@@ -19,6 +19,8 @@ vi.mock('mapbox-gl/dist/mapbox-gl.js', () => {
       Map: class Map {
         setCenter() {}
         remove() {}
+        on() {}
+        flyTo() {}
       },
     },
   };

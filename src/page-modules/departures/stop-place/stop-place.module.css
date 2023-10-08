@@ -1,0 +1,129 @@
+.stopPlaceContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(31.25rem, 1fr));
+  grid-auto-rows: minmax(37.5rem, auto) auto;
+  grid-template-areas: 'quays map';
+  gap: var(--spacings-small);
+  max-width: var(--maxPageWidth);
+  margin: var(--spacings-large) auto;
+}
+
+.mapContainer {
+  grid-area: map;
+  max-height: 37.5rem;
+}
+
+.quaysContainer {
+  grid-area: quays;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.quaysContainer li {
+  list-style: none;
+}
+
+.listHeader {
+  border: none;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--spacings-xSmall);
+  justify-content: space-between;
+  background-color: var(--static-background-background_0-background);
+  color: var(--static-background-background_0-text);
+  border-radius: var(--border-radius-regular) var(--border-radius-regular) 0 0;
+  border-bottom: 1px solid var(--static-background-background_2-background);
+  padding: var(--spacings-small) var(--spacings-medium);
+  cursor: pointer;
+}
+
+.listHeader--collapsed {
+  border-radius: var(--border-radius-regular);
+  border-bottom: none;
+}
+
+.textColor__secondary {
+  color: var(--text-colors-secondary);
+}
+
+.flex__row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacings-xSmall);
+}
+
+.listItem,
+.listHeader,
+.listItem:visited,
+.listHeader:visited {
+  background-color: var(--interactive-interactive_2-default-background);
+  color: var(--interactive-interactive_2-default-text);
+}
+.listItem:hover,
+.listHeader:hover {
+  background-color: var(--interactive-interactive_2-hover-background);
+  color: var(--interactive-interactive_2-hover-text);
+}
+.listItem:active,
+.listHeader:active {
+  background-color: var(--interactive-interactive_2-active-background);
+  color: var(--interactive-interactive_2-active-text);
+}
+.listItem:disabled,
+.listItem.button--disabled,
+.listHeader:disabled,
+.listHeader.button--disabled {
+  background-color: var(--interactive-interactive_2-disabled-background);
+  color: var(--interactive-interactive_2-disabled-text);
+}
+.listItem:focus,
+.listHeader:focus {
+  outline: 0;
+  box-shadow: inset 0 0 0 var(--border-width-medium)
+    var(--interactive-interactive_2-outline-background);
+}
+
+.listItem {
+  border: none;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--interactive-interactive_2-default-background);
+  color: var(--interactive-interactive_2-default-text);
+  border-bottom: 1px solid var(--static-background-background_2-background);
+  padding: var(--spacings-medium);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.transportInfo {
+  display: flex;
+  gap: var(--spacings-medium);
+  align-items: center;
+}
+.lineChip {
+  min-width: 4.125rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacings-xSmall);
+  padding: var(--spacings-small);
+  border-radius: var(--spacings-small);
+}
+.lineChip__publicCode {
+  text-align: right;
+}
+.departureTime {
+  text-align: right;
+}
+
+@media only screen and (max-width: 650px) {
+  .stopPlaceContainer {
+    grid-template-areas: 'map' 'quays';
+    grid-template-columns: auto;
+    grid-template-rows: auto;
+    margin: var(--spacings-xLarge);
+  }
+}

@@ -36,4 +36,33 @@ export const Departures = {
         ),
     },
   },
+  stopPlace: {
+    noDepartures: _(
+      'Ingen avganger i dette tidsrommet.',
+      'No departures in the selected period of time.',
+      'Ingen avgangar i dette tidsrommet.',
+    ),
+    quaySection: {
+      a11yExpand: _(
+        'Aktiver for å utvide',
+        'Activate to expand',
+        'Aktiver for å utvide',
+      ),
+      a11yMinimize: _(
+        'Aktiver for å minimere',
+        'Activate to minimize',
+        'Aktiver for å minimere',
+      ),
+      a11yToQuayHint: _(
+        'Aktiver for å vise flere avganger',
+        'Activate to show more departures',
+        'Aktiver for å vise fleire avgangar',
+      ),
+      moreDepartures: _(
+        'Se flere avganger',
+        'See more departures',
+        'Sjå fleire avgangar',
+      ),
+    },
+  },
 };

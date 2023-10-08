@@ -8,10 +8,14 @@ query stopPlaceQuayDepartures(
     name
     latitude
     longitude
+    transportMode
+    transportSubmode
+    description
     quays(filterByInUse: true) {
       id
       name
       publicCode
+      description
       estimatedCalls(
         numberOfDepartures: $numberOfDepartures
         startTime: $startTime
