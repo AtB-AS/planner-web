@@ -16,7 +16,6 @@ export const stopPlaceSchema = z.object({
   position: locationSchema,
   transportMode: z.array(z.nativeEnum(TransportMode)).optional(),
   transportSubmode: z.array(z.nativeEnum(TransportSubmode)).optional(),
-  description: z.string().optional(),
 });
 
 export const departureSchema = z.object({
