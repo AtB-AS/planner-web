@@ -9,6 +9,8 @@ import type { StopPlaceWithDistance } from '..';
 import style from './nearest-stop-places.module.css';
 import { Typo } from '@atb/components/typography';
 import { useRouter } from 'next/router';
+import VenueIcon, { FeatureCategory } from '@atb/components/venue-icon';
+import { PageText, useTranslation } from '@atb/translations';
 
 export type NearestStopPlacesProps = {
   activeLocation: GeocoderFeature | undefined;
@@ -55,16 +57,35 @@ export type StopPlaceItemProps = {
   item: StopPlaceWithDistance;
 };
 export default function StopPlaceItem({ item }: StopPlaceItemProps) {
+  const { t } = useTranslation();
+
   return (
     <Link
       href={`/departures/${item.stopPlace.id}`}
       className={style.stopPlaceItem}
+      title={t(
+        PageText.Departures.nearest.stopPlaceItem.uuTitle(
+          item.stopPlace.name,
+          item.distance.toFixed(0),
+        ),
+      )}
     >
-      <Typo.h3 textType="body__primary--bold">{item.stopPlace.name}</Typo.h3>
-      <Typo.span textType="body__primary">Holdeplass</Typo.span>
-      <Typo.span textType="body__secondary" className={style.secondaryText}>
-        {item.distance.toFixed(0)} m
-      </Typo.span>
+      <div className={style.stopPlaceItem__text}>
+        <Typo.h3 textType="body__primary--bold">{item.stopPlace.name}</Typo.h3>
+        <Typo.span textType="body__secondary">
+          {item.stopPlace.description ??
+            t(PageText.Departures.nearest.stopPlaceItem.stopPlace)}
+        </Typo.span>
+        <Typo.span textType="body__secondary" className={style.secondaryText}>
+          {item.distance.toFixed(0)} m
+        </Typo.span>
+      </div>
+
+      <VenueIcon
+        category={[FeatureCategory.BUS_STATION]}
+        size="large"
+        className={style.stopPlaceItem__icon}
+      />
     </Link>
   );
 }

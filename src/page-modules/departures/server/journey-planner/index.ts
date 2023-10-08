@@ -159,6 +159,9 @@ export function createJourneyApi(
             stopPlace: {
               id: edge.node?.place.id,
               name: edge.node?.place.name,
+              description: edge.node?.place?.description
+                ? edge.node?.place?.description
+                : null,
               position: {
                 lat: edge.node?.place.latitude,
                 lon: edge.node?.place.longitude,

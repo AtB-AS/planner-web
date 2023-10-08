@@ -2,7 +2,7 @@
 
 .nearestContainer {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(31.25rem, 1fr));
+  grid-template-columns: 2fr 3fr;
   grid-auto-rows: minmax(37.5rem, auto) auto;
   grid-template-areas: 'stop-places map';
   gap: var(--spacings-small);
@@ -16,16 +16,26 @@
   display: flex;
   flex-direction: column;
   gap: var(--spacings-small);
+  list-style: none;
 }
 .stopPlaceItem {
   composes: interactive-interactive_2;
   display: flex;
   text-decoration: none;
   gap: var(--spacings-xSmall);
+  align-items: center;
 
-  flex-direction: column;
   padding: var(--spacings-medium);
   border-radius: var(--border-radius-regular);
+}
+.stopPlaceItem__text {
+  display: flex;
+  gap: var(--spacings-xSmall);
+
+  flex-direction: column;
+}
+.stopPlaceItem__icon {
+  margin-left: auto;
 }
 
 .secondaryText {

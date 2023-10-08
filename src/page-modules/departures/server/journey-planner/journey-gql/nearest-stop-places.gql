@@ -25,6 +25,7 @@ query nearestStopPlaces(
         place {
           ... on StopPlace {
             name
+            description
             quays(filterByInUse: true) {
               id
               description
