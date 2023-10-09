@@ -32,14 +32,11 @@
 .header__info {
   display: flex;
   flex-direction: column;
+  justify-content: center;
 }
 
 .header__info__secondary {
   color: var(--text-colors-secondary);
-}
-
-.flexOrder__2 {
-  order: 2;
 }
 
 .header__buttons {
