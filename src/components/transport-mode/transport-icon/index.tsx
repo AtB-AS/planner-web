@@ -99,7 +99,9 @@ function modeToColor(
   }
 }
 
-function getTransportModeIcon(mode: TransportModeGroup): MonoIconProps['icon'] {
+export function getTransportModeIcon(
+  mode: TransportModeGroup,
+): MonoIconProps['icon'] {
   switch (mode.mode) {
     case 'bus':
     case 'coach':

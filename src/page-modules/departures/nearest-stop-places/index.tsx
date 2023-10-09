@@ -30,7 +30,6 @@ export function NearestStopPlaces({
             id={activeLocation.id}
             name={activeLocation.name}
             layer="address"
-            street={activeLocation.street}
             position={[
               activeLocation.geometry.coordinates[0],
               activeLocation.geometry.coordinates[1],
