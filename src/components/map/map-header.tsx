@@ -27,7 +27,7 @@ export function MapHeader({ id, name, layer, transportModes }: MapHeaderProps) {
             </div>
           ) : (
             transportModes.map((mode) => (
-              <div key={[mode, 'icon'].join('-')}>
+              <div key={`${mode}-icon`}>
                 <MonoIcon
                   size="large"
                   overrideMode="dark"
