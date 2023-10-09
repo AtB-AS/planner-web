@@ -19,6 +19,13 @@ export const Departures = {
         'Når vil du reise?',
       ),
     },
+    filter: {
+      label: _(
+        'Hva vil du reise med?',
+        'How do you want to travel?',
+        'Kva vil du reise med?',
+      ),
+    },
     button: {
       title: _('Finn avganger', 'Find departures', 'Finn avganger'),
     },

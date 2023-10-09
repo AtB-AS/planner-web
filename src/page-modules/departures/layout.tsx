@@ -10,6 +10,8 @@ import DepartureDateSelector, {
   DepartureDate,
   DepartureDateState,
 } from '@atb/components/departure-date-selector';
+import TravelSearchFilter from '@atb/components/travel-search-filter';
+import { Typo } from '@atb/components/typography';
 
 export type DeparturesLayoutProps = PropsWithChildren<WithGlobalData<{}>>;
 
@@ -40,12 +42,12 @@ function DeparturesLayout({ children }: DeparturesLayoutProps) {
 
   return (
     <div className={style.departuresPage}>
-      <div className={style.searchWrapper}>
-        <form className={style.searchContainer} onSubmit={onSubmitHandler}>
-          <div className={style.searchInput}>
-            <p className={style.searchInputLabel}>
+      <form className={style.container} onSubmit={onSubmitHandler}>
+        <div className={style.main}>
+          <div className={style.input}>
+            <Typo.p textType="body__primary--bold" className={style.heading}>
               {t(PageText.Departures.search.input.label)}
-            </p>
+            </Typo.p>
 
             <Search
               label={t(PageText.Departures.search.input.from)}
@@ -53,26 +55,40 @@ function DeparturesLayout({ children }: DeparturesLayoutProps) {
             />
           </div>
 
-          <div className={style.searchDate}>
-            <p className={style.searchInputLabel}>
+          <div className={style.date}>
+            <Typo.p textType="body__primary--bold" className={style.heading}>
               {t(PageText.Departures.search.date.label)}
-            </p>
+            </Typo.p>
 
             <DepartureDateSelector
               initialState={departureDate}
               onChange={setDepartureDate}
             />
           </div>
+        </div>
 
+        <div className={style.alternativesWrapper}>
+          <div className={style.alternatives}>
+            <div>
+              <Typo.p textType="body__primary--bold" className={style.heading}>
+                {t(PageText.Departures.search.filter.label)}
+              </Typo.p>
+
+              <TravelSearchFilter />
+            </div>
+          </div>
+        </div>
+
+        <div className={style.buttons}>
           <Button
             title={t(PageText.Departures.search.button.title)}
-            className={style.searchButton}
+            className={style.button}
             mode="interactive_0"
             disabled={!selectedFeature}
             buttonProps={{ type: 'submit' }}
           />
-        </form>
-      </div>
+        </div>
+      </form>
 
       <section className={style.contentContainer}>{children}</section>
     </div>

@@ -1,38 +1,62 @@
-.searchWrapper {
+.wrapper {
   background-color: var(--static-background-background_accent_0-background);
-  padding: 0 7.5rem;
 }
 
-.searchContainer {
-  max-width: var(--maxPageWidth);
+.container {
+  background-color: var(--static-background-background_accent_0-background);
   height: 100%;
-  margin: 0 auto;
   position: relative;
-  padding: var(--spacings-xLarge);
+  display: flex;
+  flex-direction: column;
+}
+
+/* TODO: Handle this better. */
+.container > div:nth-last-of-type(2) {
   padding-bottom: 5.25rem;
+}
+
+.main {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: var(--spacings-xLarge);
+  width: 100%;
+  max-width: var(--maxPageWidth);
+  padding: var(--spacings-xLarge);
+  margin: 0 auto;
 }
 
-.searchButton {
+.button {
   position: absolute;
   bottom: var(--spacings-xLarge);
   right: var(--spacings-xLarge);
 }
 
-.searchInputLabel {
+.heading {
   color: var(--static-background-background_accent_0-text);
-  /* TODO: There is no spacings variable for 1rem, which the design asks for. */
   margin-bottom: var(--spacings-medium);
 }
 
-@media (max-width: 650px) {
-  .searchWrapper {
-    padding: 0;
-  }
+.alternativesWrapper {
+  width: 100%;
+  background-color: var(--static-background-background_accent_1-background);
+}
 
-  .searchContainer {
+.alternatives {
+  padding: var(--spacings-xLarge);
+  width: 100%;
+  max-width: var(--maxPageWidth);
+  margin: 0 auto;
+}
+
+.buttons {
+  position: relative;
+  width: 100%;
+  max-width: var(--maxPageWidth);
+  margin: 0 auto;
+}
+
+@media (max-width: 650px) {
+  .main {
     grid-template-columns: 1fr;
   }
 }
