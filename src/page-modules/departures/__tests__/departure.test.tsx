@@ -1,4 +1,4 @@
-import { cleanup, render } from '@testing-library/react';
+import { cleanup, render, screen, within } from '@testing-library/react';
 import mockRouter from 'next-router-mock';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
@@ -7,13 +7,12 @@ import {
   DepartureData,
   JourneyPlannerApi,
 } from '@atb/page-modules/departures/server/journey-planner';
-import DeparturesPage, {
-  DeparturesPageProps,
-  getServerSideProps,
-} from '@atb/pages/departures/[[...id]]';
+import { getServerSideProps } from '@atb/pages/departures/[[...id]]';
 import { expectProps } from '@atb/tests/utils';
 import { createDynamicRouteParser } from 'next-router-mock/dynamic-routes';
-
+import { departureDataMock } from './test-data';
+import { StopPlace } from '../stop-place';
+import userEvent from '@testing-library/user-event';
 afterEach(function () {
   cleanup();
 });
@@ -23,22 +22,6 @@ vi.mock('next/router', () => require('next-router-mock'));
 mockRouter.useParser(createDynamicRouteParser(['/departures/[id]']));
 
 describe('departure page', function () {
-  it('should show id provided in route', async () => {
-    await mockRouter.push('/departures/NSR:StopPlace:123');
-
-    const initialProps: DeparturesPageProps = {
-      stopPlace: true,
-      headersAcceptLanguage: 'en',
-      initialCookies: {
-        darkmode: false,
-        language: 'en',
-      },
-    };
-
-    const output = render(<DeparturesPage {...initialProps} />);
-    expect(output.getByText('Query: NSR:StopPlace:123')).toBeInTheDocument();
-  });
-
   it('Should return props from getServerSideProps', async () => {
     await mockRouter.push('/departures/NSR:StopPlace:123');
 
@@ -58,6 +41,7 @@ describe('departure page', function () {
           name: 'Test Quay',
           publicCode: '123',
           departures: [],
+          description: null,
         },
       ],
     };
@@ -92,5 +76,33 @@ describe('departure page', function () {
     (await expectProps(result)).toContain({
       departures: expectedDeparturesResult,
     });
+  });
+
+  it('should render quays', () => {
+    const output = render(<StopPlace departures={departureDataMock} />);
+
+    departureDataMock.quays.forEach((q) =>
+      expect(output.getByText(q.name)).toBeInTheDocument(),
+    );
+  });
+
+  it('should render estimated calls', () => {
+    const output = render(<StopPlace departures={departureDataMock} />);
+    const lists = output.getAllByRole('list');
+    const { getAllByRole } = within(lists[0]);
+    const items = getAllByRole('listitem');
+    expect(items.length).toBe(departureDataMock.quays[0].departures.length + 1);
+  });
+
+  it('Should collapse estimated calls list', async () => {
+    const output = render(<StopPlace departures={departureDataMock} />);
+    const button = screen.getAllByRole('button', {
+      name: 'Aktiver for å minimere',
+    });
+    let lists = output.getAllByRole('list');
+    expect(lists.length).toBe(2);
+    await userEvent.click(button[0]);
+    lists = output.getAllByRole('list');
+    expect(lists.length).toBe(1);
   });
 });

@@ -1,0 +1,102 @@
+@value interactive-interactive_2 from "@atb/theme/theme.module.css";
+
+.stopPlaceContainer {
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  grid-auto-rows: minmax(37.5rem, auto) auto;
+  grid-template-areas: 'quays map';
+  gap: var(--spacings-small);
+}
+
+.mapContainer {
+  grid-area: map;
+  max-height: 37.5rem;
+}
+
+.quaysContainer {
+  grid-area: quays;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacings-small);
+}
+.quaysContainer li {
+  list-style: none;
+}
+
+.listHeader {
+  border: none;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--spacings-xSmall);
+  justify-content: space-between;
+  background-color: var(--static-background-background_0-background);
+  color: var(--static-background-background_0-text);
+  border-radius: var(--border-radius-regular) var(--border-radius-regular) 0 0;
+  border-bottom: 1px solid var(--static-background-background_2-background);
+  padding: var(--spacings-small) var(--spacings-medium);
+  cursor: pointer;
+  composes: interactive-interactive_2;
+}
+
+.listHeader--collapsed {
+  border-radius: var(--border-radius-regular);
+  border-bottom: none;
+}
+.listItem__last {
+  border-radius: 0 0 var(--border-radius-regular) var(--border-radius-regular);
+}
+
+.textColor__secondary {
+  color: var(--text-colors-secondary);
+}
+
+.flex__row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacings-xSmall);
+}
+
+.listItem {
+  border: none;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--interactive-interactive_2-default-background);
+  color: var(--interactive-interactive_2-default-text);
+  border-bottom: 1px solid var(--static-background-background_2-background);
+  padding: var(--spacings-medium);
+  text-decoration: none;
+  cursor: pointer;
+  composes: interactive-interactive_2;
+}
+
+.transportInfo {
+  display: flex;
+  gap: var(--spacings-medium);
+  align-items: center;
+}
+.lineChip {
+  min-width: 4.125rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacings-xSmall);
+  padding: var(--spacings-small);
+  border-radius: var(--spacings-small);
+}
+.lineChip__publicCode {
+  text-align: right;
+}
+.departureTime {
+  text-align: right;
+}
+
+@media only screen and (max-width: 650px) {
+  .stopPlaceContainer {
+    grid-template-areas: 'map' 'quays';
+    grid-template-columns: auto;
+    grid-template-rows: auto;
+  }
+}

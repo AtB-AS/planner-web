@@ -10,9 +10,8 @@ import DeparturesLayout, {
   DeparturesLayoutProps,
 } from '@atb/page-modules/departures/layout';
 import { withDepartureClient } from '@atb/page-modules/departures/server';
+import { StopPlace } from '@atb/page-modules/departures/stop-place';
 import type { NextPage } from 'next';
-import { useRouter } from 'next/router';
-
 type DeparturesStopPlaceProps = {
   stopPlace: true;
   departures?: DepartureData;
@@ -31,39 +30,13 @@ function DeparturesRouting(props: DeparturesContentProps) {
         nearestStopPlaces={props.nearestStopPlaces}
       />
     );
-  } else if ('stopPlace' in props) {
-    return <SearchResultPage {...props} />;
+  } else if ('stopPlace' in props && props.departures) {
+    return <StopPlace departures={props.departures} />;
   }
 }
 
 function isNearestStopPlacesProps(a: any): a is NearestStopPlacesProps {
   return 'address' in a;
-}
-
-function SearchResultPage({ departures }: DeparturesStopPlaceProps) {
-  const router = useRouter();
-  return (
-    <div>
-      <h3>Query: {router.query.id}</h3>
-      <h3>
-        Stop Place: {departures?.stopPlace?.name} ({departures?.stopPlace?.id})
-      </h3>
-      {departures?.quays?.map((q) => (
-        <div key={q.id}>
-          <h3>
-            {q.name} {q.publicCode}
-            <ul>
-              {q.departures.map((d) => (
-                <li key={d.id}>
-                  {d.name} ({d.id})
-                </li>
-              ))}
-            </ul>
-          </h3>
-        </div>
-      ))}
-    </div>
-  );
 }
 
 export type DeparturesPageProps = WithGlobalData<

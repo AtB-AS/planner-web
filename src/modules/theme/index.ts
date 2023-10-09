@@ -1,4 +1,4 @@
-import { createThemesFor, ThemeVariant } from '@atb-as/theme';
+import { createThemesFor, Theme, ThemeVariant } from '@atb-as/theme';
 import { useDarkmodeCookie } from '@atb/modules/cookies';
 import { currentOrg, WEBSHOP_ORGS } from '@atb/modules/org-data';
 import { useEffect } from 'react';
@@ -48,3 +48,5 @@ export function useHtmlDarkMode() {
     [isDarkMode],
   );
 }
+
+export type TransportColor = keyof Theme['transport'];
