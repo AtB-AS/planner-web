@@ -9,7 +9,6 @@ import {
 } from '@atb/utils/date';
 import { PageText, useTranslation } from '@atb/translations';
 import dictionary from '@atb/translations/dictionary';
-import { useTransportationColor } from '@atb/utils/use-transportation-color';
 import { TransportIcon } from '@atb/components/transport-mode';
 import Link from 'next/link';
 import { Typo } from '@atb/components/typography';
@@ -17,6 +16,8 @@ import { useState } from 'react';
 import { and, andIf } from '@atb/utils/css';
 import { useRouter } from 'next/router';
 import { Departures } from '@atb/translations/pages';
+import { useTransportationThemeColor } from '@atb/components/transport-mode/transport-icon';
+import { TransportMode } from '@atb/components/transport-mode/types';
 
 export type StopPlaceProps = {
   departures: DepartureData;
@@ -130,15 +131,11 @@ type EstimatedCallItemProps = {
 };
 
 export function EstimatedCallItem({ departure }: EstimatedCallItemProps) {
-  const transportationBackgroundColor = useTransportationColor(
-    departure.transportMode,
-    departure.transportSubMode,
-  );
-  const transportationTextColor = useTransportationColor(
-    departure.transportMode,
-    departure.transportSubMode,
-    'text',
-  );
+  const transporttationColor = useTransportationThemeColor({
+    mode: departure.transportMode || TransportMode.UNKNOWN,
+    subMode: departure.transportSubMode,
+  });
+
   return (
     <li>
       <Link
@@ -150,8 +147,8 @@ export function EstimatedCallItem({ departure }: EstimatedCallItemProps) {
             <div
               className={style.lineChip}
               style={{
-                backgroundColor: transportationBackgroundColor,
-                color: transportationTextColor,
+                backgroundColor: transporttationColor.backgroundColor,
+                color: transporttationColor.textColor,
               }}
             >
               {departure.transportMode && (

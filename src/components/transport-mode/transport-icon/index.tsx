@@ -41,11 +41,12 @@ export function TransportIcon({ mode }: TransportIconProps) {
   );
 }
 
-function useTransportationThemeColor(mode: TransportModeGroup) {
+export function useTransportationThemeColor(mode: TransportModeGroup) {
   const { transport } = useTheme();
   let color = modeToColor(mode, transport);
   return {
     backgroundColor: color.background,
+    textColor: color.text,
     overrideMode: (colorToOverrideColor(color.text) == 'black'
       ? 'light'
       : 'dark') as MonoIconProps['overrideMode'],
@@ -70,9 +71,15 @@ function modeToColor(
       if (mode.subMode === 'localBus') {
         return transport.transport_city.primary;
       }
+      if (mode.subMode === 'airportLinkBus') {
+        return transport.transport_airport_express.primary;
+      }
       return transport.transport_region.primary;
 
     case 'rail':
+      if (mode.subMode === 'airportLinkRail') {
+        return transport.transport_airport_express.primary;
+      }
       return transport.transport_train.primary;
 
     case 'tram':
