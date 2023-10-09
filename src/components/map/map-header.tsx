@@ -50,7 +50,7 @@ export function MapHeader({ id, name, layer, transportModes }: MapHeaderProps) {
               {t(ComponentText.Map.header.address)}
             </p>
           )}
-          <h3 className={and('typo-heading--medium')}>{name}</h3>
+          <h2 className={and('typo-heading--medium')}>{name}</h2>
         </div>
       </div>
 
