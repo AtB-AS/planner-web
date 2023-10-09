@@ -14,7 +14,7 @@ import { TransportIcon } from '@atb/components/transport-mode';
 import Link from 'next/link';
 import { Typo } from '@atb/components/typography';
 import { useState } from 'react';
-import { andIf } from '@atb/utils/css';
+import { and, andIf } from '@atb/utils/css';
 import { useRouter } from 'next/router';
 import { Departures } from '@atb/translations/pages';
 
@@ -111,7 +111,7 @@ export function EstimatedCallList({ quay }: EstimatedCallListProps) {
           )}
           <li>
             <button
-              className={style.listItem}
+              className={and(style.listItem, style.listItem__last)}
               aria-label={t(Departures.stopPlace.quaySection.a11yToQuayHint)}
               onClick={() => alert('Not implemented yet')} // @TODO: implement function
             >

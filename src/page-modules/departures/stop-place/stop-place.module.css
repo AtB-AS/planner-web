@@ -43,6 +43,9 @@
   border-radius: var(--border-radius-regular);
   border-bottom: none;
 }
+.listItem__last {
+  border-radius: 0 0 var(--border-radius-regular) var(--border-radius-regular);
+}
 
 .textColor__secondary {
   color: var(--text-colors-secondary);
