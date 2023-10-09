@@ -2,14 +2,13 @@ import { cleanup, render } from '@testing-library/react';
 import { afterEach, describe, expect, it } from 'vitest';
 import { MapHeader } from '@atb/components/map';
 import { MapHeaderProps } from '@atb/components/map/map-header';
-import { FeatureCategory } from '@atb/components/venue-icon';
+import { TransportMode } from '@atb/components/transport-mode/types';
 
 const stopPlaceMock: MapHeaderProps = {
   layer: 'venue',
   name: 'Trondheim S',
   id: 'NSR:StopPlace:41742',
-  street: 'Fosenkaia',
-  category: [FeatureCategory.ONSTREET_BUS],
+  transportModes: [TransportMode.BUS],
 };
 
 const addressMock: MapHeaderProps = {
@@ -41,7 +40,7 @@ describe('MapHeader', function () {
     const output = render(
       <MapHeader
         {...stopPlaceMock}
-        category={[FeatureCategory.ONSTREET_BUS, FeatureCategory.ONSTREET_TRAM]}
+        transportModes={[TransportMode.BUS, TransportMode.TRAM]}
       />,
     );
     expect(output.getByAltText('Buss')).toBeInTheDocument();
