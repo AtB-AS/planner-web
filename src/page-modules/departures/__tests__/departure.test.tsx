@@ -78,7 +78,7 @@ describe('departure page', function () {
     });
   });
 
-  it('Should render quays', () => {
+  it('should render quays', () => {
     const output = render(<StopPlace departures={departureDataMock} />);
 
     departureDataMock.quays.forEach((q) =>
