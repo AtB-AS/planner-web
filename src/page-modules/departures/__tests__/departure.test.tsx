@@ -86,7 +86,7 @@ describe('departure page', function () {
     );
   });
 
-  it('Should render estimated calls', () => {
+  it('should render estimated calls', () => {
     const output = render(<StopPlace departures={departureDataMock} />);
     const lists = output.getAllByRole('list');
     const { getAllByRole } = within(lists[0]);
