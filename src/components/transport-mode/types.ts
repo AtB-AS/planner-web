@@ -1,12 +1,24 @@
+import { TransportModeType, TransportSubmodeType } from '@atb-as/config-specs';
+
 export enum TransportMode {
   AIR = 'air',
+  BICYCLE = 'bicycle',
   BUS = 'bus',
-  METRO = 'metro',
-  RAIL = 'rail',
-  TRAM = 'tram',
+  CABLEWAY = 'cableway',
+  CAR = 'car',
   COACH = 'coach',
-  WATER = 'water',
+  FOOT = 'foot',
+  FUNICULAR = 'funicular',
+  LIFT = 'lift',
+  METRO = 'metro',
+  MONORAIL = 'monorail',
+  RAIL = 'rail',
+  SCOOTER = 'scooter',
+  TAXI = 'taxi',
+  TRAM = 'tram',
+  TROLLEYBUS = 'trolleybus',
   UNKNOWN = 'unknown',
+  WATER = 'water',
 }
 
 export enum TransportSubmode {
@@ -124,7 +136,10 @@ export enum TransportSubmode {
   WaterTaxi = 'waterTaxi',
 }
 
+export type AnyMode = TransportMode | TransportModeType | 'flex';
+export type AnySubMode = TransportSubmode | TransportSubmodeType;
+
 export type TransportModeGroup = {
-  subMode?: TransportSubmode;
-  mode: TransportMode;
+  mode: AnyMode;
+  subMode?: AnySubMode;
 };

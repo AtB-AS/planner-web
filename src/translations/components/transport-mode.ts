@@ -10,6 +10,16 @@ export const TransportMode = {
     air: _('Fly', 'Plane', 'Fly'),
     foot: _('Gange', 'Walk', 'Gange'),
     metro: _('T-bane', 'Metro', 'T-bane'),
+    funicular: _('Kabelbane', 'Funicular', 'Kabelbane'),
+    bicycle: _('Sykkel', 'Bicycle', 'Sykkel'),
+    cableway: _('Kabelbane', 'Cableway', 'Kabelbane'),
+    car: _('Bil', 'Car', 'Bil'),
+    lift: _('Heis', 'Lift', 'Heis'),
+    monorail: _('Monorail', 'Monorail', 'Monorail'),
+    scooter: _('Scooter', 'Scooter', 'Scooter'),
+    taxi: _('Taxi', 'Taxi', 'Taxi'),
+    trolleybus: _('Trolleybuss', 'Trolleybus', 'Trolleybuss'),
+    flex: _('Flex', 'Flex', 'Flex'),
 
     unknown: _(
       `Ukjent reisemåte`,

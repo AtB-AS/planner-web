@@ -1,4 +1,4 @@
-import { TransportModeGroup, TransportSubmode } from '../types';
+import { AnySubMode, TransportModeGroup, TransportSubmode } from '../types';
 
 import { ContrastColor, Theme } from '@atb-as/theme';
 import MonoIcon, { MonoIconProps } from '@atb/components/icon/mono-icon';
@@ -53,7 +53,7 @@ export function useTransportationThemeColor(mode: TransportModeGroup) {
   };
 }
 
-const TRANSPORT_SUB_MODES_BOAT: TransportSubmode[] = [
+const TRANSPORT_SUB_MODES_BOAT: AnySubMode[] = [
   TransportSubmode.HighSpeedPassengerService,
   TransportSubmode.HighSpeedVehicleService,
   TransportSubmode.NationalPassengerFerry,
@@ -99,7 +99,9 @@ function modeToColor(
   }
 }
 
-function getTransportModeIcon(mode: TransportModeGroup): MonoIconProps['icon'] {
+export function getTransportModeIcon(
+  mode: TransportModeGroup,
+): MonoIconProps['icon'] {
   switch (mode.mode) {
     case 'bus':
     case 'coach':

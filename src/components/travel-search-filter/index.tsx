@@ -2,10 +2,10 @@ import { getTextForLanguage } from '@atb/translations/utils';
 import { useTranslation } from '@atb/translations';
 import { ChangeEvent, useState } from 'react';
 import style from './travel-search-filter.module.css';
-import { getTransportModeIconPath } from '@atb/components/travel-search-filter/utils';
 import { MonoIcon } from '@atb/components/icon';
 import { TransportModeFilterOptionWithSelectionType } from '@atb/components/travel-search-filter/types';
 import { Typo } from '@atb/components/typography';
+import { getTransportModeIcon } from '@atb/components/transport-mode/transport-icon';
 
 const defaultTravelSearchFilter: TransportModeFilterOptionWithSelectionType[] =
   [
@@ -231,10 +231,10 @@ export default function TravelSearchFilter({}: TravelSearchFilterProps) {
                 />
                 <label htmlFor={mode.id}>
                   <MonoIcon
-                    icon={getTransportModeIconPath(
-                      mode.icon?.transportMode,
-                      mode.icon?.transportSubMode,
-                    )}
+                    icon={getTransportModeIcon({
+                      mode: mode.icon?.transportMode,
+                      subMode: mode.icon?.transportSubMode,
+                    })}
                     overrideMode="dark"
                   />
                   <span>{text}</span>

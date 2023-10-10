@@ -131,7 +131,7 @@ type EstimatedCallItemProps = {
 };
 
 export function EstimatedCallItem({ departure }: EstimatedCallItemProps) {
-  const transporttationColor = useTransportationThemeColor({
+  const transportationColor = useTransportationThemeColor({
     mode: departure.transportMode || TransportMode.UNKNOWN,
     subMode: departure.transportSubMode,
   });
@@ -147,8 +147,8 @@ export function EstimatedCallItem({ departure }: EstimatedCallItemProps) {
             <div
               className={style.lineChip}
               style={{
-                backgroundColor: transporttationColor.backgroundColor,
-                color: transporttationColor.textColor,
+                backgroundColor: transportationColor.backgroundColor,
+                color: transportationColor.textColor,
               }}
             >
               {departure.transportMode && (
