@@ -59,6 +59,9 @@ describe('departure page', function () {
       stopPlace() {
         return {} as any;
       },
+      estimatedCalls() {
+        return {} as any;
+      },
       client: null as any,
     };
 
