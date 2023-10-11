@@ -1,0 +1,39 @@
+query quayEstimatedCalls(
+  $id: String!
+  $numberOfDepartures: Int
+  $startTime: DateTime
+) {
+  quay(id: $id) {
+    description
+    id
+    name
+    publicCode
+    estimatedCalls(
+      numberOfDepartures: $numberOfDepartures
+      startTime: $startTime
+      includeCancelledTrips: true
+    ) {
+      aimedDepartureTime
+      date
+      expectedDepartureTime
+      realtime
+      cancellation
+      quay {
+        id
+      }
+      destinationDisplay {
+        frontText
+      }
+      serviceJourney {
+        id
+        line {
+          id
+          description
+          publicCode
+          transportMode
+          transportSubmode
+        }
+      }
+    }
+  }
+}

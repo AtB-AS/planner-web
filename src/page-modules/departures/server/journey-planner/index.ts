@@ -15,11 +15,18 @@ import {
   GetStopPlaceQueryVariables,
 } from './journey-gql/stop-place.generated';
 import {
+  QuayEstimatedCallsDocument,
+  QuayEstimatedCallsQuery,
+  QuayEstimatedCallsQueryVariables,
+} from './journey-gql/estimated-calls.generated';
+import {
   DepartureData,
+  EstimatedCallsData,
   NearestStopPlacesData,
   StopPlaceInfo,
   StopPlaceWithDistance,
   departureDataSchema,
+  estimatedCallsSchema,
   nearestStopPlaces,
   stopPlaceSchema,
 } from './validators';
@@ -47,6 +54,11 @@ export type NearestStopPlacesInput = {
   lon: number;
   transportModes: TransportModeFilterOption[] | null;
 };
+
+export type EstimatedCallsInput = {
+  quayId: string;
+  startTime: string;
+};
 export type { StopPlaceInfo, NearestStopPlacesData, StopPlaceWithDistance };
 
 export type JourneyPlannerApi = {
@@ -55,6 +67,7 @@ export type JourneyPlannerApi = {
   nearestStopPlaces(
     input: NearestStopPlacesInput,
   ): Promise<NearestStopPlacesData>;
+  estimatedCalls(input: EstimatedCallsInput): Promise<EstimatedCallsData>;
 };
 
 export function createJourneyApi(
@@ -201,6 +214,48 @@ export function createJourneyApi(
 
       const validated = nearestStopPlaces.safeParse(data);
 
+      if (!validated.success) {
+        throw validated.error;
+      }
+
+      return validated.data;
+    },
+
+    async estimatedCalls(input) {
+      const result = await client.query<
+        QuayEstimatedCallsQuery,
+        QuayEstimatedCallsQueryVariables
+      >({
+        query: QuayEstimatedCallsDocument,
+        variables: {
+          id: input.quayId,
+          numberOfDepartures: 10,
+          startTime: new Date(input.startTime),
+        },
+      });
+
+      if (result.error) {
+        throw result.error;
+      }
+
+      const data: RecursivePartial<EstimatedCallsData> = {
+        quay: {
+          id: result.data.quay?.id,
+        },
+        departures: result.data.quay?.estimatedCalls?.map((e) => ({
+          id: e.serviceJourney.id,
+          name: e.destinationDisplay?.frontText,
+          date: e.date,
+          expectedDepartureTime: e.expectedDepartureTime,
+          aimedDepartureTime: e.aimedDepartureTime,
+          transportMode: isTransportMode(e.serviceJourney.line.transportMode)
+            ? e.serviceJourney.line.transportMode
+            : undefined,
+          transportSubmode: e.serviceJourney.line.transportSubmode,
+          publicCode: e.serviceJourney.line.publicCode,
+        })),
+      };
+      const validated = estimatedCallsSchema.safeParse(data);
       if (!validated.success) {
         throw validated.error;
       }

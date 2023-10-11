@@ -47,6 +47,12 @@ const stopPlaceWithDistance = z.object({
   distance: z.number(),
 });
 
+export const estimatedCallsSchema = z.object({
+  quay: z.object({ id: z.string() }),
+  departures: z.array(departureSchema),
+});
+
 export const nearestStopPlaces = z.array(stopPlaceWithDistance);
 export type StopPlaceWithDistance = z.infer<typeof stopPlaceWithDistance>;
 export type NearestStopPlacesData = z.infer<typeof nearestStopPlaces>;
+export type EstimatedCallsData = z.infer<typeof estimatedCallsSchema>;

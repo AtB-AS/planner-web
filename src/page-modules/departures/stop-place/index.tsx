@@ -17,6 +17,7 @@ import { and, andIf } from '@atb/utils/css';
 import { useRouter } from 'next/router';
 import { Departures } from '@atb/translations/pages';
 import { useTransportationThemeColor } from '@atb/components/transport-mode/transport-icon';
+import { nextDepartures } from '../client';
 
 export type StopPlaceProps = {
   departures: DepartureData;
@@ -54,6 +55,27 @@ type EstimatedCallListProps = {
 export function EstimatedCallList({ quay }: EstimatedCallListProps) {
   const { t } = useTranslation();
   const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
+  const [departures, setDepartures] = useState<
+    DepartureData['quays'][0]['departures'][0][]
+  >(quay.departures);
+  const [isFetchingDepartures, setIsFetchingDepartures] =
+    useState<boolean>(false);
+
+  const getMoreDepartures = async () => {
+    setIsFetchingDepartures(true);
+    const latestDeparture = departures[departures.length - 1];
+
+    const date = new Date(latestDeparture.aimedDepartureTime);
+    const data = await nextDepartures(quay.id, date.toUTCString());
+
+    const set = new Set(departures.map((departure) => departure.id));
+    const filteredDepartures = data.departures.filter(
+      (departure) => !set.has(departure.id),
+    );
+
+    setDepartures([...departures, ...filteredDepartures]);
+    setIsFetchingDepartures(false);
+  };
 
   return (
     <div>
@@ -94,9 +116,9 @@ export function EstimatedCallList({ quay }: EstimatedCallListProps) {
       </button>
       {!isCollapsed && (
         <ul>
-          {quay.departures.length > 0 ? (
+          {departures.length > 0 ? (
             <>
-              {quay.departures.map((departure) => (
+              {departures.map((departure) => (
                 <EstimatedCallItem key={departure.id} departure={departure} />
               ))}
             </>
@@ -114,7 +136,8 @@ export function EstimatedCallList({ quay }: EstimatedCallListProps) {
             <button
               className={and(style.listItem, style.listItem__last)}
               aria-label={t(Departures.stopPlace.quaySection.a11yToQuayHint)}
-              onClick={() => alert('Not implemented yet')} // @TODO: implement function
+              onClick={getMoreDepartures}
+              disabled={isFetchingDepartures}
             >
               <p>{t(Departures.stopPlace.quaySection.moreDepartures)}</p>
               <MonoIcon icon={'navigation/ExpandMore'} />
