@@ -1,6 +1,6 @@
 import { translation as _ } from '@atb/translations/commons';
 
-export const TravelSearchFilter = {
+export const TransportModeFilter = {
   all: _('Alle', 'All', 'Alle'),
   allA11y: _(
     'Alle transportmidler',

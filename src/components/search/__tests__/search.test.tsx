@@ -4,8 +4,6 @@ import {
   it,
   expect,
   vi,
-  Mock,
-  beforeEach,
   afterAll,
   beforeAll,
 } from 'vitest';

@@ -10,12 +10,12 @@ import DepartureDateSelector, {
   DepartureDate,
   DepartureDateState,
 } from '@atb/components/departure-date-selector';
-import TravelSearchFilter from '@atb/components/travel-search-filter';
+import TransportModeFilter from '../../components/transport-mode-filter';
 import { Typo } from '@atb/components/typography';
 import {
   filterToQueryString,
-  getInitialTravelSearchFilterState,
-} from '@atb/components/travel-search-filter/utils';
+  getInitialTransportModeFilter,
+} from '@atb/components/transport-mode-filter/utils';
 
 export type DeparturesLayoutProps = PropsWithChildren<WithGlobalData<{}>>;
 
@@ -27,8 +27,8 @@ function DeparturesLayout({ children }: DeparturesLayoutProps) {
   const [departureDate, setDepartureDate] = useState<DepartureDate>({
     type: DepartureDateState.Now,
   });
-  const [travelSearchFilter, setTravelSearchFilter] = useState(
-    getInitialTravelSearchFilterState(),
+  const [transportModeFilter, setTransportModeFilter] = useState(
+    getInitialTransportModeFilter(),
   );
 
   const onSubmitHandler: FormEventHandler<HTMLFormElement> = (e) => {
@@ -36,7 +36,7 @@ function DeparturesLayout({ children }: DeparturesLayoutProps) {
 
     let query = {};
 
-    const filter = filterToQueryString(travelSearchFilter);
+    const filter = filterToQueryString(transportModeFilter);
 
     if (filter) {
       query = {
@@ -97,9 +97,9 @@ function DeparturesLayout({ children }: DeparturesLayoutProps) {
                 {t(PageText.Departures.search.filter.label)}
               </Typo.p>
 
-              <TravelSearchFilter
-                filterState={travelSearchFilter}
-                onFilterChange={setTravelSearchFilter}
+              <TransportModeFilter
+                filterState={transportModeFilter}
+                onFilterChange={setTransportModeFilter}
               />
             </div>
           </div>

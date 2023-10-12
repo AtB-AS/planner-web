@@ -1,19 +1,19 @@
 import {
-  TravelSearchFilterOption,
-  travelSearchFilterOptions,
-  TravelSearchFilterState,
-} from '@atb/components/travel-search-filter/types';
+  TransportModeFilterOption,
+  transportModeFilterOptions,
+  TransportModeFilterState,
+} from '@atb/components/transport-mode-filter/types';
 import { TransportModeFilterOptionType } from '@atb-as/config-specs';
 
-export function getInitialTravelSearchFilterState(
-  initialSelected?: TravelSearchFilterOption[],
-): TravelSearchFilterState {
+export function getInitialTransportModeFilter(
+  initialSelected?: TransportModeFilterOption[],
+): TransportModeFilterState {
   return Object.fromEntries(
-    travelSearchFilterOptions.map((option) => [
+    transportModeFilterOptions.map((option) => [
       option,
       initialSelected?.includes(option) ?? true,
     ]),
-  ) as TravelSearchFilterState;
+  ) as TransportModeFilterState;
 }
 
 export function setAllValues<T extends string, U>(
@@ -24,7 +24,7 @@ export function setAllValues<T extends string, U>(
 }
 
 export function filterToQueryString(
-  filters: TravelSearchFilterState,
+  filters: TransportModeFilterState,
 ): string | null {
   if (Object.values(filters).every(Boolean)) return null;
   if (Object.values(filters).every((selected) => !selected)) return 'none';
@@ -35,7 +35,7 @@ export function filterToQueryString(
 }
 
 export const filterOptionsWithTransportModes: Record<
-  TravelSearchFilterOption,
+  TransportModeFilterOption,
   TransportModeFilterOptionType
 > = {
   bus: {

@@ -4,4 +4,4 @@ export { GeolocationButton } from './geolocation-button';
 export { DepartureDateSelector } from './departure-date-selector';
 export { Map } from './map';
 export { TransportMode } from './transport-mode';
-export { TravelSearchFilter } from './travel-search-filter';
+export { TransportModeFilter } from './transport-mode-filter';

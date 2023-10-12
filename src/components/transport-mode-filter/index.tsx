@@ -1,27 +1,27 @@
 import { getTextForLanguage } from '@atb/translations/utils';
 import { useTranslation, ComponentText } from '@atb/translations';
-import style from './travel-search-filter.module.css';
+import style from './transport-mode-filter.module.css';
 import { MonoIcon } from '@atb/components/icon';
 import {
-  TravelSearchFilterOption,
-  TravelSearchFilterState,
-} from '@atb/components/travel-search-filter/types';
+  TransportModeFilterOption,
+  TransportModeFilterState,
+} from '@atb/components/transport-mode-filter/types';
 import { Typo } from '@atb/components/typography';
 import { getTransportModeIcon } from '@atb/components/transport-mode/transport-icon';
 import {
   filterOptionsWithTransportModes,
   setAllValues,
-} from '@atb/components/travel-search-filter/utils';
+} from '@atb/components/transport-mode-filter/utils';
 
-type TravelSearchFilterProps = {
-  filterState: TravelSearchFilterState;
-  onFilterChange: (filterState: TravelSearchFilterState) => void;
+type TransportModeFilterProps = {
+  filterState: TransportModeFilterState;
+  onFilterChange: (filterState: TransportModeFilterState) => void;
 };
 
-export default function TravelSearchFilter({
+export default function TransportModeFilter({
   filterState,
   onFilterChange,
-}: TravelSearchFilterProps) {
+}: TransportModeFilterProps) {
   const { t, language } = useTranslation();
 
   return (
@@ -33,18 +33,20 @@ export default function TravelSearchFilter({
             id="all"
             name="all"
             value="all"
-            aria-label={t(ComponentText.TravelSearchFilter.allA11y)}
+            aria-label={t(ComponentText.TransportModeFilter.allA11y)}
             checked={Object.values(filterState).every(Boolean)}
             onChange={(event) => {
               onFilterChange(setAllValues(filterState, event.target.checked));
             }}
           />
-          <label htmlFor="all">{t(ComponentText.TravelSearchFilter.all)}</label>
+          <label htmlFor="all">
+            {t(ComponentText.TransportModeFilter.all)}
+          </label>
         </li>
 
         {Object.entries(filterState).map(([key, selected]) => {
           const option =
-            filterOptionsWithTransportModes[key as TravelSearchFilterOption];
+            filterOptionsWithTransportModes[key as TransportModeFilterOption];
 
           const text = getTextForLanguage(option.text, language);
 
