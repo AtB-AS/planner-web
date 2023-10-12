@@ -39,7 +39,7 @@ export default function TransportModeFilter({
               onFilterChange(setAllValues(filterState, event.target.checked));
             }}
           />
-          <label htmlFor="all">
+          <label htmlFor="all" aria-hidden>
             {t(ComponentText.TransportModeFilter.all)}
           </label>
         </li>
@@ -65,8 +65,9 @@ export default function TransportModeFilter({
                       [key]: event.target.checked,
                     });
                   }}
+                  aria-labelledby={`label-${option.id}`}
                 />
-                <label htmlFor={option.id}>
+                <label htmlFor={option.id} aria-hidden>
                   <MonoIcon
                     icon={getTransportModeIcon({
                       mode: option.icon?.transportMode,
@@ -74,7 +75,7 @@ export default function TransportModeFilter({
                     })}
                     overrideMode="dark"
                   />
-                  <span>{text}</span>
+                  <span id={`label-${option.id}`}>{text}</span>
                 </label>
               </div>
 
