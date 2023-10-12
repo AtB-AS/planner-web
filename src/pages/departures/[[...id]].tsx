@@ -12,9 +12,12 @@ import DeparturesLayout, {
 import { withDepartureClient } from '@atb/page-modules/departures/server';
 import { StopPlace } from '@atb/page-modules/departures/stop-place';
 import type { NextPage } from 'next';
+import { TransportModeFilterOption } from '@atb/components/transport-mode-filter/types';
+import { parseFilterQuery } from '@atb/components/transport-mode-filter/utils';
 type DeparturesStopPlaceProps = {
   stopPlace: true;
   departures?: DepartureData;
+  transportModeFilter: TransportModeFilterOption[] | null;
 };
 
 type DeparturesContentProps =
@@ -58,13 +61,19 @@ export const getServerSideProps = withGlobalData(
   withDepartureClient<DeparturesContentProps, { id: string[] | undefined }>(
     async function ({ client, params, query }) {
       const id = params?.id?.[0];
-      const stopPlace = id ? await client.departures({ id }) : null;
+      const stopPlace = id ? await client.stopPlace({ id }) : null;
+      const transportModeFilter = parseFilterQuery(query.filter);
+
       if (id && stopPlace) {
-        const departures = await client.departures({ id });
+        const departures = await client.departures({
+          id,
+          transportModes: transportModeFilter,
+        });
         return {
           props: {
             stopPlace: true,
             departures,
+            transportModeFilter,
           },
         };
       } else if (query.lat && query.lon) {
@@ -72,7 +81,10 @@ export const getServerSideProps = withGlobalData(
           lat: parseFloat(query.lat.toString()),
           lon: parseFloat(query.lon.toString()),
         };
-        const nearestStopPlaces = await client.nearestStopPlaces(position);
+        const nearestStopPlaces = await client.nearestStopPlaces({
+          ...position,
+          transportModes: transportModeFilter,
+        });
 
         const activeLocation = await client.reverse(position.lat, position.lon);
 
@@ -81,6 +93,7 @@ export const getServerSideProps = withGlobalData(
             address: true,
             activeLocation,
             nearestStopPlaces,
+            transportModeFilter,
           },
         };
       } else {

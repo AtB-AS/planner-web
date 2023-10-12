@@ -4,6 +4,7 @@ query nearestStopPlaces(
   $longitude: Float!
   $latitude: Float!
   $after: String
+  $transportModes: [TransportMode]
 ) {
   nearest(
     latitude: $latitude
@@ -13,7 +14,8 @@ query nearestStopPlaces(
     after: $after
     filterByInUse: true
     filterByPlaceTypes: stopPlace
-    multiModalMode: parent
+    multiModalMode: parent,
+    filterByModes: $transportModes
   ) {
     pageInfo {
       endCursor

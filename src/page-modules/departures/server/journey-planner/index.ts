@@ -23,11 +23,18 @@ import {
   nearestStopPlaces,
   stopPlaceSchema,
 } from './validators';
-import { TransportMode as GraphqlTransportMode } from '@atb/modules/graphql-types';
+import {
+  TransportMode,
+  TransportMode as GraphqlTransportMode,
+} from '@atb/modules/graphql-types';
 import { TransportModeType } from '@atb-as/config-specs';
+import { TransportModeFilterOption } from '@atb/components/transport-mode-filter/types';
+import { getAllTransportModesFromFilterOptions } from '@atb/components/transport-mode-filter/utils';
+import { enumFromString } from '@atb/utils/enum-from-string';
 
 export type DepartureInput = {
   id: string;
+  transportModes: TransportModeFilterOption[] | null;
 };
 export type { DepartureData };
 
@@ -38,6 +45,7 @@ export type StopPlaceInput = {
 export type NearestStopPlacesInput = {
   lat: number;
   lon: number;
+  transportModes: TransportModeFilterOption[] | null;
 };
 export type { StopPlaceInfo, NearestStopPlacesData, StopPlaceWithDistance };
 
@@ -63,6 +71,7 @@ export function createJourneyApi(
           id: input.id,
           startTime: new Date(),
           numberOfDepartures: 10,
+          transportModes: getTransportModesEnums(input.transportModes),
         },
       });
 
@@ -95,7 +104,9 @@ export function createJourneyApi(
             date: e.date,
             expectedDepartureTime: e.expectedDepartureTime,
             aimedDepartureTime: e.aimedDepartureTime,
-            transportMode: isTransportMode(e.serviceJourney.line.transportMode)
+            transportMode: isTransportModeType(
+              e.serviceJourney.line.transportMode,
+            )
               ? e.serviceJourney.line.transportMode
               : undefined,
             transportSubmode: e.serviceJourney.line.transportSubmode,
@@ -130,6 +141,7 @@ export function createJourneyApi(
       const data: RecursivePartial<StopPlaceInfo> = {
         id: result.data.stopPlace?.id,
         name: result.data.stopPlace?.name,
+        description: result.data.stopPlace?.description,
 
         position: {
           lat: result.data.stopPlace?.latitude,
@@ -154,6 +166,7 @@ export function createJourneyApi(
         variables: {
           // Max distance in meters
           distance: 900,
+          transportModes: getTransportModesEnums(input.transportModes),
 
           latitude: input.lat,
           longitude: input.lon,
@@ -213,12 +226,25 @@ const filterTransportModes = (
   if (!modes) return undefined;
   const transportModes: TransportModeType[] = [];
   modes.forEach((transportMode) => {
-    if (isTransportMode(transportMode)) transportModes.push(transportMode);
+    if (isTransportModeType(transportMode)) transportModes.push(transportMode);
   });
   if (transportModes.length === 0) return undefined;
   return transportModes;
 };
 
-const isTransportMode = (a: any): a is TransportModeType => {
+const isTransportModeType = (a: any): a is TransportModeType => {
   return TransportModeType.safeParse(a).success;
+};
+
+const getTransportModesEnums = (
+  transportModes: TransportModeFilterOption[] | null,
+): TransportMode[] | null => {
+  if (!transportModes) return null;
+
+  const allTransportModes =
+    getAllTransportModesFromFilterOptions(transportModes);
+
+  return allTransportModes
+    .map((mode) => enumFromString(TransportMode, mode))
+    .filter(Boolean) as TransportMode[];
 };

@@ -3,7 +3,12 @@ import {
   transportModeFilterOptions,
   TransportModeFilterState,
 } from '@atb/components/transport-mode-filter/types';
-import { TransportModeFilterOptionType } from '@atb-as/config-specs';
+import {
+  TransportModeFilterOptionType,
+  TransportModeType,
+  TransportSubmodeType,
+} from '@atb-as/config-specs';
+import { uniq } from 'lodash';
 
 export function getInitialTransportModeFilter(
   initialSelected?: TransportModeFilterOption[],
@@ -26,12 +31,39 @@ export function setAllValues<T extends string, U>(
 export function filterToQueryString(
   filters: TransportModeFilterState,
 ): string | null {
-  if (Object.values(filters).every(Boolean)) return null;
-  if (Object.values(filters).every((selected) => !selected)) return 'none';
+  if (
+    Object.values(filters).every(Boolean) ||
+    Object.values(filters).every((selected) => !selected)
+  )
+    return null;
   return Object.entries(filters)
     .filter(([, selected]) => selected)
     .map(([filter]) => filter)
     .join(',');
+}
+
+export function parseFilterQuery(
+  filterQuery: string | string[] | undefined,
+): TransportModeFilterOption[] | null {
+  if (!filterQuery) return null;
+
+  return filterQuery.toString().split(',') as TransportModeFilterOption[];
+}
+
+export function getAllTransportModesFromFilterOptions(
+  filterOptions: TransportModeFilterOption[],
+): TransportModeType[] {
+  const transportModes: TransportModeType[] = [];
+
+  filterOptions.forEach((filterOption) => {
+    const option = filterOptionsWithTransportModes[filterOption];
+
+    const optionTransportModes = option.modes.map((mode) => mode.transportMode);
+
+    transportModes.push(...optionTransportModes);
+  });
+
+  return uniq(transportModes);
 }
 
 export const filterOptionsWithTransportModes: Record<
