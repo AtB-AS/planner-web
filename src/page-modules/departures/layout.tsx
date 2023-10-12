@@ -17,6 +17,7 @@ import {
   getInitialTransportModeFilter,
 } from '@atb/components/transport-mode-filter/utils';
 import { TransportModeFilterOption } from '@atb/components/transport-mode-filter/types';
+import { MonoIcon } from '@atb/components/icon';
 
 export type DeparturesLayoutProps = PropsWithChildren<{
   initialTransportModesFilter?: TransportModeFilterOption[] | null;
@@ -29,6 +30,7 @@ function DeparturesLayout({
   const { t } = useTranslation();
   const router = useRouter();
 
+  const [showAlternatives, setShowAlternatives] = useState(false);
   const [selectedFeature, setSelectedFeature] = useState<GeocoderFeature>();
   const [departureDate, setDepartureDate] = useState<DepartureDate>({
     type: DepartureDateState.Now,
@@ -96,30 +98,43 @@ function DeparturesLayout({
           </div>
         </div>
 
-        <div className={style.alternativesWrapper}>
-          <div className={style.alternatives}>
-            <div>
-              <Typo.p textType="body__primary--bold" className={style.heading}>
-                {t(PageText.Departures.search.filter.label)}
-              </Typo.p>
-
-              <TransportModeFilter
-                filterState={transportModeFilter}
-                onFilterChange={setTransportModeFilter}
-              />
-            </div>
-          </div>
-        </div>
-
         <div className={style.buttons}>
           <Button
-            title={t(PageText.Departures.search.button.title)}
+            title={t(PageText.Departures.search.buttons.alternatives.title)}
+            className={style.button}
+            mode={showAlternatives ? 'interactive_3' : 'interactive_2'}
+            onClick={() => setShowAlternatives(!showAlternatives)}
+            icon={{ right: <MonoIcon icon="actions/Adjust" /> }}
+          />
+
+          <Button
+            title={t(PageText.Departures.search.buttons.find.title)}
             className={style.button}
             mode="interactive_0"
             disabled={!selectedFeature}
             buttonProps={{ type: 'submit' }}
           />
         </div>
+
+        {showAlternatives && (
+          <div className={style.alternativesWrapper}>
+            <div className={style.alternatives}>
+              <div>
+                <Typo.p
+                  textType="body__primary--bold"
+                  className={style.heading}
+                >
+                  {t(PageText.Departures.search.filter.label)}
+                </Typo.p>
+
+                <TransportModeFilter
+                  filterState={transportModeFilter}
+                  onFilterChange={setTransportModeFilter}
+                />
+              </div>
+            </div>
+          </div>
+        )}
       </form>
 
       <section className={style.contentContainer}>{children}</section>

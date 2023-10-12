@@ -26,8 +26,13 @@ export const Departures = {
         'Kva vil du reise med?',
       ),
     },
-    button: {
-      title: _('Finn avganger', 'Find departures', 'Finn avganger'),
+    buttons: {
+      find: {
+        title: _('Finn avganger', 'Find departures', 'Finn avganger'),
+      },
+      alternatives: {
+        title: _('Flere valg', 'More choices', 'Fleire val'),
+      },
     },
   },
 

@@ -6,16 +6,15 @@
   background-color: var(--static-background-background_accent_0-background);
   height: 100%;
   position: relative;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-areas:
+    'main'
+    'alternatives';
 }
 
-/* TODO: Handle this better. */
-.container > div:nth-last-of-type(2) {
-  padding-bottom: 5.25rem;
-}
 
 .main {
+  grid-area: main;
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: var(--spacings-xLarge);
@@ -26,9 +25,7 @@
 }
 
 .button {
-  position: absolute;
-  bottom: var(--spacings-xLarge);
-  right: var(--spacings-xLarge);
+  text-align: center;
 }
 
 .heading {
@@ -37,8 +34,10 @@
 }
 
 .alternativesWrapper {
+  grid-area: alternatives;
   width: 100%;
   background-color: var(--static-background-background_accent_1-background);
+  padding-bottom: 5.25rem;
 }
 
 .alternatives {
@@ -49,15 +48,38 @@
 }
 
 .buttons {
-  position: relative;
+  grid-area: alternatives;
+  align-self: end;
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacings-medium);
   width: 100%;
   max-width: var(--maxPageWidth);
   margin: 0 auto;
+  padding: 0 var(--spacings-xLarge) var(--spacings-xLarge) var(--spacings-xLarge);
+  z-index: 10;
 }
 
 @media (max-width: 650px) {
+  .container {
+    grid-template-areas:
+      'main'
+      'buttons'
+      'alternatives';
+  }
+
   .main {
     grid-template-columns: 1fr;
+  }
+
+  .buttons {
+    grid-area: buttons;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .alternativesWrapper {
+    padding-bottom: 0;
   }
 }
 
