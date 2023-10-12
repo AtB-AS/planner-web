@@ -16,10 +16,16 @@ import {
   filterToQueryString,
   getInitialTransportModeFilter,
 } from '@atb/components/transport-mode-filter/utils';
+import { TransportModeFilterOption } from '@atb/components/transport-mode-filter/types';
 
-export type DeparturesLayoutProps = PropsWithChildren<WithGlobalData<{}>>;
+export type DeparturesLayoutProps = PropsWithChildren<{
+  initialTransportModesFilter?: TransportModeFilterOption[] | null;
+}>;
 
-function DeparturesLayout({ children }: DeparturesLayoutProps) {
+function DeparturesLayout({
+  children,
+  initialTransportModesFilter,
+}: DeparturesLayoutProps) {
   const { t } = useTranslation();
   const router = useRouter();
 
@@ -28,7 +34,7 @@ function DeparturesLayout({ children }: DeparturesLayoutProps) {
     type: DepartureDateState.Now,
   });
   const [transportModeFilter, setTransportModeFilter] = useState(
-    getInitialTransportModeFilter(),
+    getInitialTransportModeFilter(initialTransportModesFilter),
   );
 
   const onSubmitHandler: FormEventHandler<HTMLFormElement> = (e) => {

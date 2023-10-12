@@ -6,12 +6,11 @@ import {
 import {
   TransportModeFilterOptionType,
   TransportModeType,
-  TransportSubmodeType,
 } from '@atb-as/config-specs';
 import { uniq } from 'lodash';
 
 export function getInitialTransportModeFilter(
-  initialSelected?: TransportModeFilterOption[],
+  initialSelected?: TransportModeFilterOption[] | null,
 ): TransportModeFilterState {
   return Object.fromEntries(
     transportModeFilterOptions.map((option) => [
