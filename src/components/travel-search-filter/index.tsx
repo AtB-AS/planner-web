@@ -1,188 +1,28 @@
 import { getTextForLanguage } from '@atb/translations/utils';
-import { useTranslation } from '@atb/translations';
-import { ChangeEvent, useState } from 'react';
+import { useTranslation, ComponentText } from '@atb/translations';
 import style from './travel-search-filter.module.css';
 import { MonoIcon } from '@atb/components/icon';
-import { TransportModeFilterOptionWithSelectionType } from '@atb/components/travel-search-filter/types';
+import {
+  TravelSearchFilterOption,
+  TravelSearchFilterState,
+} from '@atb/components/travel-search-filter/types';
 import { Typo } from '@atb/components/typography';
 import { getTransportModeIcon } from '@atb/components/transport-mode/transport-icon';
-
-const defaultTravelSearchFilter: TransportModeFilterOptionWithSelectionType[] =
-  [
-    {
-      id: 'bus',
-      icon: {
-        transportMode: 'bus',
-      },
-      text: [
-        { lang: 'nob', value: 'Buss' },
-        { lang: 'eng', value: 'Bus' },
-        { lang: 'nno', value: 'Buss' },
-      ],
-      modes: [
-        {
-          transportMode: 'bus',
-          transportSubModes: [
-            'dedicatedLaneBus',
-            'demandAndResponseBus',
-            'expressBus',
-            'localBus',
-            'highFrequencyBus',
-            'mobilityBus',
-            'mobilityBusForRegisteredDisabled',
-            'nightBus',
-            'postBus',
-            'railReplacementBus',
-            'regionalBus',
-            'riverBus',
-            'schoolAndPublicServiceBus',
-            'schoolBus',
-            'shuttleBus',
-            'sightseeingBus',
-            'specialNeedsBus',
-          ],
-        },
-        { transportMode: 'coach' },
-        { transportMode: 'trolleybus' },
-      ],
-      selected: true,
-    },
-    {
-      id: 'rail',
-      icon: {
-        transportMode: 'rail',
-      },
-      text: [
-        { lang: 'nob', value: 'Tog' },
-        { lang: 'eng', value: 'Train' },
-        { lang: 'nno', value: 'Tog' },
-      ],
-      modes: [
-        { transportMode: 'rail' },
-        {
-          transportMode: 'bus',
-          transportSubModes: ['railReplacementBus'],
-        },
-      ],
-      selected: true,
-    },
-    {
-      id: 'expressboat',
-      icon: {
-        transportMode: 'water',
-        transportSubMode: 'highSpeedPassengerService',
-      },
-      text: [
-        { lang: 'nob', value: 'Hurtigbåt' },
-        { lang: 'eng', value: 'Express boat' },
-        { lang: 'nno', value: 'Hurtigbåt' },
-      ],
-      modes: [
-        {
-          transportMode: 'water',
-          transportSubModes: [
-            'highSpeedPassengerService',
-            'highSpeedVehicleService',
-            'sightseeingService',
-            'localPassengerFerry',
-            'internationalPassengerFerry',
-          ],
-        },
-      ],
-      selected: true,
-    },
-    {
-      id: 'ferry',
-      icon: {
-        transportMode: 'water',
-      },
-      text: [
-        { lang: 'nob', value: 'Bilferge' },
-        { lang: 'eng', value: 'Car ferry' },
-        { lang: 'nno', value: 'Bilferje' },
-      ],
-      modes: [
-        {
-          transportMode: 'water',
-          transportSubModes: [
-            'highSpeedVehicleService',
-            'internationalCarFerry',
-            'localCarFerry',
-            'nationalCarFerry',
-          ],
-        },
-      ],
-      selected: true,
-    },
-    {
-      id: 'airportbus',
-      icon: {
-        transportMode: 'bus',
-      },
-      text: [
-        { lang: 'nob', value: 'Flybuss' },
-        { lang: 'eng', value: 'Airport bus' },
-        { lang: 'nno', value: 'Flybuss' },
-      ],
-      modes: [
-        {
-          transportMode: 'bus',
-          transportSubModes: ['airportLinkBus'],
-        },
-      ],
-      selected: true,
-    },
-    {
-      id: 'air',
-      icon: {
-        transportMode: 'air',
-      },
-      text: [
-        { lang: 'nob', value: 'Fly' },
-        { lang: 'eng', value: 'Plane' },
-        { lang: 'nno', value: 'Fly' },
-      ],
-      modes: [{ transportMode: 'air' }],
-      selected: true,
-    },
-    {
-      id: 'other',
-      icon: {
-        transportMode: 'unknown',
-      },
-      text: [
-        { lang: 'nob', value: 'Annet' },
-        { lang: 'eng', value: 'Other' },
-        { lang: 'nno', value: 'Andre transportmiddel' },
-      ],
-      description: [
-        { lang: 'nob', value: 'Trikk, t-bane, gondoler, kabelbane, …' },
-        { lang: 'eng', value: 'Tram, metro, cableway, funicular, …' },
-        { lang: 'nno', value: 'Trikk, t-bane, gondolar, kabelbane, …' },
-      ],
-      modes: [
-        { transportMode: 'tram' },
-        { transportMode: 'metro' },
-        { transportMode: 'cableway' },
-        { transportMode: 'funicular' },
-        { transportMode: 'monorail' },
-        { transportMode: 'lift' },
-      ],
-      selected: true,
-    },
-  ];
+import {
+  filterOptionsWithTransportModes,
+  setAllValues,
+} from '@atb/components/travel-search-filter/utils';
 
 type TravelSearchFilterProps = {
-  transportModes?: TransportModeFilterOptionWithSelectionType[];
-  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+  filterState: TravelSearchFilterState;
+  onFilterChange: (filterState: TravelSearchFilterState) => void;
 };
 
-export default function TravelSearchFilter({}: TravelSearchFilterProps) {
-  const { language } = useTranslation();
-
-  const [transportModes, setTransportModes] = useState(
-    defaultTravelSearchFilter,
-  );
+export default function TravelSearchFilter({
+  filterState,
+  onFilterChange,
+}: TravelSearchFilterProps) {
+  const { t, language } = useTranslation();
 
   return (
     <div className={style.container}>
@@ -193,47 +33,42 @@ export default function TravelSearchFilter({}: TravelSearchFilterProps) {
             id="all"
             name="all"
             value="all"
-            checked={transportModes.every((m) => m.selected)}
+            aria-label={t(ComponentText.TravelSearchFilter.allA11y)}
+            checked={Object.values(filterState).every(Boolean)}
             onChange={(event) => {
-              setTransportModes((transportModes) =>
-                transportModes.map((m) => ({
-                  ...m,
-                  selected: event.target.checked,
-                })),
-              );
+              onFilterChange(setAllValues(filterState, event.target.checked));
             }}
           />
-          {/* TODO: Add translation */}
-          <label htmlFor="all">All</label>
+          <label htmlFor="all">{t(ComponentText.TravelSearchFilter.all)}</label>
         </li>
 
-        {transportModes.map((mode) => {
-          const text = getTextForLanguage(mode.text, language);
+        {Object.entries(filterState).map(([key, selected]) => {
+          const option =
+            filterOptionsWithTransportModes[key as TravelSearchFilterOption];
+
+          const text = getTextForLanguage(option.text, language);
 
           return (
-            <li key={mode.id} className={style.transportMode}>
+            <li key={option.id} className={style.transportMode}>
               <div>
                 <input
                   type="checkbox"
-                  id={mode.id}
-                  name={mode.id}
-                  value={mode.id}
-                  checked={mode.selected}
+                  id={option.id}
+                  name={option.id}
+                  value={option.id}
+                  checked={selected}
                   onChange={(event) => {
-                    setTransportModes(
-                      transportModes.map((m) =>
-                        m.id === mode.id
-                          ? { ...m, selected: event.target.checked }
-                          : m,
-                      ),
-                    );
+                    onFilterChange({
+                      ...filterState,
+                      [key]: event.target.checked,
+                    });
                   }}
                 />
-                <label htmlFor={mode.id}>
+                <label htmlFor={option.id}>
                   <MonoIcon
                     icon={getTransportModeIcon({
-                      mode: mode.icon?.transportMode,
-                      subMode: mode.icon?.transportSubMode,
+                      mode: option.icon?.transportMode,
+                      subMode: option.icon?.transportSubMode,
                     })}
                     overrideMode="dark"
                   />
@@ -241,9 +76,9 @@ export default function TravelSearchFilter({}: TravelSearchFilterProps) {
                 </label>
               </div>
 
-              {mode.description && (
+              {option.description && (
                 <Typo.p textType="body__tertiary" className={style.infoText}>
-                  {getTextForLanguage(mode.description, language) ?? ''}
+                  {getTextForLanguage(option.description, language) ?? ''}
                 </Typo.p>
               )}
             </li>

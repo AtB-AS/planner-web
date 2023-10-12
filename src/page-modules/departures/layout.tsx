@@ -12,6 +12,10 @@ import DepartureDateSelector, {
 } from '@atb/components/departure-date-selector';
 import TravelSearchFilter from '@atb/components/travel-search-filter';
 import { Typo } from '@atb/components/typography';
+import {
+  filterToQueryString,
+  getInitialTravelSearchFilterState,
+} from '@atb/components/travel-search-filter/utils';
 
 export type DeparturesLayoutProps = PropsWithChildren<WithGlobalData<{}>>;
 
@@ -23,16 +27,35 @@ function DeparturesLayout({ children }: DeparturesLayoutProps) {
   const [departureDate, setDepartureDate] = useState<DepartureDate>({
     type: DepartureDateState.Now,
   });
+  const [travelSearchFilter, setTravelSearchFilter] = useState(
+    getInitialTravelSearchFilterState(),
+  );
 
   const onSubmitHandler: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
+
+    let query = {};
+
+    const filter = filterToQueryString(travelSearchFilter);
+
+    if (filter) {
+      query = {
+        filter,
+      };
+    }
+
     if (selectedFeature?.layer == 'venue') {
-      router.push(`/departures/${selectedFeature.id}`);
+      // TODO: Using URL object encodes all query params
+      router.push({
+        pathname: `/departures/[[...id]]`,
+        query: { ...query, id: selectedFeature.id },
+      });
     } else if (selectedFeature?.layer == 'address') {
       const [lon, lat] = selectedFeature.geometry.coordinates;
       router.push({
         href: '/departures',
         query: {
+          ...query,
           lon,
           lat,
         },
@@ -74,7 +97,10 @@ function DeparturesLayout({ children }: DeparturesLayoutProps) {
                 {t(PageText.Departures.search.filter.label)}
               </Typo.p>
 
-              <TravelSearchFilter />
+              <TravelSearchFilter
+                filterState={travelSearchFilter}
+                onFilterChange={setTravelSearchFilter}
+              />
             </div>
           </div>
         </div>
