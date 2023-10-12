@@ -17,7 +17,6 @@ import { and, andIf } from '@atb/utils/css';
 import { useRouter } from 'next/router';
 import { Departures } from '@atb/translations/pages';
 import { useTransportationThemeColor } from '@atb/components/transport-mode/transport-icon';
-import { TransportMode } from '@atb/components/transport-mode/types';
 
 export type StopPlaceProps = {
   departures: DepartureData;
@@ -132,8 +131,8 @@ type EstimatedCallItemProps = {
 
 export function EstimatedCallItem({ departure }: EstimatedCallItemProps) {
   const transportationColor = useTransportationThemeColor({
-    mode: departure.transportMode || TransportMode.UNKNOWN,
-    subMode: departure.transportSubMode,
+    mode: departure.transportMode || 'unknown',
+    subMode: departure.transportSubmode,
   });
 
   return (
@@ -155,7 +154,7 @@ export function EstimatedCallItem({ departure }: EstimatedCallItemProps) {
                 <TransportIcon
                   mode={{
                     mode: departure.transportMode,
-                    subMode: departure.transportSubMode,
+                    subMode: departure.transportSubmode,
                   }}
                 />
               )}

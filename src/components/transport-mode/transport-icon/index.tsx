@@ -1,4 +1,4 @@
-import { AnySubMode, TransportModeGroup, TransportSubmode } from '../types';
+import { TransportModeGroup } from '../types';
 
 import { ContrastColor, Theme } from '@atb-as/theme';
 import MonoIcon, { MonoIconProps } from '@atb/components/icon/mono-icon';
@@ -8,6 +8,7 @@ import { useTranslation } from '@atb/translations';
 import { transportModeToTranslatedString } from '../utils';
 import style from './transport-icon.module.css';
 import { colorToOverrideColor } from '@atb/utils/color';
+import { TransportSubmodeType } from '@atb-as/config-specs';
 
 export type TransportIconsProps = {
   modes: TransportModeGroup[];
@@ -53,12 +54,12 @@ export function useTransportationThemeColor(mode: TransportModeGroup) {
   };
 }
 
-const TRANSPORT_SUB_MODES_BOAT: AnySubMode[] = [
-  TransportSubmode.HighSpeedPassengerService,
-  TransportSubmode.HighSpeedVehicleService,
-  TransportSubmode.NationalPassengerFerry,
-  TransportSubmode.LocalPassengerFerry,
-  TransportSubmode.SightseeingService,
+const TRANSPORT_SUB_MODES_BOAT: TransportSubmodeType[] = [
+  'highSpeedPassengerService',
+  'highSpeedVehicleService',
+  'nationalPassengerFerry',
+  'localPassengerFerry',
+  'sightseeingService',
 ];
 
 function modeToColor(

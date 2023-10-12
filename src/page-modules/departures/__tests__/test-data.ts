@@ -1,7 +1,3 @@
-import {
-  TransportMode,
-  TransportSubmode,
-} from '@atb/components/transport-mode/types';
 import { DepartureData } from '@atb/page-modules/departures/';
 
 export const departureDataMock: DepartureData = {
@@ -9,8 +5,8 @@ export const departureDataMock: DepartureData = {
     id: 'NSR:StopPlace:41613',
     name: 'Prinsens gate',
     position: { lat: 63.431034, lon: 10.392007 },
-    transportMode: [TransportMode.BUS],
-    transportSubmode: [TransportSubmode.Unknown],
+    transportMode: ['bus'],
+    transportSubmode: ['unknown'],
     description: '',
   },
   quays: [
@@ -26,7 +22,7 @@ export const departureDataMock: DepartureData = {
           date: '2023-10-08',
           expectedDepartureTime: '2023-10-08T20:53:15+02:00',
           aimedDepartureTime: '2023-10-08T20:50:00+02:00',
-          transportMode: TransportMode.BUS,
+          transportMode: 'bus',
           publicCode: '71',
         },
         {
@@ -35,7 +31,7 @@ export const departureDataMock: DepartureData = {
           date: '2023-10-08',
           expectedDepartureTime: '2023-10-08T20:53:19+02:00',
           aimedDepartureTime: '2023-10-08T20:47:00+02:00',
-          transportMode: TransportMode.BUS,
+          transportMode: 'bus',
           publicCode: '25',
         },
       ],
@@ -52,7 +48,7 @@ export const departureDataMock: DepartureData = {
           date: '2023-10-08',
           expectedDepartureTime: '2023-10-08T20:55:28+02:00',
           aimedDepartureTime: '2023-10-08T20:54:00+02:00',
-          transportMode: TransportMode.BUS,
+          transportMode: 'bus',
           publicCode: '10',
         },
         {
@@ -61,7 +57,7 @@ export const departureDataMock: DepartureData = {
           date: '2023-10-08',
           expectedDepartureTime: '2023-10-08T20:55:32+02:00',
           aimedDepartureTime: '2023-10-08T20:54:00+02:00',
-          transportMode: TransportMode.BUS,
+          transportMode: 'bus',
           publicCode: '20',
         },
         {
@@ -70,7 +66,7 @@ export const departureDataMock: DepartureData = {
           date: '2023-10-08',
           expectedDepartureTime: '2023-10-08T20:57:11+02:00',
           aimedDepartureTime: '2023-10-08T20:56:00+02:00',
-          transportMode: TransportMode.BUS,
+          transportMode: 'bus',
           publicCode: '12',
         },
       ],

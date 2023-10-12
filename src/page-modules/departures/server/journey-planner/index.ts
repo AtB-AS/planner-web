@@ -24,7 +24,7 @@ import {
   stopPlaceSchema,
 } from './validators';
 import { TransportMode as GraphqlTransportMode } from '@atb/modules/graphql-types';
-import { TransportMode } from '@atb/components/transport-mode/types';
+import { TransportModeType } from '@atb-as/config-specs';
 
 export type DepartureInput = {
   id: string;
@@ -209,9 +209,9 @@ type RecursivePartial<T> = {
 
 const filterTransportModes = (
   modes: GraphqlTransportMode[] | undefined,
-): TransportMode[] | undefined => {
+): TransportModeType[] | undefined => {
   if (!modes) return undefined;
-  const transportModes: TransportMode[] = [];
+  const transportModes: TransportModeType[] = [];
   modes.forEach((transportMode) => {
     if (isTransportMode(transportMode)) transportModes.push(transportMode);
   });
@@ -219,6 +219,6 @@ const filterTransportModes = (
   return transportModes;
 };
 
-const isTransportMode = (a: any): a is TransportMode => {
-  return Object.values(TransportMode).includes(a);
+const isTransportMode = (a: any): a is TransportModeType => {
+  return TransportModeType.safeParse(a).success;
 };
