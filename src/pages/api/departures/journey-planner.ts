@@ -20,12 +20,7 @@ export default handlerWithDepartureClient<EstimatedCallsApiReturnType>({
     }
 
     return tryResult(req, res, async () => {
-      return ok(
-        await client.estimatedCalls({
-          quayId: String(req.query.quayId),
-          startTime: String(req.query.startTime),
-        }),
-      );
+      return ok(await client.estimatedCalls(query.data));
     });
   },
 });
