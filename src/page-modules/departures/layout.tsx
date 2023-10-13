@@ -10,7 +10,7 @@ import DepartureDateSelector, {
   DepartureDate,
   DepartureDateState,
 } from '@atb/components/departure-date-selector';
-import TransportModeFilter from '../../components/transport-mode-filter';
+import TransportModeFilter from '@atb/components/transport-mode-filter';
 import { Typo } from '@atb/components/typography';
 import {
   filterToQueryString,
