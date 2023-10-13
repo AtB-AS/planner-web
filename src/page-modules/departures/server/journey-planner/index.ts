@@ -229,7 +229,7 @@ export function createJourneyApi(
         query: QuayEstimatedCallsDocument,
         variables: {
           id: input.quayId,
-          numberOfDepartures: 10,
+          numberOfDepartures: 5,
           startTime: new Date(input.startTime),
         },
       });
