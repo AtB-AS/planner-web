@@ -137,7 +137,6 @@ export function EstimatedCallList({ quay }: EstimatedCallListProps) {
             <Button
               className={and(style.listItem, style.listItem__last)}
               aria-label={t(Departures.stopPlace.quaySection.a11yToQuayHint)}
-              aria-disabled={'DISABLED'}
               onClick={getMoreDepartures}
               state={isFetchingDepartures ? 'loading' : undefined}
               title={t(Departures.stopPlace.quaySection.moreDepartures)}
