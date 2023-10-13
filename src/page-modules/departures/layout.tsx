@@ -18,6 +18,7 @@ import {
 } from '@atb/components/transport-mode-filter/utils';
 import { TransportModeFilterOption } from '@atb/components/transport-mode-filter/types';
 import { MonoIcon } from '@atb/components/icon';
+import { FocusScope } from '@react-aria/focus';
 
 export type DeparturesLayoutProps = PropsWithChildren<{
   initialTransportModesFilter?: TransportModeFilterOption[] | null;
@@ -98,6 +99,28 @@ function DeparturesLayout({
           </div>
         </div>
 
+        {showAlternatives && (
+          <FocusScope contain={false} autoFocus={showAlternatives}>
+            <div className={style.alternativesWrapper}>
+              <div className={style.alternatives}>
+                <div>
+                  <Typo.p
+                    textType="body__primary--bold"
+                    className={style.heading}
+                  >
+                    {t(PageText.Departures.search.filter.label)}
+                  </Typo.p>
+
+                  <TransportModeFilter
+                    filterState={transportModeFilter}
+                    onFilterChange={setTransportModeFilter}
+                  />
+                </div>
+              </div>
+            </div>
+          </FocusScope>
+        )}
+
         <div className={style.buttons}>
           <Button
             title={t(PageText.Departures.search.buttons.alternatives.title)}
@@ -115,26 +138,6 @@ function DeparturesLayout({
             buttonProps={{ type: 'submit' }}
           />
         </div>
-
-        {showAlternatives && (
-          <div className={style.alternativesWrapper}>
-            <div className={style.alternatives}>
-              <div>
-                <Typo.p
-                  textType="body__primary--bold"
-                  className={style.heading}
-                >
-                  {t(PageText.Departures.search.filter.label)}
-                </Typo.p>
-
-                <TransportModeFilter
-                  filterState={transportModeFilter}
-                  onFilterChange={setTransportModeFilter}
-                />
-              </div>
-            </div>
-          </div>
-        )}
       </form>
 
       <section className={style.contentContainer}>{children}</section>

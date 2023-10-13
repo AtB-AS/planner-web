@@ -47,6 +47,19 @@
   border-color: var(--interactive-interactive_0-default-background);
 }
 
+.transportMode input:focus-visible ~ label {
+  border-color: var(--interactive-interactive_0-outline-background);
+}
+
+.transportMode input:checked:hover ~ label {
+  background-color: var(--interactive-interactive_0-hover-background);
+  border-color: var(--interactive-interactive_0-hover-background);
+}
+
+.transportMode input:not(:checked):hover ~ label {
+  border-color: var(--interactive-interactive_2-hover-background);
+}
+
 .infoText {
   color: var(--text-colors-disabled);
   max-width: 10rem;
