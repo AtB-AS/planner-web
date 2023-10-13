@@ -4,15 +4,15 @@ import { ButtonLink } from '@atb/components/button';
 import { ComponentText, useTranslation } from '@atb/translations';
 import { and } from '@atb/utils/css';
 import { MonoIcon } from '@atb/components/icon';
-import { TransportMode } from '@atb/components/transport-mode/types';
 import { transportModeToTranslatedString } from '@atb/components/transport-mode';
 import { getTransportModeIcon } from '@atb/components/transport-mode/transport-icon';
+import { TransportModeType } from '@atb-as/config-specs';
 
 export type MapHeaderProps = {
   id: string;
   name: string; // StopPlace name or address
   layer: 'address' | 'venue';
-  transportModes?: TransportMode[];
+  transportModes?: TransportModeType[];
 };
 
 export function MapHeader({ id, name, layer, transportModes }: MapHeaderProps) {
