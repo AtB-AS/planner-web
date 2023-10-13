@@ -39,6 +39,7 @@ export type LocalizedString = {
   lang: 'nob' | 'eng' | 'nno';
   value: string;
 };
+
 export function convertLocalizedString(
   language: Language,
   localizedStrings: LocalizedString[],

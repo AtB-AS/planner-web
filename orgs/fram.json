@@ -1,0 +1,31 @@
+{
+  "$schema": "./schema-validation.json",
+
+  "orgId": "fram",
+
+  "supportEmail": "sentrumsterminalen@boreal.no",
+
+  "fylkeskommune": {
+    "logoSrc": "/fram_mor_fylkeskommune.svg",
+    "logoSrcDark": "/fram_mor_fylkeskommune_dark.svg",
+    "name": "Møre og Romsdal fylkeskommune"
+  },
+
+  "urls": {
+    "privacyDeclarationUrl": {
+      "default": "https://frammr.no/personvern"
+    },
+
+    "accessibilityStatementUrl": {
+      "default": "https://uustatus.no/nb/erklaringer/publisert/a98e360d-c8d9-4a6f-aaf4-324582ebf297"
+    },
+
+    "supportUrl": {
+      "default": "https://frammr.no/kontakt-oss",
+      "en-US": "https://en.frammr.no/contact-us"
+    },
+
+    "instagramLink": "https://www.instagram.com/reisnordland",
+    "facebookLink": "https://www.facebook.com/ReisNordland"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "$schema": "./schema-validation.json",
+  "orgId": "atb",
+
+  "supportEmail": "kundeservice@atb.no",
+
+  "fylkeskommune": {
+    "logoSrc": "/trl_fylkeskommune.svg",
+    "logoSrcDark": "/trl_fylkeskommune_dark.svg",
+    "name": "Trøndelag fylkeskommune"
+  },
+
+  "urls": {
+    "privacyDeclarationUrl": {
+      "default": "https://beta.atb.no/private-policy"
+    },
+
+    "accessibilityStatementUrl": {
+      "default": "https://uustatus.no/nb/erklaringer/publisert/3004ce8c-c4b5-4828-b984-7829407d63b5"
+    },
+
+    "supportUrl": {
+      "default": "https://atb.no/kundeservice/",
+      "en-US": "https://www.atb.no/en/customer-service/"
+    },
+    "facebookLink": "https://www.facebook.com/atb.no/",
+    "instagramLink": "https://www.instagram.com/atb_no/",
+    "twitterLink": "https://twitter.com/atb_no"
+  }
+}

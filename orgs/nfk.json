@@ -1,0 +1,29 @@
+{
+  "$schema": "./schema-validation.json",
+  "orgId": "nfk",
+  "supportEmail": "sentrumsterminalen@boreal.no",
+
+  "fylkeskommune": {
+    "logoSrc": "/nfk_fylkeskommune.svg",
+    "logoSrcDark": "/nfk_fylkeskommune_dark.svg",
+    "name": "Nordland fylkeskommune"
+  },
+
+  "urls": {
+    "privacyDeclarationUrl": {
+      "default": "https://www.reisnordland.no/personvern-og-cookies"
+    },
+
+    "accessibilityStatementUrl": {
+      "default": "https://uustatus.no/nb/erklaringer/publisert/ae5bc315-272a-469e-b4cb-8ba5164ea988"
+    },
+
+    "supportUrl": {
+      "default": "https://www.reisnordland.no/kontaktskjema",
+      "en-US": "https://www.reisnordland.com/contact-us"
+    },
+
+    "instagramLink": "https://www.instagram.com/reisnordland",
+    "facebookLink": "https://www.facebook.com/ReisNordland"
+  }
+}
