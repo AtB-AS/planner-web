@@ -1,5 +1,9 @@
 import { MapWithHeader } from '@atb/components/map';
-import { DepartureData } from '..';
+import {
+  DepartureData,
+  Quay,
+  Departure,
+} from '@atb/page-modules/departures/server/journey-planner';
 import style from './stop-place.module.css';
 import { MonoIcon } from '@atb/components/icon';
 import {
@@ -50,15 +54,13 @@ export function StopPlace({ departures }: StopPlaceProps) {
 }
 
 type EstimatedCallListProps = {
-  quay: DepartureData['quays'][0];
+  quay: Quay;
 };
 
 export function EstimatedCallList({ quay }: EstimatedCallListProps) {
   const { t } = useTranslation();
   const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
-  const [departures, setDepartures] = useState<
-    DepartureData['quays'][0]['departures'][0][]
-  >(quay.departures);
+  const [departures, setDepartures] = useState<Departure[]>(quay.departures);
   const [isFetchingDepartures, setIsFetchingDepartures] =
     useState<boolean>(false);
 
@@ -150,7 +152,7 @@ export function EstimatedCallList({ quay }: EstimatedCallListProps) {
 }
 
 type EstimatedCallItemProps = {
-  departure: DepartureData['quays'][0]['departures'][0];
+  departure: Departure;
 };
 
 export function EstimatedCallItem({ departure }: EstimatedCallItemProps) {

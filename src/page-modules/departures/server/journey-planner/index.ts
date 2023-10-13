@@ -29,6 +29,8 @@ import {
   estimatedCallsSchema,
   nearestStopPlaces,
   stopPlaceSchema,
+  Quay,
+  Departure,
 } from './validators';
 import {
   TransportMode,
@@ -43,7 +45,7 @@ export type DepartureInput = {
   id: string;
   transportModes: TransportModeFilterOption[] | null;
 };
-export type { DepartureData };
+export type { DepartureData, Quay, Departure };
 
 export type StopPlaceInput = {
   id: string;
