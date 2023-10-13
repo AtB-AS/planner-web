@@ -49,6 +49,9 @@
             "supportUrl": {
               "$ref": "#/definitions/TranslatableUrl"
             },
+            "helpUrl": {
+              "$ref": "#/definitions/TranslatableUrl"
+            },
             "twitterLink": {
               "type": "string"
             }

@@ -28,6 +28,7 @@ export type OrgData = {
     privacyDeclarationUrl: TranslatableUrl;
     accessibilityStatementUrl: TranslatableUrl;
 
+    helpUrl?: TranslatableUrl;
     supportUrl?: TranslatableUrl;
 
     instagramLink?: string;
@@ -37,7 +38,7 @@ export type OrgData = {
 };
 
 export function getOrgData(): OrgData {
-  const orgId = process.env.NEXT_PUBLIC_WEBSHOP_ORG_ID;
+  const orgId = process.env.NEXT_PUBLIC_PLANNER_ORG_ID;
   switch (orgId) {
     case 'atb':
       return atb as OrgData;
@@ -47,7 +48,7 @@ export function getOrgData(): OrgData {
       return fram as OrgData;
   }
 
-  throw new Error('NEXT_PUBLIC_WEBSHOP_ORG_ID required but missing');
+  throw new Error('NEXT_PUBLIC_PLANNER_ORG_ID required but missing');
 }
 export const currentOrg = getCurrentOrg();
 export const mapboxData = getMapboxData();
