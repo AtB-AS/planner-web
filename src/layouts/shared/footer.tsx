@@ -1,50 +1,19 @@
 /* eslint-disable @next/next/no-img-element */
 import { ButtonLink } from '@atb/components/button';
+import { getConfigUrl, getOrgData } from '@atb/modules/org-data';
 import { useTheme } from '@atb/modules/theme';
 import { Language, ModuleText, useTranslation } from '@atb/translations';
 import { useLanguageSettings } from '@atb/translations/language-context';
-import Link from 'next/link';
 
 import style from './footer.module.css';
-
-// @TODO Replace this with real data
-const tempOrgData = {
-  privacyDeclarationUrl: 'https://beta.atb.no/private-policy',
-  accessibilityStatementUrl:
-    'https://uustatus.no/nb/erklaringer/publisert/3004ce8c-c4b5-4828-b984-7829407d63b5',
-  termsOfUseUrl: null,
-  termsOfUseUrlEnglish: null,
-  helpPageUrl: null,
-  helpPageUrlEnglish: null,
-
-  facebookLink: 'https://www.facebook.com/atb.no/',
-  instagramLink: 'https://www.instagram.com/atb_no/',
-  twitterLink: 'https://twitter.com/atb_no',
-  fylkeskommuneLogo: '/trl_fylkeskommune.svg',
-  fylkeskommuneLogoDark: '/trl_fylkeskommune_dark.svg',
-  fylkeskommuneName: 'Trøndelag fylkeskommune',
-};
 
 export type FooterProps = {
   withoutSettings?: boolean;
 };
 
-export default function Footer({ withoutSettings = false }: FooterProps) {
-  const {
-    privacyDeclarationUrl,
-    accessibilityStatementUrl,
-    termsOfUseUrl,
-    termsOfUseUrlEnglish,
-    helpPageUrl,
-    helpPageUrlEnglish,
-    instagramLink,
-    facebookLink,
-    twitterLink,
-    fylkeskommuneLogo,
-    fylkeskommuneLogoDark,
-    fylkeskommuneName,
-  } = tempOrgData;
+const { urls, fylkeskommune } = getOrgData();
 
+export default function Footer({ withoutSettings = false }: FooterProps) {
   const { isDarkMode, toggleDarkmode } = useTheme();
   const { t, language } = useTranslation();
 
@@ -58,14 +27,10 @@ export default function Footer({ withoutSettings = false }: FooterProps) {
             </h4>
 
             <ul className={style.footer__linkList}>
-              {helpPageUrl ? (
+              {urls.helpUrl ? (
                 <li>
                   <a
-                    href={
-                      language === Language.English && helpPageUrlEnglish
-                        ? helpPageUrlEnglish
-                        : helpPageUrl
-                    }
+                    href={getConfigUrl(urls.helpUrl, language)}
                     target="_blank"
                     rel="noreferrer"
                   >
@@ -85,13 +50,20 @@ export default function Footer({ withoutSettings = false }: FooterProps) {
             </h4>
 
             <ul className={style.footer__linkList}>
-              <li>
-                <Link href="/contact">
-                  {t(
-                    ModuleText.Layout.base.footer.sections.contact.contactLink,
-                  )}
-                </Link>
-              </li>
+              {urls.supportUrl ? (
+                <li>
+                  <a
+                    href={getConfigUrl(urls.supportUrl, language)}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {t(
+                      ModuleText.Layout.base.footer.sections.general
+                        .helpPageLink,
+                    )}
+                  </a>
+                </li>
+              ) : null}
             </ul>
           </section>
 
@@ -135,14 +107,14 @@ export default function Footer({ withoutSettings = false }: FooterProps) {
 
         <section className={style.footer__bottomLinks}>
           <div className={style.footer__some}>
-            {facebookLink && (
+            {urls.facebookLink && (
               <ButtonLink
                 mode={isDarkMode ? 'interactive_2' : 'interactive_1'}
                 radius="top-bottom"
                 display="inline"
                 radiusSize="circular"
                 icon={{ left: <img src="/fb.svg" alt="Facebook" /> }}
-                href={facebookLink}
+                href={urls.facebookLink}
                 aProps={{
                   target: '_blank',
                   rel: 'noreferrer',
@@ -150,14 +122,14 @@ export default function Footer({ withoutSettings = false }: FooterProps) {
                 }}
               />
             )}
-            {instagramLink && (
+            {urls.instagramLink && (
               <ButtonLink
                 mode={isDarkMode ? 'interactive_2' : 'interactive_1'}
                 radius="top-bottom"
                 display="inline"
                 radiusSize="circular"
                 icon={{ left: <img src="/ig.svg" alt="Instagram" /> }}
-                href={instagramLink}
+                href={urls.instagramLink}
                 aProps={{
                   target: '_blank',
                   rel: 'noreferrer',
@@ -165,14 +137,14 @@ export default function Footer({ withoutSettings = false }: FooterProps) {
                 }}
               />
             )}
-            {twitterLink && (
+            {urls.twitterLink && (
               <ButtonLink
                 mode={isDarkMode ? 'interactive_2' : 'interactive_1'}
                 radius="top-bottom"
                 display="inline"
                 radiusSize="circular"
                 icon={{ left: <img src="/twitter.svg" alt="Twitter" /> }}
-                href={twitterLink}
+                href={urls.twitterLink}
                 aProps={{
                   target: '_blank',
                   rel: 'noreferrer',
@@ -183,12 +155,16 @@ export default function Footer({ withoutSettings = false }: FooterProps) {
           </div>
 
           <div className={style.footer__bottomLinks__mid}>
-            <a href={privacyDeclarationUrl} target="_blank" rel="noreferrer">
+            <a
+              href={getConfigUrl(urls.privacyDeclarationUrl, language)}
+              target="_blank"
+              rel="noreferrer"
+            >
               {t(ModuleText.Layout.base.footer.bottomLinks.privacy)}
             </a>
             <span aria-hidden="true">•</span>
             <a
-              href={accessibilityStatementUrl}
+              href={getConfigUrl(urls.accessibilityStatementUrl, language)}
               target="_blank"
               rel="noreferrer"
             >
@@ -197,36 +173,16 @@ export default function Footer({ withoutSettings = false }: FooterProps) {
                   .accessibilityStatement,
               )}
             </a>
-
-            {termsOfUseUrl && (
-              <>
-                <span aria-hidden="true">•</span>
-                <a
-                  href={
-                    language === Language.English && termsOfUseUrlEnglish
-                      ? termsOfUseUrlEnglish
-                      : termsOfUseUrl
-                  }
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {t(ModuleText.Layout.base.footer.bottomLinks.termsOfUse)}
-                </a>
-              </>
-            )}
           </div>
 
-          {fylkeskommuneName &&
-            (fylkeskommuneLogo && fylkeskommuneLogoDark ? (
-              <img
-                src={isDarkMode ? fylkeskommuneLogoDark : fylkeskommuneLogo}
-                alt={fylkeskommuneName}
-              />
-            ) : (
-              fylkeskommuneLogo && (
-                <img src={fylkeskommuneLogo} alt={fylkeskommuneName} />
-              )
-            ))}
+          {fylkeskommune && (
+            <img
+              src={
+                isDarkMode ? fylkeskommune.logoSrcDark : fylkeskommune.logoSrc
+              }
+              alt={fylkeskommune.name}
+            />
+          )}
         </section>
       </div>
     </footer>

@@ -1,3 +1,8 @@
+import { Language } from '@atb/translations';
+import atb from '../../../orgs/atb.json';
+import fram from '../../../orgs/fram.json';
+import nfk from '../../../orgs/nfk.json';
+
 export type WEBSHOP_ORGS = 'nfk' | 'atb' | 'fram';
 export type MAPBOX_DATA = {
   accessToken: string;
@@ -5,8 +10,52 @@ export type MAPBOX_DATA = {
   defaultLat: number;
   defaultLng: number;
 };
+
+export type TranslatableUrl = { default: string } & Partial<{
+  [isoCode in `${Language}`]: string;
+}>;
+export type OrgData = {
+  orgId: WEBSHOP_ORGS;
+  supportEmail: string;
+
+  fylkeskommune?: {
+    name: string;
+    logoSrc: string;
+    logoSrcDark: string;
+  };
+
+  urls: {
+    privacyDeclarationUrl: TranslatableUrl;
+    accessibilityStatementUrl: TranslatableUrl;
+
+    helpUrl?: TranslatableUrl;
+    supportUrl?: TranslatableUrl;
+
+    instagramLink?: string;
+    facebookLink?: string;
+    twitterLink?: string;
+  };
+};
+
+export function getOrgData(): OrgData {
+  const orgId = process.env.NEXT_PUBLIC_PLANNER_ORG_ID;
+  switch (orgId) {
+    case 'atb':
+      return atb as OrgData;
+    case 'nfk':
+      return nfk as OrgData;
+    case 'fram':
+      return fram as OrgData;
+  }
+
+  throw new Error('NEXT_PUBLIC_PLANNER_ORG_ID required but missing');
+}
 export const currentOrg = getCurrentOrg();
 export const mapboxData = getMapboxData();
+
+export function getConfigUrl(url: TranslatableUrl, lang: Language) {
+  return url[lang] ?? url.default;
+}
 
 function getCurrentOrg(): WEBSHOP_ORGS {
   const orgId = process.env.NEXT_PUBLIC_PLANNER_ORG_ID;

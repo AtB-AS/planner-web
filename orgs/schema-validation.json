@@ -1,0 +1,90 @@
+{
+  "$ref": "#/definitions/OrgData",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "OrgData": {
+      "additionalProperties": false,
+      "properties": {
+        "fylkeskommune": {
+          "additionalProperties": false,
+          "properties": {
+            "logoSrc": {
+              "type": "string"
+            },
+            "logoSrcDark": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            }
+          },
+          "required": ["name", "logoSrc", "logoSrcDark"],
+          "type": "object"
+        },
+        "orgId": {
+          "enum": ["atb", "fram", "nfk"],
+          "type": "string"
+        },
+        "$schema": {
+          "type": "string"
+        },
+        "supportEmail": {
+          "type": "string"
+        },
+        "urls": {
+          "additionalProperties": false,
+          "properties": {
+            "accessibilityStatementUrl": {
+              "$ref": "#/definitions/TranslatableUrl"
+            },
+            "facebookLink": {
+              "type": "string"
+            },
+            "instagramLink": {
+              "type": "string"
+            },
+            "privacyDeclarationUrl": {
+              "$ref": "#/definitions/TranslatableUrl"
+            },
+            "supportUrl": {
+              "$ref": "#/definitions/TranslatableUrl"
+            },
+            "helpUrl": {
+              "$ref": "#/definitions/TranslatableUrl"
+            },
+            "twitterLink": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "privacyDeclarationUrl",
+            "accessibilityStatementUrl",
+            "supportUrl"
+          ],
+          "type": "object"
+        }
+      },
+      "required": ["orgId", "supportEmail", "urls"],
+      "type": "object"
+    },
+    "TranslatableUrl": {
+      "additionalProperties": false,
+      "properties": {
+        "default": {
+          "type": "string"
+        },
+        "en-US": {
+          "type": "string"
+        },
+        "no": {
+          "type": "string"
+        },
+        "nn": {
+          "type": "string"
+        }
+      },
+      "required": ["default"],
+      "type": "object"
+    }
+  }
+}
