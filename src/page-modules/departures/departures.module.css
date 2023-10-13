@@ -1,39 +1,85 @@
-.searchWrapper {
+.wrapper {
   background-color: var(--static-background-background_accent_0-background);
-  padding: 0 7.5rem;
 }
 
-.searchContainer {
-  max-width: var(--maxPageWidth);
+.container {
+  background-color: var(--static-background-background_accent_0-background);
   height: 100%;
-  margin: 0 auto;
   position: relative;
-  padding: var(--spacings-xLarge);
-  padding-bottom: 5.25rem;
+  display: grid;
+  grid-template-areas:
+    'main'
+    'alternatives';
+}
+
+
+.main {
+  grid-area: main;
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: var(--spacings-xLarge);
+  width: 100%;
+  max-width: var(--maxPageWidth);
+  padding: var(--spacings-xLarge);
+  margin: 0 auto;
 }
 
-.searchButton {
-  position: absolute;
-  bottom: var(--spacings-xLarge);
-  right: var(--spacings-xLarge);
+.button {
+  text-align: center;
 }
 
-.searchInputLabel {
+.heading {
   color: var(--static-background-background_accent_0-text);
-  /* TODO: There is no spacings variable for 1rem, which the design asks for. */
   margin-bottom: var(--spacings-medium);
 }
 
+.alternativesWrapper {
+  grid-area: alternatives;
+  width: 100%;
+  background-color: var(--static-background-background_accent_1-background);
+  padding-bottom: 5.25rem;
+}
+
+.alternatives {
+  padding: var(--spacings-xLarge);
+  width: 100%;
+  max-width: var(--maxPageWidth);
+  margin: 0 auto;
+}
+
+.buttons {
+  grid-area: alternatives;
+  align-self: end;
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacings-medium);
+  width: 100%;
+  max-width: var(--maxPageWidth);
+  margin: 0 auto;
+  padding: 0 var(--spacings-xLarge) var(--spacings-xLarge) var(--spacings-xLarge);
+  z-index: 10;
+}
+
 @media (max-width: 650px) {
-  .searchWrapper {
-    padding: 0;
+  .container {
+    grid-template-areas:
+      'main'
+      'buttons'
+      'alternatives';
   }
 
-  .searchContainer {
+  .main {
     grid-template-columns: 1fr;
+  }
+
+  .buttons {
+    grid-area: buttons;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .alternativesWrapper {
+    padding-bottom: 0;
   }
 }
 

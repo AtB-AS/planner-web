@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.8.4",
+    "@atb-as/config-specs": "^3.6.1",
     "@atb-as/theme": "^7.1.1",
     "@leile/lobo-t": "^1.0.5",
     "@react-aria/focus": "^3.14.2",
@@ -42,7 +43,7 @@
     "swr": "^2.2.2",
     "typescript": "5.2.2",
     "uuid": "^9.0.1",
-    "zod": "^3.22.2"
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@atb-as/generate-assets": "^9.0.0",

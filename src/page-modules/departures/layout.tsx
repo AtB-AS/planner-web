@@ -10,27 +10,61 @@ import DepartureDateSelector, {
   DepartureDate,
   DepartureDateState,
 } from '@atb/components/departure-date-selector';
+import TransportModeFilter from '@atb/components/transport-mode-filter';
+import { Typo } from '@atb/components/typography';
+import {
+  filterToQueryString,
+  getInitialTransportModeFilter,
+} from '@atb/components/transport-mode-filter/utils';
+import { TransportModeFilterOption } from '@atb/components/transport-mode-filter/types';
+import { MonoIcon } from '@atb/components/icon';
+import { FocusScope } from '@react-aria/focus';
 
-export type DeparturesLayoutProps = PropsWithChildren<WithGlobalData<{}>>;
+export type DeparturesLayoutProps = PropsWithChildren<{
+  initialTransportModesFilter?: TransportModeFilterOption[] | null;
+}>;
 
-function DeparturesLayout({ children }: DeparturesLayoutProps) {
+function DeparturesLayout({
+  children,
+  initialTransportModesFilter,
+}: DeparturesLayoutProps) {
   const { t } = useTranslation();
   const router = useRouter();
 
+  const [showAlternatives, setShowAlternatives] = useState(false);
   const [selectedFeature, setSelectedFeature] = useState<GeocoderFeature>();
   const [departureDate, setDepartureDate] = useState<DepartureDate>({
     type: DepartureDateState.Now,
   });
+  const [transportModeFilter, setTransportModeFilter] = useState(
+    getInitialTransportModeFilter(initialTransportModesFilter),
+  );
 
   const onSubmitHandler: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
+
+    let query = {};
+
+    const filter = filterToQueryString(transportModeFilter);
+
+    if (filter) {
+      query = {
+        filter,
+      };
+    }
+
     if (selectedFeature?.layer == 'venue') {
-      router.push(`/departures/${selectedFeature.id}`);
+      // TODO: Using URL object encodes all query params
+      router.push({
+        pathname: `/departures/[[...id]]`,
+        query: { ...query, id: selectedFeature.id },
+      });
     } else if (selectedFeature?.layer == 'address') {
       const [lon, lat] = selectedFeature.geometry.coordinates;
       router.push({
         href: '/departures',
         query: {
+          ...query,
           lon,
           lat,
         },
@@ -40,12 +74,12 @@ function DeparturesLayout({ children }: DeparturesLayoutProps) {
 
   return (
     <div className={style.departuresPage}>
-      <div className={style.searchWrapper}>
-        <form className={style.searchContainer} onSubmit={onSubmitHandler}>
-          <div className={style.searchInput}>
-            <p className={style.searchInputLabel}>
+      <form className={style.container} onSubmit={onSubmitHandler}>
+        <div className={style.main}>
+          <div className={style.input}>
+            <Typo.p textType="body__primary--bold" className={style.heading}>
               {t(PageText.Departures.search.input.label)}
-            </p>
+            </Typo.p>
 
             <Search
               label={t(PageText.Departures.search.input.from)}
@@ -53,26 +87,58 @@ function DeparturesLayout({ children }: DeparturesLayoutProps) {
             />
           </div>
 
-          <div className={style.searchDate}>
-            <p className={style.searchInputLabel}>
+          <div className={style.date}>
+            <Typo.p textType="body__primary--bold" className={style.heading}>
               {t(PageText.Departures.search.date.label)}
-            </p>
+            </Typo.p>
 
             <DepartureDateSelector
               initialState={departureDate}
               onChange={setDepartureDate}
             />
           </div>
+        </div>
+
+        {showAlternatives && (
+          <FocusScope contain={false} autoFocus={showAlternatives}>
+            <div className={style.alternativesWrapper}>
+              <div className={style.alternatives}>
+                <div>
+                  <Typo.p
+                    textType="body__primary--bold"
+                    className={style.heading}
+                  >
+                    {t(PageText.Departures.search.filter.label)}
+                  </Typo.p>
+
+                  <TransportModeFilter
+                    filterState={transportModeFilter}
+                    onFilterChange={setTransportModeFilter}
+                  />
+                </div>
+              </div>
+            </div>
+          </FocusScope>
+        )}
+
+        <div className={style.buttons}>
+          <Button
+            title={t(PageText.Departures.search.buttons.alternatives.title)}
+            className={style.button}
+            mode={showAlternatives ? 'interactive_3' : 'interactive_2'}
+            onClick={() => setShowAlternatives(!showAlternatives)}
+            icon={{ right: <MonoIcon icon="actions/Adjust" /> }}
+          />
 
           <Button
-            title={t(PageText.Departures.search.button.title)}
-            className={style.searchButton}
+            title={t(PageText.Departures.search.buttons.find.title)}
+            className={style.button}
             mode="interactive_0"
             disabled={!selectedFeature}
             buttonProps={{ type: 'submit' }}
           />
-        </form>
-      </div>
+        </div>
+      </form>
 
       <section className={style.contentContainer}>{children}</section>
     </div>

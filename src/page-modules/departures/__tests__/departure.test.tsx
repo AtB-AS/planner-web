@@ -66,6 +66,7 @@ describe('departure page', function () {
       params: {
         id: ['NSR:StopPlace:123'],
       },
+      query: {},
     };
 
     const result = await getServerSideProps({
