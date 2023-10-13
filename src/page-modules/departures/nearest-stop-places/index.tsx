@@ -11,6 +11,10 @@ import { Typo } from '@atb/components/typography';
 import { useRouter } from 'next/router';
 import VenueIcon, { FeatureCategory } from '@atb/components/venue-icon';
 import { PageText, useTranslation } from '@atb/translations';
+import ButtonLink from '@atb/components/button/link';
+import { MonoIcon } from '@atb/components/icon';
+import { LngLatPosition } from '@atb/components/map/map';
+import { useState } from 'react';
 
 export type NearestStopPlacesProps = {
   activeLocation: GeocoderFeature | undefined;
@@ -22,6 +26,7 @@ export function NearestStopPlaces({
   activeLocation,
 }: NearestStopPlacesProps) {
   const router = useRouter();
+  const [mapPosition, setMapPosition] = useState<LngLatPosition>();
   return (
     <section className={style.nearestContainer}>
       <div className={style.mapContainer}>
@@ -37,17 +42,33 @@ export function NearestStopPlaces({
             onSelectStopPlace={(stopPlaceId) =>
               router.push(`/departures/${stopPlaceId}`)
             }
+            onMapMove={(position: LngLatPosition) =>
+              setMapPosition([position[0], position[1]])
+            }
           />
         )}
       </div>
 
-      <ul className={style.stopPlacesList}>
-        {nearestStopPlaces.map((item) => (
-          <li key={item.stopPlace.id}>
-            <StopPlaceItem item={item} />
-          </li>
-        ))}
-      </ul>
+      <div className={style.stopPlacesContainer}>
+        <ButtonLink
+          className={style.updateButtonLink}
+          disabled={!mapPosition}
+          href={
+            mapPosition
+              ? `/departures?lon=${mapPosition[0]}&lat=${mapPosition[1]}`
+              : ''
+          }
+          title="Oppdater"
+          icon={{ right: <MonoIcon icon={'actions/Swap'} /> }}
+        />
+        <ul className={style.stopPlacesList}>
+          {nearestStopPlaces.map((item) => (
+            <li key={item.stopPlace.id}>
+              <StopPlaceItem item={item} />
+            </li>
+          ))}
+        </ul>
+      </div>
     </section>
   );
 }

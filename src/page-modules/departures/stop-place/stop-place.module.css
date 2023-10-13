@@ -22,6 +22,9 @@
 .quaysContainer li {
   list-style: none;
 }
+.refreshButtonLink {
+  text-align: right;
+}
 
 .listHeader {
   border: none;

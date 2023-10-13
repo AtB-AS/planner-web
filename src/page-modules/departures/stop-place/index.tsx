@@ -23,6 +23,7 @@ import { Departures } from '@atb/translations/pages';
 import { useTransportationThemeColor } from '@atb/components/transport-mode/transport-icon';
 import { nextDepartures } from '../client';
 import { Button } from '@atb/components/button';
+import { ButtonLink } from '@atb/components/button';
 
 export type StopPlaceProps = {
   departures: DepartureData;
@@ -45,6 +46,12 @@ export function StopPlace({ departures }: StopPlaceProps) {
         />
       </div>
       <div className={style.quaysContainer}>
+        <ButtonLink
+          className={style.refreshButtonLink}
+          href={`/departures/${departures.stopPlace.id}`}
+          title="Oppdater"
+          icon={{ right: <MonoIcon icon={'actions/Swap'} /> }}
+        />
         {departures.quays.map((quay) => (
           <EstimatedCallList key={quay.id} quay={quay} />
         ))}

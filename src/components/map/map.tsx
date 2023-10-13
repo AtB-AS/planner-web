@@ -14,6 +14,7 @@ export type MapProps = {
   position?: LngLatPosition;
   layer?: string;
   onSelectStopPlace: (id: string) => void;
+  onMapMove?: (position: LngLatPosition) => void;
 };
 
 const INTERACTIVE_LAYERS = [
@@ -39,11 +40,13 @@ export function Map({
   position = defaultPosition,
   layer,
   onSelectStopPlace,
+  onMapMove,
 }: MapProps) {
   const mapWrapper = useRef<HTMLDivElement>(null);
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map>();
   const { t } = useTranslation();
+  const previousPosition = useRef(position);
 
   useEffect(() => {
     if (!mapContainer.current) return;
@@ -64,14 +67,20 @@ export function Map({
     map,
   );
   useMapPin(map, position, layer);
+  useMapMove(map, onMapMove);
 
   useEffect(() => {
-    if (map.current) {
+    if (
+      map.current &&
+      (position[0] !== previousPosition.current[0] ||
+        position[1] !== previousPosition.current[1])
+    ) {
       map.current.flyTo({
         center: position,
         zoom: ZOOM_LEVEL,
         speed: 2,
       });
+      previousPosition.current = position;
     }
   }, [position]);
 
@@ -207,6 +216,31 @@ function useMapInteractions(
 
   return { centerMap };
 }
+
+const useMapMove = (
+  mapRef: React.MutableRefObject<mapboxgl.Map | undefined>,
+  onMapMove?: (position: LngLatPosition) => void,
+) => {
+  const handleMapMoveEnd = useCallback(
+    (
+      e: mapboxgl.MapboxEvent<MouseEvent | TouchEvent | WheelEvent | undefined>,
+    ) => {
+      if (!onMapMove) return;
+      const center = e.target.getCenter();
+      onMapMove([Number(center.lng.toFixed(6)), Number(center.lat.toFixed(6))]);
+    },
+    [onMapMove],
+  );
+
+  useEffect(() => {
+    if (mapRef && mapRef.current) {
+      const map = mapRef.current;
+      map.on('load', () => {
+        map.on('dragend', handleMapMoveEnd);
+      });
+    }
+  });
+};
 
 const useFullscreenMap = (
   mapWrapperRef: React.MutableRefObject<HTMLDivElement | null>,

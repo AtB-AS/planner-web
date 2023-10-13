@@ -11,8 +11,16 @@
   grid-area: map;
   max-height: 37.5rem;
 }
-.stopPlacesList {
+.stopPlacesContainer {
   grid-area: stop-places;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacings-small);
+}
+.updateButtonLink {
+  text-align: right;
+}
+.stopPlacesList {
   display: flex;
   flex-direction: column;
   gap: var(--spacings-small);
