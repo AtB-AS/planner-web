@@ -18,6 +18,7 @@ import { useRouter } from 'next/router';
 import { Departures } from '@atb/translations/pages';
 import { useTransportationThemeColor } from '@atb/components/transport-mode/transport-icon';
 import { nextDepartures } from '../client';
+import { Button } from '@atb/components/button';
 
 export type StopPlaceProps = {
   departures: DepartureData;
@@ -133,15 +134,15 @@ export function EstimatedCallList({ quay }: EstimatedCallListProps) {
             </li>
           )}
           <li>
-            <button
+            <Button
               className={and(style.listItem, style.listItem__last)}
               aria-label={t(Departures.stopPlace.quaySection.a11yToQuayHint)}
+              aria-disabled={'DISABLED'}
               onClick={getMoreDepartures}
-              disabled={isFetchingDepartures}
-            >
-              <p>{t(Departures.stopPlace.quaySection.moreDepartures)}</p>
-              <MonoIcon icon={'navigation/ExpandMore'} />
-            </button>
+              state={isFetchingDepartures ? 'loading' : undefined}
+              title={t(Departures.stopPlace.quaySection.moreDepartures)}
+              icon={{ right: <MonoIcon icon={'navigation/ExpandMore'} /> }}
+            />
           </li>
         </ul>
       )}
