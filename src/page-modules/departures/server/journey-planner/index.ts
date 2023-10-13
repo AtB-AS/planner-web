@@ -248,7 +248,9 @@ export function createJourneyApi(
           date: e.date,
           expectedDepartureTime: e.expectedDepartureTime,
           aimedDepartureTime: e.aimedDepartureTime,
-          transportMode: isTransportMode(e.serviceJourney.line.transportMode)
+          transportMode: isTransportModeType(
+            e.serviceJourney.line.transportMode,
+          )
             ? e.serviceJourney.line.transportMode
             : undefined,
           transportSubmode: e.serviceJourney.line.transportSubmode,
