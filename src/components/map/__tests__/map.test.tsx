@@ -2,13 +2,12 @@ import { cleanup, render } from '@testing-library/react';
 import { afterEach, describe, expect, it } from 'vitest';
 import { MapHeader } from '@atb/components/map';
 import { MapHeaderProps } from '@atb/components/map/map-header';
-import { TransportMode } from '@atb/components/transport-mode/types';
 
 const stopPlaceMock: MapHeaderProps = {
   layer: 'venue',
   name: 'Trondheim S',
   id: 'NSR:StopPlace:41742',
-  transportModes: [TransportMode.BUS],
+  transportModes: ['bus'],
 };
 
 const addressMock: MapHeaderProps = {
@@ -38,10 +37,7 @@ describe('MapHeader', function () {
 
   it('should show icons for travel method', async () => {
     const output = render(
-      <MapHeader
-        {...stopPlaceMock}
-        transportModes={[TransportMode.BUS, TransportMode.TRAM]}
-      />,
+      <MapHeader {...stopPlaceMock} transportModes={['bus', 'tram']} />,
     );
     expect(output.getByAltText('Buss')).toBeInTheDocument();
     expect(output.getByAltText('Trikk')).toBeInTheDocument();
