@@ -1,4 +1,5 @@
 @value interactive-interactive_2 from "@atb/theme/theme.module.css";
+@value interactive-interactive_1 from "@atb/theme/theme.module.css";
 
 .stopPlaceContainer {
   display: grid;
@@ -23,7 +24,14 @@
   list-style: none;
 }
 .refreshButtonLink {
-  text-align: right;
+  align-self: flex-end;
+  display: flex;
+  gap: var(--spacings-small);
+  align-items: center;
+  padding: var(--spacings-medium);
+  border-radius: var(--border-radius-regular);
+  text-decoration: none;
+  composes: interactive-interactive_1;
 }
 
 .listHeader {

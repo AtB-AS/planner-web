@@ -7,7 +7,7 @@ import { useTheme } from '@atb/modules/theme';
 import { useTranslation } from '@atb/translations';
 import { transportModeToTranslatedString } from '../utils';
 import style from './transport-icon.module.css';
-import { colorToOverrideColor } from '@atb/utils/color';
+import { colorToOverrideMode } from '@atb/utils/color';
 import { TransportSubmodeType } from '@atb-as/config-specs';
 
 export type TransportIconsProps = {
@@ -48,9 +48,7 @@ export function useTransportationThemeColor(mode: TransportModeGroup) {
   return {
     backgroundColor: color.background,
     textColor: color.text,
-    overrideMode: (colorToOverrideColor(color.text) == 'black'
-      ? 'light'
-      : 'dark') as MonoIconProps['overrideMode'],
+    overrideMode: colorToOverrideMode(color.text),
   };
 }
 
