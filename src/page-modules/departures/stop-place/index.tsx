@@ -1,5 +1,9 @@
 import { MapWithHeader } from '@atb/components/map';
-import { DepartureData } from '..';
+import {
+  DepartureData,
+  Quay,
+  Departure,
+} from '@atb/page-modules/departures/server/journey-planner';
 import style from './stop-place.module.css';
 import { MonoIcon } from '@atb/components/icon';
 import {
@@ -17,6 +21,8 @@ import { and, andIf } from '@atb/utils/css';
 import { useRouter } from 'next/router';
 import { Departures } from '@atb/translations/pages';
 import { useTransportationThemeColor } from '@atb/components/transport-mode/transport-icon';
+import { nextDepartures } from '../client';
+import { Button } from '@atb/components/button';
 
 export type StopPlaceProps = {
   departures: DepartureData;
@@ -48,12 +54,31 @@ export function StopPlace({ departures }: StopPlaceProps) {
 }
 
 type EstimatedCallListProps = {
-  quay: DepartureData['quays'][0];
+  quay: Quay;
 };
 
 export function EstimatedCallList({ quay }: EstimatedCallListProps) {
   const { t } = useTranslation();
   const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
+  const [departures, setDepartures] = useState<Departure[]>(quay.departures);
+  const [isFetchingDepartures, setIsFetchingDepartures] =
+    useState<boolean>(false);
+
+  const getMoreDepartures = async () => {
+    setIsFetchingDepartures(true);
+    const latestDeparture = departures[departures.length - 1];
+
+    const date = new Date(latestDeparture.aimedDepartureTime);
+    const data = await nextDepartures(quay.id, date.toUTCString());
+
+    const set = new Set(departures.map((departure) => departure.id));
+    const filteredDepartures = data.departures.filter(
+      (departure) => !set.has(departure.id),
+    );
+
+    setDepartures([...departures, ...filteredDepartures]);
+    setIsFetchingDepartures(false);
+  };
 
   return (
     <div>
@@ -94,9 +119,9 @@ export function EstimatedCallList({ quay }: EstimatedCallListProps) {
       </button>
       {!isCollapsed && (
         <ul>
-          {quay.departures.length > 0 ? (
+          {departures.length > 0 ? (
             <>
-              {quay.departures.map((departure) => (
+              {departures.map((departure) => (
                 <EstimatedCallItem key={departure.id} departure={departure} />
               ))}
             </>
@@ -111,14 +136,14 @@ export function EstimatedCallList({ quay }: EstimatedCallListProps) {
             </li>
           )}
           <li>
-            <button
+            <Button
               className={and(style.listItem, style.listItem__last)}
               aria-label={t(Departures.stopPlace.quaySection.a11yToQuayHint)}
-              onClick={() => alert('Not implemented yet')} // @TODO: implement function
-            >
-              <p>{t(Departures.stopPlace.quaySection.moreDepartures)}</p>
-              <MonoIcon icon={'navigation/ExpandMore'} />
-            </button>
+              onClick={getMoreDepartures}
+              state={isFetchingDepartures ? 'loading' : undefined}
+              title={t(Departures.stopPlace.quaySection.moreDepartures)}
+              icon={{ right: <MonoIcon icon={'navigation/ExpandMore'} /> }}
+            />
           </li>
         </ul>
       )}
@@ -127,7 +152,7 @@ export function EstimatedCallList({ quay }: EstimatedCallListProps) {
 }
 
 type EstimatedCallItemProps = {
-  departure: DepartureData['quays'][0]['departures'][0];
+  departure: Departure;
 };
 
 export function EstimatedCallItem({ departure }: EstimatedCallItemProps) {
