@@ -23,7 +23,6 @@ import { Departures } from '@atb/translations/pages';
 import { useTransportationThemeColor } from '@atb/components/transport-mode/transport-icon';
 import { nextDepartures } from '../client';
 import { Button } from '@atb/components/button';
-import { ButtonLink } from '@atb/components/button';
 
 export type StopPlaceProps = {
   departures: DepartureData;
@@ -58,7 +57,7 @@ export function StopPlace({ departures }: StopPlaceProps) {
             {t(PageText.Departures.stopPlace.quaySection.refreshButton)}
           </Typo.span>
           <MonoIcon
-            icon={'actions/Swap'}
+            icon={'actions/ArrowsCounterClockwise'}
             interactiveColor="interactive_1"
             interactiveState={isHoveringRefreshButton ? 'hover' : undefined}
           />
