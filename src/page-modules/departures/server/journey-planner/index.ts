@@ -36,7 +36,7 @@ import {
   TransportMode,
   TransportMode as GraphqlTransportMode,
 } from '@atb/modules/graphql-types';
-import { TransportModeType } from '@atb-as/config-specs';
+import { TransportModeType, TransportSubmodeType } from '@atb-as/config-specs';
 import { TransportModeFilterOption } from '@atb/components/transport-mode-filter/types';
 import { getAllTransportModesFromFilterOptions } from '@atb/components/transport-mode-filter/utils';
 import { enumFromString } from '@atb/utils/enum-from-string';
@@ -291,11 +291,15 @@ const filterTransportModes = (
   return transportModes;
 };
 
-const isTransportModeType = (a: any): a is TransportModeType => {
+export const isTransportModeType = (a: any): a is TransportModeType => {
   return TransportModeType.safeParse(a).success;
 };
 
-const getTransportModesEnums = (
+export const isTransportSubmodeType = (a: any): a is TransportSubmodeType => {
+  return TransportSubmodeType.safeParse(a).success;
+};
+
+export const getTransportModesEnums = (
   transportModes: TransportModeFilterOption[] | null,
 ): TransportMode[] | null => {
   if (!transportModes) return null;

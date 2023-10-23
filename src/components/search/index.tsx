@@ -6,17 +6,20 @@ import VenueIcon from '@atb/components/venue-icon';
 import { andIf } from '@atb/utils/css';
 import GeolocationButton from '@atb/components/search/geolocation-button';
 import { GeocoderFeature } from '@atb/page-modules/departures';
+import SwapButton from '@atb/components/search//swap-button';
 
 type SearchProps = {
   label: string;
   onChange: (selection: any) => void;
   initialQuery?: string;
+  onSwap?: () => void;
 };
 
 export default function Search({
   label,
   onChange,
   initialQuery = '',
+  onSwap,
 }: SearchProps) {
   const [query, setQuery] = useState(initialQuery);
   const { data } = useAutocomplete(query);
@@ -51,10 +54,14 @@ export default function Search({
             <input className={style.input} {...getInputProps()} />
           </div>
 
-          <GeolocationButton
-            className={style.geolocationButton}
-            onGeolocate={selectItem}
-          />
+          {onSwap ? (
+            <SwapButton className={style.geolocationButton} onSwap={onSwap} />
+          ) : (
+            <GeolocationButton
+              className={style.geolocationButton}
+              onGeolocate={selectItem}
+            />
+          )}
 
           <ul className={style.menu} {...getMenuProps()}>
             {isOpen &&

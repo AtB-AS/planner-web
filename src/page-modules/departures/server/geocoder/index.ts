@@ -6,7 +6,11 @@ import { first } from 'lodash';
 
 export type GeocoderApi = {
   autocomplete(query: string): Promise<GeocoderFeature[]>;
-  reverse(lat: number, lon: number): Promise<GeocoderFeature | undefined>;
+  reverse(
+    lat: number,
+    lon: number,
+    layers: 'address' | 'venue',
+  ): Promise<GeocoderFeature | undefined>;
 };
 
 export function createGeocoderApi(
@@ -27,9 +31,9 @@ export function createGeocoderApi(
       return mapGeocoderFeature(parsed.data);
     },
 
-    async reverse(lat, lon) {
+    async reverse(lat, lon, layers) {
       const result = await request(
-        `/geocoder/v1/reverse?point.lat=${lat}&point.lon=${lon}&boundary.circle.radius=1&size=1&layers=address`,
+        `/geocoder/v1/reverse?point.lat=${lat}&point.lon=${lon}&size=1&layers=${layers}&lang=no`,
       );
 
       const parsed = geocoderRootSchema.safeParse(await result.json());

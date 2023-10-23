@@ -86,7 +86,11 @@ export const getServerSideProps = withGlobalData(
         transportModes: transportModeFilter,
       });
 
-      const activeLocation = await client.reverse(position.lat, position.lon);
+      const activeLocation = await client.reverse(
+        position.lat,
+        position.lon,
+        'address',
+      );
 
       return {
         props: {
