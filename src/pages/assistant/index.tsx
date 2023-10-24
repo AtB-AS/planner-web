@@ -72,7 +72,7 @@ export const getServerSideProps = withGlobalData(
     async function ({ client, query }) {
       const transportModeFilter = parseFilterQuery(query.filter);
 
-      let initialFromFeature = undefined;
+      let initialFromFeature;
       if (query.fromLat && query.fromLon && query.fromLayer) {
         const fromLat = parseFloat(query.fromLat.toString());
         const fromLon = parseFloat(query.fromLon.toString());
