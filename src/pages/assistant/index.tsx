@@ -81,7 +81,7 @@ export const getServerSideProps = withGlobalData(
         initialFromFeature = await client.reverse(fromLat, fromLon, fromLayer);
       }
 
-      let initialToFeature = undefined;
+      let initialToFeature;
       if (query.toLat && query.toLon && query.toLayer) {
         initialToFeature = await client.reverse(
           parseFloat(query.toLat.toString()),
