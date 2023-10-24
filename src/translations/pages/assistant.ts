@@ -1,8 +1,8 @@
 import { translation as _ } from '@atb/translations/commons';
 
 export const Assistant = {
-  title: _('Planlegg reisen', 'Plan travel', 'Planlegg reisen'),
-  shortTitle: _('Reiseplanlegger', 'Assistant', 'Reiseplanlegger'),
+  title: _('Planlegg reisen', 'Plan travel', 'Planlegg reisa'),
+  shortTitle: _('Reiseplanlegger', 'Assistant', 'Reiseplanleggar'),
   search: {
     input: {
       label: _(
