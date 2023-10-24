@@ -55,6 +55,7 @@ export const Departures = {
       'Ingen avgangar i dette tidsrommet.',
     ),
     quaySection: {
+      refreshButton: _('Oppdater', 'Refresh', 'Oppdater'),
       a11yExpand: _(
         'Aktiver for å utvide',
         'Activate to expand',

@@ -1,14 +1,14 @@
-export function colorToOverrideColor(hexColor: string): 'white' | 'black' {
+export function colorToOverrideMode(hexColor: string): 'light' | 'dark' {
   if (typeof hexColor !== 'string') {
-    return 'black';
+    return 'light';
   }
   const colorValues = hexColorToRgb(hexColor) ?? { r: 0, g: 0, b: 0 };
   const luminence = relativeLuminance(colorValues);
 
   if (luminence <= 0.5) {
-    return 'black';
+    return 'light';
   }
-  return 'white';
+  return 'dark';
 }
 
 /**

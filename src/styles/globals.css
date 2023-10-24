@@ -37,7 +37,7 @@ html {
   color: var(--static-background-background_1-text);
   background-color: var(--static-background-background_1-background);
   transition: background-color 150ms ease-in,
-  color 150ms ease-in;
+    color 150ms ease-in;
 }
 
 @media (max-width: 500px) {
@@ -99,8 +99,7 @@ textarea {
   --contentPadding: var(--spacings-xLarge);
 }
 
-a,
-a:visited {
+a {
   transition: color 100ms ease-in;
   color: var(--text-colors-primary);
 }

@@ -28,7 +28,9 @@ export type StopPlaceProps = {
   departures: DepartureData;
 };
 export function StopPlace({ departures }: StopPlaceProps) {
+  const { t } = useTranslation();
   const router = useRouter();
+  const [isHoveringRefreshButton, setIsHoveringRefreshButton] = useState(false);
   return (
     <section className={style.stopPlaceContainer}>
       <div className={style.mapContainer}>
@@ -45,6 +47,21 @@ export function StopPlace({ departures }: StopPlaceProps) {
         />
       </div>
       <div className={style.quaysContainer}>
+        <Link
+          href={`/departures/${departures.stopPlace.id}`}
+          className={style.refreshButtonLink}
+          onMouseEnter={() => setIsHoveringRefreshButton(true)}
+          onMouseLeave={() => setIsHoveringRefreshButton(false)}
+        >
+          <Typo.span textType="body__primary">
+            {t(PageText.Departures.stopPlace.quaySection.refreshButton)}
+          </Typo.span>
+          <MonoIcon
+            icon={'actions/ArrowsCounterClockwise'}
+            interactiveColor="interactive_1"
+            interactiveState={isHoveringRefreshButton ? 'hover' : undefined}
+          />
+        </Link>
         {departures.quays.map((quay) => (
           <EstimatedCallList key={quay.id} quay={quay} />
         ))}
