@@ -91,6 +91,16 @@ describe('search box', () => {
     expect(search).toHaveFocus();
   });
 
+  it('should render with swap button', () => {
+    customRender(<Search label="Test" onChange={() => {}} onSwap={() => {}} />);
+
+    const swapButton = screen.getByRole('button', {
+      name: 'Bytt avreisested og ankomststed',
+    });
+
+    expect(swapButton).toBeDefined();
+  });
+
   it('should focus input when clicking label', async () => {
     customRender(<Search label="Test" onChange={() => {}} />);
 
