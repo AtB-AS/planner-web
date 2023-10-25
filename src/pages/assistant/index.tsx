@@ -89,17 +89,17 @@ export const getServerSideProps = withGlobalData(
           parseLayerQueryString(query.toLayer.toString()),
         );
       }
-
-      const arriveBy = query.arriveBy === 'true';
-      const when = query.when
-        ? new Date(Number(query.when.toString()))
-        : new Date();
+      const arriveBy =
+        query.arriveBy && new Date(Number(query.arriveBy.toString()));
+      const departBy =
+        query.departBy && new Date(Number(query.departBy.toString()));
+      const when = arriveBy || departBy || new Date();
 
       if (initialFromFeature && initialToFeature) {
         const trip = await client.trip({
           from: initialFromFeature,
           to: initialToFeature,
-          arriveBy,
+          arriveBy: Boolean(arriveBy),
           when,
           transportModes: transportModeFilter,
         });

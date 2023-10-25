@@ -71,37 +71,18 @@ function AssistantLayout({
     fromFeature: GeocoderFeature,
     toFeature: GeocoderFeature,
   ) => {
-    let query = {};
-
     const filter = filterToQueryString(transportModeFilter);
-
-    if (filter) {
-      query = {
-        filter,
-      };
-    }
-
     const arriveBy = departureDate.type === DepartureDateState.Arrival;
-    if (arriveBy) {
-      query = {
-        ...query,
-        arriveBy,
-      };
-    }
-
-    const when = departureDate.type !== DepartureDateState.Now;
-    if (when) {
-      query = {
-        ...query,
-        when: departureDate.dateTime,
-      };
-    }
-
+    const departBy = departureDate.type === DepartureDateState.Departure;
     const fromToQuery = featuresToFromToQuery(fromFeature, toFeature);
-    query = {
-      ...query,
+
+    const query = {
+      ...(filter ? { filter } : {}),
+      ...(arriveBy ? { arriveBy: departureDate.dateTime } : {}),
+      ...(departBy ? { departBy: departureDate.dateTime } : {}),
       ...fromToQuery,
     };
+
     return query;
   };
 
