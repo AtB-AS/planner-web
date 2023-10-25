@@ -88,9 +88,7 @@ function DeparturesLayout({
               button={
                 <GeolocationButton
                   className={style.geolocationButton}
-                  onGeolocate={(feature: GeocoderFeature) => {
-                    setSelectedFeature(feature);
-                  }}
+                  onGeolocate={setSelectedFeature}
                 />
               }
             />
