@@ -25,7 +25,6 @@ export default function Search({
   return (
     <Downshift<GeocoderFeature>
       initialSelectedItem={initialFeature}
-      initialInputValue={geocoderFeatureToString(initialFeature)}
       onInputValueChange={(inputValue) => setQuery(inputValue || '')}
       onChange={onChange}
       itemToString={geocoderFeatureToString}

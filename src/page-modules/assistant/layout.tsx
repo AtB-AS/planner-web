@@ -40,10 +40,10 @@ function AssistantLayout({
   const [showAlternatives, setShowAlternatives] = useState(false);
   const [selectedFromFeature, setSelectedFromFeature] = useState<
     GeocoderFeature | undefined
-  >();
+  >(initialFromFeature);
   const [selectedToFeature, setSelectedToFeature] = useState<
     GeocoderFeature | undefined
-  >();
+  >(initialToFeature);
   const [departureDate, setDepartureDate] = useState<DepartureDate>({
     type: DepartureDateState.Now,
   });
