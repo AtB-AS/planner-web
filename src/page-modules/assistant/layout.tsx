@@ -19,6 +19,8 @@ import { TransportModeFilterOption } from '@atb/components/transport-mode-filter
 import { MonoIcon } from '@atb/components/icon';
 import { FocusScope } from '@react-aria/focus';
 import { featuresToFromToQuery } from './utils';
+import SwapButton from '@atb/components/search/swap-button';
+import GeolocationButton from '@atb/components/search/geolocation-button';
 
 export type AssistantLayoutProps = PropsWithChildren<{
   initialFromFeature?: GeocoderFeature;
@@ -38,10 +40,10 @@ function AssistantLayout({
   const [showAlternatives, setShowAlternatives] = useState(false);
   const [selectedFromFeature, setSelectedFromFeature] = useState<
     GeocoderFeature | undefined
-  >(initialFromFeature);
+  >();
   const [selectedToFeature, setSelectedToFeature] = useState<
     GeocoderFeature | undefined
-  >(initialToFeature);
+  >();
   const [departureDate, setDepartureDate] = useState<DepartureDate>({
     type: DepartureDateState.Now,
   });
@@ -50,7 +52,27 @@ function AssistantLayout({
   );
 
   const onSwap = () => {
+    if (!selectedToFeature || !selectedFromFeature) return;
+    const query = createQuery(selectedToFeature, selectedFromFeature);
+    const temp = selectedFromFeature;
+    setSelectedFromFeature(selectedToFeature);
+    setSelectedToFeature(temp);
+    router.push({ pathname: '/assistant', query });
+  };
+
+  const onGeolocate = (geolocationFeature: GeocoderFeature) => {
+    if (!selectedToFeature) return;
+    const query = createQuery(geolocationFeature, selectedToFeature);
+    setSelectedFromFeature(geolocationFeature);
+    router.push({ pathname: '/assistant', query });
+  };
+
+  const createQuery = (
+    fromFeature: GeocoderFeature,
+    toFeature: GeocoderFeature,
+  ) => {
     let query = {};
+
     const filter = filterToQueryString(transportModeFilter);
 
     if (filter) {
@@ -74,61 +96,20 @@ function AssistantLayout({
         when: departureDate.dateTime,
       };
     }
-    const fromToQuery = featuresToFromToQuery(
-      selectedToFeature,
-      selectedFromFeature,
-    );
 
-    router.push({
-      pathname: `/assistant`,
-      query: {
-        ...query,
-        ...fromToQuery,
-      },
-    });
+    const fromToQuery = featuresToFromToQuery(fromFeature, toFeature);
+    query = {
+      ...query,
+      ...fromToQuery,
+    };
+    return query;
   };
 
   const onSubmitHandler: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-
-    let query = {};
-
-    const filter = filterToQueryString(transportModeFilter);
-
-    if (filter) {
-      query = {
-        filter,
-      };
-    }
-
-    const arriveBy = departureDate.type === DepartureDateState.Arrival;
-    if (arriveBy) {
-      query = {
-        ...query,
-        arriveBy,
-      };
-    }
-
-    const when = departureDate.type !== DepartureDateState.Now;
-    if (when) {
-      query = {
-        ...query,
-        when: departureDate.dateTime,
-      };
-    }
-
-    const fromToQuery = featuresToFromToQuery(
-      selectedFromFeature,
-      selectedToFeature,
-    );
-
-    router.push({
-      pathname: `/assistant`,
-      query: {
-        ...query,
-        ...fromToQuery,
-      },
-    });
+    if (!selectedFromFeature || !selectedToFeature) return;
+    const query = createQuery(selectedFromFeature, selectedToFeature);
+    router.push({ pathname: '/assistant', query });
   };
 
   return (
@@ -143,21 +124,24 @@ function AssistantLayout({
             <Search
               label={t(PageText.Assistant.search.input.from)}
               onChange={setSelectedFromFeature}
-              initialQuery={
-                initialFromFeature?.name
-                  ? `${initialFromFeature.name}, ${initialFromFeature.locality}`
-                  : ''
+              initialFeature={initialFromFeature}
+              button={
+                <GeolocationButton
+                  className={style.searchInputButton}
+                  onGeolocate={onGeolocate}
+                />
               }
             />
             <Search
               label={t(PageText.Assistant.search.input.to)}
               onChange={setSelectedToFeature}
-              initialQuery={
-                initialToFeature?.name
-                  ? `${initialToFeature.name}, ${initialToFeature.locality}`
-                  : ''
+              initialFeature={initialToFeature}
+              button={
+                <SwapButton
+                  className={style.searchInputButton}
+                  onSwap={onSwap}
+                />
               }
-              onSwap={onSwap}
             />
           </div>
 

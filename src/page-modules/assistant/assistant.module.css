@@ -66,6 +66,18 @@
   z-index: 10;
 }
 
+.searchInputButton {
+  height: var(--height);
+  background-color: var(--static-background-background_0-background);
+  border: none;
+  padding: var(--spacings-small);
+  border-bottom-right-radius: 0.75rem;
+  border-top-right-radius: 0.75rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
 @media (max-width: 650px) {
   .container {
     grid-template-areas:

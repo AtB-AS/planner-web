@@ -19,6 +19,7 @@ import {
 import { TransportModeFilterOption } from '@atb/components/transport-mode-filter/types';
 import { MonoIcon } from '@atb/components/icon';
 import { FocusScope } from '@react-aria/focus';
+import GeolocationButton from '@atb/components/search/geolocation-button';
 
 export type DeparturesLayoutProps = PropsWithChildren<{
   initialTransportModesFilter?: TransportModeFilterOption[] | null;
@@ -84,6 +85,14 @@ function DeparturesLayout({
             <Search
               label={t(PageText.Departures.search.input.from)}
               onChange={setSelectedFeature}
+              button={
+                <GeolocationButton
+                  className={style.geolocationButton}
+                  onGeolocate={(feature: GeocoderFeature) => {
+                    setSelectedFeature(feature);
+                  }}
+                />
+              }
             />
           </div>
 

@@ -1,35 +1,34 @@
 import Downshift from 'downshift';
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 import { useAutocomplete } from '@atb/page-modules/departures/client';
 import style from './search.module.css';
 import VenueIcon from '@atb/components/venue-icon';
 import { andIf } from '@atb/utils/css';
-import GeolocationButton from '@atb/components/search/geolocation-button';
 import { GeocoderFeature } from '@atb/page-modules/departures';
-import SwapButton from '@atb/components/search//swap-button';
 
 type SearchProps = {
   label: string;
   onChange: (selection: any) => void;
-  initialQuery?: string;
-  onSwap?: () => void;
+  button?: ReactNode;
+  initialFeature?: GeocoderFeature;
 };
 
 export default function Search({
   label,
   onChange,
-  initialQuery = '',
-  onSwap,
+  button,
+  initialFeature,
 }: SearchProps) {
-  const [query, setQuery] = useState(initialQuery);
+  const [query, setQuery] = useState('');
   const { data } = useAutocomplete(query);
 
   return (
     <Downshift<GeocoderFeature>
-      initialInputValue={query}
+      initialSelectedItem={initialFeature}
+      initialInputValue={geocoderFeatureToString(initialFeature)}
       onInputValueChange={(inputValue) => setQuery(inputValue || '')}
       onChange={onChange}
-      itemToString={(item) => (item ? `${item.name}, ${item.locality}` : '')}
+      itemToString={geocoderFeatureToString}
     >
       {({
         getInputProps,
@@ -40,7 +39,6 @@ export default function Search({
         inputValue,
         highlightedIndex,
         getRootProps,
-        selectItem,
       }) => (
         <div className={style.container}>
           <label className={style.label} {...getLabelProps()}>
@@ -54,14 +52,7 @@ export default function Search({
             <input className={style.input} {...getInputProps()} />
           </div>
 
-          {onSwap ? (
-            <SwapButton className={style.geolocationButton} onSwap={onSwap} />
-          ) : (
-            <GeolocationButton
-              className={style.geolocationButton}
-              onGeolocate={selectItem}
-            />
-          )}
+          {button ?? null}
 
           <ul className={style.menu} {...getMenuProps()}>
             {isOpen &&
@@ -125,4 +116,9 @@ function highlightSearchText(input: string | null, name: string) {
   } else {
     return [{ part: name, highlight: false }];
   }
+}
+function geocoderFeatureToString(
+  feature: GeocoderFeature | null | undefined,
+): string {
+  return feature ? `${feature.name}, ${feature.locality}` : '';
 }
