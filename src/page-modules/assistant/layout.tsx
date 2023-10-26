@@ -50,14 +50,18 @@ function AssistantLayout({
   const [transportModeFilter, setTransportModeFilter] = useState(
     getInitialTransportModeFilter(initialTransportModesFilter),
   );
+  const [isSwapping, setIsSwapping] = useState(false);
 
   const onSwap = () => {
     if (!selectedToFeature || !selectedFromFeature) return;
+    setIsSwapping(true);
     const query = createQuery(selectedToFeature, selectedFromFeature);
     const temp = selectedFromFeature;
     setSelectedFromFeature(selectedToFeature);
     setSelectedToFeature(temp);
-    router.push({ pathname: '/assistant', query });
+    router
+      .push({ pathname: '/assistant', query })
+      .then(() => setIsSwapping(false));
   };
 
   const onGeolocate = (geolocationFeature: GeocoderFeature) => {
@@ -106,6 +110,7 @@ function AssistantLayout({
               label={t(PageText.Assistant.search.input.from)}
               onChange={setSelectedFromFeature}
               initialFeature={initialFromFeature}
+              selectedItem={selectedFromFeature}
               button={
                 <GeolocationButton
                   className={style.searchInputButton}
@@ -117,10 +122,12 @@ function AssistantLayout({
               label={t(PageText.Assistant.search.input.to)}
               onChange={setSelectedToFeature}
               initialFeature={initialToFeature}
+              selectedItem={selectedToFeature}
               button={
                 <SwapButton
                   className={style.searchInputButton}
                   onSwap={onSwap}
+                  isLoading={isSwapping}
                 />
               }
             />

@@ -11,6 +11,7 @@ type SearchProps = {
   onChange: (selection: any) => void;
   button?: ReactNode;
   initialFeature?: GeocoderFeature;
+  selectedItem?: GeocoderFeature;
 };
 
 export default function Search({
@@ -18,16 +19,17 @@ export default function Search({
   onChange,
   button,
   initialFeature,
+  selectedItem,
 }: SearchProps) {
   const [query, setQuery] = useState('');
   const { data } = useAutocomplete(query);
 
   return (
     <Downshift<GeocoderFeature>
-      initialSelectedItem={initialFeature}
       onInputValueChange={(inputValue) => setQuery(inputValue || '')}
       onChange={onChange}
       itemToString={geocoderFeatureToString}
+      selectedItem={selectedItem || initialFeature || null}
     >
       {({
         getInputProps,

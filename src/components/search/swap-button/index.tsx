@@ -1,14 +1,24 @@
 import { MonoIcon } from '@atb/components/icon';
+import { LoadingIcon } from '@atb/components/loading';
 import { ComponentText, useTranslation } from '@atb/translations';
 
 type SwapButtonProps = {
   onSwap: () => void;
   className?: string;
+  isLoading?: boolean;
 };
-export default function SwapButton({ onSwap, className }: SwapButtonProps) {
+export default function SwapButton({
+  onSwap,
+  className,
+  isLoading,
+}: SwapButtonProps) {
   const { t } = useTranslation();
 
-  return (
+  return isLoading ? (
+    <div className={className}>
+      <LoadingIcon />
+    </div>
+  ) : (
     <button
       className={className}
       onClick={onSwap}
