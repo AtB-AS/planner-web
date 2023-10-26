@@ -13,11 +13,12 @@
   composes: typo-body__secondary;
 
   height: var(--height);
+  min-width: 3rem;
   display: flex;
   align-items: center;
   background-color: var(--static-background-background_0-background);
   padding: var(--spacings-small);
-  padding-right: var(--spacings-xLarge);
+  padding-right: var(--spacings-regular);
   border-bottom-left-radius: 0.75rem;
   border-top-left-radius: 0.75rem;
 }
