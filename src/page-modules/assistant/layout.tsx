@@ -21,6 +21,7 @@ import { FocusScope } from '@react-aria/focus';
 import { featuresToFromToQuery } from './utils';
 import SwapButton from '@atb/components/search/swap-button';
 import GeolocationButton from '@atb/components/search/geolocation-button';
+import { AnimatePresence, motion } from 'framer-motion';
 
 export type AssistantLayoutProps = PropsWithChildren<{
   initialFromFeature?: GeocoderFeature;
@@ -100,7 +101,12 @@ function AssistantLayout({
   return (
     <div>
       <form className={style.container} onSubmit={onSubmitHandler}>
-        <div className={style.main}>
+        <motion.div
+          animate={{ paddingBottom: showAlternatives ? '1.5rem' : '5.75rem' }}
+          initial={{ paddingBottom: '5.75rem' }}
+          transition={{ duration: 0.25, ease: [0.04, 0.62, 0.23, 0.98] }}
+          className={style.main}
+        >
           <div className={style.input}>
             <Typo.p textType="body__primary--bold" className={style.heading}>
               {t(PageText.Assistant.search.input.label)}
@@ -143,29 +149,43 @@ function AssistantLayout({
               onChange={setDepartureDate}
             />
           </div>
-        </div>
+        </motion.div>
 
-        {showAlternatives && (
-          <FocusScope contain={false} autoFocus={showAlternatives}>
-            <div className={style.alternativesWrapper}>
-              <div className={style.alternatives}>
-                <div>
-                  <Typo.p
-                    textType="body__primary--bold"
-                    className={style.heading}
-                  >
-                    {t(PageText.Assistant.search.filter.label)}
-                  </Typo.p>
+        <AnimatePresence initial={false}>
+          {showAlternatives && (
+            <FocusScope contain={false} autoFocus={showAlternatives}>
+              <motion.div
+                className={style.alternativesWrapper}
+                key="content"
+                initial="collapsed"
+                animate="open"
+                exit="collapsed"
+                variants={{
+                  open: { opacity: 1, height: 'auto' },
+                  collapsed: { opacity: 0, height: 0 },
+                }}
+                transition={{ duration: 0.25, ease: [0.04, 0.62, 0.23, 0.98] }}
+              >
+                {' '}
+                <div className={style.alternatives}>
+                  <div>
+                    <Typo.p
+                      textType="body__primary--bold"
+                      className={style.heading}
+                    >
+                      {t(PageText.Assistant.search.filter.label)}
+                    </Typo.p>
 
-                  <TransportModeFilter
-                    filterState={transportModeFilter}
-                    onFilterChange={setTransportModeFilter}
-                  />
+                    <TransportModeFilter
+                      filterState={transportModeFilter}
+                      onFilterChange={setTransportModeFilter}
+                    />
+                  </div>
                 </div>
-              </div>
-            </div>
-          </FocusScope>
-        )}
+              </motion.div>
+            </FocusScope>
+          )}
+        </AnimatePresence>
 
         <div className={style.buttons}>
           <Button
