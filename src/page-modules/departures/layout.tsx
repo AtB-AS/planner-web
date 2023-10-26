@@ -20,6 +20,7 @@ import { TransportModeFilterOption } from '@atb/components/transport-mode-filter
 import { MonoIcon } from '@atb/components/icon';
 import { FocusScope } from '@react-aria/focus';
 import GeolocationButton from '@atb/components/search/geolocation-button';
+import { AnimatePresence, motion } from 'framer-motion';
 
 export type DeparturesLayoutProps = PropsWithChildren<{
   initialTransportModesFilter?: TransportModeFilterOption[] | null;
@@ -76,7 +77,12 @@ function DeparturesLayout({
   return (
     <div className={style.departuresPage}>
       <form className={style.container} onSubmit={onSubmitHandler}>
-        <div className={style.main}>
+        <motion.div
+          animate={{ paddingBottom: showAlternatives ? '1.5rem' : '5.75rem' }}
+          initial={{ paddingBottom: '5.75rem' }}
+          transition={{ duration: 0.25, ease: [0.04, 0.62, 0.23, 0.98] }}
+          className={style.main}
+        >
           <div className={style.input}>
             <Typo.p textType="body__primary--bold" className={style.heading}>
               {t(PageText.Departures.search.input.label)}
@@ -104,29 +110,42 @@ function DeparturesLayout({
               onChange={setDepartureDate}
             />
           </div>
-        </div>
+        </motion.div>
 
-        {showAlternatives && (
-          <FocusScope contain={false} autoFocus={showAlternatives}>
-            <div className={style.alternativesWrapper}>
-              <div className={style.alternatives}>
-                <div>
-                  <Typo.p
-                    textType="body__primary--bold"
-                    className={style.heading}
-                  >
-                    {t(PageText.Departures.search.filter.label)}
-                  </Typo.p>
+        <AnimatePresence initial={false}>
+          {showAlternatives && (
+            <FocusScope contain={false} autoFocus={showAlternatives}>
+              <motion.div
+                className={style.alternativesWrapper}
+                key="content"
+                initial="collapsed"
+                animate="open"
+                exit="collapsed"
+                variants={{
+                  open: { opacity: 1, height: 'auto' },
+                  collapsed: { opacity: 0, height: 0 },
+                }}
+                transition={{ duration: 0.25, ease: [0.04, 0.62, 0.23, 0.98] }}
+              >
+                <div className={style.alternatives}>
+                  <div>
+                    <Typo.p
+                      textType="body__primary--bold"
+                      className={style.heading}
+                    >
+                      {t(PageText.Departures.search.filter.label)}
+                    </Typo.p>
 
-                  <TransportModeFilter
-                    filterState={transportModeFilter}
-                    onFilterChange={setTransportModeFilter}
-                  />
+                    <TransportModeFilter
+                      filterState={transportModeFilter}
+                      onFilterChange={setTransportModeFilter}
+                    />
+                  </div>
                 </div>
-              </div>
-            </div>
-          </FocusScope>
-        )}
+              </motion.div>
+            </FocusScope>
+          )}
+        </AnimatePresence>
 
         <div className={style.buttons}>
           <Button

@@ -46,9 +46,9 @@
 
 .alternativesWrapper {
   grid-area: alternatives;
+  overflow: hidden;
   width: 100%;
   background-color: var(--static-background-background_accent_1-background);
-  padding-bottom: 5.25rem;
 }
 
 .alternatives {
@@ -56,10 +56,10 @@
   width: 100%;
   max-width: var(--maxPageWidth);
   margin: 0 auto;
+  padding-bottom: 5.75rem;
 }
 
 .buttons {
-  grid-area: alternatives;
   align-self: end;
   display: flex;
   justify-content: flex-end;
@@ -70,7 +70,11 @@
   padding: 0 var(--spacings-xLarge) var(--spacings-xLarge)
     var(--spacings-xLarge);
   z-index: 10;
+  position: absolute;
+  left: 0;
+  right: 0;
 }
+
 
 @media (max-width: 650px) {
   .container {
@@ -82,16 +86,18 @@
 
   .main {
     grid-template-columns: 1fr;
+    padding-bottom: var(--spacings-xLarge) !important;
   }
 
   .buttons {
     grid-area: buttons;
     display: grid;
     grid-template-columns: 1fr 1fr;
+    position: relative;
   }
 
-  .alternativesWrapper {
-    padding-bottom: 0;
+  .alternatives {
+    padding-bottom: var(--spacings-xLarge);
   }
 }
 

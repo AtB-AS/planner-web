@@ -26,7 +26,10 @@
 .input {
   display: flex;
   flex-direction: column;
-  gap: 0.375rem;
+}
+
+.input > :last-child {
+  margin-top: 0.375rem;
 }
 
 .button {
@@ -35,14 +38,14 @@
 
 .heading {
   color: var(--static-background-background_accent_0-text);
-  margin: 0.625rem;
+  margin-bottom: var(--spacings-medium);
 }
 
 .alternativesWrapper {
   grid-area: alternatives;
   width: 100%;
   background-color: var(--static-background-background_accent_1-background);
-  padding-bottom: 5.25rem;
+  overflow: hidden;
 }
 
 .alternatives {
@@ -50,6 +53,7 @@
   width: 100%;
   max-width: var(--maxPageWidth);
   margin: 0 auto;
+  padding-bottom: 5.75rem;
 }
 
 .buttons {
@@ -61,9 +65,11 @@
   width: 100%;
   max-width: var(--maxPageWidth);
   margin: 0 auto;
-  padding: 0 var(--spacings-xLarge) var(--spacings-xLarge)
-    var(--spacings-xLarge);
+  padding: 0 var(--spacings-xLarge) var(--spacings-xLarge) var(--spacings-xLarge);
   z-index: 10;
+  position: absolute;
+  left: 0;
+  right: 0;
 }
 
 .searchInputButton {
@@ -88,16 +94,18 @@
 
   .main {
     grid-template-columns: 1fr;
+    padding-bottom: var(--spacings-xLarge) !important;
   }
 
   .buttons {
     grid-area: buttons;
     display: grid;
     grid-template-columns: 1fr 1fr;
+    position: relative;
   }
 
-  .alternativesWrapper {
-    padding-bottom: 0;
+  .alternatives {
+    padding-bottom: var(--spacings-xLarge);
   }
 }
 

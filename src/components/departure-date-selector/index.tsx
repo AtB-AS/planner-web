@@ -127,7 +127,7 @@ export default function DepartureDateSelector({
               open: { opacity: 1, height: 'auto' },
               collapsed: { opacity: 0, height: 0 },
             }}
-            transition={{ easings: ['easeInOut'] }}
+            transition={{ duration: 0.25, ease: [0.04, 0.62, 0.23, 0.98] }}
           >
             <div className={style.dateAndTimeSelectors}>
               <div className={style.dateSelector}>
