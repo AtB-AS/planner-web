@@ -29,6 +29,8 @@
   cursor: pointer;
   display: flex;
   gap: var(--spacings-xSmall);
+  align-items: center;
+  height: 1.875rem;
 }
 
 .transportMode input {
