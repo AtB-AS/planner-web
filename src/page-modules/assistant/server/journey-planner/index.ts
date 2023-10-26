@@ -16,6 +16,7 @@ import {
   isTransportSubmodeType,
 } from '@atb/page-modules/departures/server/journey-planner';
 import { TripInput } from '@atb/page-modules/assistant';
+import { StreetMode } from '@atb/modules/graphql-types';
 
 export type JourneyPlannerApi = {
   trip(input: TripInput): Promise<TripData>;
@@ -26,15 +27,16 @@ export function createJourneyApi(
 ): JourneyPlannerApi {
   const api: JourneyPlannerApi = {
     async trip(input) {
-      const modes = input.transportModes
-        ? {
-            transportModes: getTransportModesEnums(input.transportModes)?.map(
-              (mode) => ({
-                transportMode: mode,
-              }),
-            ),
-          }
-        : undefined;
+      const journeyModes = {
+        accessMode: StreetMode.Foot,
+        directMode: StreetMode.Foot,
+        egressMode: StreetMode.Foot,
+        transportModes: input.transportModes
+          ? getTransportModesEnums(input.transportModes)?.map((mode) => ({
+              transportMode: mode,
+            }))
+          : undefined,
+      };
 
       const from = {
         place: input.from.id,
@@ -61,7 +63,11 @@ export function createJourneyApi(
           arriveBy: input.arriveBy,
           when: input.when,
           numTripPatterns: 10,
-          modes,
+          modes: journeyModes,
+          waitReluctance: 1.5,
+          walkReluctance: 1.5,
+          walkSpeed: 1.3,
+          transferPenalty: 10,
         },
       });
 
