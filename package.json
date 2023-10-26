@@ -32,6 +32,7 @@
     "detect-nearest-browser-locale": "^19.0.0",
     "detect-nearest-locale": "^1.0.1",
     "downshift": "^8.2.0",
+    "framer-motion": "^10.16.4",
     "graphql": "^16.8.1",
     "humanize-duration": "^3.30.0",
     "lodash": "^4.17.21",
