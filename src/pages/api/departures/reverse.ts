@@ -20,7 +20,11 @@ export default handlerWithDepartureClient<ReverseApiReturnType>({
 
     return tryResult(req, res, async () => {
       return ok(
-        await client.reverse(parseFloat(lat.data), parseFloat(lon.data)),
+        await client.reverse(
+          parseFloat(lat.data),
+          parseFloat(lon.data),
+          'address',
+        ),
       );
     });
   },

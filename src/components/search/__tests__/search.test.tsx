@@ -19,6 +19,8 @@ import {
 import userEvent from '@testing-library/user-event';
 import { SWRConfig } from 'swr';
 import React from 'react';
+import SwapButton from '../swap-button';
+import GeolocationButton from '../geolocation-button';
 
 const result = [
   {
@@ -89,6 +91,22 @@ describe('search box', () => {
     search.focus();
 
     expect(search).toHaveFocus();
+  });
+
+  it('should render with swap button', () => {
+    customRender(
+      <Search
+        label="Test"
+        onChange={() => {}}
+        button={<SwapButton onSwap={() => {}} />}
+      />,
+    );
+
+    const swapButton = screen.getByRole('button', {
+      name: 'Bytt avreisested og ankomststed',
+    });
+
+    expect(swapButton).toBeDefined();
   });
 
   it('should focus input when clicking label', async () => {
@@ -181,7 +199,13 @@ describe('search box', () => {
   });
 
   it('should call getCurrentPosition when geolocating', async () => {
-    customRender(<Search label="Test" onChange={() => {}} />);
+    customRender(
+      <Search
+        label="Test"
+        onChange={() => {}}
+        button={<GeolocationButton onGeolocate={() => {}} />}
+      />,
+    );
 
     const geolocationButton = screen.getByRole('button', {
       name: 'Finn min posisjon',

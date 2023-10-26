@@ -102,6 +102,14 @@ function Navigation({
           <li></li>
           <li>
             <HeaderLink
+              {...getActiveProps('/assistant', router.pathname)}
+              title={t(PageText.Assistant.title)}
+              tabIndex={tabIndex}
+              testID="navAssistantButton"
+            />
+          </li>
+          <li>
+            <HeaderLink
               {...getActiveProps('/departures', router.pathname)}
               title={t(PageText.Departures.title)}
               tabIndex={tabIndex}

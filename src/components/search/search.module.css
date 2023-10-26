@@ -13,11 +13,12 @@
   composes: typo-body__secondary;
 
   height: var(--height);
+  min-width: 3rem;
   display: flex;
   align-items: center;
   background-color: var(--static-background-background_0-background);
   padding: var(--spacings-small);
-  padding-right: var(--spacings-xLarge);
+  padding-right: var(--spacings-regular);
   border-bottom-left-radius: 0.75rem;
   border-top-left-radius: 0.75rem;
 }
@@ -33,18 +34,6 @@
   width: 100%;
   background-color: var(--static-background-background_0-background);
   color: var(--static-background-background_0-text);
-}
-
-.geolocationButton {
-  height: var(--height);
-  background-color: var(--static-background-background_0-background);
-  border: none;
-  padding: var(--spacings-small);
-  border-bottom-right-radius: 0.75rem;
-  border-top-right-radius: 0.75rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
 }
 
 .menu {
