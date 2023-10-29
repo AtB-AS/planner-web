@@ -1,0 +1,92 @@
+.tripPattern {
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--border-radius-regular);
+  background-color: var(--static-background-background_0-background);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--spacings-small) var(--spacings-medium);
+}
+
+.header__duration {
+  color: var(--text-colors-secondary);
+}
+
+.legs {
+  display: flex;
+  align-items: center;
+  gap: var(--spacings-large);
+  padding: var(--spacings-small) var(--spacings-medium);
+}
+
+.legs__leg {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacings-small);
+}
+
+
+.legs__leg__icon {
+  display: flex;
+  border-radius: var(--border-radius-small);
+  position: relative;
+}
+
+.legs__leg__icon::before {
+  --padding: var(--spacings-xSmall);
+  content: '';
+  display: block;
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateX(calc(100% + var(--padding) / 2));
+  width: calc(var(--spacings-large) - var(--padding));
+  border-top: 0.125rem dashed var(--static-background-background_3-background);
+}
+
+.legs__leg__walkIcon {
+  background-color: var(--static-background-background_2-background);
+  border-radius: var(--border-radius-small);
+  display: grid;
+  place-content: center;
+  padding: var(--spacings-small);
+}
+
+.legs__lastLeg__destination {
+  margin-left: auto;
+  display: flex;
+  gap: var(--spacings-small);
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.legs__lastLeg__destination__icon {
+  background-color: var(--static-background-background_2-background);
+  border-radius: var(--border-radius-small);
+  display: grid;
+  place-content: center;
+  padding: var(--spacings-small);
+}
+
+.legs__lastLeg {
+  flex-grow: 1;
+  display: flex;
+}
+
+.legs__lastLeg__line {
+  flex-grow: 1;
+  border-top: 0.125rem solid var(--static-background-background_3-background);
+  transform: translateY(1.125rem); /* TODO: Improve calculatin of positioning */
+  margin-left: 0.125rem;
+}
+
+.footer {
+  border-top: 1px solid var(--border-primary);
+  display: flex;
+  justify-content: flex-end;
+  padding: var(--spacings-small) var(--spacings-medium);
+}

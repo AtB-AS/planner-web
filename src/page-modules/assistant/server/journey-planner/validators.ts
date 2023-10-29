@@ -1,5 +1,6 @@
 import { TransportModeType, TransportSubmodeType } from '@atb-as/config-specs';
 import { z } from 'zod';
+import { TripPattern } from '@atb/page-modules/assistant/trip-pattern';
 export const noticeSchema = z.object({
   id: z.string(),
   text: z.string().nullable(),
@@ -159,3 +160,4 @@ export const tripSchema = z.object({
 export type Notice = z.infer<typeof noticeSchema>;
 export type Situation = z.infer<typeof situationSchema>;
 export type TripData = z.infer<typeof tripSchema>;
+export type TripPattern = z.infer<typeof tripPatternSchema>;

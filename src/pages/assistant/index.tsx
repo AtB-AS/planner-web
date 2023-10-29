@@ -6,11 +6,9 @@ import AssistantLayout, {
 } from '@atb/page-modules/assistant/layout';
 import { withAssistantClient } from '@atb/page-modules/assistant/server';
 import { TripData } from '@atb/page-modules/assistant/server/journey-planner/validators';
-import { useTranslation } from '@atb/translations';
-import { formatLocaleTime } from '@atb/utils/date';
 import { NextPage } from 'next';
-import style from './assistant.module.css';
 import { parseLayerQueryString } from '@atb/page-modules/assistant/utils';
+import { TripPattern } from '@atb/page-modules/assistant/trip-pattern';
 
 type AssistantContentProps = { empty: true } | { trip: TripData };
 
@@ -19,35 +17,14 @@ export type AssistantPageProps = WithGlobalData<
 >;
 
 function AssistantContent(props: AssistantContentProps) {
-  const { language } = useTranslation();
   if (isTripDataProps(props)) {
-    return (
-      <section>
-        {props.trip.tripPatterns.map((tripPattern, i) => (
-          <div
-            key={`tripPattern-${tripPattern.expectedStartTime}-${i}`}
-            className={style.tripPattern}
-          >
-            {tripPattern.legs.map((leg, i) => (
-              <div
-                key={`leg-${leg.expectedStartTime}-${i}`}
-                className={style.leg}
-              >
-                <span>{leg.mode ? leg.mode : 'foot'}</span>
-                <span>{leg.line?.publicCode}</span>
-                <span>
-                  {leg.fromPlace.name} til {leg.toPlace.name}
-                </span>
-                <span>
-                  {formatLocaleTime(leg.aimedStartTime, language)} -{' '}
-                  {formatLocaleTime(leg.aimedEndTime, language)}
-                </span>
-              </div>
-            ))}
-          </div>
-        ))}
-      </section>
-    );
+    return props.trip.tripPatterns.map((tripPattern, i) => (
+      <TripPattern
+        key={`tripPattern-${tripPattern.expectedStartTime}-${i}`}
+        tripPattern={tripPattern}
+        index={i}
+      />
+    ));
   }
 }
 

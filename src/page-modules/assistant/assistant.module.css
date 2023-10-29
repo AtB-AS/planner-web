@@ -113,4 +113,7 @@
   margin: 0 auto;
   max-width: var(--maxPageWidth);
   padding: var(--spacings-xLarge);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacings-medium);
 }
