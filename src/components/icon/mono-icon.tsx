@@ -73,9 +73,9 @@ function colorToMode(
 function useInteractiveThemeColor(
   interactiveColorName?: keyof Theme['interactive'],
   interactiveState?: keyof InteractiveColor,
-): MonoIconProps['overrideMode'] | undefined {
+): MonoIconProps['overrideMode'] {
   const { interactive } = useTheme();
-  if (!interactiveColorName) return undefined;
+  if (!interactiveColorName) return 'none';
   const interactiveColor = interactive[interactiveColorName];
 
   if (!interactiveState)
