@@ -3,6 +3,7 @@
   flex-direction: column;
   border-radius: var(--border-radius-regular);
   background-color: var(--static-background-background_0-background);
+  text-decoration: none;
 }
 
 .header {
@@ -89,4 +90,10 @@
   display: flex;
   justify-content: flex-end;
   padding: var(--spacings-small) var(--spacings-medium);
+}
+
+.footer__details {
+  display: flex;
+  gap: var(--spacings-small);
+  align-items: center;
 }

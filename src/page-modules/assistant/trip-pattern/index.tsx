@@ -1,10 +1,9 @@
 import { formatLocaleTime, secondsToDuration } from '@atb/utils/date';
 import { type TripPattern } from '@atb/page-modules/assistant/server/journey-planner/validators';
 import style from './trip-pattern.module.css';
-import { ComponentText, useTranslation } from '@atb/translations';
+import { PageText, useTranslation } from '@atb/translations';
 import { Typo } from '@atb/components/typography';
 import { motion } from 'framer-motion';
-import { Button } from '@atb/components/button';
 import { MonoIcon } from '@atb/components/icon';
 import { TransportIconWithLabel } from '@atb/components/transport-mode/transport-icon';
 
@@ -16,10 +15,11 @@ export function TripPattern({ tripPattern, index }: TripPatternProps) {
   const { t, language } = useTranslation();
 
   const duration = secondsToDuration(tripPattern.duration, language);
-  const fromPlace = tripPattern.legs[0].fromPlace.name ?? '';
+  const fromPlace = tripPattern.legs[0]?.fromPlace.name ?? '';
 
   return (
-    <motion.div
+    <motion.a
+      href="/assistant" // TODO: Use correct href.
       className={style.tripPattern}
       initial={{ opacity: 0, x: -10 }}
       animate={{ opacity: 1, x: 0 }}
@@ -30,7 +30,7 @@ export function TripPattern({ tripPattern, index }: TripPatternProps) {
     >
       <header className={style.header}>
         <Typo.span textType="body__secondary--bold">
-          {t(ComponentText.TripPattern.busFrom)} {fromPlace}
+          {t(PageText.Assistant.tripPattern.busFrom)} {fromPlace}
         </Typo.span>
         <Typo.span
           textType="body__secondary"
@@ -79,15 +79,11 @@ export function TripPattern({ tripPattern, index }: TripPatternProps) {
       </div>
 
       <footer className={style.footer}>
-        <Button
-          title={t(ComponentText.TripPattern.details)}
-          size="compact" // TODO: no padding with this size, should there be some? Makes hover look weird.
-          icon={{ right: <MonoIcon icon="navigation/ArrowRight" /> }}
-          onClick={() => {
-            alert('TODO: Implement details for trip pattern');
-          }}
-        />
+        <Typo.span textType="body__primary" className={style.footer__details}>
+          {t(PageText.Assistant.tripPattern.details)}
+          <MonoIcon icon="navigation/ArrowRight" />
+        </Typo.span>
       </footer>
-    </motion.div>
+    </motion.a>
   );
 }

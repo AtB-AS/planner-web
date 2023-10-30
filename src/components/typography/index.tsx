@@ -1,11 +1,12 @@
+import React from 'react';
 import type { TextNames } from '@atb-as/theme';
 import { and } from '@atb/utils/css';
 
-type BaseTypographyInternal<E extends React.ElementType = React.ElementType> = {
-  children: string | string[];
-  textType: TextNames;
-  as?: E;
-};
+type BaseTypographyInternal<E extends React.ElementType = React.ElementType> =
+  React.PropsWithChildren<{
+    textType: TextNames;
+    as?: E;
+  }>;
 
 export type BaseTypographyProps<E extends React.ElementType> =
   BaseTypographyInternal<E> &

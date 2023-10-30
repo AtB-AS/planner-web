@@ -6,4 +6,3 @@ export { Map } from './map';
 export { TransportMode } from './transport-mode';
 export { TransportModeFilter } from './transport-mode-filter';
 export { SwapButton } from './swap-button';
-export { TripPattern } from './trip-pattern';
