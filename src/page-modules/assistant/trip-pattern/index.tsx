@@ -60,7 +60,7 @@ export function TripPattern({ tripPattern, index }: TripPatternProps) {
             </div>
 
             <Typo.span textType="body__tertiary">
-              {formatLocaleTime(tripPattern.expectedEndTime, language)}
+              {formatLocaleTime(leg.aimedStartTime, language)}
             </Typo.span>
           </div>
         ))}
