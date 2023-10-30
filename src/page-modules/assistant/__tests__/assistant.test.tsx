@@ -56,6 +56,9 @@ describe('assistant page', function () {
       async trip() {
         return expectedTripResult;
       },
+      async nonTransitTrips() {
+        return {};
+      },
       async autocomplete() {
         return {} as any;
       },
