@@ -36,7 +36,7 @@ export type ButtonBaseProps = {
    * Button padding size
    * @default 'small'
    */
-  size?: 'medium' | 'small' | 'compact';
+  size?: 'medium' | 'small' | 'pill' | 'compact';
 
   /**
    * Set button state

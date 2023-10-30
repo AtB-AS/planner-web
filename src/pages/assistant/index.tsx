@@ -11,6 +11,9 @@ import {
   AssistantLayoutProps,
 } from '@atb/page-modules/assistant';
 import type { NextPage } from 'next';
+import { NonTransitTrip } from '@atb/page-modules/assistant/non-transit-pill';
+
+import style from '@atb/page-modules/assistant/assistant.module.css';
 
 type AssistantContentProps =
   | { empty: true }
@@ -22,13 +25,29 @@ export type AssistantPageProps = WithGlobalData<
 
 function AssistantContent(props: AssistantContentProps) {
   if (isTripDataProps(props)) {
-    return props.trip.tripPatterns.map((tripPattern, i) => (
-      <TripPattern
-        key={`tripPattern-${tripPattern.expectedStartTime}-${i}`}
-        tripPattern={tripPattern}
-        index={i}
-      />
-    ));
+    const nonTransits = Object.entries(props.nonTransitTrips);
+    return (
+      <div className={style.tripResults}>
+        {nonTransits.length > 0 && (
+          <div className={style.nonTransitResult}>
+            {Object.entries(props.nonTransitTrips).map(([legType, trip]) => (
+              <NonTransitTrip
+                key={legType}
+                tripPattern={trip.tripPatterns[0]}
+                nonTransitType={legType as keyof NonTransitTripData}
+              />
+            ))}
+          </div>
+        )}
+        {props.trip.tripPatterns.map((tripPattern, i) => (
+          <TripPattern
+            key={`tripPattern-${tripPattern.expectedStartTime}-${i}`}
+            tripPattern={tripPattern}
+            index={i}
+          />
+        ))}
+      </div>
+    );
   }
 }
 

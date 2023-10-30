@@ -218,6 +218,9 @@
 .button--size_compact {
   padding: 0;
 }
+.button--size_pill {
+  padding: var(--spacings-xSmall) var(--spacings-medium);
+}
 
 .button--radius_top-bottom {
   border-radius: var(--border-radius-regular);

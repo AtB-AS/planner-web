@@ -48,6 +48,17 @@ export function formatToAlwaysLongDateTime(
   return format(parsed, 'PPp', { locale: languageToLocale(language) });
 }
 
+export function secondsToDurationShort(
+  seconds: number,
+  language: Language,
+): string {
+  return getShortHumanizer(seconds * 1000, language, {
+    units: ['d', 'h', 'm'],
+    round: true,
+    conjunction: ' ',
+  });
+}
+
 export function formatToShortDateWithYear(
   date: Date | string,
   language: Language,

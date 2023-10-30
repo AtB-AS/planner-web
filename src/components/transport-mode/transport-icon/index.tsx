@@ -1,4 +1,4 @@
-import { TransportModeGroup } from '../types';
+import { TransportModeGroup, TransportSubmodeType } from '../types';
 
 import { ContrastColor, Theme } from '@atb-as/theme';
 import MonoIcon, { MonoIconProps } from '@atb/components/icon/mono-icon';
@@ -8,7 +8,6 @@ import { useTranslation } from '@atb/translations';
 import { transportModeToTranslatedString } from '../utils';
 import style from './transport-icon.module.css';
 import { colorToOverrideMode } from '@atb/utils/color';
-import { TransportSubmodeType } from '@atb-as/config-specs';
 
 export type TransportIconsProps = {
   modes: TransportModeGroup[];
@@ -39,6 +38,16 @@ export function TransportIcon({ mode }: TransportIconProps) {
         overrideMode={overrideMode}
       />
     </span>
+  );
+}
+export function TransportMonoIcon({ mode }: TransportIconProps) {
+  const { t } = useTranslation();
+  return (
+    <MonoIcon
+      icon={getTransportModeIcon(mode)}
+      role="img"
+      alt={t(transportModeToTranslatedString(mode))}
+    />
   );
 }
 
@@ -112,6 +121,9 @@ function modeToColor(
     case 'tram':
       return transport.transport_city.primary;
 
+    case 'bicycle':
+      return transport.transport_bike.primary;
+
     case 'water':
       return transport.transport_boat.primary;
 
@@ -137,6 +149,10 @@ export function getTransportModeIcon(
       return 'transportation/Tram';
     case 'rail':
       return 'transportation/Train';
+    case 'foot':
+      return 'transportation/Walk';
+    case 'bicycle':
+      return 'transportation-entur/Bicycle';
     case 'air':
       return 'transportation-entur/Plane';
     case 'water':

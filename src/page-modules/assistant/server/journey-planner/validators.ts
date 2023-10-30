@@ -1,4 +1,7 @@
-import { TransportModeType, TransportSubmodeType } from '@atb-as/config-specs';
+import {
+  TransportModeType,
+  TransportSubmodeType,
+} from '@atb/components/transport-mode/types';
 import { z } from 'zod';
 export const noticeSchema = z.object({
   id: z.string(),
@@ -111,6 +114,7 @@ export const legSchema = z.object({
   fromPlace: placeSchema,
   toPlace: placeSchema,
   serviceJourney: serviceJourneySchema.nullable(),
+  rentedBike: z.boolean().nullable(),
   interchangeTo: z
     .object({
       guaranteed: z.boolean(),

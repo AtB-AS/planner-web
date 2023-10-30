@@ -40,4 +40,11 @@ export const Assistant = {
     busFrom: _('Buss fra', 'Bus from', 'Buss frå'),
     details: _('Detaljer', 'Details', 'Detaljar'),
   },
+
+  nonTransit: {
+    foot: _('Gå', 'Walk', 'Gå'),
+    bicycle: _('Sykkel', 'Bike', 'Sykkel'),
+    bikeRental: _('Bysykkel', 'City bike', 'Bysykkel'),
+    unknown: _('Ukjent', 'Unknown', 'Ukjent'),
+  },
 };
