@@ -36,8 +36,15 @@ export const Assistant = {
       },
     },
   },
-  tripPattern: {
-    busFrom: _('Buss fra', 'Bus from', 'Buss frå'),
-    details: _('Detaljer', 'Details', 'Detaljar'),
+  trip: {
+    tripPattern: {
+      busFrom: _('Buss fra', 'Bus from', 'Buss frå'),
+      details: _('Detaljer', 'Details', 'Detaljar'),
+    },
+    fetchMore: _(
+      'Last inn flere reiseforslag',
+      'Load more results',
+      'Last inn fleire reiseforslag',
+    ),
   },
 };

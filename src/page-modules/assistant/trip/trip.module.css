@@ -29,7 +29,6 @@
   gap: var(--spacings-small);
 }
 
-
 .legs__leg__icon {
   display: flex;
   border-radius: var(--border-radius-small);
@@ -96,4 +95,9 @@
   display: flex;
   gap: var(--spacings-small);
   align-items: center;
+}
+
+.fetchButton {
+  align-self: center;
+  margin-top: var(--spacings-xLarge);
 }

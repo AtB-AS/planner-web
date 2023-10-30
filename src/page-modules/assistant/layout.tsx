@@ -11,14 +11,11 @@ import DepartureDateSelector, {
 } from '@atb/components/departure-date-selector';
 import TransportModeFilter from '@atb/components/transport-mode-filter';
 import { Typo } from '@atb/components/typography';
-import {
-  filterToQueryString,
-  getInitialTransportModeFilter,
-} from '@atb/components/transport-mode-filter/utils';
+import { getInitialTransportModeFilter } from '@atb/components/transport-mode-filter/utils';
 import { TransportModeFilterOption } from '@atb/components/transport-mode-filter/types';
 import { MonoIcon } from '@atb/components/icon';
 import { FocusScope } from '@react-aria/focus';
-import { featuresToFromToQuery } from './utils';
+import { createTripQueryObject } from '@atb/page-modules/assistant/utils';
 import SwapButton from '@atb/components/search/swap-button';
 import GeolocationButton from '@atb/components/search/geolocation-button';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -56,7 +53,12 @@ function AssistantLayout({
   const onSwap = () => {
     if (!selectedToFeature || !selectedFromFeature) return;
     setIsSwapping(true);
-    const query = createQuery(selectedToFeature, selectedFromFeature);
+    const query = createTripQueryObject(
+      selectedToFeature,
+      selectedFromFeature,
+      transportModeFilter,
+      departureDate,
+    );
     const temp = selectedFromFeature;
     setSelectedFromFeature(selectedToFeature);
     setSelectedToFeature(temp);
@@ -67,34 +69,25 @@ function AssistantLayout({
 
   const onGeolocate = (geolocationFeature: GeocoderFeature) => {
     if (!selectedToFeature) return;
-    const query = createQuery(geolocationFeature, selectedToFeature);
+    const query = createTripQueryObject(
+      geolocationFeature,
+      selectedToFeature,
+      transportModeFilter,
+      departureDate,
+    );
     setSelectedFromFeature(geolocationFeature);
     router.push({ pathname: '/assistant', query });
-  };
-
-  const createQuery = (
-    fromFeature: GeocoderFeature,
-    toFeature: GeocoderFeature,
-  ) => {
-    const filter = filterToQueryString(transportModeFilter);
-    const arriveBy = departureDate.type === DepartureDateState.Arrival;
-    const departBy = departureDate.type === DepartureDateState.Departure;
-    const fromToQuery = featuresToFromToQuery(fromFeature, toFeature);
-
-    const query = {
-      ...(filter ? { filter } : {}),
-      ...(arriveBy ? { arriveBy: departureDate.dateTime } : {}),
-      ...(departBy ? { departBy: departureDate.dateTime } : {}),
-      ...fromToQuery,
-    };
-
-    return query;
   };
 
   const onSubmitHandler: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
     if (!selectedFromFeature || !selectedToFeature) return;
-    const query = createQuery(selectedFromFeature, selectedToFeature);
+    const query = createTripQueryObject(
+      selectedFromFeature,
+      selectedToFeature,
+      transportModeFilter,
+      departureDate,
+    );
     router.push({ pathname: '/assistant', query });
   };
 

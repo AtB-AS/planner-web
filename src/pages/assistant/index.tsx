@@ -7,10 +7,10 @@ import AssistantLayout, {
 import { withAssistantClient } from '@atb/page-modules/assistant/server';
 import { TripData } from '@atb/page-modules/assistant/server/journey-planner/validators';
 import { NextPage } from 'next';
-import { parseLayerQueryString } from '@atb/page-modules/assistant/utils';
-import { TripPattern } from '@atb/page-modules/assistant/trip-pattern';
+import { Trip, TripProps } from '@atb/page-modules/assistant/trip';
+import { parseTripQuery } from '@atb/page-modules/assistant/utils';
 
-type AssistantContentProps = { empty: true } | { trip: TripData };
+type AssistantContentProps = { empty: true } | TripProps;
 
 export type AssistantPageProps = WithGlobalData<
   AssistantLayoutProps & AssistantContentProps
@@ -18,13 +18,7 @@ export type AssistantPageProps = WithGlobalData<
 
 function AssistantContent(props: AssistantContentProps) {
   if (isTripDataProps(props)) {
-    return props.trip.tripPatterns.map((tripPattern, i) => (
-      <TripPattern
-        key={`tripPattern-${tripPattern.expectedStartTime}-${i}`}
-        tripPattern={tripPattern}
-        index={i}
-      />
-    ));
+    return <Trip {...props} />;
   }
 }
 
@@ -47,50 +41,46 @@ export default AssistantPage;
 export const getServerSideProps = withGlobalData(
   withAssistantClient<AssistantLayoutProps & AssistantContentProps>(
     async function ({ client, query }) {
-      const transportModeFilter = parseFilterQuery(query.filter);
-
-      let initialFromFeature;
-      if (query.fromLat && query.fromLon && query.fromLayer) {
-        const fromLat = parseFloat(query.fromLat.toString());
-        const fromLon = parseFloat(query.fromLon.toString());
-        const fromLayer = parseLayerQueryString(query.fromLayer.toString());
-
-        initialFromFeature = await client.reverse(fromLat, fromLon, fromLayer);
-      }
-
-      let initialToFeature;
-      if (query.toLat && query.toLon && query.toLayer) {
-        initialToFeature = await client.reverse(
-          parseFloat(query.toLat.toString()),
-          parseFloat(query.toLon.toString()),
-          parseLayerQueryString(query.toLayer.toString()),
+      const tripQuery = parseTripQuery(query);
+      if (tripQuery) {
+        const from = await client.reverse(
+          parseFloat(tripQuery.fromLat),
+          parseFloat(tripQuery.fromLon),
+          tripQuery.fromLayer,
         );
+        const to = await client.reverse(
+          parseFloat(tripQuery.toLat),
+          parseFloat(tripQuery.toLon),
+          tripQuery.toLayer,
+        );
+        const transportModeFilter = parseFilterQuery(tripQuery.filter);
+
+        const arriveBy = 'arriveBy' in tripQuery;
+        const departureDate = arriveBy
+          ? new Date(Number(tripQuery.arriveBy))
+          : new Date(Number(tripQuery.departBy)) || new Date();
+
+        if (from && to) {
+          const trip = await client.trip({
+            from,
+            to,
+            ...(arriveBy
+              ? { arriveBy: departureDate }
+              : { departBy: departureDate }),
+            transportModes: transportModeFilter,
+          });
+
+          return {
+            props: {
+              initialFromFeature: from,
+              initialToFeature: to,
+              initialTransportModesFilter: transportModeFilter,
+              trip,
+              departureType: arriveBy ? 'arrival' : 'departure',
+            },
+          };
+        }
       }
-      const arriveBy =
-        query.arriveBy && new Date(Number(query.arriveBy.toString()));
-      const departBy =
-        query.departBy && new Date(Number(query.departBy.toString()));
-      const when = arriveBy || departBy || new Date();
-
-      if (initialFromFeature && initialToFeature) {
-        const trip = await client.trip({
-          from: initialFromFeature,
-          to: initialToFeature,
-          arriveBy: Boolean(arriveBy),
-          when,
-          transportModes: transportModeFilter,
-        });
-
-        return {
-          props: {
-            initialFromFeature,
-            initialToFeature,
-            initialTransportModesFilter: transportModeFilter,
-            trip,
-          },
-        };
-      }
-
       return {
         props: {
           empty: true,

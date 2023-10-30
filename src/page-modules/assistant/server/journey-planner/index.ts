@@ -55,15 +55,18 @@ export function createJourneyApi(
         name: input.to.name,
       };
 
+      const when = 'arriveBy' in input ? input.arriveBy : input.departBy;
+
       const result = await client.query<TripsQuery, TripsQueryVariables>({
         query: TripsDocument,
         variables: {
           from,
           to,
-          arriveBy: input.arriveBy,
-          when: input.when,
-          numTripPatterns: 10,
+          arriveBy: 'arriveBy' in input,
+          when,
           modes: journeyModes,
+          cursor: input.cursor,
+          numTripPatterns: 10,
           waitReluctance: 1.5,
           walkReluctance: 1.5,
           walkSpeed: 1.3,
@@ -76,7 +79,8 @@ export function createJourneyApi(
       }
 
       const data: RecursivePartial<TripData> = {
-        nextPageCursor: result.data.trip.nextPageCursor ?? null,
+        nextPageCursor: result.data.trip.nextPageCursor,
+        previousPageCursor: result.data.trip.previousPageCursor,
         tripPatterns: result.data.trip.tripPatterns.map((tripPattern) => ({
           expectedStartTime: tripPattern.expectedStartTime,
           expectedEndTime: tripPattern.expectedEndTime,

@@ -152,7 +152,8 @@ export const tripPatternSchema = z.object({
 });
 
 export const tripSchema = z.object({
-  nextPageCursor: z.string().nullable(),
+  nextPageCursor: z.string(),
+  previousPageCursor: z.string(),
   tripPatterns: z.array(tripPatternSchema),
 });
 
