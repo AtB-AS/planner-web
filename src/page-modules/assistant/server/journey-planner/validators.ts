@@ -1,6 +1,5 @@
 import { TransportModeType, TransportSubmodeType } from '@atb-as/config-specs';
 import { z } from 'zod';
-import { TripPattern } from '@atb/page-modules/assistant/trip-pattern';
 export const noticeSchema = z.object({
   id: z.string(),
   text: z.string().nullable(),
