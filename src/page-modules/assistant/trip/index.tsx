@@ -12,7 +12,7 @@ import { TransportIconWithLabel } from '@atb/components/transport-mode/transport
 import { GeocoderFeature } from '@atb/page-modules/departures';
 import { TransportModeFilterOption } from '@atb/components/transport-mode-filter/types';
 import { nextTripPatterns } from '@atb/page-modules/assistant/client';
-import { createTripQueryObject } from '@atb/page-modules/assistant/utils';
+import { createTripQuery } from '@atb/page-modules/assistant/utils';
 import { useEffect, useState } from 'react';
 import { getInitialTransportModeFilter } from '@atb/components/transport-mode-filter/utils';
 import { Button } from '@atb/components/button';
@@ -57,7 +57,7 @@ export function Trip({
 
   const fetchNextTripPatterns = async () => {
     setIsFetchingTripPatterns(true);
-    const tripQuery = createTripQueryObject(
+    const tripQuery = createTripQuery(
       initialFromFeature,
       initialToFeature,
       getInitialTransportModeFilter(initialTransportModesFilter) || undefined,

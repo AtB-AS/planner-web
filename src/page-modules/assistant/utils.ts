@@ -23,7 +23,7 @@ export const featuresToFromToQuery = (
   };
 };
 
-export const createTripQueryObject = (
+export const createTripQuery = (
   fromFeature: GeocoderFeature,
   toFeature: GeocoderFeature,
   transportModeFilter?: TransportModeFilterState,

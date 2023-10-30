@@ -15,7 +15,7 @@ import { getInitialTransportModeFilter } from '@atb/components/transport-mode-fi
 import { TransportModeFilterOption } from '@atb/components/transport-mode-filter/types';
 import { MonoIcon } from '@atb/components/icon';
 import { FocusScope } from '@react-aria/focus';
-import { createTripQueryObject } from '@atb/page-modules/assistant/utils';
+import { createTripQuery } from '@atb/page-modules/assistant/utils';
 import SwapButton from '@atb/components/search/swap-button';
 import GeolocationButton from '@atb/components/search/geolocation-button';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -53,7 +53,7 @@ function AssistantLayout({
   const onSwap = () => {
     if (!selectedToFeature || !selectedFromFeature) return;
     setIsSwapping(true);
-    const query = createTripQueryObject(
+    const query = createTripQuery(
       selectedToFeature,
       selectedFromFeature,
       transportModeFilter,
@@ -69,7 +69,7 @@ function AssistantLayout({
 
   const onGeolocate = (geolocationFeature: GeocoderFeature) => {
     if (!selectedToFeature) return;
-    const query = createTripQueryObject(
+    const query = createTripQuery(
       geolocationFeature,
       selectedToFeature,
       transportModeFilter,
@@ -82,7 +82,7 @@ function AssistantLayout({
   const onSubmitHandler: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
     if (!selectedFromFeature || !selectedToFeature) return;
-    const query = createTripQueryObject(
+    const query = createTripQuery(
       selectedFromFeature,
       selectedToFeature,
       transportModeFilter,
