@@ -54,7 +54,7 @@ export function TripPattern({ tripPattern, index }: TripPatternProps) {
                 />
               ) : (
                 <div className={style.legs__leg__walkIcon}>
-                  <MonoIcon icon={'transportation/Walk'} />
+                  <MonoIcon icon="transportation/Walk" />
                 </div>
               )}
             </div>
