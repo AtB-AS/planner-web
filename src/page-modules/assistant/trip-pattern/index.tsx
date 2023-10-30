@@ -69,7 +69,7 @@ export function TripPattern({ tripPattern, index }: TripPatternProps) {
           <div className={style.legs__lastLeg__line}></div>
           <div className={style.legs__lastLeg__destination}>
             <div className={style.legs__lastLeg__destination__icon}>
-              <MonoIcon icon={'places/Destination'} />
+              <MonoIcon icon="places/Destination" />
             </div>
             <Typo.span textType="body__tertiary">
               {formatLocaleTime(tripPattern.expectedEndTime, language)}
