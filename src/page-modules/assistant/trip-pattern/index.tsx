@@ -82,7 +82,7 @@ export function TripPattern({ tripPattern, index }: TripPatternProps) {
         <Button
           title={t(ComponentText.TripPattern.details)}
           size="compact" // TODO: no padding with this size, should there be some? Makes hover look weird.
-          icon={{ right: <MonoIcon icon={'navigation/ArrowRight'} /> }}
+          icon={{ right: <MonoIcon icon="navigation/ArrowRight" /> }}
           onClick={() => {
             alert('TODO: Implement details for trip pattern');
           }}
