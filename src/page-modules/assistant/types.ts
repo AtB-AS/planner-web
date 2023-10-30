@@ -32,17 +32,3 @@ export const TripQuerySchema = z.object({
 });
 
 export type TripQuery = z.infer<typeof TripQuerySchema>;
-
-export type TripQueryObject = {
-  fromId: string;
-  fromLon: number;
-  fromLat: number;
-  fromLayer: 'address' | 'venue';
-  toId: string;
-  toLon: number;
-  toLat: number;
-  toLayer: 'address' | 'venue';
-  arriveBy?: number;
-  departBy?: number;
-  filter?: string;
-};

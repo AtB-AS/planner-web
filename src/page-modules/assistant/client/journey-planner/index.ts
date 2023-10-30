@@ -1,20 +1,13 @@
 import { TripData } from '@atb/page-modules/assistant/server/journey-planner/validators';
-import { TripQueryObject } from '@atb/page-modules/assistant/';
+import { TripQuery } from '@atb/page-modules/assistant/';
 
 export type TripApiReturnType = TripData;
 
 export async function nextTripPatterns(
-  query: TripQueryObject,
+  query: TripQuery,
   cursor: string,
 ): Promise<TripApiReturnType> {
-  const queryString = Object.keys(query)
-    .map(
-      (key) =>
-        encodeURIComponent(key) +
-        '=' +
-        encodeURIComponent(String(query[key as keyof TripQueryObject])),
-    )
-    .join('&');
+  const queryString = new URLSearchParams(query).toString();
 
   const result = await fetch(
     `/api/assistant/trip?${queryString}&cursor=${cursor}`,

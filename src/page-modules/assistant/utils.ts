@@ -5,11 +5,7 @@ import {
 import { TransportModeFilterState } from '@atb/components/transport-mode-filter/types';
 import { filterToQueryString } from '@atb/components/transport-mode-filter/utils';
 import { GeocoderFeature } from '@atb/page-modules/departures';
-import {
-  TripQuery,
-  TripQueryObject,
-  TripQuerySchema,
-} from '@atb/page-modules/assistant';
+import { TripQuery, TripQuerySchema } from '@atb/page-modules/assistant';
 
 export const featuresToFromToQuery = (
   from: GeocoderFeature,
@@ -17,12 +13,12 @@ export const featuresToFromToQuery = (
 ) => {
   return {
     fromId: from.id,
-    fromLon: from.geometry.coordinates[0],
-    fromLat: from.geometry.coordinates[1],
+    fromLon: from.geometry.coordinates[0].toString(),
+    fromLat: from.geometry.coordinates[1].toString(),
     fromLayer: from.layer,
     toId: to.id,
-    toLon: to.geometry.coordinates[0],
-    toLat: to.geometry.coordinates[1],
+    toLon: to.geometry.coordinates[0].toString(),
+    toLat: to.geometry.coordinates[1].toString(),
     toLayer: to.layer,
   };
 };
@@ -32,7 +28,7 @@ export const createTripQueryObject = (
   toFeature: GeocoderFeature,
   transportModeFilter?: TransportModeFilterState,
   departureDate?: DepartureDate,
-): TripQueryObject => {
+): TripQuery => {
   const filter =
     transportModeFilter && filterToQueryString(transportModeFilter);
   const arriveBy = departureDate?.type === DepartureDateState.Arrival;
@@ -41,8 +37,8 @@ export const createTripQueryObject = (
 
   return {
     ...(filter ? { filter } : {}),
-    ...(arriveBy ? { arriveBy: departureDate.dateTime } : {}),
-    ...(departBy ? { departBy: departureDate.dateTime } : {}),
+    ...(arriveBy ? { arriveBy: departureDate.dateTime.toString() } : {}),
+    ...(departBy ? { departBy: departureDate.dateTime.toString() } : {}),
     ...fromToQuery,
   };
 };
