@@ -42,6 +42,34 @@ export function TransportIcon({ mode }: TransportIconProps) {
   );
 }
 
+export type TransportIconWithLabelProps = {
+  mode: TransportModeGroup;
+  label?: string | null;
+};
+
+export function TransportIconWithLabel({
+  mode,
+  label,
+}: TransportIconWithLabelProps) {
+  const { t } = useTranslation();
+  const { backgroundColor, overrideMode } = useTransportationThemeColor(mode);
+  return (
+    <span className={style.transportIconWithLabel} style={{ backgroundColor }}>
+      <MonoIcon
+        icon={getTransportModeIcon(mode)}
+        role="img"
+        alt={t(transportModeToTranslatedString(mode))}
+        overrideMode={overrideMode}
+      />
+      {label && (
+        <span style={{ color: overrideMode === 'light' ? 'black' : 'white' }}>
+          {label}
+        </span>
+      )}
+    </span>
+  );
+}
+
 export function useTransportationThemeColor(mode: TransportModeGroup) {
   const { transport } = useTheme();
   let color = modeToColor(mode, transport);

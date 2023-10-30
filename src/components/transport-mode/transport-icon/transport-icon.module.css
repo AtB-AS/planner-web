@@ -6,15 +6,24 @@
   gap: 0.125rem;
 }
 
-.transportIcon {
+.transportIcon,
+.transportIconWithLabel {
   display: inline-block;
 
   /* Specialized sizing. */
   /* @TODO investigate generic way to handle this */
-  border-radius: 0.125rem;
+  border-radius: var(--border-radius-small);
   padding: var(--spacings-xSmall);
 }
 
-.transportIcon img {
+.transportIconWithLabel {
+  display: flex;
+  align-items: center;
+  gap: var(--spacings-xSmall);
+  padding: var(--spacings-small) var(--spacings-medium);
+}
+
+.transportIcon img,
+.transportIconWithLabel img {
   display: block;
 }

@@ -36,4 +36,8 @@ export const Assistant = {
       },
     },
   },
+  tripPattern: {
+    busFrom: _('Buss fra', 'Bus from', 'Buss frå'),
+    details: _('Detaljer', 'Details', 'Detaljar'),
+  },
 };
