@@ -11,6 +11,7 @@ import { GeocoderFeature } from '@atb/page-modules/departures';
 import { FeatureCategory } from '@atb/components/venue-icon';
 import { GeocoderApi } from '@atb/page-modules/departures/server/geocoder';
 import AssistantLayout from '../layout';
+import { NonTransitTripData } from '..';
 
 afterEach(function () {
   cleanup();
@@ -48,6 +49,12 @@ describe('assistant page', function () {
       nextPageCursor: 'aaa',
       tripPatterns: [],
     };
+    const expectedNonTransitTripResult: NonTransitTripData = {
+      footTrip: {
+        nextPageCursor: 'bbb',
+        tripPatterns: [],
+      },
+    };
 
     const gqlClient: ExternalClient<
       'graphql-journeyPlanner3' | 'http-entur',
@@ -57,7 +64,7 @@ describe('assistant page', function () {
         return expectedTripResult;
       },
       async nonTransitTrips() {
-        return {};
+        return expectedNonTransitTripResult;
       },
       async autocomplete() {
         return {} as any;
@@ -94,6 +101,7 @@ describe('assistant page', function () {
       initialFromFeature: expectedFromFeature,
       initialToFeature: expectedToFeature,
       trip: expectedTripResult,
+      nonTransitTrips: expectedNonTransitTripResult,
     });
   });
 
