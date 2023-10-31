@@ -20,17 +20,10 @@ import { Button } from '@atb/components/button';
 export type TripProps = {
   initialFromFeature: GeocoderFeature;
   initialToFeature: GeocoderFeature;
-  initialTransportModesFilter: TransportModeFilterOption[] | null;
+  initialTransportModesFilter: TransportModeFilterOption[];
   trip: TripData;
   departureMode: DepartureMode;
 };
-
-function tripPatternsWithTransitionDelay(tripPatterns: TripPattern[]) {
-  return tripPatterns.map((tripPattern, i) => ({
-    ...tripPattern,
-    transitionDelay: i * 0.1,
-  }));
-}
 
 export default function Trip({
   initialFromFeature,
@@ -40,43 +33,9 @@ export default function Trip({
   departureMode,
 }: TripProps) {
   const { t } = useTranslation();
-  const [tripPatterns, setTripPatterns] = useState(
-    tripPatternsWithTransitionDelay(trip.tripPatterns),
-  );
-  const [nextPageCursor, setNextPageCursor] = useState(trip.nextPageCursor);
-  const [previousPageCursor, setPreviousPageCursor] = useState(
-    trip.previousPageCursor,
-  );
-  const [isFetchingTripPatterns, setIsFetchingTripPatterns] = useState(false);
+  const { tripPatterns, fetchNextTripPatterns, isFetchingTripPatterns } =
+    useTripPatterns(trip, departureMode);
 
-  useEffect(() => {
-    setTripPatterns(tripPatternsWithTransitionDelay(trip.tripPatterns));
-    setNextPageCursor(trip.nextPageCursor);
-    setPreviousPageCursor(trip.previousPageCursor);
-  }, [trip]);
-
-  const fetchNextTripPatterns = async () => {
-    setIsFetchingTripPatterns(true);
-    const tripQuery = createTripQuery(
-      initialFromFeature,
-      initialToFeature,
-      getInitialTransportModeFilter(initialTransportModesFilter) || undefined,
-    );
-    const cursor =
-      departureMode === DepartureMode.ArriveBy
-        ? previousPageCursor
-        : nextPageCursor;
-    const trip = await nextTripPatterns(tripQuery, cursor);
-    setTripPatterns([
-      ...tripPatterns,
-      ...tripPatternsWithTransitionDelay(trip.tripPatterns),
-    ]);
-    departureMode === DepartureMode.ArriveBy
-      ? setPreviousPageCursor(trip.previousPageCursor)
-      : setNextPageCursor(trip.nextPageCursor);
-
-    setIsFetchingTripPatterns(false);
-  };
   return (
     <>
       {tripPatterns.map((tripPattern, i) => (
@@ -88,12 +47,61 @@ export default function Trip({
       ))}
       <Button
         className={style.fetchButton}
-        onClick={fetchNextTripPatterns}
+        onClick={() =>
+          fetchNextTripPatterns(
+            initialFromFeature,
+            initialToFeature,
+            initialTransportModesFilter,
+          )
+        }
         title={t(PageText.Assistant.trip.fetchMore)}
         state={isFetchingTripPatterns ? 'loading' : undefined}
       />
     </>
   );
+}
+
+function useTripPatterns(initialTrip: TripData, departureMode: DepartureMode) {
+  const [tripPatterns, setTripPatterns] = useState(
+    tripPatternsWithTransitionDelay(initialTrip.tripPatterns),
+  );
+  const [cursor, setCursor] = useState(
+    getCursorByDepartureMode(initialTrip, departureMode),
+  );
+  const [isFetchingTripPatterns, setIsFetchingTripPatterns] = useState(false);
+
+  useEffect(() => {
+    setTripPatterns(tripPatternsWithTransitionDelay(initialTrip.tripPatterns));
+    setCursor(getCursorByDepartureMode(initialTrip, departureMode));
+  }, [initialTrip, departureMode]);
+
+  const fetchNextTripPatterns = async (
+    from: GeocoderFeature,
+    to: GeocoderFeature,
+    filter?: TransportModeFilterOption[],
+  ) => {
+    setIsFetchingTripPatterns(true);
+    const tripQuery = createTripQuery(
+      from,
+      to,
+      getInitialTransportModeFilter(filter),
+    );
+    const trip = await nextTripPatterns(tripQuery, cursor);
+
+    setTripPatterns((prevTripPatterns) => [
+      ...prevTripPatterns,
+      ...tripPatternsWithTransitionDelay(trip.tripPatterns),
+    ]);
+
+    setCursor(getCursorByDepartureMode(initialTrip, departureMode));
+    setIsFetchingTripPatterns(false);
+  };
+
+  return {
+    tripPatterns,
+    isFetchingTripPatterns,
+    fetchNextTripPatterns,
+  };
 }
 
 type TripPatternProps = {
@@ -176,4 +184,22 @@ function TripPattern({ tripPattern, delay }: TripPatternProps) {
       </footer>
     </motion.a>
   );
+}
+
+function tripPatternsWithTransitionDelay(tripPatterns: TripPattern[]) {
+  return tripPatterns.map((tripPattern, i) => ({
+    ...tripPattern,
+    transitionDelay: i * 0.1,
+  }));
+}
+
+function getCursorByDepartureMode(
+  trip: TripData,
+  departureMode: DepartureMode,
+) {
+  if (departureMode === DepartureMode.ArriveBy) {
+    return trip.previousPageCursor;
+  } else {
+    return trip.nextPageCursor;
+  }
 }
