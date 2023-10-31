@@ -136,6 +136,7 @@ function TripPattern({ tripPattern, delay }: TripPatternProps) {
 
   const duration = secondsToDuration(tripPattern.duration, language);
   const fromPlace = tripPattern.legs[0]?.fromPlace.name ?? '';
+  const fromMode = tripPattern.legs[0]?.mode ?? 'unknown';
 
   return (
     <motion.a
@@ -150,7 +151,9 @@ function TripPattern({ tripPattern, delay }: TripPatternProps) {
     >
       <header className={style.header}>
         <Typo.span textType="body__secondary--bold">
-          {t(PageText.Assistant.trip.tripPattern.busFrom)} {fromPlace}
+          {t(
+            PageText.Assistant.trip.tripPattern.travelFrom(fromMode, fromPlace),
+          )}
         </Typo.span>
         <Typo.span
           textType="body__secondary"
