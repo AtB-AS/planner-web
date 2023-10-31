@@ -1,38 +1,81 @@
+import {
+  DepartureDate,
+  DepartureDateState,
+} from '@atb/components/departure-date-selector';
+import { TransportModeFilterState } from '@atb/components/transport-mode-filter/types';
+import { filterToQueryString } from '@atb/components/transport-mode-filter/utils';
 import { GeocoderFeature } from '@atb/page-modules/departures';
+import {
+  DepartureMode,
+  TripQuery,
+  TripQuerySchema,
+} from '@atb/page-modules/assistant';
 
-export type FromToQuery = {
-  fromId: string;
-  fromName: string;
-  fromLon: string;
-  fromLat: string;
-  fromLayer: string;
-  toId: string;
-  toName: string;
-  toLon: string;
-  toLat: string;
-  toLayer: string;
-};
-
-export const featuresToFromToQuery = (
-  from: GeocoderFeature | undefined,
-  to: GeocoderFeature | undefined,
-): FromToQuery | null => {
-  if (!from || !to) return null;
+const featuresToFromToQuery = (from: GeocoderFeature, to: GeocoderFeature) => {
   return {
     fromId: from.id,
-    fromName: from.name,
-    fromLon: from.geometry.coordinates[0].toString(),
-    fromLat: from.geometry.coordinates[1].toString(),
+    fromLon: from.geometry.coordinates[0],
+    fromLat: from.geometry.coordinates[1],
     fromLayer: from.layer,
     toId: to.id,
-    toName: to.name,
-    toLon: to.geometry.coordinates[0].toString(),
-    toLat: to.geometry.coordinates[1].toString(),
+    toLon: to.geometry.coordinates[0],
+    toLat: to.geometry.coordinates[1],
     toLayer: to.layer,
   };
 };
 
-export const parseLayerQueryString = (layer: string): 'address' | 'venue' => {
-  if (layer === 'venue') return 'venue';
-  return 'address';
+export const createTripQuery = (
+  fromFeature: GeocoderFeature,
+  toFeature: GeocoderFeature,
+  transportModeFilter?: TransportModeFilterState,
+  departureDate?: DepartureDate,
+): TripQuery => {
+  let transportModeFilterQuery = {};
+  if (transportModeFilter) {
+    const filterQueryString = filterToQueryString(transportModeFilter);
+    if (filterQueryString) {
+      transportModeFilterQuery = {
+        filter: filterQueryString,
+      };
+    }
+  }
+
+  const departureMode =
+    departureDate?.type === DepartureDateState.Arrival
+      ? DepartureMode.ArriveBy
+      : DepartureMode.DepartBy;
+
+  const departureDateQuery =
+    departureDate && departureDate.type !== DepartureDateState.Now
+      ? { departureDate: departureDate.dateTime }
+      : {};
+
+  const fromToQuery = featuresToFromToQuery(fromFeature, toFeature);
+
+  return {
+    departureMode,
+    ...transportModeFilterQuery,
+    ...departureDateQuery,
+    ...fromToQuery,
+  };
+};
+
+export const parseTripQuery = (query: any): TripQuery | undefined => {
+  const requiredNumericFields = ['fromLat', 'fromLon', 'toLat', 'toLon'];
+  requiredNumericFields.forEach((field) => {
+    if (typeof query[field] === 'string')
+      query[field] = parseFloat(query[field]);
+  });
+
+  const optionalNumericFields = ['departureDate'];
+  optionalNumericFields.forEach((field) => {
+    if (query[field] && typeof query[field] === 'string')
+      query[field] = Number(query[field]);
+  });
+
+  const parsed = TripQuerySchema.safeParse(query);
+  if (!parsed.success) {
+    return undefined;
+  }
+  return parsed.data;
 };

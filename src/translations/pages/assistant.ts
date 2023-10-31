@@ -36,15 +36,21 @@ export const Assistant = {
       },
     },
   },
-  tripPattern: {
-    busFrom: _('Buss fra', 'Bus from', 'Buss frå'),
-    details: _('Detaljer', 'Details', 'Detaljar'),
-  },
-
-  nonTransit: {
-    foot: _('Gå', 'Walk', 'Gå'),
-    bicycle: _('Sykkel', 'Bike', 'Sykkel'),
-    bikeRental: _('Bysykkel', 'City bike', 'Bysykkel'),
-    unknown: _('Ukjent', 'Unknown', 'Ukjent'),
+  trip: {
+    tripPattern: {
+      busFrom: _('Buss fra', 'Bus from', 'Buss frå'),
+      details: _('Detaljer', 'Details', 'Detaljar'),
+    },
+    fetchMore: _(
+      'Last inn flere reiseforslag',
+      'Load more results',
+      'Last inn fleire reiseforslag',
+    ),
+    nonTransit: {
+      foot: _('Gå', 'Walk', 'Gå'),
+      bicycle: _('Sykkel', 'Bike', 'Sykkel'),
+      bikeRental: _('Bysykkel', 'City bike', 'Bysykkel'),
+      unknown: _('Ukjent', 'Unknown', 'Ukjent'),
+    },
   },
 };

@@ -47,11 +47,13 @@ describe('assistant page', function () {
 
     const expectedTripResult: TripData = {
       nextPageCursor: 'aaa',
+      previousPageCursor: 'bbb',
       tripPatterns: [],
     };
     const expectedNonTransitTripResult: NonTransitTripData = {
       footTrip: {
-        nextPageCursor: 'bbb',
+        nextPageCursor: 'ccc',
+        previousPageCursor: 'ddd',
         tripPatterns: [],
       },
     };
@@ -79,16 +81,15 @@ describe('assistant page', function () {
     const context = {
       params: {},
       query: {
-        fromId: 638651,
-        fromName: 'Strindheim',
+        fromId: '638651',
         fromLon: 10.4560389,
         fromLat: 63.4266611,
         fromLayer: 'address',
         toId: 'NSR:StopPlace:43984',
-        toName: 'Byåsen skole',
         toLon: 10.358037,
         toLat: 63.398886,
         toLayer: 'venue',
+        departureMode: 'departBy',
       },
     };
 
@@ -101,6 +102,7 @@ describe('assistant page', function () {
       initialFromFeature: expectedFromFeature,
       initialToFeature: expectedToFeature,
       trip: expectedTripResult,
+      departureMode: 'departBy',
       nonTransitTrips: expectedNonTransitTripResult,
     });
   });

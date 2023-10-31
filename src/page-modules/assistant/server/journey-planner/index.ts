@@ -37,6 +37,9 @@ export function createJourneyApi(
     async nonTransitTrips(input) {
       const from = inputToLocation(input, 'from');
       const to = inputToLocation(input, 'to');
+      const when = input.departureDate
+        ? new Date(input.departureDate)
+        : new Date();
 
       const result = await client.query<
         TripsNonTransitQuery,
@@ -46,8 +49,8 @@ export function createJourneyApi(
         variables: {
           from,
           to,
-          arriveBy: input.arriveBy,
-          when: input.when,
+          arriveBy: input.departureMode === 'arriveBy',
+          when,
           walkSpeed: 1.3,
 
           includeFoot: input.directModes.includes(StreetMode.Foot),
@@ -90,15 +93,20 @@ export function createJourneyApi(
       const from = inputToLocation(input, 'from');
       const to = inputToLocation(input, 'to');
 
+      const when = input.departureDate
+        ? new Date(input.departureDate)
+        : new Date();
+
       const result = await client.query<TripsQuery, TripsQueryVariables>({
         query: TripsDocument,
         variables: {
           from,
           to,
-          arriveBy: input.arriveBy,
-          when: input.when,
-          numTripPatterns: 10,
+          arriveBy: input.departureMode === 'arriveBy',
+          when,
           modes: journeyModes,
+          cursor: input.cursor,
+          numTripPatterns: 10,
           waitReluctance: 1.5,
           walkReluctance: 1.5,
           walkSpeed: 1.3,
@@ -153,6 +161,7 @@ function mapResultToTrips(
 ): RecursivePartial<TripData> {
   return {
     nextPageCursor: trip.nextPageCursor ?? null,
+    previousPageCursor: trip.previousPageCursor ?? null,
     tripPatterns: trip.tripPatterns.map((tripPattern) => ({
       expectedStartTime: tripPattern.expectedStartTime,
       expectedEndTime: tripPattern.expectedEndTime,
