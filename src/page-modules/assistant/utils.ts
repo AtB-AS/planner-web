@@ -75,7 +75,6 @@ export const parseTripQuery = (query: any): TripQuery | undefined => {
 
   const parsed = TripQuerySchema.safeParse(query);
   if (!parsed.success) {
-    console.log(parsed.error);
     return undefined;
   }
   return parsed.data;
