@@ -4,10 +4,14 @@
 # by setting up the environment, building the application, and organizing the output 
 # into a organization specific subdirectiory in the 'dist' directory.
 
+# Clean potential previous builds
+
+rm -rf .next/
+
 mkdir -p dist
 mkdir -p dist/$NEXT_PUBLIC_PLANNER_ORG_ID
 echo "Running yarn setup && yarn build for $NEXT_PUBLIC_PLANNER_ORG_ID"
-yarn setup $NEXT_PUBLIC_PLANNER_ORG_ID
+yarn setup
 yarn build
 
 echo "Moving the output into the dist directory"
