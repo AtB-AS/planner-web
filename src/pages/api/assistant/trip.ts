@@ -9,7 +9,13 @@ import { constants } from 'http2';
 export default handlerWithAssistantClient<TripApiReturnType>({
   async GET(req, res, { client, ok }) {
     const tripQuery = parseTripQuery(req.query);
-    if (tripQuery) {
+    if (!tripQuery) {
+      return errorResultAsJson(
+        res,
+        constants.HTTP_STATUS_BAD_REQUEST,
+        ServerText.Endpoints.invalidData,
+      );
+    }
       const from = await client.reverse(
         parseFloat(tripQuery.fromLat),
         parseFloat(tripQuery.fromLon),
