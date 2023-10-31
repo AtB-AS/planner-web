@@ -12,10 +12,15 @@ import { TransportIconWithLabel } from '@atb/components/transport-mode/transport
 import { GeocoderFeature } from '@atb/page-modules/departures';
 import { TransportModeFilterOption } from '@atb/components/transport-mode-filter/types';
 import { nextTripPatterns } from '@atb/page-modules/assistant/client';
-import { DepartureMode, createTripQuery } from '@atb/page-modules/assistant';
+import {
+  DepartureMode,
+  NonTransitTripData,
+  createTripQuery,
+} from '@atb/page-modules/assistant';
 import { useEffect, useState } from 'react';
 import { getInitialTransportModeFilter } from '@atb/components/transport-mode-filter/utils';
 import { Button } from '@atb/components/button';
+import { NonTransitTrip } from '../non-transit-pill';
 
 export type TripProps = {
   initialFromFeature: GeocoderFeature;
@@ -23,6 +28,7 @@ export type TripProps = {
   initialTransportModesFilter: TransportModeFilterOption[] | null;
   trip: TripData;
   departureMode: DepartureMode;
+  nonTransitTrips: NonTransitTripData;
 };
 
 export default function Trip({
@@ -31,20 +37,36 @@ export default function Trip({
   initialTransportModesFilter,
   trip,
   departureMode,
+  nonTransitTrips,
 }: TripProps) {
   const { t } = useTranslation();
   const { tripPatterns, fetchNextTripPatterns, isFetchingTripPatterns } =
     useTripPatterns(trip, departureMode);
 
+  const nonTransits = Object.entries(nonTransitTrips);
   return (
     <>
-      {tripPatterns.map((tripPattern, i) => (
-        <TripPattern
-          key={`tripPattern-${tripPattern.expectedStartTime}-${i}`}
-          tripPattern={tripPattern}
-          delay={tripPattern.transitionDelay}
-        />
-      ))}
+      <div className={style.tripResults}>
+        {nonTransits.length > 0 && (
+          <div className={style.nonTransitResult}>
+            {Object.entries(nonTransitTrips).map(([legType, trip]) => (
+              <NonTransitTrip
+                key={legType}
+                tripPattern={tripPatterns[0]}
+                nonTransitType={legType as keyof NonTransitTripData}
+              />
+            ))}
+          </div>
+        )}
+        {tripPatterns.map((tripPattern, i) => (
+          <TripPattern
+            key={`tripPattern-${tripPattern.expectedStartTime}-${i}`}
+            tripPattern={tripPattern}
+            delay={tripPattern.transitionDelay}
+          />
+        ))}
+      </div>
+
       <Button
         className={style.fetchButton}
         onClick={() =>

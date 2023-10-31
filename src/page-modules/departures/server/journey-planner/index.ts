@@ -36,10 +36,13 @@ import {
   TransportMode,
   TransportMode as GraphqlTransportMode,
 } from '@atb/modules/graphql-types';
-import { TransportModeType, TransportSubmodeType } from '@atb-as/config-specs';
 import { TransportModeFilterOption } from '@atb/components/transport-mode-filter/types';
 import { getAllTransportModesFromFilterOptions } from '@atb/components/transport-mode-filter/utils';
 import { enumFromString } from '@atb/utils/enum-from-string';
+import {
+  TransportModeType,
+  TransportSubmodeType,
+} from '@atb/components/transport-mode/types';
 
 export type DepartureInput = {
   id: string;

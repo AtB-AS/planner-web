@@ -6,7 +6,7 @@ import { and } from '@atb/utils/css';
 import { MonoIcon } from '@atb/components/icon';
 import { transportModeToTranslatedString } from '@atb/components/transport-mode';
 import { getTransportModeIcon } from '@atb/components/transport-mode/transport-icon';
-import { TransportModeType } from '@atb-as/config-specs';
+import { TransportModeType } from '@atb/components/transport-mode/types';
 
 export type MapHeaderProps = {
   id: string;

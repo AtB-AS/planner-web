@@ -1,14 +1,16 @@
 import { parseFilterQuery } from '@atb/components/transport-mode-filter/utils';
 import DefaultLayout from '@atb/layouts/default';
-import { WithGlobalData, withGlobalData } from '@atb/layouts/global-data';
-import AssistantLayout, {
-  AssistantLayoutProps,
-} from '@atb/page-modules/assistant/layout';
+import { type WithGlobalData, withGlobalData } from '@atb/layouts/global-data';
 import { withAssistantClient } from '@atb/page-modules/assistant/server';
-import { TripData } from '@atb/page-modules/assistant/server/journey-planner/validators';
-import { NextPage } from 'next';
 import Trip, { TripProps } from '@atb/page-modules/assistant/trip';
 import { parseTripQuery } from '@atb/page-modules/assistant';
+import type { TripData } from '@atb/page-modules/assistant';
+import {
+  StreetMode,
+  AssistantLayout,
+  AssistantLayoutProps,
+} from '@atb/page-modules/assistant';
+import type { NextPage } from 'next';
 
 type AssistantContentProps = { empty: true } | TripProps;
 
@@ -64,6 +66,14 @@ export const getServerSideProps = withGlobalData(
             transportModes: transportModeFilter || undefined,
           });
 
+          const nonTransitTrips = await client.nonTransitTrips({
+            from,
+            to,
+            departureDate: tripQuery.departureDate,
+            departureMode: tripQuery.departureMode,
+            directModes: [StreetMode.Foot, StreetMode.Bicycle],
+          });
+
           return {
             props: {
               initialFromFeature: from,
@@ -71,6 +81,7 @@ export const getServerSideProps = withGlobalData(
               initialTransportModesFilter: transportModeFilter,
               trip,
               departureMode: tripQuery.departureMode,
+              nonTransitTrips,
             },
           };
         }

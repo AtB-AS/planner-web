@@ -1,5 +1,8 @@
+import {
+  TransportModeType,
+  TransportSubmodeType,
+} from '@atb/components/transport-mode/types';
 import { z } from 'zod';
-import { TransportModeType, TransportSubmodeType } from '@atb-as/config-specs';
 
 export const locationSchema = z.object({
   lat: z.number(),
