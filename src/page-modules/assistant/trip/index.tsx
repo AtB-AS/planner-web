@@ -32,7 +32,7 @@ function tripPatternsWithTransitionDelay(tripPatterns: TripPattern[]) {
   }));
 }
 
-export function Trip({
+export default function Trip({
   initialFromFeature,
   initialToFeature,
   initialTransportModesFilter,
@@ -99,7 +99,7 @@ type TripPatternProps = {
   delay: number;
 };
 
-export function TripPattern({ tripPattern, delay }: TripPatternProps) {
+function TripPattern({ tripPattern, delay }: TripPatternProps) {
   const { t, language } = useTranslation();
 
   const duration = secondsToDuration(tripPattern.duration, language);

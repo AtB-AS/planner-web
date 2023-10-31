@@ -7,7 +7,7 @@ import AssistantLayout, {
 import { withAssistantClient } from '@atb/page-modules/assistant/server';
 import { TripData } from '@atb/page-modules/assistant/server/journey-planner/validators';
 import { NextPage } from 'next';
-import { Trip, TripProps } from '@atb/page-modules/assistant/trip';
+import Trip, { TripProps } from '@atb/page-modules/assistant/trip';
 import { parseTripQuery } from '@atb/page-modules/assistant/utils';
 
 type AssistantContentProps = { empty: true } | TripProps;
