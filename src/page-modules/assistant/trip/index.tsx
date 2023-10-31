@@ -52,7 +52,7 @@ export default function Trip({
             {Object.entries(nonTransitTrips).map(([legType, trip]) => (
               <NonTransitTrip
                 key={legType}
-                tripPattern={tripPatterns[0]}
+                tripPattern={trip.tripPatterns[0]}
                 nonTransitType={legType as keyof NonTransitTripData}
               />
             ))}
