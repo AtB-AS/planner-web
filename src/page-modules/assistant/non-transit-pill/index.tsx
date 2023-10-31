@@ -43,15 +43,15 @@ const getMode = (
   tp: TripPattern,
   t: TranslateFunction,
 ): { mode: TransportModeType; modeText: string } => {
-  let mode = tp.legs[0].mode ?? 'unknown';
+  let mode = tp.legs[0]?.mode ?? 'unknown';
   let text = t(PageText.Assistant.nonTransit.unknown);
 
   if (tp.legs.some((leg) => leg.rentedBike)) {
     mode = 'bicycle';
     text = t(PageText.Assistant.nonTransit.bikeRental);
-  } else if (tp.legs[0].mode === 'foot') {
+  } else if (mode === 'foot') {
     text = t(PageText.Assistant.nonTransit.foot);
-  } else if (tp.legs[0].mode === 'bicycle') {
+  } else if (mode === 'bicycle') {
     text = t(PageText.Assistant.nonTransit.bicycle);
   }
 
