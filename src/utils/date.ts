@@ -11,6 +11,7 @@ import {
   parseISO,
   setMinutes,
   differenceInSeconds,
+  differenceInCalendarDays,
 } from 'date-fns';
 import en from 'date-fns/locale/en-GB';
 import nb from 'date-fns/locale/nb';
@@ -158,6 +159,11 @@ export function formatToVerboseDateTime(
 
   return `${dateString} ${at} ${timeString}`;
 }
+export function formatToSimpleDate(date: Date | string, language: Language) {
+  return format(parseIfNeeded(date), 'do MMMM', {
+    locale: languageToLocale(language),
+  });
+}
 
 export function isInPast(date: Date | string) {
   return isPast(parseIfNeeded(date));
@@ -211,6 +217,9 @@ export function secondsBetween(
   const parsedStart = parseIfNeeded(start);
   const parsedEnd = parseIfNeeded(end);
   return differenceInSeconds(parsedEnd, parsedStart);
+}
+export function daysBetween(start: string | Date, end: string | Date) {
+  return differenceInCalendarDays(parseIfNeeded(start), parseIfNeeded(end));
 }
 /**
  * Either show clock or relative time (X min) if below threshold specified by

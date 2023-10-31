@@ -97,21 +97,23 @@ export function createJourneyApi(
         ? new Date(input.departureDate)
         : new Date();
 
+      const queryVariables = {
+        from,
+        to,
+        arriveBy: input.departureMode === 'arriveBy',
+        when,
+        modes: journeyModes,
+        cursor: input.cursor,
+        numTripPatterns: 10,
+        waitReluctance: 1.5,
+        walkReluctance: 1.5,
+        walkSpeed: 1.3,
+        transferPenalty: 10,
+      };
+
       const result = await client.query<TripsQuery, TripsQueryVariables>({
         query: TripsDocument,
-        variables: {
-          from,
-          to,
-          arriveBy: input.departureMode === 'arriveBy',
-          when,
-          modes: journeyModes,
-          cursor: input.cursor,
-          numTripPatterns: 10,
-          waitReluctance: 1.5,
-          walkReluctance: 1.5,
-          walkSpeed: 1.3,
-          transferPenalty: 10,
-        },
+        variables: queryVariables,
       });
 
       if (result.error) {
@@ -122,7 +124,43 @@ export function createJourneyApi(
         result.data.trip,
       );
 
-      const validated = tripSchema.safeParse(data);
+      const trip: RecursivePartial<TripData> = data;
+
+      let tripPatterns = data.tripPatterns || [];
+      let searchAttempt = 1;
+
+      const MINIMUM_NUMBER_OF_TRIP_PATTERNS = 5;
+      const MAX_NUMBER_OF_TRIES = 15;
+
+      while (
+        searchAttempt <= MAX_NUMBER_OF_TRIES &&
+        tripPatterns.length <= MINIMUM_NUMBER_OF_TRIP_PATTERNS
+      ) {
+        const cursor =
+          input.departureMode === 'arriveBy'
+            ? trip.previousPageCursor
+            : trip.nextPageCursor;
+
+        const result = await client.query<TripsQuery, TripsQueryVariables>({
+          query: TripsDocument,
+          variables: { ...queryVariables, cursor },
+        });
+
+        const data: RecursivePartial<TripData> = mapResultToTrips(
+          result.data.trip,
+        );
+
+        if (data.tripPatterns) {
+          tripPatterns = [...tripPatterns, ...data.tripPatterns];
+        }
+
+        trip.nextPageCursor = data.nextPageCursor;
+        trip.previousPageCursor = data.previousPageCursor;
+        searchAttempt += 1;
+      }
+
+      trip.tripPatterns = tripPatterns;
+      const validated = tripSchema.safeParse(trip);
       if (!validated.success) {
         throw validated.error;
       }

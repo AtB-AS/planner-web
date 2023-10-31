@@ -18,6 +18,10 @@
   gap: var(--spacings-medium);
 }
 
+.dayLabel {
+  padding: var(--spacings-small) var(--spacings-medium);
+}
+
 .header {
   display: flex;
   justify-content: space-between;

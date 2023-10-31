@@ -1,4 +1,10 @@
-import { formatLocaleTime, secondsToDuration } from '@atb/utils/date';
+import {
+  daysBetween,
+  formatLocaleTime,
+  formatToSimpleDate,
+  parseIfNeeded,
+  secondsToDuration,
+} from '@atb/utils/date';
 import {
   TripData,
   type TripPattern,
@@ -21,6 +27,7 @@ import { useEffect, useState } from 'react';
 import { getInitialTransportModeFilter } from '@atb/components/transport-mode-filter/utils';
 import { Button } from '@atb/components/button';
 import { NonTransitTrip } from '../non-transit-pill';
+import { isSameDay } from 'date-fns';
 
 export type TripProps = {
   initialFromFeature: GeocoderFeature;
@@ -59,11 +66,17 @@ export default function Trip({
           </div>
         )}
         {tripPatterns.map((tripPattern, i) => (
-          <TripPattern
-            key={`tripPattern-${tripPattern.expectedStartTime}-${i}`}
-            tripPattern={tripPattern}
-            delay={tripPattern.transitionDelay}
-          />
+          <>
+            <DayLabel
+              departureTime={tripPattern.expectedStartTime}
+              previousDepartureTime={tripPatterns[i - 1]?.expectedStartTime}
+            />
+            <TripPattern
+              key={`tripPattern-${tripPattern.expectedStartTime}-${i}`}
+              tripPattern={tripPattern}
+              delay={tripPattern.transitionDelay}
+            />
+          </>
         ))}
       </div>
 
@@ -115,7 +128,7 @@ function useTripPatterns(initialTrip: TripData, departureMode: DepartureMode) {
       ...tripPatternsWithTransitionDelay(trip.tripPatterns),
     ]);
 
-    setCursor(getCursorByDepartureMode(initialTrip, departureMode));
+    setCursor(getCursorByDepartureMode(trip, departureMode));
     setIsFetchingTripPatterns(false);
   };
 
@@ -206,6 +219,41 @@ function TripPattern({ tripPattern, delay }: TripPatternProps) {
       </footer>
     </motion.a>
   );
+}
+
+type DayLabelProps = {
+  departureTime: string;
+  previousDepartureTime?: string;
+};
+function DayLabel({ departureTime, previousDepartureTime }: DayLabelProps) {
+  const { t, language } = useTranslation();
+  const isFirst = !previousDepartureTime;
+  const departureDate = parseIfNeeded(departureTime);
+  const prevDate = !previousDepartureTime
+    ? new Date()
+    : parseIfNeeded(previousDepartureTime);
+
+  const dateString = formatToSimpleDate(departureDate, language);
+  const numberOfDays = daysBetween(new Date(), departureDate);
+
+  let dateLabel = dateString;
+
+  if (numberOfDays === 0) {
+    dateLabel = t(PageText.Assistant.trip.dayLabel.today());
+  }
+  if (numberOfDays == 1) {
+    dateLabel = t(PageText.Assistant.trip.dayLabel.tomorrow(dateString));
+  }
+  if (numberOfDays == 2) {
+    dateLabel = t(
+      PageText.Assistant.trip.dayLabel.dayAfterTomorrow(dateString),
+    );
+  }
+
+  if (isFirst || !isSameDay(prevDate, departureDate)) {
+    return <p className={style.dayLabel}>{dateLabel}</p>;
+  }
+  return null;
 }
 
 function tripPatternsWithTransitionDelay(tripPatterns: TripPattern[]) {
