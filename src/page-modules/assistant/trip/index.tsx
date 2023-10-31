@@ -20,7 +20,7 @@ import { Button } from '@atb/components/button';
 export type TripProps = {
   initialFromFeature: GeocoderFeature;
   initialToFeature: GeocoderFeature;
-  initialTransportModesFilter: TransportModeFilterOption[];
+  initialTransportModesFilter: TransportModeFilterOption[] | null;
   trip: TripData;
   departureMode: DepartureMode;
 };
@@ -51,7 +51,7 @@ export default function Trip({
           fetchNextTripPatterns(
             initialFromFeature,
             initialToFeature,
-            initialTransportModesFilter,
+            initialTransportModesFilter || undefined,
           )
         }
         title={t(PageText.Assistant.trip.fetchMore)}
