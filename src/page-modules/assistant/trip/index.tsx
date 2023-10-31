@@ -1,5 +1,6 @@
 import { formatLocaleTime, secondsToDuration } from '@atb/utils/date';
 import {
+  Quay,
   TripData,
   type TripPattern,
 } from '@atb/page-modules/assistant/server/journey-planner/validators';
@@ -135,8 +136,8 @@ function TripPattern({ tripPattern, delay }: TripPatternProps) {
   const { t, language } = useTranslation();
 
   const duration = secondsToDuration(tripPattern.duration, language);
-  const fromPlace = tripPattern.legs[0]?.fromPlace.name ?? '';
-  const fromMode = tripPattern.legs[0]?.mode ?? 'unknown';
+
+  const { startMode, startPlace } = getStartModeAndPlace(tripPattern);
 
   return (
     <motion.a
@@ -152,7 +153,10 @@ function TripPattern({ tripPattern, delay }: TripPatternProps) {
       <header className={style.header}>
         <Typo.span textType="body__secondary--bold">
           {t(
-            PageText.Assistant.trip.tripPattern.travelFrom(fromMode, fromPlace),
+            PageText.Assistant.trip.tripPattern.travelFrom(
+              startMode,
+              startPlace,
+            ),
           )}
         </Typo.span>
         <Typo.span
@@ -227,4 +231,27 @@ function getCursorByDepartureMode(
   } else {
     return trip.nextPageCursor;
   }
+}
+
+function getStartModeAndPlace(tripPattern: TripPattern) {
+  let startLeg = tripPattern.legs[0];
+  let startName = startLeg.fromPlace.name;
+
+  if (tripPattern.legs[0].mode === 'foot' && tripPattern.legs[1]) {
+    startLeg = tripPattern.legs[1];
+    startName = getQuayName(startLeg.fromPlace.quay);
+  } else if (tripPattern.legs[0].mode !== 'foot') {
+    startName = getQuayName(startLeg.fromPlace.quay);
+  }
+
+  return {
+    startMode: startLeg.mode ?? 'unknown',
+    startPlace: startName ?? '',
+  };
+}
+
+function getQuayName(quay: Quay | null): string | null {
+  if (!quay) return null;
+  if (!quay.publicCode) return quay.name;
+  return `${quay.name} ${quay.publicCode}`;
 }

@@ -67,18 +67,18 @@ export const situationSchema = z.object({
     .nullable(),
 });
 
+export const quaySchema = z.object({
+  publicCode: z.string().nullable(),
+  name: z.string(),
+  id: z.string(),
+  situations: z.array(situationSchema),
+});
+
 export const placeSchema = z.object({
   name: z.string().nullable(),
   longitude: z.number(),
   latitude: z.number(),
-  quay: z
-    .object({
-      publicCode: z.string().nullable(),
-      name: z.string(),
-      id: z.string(),
-      situations: z.array(situationSchema),
-    })
-    .nullable(),
+  quay: quaySchema.nullable(),
 });
 
 export const fromEstimatedCallSchema = z.object({
@@ -165,3 +165,4 @@ export type Notice = z.infer<typeof noticeSchema>;
 export type Situation = z.infer<typeof situationSchema>;
 export type TripData = z.infer<typeof tripSchema>;
 export type TripPattern = z.infer<typeof tripPatternSchema>;
+export type Quay = z.infer<typeof quaySchema>;
