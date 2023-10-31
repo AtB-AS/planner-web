@@ -108,7 +108,7 @@ function useTripPatterns(initialTrip: TripData, departureMode: DepartureMode) {
       to,
       getInitialTransportModeFilter(filter),
     );
-    const trip = await nextTripPatterns(tripQuery, cursor);
+    const trip = await nextTripPatterns(tripQuery, cursor || ''); // @TODO: handle null cursors
 
     setTripPatterns((prevTripPatterns) => [
       ...prevTripPatterns,
