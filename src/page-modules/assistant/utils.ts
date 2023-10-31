@@ -30,13 +30,14 @@ export const createTripQuery = (
   departureDate?: DepartureDate,
 ): TripQuery => {
   const filter =
-    transportModeFilter && filterToQueryString(transportModeFilter);
+    (transportModeFilter && filterToQueryString(transportModeFilter)) ||
+    undefined;
   const arriveBy = departureDate?.type === DepartureDateState.Arrival;
   const departBy = departureDate?.type === DepartureDateState.Departure;
   const fromToQuery = featuresToFromToQuery(fromFeature, toFeature);
 
   return {
-    ...(filter ? { filter } : {}),
+    filter,
     ...(arriveBy ? { arriveBy: departureDate.dateTime.toString() } : {}),
     ...(departBy ? { departBy: departureDate.dateTime.toString() } : {}),
     ...fromToQuery,
