@@ -1,16 +1,23 @@
 import { parseFilterQuery } from '@atb/components/transport-mode-filter/utils';
 import DefaultLayout from '@atb/layouts/default';
-import { WithGlobalData, withGlobalData } from '@atb/layouts/global-data';
-import AssistantLayout, {
-  AssistantLayoutProps,
-} from '@atb/page-modules/assistant/layout';
+import { type WithGlobalData, withGlobalData } from '@atb/layouts/global-data';
 import { withAssistantClient } from '@atb/page-modules/assistant/server';
-import { TripData } from '@atb/page-modules/assistant/server/journey-planner/validators';
-import { NextPage } from 'next';
-import { parseLayerQueryString } from '@atb/page-modules/assistant/utils';
-import { TripPattern } from '@atb/page-modules/assistant/trip-pattern';
+import type { TripData, NonTransitTripData } from '@atb/page-modules/assistant';
+import {
+  StreetMode,
+  TripPattern,
+  parseLayerQueryString,
+  AssistantLayout,
+  AssistantLayoutProps,
+} from '@atb/page-modules/assistant';
+import type { NextPage } from 'next';
+import { NonTransitTrip } from '@atb/page-modules/assistant/non-transit-pill';
 
-type AssistantContentProps = { empty: true } | { trip: TripData };
+import style from '@atb/page-modules/assistant/assistant.module.css';
+
+type AssistantContentProps =
+  | { empty: true }
+  | { trip: TripData; nonTransitTrips: NonTransitTripData };
 
 export type AssistantPageProps = WithGlobalData<
   AssistantLayoutProps & AssistantContentProps
@@ -18,13 +25,29 @@ export type AssistantPageProps = WithGlobalData<
 
 function AssistantContent(props: AssistantContentProps) {
   if (isTripDataProps(props)) {
-    return props.trip.tripPatterns.map((tripPattern, i) => (
-      <TripPattern
-        key={`tripPattern-${tripPattern.expectedStartTime}-${i}`}
-        tripPattern={tripPattern}
-        index={i}
-      />
-    ));
+    const nonTransits = Object.entries(props.nonTransitTrips);
+    return (
+      <div className={style.tripResults}>
+        {nonTransits.length > 0 && (
+          <div className={style.nonTransitResult}>
+            {Object.entries(props.nonTransitTrips).map(([legType, trip]) => (
+              <NonTransitTrip
+                key={legType}
+                tripPattern={trip.tripPatterns[0]}
+                nonTransitType={legType as keyof NonTransitTripData}
+              />
+            ))}
+          </div>
+        )}
+        {props.trip.tripPatterns.map((tripPattern, i) => (
+          <TripPattern
+            key={`tripPattern-${tripPattern.expectedStartTime}-${i}`}
+            tripPattern={tripPattern}
+            index={i}
+          />
+        ))}
+      </div>
+    );
   }
 }
 
@@ -81,12 +104,21 @@ export const getServerSideProps = withGlobalData(
           transportModes: transportModeFilter,
         });
 
+        const nonTransitTrips = await client.nonTransitTrips({
+          from: initialFromFeature,
+          to: initialToFeature,
+          arriveBy: Boolean(arriveBy),
+          when,
+          directModes: [StreetMode.Foot, StreetMode.Bicycle],
+        });
+
         return {
           props: {
             initialFromFeature,
             initialToFeature,
             initialTransportModesFilter: transportModeFilter,
             trip,
+            nonTransitTrips,
           },
         };
       }
