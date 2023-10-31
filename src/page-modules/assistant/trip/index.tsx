@@ -1,6 +1,5 @@
 import { formatLocaleTime, secondsToDuration } from '@atb/utils/date';
 import {
-  Quay,
   TripData,
   type TripPattern,
 } from '@atb/page-modules/assistant/server/journey-planner/validators';
@@ -17,6 +16,7 @@ import {
   DepartureMode,
   NonTransitTripData,
   createTripQuery,
+  getStartModeAndPlace,
 } from '@atb/page-modules/assistant';
 import { useEffect, useState } from 'react';
 import { getInitialTransportModeFilter } from '@atb/components/transport-mode-filter/utils';
@@ -231,27 +231,4 @@ function getCursorByDepartureMode(
   } else {
     return trip.nextPageCursor;
   }
-}
-
-function getStartModeAndPlace(tripPattern: TripPattern) {
-  let startLeg = tripPattern.legs[0];
-  let startName = startLeg.fromPlace.name;
-
-  if (tripPattern.legs[0].mode === 'foot' && tripPattern.legs[1]) {
-    startLeg = tripPattern.legs[1];
-    startName = getQuayName(startLeg.fromPlace.quay);
-  } else if (tripPattern.legs[0].mode !== 'foot') {
-    startName = getQuayName(startLeg.fromPlace.quay);
-  }
-
-  return {
-    startMode: startLeg.mode ?? 'unknown',
-    startPlace: startName ?? '',
-  };
-}
-
-function getQuayName(quay: Quay | null): string | null {
-  if (!quay) return null;
-  if (!quay.publicCode) return quay.name;
-  return `${quay.name} ${quay.publicCode}`;
 }
