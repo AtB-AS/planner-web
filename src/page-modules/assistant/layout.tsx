@@ -15,7 +15,7 @@ import { getInitialTransportModeFilter } from '@atb/components/transport-mode-fi
 import { TransportModeFilterOption } from '@atb/components/transport-mode-filter/types';
 import { MonoIcon } from '@atb/components/icon';
 import { FocusScope } from '@react-aria/focus';
-import { createTripQuery } from '@atb/page-modules/assistant/utils';
+import { createTripQuery } from '@atb/page-modules/assistant';
 import SwapButton from '@atb/components/search/swap-button';
 import GeolocationButton from '@atb/components/search/geolocation-button';
 import { AnimatePresence, motion } from 'framer-motion';

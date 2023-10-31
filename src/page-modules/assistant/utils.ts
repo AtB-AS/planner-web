@@ -7,10 +7,7 @@ import { filterToQueryString } from '@atb/components/transport-mode-filter/utils
 import { GeocoderFeature } from '@atb/page-modules/departures';
 import { TripQuery, TripQuerySchema } from '@atb/page-modules/assistant';
 
-export const featuresToFromToQuery = (
-  from: GeocoderFeature,
-  to: GeocoderFeature,
-) => {
+const featuresToFromToQuery = (from: GeocoderFeature, to: GeocoderFeature) => {
   return {
     fromId: from.id,
     fromLon: from.geometry.coordinates[0].toString(),
