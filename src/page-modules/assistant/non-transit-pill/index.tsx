@@ -1,4 +1,3 @@
-import { TransportModeType } from '@atb-as/config-specs';
 import { ButtonLink } from '@atb/components/button';
 import { MonoIcon } from '@atb/components/icon';
 import { TransportMonoIcon } from '@atb/components/transport-mode';
@@ -6,6 +5,7 @@ import { type TripPattern } from '@atb/page-modules/assistant/server/journey-pla
 import { PageText, TranslateFunction, useTranslation } from '@atb/translations';
 import { secondsToDurationShort } from '@atb/utils/date';
 import { NonTransitTripData } from '..';
+import { TransportModeType } from '@atb/components/transport-mode/types';
 
 type NonTransitTripProps = {
   tripPattern: TripPattern;
