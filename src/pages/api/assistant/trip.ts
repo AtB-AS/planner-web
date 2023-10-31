@@ -9,7 +9,6 @@ import { constants } from 'http2';
 export default handlerWithAssistantClient<TripApiReturnType>({
   async GET(req, res, { client, ok }) {
     const tripQuery = parseTripQuery(req.query);
-
     if (!tripQuery) {
       return errorResultAsJson(
         res,
@@ -19,21 +18,17 @@ export default handlerWithAssistantClient<TripApiReturnType>({
     }
 
     const from = await client.reverse(
-      parseFloat(tripQuery.fromLat),
-      parseFloat(tripQuery.fromLon),
+      tripQuery.fromLat,
+      tripQuery.fromLon,
       tripQuery.fromLayer,
     );
     const to = await client.reverse(
-      parseFloat(tripQuery.toLat),
-      parseFloat(tripQuery.toLon),
+      tripQuery.toLat,
+      tripQuery.toLon,
       tripQuery.toLayer,
     );
-    const transportModeFilter = parseFilterQuery(tripQuery.filter);
 
-    const arriveBy = 'arriveBy' in tripQuery;
-    const departureDate = arriveBy
-      ? new Date(Number(tripQuery.arriveBy))
-      : new Date(Number(tripQuery.departBy)) || new Date();
+    const transportModeFilter = parseFilterQuery(tripQuery.filter);
 
     if (!from || !to) {
       return errorResultAsJson(
@@ -48,10 +43,9 @@ export default handlerWithAssistantClient<TripApiReturnType>({
         await client.trip({
           from,
           to,
-          ...(arriveBy
-            ? { arriveBy: departureDate }
-            : { departBy: departureDate }),
-          transportModes: transportModeFilter,
+          departureMode: tripQuery.departureMode,
+          departureDate: tripQuery.departureDate,
+          transportModes: transportModeFilter || undefined,
           cursor: tripQuery.cursor,
         }),
       );

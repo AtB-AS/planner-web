@@ -5,17 +5,21 @@ import {
 import { TransportModeFilterState } from '@atb/components/transport-mode-filter/types';
 import { filterToQueryString } from '@atb/components/transport-mode-filter/utils';
 import { GeocoderFeature } from '@atb/page-modules/departures';
-import { TripQuery, TripQuerySchema } from '@atb/page-modules/assistant';
+import {
+  DepartureMode,
+  TripQuery,
+  TripQuerySchema,
+} from '@atb/page-modules/assistant';
 
 const featuresToFromToQuery = (from: GeocoderFeature, to: GeocoderFeature) => {
   return {
     fromId: from.id,
-    fromLon: from.geometry.coordinates[0].toString(),
-    fromLat: from.geometry.coordinates[1].toString(),
+    fromLon: from.geometry.coordinates[0],
+    fromLat: from.geometry.coordinates[1],
     fromLayer: from.layer,
     toId: to.id,
-    toLon: to.geometry.coordinates[0].toString(),
-    toLat: to.geometry.coordinates[1].toString(),
+    toLon: to.geometry.coordinates[0],
+    toLat: to.geometry.coordinates[1],
     toLayer: to.layer,
   };
 };
@@ -26,23 +30,53 @@ export const createTripQuery = (
   transportModeFilter?: TransportModeFilterState,
   departureDate?: DepartureDate,
 ): TripQuery => {
-  const filter =
-    (transportModeFilter && filterToQueryString(transportModeFilter)) ||
-    undefined;
-  const arriveBy = departureDate?.type === DepartureDateState.Arrival;
-  const departBy = departureDate?.type === DepartureDateState.Departure;
+  let transportModeFilterQuery = {};
+  if (transportModeFilter) {
+    const filterQueryString = filterToQueryString(transportModeFilter);
+    if (filterQueryString) {
+      transportModeFilterQuery = {
+        filter: filterQueryString,
+      };
+    }
+  }
+
+  const departureMode =
+    departureDate?.type === DepartureDateState.Arrival
+      ? DepartureMode.ArriveBy
+      : DepartureMode.DepartBy;
+
+  const departureDateQuery =
+    departureDate && departureDate.type !== DepartureDateState.Now
+      ? { departureDate: departureDate.dateTime }
+      : {};
+
   const fromToQuery = featuresToFromToQuery(fromFeature, toFeature);
 
   return {
-    filter,
-    ...(arriveBy ? { arriveBy: departureDate.dateTime.toString() } : {}),
-    ...(departBy ? { departBy: departureDate.dateTime.toString() } : {}),
+    departureMode,
+    ...transportModeFilterQuery,
+    ...departureDateQuery,
     ...fromToQuery,
   };
 };
 
 export const parseTripQuery = (query: any): TripQuery | undefined => {
+  const requiredNumericFields = ['fromLat', 'fromLon', 'toLat', 'toLon'];
+  requiredNumericFields.forEach((field) => {
+    if (typeof query[field] === 'string')
+      query[field] = parseFloat(query[field]);
+  });
+
+  const optionalNumericFields = ['departureDate'];
+  optionalNumericFields.forEach((field) => {
+    if (query[field] && typeof query[field] === 'string')
+      query[field] = Number(query[field]);
+  });
+
   const parsed = TripQuerySchema.safeParse(query);
-  if (!parsed.success) return undefined;
+  if (!parsed.success) {
+    console.log(parsed.error);
+    return undefined;
+  }
   return parsed.data;
 };

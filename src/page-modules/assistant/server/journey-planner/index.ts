@@ -55,14 +55,16 @@ export function createJourneyApi(
         name: input.to.name,
       };
 
-      const when = 'arriveBy' in input ? input.arriveBy : input.departBy;
+      const when = input.departureDate
+        ? new Date(input.departureDate)
+        : new Date();
 
       const result = await client.query<TripsQuery, TripsQueryVariables>({
         query: TripsDocument,
         variables: {
           from,
           to,
-          arriveBy: 'arriveBy' in input,
+          arriveBy: input.departureMode === 'arriveBy',
           when,
           modes: journeyModes,
           cursor: input.cursor,

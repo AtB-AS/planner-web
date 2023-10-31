@@ -71,13 +71,14 @@ describe('assistant page', function () {
       params: {},
       query: {
         fromId: '638651',
-        fromLon: '10.4560389',
-        fromLat: '63.4266611',
+        fromLon: 10.4560389,
+        fromLat: 63.4266611,
         fromLayer: 'address',
         toId: 'NSR:StopPlace:43984',
-        toLon: '10.358037',
-        toLat: '63.398886',
+        toLon: 10.358037,
+        toLat: 63.398886,
         toLayer: 'venue',
+        departureMode: 'departBy',
       },
     };
 
@@ -90,7 +91,7 @@ describe('assistant page', function () {
       initialFromFeature: expectedFromFeature,
       initialToFeature: expectedToFeature,
       trip: expectedTripResult,
-      departureType: 'departure',
+      departureMode: 'departBy',
     });
   });
 

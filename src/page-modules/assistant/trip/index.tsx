@@ -12,7 +12,7 @@ import { TransportIconWithLabel } from '@atb/components/transport-mode/transport
 import { GeocoderFeature } from '@atb/page-modules/departures';
 import { TransportModeFilterOption } from '@atb/components/transport-mode-filter/types';
 import { nextTripPatterns } from '@atb/page-modules/assistant/client';
-import { createTripQuery } from '@atb/page-modules/assistant';
+import { DepartureMode, createTripQuery } from '@atb/page-modules/assistant';
 import { useEffect, useState } from 'react';
 import { getInitialTransportModeFilter } from '@atb/components/transport-mode-filter/utils';
 import { Button } from '@atb/components/button';
@@ -22,7 +22,7 @@ export type TripProps = {
   initialToFeature: GeocoderFeature;
   initialTransportModesFilter: TransportModeFilterOption[] | null;
   trip: TripData;
-  departureType: 'arrival' | 'departure';
+  departureMode: DepartureMode;
 };
 
 function tripPatternsWithTransitionDelay(tripPatterns: TripPattern[]) {
@@ -37,7 +37,7 @@ export default function Trip({
   initialToFeature,
   initialTransportModesFilter,
   trip,
-  departureType,
+  departureMode,
 }: TripProps) {
   const { t } = useTranslation();
   const [tripPatterns, setTripPatterns] = useState(
@@ -63,13 +63,15 @@ export default function Trip({
       getInitialTransportModeFilter(initialTransportModesFilter) || undefined,
     );
     const cursor =
-      departureType === 'arrival' ? previousPageCursor : nextPageCursor;
+      departureMode === DepartureMode.ArriveBy
+        ? previousPageCursor
+        : nextPageCursor;
     const trip = await nextTripPatterns(tripQuery, cursor);
     setTripPatterns([
       ...tripPatterns,
       ...tripPatternsWithTransitionDelay(trip.tripPatterns),
     ]);
-    departureType === 'arrival'
+    departureMode === DepartureMode.ArriveBy
       ? setPreviousPageCursor(trip.previousPageCursor)
       : setNextPageCursor(trip.nextPageCursor);
 

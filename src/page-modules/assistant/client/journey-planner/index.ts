@@ -7,7 +7,14 @@ export async function nextTripPatterns(
   query: TripQuery,
   cursor: string,
 ): Promise<TripApiReturnType> {
-  const queryString = new URLSearchParams(query).toString();
+  const queryString = Object.keys(query)
+    .map(
+      (key) =>
+        encodeURIComponent(key) +
+        '=' +
+        encodeURIComponent(String(query[key as keyof TripQuery])),
+    )
+    .join('&');
 
   const result = await fetch(
     `/api/assistant/trip?${queryString}&cursor=${cursor}`,

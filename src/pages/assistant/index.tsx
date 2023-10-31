@@ -44,30 +44,24 @@ export const getServerSideProps = withGlobalData(
       const tripQuery = parseTripQuery(query);
       if (tripQuery) {
         const from = await client.reverse(
-          parseFloat(tripQuery.fromLat),
-          parseFloat(tripQuery.fromLon),
+          tripQuery.fromLat,
+          tripQuery.fromLon,
           tripQuery.fromLayer,
         );
         const to = await client.reverse(
-          parseFloat(tripQuery.toLat),
-          parseFloat(tripQuery.toLon),
+          tripQuery.toLat,
+          tripQuery.toLon,
           tripQuery.toLayer,
         );
         const transportModeFilter = parseFilterQuery(tripQuery.filter);
-
-        const arriveBy = 'arriveBy' in tripQuery;
-        const departureDate = arriveBy
-          ? new Date(Number(tripQuery.arriveBy))
-          : new Date(Number(tripQuery.departBy)) || new Date();
 
         if (from && to) {
           const trip = await client.trip({
             from,
             to,
-            ...(arriveBy
-              ? { arriveBy: departureDate }
-              : { departBy: departureDate }),
-            transportModes: transportModeFilter,
+            departureDate: tripQuery.departureDate,
+            departureMode: tripQuery.departureMode,
+            transportModes: transportModeFilter || undefined,
           });
 
           return {
@@ -76,7 +70,7 @@ export const getServerSideProps = withGlobalData(
               initialToFeature: to,
               initialTransportModesFilter: transportModeFilter,
               trip,
-              departureType: arriveBy ? 'arrival' : 'departure',
+              departureMode: tripQuery.departureMode,
             },
           };
         }
