@@ -53,7 +53,7 @@ export const Assistant = {
       unknown: _('Ukjent', 'Unknown', 'Ukjent'),
     },
     dayLabel: {
-      today: () => _('I dag', 'Today', 'I dag'),
+      today: _('I dag', 'Today', 'I dag'),
       tomorrow: (date: string) =>
         _(`I morgen - ${date}`, `Tomorrow - ${date}`, `I morgon - ${date}`),
       dayAfterTomorrow: (date: string) =>

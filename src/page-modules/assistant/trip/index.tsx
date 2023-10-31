@@ -66,17 +66,16 @@ export default function Trip({
           </div>
         )}
         {tripPatterns.map((tripPattern, i) => (
-          <>
+          <div key={`tripPattern-${tripPattern.expectedStartTime}-${i}`}>
             <DayLabel
               departureTime={tripPattern.expectedStartTime}
               previousDepartureTime={tripPatterns[i - 1]?.expectedStartTime}
             />
             <TripPattern
-              key={`tripPattern-${tripPattern.expectedStartTime}-${i}`}
               tripPattern={tripPattern}
               delay={tripPattern.transitionDelay}
             />
-          </>
+          </div>
         ))}
       </div>
 
@@ -239,7 +238,7 @@ function DayLabel({ departureTime, previousDepartureTime }: DayLabelProps) {
   let dateLabel = dateString;
 
   if (numberOfDays === 0) {
-    dateLabel = t(PageText.Assistant.trip.dayLabel.today());
+    dateLabel = t(PageText.Assistant.trip.dayLabel.today);
   }
   if (numberOfDays == 1) {
     dateLabel = t(PageText.Assistant.trip.dayLabel.tomorrow(dateString));

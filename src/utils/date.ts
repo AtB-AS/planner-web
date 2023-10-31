@@ -219,7 +219,7 @@ export function secondsBetween(
   return differenceInSeconds(parsedEnd, parsedStart);
 }
 export function daysBetween(start: string | Date, end: string | Date) {
-  return differenceInCalendarDays(parseIfNeeded(start), parseIfNeeded(end));
+  return differenceInCalendarDays(parseIfNeeded(end), parseIfNeeded(start));
 }
 /**
  * Either show clock or relative time (X min) if below threshold specified by
