@@ -198,6 +198,15 @@ export function formatIsoDate(isoDate: string | Date) {
 export function formatSimpleTime(isoDate: string | Date) {
   return format(parseIfNeeded(isoDate), 'HH:mm');
 }
+export function formatToWeekday(
+  date: Date | string,
+  language: Language,
+  dateFormat?: string,
+) {
+  return format(parseIfNeeded(date), dateFormat ? dateFormat : 'EEEEEE', {
+    locale: languageToLocale(language),
+  });
+}
 export function daysInFuture(days: number) {
   return addDays(new Date(), days);
 }

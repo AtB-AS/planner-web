@@ -19,7 +19,7 @@
 }
 
 .dayLabel {
-  padding: var(--spacings-small) var(--spacings-medium);
+  padding-bottom: var(--spacings-medium);
 }
 
 .header {

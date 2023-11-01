@@ -1,7 +1,7 @@
 import {
-  daysBetween,
   formatLocaleTime,
   formatToSimpleDate,
+  formatToWeekday,
   parseIfNeeded,
   secondsToDuration,
 } from '@atb/utils/date';
@@ -28,6 +28,7 @@ import { getInitialTransportModeFilter } from '@atb/components/transport-mode-fi
 import { Button } from '@atb/components/button';
 import { NonTransitTrip } from '../non-transit-pill';
 import { isSameDay } from 'date-fns';
+import { capitalize } from 'lodash';
 
 export type TripProps = {
   initialFromFeature: GeocoderFeature;
@@ -225,32 +226,22 @@ type DayLabelProps = {
   previousDepartureTime?: string;
 };
 function DayLabel({ departureTime, previousDepartureTime }: DayLabelProps) {
-  const { t, language } = useTranslation();
+  const { language } = useTranslation();
   const isFirst = !previousDepartureTime;
   const departureDate = parseIfNeeded(departureTime);
   const prevDate = !previousDepartureTime
     ? new Date()
     : parseIfNeeded(previousDepartureTime);
 
-  const dateString = formatToSimpleDate(departureDate, language);
-  const numberOfDays = daysBetween(new Date(), departureDate);
-
-  let dateLabel = dateString;
-
-  if (numberOfDays === 0) {
-    dateLabel = t(PageText.Assistant.trip.dayLabel.today);
-  }
-  if (numberOfDays == 1) {
-    dateLabel = t(PageText.Assistant.trip.dayLabel.tomorrow(dateString));
-  }
-  if (numberOfDays == 2) {
-    dateLabel = t(
-      PageText.Assistant.trip.dayLabel.dayAfterTomorrow(dateString),
-    );
-  }
+  const weekDay = capitalize(formatToWeekday(departureDate, language, 'eeee'));
+  const simpleDate = formatToSimpleDate(departureDate, language);
 
   if (isFirst || !isSameDay(prevDate, departureDate)) {
-    return <p className={style.dayLabel}>{dateLabel}</p>;
+    return (
+      <Typo.p textType="heading--medium" className={style.dayLabel}>
+        {`${weekDay} ${simpleDate}`}
+      </Typo.p>
+    );
   }
   return null;
 }
