@@ -26,6 +26,16 @@ import {
   isTransportSubmodeType,
 } from '@atb/page-modules/departures/server/journey-planner';
 
+const MIN_NUMBER_OF_TRIP_PATTERNS = 8;
+const MAX_NUMBER_OF_SEARCH_ATTEMPTS = 5;
+const DEFAULT_JOURNEY_CONFIG = {
+  numTripPatterns: 8, // The maximum number of trip patterns to return.
+  waitReluctance: 1.5, // Setting this to a value lower than 1 indicates that waiting is better than staying on a vehicle.
+  walkReluctance: 1.5, // This is the main parameter to use for limiting walking.
+  walkSpeed: 1.3, // The maximum walk speed along streets, in meters per second.
+  transferPenalty: 10, // An extra penalty added on transfers (i.e. all boardings except the first one)
+};
+
 export type JourneyPlannerApi = {
   trip(input: TripInput): Promise<TripData>;
   nonTransitTrips(input: NonTransitTripInput): Promise<NonTransitTripData>;
@@ -105,15 +115,8 @@ export function createJourneyApi(
         when,
         modes: journeyModes,
         cursor: input.cursor,
-        numTripPatterns: 10,
-        waitReluctance: 1.5,
-        walkReluctance: 1.5,
-        walkSpeed: 1.3,
-        transferPenalty: 10,
+        ...DEFAULT_JOURNEY_CONFIG,
       };
-
-      const MINIMUM_NUMBER_OF_TRIP_PATTERNS = 8;
-      const MAX_NUMBER_OF_TRIES = 5;
 
       let trip: TripData | undefined = undefined;
       let cursor = input.cursor;
@@ -150,8 +153,8 @@ export function createJourneyApi(
 
         searchAttempt += 1;
       } while (
-        searchAttempt <= MAX_NUMBER_OF_TRIES &&
-        trip.tripPatterns.length <= MINIMUM_NUMBER_OF_TRIP_PATTERNS
+        searchAttempt <= MAX_NUMBER_OF_SEARCH_ATTEMPTS &&
+        trip.tripPatterns.length <= MIN_NUMBER_OF_TRIP_PATTERNS
       );
 
       return trip;
