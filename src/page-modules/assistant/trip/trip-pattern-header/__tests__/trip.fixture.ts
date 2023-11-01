@@ -1,6 +1,6 @@
-import { TripPattern } from '../server/journey-planner/validators';
+import { TripPattern } from '../../../server/journey-planner/validators';
 
-export const mockTrip: TripPattern = {
+export const tripFixture: TripPattern = {
   expectedStartTime: '2023-01-01T00:00:00+01:00',
   expectedEndTime: '2023-01-01T01:00:00+01:00',
   duration: 3600,

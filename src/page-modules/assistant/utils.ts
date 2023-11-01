@@ -80,26 +80,3 @@ export const parseTripQuery = (query: any): TripQuery | undefined => {
   }
   return parsed.data;
 };
-
-export function getStartModeAndPlace(tripPattern: TripPattern) {
-  let startLeg = tripPattern.legs[0];
-  let startName = startLeg.fromPlace.name;
-
-  if (tripPattern.legs[0].mode === 'foot' && tripPattern.legs[1]) {
-    startLeg = tripPattern.legs[1];
-    startName = getQuayName(startLeg.fromPlace.quay);
-  } else if (tripPattern.legs[0].mode !== 'foot') {
-    startName = getQuayName(startLeg.fromPlace.quay);
-  }
-
-  return {
-    startMode: startLeg.mode ?? 'unknown',
-    startPlace: startName ?? '',
-  };
-}
-
-export function getQuayName(quay: Quay | null): string | null {
-  if (!quay) return null;
-  if (!quay.publicCode) return quay.name;
-  return `${quay.name} ${quay.publicCode}`;
-}

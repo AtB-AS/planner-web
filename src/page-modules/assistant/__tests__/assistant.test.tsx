@@ -11,8 +11,7 @@ import { GeocoderFeature } from '@atb/page-modules/departures';
 import { FeatureCategory } from '@atb/components/venue-icon';
 import { GeocoderApi } from '@atb/page-modules/departures/server/geocoder';
 import AssistantLayout from '../layout';
-import { getQuayName, getStartModeAndPlace, NonTransitTripData } from '..';
-import { mockTrip } from './test-data';
+import { NonTransitTripData } from '@atb/page-modules/assistant';
 
 afterEach(function () {
   cleanup();
@@ -126,40 +125,5 @@ describe('assistant page', function () {
 
     expect(submitButton).toBeInTheDocument();
     expect(submitButton).toBeDisabled();
-  });
-
-  it('should get quay name from quay', () => {
-    const quayName = getQuayName({
-      publicCode: '',
-      name: 'Quay',
-      id: 'NSR:Quay:1',
-      situations: [],
-    });
-
-    expect(quayName).toBe('Quay');
-  });
-
-  it('should get quay name with public code from quay', () => {
-    const quayName = getQuayName({
-      publicCode: '1',
-      name: 'Quay',
-      id: 'NSR:Quay:1',
-      situations: [],
-    });
-
-    expect(quayName).toBe('Quay 1');
-  });
-
-  it('should get quay name from trip', () => {
-    const quayName = getQuayName(mockTrip.legs[0].fromPlace.quay);
-
-    expect(quayName).toBe('From 1');
-  });
-
-  it('should get start mode and start place from trip', () => {
-    const { startMode, startPlace } = getStartModeAndPlace(mockTrip);
-
-    expect(startMode).toBe('bus');
-    expect(startPlace).toBe('From 1');
   });
 });

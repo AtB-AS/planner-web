@@ -16,12 +16,12 @@ import {
   DepartureMode,
   NonTransitTripData,
   createTripQuery,
-  getStartModeAndPlace,
 } from '@atb/page-modules/assistant';
 import { useEffect, useState } from 'react';
 import { getInitialTransportModeFilter } from '@atb/components/transport-mode-filter/utils';
 import { Button } from '@atb/components/button';
 import { NonTransitTrip } from '../non-transit-pill';
+import { TripPatternHeader } from '@atb/page-modules/assistant/trip/trip-pattern-header';
 
 export type TripProps = {
   initialFromFeature: GeocoderFeature;
@@ -135,10 +135,6 @@ type TripPatternProps = {
 function TripPattern({ tripPattern, delay }: TripPatternProps) {
   const { t, language } = useTranslation();
 
-  const duration = secondsToDuration(tripPattern.duration, language);
-
-  const { startMode, startPlace } = getStartModeAndPlace(tripPattern);
-
   return (
     <motion.a
       href="/assistant" // TODO: Use correct href.
@@ -150,22 +146,7 @@ function TripPattern({ tripPattern, delay }: TripPatternProps) {
         delay, // staggerChildren on parent only works first render
       }}
     >
-      <header className={style.header}>
-        <Typo.span textType="body__secondary--bold">
-          {t(
-            PageText.Assistant.trip.tripPattern.travelFrom(
-              startMode,
-              startPlace,
-            ),
-          )}
-        </Typo.span>
-        <Typo.span
-          textType="body__secondary"
-          className={style.header__duration}
-        >
-          {duration}
-        </Typo.span>
-      </header>
+      <TripPatternHeader tripPattern={tripPattern} />
 
       <div className={style.legs}>
         {tripPattern.legs.map((leg, i) => (
