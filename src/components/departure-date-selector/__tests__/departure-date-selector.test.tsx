@@ -105,7 +105,7 @@ describe('departure date selector', function () {
     expect(onStateChange).toHaveBeenCalled();
   });
 
-  it('should call onDateChange', async () => {
+  it('should call onChange when date changes', async () => {
     const onChange = vi.fn();
     const output = render(
       <DepartureDateSelector
@@ -121,7 +121,7 @@ describe('departure date selector', function () {
     expect(onChange).toHaveBeenCalled();
   });
 
-  it('should call onTimeChange', async () => {
+  it('should call onChange when time changes', async () => {
     const onChange = vi.fn();
     const output = render(
       <DepartureDateSelector
