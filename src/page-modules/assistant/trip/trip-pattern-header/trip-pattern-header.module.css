@@ -1,0 +1,9 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--spacings-small) var(--spacings-medium);
+}
+
+.header__duration {
+  color: var(--text-colors-secondary);
+}

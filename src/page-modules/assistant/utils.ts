@@ -10,6 +10,7 @@ import {
   TripQuery,
   TripQuerySchema,
 } from '@atb/page-modules/assistant';
+import { Quay, TripPattern } from './server/journey-planner/validators';
 
 const featuresToFromToQuery = (from: GeocoderFeature, to: GeocoderFeature) => {
   return {

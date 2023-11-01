@@ -11,7 +11,7 @@ import { GeocoderFeature } from '@atb/page-modules/departures';
 import { FeatureCategory } from '@atb/components/venue-icon';
 import { GeocoderApi } from '@atb/page-modules/departures/server/geocoder';
 import AssistantLayout from '../layout';
-import { NonTransitTripData } from '..';
+import { NonTransitTripData } from '@atb/page-modules/assistant';
 
 afterEach(function () {
   cleanup();
