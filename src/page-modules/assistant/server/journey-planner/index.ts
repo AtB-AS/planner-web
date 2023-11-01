@@ -14,7 +14,8 @@ import {
   TripData,
   tripSchema,
 } from '@atb/page-modules/assistant/server/journey-planner/validators';
-import type {
+import {
+  DepartureMode,
   NonTransitTripData,
   NonTransitTripInput,
   TripInput,
@@ -111,35 +112,16 @@ export function createJourneyApi(
         transferPenalty: 10,
       };
 
-      const result = await client.query<TripsQuery, TripsQueryVariables>({
-        query: TripsDocument,
-        variables: queryVariables,
-      });
+      const MINIMUM_NUMBER_OF_TRIP_PATTERNS = 8;
+      const MAX_NUMBER_OF_TRIES = 5;
 
-      if (result.error) {
-        throw result.error;
-      }
-
-      const data: RecursivePartial<TripData> = mapResultToTrips(
-        result.data.trip,
-      );
-
-      const trip: RecursivePartial<TripData> = data;
-
-      let tripPatterns = data.tripPatterns || [];
+      let trip: TripData | undefined = undefined;
+      let cursor = input.cursor;
       let searchAttempt = 1;
-
-      const MINIMUM_NUMBER_OF_TRIP_PATTERNS = 5;
-      const MAX_NUMBER_OF_TRIES = 15;
-
-      while (
-        searchAttempt <= MAX_NUMBER_OF_TRIES &&
-        tripPatterns.length <= MINIMUM_NUMBER_OF_TRIP_PATTERNS
-      ) {
-        const cursor =
-          input.departureMode === 'arriveBy'
-            ? trip.previousPageCursor
-            : trip.nextPageCursor;
+      do {
+        if (trip && trip.nextPageCursor && trip.previousPageCursor) {
+          cursor = getCursor(trip, input.departureMode);
+        }
 
         const result = await client.query<TripsQuery, TripsQueryVariables>({
           query: TripsDocument,
@@ -150,22 +132,29 @@ export function createJourneyApi(
           result.data.trip,
         );
 
-        if (data.tripPatterns) {
-          tripPatterns = [...tripPatterns, ...data.tripPatterns];
+        const validated = tripSchema.safeParse(data);
+        if (!validated.success) {
+          throw validated.error;
         }
 
-        trip.nextPageCursor = data.nextPageCursor;
-        trip.previousPageCursor = data.previousPageCursor;
+        if (!trip) {
+          trip = validated.data;
+        } else {
+          trip.tripPatterns = [
+            ...trip.tripPatterns,
+            ...validated.data.tripPatterns,
+          ];
+          trip.nextPageCursor = validated.data.nextPageCursor;
+          trip.previousPageCursor = validated.data.previousPageCursor;
+        }
+
         searchAttempt += 1;
-      }
+      } while (
+        searchAttempt <= MAX_NUMBER_OF_TRIES &&
+        trip.tripPatterns.length <= MINIMUM_NUMBER_OF_TRIP_PATTERNS
+      );
 
-      trip.tripPatterns = tripPatterns;
-      const validated = tripSchema.safeParse(trip);
-      if (!validated.success) {
-        throw validated.error;
-      }
-
-      return validated.data;
+      return trip;
     },
   };
 
@@ -179,6 +168,17 @@ type RecursivePartial<T> = {
     ? RecursivePartial<T[P]>
     : T[P];
 };
+
+function getCursor(
+  trip: RecursivePartial<TripData>,
+  departureMode: DepartureMode,
+) {
+  if (departureMode === DepartureMode.ArriveBy) {
+    return trip.previousPageCursor || undefined;
+  } else {
+    return trip.nextPageCursor || undefined;
+  }
+}
 
 function inputToLocation(
   input: NonTransitTripInput | TripInput,
