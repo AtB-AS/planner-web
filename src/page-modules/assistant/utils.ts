@@ -10,7 +10,6 @@ import {
   TripQuery,
   TripQuerySchema,
 } from '@atb/page-modules/assistant';
-import { Quay, TripPattern } from './server/journey-planner/validators';
 
 const featuresToFromToQuery = (from: GeocoderFeature, to: GeocoderFeature) => {
   return {
@@ -48,13 +47,12 @@ export const createTripQuery = (
 
   const departureDateQuery =
     departureDate && departureDate.type !== DepartureDateState.Now
-      ? { departureDate: departureDate.dateTime }
+      ? { departureMode, departureDate: departureDate.dateTime }
       : {};
 
   const fromToQuery = featuresToFromToQuery(fromFeature, toFeature);
 
   return {
-    departureMode,
     ...transportModeFilterQuery,
     ...departureDateQuery,
     ...fromToQuery,
@@ -80,3 +78,16 @@ export const parseTripQuery = (query: any): TripQuery | undefined => {
   }
   return parsed.data;
 };
+
+export function departureModeToDepartureDate(
+  mode?: DepartureMode,
+  date?: number,
+): DepartureDate {
+  if (mode === 'arriveBy') {
+    return { type: DepartureDateState.Arrival, dateTime: date ?? Date.now() };
+  } else if (mode === 'departBy') {
+    return { type: DepartureDateState.Departure, dateTime: date ?? Date.now() };
+  } else {
+    return { type: DepartureDateState.Now };
+  }
+}

@@ -24,6 +24,7 @@ export type AssistantLayoutProps = PropsWithChildren<{
   initialFromFeature?: GeocoderFeature;
   initialToFeature?: GeocoderFeature;
   initialTransportModesFilter?: TransportModeFilterOption[] | null;
+  initialDepartureMode?: DepartureDate;
 }>;
 
 function AssistantLayout({
@@ -31,6 +32,7 @@ function AssistantLayout({
   initialFromFeature,
   initialToFeature,
   initialTransportModesFilter,
+  initialDepartureMode,
 }: AssistantLayoutProps) {
   const { t } = useTranslation();
   const router = useRouter();
@@ -42,9 +44,11 @@ function AssistantLayout({
   const [selectedToFeature, setSelectedToFeature] = useState<
     GeocoderFeature | undefined
   >(initialToFeature);
-  const [departureDate, setDepartureDate] = useState<DepartureDate>({
-    type: DepartureDateState.Now,
-  });
+  const [departureDate, setDepartureDate] = useState<DepartureDate>(
+    initialDepartureMode ?? {
+      type: DepartureDateState.Now,
+    },
+  );
   const [transportModeFilter, setTransportModeFilter] = useState(
     getInitialTransportModeFilter(initialTransportModesFilter),
   );

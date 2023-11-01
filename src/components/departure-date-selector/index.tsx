@@ -35,11 +35,12 @@ export default function DepartureDateSelector({
   const { t } = useTranslation();
   const [selectedOption, setSelectedOption] =
     useState<DepartureDate>(initialState);
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const initialDate =
+    'dateTime' in initialState ? new Date(initialState.dateTime) : new Date();
+  const [selectedDate, setSelectedDate] = useState(initialDate);
   const [selectedTime, setSelectedTime] = useState(() => {
-    const now = new Date();
-    const hours = now.getHours().toString().padStart(2, '0');
-    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const hours = initialDate.getHours().toString().padStart(2, '0');
+    const minutes = initialDate.getMinutes().toString().padStart(2, '0');
 
     return `${hours}:${minutes}`;
   });
