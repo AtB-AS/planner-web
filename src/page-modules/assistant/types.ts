@@ -11,7 +11,7 @@ export enum DepartureMode {
 export type TripInput = {
   from: GeocoderFeature;
   to: GeocoderFeature;
-  departureMode?: DepartureMode;
+  departureMode: DepartureMode;
   departureDate?: number;
   transportModes?: TransportModeFilterOption[];
   cursor?: string;
@@ -28,7 +28,7 @@ export const TripQuerySchema = z.object({
   toLayer: z.union([z.literal('address'), z.literal('venue')]),
   filter: z.string().optional(),
   departureDate: z.number().optional(),
-  departureMode: z.nativeEnum(DepartureMode).optional(),
+  departureMode: z.nativeEnum(DepartureMode),
   cursor: z.string().optional(),
 });
 
@@ -57,7 +57,7 @@ export enum StreetMode {
 export type NonTransitTripInput = {
   from: GeocoderFeature;
   to: GeocoderFeature;
-  departureMode?: DepartureMode;
+  departureMode: DepartureMode;
   departureDate?: number;
   directModes: StreetMode[];
 };

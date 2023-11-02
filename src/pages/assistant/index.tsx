@@ -7,8 +7,6 @@ import type { TripData } from '@atb/page-modules/assistant';
 import {
   AssistantLayout,
   AssistantLayoutProps,
-  DepartureMode,
-  departureModeToDepartureDate,
   parseTripQuery,
   StreetMode,
 } from '@atb/page-modules/assistant';
@@ -82,11 +80,8 @@ export const getServerSideProps = withGlobalData(
               initialToFeature: to,
               initialTransportModesFilter: transportModeFilter,
               trip,
-              departureMode: tripQuery.departureMode ?? DepartureMode.DepartBy,
-              initialDepartureDate: departureModeToDepartureDate(
-                tripQuery.departureMode,
-                tripQuery.departureDate,
-              ),
+              departureMode: tripQuery.departureMode,
+              departureDate: tripQuery.departureDate,
               nonTransitTrips,
             },
           };

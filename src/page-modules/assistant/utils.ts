@@ -53,6 +53,7 @@ export const createTripQuery = (
   const fromToQuery = featuresToFromToQuery(fromFeature, toFeature);
 
   return {
+    departureMode,
     ...transportModeFilterQuery,
     ...departureDateQuery,
     ...fromToQuery,

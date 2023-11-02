@@ -15,7 +15,11 @@ import { getInitialTransportModeFilter } from '@atb/components/transport-mode-fi
 import { TransportModeFilterOption } from '@atb/components/transport-mode-filter/types';
 import { MonoIcon } from '@atb/components/icon';
 import { FocusScope } from '@react-aria/focus';
-import { createTripQuery } from '@atb/page-modules/assistant';
+import {
+  createTripQuery,
+  DepartureMode,
+  departureModeToDepartureDate,
+} from '@atb/page-modules/assistant';
 import SwapButton from '@atb/components/search/swap-button';
 import GeolocationButton from '@atb/components/search/geolocation-button';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -24,7 +28,8 @@ export type AssistantLayoutProps = PropsWithChildren<{
   initialFromFeature?: GeocoderFeature;
   initialToFeature?: GeocoderFeature;
   initialTransportModesFilter?: TransportModeFilterOption[] | null;
-  initialDepartureDate?: DepartureDate;
+  departureMode?: DepartureMode;
+  departureDate?: number;
 }>;
 
 function AssistantLayout({
@@ -32,7 +37,8 @@ function AssistantLayout({
   initialFromFeature,
   initialToFeature,
   initialTransportModesFilter,
-  initialDepartureDate,
+  departureMode,
+  departureDate: initialDepartureDate,
 }: AssistantLayoutProps) {
   const { t } = useTranslation();
   const router = useRouter();
@@ -45,9 +51,7 @@ function AssistantLayout({
     GeocoderFeature | undefined
   >(initialToFeature);
   const [departureDate, setDepartureDate] = useState<DepartureDate>(
-    initialDepartureDate ?? {
-      type: DepartureDateState.Now,
-    },
+    departureModeToDepartureDate(departureMode, initialDepartureDate),
   );
   const [transportModeFilter, setTransportModeFilter] = useState(
     getInitialTransportModeFilter(initialTransportModesFilter),
