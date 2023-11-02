@@ -3,6 +3,7 @@ import style from './departure-date-selector.module.css';
 import { ComponentText, Language, useTranslation } from '@atb/translations';
 import { TFunc } from '@leile/lobo-t';
 import { AnimatePresence, motion } from 'framer-motion';
+import { format } from 'date-fns';
 
 export enum DepartureDateState {
   Now = 'now',
@@ -35,14 +36,12 @@ export default function DepartureDateSelector({
   const { t } = useTranslation();
   const [selectedOption, setSelectedOption] =
     useState<DepartureDate>(initialState);
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const [selectedTime, setSelectedTime] = useState(() => {
-    const now = new Date();
-    const hours = now.getHours().toString().padStart(2, '0');
-    const minutes = now.getMinutes().toString().padStart(2, '0');
-
-    return `${hours}:${minutes}`;
-  });
+  const initialDate =
+    'dateTime' in initialState ? new Date(initialState.dateTime) : new Date();
+  const [selectedDate, setSelectedDate] = useState(initialDate);
+  const [selectedTime, setSelectedTime] = useState(() =>
+    format(initialDate, 'HH:mm'),
+  );
 
   const internalOnStateChange = (state: DepartureDateState) => {
     const newState =
