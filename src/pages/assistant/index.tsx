@@ -81,7 +81,7 @@ export const getServerSideProps = withGlobalData(
               initialTransportModesFilter: transportModeFilter,
               trip,
               departureMode: tripQuery.departureMode,
-              departureDate: tripQuery.departureDate,
+              departureDate: tripQuery.departureDate ?? null,
               nonTransitTrips,
             },
           };

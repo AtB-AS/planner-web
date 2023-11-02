@@ -82,10 +82,12 @@ export const parseTripQuery = (query: any): TripQuery | undefined => {
 
 export function departureModeToDepartureDate(
   mode?: DepartureMode,
-  date?: number,
+  date?: number | null,
 ): DepartureDate {
   if (mode === 'arriveBy') {
     return { type: DepartureDateState.Arrival, dateTime: date ?? Date.now() };
+  } else if (mode === 'departBy' && !date) {
+    return { type: DepartureDateState.Now };
   } else if (mode === 'departBy') {
     return { type: DepartureDateState.Departure, dateTime: date ?? Date.now() };
   } else {

@@ -29,7 +29,7 @@ export type AssistantLayoutProps = PropsWithChildren<{
   initialToFeature?: GeocoderFeature;
   initialTransportModesFilter?: TransportModeFilterOption[] | null;
   departureMode?: DepartureMode;
-  departureDate?: number;
+  departureDate?: number | null;
 }>;
 
 function AssistantLayout({
