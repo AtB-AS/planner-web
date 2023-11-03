@@ -89,6 +89,5 @@ export const Departures = {
         'Sjå fleire avgangar',
       ),
     },
-    noSearchResults: {},
   },
 };
