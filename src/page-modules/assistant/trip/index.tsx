@@ -2,6 +2,7 @@ import {
   formatLocaleTime,
   formatToSimpleDate,
   formatToWeekday,
+  isInPast,
   parseIfNeeded,
 } from '@atb/utils/date';
 import {
@@ -31,6 +32,7 @@ import { NonTransitTrip } from '../non-transit-pill';
 import { isSameDay } from 'date-fns';
 import { capitalize } from 'lodash';
 import { TripPatternHeader } from '@atb/page-modules/assistant/trip/trip-pattern-header';
+import { tripSummary } from '@atb/page-modules/assistant/trip/utils';
 import EmptySearchResults from '@atb/components/empty-search-results';
 
 export type TripProps = {
@@ -76,6 +78,7 @@ export default function Trip({
       />
     );
   }
+
   return (
     <>
       <div className={style.tripResults}>
@@ -90,6 +93,7 @@ export default function Trip({
             ))}
           </div>
         )}
+
         {tripPatterns.map((tripPattern, i) => (
           <div key={`tripPattern-${tripPattern.expectedStartTime}-${i}`}>
             <DayLabel
@@ -99,6 +103,7 @@ export default function Trip({
             <TripPattern
               tripPattern={tripPattern}
               delay={tripPattern.transitionDelay}
+              index={i}
             />
           </div>
         ))}
@@ -172,9 +177,10 @@ function useTripPatterns(initialTrip: TripData, departureMode: DepartureMode) {
 type TripPatternProps = {
   tripPattern: TripPattern;
   delay: number;
+  index: number;
 };
 
-function TripPattern({ tripPattern, delay }: TripPatternProps) {
+function TripPattern({ tripPattern, delay, index }: TripPatternProps) {
   const { t, language } = useTranslation();
 
   return (
@@ -187,6 +193,13 @@ function TripPattern({ tripPattern, delay }: TripPatternProps) {
       transition={{
         delay, // staggerChildren on parent only works first render
       }}
+      aria-label={tripSummary(
+        tripPattern,
+        t,
+        language,
+        isInPast(tripPattern.legs[0].expectedStartTime),
+        index + 1,
+      )}
     >
       <TripPatternHeader tripPattern={tripPattern} />
 

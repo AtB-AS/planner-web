@@ -121,9 +121,39 @@ export function formatLocaleTime(date: Date | string, language: Language) {
   }
 }
 
-export function formatToClock(isoDate: string | Date, language: Language) {
-  const parsed = isoDate instanceof Date ? isoDate : parseISO(isoDate);
-  return formatLocaleTime(parsed, language);
+/**
+ * date-fns also has a rounding function, `roundToNearestMinutes`, but it
+ * doesn't work correctly: https://github.com/date-fns/date-fns/issues/3129
+ *
+ * TODO: Replace with date-fns `roundToNearestMinutes`
+ */
+function roundMinute(date: Date, roundingMethod: RoundingMethod) {
+  // Round based on minutes (60000 milliseconds)
+  const coeff = 1000 * 60;
+
+  switch (roundingMethod) {
+    case 'nearest':
+      return new Date(Math.round(date.getTime() / coeff) * coeff);
+    case 'ceil':
+      return new Date(Math.ceil(date.getTime() / coeff) * coeff);
+    case 'floor':
+      return new Date(Math.floor(date.getTime() / coeff) * coeff);
+  }
+}
+
+export type RoundingMethod = 'ceil' | 'floor' | 'nearest';
+
+export function formatToClock(
+  isoDate: string | Date,
+  language: Language,
+  roundingMethod: RoundingMethod = 'floor',
+  showSeconds?: boolean,
+) {
+  const parsed = parseIfNeeded(isoDate);
+  const rounded = !showSeconds ? roundMinute(parsed, roundingMethod) : parsed;
+  const seconds = showSeconds ? ':' + format(parsed, 'ss') : '';
+
+  return formatLocaleTime(rounded, language) + seconds;
 }
 
 const languageToLocale = (language: Language): Locale => {

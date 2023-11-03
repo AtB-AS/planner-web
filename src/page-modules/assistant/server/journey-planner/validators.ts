@@ -165,4 +165,5 @@ export type Notice = z.infer<typeof noticeSchema>;
 export type Situation = z.infer<typeof situationSchema>;
 export type TripData = z.infer<typeof tripSchema>;
 export type TripPattern = z.infer<typeof tripPatternSchema>;
+export type Leg = z.infer<typeof legSchema>;
 export type Quay = z.infer<typeof quaySchema>;
