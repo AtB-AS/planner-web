@@ -36,6 +36,11 @@ export const Assistant = {
         title: _('Flere valg', 'More choices', 'Fleire val'),
       },
     },
+    searching: _(
+      'Laster søkeresultater…',
+      'Loading search results…',
+      'Lastar søkeresultata…',
+    ),
   },
   trip: {
     tripPattern: {

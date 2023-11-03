@@ -58,6 +58,7 @@ function AssistantLayout({
     getInitialTransportModeFilter(initialTransportModesFilter),
   );
   const [isSwapping, setIsSwapping] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
 
   const onSwap = () => {
     if (!selectedToFeature || !selectedFromFeature) return;
@@ -97,6 +98,7 @@ function AssistantLayout({
   const onSubmitHandler: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
     if (!selectedFromFeature || !selectedToFeature) return;
+    setIsSearching(true);
     const query = createTripQuery(
       selectedFromFeature,
       selectedToFeature,
@@ -106,7 +108,9 @@ function AssistantLayout({
         : undefined,
       transportModeFilter,
     );
-    router.push({ pathname: '/assistant', query });
+    router
+      .push({ pathname: '/assistant', query })
+      .then(() => setIsSearching(false));
   };
 
   return (
@@ -213,11 +217,20 @@ function AssistantLayout({
             mode="interactive_0"
             disabled={!selectedFromFeature || !selectedToFeature}
             buttonProps={{ type: 'submit' }}
+            state={isSearching ? 'loading' : undefined}
           />
         </div>
       </form>
 
-      <section className={style.contentContainer}>{children}</section>
+      <section className={style.contentContainer}>
+        {isSearching || isSwapping ? (
+          <Typo.p textType="body__primary" className={style.isSearching}>
+            {t(PageText.Assistant.search.searching)}
+          </Typo.p>
+        ) : (
+          children
+        )}
+      </section>
     </div>
   );
 }
