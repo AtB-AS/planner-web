@@ -113,7 +113,7 @@ describe('departure page', function () {
     expect(lists.length).toBe(1);
   });
 
-  it('Should render empty search results', () => {
+  it('should render empty search results', () => {
     const output = render(
       <NearestStopPlaces activeLocation={undefined} nearestStopPlaces={[]} />,
     );
