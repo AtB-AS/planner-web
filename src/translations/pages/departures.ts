@@ -47,6 +47,18 @@ export const Departures = {
           `Holdeplass ${name}. ${distance} meter gåavstand`,
         ),
     },
+    emptySearchResults: {
+      emptyNearbyLocationsTitle: _(
+        'Finner ingen holdeplasser i nærheten',
+        'No nearby stop places found',
+        'Finn ingen haldeplassar i nærleiken',
+      ),
+      emptyNearbyLocationsDetails: _(
+        'Prøv å søke på et annet navn eller bruk et annet stoppested for å finne avganger i nærheten.',
+        'Try to search for another name or use another stop place to find departures nearby.',
+        'Prøv å søkje på eit anna namn eller bruk ein annan stoppestad for å finne avgangar i nærleiken.',
+      ),
+    },
   },
   stopPlace: {
     noDepartures: _(
@@ -77,5 +89,6 @@ export const Departures = {
         'Sjå fleire avgangar',
       ),
     },
+    noSearchResults: {},
   },
 };
