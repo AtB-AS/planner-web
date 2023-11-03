@@ -11,7 +11,7 @@ import { Language, TranslateFunction, PageText } from '@atb/translations';
 import dictionary from '@atb/translations/dictionary';
 import { screenReaderPause } from '@atb/components/typography/utils';
 import { getQuayName } from '@atb/page-modules/assistant/trip/trip-pattern-header';
-import { getTranslatedModeName } from '@atb/utils/transportation-names';
+import { transportModeToTranslatedString } from '@atb/components/transport-mode';
 
 export const tripSummary = (
   tripPattern: TripPattern,
@@ -48,7 +48,11 @@ export const tripSummary = (
     if (quayName) {
       startText = t(
         PageText.Assistant.trip.tripSummary.header.title(
-          t(getTranslatedModeName(tripPattern.legs[0].mode)),
+          t(
+            transportModeToTranslatedString({
+              mode: tripPattern.legs[0].mode ?? 'unknown',
+            }),
+          ),
           quayName,
         ),
       );
@@ -68,7 +72,11 @@ export const tripSummary = (
     : undefined;
 
   const modeAndNumberText = firstLeg
-    ? t(getTranslatedModeName(firstLeg.mode)) +
+    ? t(
+        transportModeToTranslatedString({
+          mode: firstLeg.mode ?? 'unknown',
+        }),
+      ) +
       (firstLeg.line?.publicCode
         ? t(
             PageText.Assistant.trip.tripSummary.journeySummary.prefixedLineNumber(
