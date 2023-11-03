@@ -7,9 +7,31 @@ import { filterToQueryString } from '@atb/components/transport-mode-filter/utils
 import { GeocoderFeature } from '@atb/page-modules/departures';
 import {
   DepartureMode,
+  TripData,
   TripQuery,
   TripQuerySchema,
 } from '@atb/page-modules/assistant';
+
+export function filterOutDuplicates(
+  arrayToFilter: TripData['tripPatterns'],
+  referenceArray: TripData['tripPatterns'],
+): TripData['tripPatterns'] {
+  const existing = new Set<string>(
+    referenceArray.map((tp) => tp.expectedStartTime),
+  );
+  return arrayToFilter.filter((tp) => !existing.has(tp.expectedStartTime));
+}
+
+export function getCursorByDepartureMode(
+  trip: TripData,
+  departureMode: DepartureMode,
+) {
+  if (departureMode === DepartureMode.ArriveBy) {
+    return trip.previousPageCursor;
+  } else {
+    return trip.nextPageCursor;
+  }
+}
 
 const featuresToFromToQuery = (from: GeocoderFeature, to: GeocoderFeature) => {
   return {
@@ -27,8 +49,10 @@ const featuresToFromToQuery = (from: GeocoderFeature, to: GeocoderFeature) => {
 export const createTripQuery = (
   fromFeature: GeocoderFeature,
   toFeature: GeocoderFeature,
+  departureMode: DepartureMode,
+  departureDate?: number,
   transportModeFilter?: TransportModeFilterState,
-  departureDate?: DepartureDate,
+  cursor?: string,
 ): TripQuery => {
   let transportModeFilterQuery = {};
   if (transportModeFilter) {
@@ -40,22 +64,16 @@ export const createTripQuery = (
     }
   }
 
-  const departureMode =
-    departureDate?.type === DepartureDateState.Arrival
-      ? DepartureMode.ArriveBy
-      : DepartureMode.DepartBy;
-
-  const departureDateQuery =
-    departureDate && departureDate.type !== DepartureDateState.Now
-      ? { departureMode, departureDate: departureDate.dateTime }
-      : {};
-
+  const departureDateQuery = departureDate
+    ? { departureMode, departureDate }
+    : { departureMode };
+  const cursorQuery = cursor ? { cursor } : {};
   const fromToQuery = featuresToFromToQuery(fromFeature, toFeature);
 
   return {
-    departureMode,
     ...transportModeFilterQuery,
     ...departureDateQuery,
+    ...cursorQuery,
     ...fromToQuery,
   };
 };
@@ -79,6 +97,13 @@ export const parseTripQuery = (query: any): TripQuery | undefined => {
   }
   return parsed.data;
 };
+
+export function departureDateToDepartureMode(
+  departureDate: DepartureDate,
+): DepartureMode {
+  if (departureDate.type === 'arrival') return DepartureMode.ArriveBy;
+  return DepartureMode.DepartBy;
+}
 
 export function departureModeToDepartureDate(
   mode?: DepartureMode,

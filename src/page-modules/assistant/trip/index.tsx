@@ -1,4 +1,9 @@
-import { formatLocaleTime, secondsToDuration } from '@atb/utils/date';
+import {
+  formatLocaleTime,
+  formatToSimpleDate,
+  formatToWeekday,
+  parseIfNeeded,
+} from '@atb/utils/date';
 import {
   TripData,
   type TripPattern,
@@ -16,11 +21,15 @@ import {
   DepartureMode,
   NonTransitTripData,
   createTripQuery,
+  filterOutDuplicates,
+  getCursorByDepartureMode,
 } from '@atb/page-modules/assistant';
 import { useEffect, useState } from 'react';
 import { getInitialTransportModeFilter } from '@atb/components/transport-mode-filter/utils';
 import { Button } from '@atb/components/button';
 import { NonTransitTrip } from '../non-transit-pill';
+import { isSameDay } from 'date-fns';
+import { capitalize } from 'lodash';
 import { TripPatternHeader } from '@atb/page-modules/assistant/trip/trip-pattern-header';
 
 export type TripProps = {
@@ -60,11 +69,16 @@ export default function Trip({
           </div>
         )}
         {tripPatterns.map((tripPattern, i) => (
-          <TripPattern
-            key={`tripPattern-${tripPattern.expectedStartTime}-${i}`}
-            tripPattern={tripPattern}
-            delay={tripPattern.transitionDelay}
-          />
+          <div key={`tripPattern-${tripPattern.expectedStartTime}-${i}`}>
+            <DayLabel
+              departureTime={tripPattern.expectedStartTime}
+              previousDepartureTime={tripPatterns[i - 1]?.expectedStartTime}
+            />
+            <TripPattern
+              tripPattern={tripPattern}
+              delay={tripPattern.transitionDelay}
+            />
+          </div>
         ))}
       </div>
 
@@ -107,16 +121,22 @@ function useTripPatterns(initialTrip: TripData, departureMode: DepartureMode) {
     const tripQuery = createTripQuery(
       from,
       to,
+      departureMode,
+      undefined,
       getInitialTransportModeFilter(filter),
+      cursor || undefined,
     );
-    const trip = await nextTripPatterns(tripQuery, cursor || ''); // @TODO: handle null cursors
+    const trip = await nextTripPatterns(tripQuery);
+    const newTripPatternsWithTransitionDelay = tripPatternsWithTransitionDelay(
+      filterOutDuplicates(trip.tripPatterns, tripPatterns),
+    );
 
     setTripPatterns((prevTripPatterns) => [
       ...prevTripPatterns,
-      ...tripPatternsWithTransitionDelay(trip.tripPatterns),
+      ...newTripPatternsWithTransitionDelay,
     ]);
 
-    setCursor(getCursorByDepartureMode(initialTrip, departureMode));
+    setCursor(getCursorByDepartureMode(trip, departureMode));
     setIsFetchingTripPatterns(false);
   };
 
@@ -196,20 +216,34 @@ function TripPattern({ tripPattern, delay }: TripPatternProps) {
   );
 }
 
+type DayLabelProps = {
+  departureTime: string;
+  previousDepartureTime?: string;
+};
+function DayLabel({ departureTime, previousDepartureTime }: DayLabelProps) {
+  const { language } = useTranslation();
+  const isFirst = !previousDepartureTime;
+  const departureDate = parseIfNeeded(departureTime);
+  const prevDate = !previousDepartureTime
+    ? new Date()
+    : parseIfNeeded(previousDepartureTime);
+
+  const weekDay = capitalize(formatToWeekday(departureDate, language, 'eeee'));
+  const simpleDate = formatToSimpleDate(departureDate, language);
+
+  if (isFirst || !isSameDay(prevDate, departureDate)) {
+    return (
+      <Typo.p textType="heading--medium" className={style.dayLabel}>
+        {`${weekDay} ${simpleDate}`}
+      </Typo.p>
+    );
+  }
+  return null;
+}
+
 function tripPatternsWithTransitionDelay(tripPatterns: TripPattern[]) {
   return tripPatterns.map((tripPattern, i) => ({
     ...tripPattern,
     transitionDelay: i * 0.1,
   }));
-}
-
-function getCursorByDepartureMode(
-  trip: TripData,
-  departureMode: DepartureMode,
-) {
-  if (departureMode === DepartureMode.ArriveBy) {
-    return trip.previousPageCursor;
-  } else {
-    return trip.nextPageCursor;
-  }
 }

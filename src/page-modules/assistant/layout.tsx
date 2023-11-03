@@ -17,6 +17,7 @@ import { MonoIcon } from '@atb/components/icon';
 import { FocusScope } from '@react-aria/focus';
 import {
   createTripQuery,
+  departureDateToDepartureMode,
   DepartureMode,
   departureModeToDepartureDate,
 } from '@atb/page-modules/assistant';
@@ -64,8 +65,11 @@ function AssistantLayout({
     const query = createTripQuery(
       selectedToFeature,
       selectedFromFeature,
+      departureDateToDepartureMode(departureDate),
+      departureDate.type !== DepartureDateState.Now
+        ? departureDate.dateTime
+        : undefined,
       transportModeFilter,
-      departureDate,
     );
     const temp = selectedFromFeature;
     setSelectedFromFeature(selectedToFeature);
@@ -80,8 +84,11 @@ function AssistantLayout({
     const query = createTripQuery(
       geolocationFeature,
       selectedToFeature,
+      departureDateToDepartureMode(departureDate),
+      departureDate.type !== DepartureDateState.Now
+        ? departureDate.dateTime
+        : undefined,
       transportModeFilter,
-      departureDate,
     );
     setSelectedFromFeature(geolocationFeature);
     router.push({ pathname: '/assistant', query });
@@ -93,8 +100,11 @@ function AssistantLayout({
     const query = createTripQuery(
       selectedFromFeature,
       selectedToFeature,
+      departureDateToDepartureMode(departureDate),
+      departureDate.type !== DepartureDateState.Now
+        ? departureDate.dateTime
+        : undefined,
       transportModeFilter,
-      departureDate,
     );
     router.push({ pathname: '/assistant', query });
   };

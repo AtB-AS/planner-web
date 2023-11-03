@@ -5,13 +5,10 @@ export type TripApiReturnType = TripData;
 
 export async function nextTripPatterns(
   query: TripQuery,
-  cursor: string,
 ): Promise<TripApiReturnType> {
   const queryString = tripQueryToQueryString(query);
 
-  const result = await fetch(
-    `/api/assistant/trip?${queryString}&cursor=${cursor}`,
-  );
+  const result = await fetch(`/api/assistant/trip?${queryString}`);
 
   return await result.json();
 }
