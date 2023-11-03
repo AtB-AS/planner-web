@@ -119,7 +119,7 @@ describe('assistant page', function () {
     ).toBeInTheDocument();
   });
 
-  it('Should render empty search results with filter details'),
+  it('should render empty search results with filter details'),
     () => {
       const output = render(
         <Trip
