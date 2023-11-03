@@ -24,6 +24,7 @@ const dictionary = {
     m: _('m', 'm', 'm'),
   },
   a11yRouteTimePrefix: _('rutetid ', 'route time ', `rutetid `),
+  missingRealTimePrefix: _('ca. ', 'ca. ', `ca. `),
 };
 
 export default orgSpecificTranslations(dictionary, {

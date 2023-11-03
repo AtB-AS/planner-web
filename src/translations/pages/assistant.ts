@@ -107,6 +107,167 @@ export const Assistant = {
       bikeRental: _('Bysykkel', 'City bike', 'Bysykkel'),
       unknown: _('Ukjent', 'Unknown', 'Ukjent'),
     },
+    tripSummary: {
+      passedTrip: _('Passert reise, ', 'Passed trip, ', 'Passert reise, '),
+      header: {
+        title: (mode: string, placeName: string) =>
+          _(
+            `${mode} fra ${placeName}`,
+            `${mode} from ${placeName}`,
+            `${mode} frå ${placeName}`,
+          ),
+        flexTransportTitle: (publicCode: string) =>
+          _(
+            `Henting med ${publicCode}`,
+            `Pickup with ${publicCode}`,
+            `Henting med ${publicCode}`,
+          ),
+        totalDuration: _('Reisetid', 'Trip duration', 'Reisetid'),
+        time: (startTime: string, endTime: string) =>
+          _(
+            `Fra klokken ${startTime}, til klokken ${endTime}`,
+            `From ${startTime}, to ${endTime}`,
+            `Frå klokka ${startTime}, til klokka ${endTime}`,
+          ),
+      },
+      hasSituationsTip: _(
+        'Denne reisen har driftsmeldinger. Se detaljer for mer info',
+        'There are service messages affecting your journey. See details for more info ',
+        'Denne reisa har driftsmeldingar. Sjå detaljar for meir informasjon.',
+      ),
+      footLeg: {
+        walkAndWaitLabel: (walkTime: string, waitTime: string) =>
+          _(
+            `Gå ${walkTime}. Vent ${waitTime}`,
+            `Walk ${walkTime}. Wait ${waitTime}`,
+            `Gå ${walkTime}. Vent ${waitTime}`,
+          ),
+        walkLabel: (time: string) =>
+          _(`Gå ${time}`, `Walk ${time}`, `Gå ${time}`),
+        walkToStopLabel: (distance: string, stopPlace: string) =>
+          _(
+            `Gå til ${stopPlace}`,
+            `Walk ${distance} to ${stopPlace}`,
+            `Gå ${distance} til ${stopPlace}`,
+          ),
+        waitLabel: (time: string) =>
+          _(`Vent ${time}`, `Wait ${time}`, `Vent ${time}`),
+      },
+      destination: {
+        a11yLabel: _('Destinasjon', 'Destination', 'Destinasjon'),
+      },
+      waitRow: {
+        label: _('Vent', 'Wait', 'Vent'),
+      },
+      footer: {
+        fromPlace: (place: string) =>
+          _(`Fra ${place}`, `From ${place}`, `Frå ${place}`),
+        fromPlaceWithTime: (place: string, time: string) =>
+          _(
+            `Fra ${place} ${time}`,
+            `From ${place} ${time}`,
+            `Frå ${place} ${time}`,
+          ),
+        detailsLabel: _('Detaljer', 'Details', 'Detaljar'),
+        detailsHint: _(
+          'Aktivér for å vise flere reisedetaljer',
+          'Activate to show more trip details',
+          'Trykk for meir informasjon om reisa.',
+        ),
+        requiresBooking: (numberOfBookingsRequired: number) => {
+          if (numberOfBookingsRequired > 1) {
+            return _(
+              `Krever ${numberOfBookingsRequired} reservasjoner`,
+              `Requires ${numberOfBookingsRequired} bookings`,
+              `Krev ${numberOfBookingsRequired} reservasjonar`,
+            );
+          } else {
+            return _(
+              `Krever reservasjon`,
+              `Requires booking`,
+              `Krev reservasjon`,
+            );
+          }
+        },
+      },
+      journeySummary: {
+        resultNumber: (number: number) =>
+          _(
+            `Reiseresultat ${number}`,
+            `Result number ${number}`,
+            `Reiseresultat ${number}`,
+          ),
+        duration: (duration: string) =>
+          _(
+            `Reisetid: ${duration}`,
+            `Travel time: ${duration}`,
+            `Reisetid: ${duration}`,
+          ),
+        legsDescription: {
+          footLegsOnly: _(
+            'Hele reisen til fots',
+            'Foot legs only',
+            'Heile reisa til fots',
+          ),
+          noSwitching: _('Ingen bytter', 'No transfers', 'Ingen bytter'),
+          oneSwitch: _('Ett bytte', 'One transfer', 'Eitt bytte'),
+          someSwitches: (switchCount: number) =>
+            _(
+              `${switchCount} bytter`,
+              `${switchCount} transfers`,
+              `${switchCount} bytte`,
+            ),
+        },
+        prefixedLineNumber: (number: string) =>
+          _(`nummer ${number}`, ` number ${number}`, `nummer ${number}`),
+        totalWalkDistance: (meters: string) =>
+          _(
+            `Totalt ${meters} meter å gå`,
+            `Total of ${meters} meters to walk`,
+            `Totalt ${meters} meter å gå`,
+          ),
+        travelTimes: (
+          startTime: string,
+          endTime: string,
+          duration: string,
+          startTimeIsApproximation: boolean,
+          endTimeIsApproximation: boolean,
+        ) => {
+          const circaPrefix = 'ca. ';
+          const startTimeCircaPrefix = startTimeIsApproximation
+            ? circaPrefix
+            : '';
+          const endTimeCircaPrefix = endTimeIsApproximation ? circaPrefix : '';
+          const totalTimeCircaPrefix =
+            startTimeIsApproximation || endTimeIsApproximation
+              ? circaPrefix
+              : '';
+          return _(
+            `Start ${startTimeCircaPrefix}klokken ${startTime}, ankomst ${endTimeCircaPrefix}klokken ${endTime}. Total reisetid ${
+              totalTimeCircaPrefix + duration
+            }.`,
+            `Start time ${startTimeCircaPrefix + startTime}, arrival time ${
+              endTimeCircaPrefix + endTime
+            }. Total travel time ${totalTimeCircaPrefix + duration}`,
+            `Start ${startTimeCircaPrefix}klokka ${startTime}, framkomst ${endTimeCircaPrefix}klokka ${endTime}. Total reisetid ${
+              totalTimeCircaPrefix + duration
+            }.`,
+          );
+        },
+        realtime: (
+          fromPlace: string,
+          realtimeDepartureTime: string,
+          scheduledDepartureTime: string,
+        ) =>
+          _(
+            `Klokken ${realtimeDepartureTime} sanntid, klokken ${scheduledDepartureTime} rutetid`,
+            `At ${realtimeDepartureTime} realtime, at ${scheduledDepartureTime} scheduled time`,
+            `Klokka ${realtimeDepartureTime} sanntid, klokka ${scheduledDepartureTime} rutetid`,
+          ),
+        noRealTime: (placeName: string, aimedTime: string) =>
+          _(`Klokken ${aimedTime}`, `At ${aimedTime}`, `Klokka ${aimedTime}`),
+      },
+    },
     emptySearchResults: {
       emptySearchResultsTitle: _(
         'Ingen kollektivreiser passer til ditt søk',
