@@ -132,6 +132,10 @@ export function createJourneyApi(
           variables: { ...queryVariables, cursor },
         });
 
+        if (result.error) {
+          throw result.error;
+        }
+
         const data: RecursivePartial<TripData> = mapResultToTrips(
           result.data.trip,
         );

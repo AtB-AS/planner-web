@@ -7,6 +7,7 @@ import style from './assistant.module.css';
 import { useRouter } from 'next/router';
 import DepartureDateSelector, {
   DepartureDate,
+  DepartureDateState,
 } from '@atb/components/departure-date-selector';
 import TransportModeFilter from '@atb/components/transport-mode-filter';
 import { Typo } from '@atb/components/typography';
@@ -65,7 +66,9 @@ function AssistantLayout({
       selectedToFeature,
       selectedFromFeature,
       departureDateToDepartureMode(departureDate),
-      departureDate.type !== 'now' ? departureDate.dateTime : undefined,
+      departureDate.type !== DepartureDateState.Now
+        ? departureDate.dateTime
+        : undefined,
       transportModeFilter,
     );
     const temp = selectedFromFeature;
@@ -82,7 +85,9 @@ function AssistantLayout({
       geolocationFeature,
       selectedToFeature,
       departureDateToDepartureMode(departureDate),
-      departureDate.type !== 'now' ? departureDate.dateTime : undefined,
+      departureDate.type !== DepartureDateState.Now
+        ? departureDate.dateTime
+        : undefined,
       transportModeFilter,
     );
     setSelectedFromFeature(geolocationFeature);
@@ -96,7 +101,9 @@ function AssistantLayout({
       selectedFromFeature,
       selectedToFeature,
       departureDateToDepartureMode(departureDate),
-      departureDate.type !== 'now' ? departureDate.dateTime : undefined,
+      departureDate.type !== DepartureDateState.Now
+        ? departureDate.dateTime
+        : undefined,
       transportModeFilter,
     );
     router.push({ pathname: '/assistant', query });
