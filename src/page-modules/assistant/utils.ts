@@ -1,4 +1,7 @@
-import { DepartureDate } from '@atb/components/departure-date-selector';
+import {
+  DepartureDate,
+  DepartureDateState,
+} from '@atb/components/departure-date-selector';
 import { TransportModeFilterState } from '@atb/components/transport-mode-filter/types';
 import { filterToQueryString } from '@atb/components/transport-mode-filter/utils';
 import { GeocoderFeature } from '@atb/page-modules/departures';
@@ -33,13 +36,6 @@ export function getCursorByDepartureMode(
   }
 }
 
-export const departureDateStateToDepartureMode = (
-  departureDate: DepartureDate,
-): DepartureMode => {
-  if (departureDate.type === 'arrival') return DepartureMode.ArriveBy;
-  return DepartureMode.DepartBy;
-};
-
 const featuresToFromToQuery = (from: GeocoderFeature, to: GeocoderFeature) => {
   return {
     fromId: from.id,
@@ -71,12 +67,13 @@ export const createTripQuery = (
     }
   }
 
-  const departureDateQuery = departureDate ? { departureDate } : {};
+  const departureDateQuery = departureDate
+    ? { departureMode, departureDate }
+    : { departureMode };
   const cursorQuery = cursor ? { cursor } : {};
   const fromToQuery = featuresToFromToQuery(fromFeature, toFeature);
 
   return {
-    departureMode,
     ...transportModeFilterQuery,
     ...departureDateQuery,
     ...cursorQuery,
@@ -103,3 +100,25 @@ export const parseTripQuery = (query: any): TripQuery | undefined => {
   }
   return parsed.data;
 };
+
+export function departureDateToDepartureMode(
+  departureDate: DepartureDate,
+): DepartureMode {
+  if (departureDate.type === 'arrival') return DepartureMode.ArriveBy;
+  return DepartureMode.DepartBy;
+}
+
+export function departureModeToDepartureDate(
+  mode?: DepartureMode,
+  date?: number | null,
+): DepartureDate {
+  if (mode === 'arriveBy') {
+    return { type: DepartureDateState.Arrival, dateTime: date ?? Date.now() };
+  } else if (mode === 'departBy' && !date) {
+    return { type: DepartureDateState.Now };
+  } else if (mode === 'departBy') {
+    return { type: DepartureDateState.Departure, dateTime: date ?? Date.now() };
+  } else {
+    return { type: DepartureDateState.Now };
+  }
+}

@@ -10,7 +10,7 @@ import {
 import { getServerSideProps } from '@atb/pages/departures/[[...id]]';
 import { expectProps } from '@atb/tests/utils';
 import { createDynamicRouteParser } from 'next-router-mock/dynamic-routes';
-import { departureDataMock } from './test-data';
+import { departureDataFixture } from './departure-data.fixture';
 import { StopPlace } from '../stop-place';
 import userEvent from '@testing-library/user-event';
 afterEach(function () {
@@ -83,23 +83,25 @@ describe('departure page', function () {
   });
 
   it('should render quays', () => {
-    const output = render(<StopPlace departures={departureDataMock} />);
+    const output = render(<StopPlace departures={departureDataFixture} />);
 
-    departureDataMock.quays.forEach((q) =>
+    departureDataFixture.quays.forEach((q) =>
       expect(output.getByText(q.name)).toBeInTheDocument(),
     );
   });
 
   it('should render estimated calls', () => {
-    const output = render(<StopPlace departures={departureDataMock} />);
+    const output = render(<StopPlace departures={departureDataFixture} />);
     const lists = output.getAllByRole('list');
     const { getAllByRole } = within(lists[0]);
     const items = getAllByRole('listitem');
-    expect(items.length).toBe(departureDataMock.quays[0].departures.length + 1);
+    expect(items.length).toBe(
+      departureDataFixture.quays[0].departures.length + 1,
+    );
   });
 
   it('Should collapse estimated calls list', async () => {
-    const output = render(<StopPlace departures={departureDataMock} />);
+    const output = render(<StopPlace departures={departureDataFixture} />);
     const button = screen.getAllByRole('button', {
       name: 'Aktiver for å minimere',
     });

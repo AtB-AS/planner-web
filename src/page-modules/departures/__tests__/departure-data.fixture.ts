@@ -1,6 +1,6 @@
 import { DepartureData } from '@atb/page-modules/departures/';
 
-export const departureDataMock: DepartureData = {
+export const departureDataFixture: DepartureData = {
   stopPlace: {
     id: 'NSR:StopPlace:41613',
     name: 'Prinsens gate',

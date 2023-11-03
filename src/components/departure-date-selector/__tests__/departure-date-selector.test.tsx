@@ -1,10 +1,10 @@
 import { cleanup, render, fireEvent } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-
 import DepartureDateSelector, {
   DepartureDateState,
 } from '@atb/components/departure-date-selector';
 import userEvent from '@testing-library/user-event';
+import { addHours, format } from 'date-fns';
 
 afterEach(function () {
   cleanup();
@@ -105,7 +105,7 @@ describe('departure date selector', function () {
     expect(onStateChange).toHaveBeenCalled();
   });
 
-  it('should call onDateChange', async () => {
+  it('should call onChange when date changes', async () => {
     const onChange = vi.fn();
     const output = render(
       <DepartureDateSelector
@@ -121,7 +121,7 @@ describe('departure date selector', function () {
     expect(onChange).toHaveBeenCalled();
   });
 
-  it('should call onTimeChange', async () => {
+  it('should call onChange when time changes', async () => {
     const onChange = vi.fn();
     const output = render(
       <DepartureDateSelector
@@ -132,8 +132,11 @@ describe('departure date selector', function () {
 
     const time = output.getByLabelText('Tid');
 
-    fireEvent.change(time, { target: { value: '00:00' } });
+    const newTime = format(addHours(new Date(), 1), 'HH:mm');
 
+    fireEvent.change(time, { target: { value: newTime } });
+
+    expect(time).toHaveValue(newTime);
     expect(onChange).toHaveBeenCalled();
   });
 });

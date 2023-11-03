@@ -7,7 +7,6 @@ import style from './assistant.module.css';
 import { useRouter } from 'next/router';
 import DepartureDateSelector, {
   DepartureDate,
-  DepartureDateState,
 } from '@atb/components/departure-date-selector';
 import TransportModeFilter from '@atb/components/transport-mode-filter';
 import { Typo } from '@atb/components/typography';
@@ -17,7 +16,9 @@ import { MonoIcon } from '@atb/components/icon';
 import { FocusScope } from '@react-aria/focus';
 import {
   createTripQuery,
-  departureDateStateToDepartureMode,
+  departureDateToDepartureMode,
+  DepartureMode,
+  departureModeToDepartureDate,
 } from '@atb/page-modules/assistant';
 import SwapButton from '@atb/components/search/swap-button';
 import GeolocationButton from '@atb/components/search/geolocation-button';
@@ -27,6 +28,8 @@ export type AssistantLayoutProps = PropsWithChildren<{
   initialFromFeature?: GeocoderFeature;
   initialToFeature?: GeocoderFeature;
   initialTransportModesFilter?: TransportModeFilterOption[] | null;
+  departureMode?: DepartureMode;
+  departureDate?: number | null;
 }>;
 
 function AssistantLayout({
@@ -34,6 +37,8 @@ function AssistantLayout({
   initialFromFeature,
   initialToFeature,
   initialTransportModesFilter,
+  departureMode,
+  departureDate: initialDepartureDate,
 }: AssistantLayoutProps) {
   const { t } = useTranslation();
   const router = useRouter();
@@ -45,9 +50,9 @@ function AssistantLayout({
   const [selectedToFeature, setSelectedToFeature] = useState<
     GeocoderFeature | undefined
   >(initialToFeature);
-  const [departureDate, setDepartureDate] = useState<DepartureDate>({
-    type: DepartureDateState.Now,
-  });
+  const [departureDate, setDepartureDate] = useState<DepartureDate>(
+    departureModeToDepartureDate(departureMode, initialDepartureDate),
+  );
   const [transportModeFilter, setTransportModeFilter] = useState(
     getInitialTransportModeFilter(initialTransportModesFilter),
   );
@@ -59,7 +64,7 @@ function AssistantLayout({
     const query = createTripQuery(
       selectedToFeature,
       selectedFromFeature,
-      departureDateStateToDepartureMode(departureDate),
+      departureDateToDepartureMode(departureDate),
       departureDate.type !== 'now' ? departureDate.dateTime : undefined,
       transportModeFilter,
     );
@@ -76,7 +81,7 @@ function AssistantLayout({
     const query = createTripQuery(
       geolocationFeature,
       selectedToFeature,
-      departureDateStateToDepartureMode(departureDate),
+      departureDateToDepartureMode(departureDate),
       departureDate.type !== 'now' ? departureDate.dateTime : undefined,
       transportModeFilter,
     );
@@ -90,7 +95,7 @@ function AssistantLayout({
     const query = createTripQuery(
       selectedFromFeature,
       selectedToFeature,
-      departureDateStateToDepartureMode(departureDate),
+      departureDateToDepartureMode(departureDate),
       departureDate.type !== 'now' ? departureDate.dateTime : undefined,
       transportModeFilter,
     );

@@ -3,12 +3,12 @@ import DefaultLayout from '@atb/layouts/default';
 import { type WithGlobalData, withGlobalData } from '@atb/layouts/global-data';
 import { withAssistantClient } from '@atb/page-modules/assistant/server';
 import Trip, { TripProps } from '@atb/page-modules/assistant/trip';
-import { parseTripQuery } from '@atb/page-modules/assistant';
 import type { TripData } from '@atb/page-modules/assistant';
 import {
-  StreetMode,
   AssistantLayout,
   AssistantLayoutProps,
+  parseTripQuery,
+  StreetMode,
 } from '@atb/page-modules/assistant';
 import type { NextPage } from 'next';
 
@@ -81,6 +81,7 @@ export const getServerSideProps = withGlobalData(
               initialTransportModesFilter: transportModeFilter,
               trip,
               departureMode: tripQuery.departureMode,
+              departureDate: tripQuery.departureDate ?? null,
               nonTransitTrips,
             },
           };
