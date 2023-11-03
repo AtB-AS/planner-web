@@ -98,7 +98,7 @@ describe('assistant page', function () {
     expect(submitButton).toBeDisabled();
   });
 
-  it('Should render empty search results', () => {
+  it('should render empty search results', () => {
     const output = render(
       <Trip
         initialFromFeature={fromFeature}
