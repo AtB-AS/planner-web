@@ -3,14 +3,11 @@ import {
   secondsBetween,
   secondsToDuration,
 } from '@atb/utils/date';
-import {
-  Leg,
-  TripPattern,
-} from '@atb/page-modules/assistant/server/journey-planner/validators';
+import { Leg, TripPattern } from '../server/journey-planner/validators';
+import { getQuayName } from './trip-pattern-header';
 import { Language, TranslateFunction, PageText } from '@atb/translations';
 import dictionary from '@atb/translations/dictionary';
 import { screenReaderPause } from '@atb/components/typography/utils';
-import { getQuayName } from '@atb/page-modules/assistant/trip/trip-pattern-header';
 import { transportModeToTranslatedString } from '@atb/components/transport-mode';
 
 export const tripSummary = (
