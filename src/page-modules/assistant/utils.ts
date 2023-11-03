@@ -1,15 +1,44 @@
-import {
-  DepartureDate,
-  DepartureDateState,
-} from '@atb/components/departure-date-selector';
+import { DepartureDate } from '@atb/components/departure-date-selector';
 import { TransportModeFilterState } from '@atb/components/transport-mode-filter/types';
 import { filterToQueryString } from '@atb/components/transport-mode-filter/utils';
 import { GeocoderFeature } from '@atb/page-modules/departures';
 import {
   DepartureMode,
+  TripData,
   TripQuery,
   TripQuerySchema,
 } from '@atb/page-modules/assistant';
+
+export function filterDuplicateTripPatterns(
+  tripPatterns: TripData['tripPatterns'],
+): TripData['tripPatterns'] {
+  const existing = new Map<string, TripData['tripPatterns'][0]>();
+  return tripPatterns.filter((tp) => {
+    if (existing.has(tp.expectedStartTime)) {
+      return false;
+    }
+    existing.set(tp.expectedStartTime, tp);
+    return true;
+  });
+}
+
+export function getCursorByDepartureMode(
+  trip: TripData,
+  departureMode: DepartureMode,
+) {
+  if (departureMode === DepartureMode.ArriveBy) {
+    return trip.previousPageCursor;
+  } else {
+    return trip.nextPageCursor;
+  }
+}
+
+export const departureDateStateToDepartureMode = (
+  departureDate: DepartureDate,
+): DepartureMode => {
+  if (departureDate.type === 'arrival') return DepartureMode.ArriveBy;
+  return DepartureMode.DepartBy;
+};
 
 const featuresToFromToQuery = (from: GeocoderFeature, to: GeocoderFeature) => {
   return {
@@ -27,8 +56,10 @@ const featuresToFromToQuery = (from: GeocoderFeature, to: GeocoderFeature) => {
 export const createTripQuery = (
   fromFeature: GeocoderFeature,
   toFeature: GeocoderFeature,
+  departureMode: DepartureMode,
+  departureDate?: number,
   transportModeFilter?: TransportModeFilterState,
-  departureDate?: DepartureDate,
+  cursor?: string,
 ): TripQuery => {
   let transportModeFilterQuery = {};
   if (transportModeFilter) {
@@ -40,22 +71,15 @@ export const createTripQuery = (
     }
   }
 
-  const departureMode =
-    departureDate?.type === DepartureDateState.Arrival
-      ? DepartureMode.ArriveBy
-      : DepartureMode.DepartBy;
-
-  const departureDateQuery =
-    departureDate && departureDate.type !== DepartureDateState.Now
-      ? { departureDate: departureDate.dateTime }
-      : {};
-
+  const departureDateQuery = departureDate ? { departureDate } : {};
+  const cursorQuery = cursor ? { cursor } : {};
   const fromToQuery = featuresToFromToQuery(fromFeature, toFeature);
 
   return {
     departureMode,
     ...transportModeFilterQuery,
     ...departureDateQuery,
+    ...cursorQuery,
     ...fromToQuery,
   };
 };

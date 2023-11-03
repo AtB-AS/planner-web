@@ -15,7 +15,6 @@ import {
   tripSchema,
 } from '@atb/page-modules/assistant/server/journey-planner/validators';
 import {
-  DepartureMode,
   NonTransitTripData,
   NonTransitTripInput,
   TripInput,
@@ -25,6 +24,7 @@ import {
   isTransportModeType,
   isTransportSubmodeType,
 } from '@atb/page-modules/departures/server/journey-planner';
+import { filterDuplicateTripPatterns, getCursorByDepartureMode } from '../..';
 
 const MIN_NUMBER_OF_TRIP_PATTERNS = 8;
 const MAX_NUMBER_OF_SEARCH_ATTEMPTS = 5;
@@ -123,7 +123,8 @@ export function createJourneyApi(
       let searchAttempt = 1;
       do {
         if (trip && trip.nextPageCursor && trip.previousPageCursor) {
-          cursor = getCursor(trip, input.departureMode);
+          cursor =
+            getCursorByDepartureMode(trip, input.departureMode) || undefined;
         }
 
         const result = await client.query<TripsQuery, TripsQueryVariables>({
@@ -143,14 +144,14 @@ export function createJourneyApi(
         if (!trip) {
           trip = validated.data;
         } else {
-          trip.tripPatterns = [
-            ...trip.tripPatterns,
-            ...validated.data.tripPatterns,
-          ];
-          trip.nextPageCursor = validated.data.nextPageCursor;
-          trip.previousPageCursor = validated.data.previousPageCursor;
+          trip = {
+            ...validated.data,
+            tripPatterns: filterDuplicateTripPatterns([
+              ...trip.tripPatterns,
+              ...validated.data.tripPatterns,
+            ]),
+          };
         }
-
         searchAttempt += 1;
       } while (
         searchAttempt <= MAX_NUMBER_OF_SEARCH_ATTEMPTS &&
@@ -171,17 +172,6 @@ type RecursivePartial<T> = {
     ? RecursivePartial<T[P]>
     : T[P];
 };
-
-function getCursor(
-  trip: RecursivePartial<TripData>,
-  departureMode: DepartureMode,
-) {
-  if (departureMode === DepartureMode.ArriveBy) {
-    return trip.previousPageCursor || undefined;
-  } else {
-    return trip.nextPageCursor || undefined;
-  }
-}
 
 function inputToLocation(
   input: NonTransitTripInput | TripInput,

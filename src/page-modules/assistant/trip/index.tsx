@@ -22,6 +22,7 @@ import {
   DepartureMode,
   NonTransitTripData,
   createTripQuery,
+  getCursorByDepartureMode,
 } from '@atb/page-modules/assistant';
 import { useEffect, useState } from 'react';
 import { getInitialTransportModeFilter } from '@atb/components/transport-mode-filter/utils';
@@ -119,13 +120,22 @@ function useTripPatterns(initialTrip: TripData, departureMode: DepartureMode) {
     const tripQuery = createTripQuery(
       from,
       to,
+      departureMode,
+      undefined,
       getInitialTransportModeFilter(filter),
+      cursor || undefined,
     );
-    const trip = await nextTripPatterns(tripQuery, cursor || ''); // @TODO: handle null cursors
+    const trip = await nextTripPatterns(tripQuery);
+    const filtered = trip.tripPatterns.filter(
+      (tp) =>
+        !tripPatterns.some(
+          (tp2) => tp.expectedStartTime === tp2.expectedStartTime,
+        ),
+    );
 
     setTripPatterns((prevTripPatterns) => [
       ...prevTripPatterns,
-      ...tripPatternsWithTransitionDelay(trip.tripPatterns),
+      ...tripPatternsWithTransitionDelay(filtered),
     ]);
 
     setCursor(getCursorByDepartureMode(trip, departureMode));
@@ -251,15 +261,4 @@ function tripPatternsWithTransitionDelay(tripPatterns: TripPattern[]) {
     ...tripPattern,
     transitionDelay: i * 0.1,
   }));
-}
-
-function getCursorByDepartureMode(
-  trip: TripData,
-  departureMode: DepartureMode,
-) {
-  if (departureMode === DepartureMode.ArriveBy) {
-    return trip.previousPageCursor;
-  } else {
-    return trip.nextPageCursor;
-  }
 }

@@ -15,7 +15,10 @@ import { getInitialTransportModeFilter } from '@atb/components/transport-mode-fi
 import { TransportModeFilterOption } from '@atb/components/transport-mode-filter/types';
 import { MonoIcon } from '@atb/components/icon';
 import { FocusScope } from '@react-aria/focus';
-import { createTripQuery } from '@atb/page-modules/assistant';
+import {
+  createTripQuery,
+  departureDateStateToDepartureMode,
+} from '@atb/page-modules/assistant';
 import SwapButton from '@atb/components/search/swap-button';
 import GeolocationButton from '@atb/components/search/geolocation-button';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -56,8 +59,9 @@ function AssistantLayout({
     const query = createTripQuery(
       selectedToFeature,
       selectedFromFeature,
+      departureDateStateToDepartureMode(departureDate),
+      departureDate.type !== 'now' ? departureDate.dateTime : undefined,
       transportModeFilter,
-      departureDate,
     );
     const temp = selectedFromFeature;
     setSelectedFromFeature(selectedToFeature);
@@ -72,8 +76,9 @@ function AssistantLayout({
     const query = createTripQuery(
       geolocationFeature,
       selectedToFeature,
+      departureDateStateToDepartureMode(departureDate),
+      departureDate.type !== 'now' ? departureDate.dateTime : undefined,
       transportModeFilter,
-      departureDate,
     );
     setSelectedFromFeature(geolocationFeature);
     router.push({ pathname: '/assistant', query });
@@ -85,8 +90,9 @@ function AssistantLayout({
     const query = createTripQuery(
       selectedFromFeature,
       selectedToFeature,
+      departureDateStateToDepartureMode(departureDate),
+      departureDate.type !== 'now' ? departureDate.dateTime : undefined,
       transportModeFilter,
-      departureDate,
     );
     router.push({ pathname: '/assistant', query });
   };
