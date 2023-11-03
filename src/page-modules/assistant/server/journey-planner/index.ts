@@ -14,7 +14,7 @@ import {
   TripData,
   tripSchema,
 } from '@atb/page-modules/assistant/server/journey-planner/validators';
-import {
+import type {
   NonTransitTripData,
   NonTransitTripInput,
   TripInput,
@@ -24,7 +24,10 @@ import {
   isTransportModeType,
   isTransportSubmodeType,
 } from '@atb/page-modules/departures/server/journey-planner';
-import { filterDuplicateTripPatterns, getCursorByDepartureMode } from '../..';
+import {
+  filterOutDuplicates,
+  getCursorByDepartureMode,
+} from '@atb/page-modules/assistant';
 
 const MIN_NUMBER_OF_TRIP_PATTERNS = 8;
 const MAX_NUMBER_OF_SEARCH_ATTEMPTS = 5;
@@ -150,10 +153,13 @@ export function createJourneyApi(
         } else {
           trip = {
             ...validated.data,
-            tripPatterns: filterDuplicateTripPatterns([
+            tripPatterns: [
               ...trip.tripPatterns,
-              ...validated.data.tripPatterns,
-            ]),
+              ...filterOutDuplicates(
+                validated.data.tripPatterns,
+                trip.tripPatterns,
+              ),
+            ],
           };
         }
         searchAttempt += 1;

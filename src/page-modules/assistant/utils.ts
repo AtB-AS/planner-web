@@ -12,17 +12,14 @@ import {
   TripQuerySchema,
 } from '@atb/page-modules/assistant';
 
-export function filterDuplicateTripPatterns(
-  tripPatterns: TripData['tripPatterns'],
+export function filterOutDuplicates(
+  arrayToFilter: TripData['tripPatterns'],
+  referenceArray: TripData['tripPatterns'],
 ): TripData['tripPatterns'] {
-  const existing = new Map<string, TripData['tripPatterns'][0]>();
-  return tripPatterns.filter((tp) => {
-    if (existing.has(tp.expectedStartTime)) {
-      return false;
-    }
-    existing.set(tp.expectedStartTime, tp);
-    return true;
-  });
+  const existing = new Set<string>(
+    referenceArray.map((tp) => tp.expectedStartTime),
+  );
+  return arrayToFilter.filter((tp) => !existing.has(tp.expectedStartTime));
 }
 
 export function getCursorByDepartureMode(

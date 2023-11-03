@@ -21,6 +21,7 @@ import {
   DepartureMode,
   NonTransitTripData,
   createTripQuery,
+  filterOutDuplicates,
   getCursorByDepartureMode,
 } from '@atb/page-modules/assistant';
 import { useEffect, useState } from 'react';
@@ -126,16 +127,13 @@ function useTripPatterns(initialTrip: TripData, departureMode: DepartureMode) {
       cursor || undefined,
     );
     const trip = await nextTripPatterns(tripQuery);
-    const filtered = trip.tripPatterns.filter(
-      (tp) =>
-        !tripPatterns.some(
-          (tp2) => tp.expectedStartTime === tp2.expectedStartTime,
-        ),
+    const newTripPatternsWithTransitionDelay = tripPatternsWithTransitionDelay(
+      filterOutDuplicates(trip.tripPatterns, tripPatterns),
     );
 
     setTripPatterns((prevTripPatterns) => [
       ...prevTripPatterns,
-      ...tripPatternsWithTransitionDelay(filtered),
+      ...newTripPatternsWithTransitionDelay,
     ]);
 
     setCursor(getCursorByDepartureMode(trip, departureMode));
