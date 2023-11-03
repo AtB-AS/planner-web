@@ -8,8 +8,13 @@ import {
   AppCookiesProviderProps,
 } from '@atb/modules/cookies/cookies-context';
 import React from 'react';
-import { AppLanguageProvider, useTranslation } from '@atb/translations';
+import {
+  AppLanguageProvider,
+  Language,
+  useTranslation,
+} from '@atb/translations';
 import { tripSummary } from '../utils';
+import { formatToClock } from '@atb/utils/date';
 
 afterEach(function () {
   cleanup();
@@ -60,9 +65,18 @@ describe('trip', function () {
         .getByTestId('test-id')
         .getAttribute('aria-label');
 
+      const startTime = formatToClock(
+        tripFixture.expectedStartTime,
+        Language.Norwegian,
+      );
+      const endTime = formatToClock(
+        tripFixture.expectedEndTime,
+        Language.Norwegian,
+      );
+
       const expected =
-        'Reiseresultat 1.\nBuss fra From 1.\nBussnummer 1.\nKlokken 00:00.\nIngen bytter.\nTotalt 0 meter å gå.' +
-        '\nStart klokken 00:00, ankomst klokken 01:00. Total reisetid 1 time.';
+        `Reiseresultat 1.\nBuss fra From 1.\nBussnummer 1.\nKlokken ${startTime}.\nIngen bytter.\nTotalt 0 meter å gå.` +
+        `\nStart klokken ${startTime}, ankomst klokken ${endTime}. Total reisetid 1 time.`;
 
       expect(ariaLabel).toBe(expected);
     });
@@ -92,14 +106,23 @@ describe('trip', function () {
         .getByTestId('test-id')
         .getAttribute('aria-label');
 
+      const startTime = formatToClock(
+        tripFixture.expectedStartTime,
+        Language.Norwegian,
+      );
+      const endTime = formatToClock(
+        tripFixture.expectedEndTime,
+        Language.Norwegian,
+      );
+
       const expected =
-        'Result number 1.\nBus from From 1.\nBus number 1.\nAt 00:00.\nNo transfers.\nTotal of 0 meters to walk.' +
-        '\nStart time 00:00, arrival time 01:00. Total travel time 1 hour';
+        `Result number 1.\nBus from From 1.\nBus number 1.\nAt ${startTime}.\nNo transfers.\nTotal of 0 meters to walk.` +
+        `\nStart time ${startTime}, arrival time ${endTime}. Total travel time 1 hour`;
 
       expect(ariaLabel).toBe(expected);
     });
 
-    it('should create summary in English', () => {
+    it('should create summary in nynorsk', () => {
       const Test = function () {
         const { t, language } = useTranslation();
 
@@ -124,9 +147,18 @@ describe('trip', function () {
         .getByTestId('test-id')
         .getAttribute('aria-label');
 
+      const startTime = formatToClock(
+        tripFixture.expectedStartTime,
+        Language.Norwegian,
+      );
+      const endTime = formatToClock(
+        tripFixture.expectedEndTime,
+        Language.Norwegian,
+      );
+
       const expected =
-        'Reiseresultat 1.\nBuss frå From 1.\nBussnummer 1.\nKlokka 00:00.\nIngen bytter.\nTotalt 0 meter å gå.' +
-        '\nStart klokka 00:00, framkomst klokka 01:00. Total reisetid 1 time.';
+        `Reiseresultat 1.\nBuss frå From 1.\nBussnummer 1.\nKlokka ${startTime}.\nIngen bytter.\nTotalt 0 meter å gå.` +
+        `\nStart klokka ${startTime}, framkomst klokka ${endTime}. Total reisetid 1 time.`;
 
       expect(ariaLabel).toBe(expected);
     });
