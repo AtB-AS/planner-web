@@ -11,6 +11,7 @@ import { Typo } from '@atb/components/typography';
 import { useRouter } from 'next/router';
 import VenueIcon, { FeatureCategory } from '@atb/components/venue-icon';
 import { PageText, useTranslation } from '@atb/translations';
+import EmptySearchResults from '@atb/components/empty-search-results';
 
 export type NearestStopPlacesProps = {
   activeLocation: GeocoderFeature | undefined;
@@ -21,7 +22,23 @@ export function NearestStopPlaces({
   nearestStopPlaces,
   activeLocation,
 }: NearestStopPlacesProps) {
+  const { t } = useTranslation();
   const router = useRouter();
+
+  if (nearestStopPlaces.length === 0) {
+    return (
+      <EmptySearchResults
+        title={t(
+          PageText.Departures.nearest.emptySearchResults
+            .emptyNearbyLocationsTitle,
+        )}
+        details={t(
+          PageText.Departures.nearest.emptySearchResults
+            .emptyNearbyLocationsDetails,
+        )}
+      />
+    );
+  }
   return (
     <section className={style.nearestContainer}>
       <div className={style.mapContainer}>

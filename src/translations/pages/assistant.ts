@@ -107,5 +107,22 @@ export const Assistant = {
       bikeRental: _('Bysykkel', 'City bike', 'Bysykkel'),
       unknown: _('Ukjent', 'Unknown', 'Ukjent'),
     },
+    emptySearchResults: {
+      emptySearchResultsTitle: _(
+        'Ingen kollektivreiser passer til ditt søk',
+        'No public transportation routes match your search criteria',
+        'Ingen kollektivreiser passar til søket ditt',
+      ),
+      emptySearchResultsDetails: _(
+        'Prøv å justere på sted eller tidspunkt.',
+        'Try adjusting your time or location input.',
+        'Prøv å justere på stad eller tidspunkt.',
+      ),
+      emptySearchResultsDetailsWithFilters: _(
+        'Prøv å justere på sted, filter eller tidspunkt.',
+        'Try adjusting your time, filters or location input.',
+        'Prøv å justere på stad, filter eller tidspunkt.',
+      ),
+    },
   },
 };

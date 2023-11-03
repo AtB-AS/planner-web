@@ -31,6 +31,7 @@ import { NonTransitTrip } from '../non-transit-pill';
 import { isSameDay } from 'date-fns';
 import { capitalize } from 'lodash';
 import { TripPatternHeader } from '@atb/page-modules/assistant/trip/trip-pattern-header';
+import EmptySearchResults from '@atb/components/empty-search-results';
 
 export type TripProps = {
   initialFromFeature: GeocoderFeature;
@@ -54,6 +55,27 @@ export default function Trip({
     useTripPatterns(trip, departureMode);
 
   const nonTransits = Object.entries(nonTransitTrips);
+
+  if (tripPatterns.length === 0) {
+    return (
+      <EmptySearchResults
+        title={t(
+          PageText.Assistant.trip.emptySearchResults.emptySearchResultsTitle,
+        )}
+        details={
+          initialTransportModesFilter
+            ? t(
+                PageText.Assistant.trip.emptySearchResults
+                  .emptySearchResultsDetailsWithFilters,
+              )
+            : t(
+                PageText.Assistant.trip.emptySearchResults
+                  .emptySearchResultsDetails,
+              )
+        }
+      />
+    );
+  }
   return (
     <>
       <div className={style.tripResults}>

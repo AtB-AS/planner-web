@@ -3,15 +3,19 @@ import mockRouter from 'next-router-mock';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { ExternalClient } from '@atb/modules/api-server';
 import { JourneyPlannerApi } from '@atb/page-modules/assistant/server/journey-planner';
-import { TripData } from '@atb/page-modules/assistant/server/journey-planner/validators';
 import { getServerSideProps } from '@atb/pages/assistant';
 import { expectProps } from '@atb/tests/utils';
 import { createDynamicRouteParser } from 'next-router-mock/dynamic-routes';
-import { GeocoderFeature } from '@atb/page-modules/departures';
-import { FeatureCategory } from '@atb/components/venue-icon';
 import { GeocoderApi } from '@atb/page-modules/departures/server/geocoder';
 import AssistantLayout from '../layout';
-import { NonTransitTripData } from '@atb/page-modules/assistant';
+import Trip from '../trip';
+import {
+  fromFeature,
+  nonTransitTripResult,
+  toFeature,
+  tripResult,
+} from './assistant-data.fixture';
+import { DepartureMode } from '..';
 
 afterEach(function () {
   cleanup();
@@ -25,55 +29,22 @@ describe('assistant page', function () {
   it('should return props from getServerSideProps', async () => {
     await mockRouter.push('/assistant');
 
-    const expectedFromFeature: GeocoderFeature = {
-      id: '638651',
-      name: 'Strindheim',
-      locality: 'Trondheim',
-      category: [FeatureCategory.BYDEL],
-      layer: 'address',
-      geometry: {
-        coordinates: [10.456038846578249, 63.42666114395819],
-      },
-    };
-
-    const expectedToFeature: GeocoderFeature = {
-      id: 'NSR:StopPlace:43984',
-      name: 'Byåsen skole',
-      locality: 'Trondheim',
-      category: [FeatureCategory.ONSTREET_BUS],
-      layer: 'venue',
-      geometry: { coordinates: [10.358037, 63.398886] },
-    };
-
-    const expectedTripResult: TripData = {
-      nextPageCursor: 'aaa',
-      previousPageCursor: 'bbb',
-      tripPatterns: [],
-    };
-    const expectedNonTransitTripResult: NonTransitTripData = {
-      footTrip: {
-        nextPageCursor: 'ccc',
-        previousPageCursor: 'ddd',
-        tripPatterns: [],
-      },
-    };
-
     const gqlClient: ExternalClient<
       'graphql-journeyPlanner3' | 'http-entur',
       GeocoderApi & JourneyPlannerApi
     > = {
       async trip() {
-        return expectedTripResult;
+        return tripResult;
       },
       async nonTransitTrips() {
-        return expectedNonTransitTripResult;
+        return nonTransitTripResult;
       },
       async autocomplete() {
         return {} as any;
       },
       async reverse(lat, lon, layers) {
-        if (layers === 'address') return expectedFromFeature;
-        else return expectedToFeature;
+        if (layers === 'address') return fromFeature;
+        else return toFeature;
       },
       client: null as any,
     };
@@ -99,11 +70,11 @@ describe('assistant page', function () {
     } as any);
 
     (await expectProps(result)).toContain({
-      initialFromFeature: expectedFromFeature,
-      initialToFeature: expectedToFeature,
-      trip: expectedTripResult,
+      initialFromFeature: fromFeature,
+      initialToFeature: toFeature,
+      trip: tripResult,
       departureMode: 'departBy',
-      nonTransitTrips: expectedNonTransitTripResult,
+      nonTransitTrips: nonTransitTripResult,
     });
   });
 
@@ -126,4 +97,43 @@ describe('assistant page', function () {
     expect(submitButton).toBeInTheDocument();
     expect(submitButton).toBeDisabled();
   });
+
+  it('should render empty search results', () => {
+    const output = render(
+      <Trip
+        initialFromFeature={fromFeature}
+        initialToFeature={toFeature}
+        trip={{ ...tripResult, tripPatterns: [] }}
+        departureMode={DepartureMode.DepartBy}
+        nonTransitTrips={nonTransitTripResult}
+        initialTransportModesFilter={null}
+      />,
+    );
+
+    expect(
+      output.getByText('Ingen kollektivreiser passer til ditt søk'),
+    ).toBeInTheDocument();
+
+    expect(
+      output.getByText('Prøv å justere på sted eller tidspunkt.'),
+    ).toBeInTheDocument();
+  });
+
+  it('should render empty search results with filter details'),
+    () => {
+      const output = render(
+        <Trip
+          initialFromFeature={fromFeature}
+          initialToFeature={toFeature}
+          trip={{ ...tripResult, tripPatterns: [] }}
+          departureMode={DepartureMode.DepartBy}
+          nonTransitTrips={nonTransitTripResult}
+          initialTransportModesFilter={['bus']}
+        />,
+      );
+
+      expect(
+        output.getByText('Prøv å justere på sted, filter eller tidspunkt.'),
+      ).toBeInTheDocument();
+    };
 });

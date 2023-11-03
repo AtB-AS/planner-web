@@ -13,6 +13,7 @@ import { createDynamicRouteParser } from 'next-router-mock/dynamic-routes';
 import { departureDataFixture } from './departure-data.fixture';
 import { StopPlace } from '../stop-place';
 import userEvent from '@testing-library/user-event';
+import { NearestStopPlaces } from '..';
 afterEach(function () {
   cleanup();
 });
@@ -110,5 +111,14 @@ describe('departure page', function () {
     await userEvent.click(button[0]);
     lists = output.getAllByRole('list');
     expect(lists.length).toBe(1);
+  });
+
+  it('should render empty search results', () => {
+    const output = render(
+      <NearestStopPlaces activeLocation={undefined} nearestStopPlaces={[]} />,
+    );
+    expect(
+      output.getByText('Finner ingen holdeplasser i nærheten'),
+    ).toBeInTheDocument();
   });
 });
