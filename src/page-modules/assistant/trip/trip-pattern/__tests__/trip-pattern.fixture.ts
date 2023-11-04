@@ -1,6 +1,6 @@
 import { TripPattern } from '../../../server/journey-planner/validators';
 
-export const tripFixture: TripPattern = {
+export const tripPatternFixture: TripPattern = {
   expectedStartTime: '2023-01-01T00:00:00+01:00',
   expectedEndTime: '2023-01-01T01:00:00+01:00',
   duration: 3600,

@@ -2,7 +2,7 @@ import { cleanup, render, screen } from '@testing-library/react';
 import mockRouter from 'next-router-mock';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { createDynamicRouteParser } from 'next-router-mock/dynamic-routes';
-import { tripFixture } from './trip.fixture';
+import { tripPatternFixture } from './trip-pattern.fixture';
 import {
   AppCookiesProvider,
   AppCookiesProviderProps,
@@ -45,13 +45,13 @@ const customRender = (
   );
 };
 
-describe('trip', function () {
+describe('trip pattern', function () {
   describe('trip summary', function () {
     it('should create correct summary', () => {
       const Test = function () {
         const { t, language } = useTranslation();
 
-        const summary = tripSummary(tripFixture, t, language, false, 1);
+        const summary = tripSummary(tripPatternFixture, t, language, false, 1);
         return (
           <div data-testid="test-id" aria-label={summary}>
             {summary}
@@ -66,11 +66,11 @@ describe('trip', function () {
         .getAttribute('aria-label');
 
       const startTime = formatToClock(
-        tripFixture.expectedStartTime,
+        tripPatternFixture.expectedStartTime,
         Language.Norwegian,
       );
       const endTime = formatToClock(
-        tripFixture.expectedEndTime,
+        tripPatternFixture.expectedEndTime,
         Language.Norwegian,
       );
 
@@ -85,7 +85,7 @@ describe('trip', function () {
       const Test = function () {
         const { t, language } = useTranslation();
 
-        const summary = tripSummary(tripFixture, t, language, false, 1);
+        const summary = tripSummary(tripPatternFixture, t, language, false, 1);
         return (
           <div data-testid="test-id" aria-label={summary}>
             {summary}
@@ -107,11 +107,11 @@ describe('trip', function () {
         .getAttribute('aria-label');
 
       const startTime = formatToClock(
-        tripFixture.expectedStartTime,
+        tripPatternFixture.expectedStartTime,
         Language.Norwegian,
       );
       const endTime = formatToClock(
-        tripFixture.expectedEndTime,
+        tripPatternFixture.expectedEndTime,
         Language.Norwegian,
       );
 
@@ -126,7 +126,7 @@ describe('trip', function () {
       const Test = function () {
         const { t, language } = useTranslation();
 
-        const summary = tripSummary(tripFixture, t, language, false, 1);
+        const summary = tripSummary(tripPatternFixture, t, language, false, 1);
         return (
           <div data-testid="test-id" aria-label={summary}>
             {summary}
@@ -148,11 +148,11 @@ describe('trip', function () {
         .getAttribute('aria-label');
 
       const startTime = formatToClock(
-        tripFixture.expectedStartTime,
+        tripPatternFixture.expectedStartTime,
         Language.Norwegian,
       );
       const endTime = formatToClock(
-        tripFixture.expectedEndTime,
+        tripPatternFixture.expectedEndTime,
         Language.Norwegian,
       );
 
@@ -167,7 +167,7 @@ describe('trip', function () {
       const Test = function () {
         const { t, language } = useTranslation();
 
-        const summary = tripSummary(tripFixture, t, language, true, 1);
+        const summary = tripSummary(tripPatternFixture, t, language, true, 1);
         return (
           <div data-testid="test-id" aria-label={summary}>
             {summary}
@@ -190,7 +190,7 @@ describe('trip', function () {
       const Test = function () {
         const { t, language } = useTranslation();
 
-        const summary = tripSummary(tripFixture, t, language, true, 5);
+        const summary = tripSummary(tripPatternFixture, t, language, true, 5);
         return (
           <div data-testid="test-id" aria-label={summary}>
             {summary}

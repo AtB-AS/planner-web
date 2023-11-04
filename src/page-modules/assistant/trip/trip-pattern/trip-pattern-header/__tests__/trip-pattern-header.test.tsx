@@ -2,8 +2,8 @@ import { cleanup, render, screen } from '@testing-library/react';
 import mockRouter from 'next-router-mock';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { createDynamicRouteParser } from 'next-router-mock/dynamic-routes';
-import { getQuayName, getStartModeAndPlace, TripPatternHeader } from '..';
-import { tripFixture } from './trip.fixture';
+import { getQuayName, getStartModeAndPlace, TripPatternHeader } from '../index';
+import { tripPatternFixture } from './trip-pattern.fixture';
 import {
   AppCookiesProvider,
   AppCookiesProviderProps,
@@ -34,14 +34,14 @@ const customRender = (
 
 describe('trip pattern header', function () {
   it('should render trip pattern header', async () => {
-    render(<TripPatternHeader tripPattern={tripFixture} />);
+    render(<TripPatternHeader tripPattern={tripPatternFixture} />);
 
     expect(screen.getByText('Buss fra From 1')).toBeInTheDocument();
     expect(screen.getByText('1 time')).toBeInTheDocument();
   });
 
   it('should render trip pattern header in english', async () => {
-    customRender(<TripPatternHeader tripPattern={tripFixture} />, {
+    customRender(<TripPatternHeader tripPattern={tripPatternFixture} />, {
       providerProps: {
         initialCookies: {
           darkmode: true,
@@ -55,7 +55,7 @@ describe('trip pattern header', function () {
   });
 
   it('should render trip pattern header in nynorsk', async () => {
-    customRender(<TripPatternHeader tripPattern={tripFixture} />, {
+    customRender(<TripPatternHeader tripPattern={tripPatternFixture} />, {
       providerProps: {
         initialCookies: {
           darkmode: true,
@@ -91,13 +91,13 @@ describe('trip pattern header', function () {
   });
 
   it('should get quay name from trip', () => {
-    const quayName = getQuayName(tripFixture.legs[0].fromPlace.quay);
+    const quayName = getQuayName(tripPatternFixture.legs[0].fromPlace.quay);
 
     expect(quayName).toBe('From 1');
   });
 
   it('should get start mode and start place from trip', () => {
-    const { startMode, startPlace } = getStartModeAndPlace(tripFixture);
+    const { startMode, startPlace } = getStartModeAndPlace(tripPatternFixture);
 
     expect(startMode).toBe('bus');
     expect(startPlace).toBe('From 1');

@@ -1,39 +1,33 @@
 import {
-  formatLocaleTime,
   formatToSimpleDate,
   formatToWeekday,
-  isInPast,
   parseIfNeeded,
 } from '@atb/utils/date';
 import {
   TripData,
-  type TripPattern,
-} from '@atb/page-modules/assistant/server/journey-planner/validators';
+  type TripPattern as TripPatternType,
+} from '../server/journey-planner/validators';
 import style from './trip.module.css';
 import { PageText, useTranslation } from '@atb/translations';
 import { Typo } from '@atb/components/typography';
-import { motion } from 'framer-motion';
-import { MonoIcon } from '@atb/components/icon';
-import { TransportIconWithLabel } from '@atb/components/transport-mode/transport-icon';
 import { GeocoderFeature } from '@atb/page-modules/departures';
 import { TransportModeFilterOption } from '@atb/components/transport-mode-filter/types';
-import { nextTripPatterns } from '@atb/page-modules/assistant/client';
+import { nextTripPatterns } from '../client';
 import {
   DepartureMode,
   NonTransitTripData,
   createTripQuery,
   filterOutDuplicates,
   getCursorByDepartureMode,
-} from '@atb/page-modules/assistant';
+} from '..';
 import { useEffect, useState } from 'react';
 import { getInitialTransportModeFilter } from '@atb/components/transport-mode-filter/utils';
 import { Button } from '@atb/components/button';
 import { NonTransitTrip } from '../non-transit-pill';
 import { isSameDay } from 'date-fns';
 import { capitalize } from 'lodash';
-import { TripPatternHeader } from '@atb/page-modules/assistant/trip/trip-pattern-header';
-import { tripSummary } from '@atb/page-modules/assistant/trip/utils';
 import EmptySearchResults from '@atb/components/empty-search-results';
+import TripPattern from './trip-pattern';
 
 export type TripProps = {
   initialFromFeature: GeocoderFeature;
@@ -91,7 +85,10 @@ export default function Trip({
         )}
 
         {tripPatterns.map((tripPattern, i) => (
-          <div key={`tripPattern-${tripPattern.expectedStartTime}-${i}`}>
+          <div
+            key={`tripPattern-${tripPattern.expectedStartTime}-${i}`}
+            className={style.tripPatternWrapper}
+          >
             <DayLabel
               departureTime={tripPattern.expectedStartTime}
               previousDepartureTime={tripPatterns[i - 1]?.expectedStartTime}
@@ -170,83 +167,6 @@ function useTripPatterns(initialTrip: TripData, departureMode: DepartureMode) {
   };
 }
 
-type TripPatternProps = {
-  tripPattern: TripPattern;
-  delay: number;
-  index: number;
-};
-
-function TripPattern({ tripPattern, delay, index }: TripPatternProps) {
-  const { t, language } = useTranslation();
-
-  return (
-    <motion.a
-      href="/assistant" // TODO: Use correct href.
-      className={style.tripPattern}
-      initial={{ opacity: 0, x: -10 }}
-      animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: -10 }}
-      transition={{
-        delay, // staggerChildren on parent only works first render
-      }}
-      aria-label={tripSummary(
-        tripPattern,
-        t,
-        language,
-        isInPast(tripPattern.legs[0].expectedStartTime),
-        index + 1,
-      )}
-    >
-      <TripPatternHeader tripPattern={tripPattern} />
-
-      <div className={style.legs}>
-        {tripPattern.legs.map((leg, i) => (
-          <div
-            key={`leg-${leg.expectedStartTime}-${i}`}
-            className={style.legs__leg}
-          >
-            <div className={style.legs__leg__icon}>
-              {leg.mode ? (
-                <TransportIconWithLabel
-                  mode={{ mode: leg.mode }}
-                  label={leg.line?.publicCode}
-                />
-              ) : (
-                <div className={style.legs__leg__walkIcon}>
-                  <MonoIcon icon="transportation/Walk" />
-                </div>
-              )}
-            </div>
-
-            <Typo.span textType="body__tertiary">
-              {formatLocaleTime(leg.aimedStartTime, language)}
-            </Typo.span>
-          </div>
-        ))}
-
-        <div className={style.legs__lastLeg}>
-          <div className={style.legs__lastLeg__line}></div>
-          <div className={style.legs__lastLeg__destination}>
-            <div className={style.legs__lastLeg__destination__icon}>
-              <MonoIcon icon="places/Destination" />
-            </div>
-            <Typo.span textType="body__tertiary">
-              {formatLocaleTime(tripPattern.expectedEndTime, language)}
-            </Typo.span>
-          </div>
-        </div>
-      </div>
-
-      <footer className={style.footer}>
-        <Typo.span textType="body__primary" className={style.footer__details}>
-          {t(PageText.Assistant.trip.tripPattern.details)}
-          <MonoIcon icon="navigation/ArrowRight" />
-        </Typo.span>
-      </footer>
-    </motion.a>
-  );
-}
-
 type DayLabelProps = {
   departureTime: string;
   previousDepartureTime?: string;
@@ -272,7 +192,7 @@ function DayLabel({ departureTime, previousDepartureTime }: DayLabelProps) {
   return null;
 }
 
-function tripPatternsWithTransitionDelay(tripPatterns: TripPattern[]) {
+function tripPatternsWithTransitionDelay(tripPatterns: TripPatternType[]) {
   return tripPatterns.map((tripPattern, i) => ({
     ...tripPattern,
     transitionDelay: i * 0.1,
