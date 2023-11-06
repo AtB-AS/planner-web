@@ -233,9 +233,17 @@ function AssistantLayout({
 
       <section className={style.contentContainer}>
         {isSearching && hasEmptyChild ? (
-          <Typo.p textType="body__primary" className={style.isSearching}>
-            {t(PageText.Assistant.search.searching)}
-          </Typo.p>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className={style.isSearching}
+          >
+            <Typo.p textType="body__primary">
+              {t(PageText.Assistant.search.searching)}
+            </Typo.p>
+          </motion.div>
         ) : (
           children
         )}

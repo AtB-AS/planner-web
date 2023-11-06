@@ -181,11 +181,19 @@ function DeparturesLayout({
 
       <section className={style.contentContainer}>
         {isSearching && hasEmptyChild ? (
-          <Typo.p textType="body__primary" className={style.isSearching}>
-            {selectedFeature?.layer === 'venue'
-              ? t(PageText.Departures.search.searching.stopPlace)
-              : t(PageText.Departures.search.searching.nearby)}
-          </Typo.p>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className={style.isSearching}
+          >
+            <Typo.p textType="body__primary">
+              {selectedFeature?.layer === 'venue'
+                ? t(PageText.Departures.search.searching.stopPlace)
+                : t(PageText.Departures.search.searching.nearby)}
+            </Typo.p>
+          </motion.div>
         ) : (
           children
         )}

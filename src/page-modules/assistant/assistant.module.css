@@ -132,7 +132,7 @@
 }
 
 .isSearching {
-  margin: 0 auto;
   padding: 2.5rem;
+  text-align: center;
   color: var(--text-colors-secondary);
 }
