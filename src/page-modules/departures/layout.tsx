@@ -21,6 +21,7 @@ import { MonoIcon } from '@atb/components/icon';
 import { FocusScope } from '@react-aria/focus';
 import GeolocationButton from '@atb/components/search/geolocation-button';
 import { AnimatePresence, motion } from 'framer-motion';
+import React from 'react';
 
 export type DeparturesLayoutProps = PropsWithChildren<{
   initialTransportModesFilter?: TransportModeFilterOption[] | null;
@@ -41,8 +42,9 @@ function DeparturesLayout({
   const [transportModeFilter, setTransportModeFilter] = useState(
     getInitialTransportModeFilter(initialTransportModesFilter),
   );
+  const [isSearching, setIsSearching] = useState(false);
 
-  const onSubmitHandler: FormEventHandler<HTMLFormElement> = (e) => {
+  const onSubmitHandler: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
 
     let query = {};
@@ -56,14 +58,16 @@ function DeparturesLayout({
     }
 
     if (selectedFeature?.layer == 'venue') {
+      setIsSearching(true);
       // TODO: Using URL object encodes all query params
-      router.push({
+      await router.push({
         pathname: `/departures/[[...id]]`,
         query: { ...query, id: selectedFeature.id },
       });
     } else if (selectedFeature?.layer == 'address') {
+      setIsSearching(true);
       const [lon, lat] = selectedFeature.geometry.coordinates;
-      router.push({
+      await router.push({
         href: '/departures',
         query: {
           ...query,
@@ -72,7 +76,15 @@ function DeparturesLayout({
         },
       });
     }
+    setIsSearching(false);
   };
+
+  const hasEmptyChild = React.Children.toArray(children).some((child) => {
+    if (React.isValidElement(child)) {
+      return 'empty' in child.props;
+    }
+    return false;
+  });
 
   return (
     <div className={style.departuresPage}>
@@ -162,11 +174,30 @@ function DeparturesLayout({
             mode="interactive_0"
             disabled={!selectedFeature}
             buttonProps={{ type: 'submit' }}
+            state={isSearching ? 'loading' : undefined}
           />
         </div>
       </form>
 
-      <section className={style.contentContainer}>{children}</section>
+      <section className={style.contentContainer}>
+        {isSearching && hasEmptyChild ? (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className={style.isSearching}
+          >
+            <Typo.p textType="body__primary">
+              {selectedFeature?.layer === 'venue'
+                ? t(PageText.Departures.search.searching.stopPlace)
+                : t(PageText.Departures.search.searching.nearby)}
+            </Typo.p>
+          </motion.div>
+        ) : (
+          children
+        )}
+      </section>
     </div>
   );
 }
