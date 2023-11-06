@@ -6,10 +6,10 @@ import style from './trip-pattern-header.module.css';
 import { Typo } from '@atb/components/typography';
 import { useTranslation, PageText } from '@atb/translations';
 import { secondsToDuration } from '@atb/utils/date';
-import { SituationOrNoticeIcon } from '@atb/modules/situations/situation-or-notice-icon';
 import { flatMap } from 'lodash';
 import { getNoticesForLeg } from '@atb/page-modules/assistant/trip/trip-pattern/trip-pattern-header/utils';
 import { RailReplacementBusMessage } from './rail-replacement-bus';
+import { SituationOrNoticeIcon } from '@atb/modules/situations';
 
 type TripPatternHeaderProps = {
   tripPattern: TripPattern;
