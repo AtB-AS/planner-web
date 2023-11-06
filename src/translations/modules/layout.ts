@@ -28,16 +28,20 @@ export const LayoutInternal = {
             'Språk og utsjånad',
           ),
           setLanguage: {
-            norsk: _('Endre til norsk', 'Endre til norsk', 'Endre til norsk'),
+            norsk: _(
+              'Endre til norsk (bokmål)',
+              'Endre til norsk (bokmål)',
+              'Endre til norsk (bokmål)',
+            ),
             english: _(
               'Switch to English',
               'Switch to English',
               'Switch to English',
             ),
             nynorsk: _(
-              'Endre til nynorsk',
-              'Endre til nynorsk',
-              'Endre til nynorsk',
+              'Endre til norsk (nynorsk)',
+              'Endre til norsk (nynorsk)',
+              'Endre til norsk (nynorsk)',
             ),
           },
           toggleDarkMode: _(
