@@ -24,6 +24,7 @@ import {
 import SwapButton from '@atb/components/search/swap-button';
 import GeolocationButton from '@atb/components/search/geolocation-button';
 import { AnimatePresence, motion } from 'framer-motion';
+import React from 'react';
 
 export type AssistantLayoutProps = PropsWithChildren<{
   initialFromFeature?: GeocoderFeature;
@@ -60,7 +61,7 @@ function AssistantLayout({
   const [isSwapping, setIsSwapping] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
 
-  const onSwap = () => {
+  const onSwap = async () => {
     if (!selectedToFeature || !selectedFromFeature) return;
     setIsSwapping(true);
     const query = createTripQuery(
@@ -75,9 +76,11 @@ function AssistantLayout({
     const temp = selectedFromFeature;
     setSelectedFromFeature(selectedToFeature);
     setSelectedToFeature(temp);
-    router
-      .push({ pathname: '/assistant', query })
-      .then(() => setIsSwapping(false));
+    setIsSwapping(false);
+
+    setIsSearching(true);
+    await router.push({ pathname: '/assistant', query });
+    setIsSearching(false);
   };
 
   const onGeolocate = (geolocationFeature: GeocoderFeature) => {
@@ -95,7 +98,7 @@ function AssistantLayout({
     router.push({ pathname: '/assistant', query });
   };
 
-  const onSubmitHandler: FormEventHandler<HTMLFormElement> = (e) => {
+  const onSubmitHandler: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     if (!selectedFromFeature || !selectedToFeature) return;
     setIsSearching(true);
@@ -108,10 +111,16 @@ function AssistantLayout({
         : undefined,
       transportModeFilter,
     );
-    router
-      .push({ pathname: '/assistant', query })
-      .then(() => setIsSearching(false));
+    await router.push({ pathname: '/assistant', query });
+    setIsSearching(false);
   };
+
+  const hasEmptyChild = React.Children.toArray(children).some((child) => {
+    if (React.isValidElement(child)) {
+      return 'empty' in child.props;
+    }
+    return false;
+  });
 
   return (
     <div>
@@ -223,7 +232,7 @@ function AssistantLayout({
       </form>
 
       <section className={style.contentContainer}>
-        {isSearching || isSwapping ? (
+        {isSearching && hasEmptyChild ? (
           <Typo.p textType="body__primary" className={style.isSearching}>
             {t(PageText.Assistant.search.searching)}
           </Typo.p>
