@@ -1,10 +1,7 @@
 import { useClientWidth } from '@atb/utils/use-client-width';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
-import {
-  getFilteredLegsByWalkOrWaitTime,
-  tripSummary,
-} from '@atb/page-modules/assistant/trip/trip-pattern/utils';
+import { getFilteredLegsByWalkOrWaitTime, tripSummary } from './utils';
 import { useTranslation, PageText } from '@atb/translations';
 import { type TripPattern as TripPatternType } from '../../server/journey-planner/validators';
 import style from './trip-pattern.module.css';
