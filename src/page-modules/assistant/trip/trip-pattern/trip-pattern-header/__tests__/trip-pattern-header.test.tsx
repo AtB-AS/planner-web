@@ -2,7 +2,7 @@ import { cleanup, render, screen } from '@testing-library/react';
 import mockRouter from 'next-router-mock';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { createDynamicRouteParser } from 'next-router-mock/dynamic-routes';
-import { getQuayName, getStartModeAndPlace, TripPatternHeader } from '../index';
+import { getQuayName, getStartModeAndPlace, TripPatternHeader } from '..';
 import { tripPatternFixture } from './trip-pattern.fixture';
 import {
   AppCookiesProvider,
