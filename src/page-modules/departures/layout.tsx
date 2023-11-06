@@ -1,4 +1,3 @@
-import type { WithGlobalData } from '@atb/layouts/global-data';
 import type { GeocoderFeature } from '@atb/page-modules/departures';
 import { PageText, useTranslation } from '@atb/translations';
 import { FormEventHandler, PropsWithChildren, useState } from 'react';
@@ -6,10 +5,6 @@ import Search from '@atb/components/search';
 import { Button } from '@atb/components/button';
 import style from './departures.module.css';
 import { useRouter } from 'next/router';
-import DepartureDateSelector, {
-  DepartureDate,
-  DepartureDateState,
-} from '@atb/components/departure-date-selector';
 import TransportModeFilter from '@atb/components/transport-mode-filter';
 import { Typo } from '@atb/components/typography';
 import {
@@ -22,6 +17,7 @@ import { FocusScope } from '@react-aria/focus';
 import GeolocationButton from '@atb/components/search/geolocation-button';
 import { AnimatePresence, motion } from 'framer-motion';
 import React from 'react';
+import { SearchTime, SearchTimeSelector } from '@atb/modules/search-time';
 
 export type DeparturesLayoutProps = PropsWithChildren<{
   initialTransportModesFilter?: TransportModeFilterOption[] | null;
@@ -36,9 +32,7 @@ function DeparturesLayout({
 
   const [showAlternatives, setShowAlternatives] = useState(false);
   const [selectedFeature, setSelectedFeature] = useState<GeocoderFeature>();
-  const [departureDate, setDepartureDate] = useState<DepartureDate>({
-    type: DepartureDateState.Now,
-  });
+  const [searchTime, setSearchTime] = useState<SearchTime>({ mode: 'now' });
   const [transportModeFilter, setTransportModeFilter] = useState(
     getInitialTransportModeFilter(initialTransportModesFilter),
   );
@@ -117,9 +111,9 @@ function DeparturesLayout({
               {t(PageText.Departures.search.date.label)}
             </Typo.p>
 
-            <DepartureDateSelector
-              initialState={departureDate}
-              onChange={setDepartureDate}
+            <SearchTimeSelector
+              initialState={searchTime}
+              onChange={setSearchTime}
             />
           </div>
         </motion.div>

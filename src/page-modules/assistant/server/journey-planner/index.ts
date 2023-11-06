@@ -26,7 +26,7 @@ import {
   isTransportModeType,
   isTransportSubmodeType,
 } from '@atb/page-modules/departures/server/journey-planner';
-import { filterOutDuplicates, getCursorByDepartureMode } from '../../utils';
+import { filterOutDuplicates, getCursorBySearchMode } from '../../utils';
 
 const MIN_NUMBER_OF_TRIP_PATTERNS = 8;
 const MAX_NUMBER_OF_SEARCH_ATTEMPTS = 5;
@@ -50,9 +50,10 @@ export function createJourneyApi(
     async nonTransitTrips(input) {
       const from = inputToLocation(input, 'from');
       const to = inputToLocation(input, 'to');
-      const when = input.departureDate
-        ? new Date(input.departureDate)
-        : new Date();
+      const when =
+        input.searchTime.mode !== 'now'
+          ? new Date(input.searchTime.dateTime)
+          : new Date();
 
       const result = await client.query<
         TripsNonTransitQuery,
@@ -62,7 +63,7 @@ export function createJourneyApi(
         variables: {
           from,
           to,
-          arriveBy: input.departureMode === 'arriveBy',
+          arriveBy: input.searchTime.mode === 'arriveBy',
           when,
           walkSpeed: 1.3,
 
@@ -118,14 +119,15 @@ export function createJourneyApi(
       const from = inputToLocation(input, 'from');
       const to = inputToLocation(input, 'to');
 
-      const when = input.departureDate
-        ? new Date(input.departureDate)
-        : new Date();
+      const when =
+        input.searchTime.mode !== 'now'
+          ? new Date(input.searchTime.dateTime)
+          : new Date();
 
       const queryVariables = {
         from,
         to,
-        arriveBy: input.departureMode === 'arriveBy',
+        arriveBy: input.searchTime.mode === 'arriveBy',
         when,
         modes: journeyModes,
         cursor: input.cursor,
@@ -138,7 +140,7 @@ export function createJourneyApi(
       do {
         if (trip && trip.nextPageCursor && trip.previousPageCursor) {
           cursor =
-            getCursorByDepartureMode(trip, input.departureMode) || undefined;
+            getCursorBySearchMode(trip, input.searchTime.mode) || undefined;
         }
 
         const result = await client.query<TripsQuery, TripsQueryVariables>({

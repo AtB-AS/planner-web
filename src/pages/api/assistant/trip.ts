@@ -5,6 +5,7 @@ import { handlerWithAssistantClient } from '@atb/page-modules/assistant/server';
 import { parseTripQuery } from '@atb/page-modules/assistant';
 import { ServerText } from '@atb/translations';
 import { constants } from 'http2';
+import { parseSearchTimeQuery } from '@atb/modules/search-time/utils';
 
 export default handlerWithAssistantClient<TripApiReturnType>({
   async GET(req, res, { client, ok }) {
@@ -29,6 +30,10 @@ export default handlerWithAssistantClient<TripApiReturnType>({
     );
 
     const transportModeFilter = parseFilterQuery(tripQuery.filter);
+    const searchTime = parseSearchTimeQuery(
+      tripQuery.searchMode,
+      tripQuery.searchTime,
+    );
 
     if (!from || !to) {
       return errorResultAsJson(
@@ -43,8 +48,7 @@ export default handlerWithAssistantClient<TripApiReturnType>({
         await client.trip({
           from,
           to,
-          departureMode: tripQuery.departureMode,
-          departureDate: tripQuery.departureDate,
+          searchTime,
           transportModes: transportModeFilter || undefined,
           cursor: tripQuery.cursor,
         }),

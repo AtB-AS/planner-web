@@ -15,7 +15,6 @@ import {
   toFeature,
   tripResult,
 } from './assistant-data.fixture';
-import { DepartureMode } from '..';
 
 afterEach(function () {
   cleanup();
@@ -60,7 +59,8 @@ describe('assistant page', function () {
         toLon: 10.358037,
         toLat: 63.398886,
         toLayer: 'venue',
-        departureMode: 'departBy',
+        searchMode: 'departBy',
+        searchTime: 123,
       },
     };
 
@@ -72,8 +72,11 @@ describe('assistant page', function () {
     (await expectProps(result)).toContain({
       initialFromFeature: fromFeature,
       initialToFeature: toFeature,
+      // initialSearchTime: {
+      //   mode: 'departBy',
+      //   dateTime: 123,
+      // },
       trip: tripResult,
-      departureMode: 'departBy',
       nonTransitTrips: nonTransitTripResult,
     });
   });
@@ -104,7 +107,7 @@ describe('assistant page', function () {
         initialFromFeature={fromFeature}
         initialToFeature={toFeature}
         trip={{ ...tripResult, tripPatterns: [] }}
-        departureMode={DepartureMode.DepartBy}
+        initialSearchTime={{ mode: 'departBy', dateTime: Date.now() }}
         nonTransitTrips={nonTransitTripResult}
         initialTransportModesFilter={null}
       />,
@@ -119,21 +122,20 @@ describe('assistant page', function () {
     ).toBeInTheDocument();
   });
 
-  it('should render empty search results with filter details'),
-    () => {
-      const output = render(
-        <Trip
-          initialFromFeature={fromFeature}
-          initialToFeature={toFeature}
-          trip={{ ...tripResult, tripPatterns: [] }}
-          departureMode={DepartureMode.DepartBy}
-          nonTransitTrips={nonTransitTripResult}
-          initialTransportModesFilter={['bus']}
-        />,
-      );
+  it('should render empty search results with filter details', () => {
+    const output = render(
+      <Trip
+        initialFromFeature={fromFeature}
+        initialToFeature={toFeature}
+        trip={{ ...tripResult, tripPatterns: [] }}
+        initialSearchTime={{ mode: 'departBy', dateTime: Date.now() }}
+        nonTransitTrips={nonTransitTripResult}
+        initialTransportModesFilter={['bus']}
+      />,
+    );
 
-      expect(
-        output.getByText('Prøv å justere på sted, filter eller tidspunkt.'),
-      ).toBeInTheDocument();
-    };
+    expect(
+      output.getByText('Prøv å justere på sted, filter eller tidspunkt.'),
+    ).toBeInTheDocument();
+  });
 });
