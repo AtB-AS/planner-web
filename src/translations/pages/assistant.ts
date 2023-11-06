@@ -37,9 +37,9 @@ export const Assistant = {
       },
     },
     searching: _(
-      'Laster søkeresultater…',
-      'Loading search results…',
-      'Lastar søkeresultata…',
+      'Laster reiseforslag...',
+      'Loading travel suggestion...',
+      'Lastar resiseforslag...',
     ),
   },
   trip: {
