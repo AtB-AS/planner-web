@@ -75,6 +75,12 @@
   right: 0;
 }
 
+.isSearching {
+  margin: 0 auto;
+  padding: 2.5rem;
+  color: var(--text-colors-secondary);
+  text-align: center;
+}
 
 @media (max-width: 650px) {
   .container {
