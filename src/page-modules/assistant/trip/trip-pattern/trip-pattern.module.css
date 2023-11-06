@@ -117,7 +117,7 @@
 }
 
 .footer {
-  border-top: 1px solid var(--static-background-background_0-background);
+  border-top: 1px solid var(--static-background-background_1-background);
   display: flex;
   justify-content: flex-end;
   padding: var(--spacings-small) var(--spacings-medium);
