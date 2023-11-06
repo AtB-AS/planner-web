@@ -1,0 +1,20 @@
+fragment situation on PtSituationElement {
+  id
+  situationNumber
+  summary {
+    ...multilingualString
+  }
+  description {
+    ...multilingualString
+  }
+  reportType
+  advice {
+    ...multilingualString
+  }
+  infoLinks {
+    ...infoLink
+  }
+  validityPeriod {
+    ...validityPeriod
+  }
+}
