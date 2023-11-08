@@ -7,6 +7,7 @@
     "test": "vitest",
     "dev": "next dev",
     "build": "next build",
+    "build:widget": "yarn vite build ./src/widget",
     "build:all": "sh ./scripts/build.sh",
     "build:docker": "sh ./scripts/build-docker.sh",
     "start": "next start",
