@@ -7,14 +7,16 @@ import {
   TripsNonTransitQueryVariables,
   TripsQuery,
   TripsQueryVariables,
-} from '@atb/page-modules/assistant/server/journey-planner/journey-gql/trip.generated';
+} from './journey-gql/trip.generated';
 import {
   Notice,
   Situation,
   TripData,
+  nonTransitSchema,
   tripSchema,
-} from '@atb/page-modules/assistant/server/journey-planner/validators';
+} from './validators';
 import type {
+  NonTransitData,
   NonTransitTripData,
   NonTransitTripInput,
   TripInput,
@@ -79,9 +81,17 @@ export function createJourneyApi(
 
       let nonTransits: NonTransitTripData = {};
 
-      for (let [legType, trip] of Object.entries(result.data)) {
-        const data: RecursivePartial<TripData> = mapResultToTrips(trip);
-        const validated = tripSchema.safeParse(data);
+      for (let [legType, nonTransitTrip] of Object.entries(result.data)) {
+        const data: Partial<NonTransitData> = {
+          duration: nonTransitTrip.tripPatterns[0]?.duration,
+          mode: nonTransitTrip.tripPatterns[0]?.legs[0]?.mode as any,
+          rentedBike:
+            nonTransitTrip.tripPatterns[0]?.legs?.some(
+              (leg) => leg.rentedBike,
+            ) ?? false,
+        };
+
+        const validated = nonTransitSchema.safeParse(data);
         if (!validated.success) {
           throw validated.error;
         }

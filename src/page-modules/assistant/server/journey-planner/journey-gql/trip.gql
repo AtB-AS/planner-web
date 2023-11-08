@@ -43,10 +43,17 @@ query TripsNonTransit(
     to: $to
     dateTime: $when
     arriveBy: $arriveBy
+    numTripPatterns: 1
     walkSpeed: $walkSpeed
     modes: { directMode: foot, transportModes: [] }
   ) @include(if: $includeFoot) {
-    ...trip
+    tripPatterns {
+      duration
+      legs {
+        mode
+        rentedBike
+      }
+    }
   }
   bikeRentalTrip: trip(
     from: $from
@@ -54,19 +61,33 @@ query TripsNonTransit(
     dateTime: $when
     arriveBy: $arriveBy
     walkSpeed: $walkSpeed
+    numTripPatterns: 1
     modes: { directMode: bike_rental, transportModes: [] }
   ) @include(if: $includeBikeRental) {
-    ...trip
+    tripPatterns {
+      duration
+      legs {
+        mode
+        rentedBike
+      }
+    }
   }
   bicycleTrip: trip(
     from: $from
     to: $to
     dateTime: $when
     arriveBy: $arriveBy
+    numTripPatterns: 1
     walkSpeed: $walkSpeed
     modes: { directMode: bicycle, transportModes: [] }
   ) @include(if: $includeBicycle) {
-    ...trip
+    tripPatterns {
+      duration
+      legs {
+        mode
+        rentedBike
+      }
+    }
   }
 }
 

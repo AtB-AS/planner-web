@@ -161,9 +161,16 @@ export const tripSchema = z.object({
   tripPatterns: z.array(tripPatternSchema),
 });
 
+export const nonTransitSchema = z.object({
+  mode: TransportModeType,
+  rentedBike: z.boolean(),
+  duration: z.number(),
+});
+
 export type Notice = z.infer<typeof noticeSchema>;
 export type Situation = z.infer<typeof situationSchema>;
 export type TripData = z.infer<typeof tripSchema>;
+export type NonTransitData = z.infer<typeof nonTransitSchema>;
 export type TripPattern = z.infer<typeof tripPatternSchema>;
 export type Leg = z.infer<typeof legSchema>;
 export type Quay = z.infer<typeof quaySchema>;

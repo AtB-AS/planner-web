@@ -30,8 +30,8 @@ export const tripResult: TripData = {
 
 export const nonTransitTripResult: NonTransitTripData = {
   footTrip: {
-    nextPageCursor: 'ccc',
-    previousPageCursor: 'ddd',
-    tripPatterns: [],
+    duration: 0,
+    mode: 'bus',
+    rentedBike: false,
   },
 };
