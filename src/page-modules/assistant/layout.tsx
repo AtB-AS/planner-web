@@ -18,9 +18,9 @@ import { FocusScope } from '@react-aria/focus';
 import {
   createTripQuery,
   departureDateToDepartureMode,
-  DepartureMode,
   departureModeToDepartureDate,
-} from '@atb/page-modules/assistant';
+} from './utils';
+import { DepartureMode } from './types';
 import SwapButton from '@atb/components/search/swap-button';
 import GeolocationButton from '@atb/components/search/geolocation-button';
 import { AnimatePresence, motion } from 'framer-motion';
