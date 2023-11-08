@@ -9,7 +9,7 @@ export function useClientWidth<T extends HTMLElement>() {
     if (ref.current) setWidth(ref.current.clientWidth);
   }, [ref]);
 
-  useResizeObserver(ref, (entry) => setWidth(entry.contentRect.width));
+  useResizeObserver(ref, (entry) => setWidth(entry.target.clientWidth));
 
   return [width, ref] as const;
 }

@@ -1,8 +1,8 @@
 import { useClientWidth } from '@atb/utils/use-client-width';
 import { motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { getFilteredLegsByWalkOrWaitTime, tripSummary } from './utils';
-import { useTranslation, PageText } from '@atb/translations';
+import { PageText, useTranslation } from '@atb/translations';
 import { type TripPattern as TripPatternType } from '../../server/journey-planner/validators';
 import style from './trip-pattern.module.css';
 import { formatLocaleTime, isInPast } from '@atb/utils/date';
@@ -10,6 +10,8 @@ import { TripPatternHeader } from './trip-pattern-header';
 import { TransportIconWithLabel } from '@atb/components/transport-mode/transport-icon';
 import { MonoIcon } from '@atb/components/icon';
 import { Typo } from '@atb/components/typography';
+
+const LAST_LEG_PADDING = 20;
 
 type TripPatternProps = {
   tripPattern: TripPatternType;
@@ -42,7 +44,7 @@ export default function TripPattern({
   // Dynamically collapse legs to fit horizontally
   useEffect(() => {
     if (legsParentWidth && legsContentWidth) {
-      if (legsContentWidth >= legsParentWidth) {
+      if (legsContentWidth >= legsParentWidth - LAST_LEG_PADDING) {
         setNumberOfExpandedLegs((val) => Math.max(val - 1, 1));
       }
       // TODO: Increase expanded legs if there is space?
@@ -73,27 +75,33 @@ export default function TripPattern({
         <div className={style.legs__expandedLegsContainer} ref={legsParentRef}>
           <div className={style.legs__expandedLegs} ref={legsContentRef}>
             {expandedLegs.map((leg, i) => (
-              <div
-                key={`leg-${leg.expectedStartTime}-${i}`}
-                className={style.legs__leg}
-              >
-                <div className={style.legs__leg__icon}>
-                  {leg.mode ? (
-                    <TransportIconWithLabel
-                      mode={{ mode: leg.mode }}
-                      label={leg.line?.publicCode}
-                    />
-                  ) : (
-                    <div className={style.legs__leg__walkIcon}>
-                      <MonoIcon icon="transportation/Walk" />
-                    </div>
-                  )}
+              <Fragment key={`leg-${leg.expectedStartTime}-${i}`}>
+                <div className={style.legs__leg}>
+                  <div className={style.legs__leg__icon}>
+                    {leg.mode ? (
+                      <TransportIconWithLabel
+                        mode={{ mode: leg.mode }}
+                        label={leg.line?.publicCode}
+                      />
+                    ) : (
+                      <div className={style.legs__leg__walkIcon}>
+                        <MonoIcon icon="transportation/Walk" />
+                      </div>
+                    )}
+                  </div>
+
+                  <Typo.span textType="body__tertiary">
+                    {formatLocaleTime(leg.aimedStartTime, language)}
+                  </Typo.span>
                 </div>
 
-                <Typo.span textType="body__tertiary">
-                  {formatLocaleTime(leg.aimedStartTime, language)}
-                </Typo.span>
-              </div>
+                {(i < expandedLegs.length - 1 || collapsedLegs.length > 0) && (
+                  <div className={style.legs__legLineContainer}>
+                    <div className={style.legs__legLine} />
+                    <div className={style.legs__legLine} />
+                  </div>
+                )}
+              </Fragment>
             ))}
 
             {collapsedLegs.length > 0 && (
@@ -103,6 +111,10 @@ export default function TripPattern({
                 </Typo.span>
               </div>
             )}
+          </div>
+
+          <div className={style.legs__lastLegLineContainer}>
+            <div className={style.legs__lastLegLine} />
           </div>
         </div>
 
