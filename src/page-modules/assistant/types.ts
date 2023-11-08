@@ -1,7 +1,10 @@
 import { TransportModeFilterOption } from '@atb/components/transport-mode-filter/types';
 import { GeocoderFeature } from '@atb/page-modules/departures';
 import { z } from 'zod';
-import type { TripData } from './server/journey-planner/validators';
+import type {
+  NonTransitData,
+  TripData,
+} from './server/journey-planner/validators';
 
 export enum DepartureMode {
   DepartBy = 'departBy',
@@ -62,9 +65,9 @@ export type NonTransitTripInput = {
   directModes: StreetMode[];
 };
 
-export type { TripData };
+export type { TripData, NonTransitData };
 export type NonTransitTripData = {
-  cycleTrip?: TripData;
-  footTrip?: TripData;
-  bikeRentalTrip?: TripData;
+  cycleTrip?: NonTransitData;
+  footTrip?: NonTransitData;
+  bikeRentalTrip?: NonTransitData;
 };

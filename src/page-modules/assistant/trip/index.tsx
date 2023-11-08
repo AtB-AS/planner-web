@@ -84,12 +84,8 @@ export default function Trip({
       <div className={style.tripResults}>
         {nonTransits.length > 0 && (
           <div className={style.nonTransitResult}>
-            {Object.entries(nonTransitTrips).map(([legType, trip]) => (
-              <NonTransitTrip
-                key={legType}
-                tripPattern={trip.tripPatterns[0]}
-                nonTransitType={legType as keyof NonTransitTripData}
-              />
+            {Object.entries(nonTransitTrips).map(([legType, nonTransit]) => (
+              <NonTransitTrip key={legType} nonTransit={nonTransit} />
             ))}
           </div>
         )}

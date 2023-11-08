@@ -1,29 +1,26 @@
 import { ButtonLink } from '@atb/components/button';
 import { MonoIcon } from '@atb/components/icon';
 import { TransportMonoIcon } from '@atb/components/transport-mode';
-import { type TripPattern } from '@atb/page-modules/assistant/server/journey-planner/validators';
+import { TransportModeType } from '@atb/components/transport-mode/types';
 import { PageText, TranslateFunction, useTranslation } from '@atb/translations';
 import { secondsToDurationShort } from '@atb/utils/date';
-import { NonTransitTripData } from '..';
-import { TransportModeType } from '@atb/components/transport-mode/types';
 
 type NonTransitTripProps = {
-  tripPattern: TripPattern;
-  nonTransitType: keyof NonTransitTripData;
+  nonTransit: {
+    mode: TransportModeType;
+    rentedBike: boolean;
+    duration: number;
+  };
 };
-export function NonTransitTrip({
-  tripPattern,
-  nonTransitType,
-}: NonTransitTripProps) {
+export function NonTransitTrip({ nonTransit }: NonTransitTripProps) {
   const { t, language } = useTranslation();
 
-  if (!tripPattern) {
+  if (!nonTransit) {
     return null;
   }
 
-  const { mode, modeText } = getMode(tripPattern, t);
-
-  const durationShort = secondsToDurationShort(tripPattern.duration, language);
+  const { mode, modeText } = getMode(nonTransit, t);
+  const durationShort = secondsToDurationShort(nonTransit.duration, language);
 
   return (
     <ButtonLink
@@ -40,14 +37,13 @@ export function NonTransitTrip({
 }
 
 const getMode = (
-  tp: TripPattern,
+  opts: { mode: TransportModeType; rentedBike: boolean },
   t: TranslateFunction,
 ): { mode: TransportModeType; modeText: string } => {
-  let mode = tp.legs[0]?.mode ?? 'unknown';
+  let mode = opts.mode;
   let text = t(PageText.Assistant.trip.nonTransit.unknown);
 
-  if (tp.legs.some((leg) => leg.rentedBike)) {
-    mode = 'bicycle';
+  if (opts.rentedBike) {
     text = t(PageText.Assistant.trip.nonTransit.bikeRental);
   } else if (mode === 'foot') {
     text = t(PageText.Assistant.trip.nonTransit.foot);
