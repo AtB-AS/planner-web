@@ -33,7 +33,7 @@ export function getCursorByDepartureMode(
   }
 }
 
-const featuresToFromToQuery = (from: GeocoderFeature, to: GeocoderFeature) => {
+function featuresToFromToQuery(from: GeocoderFeature, to: GeocoderFeature) {
   return {
     fromId: from.id,
     fromLon: from.geometry.coordinates[0],
@@ -44,16 +44,16 @@ const featuresToFromToQuery = (from: GeocoderFeature, to: GeocoderFeature) => {
     toLat: to.geometry.coordinates[1],
     toLayer: to.layer,
   };
-};
+}
 
-export const createTripQuery = (
+export function createTripQuery(
   fromFeature: GeocoderFeature,
   toFeature: GeocoderFeature,
   departureMode: DepartureMode,
   departureDate?: number,
   transportModeFilter?: TransportModeFilterState,
   cursor?: string,
-): TripQuery => {
+): TripQuery {
   let transportModeFilterQuery = {};
   if (transportModeFilter) {
     const filterQueryString = filterToQueryString(transportModeFilter);
@@ -76,9 +76,9 @@ export const createTripQuery = (
     ...cursorQuery,
     ...fromToQuery,
   };
-};
+}
 
-export const parseTripQuery = (query: any): TripQuery | undefined => {
+export function parseTripQuery(query: any): TripQuery | undefined {
   const requiredNumericFields = ['fromLat', 'fromLon', 'toLat', 'toLon'];
   requiredNumericFields.forEach((field) => {
     if (typeof query[field] === 'string')
@@ -96,7 +96,7 @@ export const parseTripQuery = (query: any): TripQuery | undefined => {
     return undefined;
   }
   return parsed.data;
-};
+}
 
 export function departureDateToDepartureMode(
   departureDate: DepartureDate,
