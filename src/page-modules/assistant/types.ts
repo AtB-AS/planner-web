@@ -5,7 +5,11 @@ import type {
   NonTransitData,
   TripData,
 } from './server/journey-planner/validators';
-import { SearchTime } from '@atb/modules/search-time';
+import {
+  SEARCH_MODES,
+  searchModeSchema,
+  SearchTime,
+} from '@atb/modules/search-time';
 
 export enum DepartureMode {
   DepartBy = 'departBy',
@@ -30,11 +34,7 @@ export const TripQuerySchema = z.object({
   toLat: z.number(),
   toLayer: z.union([z.literal('address'), z.literal('venue')]),
   filter: z.string().optional(),
-  searchMode: z.union([
-    z.literal('now'),
-    z.literal('arriveBy'),
-    z.literal('departBy'),
-  ]),
+  searchMode: searchModeSchema,
   searchTime: z.number().optional(),
   cursor: z.string().optional(),
 });
