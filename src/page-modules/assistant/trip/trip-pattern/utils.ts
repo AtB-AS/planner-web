@@ -3,7 +3,7 @@ import {
   secondsBetween,
   secondsToDuration,
 } from '@atb/utils/date';
-import { Leg, TripPattern } from '../server/journey-planner/validators';
+import { Leg, TripPattern } from '../../server/journey-planner/validators';
 import { getQuayName } from './trip-pattern-header';
 import { Language, TranslateFunction, PageText } from '@atb/translations';
 import dictionary from '@atb/translations/dictionary';
@@ -218,7 +218,7 @@ function isSignificantFootLegWalkOrWaitTime(leg: Leg, nextLeg?: Leg) {
   return mustWait || mustWalk;
 }
 
-function getFilteredLegsByWalkOrWaitTime(tripPattern: TripPattern) {
+export function getFilteredLegsByWalkOrWaitTime(tripPattern: TripPattern) {
   if (!!tripPattern?.legs?.length) {
     return tripPattern.legs.filter((leg, i) =>
       isSignificantFootLegWalkOrWaitTime(leg, tripPattern.legs[i + 1]),

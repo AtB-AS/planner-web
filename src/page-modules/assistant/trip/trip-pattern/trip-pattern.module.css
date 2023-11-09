@@ -1,0 +1,133 @@
+.tripPattern {
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--border-radius-regular);
+  background-color: var(--static-background-background_0-background);
+  text-decoration: none;
+  max-width: 100%;
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--spacings-small) var(--spacings-medium);
+}
+
+.header__duration {
+  color: var(--text-colors-secondary);
+}
+
+.legs {
+  display: flex;
+  align-items: center;
+  padding: var(--spacings-small) var(--spacings-medium);
+}
+
+.legs__expandedLegsContainer {
+  display: flex;
+  flex-grow: 1;
+  overflow: hidden;
+  max-width: 100%;
+  margin-right: var(--spacings-xSmall);
+}
+
+.legs__expandedLegs {
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+  margin-right: var(--spacings-xSmall);
+}
+
+.legs__leg {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacings-small);
+}
+
+.legs__leg__icon {
+  display: flex;
+  border-radius: var(--border-radius-small);
+  position: relative;
+}
+
+.legs__legLineContainer,
+.legs__lastLegLineContainer {
+  /* The height of the icon in a leg. */
+  --inner-height: 20px;
+  display: flex;
+  align-items: center;
+  gap: 0.125rem;
+  padding: 0 var(--spacings-xSmall);
+  /* Set the container to the same height as leg boxes to vertically center the line correctly. */
+  height: calc(var(--inner-height) + var(--spacings-small) * 2);
+}
+.legs__legLine,
+.legs__lastLegLine {
+  width: 0.3125rem;
+  height: 0.125rem;
+  background-color: var(--text-colors-disabled);
+  border-radius: var(--border-radius-circle);
+}
+
+.legs__lastLegLineContainer {
+  padding: 0;
+}
+
+.legs__lastLegLineContainer,
+.legs__lastLegLine {
+  flex: 1 1;
+}
+
+.legs__leg__walkIcon {
+  background-color: var(--static-background-background_2-background);
+  border-radius: var(--border-radius-small);
+  display: grid;
+  place-content: center;
+  padding: var(--spacings-small);
+}
+
+.legs__collapsedLegs {
+  background-color: var(--static-background-background_2-background);
+  border-radius: var(--border-radius-small);
+  padding: var(--spacings-small);
+  display: grid;
+  place-content: center;
+}
+
+.legs__collapsedLegs > span {
+  display: grid;
+  place-content: center;
+  height: 20px;
+  width: 20px;
+}
+
+.legs__lastLeg {
+  margin-left: auto;
+  display: flex;
+  gap: var(--spacings-small);
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.legs__lastLeg__icon {
+  background-color: var(--static-background-background_2-background);
+  border-radius: var(--border-radius-small);
+  display: grid;
+  place-content: center;
+  padding: var(--spacings-small);
+}
+
+.footer {
+  border-top: 1px solid var(--static-background-background_1-background);
+  display: flex;
+  justify-content: flex-end;
+  padding: var(--spacings-small) var(--spacings-medium);
+}
+
+.footer__details {
+  display: flex;
+  gap: var(--spacings-small);
+  align-items: center;
+}

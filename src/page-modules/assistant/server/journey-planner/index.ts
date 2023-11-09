@@ -20,16 +20,13 @@ import type {
   NonTransitTripData,
   NonTransitTripInput,
   TripInput,
-} from '@atb/page-modules/assistant/types';
+} from '../../types';
 import {
   getTransportModesEnums,
   isTransportModeType,
   isTransportSubmodeType,
 } from '@atb/page-modules/departures/server/journey-planner';
-import {
-  filterOutDuplicates,
-  getCursorByDepartureMode,
-} from '@atb/page-modules/assistant';
+import { filterOutDuplicates, getCursorByDepartureMode } from '../../utils';
 
 const MIN_NUMBER_OF_TRIP_PATTERNS = 8;
 const MAX_NUMBER_OF_SEARCH_ATTEMPTS = 5;
@@ -82,13 +79,17 @@ export function createJourneyApi(
       let nonTransits: NonTransitTripData = {};
 
       for (let [legType, nonTransitTrip] of Object.entries(result.data)) {
+        const tripPattern = nonTransitTrip.tripPatterns[0];
+
+        if (!tripPattern) {
+          // No trip pattern for trip, continuing.
+          continue;
+        }
+
         const data: Partial<NonTransitData> = {
-          duration: nonTransitTrip.tripPatterns[0]?.duration,
-          mode: nonTransitTrip.tripPatterns[0]?.legs[0]?.mode as any,
-          rentedBike:
-            nonTransitTrip.tripPatterns[0]?.legs?.some(
-              (leg) => leg.rentedBike,
-            ) ?? false,
+          duration: tripPattern.duration,
+          mode: tripPattern.legs[0]?.mode as any,
+          rentedBike: tripPattern.legs?.some((leg) => leg.rentedBike) ?? false,
         };
 
         const validated = nonTransitSchema.safeParse(data);
