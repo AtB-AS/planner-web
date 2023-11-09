@@ -1,0 +1,96 @@
+.container {
+  margin: 0 auto;
+  max-width: var(--maxPageWidth);
+  padding: var(--spacings-xLarge);
+
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  grid-template-areas:
+    'header header'
+    'serviceJourney map';
+  gap: var(--spacings-small);
+}
+@media (max-width: 650px) {
+  .container {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      'header'
+      'serviceJourney'
+      'map';
+  }
+}
+.headerContainer {
+  grid-area: header;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacings-large);
+}
+.mapContainer {
+  grid-area: map;
+  max-height: 37.5rem;
+  width: 100%;
+  margin: 0 auto;
+}
+.serviceJourneyContainer {
+  grid-area: serviceJourney;
+}
+@media (max-width: 650px) {
+  .serviceJourneyContainer {
+    margin: 0 auto;
+  }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacings-large);
+}
+
+.realtimeText {
+  display: flex;
+  align-items: center;
+  gap: var(--spacings-small);
+  font-size: 0.875rem;
+  color: var(--text-colors-secondary);
+}
+
+.callRows {
+  margin-top: var(--spacings-large);
+}
+.callRows__container {
+  padding: var(--spacings-medium);
+}
+.rowContainer {
+  position: relative;
+}
+.boardingInfo {
+  color: var(--text-colors-secondary);
+}
+.collapseButton {
+  padding-bottom: var(--spacings-medium);
+  margin-left: calc(var(--labelWidth) + var(--decorationContainerWidth));
+  color: var(--text-colors-secondary);
+}
+.row {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  justify-content: center;
+  padding: var(--spacings-small) 0;
+  text-decoration: none;
+  color: inherit;
+}
+.middleRow {
+  min-height: 3.75rem;
+}
+.leftColumn {
+  display: flex;
+  justify-content: flex-end;
+  min-width: var(--labelWidth);
+}
+.rightColumn {
+  flex: 1;
+}
+.decorationPlaceholder {
+  width: var(--spacings-large);
+}

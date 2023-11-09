@@ -36,7 +36,8 @@ html {
 
   color: var(--static-background-background_1-text);
   background-color: var(--static-background-background_1-background);
-  transition: background-color 150ms ease-in,
+  transition:
+    background-color 150ms ease-in,
     color 150ms ease-in;
 }
 
@@ -97,6 +98,10 @@ textarea {
 .dark {
   --maxPageWidth: 1024px;
   --contentPadding: var(--spacings-xLarge);
+  --labelWidth: 5rem;
+  --decorationContainerWidth: 1.25rem;
+  --decorationLineWidth: 0.25rem;
+  --decorationLineEndWidth: 0.75rem;
 }
 
 a {

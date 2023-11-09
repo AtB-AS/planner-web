@@ -13,16 +13,15 @@ import {
 } from '@atb/utils/date';
 import { PageText, useTranslation } from '@atb/translations';
 import dictionary from '@atb/translations/dictionary';
-import { TransportIcon } from '@atb/components/transport-mode';
 import Link from 'next/link';
 import { Typo } from '@atb/components/typography';
 import { useState } from 'react';
 import { and, andIf } from '@atb/utils/css';
 import { useRouter } from 'next/router';
 import { Departures } from '@atb/translations/pages';
-import { useTransportationThemeColor } from '@atb/components/transport-mode/transport-icon';
 import { nextDepartures } from '../client';
 import { Button } from '@atb/components/button';
+import LineChip from '@atb/components/line-chip';
 
 export type StopPlaceProps = {
   departures: DepartureData;
@@ -139,7 +138,11 @@ export function EstimatedCallList({ quay }: EstimatedCallListProps) {
           {departures.length > 0 ? (
             <>
               {departures.map((departure) => (
-                <EstimatedCallItem key={departure.id} departure={departure} />
+                <EstimatedCallItem
+                  key={departure.id}
+                  departure={departure}
+                  quayId={quay.id}
+                />
               ))}
             </>
           ) : (
@@ -169,77 +172,71 @@ export function EstimatedCallList({ quay }: EstimatedCallListProps) {
 }
 
 type EstimatedCallItemProps = {
+  quayId: string;
   departure: Departure;
 };
 
-export function EstimatedCallItem({ departure }: EstimatedCallItemProps) {
-  const transportationColor = useTransportationThemeColor({
-    mode: departure.transportMode || 'unknown',
-    subMode: departure.transportSubmode,
-  });
-
+export function EstimatedCallItem({
+  quayId,
+  departure,
+}: EstimatedCallItemProps) {
   return (
     <li>
       <Link
         className={style.listItem}
-        href={`/departures/details/${departure.id}`}
+        href={`details/${departure.id}?date=${departure.date}&fromQuayId=${quayId}`}
       >
         <div className={style.transportInfo}>
           {(departure.transportMode || departure.publicCode) && (
-            <div
-              className={style.lineChip}
-              style={{
-                backgroundColor: transportationColor.backgroundColor,
-                color: transportationColor.textColor,
-              }}
-            >
-              {departure.transportMode && (
-                <TransportIcon
-                  mode={{
-                    mode: departure.transportMode,
-                    subMode: departure.transportSubmode,
-                  }}
-                />
-              )}
-
-              <p className={style.lineChip__publicCode}>
-                {departure.publicCode}
-              </p>
-            </div>
+            <LineChip
+              transportMode={departure.transportMode || 'unknown'}
+              publicCode={departure.publicCode}
+              transportSubmode={departure.transportSubmode}
+            />
           )}
 
           <p>{departure.name}</p>
         </div>
 
-        <DepartureTime departure={departure} />
+        <DepartureTime
+          expectedDepartureTime={departure.expectedDepartureTime}
+          aimedDepartureTime={departure.aimedDepartureTime}
+        />
       </Link>
     </li>
   );
 }
 
-export function DepartureTime({ departure }: EstimatedCallItemProps) {
+type DepartureTimeProps = {
+  expectedDepartureTime: string;
+  aimedDepartureTime: string;
+};
+export function DepartureTime({
+  expectedDepartureTime,
+  aimedDepartureTime,
+}: DepartureTimeProps) {
   const { t, language } = useTranslation();
   return (
     <div className={style.departureTime}>
       <Typo.p textType="body__primary--bold">
         {formatToClockOrRelativeMinutes(
-          departure.expectedDepartureTime,
+          expectedDepartureTime,
           language,
           t(dictionary.date.units.now),
         )}
       </Typo.p>
       {isMoreThanOneMinuteDelayed(
-        departure.expectedDepartureTime,
-        departure.aimedDepartureTime,
+        expectedDepartureTime,
+        aimedDepartureTime,
       ) && (
         <Typo.span
           textType="body__tertiary--strike"
           aria-label={
             t(dictionary.a11yRouteTimePrefix) +
-            formatLocaleTime(departure.aimedDepartureTime, language)
+            formatLocaleTime(aimedDepartureTime, language)
           }
         >
-          {formatLocaleTime(departure.aimedDepartureTime, language)}
+          {formatLocaleTime(aimedDepartureTime, language)}
         </Typo.span>
       )}
     </div>

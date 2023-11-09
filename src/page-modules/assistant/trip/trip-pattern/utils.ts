@@ -9,6 +9,7 @@ import { Language, TranslateFunction, PageText } from '@atb/translations';
 import dictionary from '@atb/translations/dictionary';
 import { screenReaderPause } from '@atb/components/typography/utils';
 import { transportModeToTranslatedString } from '@atb/components/transport-mode';
+import { getTimeRepresentationType } from '@atb/modules/time-representation';
 
 export const tripSummary = (
   tripPattern: TripPattern,
@@ -230,32 +231,4 @@ export function getFilteredLegsByWalkOrWaitTime(tripPattern: TripPattern) {
 
 function isLegFlexibleTransport(leg: Leg): boolean {
   return !!leg.line?.flexibleLineType;
-}
-
-const DEFAULT_THRESHOLD_AIMED_EXPECTED_IN_MINUTES = 1;
-
-type TimeValues = {
-  aimedTime: string;
-  expectedTime?: string;
-  missingRealTime?: boolean;
-};
-type TimeRepresentationType =
-  | 'no-realtime'
-  | 'no-significant-difference'
-  | 'significant-difference';
-function getTimeRepresentationType({
-  missingRealTime,
-  aimedTime,
-  expectedTime,
-}: TimeValues): TimeRepresentationType {
-  if (missingRealTime) {
-    return 'no-realtime';
-  }
-  if (!expectedTime) {
-    return 'no-significant-difference';
-  }
-  const secondsDifference = Math.abs(secondsBetween(aimedTime, expectedTime));
-  return secondsDifference <= DEFAULT_THRESHOLD_AIMED_EXPECTED_IN_MINUTES * 60
-    ? 'no-significant-difference'
-    : 'significant-difference';
 }

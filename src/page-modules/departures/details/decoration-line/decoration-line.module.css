@@ -1,0 +1,35 @@
+.decoration {
+  position: absolute;
+  height: 100%;
+  width: var(--decorationLineWidth);
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  left: calc(var(--spacings-large) / 2 + var(--labelWidth));
+}
+
+.decorationMarker {
+  width: var(--decorationLineEndWidth);
+  height: var(--decorationLineWidth);
+  left: -0.25rem;
+}
+
+.decorationMarker__start {
+  position: absolute;
+  top: 0;
+}
+.decorationMarker__center {
+  position: absolute;
+  top: calc(var(--spacings-large) + var(--spacings-small));
+}
+.decorationMarker__end {
+  position: absolute;
+  bottom: 0;
+}
+
+.decorationLine {
+  height: 1.25rem;
+  flex-grow: 1;
+}
