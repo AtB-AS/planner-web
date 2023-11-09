@@ -34,6 +34,11 @@
 .serviceJourneyContainer {
   grid-area: serviceJourney;
 }
+@media (max-width: 650px) {
+  .serviceJourneyContainer {
+    margin: 0 auto;
+  }
+}
 
 .header {
   display: flex;

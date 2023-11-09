@@ -98,6 +98,10 @@ textarea {
 .dark {
   --maxPageWidth: 1024px;
   --contentPadding: var(--spacings-xLarge);
+  --labelWidth: 5rem;
+  --decorationContainerWidth: 1.25rem;
+  --decorationLineWidth: 0.25rem;
+  --decorationLineEndWidth: 0.75rem;
 }
 
 a {
