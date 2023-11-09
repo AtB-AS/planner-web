@@ -69,13 +69,13 @@ describe('assistant page', function () {
       ...context,
     } as any);
 
-    (await expectProps(result)).toContain({
+    (await expectProps(result)).toMatchObject({
       initialFromFeature: fromFeature,
       initialToFeature: toFeature,
-      // initialSearchTime: {
-      //   mode: 'departBy',
-      //   dateTime: 123,
-      // },
+      initialSearchTime: {
+        mode: 'departBy',
+        dateTime: 123,
+      },
       trip: tripResult,
       nonTransitTrips: nonTransitTripResult,
     });
