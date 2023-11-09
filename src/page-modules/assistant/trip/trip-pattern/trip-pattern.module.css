@@ -53,12 +53,13 @@
 
 .legs__legLineContainer,
 .legs__lastLegLineContainer {
-  --height: 20px;
+  --inner-height: 20px;
   display: flex;
   align-items: center;
   gap: 0.125rem;
   padding: 0 var(--spacings-xSmall);;
-  height: calc(var(--height) + var(--spacings-small) * 2);
+  /* Set the container to the same height as leg boxes to vertically center the line correctly. */
+  height: calc(var(--inner-height) + var(--spacings-small) * 2);
 }
 .legs__legLine,
 .legs__lastLegLine {
