@@ -53,6 +53,7 @@
 
 .legs__legLineContainer,
 .legs__lastLegLineContainer {
+  /* The height of the icon in a leg. */
   --inner-height: 20px;
   display: flex;
   align-items: center;
