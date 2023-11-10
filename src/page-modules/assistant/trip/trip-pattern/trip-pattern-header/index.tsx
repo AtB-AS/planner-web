@@ -6,6 +6,10 @@ import style from './trip-pattern-header.module.css';
 import { Typo } from '@atb/components/typography';
 import { useTranslation, PageText } from '@atb/translations';
 import { secondsToDuration } from '@atb/utils/date';
+import { flatMap } from 'lodash';
+import { getNoticesForLeg } from '@atb/page-modules/assistant/trip/trip-pattern/trip-pattern-header/utils';
+import { RailReplacementBusMessage } from './rail-replacement-bus';
+import { SituationOrNoticeIcon } from '@atb/modules/situations';
 
 type TripPatternHeaderProps = {
   tripPattern: TripPattern;
@@ -28,6 +32,16 @@ export function TripPatternHeader({ tripPattern }: TripPatternHeaderProps) {
       <Typo.span textType="body__secondary" className={style.header__duration}>
         {duration}
       </Typo.span>
+
+      <RailReplacementBusMessage tripPattern={tripPattern} />
+
+      <SituationOrNoticeIcon
+        situations={flatMap(tripPattern.legs, (leg) => leg.situations)}
+        notices={flatMap(tripPattern.legs, getNoticesForLeg)}
+        accessibilityLabel={t(
+          PageText.Assistant.trip.tripPattern.travelFrom(startMode, startPlace),
+        )}
+      />
     </header>
   );
 }

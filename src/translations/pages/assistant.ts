@@ -100,6 +100,16 @@ export const Assistant = {
         }
       },
       details: _('Detaljer', 'Details', 'Detaljar'),
+      hasSituationsTip: _(
+        'Denne reisen har driftsmeldinger. Se detaljer for mer info',
+        'There are service messages affecting your journey. See details for more info ',
+        'Denne reisa har driftsmeldingar. Sjå detaljar for meir informasjon.',
+      ),
+      tripIncludesRailReplacementBus: _(
+        'Reisen inkluderer buss for tog.',
+        'This trip includes rail replacement bus.',
+        'Reisa inkluderer buss for tog.',
+      ),
     },
     fetchMore: _(
       'Last inn flere reiseforslag',

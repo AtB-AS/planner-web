@@ -1,9 +1,10 @@
 .header {
   display: flex;
-  justify-content: space-between;
+  gap: var(--spacings-small);
   padding: var(--spacings-small) var(--spacings-medium);
 }
 
 .header__duration {
   color: var(--text-colors-secondary);
+  margin-left: auto;
 }
