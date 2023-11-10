@@ -60,6 +60,12 @@
 .callRows__container {
   padding: var(--spacings-medium);
 }
+.callRows__container:nth-of-type(odd) {
+  padding-bottom: var(--spacings-large);
+}
+.callRows__container:nth-of-type(even) {
+  padding-top: 0;
+}
 .rowContainer {
   position: relative;
   overflow: hidden;
