@@ -11,6 +11,7 @@ import { Button } from '@atb/components/button';
 import Link from 'next/link';
 import DepartureTime from './departure-time';
 import DecorationLine from './decoration-line';
+import { and } from '@atb/utils/css';
 
 export type EstimatedCallRowsProps = {
   calls: EstimatedCallWithMetadata[];
@@ -179,7 +180,7 @@ function Row({
     return (
       <Link
         href={href}
-        className={[style.row, isBetween && style.middleRow].join(' ')}
+        className={and(style.row, isBetween && style.middleRow)}
         style={{ alignItems: alignChildren }}
       >
         {rowContent}
@@ -189,7 +190,7 @@ function Row({
 
   return (
     <div
-      className={[style.row, isBetween && style.middleRow].join(' ')}
+      className={and(style.row, isBetween && style.middleRow)}
       style={{ alignItems: alignChildren }}
     >
       {rowContent}

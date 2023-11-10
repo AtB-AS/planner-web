@@ -1,3 +1,4 @@
+import { and } from '@atb/utils/css';
 import style from './decoration-line.module.css';
 
 type DecorationLineProps = {
@@ -18,27 +19,22 @@ export default function DecorationLine({
     <div className={style.decoration} style={colorStyle}>
       {hasStart && (
         <div
-          className={[
-            style.decorationMarker,
-            style.decorationMarker__start,
-          ].join(' ')}
+          className={and(style.decorationMarker, style.decorationMarker__start)}
           style={colorStyle}
         />
       )}
       {hasCenter && (
         <div
-          className={[
+          className={and(
             style.decorationMarker,
             style.decorationMarker__center,
-          ].join(' ')}
+          )}
           style={colorStyle}
         />
       )}
       {hasEnd && (
         <div
-          className={[style.decorationMarker, style.decorationMarker__end].join(
-            ' ',
-          )}
+          className={and(style.decorationMarker, style.decorationMarker__end)}
           style={colorStyle}
         />
       )}
