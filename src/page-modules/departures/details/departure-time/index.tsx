@@ -47,7 +47,9 @@ export default function DepartureTime({
           <Typo.p
             textType="body__tertiary"
             color="secondary"
-            prefix={t(PageText.Departures.details.time.aimedPrefix)}
+            aria-label={`${t(
+              PageText.Departures.details.time.aimedPrefix,
+            )} ${scheduled}`}
             style={{ textDecorationLine: 'line-through' }}
           >
             {scheduled}
