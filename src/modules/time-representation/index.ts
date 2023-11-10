@@ -1,6 +1,6 @@
 import { secondsBetween } from '@atb/utils/date';
 
-const DEFAULT_THRESHOLD_AIMED_EXPECTED_IN_MINUTES = 1;
+const DEFAULT_THRESHOLD_AIMED_EXPECTED_IN_SECONDS = 60;
 
 type TimeValues = {
   aimedTime: string;
@@ -25,7 +25,7 @@ export function getTimeRepresentationType({
     return 'no-significant-difference';
   }
   const secondsDifference = Math.abs(secondsBetween(aimedTime, expectedTime));
-  return secondsDifference <= DEFAULT_THRESHOLD_AIMED_EXPECTED_IN_MINUTES * 60
+  return secondsDifference <= DEFAULT_THRESHOLD_AIMED_EXPECTED_IN_SECONDS
     ? 'no-significant-difference'
     : 'significant-difference';
 }
