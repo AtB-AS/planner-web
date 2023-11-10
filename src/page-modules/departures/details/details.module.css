@@ -62,6 +62,10 @@
 }
 .rowContainer {
   position: relative;
+  --labelWidth: 5rem;
+  --decorationContainerWidth: 1.25rem;
+  --decorationLineWidth: 0.25rem;
+  --decorationLineEndWidth: 0.75rem;
 }
 .boardingInfo {
   color: var(--text-colors-secondary);
