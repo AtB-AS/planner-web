@@ -62,6 +62,7 @@
 }
 .rowContainer {
   position: relative;
+  overflow: hidden;
   --labelWidth: 5rem;
   --decorationContainerWidth: 1.25rem;
   --decorationLineWidth: 0.25rem;
@@ -71,8 +72,11 @@
   color: var(--text-colors-secondary);
 }
 .collapseButton {
-  padding-bottom: var(--spacings-medium);
-  margin-left: calc(var(--labelWidth) + var(--decorationContainerWidth));
+  padding: var(--spacings-xSmall);
+  margin-bottom: var(--spacings-medium);
+  margin-left: calc(
+    var(--labelWidth) + var(--decorationContainerWidth) - var(--spacings-xSmall)
+  );
   color: var(--text-colors-secondary);
 }
 .row {
