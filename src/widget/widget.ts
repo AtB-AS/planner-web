@@ -3,29 +3,27 @@ import style from './widget.module.css';
 const html = String.raw;
 
 export const output = html`
-  <div class="${style.container}">
-    <form class="${style.container}">
-      <div class="departures_main__T9IOc" style="padding-bottom: 5.75rem">
+  <div class="${style.wrapper}">
+    <form class="${style.form}">
+      <div class="${style.main}">
         <div>
-          <p class="typo-body__primary--bold departures_heading__jfuQw">
-            Hvor vil du reise?
-          </p>
-          <div class="search_container__NfRBP">
+          <p class="${style.heading}">Hvor vil du reise?</p>
+          <div class="${style.search_container}">
             <label
-              class="search_label__DgB_9 typography_typo-body__secondary__dROr2"
+              class="${style.search_label}"
               for="downshift-3-input"
               id="downshift-3-label"
               >Fra</label
             >
             <div
-              class="search_inputContainer__kN_LW"
+              class="${style.search_inputContainer}"
               role="combobox"
               aria-expanded="false"
               aria-haspopup="listbox"
               aria-labelledby="downshift-3-label"
             >
               <input
-                class="search_input__NcSZd"
+                class="${style.search_input}"
                 aria-autocomplete="list"
                 aria-labelledby="downshift-3-label"
                 autocomplete="off"
@@ -34,7 +32,7 @@ export const output = html`
               />
             </div>
             <button
-              class="departures_geolocationButton__TD_vW"
+              class="${style.button_geolocation}"
               title="Finn min posisjon"
               aria-label="Finn min posisjon"
               type="button"
@@ -56,9 +54,7 @@ export const output = html`
           </div>
         </div>
         <div>
-          <p class="typo-body__primary--bold departures_heading__jfuQw">
-            Når vil du reise?
-          </p>
+          <p class="${style.heading}">Når vil du reise?</p>
           <div class="departure-date-selector_departureDateSelector__Fi7tg">
             <div class="departure-date-selector_options__yYoHr">
               <label class="departure-date-selector_option__LWD0K"

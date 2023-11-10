@@ -1,4 +1,8 @@
-@value light from '@atb/theme/theme.module.css';
+@value override-light from '@atb/theme/theme.module.css';
+
+@value assistant: "../page-modules/assistant/assistant.module.css";
+@value departures: "../page-modules/departures/departures.module.css";
+@value search: "../components/search/search.module.css";
 
 :root {
   --ws-icon-size-xLarge: 2.5rem;
@@ -12,10 +16,47 @@
   }
 }
 
-.container {
-  composes: light;
+.wrapper {
+  composes: override-light;
+}
+.form {
+  composes: container from assistant;
+}
+
+.main {
+  composes: main from assistant;
+  padding-bottom: 5.75rem;
+}
+.heading {
+  composes: heading from assistant;
+
+  font-size: var(--baseTypo-body__primary--bold-fontSize, 1rem);
+  line-height: var(--baseTypo-body__primary--bold-lineHeight, 1.25rem);
+  letter-spacing: var(--baseTypo-body__primary--bold-letterSpacing, 0.03125rem);
+  font-weight: var(--baseTypo-body__primary--bold-fontWeight, 500);
 }
 
 .foo {
   color: blue;
+}
+
+.search_container {
+  composes: container from search;
+}
+.search_inputContainer {
+  composes: inputContainer from search;
+}
+.search_label {
+  composes: label from search;
+
+  font-size: var(--baseTypo-body__secondary-fontSize, 0.875rem);
+  line-height: var(--baseTypo-body__secondary-lineHeight, 1.25rem);
+  letter-spacing: var(--baseTypo-body__secondary-letterSpacing, 0.015625rem);
+}
+.search_input {
+  composes: input from search;
+}
+
+.button_geolocation {
+  composes: geolocationButton from departures;
 }

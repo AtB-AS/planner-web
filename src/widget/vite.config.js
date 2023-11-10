@@ -1,7 +1,7 @@
 import { resolve } from 'path';
 import { defineConfig } from 'vite';
 
-const orgId = process.env.NEXT_PUBLIC_PLANNER_ORG_ID ?? 'atb';
+const orgId = process.env.NEXT_PUBLIC_PLANNER_ORG_ID ?? 'fram';
 
 export default defineConfig({
   resolve: {
