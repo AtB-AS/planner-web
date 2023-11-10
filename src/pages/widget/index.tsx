@@ -11,6 +11,7 @@ declare global {
   interface Window {
     PlannerWeb: {
       output: string;
+      init(): void;
     };
   }
 }
@@ -27,8 +28,9 @@ const AssistantPage: NextPage<WidgetPageProps> = (props) => {
         strategy="lazyOnload"
         onLoad={() => {
           setLoaded(true);
-
-          console.log(window.PlannerWeb);
+          setTimeout(() => {
+            window.PlannerWeb.init();
+          }, 100);
         }}
       />
 
