@@ -1,18 +1,16 @@
 import { cleanup, render, fireEvent } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import DepartureDateSelector, {
-  DepartureDateState,
-} from '@atb/components/departure-date-selector';
 import userEvent from '@testing-library/user-event';
 import { addHours, format } from 'date-fns';
+import SearchTimeSelector from '..';
 
 afterEach(function () {
   cleanup();
 });
 
-describe('departure date selector', function () {
+describe('search time selector', function () {
   it('should default to "Now"', async () => {
-    const output = render(<DepartureDateSelector onChange={() => {}} />);
+    const output = render(<SearchTimeSelector onChange={() => {}} />);
 
     expect(
       output.getByRole('radio', {
@@ -22,7 +20,7 @@ describe('departure date selector', function () {
   });
 
   it('should not show date and time selector when "Now" is selected', async () => {
-    const output = render(<DepartureDateSelector onChange={() => {}} />);
+    const output = render(<SearchTimeSelector onChange={() => {}} />);
 
     expect(output.queryByText('Dato')).not.toBeInTheDocument();
     expect(output.queryByText('Tid')).not.toBeInTheDocument();
@@ -30,8 +28,8 @@ describe('departure date selector', function () {
 
   it('should use initialState for default selected', async () => {
     const output = render(
-      <DepartureDateSelector
-        initialState={{ type: DepartureDateState.Arrival, dateTime: 0 }}
+      <SearchTimeSelector
+        initialState={{ mode: 'arriveBy', dateTime: 0 }}
         onChange={() => {}}
       />,
     );
@@ -43,8 +41,8 @@ describe('departure date selector', function () {
 
   it('should show date and time selector when "Arrival" is selected', async () => {
     const output = render(
-      <DepartureDateSelector
-        initialState={{ type: DepartureDateState.Arrival, dateTime: 0 }}
+      <SearchTimeSelector
+        initialState={{ mode: 'arriveBy', dateTime: 0 }}
         onChange={() => {}}
       />,
     );
@@ -55,8 +53,8 @@ describe('departure date selector', function () {
 
   it('should show date and time selector when "Departure" is selected', async () => {
     const output = render(
-      <DepartureDateSelector
-        initialState={{ type: DepartureDateState.Departure, dateTime: 0 }}
+      <SearchTimeSelector
+        initialState={{ mode: 'departBy', dateTime: 0 }}
         onChange={() => {}}
       />,
     );
@@ -66,7 +64,7 @@ describe('departure date selector', function () {
   });
 
   it('should change selection with keyboard', async () => {
-    const output = render(<DepartureDateSelector onChange={() => {}} />);
+    const output = render(<SearchTimeSelector onChange={() => {}} />);
 
     const radio = output.getByRole('radio', { name: 'Nå' });
     radio.focus();
@@ -83,7 +81,7 @@ describe('departure date selector', function () {
   });
 
   it('should change selection when clicked', async () => {
-    const output = render(<DepartureDateSelector onChange={() => {}} />);
+    const output = render(<SearchTimeSelector onChange={() => {}} />);
 
     const radio = output.getByRole('radio', {
       name: 'Ankomst',
@@ -98,7 +96,7 @@ describe('departure date selector', function () {
 
   it('should call onStateChange', async () => {
     const onStateChange = vi.fn();
-    const output = render(<DepartureDateSelector onChange={onStateChange} />);
+    const output = render(<SearchTimeSelector onChange={onStateChange} />);
 
     output.getByRole('radio', { name: 'Ankomst' }).click();
 
@@ -108,8 +106,8 @@ describe('departure date selector', function () {
   it('should call onChange when date changes', async () => {
     const onChange = vi.fn();
     const output = render(
-      <DepartureDateSelector
-        initialState={{ type: DepartureDateState.Arrival, dateTime: 0 }}
+      <SearchTimeSelector
+        initialState={{ mode: 'arriveBy', dateTime: 0 }}
         onChange={onChange}
       />,
     );
@@ -124,8 +122,8 @@ describe('departure date selector', function () {
   it('should call onChange when time changes', async () => {
     const onChange = vi.fn();
     const output = render(
-      <DepartureDateSelector
-        initialState={{ type: DepartureDateState.Arrival, dateTime: 0 }}
+      <SearchTimeSelector
+        initialState={{ mode: 'arriveBy', dateTime: 0 }}
         onChange={onChange}
       />,
     );

@@ -1,16 +1,12 @@
-import {
-  DepartureDate,
-  DepartureDateState,
-} from '@atb/components/departure-date-selector';
 import { TransportModeFilterState } from '@atb/components/transport-mode-filter/types';
 import { filterToQueryString } from '@atb/components/transport-mode-filter/utils';
 import { GeocoderFeature } from '@atb/page-modules/departures';
 import {
-  DepartureMode,
   TripData,
   TripQuery,
   TripQuerySchema,
 } from '@atb/page-modules/assistant';
+import { SearchMode, SearchTime } from '@atb/modules/search-time';
 
 export function filterOutDuplicates(
   arrayToFilter: TripData['tripPatterns'],
@@ -22,11 +18,8 @@ export function filterOutDuplicates(
   return arrayToFilter.filter((tp) => !existing.has(tp.expectedStartTime));
 }
 
-export function getCursorByDepartureMode(
-  trip: TripData,
-  departureMode: DepartureMode,
-) {
-  if (departureMode === DepartureMode.ArriveBy) {
+export function getCursorBySearchMode(trip: TripData, searchMode: SearchMode) {
+  if (searchMode === 'arriveBy') {
     return trip.previousPageCursor;
   } else {
     return trip.nextPageCursor;
@@ -49,8 +42,7 @@ function featuresToFromToQuery(from: GeocoderFeature, to: GeocoderFeature) {
 export function createTripQuery(
   fromFeature: GeocoderFeature,
   toFeature: GeocoderFeature,
-  departureMode: DepartureMode,
-  departureDate?: number,
+  searchTime: SearchTime,
   transportModeFilter?: TransportModeFilterState,
   cursor?: string,
 ): TripQuery {
@@ -64,15 +56,16 @@ export function createTripQuery(
     }
   }
 
-  const departureDateQuery = departureDate
-    ? { departureMode, departureDate }
-    : { departureMode };
+  const searchTimeQuery =
+    searchTime.mode !== 'now'
+      ? { searchMode: searchTime.mode, searchTime: searchTime.dateTime }
+      : { searchMode: searchTime.mode };
   const cursorQuery = cursor ? { cursor } : {};
   const fromToQuery = featuresToFromToQuery(fromFeature, toFeature);
 
   return {
     ...transportModeFilterQuery,
-    ...departureDateQuery,
+    ...searchTimeQuery,
     ...cursorQuery,
     ...fromToQuery,
   };
@@ -96,26 +89,4 @@ export function parseTripQuery(query: any): TripQuery | undefined {
     return undefined;
   }
   return parsed.data;
-}
-
-export function departureDateToDepartureMode(
-  departureDate: DepartureDate,
-): DepartureMode {
-  if (departureDate.type === 'arrival') return DepartureMode.ArriveBy;
-  return DepartureMode.DepartBy;
-}
-
-export function departureModeToDepartureDate(
-  mode?: DepartureMode,
-  date?: number | null,
-): DepartureDate {
-  if (mode === 'arriveBy') {
-    return { type: DepartureDateState.Arrival, dateTime: date ?? Date.now() };
-  } else if (mode === 'departBy' && !date) {
-    return { type: DepartureDateState.Now };
-  } else if (mode === 'departBy') {
-    return { type: DepartureDateState.Departure, dateTime: date ?? Date.now() };
-  } else {
-    return { type: DepartureDateState.Now };
-  }
 }

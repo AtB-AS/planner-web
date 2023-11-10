@@ -13,11 +13,11 @@ import { Typo } from '@atb/components/typography';
 import { GeocoderFeature } from '@atb/page-modules/departures';
 import { TransportModeFilterOption } from '@atb/components/transport-mode-filter/types';
 import { nextTripPatterns } from '../client';
-import { DepartureMode, NonTransitTripData } from '../types';
+import { NonTransitTripData } from '../types';
 import {
   createTripQuery,
   filterOutDuplicates,
-  getCursorByDepartureMode,
+  getCursorBySearchMode,
 } from '../utils';
 import { useEffect, useState } from 'react';
 import { getInitialTransportModeFilter } from '@atb/components/transport-mode-filter/utils';
@@ -27,13 +27,14 @@ import { isSameDay } from 'date-fns';
 import { capitalize } from 'lodash';
 import EmptySearchResults from '@atb/components/empty-search-results';
 import TripPattern from './trip-pattern';
+import { SearchTime } from '@atb/modules/search-time';
 
 export type TripProps = {
   initialFromFeature: GeocoderFeature;
   initialToFeature: GeocoderFeature;
   initialTransportModesFilter: TransportModeFilterOption[] | null;
+  initialSearchTime: SearchTime;
   trip: TripData;
-  departureMode: DepartureMode;
   nonTransitTrips: NonTransitTripData;
 };
 
@@ -41,13 +42,13 @@ export default function Trip({
   initialFromFeature,
   initialToFeature,
   initialTransportModesFilter,
+  initialSearchTime,
   trip,
-  departureMode,
   nonTransitTrips,
 }: TripProps) {
   const { t } = useTranslation();
   const { tripPatterns, fetchNextTripPatterns, isFetchingTripPatterns } =
-    useTripPatterns(trip, departureMode);
+    useTripPatterns(trip, initialSearchTime);
 
   const nonTransits = Object.entries(nonTransitTrips);
 
@@ -117,19 +118,19 @@ export default function Trip({
   );
 }
 
-function useTripPatterns(initialTrip: TripData, departureMode: DepartureMode) {
+function useTripPatterns(initialTrip: TripData, searchTime: SearchTime) {
   const [tripPatterns, setTripPatterns] = useState(
     tripPatternsWithTransitionDelay(initialTrip.tripPatterns),
   );
   const [cursor, setCursor] = useState(
-    getCursorByDepartureMode(initialTrip, departureMode),
+    getCursorBySearchMode(initialTrip, searchTime.mode),
   );
   const [isFetchingTripPatterns, setIsFetchingTripPatterns] = useState(false);
 
   useEffect(() => {
     setTripPatterns(tripPatternsWithTransitionDelay(initialTrip.tripPatterns));
-    setCursor(getCursorByDepartureMode(initialTrip, departureMode));
-  }, [initialTrip, departureMode]);
+    setCursor(getCursorBySearchMode(initialTrip, searchTime.mode));
+  }, [initialTrip, searchTime.mode]);
 
   const fetchNextTripPatterns = async (
     from: GeocoderFeature,
@@ -140,8 +141,7 @@ function useTripPatterns(initialTrip: TripData, departureMode: DepartureMode) {
     const tripQuery = createTripQuery(
       from,
       to,
-      departureMode,
-      undefined,
+      searchTime,
       getInitialTransportModeFilter(filter),
       cursor || undefined,
     );
@@ -155,7 +155,7 @@ function useTripPatterns(initialTrip: TripData, departureMode: DepartureMode) {
       ...newTripPatternsWithTransitionDelay,
     ]);
 
-    setCursor(getCursorByDepartureMode(trip, departureMode));
+    setCursor(getCursorBySearchMode(trip, searchTime.mode));
     setIsFetchingTripPatterns(false);
   };
 

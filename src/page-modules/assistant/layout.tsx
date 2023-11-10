@@ -5,33 +5,25 @@ import Search from '@atb/components/search';
 import { Button } from '@atb/components/button';
 import style from './assistant.module.css';
 import { useRouter } from 'next/router';
-import DepartureDateSelector, {
-  DepartureDate,
-  DepartureDateState,
-} from '@atb/components/departure-date-selector';
 import TransportModeFilter from '@atb/components/transport-mode-filter';
 import { Typo } from '@atb/components/typography';
 import { getInitialTransportModeFilter } from '@atb/components/transport-mode-filter/utils';
 import { TransportModeFilterOption } from '@atb/components/transport-mode-filter/types';
 import { MonoIcon } from '@atb/components/icon';
 import { FocusScope } from '@react-aria/focus';
-import {
-  createTripQuery,
-  departureDateToDepartureMode,
-  departureModeToDepartureDate,
-} from './utils';
-import { DepartureMode } from './types';
+import { createTripQuery } from './utils';
 import SwapButton from '@atb/components/search/swap-button';
 import GeolocationButton from '@atb/components/search/geolocation-button';
 import { AnimatePresence, motion } from 'framer-motion';
 import React from 'react';
+import SearchTimeSelector from '@atb/modules/search-time/selector';
+import { SearchTime } from '@atb/modules/search-time';
 
 export type AssistantLayoutProps = PropsWithChildren<{
   initialFromFeature?: GeocoderFeature;
   initialToFeature?: GeocoderFeature;
   initialTransportModesFilter?: TransportModeFilterOption[] | null;
-  departureMode?: DepartureMode;
-  departureDate?: number | null;
+  initialSearchTime?: SearchTime;
 }>;
 
 function AssistantLayout({
@@ -39,8 +31,7 @@ function AssistantLayout({
   initialFromFeature,
   initialToFeature,
   initialTransportModesFilter,
-  departureMode,
-  departureDate: initialDepartureDate,
+  initialSearchTime,
 }: AssistantLayoutProps) {
   const { t } = useTranslation();
   const router = useRouter();
@@ -52,8 +43,8 @@ function AssistantLayout({
   const [selectedToFeature, setSelectedToFeature] = useState<
     GeocoderFeature | undefined
   >(initialToFeature);
-  const [departureDate, setDepartureDate] = useState<DepartureDate>(
-    departureModeToDepartureDate(departureMode, initialDepartureDate),
+  const [searchTime, setSearchTime] = useState<SearchTime>(
+    initialSearchTime ?? { mode: 'now' },
   );
   const [transportModeFilter, setTransportModeFilter] = useState(
     getInitialTransportModeFilter(initialTransportModesFilter),
@@ -67,10 +58,7 @@ function AssistantLayout({
     const query = createTripQuery(
       selectedToFeature,
       selectedFromFeature,
-      departureDateToDepartureMode(departureDate),
-      departureDate.type !== DepartureDateState.Now
-        ? departureDate.dateTime
-        : undefined,
+      searchTime,
       transportModeFilter,
     );
     const temp = selectedFromFeature;
@@ -88,10 +76,7 @@ function AssistantLayout({
     const query = createTripQuery(
       geolocationFeature,
       selectedToFeature,
-      departureDateToDepartureMode(departureDate),
-      departureDate.type !== DepartureDateState.Now
-        ? departureDate.dateTime
-        : undefined,
+      searchTime,
       transportModeFilter,
     );
     setSelectedFromFeature(geolocationFeature);
@@ -105,10 +90,7 @@ function AssistantLayout({
     const query = createTripQuery(
       selectedFromFeature,
       selectedToFeature,
-      departureDateToDepartureMode(departureDate),
-      departureDate.type !== DepartureDateState.Now
-        ? departureDate.dateTime
-        : undefined,
+      searchTime,
       transportModeFilter,
     );
     await router.push({ pathname: '/assistant', query });
@@ -168,9 +150,9 @@ function AssistantLayout({
               {t(PageText.Assistant.search.date.label)}
             </Typo.p>
 
-            <DepartureDateSelector
-              initialState={departureDate}
-              onChange={setDepartureDate}
+            <SearchTimeSelector
+              initialState={searchTime}
+              onChange={setSearchTime}
             />
           </div>
         </motion.div>

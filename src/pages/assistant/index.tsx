@@ -11,6 +11,7 @@ import {
   StreetMode,
 } from '@atb/page-modules/assistant';
 import type { NextPage } from 'next';
+import { parseSearchTimeQuery } from '@atb/modules/search-time/utils';
 
 type AssistantContentProps = { empty: true } | TripProps;
 
@@ -57,20 +58,23 @@ export const getServerSideProps = withGlobalData(
         );
         const transportModeFilter = parseFilterQuery(tripQuery.filter);
 
+        const searchTime = parseSearchTimeQuery(
+          tripQuery.searchMode,
+          tripQuery.searchTime,
+        );
+
         if (from && to) {
           const trip = await client.trip({
             from,
             to,
-            departureDate: tripQuery.departureDate,
-            departureMode: tripQuery.departureMode,
+            searchTime,
             transportModes: transportModeFilter || undefined,
           });
 
           const nonTransitTrips = await client.nonTransitTrips({
             from,
             to,
-            departureDate: tripQuery.departureDate,
-            departureMode: tripQuery.departureMode,
+            searchTime,
             directModes: [StreetMode.Foot, StreetMode.Bicycle],
           });
 
@@ -79,9 +83,8 @@ export const getServerSideProps = withGlobalData(
               initialFromFeature: from,
               initialToFeature: to,
               initialTransportModesFilter: transportModeFilter,
+              initialSearchTime: searchTime,
               trip,
-              departureMode: tripQuery.departureMode,
-              departureDate: tripQuery.departureDate ?? null,
               nonTransitTrips,
             },
           };

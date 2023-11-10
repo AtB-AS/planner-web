@@ -1,41 +1,25 @@
 import { ChangeEvent, useState } from 'react';
-import style from './departure-date-selector.module.css';
-import { ComponentText, Language, useTranslation } from '@atb/translations';
-import { TFunc } from '@leile/lobo-t';
-import { AnimatePresence, motion } from 'framer-motion';
 import { format } from 'date-fns';
+import { AnimatePresence, motion } from 'framer-motion';
+import {
+  ModuleText,
+  TranslateFunction,
+  useTranslation,
+} from '@atb/translations';
+import { SEARCH_MODES, SearchMode, SearchTime } from '../types';
+import style from './selector.module.css';
 
-export enum DepartureDateState {
-  Now = 'now',
-  Arrival = 'arrival',
-  Departure = 'departure',
-}
-
-export type DepartureDate =
-  | {
-      type: DepartureDateState.Now;
-    }
-  | {
-      type: DepartureDateState.Arrival;
-      dateTime: number;
-    }
-  | {
-      type: DepartureDateState.Departure;
-      dateTime: number;
-    };
-
-type DepartureDateSelectorProps = {
-  initialState?: DepartureDate;
-  onChange: (state: DepartureDate) => void;
+type SearchTimeSelectorProps = {
+  initialState?: SearchTime;
+  onChange: (state: SearchTime) => void;
 };
 
-export default function DepartureDateSelector({
-  initialState = { type: DepartureDateState.Now },
+export default function SearchTimeSelector({
+  initialState = { mode: 'now' },
   onChange,
-}: DepartureDateSelectorProps) {
+}: SearchTimeSelectorProps) {
   const { t } = useTranslation();
-  const [selectedOption, setSelectedOption] =
-    useState<DepartureDate>(initialState);
+  const [selectedMode, setSelectedMode] = useState<SearchTime>(initialState);
   const initialDate =
     'dateTime' in initialState ? new Date(initialState.dateTime) : new Date();
   const [selectedDate, setSelectedDate] = useState(initialDate);
@@ -43,20 +27,20 @@ export default function DepartureDateSelector({
     format(initialDate, 'HH:mm'),
   );
 
-  const internalOnStateChange = (state: DepartureDateState) => {
+  const internalOnStateChange = (state: SearchMode) => {
     const newState =
-      state === DepartureDateState.Now
+      state === 'now'
         ? {
-            type: state,
+            mode: state,
           }
         : {
-            type: state,
+            mode: state,
             dateTime: new Date(
               selectedDate.toISOString().slice(0, 10) + 'T' + selectedTime,
             ).getTime(),
           };
 
-    setSelectedOption(newState);
+    setSelectedMode(newState);
 
     onChange(newState);
   };
@@ -67,7 +51,7 @@ export default function DepartureDateSelector({
     setSelectedDate(new Date(event.target.value));
 
     onChange({
-      type: selectedOption.type,
+      mode: selectedMode.mode,
       dateTime: new Date(event.target.value + 'T' + selectedTime).getTime(),
     });
   };
@@ -78,7 +62,7 @@ export default function DepartureDateSelector({
     setSelectedTime(event.target.value);
 
     onChange({
-      type: selectedOption.type,
+      mode: selectedMode.mode,
       dateTime: new Date(
         selectedDate.toISOString().slice(0, 10) + 'T' + event.target.value,
       ).getTime(),
@@ -88,22 +72,22 @@ export default function DepartureDateSelector({
   return (
     <div className={style.departureDateSelector}>
       <div className={style.options}>
-        {Object.values(DepartureDateState).map((state) => (
+        {SEARCH_MODES.map((state) => (
           <label key={state} className={style.option}>
             <input
               type="radio"
-              name="departureDateSelector"
+              name="searchTimeSelector"
               value={state}
-              checked={selectedOption.type === state}
+              checked={selectedMode.mode === state}
               onChange={() => internalOnStateChange(state)}
               aria-label={stateToLabel(state, t)}
               className={style.option__input}
             />
 
             <span aria-hidden className={style.option__label}>
-              {selectedOption.type === state && (
+              {selectedMode.mode === state && (
                 <motion.span
-                  layoutId="departureDateSelector"
+                  layoutId="searchTimeSelector"
                   className={style.option__selected}
                 />
               )}
@@ -116,7 +100,7 @@ export default function DepartureDateSelector({
       </div>
 
       <AnimatePresence initial={false}>
-        {selectedOption.type !== DepartureDateState.Now && (
+        {selectedMode.mode !== 'now' && (
           <motion.div
             className={style.dateAndTimeSelectorsWrapper}
             initial="collapsed"
@@ -130,24 +114,24 @@ export default function DepartureDateSelector({
           >
             <div className={style.dateAndTimeSelectors}>
               <div className={style.dateSelector}>
-                <label htmlFor="departureDateSelector">
-                  {t(ComponentText.DepartureDateSelector.date)}
+                <label htmlFor="searchTimeSelector-date">
+                  {t(ModuleText.SearchTime.date)}
                 </label>
                 <input
                   type="date"
-                  id="departureDateSelector"
+                  id="searchTimeSelector-date"
                   value={selectedDate.toISOString().slice(0, 10)}
                   onChange={internalOnDateChange}
                 />
               </div>
               <div className={style.timeSelector}>
-                <label htmlFor="departureTimeSelector">
-                  {t(ComponentText.DepartureDateSelector.time)}
+                <label htmlFor="searchTimeSelector-time">
+                  {t(ModuleText.SearchTime.time)}
                 </label>
 
                 <input
                   type="time"
-                  id="departureTimeSelector"
+                  id="searchTimeSelector-time"
                   value={selectedTime}
                   onChange={internalOnTimeChange}
                 />
@@ -160,16 +144,13 @@ export default function DepartureDateSelector({
   );
 }
 
-function stateToLabel(
-  state: DepartureDateState,
-  t: TFunc<typeof Language>,
-): string {
+function stateToLabel(state: SearchMode, t: TranslateFunction): string {
   switch (state) {
-    case DepartureDateState.Now:
-      return t(ComponentText.DepartureDateSelector.now);
-    case DepartureDateState.Arrival:
-      return t(ComponentText.DepartureDateSelector.arrival);
-    case DepartureDateState.Departure:
-      return t(ComponentText.DepartureDateSelector.departure);
+    case 'now':
+      return t(ModuleText.SearchTime.now);
+    case 'arriveBy':
+      return t(ModuleText.SearchTime.arrival);
+    case 'departBy':
+      return t(ModuleText.SearchTime.departure);
   }
 }
