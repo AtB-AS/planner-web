@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, CSSProperties, useState } from 'react';
 import { format } from 'date-fns';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
@@ -10,13 +10,15 @@ import { SEARCH_MODES, SearchMode, SearchTime } from '../types';
 import style from './selector.module.css';
 
 type SearchTimeSelectorProps = {
-  initialState?: SearchTime;
   onChange: (state: SearchTime) => void;
+  initialState?: SearchTime;
+  options?: SearchMode[];
 };
 
 export default function SearchTimeSelector({
-  initialState = { mode: 'now' },
   onChange,
+  initialState = { mode: 'now' },
+  options = SEARCH_MODES,
 }: SearchTimeSelectorProps) {
   const { t } = useTranslation();
   const [selectedMode, setSelectedMode] = useState<SearchTime>(initialState);
@@ -71,8 +73,11 @@ export default function SearchTimeSelector({
 
   return (
     <div className={style.departureDateSelector}>
-      <div className={style.options}>
-        {SEARCH_MODES.map((state) => (
+      <div
+        className={style.options}
+        style={{ '--number-of-options': options.length } as CSSProperties}
+      >
+        {options.map((state) => (
           <label key={state} className={style.option}>
             <input
               type="radio"
