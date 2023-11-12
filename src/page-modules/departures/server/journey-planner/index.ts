@@ -67,6 +67,7 @@ export type NearestStopPlacesInput = {
 export type EstimatedCallsInput = {
   quayId: string;
   startTime: string;
+  transportModes: TransportModeType[] | null;
 };
 
 export type ServiceJourneyInput = {
@@ -249,8 +250,10 @@ export function createJourneyApi(
         query: QuayEstimatedCallsDocument,
         variables: {
           id: input.quayId,
-          numberOfDepartures: 5,
+          numberOfDepartures: 6, // TODO: Have to add one to account for the last departure of the original set of departures?
           startTime: new Date(input.startTime),
+          transportModes:
+            (input.transportModes as TransportMode[]) ?? null,
         },
       });
 

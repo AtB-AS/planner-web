@@ -2,6 +2,7 @@ query quayEstimatedCalls(
   $id: String!
   $numberOfDepartures: Int
   $startTime: DateTime
+  $transportModes: [TransportMode]
 ) {
   quay(id: $id) {
     description
@@ -12,6 +13,7 @@ query quayEstimatedCalls(
       numberOfDepartures: $numberOfDepartures
       startTime: $startTime
       includeCancelledTrips: true
+      whiteListedModes: $transportModes
     ) {
       aimedDepartureTime
       date
