@@ -15,3 +15,9 @@ export function parseSearchTimeQuery(
 
   return { mode: 'now' };
 }
+
+export function searchTimeToQueryString(searchTime: SearchTime) {
+  return searchTime.mode !== 'now'
+    ? { searchMode: searchTime.mode, searchTime: searchTime.dateTime }
+    : { searchMode: searchTime.mode };
+}

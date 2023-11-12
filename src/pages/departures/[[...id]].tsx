@@ -13,6 +13,8 @@ import { withDepartureClient } from '@atb/page-modules/departures/server';
 import { StopPlace } from '@atb/page-modules/departures/stop-place';
 import type { NextPage } from 'next';
 import { parseFilterQuery } from '@atb/components/transport-mode-filter/utils';
+import { parseSearchTimeQuery } from '@atb/modules/search-time';
+
 type DeparturesStopPlaceProps = {
   stopPlace: true;
   departures?: DepartureData;
@@ -63,17 +65,31 @@ export const getServerSideProps = withGlobalData(
     const id = params?.id?.[0];
     const stopPlace = id ? await client.stopPlace({ id }) : null;
     const transportModeFilter = parseFilterQuery(query.filter);
+    const searchTime = parseSearchTimeQuery(
+      query.searchMode,
+      query.searchTime ? Number(query.searchTime) : undefined,
+    );
 
     if (id && stopPlace) {
       const departures = await client.departures({
         id,
+        date: searchTime.mode !== 'now' ? searchTime.dateTime : null,
         transportModes: transportModeFilter,
       });
+
+      const initialFeature = await client.reverse(
+        stopPlace.position.lat,
+        stopPlace.position.lon,
+        'venue',
+      );
+
       return {
         props: {
           stopPlace: true,
           departures,
           initialTransportModesFilter: transportModeFilter,
+          initialSearchTime: searchTime,
+          initialFeature,
         },
       };
     } else if (query.lat && query.lon) {
@@ -98,6 +114,8 @@ export const getServerSideProps = withGlobalData(
           activeLocation,
           nearestStopPlaces,
           initialTransportModesFilter: transportModeFilter,
+          initialSearchTime: searchTime,
+          initialFeature: activeLocation,
         },
       };
     } else {
