@@ -2,7 +2,7 @@ import { translation as _ } from '@atb/translations/commons';
 import { orgSpecificTranslations } from '../utils';
 
 const TitlesInternal = {
-  siteTitle: _('AtB (nb)', 'AtB (en)', 'AtB  (nn)'),
+  siteTitle: _('AtB', 'AtB', 'AtB'),
 };
 
 export const Titles = orgSpecificTranslations(TitlesInternal, {
