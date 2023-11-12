@@ -71,18 +71,6 @@ function AssistantLayout({
     setIsSearching(false);
   };
 
-  const onGeolocate = (geolocationFeature: GeocoderFeature) => {
-    if (!selectedToFeature) return;
-    const query = createTripQuery(
-      geolocationFeature,
-      selectedToFeature,
-      searchTime,
-      transportModeFilter,
-    );
-    setSelectedFromFeature(geolocationFeature);
-    router.push({ pathname: '/assistant', query });
-  };
-
   const onSubmitHandler: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     if (!selectedFromFeature || !selectedToFeature) return;
@@ -126,7 +114,7 @@ function AssistantLayout({
               button={
                 <GeolocationButton
                   className={style.searchInputButton}
-                  onGeolocate={onGeolocate}
+                  onGeolocate={setSelectedFromFeature}
                 />
               }
             />
