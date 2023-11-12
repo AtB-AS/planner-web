@@ -73,6 +73,7 @@ export const getServerSideProps = withGlobalData(
     if (id && stopPlace) {
       const departures = await client.departures({
         id,
+        date: searchTime.mode !== 'now' ? searchTime.dateTime : null,
         transportModes: transportModeFilter,
       });
 
