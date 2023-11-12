@@ -1,13 +1,20 @@
+import { uniq } from 'lodash';
 import {
   TransportModeFilterOption,
-  transportModeFilterOptions,
-  TransportModeFilterState,
-} from '@atb/components/transport-mode-filter/types';
-import {
   TransportModeFilterOptionType,
-  TransportModeType,
-} from '@atb-as/config-specs';
-import { uniq } from 'lodash';
+  TransportModeFilterState,
+} from './types';
+import { TransportModeType } from '../types';
+
+const transportModeFilterOptions: TransportModeFilterOption[] = [
+  'bus',
+  'rail',
+  'expressboat',
+  'ferry',
+  'airportbus',
+  'air',
+  'other',
+];
 
 export function getInitialTransportModeFilter(
   initialSelected?: TransportModeFilterOption[] | null,
@@ -50,8 +57,10 @@ export function parseFilterQuery(
 }
 
 export function getAllTransportModesFromFilterOptions(
-  filterOptions: TransportModeFilterOption[],
+  filterOptions: TransportModeFilterOption[] | null,
 ): TransportModeType[] {
+  if (!filterOptions) return [];
+
   const transportModes: TransportModeType[] = [];
 
   filterOptions.forEach((filterOption) => {

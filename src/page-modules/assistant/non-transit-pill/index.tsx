@@ -1,7 +1,9 @@
 import { ButtonLink } from '@atb/components/button';
 import { MonoIcon } from '@atb/components/icon';
-import { TransportMonoIcon } from '@atb/components/transport-mode';
-import { TransportModeType } from '@atb/components/transport-mode/types';
+import {
+  TransportMonoIcon,
+  type TransportModeType,
+} from '@atb/modules/transport-mode';
 import { PageText, TranslateFunction, useTranslation } from '@atb/translations';
 import { secondsToDurationShort } from '@atb/utils/date';
 

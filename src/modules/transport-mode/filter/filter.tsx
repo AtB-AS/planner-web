@@ -1,17 +1,11 @@
 import { getTextForLanguage } from '@atb/translations/utils';
 import { useTranslation, ComponentText } from '@atb/translations';
-import style from './transport-mode-filter.module.css';
+import style from './filter.module.css';
 import { MonoIcon } from '@atb/components/icon';
-import {
-  TransportModeFilterOption,
-  TransportModeFilterState,
-} from '@atb/components/transport-mode-filter/types';
+import { TransportModeFilterOption, TransportModeFilterState } from './types';
 import { Typo } from '@atb/components/typography';
-import { getTransportModeIcon } from '@atb/components/transport-mode/transport-icon';
-import {
-  filterOptionsWithTransportModes,
-  setAllValues,
-} from '@atb/components/transport-mode-filter/utils';
+import { getTransportModeIcon } from '../icon';
+import { filterOptionsWithTransportModes, setAllValues } from './utils';
 
 type TransportModeFilterProps = {
   filterState: TransportModeFilterState;

@@ -8,7 +8,7 @@ import { getQuayName } from './trip-pattern-header';
 import { Language, TranslateFunction, PageText } from '@atb/translations';
 import dictionary from '@atb/translations/dictionary';
 import { screenReaderPause } from '@atb/components/typography/utils';
-import { transportModeToTranslatedString } from '@atb/components/transport-mode';
+import { transportModeToTranslatedString } from '@atb/modules/transport-mode';
 import { getTimeRepresentationType } from '@atb/modules/time-representation';
 
 export const tripSummary = (

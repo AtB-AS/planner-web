@@ -1,23 +1,22 @@
 import type { GeocoderFeature } from '@atb/page-modules/departures';
 import { PageText, useTranslation } from '@atb/translations';
-import { FormEventHandler, PropsWithChildren, useState } from 'react';
-import Search from '@atb/components/search';
+import React, { FormEventHandler, PropsWithChildren, useState } from 'react';
+import Search, { GeolocationButton, SwapButton } from '@atb/components/search';
 import { Button } from '@atb/components/button';
 import style from './assistant.module.css';
 import { useRouter } from 'next/router';
-import TransportModeFilter from '@atb/components/transport-mode-filter';
 import { Typo } from '@atb/components/typography';
-import { getInitialTransportModeFilter } from '@atb/components/transport-mode-filter/utils';
-import { TransportModeFilterOption } from '@atb/components/transport-mode-filter/types';
 import { MonoIcon } from '@atb/components/icon';
 import { FocusScope } from '@react-aria/focus';
 import { createTripQuery } from './utils';
-import SwapButton from '@atb/components/search/swap-button';
-import GeolocationButton from '@atb/components/search/geolocation-button';
 import { AnimatePresence, motion } from 'framer-motion';
-import React from 'react';
 import SearchTimeSelector from '@atb/modules/search-time/selector';
-import { SearchTime } from '@atb/modules/search-time';
+import type { SearchTime } from '@atb/modules/search-time';
+import {
+  getInitialTransportModeFilter,
+  TransportModeFilter,
+  type TransportModeFilterOption,
+} from '@atb/modules/transport-mode';
 
 export type AssistantLayoutProps = PropsWithChildren<{
   initialFromFeature?: GeocoderFeature;

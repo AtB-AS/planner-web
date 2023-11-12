@@ -2,7 +2,7 @@ import { cleanup, render, screen } from '@testing-library/react';
 import mockRouter from 'next-router-mock';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { ExternalClient } from '@atb/modules/api-server';
-import { JourneyPlannerApi } from '@atb/page-modules/assistant/server/journey-planner';
+import { JourneyPlannerApi } from '../server/journey-planner';
 import { getServerSideProps } from '@atb/pages/assistant';
 import { expectProps } from '@atb/tests/utils';
 import { createDynamicRouteParser } from 'next-router-mock/dynamic-routes';

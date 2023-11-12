@@ -1,17 +1,18 @@
-import { parseFilterQuery } from '@atb/components/transport-mode-filter/utils';
 import DefaultLayout from '@atb/layouts/default';
 import { type WithGlobalData, withGlobalData } from '@atb/layouts/global-data';
 import { withAssistantClient } from '@atb/page-modules/assistant/server';
-import Trip, { TripProps } from '@atb/page-modules/assistant/trip';
-import type { TripData } from '@atb/page-modules/assistant';
 import {
   AssistantLayout,
-  AssistantLayoutProps,
+  type AssistantLayoutProps,
   parseTripQuery,
   StreetMode,
+  Trip,
+  type TripData,
+  type TripProps,
 } from '@atb/page-modules/assistant';
 import type { NextPage } from 'next';
-import { parseSearchTimeQuery } from '@atb/modules/search-time/utils';
+import { parseSearchTimeQuery } from '@atb/modules/search-time';
+import { parseFilterQuery } from '@atb/modules/transport-mode';
 
 type AssistantContentProps = { empty: true } | TripProps;
 

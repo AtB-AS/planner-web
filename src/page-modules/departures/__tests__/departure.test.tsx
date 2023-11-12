@@ -1,12 +1,8 @@
 import { cleanup, render, screen, within } from '@testing-library/react';
 import mockRouter from 'next-router-mock';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-
 import { ExternalClient } from '@atb/modules/api-server';
-import {
-  DepartureData,
-  JourneyPlannerApi,
-} from '@atb/page-modules/departures/server/journey-planner';
+import { DepartureData, JourneyPlannerApi } from '../server/journey-planner';
 import { getServerSideProps } from '@atb/pages/departures/[[...id]]';
 import { expectProps } from '@atb/tests/utils';
 import { createDynamicRouteParser } from 'next-router-mock/dynamic-routes';
@@ -14,6 +10,7 @@ import { departureDataFixture } from './departure-data.fixture';
 import { StopPlace } from '../stop-place';
 import userEvent from '@testing-library/user-event';
 import { NearestStopPlaces } from '..';
+
 import { GeocoderApi } from '@atb/page-modules/departures/server/geocoder';
 
 afterEach(function () {

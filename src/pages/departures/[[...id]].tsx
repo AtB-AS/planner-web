@@ -1,18 +1,19 @@
 import DefaultLayout from '@atb/layouts/default';
-import type { WithGlobalData } from '@atb/layouts/global-data';
-import { withGlobalData } from '@atb/layouts/global-data';
+import { type WithGlobalData, withGlobalData } from '@atb/layouts/global-data';
 import {
-  DepartureData,
+  type DepartureData,
+  DeparturesLayout,
+  type DeparturesLayoutProps,
   NearestStopPlaces,
-  NearestStopPlacesProps,
+  type NearestStopPlacesProps,
+  StopPlace,
 } from '@atb/page-modules/departures';
-import DeparturesLayout, {
-  DeparturesLayoutProps,
-} from '@atb/page-modules/departures/layout';
 import { withDepartureClient } from '@atb/page-modules/departures/server';
-import { StopPlace } from '@atb/page-modules/departures/stop-place';
 import type { NextPage } from 'next';
-import { parseFilterQuery } from '@atb/components/transport-mode-filter/utils';
+import {
+  getAllTransportModesFromFilterOptions,
+  parseFilterQuery,
+} from '@atb/modules/transport-mode';
 import { parseSearchTimeQuery } from '@atb/modules/search-time';
 
 type DeparturesStopPlaceProps = {
@@ -74,8 +75,10 @@ export const getServerSideProps = withGlobalData(
       const departures = await client.departures({
         id,
         date: searchTime.mode !== 'now' ? searchTime.dateTime : null,
-        transportModes: transportModeFilter,
+        transportModes:
+          getAllTransportModesFromFilterOptions(transportModeFilter),
       });
+
 
       const initialFeature = await client.reverse(
         stopPlace.position.lat,
@@ -99,7 +102,8 @@ export const getServerSideProps = withGlobalData(
       };
       const nearestStopPlaces = await client.nearestStopPlaces({
         ...position,
-        transportModes: transportModeFilter,
+        transportModes:
+          getAllTransportModesFromFilterOptions(transportModeFilter),
       });
 
       const activeLocation = await client.reverse(

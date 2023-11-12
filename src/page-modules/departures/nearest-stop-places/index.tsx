@@ -1,11 +1,10 @@
 import { MapWithHeader } from '@atb/components/map';
-import type {
-  GeocoderFeature,
+import { GeocoderFeature } from '../types';
+import {
   NearestStopPlacesData,
-} from '@atb/page-modules/departures';
+  StopPlaceWithDistance,
+} from '../server/journey-planner';
 import Link from 'next/link';
-import type { StopPlaceWithDistance } from '..';
-
 import style from './nearest-stop-places.module.css';
 import { Typo } from '@atb/components/typography';
 import { useRouter } from 'next/router';

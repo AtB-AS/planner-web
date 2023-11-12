@@ -7,9 +7,9 @@ import { type TripPattern as TripPatternType } from '../../server/journey-planne
 import style from './trip-pattern.module.css';
 import { formatLocaleTime, isInPast } from '@atb/utils/date';
 import { TripPatternHeader } from './trip-pattern-header';
-import { TransportIconWithLabel } from '@atb/components/transport-mode/transport-icon';
 import { MonoIcon } from '@atb/components/icon';
 import { Typo } from '@atb/components/typography';
+import { TransportIconWithLabel } from '@atb/modules/transport-mode';
 
 const LAST_LEG_PADDING = 20;
 
