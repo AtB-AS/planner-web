@@ -38,8 +38,8 @@ export const Assistant = {
     },
     searching: _(
       'Laster reiseforslag...',
-      'Loading travel suggestion...',
-      'Lastar resiseforslag...',
+      'Loading travel suggestions...',
+      'Lastar reiseforslag...',
     ),
   },
   trip: {
