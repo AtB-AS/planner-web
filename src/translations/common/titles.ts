@@ -2,14 +2,14 @@ import { translation as _ } from '@atb/translations/commons';
 import { orgSpecificTranslations } from '../utils';
 
 const TitlesInternal = {
-  siteTitle: _('AtB (nb)', 'AtB (en)', 'AtB  (nn)'),
+  siteTitle: _('AtB Reisesøk', 'AtB Travel Search', 'AtB Reisesøk'),
 };
 
 export const Titles = orgSpecificTranslations(TitlesInternal, {
   nfk: {
-    siteTitle: _('Reis', 'Reis', 'Reis'),
+    siteTitle: _('Reis Reisesøk', 'Reis Travel Search', 'Reis Reisesøk'),
   },
   fram: {
-    siteTitle: _('FRAM', 'FRAM', 'FRAM'),
+    siteTitle: _('FRAM Reisesøk', 'FRAM Travel Search', 'FRAM Reisesøk'),
   },
 });
