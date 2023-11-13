@@ -52,6 +52,39 @@ export const estimatedCallsSchema = z.object({
   departures: z.array(departureSchema),
 });
 
+export const serviceJourneySchema = z.object({
+  id: z.string(),
+  transportMode: TransportModeType,
+  transportSubmode: TransportSubmodeType.optional(),
+  line: z.object({
+    publicCode: z.string(),
+  }),
+  estimatedCalls: z.array(
+    z.object({
+      actualArrivalTime: z.string().nullable(),
+      actualDepartureTime: z.string().nullable(),
+      aimedArrivalTime: z.string(),
+      aimedDepartureTime: z.string(),
+      cancellation: z.boolean(),
+      date: z.string(),
+      destinationDisplay: z.object({ frontText: z.string() }),
+      expectedDepartureTime: z.string(),
+      expectedArrivalTime: z.string(),
+      forAlighting: z.boolean(),
+      forBoarding: z.boolean(),
+      realtime: z.boolean(),
+      quay: z.object({
+        publicCode: z.string().nullable(),
+        name: z.string(),
+        id: z.string(),
+        stopPlace: z.object({
+          id: z.string(),
+        }),
+      }),
+    }),
+  ),
+});
+
 export type DepartureData = z.infer<typeof departureDataSchema>;
 export type StopPlaceInfo = z.infer<typeof stopPlaceSchema>;
 export const nearestStopPlaces = z.array(stopPlaceWithDistance);
@@ -60,3 +93,4 @@ export type NearestStopPlacesData = z.infer<typeof nearestStopPlaces>;
 export type EstimatedCallsData = z.infer<typeof estimatedCallsSchema>;
 export type Departure = z.infer<typeof departureSchema>;
 export type Quay = z.infer<typeof quaySchema>;
+export type ServiceJourneyData = z.infer<typeof serviceJourneySchema>;

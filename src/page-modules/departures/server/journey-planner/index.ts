@@ -31,6 +31,8 @@ import {
   stopPlaceSchema,
   Quay,
   Departure,
+  ServiceJourneyData,
+  serviceJourneySchema,
 } from './validators';
 import {
   TransportMode,
@@ -43,6 +45,12 @@ import {
   TransportModeType,
   TransportSubmodeType,
 } from '@atb/components/transport-mode/types';
+import {
+  ServiceJourneyWithEstimatedCallsDocument,
+  ServiceJourneyWithEstimatedCallsQuery,
+  ServiceJourneyWithEstimatedCallsQueryVariables,
+} from './journey-gql/service-journey-with-estimated-calls.generated';
+import { formatISO } from 'date-fns';
 
 export type DepartureInput = {
   id: string;
@@ -64,6 +72,12 @@ export type EstimatedCallsInput = {
   quayId: string;
   startTime: string;
 };
+
+export type ServiceJourneyInput = {
+  id: string;
+  date: Date;
+};
+
 export type { StopPlaceInfo, NearestStopPlacesData, StopPlaceWithDistance };
 
 export type JourneyPlannerApi = {
@@ -73,6 +87,7 @@ export type JourneyPlannerApi = {
     input: NearestStopPlacesInput,
   ): Promise<NearestStopPlacesData>;
   estimatedCalls(input: EstimatedCallsInput): Promise<EstimatedCallsData>;
+  serviceJourney(input: ServiceJourneyInput): Promise<ServiceJourneyData>;
 };
 
 export function createJourneyApi(
@@ -257,12 +272,74 @@ export function createJourneyApi(
             e.serviceJourney.line.transportMode,
           )
             ? e.serviceJourney.line.transportMode
-            : undefined,
+            : 'unknown',
           transportSubmode: e.serviceJourney.line.transportSubmode,
           publicCode: e.serviceJourney.line.publicCode,
         })),
       };
       const validated = estimatedCallsSchema.safeParse(data);
+      if (!validated.success) {
+        throw validated.error;
+      }
+
+      return validated.data;
+    },
+    async serviceJourney(input) {
+      const result = await client.query<
+        ServiceJourneyWithEstimatedCallsQuery,
+        ServiceJourneyWithEstimatedCallsQueryVariables
+      >({
+        query: ServiceJourneyWithEstimatedCallsDocument,
+        variables: {
+          id: input.id,
+          date: formatISO(input.date, { representation: 'date' }),
+        },
+      });
+
+      if (result.error) {
+        throw result.error;
+      }
+
+      const serviceJourney = result.data.serviceJourney;
+
+      const data: RecursivePartial<ServiceJourneyData> = {
+        id: serviceJourney?.id,
+        transportMode: isTransportModeType(serviceJourney?.transportMode)
+          ? serviceJourney?.transportMode
+          : 'unknown',
+        transportSubmode: serviceJourney?.transportSubmode,
+        line: {
+          publicCode: serviceJourney?.line.publicCode,
+        },
+        estimatedCalls: serviceJourney?.estimatedCalls?.map(
+          (estimatedCall) => ({
+            actualArrivalTime: estimatedCall.actualArrivalTime || null,
+            actualDepartureTime: estimatedCall.actualDepartureTime || null,
+            aimedArrivalTime: estimatedCall.aimedArrivalTime,
+            aimedDepartureTime: estimatedCall.aimedDepartureTime,
+            cancellation: estimatedCall.cancellation,
+            date: estimatedCall.date,
+            destinationDisplay: {
+              frontText: estimatedCall.destinationDisplay?.frontText,
+            },
+            expectedDepartureTime: estimatedCall.expectedDepartureTime,
+            expectedArrivalTime: estimatedCall.expectedArrivalTime,
+            forAlighting: estimatedCall.forAlighting,
+            forBoarding: estimatedCall.forBoarding,
+            realtime: estimatedCall.realtime,
+            quay: {
+              id: estimatedCall.quay.id,
+              publicCode: estimatedCall.quay.publicCode,
+              name: estimatedCall.quay.name,
+              stopPlace: {
+                id: estimatedCall.quay.stopPlace?.id,
+              },
+            },
+          }),
+        ),
+      };
+
+      const validated = serviceJourneySchema.safeParse(data);
       if (!validated.success) {
         throw validated.error;
       }

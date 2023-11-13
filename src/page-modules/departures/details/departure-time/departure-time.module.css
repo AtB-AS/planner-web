@@ -1,0 +1,13 @@
+.expectedContainer {
+  display: flex;
+  align-items: center;
+}
+.significantDifferenceContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.significantDifference {
+  display: flex;
+  align-items: center;
+}

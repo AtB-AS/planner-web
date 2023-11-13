@@ -63,6 +63,9 @@ describe('departure page', function () {
       estimatedCalls() {
         return {} as any;
       },
+      serviceJourney() {
+        return {} as any;
+      },
       client: null as any,
     };
 

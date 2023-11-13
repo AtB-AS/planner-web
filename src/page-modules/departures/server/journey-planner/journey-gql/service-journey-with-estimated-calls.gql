@@ -1,0 +1,35 @@
+query serviceJourneyWithEstimatedCalls($id: String!, $date: Date) {
+  serviceJourney(id: $id) {
+    id
+    transportMode
+    transportSubmode
+    publicCode
+    line {
+      publicCode
+    }
+    estimatedCalls(date: $date) {
+      actualArrivalTime
+      actualDepartureTime
+      aimedArrivalTime
+      aimedDepartureTime
+      cancellation
+      date
+      destinationDisplay {
+        frontText
+      }
+      expectedDepartureTime
+      expectedArrivalTime
+      forAlighting
+      forBoarding
+      realtime
+      quay {
+        id
+        name
+        publicCode
+        stopPlace {
+          id
+        }
+      }
+    }
+  }
+}
