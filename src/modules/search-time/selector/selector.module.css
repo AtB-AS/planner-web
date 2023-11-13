@@ -8,9 +8,10 @@
   --option-height: 2.25rem;
   --container-border-radius: 0.75rem;
   --option-border-radius: var(--border-radius-regular);
+  --number-of-options: 3;
 
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(var(--number-of-options), minmax(0, 1fr));
   padding: var(--spacings-xSmall);
   background: var(--static-background-background_0-background);
   width: fit-content;
@@ -34,7 +35,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  padding: var(--spacings-small);
+  padding: var(--spacings-small) var(--spacings-medium);
   border-radius: var(--option-border-radius);
   height: var(--option-height);
   transition: color 250ms;

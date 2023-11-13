@@ -115,6 +115,7 @@ function DeparturesLayout({
             <SearchTimeSelector
               initialState={searchTime}
               onChange={setSearchTime}
+              options={['now', 'departBy']}
             />
           </div>
         </motion.div>

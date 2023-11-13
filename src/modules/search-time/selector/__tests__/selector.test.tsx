@@ -34,9 +34,11 @@ describe('search time selector', function () {
       />,
     );
 
-    output.getByRole('radio', {
-      name: 'Ankomst',
-    });
+    expect(
+      output.getByRole('radio', {
+        name: 'Ankomst',
+      }),
+    ).toBeChecked();
   });
 
   it('should show date and time selector when "Arrival" is selected', async () => {
@@ -136,5 +138,34 @@ describe('search time selector', function () {
 
     expect(time).toHaveValue(newTime);
     expect(onChange).toHaveBeenCalled();
+  });
+
+  it('should not show arriveBy', () => {
+    const onChange = vi.fn();
+    const output = render(
+      <SearchTimeSelector
+        initialState={{ mode: 'now' }}
+        onChange={onChange}
+        options={['now', 'departBy']}
+      />,
+    );
+
+    expect(
+      output.queryByRole('radio', {
+        name: 'Ankomst',
+      }),
+    ).not.toBeInTheDocument();
+
+    expect(
+      output.queryByRole('radio', {
+        name: 'Nå',
+      }),
+    ).toBeInTheDocument();
+
+    expect(
+      output.queryByRole('radio', {
+        name: 'Avgang',
+      }),
+    ).toBeInTheDocument();
   });
 });
