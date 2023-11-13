@@ -9,6 +9,7 @@ export const serviceJourneyFixture: ServiceJourneyData = {
   transportMode: 'bus' as TransportModeType,
   transportSubmode: 'localBus' as TransportSubmodeType,
   line: { publicCode: '22' },
+  mapLegs: [],
   estimatedCalls: [
     {
       actualArrivalTime: '2023-11-10T14:59:24+01:00',
@@ -29,7 +30,11 @@ export const serviceJourneyFixture: ServiceJourneyData = {
         publicCode: '',
         name: 'Strinda vgs.',
         id: 'NSR:Quay:73030',
-        stopPlace: { id: 'NSR:StopPlace:42623' },
+        stopPlace: {
+          id: 'NSR:StopPlace:42623',
+          longitude: 10.427544,
+          latitude: 63.422072,
+        },
       },
     },
     {
@@ -51,7 +56,11 @@ export const serviceJourneyFixture: ServiceJourneyData = {
         publicCode: '',
         name: 'Magnus Berrføtts veg',
         id: 'NSR:Quay:72609',
-        stopPlace: { id: 'NSR:StopPlace:42400' },
+        stopPlace: {
+          id: 'NSR:StopPlace:42400',
+          longitude: 10.438533,
+          latitude: 63.421314,
+        },
       },
     },
     {
@@ -73,7 +82,11 @@ export const serviceJourneyFixture: ServiceJourneyData = {
         publicCode: '',
         name: 'Valentinlyst',
         id: 'NSR:Quay:71898',
-        stopPlace: { id: 'NSR:StopPlace:42004' },
+        stopPlace: {
+          id: 'NSR:StopPlace:42004',
+          longitude: 10.440496,
+          latitude: 63.424583,
+        },
       },
     },
     {
@@ -95,7 +108,11 @@ export const serviceJourneyFixture: ServiceJourneyData = {
         publicCode: '',
         name: 'Tyholtveien',
         id: 'NSR:Quay:71678',
-        stopPlace: { id: 'NSR:StopPlace:41882' },
+        stopPlace: {
+          id: 'NSR:StopPlace:41882',
+          longitude: 10.442998,
+          latitude: 63.427611,
+        },
       },
     },
     {
@@ -117,7 +134,11 @@ export const serviceJourneyFixture: ServiceJourneyData = {
         publicCode: '',
         name: 'Cecilie Thoresens veg',
         id: 'NSR:Quay:75585',
-        stopPlace: { id: 'NSR:StopPlace:44015' },
+        stopPlace: {
+          id: 'NSR:StopPlace:44015',
+          longitude: 10.440378,
+          latitude: 63.42732,
+        },
       },
     },
     {
@@ -139,7 +160,11 @@ export const serviceJourneyFixture: ServiceJourneyData = {
         publicCode: '',
         name: 'Tyholt',
         id: 'NSR:Quay:71659',
-        stopPlace: { id: 'NSR:StopPlace:41875' },
+        stopPlace: {
+          id: 'NSR:StopPlace:41875',
+          longitude: 10.432813,
+          latitude: 63.427688,
+        },
       },
     },
     {
@@ -161,7 +186,11 @@ export const serviceJourneyFixture: ServiceJourneyData = {
         publicCode: '',
         name: 'Clara Holsts veg',
         id: 'NSR:Quay:75616',
-        stopPlace: { id: 'NSR:StopPlace:44034' },
+        stopPlace: {
+          id: 'NSR:StopPlace:44034',
+          longitude: 10.435643,
+          latitude: 63.428894,
+        },
       },
     },
     {
@@ -183,7 +212,11 @@ export const serviceJourneyFixture: ServiceJourneyData = {
         publicCode: '',
         name: 'Persaunet leir',
         id: 'NSR:Quay:74990',
-        stopPlace: { id: 'NSR:StopPlace:43687' },
+        stopPlace: {
+          id: 'NSR:StopPlace:43687',
+          longitude: 10.441777,
+          latitude: 63.431544,
+        },
       },
     },
     {
@@ -205,7 +238,11 @@ export const serviceJourneyFixture: ServiceJourneyData = {
         publicCode: '',
         name: 'Brian Smiths gate',
         id: 'NSR:Quay:75371',
-        stopPlace: { id: 'NSR:StopPlace:43896' },
+        stopPlace: {
+          id: 'NSR:StopPlace:43896',
+          longitude: 10.447941,
+          latitude: 63.434554,
+        },
       },
     },
     {
@@ -227,7 +264,11 @@ export const serviceJourneyFixture: ServiceJourneyData = {
         publicCode: '',
         name: 'Dalen Hageby',
         id: 'NSR:Quay:74497',
-        stopPlace: { id: 'NSR:StopPlace:43418' },
+        stopPlace: {
+          id: 'NSR:StopPlace:43418',
+          longitude: 10.449015,
+          latitude: 63.437369,
+        },
       },
     },
   ],
