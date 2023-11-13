@@ -54,6 +54,7 @@ import { formatISO } from 'date-fns';
 
 export type DepartureInput = {
   id: string;
+  date: number | null;
   transportModes: TransportModeFilterOption[] | null;
 };
 export type { DepartureData, Quay, Departure };
@@ -102,7 +103,9 @@ export function createJourneyApi(
         query: StopPlaceQuayDeparturesDocument,
         variables: {
           id: input.id,
-          startTime: new Date(),
+          startTime: input.date
+            ? new Date(input.date).toISOString()
+            : new Date().toISOString(),
           numberOfDepartures: 10,
           transportModes: getTransportModesEnums(input.transportModes),
         },

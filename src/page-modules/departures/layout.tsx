@@ -17,22 +17,35 @@ import { FocusScope } from '@react-aria/focus';
 import GeolocationButton from '@atb/components/search/geolocation-button';
 import { AnimatePresence, motion } from 'framer-motion';
 import React from 'react';
-import { SearchTime, SearchTimeSelector } from '@atb/modules/search-time';
+import {
+  SearchTime,
+  SearchTimeSelector,
+  searchTimeToQueryString,
+} from '@atb/modules/search-time';
+import { ParsedUrlQueryInput } from 'node:querystring';
 
 export type DeparturesLayoutProps = PropsWithChildren<{
   initialTransportModesFilter?: TransportModeFilterOption[] | null;
+  initialSearchTime?: SearchTime;
+  initialFeature?: GeocoderFeature;
 }>;
 
 function DeparturesLayout({
   children,
   initialTransportModesFilter,
+  initialSearchTime,
+  initialFeature,
 }: DeparturesLayoutProps) {
   const { t } = useTranslation();
   const router = useRouter();
 
   const [showAlternatives, setShowAlternatives] = useState(false);
-  const [selectedFeature, setSelectedFeature] = useState<GeocoderFeature>();
-  const [searchTime, setSearchTime] = useState<SearchTime>({ mode: 'now' });
+  const [selectedFeature, setSelectedFeature] = useState<
+    GeocoderFeature | undefined
+  >(initialFeature);
+  const [searchTime, setSearchTime] = useState<SearchTime>(
+    initialSearchTime ?? { mode: 'now' },
+  );
   const [transportModeFilter, setTransportModeFilter] = useState(
     getInitialTransportModeFilter(initialTransportModesFilter),
   );
@@ -41,12 +54,15 @@ function DeparturesLayout({
   const onSubmitHandler: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
 
-    let query = {};
+    let query: ParsedUrlQueryInput = {
+      ...searchTimeToQueryString(searchTime),
+    };
 
     const filter = filterToQueryString(transportModeFilter);
 
     if (filter) {
       query = {
+        ...query,
         filter,
       };
     }
@@ -97,6 +113,7 @@ function DeparturesLayout({
             <Search
               label={t(PageText.Departures.search.input.from)}
               selectedItem={selectedFeature}
+              initialFeature={initialFeature}
               onChange={setSelectedFeature}
               button={
                 <GeolocationButton

@@ -14,6 +14,8 @@ import { departureDataFixture } from './departure-data.fixture';
 import { StopPlace } from '../stop-place';
 import userEvent from '@testing-library/user-event';
 import { NearestStopPlaces } from '..';
+import { GeocoderApi } from '@atb/page-modules/departures/server/geocoder';
+
 afterEach(function () {
   cleanup();
 });
@@ -48,8 +50,8 @@ describe('departure page', function () {
     };
 
     const gqlClient: ExternalClient<
-      'graphql-journeyPlanner3',
-      JourneyPlannerApi
+      'graphql-journeyPlanner3' | 'http-entur',
+      GeocoderApi & JourneyPlannerApi
     > = {
       async departures() {
         return expectedDeparturesResult;
@@ -58,9 +60,20 @@ describe('departure page', function () {
         return {} as any;
       },
       stopPlace() {
-        return {} as any;
+        return {
+          position: {
+            lat: 0,
+            lon: 0,
+          },
+        } as any;
       },
       estimatedCalls() {
+        return {} as any;
+      },
+      async autocomplete() {
+        return {} as any;
+      },
+      async reverse(lat, lon, layers) {
         return {} as any;
       },
       serviceJourney() {
