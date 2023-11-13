@@ -43,6 +43,7 @@ function useGeolocation(onSuccess: (feature: GeocoderFeature) => void) {
 
   const getPosition = () => {
     setIsLoading(true);
+    setError(null);
 
     navigator.geolocation.getCurrentPosition(
       async (position) => {
@@ -53,8 +54,8 @@ function useGeolocation(onSuccess: (feature: GeocoderFeature) => void) {
         setIsLoading(false);
       },
       (error) => {
-        setIsLoading(false);
         setError(error);
+        setIsLoading(false);
       },
       { enableHighAccuracy: true, timeout: 10000 },
     );

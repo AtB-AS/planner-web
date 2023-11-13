@@ -96,6 +96,7 @@ function DeparturesLayout({
 
             <Search
               label={t(PageText.Departures.search.input.from)}
+              selectedItem={selectedFeature}
               onChange={setSelectedFeature}
               button={
                 <GeolocationButton
