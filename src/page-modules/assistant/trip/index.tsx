@@ -11,7 +11,6 @@ import style from './trip.module.css';
 import { PageText, useTranslation } from '@atb/translations';
 import { Typo } from '@atb/components/typography';
 import { GeocoderFeature } from '@atb/page-modules/departures';
-import { TransportModeFilterOption } from '@atb/components/transport-mode-filter/types';
 import { nextTripPatterns } from '../client';
 import { NonTransitTripData } from '../types';
 import {
@@ -20,7 +19,6 @@ import {
   getCursorBySearchMode,
 } from '../utils';
 import { useEffect, useState } from 'react';
-import { getInitialTransportModeFilter } from '@atb/components/transport-mode-filter/utils';
 import { Button } from '@atb/components/button';
 import { NonTransitTrip } from '../non-transit-pill';
 import { isSameDay } from 'date-fns';
@@ -28,6 +26,10 @@ import { capitalize } from 'lodash';
 import EmptySearchResults from '@atb/components/empty-search-results';
 import TripPattern from './trip-pattern';
 import { SearchTime } from '@atb/modules/search-time';
+import {
+  getInitialTransportModeFilter,
+  type TransportModeFilterOption,
+} from '@atb/modules/transport-mode';
 
 export type TripProps = {
   initialFromFeature: GeocoderFeature;

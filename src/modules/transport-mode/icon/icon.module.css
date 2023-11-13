@@ -1,17 +1,11 @@
 .transportIcons {
   display: flex;
-
-  /* Specialized sizing. */
-  /* @TODO investigate generic way to handle this */
   gap: 0.125rem;
 }
 
 .transportIcon,
 .transportIconWithLabel {
   display: inline-block;
-
-  /* Specialized sizing. */
-  /* @TODO investigate generic way to handle this */
   border-radius: var(--border-radius-small);
   padding: var(--spacings-xSmall);
 }

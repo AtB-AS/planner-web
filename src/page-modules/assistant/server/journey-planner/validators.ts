@@ -1,8 +1,9 @@
-import {
-  TransportModeType,
-  TransportSubmodeType,
-} from '@atb/components/transport-mode/types';
 import { z } from 'zod';
+import {
+  transportModeSchema,
+  transportSubmodeSchema,
+} from '@atb/modules/transport-mode';
+
 export const noticeSchema = z.object({
   id: z.string(),
   text: z.string().nullable(),
@@ -92,14 +93,14 @@ export const fromEstimatedCallSchema = z.object({
 export const lineSchema = z.object({
   id: z.string(),
   name: z.string().nullable(),
-  transportSubmode: TransportSubmodeType.nullable(),
+  transportSubmode: transportSubmodeSchema.nullable().optional(),
   publicCode: z.string().nullable(),
   flexibleLineType: z.string().nullable(),
   notices: z.array(noticeSchema),
 });
 
 export const legSchema = z.object({
-  mode: TransportModeType.nullable(),
+  mode: transportModeSchema.nullable(),
   distance: z.number(),
   duration: z.number(),
   aimedStartTime: z.string(),
@@ -107,7 +108,7 @@ export const legSchema = z.object({
   expectedEndTime: z.string(),
   expectedStartTime: z.string(),
   realtime: z.boolean(),
-  transportSubmode: TransportSubmodeType.nullable(),
+  transportSubmode: transportSubmodeSchema.nullable().optional(),
   line: lineSchema.nullable(),
   fromEstimatedCall: fromEstimatedCallSchema.nullable(),
   situations: z.array(situationSchema),
@@ -162,7 +163,7 @@ export const tripSchema = z.object({
 });
 
 export const nonTransitSchema = z.object({
-  mode: TransportModeType,
+  mode: transportModeSchema,
   rentedBike: z.boolean(),
   duration: z.number(),
 });

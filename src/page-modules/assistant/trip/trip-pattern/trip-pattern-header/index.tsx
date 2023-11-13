@@ -1,13 +1,10 @@
-import {
-  TripPattern,
-  Quay,
-} from '@atb/page-modules/assistant/server/journey-planner/validators';
+import { TripPattern, Quay } from '../../../server/journey-planner/validators';
 import style from './trip-pattern-header.module.css';
 import { Typo } from '@atb/components/typography';
 import { useTranslation, PageText } from '@atb/translations';
 import { secondsToDuration } from '@atb/utils/date';
 import { flatMap } from 'lodash';
-import { getNoticesForLeg } from '@atb/page-modules/assistant/trip/trip-pattern/trip-pattern-header/utils';
+import { getNoticesForLeg } from './utils';
 import { RailReplacementBusMessage } from './rail-replacement-bus';
 import { SituationOrNoticeIcon } from '@atb/modules/situations';
 

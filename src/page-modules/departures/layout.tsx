@@ -5,13 +5,13 @@ import Search from '@atb/components/search';
 import { Button } from '@atb/components/button';
 import style from './departures.module.css';
 import { useRouter } from 'next/router';
-import TransportModeFilter from '@atb/components/transport-mode-filter';
 import { Typo } from '@atb/components/typography';
 import {
+  TransportModeFilter,
   filterToQueryString,
   getInitialTransportModeFilter,
-} from '@atb/components/transport-mode-filter/utils';
-import { TransportModeFilterOption } from '@atb/components/transport-mode-filter/types';
+  TransportModeFilterOption,
+} from '@atb/modules/transport-mode';
 import { MonoIcon } from '@atb/components/icon';
 import { FocusScope } from '@react-aria/focus';
 import GeolocationButton from '@atb/components/search/geolocation-button';

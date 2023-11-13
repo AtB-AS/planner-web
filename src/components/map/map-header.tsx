@@ -1,12 +1,13 @@
 import style from './map.module.css';
-
 import { ButtonLink } from '@atb/components/button';
 import { ComponentText, useTranslation } from '@atb/translations';
 import { and } from '@atb/utils/css';
 import { MonoIcon } from '@atb/components/icon';
-import { transportModeToTranslatedString } from '@atb/components/transport-mode';
-import { getTransportModeIcon } from '@atb/components/transport-mode/transport-icon';
-import { TransportModeType } from '@atb/components/transport-mode/types';
+import {
+  type TransportModeType,
+  transportModeToTranslatedString,
+  getTransportModeIcon,
+} from '@atb/modules/transport-mode';
 
 export type MapHeaderProps = {
   id: string;

@@ -1,11 +1,13 @@
-import { parseFilterQuery } from '@atb/components/transport-mode-filter/utils';
 import { errorResultAsJson, tryResult } from '@atb/modules/api-server';
-import { TripApiReturnType } from '@atb/page-modules/assistant/client/journey-planner';
 import { handlerWithAssistantClient } from '@atb/page-modules/assistant/server';
-import { parseTripQuery } from '@atb/page-modules/assistant';
+import {
+  parseTripQuery,
+  type TripApiReturnType,
+} from '@atb/page-modules/assistant';
 import { ServerText } from '@atb/translations';
 import { constants } from 'http2';
-import { parseSearchTimeQuery } from '@atb/modules/search-time/utils';
+import { parseSearchTimeQuery } from '@atb/modules/search-time';
+import { parseFilterQuery } from '@atb/modules/transport-mode';
 
 export default handlerWithAssistantClient<TripApiReturnType>({
   async GET(req, res, { client, ok }) {

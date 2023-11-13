@@ -1,5 +1,5 @@
-import { TripData } from '@atb/page-modules/assistant/server/journey-planner/validators';
-import { TripQuery } from '@atb/page-modules/assistant/';
+import { TripData } from '../../server/journey-planner/validators';
+import { TripQuery } from '../../types';
 
 export type TripApiReturnType = TripData;
 

@@ -1,4 +1,4 @@
-import { DepartureData } from '@atb/page-modules/departures/';
+import { DepartureData } from '../server/journey-planner';
 
 export const departureDataFixture: DepartureData = {
   stopPlace: {

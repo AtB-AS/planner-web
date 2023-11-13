@@ -1,9 +1,9 @@
 import { cleanup, render, screen } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import TransportModeFilter from '@atb/components/transport-mode-filter';
-import { getInitialTransportModeFilter } from '@atb/components/transport-mode-filter/utils';
 import userEvent from '@testing-library/user-event';
-import { TransportModeFilterState } from '@atb/components/transport-mode-filter/types';
+import TransportModeFilter from '../filter';
+import { getInitialTransportModeFilter } from '../utils';
+import { TransportModeFilterState } from '../types';
 
 afterEach(() => cleanup());
 

@@ -1,12 +1,15 @@
-import { TransportModeFilterState } from '@atb/components/transport-mode-filter/types';
-import { filterToQueryString } from '@atb/components/transport-mode-filter/utils';
 import { GeocoderFeature } from '@atb/page-modules/departures';
 import {
-  TripData,
-  TripQuery,
+  type TripData,
+  type TripQuery,
   TripQuerySchema,
 } from '@atb/page-modules/assistant';
-import { SearchMode, SearchTime } from '@atb/modules/search-time';
+import type { SearchMode, SearchTime } from '@atb/modules/search-time';
+import {
+  filterToQueryString,
+  type TransportModeFilterState,
+} from '@atb/modules/transport-mode';
+import { searchTimeToQueryString } from '@atb/modules/search-time';
 
 export function filterOutDuplicates(
   arrayToFilter: TripData['tripPatterns'],
@@ -56,10 +59,7 @@ export function createTripQuery(
     }
   }
 
-  const searchTimeQuery =
-    searchTime.mode !== 'now'
-      ? { searchMode: searchTime.mode, searchTime: searchTime.dateTime }
-      : { searchMode: searchTime.mode };
+  const searchTimeQuery = searchTimeToQueryString(searchTime);
   const cursorQuery = cursor ? { cursor } : {};
   const fromToQuery = featuresToFromToQuery(fromFeature, toFeature);
 
