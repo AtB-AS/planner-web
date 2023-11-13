@@ -9,10 +9,10 @@ import { MonoIcon } from '@atb/components/icon';
 import { ComponentText, useTranslation } from '@atb/translations';
 import { FocusScope } from '@react-aria/focus';
 import { MapLegType } from '@atb/page-modules/departures/server/journey-planner/validators';
-import { modeToColor } from '../transport-mode/transport-icon';
 import { useTheme } from '@atb/modules/theme';
 import { Theme } from '@atb-as/theme';
 import hexToRgba from 'hex-to-rgba';
+import { modeToColor } from '@atb/modules/transport-mode';
 
 export type LngLatPosition = [lng: number, lat: number];
 export type MapProps = {
@@ -268,7 +268,6 @@ const useMapLegs = (
 ) => {
   const addSource = useCallback(
     (map: mapboxgl.Map, mapLeg: MapLegType, id: number) => {
-      console.log(mapLeg);
       const transportColor = modeToColor(
         {
           mode: mapLeg.faded ? 'unknown' : mapLeg.transportMode,

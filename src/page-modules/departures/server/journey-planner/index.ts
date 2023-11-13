@@ -37,7 +37,7 @@ import {
 } from './validators';
 import {
   TransportMode as GraphQlTransportMode,
-  PointsOnLink,
+  PointsOnLink as GraphQlPointsOnLink,
 } from '@atb/modules/graphql-types';
 import {
   type TransportModeType,
@@ -385,7 +385,7 @@ type RecursivePartial<T> = {
 };
 
 const mapToMapLegs = (
-  pointsOnLink: PointsOnLink | undefined,
+  pointsOnLink: GraphQlPointsOnLink | undefined,
   transportMode: TransportModeType,
   transportSubmode: TransportSubmodeType | undefined,
   fromStopPlace?: { id: string; latitude?: number; longitude?: number },

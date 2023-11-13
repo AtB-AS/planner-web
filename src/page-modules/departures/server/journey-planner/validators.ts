@@ -53,8 +53,8 @@ export const estimatedCallsSchema = z.object({
 });
 
 export const mapLegSchema = z.object({
-  transportMode: TransportModeType,
-  transportSubmode: TransportSubmodeType.optional(),
+  transportMode: transportModeSchema,
+  transportSubmode: transportSubmodeSchema.optional(),
   faded: z.boolean(),
   points: z.array(z.array(z.number(), z.number())),
 });
