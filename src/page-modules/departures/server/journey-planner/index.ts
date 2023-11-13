@@ -253,7 +253,7 @@ export function createJourneyApi(
           numberOfDepartures: 6, // TODO: Have to add one to account for the last departure of the original set of departures?
           startTime: new Date(input.startTime),
           transportModes:
-            (input.transportModes as TransportMode[]) ?? null,
+            (input.transportModes as GraphQlTransportMode[]) ?? null,
         },
       });
 

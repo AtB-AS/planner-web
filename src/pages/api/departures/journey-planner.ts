@@ -7,7 +7,7 @@ import { z } from 'zod';
 import {
   getAllTransportModesFromFilterOptions,
   parseFilterQuery,
-} from '@atb/components/transport-mode-filter/utils';
+} from '@atb/modules/transport-mode';
 
 export default handlerWithDepartureClient<EstimatedCallsApiReturnType>({
   async GET(req, res, { client, ok }) {
