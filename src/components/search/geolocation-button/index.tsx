@@ -11,8 +11,7 @@ type GeolocationButtonProps = {
 };
 function GeolocationButton({ onGeolocate, className }: GeolocationButtonProps) {
   const { t } = useTranslation();
-  const { getPosition, isLoading, isUnavailable, error } =
-    useGeolocation(onGeolocate);
+  const { getPosition, isLoading, isUnavailable } = useGeolocation(onGeolocate);
 
   if (isUnavailable) return null;
 
