@@ -1,5 +1,5 @@
 import { translation as _ } from '@atb/translations/commons';
-import { TransportModeType } from '@atb/components/transport-mode/types';
+import { TransportModeType } from '@atb/modules/transport-mode';
 
 export const Assistant = {
   title: _('Planlegg reisen', 'Plan travel', 'Planlegg reisa'),

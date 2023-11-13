@@ -1,5 +1,5 @@
 import { GraphQlRequester } from '@atb/modules/api-server';
-import { StreetMode } from '@atb/modules/graphql-types';
+import { StreetMode, TransportMode } from '@atb/modules/graphql-types';
 import {
   TripsDocument,
   TripsNonTransitDocument,
@@ -21,12 +21,11 @@ import type {
   NonTransitTripInput,
   TripInput,
 } from '../../types';
+import { filterOutDuplicates, getCursorBySearchMode } from '../../utils';
 import {
-  getTransportModesEnums,
   isTransportModeType,
   isTransportSubmodeType,
-} from '@atb/page-modules/departures/server/journey-planner';
-import { filterOutDuplicates, getCursorBySearchMode } from '../../utils';
+} from '@atb/modules/transport-mode';
 
 const MIN_NUMBER_OF_TRIP_PATTERNS = 8;
 const MAX_NUMBER_OF_SEARCH_ATTEMPTS = 5;
@@ -109,11 +108,10 @@ export function createJourneyApi(
         // Show specific non-transit suggestions through separate API call
         directMode: undefined,
         egressMode: StreetMode.Foot,
-        transportModes: input.transportModes
-          ? getTransportModesEnums(input.transportModes)?.map((mode) => ({
-              transportMode: mode,
-            }))
-          : undefined,
+        transportModes:
+          input.transportModes?.map((mode) => ({
+            transportMode: mode as TransportMode,
+          })) ?? undefined,
       };
 
       const from = inputToLocation(input, 'from');

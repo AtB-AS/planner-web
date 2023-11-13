@@ -1,13 +1,11 @@
-import {
-  TransportIcon,
-  useTransportationThemeColor,
-} from '@atb/components/transport-mode/transport-icon';
-import {
-  TransportModeType,
-  TransportSubmodeType,
-} from '@atb/components/transport-mode/types';
 import { Typo } from '@atb/components/typography';
 import style from './line-chip.module.css';
+import {
+  TransportIcon,
+  TransportModeType,
+  TransportSubmodeType,
+  useTransportationThemeColor,
+} from '@atb/modules/transport-mode';
 
 export type LineChipProps = {
   transportMode: TransportModeType;

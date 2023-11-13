@@ -1,8 +1,8 @@
 import { ServiceJourneyData } from '../server/journey-planner/validators';
-import {
+import type {
   TransportModeType,
   TransportSubmodeType,
-} from '@atb/components/transport-mode/types';
+} from '@atb/modules/transport-mode';
 
 export const serviceJourneyFixture: ServiceJourneyData = {
   id: 'ATB:ServiceJourney:22_230306097862461_113',

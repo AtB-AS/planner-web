@@ -36,17 +36,15 @@ import {
   MapLegType,
 } from './validators';
 import {
-  TransportMode,
-  TransportMode as GraphqlTransportMode,
+  TransportMode as GraphQlTransportMode,
   PointsOnLink,
 } from '@atb/modules/graphql-types';
-import { TransportModeFilterOption } from '@atb/components/transport-mode-filter/types';
-import { getAllTransportModesFromFilterOptions } from '@atb/components/transport-mode-filter/utils';
-import { enumFromString } from '@atb/utils/enum-from-string';
 import {
-  TransportModeType,
+  type TransportModeType,
+  isTransportModeType,
+  filterGraphQlTransportModes,
   TransportSubmodeType,
-} from '@atb/components/transport-mode/types';
+} from '@atb/modules/transport-mode';
 import {
   ServiceJourneyWithEstimatedCallsDocument,
   ServiceJourneyWithEstimatedCallsQuery,
@@ -58,7 +56,8 @@ import haversineDistance from 'haversine-distance';
 
 export type DepartureInput = {
   id: string;
-  transportModes: TransportModeFilterOption[] | null;
+  date: number | null;
+  transportModes: TransportModeType[] | null;
 };
 export type { DepartureData, Quay, Departure };
 
@@ -69,7 +68,7 @@ export type StopPlaceInput = {
 export type NearestStopPlacesInput = {
   lat: number;
   lon: number;
-  transportModes: TransportModeFilterOption[] | null;
+  transportModes: TransportModeType[] | null;
 };
 
 export type EstimatedCallsInput = {
@@ -107,9 +106,12 @@ export function createJourneyApi(
         query: StopPlaceQuayDeparturesDocument,
         variables: {
           id: input.id,
-          startTime: new Date(),
+          startTime: input.date
+            ? new Date(input.date).toISOString()
+            : new Date().toISOString(),
           numberOfDepartures: 10,
-          transportModes: getTransportModesEnums(input.transportModes),
+          transportModes:
+            (input.transportModes as GraphQlTransportMode[]) ?? null,
         },
       });
 
@@ -125,7 +127,7 @@ export function createJourneyApi(
             lat: result.data.stopPlace?.latitude,
             lon: result.data.stopPlace?.longitude,
           },
-          transportMode: filterTransportModes(
+          transportMode: filterGraphQlTransportModes(
             result.data.stopPlace?.transportMode,
           ),
           transportSubmode: result.data.stopPlace?.transportSubmode,
@@ -204,7 +206,8 @@ export function createJourneyApi(
         variables: {
           // Max distance in meters
           distance: 900,
-          transportModes: getTransportModesEnums(input.transportModes),
+          transportModes:
+            (input.transportModes as GraphQlTransportMode[]) ?? null,
 
           latitude: input.lat,
           longitude: input.lon,
@@ -379,39 +382,6 @@ type RecursivePartial<T> = {
     : T[P] extends object | undefined
     ? RecursivePartial<T[P]>
     : T[P];
-};
-
-const filterTransportModes = (
-  modes: GraphqlTransportMode[] | undefined,
-): TransportModeType[] | undefined => {
-  if (!modes) return undefined;
-  const transportModes: TransportModeType[] = [];
-  modes.forEach((transportMode) => {
-    if (isTransportModeType(transportMode)) transportModes.push(transportMode);
-  });
-  if (transportModes.length === 0) return undefined;
-  return transportModes;
-};
-
-export const isTransportModeType = (a: any): a is TransportModeType => {
-  return TransportModeType.safeParse(a).success;
-};
-
-export const isTransportSubmodeType = (a: any): a is TransportSubmodeType => {
-  return TransportSubmodeType.safeParse(a).success;
-};
-
-export const getTransportModesEnums = (
-  transportModes: TransportModeFilterOption[] | null,
-): TransportMode[] | null => {
-  if (!transportModes) return null;
-
-  const allTransportModes =
-    getAllTransportModesFromFilterOptions(transportModes);
-
-  return allTransportModes
-    .map((mode) => enumFromString(TransportMode, mode))
-    .filter(Boolean) as TransportMode[];
 };
 
 const mapToMapLegs = (

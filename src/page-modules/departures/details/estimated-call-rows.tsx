@@ -1,10 +1,8 @@
-import { TransportModeType } from '@atb/components/transport-mode/types';
 import { EstimatedCallWithMetadata } from '../types';
 import { PageText, useTranslation } from '@atb/translations';
 import { PropsWithChildren, useState } from 'react';
 import style from './details.module.css';
 import { motion } from 'framer-motion';
-import { useTransportationThemeColor } from '@atb/components/transport-mode/transport-icon';
 import { Typo } from '@atb/components/typography';
 import { MonoIcon } from '@atb/components/icon';
 import { Button } from '@atb/components/button';
@@ -12,6 +10,10 @@ import Link from 'next/link';
 import DepartureTime from './departure-time';
 import DecorationLine from './decoration-line';
 import { and } from '@atb/utils/css';
+import {
+  type TransportModeType,
+  useTransportationThemeColor,
+} from '@atb/modules/transport-mode';
 
 export type EstimatedCallRowsProps = {
   calls: EstimatedCallWithMetadata[];

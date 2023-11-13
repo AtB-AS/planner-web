@@ -6,7 +6,7 @@ import { useTheme } from '@atb/modules/theme';
 
 import { useTranslation } from '@atb/translations';
 import { transportModeToTranslatedString } from '../utils';
-import style from './transport-icon.module.css';
+import style from './icon.module.css';
 import { colorToOverrideMode } from '@atb/utils/color';
 
 export type TransportIconsProps = {

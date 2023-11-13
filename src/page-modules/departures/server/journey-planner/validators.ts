@@ -1,7 +1,7 @@
 import {
-  TransportModeType,
-  TransportSubmodeType,
-} from '@atb/components/transport-mode/types';
+  transportModeSchema,
+  transportSubmodeSchema,
+} from '@atb/modules/transport-mode';
 import { z } from 'zod';
 
 export const locationSchema = z.object({
@@ -14,8 +14,8 @@ export const stopPlaceSchema = z.object({
   name: z.string(),
   description: z.string().nullable(),
   position: locationSchema,
-  transportMode: TransportModeType.array().optional(),
-  transportSubmode: TransportSubmodeType.array().optional(),
+  transportMode: transportModeSchema.array().optional(),
+  transportSubmode: transportSubmodeSchema.array().optional(),
 });
 
 export const departureSchema = z.object({
@@ -25,8 +25,8 @@ export const departureSchema = z.object({
   date: z.string(),
   aimedDepartureTime: z.string(),
   expectedDepartureTime: z.string(),
-  transportMode: TransportModeType.optional(),
-  transportSubmode: TransportSubmodeType.optional(),
+  transportMode: transportModeSchema.optional(),
+  transportSubmode: transportSubmodeSchema.optional(),
 });
 
 export const quaySchema = z.object({
@@ -61,8 +61,8 @@ export const mapLegSchema = z.object({
 
 export const serviceJourneySchema = z.object({
   id: z.string(),
-  transportMode: TransportModeType,
-  transportSubmode: TransportSubmodeType.optional(),
+  transportMode: transportModeSchema,
+  transportSubmode: transportSubmodeSchema.optional(),
   line: z.object({
     publicCode: z.string(),
   }),
