@@ -23,6 +23,7 @@
     "@apollo/client": "^3.8.4",
     "@atb-as/config-specs": "^3.6.1",
     "@atb-as/theme": "^7.1.1",
+    "@github/combobox-nav": "^2.3.0",
     "@leile/lobo-t": "^1.0.5",
     "@mapbox/polyline": "^1.2.1",
     "@react-aria/focus": "^3.14.2",
