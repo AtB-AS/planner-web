@@ -97,7 +97,7 @@ const TRANSPORT_SUB_MODES_BOAT: TransportSubmodeType[] = [
   'sightseeingService',
 ];
 
-function modeToColor(
+export function modeToColor(
   mode: TransportModeGroup,
   transport: Theme['transport'],
 ): ContrastColor {

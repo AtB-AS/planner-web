@@ -8,6 +8,7 @@ import { addMetadataToEstimatedCalls } from './utils';
 import { ServiceJourneyData } from '../server/journey-planner/validators';
 import { EstimatedCallRows } from './estimated-call-rows';
 import { PageText, useTranslation } from '@atb/translations';
+import { Map } from '@atb/components/map';
 
 export type DeparturesDetailsProps = {
   fromQuayId?: string;
@@ -55,7 +56,15 @@ export function DeparturesDetails({
         )}
       </div>
 
-      <div className={style.mapContainer}></div>
+      <div className={style.mapContainer}>
+        <Map
+          position={[
+            focusedCall.quay.stopPlace.longitude,
+            focusedCall.quay.stopPlace.latitude,
+          ]}
+          mapLegs={serviceJourney.mapLegs}
+        />
+      </div>
 
       <div className={style.serviceJourneyContainer}>
         <EstimatedCallRows

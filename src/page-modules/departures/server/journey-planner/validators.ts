@@ -52,6 +52,13 @@ export const estimatedCallsSchema = z.object({
   departures: z.array(departureSchema),
 });
 
+export const mapLegSchema = z.object({
+  transportMode: TransportModeType,
+  transportSubmode: TransportSubmodeType.optional(),
+  faded: z.boolean(),
+  points: z.array(z.array(z.number(), z.number())),
+});
+
 export const serviceJourneySchema = z.object({
   id: z.string(),
   transportMode: TransportModeType,
@@ -59,6 +66,7 @@ export const serviceJourneySchema = z.object({
   line: z.object({
     publicCode: z.string(),
   }),
+  mapLegs: z.array(mapLegSchema),
   estimatedCalls: z.array(
     z.object({
       actualArrivalTime: z.string().nullable(),
@@ -79,6 +87,8 @@ export const serviceJourneySchema = z.object({
         id: z.string(),
         stopPlace: z.object({
           id: z.string(),
+          longitude: z.number(),
+          latitude: z.number(),
         }),
       }),
     }),
@@ -94,3 +104,4 @@ export type EstimatedCallsData = z.infer<typeof estimatedCallsSchema>;
 export type Departure = z.infer<typeof departureSchema>;
 export type Quay = z.infer<typeof quaySchema>;
 export type ServiceJourneyData = z.infer<typeof serviceJourneySchema>;
+export type MapLegType = z.infer<typeof mapLegSchema>;

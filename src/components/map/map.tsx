@@ -8,12 +8,18 @@ import Button from '../button/button';
 import { MonoIcon } from '@atb/components/icon';
 import { ComponentText, useTranslation } from '@atb/translations';
 import { FocusScope } from '@react-aria/focus';
+import { MapLegType } from '@atb/page-modules/departures/server/journey-planner/validators';
+import { modeToColor } from '../transport-mode/transport-icon';
+import { useTheme } from '@atb/modules/theme';
+import { Theme } from '@atb-as/theme';
+import hexToRgba from 'hex-to-rgba';
 
 export type LngLatPosition = [lng: number, lat: number];
 export type MapProps = {
   position?: LngLatPosition;
   layer?: string;
-  onSelectStopPlace: (id: string) => void;
+  onSelectStopPlace?: (id: string) => void;
+  mapLegs?: MapLegType[];
 };
 
 const INTERACTIVE_LAYERS = [
@@ -39,7 +45,9 @@ export function Map({
   position = defaultPosition,
   layer,
   onSelectStopPlace,
+  mapLegs,
 }: MapProps) {
+  const { transport } = useTheme();
   const mapWrapper = useRef<HTMLDivElement>(null);
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map>();
@@ -64,6 +72,7 @@ export function Map({
     map,
   );
   useMapPin(map, position, layer);
+  useMapLegs(map, transport, mapLegs);
 
   useEffect(() => {
     if (map.current) {
@@ -162,10 +171,10 @@ function useMapPin(
 
 function useMapInteractions(
   mapRef: React.MutableRefObject<mapboxgl.Map | undefined>,
-  onSelectStopPlace: (id: string) => void,
+  onSelectStopPlace?: (id: string) => void,
 ) {
   useEffect(() => {
-    if (!mapRef) return;
+    if (!mapRef || !onSelectStopPlace) return;
     const map = mapRef.current;
 
     const handleMouseEnter = () => {
@@ -250,4 +259,87 @@ const useFullscreenMap = (
   }, [isFullscreen, handlEscapeKey]);
 
   return { openFullscreen, closeFullscreen, isFullscreen };
+};
+
+const useMapLegs = (
+  mapRef: React.MutableRefObject<mapboxgl.Map | undefined>,
+  transport: Theme['transport'],
+  mapLegs?: MapLegType[],
+) => {
+  const addSource = useCallback(
+    (map: mapboxgl.Map, mapLeg: MapLegType, id: number) => {
+      console.log(mapLeg);
+      const transportColor = modeToColor(
+        {
+          mode: mapLeg.faded ? 'unknown' : mapLeg.transportMode,
+          subMode: mapLeg.transportSubmode,
+        },
+        transport,
+      );
+      const lineColor = mapLeg.faded
+        ? hexToRgba(transportColor.background, 0.5)
+        : transportColor.background;
+      map.addSource(`route-${id}`, {
+        type: 'geojson',
+        data: {
+          type: 'Feature',
+          properties: {},
+          geometry: {
+            type: 'LineString',
+            coordinates: mapLeg.points.map((pair) => [...pair].reverse()),
+          },
+        },
+      });
+      map.addSource(`route-${id}-start-end`, {
+        type: 'geojson',
+        data: {
+          type: 'GeometryCollection',
+          geometries: [
+            {
+              type: 'Point',
+              coordinates: [mapLeg.points[0][1], mapLeg.points[0][0]],
+            },
+            {
+              type: 'Point',
+              coordinates: [
+                mapLeg.points[mapLeg.points.length - 1][1],
+                mapLeg.points[mapLeg.points.length - 1][0],
+              ],
+            },
+          ],
+        },
+      });
+      map.addLayer({
+        id: `route-layer-${id}`,
+        type: 'line',
+        source: `route-${id}`,
+        paint: {
+          'line-color': lineColor,
+          'line-width': 4,
+          'line-offset': -1,
+        },
+      });
+      map.addLayer({
+        id: `route-layer-${id}-start-end`,
+        type: 'circle',
+        source: `route-${id}-start-end`,
+        paint: {
+          'circle-radius': 7.5,
+          'circle-color': lineColor,
+        },
+      });
+    },
+    [transport],
+  );
+
+  useEffect(() => {
+    if (!mapRef || !mapRef.current || !mapLegs) return;
+    const map = mapRef.current;
+
+    map.on('load', () => {
+      mapLegs.forEach((mapLeg, index) => {
+        addSource(map, mapLeg, index);
+      });
+    });
+  }, [mapRef, mapLegs, addSource]);
 };
