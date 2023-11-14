@@ -63,6 +63,7 @@ export function DeparturesDetails({
             focusedCall.quay.stopPlace.latitude,
           ]}
           mapLegs={serviceJourney.mapLegs}
+          initialZoom={13.5}
         />
       </div>
 

@@ -43,7 +43,7 @@ import {
   type TransportModeType,
   isTransportModeType,
   filterGraphQlTransportModes,
-  TransportSubmodeType,
+  type TransportSubmodeType,
 } from '@atb/modules/transport-mode';
 import {
   ServiceJourneyWithEstimatedCallsDocument,
