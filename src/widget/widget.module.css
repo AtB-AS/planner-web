@@ -185,3 +185,8 @@
 .listItem[aria-selected='true'] {
   font-weight: bold;
 }
+
+.popupContainer {
+  composes: menu from search;
+  left: 0;
+}

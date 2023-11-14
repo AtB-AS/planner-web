@@ -101,7 +101,7 @@ const assistant = html`
                 name="from"
                 value=""
               />
-              <ul id="from-popup-1" hidden></ul>
+              <ul id="from-popup-1" class="${style.popupContainer}" hidden></ul>
             </pw-autocomplete>
           </div>
           <button
@@ -149,7 +149,7 @@ const assistant = html`
                 name="to"
                 value=""
               />
-              <ul id="to-popup-1" hidden></ul>
+              <ul id="to-popup-1" class="${style.popupContainer}" hidden></ul>
             </pw-autocomplete>
           </div>
           <ul
@@ -349,7 +349,8 @@ class AutocompleteBox extends HTMLElement {
     }, debounceTime);
 
     input.addEventListener('keydown', (event) => {
-      if (['ArrowDown', 'ArrowUp'].includes(event.key) || list.hidden) {
+      if (['ArrowDown', 'ArrowUp'].includes(event.key)) {
+        event.preventDefault();
         toggleList(true);
         combobox.navigate(event.key === 'ArrowDown' ? 1 : -1);
       }
