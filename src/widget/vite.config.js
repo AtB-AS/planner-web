@@ -1,7 +1,11 @@
 import { resolve } from 'path';
 import { defineConfig } from 'vite';
 
-const orgId = process.env.NEXT_PUBLIC_PLANNER_ORG_ID ?? 'fram';
+const orgId = process.env.NEXT_PUBLIC_PLANNER_ORG_ID;
+
+if (!orgId) {
+  throw new Error('Missing env NEXT_PUBLIC_PLANNER_ORG_ID');
+}
 
 export default defineConfig({
   resolve: {
