@@ -24,9 +24,36 @@
 
 .wrapper {
   composes: override-light;
+  background-color: var(--static-background-background_accent_0-background);
 }
 .form {
   composes: container from assistant;
+}
+
+.nav {
+}
+
+.tabs {
+  list-style-type: none;
+  display: flex;
+  gap: var(--spacings-xLarge);
+  padding: var(--spacings-xLarge);
+  padding-bottom: 0;
+  color: var(--interactive-interactive_0-default-text, #fff);
+}
+
+.tabs a {
+  color: var(--interactive-interactive_0-default-text, #fff);
+}
+.tabSelected {
+  text-decoration: none;
+  opacity: 0.8;
+}
+.tabs a:hover {
+  color: currentColor;
+}
+.tabs a:active {
+  color: var(--interactive-interactive_0-active-text);
 }
 
 .main {

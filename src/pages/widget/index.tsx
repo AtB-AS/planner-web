@@ -1,13 +1,12 @@
 import DefaultLayout from '@atb/layouts/default';
 import { withGlobalData, type WithGlobalData } from '@atb/layouts/global-data';
+import { CopyMarkup, CopyMarkupLarge } from '@atb/page-modules/widget';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Script from 'next/script';
 import { useState } from 'react';
-import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
-import markup from 'react-syntax-highlighter/dist/cjs/languages/prism/markup';
-import dark from 'react-syntax-highlighter/dist/cjs/styles/prism/dracula';
-SyntaxHighlighter.registerLanguage('markup', markup);
+
+import style from '@atb/page-modules/widget/widget.module.css';
 
 export type WidgetPageProps = WithGlobalData<{}>;
 
@@ -15,12 +14,19 @@ declare global {
   interface Window {
     PlannerWeb: {
       output: string;
+      URL_JS_UMD: string;
+      URL_JS_ESM: string;
+      URL_CSS: string;
       init(): void;
     };
   }
 }
 const AssistantPage: NextPage<WidgetPageProps> = (props) => {
   const [isLoaded, setLoaded] = useState(false);
+
+  const scripts = (str: string) => `<script src="${str}" />`;
+  const css = (str: string) => `<link src="${str}" />`;
+
   return (
     <DefaultLayout {...props}>
       <Head>
@@ -38,27 +44,30 @@ const AssistantPage: NextPage<WidgetPageProps> = (props) => {
         }}
       />
 
-      <h1>Widget</h1>
+      <main className={style.main}>
+        <h1>Widget documentation</h1>
 
-      {isLoaded && (
-        <>
-          <details>
-            <summary>HTML Code</summary>
+        {!isLoaded && <p>Loading...</p>}
 
-            <div>
-              <CopyButton text={window.PlannerWeb.output} />
-            </div>
-            <SyntaxHighlighter language="markup" style={dark}>
-              {window.PlannerWeb.output}
-            </SyntaxHighlighter>
-          </details>
-          <div style={{ maxWidth: 800, margin: '0 auto' }}>
+        {isLoaded && (
+          <>
+            <h3>Scripts (UMD / ESM)</h3>
+            <CopyMarkupLarge content={window.PlannerWeb.output} />
+
+            <h3>Scripts (UMD / ESM)</h3>
+            <CopyMarkup content={scripts(window.PlannerWeb.URL_JS_UMD)} />
+            <CopyMarkup content={scripts(window.PlannerWeb.URL_JS_UMD)} />
+
+            <h3>Styling</h3>
+            <CopyMarkup content={css(window.PlannerWeb.URL_CSS)} />
+
+            <h2>Demo</h2>
             <div
               dangerouslySetInnerHTML={{ __html: window.PlannerWeb.output }}
             />
-          </div>
-        </>
-      )}
+          </>
+        )}
+      </main>
     </DefaultLayout>
   );
 };
@@ -66,29 +75,3 @@ const AssistantPage: NextPage<WidgetPageProps> = (props) => {
 export default AssistantPage;
 
 export const getServerSideProps = withGlobalData();
-
-function CopyButton({ text }: { text: string }) {
-  const [isCopied, setIsCopied] = useState(false);
-
-  async function copy(str: string) {
-    if ('clipboard' in navigator) {
-      return await navigator.clipboard.writeText(str);
-    } else {
-      return document.execCommand('copy', true, str);
-    }
-  }
-
-  const handleClick = async () => {
-    try {
-      await copy(text);
-      setIsCopied(true);
-      setTimeout(() => setIsCopied(false), 1500);
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
-  return (
-    <button onClick={handleClick}>{isCopied ? 'Copied 👍' : 'Copy'}</button>
-  );
-}

@@ -7,6 +7,10 @@ if (!orgId) {
   throw new Error('Missing env NEXT_PUBLIC_PLANNER_ORG_ID');
 }
 
+if (!process.env.VITE_WIDGET_BASE_URL) {
+  throw new Error('Missing env NEXT_PUBLIC_WIDGET_BASE_URL');
+}
+
 export default defineConfig({
   resolve: {
     alias: {

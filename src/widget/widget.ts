@@ -4,6 +4,13 @@ import style from './widget.module.css';
 
 import Combobox from '@github/combobox-nav';
 
+const URL_BASE = import.meta.env.VITE_WIDGET_BASE_URL;
+
+export { URL_BASE };
+export const URL_JS_UMD = `${URL_BASE}widget/planner-web.umd.js`;
+export const URL_JS_ESM = `${URL_BASE}widget/planner-web.mjs`;
+export const URL_CSS = `${URL_BASE}widget/style.css`;
+
 const DEFAULT_DEBOUNCE_TIME = 300;
 
 const html = String.raw;
@@ -223,10 +230,17 @@ const departures = html`
 
 export const output = html`
   <div class="${style.wrapper}">
-    <nav>
+    <nav class="${style.nav}">
       <ul class="${style.tabs} js-tablist">
-        <li><a href="/assistant">Planlegg reisen</a></li>
-        <li><a href="/departures">Finn avganger</a></li>
+        <li>
+          <a
+            href="/assistant"
+            class="${style.tabSelected}"
+            id="pw-assistant-tab"
+            >Planlegg reisen</a
+          >
+        </li>
+        <li><a href="/departures" id="pw-departures-tab">Finn avganger</a></li>
       </ul>
     </nav>
     <div class="js-tabpanel" id="pw-assistant">${assistant}</div>
@@ -253,7 +267,11 @@ function tabBar() {
       document.querySelectorAll('.js-tabpanel').forEach((panel) => {
         panel.classList.add(style.hidden);
       });
+      document.querySelectorAll('.js-tablist a').forEach((panel) => {
+        panel.classList.remove(style.tabSelected);
+      });
       tabpanel.classList.remove(style.hidden);
+      tab.classList.add(style.tabSelected);
     });
 }
 
