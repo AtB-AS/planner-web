@@ -48,7 +48,6 @@ const AssistantPage: NextPage<WidgetPageProps> = (props) => {
             <div>
               <CopyButton text={window.PlannerWeb.output} />
             </div>
-            {/* eslint-disable-next-line */}
             <SyntaxHighlighter language="markup" style={dark}>
               {window.PlannerWeb.output}
             </SyntaxHighlighter>
