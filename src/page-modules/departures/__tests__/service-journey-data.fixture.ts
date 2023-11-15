@@ -8,7 +8,8 @@ export const serviceJourneyFixture: ServiceJourneyData = {
   id: 'ATB:ServiceJourney:22_230306097862461_113',
   transportMode: 'bus' as TransportModeType,
   transportSubmode: 'localBus' as TransportSubmodeType,
-  line: { publicCode: '22' },
+  line: { publicCode: '22', notices: [] },
+  notices: [],
   estimatedCalls: [
     {
       actualArrivalTime: '2023-11-10T14:59:24+01:00',
@@ -31,6 +32,8 @@ export const serviceJourneyFixture: ServiceJourneyData = {
         id: 'NSR:Quay:73030',
         stopPlace: { id: 'NSR:StopPlace:42623' },
       },
+      situations: [],
+      notices: [],
     },
     {
       actualArrivalTime: '2023-11-10T15:01:22+01:00',
@@ -53,6 +56,8 @@ export const serviceJourneyFixture: ServiceJourneyData = {
         id: 'NSR:Quay:72609',
         stopPlace: { id: 'NSR:StopPlace:42400' },
       },
+      situations: [],
+      notices: [],
     },
     {
       actualArrivalTime: '2023-11-10T15:02:11+01:00',
@@ -75,6 +80,8 @@ export const serviceJourneyFixture: ServiceJourneyData = {
         id: 'NSR:Quay:71898',
         stopPlace: { id: 'NSR:StopPlace:42004' },
       },
+      situations: [],
+      notices: [],
     },
     {
       actualArrivalTime: '2023-11-10T15:03:04+01:00',
@@ -97,6 +104,8 @@ export const serviceJourneyFixture: ServiceJourneyData = {
         id: 'NSR:Quay:71678',
         stopPlace: { id: 'NSR:StopPlace:41882' },
       },
+      situations: [],
+      notices: [],
     },
     {
       actualArrivalTime: '2023-11-10T15:03:54+01:00',
@@ -119,6 +128,8 @@ export const serviceJourneyFixture: ServiceJourneyData = {
         id: 'NSR:Quay:75585',
         stopPlace: { id: 'NSR:StopPlace:44015' },
       },
+      situations: [],
+      notices: [],
     },
     {
       actualArrivalTime: '2023-11-10T15:04:42+01:00',
@@ -141,6 +152,8 @@ export const serviceJourneyFixture: ServiceJourneyData = {
         id: 'NSR:Quay:71659',
         stopPlace: { id: 'NSR:StopPlace:41875' },
       },
+      situations: [],
+      notices: [],
     },
     {
       actualArrivalTime: '2023-11-10T15:05:19+01:00',
@@ -163,6 +176,8 @@ export const serviceJourneyFixture: ServiceJourneyData = {
         id: 'NSR:Quay:75616',
         stopPlace: { id: 'NSR:StopPlace:44034' },
       },
+      situations: [],
+      notices: [],
     },
     {
       actualArrivalTime: '2023-11-10T15:06:34+01:00',
@@ -185,6 +200,8 @@ export const serviceJourneyFixture: ServiceJourneyData = {
         id: 'NSR:Quay:74990',
         stopPlace: { id: 'NSR:StopPlace:43687' },
       },
+      situations: [],
+      notices: [],
     },
     {
       actualArrivalTime: '2023-11-10T15:07:52+01:00',
@@ -207,6 +224,8 @@ export const serviceJourneyFixture: ServiceJourneyData = {
         id: 'NSR:Quay:75371',
         stopPlace: { id: 'NSR:StopPlace:43896' },
       },
+      situations: [],
+      notices: [],
     },
     {
       actualArrivalTime: '2023-11-10T15:09:56+01:00',
@@ -229,6 +248,8 @@ export const serviceJourneyFixture: ServiceJourneyData = {
         id: 'NSR:Quay:74497',
         stopPlace: { id: 'NSR:StopPlace:43418' },
       },
+      situations: [],
+      notices: [],
     },
   ],
 };

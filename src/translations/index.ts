@@ -13,6 +13,8 @@ export {
   useLanguageSettings,
 } from './language-context';
 
+export { getTextForLanguage } from './utils';
+
 export * as CommonText from './common';
 export * as ServerText from './server';
 export * as ComponentText from './components';

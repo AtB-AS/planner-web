@@ -1,3 +1,5 @@
+import { z } from 'zod';
+
 export enum LanguageAndTextLanguagesEnum {
   'nob' = 'nob',
   'nno' = 'nno',
@@ -8,9 +10,15 @@ export enum LanguageAndTextLanguagesEnum {
   'en' = 'en',
 }
 
-export type LanguageAndTextType =
-  | {
-      lang: string;
-      value: string;
-    }
-  | { language?: string; value?: string };
+export const languageAndTextSchema = z.union([
+  z.object({
+    lang: z.string(),
+    value: z.string(),
+  }),
+  z.object({
+    language: z.string().optional(),
+    value: z.string().optional(),
+  }),
+]);
+
+export type LanguageAndTextType = z.infer<typeof languageAndTextSchema>;

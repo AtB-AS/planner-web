@@ -14,13 +14,24 @@ import {
   type TransportModeType,
   useTransportationThemeColor,
 } from '@atb/modules/transport-mode';
+import {
+  Situation,
+  SituationMessageBox,
+  SituationOrNoticeIcon,
+} from '@atb/modules/situations';
+import { getSituationsToShowForCall } from './utils';
 
 export type EstimatedCallRowsProps = {
   calls: EstimatedCallWithMetadata[];
   mode: TransportModeType;
+  alreadyShownSituationNumbers: string[];
 };
 
-export function EstimatedCallRows({ calls, mode }: EstimatedCallRowsProps) {
+export function EstimatedCallRows({
+  calls,
+  mode,
+  alreadyShownSituationNumbers,
+}: EstimatedCallRowsProps) {
   const { t } = useTranslation();
   const [collapsed, setCollapsed] = useState(true);
 
@@ -75,6 +86,10 @@ export function EstimatedCallRows({ calls, mode }: EstimatedCallRowsProps) {
                 collapseButton={
                   call.metadata.isStartOfServiceJourney ? collapseButton : null
                 }
+                situations={getSituationsToShowForCall(
+                  call,
+                  alreadyShownSituationNumbers,
+                )}
               />
             </motion.div>
           ))}
@@ -92,7 +107,15 @@ export function EstimatedCallRows({ calls, mode }: EstimatedCallRowsProps) {
               delay: i * 0.015,
             }}
           >
-            <EstimatedCallRow call={call} mode={mode} collapseButton={null} />
+            <EstimatedCallRow
+              call={call}
+              mode={mode}
+              collapseButton={null}
+              situations={getSituationsToShowForCall(
+                call,
+                alreadyShownSituationNumbers,
+              )}
+            />
           </motion.div>
         ))}
       </div>
@@ -104,11 +127,13 @@ type EstimatedCallRowProps = {
   call: EstimatedCallWithMetadata;
   mode: TransportModeType;
   collapseButton: JSX.Element | null;
+  situations: Situation[];
 };
 function EstimatedCallRow({
   call,
   mode,
   collapseButton,
+  situations,
 }: EstimatedCallRowProps) {
   const { t } = useTranslation();
   const { group, isStartOfGroup, isEndOfGroup } = call.metadata;
@@ -152,6 +177,14 @@ function EstimatedCallRow({
           </Typo.p>
         )}
       </Row>
+      {situations.map((situation) => (
+        <Row
+          key={situation.situationNumber}
+          rowLabel={<SituationOrNoticeIcon situation={situation} />}
+        >
+          <SituationMessageBox noStatusIcon={true} situation={situation} />
+        </Row>
+      ))}
       {collapseButton}
     </div>
   );

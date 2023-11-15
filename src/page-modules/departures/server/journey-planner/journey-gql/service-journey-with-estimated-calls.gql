@@ -6,6 +6,12 @@ query serviceJourneyWithEstimatedCalls($id: String!, $date: Date) {
     publicCode
     line {
       publicCode
+      notices {
+        ...notice
+      }
+    }
+    notices {
+      ...notice
     }
     estimatedCalls(date: $date) {
       actualArrivalTime
@@ -29,6 +35,12 @@ query serviceJourneyWithEstimatedCalls($id: String!, $date: Date) {
         stopPlace {
           id
         }
+      }
+      notices {
+        ...notice
+      }
+      situations {
+        ...situation
       }
     }
   }
