@@ -59,7 +59,10 @@ export function parseFilterQuery(
 export function getAllTransportModesFromFilterOptions(
   filterOptions: TransportModeFilterOption[] | null,
 ): TransportModeType[] {
-  if (!filterOptions) return [];
+  if (!filterOptions)
+    return Object.values(filterOptionsWithTransportModes).flatMap((option) =>
+      option.modes.map((mode) => mode.transportMode),
+    );
 
   const transportModes: TransportModeType[] = [];
 
