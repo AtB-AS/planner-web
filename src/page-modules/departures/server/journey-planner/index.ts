@@ -67,6 +67,7 @@ export type NearestStopPlacesInput = {
 export type EstimatedCallsInput = {
   quayId: string;
   startTime: string;
+  transportModes: TransportModeType[] | null;
 };
 
 export type ServiceJourneyInput = {
@@ -249,8 +250,10 @@ export function createJourneyApi(
         query: QuayEstimatedCallsDocument,
         variables: {
           id: input.quayId,
-          numberOfDepartures: 5,
+          numberOfDepartures: 6,
           startTime: new Date(input.startTime),
+          transportModes:
+            (input.transportModes as GraphQlTransportMode[]) ?? null,
         },
       });
 

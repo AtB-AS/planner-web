@@ -4,9 +4,11 @@ export type EstimatedCallsApiReturnType = EstimatedCallsData;
 export async function nextDepartures(
   quayId: string,
   startTime: string,
+  transportModes: string | null,
 ): Promise<EstimatedCallsApiReturnType> {
   const result = await fetch(
-    `/api/departures/journey-planner?quayId=${quayId}&startTime=${startTime}`,
+    `/api/departures/journey-planner?quayId=${quayId}&startTime=${startTime}` +
+      (transportModes ? `&transportModes=${transportModes}` : ''),
   );
 
   return await result.json();
