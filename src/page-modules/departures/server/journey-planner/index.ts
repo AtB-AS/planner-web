@@ -250,7 +250,7 @@ export function createJourneyApi(
         query: QuayEstimatedCallsDocument,
         variables: {
           id: input.quayId,
-          numberOfDepartures: 6, // TODO: Have to add one to account for the last departure of the original set of departures?
+          numberOfDepartures: 6,
           startTime: new Date(input.startTime),
           transportModes:
             (input.transportModes as GraphQlTransportMode[]) ?? null,
