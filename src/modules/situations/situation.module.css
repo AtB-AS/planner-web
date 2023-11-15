@@ -22,7 +22,7 @@
   padding: var(--spacings-small);
 }
 .icon {
-  margin-right: var(--spacings-medium);
+  margin-top: var(--spacings-small);
 }
 
 .dialog {
