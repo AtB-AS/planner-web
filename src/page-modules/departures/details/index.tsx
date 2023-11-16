@@ -104,7 +104,7 @@ export const getNoticesForServiceJourney = (
   const focusedEstimatedCall =
     serviceJourney.estimatedCalls?.find(
       ({ quay }) => quay?.id && quay.id === fromQuayId,
-    ) || serviceJourney.estimatedCalls?.[0];
+    ) ?? serviceJourney.estimatedCalls?.[0];
 
   return filterNotices([
     ...serviceJourney.notices,
