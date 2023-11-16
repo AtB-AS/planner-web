@@ -56,7 +56,7 @@ const AssistantPage: NextPage<WidgetPageProps> = (props) => {
 
             <h3>Scripts (UMD / ESM)</h3>
             <CopyMarkup content={scripts(window.PlannerWeb.URL_JS_UMD)} />
-            <CopyMarkup content={scripts(window.PlannerWeb.URL_JS_UMD)} />
+            <CopyMarkup content={scripts(window.PlannerWeb.URL_JS_ESM)} />
 
             <h3>Styling</h3>
             <CopyMarkup content={css(window.PlannerWeb.URL_CSS)} />
