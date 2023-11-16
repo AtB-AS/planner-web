@@ -56,10 +56,12 @@
 .dialog__title {
   display: flex;
   align-items: center;
+  gap: var(--spacings-small);
 }
 .dialog__validity {
   display: flex;
   align-items: center;
+  gap: var(--spacings-small);
 }
 .secondaryTextColor {
   color: var(--text-colors-secondary);
