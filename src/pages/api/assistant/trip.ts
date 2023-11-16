@@ -7,7 +7,10 @@ import {
 import { ServerText } from '@atb/translations';
 import { constants } from 'http2';
 import { parseSearchTimeQuery } from '@atb/modules/search-time';
-import { parseFilterQuery } from '@atb/modules/transport-mode';
+import {
+  getAllTransportModesFromFilterOptions,
+  parseFilterQuery,
+} from '@atb/modules/transport-mode';
 
 export default handlerWithAssistantClient<TripApiReturnType>({
   async GET(req, res, { client, ok }) {
@@ -51,7 +54,8 @@ export default handlerWithAssistantClient<TripApiReturnType>({
           from,
           to,
           searchTime,
-          transportModes: transportModeFilter || undefined,
+          transportModes:
+            getAllTransportModesFromFilterOptions(transportModeFilter),
           cursor: tripQuery.cursor,
         }),
       );

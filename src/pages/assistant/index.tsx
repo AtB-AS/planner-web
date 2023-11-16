@@ -12,7 +12,10 @@ import {
 } from '@atb/page-modules/assistant';
 import type { NextPage } from 'next';
 import { parseSearchTimeQuery } from '@atb/modules/search-time';
-import { parseFilterQuery } from '@atb/modules/transport-mode';
+import {
+  getAllTransportModesFromFilterOptions,
+  parseFilterQuery,
+} from '@atb/modules/transport-mode';
 
 type AssistantContentProps = { empty: true } | TripProps;
 
@@ -69,7 +72,8 @@ export const getServerSideProps = withGlobalData(
             from,
             to,
             searchTime,
-            transportModes: transportModeFilter || undefined,
+            transportModes:
+              getAllTransportModesFromFilterOptions(transportModeFilter),
           });
 
           const nonTransitTrips = await client.nonTransitTrips({
