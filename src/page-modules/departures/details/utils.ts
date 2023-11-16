@@ -34,3 +34,26 @@ export function addMetadataToEstimatedCalls(
     [],
   );
 }
+
+/**
+ * Get the situations to show for an estimated call. Based on the following
+ * rules:
+ * - We don't show situations on passed calls or calls which are after the trip
+ * - We don't show situations which are already shown at the top, above the
+ *   service journey
+ * - If the trip have an end quay we only show situations on the end quay of the
+ *   trip, or else we show situations on all intermediate quays on the trip
+ */
+export function getSituationsToShowForCall(
+  { situations, metadata: { group, isEndOfGroup } }: EstimatedCallWithMetadata,
+  alreadyShownSituationNumbers: string[],
+  toQuayId?: string,
+) {
+  if (group === 'passed' || group === 'after') return [];
+  if (toQuayId && !isEndOfGroup) return [];
+  return situations.filter(
+    (s) =>
+      !s.situationNumber ||
+      !alreadyShownSituationNumbers.includes(s.situationNumber),
+  );
+}

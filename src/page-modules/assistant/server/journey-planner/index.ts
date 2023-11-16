@@ -8,13 +8,7 @@ import {
   TripsQuery,
   TripsQueryVariables,
 } from './journey-gql/trip.generated';
-import {
-  Notice,
-  Situation,
-  TripData,
-  nonTransitSchema,
-  tripSchema,
-} from './validators';
+import { TripData, nonTransitSchema, tripSchema } from './validators';
 import type {
   NonTransitData,
   NonTransitTripData,
@@ -26,6 +20,7 @@ import {
   isTransportModeType,
   isTransportSubmodeType,
 } from '@atb/modules/transport-mode';
+import { Notice, Situation } from '@atb/modules/situations';
 
 const MIN_NUMBER_OF_TRIP_PATTERNS = 8;
 const MAX_NUMBER_OF_SEARCH_ATTEMPTS = 5;
@@ -352,18 +347,24 @@ function mapSituations(
     id: situation.id,
     situationNumber: situation.situationNumber ?? null,
     reportType: situation.reportType ?? null,
-    summary: situation.summary.map((summary) => ({
-      language: summary.language ?? null,
-      value: summary.value,
-    })),
-    description: situation.description.map((description) => ({
-      language: description.language ?? null,
-      value: description.value,
-    })),
-    advice: situation.advice.map((advice) => ({
-      language: advice.language ?? null,
-      value: advice.value,
-    })),
+    summary: situation.summary
+      .map((summary) => ({
+        ...(summary.language ? { language: summary.language } : {}),
+        value: summary.value,
+      }))
+      .filter((summary) => Boolean(summary.value)),
+    description: situation.description
+      .map((description) => ({
+        ...(description.language ? { language: description.language } : {}),
+        value: description.value,
+      }))
+      .filter((description) => Boolean(description.value)),
+    advice: situation.advice
+      .map((advice) => ({
+        ...(advice.language ? { language: advice.language } : {}),
+        value: advice.value,
+      }))
+      .filter((advice) => Boolean(advice.value)),
     infoLinks: situation.infoLinks
       ? situation.infoLinks.map((infoLink) => ({
           uri: infoLink.uri,

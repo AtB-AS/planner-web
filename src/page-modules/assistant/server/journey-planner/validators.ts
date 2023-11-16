@@ -3,11 +3,7 @@ import {
   transportModeSchema,
   transportSubmodeSchema,
 } from '@atb/modules/transport-mode';
-
-export const noticeSchema = z.object({
-  id: z.string(),
-  text: z.string().nullable(),
-});
+import { noticeSchema, situationSchema } from '@atb/modules/situations';
 
 export const serviceJourneySchema = z.object({
   id: z.string(),
@@ -42,30 +38,6 @@ export const datedServiceJourneySchema = z.object({
 export const tariffZoneSchema = z.object({
   id: z.string(),
   name: z.string(),
-});
-export const languageAndTextSchema = z.object({
-  language: z.string().nullable(),
-  value: z.string(),
-});
-export const infoLinkSchema = z.object({
-  uri: z.string(),
-  label: z.string().nullable(),
-});
-
-export const situationSchema = z.object({
-  id: z.string(),
-  situationNumber: z.string().nullable(),
-  reportType: z.enum(['general', 'incident']).nullable(),
-  summary: z.array(languageAndTextSchema),
-  description: z.array(languageAndTextSchema),
-  advice: z.array(languageAndTextSchema),
-  infoLinks: z.array(infoLinkSchema).nullable(),
-  validityPeriod: z
-    .object({
-      startTime: z.string().nullable(),
-      endTime: z.string().nullable(),
-    })
-    .nullable(),
 });
 
 export const quaySchema = z.object({
@@ -168,8 +140,6 @@ export const nonTransitSchema = z.object({
   duration: z.number(),
 });
 
-export type Notice = z.infer<typeof noticeSchema>;
-export type Situation = z.infer<typeof situationSchema>;
 export type TripData = z.infer<typeof tripSchema>;
 export type NonTransitData = z.infer<typeof nonTransitSchema>;
 export type TripPattern = z.infer<typeof tripPatternSchema>;

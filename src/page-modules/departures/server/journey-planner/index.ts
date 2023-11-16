@@ -313,7 +313,17 @@ export function createJourneyApi(
         transportSubmode: serviceJourney?.transportSubmode,
         line: {
           publicCode: serviceJourney?.line.publicCode,
+          notices:
+            serviceJourney?.notices?.map((notice) => ({
+              id: notice.id,
+              text: notice.text,
+            })) ?? [],
         },
+        notices:
+          serviceJourney?.notices?.map((notice) => ({
+            id: notice.id,
+            text: notice.text,
+          })) ?? [],
         estimatedCalls: serviceJourney?.estimatedCalls?.map(
           (estimatedCall) => ({
             actualArrivalTime: estimatedCall.actualArrivalTime || null,
@@ -338,6 +348,49 @@ export function createJourneyApi(
                 id: estimatedCall.quay.stopPlace?.id,
               },
             },
+            notices:
+              estimatedCall.notices?.map((notice) => ({
+                id: notice.id,
+                text: notice.text,
+              })) ?? [],
+            situations:
+              estimatedCall.situations?.map((situation) => ({
+                id: situation.id,
+                situationNumber: situation.situationNumber ?? null,
+                reportType: situation.reportType ?? null,
+                summary: situation.summary
+                  .map((summary) => ({
+                    ...(summary.language ? { language: summary.language } : {}),
+                    value: summary.value ?? undefined,
+                  }))
+                  .filter((summary) => Boolean(summary.value)),
+                description: situation.description
+                  .map((description) => ({
+                    ...(description.language
+                      ? { language: description.language }
+                      : {}),
+                    value: description.value ?? undefined,
+                  }))
+                  .filter((description) => Boolean(description.value)),
+                advice: situation.advice
+                  .map((advice) => ({
+                    ...(advice.language ? { language: advice.language } : {}),
+                    value: advice.value ?? undefined,
+                  }))
+                  .filter((advice) => Boolean(advice.value)),
+                infoLinks: situation.infoLinks
+                  ? situation.infoLinks.map((infoLink) => ({
+                      uri: infoLink.uri,
+                      label: infoLink.label ?? null,
+                    }))
+                  : null,
+                validityPeriod: situation.validityPeriod
+                  ? {
+                      startTime: situation.validityPeriod.startTime ?? null,
+                      endTime: situation.validityPeriod.endTime ?? null,
+                    }
+                  : null,
+              })) ?? [],
           }),
         ),
       };

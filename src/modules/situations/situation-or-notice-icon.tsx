@@ -1,13 +1,13 @@
 import React from 'react';
 import { getIconForMostCriticalSituationOrNotice } from './utils';
-import { NoticeFragment, SituationFragment } from './types';
+import { Notice, Situation } from './types';
 import { ColorIcon } from '@atb/components/icon';
 
 type SituationOrNoticeIconProps = {
   accessibilityLabel?: string;
-  notices?: NoticeFragment[];
+  notices?: Notice[];
   cancellation?: boolean;
-} & ({ situations: SituationFragment[] } | { situation: SituationFragment });
+} & ({ situations: Situation[] } | { situation: Situation });
 
 export const SituationOrNoticeIcon = ({
   accessibilityLabel,
