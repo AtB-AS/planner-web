@@ -121,8 +121,8 @@ export function createJourneyApi(
         },
       });
 
-      if (result.error) {
-        throw result.error;
+      if (result.error || result.errors) {
+        throw result.error || result.errors;
       }
 
       const data: RecursivePartial<DepartureData> = {
@@ -180,8 +180,8 @@ export function createJourneyApi(
         },
       });
 
-      if (result.error) {
-        throw result.error;
+      if (result.error || result.errors) {
+        throw result.error || result.errors;
       }
 
       const data: RecursivePartial<StopPlaceInfo> = {
@@ -220,8 +220,8 @@ export function createJourneyApi(
         },
       });
 
-      if (result.error) {
-        throw result.error;
+      if (result.error || result.errors) {
+        throw result.error || result.errors;
       }
 
       const data: RecursivePartial<NearestStopPlacesData> =
@@ -270,8 +270,8 @@ export function createJourneyApi(
         },
       });
 
-      if (result.error) {
-        throw result.error;
+      if (result.error || result.errors) {
+        throw result.error || result.errors;
       }
 
       const data: RecursivePartial<EstimatedCallsData> = {
@@ -312,8 +312,8 @@ export function createJourneyApi(
         },
       });
 
-      if (result.error) {
-        throw result.error;
+      if (result.error || result.errors) {
+        throw result.error || result.errors;
       }
 
       const serviceJourney = result.data.serviceJourney;

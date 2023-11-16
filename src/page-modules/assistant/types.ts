@@ -5,13 +5,13 @@ import type {
   TripData,
 } from './server/journey-planner/validators';
 import { searchModeSchema, type SearchTime } from '@atb/modules/search-time';
-import { type TransportModeFilterOption } from '@atb/modules/transport-mode';
+import { type TransportModeType } from '@atb/modules/transport-mode';
 
 export type TripInput = {
   from: GeocoderFeature;
   to: GeocoderFeature;
   searchTime: SearchTime;
-  transportModes?: TransportModeFilterOption[];
+  transportModes?: TransportModeType[];
   cursor?: string;
 };
 

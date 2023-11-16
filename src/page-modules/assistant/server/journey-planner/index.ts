@@ -1,5 +1,8 @@
 import { GraphQlRequester } from '@atb/modules/api-server';
-import { StreetMode, TransportMode } from '@atb/modules/graphql-types';
+import {
+  StreetMode,
+  TransportMode as GraphQlTransportMode,
+} from '@atb/modules/graphql-types';
 import {
   TripsDocument,
   TripsNonTransitDocument,
@@ -67,8 +70,8 @@ export function createJourneyApi(
         },
       });
 
-      if (result.error) {
-        throw result.error;
+      if (result.error || result.errors) {
+        throw result.error || result.errors;
       }
 
       let nonTransits: NonTransitTripData = {};
@@ -105,7 +108,7 @@ export function createJourneyApi(
         egressMode: StreetMode.Foot,
         transportModes:
           input.transportModes?.map((mode) => ({
-            transportMode: mode as TransportMode,
+            transportMode: mode as GraphQlTransportMode,
           })) ?? undefined,
       };
 
@@ -141,8 +144,8 @@ export function createJourneyApi(
           variables: { ...queryVariables, cursor },
         });
 
-        if (result.error) {
-          throw result.error;
+        if (result.error || result.errors) {
+          throw result.error || result.errors;
         }
 
         const data: RecursivePartial<TripData> = mapResultToTrips(
