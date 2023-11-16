@@ -14,6 +14,7 @@ import { useMapInteractions } from './use-map-interactions';
 import { useFullscreenMap } from './use-fullscreen-map';
 import { useMapPin } from './use-map-pin';
 import { useMapLegs } from './use-map-legs';
+import { and } from '@atb/utils/css';
 
 export type MapProps = {
   position?: LngLatPosition;
@@ -105,7 +106,13 @@ export function Map({
               'aria-label': t(ComponentText.Map.map.centerMapButton),
             }}
           />
-          <div ref={mapContainer} className={style.mapContainer} />
+          <div
+            ref={mapContainer}
+            className={and(
+              style.mapContainer,
+              mapLegs ? style.borderRadius : style.borderRadius__top,
+            )}
+          />
         </FocusScope>
       </div>
     </div>
