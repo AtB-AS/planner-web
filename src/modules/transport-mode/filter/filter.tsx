@@ -6,6 +6,7 @@ import { TransportModeFilterOption, TransportModeFilterState } from './types';
 import { Typo } from '@atb/components/typography';
 import { getTransportModeIcon } from '../icon';
 import { filterOptionsWithTransportModes, setAllValues } from './utils';
+import { useTheme } from '@atb/modules/theme';
 
 type TransportModeFilterProps = {
   filterState: TransportModeFilterState;
@@ -17,6 +18,7 @@ export default function TransportModeFilter({
   onFilterChange,
 }: TransportModeFilterProps) {
   const { t, language } = useTranslation();
+  const { isDarkMode } = useTheme();
 
   return (
     <div className={style.container}>
@@ -67,7 +69,7 @@ export default function TransportModeFilter({
                       mode: option.icon?.transportMode,
                       subMode: option.icon?.transportSubMode,
                     })}
-                    overrideMode="dark"
+                    overrideMode={selected && !isDarkMode ? 'light' : 'dark'}
                   />
                   <span id={`label-${option.id}`}>{text}</span>
                 </label>
