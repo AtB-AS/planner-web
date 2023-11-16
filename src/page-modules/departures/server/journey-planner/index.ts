@@ -393,8 +393,8 @@ const mapToMapLegs = (
   if (!pointsOnLink || !pointsOnLink.points) return [];
   const points = polyline.decode(pointsOnLink.points);
   const fromCoordinates: [number, number] = [
-    fromStopPlace?.latitude || 0,
-    fromStopPlace?.longitude || 0,
+    fromStopPlace?.latitude ?? 0,
+    fromStopPlace?.longitude ?? 0,
   ];
 
   const mainStartIndex = findIndex(points, fromCoordinates);
