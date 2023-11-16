@@ -78,7 +78,7 @@ export function parseTripQuery(query: any): TripQuery | undefined {
       query[field] = parseFloat(query[field]);
   });
 
-  const optionalNumericFields = ['departureDate'];
+  const optionalNumericFields = ['searchTime'];
   optionalNumericFields.forEach((field) => {
     if (query[field] && typeof query[field] === 'string')
       query[field] = Number(query[field]);
