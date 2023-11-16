@@ -1,3 +1,4 @@
+import { noticeSchema, situationSchema } from '@atb/modules/situations';
 import {
   transportModeSchema,
   transportSubmodeSchema,
@@ -65,8 +66,10 @@ export const serviceJourneySchema = z.object({
   transportSubmode: transportSubmodeSchema.optional(),
   line: z.object({
     publicCode: z.string(),
+    notices: z.array(noticeSchema),
   }),
   mapLegs: z.array(mapLegSchema),
+  notices: z.array(noticeSchema),
   estimatedCalls: z.array(
     z.object({
       actualArrivalTime: z.string().nullable(),
@@ -91,6 +94,8 @@ export const serviceJourneySchema = z.object({
           latitude: z.number(),
         }),
       }),
+      notices: z.array(noticeSchema),
+      situations: z.array(situationSchema),
     }),
   ),
 });

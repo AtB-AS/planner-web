@@ -25,6 +25,8 @@ const dictionary = {
   },
   a11yRouteTimePrefix: _('rutetid ', 'route time ', `rutetid `),
   missingRealTimePrefix: _('ca. ', 'ca. ', `ca. `),
+  readMore: _('Les mer', 'Read more', `Les meir`),
+  close: _('Lukk', 'Close', 'Lukk'),
 };
 
 export default orgSpecificTranslations(dictionary, {

@@ -9,6 +9,11 @@ import { ServiceJourneyData } from '../server/journey-planner/validators';
 import { EstimatedCallRows } from './estimated-call-rows';
 import { PageText, useTranslation } from '@atb/translations';
 import { Map } from '@atb/components/map';
+import {
+  MessageBox,
+  SituationMessageBox,
+  filterNotices,
+} from '@atb/modules/situations';
 
 export type DeparturesDetailsProps = {
   fromQuayId?: string;
@@ -30,6 +35,14 @@ export function DeparturesDetails({
     fromQuayId,
     undefined,
   );
+
+  const notices = getNoticesForServiceJourney(serviceJourney, fromQuayId);
+  const situations = focusedCall.situations.sort((n1, n2) =>
+    n1.id.localeCompare(n2.id),
+  );
+  const alreadyShownSituationNumbers = situations
+    .map((s) => s.situationNumber)
+    .filter((s): s is string => !!s);
 
   return (
     <section className={style.container}>
@@ -68,11 +81,44 @@ export function DeparturesDetails({
       </div>
 
       <div className={style.serviceJourneyContainer}>
+        {situations.map((situation) => (
+          <SituationMessageBox
+            key={`situation-${situation.id}`}
+            situation={situation}
+          />
+        ))}
+        {notices.map(
+          (notice) =>
+            notice.text && (
+              <MessageBox
+                key={`notice-${notice.id}`}
+                type="info"
+                message={notice.text}
+              />
+            ),
+        )}
         <EstimatedCallRows
           calls={estimatedCallsWithMetadata}
           mode={serviceJourney.transportMode}
+          alreadyShownSituationNumbers={alreadyShownSituationNumbers}
         />
       </div>
     </section>
   );
 }
+
+export const getNoticesForServiceJourney = (
+  serviceJourney: ServiceJourneyData,
+  fromQuayId?: string,
+) => {
+  const focusedEstimatedCall =
+    serviceJourney.estimatedCalls?.find(
+      ({ quay }) => quay?.id && quay.id === fromQuayId,
+    ) ?? serviceJourney.estimatedCalls?.[0];
+
+  return filterNotices([
+    ...serviceJourney.notices,
+    ...serviceJourney.line.notices,
+    ...(focusedEstimatedCall?.notices ?? []),
+  ]);
+};

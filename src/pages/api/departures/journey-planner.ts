@@ -4,11 +4,19 @@ import { handlerWithDepartureClient } from '@atb/page-modules/departures/server'
 import { ServerText } from '@atb/translations';
 import { constants } from 'http2';
 import { z } from 'zod';
+import {
+  getAllTransportModesFromFilterOptions,
+  parseFilterQuery,
+} from '@atb/modules/transport-mode';
 
 export default handlerWithDepartureClient<EstimatedCallsApiReturnType>({
   async GET(req, res, { client, ok }) {
     const query = z
-      .object({ quayId: z.string(), startTime: z.string() })
+      .object({
+        quayId: z.string(),
+        startTime: z.string(),
+        transportModes: z.string().optional(),
+      })
       .safeParse(req.query);
 
     if (!query.success) {
@@ -20,7 +28,15 @@ export default handlerWithDepartureClient<EstimatedCallsApiReturnType>({
     }
 
     return tryResult(req, res, async () => {
-      return ok(await client.estimatedCalls(query.data));
+      return ok(
+        await client.estimatedCalls({
+          quayId: query.data.quayId,
+          startTime: query.data.startTime,
+          transportModes: getAllTransportModesFromFilterOptions(
+            parseFilterQuery(query.data.transportModes),
+          ),
+        }),
+      );
     });
   },
 });

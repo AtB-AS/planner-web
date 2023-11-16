@@ -8,8 +8,9 @@ export const serviceJourneyFixture: ServiceJourneyData = {
   id: 'ATB:ServiceJourney:22_230306097862461_113',
   transportMode: 'bus' as TransportModeType,
   transportSubmode: 'localBus' as TransportSubmodeType,
-  line: { publicCode: '22' },
   mapLegs: [],
+  line: { publicCode: '22', notices: [] },
+  notices: [],
   estimatedCalls: [
     {
       actualArrivalTime: '2023-11-10T14:59:24+01:00',
@@ -36,6 +37,8 @@ export const serviceJourneyFixture: ServiceJourneyData = {
           latitude: 63.422072,
         },
       },
+      situations: [],
+      notices: [],
     },
     {
       actualArrivalTime: '2023-11-10T15:01:22+01:00',
@@ -62,6 +65,8 @@ export const serviceJourneyFixture: ServiceJourneyData = {
           latitude: 63.421314,
         },
       },
+      situations: [],
+      notices: [],
     },
     {
       actualArrivalTime: '2023-11-10T15:02:11+01:00',
@@ -88,6 +93,8 @@ export const serviceJourneyFixture: ServiceJourneyData = {
           latitude: 63.424583,
         },
       },
+      situations: [],
+      notices: [],
     },
     {
       actualArrivalTime: '2023-11-10T15:03:04+01:00',
@@ -114,6 +121,8 @@ export const serviceJourneyFixture: ServiceJourneyData = {
           latitude: 63.427611,
         },
       },
+      situations: [],
+      notices: [],
     },
     {
       actualArrivalTime: '2023-11-10T15:03:54+01:00',
@@ -140,6 +149,8 @@ export const serviceJourneyFixture: ServiceJourneyData = {
           latitude: 63.42732,
         },
       },
+      situations: [],
+      notices: [],
     },
     {
       actualArrivalTime: '2023-11-10T15:04:42+01:00',
@@ -166,6 +177,8 @@ export const serviceJourneyFixture: ServiceJourneyData = {
           latitude: 63.427688,
         },
       },
+      situations: [],
+      notices: [],
     },
     {
       actualArrivalTime: '2023-11-10T15:05:19+01:00',
@@ -192,6 +205,8 @@ export const serviceJourneyFixture: ServiceJourneyData = {
           latitude: 63.428894,
         },
       },
+      situations: [],
+      notices: [],
     },
     {
       actualArrivalTime: '2023-11-10T15:06:34+01:00',
@@ -218,6 +233,8 @@ export const serviceJourneyFixture: ServiceJourneyData = {
           latitude: 63.431544,
         },
       },
+      situations: [],
+      notices: [],
     },
     {
       actualArrivalTime: '2023-11-10T15:07:52+01:00',
@@ -244,6 +261,8 @@ export const serviceJourneyFixture: ServiceJourneyData = {
           latitude: 63.434554,
         },
       },
+      situations: [],
+      notices: [],
     },
     {
       actualArrivalTime: '2023-11-10T15:09:56+01:00',
@@ -270,6 +289,8 @@ export const serviceJourneyFixture: ServiceJourneyData = {
           latitude: 63.437369,
         },
       },
+      situations: [],
+      notices: [],
     },
   ],
 };

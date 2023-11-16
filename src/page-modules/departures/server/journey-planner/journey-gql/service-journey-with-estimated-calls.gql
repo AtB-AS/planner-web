@@ -6,6 +6,12 @@ query serviceJourneyWithEstimatedCalls($id: String!, $date: Date) {
     publicCode
     line {
       publicCode
+      notices {
+        ...notice
+      }
+    }
+    notices {
+      ...notice
     }
     pointsOnLink {
       points
@@ -34,6 +40,12 @@ query serviceJourneyWithEstimatedCalls($id: String!, $date: Date) {
           latitude
           longitude
         }
+      }
+      notices {
+        ...notice
+      }
+      situations {
+        ...situation
       }
     }
   }

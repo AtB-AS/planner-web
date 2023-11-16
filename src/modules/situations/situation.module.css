@@ -1,0 +1,66 @@
+.container {
+  display: flex;
+  padding: var(--spacings-medium);
+  border-radius: var(--border-radius-regular);
+}
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.linkText {
+  margin-top: var(--spacings-medium);
+}
+.title {
+  margin-bottom: var(--spacings-small);
+  padding: var(--spacings-small);
+}
+.body {
+  padding: var(--spacings-small);
+}
+.messageBox__button {
+  padding: var(--spacings-small);
+}
+.icon {
+  margin-top: var(--spacings-small);
+}
+
+.dialog {
+  padding: var(--spacings-large);
+  margin: auto;
+  border: none;
+  border-radius: var(--border-radius-circle);
+  background-color: var(--static-background-background_1-background);
+}
+
+.dialog::backdrop {
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+}
+.dialog__wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacings-medium);
+}
+.dialog__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacings-medium);
+  padding: var(--spacings-large);
+  background-color: var(--static-background-background_0-background);
+  border-radius: var(--border-radius-regular);
+}
+.dialog__button {
+  text-align: center;
+}
+.dialog__title {
+  display: flex;
+  align-items: center;
+}
+.dialog__validity {
+  display: flex;
+  align-items: center;
+}
+.secondaryTextColor {
+  color: var(--text-colors-secondary);
+}

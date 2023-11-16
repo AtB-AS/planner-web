@@ -44,7 +44,7 @@ export function StopPlace({ departures }: StopPlaceProps) {
       </div>
       <div className={style.quaysContainer}>
         <Link
-          href={`/departures/${departures.stopPlace.id}`}
+          href={router.asPath}
           className={style.refreshButtonLink}
           onMouseEnter={() => setIsHoveringRefreshButton(true)}
           onMouseLeave={() => setIsHoveringRefreshButton(false)}
@@ -72,6 +72,7 @@ type EstimatedCallListProps = {
 
 export function EstimatedCallList({ quay }: EstimatedCallListProps) {
   const { t } = useTranslation();
+  const router = useRouter();
   const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
   const [departures, setDepartures] = useState<Departure[]>(quay.departures);
   const [isFetchingDepartures, setIsFetchingDepartures] =
@@ -82,7 +83,11 @@ export function EstimatedCallList({ quay }: EstimatedCallListProps) {
     const latestDeparture = departures[departures.length - 1];
 
     const date = new Date(latestDeparture.aimedDepartureTime);
-    const data = await nextDepartures(quay.id, date.toUTCString());
+    const data = await nextDepartures(
+      quay.id,
+      date.toISOString(),
+      router.query.filter?.toString() ?? null,
+    );
 
     const set = new Set(departures.map((departure) => departure.id));
     const filteredDepartures = data.departures.filter(
