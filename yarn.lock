@@ -1310,9 +1310,10 @@
   resolved "https://registry.yarnpkg.com/@mapbox/point-geometry/-/point-geometry-0.1.0.tgz#8a83f9335c7860effa2eeeca254332aa0aeed8f2"
   integrity sha512-6j56HdLTwWGO0fJPlrZtdU/B13q8Uwmo18Ck2GnGgN9PCFyKTZ3UbXeEdRFh18i9XQ92eH2VdtpJHpBD3aripQ==
 
-"@mapbox/polyline@mapbox/polyline":
+"@mapbox/polyline@^1.2.1":
   version "1.2.1"
-  resolved "https://codeload.github.com/mapbox/polyline/tar.gz/d0dd37bfb7fed232384266e4f1221e4038da3617"
+  resolved "https://registry.yarnpkg.com/@mapbox/polyline/-/polyline-1.2.1.tgz#1eecce5e8c0d9e6dfc718b225e8e9f03591ea636"
+  integrity sha512-sn0V18O3OzW4RCcPoUIVDWvEGQaBNH9a0y5lgqrf5hUycyw1CzrhEoxV5irzrMNXKCkw1xRsZXcaVbsVZggHXA==
   dependencies:
     meow "^9.0.0"
 
