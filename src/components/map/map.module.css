@@ -49,12 +49,11 @@
   position: relative;
   height: 100%;
   width: 100%;
+  border-radius: 0 0 var(--border-radius-regular) var(--border-radius-regular);
+  overflow: hidden;
 }
 
-.borderRadius__top canvas {
-  border-radius: 0 0 var(--border-radius-regular) var(--border-radius-regular);
-}
-.borderRadius canvas {
+.mapContainer__borderRadius {
   border-radius: var(--border-radius-regular);
 }
 

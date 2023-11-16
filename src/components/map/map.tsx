@@ -110,7 +110,7 @@ export function Map({
             ref={mapContainer}
             className={and(
               style.mapContainer,
-              mapLegs ? style.borderRadius : style.borderRadius__top,
+              mapLegs && style.mapContainer__borderRadius,
             )}
           />
         </FocusScope>
