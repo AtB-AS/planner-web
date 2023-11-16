@@ -1,5 +1,5 @@
 import { Theme } from '@atb-as/theme';
-import { modeToColor } from '@atb/modules/transport-mode';
+import { transportModeToColor } from '@atb/modules/transport-mode';
 import { MapLegType } from '@atb/page-modules/departures/server/journey-planner/validators';
 import { useCallback, useEffect } from 'react';
 import hexToRgba from 'hex-to-rgba';
@@ -11,7 +11,7 @@ export const useMapLegs = (
 ) => {
   const addToMap = useCallback(
     (map: mapboxgl.Map, mapLeg: MapLegType, id: number) => {
-      const transportColor = modeToColor(
+      const transportColor = transportModeToColor(
         {
           mode: mapLeg.faded ? 'unknown' : mapLeg.transportMode,
           subMode: mapLeg.transportSubmode,
