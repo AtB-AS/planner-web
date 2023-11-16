@@ -27,7 +27,7 @@
 
 .dialog {
   padding: var(--spacings-large);
-  margin: auto auto;
+  margin: auto;
   border: none;
   border-radius: var(--border-radius-circle);
   background-color: var(--static-background-background_1-background);
