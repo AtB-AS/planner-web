@@ -82,7 +82,12 @@ export type ServiceJourneyInput = {
   fromQuayId: string;
 };
 
-export type { StopPlaceInfo, NearestStopPlacesData, StopPlaceWithDistance };
+export type {
+  StopPlaceInfo,
+  NearestStopPlacesData,
+  StopPlaceWithDistance,
+  MapLegType,
+};
 
 export type JourneyPlannerApi = {
   departures(input: DepartureInput): Promise<DepartureData>;

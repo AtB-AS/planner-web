@@ -7,7 +7,7 @@ import Button from '../button/button';
 import { MonoIcon } from '@atb/components/icon';
 import { ComponentText, useTranslation } from '@atb/translations';
 import { FocusScope } from '@react-aria/focus';
-import { MapLegType } from '@atb/page-modules/departures/server/journey-planner/validators';
+import { MapLegType } from '@atb/page-modules/departures';
 import { useTheme } from '@atb/modules/theme';
 import { Position, ZOOM_LEVEL, defaultPosition } from './utils';
 import { useMapInteractions } from './use-map-interactions';
