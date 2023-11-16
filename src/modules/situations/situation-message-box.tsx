@@ -17,6 +17,7 @@ import { useRef } from 'react';
 import dictionary from '@atb/translations/dictionary';
 import { Situation as SituationTexts } from '@atb/translations/modules';
 import { formatToLongDateTime } from '@atb/utils/date';
+
 export type Props = {
   situation: Situation;
   noStatusIcon?: MessageBoxProps['noStatusIcon'];
