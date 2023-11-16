@@ -34,6 +34,7 @@ export const getServerSideProps = withGlobalData(
       const serviceJourney = await client.serviceJourney({
         id,
         date,
+        fromQuayId,
       });
 
       return {

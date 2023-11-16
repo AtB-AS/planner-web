@@ -46,10 +46,10 @@ export function NearestStopPlaces({
             id={activeLocation.id}
             name={activeLocation.name}
             layer="address"
-            position={[
-              activeLocation.geometry.coordinates[0],
-              activeLocation.geometry.coordinates[1],
-            ]}
+            position={{
+              lon: activeLocation.geometry.coordinates[0],
+              lat: activeLocation.geometry.coordinates[1],
+            }}
             onSelectStopPlace={(stopPlaceId) =>
               router.push(`/departures/${stopPlaceId}`)
             }

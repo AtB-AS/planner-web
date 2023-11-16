@@ -13,6 +13,9 @@ query serviceJourneyWithEstimatedCalls($id: String!, $date: Date) {
     notices {
       ...notice
     }
+    pointsOnLink {
+      points
+    }
     estimatedCalls(date: $date) {
       actualArrivalTime
       actualDepartureTime
@@ -34,6 +37,8 @@ query serviceJourneyWithEstimatedCalls($id: String!, $date: Date) {
         publicCode
         stopPlace {
           id
+          latitude
+          longitude
         }
       }
       notices {

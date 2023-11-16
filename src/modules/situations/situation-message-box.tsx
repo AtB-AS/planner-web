@@ -39,10 +39,7 @@ export const SituationMessageBox = ({ situation, noStatusIcon }: Props) => {
         <div className={style.dialog__wrapper}>
           <div className={style.dialog__content}>
             <div className={style.dialog__title}>
-              <ColorIcon
-                className={style.icon}
-                icon={messageTypeToColorIcon(messageType)}
-              />
+              <ColorIcon icon={messageTypeToColorIcon(messageType)} />
               {situation.summary && (
                 <Typo.h2 textType="body__primary--bold">
                   {getTextForLanguage(situation.summary, language)}
@@ -56,7 +53,7 @@ export const SituationMessageBox = ({ situation, noStatusIcon }: Props) => {
 
             {validityPeriodText && (
               <div className={style.dialog__validity}>
-                <MonoIcon className={style.icon} icon="time/Time" />
+                <MonoIcon icon="time/Time" />
                 <Typo.p
                   className={style.secondaryTextColor}
                   textType="body__secondary"

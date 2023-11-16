@@ -33,12 +33,17 @@ import {
   Departure,
   ServiceJourneyData,
   serviceJourneySchema,
+  MapLegType,
 } from './validators';
-import { TransportMode as GraphQlTransportMode } from '@atb/modules/graphql-types';
+import {
+  TransportMode as GraphQlTransportMode,
+  PointsOnLink as GraphQlPointsOnLink,
+} from '@atb/modules/graphql-types';
 import {
   type TransportModeType,
   isTransportModeType,
   filterGraphQlTransportModes,
+  type TransportSubmodeType,
 } from '@atb/modules/transport-mode';
 import {
   ServiceJourneyWithEstimatedCallsDocument,
@@ -46,6 +51,8 @@ import {
   ServiceJourneyWithEstimatedCallsQueryVariables,
 } from './journey-gql/service-journey-with-estimated-calls.generated';
 import { formatISO } from 'date-fns';
+import polyline from '@mapbox/polyline';
+import haversineDistance from 'haversine-distance';
 
 export type DepartureInput = {
   id: string;
@@ -73,9 +80,15 @@ export type EstimatedCallsInput = {
 export type ServiceJourneyInput = {
   id: string;
   date: Date;
+  fromQuayId: string;
 };
 
-export type { StopPlaceInfo, NearestStopPlacesData, StopPlaceWithDistance };
+export type {
+  StopPlaceInfo,
+  NearestStopPlacesData,
+  StopPlaceWithDistance,
+  MapLegType,
+};
 
 export type JourneyPlannerApi = {
   departures(input: DepartureInput): Promise<DepartureData>;
@@ -305,12 +318,21 @@ export function createJourneyApi(
 
       const serviceJourney = result.data.serviceJourney;
 
+      const transportMode =
+        serviceJourney?.transportMode &&
+        isTransportModeType(serviceJourney?.transportMode)
+          ? serviceJourney?.transportMode
+          : 'unknown';
+      const transportSubmode = serviceJourney?.transportSubmode;
+
+      const fromStopPlace = serviceJourney?.estimatedCalls?.find(
+        (call) => call.quay.id === input.fromQuayId,
+      )?.quay?.stopPlace;
+
       const data: RecursivePartial<ServiceJourneyData> = {
         id: serviceJourney?.id,
-        transportMode: isTransportModeType(serviceJourney?.transportMode)
-          ? serviceJourney?.transportMode
-          : 'unknown',
-        transportSubmode: serviceJourney?.transportSubmode,
+        transportMode,
+        transportSubmode,
         line: {
           publicCode: serviceJourney?.line.publicCode,
           notices:
@@ -319,6 +341,12 @@ export function createJourneyApi(
               text: notice.text,
             })) ?? [],
         },
+        mapLegs: mapToMapLegs(
+          serviceJourney?.pointsOnLink,
+          transportMode,
+          transportSubmode,
+          fromStopPlace,
+        ),
         notices:
           serviceJourney?.notices?.map((notice) => ({
             id: notice.id,
@@ -346,6 +374,8 @@ export function createJourneyApi(
               name: estimatedCall.quay.name,
               stopPlace: {
                 id: estimatedCall.quay.stopPlace?.id,
+                longitude: estimatedCall.quay.stopPlace?.longitude,
+                latitude: estimatedCall.quay.stopPlace?.latitude,
               },
             },
             notices:
@@ -413,4 +443,55 @@ type RecursivePartial<T> = {
     : T[P] extends object | undefined
     ? RecursivePartial<T[P]>
     : T[P];
+};
+
+const mapToMapLegs = (
+  pointsOnLink: GraphQlPointsOnLink | undefined,
+  transportMode: TransportModeType,
+  transportSubmode: TransportSubmodeType | undefined,
+  fromStopPlace?: { id: string; latitude?: number; longitude?: number },
+) => {
+  if (!pointsOnLink || !pointsOnLink.points) return [];
+  const points = polyline.decode(pointsOnLink.points);
+  const fromCoordinates: [number, number] = [
+    fromStopPlace?.latitude ?? 0,
+    fromStopPlace?.longitude ?? 0,
+  ];
+
+  const mainStartIndex = findIndex(points, fromCoordinates);
+  const mainEndIndex = points.length - 1;
+
+  const beforeLegCoords = points.slice(0, mainStartIndex + 1);
+  const mainLegCoords = points.slice(mainStartIndex, mainEndIndex + 1);
+  const afterLegCoords = points.slice(mainEndIndex);
+
+  const toMapLeg = (item: [number, number][], faded: boolean) => {
+    return {
+      transportMode,
+      transportSubmode,
+      faded,
+      points: item,
+    };
+  };
+
+  const mapLegs: MapLegType[] = [
+    toMapLeg(beforeLegCoords, true),
+    toMapLeg(mainLegCoords, false),
+    toMapLeg(afterLegCoords, true),
+  ];
+
+  return mapLegs;
+};
+
+const findIndex = (
+  array: [number, number][],
+  quayCoords: [number, number],
+): number => {
+  return array.reduce(
+    (closest, t, index) => {
+      const distance = haversineDistance(t, quayCoords);
+      return distance < closest.distance ? { index, distance } : closest;
+    },
+    { index: -1, distance: 100 },
+  ).index;
 };

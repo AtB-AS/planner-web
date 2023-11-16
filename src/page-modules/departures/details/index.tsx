@@ -8,6 +8,7 @@ import { addMetadataToEstimatedCalls } from './utils';
 import { ServiceJourneyData } from '../server/journey-planner/validators';
 import { EstimatedCallRows } from './estimated-call-rows';
 import { PageText, useTranslation } from '@atb/translations';
+import { Map } from '@atb/components/map';
 import {
   MessageBox,
   SituationMessageBox,
@@ -68,7 +69,16 @@ export function DeparturesDetails({
         )}
       </div>
 
-      <div className={style.mapContainer}></div>
+      <div className={style.mapContainer}>
+        <Map
+          position={{
+            lon: focusedCall.quay.stopPlace.longitude,
+            lat: focusedCall.quay.stopPlace.latitude,
+          }}
+          mapLegs={serviceJourney.mapLegs}
+          initialZoom={13.5}
+        />
+      </div>
 
       <div className={style.serviceJourneyContainer}>
         {situations.map((situation) => (

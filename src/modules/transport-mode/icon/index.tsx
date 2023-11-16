@@ -81,7 +81,7 @@ export function TransportIconWithLabel({
 
 export function useTransportationThemeColor(mode: TransportModeGroup) {
   const { transport } = useTheme();
-  let color = modeToColor(mode, transport);
+  let color = transportModeToColor(mode, transport);
   return {
     backgroundColor: color.background,
     textColor: color.text,
@@ -97,7 +97,7 @@ const TRANSPORT_SUB_MODES_BOAT: TransportSubmodeType[] = [
   'sightseeingService',
 ];
 
-function modeToColor(
+export function transportModeToColor(
   mode: TransportModeGroup,
   transport: Theme['transport'],
 ): ContrastColor {
