@@ -9,7 +9,7 @@ import { ComponentText, useTranslation } from '@atb/translations';
 import { FocusScope } from '@react-aria/focus';
 import { MapLegType } from '@atb/page-modules/departures/server/journey-planner/validators';
 import { useTheme } from '@atb/modules/theme';
-import { LngLatPosition, ZOOM_LEVEL, defaultPosition } from './utils';
+import { Position, ZOOM_LEVEL, defaultPosition } from './utils';
 import { useMapInteractions } from './use-map-interactions';
 import { useFullscreenMap } from './use-fullscreen-map';
 import { useMapPin } from './use-map-pin';
@@ -17,7 +17,7 @@ import { useMapLegs } from './use-map-legs';
 import { and } from '@atb/utils/css';
 
 export type MapProps = {
-  position?: LngLatPosition;
+  position?: Position;
   layer?: string;
   onSelectStopPlace?: (id: string) => void;
   mapLegs?: MapLegType[];

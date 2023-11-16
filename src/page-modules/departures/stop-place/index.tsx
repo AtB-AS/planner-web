@@ -36,10 +36,7 @@ export function StopPlace({ departures }: StopPlaceProps) {
         <MapWithHeader
           id={departures.stopPlace.id}
           name={departures.stopPlace.name}
-          position={[
-            departures.stopPlace.position.lon,
-            departures.stopPlace.position.lat,
-          ]}
+          position={departures.stopPlace.position}
           layer="venue"
           onSelectStopPlace={(id) => router.push(`/departures/${id}`)}
           transportModes={departures.stopPlace.transportMode}

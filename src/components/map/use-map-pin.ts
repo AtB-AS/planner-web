@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useState } from 'react';
-import { LngLatPosition } from './utils';
+import { Position } from './utils';
 import mapboxgl from 'mapbox-gl';
 
 export function useMapPin(
   mapRef: React.MutableRefObject<mapboxgl.Map | undefined>,
-  position: LngLatPosition,
+  position: Position,
   layer?: string,
 ) {
   const [marker, setMarker] = useState<mapboxgl.Marker | undefined>();
@@ -16,7 +16,7 @@ export function useMapPin(
   }, []);
 
   const setMapPinPosition = useCallback(
-    (position: LngLatPosition) => {
+    (position: Position) => {
       if (!mapRef || !mapRef.current) return;
       const map = mapRef.current;
       if (!marker) {

@@ -15,12 +15,15 @@ export const INTERACTIVE_LAYERS = [
   'tram.nsr.api',
 ];
 
-export const defaultPosition: LngLatPosition = [
-  mapboxData.defaultLng,
-  mapboxData.defaultLat,
-];
+export const defaultPosition: Position = {
+  lon: mapboxData.defaultLng,
+  lat: mapboxData.defaultLat,
+};
 
-export type LngLatPosition = [lng: number, lat: number];
+export type Position = {
+  lon: number;
+  lat: number;
+};
 
 export const isFeaturePoint = (
   f: MapboxGeoJSONFeature,

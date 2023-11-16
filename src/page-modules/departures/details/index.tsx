@@ -58,10 +58,10 @@ export function DeparturesDetails({
 
       <div className={style.mapContainer}>
         <Map
-          position={[
-            focusedCall.quay.stopPlace.longitude,
-            focusedCall.quay.stopPlace.latitude,
-          ]}
+          position={{
+            lon: focusedCall.quay.stopPlace.longitude,
+            lat: focusedCall.quay.stopPlace.latitude,
+          }}
           mapLegs={serviceJourney.mapLegs}
           initialZoom={13.5}
         />

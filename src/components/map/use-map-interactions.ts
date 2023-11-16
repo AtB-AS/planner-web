@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import {
   INTERACTIVE_LAYERS,
-  LngLatPosition,
+  Position,
   ZOOM_LEVEL,
   isFeaturePoint,
   isStopPlace,
@@ -47,7 +47,7 @@ export function useMapInteractions(
     }
   }, [mapRef, onSelectStopPlace]);
 
-  const centerMap = (position: LngLatPosition) => {
+  const centerMap = (position: Position) => {
     if (!mapRef || !mapRef.current) return;
     mapRef.current.flyTo({ center: position, zoom: ZOOM_LEVEL, speed: 2 });
   };
