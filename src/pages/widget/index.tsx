@@ -21,6 +21,17 @@ declare global {
     };
   }
 }
+
+const html = String.raw;
+const initializeCode = html`<script>
+  window.PlannerWeb.init();
+</script>`;
+const outputCodeExample = html`<div id="planner-web"></div>
+  <script>
+    // Basic example of using dynamic output
+    document.querySelector('#planner-web').innerHTML = window.PlannerWeb.output;
+  </script> `;
+
 const AssistantPage: NextPage<WidgetPageProps> = (props) => {
   const [isLoaded, setLoaded] = useState(false);
 
@@ -51,15 +62,41 @@ const AssistantPage: NextPage<WidgetPageProps> = (props) => {
 
         {isLoaded && (
           <>
+            <h2>Installation</h2>
+
+            <p>
+              Install by copying HTML provided below. After loading JS and CSS
+              file it can be initialized using the following code:
+            </p>
+            <CopyMarkup content={initializeCode} />
+
             <h3>Scripts (UMD / ESM)</h3>
             <CopyMarkupLarge content={window.PlannerWeb.output} />
 
             <h3>Scripts (UMD / ESM)</h3>
+
+            <p>Using these directly could cause issues on new releases.</p>
             <CopyMarkup content={scripts(window.PlannerWeb.URL_JS_UMD)} />
             <CopyMarkup content={scripts(window.PlannerWeb.URL_JS_ESM)} />
 
             <h3>Styling</h3>
             <CopyMarkup content={css(window.PlannerWeb.URL_CSS)} />
+
+            <h3>Using dynamic output</h3>
+
+            <p>
+              You can also inject HTML automatically by using{' '}
+              <code>window.PlannerWeb.output</code> variable. This can be done
+              server side or by using client side frameworks.
+            </p>
+
+            <p>
+              One advantage of doing this dynamically when importing JavaScript
+              on the fly, will be that code is automatically updated on new
+              releases.
+            </p>
+
+            <CopyMarkup content={outputCodeExample} />
 
             <h2>Demo</h2>
             <div
