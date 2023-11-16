@@ -109,6 +109,6 @@ export const getNoticesForServiceJourney = (
   return filterNotices([
     ...serviceJourney.notices,
     ...serviceJourney.line.notices,
-    ...(focusedEstimatedCall?.notices || []),
+    ...(focusedEstimatedCall?.notices ?? []),
   ]);
 };
