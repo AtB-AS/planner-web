@@ -20,7 +20,7 @@ export const useFullscreenMap = (
     setIsFullscreen(false);
   }, [mapWrapperRef, mapRef]);
 
-  const handlEscapeKey = useCallback(
+  const handleEscapeKey = useCallback(
     (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         closeFullscreen();
@@ -31,15 +31,15 @@ export const useFullscreenMap = (
 
   useEffect(() => {
     if (isFullscreen) {
-      document.addEventListener('keydown', handlEscapeKey);
+      document.addEventListener('keydown', handleEscapeKey);
     } else {
-      document.removeEventListener('keydown', handlEscapeKey);
+      document.removeEventListener('keydown', handleEscapeKey);
     }
 
     return () => {
-      document.removeEventListener('keydown', handlEscapeKey);
+      document.removeEventListener('keydown', handleEscapeKey);
     };
-  }, [isFullscreen, handlEscapeKey]);
+  }, [isFullscreen, handleEscapeKey]);
 
   return { openFullscreen, closeFullscreen, isFullscreen };
 };
