@@ -323,8 +323,8 @@ export function createJourneyApi(
 
       const data: RecursivePartial<ServiceJourneyData> = {
         id: serviceJourney?.id,
-        transportMode: transportMode,
-        transportSubmode: transportSubmode,
+        transportMode,
+        transportSubmode,
         line: {
           publicCode: serviceJourney?.line.publicCode,
         },
