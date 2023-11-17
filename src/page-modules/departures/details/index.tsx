@@ -100,6 +100,7 @@ export function DeparturesDetails({
         <EstimatedCallRows
           calls={estimatedCallsWithMetadata}
           mode={serviceJourney.transportMode}
+          subMode={serviceJourney.transportSubmode}
           alreadyShownSituationNumbers={alreadyShownSituationNumbers}
         />
       </div>
