@@ -13,6 +13,7 @@ import { and } from '@atb/utils/css';
 import {
   type TransportModeType,
   useTransportationThemeColor,
+  type TransportSubmodeType,
 } from '@atb/modules/transport-mode';
 import {
   Situation,
@@ -24,12 +25,14 @@ import { getSituationsToShowForCall } from './utils';
 export type EstimatedCallRowsProps = {
   calls: EstimatedCallWithMetadata[];
   mode: TransportModeType;
+  subMode?: TransportSubmodeType;
   alreadyShownSituationNumbers: string[];
 };
 
 export function EstimatedCallRows({
   calls,
   mode,
+  subMode,
   alreadyShownSituationNumbers,
 }: EstimatedCallRowsProps) {
   const { t } = useTranslation();
@@ -83,6 +86,7 @@ export function EstimatedCallRows({
               <EstimatedCallRow
                 call={call}
                 mode={mode}
+                subMode={subMode}
                 collapseButton={
                   call.metadata.isStartOfServiceJourney ? collapseButton : null
                 }
@@ -110,6 +114,7 @@ export function EstimatedCallRows({
             <EstimatedCallRow
               call={call}
               mode={mode}
+              subMode={subMode}
               collapseButton={null}
               situations={getSituationsToShowForCall(
                 call,
@@ -126,12 +131,14 @@ export function EstimatedCallRows({
 type EstimatedCallRowProps = {
   call: EstimatedCallWithMetadata;
   mode: TransportModeType;
+  subMode?: TransportSubmodeType;
   collapseButton: JSX.Element | null;
   situations: Situation[];
 };
 function EstimatedCallRow({
   call,
   mode,
+  subMode,
   collapseButton,
   situations,
 }: EstimatedCallRowProps) {
@@ -140,6 +147,7 @@ function EstimatedCallRow({
   const isBetween = !isStartOfGroup && !isEndOfGroup;
   const iconColor = useTransportationThemeColor({
     mode: group === 'trip' ? mode : 'unknown',
+    subMode,
   });
 
   return (
