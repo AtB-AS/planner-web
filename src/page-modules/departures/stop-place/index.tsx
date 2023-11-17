@@ -26,6 +26,7 @@ import {
   SituationMessageBox,
   SituationOrNoticeIcon,
 } from '@atb/modules/situations';
+import { screenReaderPause } from '@atb/components/typography/utils';
 
 export type StopPlaceProps = {
   departures: DepartureData;
@@ -254,6 +255,13 @@ export function DepartureTime({
       <Typo.p
         textType="body__primary--bold"
         className={cancelled ? style.departureTime__cancelled : ''}
+        aria-label={
+          cancelled
+            ? `${screenReaderPause} ${t(
+                PageText.Departures.stopPlace.quaySection.cancelled,
+              )}`
+            : ''
+        }
       >
         {formatToClockOrRelativeMinutes(
           expectedDepartureTime,

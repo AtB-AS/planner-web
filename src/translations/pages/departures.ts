@@ -100,6 +100,11 @@ export const Departures = {
         'See more departures',
         'Sjå fleire avgangar',
       ),
+      cancelled: _(
+        'Avgangen fra denne holdeplassen er kansellert.',
+        'The departure from this stop has been cancelled.',
+        'Avgangen frå denne haldeplassen er kansellert.',
+      ),
     },
   },
   details: {
