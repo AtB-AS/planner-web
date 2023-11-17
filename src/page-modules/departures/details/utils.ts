@@ -57,3 +57,9 @@ export function getSituationsToShowForCall(
       !alreadyShownSituationNumbers.includes(s.situationNumber),
   );
 }
+
+export function formatQuayName(quayName?: string, publicCode?: string | null) {
+  if (!quayName) return;
+  if (!publicCode) return quayName;
+  return `${quayName} ${publicCode}`;
+}

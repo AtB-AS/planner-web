@@ -20,7 +20,7 @@ import {
   SituationMessageBox,
   SituationOrNoticeIcon,
 } from '@atb/modules/situations';
-import { getSituationsToShowForCall } from './utils';
+import { formatQuayName, getSituationsToShowForCall } from './utils';
 
 export type EstimatedCallRowsProps = {
   calls: EstimatedCallWithMetadata[];
@@ -173,7 +173,9 @@ function EstimatedCallRow({
         isBetween={isBetween}
         href={`/departures/${call.quay.stopPlace.id}`}
       >
-        <Typo.p textType="body__primary">{call.quay.name}</Typo.p>
+        <Typo.p textType="body__primary">
+          {formatQuayName(call.quay.name, call.quay.publicCode)}
+        </Typo.p>
         {!call.forAlighting && !call.metadata.isStartOfServiceJourney && (
           <Typo.p textType="body__secondary" className={style.boardingInfo}>
             {t(PageText.Departures.details.messages.noAlighting)}
