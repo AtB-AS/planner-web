@@ -17,13 +17,19 @@ import { useRef } from 'react';
 import dictionary from '@atb/translations/dictionary';
 import { Situation as SituationTexts } from '@atb/translations/modules';
 import { formatToLongDateTime } from '@atb/utils/date';
+import { and } from '@atb/utils/css';
 
 export type Props = {
   situation: Situation;
   noStatusIcon?: MessageBoxProps['noStatusIcon'];
+  borderRadius?: boolean;
 };
 
-export const SituationMessageBox = ({ situation, noStatusIcon }: Props) => {
+export const SituationMessageBox = ({
+  situation,
+  noStatusIcon,
+  borderRadius = true,
+}: Props) => {
   const { language, t } = useTranslation();
   const dialogRef = useRef<HTMLDialogElement>(null);
 
@@ -73,6 +79,7 @@ export const SituationMessageBox = ({ situation, noStatusIcon }: Props) => {
         </div>
       </dialog>
       <MessageBox
+        borderRadius={borderRadius}
         type={messageType}
         noStatusIcon={noStatusIcon}
         message={text}
@@ -88,6 +95,7 @@ export type MessageBoxProps = {
   message: string;
   noStatusIcon?: boolean;
   onClick?: () => void;
+  borderRadius?: boolean;
 };
 
 export const MessageBox = ({
@@ -96,6 +104,7 @@ export const MessageBox = ({
   message,
   title,
   onClick,
+  borderRadius = true,
 }: MessageBoxProps) => {
   const { static: staticColors } = useTheme();
   const { t } = useTranslation();
@@ -103,8 +112,13 @@ export const MessageBox = ({
     backgroundColor: staticColors['status'][type].background,
   };
 
+  const borderRadiusStyle = borderRadius ? style.borderRadius : '';
+
   return (
-    <div className={style.container} style={backgroundColorStyle}>
+    <div
+      className={and(style.container, borderRadiusStyle)}
+      style={backgroundColorStyle}
+    >
       {!noStatusIcon && (
         <MonoIcon className={style.icon} icon={messageTypeToMonoIcon(type)} />
       )}

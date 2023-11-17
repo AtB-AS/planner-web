@@ -42,6 +42,7 @@ describe('departure page', function () {
           publicCode: '123',
           departures: [],
           description: null,
+          situations: [],
         },
       ],
     };

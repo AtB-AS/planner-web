@@ -5,7 +5,7 @@ import {
   Departure,
 } from '@atb/page-modules/departures/server/journey-planner';
 import style from './stop-place.module.css';
-import { MonoIcon } from '@atb/components/icon';
+import { ColorIcon, MonoIcon } from '@atb/components/icon';
 import {
   formatLocaleTime,
   formatToClockOrRelativeMinutes,
@@ -22,6 +22,10 @@ import { Departures } from '@atb/translations/pages';
 import { nextDepartures } from '../client';
 import { Button } from '@atb/components/button';
 import LineChip from '@atb/components/line-chip';
+import {
+  SituationMessageBox,
+  SituationOrNoticeIcon,
+} from '@atb/modules/situations';
 
 export type StopPlaceProps = {
   departures: DepartureData;
@@ -137,6 +141,15 @@ export function EstimatedCallList({ quay }: EstimatedCallListProps) {
       </button>
       {!isCollapsed && (
         <ul>
+          {quay.situations.length > 0 &&
+            quay.situations.map((situation) => (
+              <li key={situation.id}>
+                <SituationMessageBox
+                  situation={situation}
+                  borderRadius={false}
+                />
+              </li>
+            ))}
           {departures.length > 0 ? (
             <>
               {departures.map((departure) => (
@@ -190,17 +203,33 @@ export function EstimatedCallItem({
       >
         <div className={style.transportInfo}>
           {(departure.transportMode || departure.publicCode) && (
-            <LineChip
-              transportMode={departure.transportMode || 'unknown'}
-              publicCode={departure.publicCode}
-              transportSubmode={departure.transportSubmode}
-            />
+            <>
+              {departure.cancelled ? (
+                <ColorIcon
+                  icon="status/Error"
+                  className={style.situationIcon}
+                />
+              ) : (
+                <SituationOrNoticeIcon
+                  situations={departure.situations}
+                  notices={departure.notices}
+                  className={style.situationIcon}
+                />
+              )}
+
+              <LineChip
+                transportMode={departure.transportMode || 'unknown'}
+                publicCode={departure.publicCode}
+                transportSubmode={departure.transportSubmode}
+              />
+            </>
           )}
 
           <p>{departure.name}</p>
         </div>
 
         <DepartureTime
+          cancelled={departure.cancelled}
           expectedDepartureTime={departure.expectedDepartureTime}
           aimedDepartureTime={departure.aimedDepartureTime}
         />
@@ -212,15 +241,20 @@ export function EstimatedCallItem({
 type DepartureTimeProps = {
   expectedDepartureTime: string;
   aimedDepartureTime: string;
+  cancelled?: boolean;
 };
 export function DepartureTime({
   expectedDepartureTime,
   aimedDepartureTime,
+  cancelled = false,
 }: DepartureTimeProps) {
   const { t, language } = useTranslation();
   return (
     <div className={style.departureTime}>
-      <Typo.p textType="body__primary--bold">
+      <Typo.p
+        textType="body__primary--bold"
+        className={cancelled ? style.departureTime__cancelled : ''}
+      >
         {formatToClockOrRelativeMinutes(
           expectedDepartureTime,
           language,
