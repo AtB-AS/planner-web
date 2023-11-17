@@ -62,6 +62,11 @@ const AssistantPage: NextPage<WidgetPageProps> = (props) => {
 
         {isLoaded && (
           <>
+            <h2>Demo</h2>
+            <div
+              dangerouslySetInnerHTML={{ __html: window.PlannerWeb.output }}
+            />
+
             <h2>Installation</h2>
 
             <p>
@@ -97,11 +102,6 @@ const AssistantPage: NextPage<WidgetPageProps> = (props) => {
             </p>
 
             <CopyMarkup content={outputCodeExample} />
-
-            <h2>Demo</h2>
-            <div
-              dangerouslySetInnerHTML={{ __html: window.PlannerWeb.output }}
-            />
           </>
         )}
       </main>
