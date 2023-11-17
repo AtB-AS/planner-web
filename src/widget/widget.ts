@@ -355,11 +355,7 @@ class AutocompleteBox extends HTMLElement {
       self.setItems(data);
       list.innerHTML = '';
       for (let item of data) {
-        const li = document.createElement('li');
-        li.textContent = item.name;
-        li.classList.add(style.listItem);
-        li.role = 'option';
-        li.setAttribute('data-feature-id', item.id);
+        const li = searchItem(item);
         list.appendChild(li);
       }
 
@@ -413,6 +409,47 @@ class AutocompleteBox extends HTMLElement {
   }
 }
 
+function searchItem(item: GeocoderFeature) {
+  const img = venueIcon(item);
+  const title = el('span', [item.name]);
+  const locality = el('span', [item.locality ?? ''], style.itemLocality);
+  const li = el('li', [img, title, locality], style.listItem);
+  li.role = 'option';
+  li.setAttribute('data-feature-id', item.id);
+  return li;
+}
+
+function venueIcon(item: GeocoderFeature) {
+  const icon = iconData(item.category);
+
+  // http://localhost:3000/assets/mono/light/transportation-entur/Bus.svg
+  const img = el('img');
+  img.src = `${URL_BASE}assets/mono/light/${icon.icon}.svg`;
+  img.alt = icon.alt;
+  img.role = 'img';
+
+  const div = el('div', [img], style.itemIcon);
+  div.ariaHidden = 'true';
+  return div;
+}
+
+function el<K extends keyof HTMLElementTagNameMap>(
+  tag: K,
+  children: (HTMLElement | string)[] = [],
+  className: string = '',
+) {
+  const item = document.createElement(tag);
+  if (Array.isArray(children)) {
+    for (let childP of children) {
+      let child =
+        typeof childP === 'string' ? document.createTextNode(childP) : childP;
+      item.appendChild(child);
+    }
+  }
+  item.className = className;
+  return item;
+}
+
 customElements.define('pw-autocomplete', AutocompleteBox);
 
 function safeParse(input: string | null, defaultValue: number) {
@@ -427,4 +464,78 @@ function hasParent(el: HTMLElement, parent: HTMLElement) {
   if (el === parent) return true;
   if (!el || !el.parentElement) return false;
   return hasParent(el.parentElement, parent);
+}
+
+enum FeatureCategory {
+  ONSTREET_BUS = 'onstreetBus',
+  ONSTREET_TRAM = 'onstreetTram',
+  AIRPORT = 'airport',
+  RAIL_STATION = 'railStation',
+  METRO_STATION = 'metroStation',
+  BUS_STATION = 'busStation',
+  COACH_STATION = 'coachStation',
+  TRAM_STATION = 'tramStation',
+  HARBOUR_PORT = 'harbourPort',
+  FERRY_PORT = 'ferryPort',
+  FERRY_STOP = 'ferryStop',
+  LIFT_STATION = 'liftStation',
+  VEHICLE_RAIL_INTERCHANGE = 'vehicleRailInterchange',
+  GROUP_OF_STOP_PLACES = 'GroupOfStopPlaces',
+  POI = 'poi',
+  VEGADRESSE = 'Vegadresse',
+  STREET = 'street',
+  TETTSTEDDEL = 'tettsteddel',
+  BYDEL = 'bydel',
+  OTHER = 'other',
+}
+type VenueIconType = 'bus' | 'tram' | 'rail' | 'airport' | 'boat' | 'unknown';
+
+function iconData(category: FeatureCategory[]) {
+  const iconType = getVenueIconTypes(category)[0];
+  switch (iconType) {
+    case 'bus':
+      return { icon: 'transportation-entur/Bus', alt: 'bus' };
+    case 'tram':
+      return { icon: 'transportation-entur/Tram', alt: 'tram' };
+    case 'rail':
+      return { icon: 'transportation-entur/Train', alt: 'rail' };
+    case 'airport':
+      return { icon: 'transportation-entur/Plane', alt: 'air' };
+    case 'boat':
+      return { icon: 'transportation-entur/Ferry', alt: 'water' };
+    case 'unknown':
+    default:
+      return { icon: 'map/Pin', alt: 'unknown' };
+  }
+}
+
+function getVenueIconTypes(category: FeatureCategory[]): VenueIconType[] {
+  return category
+    .map(mapLocationCategoryToVenueType)
+    .filter((v, i, arr) => arr.indexOf(v) === i); // get distinct values
+}
+
+function mapLocationCategoryToVenueType(
+  category: FeatureCategory,
+): VenueIconType {
+  switch (category) {
+    case 'onstreetBus':
+    case 'busStation':
+    case 'coachStation':
+      return 'bus';
+    case 'onstreetTram':
+    case 'tramStation':
+      return 'tram';
+    case 'railStation':
+    case 'metroStation':
+      return 'rail';
+    case 'airport':
+      return 'airport';
+    case 'harbourPort':
+    case 'ferryPort':
+    case 'ferryStop':
+      return 'boat';
+    default:
+      return 'unknown';
+  }
 }

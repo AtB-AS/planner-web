@@ -209,8 +209,31 @@
 
 /* Autocomplete */
 
-.listItem[aria-selected='true'] {
-  font-weight: bold;
+.listItem {
+  padding: var(--spacings-small);
+  display: flex;
+  align-items: center;
+  display: flex;
+  gap: var(--spacings-small);
+}
+.listItem:not(:last-child) {
+  border-bottom: 1px solid var(--border-primary);
+}
+.listItem[aria-selected='true'],
+.listItem:hover {
+  background-color: var(--interactive-interactive_2-active-background);
+}
+
+.itemIcon {
+  padding: var(--spacings-small);
+}
+.itemIcon img {
+  display: block;
+  height: 1.25rem;
+}
+.itemLocality {
+  composes: itemLocality from search;
+  margin-left: var(--spacings-small);
 }
 
 .popupContainer {
