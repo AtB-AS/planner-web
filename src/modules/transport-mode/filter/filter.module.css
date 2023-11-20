@@ -24,7 +24,7 @@
   padding: var(--spacings-xSmall) var(--spacings-medium);
   border-radius: var(--border-radius-circle);
   border: 1px solid var(--static-background-background_0-background);
-  color: var(--text-colors-primary);
+  color: var(--static-background-background_accent_0-text);
   transition: border-color 150ms, background-color 150ms;
   cursor: pointer;
   display: flex;
@@ -57,6 +57,7 @@
 .transportMode input:hover ~ label {
   background-color: var(--static-background-background_1-background);
   border-color: var(--static-background-background_1-background);
+  color: var(--static-background-background_0-text);
 }
 
 .infoText {

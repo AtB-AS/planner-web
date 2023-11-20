@@ -7,6 +7,8 @@ import { Typo } from '@atb/components/typography';
 import { getTransportModeIcon } from '../icon';
 import { filterOptionsWithTransportModes, setAllValues } from './utils';
 import { useTheme } from '@atb/modules/theme';
+import { TransportModeFilterOptionType } from '@atb-as/config-specs';
+import { ChangeEventHandler, useState } from 'react';
 
 type TransportModeFilterProps = {
   filterState: TransportModeFilterState;
@@ -18,7 +20,6 @@ export default function TransportModeFilter({
   onFilterChange,
 }: TransportModeFilterProps) {
   const { t, language } = useTranslation();
-  const { isDarkMode } = useTheme();
 
   return (
     <div className={style.container}>
@@ -44,36 +45,18 @@ export default function TransportModeFilter({
           const option =
             filterOptionsWithTransportModes[key as TransportModeFilterOption];
 
-          const text = getTextForLanguage(option.text, language);
-
           return (
             <li key={option.id} className={style.transportMode}>
-              <div>
-                <input
-                  type="checkbox"
-                  id={option.id}
-                  name={option.id}
-                  value={option.id}
-                  checked={selected}
-                  onChange={(event) => {
-                    onFilterChange({
-                      ...filterState,
-                      [key]: event.target.checked,
-                    });
-                  }}
-                  aria-labelledby={`label-${option.id}`}
-                />
-                <label htmlFor={option.id} aria-hidden>
-                  <MonoIcon
-                    icon={getTransportModeIcon({
-                      mode: option.icon?.transportMode,
-                      subMode: option.icon?.transportSubMode,
-                    })}
-                    overrideMode={selected && !isDarkMode ? 'light' : 'dark'}
-                  />
-                  <span id={`label-${option.id}`}>{text}</span>
-                </label>
-              </div>
+              <FilterCheckbox
+                option={option}
+                checked={selected}
+                onChange={(event) => {
+                  onFilterChange({
+                    ...filterState,
+                    [key]: event.target.checked,
+                  });
+                }}
+              />
 
               {option.description && (
                 <Typo.p textType="body__tertiary" className={style.infoText}>
@@ -84,6 +67,49 @@ export default function TransportModeFilter({
           );
         })}
       </ul>
+    </div>
+  );
+}
+
+type FilterCheckboxProps = {
+  option: TransportModeFilterOptionType;
+  checked: boolean;
+  onChange: ChangeEventHandler<HTMLInputElement>;
+};
+
+function FilterCheckbox({ option, checked, onChange }: FilterCheckboxProps) {
+  const { language } = useTranslation();
+  const { isDarkMode } = useTheme();
+  const [isHovering, setIsHovering] = useState(false);
+
+  const text = getTextForLanguage(option.text, language);
+
+  return (
+    <div
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
+    >
+      <input
+        type="checkbox"
+        id={option.id}
+        name={option.id}
+        value={option.id}
+        checked={checked}
+        onChange={onChange}
+        aria-labelledby={`label-${option.id}`}
+      />
+      <label htmlFor={option.id} aria-hidden>
+        <MonoIcon
+          icon={getTransportModeIcon({
+            mode: option.icon?.transportMode,
+            subMode: option.icon?.transportSubMode,
+          })}
+          overrideMode={
+            (checked || isHovering) && !isDarkMode ? 'light' : 'dark'
+          }
+        />
+        <span id={`label-${option.id}`}>{text}</span>
+      </label>
     </div>
   );
 }

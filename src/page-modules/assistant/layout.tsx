@@ -184,11 +184,9 @@ function AssistantLayout({
           <Button
             title={t(PageText.Assistant.search.buttons.alternatives.title)}
             className={style.button}
-            mode="interactive_1"
+            mode="interactive_2"
             onClick={() => setShowAlternatives(!showAlternatives)}
-            icon={{
-              right: <MonoIcon icon="actions/Adjust" overrideMode="dark" />,
-            }}
+            icon={{ right: <MonoIcon icon="actions/Adjust" /> }}
           />
 
           <Button
