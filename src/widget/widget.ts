@@ -1,8 +1,10 @@
 import type { AutocompleteApiReturnType } from '@atb/page-modules/departures/client';
 import type { GeocoderFeature } from '@atb/page-modules/departures';
-import style from './widget.module.css';
+import type { SearchTime } from '@atb/modules/search-time/types';
 
 import Combobox from '@github/combobox-nav';
+
+import style from './widget.module.css';
 
 const URL_BASE = import.meta.env.VITE_WIDGET_BASE_URL;
 
@@ -80,7 +82,12 @@ const searchTime = html`
   </div>
 `;
 const assistant = html`
-  <form class="${style.form}" action="/assistant" method="get">
+  <form
+    class="${style.form}"
+    action="${URL_BASE}/assistant"
+    id="pw-form-assistant"
+    method="get"
+  >
     <div class="${style.main}">
       <div class="${style.inputBoxes}">
         <p class="${style.heading}">Hvor vil du reise?</p>
@@ -108,7 +115,13 @@ const assistant = html`
                 name="from"
                 value=""
               />
-              <ul id="from-popup-1" class="${style.popupContainer}" hidden></ul>
+              <ul
+                id="from-popup-1"
+                role="listbox"
+                aria-labelledby="pw-from-1-label"
+                class="${style.popupContainer}"
+                hidden
+              ></ul>
             </pw-autocomplete>
           </div>
           <button
@@ -118,25 +131,19 @@ const assistant = html`
             type="button"
           >
             <img
-              src="/assets/mono/light/places/City.svg"
+              src="${URL_BASE}/assets/mono/light/places/City.svg"
               width="20"
               height="20"
               role="none"
               alt=""
             />
           </button>
-          <ul
-            class="search_menu__b2MHL"
-            role="listbox"
-            aria-labelledby="downshift-3-label"
-            id="downshift-3-menu"
-          ></ul>
         </div>
         <div class="${style.search_container}">
           <label
             class="${style.search_label}"
-            for="downshift-3-input"
-            id="downshift-3-label"
+            for="pw-to-1-input"
+            id="pw-to-1-label"
             >Til</label
           >
           <div
@@ -144,27 +151,27 @@ const assistant = html`
             role="combobox"
             aria-expanded="false"
             aria-haspopup="listbox"
-            aria-labelledby="downshift-3-label"
+            aria-labelledby="pw-to-1-label"
           >
             <pw-autocomplete for="to-popup-1">
               <input
                 class="${style.search_input} ${style.search_inputLast}"
                 aria-autocomplete="list"
-                aria-labelledby="downshift-3-label"
+                aria-labelledby="pw-to-1-label"
                 autocomplete="off"
-                id="downshift-3-input"
+                id="pw-to-1-input"
                 name="to"
                 value=""
               />
-              <ul id="to-popup-1" class="${style.popupContainer}" hidden></ul>
+              <ul
+                id="to-popup-1"
+                role="listbox"
+                aria-labelledby="pw-to-1-label"
+                class="${style.popupContainer}"
+                hidden
+              ></ul>
             </pw-autocomplete>
           </div>
-          <ul
-            class="search_menu__b2MHL"
-            role="listbox"
-            aria-labelledby="downshift-3-label"
-            id="downshift-3-menu"
-          ></ul>
         </div>
       </div>
       ${searchTime}
@@ -173,15 +180,20 @@ const assistant = html`
   </form>
 `;
 const departures = html`
-  <form class="${style.form}">
+  <form
+    class="${style.form}"
+    action="${URL_BASE}/departures"
+    id="pw-form-departures"
+    method="get"
+  >
     <div class="${style.main}">
       <div class="${style.inputBoxes}">
         <p class="${style.heading}">Hvor vil du reise?</p>
         <div class="${style.search_container}">
           <label
             class="${style.search_label}"
-            for="downshift-3-input"
-            id="downshift-3-label"
+            for="pw-from-2-input"
+            id="pw-from-2-label"
             >Fra</label
           >
           <div
@@ -189,16 +201,26 @@ const departures = html`
             role="combobox"
             aria-expanded="false"
             aria-haspopup="listbox"
-            aria-labelledby="downshift-3-label"
+            aria-labelledby="pw-from-2-label"
           >
-            <input
-              class="${style.search_input}"
-              aria-autocomplete="list"
-              aria-labelledby="downshift-3-label"
-              autocomplete="off"
-              id="downshift-3-input"
-              value=""
-            />
+            <pw-autocomplete for="to-popup-2">
+              <input
+                class="${style.search_input}"
+                aria-autocomplete="list"
+                aria-labelledby="pw-from-1-label"
+                autocomplete="off"
+                name="from"
+                id="pw-from-2-input"
+                value=""
+              />
+              <ul
+                id="to-popup-2"
+                role="listbox"
+                aria-labelledby="pw-from-2-label"
+                class="${style.popupContainer}"
+                hidden
+              ></ul>
+            </pw-autocomplete>
           </div>
           <button
             class="${style.button_geolocation}"
@@ -207,19 +229,13 @@ const departures = html`
             type="button"
           >
             <img
-              src="/assets/mono/light/places/City.svg"
+              src="${URL_BASE}/assets/mono/light/places/City.svg"
               width="20"
               height="20"
               role="none"
               alt=""
             />
           </button>
-          <ul
-            class="search_menu__b2MHL"
-            role="listbox"
-            aria-labelledby="downshift-3-label"
-            id="downshift-3-menu"
-          ></ul>
         </div>
       </div>
       ${searchTime}
@@ -250,17 +266,73 @@ export const output = html`
   </div>
 `;
 
+export function init() {
+  tabBar();
+
+  let fromTo = {
+    from: undefined as GeocoderFeature | undefined,
+    to: undefined as GeocoderFeature | undefined,
+  };
+
+  document.addEventListener('search-selected', function (event) {
+    const data = event as CustomEvent<SelectedSearchEvent>;
+    fromTo[data.detail.key] = data.detail.item;
+  });
+
+  document
+    .querySelector('#pw-form-departures')
+    ?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const form = e.currentTarget as HTMLFormElement;
+      submitDeparture(form.action, fromTo.from!);
+    });
+
+  document
+    .querySelector('#pw-form-assistant')
+    ?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const form = e.currentTarget as HTMLFormElement;
+      submitAssistant(form.action, fromTo.from!, fromTo.to);
+    });
+}
+
+function submitAssistant(
+  url: string,
+  from: GeocoderFeature,
+  to?: GeocoderFeature,
+) {
+  const query = createTripQueryForAssistant(
+    { from, to },
+    {
+      mode: 'now',
+    },
+  );
+
+  const params = new URLSearchParams(query);
+  window.location.href = `${url}?${params.toString()}`;
+}
+function submitDeparture(url: string, from: GeocoderFeature) {
+  const query = createTripQueryForDeparture(from, {
+    mode: 'now',
+  });
+
+  const params = new URLSearchParams(query);
+  window.location.href = `${url}?${params.toString()}`;
+}
+
 function tabBar() {
   document
     .querySelector<HTMLUListElement>('.js-tablist')
     ?.addEventListener('click', function (e) {
       const tab = (e.target as HTMLElement)?.closest('a');
-
       if (!tab) return;
+
       const href = tab.getAttribute('href');
       if (!href) return;
+
+      const mode = href.replace('/', '');
       e.preventDefault();
-      const tabpanel = document.querySelector(href.replace('/', '#pw-'));
+      const tabpanel = document.querySelector('#pw-' + mode);
       if (!tabpanel) return;
 
       // Hide all tabpanels
@@ -297,13 +369,10 @@ function debounce(func: Function, wait: number) {
   };
 }
 
-export function init() {
-  tabBar();
-
-  document.addEventListener('search-selected', function (event) {
-    console.log('Selected', event);
-  });
-}
+type SelectedSearchEvent = {
+  key: 'from' | 'to';
+  item?: GeocoderFeature;
+};
 
 class AutocompleteBox extends HTMLElement {
   private dataList: Record<string, GeocoderFeature> = {};
@@ -392,12 +461,15 @@ class AutocompleteBox extends HTMLElement {
       const itemId = (event.target as HTMLElement).getAttribute(
         'data-feature-id',
       );
+      const item = itemId ? self.getItem(itemId) : undefined;
+      input.value = item ? `${item.name}, ${item.locality}` : input.value;
       document.dispatchEvent(
         new CustomEvent('search-selected', {
           bubbles: true,
           detail: {
+            mode: 'assistant',
             key: input.name,
-            item: itemId ? self.getItem(itemId) : undefined,
+            item,
           },
         }),
       );
@@ -538,4 +610,69 @@ function mapLocationCategoryToVenueType(
     default:
       return 'unknown';
   }
+}
+
+function featuresToFromToQuery(from: GeocoderFeature, to?: GeocoderFeature) {
+  const toFlattened = to
+    ? {
+        toId: to.id,
+        toLon: to.geometry.coordinates[0].toString(),
+        toLat: to.geometry.coordinates[1].toString(),
+        toLayer: to.layer as string,
+      }
+    : undefined;
+  return {
+    fromId: from.id,
+    fromLon: from.geometry.coordinates[0].toString(),
+    fromLat: from.geometry.coordinates[1].toString(),
+    fromLayer: from.layer as string,
+    ...toFlattened,
+  };
+}
+
+function createTripQueryForAssistant(
+  fromTo: { from: GeocoderFeature; to?: GeocoderFeature },
+  searchTime: SearchTime,
+): Record<string, string> {
+  const searchTimeQuery: Record<string, string> =
+    searchTime.mode !== 'now'
+      ? {
+          searchMode: searchTime.mode,
+          searchTime: searchTime.dateTime.toString(),
+        }
+      : { searchMode: searchTime.mode };
+  const fromToQuery: Record<string, string> = featuresToFromToQuery(
+    fromTo.from,
+    fromTo.to,
+  );
+
+  return {
+    ...searchTimeQuery,
+    ...fromToQuery,
+  };
+}
+function createTripQueryForDeparture(
+  from: GeocoderFeature,
+  searchTime: SearchTime,
+): Record<string, string> {
+  const searchTimeQuery: Record<string, string> =
+    searchTime.mode !== 'now'
+      ? {
+          searchMode: searchTime.mode,
+          searchTime: searchTime.dateTime.toString(),
+        }
+      : { searchMode: searchTime.mode };
+
+  if (from.layer == 'venue') {
+    return {
+      ...searchTimeQuery,
+      id: from.id,
+    };
+  }
+
+  return {
+    ...searchTimeQuery,
+    lon: from.geometry.coordinates[0].toString(),
+    lat: from.geometry.coordinates[1].toString(),
+  };
 }

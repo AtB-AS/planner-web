@@ -13,6 +13,7 @@ mkdir -p dist/$NEXT_PUBLIC_PLANNER_ORG_ID
 echo "Running yarn setup && yarn build for $NEXT_PUBLIC_PLANNER_ORG_ID"
 yarn setup
 yarn build
+yarn build:widget
 
 echo "Moving the output into the dist directory"
 mv .next/standalone dist/$NEXT_PUBLIC_PLANNER_ORG_ID
