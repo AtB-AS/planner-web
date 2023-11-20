@@ -14,7 +14,7 @@ query nearestStopPlaces(
     after: $after
     filterByInUse: true
     filterByPlaceTypes: stopPlace
-    multiModalMode: parent,
+    multiModalMode: parent
     filterByModes: $transportModes
   ) {
     pageInfo {
@@ -35,6 +35,9 @@ query nearestStopPlaces(
               publicCode
               stopPlace {
                 id
+              }
+              situations {
+                ...situation
               }
             }
             transportMode

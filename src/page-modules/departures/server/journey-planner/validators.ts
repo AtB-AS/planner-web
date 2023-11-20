@@ -26,8 +26,11 @@ export const departureSchema = z.object({
   date: z.string(),
   aimedDepartureTime: z.string(),
   expectedDepartureTime: z.string(),
+  cancelled: z.boolean(),
   transportMode: transportModeSchema.optional(),
   transportSubmode: transportSubmodeSchema.optional(),
+  notices: z.array(noticeSchema),
+  situations: z.array(situationSchema),
 });
 
 export const quaySchema = z.object({
@@ -36,6 +39,7 @@ export const quaySchema = z.object({
   id: z.string(),
   description: z.string().nullable(),
   departures: z.array(departureSchema),
+  situations: z.array(situationSchema),
 });
 
 export const departureDataSchema = z.object({
@@ -44,7 +48,9 @@ export const departureDataSchema = z.object({
 });
 
 const stopPlaceWithDistance = z.object({
-  stopPlace: stopPlaceSchema,
+  stopPlace: stopPlaceSchema.extend({
+    situations: z.array(situationSchema),
+  }),
   distance: z.number(),
 });
 

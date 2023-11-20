@@ -1,7 +1,7 @@
 query stopPlaceQuayDepartures(
   $id: String!
   $numberOfDepartures: Int
-  $startTime: DateTime,
+  $startTime: DateTime
   $transportModes: [TransportMode]
 ) {
   stopPlace(id: $id) {
@@ -43,7 +43,24 @@ query stopPlaceQuayDepartures(
             transportMode
             transportSubmode
           }
+          journeyPattern {
+            notices {
+              ...notice
+            }
+          }
+          notices {
+            ...notice
+          }
         }
+        situations {
+          ...situation
+        }
+        notices {
+          ...notice
+        }
+      }
+      situations {
+        ...situation
       }
     }
   }

@@ -11,6 +11,7 @@ import { useRouter } from 'next/router';
 import VenueIcon, { FeatureCategory } from '@atb/components/venue-icon';
 import { PageText, useTranslation } from '@atb/translations';
 import EmptySearchResults from '@atb/components/empty-search-results';
+import { SituationOrNoticeIcon } from '@atb/modules/situations';
 
 export type NearestStopPlacesProps = {
   activeLocation: GeocoderFeature | undefined;
@@ -96,11 +97,12 @@ export default function StopPlaceItem({ item }: StopPlaceItemProps) {
         </Typo.span>
       </div>
 
-      <VenueIcon
-        category={[FeatureCategory.BUS_STATION]}
-        size="large"
-        className={style.stopPlaceItem__icon}
-      />
+      <div className={style.stopPlaceItem__icon}>
+        {item.stopPlace.situations.length > 0 && (
+          <SituationOrNoticeIcon situations={item.stopPlace.situations} />
+        )}
+        <VenueIcon category={[FeatureCategory.BUS_STATION]} size="large" />
+      </div>
     </Link>
   );
 }

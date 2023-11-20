@@ -89,21 +89,18 @@
   display: flex;
   gap: var(--spacings-medium);
   align-items: center;
+  position: relative;
 }
-.lineChip {
-  min-width: 4.125rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--spacings-xSmall);
-  padding: var(--spacings-small);
-  border-radius: var(--spacings-small);
-}
-.lineChip__publicCode {
-  text-align: right;
+.situationIcon {
+  position: absolute;
+  top: calc(var(--spacings-small) * -1);
+  left: calc(var(--spacings-small) * -1);
 }
 .departureTime {
   text-align: right;
+}
+.departureTime__cancelled {
+  text-decoration: line-through;
 }
 
 @media only screen and (max-width: 650px) {

@@ -15,6 +15,7 @@ export const departureDataFixture: DepartureData = {
       id: 'NSR:Quay:71184',
       publicCode: 'P1',
       description: 'ved Bunnpris',
+      situations: [],
       departures: [
         {
           id: 'ATB:ServiceJourney:71_230306097870252_7024',
@@ -24,6 +25,9 @@ export const departureDataFixture: DepartureData = {
           aimedDepartureTime: '2023-10-08T20:50:00+02:00',
           transportMode: 'bus',
           publicCode: '71',
+          cancelled: false,
+          notices: [],
+          situations: [],
         },
         {
           id: 'ATB:ServiceJourney:25_230306097862768_7070',
@@ -33,6 +37,9 @@ export const departureDataFixture: DepartureData = {
           aimedDepartureTime: '2023-10-08T20:47:00+02:00',
           transportMode: 'bus',
           publicCode: '25',
+          cancelled: false,
+          notices: [],
+          situations: [],
         },
       ],
     },
@@ -41,6 +48,7 @@ export const departureDataFixture: DepartureData = {
       id: 'NSR:Quay:71181',
       publicCode: 'P2',
       description: 'ved AtB Kundesenter',
+      situations: [],
       departures: [
         {
           id: 'ATB:ServiceJourney:10_230905147222030_7096',
@@ -50,6 +58,9 @@ export const departureDataFixture: DepartureData = {
           aimedDepartureTime: '2023-10-08T20:54:00+02:00',
           transportMode: 'bus',
           publicCode: '10',
+          cancelled: false,
+          notices: [],
+          situations: [],
         },
         {
           id: 'ATB:ServiceJourney:20_230306097869036_7048',
@@ -59,6 +70,9 @@ export const departureDataFixture: DepartureData = {
           aimedDepartureTime: '2023-10-08T20:54:00+02:00',
           transportMode: 'bus',
           publicCode: '20',
+          cancelled: false,
+          notices: [],
+          situations: [],
         },
         {
           id: 'ATB:ServiceJourney:12_230306097866716_7048',
@@ -68,6 +82,9 @@ export const departureDataFixture: DepartureData = {
           aimedDepartureTime: '2023-10-08T20:56:00+02:00',
           transportMode: 'bus',
           publicCode: '12',
+          cancelled: false,
+          notices: [],
+          situations: [],
         },
       ],
     },

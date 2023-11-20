@@ -39,6 +39,7 @@ import {
   TransportMode as GraphQlTransportMode,
   PointsOnLink as GraphQlPointsOnLink,
 } from '@atb/modules/graphql-types';
+import { PtSituationElement as GraphQlSituation } from '@atb/modules/graphql-types';
 import {
   type TransportModeType,
   isTransportModeType,
@@ -53,6 +54,7 @@ import {
 import { formatISO } from 'date-fns';
 import polyline from '@mapbox/polyline';
 import haversineDistance from 'haversine-distance';
+import { Situation } from '@atb/modules/situations';
 
 export type DepartureInput = {
   id: string;
@@ -144,12 +146,17 @@ export function createJourneyApi(
           id: q.id,
           publicCode: q.publicCode,
           description: q.description,
+          situations:
+            q.situations?.map((situation) =>
+              mapGraphQlSituationToSituation(situation as GraphQlSituation),
+            ) ?? [],
           departures: q.estimatedCalls.map((e) => ({
             id: e.serviceJourney.id,
             name: e.destinationDisplay?.frontText,
             date: e.date,
             expectedDepartureTime: e.expectedDepartureTime,
             aimedDepartureTime: e.aimedDepartureTime,
+            cancelled: e.cancellation,
             transportMode: isTransportModeType(
               e.serviceJourney.line.transportMode,
             )
@@ -157,6 +164,10 @@ export function createJourneyApi(
               : undefined,
             transportSubmode: e.serviceJourney.line.transportSubmode,
             publicCode: e.serviceJourney.line.publicCode,
+            notices: [],
+            situations: e.situations.map((situation) =>
+              mapGraphQlSituationToSituation(situation as GraphQlSituation),
+            ),
           })),
         })),
       };
@@ -230,6 +241,11 @@ export function createJourneyApi(
             return acc;
           }
 
+          const situations =
+            edge.node.place.quays
+              ?.map((q) => q?.situations ?? ([] as GraphQlSituation[]))
+              ?.flat() ?? [];
+
           return acc.concat({
             stopPlace: {
               id: edge.node?.place.id,
@@ -241,6 +257,9 @@ export function createJourneyApi(
                 lat: edge.node?.place.latitude,
                 lon: edge.node?.place.longitude,
               },
+              situations: mapAndFilterDuplicateGraphQlSituations(
+                situations as GraphQlSituation[],
+              ),
             },
             distance: edge.node.distance,
           });
@@ -384,43 +403,9 @@ export function createJourneyApi(
                 text: notice.text,
               })) ?? [],
             situations:
-              estimatedCall.situations?.map((situation) => ({
-                id: situation.id,
-                situationNumber: situation.situationNumber ?? null,
-                reportType: situation.reportType ?? null,
-                summary: situation.summary
-                  .map((summary) => ({
-                    ...(summary.language ? { language: summary.language } : {}),
-                    value: summary.value ?? undefined,
-                  }))
-                  .filter((summary) => Boolean(summary.value)),
-                description: situation.description
-                  .map((description) => ({
-                    ...(description.language
-                      ? { language: description.language }
-                      : {}),
-                    value: description.value ?? undefined,
-                  }))
-                  .filter((description) => Boolean(description.value)),
-                advice: situation.advice
-                  .map((advice) => ({
-                    ...(advice.language ? { language: advice.language } : {}),
-                    value: advice.value ?? undefined,
-                  }))
-                  .filter((advice) => Boolean(advice.value)),
-                infoLinks: situation.infoLinks
-                  ? situation.infoLinks.map((infoLink) => ({
-                      uri: infoLink.uri,
-                      label: infoLink.label ?? null,
-                    }))
-                  : null,
-                validityPeriod: situation.validityPeriod
-                  ? {
-                      startTime: situation.validityPeriod.startTime ?? null,
-                      endTime: situation.validityPeriod.endTime ?? null,
-                    }
-                  : null,
-              })) ?? [],
+              estimatedCall.situations?.map((situation) =>
+                mapGraphQlSituationToSituation(situation as GraphQlSituation),
+              ) ?? [],
           }),
         ),
       };
@@ -495,3 +480,53 @@ const findIndex = (
     { index: -1, distance: 100 },
   ).index;
 };
+
+const mapAndFilterDuplicateGraphQlSituations = (
+  gqlSituations: GraphQlSituation[],
+) => {
+  const situations = gqlSituations.map((situation) =>
+    mapGraphQlSituationToSituation(situation),
+  );
+  const filteredSituations = situations.sort((n1, n2) =>
+    n1.id.localeCompare(n2.id),
+  );
+  return filteredSituations;
+};
+
+const mapGraphQlSituationToSituation = (
+  situation: GraphQlSituation,
+): Situation => ({
+  id: situation.id,
+  situationNumber: situation.situationNumber ?? null,
+  reportType: situation.reportType ?? null,
+  summary: situation.summary
+    .map((summary) => ({
+      ...(summary.language ? { language: summary.language } : {}),
+      value: summary.value ?? undefined,
+    }))
+    .filter((summary) => Boolean(summary.value)),
+  description: situation.description
+    .map((description) => ({
+      ...(description.language ? { language: description.language } : {}),
+      value: description.value ?? undefined,
+    }))
+    .filter((description) => Boolean(description.value)),
+  advice: situation.advice
+    .map((advice) => ({
+      ...(advice.language ? { language: advice.language } : {}),
+      value: advice.value ?? undefined,
+    }))
+    .filter((advice) => Boolean(advice.value)),
+  infoLinks: situation.infoLinks
+    ? situation.infoLinks.map((infoLink) => ({
+        uri: infoLink.uri,
+        label: infoLink.label ?? null,
+      }))
+    : null,
+  validityPeriod: situation.validityPeriod
+    ? {
+        startTime: situation.validityPeriod.startTime ?? null,
+        endTime: situation.validityPeriod.endTime ?? null,
+      }
+    : null,
+});

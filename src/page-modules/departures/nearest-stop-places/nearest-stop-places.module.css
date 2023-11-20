@@ -36,6 +36,9 @@
 }
 .stopPlaceItem__icon {
   margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--spacings-small);
 }
 
 .secondaryText {

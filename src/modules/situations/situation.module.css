@@ -1,6 +1,8 @@
 .container {
   display: flex;
   padding: var(--spacings-medium);
+}
+.borderRadius {
   border-radius: var(--border-radius-regular);
 }
 .content {

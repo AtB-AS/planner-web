@@ -7,12 +7,14 @@ type SituationOrNoticeIconProps = {
   accessibilityLabel?: string;
   notices?: Notice[];
   cancellation?: boolean;
+  className?: string;
 } & ({ situations: Situation[] } | { situation: Situation });
 
 export const SituationOrNoticeIcon = ({
   accessibilityLabel,
   notices,
   cancellation,
+  className,
   ...props
 }: SituationOrNoticeIconProps) => {
   const situations =
@@ -26,5 +28,7 @@ export const SituationOrNoticeIcon = ({
   );
   if (!icon) return null;
 
-  return <ColorIcon icon={icon} alt={accessibilityLabel} />;
+  return (
+    <ColorIcon className={className} icon={icon} alt={accessibilityLabel} />
+  );
 };
