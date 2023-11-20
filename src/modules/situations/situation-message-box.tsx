@@ -17,7 +17,7 @@ import { useRef } from 'react';
 import dictionary from '@atb/translations/dictionary';
 import { Situation as SituationTexts } from '@atb/translations/modules';
 import { formatToLongDateTime } from '@atb/utils/date';
-import { and } from '@atb/utils/css';
+import { andIf } from '@atb/utils/css';
 
 export type Props = {
   situation: Situation;
@@ -112,11 +112,12 @@ export const MessageBox = ({
     backgroundColor: staticColors['status'][type].background,
   };
 
-  const borderRadiusStyle = borderRadius ? style.borderRadius : '';
-
   return (
     <div
-      className={and(style.container, borderRadiusStyle)}
+      className={andIf({
+        [style.container]: true,
+        [style.borderRadius]: borderRadius,
+      })}
       style={backgroundColorStyle}
     >
       {!noStatusIcon && (
