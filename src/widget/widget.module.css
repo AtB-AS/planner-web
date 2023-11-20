@@ -26,7 +26,7 @@
   composes: override-light;
   background-color: var(--static-background-background_accent_0-background);
 }
-.container {
+.form {
   composes: container from assistant;
 }
 

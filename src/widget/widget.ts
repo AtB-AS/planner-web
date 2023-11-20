@@ -70,7 +70,10 @@ const searchTime = (withArriveBy: boolean = true) => html`
           ></label
         >
       </div>
-      <div class="${style.selector_dateAndTimeSelectorsWrapper} ">
+      <div
+        class="${style.selector_dateAndTimeSelectorsWrapper} js-search-date-details"
+        hidden
+      >
         <div class="${style.selector_dateAndTimeSelectors}">
           <div class="${style.selector_dateSelector}">
             <label for="searchTimeSelector-date">Dato</label
@@ -287,6 +290,15 @@ export function init() {
     fromTo[data.detail.key] = data.detail.item;
   });
 
+  document.querySelectorAll('[name=searchTimeSelector]').forEach(function (el) {
+    el.addEventListener('change', function (e) {
+      const input = e.currentTarget as HTMLInputElement;
+      const hidden = input.value === 'now';
+      document.querySelectorAll('.js-search-date-details').forEach((el) => {
+        (el as HTMLElement).hidden = hidden;
+      });
+    });
+  });
   document
     .querySelector('#pw-form-departures')
     ?.addEventListener('submit', (e) => {
