@@ -24,11 +24,15 @@ const buttons = html`
     </button>
   </div>
 `;
-const searchTime = html`
+const searchTime = (withArriveBy: boolean = true) => html`
   <div class="${style.inputBoxes}">
     <p class="${style.heading}">Når vil du reise?</p>
-    <div class="${style.selector_departureDateSelector}">
-      <div class="${style.selector_options}">
+    <div>
+      <div
+        class="${style.selector_options} ${!withArriveBy
+          ? style.selector_options__small
+          : ''}"
+      >
         <label class="${style.selector_option}"
           ><input
             type="radio"
@@ -40,17 +44,21 @@ const searchTime = html`
           /><span aria-hidden="true" class="${style.selector_option__label}"
             ><span class="${style.selector_option__text}">Nå</span></span
           ></label
-        ><label class="${style.selector_option}"
-          ><input
-            type="radio"
-            name="searchTimeSelector"
-            aria-label="Ankomst"
-            class="${style.selector_option__input}"
-            value="arriveBy"
-          /><span aria-hidden="true" class="${style.selector_option__label}"
-            ><span class="${style.selector_option__text}">Ankomst</span></span
-          ></label
-        ><label class="${style.selector_option}"
+        >${withArriveBy
+          ? html`<label class="${style.selector_option}"
+              ><input
+                type="radio"
+                name="searchTimeSelector"
+                aria-label="Ankomst"
+                class="${style.selector_option__input}"
+                value="arriveBy"
+              /><span aria-hidden="true" class="${style.selector_option__label}"
+                ><span class="${style.selector_option__text}"
+                  >Ankomst</span
+                ></span
+              ></label
+            >`
+          : ''}<label class="${style.selector_option}"
           ><input
             type="radio"
             name="searchTimeSelector"
@@ -174,7 +182,7 @@ const assistant = html`
           </div>
         </div>
       </div>
-      ${searchTime}
+      ${searchTime()}
     </div>
     ${buttons}
   </form>
@@ -238,7 +246,7 @@ const departures = html`
           </button>
         </div>
       </div>
-      ${searchTime}
+      ${searchTime(false)}
     </div>
     ${buttons}
   </form>

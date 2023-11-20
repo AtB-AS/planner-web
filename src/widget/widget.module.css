@@ -26,7 +26,7 @@
   composes: override-light;
   background-color: var(--static-background-background_accent_0-background);
 }
-.form {
+.container {
   composes: container from assistant;
 }
 
@@ -110,6 +110,10 @@
 
 .selector_options {
   composes: options from selector;
+}
+.selector_options__small {
+  composes: options from selector;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 .selector_option {
   composes: option from selector;
