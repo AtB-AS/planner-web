@@ -44,7 +44,7 @@ export function AppCookiesProvider({
   const darkmode = useCookie<boolean>(
     DARKMODE_COOKIE_NAME,
     initialCookies.darkmode ?? undefined,
-    (i) => i == true,
+    (i) => (typeof i === 'string' ? i === 'true' : i === true),
   );
 
   return (
