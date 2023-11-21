@@ -32,7 +32,7 @@ const outputCodeExample = html`<div id="planner-web"></div>
     document.querySelector('#planner-web').innerHTML = window.PlannerWeb.output;
   </script> `;
 
-const AssistantPage: NextPage<WidgetPageProps> = (props) => {
+const WidgetPage: NextPage<WidgetPageProps> = (props) => {
   const [isLoaded, setLoaded] = useState(false);
 
   const scripts = (str: string) => `<script src="${str}" />`;
@@ -109,6 +109,6 @@ const AssistantPage: NextPage<WidgetPageProps> = (props) => {
   );
 };
 
-export default AssistantPage;
+export default WidgetPage;
 
 export const getServerSideProps = withGlobalData();
