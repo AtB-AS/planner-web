@@ -1,28 +1,28 @@
-import type { GeocoderFeature } from '@atb/page-modules/departures';
-import { PageText, useTranslation } from '@atb/translations';
-import { FormEventHandler, PropsWithChildren, useState } from 'react';
-import Search from '@atb/components/search';
 import { Button } from '@atb/components/button';
-import style from './departures.module.css';
-import { useRouter } from 'next/router';
-import { Typo } from '@atb/components/typography';
-import {
-  TransportModeFilter,
-  filterToQueryString,
-  getInitialTransportModeFilter,
-  TransportModeFilterOption,
-} from '@atb/modules/transport-mode';
+import EmptySearch from '@atb/components/empty-search';
 import { MonoIcon } from '@atb/components/icon';
-import { FocusScope } from '@react-aria/focus';
+import Search from '@atb/components/search';
 import GeolocationButton from '@atb/components/search/geolocation-button';
-import { AnimatePresence, motion } from 'framer-motion';
-import React from 'react';
+import { Typo } from '@atb/components/typography';
 import {
   SearchTime,
   SearchTimeSelector,
   searchTimeToQueryString,
 } from '@atb/modules/search-time';
+import {
+  TransportModeFilter,
+  TransportModeFilterOption,
+  filterToQueryString,
+  getInitialTransportModeFilter,
+} from '@atb/modules/transport-mode';
+import type { GeocoderFeature } from '@atb/page-modules/departures';
+import { PageText, useTranslation } from '@atb/translations';
+import { FocusScope } from '@react-aria/focus';
+import { AnimatePresence, motion } from 'framer-motion';
+import { useRouter } from 'next/router';
 import { ParsedUrlQueryInput } from 'node:querystring';
+import { FormEventHandler, PropsWithChildren, useState } from 'react';
+import style from './departures.module.css';
 
 export type DeparturesLayoutProps = PropsWithChildren<{
   initialTransportModesFilter?: TransportModeFilterOption[] | null;
@@ -88,13 +88,6 @@ function DeparturesLayout({
     }
     setIsSearching(false);
   };
-
-  const hasEmptyChild = React.Children.toArray(children).some((child) => {
-    if (React.isValidElement(child)) {
-      return 'empty' in child.props;
-    }
-    return false;
-  });
 
   return (
     <div className={style.departuresPage}>
@@ -193,23 +186,12 @@ function DeparturesLayout({
       </form>
 
       <section className={style.contentContainer}>
-        {isSearching && hasEmptyChild ? (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className={style.isSearching}
-          >
-            <Typo.p textType="body__primary">
-              {selectedFeature?.layer === 'venue'
-                ? t(PageText.Departures.search.searching.stopPlace)
-                : t(PageText.Departures.search.searching.nearby)}
-            </Typo.p>
-          </motion.div>
-        ) : (
-          children
-        )}
+        <EmptySearch
+          isSearching={isSearching}
+          type={selectedFeature?.layer === 'venue' ? 'stopPlace' : 'nearby'}
+        >
+          {children}
+        </EmptySearch>
       </section>
     </div>
   );

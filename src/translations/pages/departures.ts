@@ -34,18 +34,6 @@ export const Departures = {
         title: _('Flere valg', 'More choices', 'Fleire val'),
       },
     },
-    searching: {
-      nearby: _(
-        'Laster holdeplasser...',
-        'Loading stop places...',
-        'Lastar haldeplassar...',
-      ),
-      stopPlace: _(
-        'Laster avganger...',
-        'Loading departures...',
-        'Lastar avgangar...',
-      ),
-    },
   },
 
   nearest: {
