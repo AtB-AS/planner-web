@@ -75,7 +75,7 @@ const AssistantPage: NextPage<WidgetPageProps> = (props) => {
             </p>
             <CopyMarkup content={initializeCode} />
 
-            <h3>Scripts (UMD / ESM)</h3>
+            <h3>HTML output</h3>
             <CopyMarkupLarge content={window.PlannerWeb.output} />
 
             <h3>Scripts (UMD / ESM)</h3>
