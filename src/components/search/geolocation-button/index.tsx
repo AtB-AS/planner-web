@@ -2,16 +2,31 @@ import { Component, useEffect, useState } from 'react';
 import { LoadingIcon } from '@atb/components/loading';
 import { reverse } from '@atb/page-modules/departures/client';
 import { GeocoderFeature } from '@atb/page-modules/departures';
-import { ComponentText, useTranslation } from '@atb/translations';
+import {
+  ComponentText,
+  TranslateFunction,
+  useTranslation,
+} from '@atb/translations';
 import { MonoIcon } from '@atb/components/icon';
 
 type GeolocationButtonProps = {
   onGeolocate: (feature: GeocoderFeature) => void;
+  onError?: (error: string | null) => void;
   className?: string;
 };
-function GeolocationButton({ onGeolocate, className }: GeolocationButtonProps) {
+function GeolocationButton({
+  onGeolocate,
+  onError,
+  className,
+}: GeolocationButtonProps) {
   const { t } = useTranslation();
-  const { getPosition, isLoading, isUnavailable } = useGeolocation(onGeolocate);
+  const { getPosition, isLoading, isUnavailable, error } =
+    useGeolocation(onGeolocate);
+
+  useEffect(() => {
+    if (error) onError?.(getErrorMessage(error.code, t));
+    else onError?.(null);
+  }, [error, onError, t]);
 
   if (isUnavailable) return null;
 
@@ -70,3 +85,15 @@ function useGeolocation(onSuccess: (feature: GeocoderFeature) => void) {
 }
 
 export default GeolocationButton;
+
+function getErrorMessage(code: number, t: TranslateFunction) {
+  switch (code) {
+    case GeolocationPositionError.PERMISSION_DENIED:
+      return t(ComponentText.GeolocationButton.error.denied);
+    case GeolocationPositionError.TIMEOUT:
+      return t(ComponentText.GeolocationButton.error.timeout);
+    case GeolocationPositionError.POSITION_UNAVAILABLE:
+    default:
+      return t(ComponentText.GeolocationButton.error.unavailable);
+  }
+}

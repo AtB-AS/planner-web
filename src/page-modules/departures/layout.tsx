@@ -50,6 +50,7 @@ function DeparturesLayout({
     getInitialTransportModeFilter(initialTransportModesFilter),
   );
   const [isSearching, setIsSearching] = useState(false);
+  const [geolocationError, setGeolocationError] = useState<string | null>(null);
 
   const onSubmitHandler: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
@@ -112,6 +113,7 @@ function DeparturesLayout({
                 <GeolocationButton
                   className={style.geolocationButton}
                   onGeolocate={setSelectedFeature}
+                  onError={setGeolocationError}
                 />
               }
             />
@@ -128,6 +130,13 @@ function DeparturesLayout({
               options={['now', 'departBy']}
             />
           </div>
+
+          {geolocationError !== null && (
+            <div className={style.geolocationError}>
+              <MonoIcon icon="status/Info" />
+              <Typo.p textType="body__primary">{geolocationError}</Typo.p>
+            </div>
+          )}
         </motion.div>
 
         <AnimatePresence initial={false}>

@@ -51,6 +51,7 @@ function AssistantLayout({
   );
   const [isSwapping, setIsSwapping] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
+  const [geolocationError, setGeolocationError] = useState<string | null>(null);
 
   const onSwap = async () => {
     if (!selectedToFeature || !selectedFromFeature) return;
@@ -108,6 +109,7 @@ function AssistantLayout({
                 <GeolocationButton
                   className={style.searchInputButton}
                   onGeolocate={setSelectedFromFeature}
+                  onError={setGeolocationError}
                 />
               }
             />
@@ -136,6 +138,13 @@ function AssistantLayout({
               onChange={setSearchTime}
             />
           </div>
+
+          {geolocationError !== null && (
+            <div className={style.geolocationError}>
+              <MonoIcon icon="status/Info" />
+              <Typo.p textType="body__primary">{geolocationError}</Typo.p>
+            </div>
+          )}
         </motion.div>
 
         <AnimatePresence initial={false}>

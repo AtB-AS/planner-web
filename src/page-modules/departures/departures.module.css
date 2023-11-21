@@ -44,6 +44,16 @@
   align-items: center;
 }
 
+.geolocationError {
+  background-color: var(--static-status-warning-background);
+  color: var(--static-status-warning-text);
+  padding: var(--spacings-medium);
+  grid-column: 1 / -1;
+  border-radius: var(--border-radius-regular);
+  display: flex;
+  gap: var(--spacings-small);
+}
+
 .alternativesWrapper {
   grid-area: alternatives;
   overflow: hidden;
@@ -67,8 +77,7 @@
   width: 100%;
   max-width: var(--maxPageWidth);
   margin: 0 auto;
-  padding: 0 var(--spacings-xLarge) var(--spacings-xLarge)
-    var(--spacings-xLarge);
+  padding: 0 var(--spacings-xLarge) var(--spacings-xLarge) var(--spacings-xLarge);
   z-index: 10;
   position: absolute;
   left: 0;
