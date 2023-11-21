@@ -12,6 +12,7 @@
     "start": "next start",
     "lint": "next lint",
     "clean-assets": "rimraf ./public/assets/",
+    "presetup": "rimraf ./next/",
     "setup": "generate-assets all $NEXT_PUBLIC_PLANNER_ORG_ID -o ./public/assets/ -ts -ts-o ./src/components/icon",
     "generate": "graphql-codegen",
     "prestart": "yarn generate",
