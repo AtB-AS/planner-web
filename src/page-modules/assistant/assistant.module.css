@@ -130,9 +130,3 @@
   flex-wrap: wrap;
   gap: var(--spacings-medium);
 }
-
-.isSearching {
-  padding: 2.5rem;
-  text-align: center;
-  color: var(--text-colors-secondary);
-}

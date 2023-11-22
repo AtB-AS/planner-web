@@ -23,7 +23,7 @@ import { Button } from '@atb/components/button';
 import { NonTransitTrip } from '../non-transit-pill';
 import { isSameDay } from 'date-fns';
 import { capitalize } from 'lodash';
-import EmptySearchResults from '@atb/components/empty-search-results';
+import EmptySearchResults from '@atb/components/empty-message';
 import TripPattern from './trip-pattern';
 import { SearchTime } from '@atb/modules/search-time';
 import {

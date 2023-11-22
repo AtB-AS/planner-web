@@ -1,22 +1,23 @@
-import type { GeocoderFeature } from '@atb/page-modules/departures';
-import { PageText, useTranslation } from '@atb/translations';
-import React, { FormEventHandler, PropsWithChildren, useState } from 'react';
-import Search, { GeolocationButton, SwapButton } from '@atb/components/search';
 import { Button } from '@atb/components/button';
-import style from './assistant.module.css';
-import { useRouter } from 'next/router';
-import { Typo } from '@atb/components/typography';
+import EmptySearch from '@atb/components/loading-empty-results';
 import { MonoIcon } from '@atb/components/icon';
-import { FocusScope } from '@react-aria/focus';
-import { createTripQuery } from './utils';
-import { AnimatePresence, motion } from 'framer-motion';
-import SearchTimeSelector from '@atb/modules/search-time/selector';
+import Search, { GeolocationButton, SwapButton } from '@atb/components/search';
+import { Typo } from '@atb/components/typography';
 import type { SearchTime } from '@atb/modules/search-time';
+import SearchTimeSelector from '@atb/modules/search-time/selector';
 import {
-  getInitialTransportModeFilter,
   TransportModeFilter,
+  getInitialTransportModeFilter,
   type TransportModeFilterOption,
 } from '@atb/modules/transport-mode';
+import type { GeocoderFeature } from '@atb/page-modules/departures';
+import { PageText, useTranslation } from '@atb/translations';
+import { FocusScope } from '@react-aria/focus';
+import { AnimatePresence, motion } from 'framer-motion';
+import { useRouter } from 'next/router';
+import { FormEventHandler, PropsWithChildren, useState } from 'react';
+import style from './assistant.module.css';
+import { createTripQuery } from './utils';
 
 export type AssistantLayoutProps = PropsWithChildren<{
   initialFromFeature?: GeocoderFeature;
@@ -83,13 +84,6 @@ function AssistantLayout({
     await router.push({ pathname: '/assistant', query });
     setIsSearching(false);
   };
-
-  const hasEmptyChild = React.Children.toArray(children).some((child) => {
-    if (React.isValidElement(child)) {
-      return 'empty' in child.props;
-    }
-    return false;
-  });
 
   return (
     <div>
@@ -201,21 +195,9 @@ function AssistantLayout({
       </form>
 
       <section className={style.contentContainer}>
-        {isSearching && hasEmptyChild ? (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className={style.isSearching}
-          >
-            <Typo.p textType="body__primary">
-              {t(PageText.Assistant.search.searching)}
-            </Typo.p>
-          </motion.div>
-        ) : (
-          children
-        )}
+        <EmptySearch isSearching={isSearching} type="trip">
+          {children}
+        </EmptySearch>
       </section>
     </div>
   );

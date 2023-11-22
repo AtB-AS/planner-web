@@ -36,11 +36,6 @@ export const Assistant = {
         title: _('Flere valg', 'More choices', 'Fleire val'),
       },
     },
-    searching: _(
-      'Laster reiseforslag...',
-      'Loading travel suggestions...',
-      'Lastar reiseforslag...',
-    ),
   },
   trip: {
     tripPattern: {

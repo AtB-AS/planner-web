@@ -10,7 +10,7 @@ import { Typo } from '@atb/components/typography';
 import { useRouter } from 'next/router';
 import VenueIcon, { FeatureCategory } from '@atb/components/venue-icon';
 import { PageText, useTranslation } from '@atb/translations';
-import EmptySearchResults from '@atb/components/empty-search-results';
+import EmptyMessage from '@atb/components/empty-message';
 import { SituationOrNoticeIcon } from '@atb/modules/situations';
 
 export type NearestStopPlacesProps = {
@@ -27,7 +27,7 @@ export function NearestStopPlaces({
 
   if (nearestStopPlaces.length === 0) {
     return (
-      <EmptySearchResults
+      <EmptyMessage
         title={t(
           PageText.Departures.nearest.emptySearchResults
             .emptyNearbyLocationsTitle,
