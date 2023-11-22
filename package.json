@@ -7,6 +7,7 @@
     "test": "vitest",
     "dev": "next dev",
     "build": "next build",
+    "build:widget": "yarn vite build ./src/widget --emptyOutDir",
     "build:all": "sh ./scripts/build.sh",
     "build:docker": "sh ./scripts/build-docker.sh",
     "start": "next start",
@@ -22,6 +23,7 @@
     "@apollo/client": "^3.8.4",
     "@atb-as/config-specs": "^3.6.1",
     "@atb-as/theme": "^7.1.1",
+    "@github/combobox-nav": "^2.3.0",
     "@leile/lobo-t": "^1.0.5",
     "@mapbox/polyline": "^1.2.1",
     "@react-aria/focus": "^3.14.2",
@@ -45,6 +47,7 @@
     "next-router-mock": "^0.9.10",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-syntax-highlighter": "^15.5.0",
     "swr": "^2.2.2",
     "typescript": "5.2.2",
     "uuid": "^9.0.1",
@@ -66,6 +69,7 @@
     "@types/lodash": "^4.14.198",
     "@types/mapbox-gl": "^2.7.14",
     "@types/mapbox__polyline": "^1.0.5",
+    "@types/react-syntax-highlighter": "^15.5.10",
     "@types/uuid": "^9.0.4",
     "@vitejs/plugin-react": "^4.0.4",
     "eslint": "8.49.0",
@@ -76,5 +80,11 @@
     "rimraf": "^5.0.1",
     "vite": "^4.4.9",
     "vitest": "^0.34.4"
+  },
+  "resolutions": {
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "@types/react": "18.2.21",
+    "@types/react-dom": "18.2.7"
   }
 }
