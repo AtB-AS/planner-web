@@ -425,7 +425,9 @@ class AutocompleteBox extends HTMLElement {
       '#' + this.getAttribute('for')!,
     )!;
 
-    let combobox = new Combobox(input, list);
+    let combobox = new Combobox(input, list, {
+      scrollIntoViewOptions: false,
+    });
 
     function toggleList(show?: boolean) {
       if (!show) {
@@ -450,21 +452,14 @@ class AutocompleteBox extends HTMLElement {
 
       toggleList(true);
     }, debounceTime);
-
     input.addEventListener('keydown', (event) => {
-      if (['ArrowDown', 'ArrowUp'].includes(event.key)) {
-        event.preventDefault();
-        toggleList(true);
-        combobox.navigate(event.key === 'ArrowDown' ? 1 : -1);
-      }
-
       if (event.key === 'Escape') {
         toggleList(false);
       }
     });
-    input.addEventListener('input', (e) => {
-      fetcher(e.target as HTMLInputElement);
-    });
+    input.addEventListener('input', (e) =>
+      fetcher(e.target as HTMLInputElement),
+    );
     input.addEventListener('focus', () => toggleList(true));
     input.addEventListener(
       'blur',
