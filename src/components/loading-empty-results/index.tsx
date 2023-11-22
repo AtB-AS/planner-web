@@ -1,22 +1,21 @@
 import { motion } from 'framer-motion';
-import { PropsWithChildren } from 'react';
-import { Image } from '@atb/components/icon';
-
-import style from './empty-search.module.css';
-import { Typo } from '../typography';
+import React, { PropsWithChildren } from 'react';
+import EmptyMessage from '@atb/components/empty-message';
+import { Typo } from '@atb/components/typography';
 import { ComponentText, useTranslation } from '@atb/translations';
-import React from 'react';
 
-export type EmptyLoadingSearchProps = PropsWithChildren<{
+import style from './loading-empty-results.module.css';
+
+export type LoadingEmptyResultsProps = PropsWithChildren<{
   isSearching: boolean;
   type: keyof typeof ComponentText.EmptySearch.searching;
 }>;
 
-export default function EmptyLoadingSearch({
+export default function LoadingEmptyResults({
   isSearching,
   type,
   children,
-}: EmptyLoadingSearchProps) {
+}: LoadingEmptyResultsProps) {
   const { t } = useTranslation();
 
   const hasEmptyChild = React.Children.toArray(children).some((child) => {
@@ -29,23 +28,10 @@ export default function EmptyLoadingSearch({
   return (
     <>
       {!isSearching && hasEmptyChild && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.3 }}
-          className={style.isSearching}
-        >
-          <Image
-            className={style.emptyImage}
-            image="EmptyIllustration"
-            role="none"
-            alt=""
-          />
-          <Typo.p textType="body__primary">
-            {t(ComponentText.EmptySearch.notSearched)}
-          </Typo.p>
-        </motion.div>
+        <EmptyMessage
+          title={t(ComponentText.EmptySearch.notSearched)}
+          details={t(ComponentText.EmptySearch.emptyDetails[type])}
+        />
       )}
       {isSearching && hasEmptyChild && (
         <motion.div

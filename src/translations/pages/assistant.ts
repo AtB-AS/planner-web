@@ -36,16 +36,6 @@ export const Assistant = {
         title: _('Flere valg', 'More choices', 'Fleire val'),
       },
     },
-    searching: _(
-      'Laster reiseforslag...',
-      'Loading travel suggestions...',
-      'Lastar reiseforslag...',
-    ),
-    notSearched: _(
-      'Du har ikke gjennomført et søk enda.',
-      'You have not created a search yet.',
-      'Du har ikkje gjennomført eit søk enno.',
-    ),
   },
   trip: {
     tripPattern: {

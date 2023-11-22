@@ -1,5 +1,5 @@
 import { Button } from '@atb/components/button';
-import EmptySearch from '@atb/components/empty-search';
+import LoadingEmptySearch from '@atb/components/loading-empty-results';
 import { MonoIcon } from '@atb/components/icon';
 import Search from '@atb/components/search';
 import GeolocationButton from '@atb/components/search/geolocation-button';
@@ -186,12 +186,12 @@ function DeparturesLayout({
       </form>
 
       <section className={style.contentContainer}>
-        <EmptySearch
+        <LoadingEmptySearch
           isSearching={isSearching}
           type={selectedFeature?.layer === 'venue' ? 'stopPlace' : 'nearby'}
         >
           {children}
-        </EmptySearch>
+        </LoadingEmptySearch>
       </section>
     </div>
   );

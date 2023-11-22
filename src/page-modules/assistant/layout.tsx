@@ -1,5 +1,5 @@
 import { Button } from '@atb/components/button';
-import EmptySearch from '@atb/components/empty-search';
+import EmptySearch from '@atb/components/loading-empty-results';
 import { MonoIcon } from '@atb/components/icon';
 import Search, { GeolocationButton, SwapButton } from '@atb/components/search';
 import { Typo } from '@atb/components/typography';

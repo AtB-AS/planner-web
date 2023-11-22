@@ -16,3 +16,11 @@
   gap: var(--spacings-xSmall);
   color: var(--text-colors-secondary);
 }
+
+.emptyImage {
+  display: block;
+  margin: 0 auto;
+  width: 90%;
+  max-width: 15rem;
+  min-width: 10rem;
+}
