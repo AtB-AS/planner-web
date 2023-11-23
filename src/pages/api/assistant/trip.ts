@@ -23,16 +23,10 @@ export default handlerWithAssistantClient<TripApiReturnType>({
       );
     }
 
-    const from = await client.reverse(
-      tripQuery.fromLat,
-      tripQuery.fromLon,
-      tripQuery.fromLayer,
-    );
-    const to = await client.reverse(
-      tripQuery.toLat,
-      tripQuery.toLon,
-      tripQuery.toLayer,
-    );
+    const [from, to] = await Promise.all([
+      client.reverse(tripQuery.fromLat, tripQuery.fromLon, tripQuery.fromLayer),
+      client.reverse(tripQuery.toLat, tripQuery.toLon, tripQuery.toLayer),
+    ]);
 
     const transportModeFilter = parseFilterQuery(tripQuery.filter);
     const searchTime = parseSearchTimeQuery(
