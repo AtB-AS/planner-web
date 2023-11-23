@@ -14,27 +14,6 @@ export const serviceJourneySchema = z.object({
     })
     .nullable(),
 });
-export const serviceJourneyEstimatedCallSchema = z.object({
-  actualDepartureTime: z.string(),
-  realtime: z.boolean(),
-  aimedDepartureTime: z.string(),
-  expectedDepartureTime: z.string(),
-  predictionInaccurate: z.boolean(),
-  quay: z.object({
-    name: z.string(),
-  }),
-});
-export const datedServiceJourneySchema = z.object({
-  estimatedCalls: z.array(
-    z.object({
-      actualDepartureTime: z.string(),
-      predictionInaccurate: z.boolean(),
-      quay: z.object({
-        name: z.string(),
-      }),
-    }),
-  ),
-});
 export const tariffZoneSchema = z.object({
   id: z.string(),
   name: z.string(),
@@ -114,10 +93,6 @@ export const legSchema = z.object({
     }),
   ),
   authority: z.object({ id: z.string() }).nullable(),
-  serviceJourneyEstimatedCalls: z
-    .array(serviceJourneyEstimatedCallSchema)
-    .nullable(),
-  datedServiceJourney: datedServiceJourneySchema.nullable(),
 });
 
 export const tripPatternSchema = z.object({

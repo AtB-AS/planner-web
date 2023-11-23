@@ -335,8 +335,6 @@ function mapResultToTrips(
                 id: leg.authority.id,
               }
             : null,
-          serviceJourneyEstimatedCalls: null,
-          datedServiceJourney: null,
         };
       }),
     })),

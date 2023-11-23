@@ -77,8 +77,6 @@ export const tripPatternFixture: TripPattern = {
       authority: {
         id: 'ATB:Authority:2',
       },
-      serviceJourneyEstimatedCalls: null,
-      datedServiceJourney: null,
     },
   ],
 };
