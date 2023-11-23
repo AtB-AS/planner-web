@@ -96,8 +96,6 @@ fragment trip on Trip {
   nextPageCursor
   previousPageCursor
   metadata {
-    nextDateTime
-    prevDateTime
     searchWindowUsed
   }
   tripPatterns {
@@ -109,7 +107,7 @@ fragment tripPattern on TripPattern {
   expectedStartTime
   expectedEndTime
   duration
-  walkDistance
+  streetDistance
   legs {
     mode
     distance

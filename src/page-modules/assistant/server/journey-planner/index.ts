@@ -216,7 +216,7 @@ function mapResultToTrips(
       expectedStartTime: tripPattern.expectedStartTime,
       expectedEndTime: tripPattern.expectedEndTime,
       duration: tripPattern.duration || 0,
-      walkDistance: tripPattern.walkDistance || 0,
+      walkDistance: tripPattern.streetDistance || 0,
       legs: tripPattern.legs.map((leg) => {
         return {
           mode: isTransportModeType(leg.mode) ? leg.mode : null,
