@@ -23,6 +23,7 @@ query Trips(
     walkSpeed: $walkSpeed
     modes: $modes
     numTripPatterns: $numTripPatterns
+    searchWindow: 540 # 9 hours
   ) {
     ...trip
   }

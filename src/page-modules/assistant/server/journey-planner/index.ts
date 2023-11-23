@@ -174,7 +174,7 @@ export function createJourneyApi(
         searchAttempt += 1;
       } while (
         searchAttempt <= MAX_NUMBER_OF_SEARCH_ATTEMPTS &&
-        trip.tripPatterns.length <= MIN_NUMBER_OF_TRIP_PATTERNS
+        trip.tripPatterns.length < MIN_NUMBER_OF_TRIP_PATTERNS
       );
 
       return trip;
