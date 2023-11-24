@@ -113,14 +113,10 @@ fragment tripPattern on TripPattern {
     distance
     duration
     aimedStartTime
-    aimedEndTime
     expectedEndTime
     expectedStartTime
     realtime
     line {
-      id
-      name
-      transportSubmode
       publicCode
       flexibleLineType
       notices {
@@ -128,15 +124,6 @@ fragment tripPattern on TripPattern {
       }
     }
     fromEstimatedCall {
-      aimedDepartureTime
-      expectedDepartureTime
-      destinationDisplay {
-        frontText
-      }
-      quay {
-        publicCode
-        name
-      }
       notices {
         ...notice
       }
@@ -146,49 +133,12 @@ fragment tripPattern on TripPattern {
     }
     fromPlace {
       name
-      longitude
-      latitude
       quay {
-        id
         publicCode
         name
-        longitude
-        latitude
-        stopPlace {
-          id
-          longitude
-          latitude
-          name
-        }
-        situations {
-          ...situation
-        }
-        tariffZones {
-          ...tariffZone
-        }
-      }
-    }
-    toPlace {
-      name
-      longitude
-      latitude
-      quay {
         id
-        publicCode
-        name
-        longitude
-        latitude
-        stopPlace {
-          id
-          longitude
-          latitude
-          name
-        }
         situations {
           ...situation
-        }
-        tariffZones {
-          ...tariffZone
         }
       }
     }
@@ -203,31 +153,7 @@ fragment tripPattern on TripPattern {
         }
       }
     }
-    interchangeTo {
-      toServiceJourney {
-        id
-      }
-      guaranteed
-    }
-    pointsOnLink {
-      points
-      length
-    }
-    intermediateEstimatedCalls {
-      quay {
-        name
-        id
-      }
-      date
-    }
-    authority {
-      id
-    }
     transportSubmode
-    bookingArrangements {
-      ...bookingArrangement
-    }
-    rentedBike
   }
 }
 
