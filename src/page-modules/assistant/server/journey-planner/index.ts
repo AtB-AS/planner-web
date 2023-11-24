@@ -174,7 +174,7 @@ export function createJourneyApi(
         searchAttempt += 1;
       } while (
         searchAttempt <= MAX_NUMBER_OF_SEARCH_ATTEMPTS &&
-        trip.tripPatterns.length <= MIN_NUMBER_OF_TRIP_PATTERNS
+        trip.tripPatterns.length < MIN_NUMBER_OF_TRIP_PATTERNS
       );
 
       return trip;
@@ -216,30 +216,21 @@ function mapResultToTrips(
       expectedStartTime: tripPattern.expectedStartTime,
       expectedEndTime: tripPattern.expectedEndTime,
       duration: tripPattern.duration || 0,
-      walkDistance: tripPattern.walkDistance || 0,
+      walkDistance: tripPattern.streetDistance || 0,
       legs: tripPattern.legs.map((leg) => {
         return {
           mode: isTransportModeType(leg.mode) ? leg.mode : null,
           distance: leg.distance,
           duration: leg.duration,
           aimedStartTime: leg.aimedStartTime,
-          aimedEndTime: leg.aimedEndTime,
           expectedEndTime: leg.expectedEndTime,
           expectedStartTime: leg.expectedStartTime,
           realtime: leg.realtime,
-          rentedBike: leg.rentedBike,
           transportSubmode: isTransportSubmodeType(leg.transportSubmode)
             ? leg.transportSubmode
             : null,
           line: leg.line
             ? {
-                id: leg.line.id,
-                name: leg.line.name ?? null,
-                transportSubmode: isTransportSubmodeType(
-                  leg.line.transportSubmode,
-                )
-                  ? leg.line.transportSubmode
-                  : null,
                 publicCode: leg.line.publicCode ?? null,
                 flexibleLineType: leg.line.flexibleLineType ?? null,
                 notices: mapNotices(leg.line.notices),
@@ -247,47 +238,18 @@ function mapResultToTrips(
             : null,
           fromEstimatedCall: leg.fromEstimatedCall
             ? {
-                aimedDepartureTime: leg.fromEstimatedCall.aimedDepartureTime,
-                expectedDepartureTime:
-                  leg.fromEstimatedCall.expectedDepartureTime,
-                destinationDisplay: leg.fromEstimatedCall.destinationDisplay
-                  ? {
-                      frontText:
-                        leg.fromEstimatedCall.destinationDisplay.frontText ??
-                        null,
-                    }
-                  : null,
-                quay: {
-                  publicCode: leg.fromEstimatedCall.quay.publicCode ?? null,
-                  name: leg.fromEstimatedCall.quay.name,
-                },
                 notices: mapNotices(leg.fromEstimatedCall.notices),
               }
             : null,
           situations: mapSituations(leg.situations),
           fromPlace: {
             name: leg.fromPlace.name ?? null,
-            longitude: leg.fromPlace.longitude,
-            latitude: leg.fromPlace.latitude,
             quay: leg.fromPlace.quay
               ? {
                   publicCode: leg.fromPlace.quay.publicCode ?? null,
                   name: leg.fromPlace.quay.name,
                   id: leg.fromPlace.quay.id,
                   situations: mapSituations(leg.fromPlace.quay.situations),
-                }
-              : null,
-          },
-          toPlace: {
-            name: leg.toPlace.name ?? null,
-            longitude: leg.toPlace.longitude,
-            latitude: leg.toPlace.latitude,
-            quay: leg.toPlace.quay
-              ? {
-                  publicCode: leg.toPlace.quay.publicCode ?? null,
-                  name: leg.toPlace.quay.name,
-                  id: leg.toPlace.quay.id,
-                  situations: mapSituations(leg.toPlace.quay.situations),
                 }
               : null,
           },
@@ -304,39 +266,6 @@ function mapResultToTrips(
                   : null,
               }
             : null,
-          interchangeTo: leg.interchangeTo
-            ? {
-                guaranteed: leg.interchangeTo?.guaranteed ?? false,
-                toServiceJourney: leg.interchangeTo.toServiceJourney?.id
-                  ? {
-                      id: leg.interchangeTo.toServiceJourney.id,
-                    }
-                  : null,
-              }
-            : null,
-          pointsOnLink:
-            leg.pointsOnLink?.points && leg.pointsOnLink?.length
-              ? {
-                  points: leg.pointsOnLink.points,
-                  length: leg.pointsOnLink.length,
-                }
-              : null,
-          intermediateEstimatedCalls: leg.intermediateEstimatedCalls.map(
-            (intermediateEstimatedCall) => ({
-              date: intermediateEstimatedCall.date,
-              quay: {
-                id: intermediateEstimatedCall.quay.id,
-                name: intermediateEstimatedCall.quay.name,
-              },
-            }),
-          ),
-          authority: leg.authority?.id
-            ? {
-                id: leg.authority.id,
-              }
-            : null,
-          serviceJourneyEstimatedCalls: null,
-          datedServiceJourney: null,
         };
       }),
     })),

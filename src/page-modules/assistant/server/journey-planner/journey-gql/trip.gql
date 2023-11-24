@@ -23,6 +23,7 @@ query Trips(
     walkSpeed: $walkSpeed
     modes: $modes
     numTripPatterns: $numTripPatterns
+    searchWindow: 540 # 9 hours
   ) {
     ...trip
   }
@@ -95,8 +96,6 @@ fragment trip on Trip {
   nextPageCursor
   previousPageCursor
   metadata {
-    nextDateTime
-    prevDateTime
     searchWindowUsed
   }
   tripPatterns {
@@ -108,20 +107,16 @@ fragment tripPattern on TripPattern {
   expectedStartTime
   expectedEndTime
   duration
-  walkDistance
+  streetDistance
   legs {
     mode
     distance
     duration
     aimedStartTime
-    aimedEndTime
     expectedEndTime
     expectedStartTime
     realtime
     line {
-      id
-      name
-      transportSubmode
       publicCode
       flexibleLineType
       notices {
@@ -129,15 +124,6 @@ fragment tripPattern on TripPattern {
       }
     }
     fromEstimatedCall {
-      aimedDepartureTime
-      expectedDepartureTime
-      destinationDisplay {
-        frontText
-      }
-      quay {
-        publicCode
-        name
-      }
       notices {
         ...notice
       }
@@ -147,49 +133,12 @@ fragment tripPattern on TripPattern {
     }
     fromPlace {
       name
-      longitude
-      latitude
       quay {
-        id
         publicCode
         name
-        longitude
-        latitude
-        stopPlace {
-          id
-          longitude
-          latitude
-          name
-        }
-        situations {
-          ...situation
-        }
-        tariffZones {
-          ...tariffZone
-        }
-      }
-    }
-    toPlace {
-      name
-      longitude
-      latitude
-      quay {
         id
-        publicCode
-        name
-        longitude
-        latitude
-        stopPlace {
-          id
-          longitude
-          latitude
-          name
-        }
         situations {
           ...situation
-        }
-        tariffZones {
-          ...tariffZone
         }
       }
     }
@@ -204,50 +153,7 @@ fragment tripPattern on TripPattern {
         }
       }
     }
-    interchangeTo {
-      toServiceJourney {
-        id
-      }
-      guaranteed
-    }
-    pointsOnLink {
-      points
-      length
-    }
-    intermediateEstimatedCalls {
-      quay {
-        name
-        id
-      }
-      date
-    }
-    authority {
-      id
-    }
     transportSubmode
-    serviceJourneyEstimatedCalls {
-      actualDepartureTime
-      realtime
-      aimedDepartureTime
-      expectedDepartureTime
-      quay {
-        name
-      }
-      predictionInaccurate
-    }
-    bookingArrangements {
-      ...bookingArrangement
-    }
-    datedServiceJourney {
-      estimatedCalls {
-        actualDepartureTime
-        quay {
-          name
-        }
-        predictionInaccurate
-      }
-    }
-    rentedBike
   }
 }
 

@@ -50,16 +50,18 @@ export const getServerSideProps = withGlobalData(
     async function ({ client, query }) {
       const tripQuery = parseTripQuery(query);
       if (tripQuery) {
-        const from = await client.reverse(
-          tripQuery.fromLat,
-          tripQuery.fromLon,
-          tripQuery.fromLayer,
-        );
-        const to = await client.reverse(
-          tripQuery.toLat,
-          tripQuery.toLon,
-          tripQuery.toLayer,
-        );
+        const [from, to] = await Promise.all([
+          client.reverse(
+            tripQuery.fromLat,
+            tripQuery.fromLon,
+            tripQuery.fromLayer,
+          ),
+          await client.reverse(
+            tripQuery.toLat,
+            tripQuery.toLon,
+            tripQuery.toLayer,
+          ),
+        ]);
         const transportModeFilter = parseFilterQuery(tripQuery.filter);
 
         const searchTime = parseSearchTimeQuery(
@@ -68,20 +70,21 @@ export const getServerSideProps = withGlobalData(
         );
 
         if (from && to) {
-          const trip = await client.trip({
-            from,
-            to,
-            searchTime,
-            transportModes:
-              getAllTransportModesFromFilterOptions(transportModeFilter),
-          });
-
-          const nonTransitTrips = await client.nonTransitTrips({
-            from,
-            to,
-            searchTime,
-            directModes: [StreetMode.Foot, StreetMode.Bicycle],
-          });
+          const [trip, nonTransitTrips] = await Promise.all([
+            client.trip({
+              from,
+              to,
+              searchTime,
+              transportModes:
+                getAllTransportModesFromFilterOptions(transportModeFilter),
+            }),
+            client.nonTransitTrips({
+              from,
+              to,
+              searchTime,
+              directModes: [StreetMode.Foot, StreetMode.Bicycle],
+            }),
+          ]);
 
           return {
             props: {
