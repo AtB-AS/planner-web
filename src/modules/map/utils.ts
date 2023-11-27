@@ -1,0 +1,93 @@
+import { MapboxGeoJSONFeature } from 'mapbox-gl';
+import { mapboxData } from '@atb/modules/org-data';
+import { MapLegType, Position } from './types';
+import haversineDistance from 'haversine-distance';
+import { PointsOnLink as GraphQlPointsOnLink } from '@atb/modules/graphql-types';
+import {
+  TransportModeType,
+  TransportSubmodeType,
+} from '@atb/modules/transport-mode';
+import polyline from '@mapbox/polyline';
+export const ZOOM_LEVEL = 16.5;
+export const INTERACTIVE_LAYERS = [
+  'airport.nsr.api',
+  'boat.nsr.api',
+  'bus.nsr.api',
+  'bus.tram.nsr.api',
+  'bussterminal.nsr.api',
+  'ferjekai.nsr.api',
+  'metro.nsr.api',
+  'metro.tram.nsr.api',
+  'railway.nsr.api',
+  'tram.nsr.api',
+];
+
+export const defaultPosition: Position = {
+  lon: mapboxData.defaultLng,
+  lat: mapboxData.defaultLat,
+};
+
+export const isFeaturePoint = (
+  f: MapboxGeoJSONFeature,
+): f is MapboxGeoJSONFeature => f.geometry.type === 'Point';
+
+export const isStopPlace = (
+  f: MapboxGeoJSONFeature,
+): f is MapboxGeoJSONFeature => f.properties?.entityType == 'StopPlace';
+
+export const mapToMapLegs = (
+  pointsOnLink: GraphQlPointsOnLink | undefined,
+  transportMode: TransportModeType,
+  transportSubmode: TransportSubmodeType | undefined,
+  fromStopPlace?: { latitude?: number; longitude?: number },
+  toStopPlace?: { latitude?: number; longitude?: number },
+) => {
+  if (!pointsOnLink || !pointsOnLink.points) return [];
+  const points = polyline.decode(pointsOnLink.points);
+  const fromCoordinates: [number, number] = [
+    fromStopPlace?.latitude ?? 0,
+    fromStopPlace?.longitude ?? 0,
+  ];
+  const toCoordinates: [number, number] | undefined = toStopPlace
+    ? [toStopPlace?.latitude ?? 0, toStopPlace?.longitude ?? 0]
+    : undefined;
+
+  const mainStartIndex = findIndex(points, fromCoordinates);
+  const mainEndIndex = toCoordinates
+    ? findIndex(points, toCoordinates)
+    : points.length - 1;
+
+  const beforeLegCoords = points.slice(0, mainStartIndex + 1);
+  const mainLegCoords = points.slice(mainStartIndex, mainEndIndex + 1);
+  const afterLegCoords = points.slice(mainEndIndex);
+
+  const toMapLeg = (item: [number, number][], faded: boolean) => {
+    return {
+      transportMode,
+      transportSubmode,
+      faded,
+      points: item,
+    };
+  };
+
+  const mapLegs: MapLegType[] = [
+    toMapLeg(beforeLegCoords, true),
+    toMapLeg(mainLegCoords, false),
+    toMapLeg(afterLegCoords, true),
+  ];
+
+  return mapLegs;
+};
+
+const findIndex = (
+  array: [number, number][],
+  quayCoords: [number, number],
+): number => {
+  return array.reduce(
+    (closest, t, index) => {
+      const distance = haversineDistance(t, quayCoords);
+      return distance < closest.distance ? { index, distance } : closest;
+    },
+    { index: -1, distance: 100 },
+  ).index;
+};
