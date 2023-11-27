@@ -19,7 +19,11 @@ export function AssistantDetails({ tripPattern }: AssistantDetailsProps) {
       <div className={style.headerContainer}>
         <ButtonLink
           mode="transparent"
-          href="/assistant" // @TODO: Use correct href.
+          href="/assistant"
+          onClick={(e) => {
+            e.preventDefault();
+            history.back();
+          }
           title={t(PageText.Assistant.details.header.backLink)}
           icon={{ left: <MonoIcon icon="navigation/ArrowLeft" /> }}
         />
