@@ -79,6 +79,9 @@ query TripsWithDetails(
             id
           }
         }
+        intermediateEstimatedCalls {
+          aimedDepartureTime
+        }
       }
     }
   }

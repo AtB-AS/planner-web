@@ -381,6 +381,14 @@ export const Assistant = {
           _(`Vent i ${time}`, `Wait for ${time}`, `Vent i ${time}`),
         shortTime: _('Kort byttetid', 'Short changeover time', 'Kort byttetid'),
       },
+      intermediateStops: (count: number) =>
+        _(
+          `${count} mellomstopp`,
+          count > 1
+            ? `${count} intermediate stops`
+            : `${count} intermediate stop`,
+          `${count} mellomstopp`,
+        ),
     },
   },
 };

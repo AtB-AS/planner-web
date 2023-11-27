@@ -17,6 +17,7 @@ import { PageText, useTranslation } from '@atb/translations';
 import { InterchangeDetails, InterchangeSection } from './interchange-section';
 import { formatLineName, getPlaceName } from '../utils';
 import WaitSection, { type LegWaitDetails } from './wait-section';
+import { secondsToDuration } from '@atb/utils/date';
 
 export type TripSectionProps = {
   isFirst: boolean;
@@ -32,7 +33,7 @@ export default function TripSection({
   interchangeDetails,
   legWaitDetails,
 }: TripSectionProps) {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
   const isWalkSection = leg.mode === 'foot';
   const legColor = useTransportationThemeColor({
     mode: leg.mode,
@@ -109,6 +110,26 @@ export default function TripSection({
                   .departureIsRailReplacementBus,
               )}
             />
+          </TripRow>
+        )}
+        {leg.numberOfIntermediateEstimatedCalls > 0 && (
+          <TripRow>
+            <Typo.p
+              textType="body__secondary"
+              className={style.intermediateStops}
+            >
+              {t(
+                PageText.Assistant.details.tripSection.intermediateStops(
+                  leg.numberOfIntermediateEstimatedCalls,
+                ),
+              )}
+            </Typo.p>
+            <Typo.p
+              textType="body__secondary"
+              className={style.intermediateStops}
+            >
+              {secondsToDuration(leg.duration, language)}
+            </Typo.p>
           </TripRow>
         )}
 

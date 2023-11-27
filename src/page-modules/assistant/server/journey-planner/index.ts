@@ -310,6 +310,8 @@ export function createJourneyApi(
                 },
               }
             : null,
+          numberOfIntermediateEstimatedCalls:
+            leg.intermediateEstimatedCalls.length,
         })),
       };
 
