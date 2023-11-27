@@ -357,6 +357,25 @@ export const Assistant = {
         'Rail replacement bus',
         'Buss for tog',
       ),
+      interchange: (
+        fromPublicCode: string,
+        toPublicCode: string,
+        location: string,
+      ) =>
+        _(
+          `Korrespondanse mellom ${fromPublicCode} og ${toPublicCode} på ${location}.`,
+          `Correspondance between ${fromPublicCode} and ${toPublicCode} on ${location}.`,
+          `Korrespondanse mellom ${fromPublicCode} og ${toPublicCode} på ${location}.`,
+        ),
+      interchangeWithUnknownFromPublicCode: (
+        toPublicCode: string,
+        location: string,
+      ) =>
+        _(
+          `Korrespondanse med ${toPublicCode} på ${location}.`,
+          `Correspondance with ${toPublicCode} on ${location}.`,
+          `Korrespondanse med ${toPublicCode} på ${location}.`,
+        ),
     },
   },
 };

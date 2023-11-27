@@ -73,6 +73,12 @@ query TripsWithDetails(
             frontText
           }
         }
+        interchangeTo {
+          guaranteed
+          toServiceJourney {
+            id
+          }
+        }
       }
     }
   }
