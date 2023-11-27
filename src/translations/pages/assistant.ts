@@ -321,6 +321,12 @@ export const Assistant = {
           `${fromName}  -  ${toName}`,
           `${fromName}  -  ${toName}`,
         ),
+      travelTime: (duration: string) =>
+        _(
+          `${duration} reisetid`,
+          `${duration} travel time`,
+          `${duration} reisetid`,
+        ),
     },
   },
 };

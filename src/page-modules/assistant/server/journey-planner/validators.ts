@@ -83,6 +83,7 @@ export const tripPatternWithDetailsSchema = z.object({
   expectedEndTime: z.string(),
   legs: z.array(
     z.object({
+      duration: z.number(),
       fromPlace: z.object({
         name: z.string(),
       }),
