@@ -6,9 +6,9 @@ export const Departures = {
   search: {
     input: {
       label: _(
-        'Hvor vil du reise?',
-        'Where do you want to go?',
-        'Kor vil du reise?',
+        'Hvor vil du reise fra?',
+        'Where do you want to travel from?',
+        'Kor vil du reise frå?',
       ),
       from: _('Fra', 'From', 'Frå'),
     },
