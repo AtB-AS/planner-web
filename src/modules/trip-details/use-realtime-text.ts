@@ -1,39 +1,44 @@
 import { PageText, useTranslation } from '@atb/translations';
 import { formatToClock, isInPast } from '@atb/utils/date';
-import { ServiceJourneyData } from '../server/journey-planner/validators';
 import { getTimeRepresentationType } from '@atb/modules/time-representation';
 
-export const useRealtimeText = (
-  estimatedCalls: ServiceJourneyData['estimatedCalls'][0][],
-) => {
+type RealtimeData = {
+  actualDepartureTime?: string;
+  expectedDepartureTime: string;
+  aimedDepartureTime: string;
+  quayName?: string;
+  realtime: boolean;
+};
+
+export default function useRealtimeText(realtimeData: RealtimeData[]) {
   const { t, language } = useTranslation();
-  const lastPassedStop = estimatedCalls
+  const lastPassedStop = realtimeData
     .filter((a) => a.actualDepartureTime)
     .pop();
 
   if (
     lastPassedStop &&
     lastPassedStop.actualDepartureTime &&
-    lastPassedStop.quay?.name
+    lastPassedStop.quayName
   ) {
     return t(
       PageText.Departures.details.lastPassedStop(
-        lastPassedStop.quay.name,
+        lastPassedStop.quayName,
         formatToClock(lastPassedStop.actualDepartureTime, language, 'nearest'),
       ),
     );
   }
 
-  const firstStop = estimatedCalls[0];
+  const firstStop = realtimeData[0];
 
   if (
-    firstStop?.quay?.name &&
+    firstStop?.quayName &&
     firstStop.realtime &&
     !isInPast(firstStop.expectedDepartureTime)
   ) {
     return t(
       PageText.Departures.details.noPassedStop(
-        firstStop.quay.name,
+        firstStop.quayName,
         formatToClock(firstStop.expectedDepartureTime, language, 'floor'),
       ),
     );
@@ -52,4 +57,4 @@ export const useRealtimeText = (
     default:
       return undefined;
   }
-};
+}

@@ -24,14 +24,16 @@ export function TransportIcons({ modes }: TransportIconsProps) {
 
 export type TransportIconProps = {
   mode: TransportModeGroup;
+  size?: MonoIconProps['size'];
 };
 
-export function TransportIcon({ mode }: TransportIconProps) {
+export function TransportIcon({ mode, size = 'normal' }: TransportIconProps) {
   const { t } = useTranslation();
   const { backgroundColor, overrideMode } = useTransportationThemeColor(mode);
   return (
     <span className={style.transportIcon} style={{ backgroundColor }}>
       <MonoIcon
+        size={size}
         icon={getTransportModeIcon(mode)}
         role="img"
         alt={t(transportModeToTranslatedString(mode))}

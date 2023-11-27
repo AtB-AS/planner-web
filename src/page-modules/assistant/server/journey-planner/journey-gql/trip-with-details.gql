@@ -30,14 +30,39 @@ query TripsWithDetails(
       expectedEndTime
       duration
       legs {
+        mode
+        aimedStartTime
+        aimedEndTime
+        expectedStartTime
+        expectedEndTime
+        realtime
+        duration
+        line {
+          name
+          publicCode
+          transportSubmode
+        }
         fromPlace {
           name
+          quay {
+            name
+            publicCode
+          }
         }
         toPlace {
           name
+          quay {
+            name
+            publicCode
+          }
         }
         serviceJourney {
           id
+        }
+        fromEstimatedCall {
+          destinationDisplay {
+            frontText
+          }
         }
       }
     }

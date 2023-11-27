@@ -1,15 +1,11 @@
 import { EstimatedCallWithMetadata } from '../types';
 import { PageText, useTranslation } from '@atb/translations';
-import { PropsWithChildren, useState } from 'react';
+import { useState } from 'react';
 import style from './details.module.css';
 import { motion } from 'framer-motion';
 import { Typo } from '@atb/components/typography';
 import { MonoIcon } from '@atb/components/icon';
 import { Button } from '@atb/components/button';
-import Link from 'next/link';
-import DepartureTime from './departure-time';
-import DecorationLine from './decoration-line';
-import { and } from '@atb/utils/css';
 import {
   type TransportModeType,
   useTransportationThemeColor,
@@ -21,6 +17,11 @@ import {
   SituationOrNoticeIcon,
 } from '@atb/modules/situations';
 import { formatQuayName, getSituationsToShowForCall } from './utils';
+import {
+  DecorationLine,
+  DepartureTime,
+  TripRow,
+} from '@atb/modules/trip-details';
 
 export type EstimatedCallRowsProps = {
   calls: EstimatedCallWithMetadata[];
@@ -158,13 +159,12 @@ function EstimatedCallRow({
         hasEnd={isEndOfGroup}
         color={iconColor.backgroundColor}
       />
-      <Row
+      <TripRow
         rowLabel={
           <DepartureTime
             aimedDepartureTime={call.aimedDepartureTime}
             expectedDepartureTime={call.expectedDepartureTime}
             realtime={call.realtime}
-            isStartOfServiceJourney
           />
         }
         alignChildren={
@@ -186,59 +186,16 @@ function EstimatedCallRow({
             {t(PageText.Departures.details.messages.noBoarding)}
           </Typo.p>
         )}
-      </Row>
+      </TripRow>
       {situations.map((situation) => (
-        <Row
+        <TripRow
           key={situation.situationNumber}
           rowLabel={<SituationOrNoticeIcon situation={situation} />}
         >
           <SituationMessageBox noStatusIcon={true} situation={situation} />
-        </Row>
+        </TripRow>
       ))}
       {collapseButton}
-    </div>
-  );
-}
-
-type RowProps = PropsWithChildren<{
-  rowLabel?: React.ReactNode;
-  alignChildren?: 'flex-start' | 'flex-end' | 'center';
-  href?: string;
-  isBetween?: boolean;
-}>;
-function Row({
-  rowLabel,
-  children,
-  alignChildren = 'center',
-  href,
-  isBetween = false,
-}: RowProps) {
-  const rowContent = (
-    <>
-      <div className={style.leftColumn}>{rowLabel}</div>
-      <div className={style.decorationPlaceholder} />
-      <div className={style.rightColumn}>{children}</div>
-    </>
-  );
-
-  if (href) {
-    return (
-      <Link
-        href={href}
-        className={and(style.row, isBetween && style.middleRow)}
-        style={{ alignItems: alignChildren }}
-      >
-        {rowContent}
-      </Link>
-    );
-  }
-
-  return (
-    <div
-      className={and(style.row, isBetween && style.middleRow)}
-      style={{ alignItems: alignChildren }}
-    >
-      {rowContent}
     </div>
   );
 }

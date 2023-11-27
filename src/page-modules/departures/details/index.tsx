@@ -3,7 +3,6 @@ import { Typo } from '@atb/components/typography';
 import style from './details.module.css';
 import { ButtonLink } from '@atb/components/button';
 import { ColorIcon, MonoIcon } from '@atb/components/icon';
-import { useRealtimeText } from './use-realtime-text';
 import { addMetadataToEstimatedCalls } from './utils';
 import { ServiceJourneyData } from '../server/journey-planner/validators';
 import { EstimatedCallRows } from './estimated-call-rows';
@@ -14,6 +13,7 @@ import {
   SituationMessageBox,
   filterNotices,
 } from '@atb/modules/situations';
+import { useRealtimeText } from '@atb/modules/trip-details';
 
 export type DeparturesDetailsProps = {
   fromQuayId?: string;
@@ -29,7 +29,15 @@ export function DeparturesDetails({
     serviceJourney.estimatedCalls.find((call) => call.quay.id === fromQuayId) ||
     serviceJourney.estimatedCalls[0];
   const title = `${serviceJourney.line.publicCode} ${focusedCall.destinationDisplay.frontText}`;
-  const realtimeText = useRealtimeText(serviceJourney.estimatedCalls);
+  const realtimeText = useRealtimeText(
+    serviceJourney.estimatedCalls.map((c) => ({
+      actualDepartureTime: c.actualDepartureTime ?? undefined,
+      expectedDepartureTime: c.expectedDepartureTime,
+      aimedDepartureTime: c.aimedDepartureTime,
+      quayName: c.quay.name,
+      realtime: c.realtime,
+    })),
+  );
   const estimatedCallsWithMetadata = addMetadataToEstimatedCalls(
     serviceJourney.estimatedCalls,
     fromQuayId,
