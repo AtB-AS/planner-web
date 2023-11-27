@@ -12,10 +12,10 @@ import {
 import { Typo } from '@atb/components/typography';
 import WalkSection from './walk-section';
 import { ColorIcon } from '@atb/components/icon';
-import { formatLineName, getPlaceName } from '../utils';
 import { MessageBox } from '@atb/modules/situations';
 import { PageText, useTranslation } from '@atb/translations';
 import { InterchangeDetails, InterchangeSection } from './interchange-section';
+import { formatLineName, getPlaceName } from '../utils';
 
 export type TripSectionProps = {
   isFirst: boolean;
@@ -35,7 +35,6 @@ export default function TripSection({
     mode: leg.mode,
     subMode: leg.transportSubmode,
   });
-
   const showFrom = !isWalkSection || !!(isFirst && isWalkSection);
   const showTo = !isWalkSection || !!(isLast && isWalkSection);
 
