@@ -328,5 +328,16 @@ export const Assistant = {
           `${duration} reisetid`,
         ),
     },
+    tripSection: {
+      walk: {
+        label: (duration: string) =>
+          _(`Gå i ${duration}`, `Walk for ${duration}`, `Gå i ${duration}`),
+      },
+      shortWalk: _(
+        `Gå i mindre enn ett minutt`,
+        `Walk for less than a minute`,
+        `Gå i mindre enn eitt minutt`,
+      ),
+    },
   },
 };

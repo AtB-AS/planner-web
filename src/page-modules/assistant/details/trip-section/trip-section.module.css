@@ -1,0 +1,14 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacings-medium);
+}
+.rowContainer {
+  position: relative;
+  overflow: hidden;
+  gap: 1rem;
+  --labelWidth: 5rem;
+  --decorationContainerWidth: 1.25rem;
+  --decorationLineWidth: 0.25rem;
+  --decorationLineEndWidth: 0.75rem;
+}

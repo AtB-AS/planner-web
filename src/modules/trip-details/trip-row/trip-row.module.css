@@ -1,0 +1,23 @@
+.container {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  justify-content: center;
+  padding: var(--spacings-small) 0;
+  text-decoration: none;
+  color: inherit;
+}
+.middleRow {
+  min-height: 3.75rem;
+}
+.leftColumn {
+  display: flex;
+  justify-content: flex-end;
+  min-width: var(--labelWidth);
+}
+.rightColumn {
+  flex: 1;
+}
+.decorationPlaceholder {
+  width: var(--spacings-large);
+}

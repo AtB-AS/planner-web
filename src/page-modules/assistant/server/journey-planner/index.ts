@@ -231,15 +231,50 @@ export function createJourneyApi(
         expectedEndTime: singleTripPattern?.expectedEndTime,
         duration: singleTripPattern?.duration ?? 0,
         legs: singleTripPattern?.legs.map((leg) => ({
+          mode: isTransportModeType(leg.mode) ? leg.mode : 'unknown',
+          aimedStartTime: leg.aimedStartTime,
+          aimedEndTime: leg.aimedEndTime,
+          expectedStartTime: leg.expectedStartTime,
+          expectedEndTime: leg.expectedEndTime,
+          realtime: leg.realtime,
+          duration: leg.duration,
+          line:
+            leg.line && leg.line.name
+              ? {
+                  name: leg.line.name,
+                  publicCode: leg.line.publicCode ?? '',
+                  transportSubmode: leg.line.transportSubmode ?? 'unknown',
+                }
+              : null,
           fromPlace: {
             name: leg.fromPlace.name,
+            quay: leg.fromPlace.quay
+              ? {
+                  name: leg.fromPlace.quay.name,
+                  publicCode: leg.fromPlace.quay.publicCode ?? '',
+                }
+              : null,
           },
           toPlace: {
             name: leg.toPlace.name,
+            quay: leg.toPlace.quay
+              ? {
+                  name: leg.toPlace.quay.name,
+                  publicCode: leg.toPlace.quay.publicCode ?? '',
+                }
+              : null,
           },
           serviceJourney: {
             id: leg.serviceJourney?.id ?? null,
           },
+          fromEstimatedCall: leg.fromEstimatedCall?.destinationDisplay
+            ?.frontText
+            ? {
+                destinationDisplay: {
+                  frontText: leg.fromEstimatedCall.destinationDisplay.frontText,
+                },
+              }
+            : null,
         })),
       };
 

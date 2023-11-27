@@ -8,21 +8,19 @@ type DepartureTimeProps = {
   aimedDepartureTime: string;
   expectedDepartureTime: string;
   realtime: boolean;
-  isStartOfServiceJourney: boolean;
 };
 
 export default function DepartureTime({
   aimedDepartureTime,
   expectedDepartureTime,
   realtime,
-  isStartOfServiceJourney,
 }: DepartureTimeProps) {
   const { t, language } = useTranslation();
 
   const representationType = getTimeRepresentationType({
     aimedTime: aimedDepartureTime,
     expectedTime: expectedDepartureTime,
-    missingRealTime: !realtime && isStartOfServiceJourney,
+    missingRealTime: !realtime,
   });
   const scheduled = formatToClock(aimedDepartureTime, language, 'floor');
 

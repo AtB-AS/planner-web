@@ -84,15 +84,46 @@ export const tripPatternWithDetailsSchema = z.object({
   duration: z.number(),
   legs: z.array(
     z.object({
+      mode: transportModeSchema,
+      aimedStartTime: z.string(),
+      aimedEndTime: z.string(),
+      expectedStartTime: z.string(),
+      expectedEndTime: z.string(),
+      realtime: z.boolean(),
+      duration: z.number(),
+      line: z
+        .object({
+          name: z.string(),
+          publicCode: z.string(),
+          transportSubmode: transportSubmodeSchema,
+        })
+        .nullable(), // line is null for legs with transportMode = foot
       fromPlace: z.object({
         name: z.string(),
+        quay: z
+          .object({
+            name: z.string(),
+            publicCode: z.string(),
+          })
+          .nullable(), // quay is null when fromPlace is a POI (e.g. address)
       }),
       toPlace: z.object({
         name: z.string(),
+        quay: z
+          .object({
+            name: z.string(),
+            publicCode: z.string(),
+          })
+          .nullable(), // quay is null when toPlace is a POI (e.g. address)
       }),
       serviceJourney: z.object({
         id: z.string().nullable(),
       }),
+      fromEstimatedCall: z
+        .object({
+          destinationDisplay: z.object({ frontText: z.string() }),
+        })
+        .nullable(),
     }),
   ),
 });
