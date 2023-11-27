@@ -30,6 +30,7 @@ query TripsWithDetails(
       expectedEndTime
       duration
       legs {
+        duration
         fromPlace {
           name
         }

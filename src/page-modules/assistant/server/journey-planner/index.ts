@@ -231,6 +231,7 @@ export function createJourneyApi(
         expectedEndTime: singleTripPattern?.expectedEndTime,
         duration: singleTripPattern?.duration ?? 0,
         legs: singleTripPattern?.legs.map((leg) => ({
+          duration: leg.duration,
           fromPlace: {
             name: leg.fromPlace.name,
           },
