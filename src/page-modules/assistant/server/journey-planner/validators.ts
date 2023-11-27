@@ -81,9 +81,9 @@ export const nonTransitSchema = z.object({
 export const tripPatternWithDetailsSchema = z.object({
   expectedStartTime: z.string(),
   expectedEndTime: z.string(),
+  duration: z.number(),
   legs: z.array(
     z.object({
-      duration: z.number(),
       fromPlace: z.object({
         name: z.string(),
       }),

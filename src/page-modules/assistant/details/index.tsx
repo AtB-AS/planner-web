@@ -18,7 +18,7 @@ export type AssistantDetailsProps = {
 
 export function AssistantDetails({ tripPattern }: AssistantDetailsProps) {
   const { t } = useTranslation();
-  const { fromName, toName, weekdayAndDate, timeRange, tripDuratrion } =
+  const { fromName, toName, weekdayAndDate, timeRange, tripDuration } =
     useTripDetailsHeader(tripPattern);
   return (
     <div className={style.container}>
@@ -52,7 +52,7 @@ export function AssistantDetails({ tripPattern }: AssistantDetailsProps) {
             <MonoIcon icon="time/Duration" />
             <Typo.p textType="body__primary">{timeRange}</Typo.p>
             <Typo.p textType="body__primary--bold">
-              {t(PageText.Assistant.details.header.travelTime(tripDuratrion))}
+              {t(PageText.Assistant.details.header.travelTime(tripDuration))}
             </Typo.p>
           </div>
         </div>
@@ -76,17 +76,13 @@ const useTripDetailsHeader = (tripPattern: TripPatternWithDetails) => {
     tripPattern.expectedStartTime,
   )} - ${formatSimpleTime(tripPattern.expectedEndTime)}`;
 
-  const totalDuration = tripPattern.legs.reduce(
-    (total, leg) => total + leg.duration,
-    0,
-  );
-  const tripDuratrion = secondsToDuration(totalDuration, language);
+  const tripDuration = secondsToDuration(tripPattern.duration, language);
 
   return {
     fromName,
     toName,
     weekdayAndDate,
     timeRange,
-    tripDuratrion,
+    tripDuration,
   };
 };
