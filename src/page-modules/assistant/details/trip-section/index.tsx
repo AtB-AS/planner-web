@@ -11,6 +11,9 @@ import {
 } from '@atb/modules/transport-mode';
 import { Typo } from '@atb/components/typography';
 import WalkSection from './walk-section';
+import { ColorIcon } from '@atb/components/icon';
+import { MessageBox } from '@atb/modules/situations';
+import { PageText, useTranslation } from '@atb/translations';
 
 export type TripSectionProps = {
   isFirst: boolean;
@@ -22,10 +25,11 @@ export default function TripSection({
   isLast,
   leg,
 }: TripSectionProps) {
+  const { t } = useTranslation();
   const isWalkSection = leg.mode === 'foot';
   const legColor = useTransportationThemeColor({
     mode: leg.mode,
-    subMode: leg.line?.transportSubmode,
+    subMode: leg.transportSubmode,
   });
   const showFrom = !isWalkSection || !!(isFirst && isWalkSection);
   const showTo = !isWalkSection || !!(isLast && isWalkSection);
@@ -66,7 +70,7 @@ export default function TripSection({
           <TripRow
             rowLabel={
               <TransportIcon
-                mode={{ mode: leg.mode, subMode: leg.line?.transportSubmode }}
+                mode={{ mode: leg.mode, subMode: leg.transportSubmode }}
                 size="small"
               />
             }
@@ -78,6 +82,19 @@ export default function TripSection({
                 leg.line?.publicCode,
               )}
             </Typo.p>
+          </TripRow>
+        )}
+
+        {leg.transportSubmode === 'railReplacementBus' && (
+          <TripRow rowLabel={<ColorIcon icon="status/Warning" />}>
+            <MessageBox
+              type="warning"
+              noStatusIcon
+              message={t(
+                PageText.Assistant.details.tripSection
+                  .departureIsRailReplacementBus,
+              )}
+            />
           </TripRow>
         )}
 

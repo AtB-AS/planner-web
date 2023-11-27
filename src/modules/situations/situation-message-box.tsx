@@ -110,6 +110,7 @@ export const MessageBox = ({
   const { t } = useTranslation();
   const backgroundColorStyle = {
     backgroundColor: staticColors['status'][type].background,
+    color: staticColors['status'][type].text,
   };
 
   return (

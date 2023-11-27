@@ -32,6 +32,7 @@ query TripsWithDetails(
       streetDistance
       legs {
         mode
+        transportSubmode
         aimedStartTime
         aimedEndTime
         expectedStartTime
@@ -45,7 +46,6 @@ query TripsWithDetails(
         line {
           name
           publicCode
-          transportSubmode
         }
         fromPlace {
           name
