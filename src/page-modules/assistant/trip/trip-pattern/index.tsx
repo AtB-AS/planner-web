@@ -53,7 +53,7 @@ export default function TripPattern({
 
   return (
     <motion.a
-      href={`/assistant/${tripPattern.compressedQuery}`} // TODO: Use correct href.
+      href={`/assistant/${tripPattern.compressedQuery}`}
       className={style.tripPattern}
       initial={{ opacity: 0, x: -10 }}
       animate={{ opacity: 1, x: 0 }}
