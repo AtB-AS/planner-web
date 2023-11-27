@@ -1,14 +1,11 @@
 import { resolve } from 'path';
 import { defineConfig } from 'vite';
+import dts from 'vite-plugin-dts';
 
 const orgId = process.env.NEXT_PUBLIC_PLANNER_ORG_ID;
 
 if (!orgId) {
   throw new Error('Missing env NEXT_PUBLIC_PLANNER_ORG_ID');
-}
-
-if (!process.env.VITE_WIDGET_BASE_URL) {
-  throw new Error('Missing env VITE_WIDGET_BASE_URL');
 }
 
 export default defineConfig({
@@ -21,6 +18,12 @@ export default defineConfig({
         '@atb-as/theme/lib/typography.module.css',
     },
   },
+  plugins: [
+    dts({
+      include: [resolve(__dirname, 'widget.ts')],
+      rollupTypes: true,
+    }),
+  ],
   build: {
     lib: {
       // Could also be a dictionary or array of multiple entry points

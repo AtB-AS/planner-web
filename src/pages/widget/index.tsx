@@ -4,39 +4,55 @@ import { CopyMarkup, CopyMarkupLarge } from '@atb/page-modules/widget';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Script from 'next/script';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import style from '@atb/page-modules/widget/widget.module.css';
+import type { createWidget, PlannerWebOutput } from '@atb/widget/widget';
 
 export type WidgetPageProps = WithGlobalData<{}>;
 
 declare global {
   interface Window {
     PlannerWeb: {
-      output: string;
-      URL_JS_UMD: string;
-      URL_JS_ESM: string;
-      URL_CSS: string;
-      init(): void;
+      createWidget: typeof createWidget;
     };
   }
 }
 
 const html = String.raw;
 const initializeCode = html`<script>
-  window.PlannerWeb.init();
+  // Ensure that url base is same origin as the page where widget is loaded and the travel planner API
+  const widget = window.PlannerWeb.createWidget({
+    urlBase: 'https://reiseplanlegger.example.no/',
+  });
+
+  // After loading JS and CSS file it can be initialized using the following code:
+  widget.init();
 </script>`;
 const outputCodeExample = html`<div id="planner-web"></div>
   <script>
     // Basic example of using dynamic output
-    document.querySelector('#planner-web').innerHTML = window.PlannerWeb.output;
+    document.querySelector('#planner-web').innerHTML = widget.output;
+
+    // And URLs to JS and CSS files:
+    widget.urls;
+    // Example for URL_JS_UMD:
+    widget.urls.URL_JS_UMD;
   </script> `;
 
 const WidgetPage: NextPage<WidgetPageProps> = (props) => {
   const [isLoaded, setLoaded] = useState(false);
+  const [html, setHtml] = useState('');
+  const lib = useRef<PlannerWebOutput | null>(null);
 
-  const scripts = (str: string) => `<script src="${str}" />`;
-  const css = (str: string) => `<link src="${str}" />`;
+  const scripts = (str?: string) => `<script src="${str ?? ''}" />`;
+  const css = (str?: string) => `<link src="${str ?? ''}" />`;
+
+  useEffect(() => {
+    if (html) {
+      lib.current?.init();
+    }
+  }, [html]);
 
   return (
     <DefaultLayout {...props}>
@@ -50,7 +66,11 @@ const WidgetPage: NextPage<WidgetPageProps> = (props) => {
         onLoad={() => {
           setLoaded(true);
           setTimeout(() => {
-            window.PlannerWeb.init();
+            lib.current = window.PlannerWeb.createWidget({
+              urlBase: location.protocol + '//' + location.host,
+            });
+
+            setHtml(lib.current.output);
           }, 100);
         }}
       />
@@ -63,9 +83,7 @@ const WidgetPage: NextPage<WidgetPageProps> = (props) => {
         {isLoaded && (
           <>
             <h2>Demo</h2>
-            <div
-              dangerouslySetInnerHTML={{ __html: window.PlannerWeb.output }}
-            />
+            <div dangerouslySetInnerHTML={{ __html: html }} />
 
             <h2>Installation</h2>
 
@@ -76,23 +94,23 @@ const WidgetPage: NextPage<WidgetPageProps> = (props) => {
             <CopyMarkup content={initializeCode} />
 
             <h3>HTML output</h3>
-            <CopyMarkupLarge content={window.PlannerWeb.output} />
+            <CopyMarkupLarge content={html} />
 
             <h3>Scripts (UMD / ESM)</h3>
 
             <p>Using these directly could cause issues on new releases.</p>
-            <CopyMarkup content={scripts(window.PlannerWeb.URL_JS_UMD)} />
-            <CopyMarkup content={scripts(window.PlannerWeb.URL_JS_ESM)} />
+            <CopyMarkup content={scripts(lib.current?.urls?.URL_JS_UMD)} />
+            <CopyMarkup content={scripts(lib.current?.urls?.URL_JS_ESM)} />
 
             <h3>Styling</h3>
-            <CopyMarkup content={css(window.PlannerWeb.URL_CSS)} />
+            <CopyMarkup content={css(lib.current?.urls?.URL_CSS)} />
 
             <h3>Using dynamic output</h3>
 
             <p>
               You can also inject HTML automatically by using{' '}
-              <code>window.PlannerWeb.output</code> variable. This can be done
-              server side or by using client side frameworks.
+              <code>widget.output</code> property. This can be done server side
+              or by using client side frameworks.
             </p>
 
             <p>

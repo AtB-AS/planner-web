@@ -80,6 +80,7 @@
     "prettier": "^3.0.3",
     "rimraf": "^5.0.1",
     "vite": "^4.4.9",
+    "vite-plugin-dts": "^3.6.3",
     "vitest": "^0.34.4"
   },
   "resolutions": {

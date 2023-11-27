@@ -10,7 +10,6 @@ for orgId in atb nfk fram; do
   mkdir dist/$orgId
   export NEXT_PUBLIC_PLANNER_ORG_ID=$orgId
   # @TODO FIX THIS
-  export VITE_WIDGET_BASE_URL=http://localhost:3000/
   echo "Running yarn setup && yarn build for $orgId"
   yarn setup $orgId
   yarn build
