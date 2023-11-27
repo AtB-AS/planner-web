@@ -411,7 +411,7 @@ function createOutput({ URL_BASE }: SettingConstants) {
     >
       <div class="${style.main}">
         <div class="${style.inputBoxes}">
-          <p class="${style.heading}">Hvor vil du reise?</p>
+          <p class="${style.heading}">Hvor vil du reise fra?</p>
           <div class="${style.search_container}">
             <label
               class="${style.search_label}"
