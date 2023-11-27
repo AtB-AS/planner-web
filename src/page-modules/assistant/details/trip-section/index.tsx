@@ -38,6 +38,10 @@ export default function TripSection({
     mode: leg.mode,
     subMode: leg.transportSubmode,
   });
+  const unknownTransportationColor = useTransportationThemeColor({
+    mode: 'unknown',
+    subMode: undefined,
+  });
   const showFrom = !isWalkSection || !!(isFirst && isWalkSection);
   const showTo = !isWalkSection || !!(isLast && isWalkSection);
 
