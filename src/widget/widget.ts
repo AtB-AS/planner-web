@@ -235,44 +235,50 @@ function createOutput({ URL_BASE }: SettingConstants) {
             ? style.selector_options__small
             : ''}"
         >
-          <label class="${style.selector_option}"
-            ><input
+          <label class="${style.selector_option}">
+            <input
               type="radio"
               name="searchTimeSelector"
               aria-label="Nå"
               class="${style.selector_option__input}"
               value="now"
               checked=""
-            /><span aria-hidden="true" class="${style.selector_option__label}"
-              ><span class="${style.selector_option__text}">Nå</span></span
-            ></label
-          >${withArriveBy
-            ? html`<label class="${style.selector_option}"
-                ><input
-                  type="radio"
-                  name="searchTimeSelector"
-                  aria-label="Ankomst"
-                  class="${style.selector_option__input}"
-                  value="arriveBy"
-                /><span
-                  aria-hidden="true"
-                  class="${style.selector_option__label}"
-                  ><span class="${style.selector_option__text}"
-                    >Ankomst</span
-                  ></span
-                ></label
-              >`
-            : ''}<label class="${style.selector_option}"
-            ><input
+            />
+            <span aria-hidden="true" class="${style.selector_option__label}">
+              <span class="${style.selector_option__text}">Nå</span>
+            </span>
+          </label>
+          ${withArriveBy
+            ? html`
+                <label class="${style.selector_option}">
+                  <input
+                    type="radio"
+                    name="searchTimeSelector"
+                    aria-label="Ankomst"
+                    class="${style.selector_option__input}"
+                    value="arriveBy"
+                  />
+                  <span
+                    aria-hidden="true"
+                    class="${style.selector_option__label}"
+                  >
+                    <span class="${style.selector_option__text}">Ankomst</span>
+                  </span>
+                </label>
+              `
+            : ''}
+          <label class="${style.selector_option}">
+            <input
               type="radio"
               name="searchTimeSelector"
               aria-label="Avgang"
               class="${style.selector_option__input}"
               value="departBy"
-            /><span aria-hidden="true" class="${style.selector_option__label}"
-              ><span class="${style.selector_option__text}">Avgang</span></span
-            ></label
-          >
+            />
+            <span aria-hidden="true" class="${style.selector_option__label}">
+              <span class="${style.selector_option__text}">Avgang</span>
+            </span>
+          </label>
         </div>
         <div
           class="${style.selector_dateAndTimeSelectorsWrapper} js-search-date-details"
@@ -280,16 +286,16 @@ function createOutput({ URL_BASE }: SettingConstants) {
         >
           <div class="${style.selector_dateAndTimeSelectors}">
             <div class="${style.selector_dateSelector}">
-              <label for="searchTimeSelector-date">Dato</label
-              ><input
+              <label for="searchTimeSelector-date">Dato</label>
+              <input
                 type="date"
                 id="searchTimeSelector-date"
                 value="2023-11-10"
               />
             </div>
             <div class="${style.selector_timeSelector}">
-              <label for="searchTimeSelector-time">Tid</label
-              ><input type="time" id="searchTimeSelector-time" value="12:19" />
+              <label for="searchTimeSelector-time">Tid</label>
+              <input type="time" id="searchTimeSelector-time" value="12:19" />
             </div>
           </div>
         </div>
@@ -311,8 +317,9 @@ function createOutput({ URL_BASE }: SettingConstants) {
               class="${style.search_label}"
               for="pw-from-1-input"
               id="pw-from-1-label"
-              >Fra</label
             >
+              Fra
+            </label>
             <div
               class="${style.search_inputContainer}"
               role="combobox"
@@ -359,8 +366,9 @@ function createOutput({ URL_BASE }: SettingConstants) {
               class="${style.search_label}"
               for="pw-to-1-input"
               id="pw-to-1-label"
-              >Til</label
             >
+              Til
+            </label>
             <div
               class="${style.search_inputContainer}"
               role="combobox"
@@ -409,8 +417,9 @@ function createOutput({ URL_BASE }: SettingConstants) {
               class="${style.search_label}"
               for="pw-from-2-input"
               id="pw-from-2-label"
-              >Fra</label
             >
+              Fra
+            </label>
             <div
               class="${style.search_inputContainer}"
               role="combobox"
@@ -468,8 +477,9 @@ function createOutput({ URL_BASE }: SettingConstants) {
               href="/assistant"
               class="${style.tabSelected}"
               id="pw-assistant-tab"
-              >Planlegg reisen</a
             >
+              Planlegg reisen
+            </a>
           </li>
           <li>
             <a href="/departures" id="pw-departures-tab">Finn avganger</a>
