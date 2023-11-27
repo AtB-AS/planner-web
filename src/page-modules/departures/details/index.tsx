@@ -7,7 +7,7 @@ import { addMetadataToEstimatedCalls } from './utils';
 import { ServiceJourneyData } from '../server/journey-planner/validators';
 import { EstimatedCallRows } from './estimated-call-rows';
 import { PageText, useTranslation } from '@atb/translations';
-import { Map } from '@atb/components/map';
+import { Map } from '@atb/modules/map';
 import {
   MessageBox,
   SituationMessageBox,
