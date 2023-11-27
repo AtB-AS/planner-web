@@ -45,6 +45,9 @@ describe('assistant page', function () {
         if (layers === 'address') return fromFeature;
         else return toFeature;
       },
+      async singleTrip() {
+        return {} as any;
+      },
       client: null as any,
     };
 

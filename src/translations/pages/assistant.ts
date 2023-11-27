@@ -296,4 +296,31 @@ export const Assistant = {
       ),
     },
   },
+  details: {
+    errorDefault: _(
+      'Vi kunne ikke oppdatere reiseforslaget ditt. Det kan hende reisen har endra seg eller er utdatert?',
+      'We could not update your trip plan. Perhaps your trip has changed or timed out?',
+      'Vi kunne ikkje oppdatere reiseforslaget ditt. Det kan hende reisa har endra seg eller er utdatert.',
+    ),
+    header: {
+      backLink: _(
+        'Tilbake til avganger',
+        'Back to departures',
+        'Tilbake til avgangar',
+      ),
+      title: _('Reisedetaljer', 'Trip details', 'Reisedetaljar'),
+      titleFromTo: ({
+        fromName,
+        toName,
+      }: {
+        fromName: string;
+        toName: string;
+      }) =>
+        _(
+          `${fromName}  -  ${toName}`,
+          `${fromName}  -  ${toName}`,
+          `${fromName}  -  ${toName}`,
+        ),
+    },
+  },
 };
