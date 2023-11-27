@@ -1,8 +1,8 @@
 import { Theme } from '@atb-as/theme';
 import { transportModeToColor } from '@atb/modules/transport-mode';
-import { MapLegType } from '@atb/page-modules/departures';
 import { useCallback, useEffect } from 'react';
 import hexToRgba from 'hex-to-rgba';
+import { MapLegType } from './types';
 
 export const useMapLegs = (
   mapRef: React.MutableRefObject<mapboxgl.Map | undefined>,

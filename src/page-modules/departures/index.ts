@@ -4,7 +4,6 @@ export type {
   StopPlaceInfo,
   NearestStopPlacesData,
   StopPlaceWithDistance,
-  MapLegType,
 } from './server/journey-planner';
 
 export * from './nearest-stop-places';

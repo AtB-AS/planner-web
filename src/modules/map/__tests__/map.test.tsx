@@ -1,7 +1,7 @@
 import { cleanup, render } from '@testing-library/react';
 import { afterEach, describe, expect, it } from 'vitest';
-import { MapHeader } from '@atb/components/map';
-import { MapHeaderProps } from '@atb/components/map/map-header';
+import { MapHeader } from '@atb/modules/map';
+import { MapHeaderProps } from '@atb/modules/map/map-header';
 
 const stopPlaceMock: MapHeaderProps = {
   layer: 'venue',
