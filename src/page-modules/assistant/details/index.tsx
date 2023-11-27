@@ -23,7 +23,7 @@ export function AssistantDetails({ tripPattern }: AssistantDetailsProps) {
           onClick={(e) => {
             e.preventDefault();
             history.back();
-          }
+          }}
           title={t(PageText.Assistant.details.header.backLink)}
           icon={{ left: <MonoIcon icon="navigation/ArrowLeft" /> }}
         />
