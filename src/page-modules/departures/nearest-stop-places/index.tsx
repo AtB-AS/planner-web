@@ -1,4 +1,4 @@
-import { MapWithHeader } from '@atb/components/map';
+import { MapWithHeader } from '@atb/modules/map';
 import { GeocoderFeature } from '../types';
 import {
   NearestStopPlacesData,
