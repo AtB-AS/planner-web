@@ -1,16 +1,10 @@
-import { ButtonLink } from '@atb/components/button';
 import { TripPatternWithDetails } from '../server/journey-planner/validators';
-import { PageText, useTranslation } from '@atb/translations';
-import { MonoIcon } from '@atb/components/icon';
-import { Typo } from '@atb/components/typography';
-import {
-  formatSimpleTime,
-  formatToSimpleDate,
-  formatToWeekday,
-  secondsToDuration,
-} from '@atb/utils/date';
 
 import style from './details.module.css';
+import DetailsHeader from './details-header';
+import { ButtonLink } from '@atb/components/button';
+import { PageText, useTranslation } from '@atb/translations';
+import { MonoIcon } from '@atb/components/icon';
 
 export type AssistantDetailsProps = {
   tripPattern: TripPatternWithDetails;
@@ -18,8 +12,6 @@ export type AssistantDetailsProps = {
 
 export function AssistantDetails({ tripPattern }: AssistantDetailsProps) {
   const { t } = useTranslation();
-  const { fromName, toName, weekdayAndDate, timeRange, tripDuration } =
-    useTripDetailsHeader(tripPattern);
   return (
     <div className={style.container}>
       <div className={style.headerContainer}>
@@ -33,56 +25,8 @@ export function AssistantDetails({ tripPattern }: AssistantDetailsProps) {
           title={t(PageText.Assistant.details.header.backLink)}
           icon={{ left: <MonoIcon icon="navigation/ArrowLeft" /> }}
         />
-        <Typo.h2 textType="heading--big">
-          {fromName && toName
-            ? t(
-                PageText.Assistant.details.header.titleFromTo({
-                  fromName,
-                  toName,
-                }),
-              )
-            : t(PageText.Assistant.details.header.title)}
-        </Typo.h2>
-        <div className={style.tripDetails}>
-          <div className={style.date}>
-            <MonoIcon icon="time/Date" />
-            <Typo.p textType="body__primary">{weekdayAndDate}</Typo.p>
-          </div>
-          <div className={style.duration}>
-            <MonoIcon icon="time/Duration" />
-            <Typo.p textType="body__primary">{timeRange}</Typo.p>
-            <Typo.p textType="body__primary--bold">
-              {t(PageText.Assistant.details.header.travelTime(tripDuration))}
-            </Typo.p>
-          </div>
-        </div>
+        <DetailsHeader tripPattern={tripPattern} />
       </div>
     </div>
   );
 }
-
-const useTripDetailsHeader = (tripPattern: TripPatternWithDetails) => {
-  const { language } = useTranslation();
-  const fromName = tripPattern.legs[0].fromPlace.name;
-  const toName = tripPattern.legs[tripPattern.legs.length - 1].toPlace.name;
-
-  const weekdayAndDate = `${formatToWeekday(
-    tripPattern.expectedStartTime,
-    language,
-    'EEEE',
-  )} ${formatToSimpleDate(tripPattern.expectedStartTime, language)}`;
-
-  const timeRange = `${formatSimpleTime(
-    tripPattern.expectedStartTime,
-  )} - ${formatSimpleTime(tripPattern.expectedEndTime)}`;
-
-  const tripDuration = secondsToDuration(tripPattern.duration, language);
-
-  return {
-    fromName,
-    toName,
-    weekdayAndDate,
-    timeRange,
-    tripDuration,
-  };
-};
