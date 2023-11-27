@@ -16,18 +16,21 @@ import { MessageBox } from '@atb/modules/situations';
 import { PageText, useTranslation } from '@atb/translations';
 import { InterchangeDetails, InterchangeSection } from './interchange-section';
 import { formatLineName, getPlaceName } from '../utils';
+import WaitSection from './wait-section';
 
 export type TripSectionProps = {
   isFirst: boolean;
   isLast: boolean;
   leg: TripPatternWithDetails['legs'][0];
   interchangeDetails?: InterchangeDetails;
+  legWaitDetails?: LegWaitDetails;
 };
 export default function TripSection({
   isFirst,
   isLast,
   leg,
   interchangeDetails,
+  legWaitDetails,
 }: TripSectionProps) {
   const { t } = useTranslation();
   const isWalkSection = leg.mode === 'foot';
@@ -128,6 +131,9 @@ export default function TripSection({
           interchangeDetails={interchangeDetails}
           publicCode={leg.line.publicCode}
         />
+      )}
+      {legWaitDetails?.mustWaitForNextLeg && legWaitDetails.waitTime > 30 && (
+        <WaitSection waitTimeInSeconds={legWaitDetails.waitTime} />
       )}
     </div>
   );

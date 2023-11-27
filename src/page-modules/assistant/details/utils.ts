@@ -1,3 +1,4 @@
+import { secondsBetween } from '@atb/utils/date';
 import { TripPatternWithDetails } from '../server/journey-planner/validators';
 
 export function formatQuayName(quayName?: string, publicCode?: string | null) {

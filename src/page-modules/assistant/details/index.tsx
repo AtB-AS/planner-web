@@ -70,12 +70,13 @@ export function AssistantDetails({ tripPattern }: AssistantDetailsProps) {
           <TripSection
             key={index}
             isFirst={index === 0}
-            isLast={index === tripPattern.legs.length}
+            isLast={index === tripPattern.legs.length - 1}
             leg={leg}
             interchangeDetails={getInterchangeDetails(
               tripPattern.legs,
               leg.interchangeTo?.toServiceJourney.id,
             )}
+            legWaitDetails={getLegWaitDetails(leg, tripPattern.legs[index + 1])}
           />
         ))}
       </div>
