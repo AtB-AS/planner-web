@@ -328,6 +328,20 @@ export const Assistant = {
           `${duration} reisetid`,
         ),
     },
+    mapSection: {
+      travelTime: (time: string) =>
+        _(
+          `Total reisetid: ${time}`,
+          `Total trip time: ${time}`,
+          `Total reisetid: ${time}`,
+        ),
+      walkDistance: (distance: string) =>
+        _(
+          `Total gangavstand: ${distance}`,
+          `Total walking distance: ${distance}`,
+          `Total gangavstand: ${distance}`,
+        ),
+    },
     tripSection: {
       walk: {
         label: (duration: string) =>

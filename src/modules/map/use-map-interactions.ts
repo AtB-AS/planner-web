@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
 import {
   INTERACTIVE_LAYERS,
-  Position,
   ZOOM_LEVEL,
   isFeaturePoint,
   isStopPlace,
 } from './utils';
+import { Position } from './types';
 
 export function useMapInteractions(
   mapRef: React.MutableRefObject<mapboxgl.Map | undefined>,

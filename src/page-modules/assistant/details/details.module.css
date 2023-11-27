@@ -27,9 +27,34 @@
 }
 .mapContainer {
   grid-area: map;
+  min-height: 37.5rem;
   max-height: 37.5rem;
   width: 100%;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacings-large);
+}
+@media (max-width: 650px) {
+  .mapContainer {
+    min-height: auto;
+  }
+}
+.tripDetails {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacings-small);
+}
+.duration,
+.walkDistance {
+  display: flex;
+  gap: var(--spacings-xSmall);
+  color: var(--text-colors-secondary);
+}
+@media (max-width: 650px) {
+  .duration {
+    display: none;
+  }
 }
 .tripContainer {
   grid-area: trip;

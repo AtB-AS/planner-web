@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Position } from './utils';
+import { Position } from './types';
 import mapboxgl from 'mapbox-gl';
 
 export function useMapPin(

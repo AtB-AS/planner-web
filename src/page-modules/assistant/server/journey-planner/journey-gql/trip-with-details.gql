@@ -29,6 +29,7 @@ query TripsWithDetails(
       expectedStartTime
       expectedEndTime
       duration
+      streetDistance
       legs {
         mode
         aimedStartTime
@@ -37,6 +38,10 @@ query TripsWithDetails(
         expectedEndTime
         realtime
         duration
+        pointsOnLink {
+          points
+          length
+        }
         line {
           name
           publicCode
@@ -44,6 +49,8 @@ query TripsWithDetails(
         }
         fromPlace {
           name
+          latitude
+          longitude
           quay {
             name
             publicCode
@@ -51,6 +58,8 @@ query TripsWithDetails(
         }
         toPlace {
           name
+          latitude
+          longitude
           quay {
             name
             publicCode

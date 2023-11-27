@@ -1,3 +1,4 @@
+import { mapLegSchema } from '@atb/modules/map';
 import { noticeSchema, situationSchema } from '@atb/modules/situations';
 import {
   transportModeSchema,
@@ -59,13 +60,6 @@ export const estimatedCallsSchema = z.object({
   departures: z.array(departureSchema),
 });
 
-export const mapLegSchema = z.object({
-  transportMode: transportModeSchema,
-  transportSubmode: transportSubmodeSchema.optional(),
-  faded: z.boolean(),
-  points: z.array(z.array(z.number(), z.number())),
-});
-
 export const serviceJourneySchema = z.object({
   id: z.string(),
   transportMode: transportModeSchema,
@@ -115,4 +109,3 @@ export type EstimatedCallsData = z.infer<typeof estimatedCallsSchema>;
 export type Departure = z.infer<typeof departureSchema>;
 export type Quay = z.infer<typeof quaySchema>;
 export type ServiceJourneyData = z.infer<typeof serviceJourneySchema>;
-export type MapLegType = z.infer<typeof mapLegSchema>;
