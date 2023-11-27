@@ -5,7 +5,7 @@ import TripSection from './trip-section';
 import style from './details.module.css';
 import DetailsHeader from './details-header';
 import { ButtonLink } from '@atb/components/button';
-import { Map } from '@atb/modules/map';
+import { Map } from '@atb/components/map';
 import { secondsToDuration } from '@atb/utils/date';
 import { Typo } from '@atb/components/typography';
 
