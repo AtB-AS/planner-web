@@ -11,7 +11,13 @@ import {
   TripsQuery,
   TripsQueryVariables,
 } from './journey-gql/trip.generated';
-import { TripData, nonTransitSchema, tripSchema } from './validators';
+import {
+  TripData,
+  TripPatternWithDetails,
+  nonTransitSchema,
+  tripPatternWithDetailsSchema,
+  tripSchema,
+} from './validators';
 import type {
   NonTransitData,
   NonTransitTripData,
@@ -24,6 +30,16 @@ import {
   isTransportSubmodeType,
 } from '@atb/modules/transport-mode';
 import { Notice, Situation } from '@atb/modules/situations';
+import {
+  compressToEncodedURIComponent,
+  decompressFromEncodedURIComponent,
+} from 'lz-string';
+import { addSeconds, parseISO } from 'date-fns';
+import {
+  TripsWithDetailsDocument,
+  TripsWithDetailsQuery,
+  TripsWithDetailsQueryVariables,
+} from './journey-gql/trip-with-details.generated';
 
 const MIN_NUMBER_OF_TRIP_PATTERNS = 8;
 const MAX_NUMBER_OF_SEARCH_ATTEMPTS = 5;
@@ -38,6 +54,7 @@ const DEFAULT_JOURNEY_CONFIG = {
 export type JourneyPlannerApi = {
   trip(input: TripInput): Promise<TripData>;
   nonTransitTrips(input: NonTransitTripInput): Promise<NonTransitTripData>;
+  singleTrip(input: string): Promise<TripPatternWithDetails | undefined>;
 };
 
 export function createJourneyApi(
@@ -150,6 +167,7 @@ export function createJourneyApi(
 
         const data: RecursivePartial<TripData> = mapResultToTrips(
           result.data.trip,
+          queryVariables,
         );
 
         const validated = tripSchema.safeParse(data);
@@ -178,6 +196,58 @@ export function createJourneyApi(
       );
 
       return trip;
+    },
+    async singleTrip(input) {
+      const tripQuery = parseTripQueryString(input);
+      if (!tripQuery) return;
+
+      const result = await client.query<
+        TripsWithDetailsQuery,
+        TripsWithDetailsQueryVariables
+      >({
+        query: TripsWithDetailsDocument,
+        variables: tripQuery.query,
+      });
+
+      if (result.error || result.errors) {
+        throw result.error || result.errors;
+      }
+
+      // Find the trip pattern that matches the journey IDs in the query
+      const singleTripPattern = result.data.trip.tripPatterns.find(
+        (pattern) => {
+          const journeyIds = extractServiceJourneyIds(pattern);
+          if (journeyIds.length != tripQuery.journeyIds.length) return false; // Fast comparison
+          return (
+            JSON.stringify(journeyIds) === JSON.stringify(tripQuery.journeyIds) // Slow comparison
+          );
+        },
+      );
+
+      if (!singleTripPattern) return;
+
+      const data: RecursivePartial<TripPatternWithDetails> = {
+        expectedStartTime: singleTripPattern?.expectedStartTime,
+        expectedEndTime: singleTripPattern?.expectedEndTime,
+        legs: singleTripPattern?.legs.map((leg) => ({
+          fromPlace: {
+            name: leg.fromPlace.name,
+          },
+          toPlace: {
+            name: leg.toPlace.name,
+          },
+          serviceJourney: {
+            id: leg.serviceJourney?.id ?? null,
+          },
+        })),
+      };
+
+      const validated = tripPatternWithDetailsSchema.safeParse(data);
+      if (!validated.success) {
+        throw validated.error;
+      }
+
+      return validated.data;
     },
   };
 
@@ -208,6 +278,7 @@ function inputToLocation(
 
 function mapResultToTrips(
   trip: TripsQuery['trip'],
+  queryVariables: TripsQueryVariables,
 ): RecursivePartial<TripData> {
   return {
     nextPageCursor: trip.nextPageCursor ?? null,
@@ -268,6 +339,11 @@ function mapResultToTrips(
             : null,
         };
       }),
+      compressedQuery: generateSingleTripQueryString(
+        extractServiceJourneyIds(tripPattern),
+        tripPattern.legs[0].aimedStartTime,
+        queryVariables,
+      ),
     })),
   };
 }
@@ -322,4 +398,78 @@ function mapNotices(
     id: notice.id,
     text: notice.text ?? null,
   }));
+}
+
+function generateSingleTripQueryString(
+  journeyIds: string[],
+  aimedStartTime: string,
+  queryVariables: TripsQueryVariables,
+) {
+  const when = getPaddedStartTime(aimedStartTime);
+  const {
+    from,
+    to,
+    transferPenalty,
+    waitReluctance,
+    walkReluctance,
+    walkSpeed,
+    modes,
+  } = queryVariables;
+  const arriveBy = false;
+  const singleTripQuery: TripsQueryVariables = {
+    when,
+    from,
+    to,
+    transferPenalty,
+    waitReluctance,
+    walkReluctance,
+    walkSpeed,
+    arriveBy,
+    modes,
+  };
+
+  // encode to string
+  return compressToEncodedURIComponent(
+    JSON.stringify({ query: singleTripQuery, journeyIds }),
+  );
+}
+
+function parseTripQueryString(
+  compressedQueryString: string,
+): { query: TripsQueryVariables; journeyIds: string[] } | undefined {
+  const queryString = decompressFromEncodedURIComponent(compressedQueryString);
+  if (!queryString) return;
+
+  const queryFields = JSON.parse(queryString);
+  if (isTripsQueryVariables(queryFields.query) && 'journeyIds' in queryFields)
+    return queryFields;
+  return;
+}
+
+function isTripsQueryVariables(a: any): a is TripsQueryVariables {
+  return a && 'from' in a && 'to' in a && 'when' in a && 'arriveBy' in a;
+}
+
+function getPaddedStartTime(time: string): string {
+  const startTime = parseISO(time);
+  return addSeconds(startTime, -60).toISOString();
+}
+
+/**
+ * Extracts an array of ServiceJourney IDs from a TripPattern.
+ * used as an attempt to identify a single Trip
+ */
+export function extractServiceJourneyIds(
+  tripPattern:
+    | TripPatternWithDetails
+    | TripsQuery['trip']['tripPatterns'][0]
+    | TripsWithDetailsQuery['trip']['tripPatterns'][0],
+) {
+  return tripPattern.legs
+    .map((leg) => {
+      return leg.serviceJourney?.id ?? null;
+    })
+    .filter((jId): jId is string => {
+      return typeof jId === 'string';
+    });
 }

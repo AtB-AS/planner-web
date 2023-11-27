@@ -1,0 +1,39 @@
+.container {
+  margin: 0 auto;
+  max-width: var(--maxPageWidth);
+  padding: var(--spacings-xLarge);
+
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  grid-template-areas:
+    'header header'
+    'trip map';
+  gap: var(--spacings-large);
+}
+@media (max-width: 650px) {
+  .container {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      'header'
+      'trip'
+      'map';
+  }
+}
+.headerContainer {
+  grid-area: header;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacings-large);
+}
+.mapContainer {
+  grid-area: map;
+  max-height: 37.5rem;
+  width: 100%;
+  margin: 0 auto;
+}
+.tripContainer {
+  grid-area: trip;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacings-medium);
+}

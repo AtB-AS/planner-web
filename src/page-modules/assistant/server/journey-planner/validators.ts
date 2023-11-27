@@ -63,6 +63,7 @@ export const tripPatternSchema = z.object({
   duration: z.number(),
   walkDistance: z.number(),
   legs: z.array(legSchema),
+  compressedQuery: z.string(),
 });
 
 export const tripSchema = z.object({
@@ -77,8 +78,29 @@ export const nonTransitSchema = z.object({
   duration: z.number(),
 });
 
+export const tripPatternWithDetailsSchema = z.object({
+  expectedStartTime: z.string(),
+  expectedEndTime: z.string(),
+  legs: z.array(
+    z.object({
+      fromPlace: z.object({
+        name: z.string(),
+      }),
+      toPlace: z.object({
+        name: z.string(),
+      }),
+      serviceJourney: z.object({
+        id: z.string().nullable(),
+      }),
+    }),
+  ),
+});
+
 export type TripData = z.infer<typeof tripSchema>;
 export type NonTransitData = z.infer<typeof nonTransitSchema>;
 export type TripPattern = z.infer<typeof tripPatternSchema>;
 export type Leg = z.infer<typeof legSchema>;
 export type Quay = z.infer<typeof quaySchema>;
+export type TripPatternWithDetails = z.infer<
+  typeof tripPatternWithDetailsSchema
+>;
