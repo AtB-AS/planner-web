@@ -28,6 +28,7 @@ query TripsWithDetails(
     tripPatterns {
       expectedStartTime
       expectedEndTime
+      duration
       legs {
         fromPlace {
           name

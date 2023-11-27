@@ -229,6 +229,7 @@ export function createJourneyApi(
       const data: RecursivePartial<TripPatternWithDetails> = {
         expectedStartTime: singleTripPattern?.expectedStartTime,
         expectedEndTime: singleTripPattern?.expectedEndTime,
+        duration: singleTripPattern?.duration ?? 0,
         legs: singleTripPattern?.legs.map((leg) => ({
           fromPlace: {
             name: leg.fromPlace.name,
