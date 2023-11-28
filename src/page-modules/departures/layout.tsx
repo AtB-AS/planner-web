@@ -23,6 +23,7 @@ import { useRouter } from 'next/router';
 import { ParsedUrlQueryInput } from 'node:querystring';
 import { FormEventHandler, PropsWithChildren, useState } from 'react';
 import style from './departures.module.css';
+import { MessageBox } from '@atb/components/message-box';
 
 export type DeparturesLayoutProps = PropsWithChildren<{
   initialTransportModesFilter?: TransportModeFilterOption[] | null;
@@ -50,6 +51,7 @@ function DeparturesLayout({
     getInitialTransportModeFilter(initialTransportModesFilter),
   );
   const [isSearching, setIsSearching] = useState(false);
+  const [geolocationError, setGeolocationError] = useState<string | null>(null);
 
   const onSubmitHandler: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
@@ -112,6 +114,7 @@ function DeparturesLayout({
                 <GeolocationButton
                   className={style.geolocationButton}
                   onGeolocate={setSelectedFeature}
+                  onError={setGeolocationError}
                 />
               }
             />
@@ -128,6 +131,12 @@ function DeparturesLayout({
               options={['now', 'departBy']}
             />
           </div>
+
+          {geolocationError !== null && (
+            <div className={style.spanColumns}>
+              <MessageBox type="warning" message={geolocationError} />
+            </div>
+          )}
         </motion.div>
 
         <AnimatePresence initial={false}>
@@ -188,6 +197,7 @@ function DeparturesLayout({
       <section className={style.contentContainer}>
         <LoadingEmptySearch
           isSearching={isSearching}
+          isGeolocationError={geolocationError !== null}
           type={selectedFeature?.layer === 'venue' ? 'stopPlace' : 'nearby'}
         >
           {children}

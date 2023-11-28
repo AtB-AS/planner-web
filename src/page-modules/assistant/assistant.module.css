@@ -65,8 +65,7 @@
   width: 100%;
   max-width: var(--maxPageWidth);
   margin: 0 auto;
-  padding: 0 var(--spacings-xLarge) var(--spacings-xLarge)
-    var(--spacings-xLarge);
+  padding: 0 var(--spacings-xLarge) var(--spacings-xLarge) var(--spacings-xLarge);
   z-index: 10;
   position: absolute;
   left: 0;
@@ -129,4 +128,8 @@
   display: flex;
   flex-wrap: wrap;
   gap: var(--spacings-medium);
+}
+
+.spanColumns {
+  grid-column: 1 / -1;
 }

@@ -2,16 +2,28 @@ import { Component, useEffect, useState } from 'react';
 import { LoadingIcon } from '@atb/components/loading';
 import { reverse } from '@atb/page-modules/departures/client';
 import { GeocoderFeature } from '@atb/page-modules/departures';
-import { ComponentText, useTranslation } from '@atb/translations';
+import {
+  ComponentText,
+  TranslateFunction,
+  useTranslation,
+} from '@atb/translations';
 import { MonoIcon } from '@atb/components/icon';
 
 type GeolocationButtonProps = {
   onGeolocate: (feature: GeocoderFeature) => void;
+  onError?: (error: string | null) => void;
   className?: string;
 };
-function GeolocationButton({ onGeolocate, className }: GeolocationButtonProps) {
+function GeolocationButton({
+  onGeolocate,
+  onError,
+  className,
+}: GeolocationButtonProps) {
   const { t } = useTranslation();
-  const { getPosition, isLoading, isUnavailable } = useGeolocation(onGeolocate);
+  const { getPosition, isLoading, isUnavailable } = useGeolocation(
+    onGeolocate,
+    onError,
+  );
 
   if (isUnavailable) return null;
 
@@ -32,7 +44,11 @@ function GeolocationButton({ onGeolocate, className }: GeolocationButtonProps) {
   );
 }
 
-function useGeolocation(onSuccess: (feature: GeocoderFeature) => void) {
+function useGeolocation(
+  onSuccess: (feature: GeocoderFeature) => void,
+  onError: (error: string | null) => void = () => {},
+) {
+  const { t } = useTranslation();
   const [error, setError] = useState<GeolocationPositionError | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isUnavailable, setIsUnavailable] = useState(false);
@@ -54,6 +70,7 @@ function useGeolocation(onSuccess: (feature: GeocoderFeature) => void) {
         setIsLoading(false);
       },
       (error) => {
+        onError?.(getErrorMessage(error.code, t));
         setError(error);
         setIsLoading(false);
       },
@@ -70,3 +87,15 @@ function useGeolocation(onSuccess: (feature: GeocoderFeature) => void) {
 }
 
 export default GeolocationButton;
+
+function getErrorMessage(code: number, t: TranslateFunction) {
+  switch (code) {
+    case GeolocationPositionError.PERMISSION_DENIED:
+      return t(ComponentText.GeolocationButton.error.denied);
+    case GeolocationPositionError.TIMEOUT:
+      return t(ComponentText.GeolocationButton.error.timeout);
+    case GeolocationPositionError.POSITION_UNAVAILABLE:
+    default:
+      return t(ComponentText.GeolocationButton.error.unavailable);
+  }
+}

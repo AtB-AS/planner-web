@@ -1,7 +1,7 @@
 import { useTransportationThemeColor } from '@atb/modules/transport-mode';
 import { DecorationLine, TripRow } from '@atb/modules/trip-details';
 import { MonoIcon } from '@atb/components/icon';
-import { MessageBox } from '@atb/modules/situations';
+import { MessageBox } from '@atb/components/message-box';
 import { TripPatternWithDetails } from '../../server/journey-planner/validators';
 import { getPlaceName } from '../utils';
 import { PageText, useTranslation } from '@atb/translations';

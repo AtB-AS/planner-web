@@ -8,12 +8,9 @@ import { ServiceJourneyData } from '../server/journey-planner/validators';
 import { EstimatedCallRows } from './estimated-call-rows';
 import { PageText, useTranslation } from '@atb/translations';
 import { Map } from '@atb/components/map';
-import {
-  MessageBox,
-  SituationMessageBox,
-  filterNotices,
-} from '@atb/modules/situations';
+import { SituationMessageBox, filterNotices } from '@atb/modules/situations';
 import { useRealtimeText } from '@atb/modules/trip-details';
+import { MessageBox } from '@atb/components/message-box';
 
 export type DeparturesDetailsProps = {
   fromQuayId?: string;

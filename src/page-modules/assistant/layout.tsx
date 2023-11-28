@@ -18,6 +18,7 @@ import { useRouter } from 'next/router';
 import { FormEventHandler, PropsWithChildren, useState } from 'react';
 import style from './assistant.module.css';
 import { createTripQuery } from './utils';
+import { MessageBox } from '@atb/components/message-box';
 
 export type AssistantLayoutProps = PropsWithChildren<{
   initialFromFeature?: GeocoderFeature;
@@ -51,6 +52,7 @@ function AssistantLayout({
   );
   const [isSwapping, setIsSwapping] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
+  const [geolocationError, setGeolocationError] = useState<string | null>(null);
 
   const onSwap = async () => {
     if (!selectedToFeature || !selectedFromFeature) return;
@@ -108,6 +110,7 @@ function AssistantLayout({
                 <GeolocationButton
                   className={style.searchInputButton}
                   onGeolocate={setSelectedFromFeature}
+                  onError={setGeolocationError}
                 />
               }
             />
@@ -136,6 +139,12 @@ function AssistantLayout({
               onChange={setSearchTime}
             />
           </div>
+
+          {geolocationError !== null && (
+            <div className={style.spanColumns}>
+              <MessageBox type="warning" message={geolocationError} />
+            </div>
+          )}
         </motion.div>
 
         <AnimatePresence initial={false}>
@@ -195,7 +204,11 @@ function AssistantLayout({
       </form>
 
       <section className={style.contentContainer}>
-        <EmptySearch isSearching={isSearching} type="trip">
+        <EmptySearch
+          isSearching={isSearching}
+          isGeolocationError={geolocationError !== null}
+          type="trip"
+        >
           {children}
         </EmptySearch>
       </section>

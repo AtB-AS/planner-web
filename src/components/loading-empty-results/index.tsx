@@ -8,11 +8,13 @@ import style from './loading-empty-results.module.css';
 
 export type LoadingEmptyResultsProps = PropsWithChildren<{
   isSearching: boolean;
+  isGeolocationError?: boolean;
   type: keyof typeof ComponentText.EmptySearch.searching;
 }>;
 
 export default function LoadingEmptyResults({
   isSearching,
+  isGeolocationError = false,
   type,
   children,
 }: LoadingEmptyResultsProps) {
@@ -27,7 +29,7 @@ export default function LoadingEmptyResults({
 
   return (
     <>
-      {!isSearching && hasEmptyChild && (
+      {!isSearching && !isGeolocationError && hasEmptyChild && (
         <EmptyMessage
           title={t(ComponentText.EmptySearch.notSearched)}
           details={t(ComponentText.EmptySearch.emptyDetails[type])}
@@ -45,6 +47,12 @@ export default function LoadingEmptyResults({
             {t(ComponentText.EmptySearch.searching[type])}
           </Typo.p>
         </motion.div>
+      )}
+      {!isSearching && isGeolocationError && hasEmptyChild && (
+        <EmptyMessage
+          title={t(ComponentText.EmptySearch.nearbyNoGeolocation.title)}
+          details={t(ComponentText.EmptySearch.nearbyNoGeolocation.details)}
+        />
       )}
       {!isSearching && !hasEmptyChild && children}
     </>
