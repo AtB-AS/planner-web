@@ -21,6 +21,7 @@ vi.mock('mapbox-gl/dist/mapbox-gl.js', () => {
         remove() {}
         on() {}
         flyTo() {}
+        getLayer() {}
       },
     },
   };
