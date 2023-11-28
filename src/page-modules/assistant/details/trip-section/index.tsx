@@ -17,6 +17,7 @@ import { PageText, useTranslation } from '@atb/translations';
 import { InterchangeDetails, InterchangeSection } from './interchange-section';
 import { formatLineName, getPlaceName } from '../utils';
 import WaitSection, { type LegWaitDetails } from './wait-section';
+import { EstimatedCallsSection } from './estimated-calls-section';
 
 export type TripSectionProps = {
   isFirst: boolean;
@@ -38,6 +39,7 @@ export default function TripSection({
     mode: leg.mode,
     subMode: leg.transportSubmode,
   });
+
   const showFrom = !isWalkSection || !!(isFirst && isWalkSection);
   const showTo = !isWalkSection || !!(isLast && isWalkSection);
 
@@ -107,6 +109,13 @@ export default function TripSection({
             />
           </TripRow>
         )}
+
+        <EstimatedCallsSection
+          numberOfIntermediateEstimatedCalls={
+            leg.numberOfIntermediateEstimatedCalls
+          }
+          duration={leg.duration}
+        />
 
         {showTo && (
           <TripRow

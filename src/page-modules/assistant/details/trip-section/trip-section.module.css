@@ -13,6 +13,7 @@
   --decorationLineEndWidth: 0.75rem;
 }
 .walkTime,
-.waitTime {
+.waitTime,
+.intermediateStops {
   color: var(--text-colors-secondary);
 }

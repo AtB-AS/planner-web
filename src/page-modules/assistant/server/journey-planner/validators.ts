@@ -135,6 +135,7 @@ export const tripPatternWithDetailsSchema = z.object({
           toServiceJourney: z.object({ id: z.string() }),
         })
         .nullable(),
+      numberOfIntermediateEstimatedCalls: z.number(),
     }),
   ),
 });
