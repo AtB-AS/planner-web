@@ -44,14 +44,8 @@
   align-items: center;
 }
 
-.geolocationError {
-  background-color: var(--static-status-warning-background);
-  color: var(--static-status-warning-text);
-  padding: var(--spacings-medium);
+.spanColumns {
   grid-column: 1 / -1;
-  border-radius: var(--border-radius-regular);
-  display: flex;
-  gap: var(--spacings-small);
 }
 
 .alternativesWrapper {

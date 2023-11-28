@@ -133,7 +133,9 @@ function DeparturesLayout({
           </div>
 
           {geolocationError !== null && (
-            <MessageBox type="warning" message={geolocationError} />
+            <div className={style.spanColumns}>
+              <MessageBox type="warning" message={geolocationError} />
+            </div>
           )}
         </motion.div>
 
