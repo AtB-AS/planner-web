@@ -8,7 +8,7 @@ import { ButtonLink } from '@atb/components/button';
 import { Map } from '@atb/components/map';
 import { secondsToDuration } from '@atb/utils/date';
 import { Typo } from '@atb/components/typography';
-import { getInterchangeDetails } from './utils';
+import { getInterchangeDetails } from './trip-section/interchange-section';
 
 export type AssistantDetailsProps = {
   tripPattern: TripPatternWithDetails;
