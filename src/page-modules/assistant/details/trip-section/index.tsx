@@ -12,18 +12,22 @@ import {
 import { Typo } from '@atb/components/typography';
 import WalkSection from './walk-section';
 import { ColorIcon } from '@atb/components/icon';
+import { formatLineName, getPlaceName } from '../utils';
 import { MessageBox } from '@atb/modules/situations';
 import { PageText, useTranslation } from '@atb/translations';
+import { InterchangeDetails, InterchangeSection } from './interchange-section';
 
 export type TripSectionProps = {
   isFirst: boolean;
   isLast: boolean;
   leg: TripPatternWithDetails['legs'][0];
+  interchangeDetails?: InterchangeDetails;
 };
 export default function TripSection({
   isFirst,
   isLast,
   leg,
+  interchangeDetails,
 }: TripSectionProps) {
   const { t } = useTranslation();
   const isWalkSection = leg.mode === 'foot';
@@ -31,6 +35,7 @@ export default function TripSection({
     mode: leg.mode,
     subMode: leg.transportSubmode,
   });
+
   const showFrom = !isWalkSection || !!(isFirst && isWalkSection);
   const showTo = !isWalkSection || !!(isLast && isWalkSection);
 
@@ -119,30 +124,12 @@ export default function TripSection({
           </TripRow>
         )}
       </div>
+      {interchangeDetails && leg.interchangeTo?.guaranteed && leg.line && (
+        <InterchangeSection
+          interchangeDetails={interchangeDetails}
+          publicCode={leg.line.publicCode}
+        />
+      )}
     </div>
   );
-}
-
-function formatQuayName(quayName?: string, publicCode?: string | null) {
-  if (!quayName) return;
-  if (!publicCode) return quayName;
-  return `${quayName} ${publicCode}`;
-}
-
-function getPlaceName(
-  placeName?: string,
-  quayName?: string,
-  publicCode?: string,
-): string {
-  const fallback = placeName ?? '';
-  return quayName ? formatQuayName(quayName, publicCode) ?? fallback : fallback;
-}
-
-function formatLineName(
-  frontText?: string,
-  lineName?: string,
-  publicCode?: string,
-): string {
-  const name = frontText ?? lineName ?? '';
-  return publicCode ? `${publicCode} ${name}` : name;
 }

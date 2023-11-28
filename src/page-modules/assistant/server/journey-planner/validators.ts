@@ -129,6 +129,12 @@ export const tripPatternWithDetailsSchema = z.object({
           destinationDisplay: z.object({ frontText: z.string() }),
         })
         .nullable(),
+      interchangeTo: z
+        .object({
+          guaranteed: z.boolean(),
+          toServiceJourney: z.object({ id: z.string() }),
+        })
+        .nullable(),
     }),
   ),
 });

@@ -302,6 +302,14 @@ export function createJourneyApi(
                 },
               }
             : null,
+          interchangeTo: leg.interchangeTo?.toServiceJourney?.id
+            ? {
+                guaranteed: leg.interchangeTo.guaranteed ?? false,
+                toServiceJourney: {
+                  id: leg.interchangeTo.toServiceJourney.id,
+                },
+              }
+            : null,
         })),
       };
 
