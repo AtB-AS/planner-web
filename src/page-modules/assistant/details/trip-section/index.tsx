@@ -12,22 +12,25 @@ import {
 import { Typo } from '@atb/components/typography';
 import WalkSection from './walk-section';
 import { ColorIcon } from '@atb/components/icon';
-import { formatLineName, getPlaceName } from '../utils';
 import { MessageBox } from '@atb/modules/situations';
 import { PageText, useTranslation } from '@atb/translations';
 import { InterchangeDetails, InterchangeSection } from './interchange-section';
+import { formatLineName, getPlaceName } from '../utils';
+import WaitSection, { type LegWaitDetails } from './wait-section';
 
 export type TripSectionProps = {
   isFirst: boolean;
   isLast: boolean;
   leg: TripPatternWithDetails['legs'][0];
   interchangeDetails?: InterchangeDetails;
+  legWaitDetails?: LegWaitDetails;
 };
 export default function TripSection({
   isFirst,
   isLast,
   leg,
   interchangeDetails,
+  legWaitDetails,
 }: TripSectionProps) {
   const { t } = useTranslation();
   const isWalkSection = leg.mode === 'foot';
@@ -35,9 +38,11 @@ export default function TripSection({
     mode: leg.mode,
     subMode: leg.transportSubmode,
   });
-
   const showFrom = !isWalkSection || !!(isFirst && isWalkSection);
   const showTo = !isWalkSection || !!(isLast && isWalkSection);
+
+  const showInterchangeSection =
+    interchangeDetails && leg.interchangeTo?.guaranteed && leg.line;
 
   return (
     <div className={style.container}>
@@ -124,12 +129,14 @@ export default function TripSection({
           </TripRow>
         )}
       </div>
-      {interchangeDetails && leg.interchangeTo?.guaranteed && leg.line && (
+      {showInterchangeSection && (
         <InterchangeSection
           interchangeDetails={interchangeDetails}
-          publicCode={leg.line.publicCode}
+          publicCode={leg.line?.publicCode}
         />
       )}
+
+      <WaitSection legWaitDetails={legWaitDetails} />
     </div>
   );
 }

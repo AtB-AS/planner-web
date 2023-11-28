@@ -9,6 +9,7 @@ import { Map } from '@atb/components/map';
 import { secondsToDuration } from '@atb/utils/date';
 import { Typo } from '@atb/components/typography';
 import { getInterchangeDetails } from './trip-section/interchange-section';
+import { getLegWaitDetails } from './trip-section/wait-section';
 
 export type AssistantDetailsProps = {
   tripPattern: TripPatternWithDetails;
@@ -70,12 +71,13 @@ export function AssistantDetails({ tripPattern }: AssistantDetailsProps) {
           <TripSection
             key={index}
             isFirst={index === 0}
-            isLast={index === tripPattern.legs.length}
+            isLast={index === tripPattern.legs.length - 1}
             leg={leg}
             interchangeDetails={getInterchangeDetails(
               tripPattern.legs,
               leg.interchangeTo?.toServiceJourney.id,
             )}
+            legWaitDetails={getLegWaitDetails(leg, tripPattern.legs[index + 1])}
           />
         ))}
       </div>

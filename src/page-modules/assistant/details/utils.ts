@@ -1,5 +1,3 @@
-import { TripPatternWithDetails } from '../server/journey-planner/validators';
-
 export function formatQuayName(quayName?: string, publicCode?: string | null) {
   if (!quayName) return;
   if (!publicCode) return quayName;

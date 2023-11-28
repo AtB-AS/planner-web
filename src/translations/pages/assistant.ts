@@ -376,6 +376,11 @@ export const Assistant = {
           `Correspondance with ${toPublicCode} on ${location}.`,
           `Korrespondanse med ${toPublicCode} på ${location}.`,
         ),
+      wait: {
+        label: (time: string) =>
+          _(`Vent i ${time}`, `Wait for ${time}`, `Vent i ${time}`),
+        shortTime: _('Kort byttetid', 'Short changeover time', 'Kort byttetid'),
+      },
     },
   },
 };

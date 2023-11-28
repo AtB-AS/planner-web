@@ -12,3 +12,7 @@
   --decorationLineWidth: 0.25rem;
   --decorationLineEndWidth: 0.75rem;
 }
+.walkTime,
+.waitTime {
+  color: var(--text-colors-secondary);
+}
