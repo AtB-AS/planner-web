@@ -33,6 +33,7 @@
   border: none;
   border-radius: var(--border-radius-circle);
   background-color: var(--static-background-background_1-background);
+  color: var(--static-background-background_1-text);
 }
 
 .dialog::backdrop {
@@ -50,6 +51,7 @@
   gap: var(--spacings-medium);
   padding: var(--spacings-large);
   background-color: var(--static-background-background_0-background);
+  color: var(--static-background-background_0-text);
   border-radius: var(--border-radius-regular);
 }
 .dialog__button {
