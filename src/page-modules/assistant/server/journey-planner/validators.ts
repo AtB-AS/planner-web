@@ -4,6 +4,7 @@ import {
   transportSubmodeSchema,
 } from '@atb/modules/transport-mode';
 import { noticeSchema, situationSchema } from '@atb/modules/situations';
+import { mapLegSchema } from '@atb/components/map';
 
 export const serviceJourneySchema = z.object({
   id: z.string(),
@@ -82,6 +83,7 @@ export const tripPatternWithDetailsSchema = z.object({
   expectedStartTime: z.string(),
   expectedEndTime: z.string(),
   duration: z.number(),
+  walkDistance: z.number(),
   legs: z.array(
     z.object({
       mode: transportModeSchema,
@@ -91,6 +93,7 @@ export const tripPatternWithDetailsSchema = z.object({
       expectedEndTime: z.string(),
       realtime: z.boolean(),
       duration: z.number(),
+      mapLegs: z.array(mapLegSchema),
       line: z
         .object({
           name: z.string(),
@@ -100,6 +103,8 @@ export const tripPatternWithDetailsSchema = z.object({
         .nullable(), // line is null for legs with transportMode = foot
       fromPlace: z.object({
         name: z.string(),
+        latitude: z.number(),
+        longitude: z.number(),
         quay: z
           .object({
             name: z.string(),

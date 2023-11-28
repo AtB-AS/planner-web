@@ -3,18 +3,18 @@ import mapboxgl from 'mapbox-gl';
 import style from './map.module.css';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { mapboxData } from '@atb/modules/org-data';
-import Button from '../button/button';
+import { Button } from '@atb/components/button';
 import { MonoIcon } from '@atb/components/icon';
 import { ComponentText, useTranslation } from '@atb/translations';
 import { FocusScope } from '@react-aria/focus';
-import { MapLegType } from '@atb/page-modules/departures';
 import { useTheme } from '@atb/modules/theme';
-import { Position, ZOOM_LEVEL, defaultPosition } from './utils';
+import { ZOOM_LEVEL, defaultPosition } from './utils';
 import { useMapInteractions } from './use-map-interactions';
 import { useFullscreenMap } from './use-fullscreen-map';
 import { useMapPin } from './use-map-pin';
 import { useMapLegs } from './use-map-legs';
 import { and } from '@atb/utils/css';
+import { MapLegType, Position } from './types';
 
 export type MapProps = {
   position?: Position;

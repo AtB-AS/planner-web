@@ -40,6 +40,7 @@ import {
   TripsWithDetailsQuery,
   TripsWithDetailsQueryVariables,
 } from './journey-gql/trip-with-details.generated';
+import { mapToMapLegs } from '@atb/components/map';
 
 const MIN_NUMBER_OF_TRIP_PATTERNS = 8;
 const MAX_NUMBER_OF_SEARCH_ATTEMPTS = 5;
@@ -230,6 +231,7 @@ export function createJourneyApi(
         expectedStartTime: singleTripPattern?.expectedStartTime,
         expectedEndTime: singleTripPattern?.expectedEndTime,
         duration: singleTripPattern?.duration ?? 0,
+        walkDistance: singleTripPattern?.streetDistance ?? 0,
         legs: singleTripPattern?.legs.map((leg) => ({
           mode: isTransportModeType(leg.mode) ? leg.mode : 'unknown',
           aimedStartTime: leg.aimedStartTime,
@@ -238,6 +240,25 @@ export function createJourneyApi(
           expectedEndTime: leg.expectedEndTime,
           realtime: leg.realtime,
           duration: leg.duration,
+          mapLegs: leg.pointsOnLink?.points
+            ? mapToMapLegs(
+                leg.pointsOnLink,
+                isTransportModeType(leg.mode) ? leg.mode : 'unknown',
+                leg.line?.transportSubmode ?? 'unknown',
+                leg.fromPlace
+                  ? {
+                      latitude: leg.fromPlace.latitude,
+                      longitude: leg.fromPlace.longitude,
+                    }
+                  : undefined,
+                leg.toPlace
+                  ? {
+                      latitude: leg.toPlace.latitude,
+                      longitude: leg.toPlace.longitude,
+                    }
+                  : undefined,
+              )
+            : [],
           line:
             leg.line && leg.line.name
               ? {
@@ -248,6 +269,8 @@ export function createJourneyApi(
               : null,
           fromPlace: {
             name: leg.fromPlace.name,
+            latitude: leg.fromPlace.latitude,
+            longitude: leg.fromPlace.longitude,
             quay: leg.fromPlace.quay
               ? {
                   name: leg.fromPlace.quay.name,
