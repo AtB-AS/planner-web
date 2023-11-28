@@ -352,6 +352,11 @@ export const Assistant = {
         `Walk for less than a minute`,
         `Gå i mindre enn eitt minutt`,
       ),
+      departureIsRailReplacementBus: _(
+        'Buss for tog',
+        'Rail replacement bus',
+        'Buss for tog',
+      ),
     },
   },
 };

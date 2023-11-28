@@ -87,6 +87,7 @@ export const tripPatternWithDetailsSchema = z.object({
   legs: z.array(
     z.object({
       mode: transportModeSchema,
+      transportSubmode: transportSubmodeSchema,
       aimedStartTime: z.string(),
       aimedEndTime: z.string(),
       expectedStartTime: z.string(),
@@ -98,7 +99,6 @@ export const tripPatternWithDetailsSchema = z.object({
         .object({
           name: z.string(),
           publicCode: z.string(),
-          transportSubmode: transportSubmodeSchema,
         })
         .nullable(), // line is null for legs with transportMode = foot
       fromPlace: z.object({

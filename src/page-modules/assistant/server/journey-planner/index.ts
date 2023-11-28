@@ -234,6 +234,9 @@ export function createJourneyApi(
         walkDistance: singleTripPattern?.streetDistance ?? 0,
         legs: singleTripPattern?.legs.map((leg) => ({
           mode: isTransportModeType(leg.mode) ? leg.mode : 'unknown',
+          transportSubmode: isTransportSubmodeType(leg.transportSubmode)
+            ? leg.transportSubmode
+            : 'unknown',
           aimedStartTime: leg.aimedStartTime,
           aimedEndTime: leg.aimedEndTime,
           expectedStartTime: leg.expectedStartTime,
@@ -244,7 +247,9 @@ export function createJourneyApi(
             ? mapToMapLegs(
                 leg.pointsOnLink,
                 isTransportModeType(leg.mode) ? leg.mode : 'unknown',
-                leg.line?.transportSubmode ?? 'unknown',
+                isTransportSubmodeType(leg.transportSubmode)
+                  ? leg.transportSubmode
+                  : 'unknown',
                 leg.fromPlace
                   ? {
                       latitude: leg.fromPlace.latitude,
@@ -264,7 +269,6 @@ export function createJourneyApi(
               ? {
                   name: leg.line.name,
                   publicCode: leg.line.publicCode ?? '',
-                  transportSubmode: leg.line.transportSubmode ?? 'unknown',
                 }
               : null,
           fromPlace: {
