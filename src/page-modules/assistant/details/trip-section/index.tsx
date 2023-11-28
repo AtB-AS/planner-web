@@ -15,7 +15,7 @@ import { ColorIcon } from '@atb/components/icon';
 import { MessageBox } from '@atb/modules/situations';
 import { PageText, useTranslation } from '@atb/translations';
 import { InterchangeDetails, InterchangeSection } from './interchange-section';
-import { formatLineName, getPlaceName } from '../utils';
+import { formatLineName, getPlaceName, type LegWaitDetails } from '../utils';
 import WaitSection from './wait-section';
 
 export type TripSectionProps = {

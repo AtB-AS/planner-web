@@ -24,3 +24,24 @@ export function formatLineName(
   const name = frontText ?? lineName ?? '';
   return publicCode ? `${publicCode} ${name}` : name;
 }
+
+export type LegWaitDetails = {
+  waitTime: number;
+  mustWaitForNextLeg: boolean;
+};
+export function getLegWaitDetails(
+  leg: TripPatternWithDetails['legs'][0],
+  nextLeg: TripPatternWithDetails['legs'][0],
+): LegWaitDetails | undefined {
+  if (!nextLeg) return undefined;
+  const waitTime = secondsBetween(
+    leg.expectedEndTime,
+    nextLeg.expectedStartTime,
+  );
+  const mustWaitForNextLeg = waitTime > 0;
+
+  return {
+    waitTime,
+    mustWaitForNextLeg,
+  };
+}
