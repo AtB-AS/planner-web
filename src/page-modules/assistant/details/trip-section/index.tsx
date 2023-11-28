@@ -12,14 +12,10 @@ import {
 import { Typo } from '@atb/components/typography';
 import WalkSection from './walk-section';
 import { ColorIcon } from '@atb/components/icon';
-import {
-  type InterchangeDetails,
-  formatLineName,
-  getPlaceName,
-} from '../utils';
-import { MonoIcon } from '@atb/components/icon';
+import { formatLineName, getPlaceName } from '../utils';
 import { MessageBox } from '@atb/modules/situations';
 import { PageText, useTranslation } from '@atb/translations';
+import { InterchangeDetails, InterchangeSection } from './interchange-section';
 
 export type TripSectionProps = {
   isFirst: boolean;
@@ -39,10 +35,7 @@ export default function TripSection({
     mode: leg.mode,
     subMode: leg.transportSubmode,
   });
-  const unknownTransportationColor = useTransportationThemeColor({
-    mode: 'unknown',
-    subMode: undefined,
-  });
+
   const showFrom = !isWalkSection || !!(isFirst && isWalkSection);
   const showTo = !isWalkSection || !!(isLast && isWalkSection);
 
@@ -132,31 +125,10 @@ export default function TripSection({
         )}
       </div>
       {interchangeDetails && leg.interchangeTo?.guaranteed && leg.line && (
-        <div className={style.rowContainer}>
-          <DecorationLine color={unknownTransportationColor.backgroundColor} />
-          <TripRow rowLabel={<MonoIcon icon="actions/Interchange" />}>
-            <MessageBox
-              noStatusIcon
-              type="info"
-              message={
-                leg.line.publicCode
-                  ? t(
-                      PageText.Assistant.details.tripSection.interchange(
-                        leg.line.publicCode,
-                        interchangeDetails.publicCode,
-                        interchangeDetails.fromPlace,
-                      ),
-                    )
-                  : t(
-                      PageText.Assistant.details.tripSection.interchangeWithUnknownFromPublicCode(
-                        interchangeDetails.publicCode,
-                        interchangeDetails.fromPlace,
-                      ),
-                    )
-              }
-            />
-          </TripRow>
-        </div>
+        <InterchangeSection
+          interchangeDetails={interchangeDetails}
+          publicCode={leg.line.publicCode}
+        />
       )}
     </div>
   );

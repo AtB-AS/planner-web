@@ -23,30 +23,3 @@ export function formatLineName(
   const name = frontText ?? lineName ?? '';
   return publicCode ? `${publicCode} ${name}` : name;
 }
-
-export type InterchangeDetails = {
-  publicCode: string;
-  fromPlace: string;
-};
-
-export function getInterchangeDetails(
-  legs: TripPatternWithDetails['legs'],
-  id: string | undefined,
-): InterchangeDetails | undefined {
-  if (!id) return undefined;
-  const interchangeLeg = legs.find(
-    (leg) => leg.line && leg.serviceJourney?.id === id,
-  );
-
-  if (interchangeLeg?.line?.publicCode) {
-    return {
-      publicCode: interchangeLeg.line.publicCode,
-      fromPlace: getPlaceName(
-        interchangeLeg.fromPlace.name,
-        interchangeLeg.fromPlace.quay?.name,
-        interchangeLeg.fromPlace.quay?.publicCode,
-      ),
-    };
-  }
-  return undefined;
-}
