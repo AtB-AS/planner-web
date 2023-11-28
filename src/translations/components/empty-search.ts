@@ -41,4 +41,16 @@ export const EmptySearch = {
       'Lastar avgangar...',
     ),
   },
+  nearbyNoGeolocation: {
+    title: _(
+      'Holdeplasser i nærheten er ikke tilgjengelig',
+      'Stop places nearby are not available',
+      'Haldeplassar i nærleiken er ikkje tilgjengeleg',
+    ),
+    details: _(
+      'Del din posisjon for å finne holdeplasser i nærheten. Bruk søkefeltet for å finne andre holdeplasser.',
+      'Share your position to find stop places nearby. Use the search field to find other stop places.',
+      'Del din posisjon for å finne haldeplassar i nærleiken. Bruk søkefeltet for å finne andre haldeplassar.',
+    ),
+  },
 };

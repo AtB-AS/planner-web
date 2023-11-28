@@ -197,6 +197,7 @@ function DeparturesLayout({
       <section className={style.contentContainer}>
         <LoadingEmptySearch
           isSearching={isSearching}
+          isGeolocationError={geolocationError !== null}
           type={selectedFeature?.layer === 'venue' ? 'stopPlace' : 'nearby'}
         >
           {children}

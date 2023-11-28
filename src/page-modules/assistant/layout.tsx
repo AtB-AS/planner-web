@@ -204,7 +204,11 @@ function AssistantLayout({
       </form>
 
       <section className={style.contentContainer}>
-        <EmptySearch isSearching={isSearching} type="trip">
+        <EmptySearch
+          isSearching={isSearching}
+          isGeolocationError={geolocationError !== null}
+          type="trip"
+        >
           {children}
         </EmptySearch>
       </section>
