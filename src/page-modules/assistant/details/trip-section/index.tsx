@@ -18,6 +18,9 @@ import { InterchangeDetails, InterchangeSection } from './interchange-section';
 import { formatLineName, getPlaceName, type LegWaitDetails } from '../utils';
 import WaitSection from './wait-section';
 
+// Set number of seconds required before showing waiting indicator
+const SHOW_WAIT_TIME_THRESHOLD_IN_SECONDS = 30;
+
 export type TripSectionProps = {
   isFirst: boolean;
   isLast: boolean;
@@ -40,6 +43,12 @@ export default function TripSection({
   });
   const showFrom = !isWalkSection || !!(isFirst && isWalkSection);
   const showTo = !isWalkSection || !!(isLast && isWalkSection);
+
+  const showWaitSection =
+    legWaitDetails?.mustWaitForNextLeg &&
+    legWaitDetails.waitTime > SHOW_WAIT_TIME_THRESHOLD_IN_SECONDS;
+  const showInterchangeSection =
+    interchangeDetails && leg.interchangeTo?.guaranteed && leg.line;
 
   return (
     <div className={style.container}>
@@ -126,13 +135,13 @@ export default function TripSection({
           </TripRow>
         )}
       </div>
-      {interchangeDetails && leg.interchangeTo?.guaranteed && leg.line && (
+      {showInterchangeSection && (
         <InterchangeSection
           interchangeDetails={interchangeDetails}
-          publicCode={leg.line.publicCode}
+          publicCode={leg.line?.publicCode}
         />
       )}
-      {legWaitDetails?.mustWaitForNextLeg && legWaitDetails.waitTime > 30 && (
+      {showWaitSection && (
         <WaitSection waitTimeInSeconds={legWaitDetails.waitTime} />
       )}
     </div>
