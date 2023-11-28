@@ -1,4 +1,4 @@
-import { mapLegSchema } from '@atb/modules/map';
+import { mapLegSchema } from '@atb/components/map';
 import { noticeSchema, situationSchema } from '@atb/modules/situations';
 import {
   transportModeSchema,

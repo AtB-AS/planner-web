@@ -4,7 +4,7 @@ import {
   transportSubmodeSchema,
 } from '@atb/modules/transport-mode';
 import { noticeSchema, situationSchema } from '@atb/modules/situations';
-import { mapLegSchema } from '@atb/modules/map';
+import { mapLegSchema } from '@atb/components/map';
 
 export const serviceJourneySchema = z.object({
   id: z.string(),

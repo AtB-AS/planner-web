@@ -18,6 +18,8 @@ export const Map = {
       'Reset map view',
       'Tilbakestill kartvisning',
     ),
+    startPoint: _('Start', 'Start', 'Start'),
+    endPoint: _('Slutt', 'End', 'Slutt'),
   },
   button: {
     travelFrom: _('Reis fra', 'Travel from', 'Reis frå'),

@@ -40,7 +40,7 @@ import {
   TripsWithDetailsQuery,
   TripsWithDetailsQueryVariables,
 } from './journey-gql/trip-with-details.generated';
-import { mapToMapLegs } from '@atb/modules/map';
+import { mapToMapLegs } from '@atb/components/map';
 
 const MIN_NUMBER_OF_TRIP_PATTERNS = 8;
 const MAX_NUMBER_OF_SEARCH_ATTEMPTS = 5;

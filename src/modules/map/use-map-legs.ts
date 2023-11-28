@@ -1,7 +1,9 @@
-import { Theme } from '@atb-as/theme';
+import { ContrastColor, Theme } from '@atb-as/theme';
 import { transportModeToColor } from '@atb/modules/transport-mode';
 import { useCallback, useEffect } from 'react';
 import hexToRgba from 'hex-to-rgba';
+import { useTheme } from '@atb/modules/theme';
+import { ComponentText, useTranslation } from '@atb/translations';
 import { MapLegType } from './types';
 
 export const useMapLegs = (
@@ -9,6 +11,9 @@ export const useMapLegs = (
   transport: Theme['transport'],
   mapLegs?: MapLegType[],
 ) => {
+  const { t, language } = useTranslation();
+  const { static: staticColors } = useTheme();
+
   const addToMap = useCallback(
     (map: mapboxgl.Map, mapLeg: MapLegType, id: number) => {
       const transportColor = transportModeToColor(
@@ -37,6 +42,55 @@ export const useMapLegs = (
     [transport],
   );
 
+  const addStartEndText = useCallback(
+    (map: mapboxgl.Map, startMapLeg: MapLegType, endMapLeg: MapLegType) => {
+      const startTextSourceId = 'start-text';
+      const endTextSourceId = 'end-text';
+      const startTextPoint = createStartEndTextPoint(startMapLeg.points[0]);
+      const startTextLayer = createStartEndTextLayer(
+        startTextSourceId,
+        t(ComponentText.Map.map.startPoint),
+        staticColors.background.background_accent_0,
+      );
+      const endTextPoint = createStartEndTextPoint(endMapLeg.points[0]);
+      const endTextLayer = createStartEndTextLayer(
+        endTextSourceId,
+        t(ComponentText.Map.map.endPoint),
+        staticColors.background.background_accent_0,
+      );
+
+      map.addSource(startTextSourceId, startTextPoint);
+      map.addSource(endTextSourceId, endTextPoint);
+      map.addLayer(startTextLayer);
+      map.addLayer(endTextLayer);
+    },
+    [staticColors, t],
+  );
+
+  /**
+   * Update the start and end text when the language changes
+   */
+  useEffect(() => {
+    if (!mapRef || !mapRef.current) return;
+    const map = mapRef.current;
+    const startTextLayer = map.getLayer('start-text');
+    const endTextLayer = map.getLayer('end-text');
+    if (startTextLayer) {
+      map.setLayoutProperty(
+        'start-text',
+        'text-field',
+        t(ComponentText.Map.map.startPoint),
+      );
+    }
+    if (endTextLayer) {
+      map.setLayoutProperty(
+        'end-text',
+        'text-field',
+        t(ComponentText.Map.map.endPoint),
+      );
+    }
+  }, [language, mapRef, t]);
+
   useEffect(() => {
     if (!mapRef || !mapRef.current || !mapLegs) return;
     const map = mapRef.current;
@@ -47,8 +101,10 @@ export const useMapLegs = (
           addToMap(map, mapLeg, index);
         }
       });
+
+      addStartEndText(map, mapLegs[0], mapLegs[mapLegs.length - 1]);
     });
-  }, [mapRef, mapLegs, addToMap]);
+  }, [mapRef, mapLegs, addToMap, addStartEndText]);
 };
 
 const createRouteFeature = (points: number[][]): mapboxgl.AnySourceData => ({
@@ -107,5 +163,37 @@ const createStartEndLayer = (
   paint: {
     'circle-radius': 7.5,
     'circle-color': color,
+  },
+});
+
+const createStartEndTextPoint = (point: number[]): mapboxgl.AnySourceData => ({
+  type: 'geojson',
+  data: {
+    type: 'Feature',
+    properties: {},
+    geometry: {
+      type: 'Point',
+      coordinates: [point[1], point[0]],
+    },
+  },
+});
+
+const createStartEndTextLayer = (
+  source: string,
+  textField: string,
+  contrastColor: ContrastColor,
+): mapboxgl.AnyLayer => ({
+  id: source,
+  type: 'symbol',
+  source: source,
+  layout: {
+    'text-field': textField,
+    'text-justify': 'auto',
+    'text-offset': [0, -1],
+  },
+  paint: {
+    'text-color': contrastColor.text,
+    'text-halo-color': contrastColor.background,
+    'text-halo-width': 2,
   },
 });

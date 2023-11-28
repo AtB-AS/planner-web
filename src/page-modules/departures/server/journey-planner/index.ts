@@ -48,7 +48,7 @@ import {
 } from './journey-gql/service-journey-with-estimated-calls.generated';
 import { formatISO } from 'date-fns';
 import { Situation } from '@atb/modules/situations';
-import { mapToMapLegs } from '@atb/modules/map';
+import { mapToMapLegs } from '@atb/components/map';
 
 export type DepartureInput = {
   id: string;
