@@ -17,7 +17,7 @@ import { PageText, useTranslation } from '@atb/translations';
 import { InterchangeDetails, InterchangeSection } from './interchange-section';
 import { formatLineName, getPlaceName } from '../utils';
 import WaitSection, { type LegWaitDetails } from './wait-section';
-import { secondsToDuration } from '@atb/utils/date';
+import { EstimatedCallsSection } from './estimated-calls-section';
 
 export type TripSectionProps = {
   isFirst: boolean;
@@ -33,16 +33,13 @@ export default function TripSection({
   interchangeDetails,
   legWaitDetails,
 }: TripSectionProps) {
-  const { t, language } = useTranslation();
+  const { t } = useTranslation();
   const isWalkSection = leg.mode === 'foot';
   const legColor = useTransportationThemeColor({
     mode: leg.mode,
     subMode: leg.transportSubmode,
   });
-  const unknownTransportationColor = useTransportationThemeColor({
-    mode: 'unknown',
-    subMode: undefined,
-  });
+
   const showFrom = !isWalkSection || !!(isFirst && isWalkSection);
   const showTo = !isWalkSection || !!(isLast && isWalkSection);
 
@@ -112,26 +109,13 @@ export default function TripSection({
             />
           </TripRow>
         )}
-        {leg.numberOfIntermediateEstimatedCalls > 0 && (
-          <TripRow>
-            <Typo.p
-              textType="body__secondary"
-              className={style.intermediateStops}
-            >
-              {t(
-                PageText.Assistant.details.tripSection.intermediateStops(
-                  leg.numberOfIntermediateEstimatedCalls,
-                ),
-              )}
-            </Typo.p>
-            <Typo.p
-              textType="body__secondary"
-              className={style.intermediateStops}
-            >
-              {secondsToDuration(leg.duration, language)}
-            </Typo.p>
-          </TripRow>
-        )}
+
+        <EstimatedCallsSection
+          numberOfIntermediateEstimatedCalls={
+            leg.numberOfIntermediateEstimatedCalls
+          }
+          duration={leg.duration}
+        />
 
         {showTo && (
           <TripRow
