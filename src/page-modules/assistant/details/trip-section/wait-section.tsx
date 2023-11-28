@@ -6,19 +6,35 @@ import { secondsToDuration } from '@atb/utils/date';
 import style from './trip-section.module.css';
 import { ColorIcon, MonoIcon } from '@atb/components/icon';
 import { MessageBox } from '@atb/modules/situations';
+import { LegWaitDetails } from '../utils';
+
+// Set number of seconds required before showing waiting indicator
+const SHOW_WAIT_TIME_THRESHOLD_IN_SECONDS = 30;
+
+// Set number of seconds required before showing short waiting indicator
+const SHOW_SHORT_WAIT_TIME_THRESHOLD_IN_SECONDS = 180;
 
 export type WaitSectionProps = {
-  waitTimeInSeconds: number;
+  legWaitDetails?: LegWaitDetails;
 };
 
-export default function WaitSection({ waitTimeInSeconds }: WaitSectionProps) {
+export default function WaitSection({ legWaitDetails }: WaitSectionProps) {
   const { t, language } = useTranslation();
   const unknownTransportationColor = useTransportationThemeColor({
     mode: 'unknown',
     subMode: undefined,
   });
-  const waitTime = secondsToDuration(waitTimeInSeconds, language);
-  const shortWait = waitTimeInSeconds <= 180;
+
+  const showWaitSection =
+    legWaitDetails &&
+    legWaitDetails.mustWaitForNextLeg &&
+    legWaitDetails.waitTime > SHOW_WAIT_TIME_THRESHOLD_IN_SECONDS;
+
+  if (!showWaitSection) return null;
+
+  const waitTime = secondsToDuration(legWaitDetails.waitTime, language);
+  const shortWait =
+    legWaitDetails.waitTime <= SHOW_SHORT_WAIT_TIME_THRESHOLD_IN_SECONDS;
 
   return (
     <div className={style.rowContainer}>
