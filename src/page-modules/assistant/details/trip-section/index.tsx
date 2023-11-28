@@ -12,7 +12,7 @@ import {
 import { Typo } from '@atb/components/typography';
 import WalkSection from './walk-section';
 import { ColorIcon } from '@atb/components/icon';
-import { MessageBox } from '@atb/modules/situations';
+import { MessageBox } from '@atb/components/message-box';
 import { PageText, useTranslation } from '@atb/translations';
 import { InterchangeDetails, InterchangeSection } from './interchange-section';
 import { formatLineName, getPlaceName } from '../utils';

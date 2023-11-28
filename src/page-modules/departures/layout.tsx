@@ -23,6 +23,7 @@ import { useRouter } from 'next/router';
 import { ParsedUrlQueryInput } from 'node:querystring';
 import { FormEventHandler, PropsWithChildren, useState } from 'react';
 import style from './departures.module.css';
+import { MessageBox } from '@atb/components/message-box';
 
 export type DeparturesLayoutProps = PropsWithChildren<{
   initialTransportModesFilter?: TransportModeFilterOption[] | null;
@@ -132,10 +133,7 @@ function DeparturesLayout({
           </div>
 
           {geolocationError !== null && (
-            <div className={style.geolocationError}>
-              <MonoIcon icon="status/Info" />
-              <Typo.p textType="body__primary">{geolocationError}</Typo.p>
-            </div>
+            <MessageBox type="warning" message={geolocationError} />
           )}
         </motion.div>
 

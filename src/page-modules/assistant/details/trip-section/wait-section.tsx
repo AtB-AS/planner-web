@@ -5,7 +5,7 @@ import { PageText, useTranslation } from '@atb/translations';
 import { secondsBetween, secondsToDuration } from '@atb/utils/date';
 import style from './trip-section.module.css';
 import { ColorIcon, MonoIcon } from '@atb/components/icon';
-import { MessageBox } from '@atb/modules/situations';
+import { MessageBox } from '@atb/components/message-box';
 import { TripPatternWithDetails } from '../../server/journey-planner/validators';
 
 // Set number of seconds required before showing waiting indicator

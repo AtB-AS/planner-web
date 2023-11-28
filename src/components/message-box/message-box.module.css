@@ -1,0 +1,25 @@
+.container {
+  display: flex;
+  padding: var(--spacings-medium);
+}
+.borderRadius {
+  border-radius: var(--border-radius-regular);
+}
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.title {
+  margin-bottom: var(--spacings-small);
+  padding: var(--spacings-small);
+}
+.body {
+  padding: var(--spacings-small);
+}
+.messageBox__button {
+  padding: var(--spacings-small);
+}
+.icon {
+  margin-top: var(--spacings-small);
+}
