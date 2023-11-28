@@ -20,13 +20,10 @@ function GeolocationButton({
   className,
 }: GeolocationButtonProps) {
   const { t } = useTranslation();
-  const { getPosition, isLoading, isUnavailable, error } =
-    useGeolocation(onGeolocate);
-
-  useEffect(() => {
-    if (error) onError?.(getErrorMessage(error.code, t));
-    else onError?.(null);
-  }, [error, onError, t]);
+  const { getPosition, isLoading, isUnavailable } = useGeolocation(
+    onGeolocate,
+    onError,
+  );
 
   if (isUnavailable) return null;
 
@@ -47,7 +44,11 @@ function GeolocationButton({
   );
 }
 
-function useGeolocation(onSuccess: (feature: GeocoderFeature) => void) {
+function useGeolocation(
+  onSuccess: (feature: GeocoderFeature) => void,
+  onError: (error: string | null) => void = () => {},
+) {
+  const { t } = useTranslation();
   const [error, setError] = useState<GeolocationPositionError | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isUnavailable, setIsUnavailable] = useState(false);
@@ -69,6 +70,7 @@ function useGeolocation(onSuccess: (feature: GeocoderFeature) => void) {
         setIsLoading(false);
       },
       (error) => {
+        onError?.(getErrorMessage(error.code, t));
         setError(error);
         setIsLoading(false);
       },
