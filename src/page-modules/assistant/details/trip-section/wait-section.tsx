@@ -2,11 +2,11 @@ import { Typo } from '@atb/components/typography';
 import { useTransportationThemeColor } from '@atb/modules/transport-mode';
 import { DecorationLine, TripRow } from '@atb/modules/trip-details';
 import { PageText, useTranslation } from '@atb/translations';
-import { secondsToDuration } from '@atb/utils/date';
+import { secondsBetween, secondsToDuration } from '@atb/utils/date';
 import style from './trip-section.module.css';
 import { ColorIcon, MonoIcon } from '@atb/components/icon';
 import { MessageBox } from '@atb/modules/situations';
-import { LegWaitDetails } from '../utils';
+import { TripPatternWithDetails } from '../../server/journey-planner/validators';
 
 // Set number of seconds required before showing waiting indicator
 const SHOW_WAIT_TIME_THRESHOLD_IN_SECONDS = 30;
@@ -59,4 +59,25 @@ export default function WaitSection({ legWaitDetails }: WaitSectionProps) {
       </TripRow>
     </div>
   );
+}
+
+export type LegWaitDetails = {
+  waitTime: number;
+  mustWaitForNextLeg: boolean;
+};
+export function getLegWaitDetails(
+  leg: TripPatternWithDetails['legs'][0],
+  nextLeg: TripPatternWithDetails['legs'][0],
+): LegWaitDetails | undefined {
+  if (!nextLeg) return undefined;
+  const waitTime = secondsBetween(
+    leg.expectedEndTime,
+    nextLeg.expectedStartTime,
+  );
+  const mustWaitForNextLeg = waitTime > 0;
+
+  return {
+    waitTime,
+    mustWaitForNextLeg,
+  };
 }

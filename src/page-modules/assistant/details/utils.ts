@@ -1,6 +1,3 @@
-import { secondsBetween } from '@atb/utils/date';
-import { TripPatternWithDetails } from '../server/journey-planner/validators';
-
 export function formatQuayName(quayName?: string, publicCode?: string | null) {
   if (!quayName) return;
   if (!publicCode) return quayName;
@@ -23,25 +20,4 @@ export function formatLineName(
 ): string {
   const name = frontText ?? lineName ?? '';
   return publicCode ? `${publicCode} ${name}` : name;
-}
-
-export type LegWaitDetails = {
-  waitTime: number;
-  mustWaitForNextLeg: boolean;
-};
-export function getLegWaitDetails(
-  leg: TripPatternWithDetails['legs'][0],
-  nextLeg: TripPatternWithDetails['legs'][0],
-): LegWaitDetails | undefined {
-  if (!nextLeg) return undefined;
-  const waitTime = secondsBetween(
-    leg.expectedEndTime,
-    nextLeg.expectedStartTime,
-  );
-  const mustWaitForNextLeg = waitTime > 0;
-
-  return {
-    waitTime,
-    mustWaitForNextLeg,
-  };
 }

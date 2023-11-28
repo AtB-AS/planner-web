@@ -9,7 +9,7 @@ import { Map } from '@atb/components/map';
 import { secondsToDuration } from '@atb/utils/date';
 import { Typo } from '@atb/components/typography';
 import { getInterchangeDetails } from './trip-section/interchange-section';
-import { getLegWaitDetails } from './utils';
+import { getLegWaitDetails } from './trip-section/wait-section';
 
 export type AssistantDetailsProps = {
   tripPattern: TripPatternWithDetails;
