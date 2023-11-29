@@ -59,7 +59,7 @@ export function AssistantDetails({ tripPattern }: AssistantDetailsProps) {
             <Typo.p textType="body__primary">
               {t(
                 PageText.Assistant.details.mapSection.walkDistance(
-                  String(tripPattern.walkDistance),
+                  tripPattern.walkDistance.toFixed(),
                 ),
               )}
             </Typo.p>

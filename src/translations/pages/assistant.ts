@@ -337,9 +337,9 @@ export const Assistant = {
         ),
       walkDistance: (distance: string) =>
         _(
-          `Total gangavstand: ${distance}`,
-          `Total walking distance: ${distance}`,
-          `Total gangavstand: ${distance}`,
+          `Total gangavstand: ${distance} m`,
+          `Total walking distance: ${distance} m`,
+          `Total gangavstand: ${distance} m`,
         ),
     },
     tripSection: {
