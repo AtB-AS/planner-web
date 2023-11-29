@@ -5,7 +5,10 @@ import type {
   TripData,
 } from './server/journey-planner/validators';
 import { searchModeSchema, type SearchTime } from '@atb/modules/search-time';
-import { type TransportModeType } from '@atb/modules/transport-mode';
+import {
+  TransportModeFilterOption,
+  type TransportModeType,
+} from '@atb/modules/transport-mode';
 
 export type TripInput = {
   from: GeocoderFeature;
@@ -13,6 +16,14 @@ export type TripInput = {
   searchTime: SearchTime;
   transportModes?: TransportModeType[];
   cursor?: string;
+};
+
+export type FromToTripQuery = {
+  from: GeocoderFeature | null;
+  to: GeocoderFeature | null;
+  transportModeFilter: TransportModeFilterOption[] | null;
+  searchTime: SearchTime;
+  cursor: string | null;
 };
 
 export const TripQuerySchema = z.object({

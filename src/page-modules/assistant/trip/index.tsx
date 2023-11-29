@@ -12,7 +12,7 @@ import { PageText, useTranslation } from '@atb/translations';
 import { Typo } from '@atb/components/typography';
 import { GeocoderFeature } from '@atb/page-modules/departures';
 import { nextTripPatterns } from '../client';
-import { NonTransitTripData } from '../types';
+import { FromToTripQuery, NonTransitTripData } from '../types';
 import {
   createTripQuery,
   filterOutDuplicates,
@@ -30,7 +30,6 @@ import {
   getInitialTransportModeFilter,
   type TransportModeFilterOption,
 } from '@atb/modules/transport-mode';
-import { FromToTripQuery } from '../trip-query-fetcher';
 
 export type TripProps = {
   tripQuery: FromToTripQuery;
@@ -132,11 +131,14 @@ function useTripPatterns(initialTrip: TripData, searchTime: SearchTime) {
   ) => {
     setIsFetchingTripPatterns(true);
     const tripQuery = createTripQuery(
-      from,
-      to,
-      searchTime,
+      {
+        from,
+        to,
+        searchTime,
+        transportModeFilter: [],
+        cursor: cursor,
+      },
       getInitialTransportModeFilter(filter),
-      cursor || undefined,
     );
     const trip = await nextTripPatterns(tripQuery);
     const newTripPatternsWithTransitionDelay = tripPatternsWithTransitionDelay(

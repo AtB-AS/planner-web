@@ -1,21 +1,12 @@
-import { SearchTime, parseSearchTimeQuery } from '@atb/modules/search-time';
-import {
-  TransportModeFilterOption,
-  parseFilterQuery,
-} from '@atb/modules/transport-mode';
+import { parseSearchTimeQuery } from '@atb/modules/search-time';
+import { parseFilterQuery } from '@atb/modules/transport-mode';
 import { GeocoderFeature } from '@atb/page-modules/departures';
 import { ParsedUrlQuery } from 'querystring';
 import { TripQuery } from '.';
 import { AssistantClient } from './server';
+import { FromToTripQuery } from './types';
 import { parseTripQuery } from './utils';
 
-export type FromToTripQuery = {
-  from: GeocoderFeature | null;
-  to: GeocoderFeature | null;
-  transportModeFilter: TransportModeFilterOption[] | null;
-  searchTime: SearchTime;
-  cursor: string | null;
-};
 export async function fetchFromToTripQuery(
   query: ParsedUrlQuery,
   client: AssistantClient,

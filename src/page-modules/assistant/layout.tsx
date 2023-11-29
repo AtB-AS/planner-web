@@ -17,8 +17,9 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useRouter } from 'next/router';
 import { FormEventHandler, PropsWithChildren, useState } from 'react';
 import style from './assistant.module.css';
-import { FromToTripQuery } from './trip-query-fetcher';
 import { createTripQuery } from './utils';
+import { FromToTripQuery } from './types';
+import trip from '@atb/pages/api/assistant/trip';
 
 export type AssistantLayoutProps = PropsWithChildren<{
   tripQuery: FromToTripQuery;
@@ -48,12 +49,7 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
   const onSwap = async () => {
     if (!selectedToFeature || !selectedFromFeature) return;
     setIsSwapping(true);
-    const query = createTripQuery(
-      selectedToFeature,
-      selectedFromFeature,
-      searchTime,
-      transportModeFilter,
-    );
+    const query = createTripQuery(tripQuery, transportModeFilter);
     const temp = selectedFromFeature;
     setSelectedFromFeature(selectedToFeature);
     setSelectedToFeature(temp);
@@ -68,12 +64,7 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
     e.preventDefault();
     if (!selectedFromFeature || !selectedToFeature) return;
     setIsSearching(true);
-    const query = createTripQuery(
-      selectedFromFeature,
-      selectedToFeature,
-      searchTime,
-      transportModeFilter,
-    );
+    const query = createTripQuery(tripQuery, transportModeFilter);
     await router.push({ pathname: '/assistant', query });
     setIsSearching(false);
   };

@@ -1,15 +1,11 @@
-import { GeocoderFeature } from '@atb/page-modules/departures';
-import {
-  type TripData,
-  type TripQuery,
-  TripQuerySchema,
-} from '@atb/page-modules/assistant';
-import type { SearchMode, SearchTime } from '@atb/modules/search-time';
-import {
-  filterToQueryString,
-  type TransportModeFilterState,
-} from '@atb/modules/transport-mode';
+import type { SearchMode } from '@atb/modules/search-time';
 import { searchTimeToQueryString } from '@atb/modules/search-time';
+import {
+  TransportModeFilterState,
+  filterToQueryString,
+} from '@atb/modules/transport-mode';
+import { GeocoderFeature } from '@atb/page-modules/departures';
+import { FromToTripQuery, TripData, TripQuery, TripQuerySchema } from './types';
 
 export function filterOutDuplicates(
   arrayToFilter: TripData['tripPatterns'],
@@ -29,25 +25,35 @@ export function getCursorBySearchMode(trip: TripData, searchMode: SearchMode) {
   }
 }
 
-function featuresToFromToQuery(from: GeocoderFeature, to: GeocoderFeature) {
-  return {
-    fromId: from.id,
-    fromLon: from.geometry.coordinates[0],
-    fromLat: from.geometry.coordinates[1],
-    fromLayer: from.layer,
-    toId: to.id,
-    toLon: to.geometry.coordinates[0],
-    toLat: to.geometry.coordinates[1],
-    toLayer: to.layer,
-  };
+function featuresToFromToQuery(
+  from: GeocoderFeature | null,
+  to: GeocoderFeature | null,
+) {
+  let ret = {};
+  if (from) {
+    ret = {
+      fromId: from.id,
+      fromLon: from.geometry.coordinates[0],
+      fromLat: from.geometry.coordinates[1],
+      fromLayer: from.layer,
+    };
+  }
+
+  if (to) {
+    ret = {
+      ...ret,
+      toId: to.id,
+      toLon: to.geometry.coordinates[0],
+      toLat: to.geometry.coordinates[1],
+      toLayer: to.layer,
+    };
+  }
+  return ret;
 }
 
 export function createTripQuery(
-  fromFeature: GeocoderFeature,
-  toFeature: GeocoderFeature,
-  searchTime: SearchTime,
-  transportModeFilter?: TransportModeFilterState,
-  cursor?: string,
+  tripQuery: FromToTripQuery,
+  transportModeFilter: TransportModeFilterState,
 ): TripQuery {
   let transportModeFilterQuery = {};
   if (transportModeFilter) {
@@ -59,9 +65,9 @@ export function createTripQuery(
     }
   }
 
-  const searchTimeQuery = searchTimeToQueryString(searchTime);
-  const cursorQuery = cursor ? { cursor } : {};
-  const fromToQuery = featuresToFromToQuery(fromFeature, toFeature);
+  const searchTimeQuery = searchTimeToQueryString(tripQuery.searchTime);
+  const cursorQuery = tripQuery.cursor ? { cursor: tripQuery.cursor } : {};
+  const fromToQuery = featuresToFromToQuery(tripQuery.from, tripQuery.to);
 
   return {
     ...transportModeFilterQuery,
