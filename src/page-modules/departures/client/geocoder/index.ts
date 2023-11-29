@@ -6,8 +6,10 @@ import useDebounce from '@atb/utils/use-debounce';
 export type AutocompleteApiReturnType = GeocoderFeature[];
 export type ReverseApiReturnType = GeocoderFeature | undefined;
 
+const DEBOUNCE_TIME_AUTOCOMPLETE_IN_MS = 300;
+
 export function useAutocomplete(q: string) {
-  const debouncedQuery = useDebounce(q, 500);
+  const debouncedQuery = useDebounce(q, DEBOUNCE_TIME_AUTOCOMPLETE_IN_MS);
 
   return useSWR<AutocompleteApiReturnType>(
     debouncedQuery !== ''
