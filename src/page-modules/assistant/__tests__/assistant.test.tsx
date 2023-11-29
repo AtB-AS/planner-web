@@ -93,7 +93,17 @@ describe('assistant page', function () {
   });
 
   it('should render assistant page header', () => {
-    render(<AssistantLayout />);
+    render(
+      <AssistantLayout
+        tripQuery={{
+          from: null,
+          to: null,
+          searchTime: { mode: 'now' },
+          cursor: null,
+          transportModeFilter: null,
+        }}
+      />,
+    );
 
     expect(screen.getByText('Fra')).toBeInTheDocument();
     expect(screen.getByText('Til')).toBeInTheDocument();
@@ -115,12 +125,15 @@ describe('assistant page', function () {
   it('should render empty search results', () => {
     const output = render(
       <Trip
-        initialFromFeature={fromFeature}
-        initialToFeature={toFeature}
+        tripQuery={{
+          from: fromFeature,
+          to: toFeature,
+          searchTime: { mode: 'departBy', dateTime: Date.now() },
+          transportModeFilter: null,
+          cursor: null,
+        }}
         trip={{ ...tripResult, tripPatterns: [] }}
-        initialSearchTime={{ mode: 'departBy', dateTime: Date.now() }}
         nonTransitTrips={nonTransitTripResult}
-        initialTransportModesFilter={null}
       />,
     );
 
@@ -136,12 +149,15 @@ describe('assistant page', function () {
   it('should render empty search results with filter details', () => {
     const output = render(
       <Trip
-        initialFromFeature={fromFeature}
-        initialToFeature={toFeature}
+        tripQuery={{
+          from: fromFeature,
+          to: toFeature,
+          searchTime: { mode: 'departBy', dateTime: Date.now() },
+          transportModeFilter: ['bus'],
+          cursor: null,
+        }}
         trip={{ ...tripResult, tripPatterns: [] }}
-        initialSearchTime={{ mode: 'departBy', dateTime: Date.now() }}
         nonTransitTrips={nonTransitTripResult}
-        initialTransportModesFilter={['bus']}
       />,
     );
 
