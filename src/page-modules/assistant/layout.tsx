@@ -17,9 +17,8 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useRouter } from 'next/router';
 import { FormEventHandler, PropsWithChildren, useState } from 'react';
 import style from './assistant.module.css';
-import { createTripQuery } from './utils';
 import { FromToTripQuery } from './types';
-import trip from '@atb/pages/api/assistant/trip';
+import { createTripQuery } from './utils';
 
 export type AssistantLayoutProps = PropsWithChildren<{
   tripQuery: FromToTripQuery;
@@ -30,12 +29,6 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
   const router = useRouter();
 
   const [showAlternatives, setShowAlternatives] = useState(false);
-  const [selectedFromFeature, setSelectedFromFeature] = useState<
-    GeocoderFeature | undefined
-  >(tripQuery.from ?? undefined);
-  const [selectedToFeature, setSelectedToFeature] = useState<
-    GeocoderFeature | undefined
-  >(tripQuery.to ?? undefined);
   const [searchTime, setSearchTime] = useState<SearchTime>(
     tripQuery.searchTime,
   );
@@ -46,28 +39,38 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
   const [isSearching, setIsSearching] = useState(false);
   const [geolocationError, setGeolocationError] = useState<string | null>(null);
 
-  const onSwap = async () => {
-    if (!selectedToFeature || !selectedFromFeature) return;
-    setIsSwapping(true);
-    const query = createTripQuery(tripQuery, transportModeFilter);
-    const temp = selectedFromFeature;
-    setSelectedFromFeature(selectedToFeature);
-    setSelectedToFeature(temp);
-    setIsSwapping(false);
-
+  const setValuesWithLoading = async (override: Partial<FromToTripQuery>) => {
     setIsSearching(true);
-    await router.push({ pathname: '/assistant', query });
+    const query = createTripQuery(
+      {
+        ...tripQuery,
+        ...override,
+        searchTime,
+      },
+      transportModeFilter,
+    );
+    await router.push({ query });
     setIsSearching(false);
+  };
+
+  const onSwap = async () => {
+    setIsSwapping(true);
+    await setValuesWithLoading({
+      from: tripQuery.to,
+      to: tripQuery.from,
+    });
+    setIsSwapping(false);
   };
 
   const onSubmitHandler: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    if (!selectedFromFeature || !selectedToFeature) return;
-    setIsSearching(true);
-    const query = createTripQuery(tripQuery, transportModeFilter);
-    await router.push({ pathname: '/assistant', query });
-    setIsSearching(false);
+    setValuesWithLoading({});
   };
+
+  const onFromSelected = async (from: GeocoderFeature) =>
+    setValuesWithLoading({ from });
+  const onToSelected = async (to: GeocoderFeature) =>
+    setValuesWithLoading({ to });
 
   return (
     <div>
@@ -85,22 +88,20 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
 
             <Search
               label={t(PageText.Assistant.search.input.from)}
-              onChange={setSelectedFromFeature}
-              initialFeature={tripQuery.from ?? undefined}
-              selectedItem={selectedFromFeature}
+              onChange={onFromSelected}
+              selectedItem={tripQuery.from ?? undefined}
               button={
                 <GeolocationButton
                   className={style.searchInputButton}
-                  onGeolocate={setSelectedFromFeature}
+                  onGeolocate={onFromSelected}
                   onError={setGeolocationError}
                 />
               }
             />
             <Search
               label={t(PageText.Assistant.search.input.to)}
-              onChange={setSelectedToFeature}
-              initialFeature={tripQuery.to ?? undefined}
-              selectedItem={selectedToFeature}
+              onChange={onToSelected}
+              selectedItem={tripQuery.to ?? undefined}
               button={
                 <SwapButton
                   className={style.searchInputButton}
@@ -178,7 +179,7 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
             title={t(PageText.Assistant.search.buttons.find.title)}
             className={style.button}
             mode="interactive_0"
-            disabled={!selectedFromFeature || !selectedToFeature}
+            disabled={!tripQuery.from || !tripQuery.to}
             buttonProps={{ type: 'submit' }}
             state={isSearching ? 'loading' : undefined}
           />
