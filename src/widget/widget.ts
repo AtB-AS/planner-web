@@ -55,6 +55,9 @@ export function createWidget({ urlBase }: WidgetOptions): PlannerWebOutput {
 function init() {
   tabBar();
 
+  setDefaultTimeForDatetime('pw-assistant');
+  setDefaultTimeForDatetime('pw-departure');
+
   let fromTo = {
     from: undefined as GeocoderFeature | undefined,
     to: undefined as GeocoderFeature | undefined,
@@ -79,7 +82,7 @@ function init() {
     ?.addEventListener('submit', (e) => {
       e.preventDefault();
       const form = e.currentTarget as HTMLFormElement;
-      submitDeparture(form.action, fromTo.from!);
+      submitDeparture(form, fromTo.from!);
     });
 
   document
@@ -87,8 +90,71 @@ function init() {
     ?.addEventListener('submit', (e) => {
       e.preventDefault();
       const form = e.currentTarget as HTMLFormElement;
-      submitAssistant(form.action, fromTo.from!, fromTo.to);
+      submitAssistant(form, fromTo.from!, fromTo.to);
     });
+}
+
+function setDefaultTimeForDatetime(prefix: string) {
+  const date = document.querySelector<HTMLInputElement>(
+    `#${prefix}-searchTimeSelector-date`,
+  );
+  const time = document.querySelector<HTMLInputElement>(
+    `#${prefix}-searchTimeSelector-time`,
+  );
+
+  try {
+    if (date) {
+      date.valueAsDate = new Date();
+    }
+    if (time) {
+      const now = new Date();
+      now.setSeconds(0);
+      now.setMilliseconds(0);
+      time.valueAsDate = now;
+    }
+  } catch (e) {}
+}
+
+function getSearchTime(formData: FormData): SearchTime {
+  const searchTimeSelector = formData.get('searchTimeSelector');
+
+  if (searchTimeSelector === 'now') {
+    return {
+      mode: 'now',
+    };
+  } else {
+    const date = formData.get('dateinput');
+    const time = formData.get('timeinput');
+    if (date && time) {
+      const datetime = new Date(`${date}T${time}`);
+      return {
+        mode: searchTimeSelector == 'arriveBy' ? 'arriveBy' : 'departBy',
+        dateTime: datetime.getTime(),
+      };
+    }
+    return {
+      mode: 'now',
+    };
+  }
+}
+
+function submitAssistant(
+  form: HTMLFormElement,
+  from: GeocoderFeature,
+  to?: GeocoderFeature,
+) {
+  const url = form.action;
+  const searchTime = getSearchTime(new FormData(form));
+  const query = createTripQueryForAssistant({ from, to }, searchTime);
+  const params = new URLSearchParams(query);
+  window.location.href = `${url}?${params.toString()}`;
+}
+function submitDeparture(form: HTMLFormElement, from: GeocoderFeature) {
+  const url = form.action;
+  const searchTime = getSearchTime(new FormData(form));
+  const query = createTripQueryForDeparture(from, searchTime);
+  const params = new URLSearchParams(query);
+  window.location.href = `${url}?${params.toString()}`;
 }
 
 function createOutput({ URL_BASE }: SettingConstants) {
@@ -226,7 +292,7 @@ function createOutput({ URL_BASE }: SettingConstants) {
       </button>
     </div>
   `;
-  const searchTime = (withArriveBy: boolean = true) => html`
+  const searchTime = (prefix: string, withArriveBy: boolean = true) => html`
     <div class="${style.inputBoxes}">
       <p class="${style.heading}">Når vil du reise?</p>
       <div>
@@ -286,16 +352,21 @@ function createOutput({ URL_BASE }: SettingConstants) {
         >
           <div class="${style.selector_dateAndTimeSelectors}">
             <div class="${style.selector_dateSelector}">
-              <label for="searchTimeSelector-date">Dato</label>
+              <label for="${`${prefix}-searchTimeSelector-date`}">Dato</label>
               <input
                 type="date"
-                id="searchTimeSelector-date"
-                value="2023-11-10"
+                name="dateinput"
+                id="${`${prefix}-searchTimeSelector-date`}"
               />
             </div>
             <div class="${style.selector_timeSelector}">
-              <label for="searchTimeSelector-time">Tid</label>
-              <input type="time" id="searchTimeSelector-time" value="12:19" />
+              <label for="${`${prefix}-searchTimeSelector-time`}">Tid</label>
+              <input
+                type="time"
+                name="timeinput"
+                step="60"
+                id="${`${prefix}-searchTimeSelector-time`}"
+              />
             </div>
           </div>
         </div>
@@ -397,7 +468,7 @@ function createOutput({ URL_BASE }: SettingConstants) {
             </div>
           </div>
         </div>
-        ${searchTime()}
+        ${searchTime('pw-assistant')}
       </div>
       ${buttons}
     </form>
@@ -462,7 +533,7 @@ function createOutput({ URL_BASE }: SettingConstants) {
             </button>
           </div>
         </div>
-        ${searchTime(false)}
+        ${searchTime('pw-departure', false)}
       </div>
       ${buttons}
     </form>
@@ -494,30 +565,6 @@ function createOutput({ URL_BASE }: SettingConstants) {
   `;
 
   return output;
-}
-
-function submitAssistant(
-  url: string,
-  from: GeocoderFeature,
-  to?: GeocoderFeature,
-) {
-  const query = createTripQueryForAssistant(
-    { from, to },
-    {
-      mode: 'now',
-    },
-  );
-
-  const params = new URLSearchParams(query);
-  window.location.href = `${url}?${params.toString()}`;
-}
-function submitDeparture(url: string, from: GeocoderFeature) {
-  const query = createTripQueryForDeparture(from, {
-    mode: 'now',
-  });
-
-  const params = new URLSearchParams(query);
-  window.location.href = `${url}?${params.toString()}`;
 }
 
 function tabBar() {
