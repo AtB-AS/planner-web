@@ -2,6 +2,7 @@ import { GraphQlRequester } from '@atb/modules/api-server';
 import {
   StreetMode,
   TransportMode as GraphQlTransportMode,
+  Notice as GraphQlNotice,
 } from '@atb/modules/graphql-types';
 import {
   TripsDocument,
@@ -29,7 +30,7 @@ import {
   isTransportModeType,
   isTransportSubmodeType,
 } from '@atb/modules/transport-mode';
-import { Notice, Situation } from '@atb/modules/situations';
+import { Notice, Situation, filterNotices } from '@atb/modules/situations';
 import {
   compressToEncodedURIComponent,
   decompressFromEncodedURIComponent,
@@ -312,6 +313,13 @@ export function createJourneyApi(
             : null,
           numberOfIntermediateEstimatedCalls:
             leg.intermediateEstimatedCalls.length,
+          notices: mapAndFilterNotices([
+            ...(leg.line?.notices || []),
+            ...(leg.serviceJourney?.notices || []),
+            ...(leg.serviceJourney?.journeyPattern?.notices || []),
+            ...(leg.fromEstimatedCall?.notices || []),
+          ]),
+          situations: mapSituations(leg.situations),
         })),
       };
 
@@ -545,4 +553,18 @@ export function extractServiceJourneyIds(
     .filter((jId): jId is string => {
       return typeof jId === 'string';
     });
+}
+
+function mapAndFilterNotices(notices: GraphQlNotice[]): Notice[] {
+  const mappedNotices = notices
+    .map((notice) => {
+      if (!notice) return;
+      return {
+        id: notice.id,
+        text: notice.text ?? null,
+      };
+    })
+    .filter((n) => n) as Notice[];
+
+  return filterNotices(mappedNotices);
 }

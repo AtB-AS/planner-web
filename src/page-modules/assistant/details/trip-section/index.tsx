@@ -13,6 +13,10 @@ import { Typo } from '@atb/components/typography';
 import WalkSection from './walk-section';
 import { ColorIcon } from '@atb/components/icon';
 import { MessageBox } from '@atb/components/message-box';
+import {
+  SituationMessageBox,
+  SituationOrNoticeIcon,
+} from '@atb/modules/situations';
 import { PageText, useTranslation } from '@atb/translations';
 import { InterchangeDetails, InterchangeSection } from './interchange-section';
 import { formatLineName, getPlaceName } from '../utils';
@@ -95,6 +99,27 @@ export default function TripSection({
               )}
             </Typo.p>
           </TripRow>
+        )}
+
+        {leg.situations.map((situation) => (
+          <TripRow
+            key={situation.id}
+            rowLabel={<SituationOrNoticeIcon situation={situation} />}
+          >
+            <SituationMessageBox noStatusIcon situation={situation} />
+          </TripRow>
+        ))}
+
+        {leg.notices.map(
+          (notice) =>
+            notice.text && (
+              <TripRow
+                key={notice.id}
+                rowLabel={<ColorIcon icon="status/Info" />}
+              >
+                <MessageBox type="info" noStatusIcon message={notice.text} />
+              </TripRow>
+            ),
         )}
 
         {leg.transportSubmode === 'railReplacementBus' && (

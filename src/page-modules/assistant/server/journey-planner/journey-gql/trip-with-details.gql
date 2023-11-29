@@ -46,6 +46,9 @@ query TripsWithDetails(
         line {
           name
           publicCode
+          notices {
+            ...notice
+          }
         }
         fromPlace {
           name
@@ -67,8 +70,19 @@ query TripsWithDetails(
         }
         serviceJourney {
           id
+          notices {
+            ...notice
+          }
+          journeyPattern {
+            notices {
+              ...notice
+            }
+          }
         }
         fromEstimatedCall {
+          notices {
+            ...notice
+          }
           destinationDisplay {
             frontText
           }
@@ -81,6 +95,9 @@ query TripsWithDetails(
         }
         intermediateEstimatedCalls {
           aimedDepartureTime
+        }
+        situations {
+          ...situation
         }
       }
     }
