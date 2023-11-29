@@ -17,9 +17,10 @@ export const journeyClient = createExternalClient(
   createJourneyApi,
 );
 
-export const withAssistantClient = createWithExternalClientDecorator(
-  composeClientFactories(journeyClient, geocoderClient),
-);
+const composed = composeClientFactories(journeyClient, geocoderClient);
+export const withAssistantClient = createWithExternalClientDecorator(composed);
+
+export type AssistantClient = ReturnType<typeof composed>;
 
 export const handlerWithAssistantClient =
   createWithExternalClientDecoratorForHttpHandlers(

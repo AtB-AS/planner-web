@@ -16,16 +16,16 @@ export type TripInput = {
 };
 
 export const TripQuerySchema = z.object({
-  fromId: z.string(),
-  fromLon: z.number(),
-  fromLat: z.number(),
-  fromLayer: z.union([z.literal('address'), z.literal('venue')]),
-  toId: z.string(),
-  toLon: z.number(),
-  toLat: z.number(),
-  toLayer: z.union([z.literal('address'), z.literal('venue')]),
+  fromId: z.string().optional(),
+  fromLon: z.number().optional(),
+  fromLat: z.number().optional(),
+  fromLayer: z.union([z.literal('address'), z.literal('venue')]).optional(),
+  toId: z.string().optional(),
+  toLon: z.number().optional(),
+  toLat: z.number().optional(),
+  toLayer: z.union([z.literal('address'), z.literal('venue')]).optional(),
   filter: z.string().optional(),
-  searchMode: searchModeSchema,
+  searchMode: searchModeSchema.optional(),
   searchTime: z.number().optional(),
   cursor: z.string().optional(),
 });

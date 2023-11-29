@@ -19,36 +19,28 @@ import { FormEventHandler, PropsWithChildren, useState } from 'react';
 import style from './assistant.module.css';
 import { createTripQuery } from './utils';
 import { MessageBox } from '@atb/components/message-box';
+import { FromToTripQuery } from './trip-query-fetcher';
 
 export type AssistantLayoutProps = PropsWithChildren<{
-  initialFromFeature?: GeocoderFeature;
-  initialToFeature?: GeocoderFeature;
-  initialTransportModesFilter?: TransportModeFilterOption[] | null;
-  initialSearchTime?: SearchTime;
+  tripQuery: FromToTripQuery;
 }>;
 
-function AssistantLayout({
-  children,
-  initialFromFeature,
-  initialToFeature,
-  initialTransportModesFilter,
-  initialSearchTime,
-}: AssistantLayoutProps) {
+function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
   const { t } = useTranslation();
   const router = useRouter();
 
   const [showAlternatives, setShowAlternatives] = useState(false);
   const [selectedFromFeature, setSelectedFromFeature] = useState<
     GeocoderFeature | undefined
-  >(initialFromFeature);
+  >(tripQuery.from ?? undefined);
   const [selectedToFeature, setSelectedToFeature] = useState<
     GeocoderFeature | undefined
-  >(initialToFeature);
+  >(tripQuery.to ?? undefined);
   const [searchTime, setSearchTime] = useState<SearchTime>(
-    initialSearchTime ?? { mode: 'now' },
+    tripQuery.searchTime,
   );
   const [transportModeFilter, setTransportModeFilter] = useState(
-    getInitialTransportModeFilter(initialTransportModesFilter),
+    getInitialTransportModeFilter(tripQuery.transportModeFilter),
   );
   const [isSwapping, setIsSwapping] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
@@ -104,7 +96,7 @@ function AssistantLayout({
             <Search
               label={t(PageText.Assistant.search.input.from)}
               onChange={setSelectedFromFeature}
-              initialFeature={initialFromFeature}
+              initialFeature={tripQuery.from ?? undefined}
               selectedItem={selectedFromFeature}
               button={
                 <GeolocationButton
@@ -117,7 +109,7 @@ function AssistantLayout({
             <Search
               label={t(PageText.Assistant.search.input.to)}
               onChange={setSelectedToFeature}
-              initialFeature={initialToFeature}
+              initialFeature={tripQuery.to ?? undefined}
               selectedItem={selectedToFeature}
               button={
                 <SwapButton

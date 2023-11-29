@@ -72,13 +72,13 @@ export function createTripQuery(
 }
 
 export function parseTripQuery(query: any): TripQuery | undefined {
-  const requiredNumericFields = ['fromLat', 'fromLon', 'toLat', 'toLon'];
-  requiredNumericFields.forEach((field) => {
-    if (typeof query[field] === 'string')
-      query[field] = parseFloat(query[field]);
-  });
-
-  const optionalNumericFields = ['searchTime'];
+  const optionalNumericFields = [
+    'fromLat',
+    'fromLon',
+    'toLat',
+    'toLon',
+    'searchTime',
+  ];
   optionalNumericFields.forEach((field) => {
     if (query[field] && typeof query[field] === 'string')
       query[field] = Number(query[field]);
