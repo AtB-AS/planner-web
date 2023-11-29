@@ -82,7 +82,7 @@ function init() {
     ?.addEventListener('submit', (e) => {
       e.preventDefault();
       const form = e.currentTarget as HTMLFormElement;
-      submitDeparture(form.action, fromTo.from!);
+      submitDeparture(form, fromTo.from!);
     });
 
   document
@@ -90,8 +90,7 @@ function init() {
     ?.addEventListener('submit', (e) => {
       e.preventDefault();
       const form = e.currentTarget as HTMLFormElement;
-      getSearchTime(new FormData(form));
-      // submitAssistant(form.action, fromTo.from!, fromTo.to);
+      submitAssistant(form, fromTo.from!, fromTo.to);
     });
 }
 
@@ -116,32 +115,44 @@ function setDefaultTimeForDatetime(prefix: string) {
   } catch (e) {}
 }
 
-function getSearchTime(formData: FormData) {
-  console.log(formData.get('searchTimeSelector'));
-  console.log(formData.get('dateinput'));
-  console.log(formData.get('timeinput'));
+function getSearchTime(formData: FormData): SearchTime {
+  const searchTimeSelector = formData.get('searchTimeSelector');
+
+  if (searchTimeSelector === 'now') {
+    return {
+      mode: 'now',
+    };
+  } else {
+    const date = formData.get('dateinput');
+    const time = formData.get('timeinput');
+    if (date && time) {
+      const datetime = new Date(`${date}T${time}`);
+      return {
+        mode: searchTimeSelector == 'arriveBy' ? 'arriveBy' : 'departBy',
+        dateTime: datetime.getTime(),
+      };
+    }
+    return {
+      mode: 'now',
+    };
+  }
 }
 
 function submitAssistant(
-  url: string,
+  form: HTMLFormElement,
   from: GeocoderFeature,
   to?: GeocoderFeature,
 ) {
-  const query = createTripQueryForAssistant(
-    { from, to },
-    {
-      mode: 'now',
-    },
-  );
-
+  const url = form.action;
+  const searchTime = getSearchTime(new FormData(form));
+  const query = createTripQueryForAssistant({ from, to }, searchTime);
   const params = new URLSearchParams(query);
   window.location.href = `${url}?${params.toString()}`;
 }
-function submitDeparture(url: string, from: GeocoderFeature) {
-  const query = createTripQueryForDeparture(from, {
-    mode: 'now',
-  });
-
+function submitDeparture(form: HTMLFormElement, from: GeocoderFeature) {
+  const url = form.action;
+  const searchTime = getSearchTime(new FormData(form));
+  const query = createTripQueryForDeparture(from, searchTime);
   const params = new URLSearchParams(query);
   window.location.href = `${url}?${params.toString()}`;
 }
