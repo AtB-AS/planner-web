@@ -3,7 +3,11 @@ import mockRouter from 'next-router-mock';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { ExternalClient } from '@atb/modules/api-server';
 import { JourneyPlannerApi } from '../server/journey-planner';
-import { getServerSideProps } from '@atb/pages/assistant';
+import {
+  AssistantContentProps,
+  AssistantPageProps,
+  getServerSideProps,
+} from '@atb/pages/assistant';
 import { expectProps } from '@atb/tests/utils';
 import { createDynamicRouteParser } from 'next-router-mock/dynamic-routes';
 import { GeocoderApi } from '@atb/page-modules/departures/server/geocoder';
@@ -72,12 +76,16 @@ describe('assistant page', function () {
       ...context,
     } as any);
 
-    (await expectProps(result)).toMatchObject({
-      initialFromFeature: fromFeature,
-      initialToFeature: toFeature,
-      initialSearchTime: {
-        mode: 'departBy',
-        dateTime: 123,
+    (await expectProps(result)).toMatchObject<AssistantContentProps>({
+      tripQuery: {
+        from: fromFeature,
+        to: toFeature,
+        searchTime: {
+          mode: 'departBy',
+          dateTime: 123,
+        },
+        transportModeFilter: null,
+        cursor: null,
       },
       trip: tripResult,
       nonTransitTrips: nonTransitTripResult,
