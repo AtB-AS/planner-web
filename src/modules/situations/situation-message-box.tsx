@@ -15,6 +15,7 @@ import dictionary from '@atb/translations/dictionary';
 import { Situation as SituationTexts } from '@atb/translations/modules';
 import { formatToLongDateTime } from '@atb/utils/date';
 import { MessageBox, MessageBoxProps } from '@atb/components/message-box';
+import Link from 'next/link';
 
 export type Props = {
   situation: Situation;
@@ -53,6 +54,18 @@ export const SituationMessageBox = ({
             <Typo.p textType="body__primary">
               {getTextForLanguage(situation.description, language)}
             </Typo.p>
+            {situation.advice && (
+              <Typo.p textType="body__primary">
+                {getTextForLanguage(situation.advice, language)}
+              </Typo.p>
+            )}
+
+            {situation.infoLinks &&
+              situation.infoLinks.map((link) => (
+                <Link href={link.uri} key={link.uri}>
+                  {link.label || t(dictionary.readMore)}
+                </Link>
+              ))}
 
             {validityPeriodText && (
               <div className={style.dialog__validity}>
