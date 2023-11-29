@@ -136,6 +136,8 @@ export const tripPatternWithDetailsSchema = z.object({
         })
         .nullable(),
       numberOfIntermediateEstimatedCalls: z.number(),
+      notices: z.array(noticeSchema),
+      situations: z.array(situationSchema),
     }),
   ),
 });
