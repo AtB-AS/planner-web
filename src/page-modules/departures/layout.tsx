@@ -53,9 +53,7 @@ function DeparturesLayout({
   const [isSearching, setIsSearching] = useState(false);
   const [geolocationError, setGeolocationError] = useState<string | null>(null);
 
-  const onSubmitHandler: FormEventHandler<HTMLFormElement> = async (e) => {
-    e.preventDefault();
-
+  const doSearch = async () => {
     let query: ParsedUrlQueryInput = {
       ...searchTimeToQueryString(searchTime),
     };
@@ -91,6 +89,16 @@ function DeparturesLayout({
     setIsSearching(false);
   };
 
+  const onSubmitHandler: FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault();
+    return doSearch();
+  };
+
+  const onSelectFeature = (feature: GeocoderFeature) => {
+    setSelectedFeature(feature);
+    doSearch();
+  };
+
   return (
     <div className={style.departuresPage}>
       <form className={style.container} onSubmit={onSubmitHandler}>
@@ -109,11 +117,11 @@ function DeparturesLayout({
               label={t(PageText.Departures.search.input.from)}
               selectedItem={selectedFeature}
               initialFeature={initialFeature}
-              onChange={setSelectedFeature}
+              onChange={onSelectFeature}
               button={
                 <GeolocationButton
                   className={style.geolocationButton}
-                  onGeolocate={setSelectedFeature}
+                  onGeolocate={onSelectFeature}
                   onError={setGeolocationError}
                 />
               }
