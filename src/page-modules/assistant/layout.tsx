@@ -1,6 +1,7 @@
 import { Button } from '@atb/components/button';
-import EmptySearch from '@atb/components/loading-empty-results';
 import { MonoIcon } from '@atb/components/icon';
+import EmptySearch from '@atb/components/loading-empty-results';
+import { MessageBox } from '@atb/components/message-box';
 import Search, { GeolocationButton, SwapButton } from '@atb/components/search';
 import { Typo } from '@atb/components/typography';
 import type { SearchTime } from '@atb/modules/search-time';
@@ -8,7 +9,6 @@ import SearchTimeSelector from '@atb/modules/search-time/selector';
 import {
   TransportModeFilter,
   getInitialTransportModeFilter,
-  type TransportModeFilterOption,
 } from '@atb/modules/transport-mode';
 import type { GeocoderFeature } from '@atb/page-modules/departures';
 import { PageText, useTranslation } from '@atb/translations';
@@ -17,9 +17,8 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useRouter } from 'next/router';
 import { FormEventHandler, PropsWithChildren, useState } from 'react';
 import style from './assistant.module.css';
-import { createTripQuery } from './utils';
-import { MessageBox } from '@atb/components/message-box';
 import { FromToTripQuery } from './trip-query-fetcher';
+import { createTripQuery } from './utils';
 
 export type AssistantLayoutProps = PropsWithChildren<{
   tripQuery: FromToTripQuery;
