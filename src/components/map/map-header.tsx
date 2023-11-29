@@ -59,13 +59,13 @@ export function MapHeader({ id, name, layer, transportModes }: MapHeaderProps) {
         <div className={style.header__buttons}>
           <ButtonLink
             mode="interactive_0"
-            href={`/?travelFrom=${id}`}
+            href={`/planner?travelFrom=${id}`}
             title={t(ComponentText.Map.button.travelFrom)}
             className={style.header__button}
           />
           <ButtonLink
             mode="interactive_0"
-            href={`/?travelTo=${id}`}
+            href={`/planner?travelTo=${id}`}
             title={t(ComponentText.Map.button.travelTo)}
             className={style.header__button}
           />

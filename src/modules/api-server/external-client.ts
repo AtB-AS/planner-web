@@ -29,12 +29,6 @@ type HttpPropGetter<
 export type ExternalClient<U extends AllEndpoints, T> = T & {
   client: ConditionalRequester<U>;
 };
-export type ComposeExternalClient<
-  U1 extends AllEndpoints,
-  T1,
-  U2 extends AllEndpoints,
-  T2,
-> = ExternalClient<U1, T1> & ExternalClient<U2, T2>;
 
 export type ExternalClientFactory<U extends AllEndpoints, T> = (
   req?: IncomingMessage,
