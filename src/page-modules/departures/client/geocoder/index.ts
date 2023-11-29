@@ -16,6 +16,11 @@ export function useAutocomplete(q: string) {
       ? `/api/departures/autocomplete?q=${debouncedQuery}`
       : null,
     swrFetcher,
+    {
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+      revalidateOnMount: false,
+    },
   );
 }
 
