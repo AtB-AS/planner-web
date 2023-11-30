@@ -304,9 +304,9 @@ export const Assistant = {
     ),
     header: {
       backLink: _(
-        'Tilbake til avganger',
-        'Back to departures',
-        'Tilbake til avgangar',
+        'Tilbake til reiseforslag',
+        'Back to travel suggestions',
+        'Tilbake til reiseforslag',
       ),
       title: _('Reisedetaljer', 'Trip details', 'Reisedetaljar'),
       titleFromTo: ({
