@@ -12,6 +12,7 @@ type SearchProps = {
   button?: ReactNode;
   initialFeature?: GeocoderFeature;
   selectedItem?: GeocoderFeature;
+  autocompleteFocusPoint?: GeocoderFeature;
 };
 
 export default function Search({
@@ -20,9 +21,10 @@ export default function Search({
   button,
   initialFeature,
   selectedItem,
+  autocompleteFocusPoint,
 }: SearchProps) {
   const [query, setQuery] = useState('');
-  const { data } = useAutocomplete(query);
+  const { data } = useAutocomplete(query, autocompleteFocusPoint);
 
   return (
     <Downshift<GeocoderFeature>
