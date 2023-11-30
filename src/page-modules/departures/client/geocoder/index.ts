@@ -8,12 +8,19 @@ export type ReverseApiReturnType = GeocoderFeature | undefined;
 
 const DEBOUNCE_TIME_AUTOCOMPLETE_IN_MS = 300;
 
-export function useAutocomplete(q: string) {
+export function useAutocomplete(
+  q: string,
+  autocompleteFocusPoint?: GeocoderFeature,
+) {
   const debouncedQuery = useDebounce(q, DEBOUNCE_TIME_AUTOCOMPLETE_IN_MS);
+
+  const focusQuery = autocompleteFocusPoint
+    ? `&lat=${autocompleteFocusPoint.geometry.coordinates[0]}&lon=${autocompleteFocusPoint.geometry.coordinates[1]}`
+    : '';
 
   return useSWR<AutocompleteApiReturnType>(
     debouncedQuery !== ''
-      ? `/api/departures/autocomplete?q=${debouncedQuery}`
+      ? `/api/departures/autocomplete?q=${debouncedQuery}${focusQuery}`
       : null,
     swrFetcher,
     {
