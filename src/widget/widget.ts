@@ -65,6 +65,7 @@ function init() {
 
   document.addEventListener('search-selected', function (event) {
     const data = event as CustomEvent<SelectedSearchEvent>;
+    console.log('Triggered', data.detail.key, data.detail.item);
     fromTo[data.detail.key] = data.detail.item;
   });
 
@@ -180,6 +181,43 @@ function createOutput({ URL_BASE }: SettingConstants) {
     div.ariaHidden = 'true';
     return div;
   }
+
+  class GeoLocationButton extends HTMLElement {
+    constructor() {
+      super();
+    }
+
+    connectedCallback() {
+      const self = this;
+      const mode = self.getAttribute('data-mode') ?? 'assistant';
+      const button = this.querySelector('button')!;
+
+      button.addEventListener('click', async (event) => {
+        try {
+          const item = await getGeolocation();
+
+          const input = self.parentElement?.querySelector('input');
+          if (input) {
+            input.value = item ? `${item.name}, ${item.locality}` : input.value;
+          }
+
+          document.dispatchEvent(
+            new CustomEvent('search-selected', {
+              bubbles: true,
+              detail: {
+                mode,
+                key: 'from',
+                item,
+              },
+            }),
+          );
+        } catch (e) {
+          console.log(e);
+        }
+      });
+    }
+  }
+  customElements.define('pw-geobutton', GeoLocationButton);
 
   class AutocompleteBox extends HTMLElement {
     private dataList: Record<string, GeocoderFeature> = {};
@@ -418,20 +456,22 @@ function createOutput({ URL_BASE }: SettingConstants) {
                 ></ul>
               </pw-autocomplete>
             </div>
-            <button
-              class="${style.button_geolocation}"
-              title="Finn min posisjon"
-              aria-label="Finn min posisjon"
-              type="button"
-            >
-              <img
-                src="${URL_BASE}/assets/mono/light/places/City.svg"
-                width="20"
-                height="20"
-                role="none"
-                alt=""
-              />
-            </button>
+            <pw-geobutton mode="assistant">
+              <button
+                class="${style.button_geolocation}"
+                title="Finn min posisjon"
+                aria-label="Finn min posisjon"
+                type="button"
+              >
+                <img
+                  src="${URL_BASE}/assets/mono/light/places/City.svg"
+                  width="20"
+                  height="20"
+                  role="none"
+                  alt=""
+                />
+              </button>
+            </pw-geobutton>
           </div>
           <div class="${style.search_container}">
             <label
@@ -520,20 +560,22 @@ function createOutput({ URL_BASE }: SettingConstants) {
                 ></ul>
               </pw-autocomplete>
             </div>
-            <button
-              class="${style.button_geolocation}"
-              title="Finn min posisjon"
-              aria-label="Finn min posisjon"
-              type="button"
-            >
-              <img
-                src="${URL_BASE}/assets/mono/light/places/City.svg"
-                width="20"
-                height="20"
-                role="none"
-                alt=""
-              />
-            </button>
+            <pw-geobutton mode="departure">
+              <button
+                class="${style.button_geolocation}"
+                title="Finn min posisjon"
+                aria-label="Finn min posisjon"
+                type="button"
+              >
+                <img
+                  src="${URL_BASE}/assets/mono/light/places/City.svg"
+                  width="20"
+                  height="20"
+                  role="none"
+                  alt=""
+                />
+              </button>
+            </pw-geobutton>
           </div>
         </div>
         ${searchTime('pw-departure', false)}
@@ -595,18 +637,6 @@ function tabBar() {
       tabpanel.classList.remove(style.hidden);
       tab.classList.add(style.tabSelected);
     });
-}
-
-async function autocomplete(q: string) {
-  const url = `/api/departures/autocomplete?q=${q}`;
-  const result = await fetch(url);
-
-  if (!result.ok) {
-    throw new Error(`Error fetching autocomplete data from ${url}`);
-  }
-
-  const data = (await result.json()) as AutocompleteApiReturnType;
-  return data;
 }
 
 function debounce(func: Function, wait: number) {
@@ -792,4 +822,63 @@ function createTripQueryForDeparture(
     lon: from.geometry.coordinates[0].toString(),
     lat: from.geometry.coordinates[1].toString(),
   };
+}
+
+async function autocomplete(q: string) {
+  const url = `/api/departures/autocomplete?q=${q}`;
+  const result = await fetch(url);
+
+  if (!result.ok) {
+    throw new Error(`Error fetching autocomplete data from ${url}`);
+  }
+
+  const data = (await result.json()) as AutocompleteApiReturnType;
+  return data;
+}
+
+export async function reverse(coords: GeolocationCoordinates) {
+  const result = await fetch(
+    `/api/departures/reverse?lat=${coords.latitude}&lon=${coords.longitude}`,
+  );
+
+  const data = await result.json();
+  if (!data) {
+    return undefined;
+  }
+  return data as GeocoderFeature;
+}
+
+async function getGeolocation(): Promise<GeocoderFeature | undefined> {
+  return new Promise(function (resolve, reject) {
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        console.log('Posiontion', position.coords);
+        const reversedPosition = await reverse(position.coords);
+        resolve(reversedPosition);
+      },
+      (error) => {
+        reject(getErrorMessage(error.code));
+      },
+      { enableHighAccuracy: true, timeout: 10000 },
+    );
+  });
+}
+
+const geoTexts = {
+  denied:
+    'Du må endre stedsinnstillinger i nettleseren din for å bruke din posisjon i reisesøket.',
+  unavailable: 'Posisjonen din er ikke tilgjengelig.',
+  timeout: 'Det tok for lang tid å hente posisjonen din. Prøv på nytt.',
+};
+
+function getErrorMessage(code: number) {
+  switch (code) {
+    case GeolocationPositionError.PERMISSION_DENIED:
+      return geoTexts.denied;
+    case GeolocationPositionError.TIMEOUT:
+      return geoTexts.timeout;
+    case GeolocationPositionError.POSITION_UNAVAILABLE:
+    default:
+      return geoTexts.unavailable;
+  }
 }
