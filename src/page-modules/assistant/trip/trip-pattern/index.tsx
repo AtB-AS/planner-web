@@ -80,7 +80,10 @@ export default function TripPattern({
                   <div className={style.legs__leg__icon}>
                     {leg.mode ? (
                       <TransportIconWithLabel
-                        mode={{ mode: leg.mode }}
+                        mode={{
+                          mode: leg.mode,
+                          subMode: leg.transportSubmode ?? undefined,
+                        }}
                         label={leg.line?.publicCode}
                       />
                     ) : (
