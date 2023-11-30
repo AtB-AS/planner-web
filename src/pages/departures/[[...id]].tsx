@@ -1,36 +1,35 @@
 import DefaultLayout from '@atb/layouts/default';
-import { type WithGlobalData, withGlobalData } from '@atb/layouts/global-data';
+import { withGlobalData, type WithGlobalData } from '@atb/layouts/global-data';
+import { getAllTransportModesFromFilterOptions } from '@atb/modules/transport-mode';
 import {
-  type DepartureData,
   DeparturesLayout,
-  type DeparturesLayoutProps,
   NearestStopPlaces,
-  type NearestStopPlacesProps,
   StopPlace,
+  type DepartureData,
+  type DeparturesLayoutProps,
+  type NearestStopPlacesProps,
 } from '@atb/page-modules/departures';
+import { fetchFromDepartureQuery } from '@atb/page-modules/departures/fetch-departure-query';
 import { withDepartureClient } from '@atb/page-modules/departures/server';
+import { FromDepartureQuery } from '@atb/page-modules/departures/types';
 import type { NextPage } from 'next';
-import {
-  getAllTransportModesFromFilterOptions,
-  parseFilterQuery,
-} from '@atb/modules/transport-mode';
-import { parseSearchTimeQuery } from '@atb/modules/search-time';
 
 type DeparturesStopPlaceProps = {
   stopPlace: true;
+  fromQuery: FromDepartureQuery;
   departures?: DepartureData;
 };
 
 type DeparturesContentProps =
-  | { empty: true }
-  | DeparturesStopPlaceProps
+  | { empty: true; fromQuery: FromDepartureQuery }
+  | (DeparturesStopPlaceProps & { stopPlace: true })
   | (NearestStopPlacesProps & { address: true });
 
 function DeparturesRouting(props: DeparturesContentProps) {
   if (isNearestStopPlacesProps(props)) {
     return (
       <NearestStopPlaces
-        activeLocation={props.activeLocation}
+        fromQuery={props.fromQuery}
         nearestStopPlaces={props.nearestStopPlaces}
       />
     );
@@ -63,68 +62,47 @@ export const getServerSideProps = withGlobalData(
     DeparturesLayoutProps & DeparturesContentProps,
     { id: string[] | undefined }
   >(async function ({ client, params, query }) {
-    const id = params?.id?.[0];
-    const stopPlace = id ? await client.stopPlace({ id }) : null;
-    const transportModeFilter = parseFilterQuery(query.filter);
-    const searchTime = parseSearchTimeQuery(
-      query.searchMode,
-      query.searchTime ? Number(query.searchTime) : undefined,
-    );
-
-    if (id && stopPlace) {
+    const fromQuery = await fetchFromDepartureQuery(params?.id, query, client);
+    if (!fromQuery.isAddress && fromQuery.from) {
       const departures = await client.departures({
-        id,
-        date: searchTime.mode !== 'now' ? searchTime.dateTime : null,
-        transportModes:
-          getAllTransportModesFromFilterOptions(transportModeFilter),
+        id: fromQuery.from.id,
+        date:
+          fromQuery.searchTime.mode !== 'now'
+            ? fromQuery.searchTime.dateTime
+            : null,
+        transportModes: getAllTransportModesFromFilterOptions(
+          fromQuery.transportModeFilter,
+        ),
       });
-
-
-      const initialFeature = await client.reverse(
-        stopPlace.position.lat,
-        stopPlace.position.lon,
-        'venue',
-      );
 
       return {
         props: {
           stopPlace: true,
           departures,
-          initialTransportModesFilter: transportModeFilter,
-          initialSearchTime: searchTime,
-          initialFeature,
+          fromQuery,
         },
       };
-    } else if (query.lat && query.lon) {
-      const position = {
-        lat: parseFloat(query.lat.toString()),
-        lon: parseFloat(query.lon.toString()),
+    } else if (fromQuery.isAddress && fromQuery.from) {
+      const input = {
+        lon: fromQuery.from.geometry.coordinates[0],
+        lat: fromQuery.from.geometry.coordinates[1],
+        transportModes: getAllTransportModesFromFilterOptions(
+          fromQuery.transportModeFilter,
+        ),
       };
-      const nearestStopPlaces = await client.nearestStopPlaces({
-        ...position,
-        transportModes:
-          getAllTransportModesFromFilterOptions(transportModeFilter),
-      });
 
-      const activeLocation = await client.reverse(
-        position.lat,
-        position.lon,
-        'address',
-      );
+      const nearestStopPlaces = await client.nearestStopPlaces(input);
 
       return {
         props: {
           address: true,
-          activeLocation,
           nearestStopPlaces,
-          initialTransportModesFilter: transportModeFilter,
-          initialSearchTime: searchTime,
-          initialFeature: activeLocation,
+          fromQuery,
         },
       };
     } else {
       return {
-        props: { empty: true },
+        props: { empty: true, fromQuery },
       };
     }
   }),

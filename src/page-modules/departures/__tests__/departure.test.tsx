@@ -129,7 +129,15 @@ describe('departure page', function () {
 
   it('should render empty search results', () => {
     const output = render(
-      <NearestStopPlaces activeLocation={undefined} nearestStopPlaces={[]} />,
+      <NearestStopPlaces
+        fromQuery={{
+          searchTime: { mode: 'now' },
+          from: null,
+          isAddress: false,
+          transportModeFilter: null,
+        }}
+        nearestStopPlaces={[]}
+      />,
     );
     expect(
       output.getByText('Finner ingen holdeplasser i nærheten'),
