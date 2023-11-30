@@ -504,7 +504,7 @@ function createOutput({ URL_BASE }: SettingConstants) {
                 <input
                   class="${style.search_input}"
                   aria-autocomplete="list"
-                  aria-labelledby="pw-from-1-label"
+                  aria-labelledby="pw-from-2-label"
                   autocomplete="off"
                   name="from"
                   id="pw-from-2-input"
