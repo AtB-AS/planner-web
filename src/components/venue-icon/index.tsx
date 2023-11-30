@@ -1,26 +1,17 @@
 import { ComponentText, useTranslation } from '@atb/translations';
 import { MonoIcon, MonoIconProps } from '@atb/components/icon';
-import { TransportModeType } from '@atb/modules/transport-mode';
 
-export type VenueIconProps = {
-  categories?: FeatureCategory[];
-  transportModes?: TransportModeType[];
+export type VenuIconProps = {
+  category: FeatureCategory[];
   multiple?: boolean;
 } & Omit<MonoIconProps, 'icon'>;
 
 export default function VenueIcon({
-  categories,
-  transportModes,
+  category,
   multiple,
   ...props
-}: VenueIconProps) {
-  let venueIconTypes: VenueIconType[] = [];
-
-  if (transportModes) {
-    venueIconTypes = transportModes as VenueIconType[];
-  } else if (categories) {
-    venueIconTypes = getVenueIconTypes(categories);
-  }
+}: VenuIconProps) {
+  const venueIconTypes = getVenueIconTypes(category);
 
   if (!venueIconTypes.length) {
     return <MonoIcon icon="map/Pin" key="unknown" {...props} />;
@@ -62,7 +53,7 @@ export enum FeatureCategory {
   OTHER = 'other',
 }
 
-type VenueIconType = 'bus' | 'tram' | 'rail' | 'air' | 'water' | 'unknown';
+type VenueIconType = 'bus' | 'tram' | 'rail' | 'airport' | 'boat' | 'unknown';
 type IconComponentProps = {
   iconType: VenueIconType;
 } & Omit<MonoIconProps, 'icon'>;
@@ -99,7 +90,7 @@ function IconComponent({ iconType, ...props }: IconComponentProps) {
           {...props}
         />
       );
-    case 'air':
+    case 'airport':
       return (
         <MonoIcon
           icon="transportation-entur/Plane"
@@ -109,7 +100,7 @@ function IconComponent({ iconType, ...props }: IconComponentProps) {
           {...props}
         />
       );
-    case 'water':
+    case 'boat':
       return (
         <MonoIcon
           icon="transportation-entur/Ferry"
@@ -154,11 +145,11 @@ function mapLocationCategoryToVenueType(
     case 'metroStation':
       return 'rail';
     case 'airport':
-      return 'air';
+      return 'airport';
     case 'harbourPort':
     case 'ferryPort':
     case 'ferryStop':
-      return 'water';
+      return 'boat';
     default:
       return 'unknown';
   }

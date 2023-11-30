@@ -23,7 +23,7 @@ export const stopPlaceSchema = z.object({
 export const departureSchema = z.object({
   id: z.string(),
   name: z.string(),
-  publicCode: z.string().nullable(),
+  publicCode: z.string(),
   date: z.string(),
   aimedDepartureTime: z.string(),
   expectedDepartureTime: z.string(),
@@ -65,7 +65,7 @@ export const serviceJourneySchema = z.object({
   transportMode: transportModeSchema,
   transportSubmode: transportSubmodeSchema.optional(),
   line: z.object({
-    publicCode: z.string().nullable(),
+    publicCode: z.string(),
     notices: z.array(noticeSchema),
   }),
   mapLegs: z.array(mapLegSchema),

@@ -72,7 +72,7 @@ export default function Search({
                   })}
                 >
                   <div className={style.itemIcon} aria-hidden>
-                    <VenueIcon categories={item.category} />
+                    <VenueIcon category={item.category} />
                   </div>
                   <span className={style.itemName}>
                     {highlightSearchText(inputValue, item.name).map(

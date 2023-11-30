@@ -1,4 +1,6 @@
 .container {
+  min-width: 4.125rem;
+
   display: flex;
   align-items: center;
   justify-content: space-between;

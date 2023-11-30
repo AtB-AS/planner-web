@@ -10,7 +10,7 @@ import {
 export type LineChipProps = {
   transportMode: TransportModeType;
   transportSubmode?: TransportSubmodeType;
-  publicCode: string | null;
+  publicCode: string;
 };
 
 export default function LineChip({
@@ -37,11 +37,9 @@ export default function LineChip({
           subMode: transportSubmode,
         }}
       />
-      {publicCode && (
-        <Typo.span className={style.publicCode} textType="body__primary--bold">
-          {publicCode}
-        </Typo.span>
-      )}
+      <Typo.span className={style.publicCode} textType="body__primary--bold">
+        {publicCode}
+      </Typo.span>
     </div>
   );
 }

@@ -98,7 +98,7 @@ export const tripPatternWithDetailsSchema = z.object({
       line: z
         .object({
           name: z.string(),
-          publicCode: z.string().nullable(),
+          publicCode: z.string(),
         })
         .nullable(), // line is null for legs with transportMode = foot
       fromPlace: z.object({
@@ -108,7 +108,7 @@ export const tripPatternWithDetailsSchema = z.object({
         quay: z
           .object({
             name: z.string(),
-            publicCode: z.string().nullable(),
+            publicCode: z.string(),
           })
           .nullable(), // quay is null when fromPlace is a POI (e.g. address)
       }),
@@ -117,7 +117,7 @@ export const tripPatternWithDetailsSchema = z.object({
         quay: z
           .object({
             name: z.string(),
-            publicCode: z.string().nullable(),
+            publicCode: z.string(),
           })
           .nullable(), // quay is null when toPlace is a POI (e.g. address)
       }),

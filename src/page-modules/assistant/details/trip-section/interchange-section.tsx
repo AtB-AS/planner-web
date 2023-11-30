@@ -15,7 +15,7 @@ export type InterchangeDetails = {
 
 export type InterchangeSectionProps = {
   interchangeDetails: InterchangeDetails;
-  publicCode?: string | null;
+  publicCode?: string;
 };
 
 export function InterchangeSection({
