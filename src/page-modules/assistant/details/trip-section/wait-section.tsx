@@ -44,7 +44,7 @@ export default function WaitSection({ legWaitDetails }: WaitSectionProps) {
         color={unknownTransportationColor.backgroundColor}
       />
       {shortWait && (
-        <TripRow rowLabel={<ColorIcon icon="status/Info" size="small" />}>
+        <TripRow rowLabel={<ColorIcon icon="status/Info" />}>
           <MessageBox
             noStatusIcon
             type="info"
