@@ -249,6 +249,9 @@ export function createJourneyApi(
               situations: mapAndFilterDuplicateGraphQlSituations(
                 situations as GraphQlSituation[],
               ),
+              transportMode: filterGraphQlTransportModes(
+                edge.node?.place.transportMode,
+              ),
             },
             distance: edge.node.distance,
           });
