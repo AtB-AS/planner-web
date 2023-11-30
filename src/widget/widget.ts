@@ -407,6 +407,7 @@ function createOutput({ URL_BASE }: SettingConstants) {
                   id="pw-from-1-input"
                   name="from"
                   value=""
+                  placeholder="Søk fra adresse, kai eller holdeplass"
                 />
                 <ul
                   id="from-popup-1"
@@ -456,6 +457,7 @@ function createOutput({ URL_BASE }: SettingConstants) {
                   id="pw-to-1-input"
                   name="to"
                   value=""
+                  placeholder="Søk til adresse, kai eller holdeplass"
                 />
                 <ul
                   id="to-popup-1"
@@ -507,6 +509,7 @@ function createOutput({ URL_BASE }: SettingConstants) {
                   name="from"
                   id="pw-from-2-input"
                   value=""
+                  placeholder="Søk fra adresse, kai eller holdeplass"
                 />
                 <ul
                   id="to-popup-2"
