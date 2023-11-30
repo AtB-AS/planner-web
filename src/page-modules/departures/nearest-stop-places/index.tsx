@@ -1,5 +1,5 @@
 import { MapWithHeader } from '@atb/components/map';
-import { GeocoderFeature } from '../types';
+import { FromDepartureQuery, GeocoderFeature } from '../types';
 import {
   NearestStopPlacesData,
   StopPlaceWithDistance,
@@ -14,13 +14,13 @@ import EmptyMessage from '@atb/components/empty-message';
 import { SituationOrNoticeIcon } from '@atb/modules/situations';
 
 export type NearestStopPlacesProps = {
-  activeLocation: GeocoderFeature | undefined;
+  fromQuery: FromDepartureQuery;
   nearestStopPlaces: NearestStopPlacesData;
 };
 
 export function NearestStopPlaces({
   nearestStopPlaces,
-  activeLocation,
+  fromQuery,
 }: NearestStopPlacesProps) {
   const { t } = useTranslation();
   const router = useRouter();
@@ -42,14 +42,14 @@ export function NearestStopPlaces({
   return (
     <section className={style.nearestContainer}>
       <div className={style.mapContainer}>
-        {activeLocation && (
+        {fromQuery.from && (
           <MapWithHeader
-            id={activeLocation.id}
-            name={activeLocation.name}
+            id={fromQuery.from.id}
+            name={fromQuery.from.name}
             layer="address"
             position={{
-              lon: activeLocation.geometry.coordinates[0],
-              lat: activeLocation.geometry.coordinates[1],
+              lon: fromQuery.from.geometry.coordinates[0],
+              lat: fromQuery.from.geometry.coordinates[1],
             }}
             onSelectStopPlace={(stopPlaceId) =>
               router.push(`/departures/${stopPlaceId}`)

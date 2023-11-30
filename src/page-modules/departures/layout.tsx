@@ -1,18 +1,13 @@
 import { Button } from '@atb/components/button';
-import LoadingEmptySearch from '@atb/components/loading-empty-results';
 import { MonoIcon } from '@atb/components/icon';
+import LoadingEmptySearch from '@atb/components/loading-empty-results';
+import { MessageBox } from '@atb/components/message-box';
 import Search from '@atb/components/search';
 import GeolocationButton from '@atb/components/search/geolocation-button';
 import { Typo } from '@atb/components/typography';
-import {
-  SearchTime,
-  SearchTimeSelector,
-  searchTimeToQueryString,
-} from '@atb/modules/search-time';
+import { SearchTime, SearchTimeSelector } from '@atb/modules/search-time';
 import {
   TransportModeFilter,
-  TransportModeFilterOption,
-  filterToQueryString,
   getInitialTransportModeFilter,
 } from '@atb/modules/transport-mode';
 import type { GeocoderFeature } from '@atb/page-modules/departures';
@@ -20,84 +15,46 @@ import { PageText, useTranslation } from '@atb/translations';
 import { FocusScope } from '@react-aria/focus';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useRouter } from 'next/router';
-import { ParsedUrlQueryInput } from 'node:querystring';
 import { FormEventHandler, PropsWithChildren, useState } from 'react';
 import style from './departures.module.css';
-import { MessageBox } from '@atb/components/message-box';
+import type { FromDepartureQuery } from './types';
+import { createFromQuery } from './utils';
 
 export type DeparturesLayoutProps = PropsWithChildren<{
-  initialTransportModesFilter?: TransportModeFilterOption[] | null;
-  initialSearchTime?: SearchTime;
-  initialFeature?: GeocoderFeature;
+  fromQuery: FromDepartureQuery;
 }>;
 
-function DeparturesLayout({
-  children,
-  initialTransportModesFilter,
-  initialSearchTime,
-  initialFeature,
-}: DeparturesLayoutProps) {
+function DeparturesLayout({ children, fromQuery }: DeparturesLayoutProps) {
   const { t } = useTranslation();
   const router = useRouter();
 
   const [showAlternatives, setShowAlternatives] = useState(false);
-  const [selectedFeature, setSelectedFeature] = useState<
-    GeocoderFeature | undefined
-  >(initialFeature);
   const [searchTime, setSearchTime] = useState<SearchTime>(
-    initialSearchTime ?? { mode: 'now' },
+    fromQuery.searchTime,
   );
   const [transportModeFilter, setTransportModeFilter] = useState(
-    getInitialTransportModeFilter(initialTransportModesFilter),
+    getInitialTransportModeFilter(fromQuery.transportModeFilter),
   );
   const [isSearching, setIsSearching] = useState(false);
   const [geolocationError, setGeolocationError] = useState<string | null>(null);
 
-  const doSearch = async () => {
-    let query: ParsedUrlQueryInput = {
-      ...searchTimeToQueryString(searchTime),
-    };
-
-    const filter = filterToQueryString(transportModeFilter);
-
-    if (filter) {
-      query = {
-        ...query,
-        filter,
-      };
-    }
-
-    if (selectedFeature?.layer == 'venue') {
-      setIsSearching(true);
-      // TODO: Using URL object encodes all query params
-      await router.push({
-        pathname: `/departures/[[...id]]`,
-        query: { ...query, id: selectedFeature.id },
-      });
-    } else if (selectedFeature?.layer == 'address') {
-      setIsSearching(true);
-      const [lon, lat] = selectedFeature.geometry.coordinates;
-      await router.push({
-        href: '/departures',
-        query: {
-          ...query,
-          lon,
-          lat,
-        },
-      });
-    }
+  const doSearch = async (override: Partial<FromDepartureQuery>) => {
+    setIsSearching(true);
+    const newRoute = createFromQuery(
+      { ...fromQuery, ...override, searchTime },
+      transportModeFilter,
+    );
+    await router.push(newRoute);
     setIsSearching(false);
   };
 
   const onSubmitHandler: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    return doSearch();
+    return doSearch({});
   };
 
-  const onSelectFeature = (feature: GeocoderFeature) => {
-    setSelectedFeature(feature);
-    doSearch();
-  };
+  const onSelectFeature = (feature: GeocoderFeature) =>
+    doSearch({ from: feature });
 
   return (
     <div className={style.departuresPage}>
@@ -115,8 +72,7 @@ function DeparturesLayout({
 
             <Search
               label={t(PageText.Departures.search.input.from)}
-              selectedItem={selectedFeature}
-              initialFeature={initialFeature}
+              selectedItem={fromQuery.from ?? undefined}
               onChange={onSelectFeature}
               button={
                 <GeolocationButton
@@ -195,7 +151,7 @@ function DeparturesLayout({
             title={t(PageText.Departures.search.buttons.find.title)}
             className={style.button}
             mode="interactive_0"
-            disabled={!selectedFeature}
+            disabled={!fromQuery.from}
             buttonProps={{ type: 'submit' }}
             state={isSearching ? 'loading' : undefined}
           />
@@ -206,7 +162,7 @@ function DeparturesLayout({
         <LoadingEmptySearch
           isSearching={isSearching}
           isGeolocationError={geolocationError !== null}
-          type={selectedFeature?.layer === 'venue' ? 'stopPlace' : 'nearby'}
+          type={fromQuery.from?.layer === 'venue' ? 'stopPlace' : 'nearby'}
         >
           {children}
         </LoadingEmptySearch>

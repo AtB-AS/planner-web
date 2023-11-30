@@ -17,9 +17,9 @@ export const journeyClient = createExternalClient(
   createJourneyApi,
 );
 
-export const withDepartureClient = createWithExternalClientDecorator(
-  composeClientFactories(departureClient, journeyClient),
-);
+const composed = composeClientFactories(departureClient, journeyClient);
+export const withDepartureClient = createWithExternalClientDecorator(composed);
+export type DepartureClient = ReturnType<typeof composed>;
 
 export const handlerWithDepartureClient =
   createWithExternalClientDecoratorForHttpHandlers(
