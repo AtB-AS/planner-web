@@ -1,6 +1,7 @@
 import { Button } from '@atb/components/button';
-import EmptySearch from '@atb/components/loading-empty-results';
 import { MonoIcon } from '@atb/components/icon';
+import EmptySearch from '@atb/components/loading-empty-results';
+import { MessageBox } from '@atb/components/message-box';
 import Search, { GeolocationButton, SwapButton } from '@atb/components/search';
 import { Typo } from '@atb/components/typography';
 import type { SearchTime } from '@atb/modules/search-time';
@@ -8,7 +9,6 @@ import SearchTimeSelector from '@atb/modules/search-time/selector';
 import {
   TransportModeFilter,
   getInitialTransportModeFilter,
-  type TransportModeFilterOption,
 } from '@atb/modules/transport-mode';
 import type { GeocoderFeature } from '@atb/page-modules/departures';
 import { PageText, useTranslation } from '@atb/translations';
@@ -17,75 +17,60 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useRouter } from 'next/router';
 import { FormEventHandler, PropsWithChildren, useState } from 'react';
 import style from './assistant.module.css';
+import { FromToTripQuery } from './types';
 import { createTripQuery } from './utils';
-import { MessageBox } from '@atb/components/message-box';
 
 export type AssistantLayoutProps = PropsWithChildren<{
-  initialFromFeature?: GeocoderFeature;
-  initialToFeature?: GeocoderFeature;
-  initialTransportModesFilter?: TransportModeFilterOption[] | null;
-  initialSearchTime?: SearchTime;
+  tripQuery: FromToTripQuery;
 }>;
 
-function AssistantLayout({
-  children,
-  initialFromFeature,
-  initialToFeature,
-  initialTransportModesFilter,
-  initialSearchTime,
-}: AssistantLayoutProps) {
+function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
   const { t } = useTranslation();
   const router = useRouter();
 
   const [showAlternatives, setShowAlternatives] = useState(false);
-  const [selectedFromFeature, setSelectedFromFeature] = useState<
-    GeocoderFeature | undefined
-  >(initialFromFeature);
-  const [selectedToFeature, setSelectedToFeature] = useState<
-    GeocoderFeature | undefined
-  >(initialToFeature);
   const [searchTime, setSearchTime] = useState<SearchTime>(
-    initialSearchTime ?? { mode: 'now' },
+    tripQuery.searchTime,
   );
   const [transportModeFilter, setTransportModeFilter] = useState(
-    getInitialTransportModeFilter(initialTransportModesFilter),
+    getInitialTransportModeFilter(tripQuery.transportModeFilter),
   );
   const [isSwapping, setIsSwapping] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
   const [geolocationError, setGeolocationError] = useState<string | null>(null);
 
-  const onSwap = async () => {
-    if (!selectedToFeature || !selectedFromFeature) return;
-    setIsSwapping(true);
+  const setValuesWithLoading = async (override: Partial<FromToTripQuery>) => {
+    setIsSearching(true);
     const query = createTripQuery(
-      selectedToFeature,
-      selectedFromFeature,
-      searchTime,
+      {
+        ...tripQuery,
+        ...override,
+        searchTime,
+      },
       transportModeFilter,
     );
-    const temp = selectedFromFeature;
-    setSelectedFromFeature(selectedToFeature);
-    setSelectedToFeature(temp);
-    setIsSwapping(false);
-
-    setIsSearching(true);
-    await router.push({ pathname: '/assistant', query });
+    await router.push({ query });
     setIsSearching(false);
+  };
+
+  const onSwap = async () => {
+    setIsSwapping(true);
+    await setValuesWithLoading({
+      from: tripQuery.to,
+      to: tripQuery.from,
+    });
+    setIsSwapping(false);
   };
 
   const onSubmitHandler: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    if (!selectedFromFeature || !selectedToFeature) return;
-    setIsSearching(true);
-    const query = createTripQuery(
-      selectedFromFeature,
-      selectedToFeature,
-      searchTime,
-      transportModeFilter,
-    );
-    await router.push({ pathname: '/assistant', query });
-    setIsSearching(false);
+    setValuesWithLoading({});
   };
+
+  const onFromSelected = async (from: GeocoderFeature) =>
+    setValuesWithLoading({ from });
+  const onToSelected = async (to: GeocoderFeature) =>
+    setValuesWithLoading({ to });
 
   return (
     <div>
@@ -103,22 +88,20 @@ function AssistantLayout({
 
             <Search
               label={t(PageText.Assistant.search.input.from)}
-              onChange={setSelectedFromFeature}
-              initialFeature={initialFromFeature}
-              selectedItem={selectedFromFeature}
+              onChange={onFromSelected}
+              selectedItem={tripQuery.from ?? undefined}
               button={
                 <GeolocationButton
                   className={style.searchInputButton}
-                  onGeolocate={setSelectedFromFeature}
+                  onGeolocate={onFromSelected}
                   onError={setGeolocationError}
                 />
               }
             />
             <Search
               label={t(PageText.Assistant.search.input.to)}
-              onChange={setSelectedToFeature}
-              initialFeature={initialToFeature}
-              selectedItem={selectedToFeature}
+              onChange={onToSelected}
+              selectedItem={tripQuery.to ?? undefined}
               button={
                 <SwapButton
                   className={style.searchInputButton}
@@ -196,7 +179,7 @@ function AssistantLayout({
             title={t(PageText.Assistant.search.buttons.find.title)}
             className={style.button}
             mode="interactive_0"
-            disabled={!selectedFromFeature || !selectedToFeature}
+            disabled={!tripQuery.from || !tripQuery.to}
             buttonProps={{ type: 'submit' }}
             state={isSearching ? 'loading' : undefined}
           />

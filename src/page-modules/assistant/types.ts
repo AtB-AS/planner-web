@@ -5,7 +5,10 @@ import type {
   TripData,
 } from './server/journey-planner/validators';
 import { searchModeSchema, type SearchTime } from '@atb/modules/search-time';
-import { type TransportModeType } from '@atb/modules/transport-mode';
+import {
+  TransportModeFilterOption,
+  type TransportModeType,
+} from '@atb/modules/transport-mode';
 
 export type TripInput = {
   from: GeocoderFeature;
@@ -15,17 +18,25 @@ export type TripInput = {
   cursor?: string;
 };
 
+export type FromToTripQuery = {
+  from: GeocoderFeature | null;
+  to: GeocoderFeature | null;
+  transportModeFilter: TransportModeFilterOption[] | null;
+  searchTime: SearchTime;
+  cursor: string | null;
+};
+
 export const TripQuerySchema = z.object({
-  fromId: z.string(),
-  fromLon: z.number(),
-  fromLat: z.number(),
-  fromLayer: z.union([z.literal('address'), z.literal('venue')]),
-  toId: z.string(),
-  toLon: z.number(),
-  toLat: z.number(),
-  toLayer: z.union([z.literal('address'), z.literal('venue')]),
+  fromId: z.string().optional(),
+  fromLon: z.number().optional(),
+  fromLat: z.number().optional(),
+  fromLayer: z.union([z.literal('address'), z.literal('venue')]).optional(),
+  toId: z.string().optional(),
+  toLon: z.number().optional(),
+  toLat: z.number().optional(),
+  toLayer: z.union([z.literal('address'), z.literal('venue')]).optional(),
   filter: z.string().optional(),
-  searchMode: searchModeSchema,
+  searchMode: searchModeSchema.optional(),
   searchTime: z.number().optional(),
   cursor: z.string().optional(),
 });

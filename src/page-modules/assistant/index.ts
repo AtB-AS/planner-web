@@ -1,5 +1,6 @@
 export * from './types';
-export { parseTripQuery, createTripQuery } from './utils';
+export { parseTripQuery } from './utils';
+export { fetchFromToTripQuery } from './trip-query-fetcher';
 export type { AssistantLayoutProps } from './layout';
 export { default as AssistantLayout } from './layout';
 

@@ -3,7 +3,11 @@ import mockRouter from 'next-router-mock';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { ExternalClient } from '@atb/modules/api-server';
 import { JourneyPlannerApi } from '../server/journey-planner';
-import { getServerSideProps } from '@atb/pages/assistant';
+import {
+  AssistantContentProps,
+  AssistantPageProps,
+  getServerSideProps,
+} from '@atb/pages/assistant';
 import { expectProps } from '@atb/tests/utils';
 import { createDynamicRouteParser } from 'next-router-mock/dynamic-routes';
 import { GeocoderApi } from '@atb/page-modules/departures/server/geocoder';
@@ -72,12 +76,16 @@ describe('assistant page', function () {
       ...context,
     } as any);
 
-    (await expectProps(result)).toMatchObject({
-      initialFromFeature: fromFeature,
-      initialToFeature: toFeature,
-      initialSearchTime: {
-        mode: 'departBy',
-        dateTime: 123,
+    (await expectProps(result)).toMatchObject<AssistantContentProps>({
+      tripQuery: {
+        from: fromFeature,
+        to: toFeature,
+        searchTime: {
+          mode: 'departBy',
+          dateTime: 123,
+        },
+        transportModeFilter: null,
+        cursor: null,
       },
       trip: tripResult,
       nonTransitTrips: nonTransitTripResult,
@@ -85,7 +93,17 @@ describe('assistant page', function () {
   });
 
   it('should render assistant page header', () => {
-    render(<AssistantLayout />);
+    render(
+      <AssistantLayout
+        tripQuery={{
+          from: null,
+          to: null,
+          searchTime: { mode: 'now' },
+          cursor: null,
+          transportModeFilter: null,
+        }}
+      />,
+    );
 
     expect(screen.getByText('Fra')).toBeInTheDocument();
     expect(screen.getByText('Til')).toBeInTheDocument();
@@ -107,12 +125,15 @@ describe('assistant page', function () {
   it('should render empty search results', () => {
     const output = render(
       <Trip
-        initialFromFeature={fromFeature}
-        initialToFeature={toFeature}
+        tripQuery={{
+          from: fromFeature,
+          to: toFeature,
+          searchTime: { mode: 'departBy', dateTime: Date.now() },
+          transportModeFilter: null,
+          cursor: null,
+        }}
         trip={{ ...tripResult, tripPatterns: [] }}
-        initialSearchTime={{ mode: 'departBy', dateTime: Date.now() }}
         nonTransitTrips={nonTransitTripResult}
-        initialTransportModesFilter={null}
       />,
     );
 
@@ -128,12 +149,15 @@ describe('assistant page', function () {
   it('should render empty search results with filter details', () => {
     const output = render(
       <Trip
-        initialFromFeature={fromFeature}
-        initialToFeature={toFeature}
+        tripQuery={{
+          from: fromFeature,
+          to: toFeature,
+          searchTime: { mode: 'departBy', dateTime: Date.now() },
+          transportModeFilter: ['bus'],
+          cursor: null,
+        }}
         trip={{ ...tripResult, tripPatterns: [] }}
-        initialSearchTime={{ mode: 'departBy', dateTime: Date.now() }}
         nonTransitTrips={nonTransitTripResult}
-        initialTransportModesFilter={['bus']}
       />,
     );
 

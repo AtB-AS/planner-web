@@ -1,40 +1,18 @@
 import { errorResultAsJson, tryResult } from '@atb/modules/api-server';
-import { handlerWithAssistantClient } from '@atb/page-modules/assistant/server';
+import { getAllTransportModesFromFilterOptions } from '@atb/modules/transport-mode';
 import {
-  parseTripQuery,
+  fetchFromToTripQuery,
   type TripApiReturnType,
 } from '@atb/page-modules/assistant';
+import { handlerWithAssistantClient } from '@atb/page-modules/assistant/server';
 import { ServerText } from '@atb/translations';
 import { constants } from 'http2';
-import { parseSearchTimeQuery } from '@atb/modules/search-time';
-import {
-  getAllTransportModesFromFilterOptions,
-  parseFilterQuery,
-} from '@atb/modules/transport-mode';
 
 export default handlerWithAssistantClient<TripApiReturnType>({
   async GET(req, res, { client, ok }) {
-    const tripQuery = parseTripQuery(req.query);
-    if (!tripQuery) {
-      return errorResultAsJson(
-        res,
-        constants.HTTP_STATUS_BAD_REQUEST,
-        ServerText.Endpoints.invalidData,
-      );
-    }
+    const tripQuery = await fetchFromToTripQuery(req.query, client);
 
-    const [from, to] = await Promise.all([
-      client.reverse(tripQuery.fromLat, tripQuery.fromLon, tripQuery.fromLayer),
-      client.reverse(tripQuery.toLat, tripQuery.toLon, tripQuery.toLayer),
-    ]);
-
-    const transportModeFilter = parseFilterQuery(tripQuery.filter);
-    const searchTime = parseSearchTimeQuery(
-      tripQuery.searchMode,
-      tripQuery.searchTime,
-    );
-
-    if (!from || !to) {
+    if (!tripQuery.from || !tripQuery.to) {
       return errorResultAsJson(
         res,
         constants.HTTP_STATUS_BAD_REQUEST,
@@ -45,12 +23,13 @@ export default handlerWithAssistantClient<TripApiReturnType>({
     return tryResult(req, res, async () => {
       return ok(
         await client.trip({
-          from,
-          to,
-          searchTime,
-          transportModes:
-            getAllTransportModesFromFilterOptions(transportModeFilter),
-          cursor: tripQuery.cursor,
+          from: tripQuery.from!,
+          to: tripQuery.to!,
+          searchTime: tripQuery.searchTime,
+          transportModes: getAllTransportModesFromFilterOptions(
+            tripQuery.transportModeFilter,
+          ),
+          cursor: tripQuery.cursor!,
         }),
       );
     });

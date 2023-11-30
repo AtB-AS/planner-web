@@ -12,7 +12,7 @@ import { PageText, useTranslation } from '@atb/translations';
 import { Typo } from '@atb/components/typography';
 import { GeocoderFeature } from '@atb/page-modules/departures';
 import { nextTripPatterns } from '../client';
-import { NonTransitTripData } from '../types';
+import { FromToTripQuery, NonTransitTripData } from '../types';
 import {
   createTripQuery,
   filterOutDuplicates,
@@ -32,25 +32,15 @@ import {
 } from '@atb/modules/transport-mode';
 
 export type TripProps = {
-  initialFromFeature: GeocoderFeature;
-  initialToFeature: GeocoderFeature;
-  initialTransportModesFilter: TransportModeFilterOption[] | null;
-  initialSearchTime: SearchTime;
+  tripQuery: FromToTripQuery;
   trip: TripData;
   nonTransitTrips: NonTransitTripData;
 };
 
-export default function Trip({
-  initialFromFeature,
-  initialToFeature,
-  initialTransportModesFilter,
-  initialSearchTime,
-  trip,
-  nonTransitTrips,
-}: TripProps) {
+export default function Trip({ tripQuery, trip, nonTransitTrips }: TripProps) {
   const { t } = useTranslation();
   const { tripPatterns, fetchNextTripPatterns, isFetchingTripPatterns } =
-    useTripPatterns(trip, initialSearchTime);
+    useTripPatterns(trip, tripQuery.searchTime);
 
   const nonTransits = Object.entries(nonTransitTrips);
 
@@ -61,7 +51,7 @@ export default function Trip({
           PageText.Assistant.trip.emptySearchResults.emptySearchResultsTitle,
         )}
         details={
-          initialTransportModesFilter
+          tripQuery.transportModeFilter
             ? t(
                 PageText.Assistant.trip.emptySearchResults
                   .emptySearchResultsDetailsWithFilters,
@@ -108,9 +98,9 @@ export default function Trip({
         className={style.fetchButton}
         onClick={() =>
           fetchNextTripPatterns(
-            initialFromFeature,
-            initialToFeature,
-            initialTransportModesFilter || undefined,
+            tripQuery.from!,
+            tripQuery.to!,
+            tripQuery.transportModeFilter || undefined,
           )
         }
         title={t(PageText.Assistant.trip.fetchMore)}
@@ -141,11 +131,14 @@ function useTripPatterns(initialTrip: TripData, searchTime: SearchTime) {
   ) => {
     setIsFetchingTripPatterns(true);
     const tripQuery = createTripQuery(
-      from,
-      to,
-      searchTime,
+      {
+        from,
+        to,
+        searchTime,
+        transportModeFilter: [],
+        cursor: cursor,
+      },
       getInitialTransportModeFilter(filter),
-      cursor || undefined,
     );
     const trip = await nextTripPatterns(tripQuery);
     const newTripPatternsWithTransitionDelay = tripPatternsWithTransitionDelay(
