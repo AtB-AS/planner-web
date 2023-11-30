@@ -35,6 +35,7 @@ query nearestStopPlaces(
               publicCode
               stopPlace {
                 id
+                transportMode
               }
               situations {
                 ...situation
