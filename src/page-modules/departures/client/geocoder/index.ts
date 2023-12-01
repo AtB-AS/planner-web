@@ -26,7 +26,6 @@ export function useAutocomplete(
     {
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
-      revalidateOnMount: false,
     },
   );
 }
