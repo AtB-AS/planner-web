@@ -39,7 +39,6 @@ export function StopPlace({ departures }: StopPlaceProps) {
     <section className={style.stopPlaceContainer}>
       <div className={style.mapContainer}>
         <MapWithHeader
-          id={departures.stopPlace.id}
           name={departures.stopPlace.name}
           position={departures.stopPlace.position}
           layer="venue"

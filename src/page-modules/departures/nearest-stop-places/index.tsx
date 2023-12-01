@@ -44,7 +44,6 @@ export function NearestStopPlaces({
       <div className={style.mapContainer}>
         {fromQuery.from && (
           <MapWithHeader
-            id={fromQuery.from.id}
             name={fromQuery.from.name}
             layer="address"
             position={{
