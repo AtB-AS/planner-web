@@ -6,14 +6,14 @@ import { MapHeaderProps } from '@atb/components/map/map-header';
 const stopPlaceMock: MapHeaderProps = {
   layer: 'venue',
   name: 'Trondheim S',
-  id: 'NSR:StopPlace:41742',
+  position: { lat: 63.43049, lon: 10.39506 },
   transportModes: ['bus'],
 };
 
 const addressMock: MapHeaderProps = {
   layer: 'address',
-  id: '44523952221',
   name: 'Prinsens gate',
+  position: { lat: 63.43049, lon: 10.39506 },
 };
 
 afterEach(function () {
