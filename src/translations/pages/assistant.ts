@@ -11,6 +11,14 @@ export const Assistant = {
         'Where do you want to go?',
         'Kor vil du reise?',
       ),
+      placholder: {
+        from: _(
+          'Søk fra adresse, kai eller holdeplass',
+          'Search from address, pier or buss stop',
+          'Søk frå adresse, kai eller haldeplass',
+        ),
+        to: _('Destinasjon', 'Destination', 'Destinasjon'),
+      },
       from: _('Fra', 'From', 'Frå'),
       to: _('Til', 'To', 'Til'),
     },
