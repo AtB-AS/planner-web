@@ -10,6 +10,7 @@ import { TripPatternHeader } from './trip-pattern-header';
 import { MonoIcon } from '@atb/components/icon';
 import { Typo } from '@atb/components/typography';
 import { TransportIconWithLabel } from '@atb/modules/transport-mode';
+import { andIf } from '@atb/utils/css';
 
 const LAST_LEG_PADDING = 20;
 
@@ -51,12 +52,21 @@ export default function TripPattern({
     }
   }, [legsParentWidth, legsContentWidth]);
 
+  const tripIsInPast = isInPast(tripPattern.legs[0].expectedStartTime);
+
+  const maxOpacity = tripIsInPast ? 0.7 : 1;
+
+  const className = andIf({
+    [style.tripPattern]: true,
+    [style['tripPattern--old']]: tripIsInPast,
+  });
+
   return (
     <motion.a
       href={`/assistant/${tripPattern.compressedQuery}`}
-      className={style.tripPattern}
+      className={className}
       initial={{ opacity: 0, x: -10 }}
-      animate={{ opacity: 1, x: 0 }}
+      animate={{ opacity: maxOpacity, x: 0 }}
       exit={{ opacity: 0, x: -10 }}
       transition={{
         delay, // staggerChildren on parent only works first render
@@ -65,7 +75,7 @@ export default function TripPattern({
         tripPattern,
         t,
         language,
-        isInPast(tripPattern.legs[0].expectedStartTime),
+        tripIsInPast,
         index + 1,
       )}
     >
