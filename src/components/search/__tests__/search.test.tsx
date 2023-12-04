@@ -229,4 +229,19 @@ describe('search box', () => {
 
     expect(mockGeolocation.getCurrentPosition).toHaveBeenCalled();
   });
+
+  it('should render with expected placeholder text', () => {
+    customRender(
+      <Search
+        label="Test"
+        placeholder="Søk fra adresse, kai eller holdeplass"
+        onChange={() => {}}
+      />,
+    );
+
+    const inputElement = screen.getByPlaceholderText(
+      'Søk fra adresse, kai eller holdeplass',
+    );
+    expect(inputElement).toBeInTheDocument();
+  });
 });
