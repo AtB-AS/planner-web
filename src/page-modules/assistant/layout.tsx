@@ -174,7 +174,7 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
                 : t(PageText.Assistant.search.buttons.alternatives.more)
             }
             className={style.button}
-            mode={showAlternatives ? 'interactive_3' : 'interactive_2'}
+            mode="interactive_2"
             onClick={() => setShowAlternatives(!showAlternatives)}
             icon={{ right: <MonoIcon icon="actions/Adjust" /> }}
           />
