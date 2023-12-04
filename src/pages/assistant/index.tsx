@@ -14,7 +14,9 @@ import {
 import { withAssistantClient } from '@atb/page-modules/assistant/server';
 import type { NextPage } from 'next';
 
-export type AssistantContentProps = { tripQuery: FromToTripQuery } | TripProps;
+export type AssistantContentProps =
+  | { tripQuery: FromToTripQuery; empty: true }
+  | TripProps;
 
 export type AssistantPageProps = WithGlobalData<
   AssistantLayoutProps & AssistantContentProps
@@ -51,6 +53,7 @@ export const getServerSideProps = withGlobalData(
         return {
           props: {
             tripQuery,
+            empty: true,
           },
         };
       }

@@ -26,6 +26,7 @@ export const useMapLegs = (
       const lineColor = mapLeg.faded
         ? hexToRgba(transportColor.background, 0.5)
         : transportColor.background;
+      const isDotted = mapLeg.transportMode === 'foot';
 
       const routeLine = createRouteFeature(
         mapLeg.points.map((pair) => [...pair].reverse()),
@@ -36,7 +37,7 @@ export const useMapLegs = (
       );
       map.addSource(`route-${id}`, routeLine);
       map.addSource(`route-${id}-start-end`, startEndCircles);
-      map.addLayer(createRouteLayer(id, lineColor));
+      map.addLayer(createRouteLayer(id, lineColor, isDotted));
       map.addLayer(createStartEndLayer(id, lineColor));
     },
     [transport],
@@ -122,16 +123,34 @@ const createRouteFeature = (points: number[][]): mapboxgl.AnySourceData => ({
 const createRouteLayer = (
   id: number | string,
   color: string,
-): mapboxgl.AnyLayer => ({
-  id: `route-layer-${id}`,
-  type: 'line',
-  source: `route-${id}`,
-  paint: {
-    'line-color': color,
-    'line-width': 4,
-    'line-offset': -1,
-  },
-});
+  isDotted?: boolean,
+): mapboxgl.AnyLayer => {
+  let paint = {};
+  let layout = {};
+
+  if (isDotted) {
+    paint = {
+      'line-dasharray': [0, 2],
+    };
+    layout = {
+      'line-cap': 'round',
+      'line-join': 'round',
+    };
+  }
+
+  return {
+    id: `route-layer-${id}`,
+    type: 'line',
+    source: `route-${id}`,
+    paint: {
+      'line-color': color,
+      'line-width': 4,
+      'line-offset': -1,
+      ...paint,
+    },
+    layout,
+  };
+};
 
 const createStartEndCircle = (
   startPoint: number[],
