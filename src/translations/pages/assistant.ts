@@ -17,7 +17,7 @@ export const Assistant = {
           'Search from address, pier or buss stop',
           'Søk frå adresse, kai eller haldeplass',
         ),
-        to: _('Destinasjon', 'Destination', 'Destinasjon'),
+        to: _('Sluttdestinasjon', 'Final destination', 'Sluttdestinasjon'),
       },
       from: _('Fra', 'From', 'Frå'),
       to: _('Til', 'To', 'Til'),
