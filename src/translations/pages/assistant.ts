@@ -33,7 +33,8 @@ export const Assistant = {
         title: _('Finn avganger', 'Find departures', 'Finn avganger'),
       },
       alternatives: {
-        title: _('Flere valg', 'More choices', 'Fleire val'),
+        more: _('Flere valg', 'More choices', 'Fleire val'),
+        less: _('Færre valg', 'Less choices', 'Færre val'),
       },
     },
   },
