@@ -11,6 +11,8 @@ export const Assistant = {
         'Where do you want to go?',
         'Kor vil du reise?',
       ),
+      from: _('Fra', 'From', 'Frå'),
+      to: _('Til', 'To', 'Til'),
       placholder: {
         from: _(
           'Søk fra adresse, kai eller holdeplass',
@@ -19,8 +21,6 @@ export const Assistant = {
         ),
         to: _('Sluttdestinasjon', 'Final destination', 'Sluttdestinasjon'),
       },
-      from: _('Fra', 'From', 'Frå'),
-      to: _('Til', 'To', 'Til'),
     },
     date: {
       label: _(

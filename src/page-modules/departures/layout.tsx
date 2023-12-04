@@ -72,6 +72,7 @@ function DeparturesLayout({ children, fromQuery }: DeparturesLayoutProps) {
 
             <Search
               label={t(PageText.Departures.search.input.from)}
+              placeholder={t(PageText.Departures.search.input.placholder)}
               selectedItem={fromQuery.from ?? undefined}
               onChange={onSelectFeature}
               button={
