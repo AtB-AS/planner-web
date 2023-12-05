@@ -230,18 +230,13 @@ describe('search box', () => {
     expect(mockGeolocation.getCurrentPosition).toHaveBeenCalled();
   });
 
-  it('should render with expected placeholder text', () => {
+  it('should render Search component with expected placeholder text', () => {
+    const testPlacholder = 'Søk fra adresse, kai eller holdeplass';
     customRender(
-      <Search
-        label="Test"
-        placeholder="Søk fra adresse, kai eller holdeplass"
-        onChange={() => {}}
-      />,
+      <Search label="Test" placeholder={testPlacholder} onChange={() => {}} />,
     );
 
-    const inputElement = screen.getByPlaceholderText(
-      'Søk fra adresse, kai eller holdeplass',
-    );
+    const inputElement = screen.getByPlaceholderText(testPlacholder);
     expect(inputElement).toBeInTheDocument();
   });
 });

@@ -12,6 +12,7 @@ import userEvent from '@testing-library/user-event';
 import { NearestStopPlaces } from '..';
 
 import { GeocoderApi } from '@atb/page-modules/departures/server/geocoder';
+import Search from '@atb/components/search/search';
 
 afterEach(function () {
   cleanup();
@@ -142,5 +143,15 @@ describe('departure page', function () {
     expect(
       output.getByText('Finner ingen holdeplasser i nærheten'),
     ).toBeInTheDocument();
+  });
+
+  it('should render Search component with expected placeholder text', () => {
+    const testPlacholder = 'Søk fra adresse, kai eller holdeplass';
+    render(
+      <Search label="Test" placeholder={testPlacholder} onChange={() => {}} />,
+    );
+
+    const inputElement = screen.getByPlaceholderText(testPlacholder);
+    expect(inputElement).toBeInTheDocument();
   });
 });
