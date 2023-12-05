@@ -141,9 +141,13 @@ function DeparturesLayout({ children, fromQuery }: DeparturesLayoutProps) {
 
         <div className={style.buttons}>
           <Button
-            title={t(PageText.Departures.search.buttons.alternatives.title)}
+            title={
+              showAlternatives
+                ? t(PageText.Departures.search.buttons.alternatives.less)
+                : t(PageText.Departures.search.buttons.alternatives.more)
+            }
             className={style.button}
-            mode={showAlternatives ? 'interactive_3' : 'interactive_2'}
+            mode="interactive_2"
             onClick={() => setShowAlternatives(!showAlternatives)}
             icon={{ right: <MonoIcon icon="actions/Adjust" /> }}
           />

@@ -10,13 +10,18 @@ import {
 } from '@atb/modules/transport-mode';
 
 export type MapHeaderProps = {
-  id: string;
   name: string; // StopPlace name or address
   layer: 'address' | 'venue';
   transportModes?: TransportModeType[];
+  position: { lat: number; lon: number };
 };
 
-export function MapHeader({ id, name, layer, transportModes }: MapHeaderProps) {
+export function MapHeader({
+  name,
+  layer,
+  transportModes,
+  position,
+}: MapHeaderProps) {
   const { t } = useTranslation();
   return (
     <div className={style.header}>
@@ -59,13 +64,13 @@ export function MapHeader({ id, name, layer, transportModes }: MapHeaderProps) {
         <div className={style.header__buttons}>
           <ButtonLink
             mode="interactive_0"
-            href={`/planner?travelFrom=${id}`}
+            href={`/assistant?fromLat=${position.lat}&fromLon=${position.lon}&fromLayer=${layer}`}
             title={t(ComponentText.Map.button.travelFrom)}
             className={style.header__button}
           />
           <ButtonLink
             mode="interactive_0"
-            href={`/planner?travelTo=${id}`}
+            href={`/assistant?toLat=${position.lat}&toLon=${position.lon}&toLayer=${layer}`}
             title={t(ComponentText.Map.button.travelTo)}
             className={style.header__button}
           />

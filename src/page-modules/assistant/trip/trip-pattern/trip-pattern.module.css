@@ -6,6 +6,15 @@
   text-decoration: none;
   max-width: 100%;
   width: 100%;
+  transition: opacity 150ms ease-in-out;
+}
+.tripPattern:hover {
+  background-color: var(--static-background-background_0-background);
+  color: var(--text-colors-primary);
+  opacity: 0.8 !important;
+}
+.tripPattern--old:hover {
+  opacity: 0.5 !important;
 }
 
 .header {

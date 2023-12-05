@@ -170,7 +170,11 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
 
         <div className={style.buttons}>
           <Button
-            title={t(PageText.Assistant.search.buttons.alternatives.title)}
+            title={
+              showAlternatives
+                ? t(PageText.Assistant.search.buttons.alternatives.less)
+                : t(PageText.Assistant.search.buttons.alternatives.more)
+            }
             className={style.button}
             mode="interactive_2"
             onClick={() => setShowAlternatives(!showAlternatives)}
