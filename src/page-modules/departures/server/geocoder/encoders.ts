@@ -71,7 +71,7 @@ export const geocoderRootSchema = z.object({
   geocoding: geocodingSchema,
   type: z.string(),
   features: z.array(featureSchema),
-  bbox: z.array(z.number()),
+  bbox: z.array(z.number()).optional(),
 });
 
 export type GeocoderRoot = z.infer<typeof geocoderRootSchema>;
