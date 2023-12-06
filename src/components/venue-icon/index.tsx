@@ -3,23 +3,21 @@ import { MonoIcon, MonoIconProps } from '@atb/components/icon';
 import { TransportModeType } from '@atb/modules/transport-mode';
 
 export type VenueIconProps = {
-  categories?: FeatureCategory[];
-  transportModes?: TransportModeType[];
+  categories: FeatureCategory[] | TransportModeType[];
   multiple?: boolean;
 } & Omit<MonoIconProps, 'icon'>;
 
 export default function VenueIcon({
   categories,
-  transportModes,
   multiple,
   ...props
 }: VenueIconProps) {
   let venueIconTypes: VenueIconType[] = [];
 
-  if (transportModes) {
-    venueIconTypes = transportModes as VenueIconType[];
-  } else if (categories) {
+  if (isFeatureCategory(categories)) {
     venueIconTypes = getVenueIconTypes(categories);
+  } else {
+    venueIconTypes = categories as VenueIconType[];
   }
 
   if (!venueIconTypes.length) {
@@ -60,6 +58,12 @@ export enum FeatureCategory {
   TETTSTEDDEL = 'tettsteddel',
   BYDEL = 'bydel',
   OTHER = 'other',
+}
+
+function isFeatureCategory(categories: any): categories is FeatureCategory[] {
+  return categories.every((c: FeatureCategory) =>
+    Object.values(FeatureCategory).includes(c),
+  );
 }
 
 type VenueIconType = 'bus' | 'tram' | 'rail' | 'air' | 'water' | 'unknown';
