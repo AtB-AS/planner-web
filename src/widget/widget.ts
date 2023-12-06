@@ -65,7 +65,6 @@ function init() {
 
   document.addEventListener('search-selected', function (event) {
     const data = event as CustomEvent<SelectedSearchEvent>;
-    console.log('Triggered', data.detail.key, data.detail.item);
     fromTo[data.detail.key] = data.detail.item;
   });
 
@@ -158,6 +157,41 @@ function submitDeparture(form: HTMLFormElement, from: GeocoderFeature) {
   window.location.href = `${url}?${params.toString()}`;
 }
 
+type ErrorMessage = {
+  message: string;
+};
+class MessageBox extends HTMLElement {
+  constructor() {
+    super();
+  }
+
+  connectedCallback() {
+    const self = this;
+    self.hidden = true;
+    self.classList.add(style.messageBox);
+    document.addEventListener('pw-errorMessage', function (event) {
+      const data = event as CustomEvent<ErrorMessage>;
+      self.textContent = data.detail.message;
+      console.log('setting error', data.detail);
+      self.hidden = false;
+    });
+    document.addEventListener('pw-errorMessage-clear', function (event) {
+      self.hidden = true;
+    });
+    self.addEventListener('click', function () {
+      MessageBox.clearMessageBox();
+    });
+  }
+
+  static clearMessageBox() {
+    document.dispatchEvent(
+      new CustomEvent('pw-errorMessage-clear', {
+        bubbles: true,
+      }),
+    );
+  }
+}
+
 function createOutput({ URL_BASE }: SettingConstants) {
   function searchItem(item: GeocoderFeature) {
     const img = venueIcon(item);
@@ -193,9 +227,10 @@ function createOutput({ URL_BASE }: SettingConstants) {
       const button = this.querySelector('button')!;
 
       button.addEventListener('click', async (event) => {
+        MessageBox.clearMessageBox();
+
         try {
           const item = await getGeolocation();
-
           const input = self.parentElement?.querySelector('input');
           if (input) {
             input.value = item ? `${item.name}, ${item.locality}` : input.value;
@@ -212,12 +247,23 @@ function createOutput({ URL_BASE }: SettingConstants) {
             }),
           );
         } catch (e) {
-          console.log(e);
+          if (e instanceof Error) {
+            document.dispatchEvent(
+              new CustomEvent<ErrorMessage>('pw-errorMessage', {
+                bubbles: true,
+                detail: {
+                  message: e.message,
+                },
+              }),
+            );
+          }
         }
       });
     }
   }
   customElements.define('pw-geobutton', GeoLocationButton);
+
+  customElements.define('pw-messagebox', MessageBox);
 
   class AutocompleteBox extends HTMLElement {
     private dataList: Record<string, GeocoderFeature> = {};
@@ -473,6 +519,7 @@ function createOutput({ URL_BASE }: SettingConstants) {
               </button>
             </pw-geobutton>
           </div>
+          <pw-messagebox></pw-messagebox>
           <div class="${style.search_container}">
             <label
               class="${style.search_label}"
@@ -577,6 +624,7 @@ function createOutput({ URL_BASE }: SettingConstants) {
               </button>
             </pw-geobutton>
           </div>
+          <pw-messagebox></pw-messagebox>
         </div>
         ${searchTime('pw-departure', false)}
       </div>
@@ -626,6 +674,8 @@ function tabBar() {
       e.preventDefault();
       const tabpanel = document.querySelector('#pw-' + mode);
       if (!tabpanel) return;
+
+      MessageBox.clearMessageBox();
 
       // Hide all tabpanels
       document.querySelectorAll('.js-tabpanel').forEach((panel) => {
@@ -852,12 +902,11 @@ async function getGeolocation(): Promise<GeocoderFeature | undefined> {
   return new Promise(function (resolve, reject) {
     navigator.geolocation.getCurrentPosition(
       async (position) => {
-        console.log('Posiontion', position.coords);
         const reversedPosition = await reverse(position.coords);
         resolve(reversedPosition);
       },
       (error) => {
-        reject(getErrorMessage(error.code));
+        reject(new Error(getErrorMessage(error.code)));
       },
       { enableHighAccuracy: true, timeout: 10000 },
     );
