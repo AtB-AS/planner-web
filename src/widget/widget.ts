@@ -172,7 +172,6 @@ class MessageBox extends HTMLElement {
     document.addEventListener('pw-errorMessage', function (event) {
       const data = event as CustomEvent<ErrorMessage>;
       self.textContent = data.detail.message;
-      console.log('setting error', data.detail);
       self.hidden = false;
     });
     document.addEventListener('pw-errorMessage-clear', function (event) {
