@@ -168,6 +168,12 @@ function createOutput({ URL_BASE }: SettingConstants) {
     return li;
   }
 
+  function messageItem(text: string) {
+    const title = el('span', [text]);
+    const li = el('li', [title], style.listItem);
+    return li;
+  }
+
   function venueIcon(item: GeocoderFeature) {
     const icon = iconData(item.category);
 
@@ -227,17 +233,35 @@ function createOutput({ URL_BASE }: SettingConstants) {
         list.hidden = !show;
       }
 
-      const fetcher = debounce(async (el: HTMLInputElement) => {
-        const data = await autocomplete(el.value);
-
-        self.setItems(data);
+      function showEmpty() {
+        self.setItems([]);
         list.innerHTML = '';
-        for (let item of data) {
-          const li = searchItem(item);
-          list.appendChild(li);
-        }
-
+        const li = messageItem('Ingen resultater');
+        list.appendChild(li);
         toggleList(true);
+      }
+
+      const fetcher = debounce(async (input: HTMLInputElement) => {
+        try {
+          if (!input.value) {
+            list.innerHTML = '';
+            return;
+          }
+          const data = await autocomplete(input.value);
+          if (data.length === 0) {
+            return showEmpty();
+          }
+
+          self.setItems(data);
+          list.innerHTML = '';
+          for (let item of data) {
+            const li = searchItem(item);
+            list.appendChild(li);
+          }
+          toggleList(true);
+        } catch (e) {
+          showEmpty();
+        }
       }, debounceTime);
       input.addEventListener('keydown', (event) => {
         if (event.key === 'Escape') {
