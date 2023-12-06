@@ -7,7 +7,7 @@ export function formatQuayName(quayName?: string, publicCode?: string | null) {
 export function getPlaceName(
   placeName?: string,
   quayName?: string,
-  publicCode?: string,
+  publicCode?: string | null,
 ): string {
   const fallback = placeName ?? '';
   return quayName ? formatQuayName(quayName, publicCode) ?? fallback : fallback;
@@ -16,7 +16,7 @@ export function getPlaceName(
 export function formatLineName(
   frontText?: string,
   lineName?: string,
-  publicCode?: string,
+  publicCode?: string | null,
 ): string {
   const name = frontText ?? lineName ?? '';
   return publicCode ? `${publicCode} ${name}` : name;
