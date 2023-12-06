@@ -21,14 +21,14 @@
 }
 
 .transportMode label {
-  padding: var(--spacings-xSmall) var(--spacings-xSmall) var(--spacings-xSmall) var(--spacings-small);
+  padding: var(--spacings-xSmall) var(--spacings-small) var(--spacings-xSmall) var(--spacings-medium);
   border-radius: var(--border-radius-circle);
   background-color: var(--interactive-interactive_2-default-background);
   color: var(--interactive-interactive_2-default-text);
   transition: border-color 150ms, background-color 150ms;
   cursor: pointer;
   display: flex;
-  gap: var(--spacings-xSmall);
+  gap: var(--spacings-small);
   align-items: center;
   height: 1.75rem;
 }
