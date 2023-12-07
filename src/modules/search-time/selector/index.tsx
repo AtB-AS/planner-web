@@ -8,6 +8,7 @@ import {
 } from '@atb/translations';
 import { SEARCH_MODES, SearchMode, SearchTime } from '../types';
 import style from './selector.module.css';
+import { initial } from 'lodash';
 
 type SearchTimeSelectorProps = {
   onChange: (state: SearchTime) => void;
@@ -126,6 +127,7 @@ export default function SearchTimeSelector({
                   type="date"
                   id="searchTimeSelector-date"
                   value={selectedDate.toISOString().slice(0, 10)}
+                  min={new Date().toISOString().slice(0, 10)}
                   onChange={internalOnDateChange}
                 />
               </div>
