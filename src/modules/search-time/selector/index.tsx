@@ -8,6 +8,7 @@ import {
 } from '@atb/translations';
 import { SEARCH_MODES, SearchMode, SearchTime } from '../types';
 import style from './selector.module.css';
+import { initial } from 'lodash';
 
 type SearchTimeSelectorProps = {
   onChange: (state: SearchTime) => void;
