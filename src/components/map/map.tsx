@@ -15,6 +15,7 @@ import { useMapPin } from './use-map-pin';
 import { useMapLegs } from './use-map-legs';
 import { and } from '@atb/utils/css';
 import { MapLegType, Position } from './types';
+import { useMapTariffZones } from './use-map-tariff-zones';
 
 export type MapProps = {
   position?: Position;
@@ -49,7 +50,6 @@ export function Map({
 
     return () => map.current?.remove();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
   const { centerMap } = useMapInteractions(map, onSelectStopPlace);
   const { openFullscreen, closeFullscreen, isFullscreen } = useFullscreenMap(
     mapWrapper,
@@ -57,6 +57,7 @@ export function Map({
   );
   useMapPin(map, position, layer);
   useMapLegs(map, transport, mapLegs);
+  useMapTariffZones(map);
 
   useEffect(() => {
     if (map.current) {
