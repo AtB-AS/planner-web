@@ -47,3 +47,5 @@ src/components/icon/generated-icons.ts
 *.generated.ts
 
 
+public/widget
+.vscode/
