@@ -16,10 +16,14 @@ export const Assistant = {
       placholder: {
         from: _(
           'Søk fra adresse, kai eller holdeplass',
-          'Search from address, pier or buss stop',
+          'Search from address, pier or bus stop',
           'Søk frå adresse, kai eller haldeplass',
         ),
-        to: _('Sluttdestinasjon', 'Final destination', 'Sluttdestinasjon'),
+        to: _(
+          'Oppgi ankomstdestinasjon',
+          'Provide arrival destination',
+          'Oppgi ankomstdestinasjon',
+        ),
       },
     },
     date: {
