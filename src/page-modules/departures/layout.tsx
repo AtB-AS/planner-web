@@ -67,7 +67,6 @@ function DeparturesLayout({ children, fromQuery }: DeparturesLayoutProps) {
           className={style.main}
         >
           <AssistantDepartureToggleButton href={router.pathname} />
-
           <div className={style.input}>
             <Typo.p textType="body__primary--bold" className={style.heading}>
               {t(PageText.Departures.search.input.label)}
@@ -85,7 +84,6 @@ function DeparturesLayout({ children, fromQuery }: DeparturesLayoutProps) {
               }
             />
           </div>
-
           <div className={style.date}>
             <Typo.p textType="body__primary--bold" className={style.heading}>
               {t(PageText.Departures.search.date.label)}
@@ -103,7 +101,6 @@ function DeparturesLayout({ children, fromQuery }: DeparturesLayoutProps) {
             </div>
           )}
         </motion.div>
-
         <AnimatePresence initial={false}>
           {showAlternatives && (
             <FocusScope contain={false} autoFocus={showAlternatives}>
@@ -127,7 +124,6 @@ function DeparturesLayout({ children, fromQuery }: DeparturesLayoutProps) {
                     >
                       {t(PageText.Departures.search.filter.label)}
                     </Typo.p>
-
                     <TransportModeFilter
                       filterState={transportModeFilter}
                       onFilterChange={setTransportModeFilter}
@@ -138,7 +134,6 @@ function DeparturesLayout({ children, fromQuery }: DeparturesLayoutProps) {
             </FocusScope>
           )}
         </AnimatePresence>
-
         <div className={style.buttons}>
           <Button
             title={
