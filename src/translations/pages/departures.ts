@@ -13,7 +13,7 @@ export const Departures = {
       from: _('Fra', 'From', 'Frå'),
       placholder: _(
         'Søk etter adresse, kai eller holdeplass',
-        'Search on address, pier or buss stop',
+        'Search for address, pier or bus stop',
         'Søk etter adresse, kai eller haldeplass',
       ),
     },
