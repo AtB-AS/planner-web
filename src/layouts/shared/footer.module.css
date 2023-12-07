@@ -1,14 +1,12 @@
 .footer {
-  background-color: var(--static-background-background_3-background);
-  color: var(--static-background-background_3-text);
+  background-color: var(--static-background-background_accent_5-background);
+  color: var(--static-background-background_accent_5-text);
 }
-
 .footer__content {
   margin: var(--contentPadding) auto;
   padding: var(--contentPadding);
   max-width: var(--maxPageWidth);
 }
-
 .footer__top {
   display: grid;
   gap: var(--spacings-xLarge);
@@ -29,29 +27,23 @@
 .footer__section {
   padding: var(--spacings-xLarge);
 }
-
 .footer__linkList {
   list-style-type: none;
 }
-
 .footer__linkList li {
   margin-bottom: var(--spacings-xLarge);
 }
-
 .footer a {
   text-decoration: none;
 }
-
 .footer a,
 .footer a:visited {
   transition: color 100ms ease-in;
-  color: var(--static-background-background_3-text);
+  color: var(--static-background-background_accent_5-text);
 }
-
 .footer a:hover {
   opacity: 0.75;
 }
-
 .footer__bottomLinks {
   width: 100%;
 
@@ -62,7 +54,6 @@
   gap: var(--spacings-medium);
   flex-wrap: wrap;
 }
-
 .footer__bottomLinks__mid {
   text-align: center;
   display: flex;
@@ -91,14 +82,13 @@
 }
 
 .buttonLink {
-  color: var(--static-background-background_3-text);
+  color: var(--static-background-background_accent_5-text);
   font-size: 1rem;
   background-color: transparent;
   border: 0;
   cursor: pointer;
   transition: color 100ms ease-in;
 }
-
 .buttonLink:hover {
   opacity: 0.75;
 }

@@ -244,3 +244,14 @@
   composes: menu from search;
   left: 0;
 }
+
+.messageBox {
+  background: var(--static-status-error-background);
+  color: var(--static-status-error-text);
+  display: flex;
+  padding: var(--spacings-medium);
+  border-radius: var(--border-radius-regular);
+}
+.messageBox[hidden] {
+  display: none;
+}
