@@ -19,6 +19,7 @@ import { FormEventHandler, PropsWithChildren, useState } from 'react';
 import style from './departures.module.css';
 import type { FromDepartureQuery } from './types';
 import { createFromQuery } from './utils';
+import { AssistantDepartureToggleButton } from '@atb/components/toggle-button';
 
 export type DeparturesLayoutProps = PropsWithChildren<{
   fromQuery: FromDepartureQuery;
@@ -65,11 +66,12 @@ function DeparturesLayout({ children, fromQuery }: DeparturesLayoutProps) {
           transition={{ duration: 0.25, ease: [0.04, 0.62, 0.23, 0.98] }}
           className={style.main}
         >
+          <AssistantDepartureToggleButton href={router.pathname} />
+
           <div className={style.input}>
             <Typo.p textType="body__primary--bold" className={style.heading}>
               {t(PageText.Departures.search.input.label)}
             </Typo.p>
-
             <Search
               label={t(PageText.Departures.search.input.from)}
               selectedItem={fromQuery.from ?? undefined}
@@ -88,7 +90,6 @@ function DeparturesLayout({ children, fromQuery }: DeparturesLayoutProps) {
             <Typo.p textType="body__primary--bold" className={style.heading}>
               {t(PageText.Departures.search.date.label)}
             </Typo.p>
-
             <SearchTimeSelector
               initialState={searchTime}
               onChange={setSearchTime}

@@ -1,0 +1,31 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  grid-column: span 2;
+  border-bottom: 1px solid var(--static-background-background_accent_0-text); /* Standard border-bottom-stil */
+  gap: var(--spacings-large);
+}
+
+.link {
+  text-decoration: none;
+  position: relative; /* Legg til position: relative */
+  padding-bottom: var(--spacings-medium);
+  color: var(--static-background-background_accent_0-text);
+}
+
+.active {
+  opacity: 100%;
+}
+
+.link:hover {
+  color: var(--static-background-background_accent_1-text);
+}
+
+.underline {
+  position: absolute;
+  left: 0;
+  bottom: 0px;
+  width: 100%;
+  padding-bottom: var(--spacings-medium);
+  border-bottom: 3px solid var(--static-background-background_accent_0-text);
+}

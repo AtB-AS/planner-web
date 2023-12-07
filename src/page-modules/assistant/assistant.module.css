@@ -23,6 +23,10 @@
   margin: 0 auto;
 }
 
+.slideSelector {
+  grid-column: span 2;
+}
+
 .input {
   display: flex;
   flex-direction: column;
@@ -65,7 +69,8 @@
   width: 100%;
   max-width: var(--maxPageWidth);
   margin: 0 auto;
-  padding: 0 var(--spacings-xLarge) var(--spacings-xLarge) var(--spacings-xLarge);
+  padding: 0 var(--spacings-xLarge) var(--spacings-xLarge)
+    var(--spacings-xLarge);
   z-index: 10;
   position: absolute;
   left: 0;
