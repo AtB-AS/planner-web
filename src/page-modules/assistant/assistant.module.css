@@ -23,10 +23,6 @@
   margin: 0 auto;
 }
 
-.slideSelector {
-  grid-column: span 2;
-}
-
 .input {
   display: flex;
   flex-direction: column;
