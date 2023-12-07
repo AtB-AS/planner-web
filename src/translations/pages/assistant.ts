@@ -15,14 +15,14 @@ export const Assistant = {
       to: _('Til', 'To', 'Til'),
       placholder: {
         from: _(
-          'Søk fra adresse, kai eller holdeplass',
-          'Search from address, pier or bus stop',
-          'Søk frå adresse, kai eller haldeplass',
+          'adresse, kai eller holdeplass',
+          'address, pier or bus stop',
+          'adresse, kai eller haldeplass',
         ),
         to: _(
-          'Oppgi ankomstdestinasjon',
-          'Provide arrival destination',
-          'Oppgi ankomstdestinasjon',
+          'ankomstdestinasjon',
+          'arrival destination',
+          'ankomstdestinasjon',
         ),
       },
     },
