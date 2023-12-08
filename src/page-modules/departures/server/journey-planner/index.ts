@@ -49,6 +49,7 @@ import {
 import { formatISO } from 'date-fns';
 import { Situation } from '@atb/modules/situations';
 import { mapToMapLegs } from '@atb/components/map';
+import { sortQuays } from './utils';
 
 export type DepartureInput = {
   id: string;
@@ -166,20 +167,7 @@ export function createJourneyApi(
         throw validated.error;
       }
 
-      validated.data.quays.sort((a, b) => {
-        // Place quays with no departures at the end
-        if (!a.publicCode || a.departures.length === 0) return 1;
-        if (!b.publicCode || b.departures.length === 0) return -1;
-
-        const publicA = parseInt(a.publicCode, 10);
-        const publicB = parseInt(b.publicCode, 10);
-
-        if (Number.isNaN(publicA) || Number.isNaN(publicB)) {
-          return a.publicCode.localeCompare(b.publicCode);
-        }
-
-        return publicA - publicB;
-      });
+      validated.data.quays.sort(sortQuays);
 
       return validated.data;
     },
