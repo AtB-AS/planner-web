@@ -28,12 +28,13 @@ const links: LinkProps[] = [
   {
     name: 'departures',
     title: ComponentText.TabLink.departures,
-    link: '/departures',
+    link: '/departures/[[...id]]',
   },
 ];
 
 const setInitialActiveLink = (href: string | undefined) => {
-  return href ? links[1].name : links[0].name;
+  const link = links.find((link) => link.link === href);
+  return link?.name;
 };
 
 const handleClick = (linkName: string, setActiveLink: Function) => {

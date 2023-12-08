@@ -28,7 +28,6 @@ export type DeparturesLayoutProps = PropsWithChildren<{
 function DeparturesLayout({ children, fromQuery }: DeparturesLayoutProps) {
   const { t } = useTranslation();
   const router = useRouter();
-
   const [showAlternatives, setShowAlternatives] = useState(false);
   const [searchTime, setSearchTime] = useState<SearchTime>(
     fromQuery.searchTime,
