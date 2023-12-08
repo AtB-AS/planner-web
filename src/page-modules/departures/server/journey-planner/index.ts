@@ -170,13 +170,15 @@ export function createJourneyApi(
         // Place quays with no departures at the end
         if (a.departures.length === 0) return 1;
         if (b.departures.length === 0) return -1;
-
-        if (!a.publicCode) return 1;
-        if (!b.publicCode) return -1;
-
-        if (parseInt(a.publicCode) && parseInt(b.publicCode)) {
-          return parseInt(a.publicCode) - parseInt(b.publicCode);
+        
+        const publicA = parseInt(a.publicCode, 10);
+        const publicB = parseInt(b.publicCode, 10);
+        
+        if (Number.isNaN(publicB) || Number.isNaN(publica)) {
+          return a.publicCode.localeCompare(b.publicCode);
         }
+
+        return publicA - publicB;
 
         return a.publicCode.localeCompare(b.publicCode);
       });
