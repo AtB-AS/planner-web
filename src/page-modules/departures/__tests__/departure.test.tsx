@@ -12,6 +12,7 @@ import userEvent from '@testing-library/user-event';
 import { NearestStopPlaces } from '..';
 
 import { GeocoderApi } from '@atb/page-modules/departures/server/geocoder';
+import { sortQuays } from '../server/journey-planner/utils';
 
 afterEach(function () {
   cleanup();
@@ -142,5 +143,49 @@ describe('departure page', function () {
     expect(
       output.getByText('Finner ingen holdeplasser i nærheten'),
     ).toBeInTheDocument();
+  });
+
+  it('should sort quays by public code and departures', () => {
+    const quays = [
+      {
+        ...departureDataFixture.quays[0],
+        publicCode: 'B2',
+      },
+      {
+        ...departureDataFixture.quays[0],
+        publicCode: 'B1',
+      },
+      {
+        ...departureDataFixture.quays[0],
+        publicCode: null,
+      },
+      {
+        ...departureDataFixture.quays[0],
+        publicCode: '1',
+      },
+      {
+        ...departureDataFixture.quays[0],
+        publicCode: '2',
+        departures: [],
+      },
+      {
+        ...departureDataFixture.quays[0],
+        publicCode: 'A1',
+      },
+      {
+        ...departureDataFixture.quays[0],
+        publicCode: '0',
+      },
+    ];
+
+    quays.sort(sortQuays);
+
+    expect(quays[0].publicCode).toBe('0');
+    expect(quays[1].publicCode).toBe('1');
+    expect(quays[2].publicCode).toBe('A1');
+    expect(quays[3].publicCode).toBe('B1');
+    expect(quays[4].publicCode).toBe('B2');
+    expect(quays[5].publicCode).toBe(null);
+    expect(quays[6].publicCode).toBe('2');
   });
 });
