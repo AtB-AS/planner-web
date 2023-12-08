@@ -87,12 +87,17 @@ describe('transport mode filter', () => {
     expect(onChange).toHaveBeenCalledWith(expected);
   });
 
-  it('should only uncheck "Bus"', () => {
+  it('should only check "Bus" when "All" is selected', () => {
     const onChange = vi.fn();
     const initialState = getInitialTransportModeFilter();
     const expected: TransportModeFilterState = {
-      ...initialState,
-      bus: false,
+      air: false,
+      airportbus: false,
+      bus: true,
+      expressboat: false,
+      ferry: false,
+      other: false,
+      rail: false,
     };
 
     render(
