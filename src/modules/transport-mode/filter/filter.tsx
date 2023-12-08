@@ -56,11 +56,9 @@ export default function TransportModeFilter({
                 checked={selected}
                 onChange={(event) => {
                   if (Object.values(filterState).every(Boolean)) {
-                    Object.keys(filterState).forEach((k) => {
-                      filterState[k as keyof TransportModeFilterState] = false;
-                    });
+                    const newState = setAllValues(filterState, false);
                     onFilterChange({
-                      ...filterState,
+                      ...(newState as TransportModeFilterState),
                       [key]: true,
                     });
                   } else {
