@@ -6,8 +6,9 @@ import { TransportModeFilterOption, TransportModeFilterState } from './types';
 import { Typo } from '@atb/components/typography';
 import { getTransportModeIcon } from '../icon';
 import { filterOptionsWithTransportModes, setAllValues } from './utils';
+import { useTheme } from '@atb/modules/theme';
 import { TransportModeFilterOptionType } from '@atb-as/config-specs';
-import { ChangeEventHandler } from 'react';
+import { ChangeEventHandler, useState } from 'react';
 
 type TransportModeFilterProps = {
   filterState: TransportModeFilterState;
@@ -55,20 +56,10 @@ export default function TransportModeFilter({
                 option={option}
                 checked={selected}
                 onChange={(event) => {
-                  if (Object.values(filterState).every(Boolean)) {
-                    Object.keys(filterState).forEach((k) => {
-                      filterState[k as keyof TransportModeFilterState] = false;
-                    });
-                    onFilterChange({
-                      ...filterState,
-                      [key]: true,
-                    });
-                  } else {
-                    onFilterChange({
-                      ...filterState,
-                      [key]: event.target.checked,
-                    });
-                  }
+                  onFilterChange({
+                    ...filterState,
+                    [key]: event.target.checked,
+                  });
                 }}
               />
 
