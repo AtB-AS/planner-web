@@ -13,18 +13,11 @@ export const Assistant = {
       ),
       from: _('Fra', 'From', 'Frå'),
       to: _('Til', 'To', 'Til'),
-      placholder: {
-        from: _(
-          'adresse, kai eller holdeplass',
-          'address, pier or bus stop',
-          'adresse, kai eller haldeplass',
-        ),
-        to: _(
-          'ankomstdestinasjon',
-          'arrival destination',
-          'ankomstdestinasjon',
-        ),
-      },
+      placholder: _(
+        'adresse, kai eller holdeplass',
+        'address, pier or bus stop',
+        'adresse, kai eller haldeplass',
+      ),
     },
     date: {
       label: _(
