@@ -1,6 +1,10 @@
 import Link from 'next/link';
-import style from './assistant-departure-toggle-button.module.css';
-import { PageText, TranslatedString, useTranslation } from '@atb/translations';
+import style from './tab-link.module.css';
+import {
+  ComponentText,
+  TranslatedString,
+  useTranslation,
+} from '@atb/translations';
 import { useState } from 'react';
 import { Typo } from '../typography';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -18,12 +22,12 @@ type LinkProps = {
 const links: LinkProps[] = [
   {
     name: 'assistant',
-    title: PageText.Assistant.title,
+    title: ComponentText.TabLink.assistant,
     link: '/assistant',
   },
   {
     name: 'departures',
-    title: PageText.Assistant.search.buttons.find.title,
+    title: ComponentText.TabLink.departures,
     link: '/departures',
   },
 ];

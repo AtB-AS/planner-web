@@ -19,7 +19,7 @@ import { FormEventHandler, PropsWithChildren, useState } from 'react';
 import style from './assistant.module.css';
 import { FromToTripQuery } from './types';
 import { createTripQuery } from './utils';
-import { AssistantDepartureToggleButton } from '@atb/components/toggle-button';
+import { TabLink } from '@atb/components/tab-link';
 
 export type AssistantLayoutProps = PropsWithChildren<{
   tripQuery: FromToTripQuery;
@@ -82,7 +82,7 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
           transition={{ duration: 0.25, ease: [0.04, 0.62, 0.23, 0.98] }}
           className={style.main}
         >
-          <AssistantDepartureToggleButton />
+          <TabLink />
 
           <div className={style.input}>
             <Typo.p textType="body__primary--bold" className={style.heading}>

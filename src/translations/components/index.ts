@@ -7,3 +7,4 @@ export { TransportMode } from './transport-mode';
 export { TransportModeFilter } from './transport-mode-filter';
 export { SwapButton } from './swap-button';
 export { EmptySearch } from './empty-search';
+export { TabLink } from './tab-link';
