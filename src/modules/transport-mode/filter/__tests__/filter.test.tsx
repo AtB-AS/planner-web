@@ -111,6 +111,38 @@ describe('transport mode filter', () => {
     expect(onChange).toHaveBeenCalledWith(expected);
   });
 
+  it('should check "Rail" when only "Bus" is selected', () => {
+    const onChange = vi.fn();
+    const initialState: TransportModeFilterState = {
+      air: false,
+      airportbus: false,
+      bus: true,
+      expressboat: false,
+      ferry: false,
+      other: false,
+      rail: false,
+    };
+    const expected: TransportModeFilterState = {
+      air: false,
+      airportbus: false,
+      bus: true,
+      expressboat: false,
+      ferry: false,
+      other: false,
+      rail: true,
+    };
+
+    render(
+      <TransportModeFilter
+        filterState={initialState}
+        onFilterChange={onChange}
+      />,
+    );
+
+    screen.getByRole('checkbox', { name: /^tog$/i }).click();
+    expect(onChange).toHaveBeenCalledWith(expected);
+  });
+
   it('should check all when all initially are unchecked', async () => {
     const onChange = vi.fn();
 
