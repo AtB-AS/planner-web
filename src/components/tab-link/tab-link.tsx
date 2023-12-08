@@ -59,9 +59,9 @@ const AssistantDepartureToggle = ({ href }: AssistantDepartureTogglProp) => {
           onClick={() => handleClick(link.name, setActiveLink)}
         >
           <Typo.p
-            textType={`${
+            textType={
               activeLink === link.name ? 'body__primary--bold' : 'body__primary'
-            }`}
+            }
           >
             {t(link.title)}
           </Typo.p>
