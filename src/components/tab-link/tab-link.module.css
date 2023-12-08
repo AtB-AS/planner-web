@@ -13,10 +13,6 @@
   color: var(--static-background-background_accent_0-text);
 }
 
-.active {
-  opacity: 100%;
-}
-
 .link:hover {
   color: var(--static-background-background_accent_1-text);
 }

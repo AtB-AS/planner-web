@@ -52,9 +52,7 @@ const AssistantDepartureToggle = ({ href }: AssistantDepartureTogglProp) => {
       {links.map((link, index) => (
         <Link
           key={index}
-          className={`${style.link} ${
-            activeLink === link.name ? style.active : ''
-          }`}
+          className={style.link}
           href={link.link}
           onClick={() => handleClick(link.name, setActiveLink)}
         >
