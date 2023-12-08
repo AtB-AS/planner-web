@@ -168,19 +168,17 @@ export function createJourneyApi(
 
       validated.data.quays.sort((a, b) => {
         // Place quays with no departures at the end
-        if (a.departures.length === 0) return 1;
-        if (b.departures.length === 0) return -1;
-        
+        if (!a.publicCode || a.departures.length === 0) return 1;
+        if (!b.publicCode || b.departures.length === 0) return -1;
+
         const publicA = parseInt(a.publicCode, 10);
         const publicB = parseInt(b.publicCode, 10);
-        
-        if (Number.isNaN(publicB) || Number.isNaN(publica)) {
+
+        if (Number.isNaN(publicA) || Number.isNaN(publicB)) {
           return a.publicCode.localeCompare(b.publicCode);
         }
 
         return publicA - publicB;
-
-        return a.publicCode.localeCompare(b.publicCode);
       });
 
       return validated.data;
