@@ -6,6 +6,20 @@ const nextConfig = {
   optimizeFonts: false,
   output: 'standalone',
 
+  async headers() {
+    return [
+      {
+        source: '/widget/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, s-maxage=3600, stale-while-revalidate=3600',
+          },
+        ],
+      },
+    ];
+  },
+
   webpack(config) {
     config.resolve.alias = {
       ...config.resolve.alias,
