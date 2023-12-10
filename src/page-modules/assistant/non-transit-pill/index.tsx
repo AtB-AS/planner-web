@@ -12,6 +12,7 @@ type NonTransitTripProps = {
     mode: TransportModeType;
     rentedBike: boolean;
     duration: number;
+    compressedQuery: string;
   };
 };
 export function NonTransitTrip({ nonTransit }: NonTransitTripProps) {
@@ -28,7 +29,7 @@ export function NonTransitTrip({ nonTransit }: NonTransitTripProps) {
     <ButtonLink
       radiusSize="circular"
       size="pill"
-      href="/assistant"
+      href={`/assistant/${nonTransit.compressedQuery}`}
       title={`${modeText} ${durationShort}`}
       icon={{
         left: <TransportMonoIcon mode={{ mode }} />,
