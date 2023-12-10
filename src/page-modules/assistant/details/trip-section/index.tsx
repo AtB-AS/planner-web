@@ -44,8 +44,8 @@ export default function TripSection({
     subMode: leg.transportSubmode,
   });
 
-  const showFrom = !isWalkSection || !!(isFirst && isWalkSection);
-  const showTo = !isWalkSection || !!(isLast && isWalkSection);
+  const showFrom = !isWalkSection || (isFirst && isWalkSection);
+  const showTo = !isWalkSection || (isLast && isWalkSection);
 
   const showInterchangeSection =
     interchangeDetails && leg.interchangeTo?.guaranteed && leg.line;

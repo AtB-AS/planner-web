@@ -2,7 +2,7 @@ import { TripPattern, Quay } from '../../../server/journey-planner/validators';
 import style from './trip-pattern-header.module.css';
 import { Typo } from '@atb/components/typography';
 import { useTranslation, PageText } from '@atb/translations';
-import { secondsToDuration } from '@atb/utils/date';
+import { formatTripDuration } from '@atb/utils/date';
 import { flatMap } from 'lodash';
 import { getNoticesForLeg } from './utils';
 import { RailReplacementBusMessage } from './rail-replacement-bus';
@@ -15,7 +15,11 @@ type TripPatternHeaderProps = {
 export function TripPatternHeader({ tripPattern }: TripPatternHeaderProps) {
   const { t, language } = useTranslation();
 
-  const duration = secondsToDuration(tripPattern.duration, language);
+  const { duration } = formatTripDuration(
+    tripPattern.expectedStartTime,
+    tripPattern.expectedEndTime,
+    language,
+  );
 
   const { startMode, startPlace } = getStartModeAndPlace(tripPattern);
 
