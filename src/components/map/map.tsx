@@ -7,7 +7,6 @@ import { Button } from '@atb/components/button';
 import { MonoIcon } from '@atb/components/icon';
 import { ComponentText, useTranslation } from '@atb/translations';
 import { FocusScope } from '@react-aria/focus';
-import { useTheme } from '@atb/modules/theme';
 import { ZOOM_LEVEL, defaultPosition } from './utils';
 import { useMapInteractions } from './use-map-interactions';
 import { useFullscreenMap } from './use-fullscreen-map';
@@ -31,7 +30,6 @@ export function Map({
   mapLegs,
   initialZoom = ZOOM_LEVEL,
 }: MapProps) {
-  const { transport } = useTheme();
   const mapWrapper = useRef<HTMLDivElement>(null);
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map>();
@@ -56,7 +54,7 @@ export function Map({
     map,
   );
   useMapPin(map, position, layer);
-  useMapLegs(map, transport, mapLegs);
+  useMapLegs(map, mapLegs);
 
   useEffect(() => {
     if (map.current) {
