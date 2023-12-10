@@ -526,7 +526,6 @@ function parseTripQueryString(
   compressedQueryString: string,
 ): { query: TripsQueryVariables; journeyIds: string[] } | undefined {
   const queryString = decompressFromEncodedURIComponent(compressedQueryString);
-  console.log('queryString', queryString);
   if (!queryString) return;
 
   const queryFields = JSON.parse(queryString);
