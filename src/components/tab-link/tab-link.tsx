@@ -28,17 +28,13 @@ const links: LinkProps[] = [
   },
 ];
 
-const rewritePathIfDynamic = (path: string) => {
-  return path.replace('/[[...id]]', '');
-};
-
 const TabLink = ({ activePath }: TabLinkProps) => {
   const { t } = useTranslation();
 
   return (
     <div className={style.container}>
       {links.map((link, index) => {
-        const isActive = rewritePathIfDynamic(activePath) === link.href;
+        const isActive = activePath.startsWith(link.href);
         return (
           <Link key={index} className={style.href} href={link.href}>
             <Typo.p
