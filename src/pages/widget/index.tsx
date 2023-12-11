@@ -10,10 +10,12 @@ import Head from 'next/head';
 import Script from 'next/script';
 import { useEffect, useRef, useState } from 'react';
 
-import type { createWidget, PlannerWebOutput } from '@atb/widget/widget';
 import { getWidgetData } from '@atb/page-modules/widget/server/data';
+import type { createWidget, PlannerWebOutput } from '@atb/widget/widget';
 
 import style from '@atb/page-modules/widget/widget.module.css';
+import { Language, useTranslation } from '@atb/translations';
+import { formatToLongDateTime } from '@atb/utils/date';
 
 type WidgetPagePropsContent = {
   data: PlannerWidgetData;
@@ -58,9 +60,6 @@ const WidgetPage: NextPage<WidgetPageProps> = ({ data, ...props }) => {
   const [html, setHtml] = useState('');
   const lib = useRef<PlannerWebOutput | null>(null);
 
-  const scripts = (str?: string) => `<script src="${str ?? ''}" />`;
-  const css = (str?: string) => `<link src="${str ?? ''}" />`;
-
   useEffect(() => {
     if (html) {
       lib.current?.init();
@@ -93,47 +92,8 @@ const WidgetPage: NextPage<WidgetPageProps> = ({ data, ...props }) => {
 
         {!isLoaded && <p>Loading...</p>}
 
-        {isLoaded && (
-          <>
-            <h2>Demo</h2>
-            <div dangerouslySetInnerHTML={{ __html: html }} />
-
-            <h2>Installation (newest version)</h2>
-
-            <p>
-              Install by copying HTML provided below. After loading JS and CSS
-              file it can be initialized using the following code:
-            </p>
-            <CopyMarkup content={initializeCode} />
-
-            <h3>HTML output</h3>
-            <CopyMarkupLarge content={html} />
-
-            <h3>Scripts (UMD / ESM)</h3>
-
-            <p>Using these directly could cause issues on new releases.</p>
-            <CopyMarkup content={scripts(lib.current?.urls?.URL_JS_UMD)} />
-            <CopyMarkup content={scripts(lib.current?.urls?.URL_JS_ESM)} />
-
-            <h3>Styling</h3>
-            <CopyMarkup content={css(lib.current?.urls?.URL_CSS)} />
-
-            <h3>Using dynamic output</h3>
-
-            <p>
-              You can also inject HTML automatically by using{' '}
-              <code>widget.output</code> property. This can be done server side
-              or by using client side frameworks.
-            </p>
-
-            <p>
-              One advantage of doing this dynamically when importing JavaScript
-              on the fly, will be that code is automatically updated on new
-              releases.
-            </p>
-
-            <CopyMarkup content={outputCodeExample} />
-          </>
+        {isLoaded && lib.current && (
+          <WidgetContent html={html} lib={lib.current} data={data} />
         )}
       </main>
     </DefaultLayout>
@@ -153,3 +113,97 @@ export const getServerSideProps = withGlobalData<WidgetPagePropsContent>(
     };
   },
 );
+
+function WidgetContent({
+  html,
+  lib,
+  data,
+}: {
+  html: string;
+  lib: PlannerWebOutput;
+  data: PlannerWidgetData;
+}) {
+  const { language } = useTranslation();
+  const scripts = (str?: string) => `<script src="${str ?? ''}" />`;
+  const css = (str?: string) => `<link src="${str ?? ''}" />`;
+
+  const currentUrlBase = location.protocol + '//' + location.host;
+
+  return (
+    <div>
+      <h2>Demo</h2>
+      <div dangerouslySetInnerHTML={{ __html: html }} />
+
+      <h2>Installation (newest version)</h2>
+
+      <p>
+        Install by copying HTML provided below. After loading JS and CSS file it
+        can be initialized using the following code:
+      </p>
+      <CopyMarkup content={initializeCode} />
+
+      <h3>HTML output</h3>
+      <CopyMarkupLarge content={html} />
+
+      <h3>Scripts (UMD / ESM)</h3>
+
+      <p>Using these directly could cause issues on new releases.</p>
+      <CopyMarkup content={scripts(lib.urls?.URL_JS_UMD)} />
+      <CopyMarkup content={scripts(lib.urls?.URL_JS_ESM)} />
+
+      <h3>Styling</h3>
+      <CopyMarkup content={css(lib.urls?.URL_CSS)} />
+
+      <h3>Using dynamic output</h3>
+
+      <p>
+        You can also inject HTML automatically by using{' '}
+        <code>widget.output</code> property. This can be done server side or by
+        using client side frameworks.
+      </p>
+
+      <p>
+        One advantage of doing this dynamically when importing JavaScript on the
+        fly, will be that code is automatically updated on new releases.
+      </p>
+
+      <CopyMarkup content={outputCodeExample} />
+
+      <h2>All versions</h2>
+
+      <p>
+        <a href="https://github.com/AtB-AS/planner-web/releases">
+          Read changelog for more information about changes between versions
+        </a>
+        .
+      </p>
+
+      {data.all.map((mod) => (
+        <div key={mod.version}>
+          <details>
+            <summary>
+              <h3>
+                {mod.version} (Created{' '}
+                {formatToLongDateTime(mod.created, language)})
+              </h3>
+            </summary>
+
+            <div>
+              <CopyMarkup content={scripts(currentUrlBase + mod.urls.umd)} />
+              <CopyMarkup content={scripts(currentUrlBase + mod.urls.esm)} />
+              <CopyMarkup content={css(currentUrlBase + mod.urls.css)} />
+
+              <p>
+                <a
+                  href={`https://github.com/AtB-AS/planner-web/releases/tag/v${mod.version}`}
+                >
+                  See changelog
+                </a>
+              </p>
+            </div>
+          </details>
+        </div>
+      ))}
+    </div>
+  );
+}

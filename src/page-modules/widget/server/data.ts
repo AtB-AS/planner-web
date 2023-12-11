@@ -9,6 +9,7 @@ export type PlannerWidgetData = {
 
 export type PlannerModule = {
   version: string;
+  created: string;
   urls: {
     umd: string;
     esm: string;
