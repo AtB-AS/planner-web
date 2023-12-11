@@ -65,7 +65,7 @@ function DeparturesLayout({ children, fromQuery }: DeparturesLayoutProps) {
           transition={{ duration: 0.25, ease: [0.04, 0.62, 0.23, 0.98] }}
           className={style.main}
         >
-          <TabLink />
+          <TabLink activePath={router.pathname} />
 
           <div className={style.input}>
             <Typo.p textType="body__primary--bold" className={style.heading}>

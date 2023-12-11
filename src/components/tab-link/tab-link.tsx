@@ -5,10 +5,12 @@ import {
   TranslatedString,
   useTranslation,
 } from '@atb/translations';
-import { useState } from 'react';
 import { Typo } from '../typography';
 import { AnimatePresence, motion } from 'framer-motion';
-import { useRouter } from 'next/router';
+
+type TabLinkProps = {
+  activePath: string;
+};
 
 type LinkProps = {
   title: TranslatedString;
@@ -26,52 +28,44 @@ const links: LinkProps[] = [
   },
 ];
 
-const setInitialActivePath = (href: string | undefined) => {
-  const link = links.find((link) => link.href === href);
-  return link?.href;
-};
-
 const rewritePathIfDynamic = (path: string) => {
   return path.replace('/[[...id]]', '');
 };
 
-const TabLink = () => {
+const TabLink = ({ activePath }: TabLinkProps) => {
   const { t } = useTranslation();
-  const router = useRouter();
-  const [activePath, setActivePath] = useState(() =>
-    setInitialActivePath(rewritePathIfDynamic(router.pathname)),
-  );
 
   return (
     <div className={style.container}>
-      {links.map((link, index) => (
-        <Link
-          key={index}
-          className={style.href}
-          href={link.href}
-          onClick={() => setActivePath(rewritePathIfDynamic(router.pathname))}
-        >
-          <Typo.p
-            textType={
-              activePath === link.href ? 'body__primary--bold' : 'body__primary'
-            }
+      {links.map((link, index) => {
+        let isActive = rewritePathIfDynamic(activePath) === link.href;
+        return (
+          <Link
+            key={index}
+            className={style.href}
+            href={link.href}
+            onClick={() => rewritePathIfDynamic(activePath)}
           >
-            {t(link.title)}
-          </Typo.p>
-          <AnimatePresence initial={false}>
-            {activePath === link.href && (
-              <motion.div
-                className={style.underline}
-                layoutId="underline"
-                initial="collapsed"
-                animate="open"
-                exit="collapsed"
-                transition={{ duration: 0.25 }}
-              />
-            )}
-          </AnimatePresence>
-        </Link>
-      ))}
+            <Typo.p
+              textType={isActive ? 'body__primary--bold' : 'body__primary'}
+            >
+              {t(link.title)}
+            </Typo.p>
+            <AnimatePresence initial={false}>
+              {isActive && (
+                <motion.div
+                  className={style.underline}
+                  layoutId="underline"
+                  initial="collapsed"
+                  animate="open"
+                  exit="collapsed"
+                  transition={{ duration: 0.25 }}
+                />
+              )}
+            </AnimatePresence>
+          </Link>
+        );
+      })}
     </div>
   );
 };
