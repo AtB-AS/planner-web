@@ -20,7 +20,7 @@ type LinkProps = {
 const links: LinkProps[] = [
   {
     title: ComponentText.TabLink.assistant,
-    href: '/^/(:?assistant)?/',
+    href: '/' || '/assistant',
   },
   {
     title: ComponentText.TabLink.departures,
@@ -35,6 +35,8 @@ const TabLink = ({ activePath }: TabLinkProps) => {
     <div className={style.container}>
       {links.map((link, index) => {
         const isActive = activePath.startsWith(link.href);
+        console.log(activePath === '/');
+        console.log(activePath);
         return (
           <Link key={index} className={style.href} href={link.href}>
             <Typo.p
