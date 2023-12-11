@@ -22,7 +22,7 @@ const links: LinkProps[] = [
   },
   {
     title: ComponentText.TabLink.departures,
-    href: '/departures/[[...id]]',
+    href: '/departures',
   },
 ];
 
@@ -31,12 +31,15 @@ const setInitialActivePath = (href: string | undefined) => {
   return link?.href;
 };
 
+const rewritePathIfDynamic = (path: string) => {
+  return path.replace('/[[...id]]', '');
+};
+
 const TabLink = () => {
   const { t } = useTranslation();
   const router = useRouter();
-
   const [activePath, setActivePath] = useState(() =>
-    setInitialActivePath(router.pathname),
+    setInitialActivePath(rewritePathIfDynamic(router.pathname)),
   );
 
   return (
@@ -46,7 +49,7 @@ const TabLink = () => {
           key={index}
           className={style.href}
           href={link.href}
-          onClick={() => setActivePath(router.pathname)}
+          onClick={() => setActivePath(rewritePathIfDynamic(router.pathname))}
         >
           <Typo.p
             textType={
