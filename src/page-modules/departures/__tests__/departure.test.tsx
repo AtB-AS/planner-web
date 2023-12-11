@@ -93,7 +93,7 @@ describe('departure page', function () {
       ...context,
     } as any);
 
-    (await expectProps(result)).toContain({
+    (await expectProps(result)).toMatchObject({
       departures: expectedDeparturesResult,
     });
   });
