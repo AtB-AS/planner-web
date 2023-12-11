@@ -6,14 +6,14 @@
   gap: var(--spacings-large);
 }
 
-.link {
+.href {
   text-decoration: none;
   position: relative;
   padding-bottom: var(--spacings-medium);
   color: var(--static-background-background_accent_0-text);
 }
 
-.link:hover {
+.href:hover {
   color: var(--static-background-background_accent_1-text);
 }
 

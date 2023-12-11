@@ -16,24 +16,24 @@ type TabLinkProps = {
 type LinkProps = {
   name: string;
   title: TranslatedString;
-  link: string;
+  href: string;
 };
 
 const links: LinkProps[] = [
   {
     name: 'assistant',
     title: ComponentText.TabLink.assistant,
-    link: '/assistant',
+    href: '/assistant',
   },
   {
     name: 'departures',
     title: ComponentText.TabLink.departures,
-    link: '/departures/[[...id]]',
+    href: '/departures/[[...id]]',
   },
 ];
 
 const setInitialActiveLink = (href: string | undefined) => {
-  const link = links.find((link) => link.link === href);
+  const link = links.find((link) => link.href === href);
   return link?.name;
 };
 
@@ -52,8 +52,8 @@ const TabLink = ({ href }: TabLinkProps) => {
       {links.map((link, index) => (
         <Link
           key={index}
-          className={style.link}
-          href={link.link}
+          className={style.href}
+          href={link.href}
           onClick={() => handleClick(link.name, setActiveLink)}
         >
           <Typo.p
