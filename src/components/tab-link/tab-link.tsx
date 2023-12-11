@@ -8,39 +8,35 @@ import {
 import { useState } from 'react';
 import { Typo } from '../typography';
 import { AnimatePresence, motion } from 'framer-motion';
-
-type TabLinkProps = {
-  href?: string;
-};
+import { useRouter } from 'next/router';
 
 type LinkProps = {
-  name: string;
   title: TranslatedString;
   href: string;
 };
 
 const links: LinkProps[] = [
   {
-    name: 'assistant',
     title: ComponentText.TabLink.assistant,
     href: '/assistant',
   },
   {
-    name: 'departures',
     title: ComponentText.TabLink.departures,
     href: '/departures/[[...id]]',
   },
 ];
 
-const setInitialActiveLink = (href: string | undefined) => {
+const setInitialActivePath = (href: string | undefined) => {
   const link = links.find((link) => link.href === href);
-  return link?.name;
+  return link?.href;
 };
 
-const TabLink = ({ href }: TabLinkProps) => {
+const TabLink = () => {
   const { t } = useTranslation();
-  const [activeLink, setActiveLink] = useState(() =>
-    setInitialActiveLink(href),
+  const router = useRouter();
+
+  const [activePath, setActivePath] = useState(() =>
+    setInitialActivePath(router.pathname),
   );
 
   return (
@@ -50,17 +46,17 @@ const TabLink = ({ href }: TabLinkProps) => {
           key={index}
           className={style.href}
           href={link.href}
-          onClick={() => setActiveLink(href)}
+          onClick={() => setActivePath(router.pathname)}
         >
           <Typo.p
             textType={
-              activeLink === link.name ? 'body__primary--bold' : 'body__primary'
+              activePath === link.href ? 'body__primary--bold' : 'body__primary'
             }
           >
             {t(link.title)}
           </Typo.p>
           <AnimatePresence initial={false}>
-            {activeLink === link.name && (
+            {activePath === link.href && (
               <motion.div
                 className={style.underline}
                 layoutId="underline"
