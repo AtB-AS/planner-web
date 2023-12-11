@@ -37,10 +37,6 @@ const setInitialActiveLink = (href: string | undefined) => {
   return link?.name;
 };
 
-const handleClick = (linkName: string, setActiveLink: Function) => {
-  setActiveLink(linkName);
-};
-
 const TabLink = ({ href }: TabLinkProps) => {
   const { t } = useTranslation();
   const [activeLink, setActiveLink] = useState(() =>
@@ -54,7 +50,7 @@ const TabLink = ({ href }: TabLinkProps) => {
           key={index}
           className={style.href}
           href={link.href}
-          onClick={() => handleClick(link.name, setActiveLink)}
+          onClick={() => setActiveLink(href)}
         >
           <Typo.p
             textType={
