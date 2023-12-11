@@ -31,26 +31,29 @@
 }
 
 .nav {
+  padding: var(--spacings-xLarge) var(--spacings-xLarge) 0;
 }
 
 .tabs {
   list-style-type: none;
   display: flex;
   gap: var(--spacings-xLarge);
-  padding: var(--spacings-xLarge);
-  padding-bottom: 0;
-  color: var(--interactive-interactive_0-default-text, #fff);
+  color: var(--static-background-background_accent_0-text);
+  border-bottom: 1px solid var(--static-background-background_accent_0-text);
 }
 
 .tabs a {
-  color: var(--interactive-interactive_0-default-text, #fff);
+  text-decoration: none;
+  display: block;
+  padding-bottom: var(--spacings-medium);
+  color: var(--static-background-background_accent_0-text);
 }
 .tabSelected {
   text-decoration: none;
-  opacity: 0.8;
+  outline-bottom: 3px solid var(--static-background-background_accent_0-text);
 }
 .tabs a:hover {
-  color: currentColor;
+  color: var(--static-background-background_accent_1-text);
 }
 .tabs a:active {
   color: var(--interactive-interactive_0-active-text);
