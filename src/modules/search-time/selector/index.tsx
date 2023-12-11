@@ -8,7 +8,6 @@ import {
 } from '@atb/translations';
 import { SEARCH_MODES, SearchMode, SearchTime } from '../types';
 import style from './selector.module.css';
-import { initial } from 'lodash';
 
 type SearchTimeSelectorProps = {
   onChange: (state: SearchTime) => void;
@@ -48,8 +47,13 @@ export default function SearchTimeSelector({
     onChange(newState);
   };
 
+  const isPastDate = (selectedDate: string) => {
+    return new Date(selectedDate) < new Date();
+  };
+
   const internalOnDateChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (!event.target.value) return;
+    if (isPastDate(event.target.value)) return;
 
     setSelectedDate(new Date(event.target.value));
 
@@ -59,8 +63,17 @@ export default function SearchTimeSelector({
     });
   };
 
+  const isPastTime = (time: string) => {
+    const now = new Date();
+    const [hours, minutes] = time.split(':');
+    const selectedTime = new Date();
+    selectedTime.setHours(parseInt(hours), parseInt(minutes));
+    return selectedTime < now;
+  };
+
   const internalOnTimeChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (!event.target.value) return;
+    if (isPastTime(event.target.value)) return;
 
     setSelectedTime(event.target.value);
 
@@ -140,6 +153,7 @@ export default function SearchTimeSelector({
                   type="time"
                   id="searchTimeSelector-time"
                   value={selectedTime}
+                  min={new Date().toISOString().slice(11, 8)}
                   onChange={internalOnTimeChange}
                 />
               </div>
