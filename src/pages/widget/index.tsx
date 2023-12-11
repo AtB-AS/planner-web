@@ -1,15 +1,24 @@
 import DefaultLayout from '@atb/layouts/default';
 import { withGlobalData, type WithGlobalData } from '@atb/layouts/global-data';
-import { CopyMarkup, CopyMarkupLarge } from '@atb/page-modules/widget';
+import {
+  CopyMarkup,
+  CopyMarkupLarge,
+  type PlannerWidgetData,
+} from '@atb/page-modules/widget';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Script from 'next/script';
 import { useEffect, useRef, useState } from 'react';
 
-import style from '@atb/page-modules/widget/widget.module.css';
 import type { createWidget, PlannerWebOutput } from '@atb/widget/widget';
+import { getWidgetData } from '@atb/page-modules/widget/server/data';
 
-export type WidgetPageProps = WithGlobalData<{}>;
+import style from '@atb/page-modules/widget/widget.module.css';
+
+type WidgetPagePropsContent = {
+  data: PlannerWidgetData;
+};
+export type WidgetPageProps = WithGlobalData<WidgetPagePropsContent>;
 
 declare global {
   interface Window {
@@ -44,7 +53,7 @@ const outputCodeExample = html`
   </script>
 `;
 
-const WidgetPage: NextPage<WidgetPageProps> = (props) => {
+const WidgetPage: NextPage<WidgetPageProps> = ({ data, ...props }) => {
   const [isLoaded, setLoaded] = useState(false);
   const [html, setHtml] = useState('');
   const lib = useRef<PlannerWebOutput | null>(null);
@@ -62,10 +71,10 @@ const WidgetPage: NextPage<WidgetPageProps> = (props) => {
     <DefaultLayout {...props}>
       <Head>
         {/* eslint-disable-next-line @next/next/no-css-tags */}
-        <link rel="stylesheet" href="/widget/0.2.0/planner-web.css" />
+        <link rel="stylesheet" href={data.latest.urls.css} />
       </Head>
       <Script
-        src="/widget/0.2.0/planner-web.umd.js"
+        src={data.latest.urls.umd}
         strategy="lazyOnload"
         onLoad={() => {
           setLoaded(true);
@@ -133,4 +142,14 @@ const WidgetPage: NextPage<WidgetPageProps> = (props) => {
 
 export default WidgetPage;
 
-export const getServerSideProps = withGlobalData();
+export const getServerSideProps = withGlobalData<WidgetPagePropsContent>(
+  async function () {
+    const data = await getWidgetData();
+
+    return {
+      props: {
+        data,
+      },
+    };
+  },
+);
