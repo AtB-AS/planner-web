@@ -38,7 +38,7 @@ const TabLink = ({ activePath }: TabLinkProps) => {
   return (
     <div className={style.container}>
       {links.map((link, index) => {
-        let isActive = rewritePathIfDynamic(activePath) === link.href;
+        const isActive = rewritePathIfDynamic(activePath) === link.href;
         return (
           <Link
             key={index}
