@@ -20,7 +20,7 @@ type LinkProps = {
 const links: LinkProps[] = [
   {
     title: ComponentText.TabLink.assistant,
-    href: '/assistant',
+    href: '/' || '/assistant',
   },
   {
     title: ComponentText.TabLink.departures,
