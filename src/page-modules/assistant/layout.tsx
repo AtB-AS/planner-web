@@ -88,7 +88,7 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
 
             <Search
               label={t(PageText.Assistant.search.input.from)}
-              placeholder={t(PageText.Assistant.search.input.placholder)}
+              placeholder={t(PageText.Assistant.search.input.placeholder)}
               onChange={onFromSelected}
               selectedItem={tripQuery.from ?? undefined}
               button={
@@ -101,7 +101,7 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
             />
             <Search
               label={t(PageText.Assistant.search.input.to)}
-              placeholder={t(PageText.Assistant.search.input.placholder)}
+              placeholder={t(PageText.Assistant.search.input.placeholder)}
               onChange={onToSelected}
               selectedItem={tripQuery.to ?? undefined}
               button={

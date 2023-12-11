@@ -231,12 +231,12 @@ describe('search box', () => {
   });
 
   it('should render Search component with expected placeholder text', () => {
-    const testPlacholder = 'Søk fra adresse, kai eller holdeplass';
+    const testPlaceholder = 'Søk fra adresse, kai eller holdeplass';
     customRender(
-      <Search label="Test" placeholder={testPlacholder} onChange={() => {}} />,
+      <Search label="Test" placeholder={testPlaceholder} onChange={() => {}} />,
     );
 
-    const inputElement = screen.getByPlaceholderText(testPlacholder);
+    const inputElement = screen.getByPlaceholderText(testPlaceholder);
     expect(inputElement).toBeInTheDocument();
   });
 });
