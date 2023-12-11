@@ -40,12 +40,7 @@ const TabLink = ({ activePath }: TabLinkProps) => {
       {links.map((link, index) => {
         const isActive = rewritePathIfDynamic(activePath) === link.href;
         return (
-          <Link
-            key={index}
-            className={style.href}
-            href={link.href}
-            onClick={() => rewritePathIfDynamic(activePath)}
-          >
+          <Link key={index} className={style.href} href={link.href}>
             <Typo.p
               textType={isActive ? 'body__primary--bold' : 'body__primary'}
             >
