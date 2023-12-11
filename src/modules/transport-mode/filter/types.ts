@@ -19,4 +19,4 @@ export type TransportModeFilterState = Record<
   boolean
 >;
 
-export { TransportModeFilterOptionType } from '@atb-as/config-specs';
+export type { TransportModeFilterOptionType } from '@atb-as/config-specs';
