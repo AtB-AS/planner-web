@@ -12,7 +12,7 @@ export const useMapLegs = (
   mapLegs?: MapLegType[],
 ) => {
   const { t, language } = useTranslation();
-  const theme = useTheme();
+  const { transport, static: staticColors } = useTheme();
 
   const addToMap = useCallback(
     (map: Map, mapLeg: MapLegType, id: number) => {
@@ -21,7 +21,7 @@ export const useMapLegs = (
           mode: mapLeg.faded ? 'unknown' : mapLeg.transportMode,
           subMode: mapLeg.transportSubmode,
         },
-        theme,
+        transport,
       );
       const lineColor = mapLeg.faded
         ? hexToRgba(transportColor.background, 0.5)
@@ -40,7 +40,7 @@ export const useMapLegs = (
       map.addLayer(createRouteLayer(id, lineColor, isDotted));
       map.addLayer(createStartEndLayer(id, lineColor));
     },
-    [theme],
+    [transport],
   );
 
   const addStartEndText = useCallback(
@@ -51,13 +51,13 @@ export const useMapLegs = (
       const startTextLayer = createStartEndTextLayer(
         startTextSourceId,
         t(ComponentText.Map.map.startPoint),
-        theme.static.background.background_accent_0,
+        staticColors.background.background_accent_0,
       );
       const endTextPoint = createStartEndTextPoint(endMapLeg.points[0]);
       const endTextLayer = createStartEndTextLayer(
         endTextSourceId,
         t(ComponentText.Map.map.endPoint),
-        theme.static.background.background_accent_0,
+        staticColors.background.background_accent_0,
       );
 
       map.addSource(startTextSourceId, startTextPoint);
@@ -65,7 +65,7 @@ export const useMapLegs = (
       map.addLayer(startTextLayer);
       map.addLayer(endTextLayer);
     },
-    [theme, t],
+    [staticColors, t],
   );
 
   /**
