@@ -134,7 +134,7 @@ function WidgetContent({
       <h2>Demo</h2>
       <div dangerouslySetInnerHTML={{ __html: html }} />
 
-      <h2>Installation (newest version)</h2>
+      <h2>Installation (latest version v${data.latest.version})</h2>
 
       <p>
         Install by copying HTML provided below. After loading JS and CSS file it
