@@ -16,6 +16,8 @@ vi.stubEnv('NEXT_PUBLIC_MAPBOX_DEFAULT_LNG', '6.1495');
 vi.mock('mapbox-gl/dist/mapbox-gl.js', () => {
   return {
     default: {
+      // Mark mapbox as not supported in test env.
+      supported: () => false,
       Map: class Map {
         setCenter() {}
         remove() {}

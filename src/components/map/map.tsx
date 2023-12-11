@@ -39,6 +39,10 @@ export function Map({
 
   useEffect(() => {
     if (!mapContainer.current) return;
+
+    // If browsers doesn't support WebGL, don't initialize map
+    if (!mapboxgl.supported()) return;
+
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       accessToken: mapboxData.accessToken,

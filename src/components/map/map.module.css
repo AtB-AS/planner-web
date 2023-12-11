@@ -51,6 +51,7 @@
   width: 100%;
   border-radius: 0 0 var(--border-radius-regular) var(--border-radius-regular);
   overflow: hidden;
+  background-color: var(--static-background-background_0-background);
 }
 
 .mapContainer__borderRadius {
