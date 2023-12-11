@@ -20,7 +20,7 @@
     "predev": "yarn generate"
   },
   "dependencies": {
-    "@apollo/client": "^3.8.4",
+    "@apollo/client": "^3.8.8",
     "@atb-as/config-specs": "^3.6.1",
     "@atb-as/theme": "^7.1.1",
     "@github/combobox-nav": "^2.3.0",
