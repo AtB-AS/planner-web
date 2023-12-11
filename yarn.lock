@@ -68,10 +68,10 @@
   dependencies:
     node-fetch "^2.6.1"
 
-"@atb-as/config-specs@^3.6.1":
-  version "3.6.1"
-  resolved "https://registry.yarnpkg.com/@atb-as/config-specs/-/config-specs-3.6.1.tgz#3ef453513ac5c4c6f56e200e9a1e0a149d9dba5f"
-  integrity sha512-W+Ppxttx0z1piaG+1i1YW7hiFN+GowvV4Vjgc4DaKk8O7+RS5blceiS77cd2+aZdpI+PjhiBQ5FPYT/pJBdyqw==
+"@atb-as/config-specs@^3.13.1":
+  version "3.13.1"
+  resolved "https://registry.yarnpkg.com/@atb-as/config-specs/-/config-specs-3.13.1.tgz#8d3b253634b23c54d10c4bc8ed5e1039957e942f"
+  integrity sha512-qPW+gb29b1Ihx7aLIZgDreOIunvyE0yqvh8QOOtz5C30mXYyWpXdpQqOP1ZBHgepa5wWLu02SaNrvslwkaKVoQ==
   dependencies:
     ajv "^8.12.0"
     ajv-formats "^2.1.1"
@@ -81,10 +81,10 @@
     zod "^3.21.4"
     zod-to-json-schema "^3.20.4"
 
-"@atb-as/generate-assets@^9.3.0":
-  version "9.3.0"
-  resolved "https://registry.yarnpkg.com/@atb-as/generate-assets/-/generate-assets-9.3.0.tgz#b61dfa11071f57a0463390a7cbb40f920109f286"
-  integrity sha512-O5OsIsZyI/xsS1zjMkYtcMWzwSalE0LnS3N0PFZUL96FScVpgLDgDijvp0AUjv05+SM9Bbw6JB7c93Pags4d9A==
+"@atb-as/generate-assets@^9.9.0":
+  version "9.9.0"
+  resolved "https://registry.yarnpkg.com/@atb-as/generate-assets/-/generate-assets-9.9.0.tgz#bcbd378c6107a7eed6870318f3e4ddf937d36e8e"
+  integrity sha512-Ng73CrPu4E4ie1+4KbPX0oYI/pFjZumjZ9KSds+QNRGB4nOCfA6Chnu7yg/o17hoV5XLjjyDBZwaR7rNeDWFPg==
   dependencies:
     "@atb-as/theme" "^7.1.1"
     commander "^9.4.0"
