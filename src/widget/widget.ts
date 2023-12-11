@@ -17,6 +17,8 @@ type SettingConstants = {
 
 const html = String.raw;
 
+const MODULE_VERSION = process.env.MODULE_VERSION;
+
 function createSettingsConstants(urlBase: string) {
   if (!urlBase?.startsWith('http')) {
     throw new Error('Missing urlBase in correct schema.');
@@ -28,9 +30,9 @@ function createSettingsConstants(urlBase: string) {
 
   return {
     URL_BASE: urlBase,
-    URL_JS_UMD: `${urlBase}widget/planner-web.umd.js`,
-    URL_JS_ESM: `${urlBase}widget/planner-web.mjs`,
-    URL_CSS: `${urlBase}widget/style.css`,
+    URL_JS_UMD: `${urlBase}widget/${MODULE_VERSION}/planner-web.umd.js`,
+    URL_JS_ESM: `${urlBase}widget/${MODULE_VERSION}/planner-web.mjs`,
+    URL_CSS: `${urlBase}widget/${MODULE_VERSION}/planner-web.css`,
   };
 }
 

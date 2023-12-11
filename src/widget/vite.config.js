@@ -2,6 +2,8 @@ import { resolve } from 'path';
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
 
+import { version } from '../../package.json';
+
 const orgId = process.env.NEXT_PUBLIC_PLANNER_ORG_ID;
 
 if (!orgId) {
@@ -24,18 +26,24 @@ export default defineConfig({
       rollupTypes: true,
     }),
   ],
+  define: {
+    'process.env': {
+      MODULE_VERSION: version,
+    },
+  },
   build: {
     lib: {
       // Could also be a dictionary or array of multiple entry points
       entry: resolve(__dirname, 'widget.ts'),
       name: 'PlannerWeb',
       // the proper extensions will be added
-      fileName: 'planner-web',
+      fileName: `planner-web`,
     },
-    outDir: resolve(__dirname, '../../public/widget/'),
+    outDir: resolve(__dirname, `../../public/widget/${version}`),
     rollupOptions: {
       output: {
         manualChunks: undefined,
+        assetFileNames: `planner-web.css`,
       },
     },
   },
