@@ -20,16 +20,19 @@ declare global {
 }
 
 const html = String.raw;
-const initializeCode = html`<script>
-  // Ensure that url base is same origin as the page where widget is loaded and the travel planner API
-  const widget = window.PlannerWeb.createWidget({
-    urlBase: 'https://reiseplanlegger.example.no/',
-  });
+const initializeCode = html`
+  <script>
+    // Ensure that url base is same origin as the page where widget is loaded and the travel planner API
+    const widget = window.PlannerWeb.createWidget({
+      urlBase: 'https://reiseplanlegger.example.no/',
+    });
 
-  // After loading JS and CSS file it can be initialized using the following code:
-  widget.init();
-</script>`;
-const outputCodeExample = html`<div id="planner-web"></div>
+    // After loading JS and CSS file it can be initialized using the following code:
+    widget.init();
+  </script>
+`;
+const outputCodeExample = html`
+  <div id="planner-web"></div>
   <script>
     // Basic example of using dynamic output
     document.querySelector('#planner-web').innerHTML = widget.output;
@@ -38,7 +41,8 @@ const outputCodeExample = html`<div id="planner-web"></div>
     widget.urls;
     // Example for URL_JS_UMD:
     widget.urls.URL_JS_UMD;
-  </script> `;
+  </script>
+`;
 
 const WidgetPage: NextPage<WidgetPageProps> = (props) => {
   const [isLoaded, setLoaded] = useState(false);
@@ -58,10 +62,10 @@ const WidgetPage: NextPage<WidgetPageProps> = (props) => {
     <DefaultLayout {...props}>
       <Head>
         {/* eslint-disable-next-line @next/next/no-css-tags */}
-        <link rel="stylesheet" href="/widget/style.css" />
+        <link rel="stylesheet" href="/widget/0.2.0/planner-web.css" />
       </Head>
       <Script
-        src="/widget/planner-web.umd.js"
+        src="/widget/0.2.0/planner-web.umd.js"
         strategy="lazyOnload"
         onLoad={() => {
           setLoaded(true);
@@ -85,7 +89,7 @@ const WidgetPage: NextPage<WidgetPageProps> = (props) => {
             <h2>Demo</h2>
             <div dangerouslySetInnerHTML={{ __html: html }} />
 
-            <h2>Installation</h2>
+            <h2>Installation (newest version)</h2>
 
             <p>
               Install by copying HTML provided below. After loading JS and CSS
