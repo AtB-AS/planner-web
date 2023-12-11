@@ -77,6 +77,7 @@ export const nonTransitSchema = z.object({
   mode: transportModeSchema,
   rentedBike: z.boolean(),
   duration: z.number(),
+  compressedQuery: z.string(),
 });
 
 export const tripPatternWithDetailsSchema = z.object({

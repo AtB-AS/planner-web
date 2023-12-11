@@ -87,12 +87,17 @@ describe('transport mode filter', () => {
     expect(onChange).toHaveBeenCalledWith(expected);
   });
 
-  it('should only uncheck "Bus"', () => {
+  it('should only check "Bus" when "All" is selected', () => {
     const onChange = vi.fn();
     const initialState = getInitialTransportModeFilter();
     const expected: TransportModeFilterState = {
-      ...initialState,
-      bus: false,
+      air: false,
+      airportbus: false,
+      bus: true,
+      expressboat: false,
+      ferry: false,
+      other: false,
+      rail: false,
     };
 
     render(
@@ -103,6 +108,38 @@ describe('transport mode filter', () => {
     );
 
     screen.getByRole('checkbox', { name: /^buss$/i }).click();
+    expect(onChange).toHaveBeenCalledWith(expected);
+  });
+
+  it('should check "Rail" when only "Bus" is selected', () => {
+    const onChange = vi.fn();
+    const initialState: TransportModeFilterState = {
+      air: false,
+      airportbus: false,
+      bus: true,
+      expressboat: false,
+      ferry: false,
+      other: false,
+      rail: false,
+    };
+    const expected: TransportModeFilterState = {
+      air: false,
+      airportbus: false,
+      bus: true,
+      expressboat: false,
+      ferry: false,
+      other: false,
+      rail: true,
+    };
+
+    render(
+      <TransportModeFilter
+        filterState={initialState}
+        onFilterChange={onChange}
+      />,
+    );
+
+    screen.getByRole('checkbox', { name: /^tog$/i }).click();
     expect(onChange).toHaveBeenCalledWith(expected);
   });
 

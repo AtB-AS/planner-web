@@ -71,22 +71,24 @@ export function createJourneyApi(
           ? new Date(input.searchTime.dateTime)
           : new Date();
 
+      const queryVariables = {
+        from,
+        to,
+        arriveBy: input.searchTime.mode === 'arriveBy',
+        when,
+        walkSpeed: 1.3,
+
+        includeFoot: input.directModes.includes(StreetMode.Foot),
+        includeBicycle: input.directModes.includes(StreetMode.Bicycle),
+        includeBikeRental: input.directModes.includes(StreetMode.BikeRental),
+      };
+
       const result = await client.query<
         TripsNonTransitQuery,
         TripsNonTransitQueryVariables
       >({
         query: TripsNonTransitDocument,
-        variables: {
-          from,
-          to,
-          arriveBy: input.searchTime.mode === 'arriveBy',
-          when,
-          walkSpeed: 1.3,
-
-          includeFoot: input.directModes.includes(StreetMode.Foot),
-          includeBicycle: input.directModes.includes(StreetMode.Bicycle),
-          includeBikeRental: input.directModes.includes(StreetMode.BikeRental),
-        },
+        variables: queryVariables,
       });
 
       if (result.error || result.errors) {
@@ -103,10 +105,29 @@ export function createJourneyApi(
           continue;
         }
 
+        const modes = { directMode: StreetMode.Foot, transportModes: [] };
+
+        switch (legType) {
+          case 'footTrip':
+            modes.directMode = StreetMode.Foot;
+            break;
+          case 'bicycleTrip':
+            modes.directMode = StreetMode.Bicycle;
+            break;
+          case 'bikeRentalTrip':
+            modes.directMode = StreetMode.BikeRental;
+            break;
+        }
+
         const data: Partial<NonTransitData> = {
           duration: tripPattern.duration,
           mode: tripPattern.legs[0]?.mode as any,
           rentedBike: tripPattern.legs?.some((leg) => leg.rentedBike) ?? false,
+          compressedQuery: generateSingleTripQueryString(
+            [],
+            tripPattern.legs[0].aimedStartTime,
+            { ...queryVariables, modes },
+          ),
         };
 
         const validated = nonTransitSchema.safeParse(data);
@@ -487,26 +508,12 @@ function generateSingleTripQueryString(
   queryVariables: TripsQueryVariables,
 ) {
   const when = getPaddedStartTime(aimedStartTime);
-  const {
-    from,
-    to,
-    transferPenalty,
-    waitReluctance,
-    walkReluctance,
-    walkSpeed,
-    modes,
-  } = queryVariables;
   const arriveBy = false;
+
   const singleTripQuery: TripsQueryVariables = {
+    ...queryVariables,
     when,
-    from,
-    to,
-    transferPenalty,
-    waitReluctance,
-    walkReluctance,
-    walkSpeed,
     arriveBy,
-    modes,
   };
 
   // encode to string
@@ -522,8 +529,7 @@ function parseTripQueryString(
   if (!queryString) return;
 
   const queryFields = JSON.parse(queryString);
-  if (isTripsQueryVariables(queryFields.query) && 'journeyIds' in queryFields)
-    return queryFields;
+  if (isTripsQueryVariables(queryFields.query)) return queryFields;
   return;
 }
 

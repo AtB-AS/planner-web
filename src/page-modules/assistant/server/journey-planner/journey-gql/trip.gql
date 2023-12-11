@@ -49,11 +49,7 @@ query TripsNonTransit(
     modes: { directMode: foot, transportModes: [] }
   ) @include(if: $includeFoot) {
     tripPatterns {
-      duration
-      legs {
-        mode
-        rentedBike
-      }
+      ...nonTransitTrip
     }
   }
   bikeRentalTrip: trip(
@@ -66,11 +62,7 @@ query TripsNonTransit(
     modes: { directMode: bike_rental, transportModes: [] }
   ) @include(if: $includeBikeRental) {
     tripPatterns {
-      duration
-      legs {
-        mode
-        rentedBike
-      }
+      ...nonTransitTrip
     }
   }
   bicycleTrip: trip(
@@ -83,11 +75,7 @@ query TripsNonTransit(
     modes: { directMode: bicycle, transportModes: [] }
   ) @include(if: $includeBicycle) {
     tripPatterns {
-      duration
-      legs {
-        mode
-        rentedBike
-      }
+      ...nonTransitTrip
     }
   }
 }
@@ -217,4 +205,13 @@ fragment infoLink on infoLink {
 fragment validityPeriod on ValidityPeriod {
   startTime
   endTime
+}
+
+fragment nonTransitTrip on TripPattern {
+  duration
+  legs {
+    mode
+    rentedBike
+    aimedStartTime
+  }
 }
