@@ -79,9 +79,9 @@
     "happy-dom": "^12.1.5",
     "prettier": "^3.0.3",
     "rimraf": "^5.0.1",
-    "vite": "^4.4.9",
-    "vite-plugin-dts": "^3.6.3",
-    "vitest": "^0.34.4"
+    "vite": "^5.0.7",
+    "vite-plugin-dts": "^3.6.4",
+    "vitest": "^1.0.4"
   },
   "resolutions": {
     "react": "18.2.0",
