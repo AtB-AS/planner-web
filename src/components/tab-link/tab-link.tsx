@@ -9,7 +9,7 @@ import { useState } from 'react';
 import { Typo } from '../typography';
 import { AnimatePresence, motion } from 'framer-motion';
 
-type AssistantDepartureTogglProp = {
+type TabLinkProps = {
   href?: string;
 };
 
@@ -41,7 +41,7 @@ const handleClick = (linkName: string, setActiveLink: Function) => {
   setActiveLink(linkName);
 };
 
-const AssistantDepartureToggle = ({ href }: AssistantDepartureTogglProp) => {
+const TabLink = ({ href }: TabLinkProps) => {
   const { t } = useTranslation();
   const [activeLink, setActiveLink] = useState(() =>
     setInitialActiveLink(href),
@@ -80,4 +80,4 @@ const AssistantDepartureToggle = ({ href }: AssistantDepartureTogglProp) => {
     </div>
   );
 };
-export default AssistantDepartureToggle;
+export default TabLink;
