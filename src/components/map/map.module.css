@@ -57,6 +57,11 @@
 .mapContainer__borderRadius {
   border-radius: var(--border-radius-regular);
 }
+@media (max-width: 650px) {
+  .mapContainer {
+    border-radius: 0;
+  }
+}
 
 .header__leftContainer {
   display: flex;
@@ -110,26 +115,32 @@
     color: inherit;
     padding: var(--spacings-medium) 0;
   }
+
   .header__buttons {
     margin-left: 0;
     width: 100%;
     align-items: center;
   }
+
   .header__button {
     width: 100%;
     text-align: center;
   }
+
   .fullscreenButton {
     display: flex;
     justify-content: center;
     border: 2px solid #000000;
   }
+
   .fullscreenButton span {
     flex: none;
   }
+
   .closeButton {
     display: block;
   }
+
   .mapWrapper {
     z-index: 250;
     display: none;
