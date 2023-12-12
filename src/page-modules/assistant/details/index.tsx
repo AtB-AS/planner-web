@@ -6,7 +6,7 @@ import style from './details.module.css';
 import DetailsHeader from './details-header';
 import { ButtonLink } from '@atb/components/button';
 import { Map } from '@atb/components/map';
-import { secondsToDuration } from '@atb/utils/date';
+import { formatTripDuration } from '@atb/utils/date';
 import { Typo } from '@atb/components/typography';
 import { getInterchangeDetails } from './trip-section/interchange-section';
 import { getLegWaitDetails } from './trip-section/wait-section';
@@ -19,6 +19,12 @@ export function AssistantDetails({ tripPattern }: AssistantDetailsProps) {
   const { t, language } = useTranslation();
 
   const mapLegs = tripPattern.legs.map((leg) => leg.mapLegs).flat();
+  const { duration } = formatTripDuration(
+    tripPattern.expectedStartTime,
+    tripPattern.expectedEndTime,
+    language,
+  );
+
   return (
     <div className={style.container}>
       <div className={style.headerContainer}>
@@ -47,11 +53,7 @@ export function AssistantDetails({ tripPattern }: AssistantDetailsProps) {
           <div className={style.duration}>
             <MonoIcon icon="time/Duration" />
             <Typo.p textType="body__primary">
-              {t(
-                PageText.Assistant.details.mapSection.travelTime(
-                  secondsToDuration(tripPattern.duration, language),
-                ),
-              )}
+              {t(PageText.Assistant.details.mapSection.travelTime(duration))}
             </Typo.p>
           </div>
           <div className={style.walkDistance}>

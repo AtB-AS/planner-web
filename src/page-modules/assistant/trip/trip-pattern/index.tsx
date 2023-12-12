@@ -104,7 +104,7 @@ export default function TripPattern({
                   </div>
 
                   <Typo.span textType="body__tertiary">
-                    {formatToClock(leg.aimedStartTime, language, 'floor')}
+                    {formatToClock(leg.expectedStartTime, language, 'floor')}
                   </Typo.span>
                 </div>
 
