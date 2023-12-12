@@ -9,22 +9,24 @@ import { Typo } from '../typography';
 import { AnimatePresence, motion } from 'framer-motion';
 
 type TabLinkProps = {
-  activePath: string;
+  activePath: Route;
 };
 
 type LinkProps = {
   title: TranslatedString;
-  href: string;
+  route: Route;
 };
 
-const links: LinkProps[] = [
+type Route = '/assistant' | '/departures';
+
+const tabLinks: LinkProps[] = [
   {
     title: ComponentText.TabLink.assistant,
-    href: '/' || '/assistant',
+    route: '/assistant',
   },
   {
     title: ComponentText.TabLink.departures,
-    href: '/departures',
+    route: '/departures',
   },
 ];
 
@@ -33,16 +35,14 @@ const TabLink = ({ activePath }: TabLinkProps) => {
 
   return (
     <div className={style.container}>
-      {links.map((link, index) => {
-        const isActive = activePath.startsWith(link.href);
-        console.log(activePath === '/');
-        console.log(activePath);
+      {tabLinks.map((tabLink, index) => {
+        const isActive = tabLink.route === activePath;
         return (
-          <Link key={index} className={style.href} href={link.href}>
+          <Link key={index} className={style.href} href={tabLink.route}>
             <Typo.p
               textType={isActive ? 'body__primary--bold' : 'body__primary'}
             >
-              {t(link.title)}
+              {t(tabLink.title)}
             </Typo.p>
             <AnimatePresence initial={false}>
               {isActive && (
