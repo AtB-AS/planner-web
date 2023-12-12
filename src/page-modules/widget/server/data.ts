@@ -1,6 +1,8 @@
 import { readdir, stat } from 'fs/promises';
 import { resolve } from 'path';
 import { compareVersions } from 'compare-versions';
+import { compressToEncodedURIComponent } from 'lz-string';
+import { currentOrg } from '@atb/modules/org-data';
 
 export type PlannerWidgetData = {
   latest: PlannerModule;
@@ -17,7 +19,8 @@ export type PlannerModule = {
   };
 };
 
-const BASE_URL = resolve(__dirname, '../../../public/widget');
+const compressedOrgId = compressToEncodedURIComponent(currentOrg);
+const BASE_URL = resolve(__dirname, '../../../public/widget', compressedOrgId);
 
 /***
  * List all version with files from /public/widget
@@ -32,9 +35,9 @@ export async function getWidgetData(): Promise<PlannerWidgetData> {
       version: dir,
       created: statForDir.birthtime.toISOString(),
       urls: {
-        umd: `/widget/${dir}/planner-web.umd.js`,
-        esm: `/widget/${dir}/planner-web.mjs`,
-        css: `/widget/${dir}/planner-web.css`,
+        umd: `/widget/${compressedOrgId}/${dir}/planner-web.umd.js`,
+        esm: `/widget/${compressedOrgId}/${dir}/planner-web.mjs`,
+        css: `/widget/${compressedOrgId}/${dir}/planner-web.css`,
       },
     };
   });

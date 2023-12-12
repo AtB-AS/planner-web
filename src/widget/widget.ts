@@ -18,6 +18,7 @@ type SettingConstants = {
 const html = String.raw;
 
 const MODULE_VERSION = process.env.MODULE_VERSION;
+const COMPRESSED_ORG = process.env.COMPRESSED_ORG;
 
 function createSettingsConstants(urlBase: string) {
   if (!urlBase?.startsWith('http')) {
@@ -30,9 +31,9 @@ function createSettingsConstants(urlBase: string) {
 
   return {
     URL_BASE: urlBase,
-    URL_JS_UMD: `${urlBase}widget/${MODULE_VERSION}/planner-web.umd.js`,
-    URL_JS_ESM: `${urlBase}widget/${MODULE_VERSION}/planner-web.mjs`,
-    URL_CSS: `${urlBase}widget/${MODULE_VERSION}/planner-web.css`,
+    URL_JS_UMD: `${urlBase}widget/${COMPRESSED_ORG}/${MODULE_VERSION}/planner-web.umd.js`,
+    URL_JS_ESM: `${urlBase}widget/${COMPRESSED_ORG}/${MODULE_VERSION}/planner-web.mjs`,
+    URL_CSS: `${urlBase}widget/${COMPRESSED_ORG}/${MODULE_VERSION}/planner-web.css`,
   };
 }
 
