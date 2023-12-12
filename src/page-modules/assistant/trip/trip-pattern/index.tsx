@@ -9,7 +9,7 @@ import { formatLocaleTime, isInPast } from '@atb/utils/date';
 import { TripPatternHeader } from './trip-pattern-header';
 import { MonoIcon } from '@atb/components/icon';
 import { Typo } from '@atb/components/typography';
-import { TransportIconWithLabelOrDuration } from '@atb/modules/transport-mode';
+import { TransportIconWithLabel } from '@atb/modules/transport-mode';
 import { andIf } from '@atb/utils/css';
 
 const LAST_LEG_PADDING = 20;
@@ -89,7 +89,7 @@ export default function TripPattern({
                 <div className={style.legs__leg}>
                   <div className={style.legs__leg__icon}>
                     {leg.mode ? (
-                      <TransportIconWithLabelOrDuration
+                      <TransportIconWithLabel
                         mode={{
                           mode: leg.mode,
                           subMode: leg.transportSubmode ?? undefined,

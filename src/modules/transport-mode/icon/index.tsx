@@ -60,7 +60,7 @@ export type TransportIconWithLabelProps = {
   duration?: number | null;
 };
 
-export function TransportIconWithLabelOrDuration({
+export function TransportIconWithLabel({
   mode,
   label,
   duration,
