@@ -56,8 +56,8 @@ export function TransportMonoIcon({ mode }: TransportIconProps) {
 
 export type TransportIconWithLabelProps = {
   mode: TransportModeGroup;
-  label?: string | null;
-  duration?: number | null;
+  label?: string;
+  duration?: number;
 };
 
 export function TransportIconWithLabel({

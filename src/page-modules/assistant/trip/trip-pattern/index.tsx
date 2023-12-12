@@ -94,8 +94,10 @@ export default function TripPattern({
                           mode: leg.mode,
                           subMode: leg.transportSubmode ?? undefined,
                         }}
-                        label={leg.line?.publicCode}
-                        duration={leg.mode === 'foot' ? leg.duration : null}
+                        label={leg.line?.publicCode ?? undefined}
+                        duration={
+                          leg.mode === 'foot' ? leg.duration : undefined
+                        }
                       />
                     ) : (
                       <div className={style.legs__leg__walkIcon}>
