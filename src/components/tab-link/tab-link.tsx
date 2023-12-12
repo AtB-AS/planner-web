@@ -12,14 +12,14 @@ type TabLinkProps = {
   activePath: Route;
 };
 
-type LinkProps = {
+type TabLink = {
   title: TranslatedString;
   route: Route;
 };
 
 type Route = '/assistant' | '/departures';
 
-const tabLinks: LinkProps[] = [
+const tabLinks: TabLink[] = [
   {
     title: ComponentText.TabLink.assistant,
     route: '/assistant',
