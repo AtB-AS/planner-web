@@ -14,7 +14,7 @@ NEXT_PUBLIC_PLANNER_ORG_ID=atb
 Example of creating widget for AtB:
 
 ```
-VITE_WIDGET_BASE_URL=http://localhost:3000/ NEXT_PUBLIC_PLANNER_ORG_ID=atb yarn build:widget
+NEXT_PUBLIC_PLANNER_ORG_ID=atb yarn build:widget
 ```
 
 This will place asset inside `public/widget/<VERSION>` which will be reachable
@@ -23,7 +23,7 @@ through `http://localhost:3000/widget/<VERSION>`.
 During development you can watch for changes:
 
 ```
-VITE_WIDGET_BASE_URL=http://localhost:3000/ NEXT_PUBLIC_PLANNER_ORG_ID=atb yarn build:widget -w
+NEXT_PUBLIC_PLANNER_ORG_ID=atb yarn build:widget -w
 ```
 
 ### Releases and Widget Development
