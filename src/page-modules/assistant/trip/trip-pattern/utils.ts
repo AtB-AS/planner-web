@@ -2,7 +2,6 @@ import {
   formatToClock,
   formatTripDuration,
   secondsBetween,
-  secondsToDuration,
 } from '@atb/utils/date';
 import { Leg, TripPattern } from '../../server/journey-planner/validators';
 import { getQuayName } from './trip-pattern-header';
