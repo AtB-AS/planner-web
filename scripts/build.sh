@@ -13,7 +13,6 @@ for orgId in atb nfk fram; do
   echo "Running yarn setup && yarn build for $orgId"
   yarn setup $orgId
   yarn build
-  yarn build:widget
 
   echo "Moving the output into the dist directory"
   mv .next/standalone dist/$orgId
