@@ -1,5 +1,6 @@
 import {
   formatToClock,
+  formatTripDuration,
   secondsBetween,
   secondsToDuration,
 } from '@atb/utils/date';
@@ -141,11 +142,16 @@ export const tripSummary = (
     filteredLegs.length > 0 &&
     isLegFlexibleTransport(filteredLegs[filteredLegs.length - 1]);
 
+  const { duration } = formatTripDuration(
+    tripPattern.expectedStartTime,
+    tripPattern.expectedEndTime,
+    language,
+  );
   const travelTimesText = t(
     PageText.Assistant.trip.tripSummary.journeySummary.travelTimes(
       formatToClock(tripPattern.expectedStartTime, language, 'floor'),
       formatToClock(tripPattern.expectedEndTime, language, 'ceil'),
-      secondsToDuration(tripPattern.duration, language),
+      duration,
       startTimeIsApproximation,
       endTimeIsApproximation,
     ),
