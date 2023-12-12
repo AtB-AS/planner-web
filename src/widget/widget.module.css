@@ -47,10 +47,11 @@
   display: block;
   padding-bottom: var(--spacings-medium);
   color: var(--static-background-background_accent_0-text);
+  box-sizing: border-box;
 }
 .tabSelected {
   text-decoration: none;
-  outline-bottom: 3px solid var(--static-background-background_accent_0-text);
+  border-bottom: 3px solid var(--static-background-background_accent_0-text);
 }
 .tabs a:hover {
   color: var(--static-background-background_accent_1-text);
