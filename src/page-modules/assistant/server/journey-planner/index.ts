@@ -252,7 +252,6 @@ export function createJourneyApi(
       const data: RecursivePartial<TripPatternWithDetails> = {
         expectedStartTime: singleTripPattern?.expectedStartTime,
         expectedEndTime: singleTripPattern?.expectedEndTime,
-        duration: singleTripPattern?.duration ?? 0,
         walkDistance: singleTripPattern?.streetDistance ?? 0,
         legs: singleTripPattern?.legs.map((leg) => ({
           mode: isTransportModeType(leg.mode) ? leg.mode : 'unknown',
@@ -388,7 +387,6 @@ function mapResultToTrips(
     tripPatterns: trip.tripPatterns.map((tripPattern) => ({
       expectedStartTime: tripPattern.expectedStartTime,
       expectedEndTime: tripPattern.expectedEndTime,
-      duration: tripPattern.duration || 0,
       walkDistance: tripPattern.streetDistance || 0,
       legs: tripPattern.legs.map((leg) => {
         return {

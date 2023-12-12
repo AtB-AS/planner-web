@@ -94,7 +94,6 @@ fragment trip on Trip {
 fragment tripPattern on TripPattern {
   expectedStartTime
   expectedEndTime
-  duration
   streetDistance
   legs {
     mode

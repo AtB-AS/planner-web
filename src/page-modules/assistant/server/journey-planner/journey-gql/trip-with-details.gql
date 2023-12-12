@@ -28,7 +28,6 @@ query TripsWithDetails(
     tripPatterns {
       expectedStartTime
       expectedEndTime
-      duration
       streetDistance
       legs {
         mode

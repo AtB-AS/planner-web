@@ -61,7 +61,6 @@ export const legSchema = z.object({
 export const tripPatternSchema = z.object({
   expectedStartTime: z.string(),
   expectedEndTime: z.string(),
-  duration: z.number(),
   walkDistance: z.number(),
   legs: z.array(legSchema),
   compressedQuery: z.string(),
@@ -83,7 +82,6 @@ export const nonTransitSchema = z.object({
 export const tripPatternWithDetailsSchema = z.object({
   expectedStartTime: z.string(),
   expectedEndTime: z.string(),
-  duration: z.number(),
   walkDistance: z.number(),
   legs: z.array(
     z.object({
