@@ -12,6 +12,7 @@ export {
   isTransportModeType,
   isTransportSubmodeType,
   filterGraphQlTransportModes,
+  isSubmodeBoat,
 } from './utils';
 
 export * from './icon';

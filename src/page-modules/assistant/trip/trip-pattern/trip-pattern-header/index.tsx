@@ -21,13 +21,18 @@ export function TripPatternHeader({ tripPattern }: TripPatternHeaderProps) {
     language,
   );
 
-  const { startMode, startPlace } = getStartModeAndPlace(tripPattern);
+  const { startMode, startSubmode, startPlace } =
+    getStartModeAndPlace(tripPattern);
 
   return (
     <header className={style.header}>
       <Typo.span textType="body__secondary--bold">
         {t(
-          PageText.Assistant.trip.tripPattern.travelFrom(startMode, startPlace),
+          PageText.Assistant.trip.tripPattern.travelFrom(
+            startMode,
+            startSubmode,
+            startPlace,
+          ),
         )}
       </Typo.span>
       <Typo.span textType="body__secondary" className={style.header__duration}>
@@ -40,7 +45,11 @@ export function TripPatternHeader({ tripPattern }: TripPatternHeaderProps) {
         situations={flatMap(tripPattern.legs, (leg) => leg.situations)}
         notices={flatMap(tripPattern.legs, getNoticesForLeg)}
         accessibilityLabel={t(
-          PageText.Assistant.trip.tripPattern.travelFrom(startMode, startPlace),
+          PageText.Assistant.trip.tripPattern.travelFrom(
+            startMode,
+            startSubmode,
+            startPlace,
+          ),
         )}
       />
     </header>
@@ -60,6 +69,7 @@ export function getStartModeAndPlace(tripPattern: TripPattern) {
 
   return {
     startMode: startLeg.mode ?? 'unknown',
+    startSubmode: startLeg.transportSubmode ?? undefined,
     startPlace: startName ?? '',
   };
 }

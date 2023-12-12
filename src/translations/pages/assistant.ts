@@ -1,5 +1,9 @@
 import { translation as _ } from '@atb/translations/commons';
-import { TransportModeType } from '@atb/modules/transport-mode';
+import {
+  isSubmodeBoat,
+  TransportModeType,
+  TransportSubmodeType,
+} from '@atb/modules/transport-mode';
 
 export const Assistant = {
   title: _('Planlegg reisen', 'Plan travel', 'Planlegg reisa'),
@@ -40,7 +44,11 @@ export const Assistant = {
   },
   trip: {
     tripPattern: {
-      travelFrom: (mode: TransportModeType, place: string) => {
+      travelFrom: (
+        mode: TransportModeType,
+        submode: TransportSubmodeType | undefined,
+        place: string,
+      ) => {
         switch (mode) {
           case 'bus':
           case 'coach':
@@ -68,10 +76,17 @@ export const Assistant = {
               `Tog frå ${place}`,
             );
           case 'water':
+            if (isSubmodeBoat(submode)) {
+              return _(
+                `Båt fra ${place}`,
+                `Boat from ${place}`,
+                `Båt frå ${place}`,
+              );
+            }
             return _(
-              `Båt fra ${place}`,
-              `Boat from ${place}`,
-              `Båt frå ${place}`,
+              `Ferge fra ${place}`,
+              `Ferry from ${place}`,
+              `Ferje frå ${place}`,
             );
           case 'air':
             return _(
