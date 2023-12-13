@@ -10,11 +10,11 @@ import Head from 'next/head';
 import Script from 'next/script';
 import { useEffect, useRef, useState } from 'react';
 
-import { getWidgetData } from '@atb/page-modules/widget/server/data';
+import { getWidgetData } from '@atb/page-modules/widget/server';
 import type { createWidget, PlannerWebOutput } from '@atb/widget/widget';
 
 import style from '@atb/page-modules/widget/widget.module.css';
-import { Language, useTranslation } from '@atb/translations';
+import { useTranslation } from '@atb/translations';
 import { formatToLongDateTime } from '@atb/utils/date';
 
 type WidgetPagePropsContent = {
