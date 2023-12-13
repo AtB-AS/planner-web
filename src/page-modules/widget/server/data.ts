@@ -1,8 +1,8 @@
-import { readdir, stat } from 'fs/promises';
-import { resolve } from 'path';
-import { compareVersions } from 'compare-versions';
-import { compressToEncodedURIComponent } from 'lz-string';
 import { currentOrg } from '@atb/modules/org-data';
+import { compareVersions } from 'compare-versions';
+import { readdir, stat } from 'fs/promises';
+import { compressToEncodedURIComponent } from 'lz-string';
+import { join, resolve } from 'path';
 
 export type PlannerWidgetData = {
   latest: PlannerModule;
@@ -20,17 +20,23 @@ export type PlannerModule = {
 };
 
 const compressedOrgId = compressToEncodedURIComponent(currentOrg);
-const BASE_URL = resolve(__dirname, '../../../public/widget', compressedOrgId);
 
 /***
  * List all version with files from /public/widget
  */
 export async function getWidgetData(): Promise<PlannerWidgetData> {
-  const dirs = await readdir(BASE_URL);
+  // Locally we use /public/widget, but in production we use /widget as
+  // all files in public are extracted to the root of the domain
+  const baseUrl =
+    process.env.NODE_ENV == 'production'
+      ? join(process.cwd(), '/widget', compressedOrgId)
+      : join(process.cwd(), '/public/widget', compressedOrgId);
+
+  const dirs = await readdir(baseUrl);
 
   // return all files from /public/widget based on dirs
   const allP = dirs.map(async (dir) => {
-    const statForDir = await stat(resolve(dir, BASE_URL));
+    const statForDir = await stat(resolve(dir, baseUrl));
     return {
       version: dir,
       created: statForDir.birthtime.toISOString(),
