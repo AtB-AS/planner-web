@@ -43,33 +43,59 @@ export default function SearchTimeSelector({
           };
 
     setSelectedMode(newState);
-
+    console.log(`selectedMode: ${selectedMode.mode}`);
     onChange(newState);
+  };
+
+  const addCurrentTimeToDate = (date: string) => {
+    return new Date(`${date} ${format(new Date(), 'HH:mm:ss')}`);
+  };
+
+  const resetToCurrentTime = () => {
+    setSelectedTime(() => format(new Date(), 'HH:mm'));
+  };
+
+  const resetToCurrentDate = () => {
+    setSelectedDate(new Date());
+  };
+
+  const addCurentDateToTime = (time: string) => {
+    const [hours, minutes] = time.split(':').map(Number);
+    const now = new Date();
+    now.setHours(hours, minutes, 0, 0);
+    return now;
   };
 
   const isPastDate = (selectedDate: string) => {
     const today = new Date().toISOString().split('T')[0];
+
+    // example: If seting date 2024 from to 2023, the day and month will autmatically reset to current date.
+    if (selectedDate.substring(0, 4) < initialDate.getFullYear().toString()) {
+      resetToCurrentDate();
+    }
+
+    console.log(selectedDate <= today);
+    // To ensure that the time is not past in case of reselecting the current date.
+    if (selectedDate <= today) resetToCurrentTime();
     return selectedDate < today;
+  };
+
+  const isPastTime = (time: string) => {
+    if (new Date() < selectedDate) return false;
+    const now = addCurentDateToTime(time);
+    return now < selectedDate;
   };
 
   const internalOnDateChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (!event.target.value) return;
     if (isPastDate(event.target.value)) return;
 
-    setSelectedDate(new Date(event.target.value));
+    setSelectedDate(addCurrentTimeToDate(event.target.value));
 
     onChange({
       mode: selectedMode.mode,
       dateTime: new Date(event.target.value + 'T' + selectedTime).getTime(),
     });
-  };
-
-  const isPastTime = (time: string) => {
-    const [hours, minutes] = time.split(':').map(Number);
-    const selectedTime = new Date();
-    selectedTime.setHours(hours);
-    selectedTime.setMinutes(minutes);
-    return selectedTime < new Date();
   };
 
   const internalOnTimeChange = (event: ChangeEvent<HTMLInputElement>) => {
