@@ -10,8 +10,8 @@ import { departureDataFixture } from './departure-data.fixture';
 import { StopPlace } from '../stop-place';
 import userEvent from '@testing-library/user-event';
 import { NearestStopPlaces } from '..';
-
 import { GeocoderApi } from '@atb/page-modules/departures/server/geocoder';
+import Search from '@atb/components/search/search';
 import { sortQuays } from '../server/journey-planner/utils';
 
 afterEach(function () {
@@ -143,6 +143,16 @@ describe('departure page', function () {
     expect(
       output.getByText('Finner ingen holdeplasser i nærheten'),
     ).toBeInTheDocument();
+  });
+
+  it('should render Search component with expected placeholder text', () => {
+    const testPlaceholder = 'Søk fra adresse, kai eller holdeplass';
+    render(
+      <Search label="Test" placeholder={testPlaceholder} onChange={() => {}} />,
+    );
+
+    const inputElement = screen.getByPlaceholderText(testPlaceholder);
+    expect(inputElement).toBeInTheDocument();
   });
 
   it('should sort quays by public code and departures', () => {
