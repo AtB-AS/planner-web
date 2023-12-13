@@ -43,7 +43,6 @@ export default function SearchTimeSelector({
           };
 
     setSelectedMode(newState);
-    console.log(`selectedMode: ${selectedMode.mode}`);
     onChange(newState);
   };
 
@@ -74,7 +73,6 @@ export default function SearchTimeSelector({
       resetToCurrentDate();
     }
 
-    console.log(selectedDate <= today);
     // To ensure that the time is not past in case of reselecting the current date.
     if (selectedDate <= today) resetToCurrentTime();
     return selectedDate < today;
