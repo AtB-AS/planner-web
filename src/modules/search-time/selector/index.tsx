@@ -68,7 +68,7 @@ export default function SearchTimeSelector({
   const isPastDate = (selectedDate: string) => {
     const today = new Date().toISOString().split('T')[0];
 
-    // example: If reselecting  from 2024 to 2023, the date will autmatically reset to the current date.
+    // If reselecting year from year > current year to current year, the date will autmatically be reset to the current date.
     if (selectedDate.substring(0, 4) < initialDate.getFullYear().toString()) {
       resetToCurrentDate();
     }
