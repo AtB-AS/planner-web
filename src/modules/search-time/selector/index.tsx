@@ -79,17 +79,8 @@ export default function SearchTimeSelector({
     });
   };
 
-  const isPastTime = (time: string) => {
-    const [hours, minutes] = time.split(':').map(Number);
-    const selectedTime = new Date();
-    selectedTime.setHours(hours);
-    selectedTime.setMinutes(minutes);
-    return selectedTime < new Date();
-  };
-
   const internalOnTimeChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (!event.target.value) return;
-    if (isPastTime(event.target.value)) return;
 
     setSelectedTime(event.target.value);
 
