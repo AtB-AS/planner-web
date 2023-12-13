@@ -37,7 +37,11 @@ This also means that we should never change existing files.
 Version is based on `package.json`. We should always keep this in sync with the
 generated version in Releases so the changelog is correct.
 
-Generate asset files to check in by running the following command:
+#### Release flow
+
+1. Bump version in `package.json`. Should match the coming release on Github
+
+2. Generate new asset files to check in by running the following command:
 
 ```sh
 yarn generate-widget-version

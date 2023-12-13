@@ -1,6 +1,6 @@
 {
   "name": "@atb-as/planner-web",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "private": true,
   "license": "EUPL-1.2",
   "scripts": {
