@@ -2,14 +2,18 @@ import { cleanup, render, screen } from '@testing-library/react';
 import mockRouter from 'next-router-mock';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { createDynamicRouteParser } from 'next-router-mock/dynamic-routes';
-import { getQuayName, getStartModeAndPlace, TripPatternHeader } from '..';
+import { getQuayName, getStartModeAndPlaceText, TripPatternHeader } from '..';
 import { tripPatternFixture } from './trip-pattern.fixture';
 import {
   AppCookiesProvider,
   AppCookiesProviderProps,
 } from '@atb/modules/cookies/cookies-context';
 import React from 'react';
-import { AppLanguageProvider } from '@atb/translations';
+import {
+  AppLanguageProvider,
+  Language,
+  useTranslation,
+} from '@atb/translations';
 
 afterEach(function () {
   cleanup();
@@ -97,9 +101,25 @@ describe('trip pattern header', function () {
   });
 
   it('should get start mode and start place from trip', () => {
-    const { startMode, startPlace } = getStartModeAndPlace(tripPatternFixture);
+    const Test = function () {
+      const { t } = useTranslation();
 
-    expect(startMode).toBe('bus');
-    expect(startPlace).toBe('From 1');
+      const startModeAndPlaceText = getStartModeAndPlaceText(
+        tripPatternFixture,
+        t,
+      );
+      return <div>{startModeAndPlaceText}</div>;
+    };
+
+    customRender(<Test />, {
+      providerProps: {
+        initialCookies: {
+          darkmode: false,
+          language: 'no',
+        },
+      },
+    });
+
+    expect(screen.getByText('Buss fra From 1')).toBeInTheDocument();
   });
 });
