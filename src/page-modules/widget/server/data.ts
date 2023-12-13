@@ -29,7 +29,7 @@ export async function getWidgetData(): Promise<PlannerWidgetData> {
   // all files in public are extracted to the root of the domain
   const baseUrl =
     process.env.NODE_ENV == 'production'
-      ? resolve(process.cwd(), '/widget', compressedOrgId)
+      ? resolve(process.cwd(), '/assets')
       : join(process.cwd(), '/public/widget', compressedOrgId);
 
   const dirs = await readdir(baseUrl);
