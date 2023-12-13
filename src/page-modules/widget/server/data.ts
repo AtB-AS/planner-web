@@ -34,6 +34,8 @@ export async function getWidgetData(): Promise<PlannerWidgetData> {
 
   const dirs = await readdir(baseUrl);
 
+  console.log(dirs);
+
   // return all files from /public/widget based on dirs
   const allP = dirs.map(async (dir) => {
     const statForDir = await stat(resolve(dir, baseUrl));
