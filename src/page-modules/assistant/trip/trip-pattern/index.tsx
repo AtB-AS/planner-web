@@ -5,7 +5,7 @@ import { getFilteredLegsByWalkOrWaitTime, tripSummary } from './utils';
 import { PageText, useTranslation } from '@atb/translations';
 import { type TripPattern as TripPatternType } from '../../server/journey-planner/validators';
 import style from './trip-pattern.module.css';
-import { formatLocaleTime, isInPast } from '@atb/utils/date';
+import { formatToClock, isInPast } from '@atb/utils/date';
 import { TripPatternHeader } from './trip-pattern-header';
 import { MonoIcon } from '@atb/components/icon';
 import { Typo } from '@atb/components/typography';
@@ -94,7 +94,10 @@ export default function TripPattern({
                           mode: leg.mode,
                           subMode: leg.transportSubmode ?? undefined,
                         }}
-                        label={leg.line?.publicCode}
+                        label={leg.line?.publicCode ?? undefined}
+                        duration={
+                          leg.mode === 'foot' ? leg.duration : undefined
+                        }
                       />
                     ) : (
                       <div className={style.legs__leg__walkIcon}>
@@ -104,7 +107,7 @@ export default function TripPattern({
                   </div>
 
                   <Typo.span textType="body__tertiary">
-                    {formatLocaleTime(leg.aimedStartTime, language)}
+                    {formatToClock(leg.expectedStartTime, language, 'floor')}
                   </Typo.span>
                 </div>
 
@@ -136,7 +139,7 @@ export default function TripPattern({
             <MonoIcon icon="places/Destination" />
           </div>
           <Typo.span textType="body__tertiary">
-            {formatLocaleTime(tripPattern.expectedEndTime, language)}
+            {formatToClock(tripPattern.expectedEndTime, language, 'ceil')}
           </Typo.span>
         </div>
       </div>

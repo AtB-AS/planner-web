@@ -331,3 +331,26 @@ function getShortHumanizer(
 
   return humanizer(ms, opts);
 }
+
+export function formatTripDuration(
+  originalDepartureTimeISO: string,
+  originalArrivalTimeISO: string,
+  language: Language,
+) {
+  const regex = /T(\d{2}:\d{2}):\d{2}\+/;
+  const departure = formatToClock(originalDepartureTimeISO, language, 'floor');
+  const arrival = formatToClock(originalArrivalTimeISO, language, 'ceil');
+
+  const departureTime = originalDepartureTimeISO.replace(
+    regex,
+    `T${departure}:00+`,
+  );
+  const arrivalTime = originalArrivalTimeISO.replace(regex, `T${arrival}:00+`);
+
+  const duration = secondsToDuration(
+    secondsBetween(departureTime, arrivalTime),
+    language,
+  );
+
+  return { duration, departure, arrival };
+}

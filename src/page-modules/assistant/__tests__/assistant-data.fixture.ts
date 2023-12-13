@@ -33,5 +33,6 @@ export const nonTransitTripResult: NonTransitTripData = {
     duration: 0,
     mode: 'bus',
     rentedBike: false,
+    compressedQuery: '',
   },
 };

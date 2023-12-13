@@ -71,7 +71,9 @@ const customRender = (ui: React.ReactNode, renderOptions?: RenderOptions) => {
 
 describe('search box', () => {
   it('should render', () => {
-    customRender(<Search label="Test" onChange={() => {}} />);
+    customRender(
+      <Search label="Test" placeholder="Test" onChange={() => {}} />,
+    );
 
     expect(screen.getByText('Test')).toBeInTheDocument();
     expect(
@@ -82,7 +84,9 @@ describe('search box', () => {
   });
 
   it('should have focus', () => {
-    customRender(<Search label="Test" onChange={() => {}} />);
+    customRender(
+      <Search label="Test" placeholder="Test" onChange={() => {}} />,
+    );
 
     const search = screen.getByRole('combobox', {
       name: /test/i,
@@ -97,6 +101,7 @@ describe('search box', () => {
     customRender(
       <Search
         label="Test"
+        placeholder="Test"
         onChange={() => {}}
         button={<SwapButton onSwap={() => {}} />}
       />,
@@ -110,7 +115,9 @@ describe('search box', () => {
   });
 
   it('should focus input when clicking label', async () => {
-    customRender(<Search label="Test" onChange={() => {}} />);
+    customRender(
+      <Search label="Test" placeholder="Test" onChange={() => {}} />,
+    );
 
     const label = screen.getByText('Test');
 
@@ -124,7 +131,9 @@ describe('search box', () => {
   });
 
   it('should type in input', async () => {
-    customRender(<Search label="Test" onChange={() => {}} />);
+    customRender(
+      <Search label="Test" placeholder="Test" onChange={() => {}} />,
+    );
 
     const input = screen.getByRole('textbox', {
       name: /test/i,
@@ -136,7 +145,9 @@ describe('search box', () => {
   });
 
   it('should empty input when clicking outside and not selecting', async () => {
-    customRender(<Search label="Test" onChange={() => {}} />);
+    customRender(
+      <Search label="Test" placeholder="Test" onChange={() => {}} />,
+    );
 
     const input = screen.getByRole('textbox', {
       name: /test/i,
@@ -150,7 +161,9 @@ describe('search box', () => {
   });
 
   it('should show results after typing', async () => {
-    customRender(<Search label="Test" onChange={() => {}} />);
+    customRender(
+      <Search label="Test" placeholder="Test" onChange={() => {}} />,
+    );
 
     const input = screen.getByRole('textbox', {
       name: /test/i,
@@ -176,7 +189,7 @@ describe('search box', () => {
 
   it('should select item', async () => {
     const fn = vi.fn();
-    customRender(<Search label="Test" onChange={fn} />);
+    customRender(<Search label="Test" placeholder="Test" onChange={fn} />);
 
     const input = screen.getByRole('textbox', {
       name: /test/i,
@@ -202,6 +215,7 @@ describe('search box', () => {
     customRender(
       <Search
         label="Test"
+        placeholder="Test"
         onChange={() => {}}
         button={<GeolocationButton onGeolocate={() => {}} />}
       />,
@@ -214,5 +228,15 @@ describe('search box', () => {
     await userEvent.click(geolocationButton);
 
     expect(mockGeolocation.getCurrentPosition).toHaveBeenCalled();
+  });
+
+  it('should render Search component with expected placeholder text', () => {
+    const testPlaceholder = 'Søk fra adresse, kai eller holdeplass';
+    customRender(
+      <Search label="Test" placeholder={testPlaceholder} onChange={() => {}} />,
+    );
+
+    const inputElement = screen.getByPlaceholderText(testPlaceholder);
+    expect(inputElement).toBeInTheDocument();
   });
 });

@@ -1,21 +1,21 @@
-import { ContrastColor, Theme } from '@atb-as/theme';
+import type { ContrastColor } from '@atb-as/theme';
 import { transportModeToColor } from '@atb/modules/transport-mode';
-import { useCallback, useEffect } from 'react';
+import { type MutableRefObject, useCallback, useEffect } from 'react';
 import hexToRgba from 'hex-to-rgba';
 import { useTheme } from '@atb/modules/theme';
 import { ComponentText, useTranslation } from '@atb/translations';
-import { MapLegType } from './types';
+import type { MapLegType } from './types';
+import type { Map, AnySourceData, AnyLayer } from 'mapbox-gl';
 
 export const useMapLegs = (
-  mapRef: React.MutableRefObject<mapboxgl.Map | undefined>,
-  transport: Theme['transport'],
+  mapRef: MutableRefObject<Map | undefined>,
   mapLegs?: MapLegType[],
 ) => {
   const { t, language } = useTranslation();
-  const { static: staticColors } = useTheme();
+  const { transport, static: staticColors } = useTheme();
 
   const addToMap = useCallback(
-    (map: mapboxgl.Map, mapLeg: MapLegType, id: number) => {
+    (map: Map, mapLeg: MapLegType, id: number) => {
       const transportColor = transportModeToColor(
         {
           mode: mapLeg.faded ? 'unknown' : mapLeg.transportMode,
@@ -44,7 +44,7 @@ export const useMapLegs = (
   );
 
   const addStartEndText = useCallback(
-    (map: mapboxgl.Map, startMapLeg: MapLegType, endMapLeg: MapLegType) => {
+    (map: Map, startMapLeg: MapLegType, endMapLeg: MapLegType) => {
       const startTextSourceId = 'start-text';
       const endTextSourceId = 'end-text';
       const startTextPoint = createStartEndTextPoint(startMapLeg.points[0]);
@@ -108,7 +108,7 @@ export const useMapLegs = (
   }, [mapRef, mapLegs, addToMap, addStartEndText]);
 };
 
-const createRouteFeature = (points: number[][]): mapboxgl.AnySourceData => ({
+const createRouteFeature = (points: number[][]): AnySourceData => ({
   type: 'geojson',
   data: {
     type: 'Feature',
@@ -124,7 +124,7 @@ const createRouteLayer = (
   id: number | string,
   color: string,
   isDotted?: boolean,
-): mapboxgl.AnyLayer => {
+): AnyLayer => {
   let paint = {};
   let layout = {};
 
@@ -155,7 +155,7 @@ const createRouteLayer = (
 const createStartEndCircle = (
   startPoint: number[],
   endPoint: number[],
-): mapboxgl.AnySourceData => ({
+): AnySourceData => ({
   type: 'geojson',
   data: {
     type: 'GeometryCollection',
@@ -172,10 +172,7 @@ const createStartEndCircle = (
   },
 });
 
-const createStartEndLayer = (
-  id: number | string,
-  color: string,
-): mapboxgl.AnyLayer => ({
+const createStartEndLayer = (id: number | string, color: string): AnyLayer => ({
   id: `route-layer-${id}-start-end`,
   type: 'circle',
   source: `route-${id}-start-end`,
@@ -185,7 +182,7 @@ const createStartEndLayer = (
   },
 });
 
-const createStartEndTextPoint = (point: number[]): mapboxgl.AnySourceData => ({
+const createStartEndTextPoint = (point: number[]): AnySourceData => ({
   type: 'geojson',
   data: {
     type: 'Feature',
@@ -201,7 +198,7 @@ const createStartEndTextLayer = (
   source: string,
   textField: string,
   contrastColor: ContrastColor,
-): mapboxgl.AnyLayer => ({
+): AnyLayer => ({
   id: source,
   type: 'symbol',
   source: source,

@@ -19,6 +19,7 @@ import { FormEventHandler, PropsWithChildren, useState } from 'react';
 import style from './departures.module.css';
 import type { FromDepartureQuery } from './types';
 import { createFromQuery } from './utils';
+import { TabLink } from '@atb/components/tab-link';
 
 export type DeparturesLayoutProps = PropsWithChildren<{
   fromQuery: FromDepartureQuery;
@@ -27,7 +28,6 @@ export type DeparturesLayoutProps = PropsWithChildren<{
 function DeparturesLayout({ children, fromQuery }: DeparturesLayoutProps) {
   const { t } = useTranslation();
   const router = useRouter();
-
   const [showAlternatives, setShowAlternatives] = useState(false);
   const [searchTime, setSearchTime] = useState<SearchTime>(
     fromQuery.searchTime,
@@ -65,13 +65,15 @@ function DeparturesLayout({ children, fromQuery }: DeparturesLayoutProps) {
           transition={{ duration: 0.25, ease: [0.04, 0.62, 0.23, 0.98] }}
           className={style.main}
         >
+          <TabLink activePath="/departures" />
+
           <div className={style.input}>
             <Typo.p textType="body__primary--bold" className={style.heading}>
               {t(PageText.Departures.search.input.label)}
             </Typo.p>
-
             <Search
               label={t(PageText.Departures.search.input.from)}
+              placeholder={t(PageText.Departures.search.input.placeholder)}
               selectedItem={fromQuery.from ?? undefined}
               onChange={onSelectFeature}
               button={
@@ -88,7 +90,6 @@ function DeparturesLayout({ children, fromQuery }: DeparturesLayoutProps) {
             <Typo.p textType="body__primary--bold" className={style.heading}>
               {t(PageText.Departures.search.date.label)}
             </Typo.p>
-
             <SearchTimeSelector
               initialState={searchTime}
               onChange={setSearchTime}

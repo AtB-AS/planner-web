@@ -38,7 +38,7 @@ export default function PageHeader({ withoutMenu = false }: PageHeaderProps) {
                   alt=""
                   role="none"
                   size="normal"
-                  overrideMode="light"
+                  overrideMode="dark"
                 />
                 <span>{t(CommonText.Titles.siteTitle)}</span>
               </Link>
@@ -100,22 +100,6 @@ function Navigation({
       >
         <ul>
           <li></li>
-          <li>
-            <HeaderLink
-              {...getActiveProps('/assistant', router.pathname)}
-              title={t(PageText.Assistant.title)}
-              tabIndex={tabIndex}
-              testID="navAssistantButton"
-            />
-          </li>
-          <li>
-            <HeaderLink
-              {...getActiveProps('/departures', router.pathname)}
-              title={t(PageText.Departures.title)}
-              tabIndex={tabIndex}
-              testID="navDeparturesButton"
-            />
-          </li>
         </ul>
       </nav>
     </div>

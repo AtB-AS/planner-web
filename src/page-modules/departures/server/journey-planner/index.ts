@@ -49,6 +49,7 @@ import {
 import { formatISO } from 'date-fns';
 import { Situation } from '@atb/modules/situations';
 import { mapToMapLegs } from '@atb/components/map';
+import { sortQuays } from './utils';
 
 export type DepartureInput = {
   id: string;
@@ -165,6 +166,8 @@ export function createJourneyApi(
       if (!validated.success) {
         throw validated.error;
       }
+
+      validated.data.quays.sort(sortQuays);
 
       return validated.data;
     },

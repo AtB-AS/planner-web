@@ -1,10 +1,9 @@
 import { PageText, useTranslation } from '@atb/translations';
 import { TripPatternWithDetails } from '../../server/journey-planner/validators';
 import {
-  formatSimpleTime,
   formatToSimpleDate,
   formatToWeekday,
-  secondsToDuration,
+  formatTripDuration,
 } from '@atb/utils/date';
 import { MonoIcon } from '@atb/components/icon';
 import { Typo } from '@atb/components/typography';
@@ -25,11 +24,17 @@ export default function DetailsHeader({ tripPattern }: DetailsHeaderProps) {
     'EEEE',
   )} ${formatToSimpleDate(tripPattern.expectedStartTime, language)}`;
 
-  const timeRange = `${formatSimpleTime(
+  const {
+    duration: tripDuration,
+    departure,
+    arrival,
+  } = formatTripDuration(
     tripPattern.expectedStartTime,
-  )} - ${formatSimpleTime(tripPattern.expectedEndTime)}`;
+    tripPattern.expectedEndTime,
+    language,
+  );
 
-  const tripDuration = secondsToDuration(tripPattern.duration, language);
+  const timeRange = `${departure} - ${arrival}`;
 
   return (
     <div className={style.container}>
