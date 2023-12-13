@@ -58,7 +58,7 @@ export default function SearchTimeSelector({
     setSelectedDate(new Date());
   };
 
-  const addCurentDateToTime = (time: string) => {
+  const addCurrentDateToTime = (time: string) => {
     const [hours, minutes] = time.split(':').map(Number);
     const now = new Date();
     now.setHours(hours, minutes, 0, 0);
@@ -80,7 +80,7 @@ export default function SearchTimeSelector({
 
   const isPastTime = (time: string) => {
     if (new Date() < selectedDate) return false;
-    const now = addCurentDateToTime(time);
+    const now = addCurrentDateToTime(time);
     return now < selectedDate;
   };
 
