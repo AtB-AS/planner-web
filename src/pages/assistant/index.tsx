@@ -46,10 +46,15 @@ export default AssistantPage;
 
 export const getServerSideProps = withGlobalData(
   withAssistantClient<AssistantLayoutProps & AssistantContentProps>(
-    async function ({ client, query }) {
+    async function ({ client, res, query }) {
       const tripQuery = await fetchFromToTripQuery(query, client);
 
       if (!tripQuery.from || !tripQuery.to) {
+        res.setHeader(
+          'Cache-Control',
+          'public, s-maxage=60, stale-while-revalidate=360',
+        );
+
         return {
           props: {
             tripQuery,
@@ -75,6 +80,11 @@ export const getServerSideProps = withGlobalData(
           directModes: [StreetMode.Foot, StreetMode.Bicycle],
         }),
       ]);
+
+      res.setHeader(
+        'Cache-Control',
+        'public, s-maxage=10, stale-while-revalidate=59',
+      );
 
       return {
         props: {
