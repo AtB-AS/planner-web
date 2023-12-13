@@ -26,9 +26,6 @@ During development you can watch for changes:
 NEXT_PUBLIC_PLANNER_ORG_ID=atb yarn build:widget -w
 ```
 
-Widget is cached for a long time, so you might want to clear cache while
-developing.
-
 ### Releases and Widget Development
 
 All versions of widgets should be checked in the repo, with specific versions.
