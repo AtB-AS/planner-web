@@ -80,11 +80,11 @@ export default function SearchTimeSelector({
   };
 
   const isPastTime = (time: string) => {
-    const now = new Date();
-    const [hours, minutes] = time.split(':');
+    const [hours, minutes] = time.split(':').map(Number);
     const selectedTime = new Date();
-    selectedTime.setHours(parseInt(hours), parseInt(minutes));
-    return selectedTime < now;
+    selectedTime.setHours(hours);
+    selectedTime.setMinutes(minutes);
+    return selectedTime < new Date();
   };
 
   const internalOnTimeChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -169,7 +169,6 @@ export default function SearchTimeSelector({
                   type="time"
                   id="searchTimeSelector-time"
                   value={selectedTime}
-                  min={new Date().toISOString().slice(11, 8)}
                   onChange={internalOnTimeChange}
                 />
               </div>
