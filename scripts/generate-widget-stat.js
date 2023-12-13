@@ -51,7 +51,7 @@ async function getWidgetData() {
   });
 
   let all = await Promise.all(allP);
-  all = all.sort((a, b) => compareVersions(a.version, b.version));
+  all = all.sort((a, b) => compareVersions(a.version, b.version) * -1);
 
   return {
     latest: all[0],

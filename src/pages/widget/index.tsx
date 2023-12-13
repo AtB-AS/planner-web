@@ -178,6 +178,25 @@ function WidgetContent({
         .
       </p>
 
+      <p>
+        Versioning follows semantic versioning according to these principles:
+      </p>
+
+      <ul>
+        <li>
+          <code>Major (*.y.z)</code>: Requires HTML update. Not backwards
+          compatible
+        </li>
+        <li>
+          <code>Minor (x.*.z)</code>: New features, but backwards compatible.
+          Requires no update of the HTML
+        </li>
+        <li>
+          <code>Patch (x.y.*)</code>: Bug fix, require no changes other than
+          using new bundles.
+        </li>
+      </ul>
+
       {data.all.map((mod) => (
         <div key={mod.version}>
           <details>
