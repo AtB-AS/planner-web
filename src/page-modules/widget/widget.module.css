@@ -11,6 +11,19 @@
   margin-top: 2rem;
 }
 
+.main p + p {
+  margin-bottom: var(--spacings-medium);
+}
+
+.main details summary {
+  cursor: pointer;
+  margin: var(--spacings-medium) 0;
+}
+
+.main details summary > * {
+  display: inline;
+}
+
 .copyContainerDetails {
   display: block;
   /* Matching code block style */

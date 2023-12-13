@@ -17,6 +17,9 @@ type SettingConstants = {
 
 const html = String.raw;
 
+const MODULE_VERSION = process.env.MODULE_VERSION;
+const COMPRESSED_ORG = process.env.COMPRESSED_ORG;
+
 function createSettingsConstants(urlBase: string) {
   if (!urlBase?.startsWith('http')) {
     throw new Error('Missing urlBase in correct schema.');
@@ -28,9 +31,9 @@ function createSettingsConstants(urlBase: string) {
 
   return {
     URL_BASE: urlBase,
-    URL_JS_UMD: `${urlBase}widget/planner-web.umd.js`,
-    URL_JS_ESM: `${urlBase}widget/planner-web.mjs`,
-    URL_CSS: `${urlBase}widget/style.css`,
+    URL_JS_UMD: `${urlBase}widget/${COMPRESSED_ORG}/${MODULE_VERSION}/planner-web.umd.js`,
+    URL_JS_ESM: `${urlBase}widget/${COMPRESSED_ORG}/${MODULE_VERSION}/planner-web.mjs`,
+    URL_CSS: `${urlBase}widget/${COMPRESSED_ORG}/${MODULE_VERSION}/planner-web.css`,
   };
 }
 
@@ -514,7 +517,7 @@ function createOutput({ URL_BASE }: SettingConstants) {
                   id="pw-from-1-input"
                   name="from"
                   value=""
-                  placeholder="Søk fra adresse, kai eller holdeplass"
+                  placeholder="adresse, kai eller holdeplass"
                 />
                 <ul
                   id="from-popup-1"
@@ -567,7 +570,7 @@ function createOutput({ URL_BASE }: SettingConstants) {
                   id="pw-to-1-input"
                   name="to"
                   value=""
-                  placeholder="Søk til adresse, kai eller holdeplass"
+                  placeholder="adresse, kai eller holdeplass"
                 />
                 <ul
                   id="to-popup-1"
@@ -619,7 +622,7 @@ function createOutput({ URL_BASE }: SettingConstants) {
                   name="from"
                   id="pw-from-2-input"
                   value=""
-                  placeholder="Søk fra adresse, kai eller holdeplass"
+                  placeholder="adresse, kai eller holdeplass"
                 />
                 <ul
                   id="to-popup-2"

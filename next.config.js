@@ -13,7 +13,10 @@ const nextConfig = {
         headers: [
           {
             key: 'Cache-Control',
-            value: 'public, s-maxage=3600, stale-while-revalidate=3600',
+            value:
+              process.env.NODE_ENV == 'production'
+                ? 'public, max-age=604800, stale-while-revalidate=86400'
+                : 'no-cache',
           },
         ],
       },
