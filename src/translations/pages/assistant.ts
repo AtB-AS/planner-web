@@ -1,5 +1,4 @@
 import { translation as _ } from '@atb/translations/commons';
-import { TransportModeType } from '@atb/modules/transport-mode';
 
 export const Assistant = {
   title: _('Planlegg reisen', 'Plan travel', 'Planlegg reisa'),
@@ -45,60 +44,34 @@ export const Assistant = {
   },
   trip: {
     tripPattern: {
-      travelFrom: (mode: TransportModeType, place: string) => {
-        switch (mode) {
-          case 'bus':
-          case 'coach':
-            return _(
-              `Buss fra ${place}`,
-              `Bus from ${place}`,
-              `Buss frå ${place}`,
-            );
-          case 'tram':
-            return _(
-              `Trikk fra ${place}`,
-              `Tram from ${place}`,
-              `Trikk frå ${place}`,
-            );
-          case 'metro':
-            return _(
-              `T-bane fra ${place}`,
-              `Metro from ${place}`,
-              `T-bane frå ${place}`,
-            );
-          case 'rail':
-            return _(
-              `Tog fra ${place}`,
-              `Train from ${place}`,
-              `Tog frå ${place}`,
-            );
-          case 'water':
-            return _(
-              `Båt fra ${place}`,
-              `Boat from ${place}`,
-              `Båt frå ${place}`,
-            );
-          case 'air':
-            return _(
-              `Fly fra ${place}`,
-              `Air from ${place}`,
-              `Fly frå ${place}`,
-            );
-          case 'bicycle':
-            return _(
-              `Sykkel fra ${place}`,
-              `Bike from ${place}`,
-              `Sykkel frå ${place}`,
-            );
-          case 'foot':
-            return _(
-              `Gå fra ${place}`,
-              `Walk from ${place}`,
-              `Gå frå ${place}`,
-            );
-          default:
-            return _(`Fra ${place}`, `From ${place}`, `Frå ${place}`);
-        }
+      travelFrom: {
+        bus: (place: string) =>
+          _(`Buss fra ${place}`, `Bus from ${place}`, `Buss frå ${place}`),
+        coach: (place: string) =>
+          _(`Buss fra ${place}`, `Coach from ${place}`, `Buss frå ${place}`),
+        tram: (place: string) =>
+          _(`Trikk fra ${place}`, `Tram from ${place}`, `Trikk frå ${place}`),
+        metro: (place: string) =>
+          _(
+            `T-bane fra ${place}`,
+            `Metro from ${place}`,
+            `T-bane frå ${place}`,
+          ),
+        rail: (place: string) =>
+          _(`Tog fra ${place}`, `Train from ${place}`, `Tog frå ${place}`),
+        boat: (place: string) =>
+          _(`Båt fra ${place}`, `Boat from ${place}`, `Båt frå ${place}`),
+        ferry: (place: string) =>
+          _(`Ferge fra ${place}`, `Ferry from ${place}`, `Ferje frå ${place}`),
+        air: (place: string) =>
+          _(`Fly fra ${place}`, `Air from ${place}`, `Fly frå ${place}`),
+        bicycle: (place: string) =>
+          _(`Sykkel fra ${place}`, `Bike from ${place}`, `Sykkel frå ${place}`),
+        foot: (place: string) =>
+          _(`Gå fra ${place}`, `Walk from ${place}`, `Gå frå ${place}`),
+        unknown: (place: string) =>
+          _(`Fra ${place}`, `From ${place}`, `Frå ${place}`),
+        unknownPlace: _('ukjent', 'unknown', 'ukjend'),
       },
       details: _('Detaljer', 'Details', 'Detaljar'),
       hasSituationsTip: _(

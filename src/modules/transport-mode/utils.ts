@@ -41,3 +41,16 @@ export function filterGraphQlTransportModes(
   if (transportModes.length === 0) return undefined;
   return transportModes;
 }
+
+const TRANSPORT_SUB_MODES_BOAT: TransportSubmodeType[] = [
+  'highSpeedPassengerService',
+  'highSpeedVehicleService',
+  'nationalPassengerFerry',
+  'localPassengerFerry',
+  'sightseeingService',
+];
+
+export function isSubmodeBoat(submode?: TransportSubmodeType) {
+  if (!submode) return false;
+  return TRANSPORT_SUB_MODES_BOAT.includes(submode);
+}
