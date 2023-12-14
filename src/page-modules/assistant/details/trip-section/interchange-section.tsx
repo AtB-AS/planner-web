@@ -24,8 +24,8 @@ export function InterchangeSection({
 }: InterchangeSectionProps) {
   const { t } = useTranslation();
   const unknownTransportationColor = useTransportationThemeColor({
-    mode: 'unknown',
-    subMode: undefined,
+    transportMode: 'unknown',
+    transportSubModes: undefined,
   });
   return (
     <div className={style.rowContainer}>

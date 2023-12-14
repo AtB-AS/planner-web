@@ -1,6 +1,5 @@
 import DefaultLayout from '@atb/layouts/default';
 import { withGlobalData, type WithGlobalData } from '@atb/layouts/global-data';
-import { getAllTransportModesFromFilterOptions } from '@atb/modules/transport-mode';
 import {
   DeparturesLayout,
   NearestStopPlaces,
@@ -70,9 +69,6 @@ export const getServerSideProps = withGlobalData(
           fromQuery.searchTime.mode !== 'now'
             ? fromQuery.searchTime.dateTime
             : null,
-        transportModes: getAllTransportModesFromFilterOptions(
-          fromQuery.transportModeFilter,
-        ),
       });
 
       return {
@@ -86,9 +82,6 @@ export const getServerSideProps = withGlobalData(
       const input = {
         lon: fromQuery.from.geometry.coordinates[0],
         lat: fromQuery.from.geometry.coordinates[1],
-        transportModes: getAllTransportModesFromFilterOptions(
-          fromQuery.transportModeFilter,
-        ),
       };
 
       const nearestStopPlaces = await client.nearestStopPlaces(input);
