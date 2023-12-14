@@ -659,7 +659,7 @@ function createOutput({ URL_BASE }: SettingConstants) {
   `;
 
   const output = html`
-    <div class="${style.wrapper}">
+    <div class="${style.wrapper} ${style.lightWrapper}">
       <nav class="${style.nav}">
         <ul class="${style.tabs} js-tablist">
           <li>
