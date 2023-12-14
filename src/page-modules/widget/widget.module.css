@@ -39,6 +39,7 @@
 
 .copyContainer {
   position: relative;
+  overflow-x: auto;
 }
 
 .copyButton {
