@@ -94,7 +94,8 @@
   }
 
   .main {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
     padding-bottom: var(--spacings-xLarge) !important;
   }
 

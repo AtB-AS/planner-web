@@ -80,3 +80,9 @@
   color: var(--text-colors-secondary);
   margin-left: var(--spacings-large);
 }
+
+@media (max-width: 650px) {
+  .container {
+    max-width: 100%;
+  }
+}

@@ -3,7 +3,7 @@ import { ContrastColor, Theme } from '@atb-as/theme';
 import MonoIcon, { MonoIconProps } from '@atb/components/icon/mono-icon';
 import { useTheme } from '@atb/modules/theme';
 import { useTranslation } from '@atb/translations';
-import { transportModeToTranslatedString } from '../utils';
+import { isSubmodeBoat, transportModeToTranslatedString } from '../utils';
 import { colorToOverrideMode } from '@atb/utils/color';
 import { Typo } from '@atb/components/typography';
 import { secondsToMinutes } from 'date-fns';
@@ -122,14 +122,6 @@ export function useTransportationThemeColor(mode: TransportModeGroup) {
   };
 }
 
-const TRANSPORT_SUB_MODES_BOAT: TransportSubmodeType[] = [
-  'highSpeedPassengerService',
-  'highSpeedVehicleService',
-  'nationalPassengerFerry',
-  'localPassengerFerry',
-  'sightseeingService',
-];
-
 export function transportModeToColor(
   mode: TransportModeGroup,
   transport: Theme['transport'],
@@ -189,7 +181,7 @@ export function getTransportModeIcon(
     case 'air':
       return 'transportation-entur/Plane';
     case 'water':
-      return mode.subMode && TRANSPORT_SUB_MODES_BOAT.includes(mode.subMode)
+      return isSubmodeBoat(mode.subMode)
         ? 'transportation/Boat'
         : 'transportation/Ferry';
     case 'metro':
