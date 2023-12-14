@@ -55,6 +55,39 @@ const outputCodeExample = html`
   </script>
 `;
 
+const outputCodeExample2 = html`
+  <link
+    rel="stylesheet"
+    href="http://localhost:3000/widget/GYJwhgtkA/1.0.0/planner-web.css"
+  />
+
+  <style>
+    .wrapper {
+      background: #007ab5;
+      display: flex;
+      justify-content: center;
+    }
+    .example {
+      max-width: 1024px;
+      width: 100%;
+    }
+  </style>
+
+  <div class="wrapper">
+    <div id="planner-widget" class="example">
+      <!-- PASTE HTML CODE IN HERE -->
+    </div>
+  </div>
+
+  <script src="http://localhost:3000/widget/GYJwhgtkA/1.0.0/planner-web.umd.js"></script>
+  <script>
+    const widget = window.PlannerWeb.createWidget({
+      urlBase: 'http://localhost:3000/',
+    });
+    widget.init();
+  </script>
+`;
+
 const WidgetPage: NextPage<WidgetPageProps> = ({ data, ...props }) => {
   const [isLoaded, setLoaded] = useState(false);
   const [html, setHtml] = useState('');
@@ -124,8 +157,8 @@ function WidgetContent({
   data: PlannerWidgetData;
 }) {
   const { language } = useTranslation();
-  const scripts = (str?: string) => `<script src="${str ?? ''}" />`;
-  const css = (str?: string) => `<link src="${str ?? ''}" />`;
+  const scripts = (str?: string) => `<script src="${str ?? ''}"></script>`;
+  const css = (str?: string) => `<link rel="stylesheet" src="${str ?? ''}" />`;
 
   const currentUrlBase = location.protocol + '//' + location.host;
 
@@ -147,7 +180,6 @@ function WidgetContent({
 
       <h3>Scripts (UMD / ESM)</h3>
 
-      <p>Using these directly could cause issues on new releases.</p>
       <CopyMarkup content={scripts(lib.urls?.URL_JS_UMD)} />
       <CopyMarkup content={scripts(lib.urls?.URL_JS_ESM)} />
 
@@ -165,9 +197,15 @@ function WidgetContent({
       <p>
         One advantage of doing this dynamically when importing JavaScript on the
         fly, will be that code is automatically updated on new releases.
+        <strong>
+          Note: This is optional and not required if you use the HTML directly.
+        </strong>
       </p>
 
       <CopyMarkup content={outputCodeExample} />
+
+      <h2>Complete example</h2>
+      <CopyMarkup content={outputCodeExample2} />
 
       <h2>All versions</h2>
 
