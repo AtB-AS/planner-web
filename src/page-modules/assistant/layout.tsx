@@ -113,6 +113,7 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
                   isLoading={isSwapping}
                 />
               }
+              autocompleteFocusPoint={tripQuery.from ?? undefined}
             />
           </div>
           <div className={style.date}>
