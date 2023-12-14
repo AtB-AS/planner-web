@@ -16,10 +16,6 @@ import { useMapLegs } from './use-map-legs';
 import { and } from '@atb/utils/css';
 import { MapLegType, Position } from './types';
 import { useMapTariffZones } from './use-map-tariff-zones';
-import getTariffZones from '@atb/modules/firebase';
-import { TariffZone } from '@atb/modules/firebase/types';
-import useSWR from 'swr';
-import { firebaseSwrFetcher } from '@atb/modules/api-browser';
 
 export type MapProps = {
   position?: Position;
@@ -41,15 +37,6 @@ export function Map({
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map>();
   const { t } = useTranslation();
-  const [tariffZones, setTariffZones] = useState<TariffZone[]>([]);
-
-  const { data, error, isLoading } = useSWR('tariffZones', getTariffZones, {
-    revalidateOnFocus: false,
-    revalidateOnReconnect: false,
-    revalidateIfStale: false,
-  });
-
-  console.log(data, error, isLoading);
 
   useEffect(() => {
     if (!mapContainer.current) return;
@@ -64,15 +51,6 @@ export function Map({
     return () => map.current?.remove();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  /*useEffect(() => {
-    const fetchTariffZones = async () => {
-      const zones = await getTariffZones();
-      setTariffZones(zones);
-    };
-
-    fetchTariffZones();
-  }, []);*/
-
   const { centerMap } = useMapInteractions(map, onSelectStopPlace);
   const { openFullscreen, closeFullscreen, isFullscreen } = useFullscreenMap(
     mapWrapper,
@@ -80,7 +58,7 @@ export function Map({
   );
   useMapPin(map, position, layer);
   useMapLegs(map, transport, mapLegs);
-  useMapTariffZones(map, tariffZones);
+  useMapTariffZones(map);
 
   useEffect(() => {
     if (map.current) {

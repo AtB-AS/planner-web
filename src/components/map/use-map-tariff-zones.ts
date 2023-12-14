@@ -1,15 +1,24 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Language, useTranslation } from '@atb/translations';
-import { TariffZone } from '@atb/modules/firebase/types';
 import mapboxgl from 'mapbox-gl';
 import { getReferenceDataName } from '@atb/utils/reference-data';
 import { centroid } from '@turf/turf';
+import { type TariffZone, getTariffZones } from '@atb/modules/firebase';
 
 export const useMapTariffZones = async (
   mapRef: React.MutableRefObject<mapboxgl.Map | undefined>,
-  tariffZones: TariffZone[],
 ) => {
   const { language } = useTranslation();
+  const [tariffZones, setTariffZones] = useState<TariffZone[]>([]);
+
+  useEffect(() => {
+    const fetchTariffZones = async () => {
+      const zones = await getTariffZones();
+      setTariffZones(zones);
+    };
+
+    fetchTariffZones();
+  }, []);
 
   const addTariffZonesToMap = useCallback(
     (map: mapboxgl.Map) => {
@@ -61,10 +70,6 @@ export const useMapTariffZones = async (
     if (map.loaded()) {
       addTariffZonesToMap(map);
     }
-
-    map.once('load', () => {
-      addTariffZonesToMap(map);
-    });
 
     map.on('load', () => {
       addTariffZonesToMap(map);
