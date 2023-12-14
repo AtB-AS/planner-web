@@ -2,60 +2,54 @@ import { useCallback, useEffect, useState } from 'react';
 import { Language, useTranslation } from '@atb/translations';
 import { TariffZone } from '@atb/modules/firebase/types';
 import mapboxgl from 'mapbox-gl';
-import getTariffZones from '@atb/modules/firebase';
 import { getReferenceDataName } from '@atb/utils/reference-data';
-import turfCentroid from '@turf/centroid';
+import { centroid } from '@turf/turf';
 
 export const useMapTariffZones = async (
   mapRef: React.MutableRefObject<mapboxgl.Map | undefined>,
+  tariffZones: TariffZone[],
 ) => {
   const { language } = useTranslation();
-  const [tariffZones, setTariffZones] = useState<TariffZone[]>([]);
-
-  useEffect(() => {
-    const fetchTariffZones = async () => {
-      const zones = await getTariffZones();
-      setTariffZones(zones);
-    };
-
-    fetchTariffZones();
-  }, []);
 
   const addTariffZonesToMap = useCallback(
     (map: mapboxgl.Map) => {
-      if (map.getSource('tariff-zones')) return;
+      if (!map.getSource('tariff-zones')) {
+        map.addSource(
+          'tariff-zones',
+          createTariffZonesFeatureCollection(tariffZones, language),
+        );
+      }
 
-      map.addSource(
-        'tariff-zones',
-        createTariffZonesFeatureCollection(tariffZones, language),
-      );
+      if (!map.getLayer('zone-boundary-layer')) {
+        map.addLayer({
+          id: 'zone-boundary-layer',
+          type: 'line',
+          source: 'tariff-zones',
+          paint: {
+            'line-width': 1,
+            'line-color': '#666666',
+          },
+        });
+      }
 
-      map.addLayer({
-        id: 'zone-boundary-layer',
-        type: 'line',
-        source: 'tariff-zones',
-        paint: {
-          'line-width': 1,
-          'line-color': '#666666',
-        },
-      });
-
-      map.addLayer({
-        id: 'zone-names-layer',
-        type: 'symbol',
-        source: 'tariff-zones',
-        layout: {
-          'text-field': ['get', 'name'],
-          'text-justify': 'auto',
-          'text-offset': [0, 0],
-        },
-        paint: {
-          'text-color': '#000000',
-          'text-halo-color': '#FFFFFF',
-          'text-halo-width': 2,
-        },
-        filter: ['==', '$type', 'Point'],
-      });
+      if (!map.getLayer('zone-names-layer')) {
+        map.addLayer({
+          id: 'zone-names-layer',
+          type: 'symbol',
+          source: 'tariff-zones',
+          layout: {
+            'text-field': ['get', 'name'],
+            'text-justify': 'auto',
+            'text-offset': [0, 0],
+          },
+          paint: {
+            'text-color': '#000000',
+            'text-halo-color': '#FFFFFF',
+            'text-halo-width': 2,
+          },
+          filter: ['==', '$type', 'Point'],
+        });
+      }
     },
     [language, tariffZones],
   );
@@ -64,8 +58,13 @@ export const useMapTariffZones = async (
     if (!mapRef || !mapRef.current || !tariffZones.length) return;
     const map = mapRef.current;
 
-    // Map might be loaded before tariff zones are fetched
-    map.loaded() && !map.getSource('tariff-zones') && addTariffZonesToMap(map);
+    if (map.loaded()) {
+      addTariffZonesToMap(map);
+    }
+
+    map.once('load', () => {
+      addTariffZonesToMap(map);
+    });
 
     map.on('load', () => {
       addTariffZonesToMap(map);
@@ -94,11 +93,12 @@ const createTariffZonesFeatureCollection = (
           type: 'Feature' as const,
           properties: {
             name: getReferenceDataName(tariffZone, language),
-            middlePoint: turfCentroid(tariffZone.geometry),
+            middlePoint: centroid(tariffZone.geometry),
           },
           geometry: {
             type: 'Point' as const,
-            coordinates: turfCentroid(tariffZone.geometry).geometry.coordinates,
+            coordinates:
+              centroid(tariffZone.geometry)?.geometry?.coordinates ?? [],
           },
         },
       ])
