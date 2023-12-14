@@ -22,7 +22,7 @@ export function CopyMarkup({ content }: CopyMarkupProps) {
     <div className={style.copyContainer}>
       <CopyButton text={content} />
 
-      <SyntaxHighlighter language="markup" style={dark}>
+      <SyntaxHighlighter language="markup" wrapLines wrapLongLines style={dark}>
         {content}
       </SyntaxHighlighter>
     </div>

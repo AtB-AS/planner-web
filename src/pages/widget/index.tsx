@@ -33,12 +33,14 @@ declare global {
 const html = String.raw;
 const initializeCode = html`
   <script>
-    // Ensure that url base is same origin as the page where widget is loaded and the travel planner API
+    // Ensure that url base is same origin as the page where
+    // widget is loaded and the travel planner API
     const widget = window.PlannerWeb.createWidget({
       urlBase: 'https://reiseplanlegger.example.no/',
     });
 
-    // After loading JS and CSS file it can be initialized using the following code:
+    // After loading JS and CSS file it can be initialized
+    // using the following code:
     widget.init();
   </script>
 `;
