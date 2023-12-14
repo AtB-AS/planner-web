@@ -22,6 +22,7 @@
   margin-right: var(--spacings-medium);
 }
 
+/*
 .pageHeader__nav {
   flex: 1;
   display: none;
@@ -46,13 +47,16 @@
 
   color: var(--static-background-background_accent_0-text);
 }
-
+*/
+/*
 .pageHeader__nav--modal {
   display: none;
 }
+*/
 
 /* Show/hide menu styling */
 
+/*
 .burgerButtonContainer {
   position: absolute;
   cursor: pointer;
@@ -88,9 +92,8 @@
 
   --spacings: 0.5rem;
 }
-
 .hamburger__open span {
-  /* background: var(--color-secondary1__tint3); */
+  background: var(--color-secondary1__tint3); 
 }
 
 .hamburger span:nth-child(1) {
@@ -125,27 +128,33 @@
   width: 0%;
   left: 50%;
 }
+*/
 
 /* On smaller screens  */
+/*
 @media (min-width: 800px) {
   .hamburger {
     display: none;
   }
-
+  
   .pageHeader__nav--notModal {
     display: flex;
   }
 }
+*/
 
 @media (max-width: 800px) {
+  /*
   .pageHeader__nav--modal {
     display: flex;
   }
+  */
 
   .pageHeader__inner {
     flex: 1;
   }
 
+  /*
   .pageHeader__nav {
     position: absolute;
     transform: translateY(-100%);
@@ -154,10 +163,10 @@
     bottom: 0;
     width: 100%;
     z-index: 100;
-
+    
     align-items: flex-start;
   }
-
+  
   .pageHeader__nav::after {
     background: rgba(0, 0, 0, 0.4);
     content: '';
@@ -167,46 +176,52 @@
     bottom: 0;
     left: 0;
     right: 0;
-
+    
     opacity: 0;
     transition: opacity 150ms ease-in;
   }
-
+  
   .pageHeader__nav nav {
     position: relative;
     z-index: 150;
     background-color: var(--static-background-background_accent_0-background);
   }
-
+  
   .pageHeader__nav ul {
     flex-direction: column;
     justify-content: space-around;
-
+    
     max-height: 40rem;
     align-items: stretch;
     padding: var(--contentPadding);
   }
-
+  
   .pageHeader__nav--open {
     transform: translateY(0);
   }
-
+  
   .pageHeader__nav--open::after {
     opacity: 1;
     transition-delay: 150ms;
   }
+  */
 }
-
+/*
 .pageHeader__link,
 .pageHeader__button {
   composes: typo-body__secondary from '@atb/theme/typography.module.css';
-  transition: background-color 150ms ease, opacity 200ms ease-in-out;
+  transition:
+  background-color 150ms ease,
+  opacity 200ms ease-in-out;
   display: block;
 }
+*/
 
 .pageHeader__logoLink {
   composes: typo-body__secondary--bold from '@atb/theme/typography.module.css';
-  transition: background-color 150ms ease, opacity 200ms ease-in-out;
+  transition:
+    background-color 150ms ease,
+    opacity 200ms ease-in-out;
 }
 
 .pageHeader__logoLink span {
@@ -229,6 +244,7 @@
   padding-left: 0;
 }
 
+/*
 .pageHeader__logoLink img {
   display: block;
 }
@@ -241,7 +257,9 @@
   cursor: pointer;
   align-items: center;
 }
+*/
 
+/*
 .pageHeader__link,
 .pageHeader__link:visited,
 .pageHeader__button {
@@ -249,24 +267,29 @@
   text-decoration: none;
   color: var(--static-background-background_accent_0-text);
 }
-.pageHeader__link:hover,
-.pageHeader__button:hover {
+
+.pageHeader__link:hover
+.pageHeader__button:hover
+{
   background-color: var(--static-background-background_accent_1-background);
   color: var(--static-background-background_accent_1-text);
 }
+*/
 
-.pageHeader__link:active,
-.pageHeader__button:active,
+/*.pageHeader__link:active,
+.pageHeader__button:active,*/
 .pageHeader__logoLink:active {
   opacity: 0.8;
 }
 
+/*
 .pageHeader__link--active {
   padding-bottom: calc(var(--spacings-medium) - var(--border-width-medium));
-  border-bottom: var(--border-width-medium) solid var(--ws-colors-header-border-bottom);
+  border-bottom: var(--border-width-medium) solid
+    var(--ws-colors-header-border-bottom);
   composes: typo-body__secondary--bold from '@atb/theme/typography.module.css';
 }
-
 .pageHeader__nav--modal .pageHeader__link--active {
   border-bottom-color: transparent;
 }
+*/
