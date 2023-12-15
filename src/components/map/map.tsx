@@ -71,7 +71,7 @@ export function Map({
   }, [position, initialZoom]);
 
   return (
-    <div className={style.map}>
+    <div className={style.map} aria-hidden="true">
       <Button
         className={style.fullscreenButton}
         title={t(ComponentText.Map.map.openFullscreenButton)}
