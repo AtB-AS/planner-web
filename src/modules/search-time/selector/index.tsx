@@ -54,13 +54,6 @@ export default function SearchTimeSelector({
     setSelectedDate(new Date());
   };
 
-  const addCurrentDateToTime = (time: string) => {
-    const [hours, minutes] = time.split(':').map(Number);
-    const now = new Date();
-    now.setHours(hours, minutes, 0, 0);
-    return now;
-  };
-
   const isPastDate = (selectedDate: string) => {
     const today = new Date().toISOString().split('T')[0];
 
@@ -72,12 +65,6 @@ export default function SearchTimeSelector({
     // To ensure that the time is not past in whenever reselecting back the current date.
     if (selectedDate <= today) resetToCurrentTime();
     return selectedDate < today;
-  };
-
-  const isPastTime = (time: string) => {
-    if (new Date() < selectedDate) return false;
-    const now = addCurrentDateToTime(time);
-    return now < selectedDate;
   };
 
   const internalOnDateChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -94,7 +81,6 @@ export default function SearchTimeSelector({
 
   const internalOnTimeChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (!event.target.value) return;
-    if (isPastTime(event.target.value)) return;
 
     setSelectedTime(event.target.value);
 
