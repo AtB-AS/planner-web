@@ -62,7 +62,7 @@ export default function SearchTimeSelector({
       resetToCurrentDate();
     }
 
-    // To ensure that the time is not past in whenever reselecting back the current date.
+    // To ensure that the time is not past whenever reselecting back the current date.
     if (selectedDate <= today) resetToCurrentTime();
     return selectedDate < today;
   };
