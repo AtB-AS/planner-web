@@ -8,9 +8,9 @@ export const Error = {
   ),
   backButton: _('Tilbake', 'Back', 'Tilbake'),
   '404': _(
-    'Fant ikke siden du prøvde å åpne',
-    "Couldn't find the page you were looking for",
-    'Fann ikkje sida du prøvde å opne',
+    'Fant ikke siden du prøvde å åpne. Forsøk å gå tilbake til startsiden og prøv på nytt.',
+    "Couldn't find the page you were looking for. Please try returning to the main page and try again.",
+    'Fann ikkje sida du forsøkte å gå til. Du kan forsøke å gå til startsida og forsøke ein gang til.',
   ),
   '500': _(
     'Her gikk vi på en blemme og det skjedde en feil. Kan du prøve igjen?',
