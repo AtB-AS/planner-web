@@ -88,7 +88,7 @@ export default function SearchTimeSelector({
     if (!event.target.value) return;
     if (isPastDate(event.target.value)) return;
 
-    setSelectedDate(addCurrentTimeToDate(event.target.value));
+    setSelectedDate(new Date(event.target.value));
 
     onChange({
       mode: selectedMode.mode,
