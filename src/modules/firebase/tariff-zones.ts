@@ -10,18 +10,20 @@ export async function getTariffZones() {
 
   if (snapshot.exists()) {
     const data = snapshot.data();
-    const tariffZonesFromFirebase = data.tariffZones;
+    try {
+      const potential = JSON.parse(data.tariffZones);
+      const result: TariffZone[] = [];
+      potential.forEach((tariffZone: any) => {
+        const validated = tariffZoneSchema.safeParse(tariffZone);
+        if (validated.success) {
+          result.push(validated.data);
+        }
+      });
 
-    const potential = JSON.parse(tariffZonesFromFirebase);
-    const result: TariffZone[] = [];
-    potential.forEach((tariffZone: any) => {
-      const validated = tariffZoneSchema.safeParse(tariffZone);
-      if (validated.success) {
-        result.push(validated.data);
-      }
-    });
-
-    return result;
+      return result;
+    } catch (e) {
+      throw new Error('Could not parse tariff zones from firebase');
+    }
   }
   return [];
 }
