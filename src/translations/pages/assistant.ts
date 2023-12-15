@@ -7,7 +7,7 @@ export const Assistant = {
     input: {
       label: _(
         'Hvor vil du reise?',
-        'Where do you want to go?',
+        'Where do you want to travel?',
         'Kor vil du reise?',
       ),
       from: _('Fra', 'From', 'Frå'),
