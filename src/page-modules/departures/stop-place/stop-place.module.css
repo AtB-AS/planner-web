@@ -103,6 +103,10 @@
   text-decoration: line-through;
 }
 
+.cancelled {
+  text-decoration: line-through;
+}
+
 @media only screen and (max-width: 650px) {
   .stopPlaceContainer {
     grid-template-areas: 'map' 'quays';

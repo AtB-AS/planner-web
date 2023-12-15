@@ -93,10 +93,10 @@
     normalize-path "^3.0.0"
     stream-editor "^1.11.0"
 
-"@atb-as/theme@^7.1.1":
-  version "7.1.1"
-  resolved "https://registry.yarnpkg.com/@atb-as/theme/-/theme-7.1.1.tgz#b29b43fa543d2df8aac8a3d161fa99342d9bc00d"
-  integrity sha512-EbxM/Dzf+BVnQkWOnWk3ENvag7Ys8CFRruEXIbHp4zrj1N5mCo5XQio7Yj7bq2liFzYBf/yxaO5ozBQjXhi0+w==
+"@atb-as/theme@^7.1.1", "@atb-as/theme@^7.2.0":
+  version "7.2.0"
+  resolved "https://registry.yarnpkg.com/@atb-as/theme/-/theme-7.2.0.tgz#9d35a63aab097b3cc3762634b2ec92c7722dafa4"
+  integrity sha512-eamBOSrCoWNCh+Bgb3TPQsfvLaTn1TpqwRnKN51MJp7UIchcYvzTqzCia4aCKlvuNd3/VT+15+o+F8pPHtZ8xw==
   dependencies:
     hex-to-rgba "^2.0.1"
     ts-deepmerge "^4.0.0"

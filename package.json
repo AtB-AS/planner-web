@@ -23,7 +23,7 @@
   "dependencies": {
     "@apollo/client": "^3.8.8",
     "@atb-as/config-specs": "^3.13.1",
-    "@atb-as/theme": "^7.1.1",
+    "@atb-as/theme": "^7.2.0",
     "@github/combobox-nav": "^2.3.0",
     "@leile/lobo-t": "^1.0.5",
     "@mapbox/polyline": "^1.2.1",
