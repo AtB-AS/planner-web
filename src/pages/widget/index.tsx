@@ -37,6 +37,7 @@ const initializeCode = html`
     // widget is loaded and the travel planner API
     const widget = window.PlannerWeb.createWidget({
       urlBase: 'https://reiseplanlegger.example.no/',
+      language: 'nn', // supports 'nb', 'nn' and 'en'
     });
 
     // After loading JS and CSS file it can be initialized
