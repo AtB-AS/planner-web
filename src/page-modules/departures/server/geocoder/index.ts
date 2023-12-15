@@ -5,7 +5,7 @@ import { FeatureCategory } from '@atb/components/venue-icon';
 import { first } from 'lodash';
 
 const FOCUS_WEIGHT = 18;
-const DEFAULT_FOCUS_POINT = { lat: 63.4305, lon: 10.39518 }; // TODO: Replace with configuration.
+const DEFAULT_FOCUS_POINT = { lat: 62.4705, lon: 6.1533 }; // TODO: Replace with configuration.
 
 export type GeocoderApi = {
   autocomplete(
