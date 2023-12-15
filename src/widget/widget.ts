@@ -672,7 +672,7 @@ function createOutput({ URL_BASE }: SettingConstants) {
             </a>
           </li>
           <li>
-            <a href="/departures" id="pw-departures-tab">Finn avganger</a>
+            <a href="/departures" id="pw-departures-tab">Avganger</a>
           </li>
         </ul>
       </nav>
