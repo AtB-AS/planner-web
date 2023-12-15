@@ -13,7 +13,7 @@ export const Departures = {
       from: _('Fra', 'From', 'Frå'),
       placeholder: _(
         'adresse, kai eller holdeplass',
-        'address, pier or bus stop',
+        'address, quay or bus stop',
         'adresse, kai eller haldeplass',
       ),
     },
@@ -24,20 +24,9 @@ export const Departures = {
         'Når vil du reise?',
       ),
     },
-    filter: {
-      label: _(
-        'Hva vil du reise med?',
-        'How do you want to travel?',
-        'Kva vil du reise med?',
-      ),
-    },
     buttons: {
       find: {
         title: _('Finn avganger', 'Find departures', 'Finn avganger'),
-      },
-      alternatives: {
-        more: _('Flere valg', 'More choices', 'Fleire val'),
-        less: _('Færre valg', 'Less choices', 'Færre val'),
       },
     },
   },

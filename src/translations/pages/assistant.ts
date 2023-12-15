@@ -14,7 +14,7 @@ export const Assistant = {
       to: _('Til', 'To', 'Til'),
       placeholder: _(
         'adresse, kai eller holdeplass',
-        'address, pier or bus stop',
+        'address, quay or bus stop',
         'adresse, kai eller haldeplass',
       ),
     },

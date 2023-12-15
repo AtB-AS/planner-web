@@ -109,8 +109,10 @@ function FilterCheckbox({ option, checked, onChange }: FilterCheckboxProps) {
       <label htmlFor={option.id} aria-hidden>
         <MonoIcon
           icon={getTransportModeIcon({
-            mode: option.icon?.transportMode,
-            subMode: option.icon?.transportSubMode,
+            transportMode: option.icon?.transportMode,
+            transportSubModes: option.icon?.transportSubMode
+              ? [option.icon.transportSubMode]
+              : undefined,
           })}
         />
         <span id={`label-${option.id}`}>{text}</span>

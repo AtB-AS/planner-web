@@ -40,8 +40,8 @@ export default function TripSection({
   const { t } = useTranslation();
   const isWalkSection = leg.mode === 'foot';
   const legColor = useTransportationThemeColor({
-    mode: leg.mode,
-    subMode: leg.transportSubmode,
+    transportMode: leg.mode,
+    transportSubModes: leg.transportSubmode && [leg.transportSubmode],
   });
 
   const showFrom = !isWalkSection || (isFirst && isWalkSection);
@@ -86,7 +86,12 @@ export default function TripSection({
           <TripRow
             rowLabel={
               <TransportIcon
-                mode={{ mode: leg.mode, subMode: leg.transportSubmode }}
+                mode={{
+                  transportMode: leg.mode,
+                  transportSubModes: leg.transportSubmode && [
+                    leg.transportSubmode,
+                  ],
+                }}
                 size="small"
               />
             }

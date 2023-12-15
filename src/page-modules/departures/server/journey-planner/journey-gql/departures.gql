@@ -2,7 +2,6 @@ query stopPlaceQuayDepartures(
   $id: String!
   $numberOfDepartures: Int
   $startTime: DateTime
-  $transportModes: [TransportMode]
 ) {
   stopPlace(id: $id) {
     id
@@ -21,7 +20,6 @@ query stopPlaceQuayDepartures(
         numberOfDepartures: $numberOfDepartures
         startTime: $startTime
         includeCancelledTrips: true
-        whiteListedModes: $transportModes
       ) {
         date
         expectedDepartureTime

@@ -7,7 +7,7 @@ import { flatMap } from 'lodash';
 import { getNoticesForLeg } from './utils';
 import { RailReplacementBusMessage } from './rail-replacement-bus';
 import { SituationOrNoticeIcon } from '@atb/modules/situations';
-import { isSubmodeBoat } from '@atb/modules/transport-mode';
+import { isSubModeBoat } from '@atb/modules/transport-mode';
 
 type TripPatternHeaderProps = {
   tripPattern: TripPattern;
@@ -73,7 +73,10 @@ export function getStartModeAndPlaceText(
     case 'rail':
       return t(PageText.Assistant.trip.tripPattern.travelFrom.rail(startName));
     case 'water':
-      if (isSubmodeBoat(startLeg.transportSubmode ?? 'unknown')) {
+      if (
+        startLeg.transportSubmode &&
+        isSubModeBoat([startLeg.transportSubmode])
+      ) {
         return t(
           PageText.Assistant.trip.tripPattern.travelFrom.boat(startName),
         );

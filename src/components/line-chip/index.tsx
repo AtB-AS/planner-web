@@ -19,8 +19,8 @@ export default function LineChip({
   publicCode,
 }: LineChipProps) {
   const transportationColor = useTransportationThemeColor({
-    mode: transportMode,
-    subMode: transportSubmode,
+    transportMode: transportMode,
+    transportSubModes: transportSubmode && [transportSubmode],
   });
 
   return (
@@ -33,8 +33,8 @@ export default function LineChip({
     >
       <TransportIcon
         mode={{
-          mode: transportMode,
-          subMode: transportSubmode,
+          transportMode: transportMode,
+          transportSubModes: transportSubmode && [transportSubmode],
         }}
       />
       {publicCode && (
