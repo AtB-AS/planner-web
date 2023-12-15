@@ -415,13 +415,15 @@ function createOutput({ URL_BASE }: SettingConstants) {
             <input
               type="radio"
               name="searchTimeSelector"
-              aria-label="Nå"
+              aria-labelled-by="${prefix}-now"
               class="${style.selector_option__input}"
               value="now"
               checked=""
             />
             <span aria-hidden="true" class="${style.selector_option__label}">
-              <span class="${style.selector_option__text}">Nå</span>
+              <span class="${style.selector_option__text}" id="${prefix}-now">
+                Nå
+              </span>
             </span>
           </label>
           ${withArriveBy
@@ -430,7 +432,7 @@ function createOutput({ URL_BASE }: SettingConstants) {
                   <input
                     type="radio"
                     name="searchTimeSelector"
-                    aria-label="Ankomst"
+                    aria-labelled-by="${prefix}-arrival"
                     class="${style.selector_option__input}"
                     value="arriveBy"
                   />
@@ -438,7 +440,12 @@ function createOutput({ URL_BASE }: SettingConstants) {
                     aria-hidden="true"
                     class="${style.selector_option__label}"
                   >
-                    <span class="${style.selector_option__text}">Ankomst</span>
+                    <span
+                      class="${style.selector_option__text}"
+                      id="${prefix}-arrival"
+                    >
+                      Ankomst
+                    </span>
                   </span>
                 </label>
               `
@@ -447,12 +454,17 @@ function createOutput({ URL_BASE }: SettingConstants) {
             <input
               type="radio"
               name="searchTimeSelector"
-              aria-label="Avgang"
+              aria-labelled-by="${prefix}-depart"
               class="${style.selector_option__input}"
               value="departBy"
             />
             <span aria-hidden="true" class="${style.selector_option__label}">
-              <span class="${style.selector_option__text}">Avgang</span>
+              <span
+                class="${style.selector_option__text}"
+                id="${prefix}-depart"
+              >
+                Avreise
+              </span>
             </span>
           </label>
         </div>
