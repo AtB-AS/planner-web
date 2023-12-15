@@ -284,16 +284,25 @@ export function createJourneyApi(
         departures: result.data.quay?.estimatedCalls?.map((e) => ({
           id: e.serviceJourney.id,
           name: e.destinationDisplay?.frontText,
+          publicCode: e.serviceJourney.line.publicCode,
           date: e.date,
-          expectedDepartureTime: e.expectedDepartureTime,
           aimedDepartureTime: e.aimedDepartureTime,
+          expectedDepartureTime: e.expectedDepartureTime,
+          cancelled: e.cancellation,
           transportMode: isTransportModeType(
             e.serviceJourney.line.transportMode,
           )
             ? e.serviceJourney.line.transportMode
             : 'unknown',
           transportSubmode: e.serviceJourney.line.transportSubmode,
-          publicCode: e.serviceJourney.line.publicCode,
+          notices:
+            e.notices?.map((notice) => ({
+              id: notice.id,
+              text: notice.text,
+            })) ?? [],
+          situations: e.situations.map((situation) =>
+            mapGraphQlSituationToSituation(situation as GraphQlSituation),
+          ),
         })),
       };
       const validated = estimatedCallsSchema.safeParse(data);
@@ -410,8 +419,8 @@ type RecursivePartial<T> = {
   [P in keyof T]?: T[P] extends (infer U)[]
     ? RecursivePartial<U>[]
     : T[P] extends object | undefined
-      ? RecursivePartial<T[P]>
-      : T[P];
+    ? RecursivePartial<T[P]>
+    : T[P];
 };
 
 const mapAndFilterDuplicateGraphQlSituations = (
