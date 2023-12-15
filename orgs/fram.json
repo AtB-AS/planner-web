@@ -23,9 +23,6 @@
     "supportUrl": {
       "default": "https://frammr.no/kontakt-oss",
       "en-US": "https://en.frammr.no/contact-us"
-    },
-
-    "instagramLink": "https://www.instagram.com/reisnordland",
-    "facebookLink": "https://www.facebook.com/ReisNordland"
+    }
   }
 }
