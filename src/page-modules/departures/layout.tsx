@@ -30,11 +30,6 @@ function DeparturesLayout({ children, fromQuery }: DeparturesLayoutProps) {
 
   const doSearch = async (override: Partial<FromDepartureQuery>) => {
     setIsSearching(true);
-    const newRoute = createFromQuery(
-      { ...fromQuery, ...override, searchTime },
-      transportModeFilter,
-    );
-
     const newRoute = createFromQuery({ ...fromQuery, ...override, searchTime });
     logSpecificEvent('search_departure');
     await router.push(newRoute);
