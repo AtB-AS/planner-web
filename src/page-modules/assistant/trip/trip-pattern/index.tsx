@@ -91,8 +91,10 @@ export default function TripPattern({
                     {leg.mode ? (
                       <TransportIconWithLabel
                         mode={{
-                          mode: leg.mode,
-                          subMode: leg.transportSubmode ?? undefined,
+                          transportMode: leg.mode,
+                          transportSubModes: leg.transportSubmode
+                            ? [leg.transportSubmode]
+                            : undefined,
                         }}
                         label={leg.line?.publicCode ?? undefined}
                         duration={

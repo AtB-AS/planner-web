@@ -1,5 +1,4 @@
 import { parseSearchTimeQuery } from '@atb/modules/search-time';
-import { parseFilterQuery } from '@atb/modules/transport-mode';
 import type { DepartureClient } from './server';
 import type { FromDepartureQuery } from './types';
 
@@ -9,7 +8,6 @@ export async function fetchFromDepartureQuery(
   client: DepartureClient,
 ): Promise<FromDepartureQuery> {
   const id = paramId?.[0];
-  const transportModeFilter = parseFilterQuery(query.filter);
   const searchTime = parseSearchTimeQuery(
     query.searchMode,
     query.searchTime ? Number(query.searchTime) : undefined,
@@ -25,7 +23,6 @@ export async function fetchFromDepartureQuery(
 
     return {
       isAddress: false,
-      transportModeFilter,
       searchTime,
       from: from ?? null,
     };
@@ -40,7 +37,6 @@ export async function fetchFromDepartureQuery(
     return {
       isAddress: true,
       from: from ?? null,
-      transportModeFilter,
       searchTime,
     };
   }
@@ -48,7 +44,6 @@ export async function fetchFromDepartureQuery(
   return {
     from: null,
     isAddress: false,
-    transportModeFilter,
     searchTime,
   };
 }

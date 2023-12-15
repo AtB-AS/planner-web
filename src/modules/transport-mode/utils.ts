@@ -9,16 +9,16 @@ import {
 import { TransportMode as GraphQlTransportMode } from '@atb/modules/graphql-types';
 
 export function transportModeToTranslatedString(mode: TransportModeGroup) {
-  if (!ComponentText.TransportMode.modes[mode.mode]) {
+  if (!ComponentText.TransportMode.modes[mode.transportMode]) {
     return ComponentText.TransportMode.modes.unknown;
   }
-  return ComponentText.TransportMode.modes[mode.mode];
+  return ComponentText.TransportMode.modes[mode.transportMode];
 }
 export function severalTransportModesToTranslatedStrings(
   modes: TransportModeGroup[],
 ) {
   return modes
-    .map((mode) => ComponentText.TransportMode.modes[mode.mode])
+    .map((mode) => ComponentText.TransportMode.modes[mode.transportMode])
     .filter(Boolean);
 }
 
@@ -50,7 +50,7 @@ const TRANSPORT_SUB_MODES_BOAT: TransportSubmodeType[] = [
   'sightseeingService',
 ];
 
-export function isSubmodeBoat(submode?: TransportSubmodeType) {
-  if (!submode) return false;
-  return TRANSPORT_SUB_MODES_BOAT.includes(submode);
+export function isSubModeBoat(subModes?: TransportSubmodeType[]) {
+  if (!subModes) return false;
+  return subModes.some((subMode) => TRANSPORT_SUB_MODES_BOAT.includes(subMode));
 }

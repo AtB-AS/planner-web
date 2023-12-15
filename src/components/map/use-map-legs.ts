@@ -18,8 +18,10 @@ export const useMapLegs = (
     (map: Map, mapLeg: MapLegType, id: number) => {
       const transportColor = transportModeToColor(
         {
-          mode: mapLeg.faded ? 'unknown' : mapLeg.transportMode,
-          subMode: mapLeg.transportSubmode,
+          transportMode: mapLeg.faded ? 'unknown' : mapLeg.transportMode,
+          transportSubModes: mapLeg.transportSubmode && [
+            mapLeg.transportSubmode,
+          ],
         },
         transport,
       );

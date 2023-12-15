@@ -3,7 +3,7 @@ import { ContrastColor, Theme } from '@atb-as/theme';
 import MonoIcon, { MonoIconProps } from '@atb/components/icon/mono-icon';
 import { useTheme } from '@atb/modules/theme';
 import { useTranslation } from '@atb/translations';
-import { isSubmodeBoat, transportModeToTranslatedString } from '../utils';
+import { isSubModeBoat, transportModeToTranslatedString } from '../utils';
 import { colorToOverrideMode } from '@atb/utils/color';
 import { Typo } from '@atb/components/typography';
 import { secondsToMinutes } from 'date-fns';
@@ -17,7 +17,10 @@ export function TransportIcons({ modes }: TransportIconsProps) {
   return (
     <div className={style.transportIcons}>
       {modes.map((mode) => (
-        <TransportIcon key={mode.mode + mode.subMode} mode={mode} />
+        <TransportIcon
+          key={mode.transportMode + mode.transportSubModes}
+          mode={mode}
+        />
       ))}
     </div>
   );
@@ -70,7 +73,7 @@ export function TransportIconWithLabel({
   let colors = useTransportationThemeColor(mode);
 
   // Walking legs should have a lighter background color in the trip pattern view.
-  if (mode.mode === 'foot') {
+  if (mode.transportMode === 'foot') {
     colors = {
       backgroundColor: staticColors.background.background_2.background,
       textColor: staticColors.background.background_2.text,
@@ -126,19 +129,19 @@ export function transportModeToColor(
   mode: TransportModeGroup,
   transport: Theme['transport'],
 ): ContrastColor {
-  switch (mode.mode) {
+  switch (mode.transportMode) {
     case 'bus':
     case 'coach':
-      if (mode.subMode === 'localBus') {
+      if (mode.transportSubModes?.includes('localBus')) {
         return transport.transport_city.primary;
       }
-      if (mode.subMode === 'airportLinkBus') {
+      if (mode.transportSubModes?.includes('airportLinkBus')) {
         return transport.transport_airport_express.primary;
       }
       return transport.transport_region.primary;
 
     case 'rail':
-      if (mode.subMode === 'airportLinkRail') {
+      if (mode.transportSubModes?.includes('airportLinkRail')) {
         return transport.transport_airport_express.primary;
       }
       return transport.transport_train.primary;
@@ -166,7 +169,7 @@ export function transportModeToColor(
 export function getTransportModeIcon(
   mode: TransportModeGroup,
 ): MonoIconProps['icon'] {
-  switch (mode.mode) {
+  switch (mode.transportMode) {
     case 'bus':
     case 'coach':
       return 'transportation/Bus';
@@ -181,7 +184,7 @@ export function getTransportModeIcon(
     case 'air':
       return 'transportation-entur/Plane';
     case 'water':
-      return isSubmodeBoat(mode.subMode)
+      return isSubModeBoat(mode.transportSubModes)
         ? 'transportation/Boat'
         : 'transportation/Ferry';
     case 'metro':
