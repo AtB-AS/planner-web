@@ -1,31 +1,31 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 import { Language, useTranslation } from '@atb/translations';
 import mapboxgl from 'mapbox-gl';
 import { getReferenceDataName } from '@atb/utils/reference-data';
 import { centroid } from '@turf/turf';
 import { type TariffZone, getTariffZones } from '@atb/modules/firebase';
+import useSWR from 'swr';
 
 export const useMapTariffZones = async (
   mapRef: React.MutableRefObject<mapboxgl.Map | undefined>,
 ) => {
   const { language } = useTranslation();
-  const [tariffZones, setTariffZones] = useState<TariffZone[]>([]);
-
-  useEffect(() => {
-    const fetchTariffZones = async () => {
-      const zones = await getTariffZones();
-      setTariffZones(zones);
-    };
-
-    fetchTariffZones();
-  }, []);
+  /**
+   * @TODO: Caching is not working as expected so we'll have to look into improving this.
+   */
+  const { data, error } = useSWR('tariffZones', getTariffZones, {
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false,
+    revalidateIfStale: false,
+  });
 
   const addTariffZonesToMap = useCallback(
     (map: mapboxgl.Map) => {
+      if (!data) return;
       if (!map.getSource('tariff-zones')) {
         map.addSource(
           'tariff-zones',
-          createTariffZonesFeatureCollection(tariffZones, language),
+          createTariffZonesFeatureCollection(data, language),
         );
       }
 
@@ -60,11 +60,11 @@ export const useMapTariffZones = async (
         });
       }
     },
-    [language, tariffZones],
+    [language, data],
   );
 
   useEffect(() => {
-    if (!mapRef || !mapRef.current || !tariffZones.length) return;
+    if (!mapRef || !mapRef.current || error) return;
     const map = mapRef.current;
 
     if (map.loaded()) {
@@ -74,7 +74,7 @@ export const useMapTariffZones = async (
     map.on('load', () => {
       addTariffZonesToMap(map);
     });
-  }, [mapRef, tariffZones, language, addTariffZonesToMap]);
+  }, [mapRef, error, language, addTariffZonesToMap]);
 };
 
 const createTariffZonesFeatureCollection = (
