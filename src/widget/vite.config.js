@@ -1,12 +1,16 @@
 import { resolve } from 'path';
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
+import { compressToEncodedURIComponent } from 'lz-string';
+
+import { version } from '../../package.json';
 
 const orgId = process.env.NEXT_PUBLIC_PLANNER_ORG_ID;
 
 if (!orgId) {
   throw new Error('Missing env NEXT_PUBLIC_PLANNER_ORG_ID');
 }
+const compressedOrgId = compressToEncodedURIComponent(orgId);
 
 export default defineConfig({
   resolve: {
@@ -24,18 +28,28 @@ export default defineConfig({
       rollupTypes: true,
     }),
   ],
+  define: {
+    'process.env': {
+      MODULE_VERSION: version,
+      COMPRESSED_ORG: compressedOrgId,
+    },
+  },
   build: {
     lib: {
       // Could also be a dictionary or array of multiple entry points
       entry: resolve(__dirname, 'widget.ts'),
       name: 'PlannerWeb',
       // the proper extensions will be added
-      fileName: 'planner-web',
+      fileName: `planner-web`,
     },
-    outDir: resolve(__dirname, '../../public/widget/'),
+    outDir: resolve(
+      __dirname,
+      `../../public/widget/${compressedOrgId}/${version}`,
+    ),
     rollupOptions: {
       output: {
         manualChunks: undefined,
+        assetFileNames: `planner-web.css`,
       },
     },
   },

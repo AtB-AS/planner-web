@@ -6,6 +6,23 @@ const nextConfig = {
   optimizeFonts: false,
   output: 'standalone',
 
+  async headers() {
+    return [
+      {
+        source: '/widget/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value:
+              process.env.NODE_ENV == 'production'
+                ? 'public, max-age=604800, stale-while-revalidate=86400'
+                : 'no-cache',
+          },
+        ],
+      },
+    ];
+  },
+
   webpack(config) {
     config.resolve.alias = {
       ...config.resolve.alias,

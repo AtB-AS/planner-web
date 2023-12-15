@@ -36,13 +36,13 @@ commitish: 'refs/heads/main'
 autolabeler:
   - label: 'C-chore'
     title:
-      - '/chore:/'
+      - '/chore/'
   - label: 'C-bug'
     title:
-      - '/fix:/'
+      - '/fix/'
   - label: 'C-feature'
     title:
-      - '/feat:/'
+      - '/feat/'
   - label: 'breaking'
     title:
-      - '/breaking-change:/'
+      - '/breaking-change/'

@@ -1,18 +1,17 @@
 import { TripPattern } from '../../../../server/journey-planner/validators';
 
 export const tripPatternFixture: TripPattern = {
-  expectedStartTime: '2023-01-01T00:00:00+01:00',
-  expectedEndTime: '2023-01-01T01:00:00+01:00',
-  duration: 3600,
+  expectedStartTime: '2023-01-01T01:00:00+01:00',
+  expectedEndTime: '2023-01-01T02:00:00+01:00',
   walkDistance: 0,
   legs: [
     {
       mode: 'bus',
       distance: 1,
       duration: 1,
-      aimedStartTime: '2023-01-01T00:00:00+01:00',
-      expectedEndTime: '2023-01-01T01:00:00+01:00',
-      expectedStartTime: '2023-01-01T00:00:00+01:00',
+      aimedStartTime: '2023-01-01T01:00:00+01:00',
+      expectedEndTime: '2023-01-01T02:00:00+01:00',
+      expectedStartTime: '2023-01-01T01:00:00+01:00',
       realtime: false,
       transportSubmode: 'regionalBus',
       line: {

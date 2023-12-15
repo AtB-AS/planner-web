@@ -61,7 +61,6 @@ export const legSchema = z.object({
 export const tripPatternSchema = z.object({
   expectedStartTime: z.string(),
   expectedEndTime: z.string(),
-  duration: z.number(),
   walkDistance: z.number(),
   legs: z.array(legSchema),
   compressedQuery: z.string(),
@@ -77,12 +76,12 @@ export const nonTransitSchema = z.object({
   mode: transportModeSchema,
   rentedBike: z.boolean(),
   duration: z.number(),
+  compressedQuery: z.string(),
 });
 
 export const tripPatternWithDetailsSchema = z.object({
   expectedStartTime: z.string(),
   expectedEndTime: z.string(),
-  duration: z.number(),
   walkDistance: z.number(),
   legs: z.array(
     z.object({
@@ -98,7 +97,7 @@ export const tripPatternWithDetailsSchema = z.object({
       line: z
         .object({
           name: z.string(),
-          publicCode: z.string(),
+          publicCode: z.string().nullable(),
         })
         .nullable(), // line is null for legs with transportMode = foot
       fromPlace: z.object({
@@ -108,7 +107,7 @@ export const tripPatternWithDetailsSchema = z.object({
         quay: z
           .object({
             name: z.string(),
-            publicCode: z.string(),
+            publicCode: z.string().nullable(),
           })
           .nullable(), // quay is null when fromPlace is a POI (e.g. address)
       }),
@@ -117,7 +116,7 @@ export const tripPatternWithDetailsSchema = z.object({
         quay: z
           .object({
             name: z.string(),
-            publicCode: z.string(),
+            publicCode: z.string().nullable(),
           })
           .nullable(), // quay is null when toPlace is a POI (e.g. address)
       }),

@@ -10,8 +10,9 @@ import { departureDataFixture } from './departure-data.fixture';
 import { StopPlace } from '../stop-place';
 import userEvent from '@testing-library/user-event';
 import { NearestStopPlaces } from '..';
-
 import { GeocoderApi } from '@atb/page-modules/departures/server/geocoder';
+import Search from '@atb/components/search/search';
+import { sortQuays } from '../server/journey-planner/utils';
 
 afterEach(function () {
   cleanup();
@@ -92,7 +93,7 @@ describe('departure page', function () {
       ...context,
     } as any);
 
-    (await expectProps(result)).toContain({
+    (await expectProps(result)).toMatchObject({
       departures: expectedDeparturesResult,
     });
   });
@@ -142,5 +143,59 @@ describe('departure page', function () {
     expect(
       output.getByText('Finner ingen holdeplasser i nærheten'),
     ).toBeInTheDocument();
+  });
+
+  it('should render Search component with expected placeholder text', () => {
+    const testPlaceholder = 'Søk fra adresse, kai eller holdeplass';
+    render(
+      <Search label="Test" placeholder={testPlaceholder} onChange={() => {}} />,
+    );
+
+    const inputElement = screen.getByPlaceholderText(testPlaceholder);
+    expect(inputElement).toBeInTheDocument();
+  });
+
+  it('should sort quays by public code and departures', () => {
+    const quays = [
+      {
+        ...departureDataFixture.quays[0],
+        publicCode: 'B2',
+      },
+      {
+        ...departureDataFixture.quays[0],
+        publicCode: 'B1',
+      },
+      {
+        ...departureDataFixture.quays[0],
+        publicCode: null,
+      },
+      {
+        ...departureDataFixture.quays[0],
+        publicCode: '1',
+      },
+      {
+        ...departureDataFixture.quays[0],
+        publicCode: '2',
+        departures: [],
+      },
+      {
+        ...departureDataFixture.quays[0],
+        publicCode: 'A1',
+      },
+      {
+        ...departureDataFixture.quays[0],
+        publicCode: '0',
+      },
+    ];
+
+    quays.sort(sortQuays);
+
+    expect(quays[0].publicCode).toBe('0');
+    expect(quays[1].publicCode).toBe('1');
+    expect(quays[2].publicCode).toBe('A1');
+    expect(quays[3].publicCode).toBe('B1');
+    expect(quays[4].publicCode).toBe('B2');
+    expect(quays[5].publicCode).toBe(null);
+    expect(quays[6].publicCode).toBe('2');
   });
 });

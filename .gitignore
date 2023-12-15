@@ -28,6 +28,8 @@ yarn-error.log*
 
 # local env files
 .env*.local
+.env.atb
+.env.fram
 
 # vercel
 .vercel
@@ -45,5 +47,3 @@ src/components/icon/generated-icons.ts
 *.generated.ts
 
 
-
-public/widget

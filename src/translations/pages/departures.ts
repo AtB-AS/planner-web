@@ -11,6 +11,11 @@ export const Departures = {
         'Kor vil du reise frå?',
       ),
       from: _('Fra', 'From', 'Frå'),
+      placeholder: _(
+        'adresse, kai eller holdeplass',
+        'address, pier or bus stop',
+        'adresse, kai eller haldeplass',
+      ),
     },
     date: {
       label: _(

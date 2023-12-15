@@ -13,9 +13,8 @@ import { usePageTitle } from '@atb/layouts/shared/utils';
 
 export type BaseLayoutProps = PropsWithChildren<{
   title?: TranslatedString;
-  withoutMenu?: boolean;
 }>;
-export function BaseLayout({ children, title, withoutMenu }: BaseLayoutProps) {
+export function BaseLayout({ children, title }: BaseLayoutProps) {
   useHtmlDarkMode();
   const theme = useTheme();
   const { t } = useTranslation();
@@ -37,7 +36,7 @@ export function BaseLayout({ children, title, withoutMenu }: BaseLayoutProps) {
         />
       </Head>
 
-      <PageHeader withoutMenu={withoutMenu} />
+      <PageHeader />
 
       <main className={style.main}>{children}</main>
 

@@ -1,13 +1,14 @@
 import { TransportModeGroup, TransportSubmodeType } from '../types';
-
 import { ContrastColor, Theme } from '@atb-as/theme';
 import MonoIcon, { MonoIconProps } from '@atb/components/icon/mono-icon';
 import { useTheme } from '@atb/modules/theme';
-
 import { useTranslation } from '@atb/translations';
-import { transportModeToTranslatedString } from '../utils';
-import style from './icon.module.css';
+import { isSubmodeBoat, transportModeToTranslatedString } from '../utils';
 import { colorToOverrideMode } from '@atb/utils/color';
+import { Typo } from '@atb/components/typography';
+import { secondsToMinutes } from 'date-fns';
+
+import style from './icon.module.css';
 
 export type TransportIconsProps = {
   modes: TransportModeGroup[];
@@ -55,27 +56,57 @@ export function TransportMonoIcon({ mode }: TransportIconProps) {
 
 export type TransportIconWithLabelProps = {
   mode: TransportModeGroup;
-  label?: string | null;
+  label?: string;
+  duration?: number;
 };
 
 export function TransportIconWithLabel({
   mode,
   label,
+  duration,
 }: TransportIconWithLabelProps) {
   const { t } = useTranslation();
-  const { backgroundColor, overrideMode } = useTransportationThemeColor(mode);
+  const { static: staticColors } = useTheme();
+  let colors = useTransportationThemeColor(mode);
+
+  // Walking legs should have a lighter background color in the trip pattern view.
+  if (mode.mode === 'foot') {
+    colors = {
+      backgroundColor: staticColors.background.background_2.background,
+      textColor: staticColors.background.background_2.text,
+      overrideMode: colorToOverrideMode(
+        staticColors.background.background_2.text,
+      ),
+    };
+  }
+
   return (
-    <span className={style.transportIconWithLabel} style={{ backgroundColor }}>
+    <span
+      className={style.transportIconWithLabel}
+      style={{ backgroundColor: colors.backgroundColor }}
+    >
       <MonoIcon
         icon={getTransportModeIcon(mode)}
         role="img"
         alt={t(transportModeToTranslatedString(mode))}
-        overrideMode={overrideMode}
+        overrideMode={colors.overrideMode}
       />
       {label && (
-        <span style={{ color: overrideMode === 'light' ? 'black' : 'white' }}>
+        <span
+          style={{ color: colors.textColor }}
+          className={style.transportIconWithLabel__label}
+        >
           {label}
         </span>
+      )}
+      {!label && duration && (
+        <Typo.span
+          textType="body__tertiary"
+          style={{ color: colors.textColor }}
+          className={style.transportIconWithLabel__duration}
+        >
+          {Math.max(secondsToMinutes(duration), 1)}
+        </Typo.span>
       )}
     </span>
   );
@@ -90,14 +121,6 @@ export function useTransportationThemeColor(mode: TransportModeGroup) {
     overrideMode: colorToOverrideMode(color.text),
   };
 }
-
-const TRANSPORT_SUB_MODES_BOAT: TransportSubmodeType[] = [
-  'highSpeedPassengerService',
-  'highSpeedVehicleService',
-  'nationalPassengerFerry',
-  'localPassengerFerry',
-  'sightseeingService',
-];
 
 export function transportModeToColor(
   mode: TransportModeGroup,
@@ -158,7 +181,7 @@ export function getTransportModeIcon(
     case 'air':
       return 'transportation-entur/Plane';
     case 'water':
-      return mode.subMode && TRANSPORT_SUB_MODES_BOAT.includes(mode.subMode)
+      return isSubmodeBoat(mode.subMode)
         ? 'transportation/Boat'
         : 'transportation/Ferry';
     case 'metro':

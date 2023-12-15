@@ -13,11 +13,20 @@
 .transportIconWithLabel {
   display: flex;
   align-items: center;
-  gap: var(--spacings-xSmall);
   padding: var(--spacings-small) var(--spacings-medium);
 }
 
 .transportIcon img,
 .transportIconWithLabel img {
   display: block;
+}
+
+.transportIconWithLabel__label {
+  margin-left: var(--spacings-xSmall);
+}
+
+.transportIconWithLabel__duration {
+  align-self: flex-end;
+  transform: translateY(25%);
+  margin-left: -0.125rem;
 }

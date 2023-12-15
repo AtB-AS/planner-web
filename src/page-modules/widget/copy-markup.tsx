@@ -2,12 +2,19 @@ import Image from 'next/image';
 import { useState } from 'react';
 import copyIcon from './copy.svg';
 
-import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
+import {
+  SyntaxHighlighterProps,
+  PrismLight as SyntaxHighlighterTemp,
+} from 'react-syntax-highlighter';
 import markup from 'react-syntax-highlighter/dist/cjs/languages/prism/markup';
 import dark from 'react-syntax-highlighter/dist/cjs/styles/prism/dracula';
-SyntaxHighlighter.registerLanguage('markup', markup);
+SyntaxHighlighterTemp.registerLanguage('markup', markup);
 
 import style from './widget.module.css';
+import React from 'react';
+
+const SyntaxHighlighter =
+  SyntaxHighlighterTemp as typeof React.Component<SyntaxHighlighterProps>;
 
 export type CopyMarkupProps = { content: string };
 export function CopyMarkup({ content }: CopyMarkupProps) {
@@ -15,7 +22,7 @@ export function CopyMarkup({ content }: CopyMarkupProps) {
     <div className={style.copyContainer}>
       <CopyButton text={content} />
 
-      <SyntaxHighlighter language="markup" style={dark}>
+      <SyntaxHighlighter language="markup" wrapLines wrapLongLines style={dark}>
         {content}
       </SyntaxHighlighter>
     </div>

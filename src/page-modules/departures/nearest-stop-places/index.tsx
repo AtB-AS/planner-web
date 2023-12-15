@@ -100,7 +100,9 @@ export default function StopPlaceItem({ item }: StopPlaceItemProps) {
         {item.stopPlace.situations.length > 0 && (
           <SituationOrNoticeIcon situations={item.stopPlace.situations} />
         )}
-        <VenueIcon category={[FeatureCategory.BUS_STATION]} size="large" />
+        {item.stopPlace.transportMode?.map((mode) => (
+          <VenueIcon key={item.stopPlace.id} categories={[mode]} size="large" />
+        ))}
       </div>
     </Link>
   );

@@ -1,0 +1,27 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  grid-column: span 2;
+  border-bottom: 1px solid var(--static-background-background_accent_0-text);
+  gap: var(--spacings-large);
+}
+
+.href {
+  text-decoration: none;
+  position: relative;
+  padding-bottom: var(--spacings-medium);
+  color: var(--static-background-background_accent_0-text);
+}
+
+.href:hover {
+  color: var(--static-background-background_accent_1-text);
+}
+
+.underline {
+  position: absolute;
+  left: 0;
+  bottom: 0px;
+  width: 100%;
+  padding-bottom: var(--spacings-medium);
+  border-bottom: 3px solid var(--static-background-background_accent_0-text);
+}

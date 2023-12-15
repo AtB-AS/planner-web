@@ -65,7 +65,8 @@
   width: 100%;
   max-width: var(--maxPageWidth);
   margin: 0 auto;
-  padding: 0 var(--spacings-xLarge) var(--spacings-xLarge) var(--spacings-xLarge);
+  padding: 0 var(--spacings-xLarge) var(--spacings-xLarge)
+    var(--spacings-xLarge);
   z-index: 10;
   position: absolute;
   left: 0;
@@ -93,7 +94,8 @@
   }
 
   .main {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
     padding-bottom: var(--spacings-xLarge) !important;
   }
 

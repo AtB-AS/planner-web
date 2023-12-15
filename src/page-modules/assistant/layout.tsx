@@ -19,6 +19,7 @@ import { FormEventHandler, PropsWithChildren, useState } from 'react';
 import style from './assistant.module.css';
 import { FromToTripQuery } from './types';
 import { createTripQuery } from './utils';
+import { TabLink } from '@atb/components/tab-link';
 
 export type AssistantLayoutProps = PropsWithChildren<{
   tripQuery: FromToTripQuery;
@@ -81,13 +82,15 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
           transition={{ duration: 0.25, ease: [0.04, 0.62, 0.23, 0.98] }}
           className={style.main}
         >
+          <TabLink activePath="/assistant" />
+
           <div className={style.input}>
             <Typo.p textType="body__primary--bold" className={style.heading}>
               {t(PageText.Assistant.search.input.label)}
             </Typo.p>
-
             <Search
               label={t(PageText.Assistant.search.input.from)}
+              placeholder={t(PageText.Assistant.search.input.placeholder)}
               onChange={onFromSelected}
               selectedItem={tripQuery.from ?? undefined}
               button={
@@ -100,6 +103,7 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
             />
             <Search
               label={t(PageText.Assistant.search.input.to)}
+              placeholder={t(PageText.Assistant.search.input.placeholder)}
               onChange={onToSelected}
               selectedItem={tripQuery.to ?? undefined}
               button={
@@ -111,7 +115,6 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
               }
             />
           </div>
-
           <div className={style.date}>
             <Typo.p textType="body__primary--bold" className={style.heading}>
               {t(PageText.Assistant.search.date.label)}
@@ -122,14 +125,12 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
               onChange={setSearchTime}
             />
           </div>
-
           {geolocationError !== null && (
             <div className={style.spanColumns}>
               <MessageBox type="warning" message={geolocationError} />
             </div>
           )}
         </motion.div>
-
         <AnimatePresence initial={false}>
           {showAlternatives && (
             <FocusScope contain={false} autoFocus={showAlternatives}>
@@ -165,7 +166,6 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
             </FocusScope>
           )}
         </AnimatePresence>
-
         <div className={style.buttons}>
           <Button
             title={
@@ -202,5 +202,4 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
     </div>
   );
 }
-
 export default AssistantLayout;

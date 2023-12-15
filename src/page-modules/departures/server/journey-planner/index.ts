@@ -49,6 +49,7 @@ import {
 import { formatISO } from 'date-fns';
 import { Situation } from '@atb/modules/situations';
 import { mapToMapLegs } from '@atb/components/map';
+import { sortQuays } from './utils';
 
 export type DepartureInput = {
   id: string;
@@ -166,6 +167,8 @@ export function createJourneyApi(
         throw validated.error;
       }
 
+      validated.data.quays.sort(sortQuays);
+
       return validated.data;
     },
 
@@ -248,6 +251,9 @@ export function createJourneyApi(
               },
               situations: mapAndFilterDuplicateGraphQlSituations(
                 situations as GraphQlSituation[],
+              ),
+              transportMode: filterGraphQlTransportModes(
+                edge.node?.place.transportMode,
               ),
             },
             distance: edge.node.distance,

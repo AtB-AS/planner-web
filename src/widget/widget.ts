@@ -17,6 +17,9 @@ type SettingConstants = {
 
 const html = String.raw;
 
+const MODULE_VERSION = process.env.MODULE_VERSION;
+const COMPRESSED_ORG = process.env.COMPRESSED_ORG;
+
 function createSettingsConstants(urlBase: string) {
   if (!urlBase?.startsWith('http')) {
     throw new Error('Missing urlBase in correct schema.');
@@ -28,9 +31,9 @@ function createSettingsConstants(urlBase: string) {
 
   return {
     URL_BASE: urlBase,
-    URL_JS_UMD: `${urlBase}widget/planner-web.umd.js`,
-    URL_JS_ESM: `${urlBase}widget/planner-web.mjs`,
-    URL_CSS: `${urlBase}widget/style.css`,
+    URL_JS_UMD: `${urlBase}widget/${COMPRESSED_ORG}/${MODULE_VERSION}/planner-web.umd.js`,
+    URL_JS_ESM: `${urlBase}widget/${COMPRESSED_ORG}/${MODULE_VERSION}/planner-web.mjs`,
+    URL_CSS: `${urlBase}widget/${COMPRESSED_ORG}/${MODULE_VERSION}/planner-web.css`,
   };
 }
 
@@ -157,6 +160,40 @@ function submitDeparture(form: HTMLFormElement, from: GeocoderFeature) {
   window.location.href = `${url}?${params.toString()}`;
 }
 
+type ErrorMessage = {
+  message: string;
+};
+class MessageBox extends HTMLElement {
+  constructor() {
+    super();
+  }
+
+  connectedCallback() {
+    const self = this;
+    self.hidden = true;
+    self.classList.add(style.messageBox);
+    document.addEventListener('pw-errorMessage', function (event) {
+      const data = event as CustomEvent<ErrorMessage>;
+      self.textContent = data.detail.message;
+      self.hidden = false;
+    });
+    document.addEventListener('pw-errorMessage-clear', function (event) {
+      self.hidden = true;
+    });
+    self.addEventListener('click', function () {
+      MessageBox.clearMessageBox();
+    });
+  }
+
+  static clearMessageBox() {
+    document.dispatchEvent(
+      new CustomEvent('pw-errorMessage-clear', {
+        bubbles: true,
+      }),
+    );
+  }
+}
+
 function createOutput({ URL_BASE }: SettingConstants) {
   function searchItem(item: GeocoderFeature) {
     const img = venueIcon(item);
@@ -165,6 +202,12 @@ function createOutput({ URL_BASE }: SettingConstants) {
     const li = el('li', [img, title, locality], style.listItem);
     li.role = 'option';
     li.setAttribute('data-feature-id', item.id);
+    return li;
+  }
+
+  function messageItem(text: string) {
+    const title = el('span', [text]);
+    const li = el('li', [title], style.listItem);
     return li;
   }
 
@@ -180,6 +223,55 @@ function createOutput({ URL_BASE }: SettingConstants) {
     div.ariaHidden = 'true';
     return div;
   }
+
+  class GeoLocationButton extends HTMLElement {
+    constructor() {
+      super();
+    }
+
+    connectedCallback() {
+      const self = this;
+      const mode = self.getAttribute('data-mode') ?? 'assistant';
+      const button = this.querySelector('button')!;
+
+      button.addEventListener('click', async (event) => {
+        MessageBox.clearMessageBox();
+
+        try {
+          const item = await getGeolocation();
+          const input = self.parentElement?.querySelector('input');
+          if (input) {
+            input.value = item ? `${item.name}, ${item.locality}` : input.value;
+          }
+
+          document.dispatchEvent(
+            new CustomEvent('search-selected', {
+              bubbles: true,
+              detail: {
+                mode,
+                key: 'from',
+                item,
+              },
+            }),
+          );
+        } catch (e) {
+          if (e instanceof Error) {
+            document.dispatchEvent(
+              new CustomEvent<ErrorMessage>('pw-errorMessage', {
+                bubbles: true,
+                detail: {
+                  message: e.message,
+                },
+              }),
+            );
+          }
+        }
+      });
+    }
+  }
+  customElements.define('pw-geobutton', GeoLocationButton);
+
+  customElements.define('pw-messagebox', MessageBox);
 
   class AutocompleteBox extends HTMLElement {
     private dataList: Record<string, GeocoderFeature> = {};
@@ -227,17 +319,35 @@ function createOutput({ URL_BASE }: SettingConstants) {
         list.hidden = !show;
       }
 
-      const fetcher = debounce(async (el: HTMLInputElement) => {
-        const data = await autocomplete(el.value);
-
-        self.setItems(data);
+      function showEmpty() {
+        self.setItems([]);
         list.innerHTML = '';
-        for (let item of data) {
-          const li = searchItem(item);
-          list.appendChild(li);
-        }
-
+        const li = messageItem('Ingen resultater');
+        list.appendChild(li);
         toggleList(true);
+      }
+
+      const fetcher = debounce(async (input: HTMLInputElement) => {
+        try {
+          if (!input.value) {
+            list.innerHTML = '';
+            return;
+          }
+          const data = await autocomplete(input.value);
+          if (data.length === 0) {
+            return showEmpty();
+          }
+
+          self.setItems(data);
+          list.innerHTML = '';
+          for (let item of data) {
+            const li = searchItem(item);
+            list.appendChild(li);
+          }
+          toggleList(true);
+        } catch (e) {
+          showEmpty();
+        }
       }, debounceTime);
       input.addEventListener('keydown', (event) => {
         if (event.key === 'Escape') {
@@ -407,6 +517,7 @@ function createOutput({ URL_BASE }: SettingConstants) {
                   id="pw-from-1-input"
                   name="from"
                   value=""
+                  placeholder="adresse, kai eller holdeplass"
                 />
                 <ul
                   id="from-popup-1"
@@ -417,21 +528,24 @@ function createOutput({ URL_BASE }: SettingConstants) {
                 ></ul>
               </pw-autocomplete>
             </div>
-            <button
-              class="${style.button_geolocation}"
-              title="Finn min posisjon"
-              aria-label="Finn min posisjon"
-              type="button"
-            >
-              <img
-                src="${URL_BASE}/assets/mono/light/places/City.svg"
-                width="20"
-                height="20"
-                role="none"
-                alt=""
-              />
-            </button>
+            <pw-geobutton mode="assistant">
+              <button
+                class="${style.button_geolocation}"
+                title="Finn min posisjon"
+                aria-label="Finn min posisjon"
+                type="button"
+              >
+                <img
+                  src="${URL_BASE}/assets/mono/light/places/City.svg"
+                  width="20"
+                  height="20"
+                  role="none"
+                  alt=""
+                />
+              </button>
+            </pw-geobutton>
           </div>
+          <pw-messagebox></pw-messagebox>
           <div class="${style.search_container}">
             <label
               class="${style.search_label}"
@@ -456,6 +570,7 @@ function createOutput({ URL_BASE }: SettingConstants) {
                   id="pw-to-1-input"
                   name="to"
                   value=""
+                  placeholder="adresse, kai eller holdeplass"
                 />
                 <ul
                   id="to-popup-1"
@@ -502,11 +617,12 @@ function createOutput({ URL_BASE }: SettingConstants) {
                 <input
                   class="${style.search_input}"
                   aria-autocomplete="list"
-                  aria-labelledby="pw-from-1-label"
+                  aria-labelledby="pw-from-2-label"
                   autocomplete="off"
                   name="from"
                   id="pw-from-2-input"
                   value=""
+                  placeholder="adresse, kai eller holdeplass"
                 />
                 <ul
                   id="to-popup-2"
@@ -517,21 +633,24 @@ function createOutput({ URL_BASE }: SettingConstants) {
                 ></ul>
               </pw-autocomplete>
             </div>
-            <button
-              class="${style.button_geolocation}"
-              title="Finn min posisjon"
-              aria-label="Finn min posisjon"
-              type="button"
-            >
-              <img
-                src="${URL_BASE}/assets/mono/light/places/City.svg"
-                width="20"
-                height="20"
-                role="none"
-                alt=""
-              />
-            </button>
+            <pw-geobutton mode="departure">
+              <button
+                class="${style.button_geolocation}"
+                title="Finn min posisjon"
+                aria-label="Finn min posisjon"
+                type="button"
+              >
+                <img
+                  src="${URL_BASE}/assets/mono/light/places/City.svg"
+                  width="20"
+                  height="20"
+                  role="none"
+                  alt=""
+                />
+              </button>
+            </pw-geobutton>
           </div>
+          <pw-messagebox></pw-messagebox>
         </div>
         ${searchTime('pw-departure', false)}
       </div>
@@ -540,7 +659,7 @@ function createOutput({ URL_BASE }: SettingConstants) {
   `;
 
   const output = html`
-    <div class="${style.wrapper}">
+    <div class="${style.wrapper} ${style.lightWrapper}">
       <nav class="${style.nav}">
         <ul class="${style.tabs} js-tablist">
           <li>
@@ -582,6 +701,8 @@ function tabBar() {
       const tabpanel = document.querySelector('#pw-' + mode);
       if (!tabpanel) return;
 
+      MessageBox.clearMessageBox();
+
       // Hide all tabpanels
       document.querySelectorAll('.js-tabpanel').forEach((panel) => {
         panel.classList.add(style.hidden);
@@ -592,18 +713,6 @@ function tabBar() {
       tabpanel.classList.remove(style.hidden);
       tab.classList.add(style.tabSelected);
     });
-}
-
-async function autocomplete(q: string) {
-  const url = `/api/departures/autocomplete?q=${q}`;
-  const result = await fetch(url);
-
-  if (!result.ok) {
-    throw new Error(`Error fetching autocomplete data from ${url}`);
-  }
-
-  const data = (await result.json()) as AutocompleteApiReturnType;
-  return data;
 }
 
 function debounce(func: Function, wait: number) {
@@ -789,4 +898,62 @@ function createTripQueryForDeparture(
     lon: from.geometry.coordinates[0].toString(),
     lat: from.geometry.coordinates[1].toString(),
   };
+}
+
+async function autocomplete(q: string) {
+  const url = `/api/departures/autocomplete?q=${q}`;
+  const result = await fetch(url);
+
+  if (!result.ok) {
+    throw new Error(`Error fetching autocomplete data from ${url}`);
+  }
+
+  const data = (await result.json()) as AutocompleteApiReturnType;
+  return data;
+}
+
+export async function reverse(coords: GeolocationCoordinates) {
+  const result = await fetch(
+    `/api/departures/reverse?lat=${coords.latitude}&lon=${coords.longitude}`,
+  );
+
+  const data = await result.json();
+  if (!data) {
+    return undefined;
+  }
+  return data as GeocoderFeature;
+}
+
+async function getGeolocation(): Promise<GeocoderFeature | undefined> {
+  return new Promise(function (resolve, reject) {
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const reversedPosition = await reverse(position.coords);
+        resolve(reversedPosition);
+      },
+      (error) => {
+        reject(new Error(getErrorMessage(error.code)));
+      },
+      { enableHighAccuracy: true, timeout: 10000 },
+    );
+  });
+}
+
+const geoTexts = {
+  denied:
+    'Du må endre stedsinnstillinger i nettleseren din for å bruke din posisjon i reisesøket.',
+  unavailable: 'Posisjonen din er ikke tilgjengelig.',
+  timeout: 'Det tok for lang tid å hente posisjonen din. Prøv på nytt.',
+};
+
+function getErrorMessage(code: number) {
+  switch (code) {
+    case GeolocationPositionError.PERMISSION_DENIED:
+      return geoTexts.denied;
+    case GeolocationPositionError.TIMEOUT:
+      return geoTexts.timeout;
+    case GeolocationPositionError.POSITION_UNAVAILABLE:
+    default:
+      return geoTexts.unavailable;
+  }
 }

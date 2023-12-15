@@ -21,6 +21,8 @@ vi.stubEnv('NEXT_PUBLIC_FIREBASE_APP_ID', 'aaaaaaaaaaaaaaaaaaaaaaa');
 vi.mock('mapbox-gl/dist/mapbox-gl.js', () => {
   return {
     default: {
+      // Mark mapbox as not supported in test env.
+      supported: () => false,
       Map: class Map {
         setCenter() {}
         remove() {}

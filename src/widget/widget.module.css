@@ -1,4 +1,4 @@
-@value override-light from '@atb/theme/theme.module.css';
+@value override-light, light from '@atb/theme/theme.module.css';
 
 @value assistant: "../page-modules/assistant/assistant.module.css";
 @value departures: "../page-modules/departures/departures.module.css";
@@ -22,35 +22,51 @@
   display: none;
 }
 
+.lightWrapper {
+  composes: light;
+}
 .wrapper {
   composes: override-light;
   background-color: var(--static-background-background_accent_0-background);
+  box-sizing: border-box;
+}
+.wrapper * {
+  box-sizing: border-box;
 }
 .form {
   composes: container from assistant;
 }
 
 .nav {
+  padding: 0;
+  margin: 0;
+  padding: var(--spacings-xLarge) var(--spacings-xLarge) 0;
 }
 
 .tabs {
   list-style-type: none;
   display: flex;
+  list-style-position: inside;
+  padding: 0;
+  margin: 0;
   gap: var(--spacings-xLarge);
-  padding: var(--spacings-xLarge);
-  padding-bottom: 0;
-  color: var(--interactive-interactive_0-default-text, #fff);
+  color: var(--static-background-background_accent_0-text);
+  border-bottom: 1px solid var(--static-background-background_accent_0-text);
 }
 
 .tabs a {
-  color: var(--interactive-interactive_0-default-text, #fff);
+  text-decoration: none;
+  display: block;
+  padding-bottom: var(--spacings-medium);
+  color: var(--static-background-background_accent_0-text);
+  box-sizing: border-box;
 }
 .tabSelected {
   text-decoration: none;
-  opacity: 0.8;
+  border-bottom: 3px solid var(--static-background-background_accent_0-text);
 }
 .tabs a:hover {
-  color: currentColor;
+  color: var(--static-background-background_accent_1-text);
 }
 .tabs a:active {
   color: var(--interactive-interactive_0-active-text);
@@ -58,7 +74,7 @@
 
 .main {
   composes: main from assistant;
-  padding-bottom: 5.75rem;
+  padding-bottom: 2.75rem;
 }
 .heading {
   composes: heading from assistant;
@@ -156,7 +172,9 @@
 }
 
 .buttonGroup {
-  composes: buttons from departures;
+  display: flex;
+  justify-content: end;
+  padding: 0 var(--spacings-xLarge) var(--spacings-xLarge);
 }
 
 .button {
@@ -243,4 +261,18 @@
 .popupContainer {
   composes: menu from search;
   left: 0;
+  list-style-position: inside;
+  padding: 0;
+  margin: 0;
+}
+
+.messageBox {
+  background: var(--static-status-error-background);
+  color: var(--static-status-error-text);
+  display: flex;
+  padding: var(--spacings-medium);
+  border-radius: var(--border-radius-regular);
+}
+.messageBox[hidden] {
+  display: none;
 }

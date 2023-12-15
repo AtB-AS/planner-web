@@ -8,6 +8,7 @@ import { GeocoderFeature } from '@atb/page-modules/departures';
 
 type SearchProps = {
   label: string;
+  placeholder: string;
   onChange: (selection: any) => void;
   button?: ReactNode;
   initialFeature?: GeocoderFeature;
@@ -17,6 +18,7 @@ type SearchProps = {
 
 export default function Search({
   label,
+  placeholder,
   onChange,
   button,
   initialFeature,
@@ -52,7 +54,11 @@ export default function Search({
             className={style.inputContainer}
             {...getRootProps({}, { suppressRefError: true })}
           >
-            <input className={style.input} {...getInputProps()} />
+            <input
+              className={style.input}
+              placeholder={placeholder}
+              {...getInputProps()}
+            />
           </div>
 
           {button ?? null}
@@ -72,7 +78,7 @@ export default function Search({
                   })}
                 >
                   <div className={style.itemIcon} aria-hidden>
-                    <VenueIcon category={item.category} />
+                    <VenueIcon categories={item.category} />
                   </div>
                   <span className={style.itemName}>
                     {highlightSearchText(inputValue, item.name).map(
