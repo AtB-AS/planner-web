@@ -11,7 +11,6 @@ export default handlerWithDepartureClient<EstimatedCallsApiReturnType>({
       .object({
         quayId: z.string(),
         startTime: z.string(),
-        transportModes: z.string().optional(),
       })
       .safeParse(req.query);
 
