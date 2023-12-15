@@ -32,14 +32,14 @@ export function MapHeader({
               <MonoIcon size="large" icon="map/Pin" overrideMode="dark" />
             </div>
           ) : (
-            transportModes.map((mode) => (
-              <div key={`${mode}-icon`}>
+            transportModes.map((transportMode) => (
+              <div key={`${transportMode}-icon`}>
                 <MonoIcon
                   size="large"
                   overrideMode="dark"
-                  icon={getTransportModeIcon({ mode })}
+                  icon={getTransportModeIcon({ transportMode })}
                   role="img"
-                  alt={t(transportModeToTranslatedString({ mode }))}
+                  alt={t(transportModeToTranslatedString({ transportMode }))}
                 />
               </div>
             ))

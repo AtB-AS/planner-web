@@ -4,7 +4,7 @@ import {
   TransportModeFilterOptionType,
   TransportModeFilterState,
 } from './types';
-import { TransportModeType } from '../types';
+import type { TransportModeGroup } from '../types';
 
 const transportModeFilterOptions: TransportModeFilterOption[] = [
   'bus',
@@ -58,20 +58,18 @@ export function parseFilterQuery(
 
 export function getAllTransportModesFromFilterOptions(
   filterOptions: TransportModeFilterOption[] | null,
-): TransportModeType[] {
+): TransportModeGroup[] {
   if (!filterOptions)
-    return Object.values(filterOptionsWithTransportModes).flatMap((option) =>
-      option.modes.map((mode) => mode.transportMode),
+    return Object.values(filterOptionsWithTransportModes).flatMap(
+      (option) => option.modes,
     );
 
-  const transportModes: TransportModeType[] = [];
+  const transportModes: TransportModeGroup[] = [];
 
   filterOptions.forEach((filterOption) => {
     const option = filterOptionsWithTransportModes[filterOption];
 
-    const optionTransportModes = option.modes.map((mode) => mode.transportMode);
-
-    transportModes.push(...optionTransportModes);
+    transportModes.push(...option.modes);
   });
 
   return uniq(transportModes);

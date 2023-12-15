@@ -32,7 +32,7 @@ export function NonTransitTrip({ nonTransit }: NonTransitTripProps) {
       href={`/assistant/${nonTransit.compressedQuery}`}
       title={`${modeText} ${durationShort}`}
       icon={{
-        left: <TransportMonoIcon mode={{ mode }} />,
+        left: <TransportMonoIcon mode={{ transportMode: mode }} />,
         right: <MonoIcon icon="navigation/ArrowRight" />,
       }}
     />

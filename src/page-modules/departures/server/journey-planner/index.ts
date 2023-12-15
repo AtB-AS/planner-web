@@ -34,10 +34,8 @@ import {
   ServiceJourneyData,
   serviceJourneySchema,
 } from './validators';
-import { TransportMode as GraphQlTransportMode } from '@atb/modules/graphql-types';
 import { PtSituationElement as GraphQlSituation } from '@atb/modules/graphql-types';
 import {
-  type TransportModeType,
   isTransportModeType,
   filterGraphQlTransportModes,
 } from '@atb/modules/transport-mode';
@@ -54,7 +52,6 @@ import { sortQuays } from './utils';
 export type DepartureInput = {
   id: string;
   date: number | null;
-  transportModes: TransportModeType[] | null;
 };
 export type { DepartureData, Quay, Departure };
 
@@ -65,13 +62,11 @@ export type StopPlaceInput = {
 export type NearestStopPlacesInput = {
   lat: number;
   lon: number;
-  transportModes: TransportModeType[] | null;
 };
 
 export type EstimatedCallsInput = {
   quayId: string;
   startTime: string;
-  transportModes: TransportModeType[] | null;
 };
 
 export type ServiceJourneyInput = {
@@ -108,8 +103,6 @@ export function createJourneyApi(
             ? new Date(input.date).toISOString()
             : new Date().toISOString(),
           numberOfDepartures: 10,
-          transportModes:
-            (input.transportModes as GraphQlTransportMode[]) ?? null,
         },
       });
 
@@ -215,8 +208,6 @@ export function createJourneyApi(
         variables: {
           // Max distance in meters
           distance: 900,
-          transportModes:
-            (input.transportModes as GraphQlTransportMode[]) ?? null,
 
           latitude: input.lat,
           longitude: input.lon,
@@ -279,8 +270,6 @@ export function createJourneyApi(
           id: input.quayId,
           numberOfDepartures: 6,
           startTime: new Date(input.startTime),
-          transportModes:
-            (input.transportModes as GraphQlTransportMode[]) ?? null,
         },
       });
 
@@ -421,8 +410,8 @@ type RecursivePartial<T> = {
   [P in keyof T]?: T[P] extends (infer U)[]
     ? RecursivePartial<U>[]
     : T[P] extends object | undefined
-    ? RecursivePartial<T[P]>
-    : T[P];
+      ? RecursivePartial<T[P]>
+      : T[P];
 };
 
 const mapAndFilterDuplicateGraphQlSituations = (

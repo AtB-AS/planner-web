@@ -48,7 +48,7 @@ export const tripSummary = (
         PageText.Assistant.trip.tripSummary.header.title(
           t(
             transportModeToTranslatedString({
-              mode: tripPattern.legs[0].mode ?? 'unknown',
+              transportMode: tripPattern.legs[0].mode ?? 'unknown',
             }),
           ),
           quayName,
@@ -72,7 +72,7 @@ export const tripSummary = (
   const modeAndNumberText = firstLeg
     ? t(
         transportModeToTranslatedString({
-          mode: firstLeg.mode ?? 'unknown',
+          transportMode: firstLeg.mode ?? 'unknown',
         }),
       ) +
       (firstLeg.line?.publicCode
@@ -110,20 +110,20 @@ export const tripSummary = (
           .footLegsOnly,
       )
     : nonFootLegs.length === 1
-    ? t(
-        PageText.Assistant.trip.tripSummary.journeySummary.legsDescription
-          .noSwitching,
-      )
-    : nonFootLegs.length === 2
-    ? t(
-        PageText.Assistant.trip.tripSummary.journeySummary.legsDescription
-          .oneSwitch,
-      )
-    : t(
-        PageText.Assistant.trip.tripSummary.journeySummary.legsDescription.someSwitches(
-          nonFootLegs.length - 1,
-        ),
-      );
+      ? t(
+          PageText.Assistant.trip.tripSummary.journeySummary.legsDescription
+            .noSwitching,
+        )
+      : nonFootLegs.length === 2
+        ? t(
+            PageText.Assistant.trip.tripSummary.journeySummary.legsDescription
+              .oneSwitch,
+          )
+        : t(
+            PageText.Assistant.trip.tripSummary.journeySummary.legsDescription.someSwitches(
+              nonFootLegs.length - 1,
+            ),
+          );
 
   const walkDistance = tripPattern.legs
     .filter((l) => l.mode === 'foot')

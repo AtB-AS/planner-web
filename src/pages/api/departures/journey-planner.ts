@@ -4,10 +4,6 @@ import { handlerWithDepartureClient } from '@atb/page-modules/departures/server'
 import { ServerText } from '@atb/translations';
 import { constants } from 'http2';
 import { z } from 'zod';
-import {
-  getAllTransportModesFromFilterOptions,
-  parseFilterQuery,
-} from '@atb/modules/transport-mode';
 
 export default handlerWithDepartureClient<EstimatedCallsApiReturnType>({
   async GET(req, res, { client, ok }) {
@@ -32,9 +28,6 @@ export default handlerWithDepartureClient<EstimatedCallsApiReturnType>({
         await client.estimatedCalls({
           quayId: query.data.quayId,
           startTime: query.data.startTime,
-          transportModes: getAllTransportModesFromFilterOptions(
-            parseFilterQuery(query.data.transportModes),
-          ),
         }),
       );
     });

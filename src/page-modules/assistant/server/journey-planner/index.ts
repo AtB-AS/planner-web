@@ -1,7 +1,7 @@
 import { GraphQlRequester } from '@atb/modules/api-server';
 import {
   StreetMode,
-  TransportMode as GraphQlTransportMode,
+  TransportModes as GraphQlTransportModes,
   Notice as GraphQlNotice,
 } from '@atb/modules/graphql-types';
 import {
@@ -146,10 +146,7 @@ export function createJourneyApi(
         // Show specific non-transit suggestions through separate API call
         directMode: undefined,
         egressMode: StreetMode.Foot,
-        transportModes:
-          input.transportModes?.map((mode) => ({
-            transportMode: mode as GraphQlTransportMode,
-          })) ?? undefined,
+        transportModes: input.transportModes as GraphQlTransportModes[],
       };
 
       const from = inputToLocation(input, 'from');
@@ -359,8 +356,8 @@ type RecursivePartial<T> = {
   [P in keyof T]?: T[P] extends (infer U)[]
     ? RecursivePartial<U>[]
     : T[P] extends object | undefined
-    ? RecursivePartial<T[P]>
-    : T[P];
+      ? RecursivePartial<T[P]>
+      : T[P];
 };
 
 function inputToLocation(

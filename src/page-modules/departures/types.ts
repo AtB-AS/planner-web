@@ -1,6 +1,5 @@
 import type { FeatureCategory } from '@atb/components/venue-icon';
 import type { ServiceJourneyData } from './server/journey-planner/validators';
-import type { TransportModeFilterOption } from '@atb/modules/transport-mode';
 import type { SearchTime } from '@atb/modules/search-time';
 
 export type GeocoderFeature = {
@@ -16,7 +15,6 @@ export type GeocoderFeature = {
 };
 
 export type FromDepartureQuery = {
-  transportModeFilter: TransportModeFilterOption[] | null;
   searchTime: SearchTime;
   from: GeocoderFeature | null;
   isAddress: boolean;

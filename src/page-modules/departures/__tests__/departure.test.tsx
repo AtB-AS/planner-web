@@ -135,7 +135,6 @@ describe('departure page', function () {
           searchTime: { mode: 'now' },
           from: null,
           isAddress: false,
-          transportModeFilter: null,
         }}
         nearestStopPlaces={[]}
       />,
