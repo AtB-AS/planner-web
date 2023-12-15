@@ -1045,7 +1045,7 @@ const texts: Record<Languages, Texts> = {
     geoButton: 'Finn min posisjon',
     geoTexts: {
       denied:
-        'Du må endre stadinnstillingane i nettlesaren din for å bruke din posisjon i reisesøket.',
+        'Du må endre posisjonsinnstillingane i nettlesaren din for å bruke din posisjon i reisesøket.',
       unavailable: 'Posisjonen din er ikkje tilgjengeleg.',
       timeout: 'Det tok for lang tid å hente posisjonen din. Prøv på nytt.',
     },
