@@ -77,7 +77,7 @@ describe('search time selector', function () {
 
     expect(
       output.getByRole('radio', {
-        name: 'Ankomst',
+        name: 'Avreise',
       }),
     ).toBeChecked();
   });
@@ -164,7 +164,7 @@ describe('search time selector', function () {
 
     expect(
       output.queryByRole('radio', {
-        name: 'Avgang',
+        name: 'Avreise',
       }),
     ).toBeInTheDocument();
   });
