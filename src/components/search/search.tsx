@@ -5,6 +5,7 @@ import style from './search.module.css';
 import VenueIcon from '@atb/components/venue-icon';
 import { andIf } from '@atb/utils/css';
 import { GeocoderFeature } from '@atb/page-modules/departures';
+import { logSpecificEvent } from '@atb/modules/firebase';
 
 type SearchProps = {
   label: string;
@@ -30,7 +31,10 @@ export default function Search({
 
   return (
     <Downshift<GeocoderFeature>
-      onInputValueChange={(inputValue) => setQuery(inputValue || '')}
+      onInputValueChange={(inputValue) => {
+        logSpecificEvent('select_search');
+        return setQuery(inputValue || '');
+      }}
       onChange={onChange}
       itemToString={geocoderFeatureToString}
       selectedItem={selectedItem || initialFeature || null}

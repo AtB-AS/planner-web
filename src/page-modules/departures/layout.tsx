@@ -20,6 +20,7 @@ import style from './departures.module.css';
 import type { FromDepartureQuery } from './types';
 import { createFromQuery } from './utils';
 import { TabLink } from '@atb/components/tab-link';
+import { logSpecificEvent } from '@atb/modules/firebase/analytics';
 
 export type DeparturesLayoutProps = PropsWithChildren<{
   fromQuery: FromDepartureQuery;
@@ -44,6 +45,9 @@ function DeparturesLayout({ children, fromQuery }: DeparturesLayoutProps) {
       { ...fromQuery, ...override, searchTime },
       transportModeFilter,
     );
+
+    logSpecificEvent('search_departure');
+
     await router.push(newRoute);
     setIsSearching(false);
   };
