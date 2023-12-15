@@ -46,10 +46,6 @@ export default function SearchTimeSelector({
     onChange(newState);
   };
 
-  const addCurrentTimeToDate = (date: string) => {
-    return new Date(`${date} ${format(new Date(), 'HH:mm:ss')}`);
-  };
-
   const resetToCurrentTime = () => {
     setSelectedTime(() => format(new Date(), 'HH:mm'));
   };
