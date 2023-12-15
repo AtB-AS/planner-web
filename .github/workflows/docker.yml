@@ -18,18 +18,21 @@ jobs:
         ATB_NEXT_PUBLIC_FIREBASE_PUBLIC_API_KEY=${{ github.event_name == 'release' && 'AIzaSyBiw58LOLaBGiNYI1_bj5J8jC5E56WxmB8' || 'AIzaSyDoat8ob5tewAXaPEhqbZKzx8e7LC5nuzQ' }}
         ATB_NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=${{ github.event_name == 'release' && 'atb-mobility-platform.firebaseapp.com' || 'atb-mobility-platform-staging.firebaseapp.com' }}
         ATB_NEXT_PUBLIC_FIREBASE_APP_ID=${{ github.event_name == 'release' && '1:827196677776:web:c4b1d8924bb5778bf50215' || '1:939812594010:web:0308b2a9cdc80b0d069363' }}
+        ATB_NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=${{ github.event_name == 'release' && '' || '' }}
         NFK_NEXT_PUBLIC_MAPBOX_DEFAULT_LAT=67.280357
         NFK_NEXT_PUBLIC_MAPBOX_DEFAULT_LNG=14.404916
         NFK_NEXT_PUBLIC_FIREBASE_PROJECT_ID=${{ github.event_name == 'release' && 'nfk-prod' || 'nfk-staging'}}
         NFK_NEXT_PUBLIC_FIREBASE_PUBLIC_API_KEY=${{ github.event_name == 'release' && 'AIzaSyDGwZLvjhRJmxiU9BOkbYn9P78QTJsAaBQ' || 'AIzaSyDU18r0GPKIGcVxA3Zj_zgkrtqaUfcOHGM' }}
         NFK_NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=${{ github.event_name == 'release' && 'nfk-prod.firebaseapp.com' || 'nfk-staging.firebaseapp.com' }}
         NFK_NEXT_PUBLIC_FIREBASE_APP_ID=${{ github.event_name == 'release' && '1:638315587956:web:51e95a11a03f27dc9ca421' || '1:793301954236:web:908723b8ded2824cadeab9' }}
+        NFK_NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=${{ github.event_name == 'release' && '' || '' }}
         FRAM_NEXT_PUBLIC_MAPBOX_DEFAULT_LAT=62.734541
         FRAM_NEXT_PUBLIC_MAPBOX_DEFAULT_LNG=7.151046
         FRAM_NEXT_PUBLIC_FIREBASE_PROJECT_ID=${{ github.event_name == 'release' && 'fram-prod-a7850' || 'fram-staging'}}
         FRAM_NEXT_PUBLIC_FIREBASE_PUBLIC_API_KEY=${{ github.event_name == 'release' && 'AIzaSyBw6YwFJV__iw6Qp7bLdcwcUKtr2f02H2M' || 'AIzaSyBTsBaCnXcCFPQUaXTPLSMGfydaTpaLDrs' }}
         FRAM_NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=${{ github.event_name == 'release' && 'fram-prod-a7850.firebaseapp.com' || 'fram-staging.firebaseapp.com' }}
         FRAM_NEXT_PUBLIC_FIREBASE_APP_ID=${{ github.event_name == 'release' && '1:717595301444:web:8e5b74f10707184ab3ce11' || '1:312905478211:web:41c6f9db83ae5ef0efa4f6' }}
+        FRAM_NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=${{ github.event_name == 'release' && 'G-KS45JBFWF4' || '' }}
     secrets:
       github_pat: ${{ secrets.GH_PAT }}
       build_secrets: |
