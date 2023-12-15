@@ -39,15 +39,20 @@ function createSettingsConstants(urlBase: string) {
 
 export type WidgetOptions = {
   urlBase: string;
+  language?: Languages;
 };
 export type PlannerWebOutput = {
   output: string;
   init: () => void;
   urls: SettingConstants;
 };
-export function createWidget({ urlBase }: WidgetOptions): PlannerWebOutput {
+export function createWidget({
+  urlBase,
+  language = 'en',
+}: WidgetOptions): PlannerWebOutput {
+  const texts = translations(language);
   const settings = createSettingsConstants(urlBase);
-  const output = createOutput(settings);
+  const output = createOutput(settings, texts);
   return {
     output,
     init,
@@ -194,7 +199,7 @@ class MessageBox extends HTMLElement {
   }
 }
 
-function createOutput({ URL_BASE }: SettingConstants) {
+function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
   function searchItem(item: GeocoderFeature) {
     const img = venueIcon(item);
     const title = el('span', [item.name]);
@@ -238,7 +243,7 @@ function createOutput({ URL_BASE }: SettingConstants) {
         MessageBox.clearMessageBox();
 
         try {
-          const item = await getGeolocation();
+          const item = await getGeolocation(texts);
           const input = self.parentElement?.querySelector('input');
           if (input) {
             input.value = item ? `${item.name}, ${item.locality}` : input.value;
@@ -322,7 +327,7 @@ function createOutput({ URL_BASE }: SettingConstants) {
       function showEmpty() {
         self.setItems([]);
         list.innerHTML = '';
-        const li = messageItem('Ingen resultater');
+        const li = messageItem(texts.noResults);
         list.appendChild(li);
         toggleList(true);
       }
@@ -398,13 +403,13 @@ function createOutput({ URL_BASE }: SettingConstants) {
   const buttons = html`
     <div class="${style.buttonGroup}">
       <button type="submit" class="${style.button}" aria-disabled="true">
-        <span>Finn avganger</span>
+        <span>${texts.searchButton}</span>
       </button>
     </div>
   `;
   const searchTime = (prefix: string, withArriveBy: boolean = true) => html`
     <div class="${style.inputBoxes}">
-      <p class="${style.heading}">Når vil du reise?</p>
+      <p class="${style.heading}">${texts.searchTime.title}</p>
       <div>
         <div
           class="${style.selector_options} ${!withArriveBy
@@ -415,13 +420,32 @@ function createOutput({ URL_BASE }: SettingConstants) {
             <input
               type="radio"
               name="searchTimeSelector"
-              aria-label="Nå"
+              aria-labelled-by="${prefix}-now"
               class="${style.selector_option__input}"
               value="now"
               checked=""
             />
             <span aria-hidden="true" class="${style.selector_option__label}">
-              <span class="${style.selector_option__text}">Nå</span>
+              <span class="${style.selector_option__text}" id="${prefix}-now">
+                ${texts.searchTime.now}
+              </span>
+            </span>
+          </label>
+          <label class="${style.selector_option}">
+            <input
+              type="radio"
+              name="searchTimeSelector"
+              aria-labelled-by="${prefix}-depart"
+              class="${style.selector_option__input}"
+              value="departBy"
+            />
+            <span aria-hidden="true" class="${style.selector_option__label}">
+              <span
+                class="${style.selector_option__text}"
+                id="${prefix}-depart"
+              >
+                ${texts.searchTime.depart}
+              </span>
             </span>
           </label>
           ${withArriveBy
@@ -430,7 +454,7 @@ function createOutput({ URL_BASE }: SettingConstants) {
                   <input
                     type="radio"
                     name="searchTimeSelector"
-                    aria-label="Ankomst"
+                    aria-labelled-by="${prefix}-arrival"
                     class="${style.selector_option__input}"
                     value="arriveBy"
                   />
@@ -438,23 +462,16 @@ function createOutput({ URL_BASE }: SettingConstants) {
                     aria-hidden="true"
                     class="${style.selector_option__label}"
                   >
-                    <span class="${style.selector_option__text}">Ankomst</span>
+                    <span
+                      class="${style.selector_option__text}"
+                      id="${prefix}-arrival"
+                    >
+                      ${texts.searchTime.arrive}
+                    </span>
                   </span>
                 </label>
               `
             : ''}
-          <label class="${style.selector_option}">
-            <input
-              type="radio"
-              name="searchTimeSelector"
-              aria-label="Avgang"
-              class="${style.selector_option__input}"
-              value="departBy"
-            />
-            <span aria-hidden="true" class="${style.selector_option__label}">
-              <span class="${style.selector_option__text}">Avgang</span>
-            </span>
-          </label>
         </div>
         <div
           class="${style.selector_dateAndTimeSelectorsWrapper} js-search-date-details"
@@ -462,7 +479,9 @@ function createOutput({ URL_BASE }: SettingConstants) {
         >
           <div class="${style.selector_dateAndTimeSelectors}">
             <div class="${style.selector_dateSelector}">
-              <label for="${`${prefix}-searchTimeSelector-date`}">Dato</label>
+              <label for="${`${prefix}-searchTimeSelector-date`}">
+                ${texts.searchTime.date}
+              </label>
               <input
                 type="date"
                 name="dateinput"
@@ -470,7 +489,9 @@ function createOutput({ URL_BASE }: SettingConstants) {
               />
             </div>
             <div class="${style.selector_timeSelector}">
-              <label for="${`${prefix}-searchTimeSelector-time`}">Tid</label>
+              <label for="${`${prefix}-searchTimeSelector-time`}">
+                ${texts.searchTime.time}
+              </label>
               <input
                 type="time"
                 name="timeinput"
@@ -492,14 +513,14 @@ function createOutput({ URL_BASE }: SettingConstants) {
     >
       <div class="${style.main}">
         <div class="${style.inputBoxes}">
-          <p class="${style.heading}">Hvor vil du reise?</p>
+          <p class="${style.heading}">${texts.assistant.title}</p>
           <div class="${style.search_container}">
             <label
               class="${style.search_label}"
               for="pw-from-1-input"
               id="pw-from-1-label"
             >
-              Fra
+              ${texts.assistant.from}
             </label>
             <div
               class="${style.search_inputContainer}"
@@ -517,7 +538,7 @@ function createOutput({ URL_BASE }: SettingConstants) {
                   id="pw-from-1-input"
                   name="from"
                   value=""
-                  placeholder="adresse, kai eller holdeplass"
+                  placeholder="${texts.placeholder}"
                 />
                 <ul
                   id="from-popup-1"
@@ -531,8 +552,8 @@ function createOutput({ URL_BASE }: SettingConstants) {
             <pw-geobutton mode="assistant">
               <button
                 class="${style.button_geolocation}"
-                title="Finn min posisjon"
-                aria-label="Finn min posisjon"
+                title="${texts.geoButton}"
+                aria-label="${texts.geoButton}"
                 type="button"
               >
                 <img
@@ -552,7 +573,7 @@ function createOutput({ URL_BASE }: SettingConstants) {
               for="pw-to-1-input"
               id="pw-to-1-label"
             >
-              Til
+              ${texts.assistant.to}
             </label>
             <div
               class="${style.search_inputContainer}"
@@ -570,7 +591,7 @@ function createOutput({ URL_BASE }: SettingConstants) {
                   id="pw-to-1-input"
                   name="to"
                   value=""
-                  placeholder="adresse, kai eller holdeplass"
+                  placeholder="${texts.placeholder}"
                 />
                 <ul
                   id="to-popup-1"
@@ -597,14 +618,14 @@ function createOutput({ URL_BASE }: SettingConstants) {
     >
       <div class="${style.main}">
         <div class="${style.inputBoxes}">
-          <p class="${style.heading}">Hvor vil du reise fra?</p>
+          <p class="${style.heading}">${texts.departure.title}</p>
           <div class="${style.search_container}">
             <label
               class="${style.search_label}"
               for="pw-from-2-input"
               id="pw-from-2-label"
             >
-              Fra
+              ${texts.departure.from}
             </label>
             <div
               class="${style.search_inputContainer}"
@@ -622,7 +643,7 @@ function createOutput({ URL_BASE }: SettingConstants) {
                   name="from"
                   id="pw-from-2-input"
                   value=""
-                  placeholder="adresse, kai eller holdeplass"
+                  placeholder="${texts.placeholder}"
                 />
                 <ul
                   id="to-popup-2"
@@ -636,8 +657,8 @@ function createOutput({ URL_BASE }: SettingConstants) {
             <pw-geobutton mode="departure">
               <button
                 class="${style.button_geolocation}"
-                title="Finn min posisjon"
-                aria-label="Finn min posisjon"
+                title="${texts.geoButton}"
+                aria-label="${texts.geoButton}"
                 type="button"
               >
                 <img
@@ -668,11 +689,13 @@ function createOutput({ URL_BASE }: SettingConstants) {
               class="${style.tabSelected}"
               id="pw-assistant-tab"
             >
-              Planlegg reisen
+              ${texts.assistant.link}
             </a>
           </li>
           <li>
-            <a href="/departures" id="pw-departures-tab">Finn avganger</a>
+            <a href="/departures" id="pw-departures-tab">
+              ${texts.departure.link}
+            </a>
           </li>
         </ul>
       </nav>
@@ -924,7 +947,9 @@ export async function reverse(coords: GeolocationCoordinates) {
   return data as GeocoderFeature;
 }
 
-async function getGeolocation(): Promise<GeocoderFeature | undefined> {
+async function getGeolocation(
+  texts: Texts,
+): Promise<GeocoderFeature | undefined> {
   return new Promise(function (resolve, reject) {
     navigator.geolocation.getCurrentPosition(
       async (position) => {
@@ -932,28 +957,153 @@ async function getGeolocation(): Promise<GeocoderFeature | undefined> {
         resolve(reversedPosition);
       },
       (error) => {
-        reject(new Error(getErrorMessage(error.code)));
+        reject(new Error(getErrorMessage(error.code, texts)));
       },
       { enableHighAccuracy: true, timeout: 10000 },
     );
   });
 }
 
-const geoTexts = {
-  denied:
-    'Du må endre stedsinnstillinger i nettleseren din for å bruke din posisjon i reisesøket.',
-  unavailable: 'Posisjonen din er ikke tilgjengelig.',
-  timeout: 'Det tok for lang tid å hente posisjonen din. Prøv på nytt.',
-};
-
-function getErrorMessage(code: number) {
+function getErrorMessage(code: number, texts: Texts) {
   switch (code) {
     case GeolocationPositionError.PERMISSION_DENIED:
-      return geoTexts.denied;
+      return texts.geoTexts.denied;
     case GeolocationPositionError.TIMEOUT:
-      return geoTexts.timeout;
+      return texts.geoTexts.timeout;
     case GeolocationPositionError.POSITION_UNAVAILABLE:
     default:
-      return geoTexts.unavailable;
+      return texts.geoTexts.unavailable;
   }
+}
+
+type Texts = {
+  noResults: string;
+  geoButton: string;
+  geoTexts: {
+    denied: string;
+    unavailable: string;
+    timeout: string;
+  };
+  searchButton: string;
+  placeholder: string;
+  assistant: {
+    link: string;
+    title: string;
+    from: string;
+    to: string;
+  };
+  departure: {
+    link: string;
+    title: string;
+    from: string;
+  };
+  searchTime: {
+    title: string;
+    now: string;
+    arrive: string;
+    depart: string;
+    date: string;
+    time: string;
+  };
+};
+type Languages = 'nb' | 'nn' | 'en';
+
+const texts: Record<Languages, Texts> = {
+  nb: {
+    noResults: 'Ingen resultater',
+    geoButton: 'Finn min posisjon',
+    geoTexts: {
+      denied:
+        'Du må endre stedsinnstillinger i nettleseren din for å bruke din posisjon i reisesøket.',
+      unavailable: 'Posisjonen din er ikke tilgjengelig.',
+      timeout: 'Det tok for lang tid å hente posisjonen din. Prøv på nytt.',
+    },
+    searchButton: 'Finn avganger',
+    placeholder: 'adresse, kai eller holdeplass',
+    assistant: {
+      link: 'Planlegg reisen',
+      title: 'Hvor vil du reise?',
+      from: 'Fra',
+      to: 'Til',
+    },
+    departure: {
+      link: 'Avganger',
+      title: 'Hvor vil du reise fra?',
+      from: 'string',
+    },
+    searchTime: {
+      title: 'Når vil du reise?',
+      now: 'Nå',
+      arrive: 'Ankomst',
+      depart: 'Avreise',
+      date: 'Dato',
+      time: 'Tid',
+    },
+  },
+  nn: {
+    noResults: 'Ingen resultat',
+    geoButton: 'Finn min posisjon',
+    geoTexts: {
+      denied:
+        'Du må endre posisjonsinnstillingane i nettlesaren din for å bruke din posisjon i reisesøket.',
+      unavailable: 'Posisjonen din er ikkje tilgjengeleg.',
+      timeout: 'Det tok for lang tid å hente posisjonen din. Prøv på nytt.',
+    },
+    searchButton: 'Finn avgangar',
+    placeholder: 'adresse, kai eller haldeplass',
+    assistant: {
+      link: 'Planlegg reisa',
+      title: 'Kor vil du reise?',
+      from: 'Frå',
+      to: 'Til',
+    },
+    departure: {
+      link: 'Avgangar',
+      title: 'Kor vil du reise frå?',
+      from: 'Frå',
+    },
+    searchTime: {
+      title: 'Når vil du reise?',
+      now: 'No',
+      arrive: 'Ankomst',
+      depart: 'Avreise',
+      date: 'Dato',
+      time: 'Tid',
+    },
+  },
+  en: {
+    noResults: 'No results',
+    geoButton: 'Find my position',
+    geoTexts: {
+      denied:
+        'You must change location settings in your browser to use your position in the travel search.',
+      unavailable: 'Your position is not available.',
+      timeout: 'It took too long to retrieve your position. Try again.',
+    },
+    searchButton: 'Find departures',
+    placeholder: 'address, quay, or stop',
+    assistant: {
+      link: 'Plan your journey',
+      title: 'Where do you want to travel?',
+      from: 'From',
+      to: 'To',
+    },
+    departure: {
+      link: 'Departures',
+      title: 'Where do you want to travel from?',
+      from: 'From',
+    },
+    searchTime: {
+      title: 'When do you want to travel?',
+      now: 'Now',
+      arrive: 'Arrival',
+      depart: 'Departure',
+      date: 'Date',
+      time: 'Time',
+    },
+  },
+};
+
+function translations(lang: Languages): Texts {
+  return texts[lang];
 }
