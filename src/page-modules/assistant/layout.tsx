@@ -20,6 +20,7 @@ import style from './assistant.module.css';
 import { FromToTripQuery } from './types';
 import { createTripQuery } from './utils';
 import { TabLink } from '@atb/components/tab-link';
+import { logSpecificEvent } from '@atb/modules/firebase';
 
 export type AssistantLayoutProps = PropsWithChildren<{
   tripQuery: FromToTripQuery;
@@ -50,6 +51,9 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
       },
       transportModeFilter,
     );
+
+    logSpecificEvent('search_assistant');
+
     await router.push({ query });
     setIsSearching(false);
   };
