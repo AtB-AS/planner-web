@@ -406,6 +406,23 @@ function Pe({ URL_BASE: t }, e) {
               </span>
             </span>
           </label>
+          <label class="${o.selector_option}">
+            <input
+              type="radio"
+              name="searchTimeSelector"
+              aria-labelled-by="${r}-depart"
+              class="${o.selector_option__input}"
+              value="departBy"
+            />
+            <span aria-hidden="true" class="${o.selector_option__label}">
+              <span
+                class="${o.selector_option__text}"
+                id="${r}-depart"
+              >
+                ${e.searchTime.depart}
+              </span>
+            </span>
+          </label>
           ${s ? y`
                 <label class="${o.selector_option}">
                   <input
@@ -428,23 +445,6 @@ function Pe({ URL_BASE: t }, e) {
                   </span>
                 </label>
               ` : ""}
-          <label class="${o.selector_option}">
-            <input
-              type="radio"
-              name="searchTimeSelector"
-              aria-labelled-by="${r}-depart"
-              class="${o.selector_option__input}"
-              value="departBy"
-            />
-            <span aria-hidden="true" class="${o.selector_option__label}">
-              <span
-                class="${o.selector_option__text}"
-                id="${r}-depart"
-              >
-                ${e.searchTime.depart}
-              </span>
-            </span>
-          </label>
         </div>
         <div
           class="${o.selector_dateAndTimeSelectorsWrapper} js-search-date-details"

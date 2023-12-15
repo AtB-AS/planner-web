@@ -431,6 +431,23 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
               </span>
             </span>
           </label>
+          <label class="${style.selector_option}">
+            <input
+              type="radio"
+              name="searchTimeSelector"
+              aria-labelled-by="${prefix}-depart"
+              class="${style.selector_option__input}"
+              value="departBy"
+            />
+            <span aria-hidden="true" class="${style.selector_option__label}">
+              <span
+                class="${style.selector_option__text}"
+                id="${prefix}-depart"
+              >
+                ${texts.searchTime.depart}
+              </span>
+            </span>
+          </label>
           ${withArriveBy
             ? html`
                 <label class="${style.selector_option}">
@@ -455,23 +472,6 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
                 </label>
               `
             : ''}
-          <label class="${style.selector_option}">
-            <input
-              type="radio"
-              name="searchTimeSelector"
-              aria-labelled-by="${prefix}-depart"
-              class="${style.selector_option__input}"
-              value="departBy"
-            />
-            <span aria-hidden="true" class="${style.selector_option__label}">
-              <span
-                class="${style.selector_option__text}"
-                id="${prefix}-depart"
-              >
-                ${texts.searchTime.depart}
-              </span>
-            </span>
-          </label>
         </div>
         <div
           class="${style.selector_dateAndTimeSelectorsWrapper} js-search-date-details"

@@ -21,7 +21,7 @@ declare type SettingConstants = {
 
 export declare type WidgetOptions = {
     urlBase: string;
-    language: Languages;
+    language?: Languages;
 };
 
 export { }
