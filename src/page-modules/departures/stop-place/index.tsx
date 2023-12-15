@@ -37,15 +37,6 @@ export function StopPlace({ departures }: StopPlaceProps) {
   const [isHoveringRefreshButton, setIsHoveringRefreshButton] = useState(false);
   return (
     <section className={style.stopPlaceContainer}>
-      <div className={style.mapContainer}>
-        <MapWithHeader
-          name={departures.stopPlace.name}
-          position={departures.stopPlace.position}
-          layer="venue"
-          onSelectStopPlace={(id) => router.push(`/departures/${id}`)}
-          transportModes={departures.stopPlace.transportMode}
-        />
-      </div>
       <div className={style.quaysContainer}>
         <Link
           href={router.asPath}
@@ -65,6 +56,15 @@ export function StopPlace({ departures }: StopPlaceProps) {
         {departures.quays.map((quay) => (
           <EstimatedCallList key={quay.id} quay={quay} />
         ))}
+      </div>
+      <div className={style.mapContainer}>
+        <MapWithHeader
+          name={departures.stopPlace.name}
+          position={departures.stopPlace.position}
+          layer="venue"
+          onSelectStopPlace={(id) => router.push(`/departures/${id}`)}
+          transportModes={departures.stopPlace.transportMode}
+        />
       </div>
     </section>
   );

@@ -41,6 +41,14 @@ export function NearestStopPlaces({
   }
   return (
     <section className={style.nearestContainer}>
+      <ul className={style.stopPlacesList}>
+        {nearestStopPlaces.map((item) => (
+          <li key={item.stopPlace.id}>
+            <StopPlaceItem item={item} />
+          </li>
+        ))}
+      </ul>
+
       <div className={style.mapContainer}>
         {fromQuery.from && (
           <MapWithHeader
@@ -56,14 +64,6 @@ export function NearestStopPlaces({
           />
         )}
       </div>
-
-      <ul className={style.stopPlacesList}>
-        {nearestStopPlaces.map((item) => (
-          <li key={item.stopPlace.id}>
-            <StopPlaceItem item={item} />
-          </li>
-        ))}
-      </ul>
     </section>
   );
 }
