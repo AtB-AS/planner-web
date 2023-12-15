@@ -36,6 +36,7 @@
     "detect-nearest-browser-locale": "^19.0.0",
     "detect-nearest-locale": "^1.0.1",
     "downshift": "^8.2.3",
+    "firebase": "^10.7.1",
     "framer-motion": "^10.16.16",
     "graphql": "^16.8.1",
     "haversine-distance": "^1.2.1",
