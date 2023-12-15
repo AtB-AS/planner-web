@@ -115,6 +115,7 @@ const WidgetPage: NextPage<WidgetPageProps> = ({ data, ...props }) => {
           setTimeout(() => {
             lib.current = window.PlannerWeb.createWidget({
               urlBase: location.protocol + '//' + location.host,
+              language: 'nb',
             });
 
             setHtml(lib.current.output);
