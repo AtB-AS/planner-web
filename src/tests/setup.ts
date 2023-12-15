@@ -13,6 +13,11 @@ vi.stubEnv(
 vi.stubEnv('NEXT_PUBLIC_MAPBOX_DEFAULT_LAT', '62.4722');
 vi.stubEnv('NEXT_PUBLIC_MAPBOX_DEFAULT_LNG', '6.1495');
 
+vi.stubEnv('NEXT_PUBLIC_FIREBASE_PUBLIC_API_KEY', 'aaaaaaaaaaaaaaaaaaaaaaa');
+vi.stubEnv('NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN', 'aaaaaaaaaaaaaaaaaaaaaaa');
+vi.stubEnv('NEXT_PUBLIC_FIREBASE_PROJECT_ID', 'aaaaaaaaaaaaaaaaaaaaaaa');
+vi.stubEnv('NEXT_PUBLIC_FIREBASE_APP_ID', 'aaaaaaaaaaaaaaaaaaaaaaa');
+
 vi.mock('mapbox-gl/dist/mapbox-gl.js', () => {
   return {
     default: {
