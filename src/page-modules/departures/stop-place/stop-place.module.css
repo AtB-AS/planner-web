@@ -23,7 +23,7 @@
 .quaysContainer li {
   list-style: none;
 }
-.refreshButtonLink {
+.refreshButton {
   align-self: flex-end;
   display: flex;
   gap: var(--spacings-small);
@@ -33,6 +33,7 @@
   text-decoration: none;
   composes: interactive-interactive_1;
   transition: none;
+  border: none;
 }
 
 .listHeader {

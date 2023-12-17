@@ -38,9 +38,9 @@ export function StopPlace({ departures }: StopPlaceProps) {
   return (
     <section className={style.stopPlaceContainer}>
       <div className={style.quaysContainer}>
-        <Link
-          href={router.asPath}
-          className={style.refreshButtonLink}
+        <button
+          onClick={() => router.reload()}
+          className={style.refreshButton}
           onMouseEnter={() => setIsHoveringRefreshButton(true)}
           onMouseLeave={() => setIsHoveringRefreshButton(false)}
         >
@@ -52,7 +52,7 @@ export function StopPlace({ departures }: StopPlaceProps) {
             interactiveColor="interactive_1"
             interactiveState={isHoveringRefreshButton ? 'hover' : undefined}
           />
-        </Link>
+        </button>
         {departures.quays.map((quay) => (
           <EstimatedCallList key={quay.id} quay={quay} />
         ))}
