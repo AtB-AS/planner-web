@@ -187,7 +187,7 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
           <Button
             title={t(PageText.Assistant.search.buttons.find.title)}
             className={style.button}
-            mode="interactive_0"
+            mode="interactive_0--bordered"
             disabled={!tripQuery.from || !tripQuery.to}
             buttonProps={{ type: 'submit' }}
             state={isSearching ? 'loading' : undefined}
