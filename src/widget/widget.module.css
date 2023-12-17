@@ -38,7 +38,6 @@
 }
 
 .nav {
-  padding: 0;
   margin: 0;
   padding: var(--spacings-xLarge) var(--spacings-xLarge) 0;
 }
@@ -148,8 +147,8 @@
   composes: option__input from selector;
 }
 .selector_option__input:checked + .selector_option__label {
-  color: var(--interactive-interactive_1-default-text);
-  background: var(--interactive-interactive_1-default-background);
+  color: var(--interactive-interactive_0-default-text);
+  background: var(--interactive-interactive_0-default-background);
   border-radius: var(--border-radius-regular);
 }
 
@@ -225,8 +224,7 @@
 }
 .button:focus {
   outline: 0;
-  box-shadow: inset 0 0 0 var(--border-width-medium)
-    var(--interactive-interactive_0-outline-background);
+  box-shadow: inset 0 0 0 var(--border-width-medium) var(--interactive-interactive_0-outline-background);
 }
 
 /* Autocomplete */
@@ -235,7 +233,6 @@
   padding: var(--spacings-small);
   display: flex;
   align-items: center;
-  display: flex;
   gap: var(--spacings-small);
 }
 .listItem:not(:last-child) {

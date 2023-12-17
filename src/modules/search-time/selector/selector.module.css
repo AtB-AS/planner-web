@@ -53,7 +53,7 @@
 }
 
 .option__input:checked + .option__label {
-  color: var(--interactive-interactive_1-default-text);
+  color: var(--interactive-interactive_0-default-text);
 }
 
 .option {
@@ -61,8 +61,7 @@
 }
 
 .option__selected {
-  background: magenta;
-  background: var(--interactive-interactive_1-default-background);
+  background: var(--interactive-interactive_0-default-background);
   width: 100%;
   height: 100%;
   position: absolute;
