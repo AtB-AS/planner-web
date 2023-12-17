@@ -42,7 +42,6 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
   const [geolocationError, setGeolocationError] = useState<string | null>(null);
 
   const setValuesWithLoading = async (override: Partial<FromToTripQuery>) => {
-    setIsSearching(true);
     const query = createTripQuery(
       {
         ...tripQuery,
@@ -51,6 +50,11 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
       },
       transportModeFilter,
     );
+
+    // Only show loading if we have both from and to selected.
+    if ((tripQuery.from && query.toId) || (tripQuery.to && query.fromId)) {
+      setIsSearching(true);
+    }
 
     logSpecificEvent('search_assistant');
 

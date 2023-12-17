@@ -35,7 +35,7 @@ export default function LoadingEmptyResults({
           details={t(ComponentText.EmptySearch.emptyDetails[type])}
         />
       )}
-      {isSearching && hasEmptyChild && (
+      {isSearching && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
