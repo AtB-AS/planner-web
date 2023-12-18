@@ -2,6 +2,11 @@ import { translation as _ } from '@atb/translations/commons';
 
 export const Departures = {
   title: _('Finn avganger', 'Find departures', 'Finn avganger'),
+  homeLink: _(
+    'Tilbake til forsiden',
+    'Back to the front page',
+    'Tilbake til framsida',
+  ),
   shortTitle: _('Avganger', 'Departures', 'Avganger'),
   search: {
     input: {

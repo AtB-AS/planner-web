@@ -54,6 +54,9 @@
             },
             "twitterLink": {
               "type": "string"
+            },
+            "homePageUrl": {
+              "type": "string"
             }
           },
           "required": [

@@ -23,6 +23,7 @@
     "supportUrl": {
       "default": "https://frammr.no/kontakt-oss",
       "en-US": "https://en.frammr.no/contact-us"
-    }
+    },
+    "homePageUrl": "https://www.frammr.no/"
   }
 }

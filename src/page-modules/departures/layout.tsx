@@ -1,4 +1,4 @@
-import { Button } from '@atb/components/button';
+import { Button, ButtonLink } from '@atb/components/button';
 import LoadingEmptySearch from '@atb/components/loading-empty-results';
 import { MessageBox } from '@atb/components/message-box';
 import Search from '@atb/components/search';
@@ -14,6 +14,8 @@ import type { FromDepartureQuery } from './types';
 import { createFromQuery } from './utils';
 import { TabLink } from '@atb/components/tab-link';
 import { logSpecificEvent } from '@atb/modules/firebase/analytics';
+import { getOrgData } from '@atb/modules/org-data';
+import { MonoIcon } from '@atb/components/icon';
 
 export type DeparturesLayoutProps = PropsWithChildren<{
   fromQuery: FromDepartureQuery;
@@ -44,8 +46,18 @@ function DeparturesLayout({ children, fromQuery }: DeparturesLayoutProps) {
   const onSelectFeature = (feature: GeocoderFeature) =>
     doSearch({ from: feature });
 
+  const { urls } = getOrgData();
+
   return (
     <div className={style.departuresPage}>
+      <div className={style.homeLink__container}>
+        <ButtonLink
+          mode="transparent"
+          href={urls.homePageUrl ?? '/'}
+          title={t(PageText.Departures.homeLink)}
+          icon={{ left: <MonoIcon icon="navigation/ArrowLeft" /> }}
+        />
+      </div>
       <form className={style.container} onSubmit={onSubmitHandler}>
         <div className={style.main}>
           <TabLink activePath="/departures" />

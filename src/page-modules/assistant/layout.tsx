@@ -1,4 +1,4 @@
-import { Button } from '@atb/components/button';
+import { Button, ButtonLink } from '@atb/components/button';
 import { MonoIcon } from '@atb/components/icon';
 import EmptySearch from '@atb/components/loading-empty-results';
 import { MessageBox } from '@atb/components/message-box';
@@ -21,6 +21,7 @@ import { FromToTripQuery } from './types';
 import { createTripQuery } from './utils';
 import { TabLink } from '@atb/components/tab-link';
 import { logSpecificEvent } from '@atb/modules/firebase';
+import { getOrgData } from '@atb/modules/org-data';
 
 export type AssistantLayoutProps = PropsWithChildren<{
   tripQuery: FromToTripQuery;
@@ -77,8 +78,18 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
   const onToSelected = async (to: GeocoderFeature) =>
     setValuesWithLoading({ to });
 
+  const { urls } = getOrgData();
+
   return (
     <div>
+      <div className={style.homeLink__container}>
+        <ButtonLink
+          mode="transparent"
+          href={urls.homePageUrl ?? '/'}
+          title={t(PageText.Assistant.homeLink)}
+          icon={{ left: <MonoIcon icon="navigation/ArrowLeft" /> }}
+        />{' '}
+      </div>
       <form className={style.container} onSubmit={onSubmitHandler}>
         <motion.div
           animate={{ paddingBottom: showAlternatives ? '1.5rem' : '5.75rem' }}

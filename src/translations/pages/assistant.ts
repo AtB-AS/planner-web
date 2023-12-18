@@ -2,6 +2,11 @@ import { translation as _ } from '@atb/translations/commons';
 
 export const Assistant = {
   title: _('Planlegg reisen', 'Plan travel', 'Planlegg reisa'),
+  homeLink: _(
+    'Tilbake til forsiden',
+    'Back to the front page',
+    'Tilbake til framsida',
+  ),
   shortTitle: _('Reiseplanlegger', 'Assistant', 'Reiseplanleggar'),
   search: {
     input: {
