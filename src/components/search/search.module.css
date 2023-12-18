@@ -7,6 +7,13 @@
   max-width: 32rem;
   display: flex;
   position: relative;
+  border-radius: 0.75rem;
+  background-color: var(--static-background-background_0-background);
+}
+.container:focus-within {
+  outline: 0;
+  box-shadow: inset 0 0 0 var(--border-width-medium)
+    var(--interactive-interactive_2-outline-background);
 }
 
 .label {
@@ -16,9 +23,7 @@
   min-width: 3rem;
   display: flex;
   align-items: center;
-  background-color: var(--static-background-background_0-background);
   padding: var(--spacings-small);
-  padding-right: var(--spacings-regular);
   border-bottom-left-radius: 0.75rem;
   border-top-left-radius: 0.75rem;
 }
@@ -31,10 +36,11 @@
   height: var(--height);
   padding: var(--spacings-small);
   border: none;
+  background: none;
   width: 100%;
   border-radius: 0;
-  background-color: var(--static-background-background_0-background);
   color: var(--static-background-background_0-text);
+  outline: 0;
 }
 
 .menu {
