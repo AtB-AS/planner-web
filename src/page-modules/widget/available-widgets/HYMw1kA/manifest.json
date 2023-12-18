@@ -1,7 +1,7 @@
 {
   "latest": {
     "version": "2.1.0",
-    "created": "2023-12-13T09:19:53.903Z",
+    "created": "2023-12-15T08:24:36.010Z",
     "urls": {
       "umd": "/widget/HYMw1kA/2.1.0/planner-web.umd.js",
       "esm": "/widget/HYMw1kA/2.1.0/planner-web.mjs",
@@ -11,7 +11,7 @@
   "all": [
     {
       "version": "2.1.0",
-      "created": "2023-12-13T09:19:53.903Z",
+      "created": "2023-12-15T08:24:36.010Z",
       "urls": {
         "umd": "/widget/HYMw1kA/2.1.0/planner-web.umd.js",
         "esm": "/widget/HYMw1kA/2.1.0/planner-web.mjs",
@@ -20,7 +20,7 @@
     },
     {
       "version": "2.0.0",
-      "created": "2023-12-13T09:19:53.903Z",
+      "created": "2023-12-15T08:24:36.010Z",
       "urls": {
         "umd": "/widget/HYMw1kA/2.0.0/planner-web.umd.js",
         "esm": "/widget/HYMw1kA/2.0.0/planner-web.mjs",
@@ -29,7 +29,7 @@
     },
     {
       "version": "1.0.0",
-      "created": "2023-12-13T09:19:53.903Z",
+      "created": "2023-12-15T08:24:36.010Z",
       "urls": {
         "umd": "/widget/HYMw1kA/1.0.0/planner-web.umd.js",
         "esm": "/widget/HYMw1kA/1.0.0/planner-web.mjs",
@@ -38,7 +38,7 @@
     },
     {
       "version": "0.2.0",
-      "created": "2023-12-13T09:19:53.903Z",
+      "created": "2023-12-15T08:24:36.010Z",
       "urls": {
         "umd": "/widget/HYMw1kA/0.2.0/planner-web.umd.js",
         "esm": "/widget/HYMw1kA/0.2.0/planner-web.mjs",
