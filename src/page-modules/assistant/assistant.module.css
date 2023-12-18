@@ -75,8 +75,8 @@
 
 .searchInputButton {
   height: var(--height);
-  background-color: var(--static-background-background_0-background);
   border: none;
+  background: none;
   padding: var(--spacings-small);
   border-bottom-right-radius: 0.75rem;
   border-top-right-radius: 0.75rem;
