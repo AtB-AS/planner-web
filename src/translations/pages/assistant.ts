@@ -2,6 +2,8 @@ import { translation as _ } from '@atb/translations/commons';
 
 export const Assistant = {
   title: _('Planlegg reisen', 'Plan travel', 'Planlegg reisa'),
+  homeLink: (name: string) =>
+    _(`Tilbake til ${name}`, `Back to ${name}`, `Tilbake til ${name}`),
   shortTitle: _('Reiseplanlegger', 'Assistant', 'Reiseplanleggar'),
   search: {
     input: {

@@ -4,8 +4,6 @@
 
 .pageHeader__content {
   width: 100%;
-  max-width: var(--maxPageWidth);
-  margin: 0 auto;
   padding: 0 var(--contentPadding);
   display: flex;
 }

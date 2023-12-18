@@ -34,6 +34,10 @@ export type OrgData = {
     instagramLink?: string;
     facebookLink?: string;
     twitterLink?: string;
+    homePageUrl: {
+      name: string;
+      href: string;
+    };
   };
 };
 
