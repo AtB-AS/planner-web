@@ -12,6 +12,7 @@ import { fetchFromDepartureQuery } from '@atb/page-modules/departures/fetch-depa
 import { withDepartureClient } from '@atb/page-modules/departures/server';
 import { FromDepartureQuery } from '@atb/page-modules/departures/types';
 import type { NextPage } from 'next';
+import { encode } from 'querystring';
 
 type DeparturesStopPlaceProps = {
   stopPlace: true;
@@ -61,6 +62,16 @@ export const getServerSideProps = withGlobalData(
     DeparturesLayoutProps & DeparturesContentProps,
     { id: string[] | undefined }
   >(async function ({ client, params, query }) {
+    if (query?.id && !params?.id) {
+      const id = query.id;
+      delete query.id;
+      return {
+        redirect: {
+          destination: `/departures/${id}?${encode(query)}`,
+          permanent: false,
+        },
+      };
+    }
     const fromQuery = await fetchFromDepartureQuery(params?.id, query, client);
     if (!fromQuery.isAddress && fromQuery.from) {
       const departures = await client.departures({
