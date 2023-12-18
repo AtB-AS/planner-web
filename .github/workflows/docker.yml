@@ -31,7 +31,7 @@ jobs:
         FRAM_NEXT_PUBLIC_FIREBASE_PROJECT_ID=${{ github.event_name == 'release' && 'fram-prod-a7850' || 'fram-staging'}}
         FRAM_NEXT_PUBLIC_FIREBASE_PUBLIC_API_KEY=${{ github.event_name == 'release' && 'AIzaSyBw6YwFJV__iw6Qp7bLdcwcUKtr2f02H2M' || 'AIzaSyBTsBaCnXcCFPQUaXTPLSMGfydaTpaLDrs' }}
         FRAM_NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=${{ github.event_name == 'release' && 'fram-prod-a7850.firebaseapp.com' || 'fram-staging.firebaseapp.com' }}
-        FRAM_NEXT_PUBLIC_FIREBASE_APP_ID=${{ github.event_name == 'release' && '1:717595301444:web:8e5b74f10707184ab3ce11' || '1:312905478211:web:41c6f9db83ae5ef0efa4f6' }}
+        FRAM_NEXT_PUBLIC_FIREBASE_APP_ID=${{ github.event_name == 'release' && '1:717595301444:web:1e16129330d562f1b3ce11' || '1:312905478211:web:41c6f9db83ae5ef0efa4f6' }}
         FRAM_NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=${{ github.event_name == 'release' && 'G-KS45JBFWF4' || '' }}
     secrets:
       github_pat: ${{ secrets.GH_PAT }}
