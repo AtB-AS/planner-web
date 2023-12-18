@@ -5,7 +5,6 @@ const orgId = process.env.NEXT_PUBLIC_PLANNER_ORG_ID;
 const nextConfig = {
   optimizeFonts: false,
   output: 'standalone',
-
   async headers() {
     return [
       {
