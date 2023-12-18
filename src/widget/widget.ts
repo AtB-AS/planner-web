@@ -243,7 +243,7 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
         MessageBox.clearMessageBox();
 
         try {
-          const item = await getGeolocation(texts);
+          const item = await getGeolocation(URL_BASE, texts);
           const input = self.parentElement?.querySelector('input');
           if (input) {
             input.value = item ? `${item.name}, ${item.locality}` : input.value;
@@ -338,7 +338,7 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
             list.innerHTML = '';
             return;
           }
-          const data = await autocomplete(input.value);
+          const data = await autocomplete(URL_BASE, input.value);
           if (data.length === 0) {
             return showEmpty();
           }
@@ -923,8 +923,8 @@ function createTripQueryForDeparture(
   };
 }
 
-async function autocomplete(q: string) {
-  const url = `/api/departures/autocomplete?q=${q}`;
+async function autocomplete(urlBase: string, q: string) {
+  const url = `${urlBase}api/departures/autocomplete?q=${q}`;
   const result = await fetch(url);
 
   if (!result.ok) {
@@ -935,9 +935,9 @@ async function autocomplete(q: string) {
   return data;
 }
 
-export async function reverse(coords: GeolocationCoordinates) {
+export async function reverse(urlBase: string, coords: GeolocationCoordinates) {
   const result = await fetch(
-    `/api/departures/reverse?lat=${coords.latitude}&lon=${coords.longitude}`,
+    `${urlBase}api/departures/reverse?lat=${coords.latitude}&lon=${coords.longitude}`,
   );
 
   const data = await result.json();
@@ -948,12 +948,13 @@ export async function reverse(coords: GeolocationCoordinates) {
 }
 
 async function getGeolocation(
+  urlBase: string,
   texts: Texts,
 ): Promise<GeocoderFeature | undefined> {
   return new Promise(function (resolve, reject) {
     navigator.geolocation.getCurrentPosition(
       async (position) => {
-        const reversedPosition = await reverse(position.coords);
+        const reversedPosition = await reverse(urlBase, position.coords);
         resolve(reversedPosition);
       },
       (error) => {

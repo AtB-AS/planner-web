@@ -10,7 +10,7 @@ export declare type PlannerWebOutput = {
     urls: SettingConstants;
 };
 
-export declare function reverse(coords: GeolocationCoordinates): Promise<GeocoderFeature | undefined>;
+export declare function reverse(urlBase: string, coords: GeolocationCoordinates): Promise<GeocoderFeature | undefined>;
 
 declare type SettingConstants = {
     URL_BASE: string;
