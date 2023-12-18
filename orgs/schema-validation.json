@@ -54,6 +54,16 @@
             },
             "twitterLink": {
               "type": "string"
+            },
+            "homePageUrl": {
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "href": {
+                  "type": "string"
+                }
+              }
             }
           },
           "required": [
