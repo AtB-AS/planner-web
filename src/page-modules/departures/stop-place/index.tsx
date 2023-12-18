@@ -129,7 +129,6 @@ export function EstimatedCallList({ quay }: EstimatedCallListProps) {
             </Typo.span>
           )}
         </div>
-
         <MonoIcon
           icon={isCollapsed ? 'navigation/ExpandMore' : 'navigation/ExpandLess'}
         />
@@ -220,7 +219,14 @@ export function EstimatedCallItem({
             </>
           )}
 
-          <p>{departure.name}</p>
+          <Typo.p
+            className={departure.cancelled ? style.textColor__secondary : ''}
+            textType={
+              departure.cancelled ? 'body__primary--strike' : 'body__primary'
+            }
+          >
+            {departure.name}
+          </Typo.p>
         </div>
 
         <DepartureTime
@@ -247,8 +253,8 @@ export function DepartureTime({
   return (
     <div className={style.departureTime}>
       <Typo.p
-        textType="body__primary--bold"
-        className={cancelled ? style.departureTime__cancelled : ''}
+        className={cancelled ? style.textColor__secondary : ''}
+        textType={cancelled ? 'body__primary--strike' : 'body__primary'}
         aria-label={
           cancelled
             ? `${screenReaderPause} ${t(

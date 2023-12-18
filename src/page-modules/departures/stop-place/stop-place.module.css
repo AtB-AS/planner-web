@@ -99,9 +99,6 @@
 .departureTime {
   text-align: right;
 }
-.departureTime__cancelled {
-  text-decoration: line-through;
-}
 
 @media only screen and (max-width: 650px) {
   .stopPlaceContainer {
