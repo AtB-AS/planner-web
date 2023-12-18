@@ -5,37 +5,41 @@ import { ServerText } from '@atb/translations';
 import { constants } from 'http2';
 import { z } from 'zod';
 
-export default handlerWithDepartureClient<AutocompleteApiReturnType>({
-  async GET(req, res, { client, ok }) {
-    // Validate input as string
-    const query = z.string().safeParse(req.query.q);
-    const lat = z.string().optional().safeParse(req.query.lat);
-    const lon = z.string().optional().safeParse(req.query.lon);
+export default handlerWithDepartureClient<AutocompleteApiReturnType>(
+  {
+    async GET(req, res, { client, ok }) {
+      // Validate input as string
+      const query = z.string().safeParse(req.query.q);
+      const lat = z.string().optional().safeParse(req.query.lat);
+      const lon = z.string().optional().safeParse(req.query.lon);
 
-    if (!query.success || !lat.success || !lon.success) {
-      return errorResultAsJson(
-        res,
-        constants.HTTP_STATUS_BAD_REQUEST,
-        ServerText.Endpoints.invalidMethod,
-      );
-    }
+      if (!query.success || !lat.success || !lon.success) {
+        return errorResultAsJson(
+          res,
+          constants.HTTP_STATUS_BAD_REQUEST,
+          ServerText.Endpoints.invalidMethod,
+        );
+      }
 
-    // Don't run autocomplete if the query is empty.
-    if (query.data === '') {
-      return ok([]);
-    }
+      // Don't run autocomplete if the query is empty.
+      if (query.data === '') {
+        return ok([]);
+      }
 
-    let focus: { lat: number; lon: number } | undefined;
+      let focus: { lat: number; lon: number } | undefined;
 
-    if (!!lat.data && !!lon.data) {
-      focus = {
-        lat: Number(lat.data),
-        lon: Number(lon.data),
-      };
-    }
+      if (!!lat.data && !!lon.data) {
+        focus = {
+          lat: Number(lat.data),
+          lon: Number(lon.data),
+        };
+      }
 
-    return tryResult(req, res, async () => {
-      return ok(await client.autocomplete(String(query.data), focus));
-    });
+      return tryResult(req, res, async () => {
+        return ok(await client.autocomplete(String(query.data), focus));
+      });
+    },
   },
-});
+  // @TODO FIX THIS!
+  ['https://frammr.no', /\.frammr.no$/],
+);
