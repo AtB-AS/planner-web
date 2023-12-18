@@ -43,12 +43,33 @@ export default function SearchTimeSelector({
           };
 
     setSelectedMode(newState);
-
     onChange(newState);
+  };
+
+  const resetToCurrentTime = () => {
+    setSelectedTime(() => format(new Date(), 'HH:mm'));
+  };
+
+  const resetToCurrentDate = () => {
+    setSelectedDate(new Date());
+  };
+
+  const isPastDate = (selectedDate: string) => {
+    const today = new Date().toISOString().split('T')[0];
+
+    // If reselecting from (selectedYear < current year) to current year, the date will automatically be reset to the current date.
+    if (selectedDate.substring(0, 4) < initialDate.getFullYear().toString()) {
+      resetToCurrentDate();
+    }
+
+    // To ensure that the time is not past whenever reselecting back the current date.
+    if (selectedDate <= today) resetToCurrentTime();
+    return selectedDate < today;
   };
 
   const internalOnDateChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (!event.target.value) return;
+    if (isPastDate(event.target.value)) return;
 
     setSelectedDate(new Date(event.target.value));
 
@@ -126,6 +147,7 @@ export default function SearchTimeSelector({
                   type="date"
                   id="searchTimeSelector-date"
                   value={selectedDate.toISOString().slice(0, 10)}
+                  min={new Date().toISOString().slice(0, 10)}
                   onChange={internalOnDateChange}
                 />
               </div>

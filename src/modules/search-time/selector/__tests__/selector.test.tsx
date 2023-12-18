@@ -1,7 +1,7 @@
 import { cleanup, render, fireEvent } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import userEvent from '@testing-library/user-event';
-import { addHours, format } from 'date-fns';
+import { addDays, addHours, format, subDays } from 'date-fns';
 import SearchTimeSelector from '..';
 
 afterEach(function () {
@@ -167,5 +167,58 @@ describe('search time selector', function () {
         name: 'Avreise',
       }),
     ).toBeInTheDocument();
+  });
+
+  it('should not call onChange when selecting yesterday as date input.', () => {
+    const onChange = vi.fn();
+    const output = render(
+      <SearchTimeSelector
+        initialState={{ mode: 'arriveBy', dateTime: 0 }}
+        onChange={onChange}
+      />,
+    );
+    const dateInput = output.getByLabelText('Dato');
+    const yesterday = format(subDays(new Date(), 1), 'yyyy-MM-dd');
+
+    fireEvent.change(dateInput, { target: { value: yesterday } });
+
+    expect(onChange).not.toHaveBeenCalled();
+  });
+
+  it('should allow call onChange when selecting today as date input.', () => {
+    const onChange = vi.fn();
+    const output = render(
+      <SearchTimeSelector
+        initialState={{ mode: 'arriveBy', dateTime: 0 }}
+        onChange={onChange}
+      />,
+    );
+    const dateInput = output.getByLabelText('Dato');
+    const today = format(new Date(), 'yyyy-MM-dd');
+
+    fireEvent.change(dateInput, { target: { value: today } });
+
+    expect(onChange).toHaveBeenCalled();
+  });
+
+  it('should reset clock to current time when reselecting today as date', () => {
+    const onChange = vi.fn();
+    const output = render(
+      <SearchTimeSelector
+        initialState={{ mode: 'arriveBy', dateTime: 0 }}
+        onChange={onChange}
+      />,
+    );
+    const dateInput = output.getByLabelText('Dato');
+    const timeInput = output.getByLabelText('Tid');
+    const today = format(new Date(), 'yyyy-MM-dd');
+    const tomorrow = format(addDays(new Date(), 1), 'yyyy-MM-dd');
+    const currentTime = format(new Date(), 'HH:mm');
+
+    fireEvent.change(dateInput, { target: { value: tomorrow } });
+    fireEvent.change(dateInput, { target: { value: today } });
+
+    expect(onChange).toHaveBeenCalled();
+    expect(timeInput).toHaveValue(currentTime);
   });
 });
