@@ -16,6 +16,7 @@ import {
 } from './requesters/types';
 import { errorResultAsJson } from './requesters/utils';
 import { ParsedUrlQuery } from 'node:querystring';
+import Cors from 'cors';
 
 type HttpPropGetter<
   U extends AllEndpoints,
@@ -96,10 +97,22 @@ export function createWithExternalClientDecoratorForHttpHandlers<
   U extends AllEndpoints,
   T,
 >(createClient: ExternalClientFactory<U, T>) {
-  return function inside<P>(handler: ApiHandler<U, T, P>) {
-    return (req: NextApiRequest, res: NextApiResponse<P>) => {
+  return function inside<P>(
+    handler: ApiHandler<U, T, P>,
+    corsOrigin?: (string | RegExp)[],
+  ) {
+    return async (req: NextApiRequest, res: NextApiResponse<P>) => {
       function ok(val: P) {
         res.status(200).json(val);
+      }
+
+      if (corsOrigin) {
+        const cors = Cors({
+          methods: ['POST', 'GET', 'HEAD'],
+          origin: corsOrigin,
+        });
+
+        await runMiddleware(req, res, cors);
       }
 
       if (isRecordHandler(handler)) {
@@ -129,6 +142,22 @@ function isRecordHandler<U extends AllEndpoints, T, P = any>(
   return Object.keys(handlers).some((m) =>
     ['GET', 'POST', 'DELETE', 'PUT'].includes(m),
   );
+}
+
+function runMiddleware(
+  req: NextApiRequest,
+  res: NextApiResponse,
+  fn: Function,
+) {
+  return new Promise((resolve, reject) => {
+    fn(req, res, (result: any) => {
+      if (result instanceof Error) {
+        return reject(result);
+      }
+
+      return resolve(result);
+    });
+  });
 }
 
 function isFunction<U extends AllEndpoints, T, P = any>(
