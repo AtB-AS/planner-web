@@ -162,7 +162,11 @@ function submitDeparture(form: HTMLFormElement, from: GeocoderFeature) {
   const searchTime = getSearchTime(new FormData(form));
   const query = createTripQueryForDeparture(from, searchTime);
   const params = new URLSearchParams(query);
-  window.location.href = `${url}?${params.toString()}`;
+  if (from.layer === 'venue') {
+    window.location.href = `${url}/${from.id}?${params.toString()}`;
+  } else {
+    window.location.href = `${url}?${params.toString()}`;
+  }
 }
 
 type ErrorMessage = {
@@ -912,7 +916,6 @@ function createTripQueryForDeparture(
   if (from.layer == 'venue') {
     return {
       ...searchTimeQuery,
-      id: from.id,
     };
   }
 
