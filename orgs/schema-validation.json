@@ -56,7 +56,14 @@
               "type": "string"
             },
             "homePageUrl": {
-              "type": "string"
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "href": {
+                  "type": "string"
+                }
+              }
             }
           },
           "required": [

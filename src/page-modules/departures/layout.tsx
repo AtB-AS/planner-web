@@ -53,8 +53,8 @@ function DeparturesLayout({ children, fromQuery }: DeparturesLayoutProps) {
       <div className={style.homeLink__container}>
         <ButtonLink
           mode="transparent"
-          href={urls.homePageUrl ?? '/'}
-          title={t(PageText.Departures.homeLink)}
+          href={urls.homePageUrl.href}
+          title={t(PageText.Departures.homeLink(urls.homePageUrl.name))}
           icon={{ left: <MonoIcon icon="navigation/ArrowLeft" /> }}
         />
       </div>

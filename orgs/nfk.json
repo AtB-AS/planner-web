@@ -25,6 +25,9 @@
 
     "instagramLink": "https://www.instagram.com/reisnordland",
     "facebookLink": "https://www.facebook.com/ReisNordland",
-    "homePageUrl": "https://www.reisnordland.no/"
+    "homePageUrl": {
+      "name": "reisnordland.no",
+      "href": "https://www.reisnordland.no/"
+    }
   }
 }

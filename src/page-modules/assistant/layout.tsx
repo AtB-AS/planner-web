@@ -85,8 +85,8 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
       <div className={style.homeLink__container}>
         <ButtonLink
           mode="transparent"
-          href={urls.homePageUrl ?? '/'}
-          title={t(PageText.Assistant.homeLink)}
+          href={urls.homePageUrl.href}
+          title={t(PageText.Assistant.homeLink(urls.homePageUrl.name))}
           icon={{ left: <MonoIcon icon="navigation/ArrowLeft" /> }}
         />{' '}
       </div>
