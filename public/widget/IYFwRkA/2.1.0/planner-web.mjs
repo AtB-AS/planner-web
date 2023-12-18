@@ -1,6 +1,6 @@
 class H {
-  constructor(e, n, { tabInsertsSuggestions: i, defaultFirstOption: a, scrollIntoViewOptions: c } = {}) {
-    this.input = e, this.list = n, this.tabInsertsSuggestions = i ?? !0, this.defaultFirstOption = a ?? !1, this.scrollIntoViewOptions = c, this.isComposing = !1, n.id || (n.id = `combobox-${Math.random().toString().slice(2, 6)}`), this.ctrlBindings = !!navigator.userAgent.match(/Macintosh/), this.keyboardEventHandler = (l) => F(l, this), this.compositionEventHandler = (l) => N(l, this), this.inputHandler = this.clearSelection.bind(this), e.setAttribute("role", "combobox"), e.setAttribute("aria-controls", n.id), e.setAttribute("aria-expanded", "false"), e.setAttribute("aria-autocomplete", "list"), e.setAttribute("aria-haspopup", "listbox");
+  constructor(e, i, { tabInsertsSuggestions: n, defaultFirstOption: a, scrollIntoViewOptions: c } = {}) {
+    this.input = e, this.list = i, this.tabInsertsSuggestions = n ?? !0, this.defaultFirstOption = a ?? !1, this.scrollIntoViewOptions = c, this.isComposing = !1, i.id || (i.id = `combobox-${Math.random().toString().slice(2, 6)}`), this.ctrlBindings = !!navigator.userAgent.match(/Macintosh/), this.keyboardEventHandler = (l) => F(l, this), this.compositionEventHandler = (l) => N(l, this), this.inputHandler = this.clearSelection.bind(this), e.setAttribute("role", "combobox"), e.setAttribute("aria-controls", i.id), e.setAttribute("aria-expanded", "false"), e.setAttribute("aria-autocomplete", "list"), e.setAttribute("aria-haspopup", "listbox");
   }
   destroy() {
     this.clearSelection(), this.stop(), this.input.removeAttribute("role"), this.input.removeAttribute("aria-controls"), this.input.removeAttribute("aria-expanded"), this.input.removeAttribute("aria-autocomplete"), this.input.removeAttribute("aria-haspopup");
@@ -16,19 +16,19 @@ class H {
     this.defaultFirstOption && ((e = Array.from(this.list.querySelectorAll('[role="option"]:not([aria-disabled="true"])')).filter(S)[0]) === null || e === void 0 || e.setAttribute("data-combobox-option-default", "true"));
   }
   navigate(e = 1) {
-    const n = Array.from(this.list.querySelectorAll('[aria-selected="true"]')).filter(S)[0], i = Array.from(this.list.querySelectorAll('[role="option"]')).filter(S), a = i.indexOf(n);
-    if (a === i.length - 1 && e === 1 || a === 0 && e === -1) {
+    const i = Array.from(this.list.querySelectorAll('[aria-selected="true"]')).filter(S)[0], n = Array.from(this.list.querySelectorAll('[role="option"]')).filter(S), a = n.indexOf(i);
+    if (a === n.length - 1 && e === 1 || a === 0 && e === -1) {
       this.clearSelection(), this.input.focus();
       return;
     }
-    let c = e === 1 ? 0 : i.length - 1;
-    if (n && a >= 0) {
+    let c = e === 1 ? 0 : n.length - 1;
+    if (i && a >= 0) {
       const d = a + e;
-      d >= 0 && d < i.length && (c = d);
+      d >= 0 && d < n.length && (c = d);
     }
-    const l = i[c];
+    const l = n[c];
     if (l)
-      for (const d of i)
+      for (const d of n)
         d.removeAttribute("data-combobox-option-default"), l === d ? (this.input.setAttribute("aria-activedescendant", l.id), l.setAttribute("aria-selected", "true"), W(l), l.scrollIntoView(this.scrollIntoViewOptions)) : d.removeAttribute("aria-selected");
   }
   clearSelection() {
@@ -75,8 +75,8 @@ function L(t) {
   e && e.getAttribute("aria-disabled") !== "true" && x(e, { event: t });
 }
 function k(t, e) {
-  const n = e.querySelector('[aria-selected="true"], [data-combobox-option-default="true"]');
-  return n ? (n.getAttribute("aria-disabled") === "true" || n.click(), !0) : !1;
+  const i = e.querySelector('[aria-selected="true"], [data-combobox-option-default="true"]');
+  return i ? (i.getAttribute("aria-disabled") === "true" || i.click(), !0) : !1;
 }
 function x(t, e) {
   t.dispatchEvent(new CustomEvent("combobox-commit", { bubbles: !0, detail: e }));
@@ -90,13 +90,13 @@ function S(t) {
 function N(t, e) {
   e.isComposing = t.type === "compositionstart", document.getElementById(e.input.getAttribute("aria-controls") || "") && e.clearSelection();
 }
-const R = "theme-module__light", G = '"../page-modules/assistant/assistant.module.css"', U = '"../page-modules/departures/departures.module.css"', V = '"../components/search/search.module.css"', K = '"../modules/search-time/selector/selector.module.css"', Q = '"../components/button/button.module.css"', Y = "widget-module__hidden", J = "widget-module__lightWrapper theme-module__light", z = "widget-module__wrapper theme-module__override-light", X = "widget-module__form assistant-module__container", Z = "widget-module__nav", ee = "widget-module__tabs", te = "widget-module__tabSelected", oe = "widget-module__main assistant-module__main", ne = "widget-module__heading assistant-module__heading", ie = "widget-module__inputBoxes", ae = "widget-module__search_container search-module__container", re = "widget-module__search_inputContainer search-module__inputContainer", se = "widget-module__search_label search-module__label typography-module__typo-body__secondary", le = "widget-module__search_input search-module__input", ce = "widget-module__search_inputLast", de = "widget-module__button_geolocation departures-module__geolocationButton", ue = "widget-module__selector_group selector-module__departureDateSelector", pe = "widget-module__selector_options selector-module__options", me = "widget-module__selector_options__small selector-module__options", _e = "widget-module__selector_option selector-module__option selector-module__option", he = "widget-module__selector_option__text selector-module__option__text", ge = "widget-module__selector_option__label selector-module__option__label", fe = "widget-module__selector_option__input selector-module__option__input", be = "widget-module__selector_dateAndTimeSelectorsWrapper selector-module__dateAndTimeSelectorsWrapper", ve = "widget-module__selector_dateAndTimeSelectorsWrapper__hidden", we = "widget-module__selector_dateAndTimeSelectors selector-module__dateAndTimeSelectors", ye = "widget-module__selector_dateSelector selector-module__dateSelector", $e = "widget-module__selector_timeSelector selector-module__timeSelector", Se = "widget-module__buttonGroup", Ee = "widget-module__button", Te = "widget-module__listItem", Ae = "widget-module__itemIcon", Le = "widget-module__itemLocality search-module__itemLocality typography-module__typo-body__secondary", ke = "widget-module__popupContainer search-module__menu", Ie = "widget-module__messageBox", o = {
+const R = "theme-module__light", G = '"../page-modules/assistant/assistant.module.css"', V = '"../page-modules/departures/departures.module.css"', K = '"../components/search/search.module.css"', U = '"../modules/search-time/selector/selector.module.css"', Q = '"../components/button/button.module.css"', Y = "widget-module__hidden", J = "widget-module__lightWrapper theme-module__light", z = "widget-module__wrapper theme-module__override-light", X = "widget-module__form assistant-module__container", Z = "widget-module__nav", ee = "widget-module__tabs", te = "widget-module__tabSelected", oe = "widget-module__main assistant-module__main", ne = "widget-module__heading assistant-module__heading", ie = "widget-module__inputBoxes", ae = "widget-module__search_container search-module__container", re = "widget-module__search_inputContainer search-module__inputContainer", se = "widget-module__search_label search-module__label typography-module__typo-body__secondary", le = "widget-module__search_input search-module__input", ce = "widget-module__search_inputLast", de = "widget-module__button_geolocation departures-module__geolocationButton", ue = "widget-module__selector_group selector-module__departureDateSelector", pe = "widget-module__selector_options selector-module__options", me = "widget-module__selector_options__small selector-module__options", _e = "widget-module__selector_option selector-module__option selector-module__option", he = "widget-module__selector_option__text selector-module__option__text", ge = "widget-module__selector_option__label selector-module__option__label", fe = "widget-module__selector_option__input selector-module__option__input", be = "widget-module__selector_dateAndTimeSelectorsWrapper selector-module__dateAndTimeSelectorsWrapper", ve = "widget-module__selector_dateAndTimeSelectorsWrapper__hidden", we = "widget-module__selector_dateAndTimeSelectors selector-module__dateAndTimeSelectors", ye = "widget-module__selector_dateSelector selector-module__dateSelector", $e = "widget-module__selector_timeSelector selector-module__timeSelector", Se = "widget-module__buttonGroup", Ee = "widget-module__button", Te = "widget-module__listItem", Ae = "widget-module__itemIcon", Le = "widget-module__itemLocality search-module__itemLocality typography-module__typo-body__secondary", ke = "widget-module__popupContainer search-module__menu", Ie = "widget-module__messageBox", o = {
   "override-light": "theme-module__override-light",
   light: R,
   assistant: G,
-  departures: U,
-  search: V,
-  selector: K,
+  departures: V,
+  search: K,
+  selector: U,
   buttonComponent: Q,
   hidden: Y,
   lightWrapper: J,
@@ -151,50 +151,50 @@ function ze({
   urlBase: t,
   language: e = "en"
 }) {
-  const n = Ye(e), i = De(t);
+  const i = Ye(e), n = De(t);
   return {
-    output: Pe(i, n),
+    output: Pe(n, i),
     init: Me,
-    urls: i
+    urls: n
   };
 }
 function Me() {
-  var e, n;
+  var e, i;
   je(), I("pw-assistant"), I("pw-departure");
   let t = {
     from: void 0,
     to: void 0
   };
-  document.addEventListener("search-selected", function(i) {
-    const a = i;
+  document.addEventListener("search-selected", function(n) {
+    const a = n;
     t[a.detail.key] = a.detail.item;
-  }), document.querySelectorAll("[name=searchTimeSelector]").forEach(function(i) {
-    i.addEventListener("change", function(a) {
+  }), document.querySelectorAll("[name=searchTimeSelector]").forEach(function(n) {
+    n.addEventListener("change", function(a) {
       const l = a.currentTarget.value === "now";
       document.querySelectorAll(".js-search-date-details").forEach((d) => {
         d.hidden = l;
       });
     });
-  }), (e = document.querySelector("#pw-form-departures")) == null || e.addEventListener("submit", (i) => {
-    i.preventDefault();
-    const a = i.currentTarget;
+  }), (e = document.querySelector("#pw-form-departures")) == null || e.addEventListener("submit", (n) => {
+    n.preventDefault();
+    const a = n.currentTarget;
     Oe(a, t.from);
-  }), (n = document.querySelector("#pw-form-assistant")) == null || n.addEventListener("submit", (i) => {
-    i.preventDefault();
-    const a = i.currentTarget;
+  }), (i = document.querySelector("#pw-form-assistant")) == null || i.addEventListener("submit", (n) => {
+    n.preventDefault();
+    const a = n.currentTarget;
     Be(a, t.from, t.to);
   });
 }
 function I(t) {
   const e = document.querySelector(
     `#${t}-searchTimeSelector-date`
-  ), n = document.querySelector(
+  ), i = document.querySelector(
     `#${t}-searchTimeSelector-time`
   );
   try {
-    if (e && (e.valueAsDate = /* @__PURE__ */ new Date()), n) {
-      const i = /* @__PURE__ */ new Date();
-      i.setSeconds(0), i.setMilliseconds(0), n.valueAsDate = i;
+    if (e && (e.valueAsDate = /* @__PURE__ */ new Date()), i) {
+      const n = /* @__PURE__ */ new Date();
+      n.setSeconds(0), n.setMilliseconds(0), i.valueAsDate = n;
     }
   } catch {
   }
@@ -206,9 +206,9 @@ function M(t) {
       mode: "now"
     };
   {
-    const n = t.get("dateinput"), i = t.get("timeinput");
-    if (n && i) {
-      const a = /* @__PURE__ */ new Date(`${n}T${i}`);
+    const i = t.get("dateinput"), n = t.get("timeinput");
+    if (i && n) {
+      const a = /* @__PURE__ */ new Date(`${i}T${n}`);
       return {
         mode: e == "arriveBy" ? "arriveBy" : "departBy",
         dateTime: a.getTime()
@@ -219,13 +219,13 @@ function M(t) {
     };
   }
 }
-function Be(t, e, n) {
-  const i = t.action, a = M(new FormData(t)), c = Ne({ from: e, to: n }, a), l = new URLSearchParams(c);
-  window.location.href = `${i}?${l.toString()}`;
+function Be(t, e, i) {
+  const n = t.action, a = M(new FormData(t)), c = Ne({ from: e, to: i }, a), l = new URLSearchParams(c);
+  window.location.href = `${n}?${l.toString()}`;
 }
 function Oe(t, e) {
-  const n = t.action, i = M(new FormData(t)), a = Re(e, i), c = new URLSearchParams(a);
-  window.location.href = `${n}?${c.toString()}`;
+  const i = t.action, n = M(new FormData(t)), a = Re(e, n), c = new URLSearchParams(a);
+  window.location.href = `${i}?${c.toString()}`;
 }
 class $ extends HTMLElement {
   constructor() {
@@ -233,10 +233,10 @@ class $ extends HTMLElement {
   }
   connectedCallback() {
     const e = this;
-    e.hidden = !0, e.classList.add(o.messageBox), document.addEventListener("pw-errorMessage", function(n) {
-      const i = n;
-      e.textContent = i.detail.message, e.hidden = !1;
-    }), document.addEventListener("pw-errorMessage-clear", function(n) {
+    e.hidden = !0, e.classList.add(o.messageBox), document.addEventListener("pw-errorMessage", function(i) {
+      const n = i;
+      e.textContent = n.detail.message, e.hidden = !1;
+    }), document.addEventListener("pw-errorMessage-clear", function(i) {
       e.hidden = !0;
     }), e.addEventListener("click", function() {
       $.clearMessageBox();
@@ -251,11 +251,11 @@ class $ extends HTMLElement {
   }
 }
 function Pe({ URL_BASE: t }, e) {
-  function n(r) {
+  function i(r) {
     const s = a(r), p = b("span", [r.name]), m = b("span", [r.locality ?? ""], o.itemLocality), _ = b("li", [s, p, m], o.listItem);
     return _.role = "option", _.setAttribute("data-feature-id", r.id), _;
   }
-  function i(r) {
+  function n(r) {
     const s = b("span", [r]);
     return b("li", [s], o.listItem);
   }
@@ -275,7 +275,7 @@ function Pe({ URL_BASE: t }, e) {
         var g;
         $.clearMessageBox();
         try {
-          const h = await Ve(e), v = (g = s.parentElement) == null ? void 0 : g.querySelector("input");
+          const h = await Ke(t, e), v = (g = s.parentElement) == null ? void 0 : g.querySelector("input");
           v && (v.value = h ? `${h.name}, ${h.locality}` : v.value), document.dispatchEvent(
             new CustomEvent("search-selected", {
               bubbles: !0,
@@ -327,7 +327,7 @@ function Pe({ URL_BASE: t }, e) {
       }
       function v() {
         s.setItems([]), _.innerHTML = "";
-        const u = i(e.noResults);
+        const u = n(e.noResults);
         _.appendChild(u), h(!0);
       }
       const j = C(async (u) => {
@@ -336,12 +336,12 @@ function Pe({ URL_BASE: t }, e) {
             _.innerHTML = "";
             return;
           }
-          const f = await Ge(u.value);
+          const f = await Ge(t, u.value);
           if (f.length === 0)
             return v();
           s.setItems(f), _.innerHTML = "";
           for (let w of f) {
-            const q = n(w);
+            const q = i(w);
             _.appendChild(q);
           }
           h(!0);
@@ -680,42 +680,42 @@ function je() {
   var t;
   (t = document.querySelector(".js-tablist")) == null || t.addEventListener("click", function(e) {
     var l;
-    const n = (l = e.target) == null ? void 0 : l.closest("a");
-    if (!n)
-      return;
-    const i = n.getAttribute("href");
+    const i = (l = e.target) == null ? void 0 : l.closest("a");
     if (!i)
       return;
-    const a = i.replace("/", "");
+    const n = i.getAttribute("href");
+    if (!n)
+      return;
+    const a = n.replace("/", "");
     e.preventDefault();
     const c = document.querySelector("#pw-" + a);
     c && ($.clearMessageBox(), document.querySelectorAll(".js-tabpanel").forEach((d) => {
       d.classList.add(o.hidden);
     }), document.querySelectorAll(".js-tablist a").forEach((d) => {
       d.classList.remove(o.tabSelected);
-    }), c.classList.remove(o.hidden), n.classList.add(o.tabSelected));
+    }), c.classList.remove(o.hidden), i.classList.add(o.tabSelected));
   });
 }
 function C(t, e) {
-  let n = null;
-  return function(...i) {
-    clearTimeout(n), n = setTimeout(() => {
-      t(...i);
+  let i = null;
+  return function(...n) {
+    clearTimeout(i), i = setTimeout(() => {
+      t(...n);
     }, e);
   };
 }
-function b(t, e = [], n = "") {
-  const i = document.createElement(t);
+function b(t, e = [], i = "") {
+  const n = document.createElement(t);
   if (Array.isArray(e))
     for (let a of e) {
       let c = typeof a == "string" ? document.createTextNode(a) : a;
-      i.appendChild(c);
+      n.appendChild(c);
     }
-  return i.className = n, i;
+  return n.className = i, n;
 }
 function qe(t, e) {
-  const n = parseInt(t, 10);
-  return Number.isNaN(n) ? e : n;
+  const i = parseInt(t, 10);
+  return Number.isNaN(i) ? e : i;
 }
 function B(t, e) {
   return t === e ? !0 : !t || !t.parentElement ? !1 : B(t.parentElement, e);
@@ -738,7 +738,7 @@ function He(t) {
   }
 }
 function Fe(t) {
-  return t.map(xe).filter((e, n, i) => i.indexOf(e) === n);
+  return t.map(xe).filter((e, i, n) => n.indexOf(e) === i);
 }
 function xe(t) {
   switch (t) {
@@ -763,7 +763,7 @@ function xe(t) {
   }
 }
 function We(t, e) {
-  const n = e ? {
+  const i = e ? {
     toId: e.id,
     toLon: e.geometry.coordinates[0].toString(),
     toLat: e.geometry.coordinates[1].toString(),
@@ -774,64 +774,64 @@ function We(t, e) {
     fromLon: t.geometry.coordinates[0].toString(),
     fromLat: t.geometry.coordinates[1].toString(),
     fromLayer: t.layer,
-    ...n
+    ...i
   };
 }
 function Ne(t, e) {
-  const n = e.mode !== "now" ? {
+  const i = e.mode !== "now" ? {
     searchMode: e.mode,
     searchTime: e.dateTime.toString()
-  } : { searchMode: e.mode }, i = We(
+  } : { searchMode: e.mode }, n = We(
     t.from,
     t.to
   );
   return {
-    ...n,
-    ...i
+    ...i,
+    ...n
   };
 }
 function Re(t, e) {
-  const n = e.mode !== "now" ? {
+  const i = e.mode !== "now" ? {
     searchMode: e.mode,
     searchTime: e.dateTime.toString()
   } : { searchMode: e.mode };
   return t.layer == "venue" ? {
-    ...n,
+    ...i,
     id: t.id
   } : {
-    ...n,
+    ...i,
     lon: t.geometry.coordinates[0].toString(),
     lat: t.geometry.coordinates[1].toString()
   };
 }
-async function Ge(t) {
-  const e = `/api/departures/autocomplete?q=${t}`, n = await fetch(e);
+async function Ge(t, e) {
+  const i = `${t}api/departures/autocomplete?q=${e}`, n = await fetch(i);
   if (!n.ok)
-    throw new Error(`Error fetching autocomplete data from ${e}`);
+    throw new Error(`Error fetching autocomplete data from ${i}`);
   return await n.json();
 }
-async function Ue(t) {
+async function Ve(t, e) {
   const n = await (await fetch(
-    `/api/departures/reverse?lat=${t.latitude}&lon=${t.longitude}`
+    `${t}api/departures/reverse?lat=${e.latitude}&lon=${e.longitude}`
   )).json();
   if (n)
     return n;
 }
-async function Ve(t) {
-  return new Promise(function(e, n) {
+async function Ke(t, e) {
+  return new Promise(function(i, n) {
     navigator.geolocation.getCurrentPosition(
-      async (i) => {
-        const a = await Ue(i.coords);
-        e(a);
+      async (a) => {
+        const c = await Ve(t, a.coords);
+        i(c);
       },
-      (i) => {
-        n(new Error(Ke(i.code, t)));
+      (a) => {
+        n(new Error(Ue(a.code, e)));
       },
       { enableHighAccuracy: !0, timeout: 1e4 }
     );
   });
 }
-function Ke(t, e) {
+function Ue(t, e) {
   switch (t) {
     case GeolocationPositionError.PERMISSION_DENIED:
       return e.geoTexts.denied;
@@ -877,7 +877,7 @@ const Qe = {
     noResults: "Ingen resultat",
     geoButton: "Finn min posisjon",
     geoTexts: {
-      denied: "Du må endre stadinnstillingane i nettlesaren din for å bruke din posisjon i reisesøket.",
+      denied: "Du må endre posisjonsinnstillingane i nettlesaren din for å bruke din posisjon i reisesøket.",
       unavailable: "Posisjonen din er ikkje tilgjengeleg.",
       timeout: "Det tok for lang tid å hente posisjonen din. Prøv på nytt."
     },
@@ -939,5 +939,5 @@ function Ye(t) {
 }
 export {
   ze as createWidget,
-  Ue as reverse
+  Ve as reverse
 };
