@@ -68,7 +68,7 @@ export const getServerSideProps = withGlobalData(
       return {
         redirect: {
           destination: `/departures/${id}?${encode(query)}`,
-          permanent: true,
+          permanent: false,
         },
       };
     }
