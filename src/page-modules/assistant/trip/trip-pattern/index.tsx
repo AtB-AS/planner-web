@@ -127,10 +127,7 @@ export default function TripPattern({
                         </Typo.span>
                       </>
                     ) : (
-                      <Typo.span
-                        textType="body__tertiary"
-                        className={style.outdatet}
-                      >
+                      <Typo.span textType="body__tertiary">
                         {formatToClock(leg.aimedStartTime, language, 'floor')}
                       </Typo.span>
                     )}
