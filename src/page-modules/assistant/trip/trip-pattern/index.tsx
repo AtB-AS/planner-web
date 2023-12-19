@@ -114,7 +114,10 @@ export default function TripPattern({
                     </Typo.span>
                     {secondsBetween(leg.aimedStartTime, leg.expectedStartTime) >
                       60 && (
-                      <Typo.span textType="body__tertiary--strike">
+                      <Typo.span
+                        textType="body__tertiary--strike"
+                        className={style.lineThrough}
+                      >
                         {formatToClock(leg.aimedStartTime, language, 'floor')}
                       </Typo.span>
                     )}
