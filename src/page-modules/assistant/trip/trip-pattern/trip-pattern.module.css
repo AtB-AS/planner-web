@@ -146,8 +146,3 @@
   direction: row;
   gap: var(--spacings-xSmall);
 }
-
-.lineThrough {
-  text-decoration: line-through;
-  color: var(--text-colors-secondary);
-}
