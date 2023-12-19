@@ -59,6 +59,7 @@ export default function Search({
             {...getRootProps({}, { suppressRefError: true })}
           >
             <input
+              type="text"
               className={style.input}
               placeholder={placeholder}
               {...getInputProps()}
