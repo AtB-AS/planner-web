@@ -1,3 +1,5 @@
+@value typo-body__secondary from "@atb/theme/typography.module.css";
+
 .container {
   display: flex;
   flex-direction: column;
@@ -15,5 +17,6 @@
 .walkTime,
 .waitTime,
 .intermediateStops {
+  composes: typo-body__secondary;
   color: var(--text-colors-secondary);
 }
