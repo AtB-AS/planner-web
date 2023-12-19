@@ -5,7 +5,7 @@ import { getFilteredLegsByWalkOrWaitTime, tripSummary } from './utils';
 import { PageText, useTranslation } from '@atb/translations';
 import { type TripPattern as TripPatternType } from '../../server/journey-planner/validators';
 import style from './trip-pattern.module.css';
-import { formatToClock, isInPast } from '@atb/utils/date';
+import { formatToClock, isInPast, secondsBetween } from '@atb/utils/date';
 import { TripPatternHeader } from './trip-pattern-header';
 import { MonoIcon } from '@atb/components/icon';
 import { Typo } from '@atb/components/typography';
@@ -18,16 +18,6 @@ type TripPatternProps = {
   tripPattern: TripPatternType;
   delay: number;
   index: number;
-};
-
-const isEqualOnMinuteLevel = (
-  aimedStartTime: string,
-  expectedStartTime: string,
-): boolean => {
-  return (
-    new Date(aimedStartTime).getMinutes() ===
-    new Date(expectedStartTime).getMinutes()
-  );
 };
 
 export default function TripPattern({
@@ -122,10 +112,8 @@ export default function TripPattern({
                     <Typo.span textType="body__tertiary">
                       {formatToClock(leg.expectedStartTime, language, 'floor')}
                     </Typo.span>
-                    {!isEqualOnMinuteLevel(
-                      leg.aimedStartTime,
-                      leg.expectedStartTime,
-                    ) && (
+                    {secondsBetween(leg.aimedStartTime, leg.expectedStartTime) >
+                      60 && (
                       <Typo.span
                         textType="body__tertiary"
                         className={style.lineThrough}
