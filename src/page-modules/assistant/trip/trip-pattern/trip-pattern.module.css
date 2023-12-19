@@ -140,3 +140,13 @@
   gap: var(--spacings-small);
   align-items: center;
 }
+
+.timeStartContainer {
+  display: flex;
+  direction: row;
+  gap: var(--spacings-xSmall);
+}
+
+.outdatet {
+  color: var(--text-colors-secondary);
+}

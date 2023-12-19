@@ -5,7 +5,7 @@ import { getFilteredLegsByWalkOrWaitTime, tripSummary } from './utils';
 import { PageText, useTranslation } from '@atb/translations';
 import { type TripPattern as TripPatternType } from '../../server/journey-planner/validators';
 import style from './trip-pattern.module.css';
-import { formatToClock, isInPast } from '@atb/utils/date';
+import { formatToClock, isInPast, secondsBetween } from '@atb/utils/date';
 import { TripPatternHeader } from './trip-pattern-header';
 import { MonoIcon } from '@atb/components/icon';
 import { Typo } from '@atb/components/typography';
@@ -13,6 +13,7 @@ import { TransportIconWithLabel } from '@atb/modules/transport-mode';
 import { andIf } from '@atb/utils/css';
 
 const LAST_LEG_PADDING = 20;
+const DEFAULT_THRESHOLD_AIMED_EXPECTED_IN_SECONDS = 60;
 
 type TripPatternProps = {
   tripPattern: TripPatternType;
@@ -108,9 +109,30 @@ export default function TripPattern({
                     )}
                   </div>
 
-                  <Typo.span textType="body__tertiary">
-                    {formatToClock(leg.expectedStartTime, language, 'floor')}
-                  </Typo.span>
+                  <div className={style.timeStartContainer}>
+                    {secondsBetween(leg.aimedStartTime, leg.expectedStartTime) >
+                    DEFAULT_THRESHOLD_AIMED_EXPECTED_IN_SECONDS ? (
+                      <>
+                        <Typo.span textType="body__tertiary">
+                          {formatToClock(
+                            leg.expectedStartTime,
+                            language,
+                            'floor',
+                          )}
+                        </Typo.span>
+                        <Typo.span
+                          textType="body__tertiary--strike"
+                          className={style.outdatet}
+                        >
+                          {formatToClock(leg.aimedStartTime, language, 'floor')}
+                        </Typo.span>
+                      </>
+                    ) : (
+                      <Typo.span textType="body__tertiary">
+                        {formatToClock(leg.aimedStartTime, language, 'floor')}
+                      </Typo.span>
+                    )}
+                  </div>
                 </div>
 
                 {(i < expandedLegs.length - 1 || collapsedLegs.length > 0) && (
