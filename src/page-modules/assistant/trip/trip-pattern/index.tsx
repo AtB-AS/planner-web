@@ -13,6 +13,7 @@ import { TransportIconWithLabel } from '@atb/modules/transport-mode';
 import { andIf } from '@atb/utils/css';
 
 const LAST_LEG_PADDING = 20;
+const DEFAULT_THRESHOLD_AIMED_EXPECTED_IN_SECONDS = 60;
 
 type TripPatternProps = {
   tripPattern: TripPatternType;
