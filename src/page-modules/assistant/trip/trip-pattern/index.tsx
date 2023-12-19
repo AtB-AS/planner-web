@@ -124,6 +124,7 @@ export default function TripPattern({
                 {(i < expandedLegs.length - 1 || collapsedLegs.length > 0) && (
                   <div className={style.legs__legLineContainer}>
                     <div className={style.legs__legLine} />
+                    <div className={style.legs__legLine} />
                   </div>
                 )}
               </Fragment>
@@ -139,7 +140,6 @@ export default function TripPattern({
           </div>
 
           <div className={style.legs__lastLegLineContainer}>
-            <div className={style.legs__lastLegLine} />
             <div className={style.legs__lastLegLine} />
           </div>
         </div>
