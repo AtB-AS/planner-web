@@ -8,7 +8,9 @@ import style from './stop-place.module.css';
 import { ColorIcon, MonoIcon } from '@atb/components/icon';
 import {
   formatLocaleTime,
+  formatSimpleTime,
   formatToClockOrRelativeMinutes,
+  isInPast,
   secondsBetween,
 } from '@atb/utils/date';
 import { PageText, useTranslation } from '@atb/translations';
@@ -249,6 +251,7 @@ export function DepartureTime({
   cancelled = false,
 }: DepartureTimeProps) {
   const { t, language } = useTranslation();
+
   return (
     <div className={style.departureTime}>
       <Typo.p
@@ -262,11 +265,13 @@ export function DepartureTime({
             : ''
         }
       >
-        {formatToClockOrRelativeMinutes(
-          expectedDepartureTime,
-          language,
-          t(dictionary.date.units.now),
-        )}
+        {isInPast(expectedDepartureTime)
+          ? formatSimpleTime(expectedDepartureTime)
+          : formatToClockOrRelativeMinutes(
+              expectedDepartureTime,
+              language,
+              t(dictionary.date.units.now),
+            )}
       </Typo.p>
       {isMoreThanOneMinuteDelayed(
         expectedDepartureTime,
