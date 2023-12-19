@@ -54,7 +54,6 @@ query TripsWithDetails(
           latitude
           longitude
           quay {
-            id
             name
             publicCode
           }

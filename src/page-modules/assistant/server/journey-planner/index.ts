@@ -296,7 +296,6 @@ export function createJourneyApi(
             longitude: leg.fromPlace.longitude,
             quay: leg.fromPlace.quay
               ? {
-                  id: leg.fromPlace.quay.id,
                   name: leg.fromPlace.quay.name,
                   publicCode: leg.fromPlace.quay.publicCode ?? '',
                 }
@@ -311,11 +310,9 @@ export function createJourneyApi(
                 }
               : null,
           },
-          serviceJourney: leg.serviceJourney
-            ? {
-                id: leg.serviceJourney.id,
-              }
-            : null,
+          serviceJourney: {
+            id: leg.serviceJourney?.id ?? null,
+          },
           fromEstimatedCall: leg.fromEstimatedCall?.destinationDisplay
             ?.frontText
             ? {
