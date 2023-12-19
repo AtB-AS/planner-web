@@ -143,6 +143,7 @@ export default function TripPattern({
 
           <div className={style.legs__lastLegLineContainer}>
             <div className={style.legs__lastLegLine} />
+            <div className={style.legs__lastLegLine} />
           </div>
         </div>
 
