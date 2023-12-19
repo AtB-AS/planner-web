@@ -51,10 +51,9 @@ export function DeparturesDetails({
     .map((s) => s.situationNumber)
     .filter((s): s is string => !!s);
 
-  const backLink =
-    referer && referer.includes('assistant/')
-      ? referer
-      : `/departures/${focusedCall.quay.stopPlace.id}`;
+  const backLink = referer?.includes('assistant/')
+    ? referer
+    : `/departures/${focusedCall.quay.stopPlace.id}`;
 
   return (
     <section className={style.container}>
