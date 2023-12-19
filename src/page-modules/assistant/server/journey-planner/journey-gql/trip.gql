@@ -5,6 +5,7 @@ query Trips(
   $when: DateTime
   $cursor: String
   $transferPenalty: Int
+  $transferSlack: Int
   $waitReluctance: Float
   $walkReluctance: Float
   $walkSpeed: Float
@@ -18,6 +19,7 @@ query Trips(
     arriveBy: $arriveBy
     pageCursor: $cursor
     transferPenalty: $transferPenalty
+    transferSlack: $transferSlack
     waitReluctance: $waitReluctance
     walkReluctance: $walkReluctance
     walkSpeed: $walkSpeed
