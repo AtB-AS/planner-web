@@ -24,9 +24,10 @@ export function EstimatedCallsSection({
   const { t, language } = useTranslation();
 
   const shouldShowLinkToServiceJourney = serviceJourneyId ? true : false;
-  const serviceJourneyHref = fromQuayId
-    ? `/departures/details/${serviceJourneyId}?date=${date}&fromQuayId=${fromQuayId}`
-    : `/departures/details/${serviceJourneyId}?date=${date}`;
+  let serviceJourneyHref = `/departures/details/${serviceJourneyId}?date=${date}`;
+  if (fromQuayId) {
+    serviceJourneyHref += `&fromQuayId=${fromQuayId}`;
+  }
 
   if (numberOfIntermediateEstimatedCalls === 0) return null;
   return (
