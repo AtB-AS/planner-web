@@ -15,13 +15,11 @@ import { MessageBox } from '@atb/components/message-box';
 export type DeparturesDetailsProps = {
   fromQuayId?: string;
   serviceJourney: ServiceJourneyData;
-  referer?: string;
 };
 
 export function DeparturesDetails({
   fromQuayId,
   serviceJourney,
-  referer,
 }: DeparturesDetailsProps) {
   const { t } = useTranslation();
   const focusedCall =
@@ -51,21 +49,13 @@ export function DeparturesDetails({
     .map((s) => s.situationNumber)
     .filter((s): s is string => !!s);
 
-  const backLink = referer?.includes('assistant/')
-    ? referer
-    : `/departures/${focusedCall.quay.stopPlace.id}`;
-
   return (
     <section className={style.container}>
       <div className={style.headerContainer}>
         <ButtonLink
           mode="transparent"
-          href={backLink}
-          title={
-            backLink.includes('assistant/')
-              ? t(PageText.Departures.details.backToAssistant)
-              : t(PageText.Departures.details.backToDepartures)
-          }
+          href={`/departures/${focusedCall.quay.stopPlace.id}`}
+          title={t(PageText.Departures.details.back)}
           icon={{ left: <MonoIcon icon="navigation/ArrowLeft" /> }}
         />
         <div className={style.header}>
