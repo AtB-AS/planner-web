@@ -20,6 +20,16 @@ type TripPatternProps = {
   index: number;
 };
 
+const isEqualOnMinuteLevel = (
+  aimedStartTime: string,
+  expectedStartTime: string,
+): boolean => {
+  return (
+    new Date(aimedStartTime).getMinutes() ===
+    new Date(expectedStartTime).getMinutes()
+  );
+};
+
 export default function TripPattern({
   tripPattern,
   delay,
@@ -108,14 +118,27 @@ export default function TripPattern({
                     )}
                   </div>
 
-                  <Typo.span textType="body__tertiary">
-                    {formatToClock(leg.expectedStartTime, language, 'floor')}
-                  </Typo.span>
+                  <div className={style.timeStartContainer}>
+                    <Typo.span textType="body__tertiary">
+                      {formatToClock(leg.expectedStartTime, language, 'floor')}
+                    </Typo.span>
+                    {i === 0 &&
+                      !isEqualOnMinuteLevel(
+                        leg.aimedStartTime,
+                        leg.expectedStartTime,
+                      ) && (
+                        <Typo.span
+                          textType="body__tertiary"
+                          className={style.lineThrough}
+                        >
+                          {formatToClock(leg.aimedStartTime, language, 'floor')}
+                        </Typo.span>
+                      )}
+                  </div>
                 </div>
 
                 {(i < expandedLegs.length - 1 || collapsedLegs.length > 0) && (
                   <div className={style.legs__legLineContainer}>
-                    <div className={style.legs__legLine} />
                     <div className={style.legs__legLine} />
                   </div>
                 )}

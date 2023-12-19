@@ -140,3 +140,13 @@
   gap: var(--spacings-small);
   align-items: center;
 }
+
+.timeStartContainer {
+  display: flex;
+  direction: row;
+  gap: 4px;
+}
+
+.lineThrough {
+  text-decoration: line-through;
+}
