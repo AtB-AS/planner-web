@@ -110,7 +110,7 @@ export default function TripPattern({
 
                   <div className={style.timeStartContainer}>
                     {secondsBetween(leg.aimedStartTime, leg.expectedStartTime) >
-                    60 ? (
+                    DEFAULT_THRESHOLD_AIMED_EXPECTED_IN_SECONDS ? (
                       <>
                         <Typo.span textType="body__tertiary">
                           {formatToClock(
