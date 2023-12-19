@@ -36,7 +36,7 @@ export const Assistant = {
     },
     buttons: {
       find: {
-        title: _('Finn avganger', 'Find departures', 'Finn avganger'),
+        title: _('Finn avganger', 'Find departures', 'Finn avgangar'),
       },
       alternatives: {
         more: _('Flere valg', 'More choices', 'Fleire val'),

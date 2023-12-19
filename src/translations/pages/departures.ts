@@ -1,7 +1,7 @@
 import { translation as _ } from '@atb/translations/commons';
 
 export const Departures = {
-  title: _('Finn avganger', 'Find departures', 'Finn avganger'),
+  title: _('Finn avganger', 'Find departures', 'Finn avgangar'),
   homeLink: (name: string) =>
     _(`Tilbake til ${name}`, `Back to ${name}`, `Tilbake til ${name}`),
   shortTitle: _('Avganger', 'Departures', 'Avganger'),
@@ -28,7 +28,7 @@ export const Departures = {
     },
     buttons: {
       find: {
-        title: _('Finn avganger', 'Find departures', 'Finn avganger'),
+        title: _('Finn avganger', 'Find departures', 'Finn avgangar'),
       },
     },
   },
