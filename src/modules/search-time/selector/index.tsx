@@ -29,14 +29,6 @@ export default function SearchTimeSelector({
     format(initialDate, 'HH:mm'),
   );
 
-  const resetToCurrentTime = () => {
-    setSelectedTime(() => format(new Date(), 'HH:mm'));
-  };
-
-  const resetToCurrentDate = () => {
-    setSelectedDate(new Date());
-  };
-
   const internalOnStateChange = (state: SearchMode) => {
     const newState =
       state === 'now'
@@ -50,10 +42,16 @@ export default function SearchTimeSelector({
             ).getTime(),
           };
 
-    resetToCurrentDate();
-    resetToCurrentTime();
     setSelectedMode(newState);
     onChange(newState);
+  };
+
+  const resetToCurrentTime = () => {
+    setSelectedTime(() => format(new Date(), 'HH:mm'));
+  };
+
+  const resetToCurrentDate = () => {
+    setSelectedDate(new Date());
   };
 
   const isPastDate = (selectedDate: string) => {
