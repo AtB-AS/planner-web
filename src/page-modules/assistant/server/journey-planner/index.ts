@@ -48,9 +48,10 @@ const MAX_NUMBER_OF_SEARCH_ATTEMPTS = 5;
 const DEFAULT_JOURNEY_CONFIG = {
   numTripPatterns: 8, // The maximum number of trip patterns to return.
   waitReluctance: 1.5, // Setting this to a value lower than 1 indicates that waiting is better than staying on a vehicle.
-  walkReluctance: 1.5, // This is the main parameter to use for limiting walking.
+  walkReluctance: 4, // This is the main parameter to use for limiting walking.
   walkSpeed: 1.3, // The maximum walk speed along streets, in meters per second.
   transferPenalty: 10, // An extra penalty added on transfers (i.e. all boardings except the first one)
+  transferSlack: 0, // An expected transfer time (in seconds) that specifies the amount of time that must pass between exiting one public transport vehicle and boarding another.
 };
 
 export type JourneyPlannerApi = {
@@ -356,8 +357,8 @@ type RecursivePartial<T> = {
   [P in keyof T]?: T[P] extends (infer U)[]
     ? RecursivePartial<U>[]
     : T[P] extends object | undefined
-      ? RecursivePartial<T[P]>
-      : T[P];
+    ? RecursivePartial<T[P]>
+    : T[P];
 };
 
 function inputToLocation(
