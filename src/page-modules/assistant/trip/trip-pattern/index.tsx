@@ -122,18 +122,17 @@ export default function TripPattern({
                     <Typo.span textType="body__tertiary">
                       {formatToClock(leg.expectedStartTime, language, 'floor')}
                     </Typo.span>
-                    {i === 0 &&
-                      !isEqualOnMinuteLevel(
-                        leg.aimedStartTime,
-                        leg.expectedStartTime,
-                      ) && (
-                        <Typo.span
-                          textType="body__tertiary"
-                          className={style.lineThrough}
-                        >
-                          {formatToClock(leg.aimedStartTime, language, 'floor')}
-                        </Typo.span>
-                      )}
+                    {!isEqualOnMinuteLevel(
+                      leg.aimedStartTime,
+                      leg.expectedStartTime,
+                    ) && (
+                      <Typo.span
+                        textType="body__tertiary"
+                        className={style.lineThrough}
+                      >
+                        {formatToClock(leg.aimedStartTime, language, 'floor')}
+                      </Typo.span>
+                    )}
                   </div>
                 </div>
 
