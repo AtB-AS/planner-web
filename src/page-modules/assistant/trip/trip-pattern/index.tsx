@@ -109,14 +109,27 @@ export default function TripPattern({
                   </div>
 
                   <div className={style.timeStartContainer}>
-                    <Typo.span textType="body__tertiary">
-                      {formatToClock(leg.expectedStartTime, language, 'floor')}
-                    </Typo.span>
                     {secondsBetween(leg.aimedStartTime, leg.expectedStartTime) >
-                      60 && (
+                    60 ? (
+                      <>
+                        <Typo.span textType="body__tertiary">
+                          {formatToClock(
+                            leg.expectedStartTime,
+                            language,
+                            'floor',
+                          )}
+                        </Typo.span>
+                        <Typo.span
+                          textType="body__tertiary--strike"
+                          className={style.outdatet}
+                        >
+                          {formatToClock(leg.aimedStartTime, language, 'floor')}
+                        </Typo.span>
+                      </>
+                    ) : (
                       <Typo.span
-                        textType="body__tertiary--strike"
-                        className={style.lineThrough}
+                        textType="body__tertiary"
+                        className={style.outdatet}
                       >
                         {formatToClock(leg.aimedStartTime, language, 'floor')}
                       </Typo.span>
