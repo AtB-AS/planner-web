@@ -149,4 +149,5 @@
 
 .lineThrough {
   text-decoration: line-through;
+  color: var(--text-colors-secondary);
 }
