@@ -106,6 +106,7 @@ export const tripPatternWithDetailsSchema = z.object({
         longitude: z.number(),
         quay: z
           .object({
+            id: z.string(),
             name: z.string(),
             publicCode: z.string().nullable(),
           })
@@ -120,9 +121,11 @@ export const tripPatternWithDetailsSchema = z.object({
           })
           .nullable(), // quay is null when toPlace is a POI (e.g. address)
       }),
-      serviceJourney: z.object({
-        id: z.string().nullable(),
-      }),
+      serviceJourney: z
+        .object({
+          id: z.string(),
+        })
+        .nullable(),
       fromEstimatedCall: z
         .object({
           destinationDisplay: z.object({ frontText: z.string() }),
