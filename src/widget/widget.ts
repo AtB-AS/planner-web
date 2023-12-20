@@ -456,8 +456,7 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
           <label class="${style.selector_option}">
             <input
               type="radio"
-              name="searchTimeSelector"
-              aria-labelled-by="${prefix}-now"
+              name="${prefix}-searchTimeSelector"
               aria-labelledby="${prefix}-now"
               class="${style.selector_option__input}"
               value="now"
@@ -472,8 +471,7 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
           <label class="${style.selector_option}">
             <input
               type="radio"
-              name="searchTimeSelector"
-              aria-labelled-by="${prefix}-depart"
+              name="${prefix}-searchTimeSelector"
               aria-labelledby="${prefix}-depart"
               class="${style.selector_option__input}"
               value="departBy"
@@ -492,8 +490,7 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
                 <label class="${style.selector_option}">
                   <input
                     type="radio"
-                    name="searchTimeSelector"
-                    aria-labelled-by="${prefix}-arrival"
+                    name="${prefix}-searchTimeSelector"
                     aria-labelledby="${prefix}-arrival"
                     class="${style.selector_option__input}"
                     value="arriveBy"
