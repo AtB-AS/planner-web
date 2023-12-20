@@ -85,6 +85,30 @@ function init() {
     }
   });
 
+  document.addEventListener('reset-search', function () {
+    // Reset state.
+    fromTo = {
+      from: undefined,
+      to: undefined,
+    };
+
+    // Reset input values to empty.
+    document
+      .querySelectorAll<HTMLInputElement>(
+        'input[name="from"], input[name="to"]',
+      )
+      .forEach((input) => {
+        input.value = '';
+      });
+
+    // Set submit buttons to disabled.
+    document
+      .querySelectorAll<HTMLButtonElement>('button[type="submit"]')
+      .forEach((button) => {
+        button.disabled = true;
+      });
+  });
+
   document.querySelectorAll('[name=searchTimeSelector]').forEach(function (el) {
     el.addEventListener('change', function (e) {
       const input = e.currentTarget as HTMLInputElement;
@@ -1042,7 +1066,7 @@ const texts: Record<Languages, Texts> = {
     departure: {
       link: 'Avganger',
       title: 'Hvor vil du reise fra?',
-      from: 'string',
+      from: 'Fra',
     },
     searchTime: {
       title: 'Når vil du reise?',
