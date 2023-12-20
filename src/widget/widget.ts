@@ -74,6 +74,15 @@ function init() {
   document.addEventListener('search-selected', function (event) {
     const data = event as CustomEvent<SelectedSearchEvent>;
     fromTo[data.detail.key] = data.detail.item;
+
+    if (data.detail.key === 'from') {
+      const submitButtons = document.querySelectorAll<HTMLButtonElement>(
+        'button[type="submit"]',
+      );
+      submitButtons.forEach((button) => {
+        button.disabled = false;
+      });
+    }
   });
 
   document.querySelectorAll('[name=searchTimeSelector]').forEach(function (el) {
@@ -240,10 +249,9 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
 
     connectedCallback() {
       const self = this;
-      const mode = self.getAttribute('data-mode') ?? 'assistant';
       const button = this.querySelector('button')!;
 
-      button.addEventListener('click', async (event) => {
+      button.addEventListener('click', async () => {
         MessageBox.clearMessageBox();
 
         try {
@@ -257,7 +265,6 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
             new CustomEvent('search-selected', {
               bubbles: true,
               detail: {
-                mode,
                 key: 'from',
                 item,
               },
@@ -314,6 +321,7 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
       )!;
 
       let combobox = new Combobox(input, list, {
+        tabInsertsSuggestions: true,
         scrollIntoViewOptions: false,
       });
 
@@ -358,6 +366,7 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
           showEmpty();
         }
       }, debounceTime);
+
       input.addEventListener('keydown', (event) => {
         if (event.key === 'Escape') {
           toggleList(false);
@@ -388,7 +397,6 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
           new CustomEvent('search-selected', {
             bubbles: true,
             detail: {
-              mode: 'assistant',
               key: input.name,
               item,
             },
@@ -406,11 +414,12 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
 
   const buttons = html`
     <div class="${style.buttonGroup}">
-      <button type="submit" class="${style.button}" aria-disabled="true">
+      <button type="submit" class="${style.button}" disabled>
         <span>${texts.searchButton}</span>
       </button>
     </div>
   `;
+
   const searchTime = (prefix: string, withArriveBy: boolean = true) => html`
     <div class="${style.inputBoxes}">
       <p class="${style.heading}">${texts.searchTime.title}</p>
