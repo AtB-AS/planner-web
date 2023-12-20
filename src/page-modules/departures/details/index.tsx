@@ -49,6 +49,10 @@ export function DeparturesDetails({
     .map((s) => s.situationNumber)
     .filter((s): s is string => !!s);
 
+  const isJourneyCancelled = situations.some((item) =>
+    item.summary.some((i) => i.value === 'Journey cancelled'),
+  );
+
   return (
     <section className={style.container}>
       <div className={style.headerContainer}>
@@ -66,7 +70,7 @@ export function DeparturesDetails({
           />
           <Typo.h2 textType="heading--big">{title}</Typo.h2>
         </div>
-        {realtimeText && (
+        {realtimeText && !isJourneyCancelled && (
           <div className={style.realtimeText}>
             <ColorIcon icon="status/Realtime" size="small" />
             <Typo.h3 textType="body__secondary">{realtimeText}</Typo.h3>
