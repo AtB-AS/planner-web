@@ -145,6 +145,9 @@ export default function TripSection({
             leg.numberOfIntermediateEstimatedCalls
           }
           duration={leg.duration}
+          serviceJourneyId={leg.serviceJourney?.id ?? null}
+          date={leg.aimedStartTime.split('T')[0]}
+          fromQuayId={leg.fromPlace.quay?.id ?? null}
         />
 
         {showTo && (

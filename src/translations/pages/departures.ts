@@ -93,10 +93,15 @@ export const Departures = {
     },
   },
   details: {
-    back: _(
+    backToDepartures: _(
       'Tilbake til avganger',
       'Back to departures',
       'Tilbake til avgangar',
+    ),
+    backToAssistant: _(
+      'Tilbake til reiseforslag',
+      'Back to travel suggestion',
+      'Tilbake til reiseforslag',
     ),
     lastPassedStop: (stopPlaceName: string, time: string) =>
       _(
