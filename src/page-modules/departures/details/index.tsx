@@ -37,6 +37,7 @@ export function DeparturesDetails({
       realtime: c.realtime,
     })),
   );
+
   const estimatedCallsWithMetadata = addMetadataToEstimatedCalls(
     serviceJourney.estimatedCalls,
     fromQuayId,
@@ -76,7 +77,7 @@ export function DeparturesDetails({
           />
           <Typo.h2 textType="heading--big">{title}</Typo.h2>
         </div>
-        {realtimeText && (
+        {realtimeText && !focusedCall.cancellation && (
           <div className={style.realtimeText}>
             <ColorIcon icon="status/Realtime" size="small" />
             <Typo.h3 textType="body__secondary">{realtimeText}</Typo.h3>
