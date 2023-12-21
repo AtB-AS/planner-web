@@ -10,6 +10,8 @@ import { formatTripDuration } from '@atb/utils/date';
 import { Typo } from '@atb/components/typography';
 import { getInterchangeDetails } from './trip-section/interchange-section';
 import { getLegWaitDetails } from './trip-section/wait-section';
+import { useRouter } from 'next/router';
+import { tripQueryStringToQueryParams } from './utils';
 
 export type AssistantDetailsProps = {
   tripPattern: TripPatternWithDetails;
@@ -17,7 +19,7 @@ export type AssistantDetailsProps = {
 
 export function AssistantDetails({ tripPattern }: AssistantDetailsProps) {
   const { t, language } = useTranslation();
-
+  const router = useRouter();
   const mapLegs = tripPattern.legs.map((leg) => leg.mapLegs).flat();
   const { duration } = formatTripDuration(
     tripPattern.expectedStartTime,
@@ -25,16 +27,20 @@ export function AssistantDetails({ tripPattern }: AssistantDetailsProps) {
     language,
   );
 
+  const tripSearchParams = router.query.id
+    ? tripQueryStringToQueryParams(String(router.query.id))
+    : undefined;
+
   return (
     <div className={style.container}>
       <div className={style.headerContainer}>
         <ButtonLink
           mode="transparent"
-          href="/assistant"
-          onClick={(e) => {
-            e.preventDefault();
-            history.back();
-          }}
+          href={
+            tripSearchParams
+              ? `/assistant?${tripSearchParams.toString()}`
+              : '/assistant'
+          }
           title={t(PageText.Assistant.details.header.backLink)}
           icon={{ left: <MonoIcon icon="navigation/ArrowLeft" /> }}
         />
