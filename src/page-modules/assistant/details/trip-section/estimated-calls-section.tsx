@@ -23,7 +23,7 @@ export function EstimatedCallsSection({
 }: EstimatedCallsSectionProps) {
   const { t, language } = useTranslation();
 
-  const shouldShowLinkToServiceJourney = serviceJourneyId ? true : false;
+  const shouldShowLinkToServiceJourney = !!serviceJourneyId;
   let serviceJourneyHref = `/departures/details/${serviceJourneyId}?date=${date}`;
   if (fromQuayId) {
     serviceJourneyHref += `&fromQuayId=${fromQuayId}`;
