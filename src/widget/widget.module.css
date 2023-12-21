@@ -223,7 +223,6 @@
 .button.button--disabled {
   background-color: var(--interactive-interactive_0-disabled-background);
   color: var(--interactive-interactive_0-disabled-text);
-  cursor: default;
 }
 .button:focus {
   outline: 0;
