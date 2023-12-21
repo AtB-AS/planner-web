@@ -227,7 +227,10 @@ export function createJourneyApi(
         TripsWithDetailsQueryVariables
       >({
         query: TripsWithDetailsDocument,
-        variables: tripQuery.query,
+        variables: {
+          ...tripQuery.query,
+          arriveBy: false,
+        },
       });
 
       if (result.error || result.errors) {
@@ -296,6 +299,7 @@ export function createJourneyApi(
             longitude: leg.fromPlace.longitude,
             quay: leg.fromPlace.quay
               ? {
+                  id: leg.fromPlace.quay.id,
                   name: leg.fromPlace.quay.name,
                   publicCode: leg.fromPlace.quay.publicCode ?? '',
                 }
@@ -310,9 +314,11 @@ export function createJourneyApi(
                 }
               : null,
           },
-          serviceJourney: {
-            id: leg.serviceJourney?.id ?? null,
-          },
+          serviceJourney: leg.serviceJourney
+            ? {
+                id: leg.serviceJourney.id,
+              }
+            : null,
           fromEstimatedCall: leg.fromEstimatedCall?.destinationDisplay
             ?.frontText
             ? {
@@ -504,7 +510,8 @@ function generateSingleTripQueryString(
   queryVariables: TripsQueryVariables,
 ) {
   const when = getPaddedStartTime(aimedStartTime);
-  const arriveBy = false;
+  const originalSearchTime = queryVariables.when;
+  const arriveBy = queryVariables.arriveBy;
 
   const singleTripQuery: TripsQueryVariables = {
     ...queryVariables,
@@ -514,13 +521,19 @@ function generateSingleTripQueryString(
 
   // encode to string
   return compressToEncodedURIComponent(
-    JSON.stringify({ query: singleTripQuery, journeyIds }),
+    JSON.stringify({ query: singleTripQuery, journeyIds, originalSearchTime }),
   );
 }
 
-function parseTripQueryString(
+export function parseTripQueryString(
   compressedQueryString: string,
-): { query: TripsQueryVariables; journeyIds: string[] } | undefined {
+):
+  | {
+      query: TripsQueryVariables;
+      journeyIds: string[];
+      originalSearchTime: string;
+    }
+  | undefined {
   const queryString = decompressFromEncodedURIComponent(compressedQueryString);
   if (!queryString) return;
 
