@@ -88,26 +88,22 @@ export default function TripPattern({
             {expandedLegs.map((leg, i) => (
               <Fragment key={`leg-${leg.expectedStartTime}-${i}`}>
                 <div className={style.legs__leg}>
-                  <div className={style.legs__leg__icon}>
-                    {leg.mode ? (
-                      <TransportIconWithLabel
-                        mode={{
-                          transportMode: leg.mode,
-                          transportSubModes: leg.transportSubmode
-                            ? [leg.transportSubmode]
-                            : undefined,
-                        }}
-                        label={leg.line?.publicCode ?? undefined}
-                        duration={
-                          leg.mode === 'foot' ? leg.duration : undefined
-                        }
-                      />
-                    ) : (
-                      <div className={style.legs__leg__walkIcon}>
-                        <MonoIcon icon="transportation/Walk" />
-                      </div>
-                    )}
-                  </div>
+                  {leg.mode ? (
+                    <TransportIconWithLabel
+                      mode={{
+                        transportMode: leg.mode,
+                        transportSubModes: leg.transportSubmode
+                          ? [leg.transportSubmode]
+                          : undefined,
+                      }}
+                      label={leg.line?.publicCode ?? undefined}
+                      duration={leg.mode === 'foot' ? leg.duration : undefined}
+                    />
+                  ) : (
+                    <div className={style.legs__leg__walkIcon}>
+                      <MonoIcon icon="transportation/Walk" />
+                    </div>
+                  )}
 
                   <div className={style.timeStartContainer}>
                     {secondsBetween(leg.aimedStartTime, leg.expectedStartTime) >

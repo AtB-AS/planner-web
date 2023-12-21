@@ -54,12 +54,6 @@
   gap: var(--spacings-small);
 }
 
-.legs__leg__icon {
-  display: flex;
-  border-radius: var(--border-radius-small);
-  position: relative;
-}
-
 .legs__legLineContainer,
 .legs__lastLegLineContainer {
   /* The height of the icon in a leg. */

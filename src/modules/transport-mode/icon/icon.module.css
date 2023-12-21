@@ -12,6 +12,7 @@
 
 .transportIconWithLabel {
   display: flex;
+  justify-content: center;
   align-items: center;
   padding: var(--spacings-small) var(--spacings-medium);
 }
