@@ -74,15 +74,6 @@ function init() {
   document.addEventListener('search-selected', function (event) {
     const data = event as CustomEvent<SelectedSearchEvent>;
     fromTo[data.detail.key] = data.detail.item;
-
-    if (data.detail.key === 'from') {
-      const submitButtons = document.querySelectorAll<HTMLButtonElement>(
-        'button[type="submit"]',
-      );
-      submitButtons.forEach((button) => {
-        button.disabled = false;
-      });
-    }
   });
 
   document.addEventListener('reset-search', function () {
@@ -99,13 +90,6 @@ function init() {
       )
       .forEach((input) => {
         input.value = '';
-      });
-
-    // Set submit buttons to disabled.
-    document
-      .querySelectorAll<HTMLButtonElement>('button[type="submit"]')
-      .forEach((button) => {
-        button.disabled = true;
       });
   });
 
@@ -134,7 +118,7 @@ function init() {
     ?.addEventListener('submit', (e) => {
       e.preventDefault();
       const form = e.currentTarget as HTMLFormElement;
-      if (fromTo.from) submitAssistant(form, fromTo.from, fromTo.to);
+      submitAssistant(form, fromTo.from, fromTo.to);
     });
 }
 
@@ -184,7 +168,7 @@ function getSearchTime(formData: FormData, prefix: string): SearchTime {
 
 function submitAssistant(
   form: HTMLFormElement,
-  from: GeocoderFeature,
+  from?: GeocoderFeature,
   to?: GeocoderFeature,
 ) {
   const url = form.action;
@@ -193,12 +177,12 @@ function submitAssistant(
   const params = new URLSearchParams(query);
   window.location.href = `${url}?${params.toString()}`;
 }
-function submitDeparture(form: HTMLFormElement, from: GeocoderFeature) {
+function submitDeparture(form: HTMLFormElement, from?: GeocoderFeature) {
   const url = form.action;
   const searchTime = getSearchTime(new FormData(form), 'pw-departures');
-  const query = createTripQueryForDeparture(from, searchTime);
+  const query = createTripQueryForDeparture(searchTime, from);
   const params = new URLSearchParams(query);
-  if (from.layer === 'venue') {
+  if (from?.layer === 'venue') {
     window.location.href = `${url}/${from.id}?${params.toString()}`;
   } else {
     window.location.href = `${url}?${params.toString()}`;
@@ -441,7 +425,7 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
 
   const buttons = html`
     <div class="${style.buttonGroup}">
-      <button type="submit" class="${style.button}" disabled>
+      <button type="submit" class="${style.button}">
         <span>${texts.searchButton}</span>
       </button>
     </div>
@@ -916,7 +900,9 @@ function mapLocationCategoryToVenueType(
   }
 }
 
-function featuresToFromToQuery(from: GeocoderFeature, to?: GeocoderFeature) {
+function featuresToFromToQuery(from?: GeocoderFeature, to?: GeocoderFeature) {
+  if (!from) return {};
+
   const toFlattened = to
     ? {
         toId: to.id,
@@ -935,7 +921,7 @@ function featuresToFromToQuery(from: GeocoderFeature, to?: GeocoderFeature) {
 }
 
 function createTripQueryForAssistant(
-  fromTo: { from: GeocoderFeature; to?: GeocoderFeature },
+  fromTo: { from?: GeocoderFeature; to?: GeocoderFeature },
   searchTime: SearchTime,
 ): Record<string, string> {
   const searchTimeQuery: Record<string, string> =
@@ -945,6 +931,7 @@ function createTripQueryForAssistant(
           searchTime: searchTime.dateTime.toString(),
         }
       : { searchMode: searchTime.mode };
+
   const fromToQuery: Record<string, string> = featuresToFromToQuery(
     fromTo.from,
     fromTo.to,
@@ -956,8 +943,8 @@ function createTripQueryForAssistant(
   };
 }
 function createTripQueryForDeparture(
-  from: GeocoderFeature,
   searchTime: SearchTime,
+  from?: GeocoderFeature,
 ): Record<string, string> {
   const searchTimeQuery: Record<string, string> =
     searchTime.mode !== 'now'
@@ -967,7 +954,7 @@ function createTripQueryForDeparture(
         }
       : { searchMode: searchTime.mode };
 
-  if (from.layer == 'venue') {
+  if (!from || from.layer == 'venue') {
     return {
       ...searchTimeQuery,
     };
