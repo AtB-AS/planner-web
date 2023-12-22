@@ -65,14 +65,16 @@ export const MessageBox = ({
         </Typo.p>
         {onClick && (
           <Button
-            ariaLabel={`${message}${screenReaderPause}${t(
-              dictionary.readMore,
-            )}`}
             mode="transparent--underline"
             onClick={() => onClick()}
             title={t(dictionary.readMore)}
             className={style.messageBox__button}
             size="compact"
+            buttonProps={{
+              'aria-label': `${message}${screenReaderPause}${t(
+                dictionary.readMore,
+              )}`,
+            }}
           />
         )}
       </div>
