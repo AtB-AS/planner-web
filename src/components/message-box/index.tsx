@@ -10,6 +10,7 @@ import { Typo } from '@atb/components/typography';
 
 import style from './message-box.module.css';
 import { colorToOverrideMode } from '@atb/utils/color';
+import { screenReaderPause } from '../typography/utils';
 
 export type MessageMode = keyof Theme['static']['status'];
 
@@ -64,6 +65,9 @@ export const MessageBox = ({
         </Typo.p>
         {onClick && (
           <Button
+            ariaLabel={`${message}${screenReaderPause}${t(
+              dictionary.readMore,
+            )}`}
             mode="transparent--underline"
             onClick={() => onClick()}
             title={t(dictionary.readMore)}

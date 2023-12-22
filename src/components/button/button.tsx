@@ -12,10 +12,14 @@ export type ButtonProps = {
    * Pass properties to button element directly
    */
   buttonProps?: JSX.IntrinsicElements['button'];
+  /**
+   * Define aria-label for voiceover to read.
+   */
+  ariaLabel?: string;
 } & ButtonBaseProps;
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  function Button({ onClick, testID, buttonProps, ...props }, ref) {
+  function Button({ onClick, testID, buttonProps, ariaLabel, ...props }, ref) {
     const className = getBaseButtonClassName(props);
     return (
       <button
@@ -26,6 +30,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={props.disabled || props.state === 'loading'}
         aria-disabled={props.disabled || props.state === 'loading'}
         data-testid={testID}
+        aria-label={ariaLabel}
         {...buttonProps}
       >
         <ButtonBase {...props} />
