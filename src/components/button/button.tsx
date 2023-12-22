@@ -26,7 +26,6 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={props.disabled || props.state === 'loading'}
         aria-disabled={props.disabled || props.state === 'loading'}
         data-testid={testID}
-        aria-label={buttonProps?.['aria-label']}
         {...buttonProps}
       >
         <ButtonBase {...props} />
