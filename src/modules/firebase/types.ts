@@ -12,4 +12,10 @@ export const tariffZoneSchema = z.object({
   isDefault: z.boolean().optional(),
 });
 
+export const defaultFocusPointSchema = z.object({
+  lat: z.number(),
+  lon: z.number(),
+});
+
 export type TariffZone = z.infer<typeof tariffZoneSchema>;
+export type DefaultFocusPoint = z.infer<typeof defaultFocusPointSchema>;

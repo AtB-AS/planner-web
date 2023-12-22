@@ -3,9 +3,9 @@ import type { GeocoderFeature } from '../../types';
 import { GeocoderRoot, geocoderRootSchema } from './encoders';
 import { FeatureCategory } from '@atb/components/venue-icon';
 import { first } from 'lodash';
+import { getDefaultFocusPoint } from '@atb/modules/firebase/default-focus-point';
 
 const FOCUS_WEIGHT = 18;
-const DEFAULT_FOCUS_POINT = { lat: 62.4705, lon: 6.1533 }; // TODO: Replace with configuration.
 
 export type GeocoderApi = {
   autocomplete(
@@ -27,7 +27,7 @@ export function createGeocoderApi(
 ): GeocoderApi {
   return {
     async autocomplete(query, focus) {
-      const focusQuery = createFocusQuery(focus);
+      const focusQuery = await createFocusQuery(focus);
       const result = await request(
         `/geocoder/v1/autocomplete?text=${query}&${focusQuery}&size=10&lang=no`,
       );
@@ -57,8 +57,12 @@ export function createGeocoderApi(
   };
 }
 
-function createFocusQuery(focus?: { lat: number; lon: number }): string {
-  const { lat, lon } = focus ?? DEFAULT_FOCUS_POINT;
+async function createFocusQuery(focus?: {
+  lat: number;
+  lon: number;
+}): Promise<string> {
+  const defaultFocusPoint = await getDefaultFocusPoint();
+  const { lat, lon } = focus ?? defaultFocusPoint;
   return `focus.point.lat=${lat}&focus.point.lon=${lon}&focus.weight=${FOCUS_WEIGHT}&focus.function=exp&focus.scale=200km`;
 }
 
