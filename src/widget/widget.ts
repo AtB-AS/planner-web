@@ -64,7 +64,7 @@ function init() {
   tabBar();
 
   setDefaultTimeForDatetime('pw-assistant');
-  setDefaultTimeForDatetime('pw-departure');
+  setDefaultTimeForDatetime('pw-departures');
 
   let fromTo = {
     from: undefined as GeocoderFeature | undefined,
@@ -76,15 +76,35 @@ function init() {
     fromTo[data.detail.key] = data.detail.item;
   });
 
-  document.querySelectorAll('[name=searchTimeSelector]').forEach(function (el) {
-    el.addEventListener('change', function (e) {
-      const input = e.currentTarget as HTMLInputElement;
-      const hidden = input.value === 'now';
-      document.querySelectorAll('.js-search-date-details').forEach((el) => {
-        (el as HTMLElement).hidden = hidden;
+  document.addEventListener('reset-search', function () {
+    // Reset state.
+    fromTo = {
+      from: undefined,
+      to: undefined,
+    };
+
+    // Reset input values to empty.
+    document
+      .querySelectorAll<HTMLInputElement>(
+        'input[name="from"], input[name="to"]',
+      )
+      .forEach((input) => {
+        input.value = '';
+      });
+  });
+
+  document
+    .querySelectorAll('[name$=searchTimeSelector]')
+    .forEach(function (el) {
+      el.addEventListener('change', function (e) {
+        const input = e.currentTarget as HTMLInputElement;
+        const hidden = input.value === 'now';
+        document.querySelectorAll('.js-search-date-details').forEach((el) => {
+          (el as HTMLElement).hidden = hidden;
+        });
       });
     });
-  });
+
   document
     .querySelector('#pw-form-departures')
     ?.addEventListener('submit', (e) => {
@@ -98,7 +118,7 @@ function init() {
     ?.addEventListener('submit', (e) => {
       e.preventDefault();
       const form = e.currentTarget as HTMLFormElement;
-      submitAssistant(form, fromTo.from!, fromTo.to);
+      submitAssistant(form, fromTo.from, fromTo.to);
     });
 }
 
@@ -123,8 +143,8 @@ function setDefaultTimeForDatetime(prefix: string) {
   } catch (e) {}
 }
 
-function getSearchTime(formData: FormData): SearchTime {
-  const searchTimeSelector = formData.get('searchTimeSelector');
+function getSearchTime(formData: FormData, prefix: string): SearchTime {
+  const searchTimeSelector = formData.get(`${prefix}-searchTimeSelector`);
 
   if (searchTimeSelector === 'now') {
     return {
@@ -148,21 +168,21 @@ function getSearchTime(formData: FormData): SearchTime {
 
 function submitAssistant(
   form: HTMLFormElement,
-  from: GeocoderFeature,
+  from?: GeocoderFeature,
   to?: GeocoderFeature,
 ) {
   const url = form.action;
-  const searchTime = getSearchTime(new FormData(form));
+  const searchTime = getSearchTime(new FormData(form), 'pw-assistant');
   const query = createTripQueryForAssistant({ from, to }, searchTime);
   const params = new URLSearchParams(query);
   window.location.href = `${url}?${params.toString()}`;
 }
-function submitDeparture(form: HTMLFormElement, from: GeocoderFeature) {
+function submitDeparture(form: HTMLFormElement, from?: GeocoderFeature) {
   const url = form.action;
-  const searchTime = getSearchTime(new FormData(form));
-  const query = createTripQueryForDeparture(from, searchTime);
+  const searchTime = getSearchTime(new FormData(form), 'pw-departures');
+  const query = createTripQueryForDeparture(searchTime, from);
   const params = new URLSearchParams(query);
-  if (from.layer === 'venue') {
+  if (from?.layer === 'venue') {
     window.location.href = `${url}/${from.id}?${params.toString()}`;
   } else {
     window.location.href = `${url}?${params.toString()}`;
@@ -240,10 +260,9 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
 
     connectedCallback() {
       const self = this;
-      const mode = self.getAttribute('data-mode') ?? 'assistant';
       const button = this.querySelector('button')!;
 
-      button.addEventListener('click', async (event) => {
+      button.addEventListener('click', async () => {
         MessageBox.clearMessageBox();
 
         try {
@@ -257,7 +276,6 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
             new CustomEvent('search-selected', {
               bubbles: true,
               detail: {
-                mode,
                 key: 'from',
                 item,
               },
@@ -314,6 +332,7 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
       )!;
 
       let combobox = new Combobox(input, list, {
+        tabInsertsSuggestions: true,
         scrollIntoViewOptions: false,
       });
 
@@ -358,6 +377,7 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
           showEmpty();
         }
       }, debounceTime);
+
       input.addEventListener('keydown', (event) => {
         if (event.key === 'Escape') {
           toggleList(false);
@@ -388,7 +408,6 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
           new CustomEvent('search-selected', {
             bubbles: true,
             detail: {
-              mode: 'assistant',
               key: input.name,
               item,
             },
@@ -406,11 +425,12 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
 
   const buttons = html`
     <div class="${style.buttonGroup}">
-      <button type="submit" class="${style.button}" aria-disabled="true">
+      <button type="submit" class="${style.button}">
         <span>${texts.searchButton}</span>
       </button>
     </div>
   `;
+
   const searchTime = (prefix: string, withArriveBy: boolean = true) => html`
     <div class="${style.inputBoxes}">
       <p class="${style.heading}">${texts.searchTime.title}</p>
@@ -423,8 +443,8 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
           <label class="${style.selector_option}">
             <input
               type="radio"
-              name="searchTimeSelector"
-              aria-labelled-by="${prefix}-now"
+              name="${prefix}-searchTimeSelector"
+              aria-labelledby="${prefix}-now"
               class="${style.selector_option__input}"
               value="now"
               checked=""
@@ -438,8 +458,8 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
           <label class="${style.selector_option}">
             <input
               type="radio"
-              name="searchTimeSelector"
-              aria-labelled-by="${prefix}-depart"
+              name="${prefix}-searchTimeSelector"
+              aria-labelledby="${prefix}-depart"
               class="${style.selector_option__input}"
               value="departBy"
             />
@@ -457,8 +477,8 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
                 <label class="${style.selector_option}">
                   <input
                     type="radio"
-                    name="searchTimeSelector"
-                    aria-labelled-by="${prefix}-arrival"
+                    name="${prefix}-searchTimeSelector"
+                    aria-labelledby="${prefix}-arrival"
                     class="${style.selector_option__input}"
                     value="arriveBy"
                   />
@@ -677,7 +697,7 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
           </div>
           <pw-messagebox></pw-messagebox>
         </div>
-        ${searchTime('pw-departure', false)}
+        ${searchTime('pw-departures', false)}
       </div>
       ${buttons}
     </form>
@@ -739,6 +759,24 @@ function tabBar() {
       });
       tabpanel.classList.remove(style.hidden);
       tab.classList.add(style.tabSelected);
+
+      const searchTimeSelectors = document.querySelectorAll<HTMLInputElement>(
+        `input[type="radio"][name="pw-${mode}-searchTimeSelector"]`,
+      );
+
+      const selectedSearchTime = Array.from(searchTimeSelectors).find(
+        (radio) => radio.checked,
+      )?.value;
+
+      document.querySelectorAll('.js-search-date-details').forEach((el) => {
+        (el as HTMLElement).hidden = selectedSearchTime === 'now';
+      });
+
+      document.dispatchEvent(
+        new CustomEvent('reset-search', {
+          bubbles: true,
+        }),
+      );
     });
 }
 
@@ -862,7 +900,9 @@ function mapLocationCategoryToVenueType(
   }
 }
 
-function featuresToFromToQuery(from: GeocoderFeature, to?: GeocoderFeature) {
+function featuresToFromToQuery(from?: GeocoderFeature, to?: GeocoderFeature) {
+  if (!from) return {};
+
   const toFlattened = to
     ? {
         toId: to.id,
@@ -881,7 +921,7 @@ function featuresToFromToQuery(from: GeocoderFeature, to?: GeocoderFeature) {
 }
 
 function createTripQueryForAssistant(
-  fromTo: { from: GeocoderFeature; to?: GeocoderFeature },
+  fromTo: { from?: GeocoderFeature; to?: GeocoderFeature },
   searchTime: SearchTime,
 ): Record<string, string> {
   const searchTimeQuery: Record<string, string> =
@@ -891,6 +931,7 @@ function createTripQueryForAssistant(
           searchTime: searchTime.dateTime.toString(),
         }
       : { searchMode: searchTime.mode };
+
   const fromToQuery: Record<string, string> = featuresToFromToQuery(
     fromTo.from,
     fromTo.to,
@@ -902,8 +943,8 @@ function createTripQueryForAssistant(
   };
 }
 function createTripQueryForDeparture(
-  from: GeocoderFeature,
   searchTime: SearchTime,
+  from?: GeocoderFeature,
 ): Record<string, string> {
   const searchTimeQuery: Record<string, string> =
     searchTime.mode !== 'now'
@@ -913,7 +954,7 @@ function createTripQueryForDeparture(
         }
       : { searchMode: searchTime.mode };
 
-  if (from.layer == 'venue') {
+  if (!from || from.layer == 'venue') {
     return {
       ...searchTimeQuery,
     };
@@ -1033,7 +1074,7 @@ const texts: Record<Languages, Texts> = {
     departure: {
       link: 'Avganger',
       title: 'Hvor vil du reise fra?',
-      from: 'string',
+      from: 'Fra',
     },
     searchTime: {
       title: 'Når vil du reise?',
