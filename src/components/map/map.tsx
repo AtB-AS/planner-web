@@ -21,6 +21,7 @@ export type MapProps = {
   onSelectStopPlace?: (id: string) => void;
   mapLegs?: MapLegType[];
   initialZoom?: number;
+  bounds?: [[number, number], [number, number]];
 };
 
 export function Map({
@@ -29,6 +30,7 @@ export function Map({
   onSelectStopPlace,
   mapLegs,
   initialZoom = ZOOM_LEVEL,
+  bounds,
 }: MapProps) {
   const mapWrapper = useRef<HTMLDivElement>(null);
   const mapContainer = useRef<HTMLDivElement>(null);
@@ -47,6 +49,7 @@ export function Map({
       style: mapboxData.style,
       center: position,
       zoom: initialZoom,
+      bounds: bounds, // If bounds is specified, it overrides center and zoom constructor options.
     });
 
     return () => map.current?.remove();
@@ -59,16 +62,6 @@ export function Map({
   );
   useMapPin(map, position, layer);
   useMapLegs(map, mapLegs);
-
-  useEffect(() => {
-    if (map.current) {
-      map.current.flyTo({
-        center: position,
-        zoom: initialZoom,
-        speed: 2,
-      });
-    }
-  }, [position, initialZoom]);
 
   return (
     <div className={style.map} aria-hidden="true">
