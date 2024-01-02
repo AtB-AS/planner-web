@@ -29,7 +29,7 @@ export function createGeocoderApi(
     async autocomplete(query, focus) {
       const focusQuery = await createFocusQuery(focus);
       const result = await request(
-        `/geocoder/v1/autocomplete?text=${query}&${focusQuery}&size=10&lang=no&multiModal=all`,
+        `/geocoder/v1/autocomplete?text=${query}&${focusQuery}&size=10&lang=no&multiModal=child`,
       );
 
       const parsed = geocoderRootSchema.safeParse(await result.json());
