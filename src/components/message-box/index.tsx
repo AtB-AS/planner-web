@@ -10,6 +10,7 @@ import { Typo } from '@atb/components/typography';
 
 import style from './message-box.module.css';
 import { colorToOverrideMode } from '@atb/utils/color';
+import { screenReaderPause } from '@atb/components/typography/utils';
 
 export type MessageMode = keyof Theme['static']['status'];
 
@@ -69,6 +70,11 @@ export const MessageBox = ({
             title={t(dictionary.readMore)}
             className={style.messageBox__button}
             size="compact"
+            buttonProps={{
+              'aria-label': `${message}${screenReaderPause}${t(
+                dictionary.readMore,
+              )}`,
+            }}
           />
         )}
       </div>
