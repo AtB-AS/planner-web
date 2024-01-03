@@ -25,7 +25,7 @@ export const useMapTariffZones = async (
   const addTariffZonesToMap = useCallback(
     (map: mapboxgl.Map) => {
       if (!data || !isStyleLoaded) return;
-      if (!map.getSource('tariff-zones')) {
+      if (!map.getSource(TARIFF_ZONE_SOURCE_ID)) {
         map.addSource(
           TARIFF_ZONE_SOURCE_ID,
           createTariffZonesFeatureCollection(data, language),
