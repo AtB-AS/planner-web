@@ -7,7 +7,7 @@ import { Button } from '@atb/components/button';
 import { MonoIcon } from '@atb/components/icon';
 import { ComponentText, useTranslation } from '@atb/translations';
 import { FocusScope } from '@react-aria/focus';
-import { ZOOM_LEVEL, defaultPosition } from './utils';
+import { ZOOM_LEVEL, defaultPosition, getMapBounds } from './utils';
 import { useMapInteractions } from './use-map-interactions';
 import { useFullscreenMap } from './use-fullscreen-map';
 import { useMapPin } from './use-map-pin';
@@ -19,9 +19,8 @@ export type MapProps = {
   position?: Position;
   layer?: string;
   onSelectStopPlace?: (id: string) => void;
-  mapLegs?: MapLegType[];
   initialZoom?: number;
-  bounds?: [[number, number], [number, number]];
+  mapLegs?: MapLegType[];
 };
 
 export function Map({
@@ -30,12 +29,13 @@ export function Map({
   onSelectStopPlace,
   mapLegs,
   initialZoom = ZOOM_LEVEL,
-  bounds,
 }: MapProps) {
   const mapWrapper = useRef<HTMLDivElement>(null);
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map>();
   const { t } = useTranslation();
+
+  const bounds = mapLegs ? getMapBounds(mapLegs) : undefined;
 
   useEffect(() => {
     if (!mapContainer.current) return;
@@ -49,7 +49,7 @@ export function Map({
       style: mapboxData.style,
       center: position,
       zoom: initialZoom,
-      bounds: bounds, // If bounds is specified, it overrides center and zoom constructor options.
+      bounds: bounds ? [bounds.sw, bounds.ne] : undefined, // If bounds is specified, it overrides center and zoom constructor options.
     });
 
     return () => map.current?.remove();

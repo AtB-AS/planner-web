@@ -5,7 +5,7 @@ import TripSection from './trip-section';
 import style from './details.module.css';
 import DetailsHeader from './details-header';
 import { ButtonLink } from '@atb/components/button';
-import { Map, getMapBounds } from '@atb/components/map';
+import { Map } from '@atb/components/map';
 import { formatTripDuration } from '@atb/utils/date';
 import { Typo } from '@atb/components/typography';
 import { getInterchangeDetails } from './trip-section/interchange-section';
@@ -31,7 +31,6 @@ export function AssistantDetails({ tripPattern }: AssistantDetailsProps) {
     ? tripQueryStringToQueryParams(String(router.query.id))
     : undefined;
 
-  const bounds = getMapBounds(mapLegs);
   return (
     <div className={style.container}>
       <div className={style.headerContainer}>
@@ -48,7 +47,7 @@ export function AssistantDetails({ tripPattern }: AssistantDetailsProps) {
         <DetailsHeader tripPattern={tripPattern} />
       </div>
       <div className={style.mapContainer}>
-        <Map mapLegs={mapLegs} bounds={[bounds.sw, bounds.ne]} />
+        <Map mapLegs={mapLegs} />
         <div className={style.tripDetails}>
           <div className={style.duration}>
             <MonoIcon icon="time/Duration" />
