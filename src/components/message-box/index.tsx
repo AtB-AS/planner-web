@@ -10,7 +10,7 @@ import { Typo } from '@atb/components/typography';
 
 import style from './message-box.module.css';
 import { colorToOverrideMode } from '@atb/utils/color';
-import { screenReaderPause } from '../typography/utils';
+import { screenReaderPause } from '@atb/components/typography/utils';
 
 export type MessageMode = keyof Theme['static']['status'];
 
