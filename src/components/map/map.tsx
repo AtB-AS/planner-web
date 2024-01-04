@@ -16,25 +16,29 @@ import { and } from '@atb/utils/css';
 import { MapLegType, Position } from './types';
 
 export type MapProps = {
-  position?: Position;
   layer?: string;
   onSelectStopPlace?: (id: string) => void;
-  initialZoom?: number;
-  mapLegs?: MapLegType[];
-};
+} & (
+  | {
+      position: Position;
+      initialZoom: number;
+    }
+  | {
+      mapLegs: MapLegType[];
+    }
+  | {}
+);
 
-export function Map({
-  position = defaultPosition,
-  layer,
-  onSelectStopPlace,
-  mapLegs,
-  initialZoom = ZOOM_LEVEL,
-}: MapProps) {
+export function Map({ layer, onSelectStopPlace, ...props }: MapProps) {
   const mapWrapper = useRef<HTMLDivElement>(null);
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map>();
   const { t } = useTranslation();
 
+  const mapLegs = hasMapLegs(props) ? props.mapLegs : undefined;
+  const { position, initialZoom } = hasInitialPosition(props)
+    ? props
+    : { position: defaultPosition, initialZoom: ZOOM_LEVEL };
   const bounds = mapLegs ? getMapBounds(mapLegs) : undefined;
 
   useEffect(() => {
@@ -112,4 +116,14 @@ export function Map({
       </div>
     </div>
   );
+}
+
+function hasInitialPosition(
+  a: any,
+): a is { position: Position; initialZoom: number } {
+  return a.position && a.initialZoom;
+}
+
+function hasMapLegs(a: any): a is { mapLegs: MapLegType[] } {
+  return a.mapLegs;
 }
