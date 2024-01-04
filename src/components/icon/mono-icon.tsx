@@ -53,7 +53,14 @@ export function MonoIcon({
 
   return (
     // eslint-disable-next-line
-    <img src={totalPath} width={wh} height={wh} role="none" alt="" {...props} />
+    <img
+      src={totalPath}
+      width={undefined}
+      height={wh}
+      role="none"
+      alt=""
+      {...props}
+    />
   );
 }
 
