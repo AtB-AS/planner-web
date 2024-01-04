@@ -7,7 +7,7 @@ import { Button } from '@atb/components/button';
 import { MonoIcon } from '@atb/components/icon';
 import { ComponentText, useTranslation } from '@atb/translations';
 import { FocusScope } from '@react-aria/focus';
-import { ZOOM_LEVEL, defaultPosition } from './utils';
+import { ZOOM_LEVEL, defaultPosition, getMapBounds } from './utils';
 import { useMapInteractions } from './use-map-interactions';
 import { useFullscreenMap } from './use-fullscreen-map';
 import { useMapPin } from './use-map-pin';
@@ -17,24 +17,30 @@ import { MapLegType, Position } from './types';
 import { useMapTariffZones } from './use-map-tariff-zones';
 
 export type MapProps = {
-  position?: Position;
   layer?: string;
   onSelectStopPlace?: (id: string) => void;
-  mapLegs?: MapLegType[];
-  initialZoom?: number;
-};
+} & (
+  | {
+      position: Position;
+      initialZoom: number;
+    }
+  | {
+      mapLegs: MapLegType[];
+    }
+  | {}
+);
 
-export function Map({
-  position = defaultPosition,
-  layer,
-  onSelectStopPlace,
-  mapLegs,
-  initialZoom = ZOOM_LEVEL,
-}: MapProps) {
+export function Map({ layer, onSelectStopPlace, ...props }: MapProps) {
   const mapWrapper = useRef<HTMLDivElement>(null);
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map>();
   const { t } = useTranslation();
+
+  const mapLegs = hasMapLegs(props) ? props.mapLegs : undefined;
+  const { position, initialZoom } = hasInitialPosition(props)
+    ? props
+    : { position: defaultPosition, initialZoom: ZOOM_LEVEL };
+  const bounds = mapLegs ? getMapBounds(mapLegs) : undefined;
 
   useEffect(() => {
     if (!mapContainer.current) return;
@@ -48,6 +54,7 @@ export function Map({
       style: mapboxData.style,
       center: position,
       zoom: initialZoom,
+      bounds, // If bounds is specified, it overrides center and zoom constructor options.
     });
 
     return () => map.current?.remove();
@@ -61,16 +68,6 @@ export function Map({
   useMapPin(map, position, layer);
   useMapLegs(map, mapLegs);
   useMapTariffZones(map);
-
-  useEffect(() => {
-    if (map.current) {
-      map.current.flyTo({
-        center: position,
-        zoom: initialZoom,
-        speed: 2,
-      });
-    }
-  }, [position, initialZoom]);
 
   return (
     <div className={style.map} aria-hidden="true">
@@ -121,4 +118,14 @@ export function Map({
       </div>
     </div>
   );
+}
+
+function hasInitialPosition(
+  a: any,
+): a is { position: Position; initialZoom: number } {
+  return a.position && a.initialZoom;
+}
+
+function hasMapLegs(a: any): a is { mapLegs: MapLegType[] } {
+  return a.mapLegs;
 }
