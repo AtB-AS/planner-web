@@ -14,6 +14,7 @@ import { useMapPin } from './use-map-pin';
 import { useMapLegs } from './use-map-legs';
 import { and } from '@atb/utils/css';
 import { MapLegType, Position } from './types';
+import { useMapTariffZones } from './use-map-tariff-zones';
 
 export type MapProps = {
   position?: Position;
@@ -59,6 +60,7 @@ export function Map({
   );
   useMapPin(map, position, layer);
   useMapLegs(map, mapLegs);
+  useMapTariffZones(map);
 
   useEffect(() => {
     if (map.current) {
