@@ -49,7 +49,7 @@ export function Map({
       style: mapboxData.style,
       center: position,
       zoom: initialZoom,
-      bounds: bounds ? [bounds.sw, bounds.ne] : undefined, // If bounds is specified, it overrides center and zoom constructor options.
+      bounds, // If bounds is specified, it overrides center and zoom constructor options.
     });
 
     return () => map.current?.remove();

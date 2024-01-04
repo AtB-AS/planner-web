@@ -94,10 +94,7 @@ const findIndex = (
 
 export const getMapBounds = (
   mapLegs: MapLegType[],
-): {
-  sw: [number, number];
-  ne: [number, number];
-} => {
+): [[number, number], [number, number]] => {
   const lineLongitudes = mapLegs
     .map((leg) => leg.points.map((point) => point[0]))
     .flat();
@@ -124,8 +121,5 @@ export const getMapBounds = (
     easternMost - lonPadding,
   ];
 
-  return {
-    sw,
-    ne,
-  };
+  return [sw, ne];
 };
