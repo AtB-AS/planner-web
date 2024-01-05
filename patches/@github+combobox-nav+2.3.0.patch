@@ -1,0 +1,22 @@
+diff --git a/node_modules/@github/combobox-nav/dist/index.js b/node_modules/@github/combobox-nav/dist/index.js
+index d86de71..3956688 100644
+--- a/node_modules/@github/combobox-nav/dist/index.js
++++ b/node_modules/@github/combobox-nav/dist/index.js
+@@ -34,7 +34,7 @@ export default class Combobox {
+         this.input.addEventListener('compositionend', this.compositionEventHandler);
+         this.input.addEventListener('input', this.inputHandler);
+         this.input.addEventListener('keydown', this.keyboardEventHandler);
+-        this.list.addEventListener('click', commitWithElement);
++        this.list.addEventListener('mousedown', commitWithElement);
+         this.indicateDefaultOption();
+     }
+     stop() {
+@@ -44,7 +44,7 @@ export default class Combobox {
+         this.input.removeEventListener('compositionend', this.compositionEventHandler);
+         this.input.removeEventListener('input', this.inputHandler);
+         this.input.removeEventListener('keydown', this.keyboardEventHandler);
+-        this.list.removeEventListener('click', commitWithElement);
++        this.list.removeEventListener('mousedown', commitWithElement);
+     }
+     indicateDefaultOption() {
+         var _a;

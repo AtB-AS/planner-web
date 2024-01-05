@@ -387,11 +387,7 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
         fetcher(e.target as HTMLInputElement),
       );
       input.addEventListener('focus', () => toggleList(true));
-      input.addEventListener(
-        'blur',
-        // Blur after properly selecting
-        debounce(() => toggleList(false), 100),
-      );
+      input.addEventListener('blur', () => toggleList(false));
       document.addEventListener('click', (e) => {
         if (!hasParent(e.target as HTMLElement, this)) {
           toggleList(false);
@@ -403,7 +399,15 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
           'data-feature-id',
         );
         const item = itemId ? self.getItem(itemId) : undefined;
-        input.value = item ? `${item.name}, ${item.locality}` : input.value;
+        let newValue = input.value;
+        if (item) {
+          newValue = `${item.name}`;
+
+          if (item.locality) {
+            newValue += `, ${item.locality}`;
+          }
+        }
+        input.value = newValue;
         document.dispatchEvent(
           new CustomEvent('search-selected', {
             bubbles: true,
