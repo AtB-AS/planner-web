@@ -1,6 +1,6 @@
-class q {
+class H {
   constructor(e, i, { tabInsertsSuggestions: n, defaultFirstOption: a, scrollIntoViewOptions: s } = {}) {
-    this.input = e, this.list = i, this.tabInsertsSuggestions = n ?? !0, this.defaultFirstOption = a ?? !1, this.scrollIntoViewOptions = s, this.isComposing = !1, i.id || (i.id = `combobox-${Math.random().toString().slice(2, 6)}`), this.ctrlBindings = !!navigator.userAgent.match(/Macintosh/), this.keyboardEventHandler = (d) => H(d, this), this.compositionEventHandler = (d) => N(d, this), this.inputHandler = this.clearSelection.bind(this), e.setAttribute("role", "combobox"), e.setAttribute("aria-controls", i.id), e.setAttribute("aria-expanded", "false"), e.setAttribute("aria-autocomplete", "list"), e.setAttribute("aria-haspopup", "listbox");
+    this.input = e, this.list = i, this.tabInsertsSuggestions = n ?? !0, this.defaultFirstOption = a ?? !1, this.scrollIntoViewOptions = s, this.isComposing = !1, i.id || (i.id = `combobox-${Math.random().toString().slice(2, 6)}`), this.ctrlBindings = !!navigator.userAgent.match(/Macintosh/), this.keyboardEventHandler = (d) => F(d, this), this.compositionEventHandler = (d) => N(d, this), this.inputHandler = this.clearSelection.bind(this), e.setAttribute("role", "combobox"), e.setAttribute("aria-controls", i.id), e.setAttribute("aria-expanded", "false"), e.setAttribute("aria-autocomplete", "list"), e.setAttribute("aria-haspopup", "listbox");
   }
   destroy() {
     this.clearSelection(), this.stop(), this.input.removeAttribute("role"), this.input.removeAttribute("aria-controls"), this.input.removeAttribute("aria-expanded"), this.input.removeAttribute("aria-autocomplete"), this.input.removeAttribute("aria-haspopup");
@@ -38,7 +38,7 @@ class q {
     this.indicateDefaultOption();
   }
 }
-function H(t, e) {
+function F(t, e) {
   if (!(t.shiftKey || t.metaKey || t.altKey) && !(!e.ctrlBindings && t.ctrlKey) && !e.isComposing)
     switch (t.key) {
       case "Enter":
@@ -72,13 +72,13 @@ function C(t) {
   if (!(t.target instanceof Element))
     return;
   const e = t.target.closest('[role="option"]');
-  e && e.getAttribute("aria-disabled") !== "true" && F(e, { event: t });
+  e && e.getAttribute("aria-disabled") !== "true" && B(e, { event: t });
 }
 function D(t, e) {
   const i = e.querySelector('[aria-selected="true"], [data-combobox-option-default="true"]');
-  return i ? (i.getAttribute("aria-disabled") === "true" || i.click(), !0) : !1;
+  return i ? (i.getAttribute("aria-disabled") === "true" || B(i), !0) : !1;
 }
-function F(t, e) {
+function B(t, e) {
   t.dispatchEvent(new CustomEvent("combobox-commit", { bubbles: !0, detail: e }));
 }
 function W(t) {
@@ -135,8 +135,8 @@ const x = "theme-module__light", R = '"../page-modules/assistant/assistant.modul
   popupContainer: Le,
   messageBox: ke
 };
-var B = { MODULE_VERSION: "2.8.0", COMPRESSED_ORG: "IYFwRkA" };
-const Ie = 300, y = String.raw, L = B.MODULE_VERSION, k = B.COMPRESSED_ORG;
+var O = { MODULE_VERSION: "2.8.0", COMPRESSED_ORG: "IYFwRkA" };
+const Ie = 300, y = String.raw, L = O.MODULE_VERSION, k = O.COMPRESSED_ORG;
 function Ce(t) {
   if (!(t != null && t.startsWith("http")))
     throw new Error("Missing urlBase in correct schema.");
@@ -208,7 +208,7 @@ function M(t) {
   } catch {
   }
 }
-function O(t, e) {
+function P(t, e) {
   const i = t.get(`${e}-searchTimeSelector`);
   if (i === "now")
     return {
@@ -229,11 +229,11 @@ function O(t, e) {
   }
 }
 function Me(t, e, i) {
-  const n = t.action, a = O(new FormData(t), "pw-assistant"), s = xe({ from: e, to: i }, a), d = new URLSearchParams(s);
+  const n = t.action, a = P(new FormData(t), "pw-assistant"), s = xe({ from: e, to: i }, a), d = new URLSearchParams(s);
   window.location.href = `${n}?${d.toString()}`;
 }
 function Be(t, e) {
-  const i = t.action, n = O(new FormData(t), "pw-departures"), a = Re(n, e), s = new URLSearchParams(a);
+  const i = t.action, n = P(new FormData(t), "pw-departures"), a = Re(n, e), s = new URLSearchParams(a);
   (e == null ? void 0 : e.layer) === "venue" ? window.location.href = `${i}/${e.id}?${s.toString()}` : window.location.href = `${i}?${s.toString()}`;
 }
 class E extends HTMLElement {
@@ -327,7 +327,7 @@ function Oe({ URL_BASE: t }, e) {
       ), u = this.querySelector("input"), l = this.querySelector(
         "#" + this.getAttribute("for")
       );
-      let g = new q(u, l, {
+      let g = new H(u, l, {
         tabInsertsSuggestions: !0,
         scrollIntoViewOptions: !1
       });
@@ -339,7 +339,7 @@ function Oe({ URL_BASE: t }, e) {
         const p = n(e.noResults);
         l.appendChild(p), w(!0);
       }
-      const j = je(async (p) => {
+      const q = je(async (p) => {
         try {
           if (!p.value) {
             l.innerHTML = "";
@@ -362,9 +362,9 @@ function Oe({ URL_BASE: t }, e) {
         p.key === "Escape" && w(!1);
       }), u.addEventListener(
         "input",
-        (p) => j(p.target)
+        (p) => q(p.target)
       ), u.addEventListener("focus", () => w(!0)), u.addEventListener("blur", () => w(!1)), document.addEventListener("click", (p) => {
-        P(p.target, this) || w(!1);
+        j(p.target, this) || w(!1);
       }), l.addEventListener("combobox-commit", function(p) {
         const f = p.target.getAttribute(
           "data-feature-id"
@@ -736,8 +736,8 @@ function qe(t, e) {
   const i = parseInt(t, 10);
   return Number.isNaN(i) ? e : i;
 }
-function P(t, e) {
-  return t === e ? !0 : !t || !t.parentElement ? !1 : P(t.parentElement, e);
+function j(t, e) {
+  return t === e ? !0 : !t || !t.parentElement ? !1 : j(t.parentElement, e);
 }
 function He(t) {
   switch (Fe(t)[0]) {
