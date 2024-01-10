@@ -3,16 +3,16 @@ import {
   formatToWeekday,
   parseIfNeeded,
 } from '@atb/utils/date';
-import {
-  TripData,
-  type TripPattern as TripPatternType,
-} from '../server/journey-planner/validators';
+import { type TripPattern as TripPatternType } from '../server/journey-planner/validators';
 import style from './trip.module.css';
 import { PageText, useTranslation } from '@atb/translations';
 import { Typo } from '@atb/components/typography';
-import { GeocoderFeature } from '@atb/page-modules/departures';
-import { nextTripPatterns } from '../client';
-import { FromToTripQuery, NonTransitTripData } from '../types';
+import { getNonTransitTrip, getTripPatterns } from '../client';
+import {
+  FromToTripQuery,
+  NonTransitTripData,
+  TripPatternWithTransitionDelay,
+} from '../types';
 import {
   createTripQuery,
   filterOutDuplicates,
@@ -25,26 +25,35 @@ import { isSameDay } from 'date-fns';
 import { capitalize } from 'lodash';
 import EmptySearchResults from '@atb/components/empty-message';
 import TripPattern from './trip-pattern';
-import { SearchTime } from '@atb/modules/search-time';
-import {
-  getInitialTransportModeFilter,
-  type TransportModeFilterOption,
-} from '@atb/modules/transport-mode';
+import { getInitialTransportModeFilter } from '@atb/modules/transport-mode';
+import EmptySearch from '@atb/components/loading-empty-results';
 
 export type TripProps = {
   tripQuery: FromToTripQuery;
-  trip: TripData;
-  nonTransitTrips: NonTransitTripData;
 };
 
-export default function Trip({ tripQuery, trip, nonTransitTrips }: TripProps) {
+export default function Trip({ tripQuery }: TripProps) {
   const { t } = useTranslation();
-  const { tripPatterns, fetchNextTripPatterns, isFetchingTripPatterns } =
-    useTripPatterns(trip, tripQuery.searchTime);
+  const {
+    tripPatterns,
+    fetchNextTripPatterns,
+    isFetchingTripPatterns,
+    isFetchingNextTripPatterns,
+    nonTransitTrips,
+  } = useTripPatterns(tripQuery);
 
-  const nonTransits = Object.entries(nonTransitTrips);
+  const nonTransits = nonTransitTrips ? Object.entries(nonTransitTrips) : [];
 
-  if (tripPatterns.length === 0) {
+  if (isFetchingTripPatterns) {
+    return (
+      <EmptySearch
+        isSearching={isFetchingTripPatterns}
+        type="trip"
+      ></EmptySearch>
+    );
+  }
+
+  if (tripPatterns.length === 0 && tripQuery.from && tripQuery.to) {
     return (
       <EmptySearchResults
         title={t(
@@ -68,7 +77,7 @@ export default function Trip({ tripQuery, trip, nonTransitTrips }: TripProps) {
   return (
     <>
       <div className={style.tripResults}>
-        {nonTransits.length > 0 && (
+        {nonTransitTrips && nonTransits.length > 0 && (
           <div className={style.nonTransitResult}>
             {Object.entries(nonTransitTrips).map(([legType, nonTransit]) => (
               <NonTransitTrip key={legType} nonTransit={nonTransit} />
@@ -96,68 +105,87 @@ export default function Trip({ tripQuery, trip, nonTransitTrips }: TripProps) {
 
       <Button
         className={style.fetchButton}
-        onClick={() =>
-          fetchNextTripPatterns(
-            tripQuery.from!,
-            tripQuery.to!,
-            tripQuery.transportModeFilter || undefined,
-          )
-        }
+        onClick={() => fetchNextTripPatterns()}
         title={t(PageText.Assistant.trip.fetchMore)}
-        state={isFetchingTripPatterns ? 'loading' : undefined}
+        state={isFetchingNextTripPatterns ? 'loading' : undefined}
       />
     </>
   );
 }
 
-function useTripPatterns(initialTrip: TripData, searchTime: SearchTime) {
-  const [tripPatterns, setTripPatterns] = useState(
-    tripPatternsWithTransitionDelay(initialTrip.tripPatterns),
-  );
-  const [cursor, setCursor] = useState(
-    getCursorBySearchMode(initialTrip, searchTime.mode),
-  );
+function useTripPatterns(query: FromToTripQuery) {
+  const [tripPatterns, setTripPatterns] = useState<
+    (TripPatternType & { transitionDelay: number })[]
+  >([]);
+  const [nonTransitTrips, setNonTransitTrips] = useState<
+    NonTransitTripData | undefined
+  >(undefined);
+  const [cursor, setCursor] = useState<string>();
   const [isFetchingTripPatterns, setIsFetchingTripPatterns] = useState(false);
+  const [isFetchingNextTripPatterns, setIsFetchingNextTripPatterns] =
+    useState(false);
 
   useEffect(() => {
-    setTripPatterns(tripPatternsWithTransitionDelay(initialTrip.tripPatterns));
-    setCursor(getCursorBySearchMode(initialTrip, searchTime.mode));
-  }, [initialTrip, searchTime.mode]);
+    if (!query.from || !query.to) return;
+    const fetch = async () => {
+      setIsFetchingTripPatterns(true);
+      const tripQuery = createTripQuery(
+        query,
+        getInitialTransportModeFilter(null),
+      );
+      const trip = await getTripPatterns(tripQuery);
+      const newTripPatternsWithTransitionDelay =
+        tripPatternsWithTransitionDelay(trip.tripPatterns);
 
-  const fetchNextTripPatterns = async (
-    from: GeocoderFeature,
-    to: GeocoderFeature,
-    filter?: TransportModeFilterOption[],
-  ) => {
-    setIsFetchingTripPatterns(true);
+      setTripPatterns(newTripPatternsWithTransitionDelay);
+      setCursor(getCursorBySearchMode(trip, query.searchTime.mode));
+      setIsFetchingTripPatterns(false);
+    };
+    fetch();
+  }, [query]);
+
+  useEffect(() => {
+    if (!query.from || !query.to) return;
+    const fetch = async () => {
+      const tripQuery = createTripQuery(
+        query,
+        getInitialTransportModeFilter(null),
+      );
+      const nonTransit = await getNonTransitTrip(tripQuery);
+      setNonTransitTrips(nonTransit);
+    };
+    fetch();
+  }, [query]);
+
+  const fetchNextTripPatterns = async () => {
+    setIsFetchingNextTripPatterns(true);
     const tripQuery = createTripQuery(
-      {
-        from,
-        to,
-        searchTime,
-        transportModeFilter: [],
-        cursor: cursor,
-      },
-      getInitialTransportModeFilter(filter),
+      { ...query, cursor: cursor || null },
+      getInitialTransportModeFilter(query.transportModeFilter),
     );
-    const trip = await nextTripPatterns(tripQuery);
-    const newTripPatternsWithTransitionDelay = tripPatternsWithTransitionDelay(
-      filterOutDuplicates(trip.tripPatterns, tripPatterns),
+    const trip = await getTripPatterns(tripQuery);
+    const filteredTripPatterns = tripPatterns
+      ? filterOutDuplicates(trip.tripPatterns, tripPatterns)
+      : trip.tripPatterns;
+    const newTripPatternsWithTransitionDelay =
+      tripPatternsWithTransitionDelay(filteredTripPatterns);
+
+    setTripPatterns((prevTripPatterns) =>
+      prevTripPatterns
+        ? [...prevTripPatterns, ...newTripPatternsWithTransitionDelay]
+        : newTripPatternsWithTransitionDelay,
     );
 
-    setTripPatterns((prevTripPatterns) => [
-      ...prevTripPatterns,
-      ...newTripPatternsWithTransitionDelay,
-    ]);
-
-    setCursor(getCursorBySearchMode(trip, searchTime.mode));
-    setIsFetchingTripPatterns(false);
+    setCursor(getCursorBySearchMode(trip, query.searchTime.mode));
+    setIsFetchingNextTripPatterns(false);
   };
 
   return {
     tripPatterns,
     isFetchingTripPatterns,
     fetchNextTripPatterns,
+    isFetchingNextTripPatterns,
+    nonTransitTrips,
   };
 }
 
@@ -186,9 +214,11 @@ function DayLabel({ departureTime, previousDepartureTime }: DayLabelProps) {
   return null;
 }
 
-function tripPatternsWithTransitionDelay(tripPatterns: TripPatternType[]) {
+function tripPatternsWithTransitionDelay(
+  tripPatterns: TripPatternType[],
+): TripPatternWithTransitionDelay[] {
   return tripPatterns.map((tripPattern, i) => ({
     ...tripPattern,
-    transitionDelay: i * 0.1,
+    transitionDelay: i > 3 ? i * 0.1 : 0,
   }));
 }

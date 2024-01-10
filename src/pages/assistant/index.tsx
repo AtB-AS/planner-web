@@ -1,14 +1,11 @@
 import DefaultLayout from '@atb/layouts/default';
 import { withGlobalData, type WithGlobalData } from '@atb/layouts/global-data';
-import { getAllTransportModesFromFilterOptions } from '@atb/modules/transport-mode';
 import {
   AssistantLayout,
   fetchFromToTripQuery,
-  StreetMode,
   Trip,
   type AssistantLayoutProps,
   type FromToTripQuery,
-  type TripData,
   type TripProps,
 } from '@atb/page-modules/assistant';
 import { withAssistantClient } from '@atb/page-modules/assistant/server';
@@ -23,13 +20,9 @@ export type AssistantPageProps = WithGlobalData<
 >;
 
 function AssistantContent(props: AssistantContentProps) {
-  if (isTripDataProps(props)) {
+  if (!('empty' in props) && props.tripQuery) {
     return <Trip {...props} />;
   }
-}
-
-function isTripDataProps(a: any): a is { trip: TripData } {
-  return 'trip' in a && a.trip;
 }
 
 const AssistantPage: NextPage<AssistantPageProps> = (props) => {
@@ -58,29 +51,9 @@ export const getServerSideProps = withGlobalData(
         };
       }
 
-      const { from, to, searchTime, transportModeFilter } = tripQuery;
-
-      const [trip, nonTransitTrips] = await Promise.all([
-        client.trip({
-          from,
-          to,
-          searchTime,
-          transportModes:
-            getAllTransportModesFromFilterOptions(transportModeFilter),
-        }),
-        client.nonTransitTrips({
-          from,
-          to,
-          searchTime,
-          directModes: [StreetMode.Foot, StreetMode.Bicycle],
-        }),
-      ]);
-
       return {
         props: {
           tripQuery,
-          trip,
-          nonTransitTrips,
         },
       };
     },

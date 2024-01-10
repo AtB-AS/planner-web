@@ -203,16 +203,15 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
             title={t(PageText.Assistant.search.buttons.find.title)}
             className={style.button}
             mode="interactive_0--bordered"
-            disabled={!tripQuery.from || !tripQuery.to}
+            disabled={!tripQuery.from || !tripQuery.to || isSearching}
             buttonProps={{ type: 'submit' }}
-            state={isSearching ? 'loading' : undefined}
           />
         </div>
       </form>
 
       <section className={style.contentContainer}>
         <EmptySearch
-          isSearching={isSearching}
+          isSearching={false}
           isGeolocationError={geolocationError !== null}
           type="trip"
         >

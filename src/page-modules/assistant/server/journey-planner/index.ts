@@ -363,8 +363,8 @@ type RecursivePartial<T> = {
   [P in keyof T]?: T[P] extends (infer U)[]
     ? RecursivePartial<U>[]
     : T[P] extends object | undefined
-    ? RecursivePartial<T[P]>
-    : T[P];
+      ? RecursivePartial<T[P]>
+      : T[P];
 };
 
 function inputToLocation(
@@ -386,8 +386,8 @@ function mapResultToTrips(
   queryVariables: TripsQueryVariables,
 ): RecursivePartial<TripData> {
   return {
-    nextPageCursor: trip.nextPageCursor ?? null,
-    previousPageCursor: trip.previousPageCursor ?? null,
+    nextPageCursor: trip.nextPageCursor,
+    previousPageCursor: trip.previousPageCursor,
     tripPatterns: trip.tripPatterns.map((tripPattern) => ({
       expectedStartTime: tripPattern.expectedStartTime,
       expectedEndTime: tripPattern.expectedEndTime,
@@ -525,9 +525,7 @@ function generateSingleTripQueryString(
   );
 }
 
-export function parseTripQueryString(
-  compressedQueryString: string,
-):
+export function parseTripQueryString(compressedQueryString: string):
   | {
       query: TripsQueryVariables;
       journeyIds: string[];
