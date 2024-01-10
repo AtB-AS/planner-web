@@ -11,11 +11,7 @@ export const LayoutInternal = {
             'AtB Travel Planner',
             'AtB Reiseplanlegger',
           ),
-          helpPageLink: _(
-            'Hjelp til reiseplanleggeren',
-            'Help for the travel planner',
-            'Hjelp til reiseplanleggeren',
-          ),
+          helpPageLink: _('Kontakt oss', 'Contact us', 'Kontakt oss'),
         },
         contact: {
           header: _('Kontakt AtB', 'Contact AtB', 'Kontakt AtB'),
@@ -108,9 +104,9 @@ export const Layout = orgSpecificTranslations(LayoutInternal, {
         sections: {
           general: {
             header: _(
-              'FRAM Reiseplanlegger',
-              'FRAM Travel Planner',
-              'FRAM Reiseplanlegger',
+              'Hjelp til reiseplanlegger',
+              'Help with travel planner',
+              'Hjelp til reiseplanleggar',
             ),
           },
           contact: {
