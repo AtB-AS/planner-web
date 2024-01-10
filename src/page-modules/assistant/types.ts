@@ -77,3 +77,7 @@ export type NonTransitTripData = {
   footTrip?: NonTransitData;
   bikeRentalTrip?: NonTransitData;
 };
+
+export type TripPatternWithTransitionDelay = TripPattern & {
+  transitionDelay: number;
+};

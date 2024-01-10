@@ -5,19 +5,28 @@ import {
   filterToQueryString,
 } from '@atb/modules/transport-mode';
 import { GeocoderFeature } from '@atb/page-modules/departures';
-import { FromToTripQuery, TripData, TripQuery, TripQuerySchema } from './types';
+import {
+  FromToTripQuery,
+  TripData,
+  TripQuery,
+  TripQuerySchema,
+  TripPatternWithTransitionDelay,
+} from './types';
 
 export function filterOutDuplicates(
-  arrayToFilter: TripData['tripPatterns'],
-  referenceArray: TripData['tripPatterns'],
-): TripData['tripPatterns'] {
+  arrayToFilter: TripData['tripPatterns'] | TripPatternWithTransitionDelay[],
+  referenceArray: TripData['tripPatterns'] | TripPatternWithTransitionDelay[],
+): TripData['tripPatterns'] | TripPatternWithTransitionDelay[] {
   const existing = new Set<string>(
     referenceArray.map((tp) => tp.expectedStartTime),
   );
   return arrayToFilter.filter((tp) => !existing.has(tp.expectedStartTime));
 }
 
-export function getCursorBySearchMode(trip: TripData, searchMode: SearchMode) {
+export function getCursorBySearchMode(
+  trip: TripData,
+  searchMode: SearchMode,
+): string {
   if (searchMode === 'arriveBy') {
     return trip.previousPageCursor;
   } else {

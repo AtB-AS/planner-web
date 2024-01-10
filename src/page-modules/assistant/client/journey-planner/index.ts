@@ -81,3 +81,11 @@ function tripQueryToQueryString(input: TripQuery): string {
     )
     .join('&');
 }
+
+export async function getNonTransitTrip(
+  query: TripQuery,
+): Promise<NonTransitTripApiReturnType> {
+  const queryString = tripQueryToQueryString(query);
+  const result = await fetch(`/api/assistant/non-transit-trip?${queryString}`);
+  return await result.json();
+}
