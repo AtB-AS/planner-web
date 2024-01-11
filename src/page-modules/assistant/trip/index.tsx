@@ -219,6 +219,6 @@ function tripPatternsWithTransitionDelay(
 ): TripPatternWithTransitionDelay[] {
   return tripPatterns.map((tripPattern, i) => ({
     ...tripPattern,
-    transitionDelay: i > 3 ? i * 0.1 : 0,
+    transitionDelay: i * 0.1,
   }));
 }
