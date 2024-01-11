@@ -6,6 +6,7 @@ import { useTheme } from '@atb/modules/theme';
 import { ComponentText, useTranslation } from '@atb/translations';
 import type { MapLegType } from './types';
 import type { Map, AnySourceData, AnyLayer } from 'mapbox-gl';
+import { addLayerIfNotExists, addSourceIfNotExists } from '.';
 
 export const useMapLegs = (
   mapRef: MutableRefObject<Map | undefined>,
@@ -37,10 +38,14 @@ export const useMapLegs = (
         mapLeg.points[0],
         mapLeg.points[mapLeg.points.length - 1],
       );
-      map.addSource(`route-${id}`, routeLine);
-      map.addSource(`route-${id}-start-end`, startEndCircles);
-      map.addLayer(createRouteLayer(id, lineColor, isDotted));
-      map.addLayer(createStartEndLayer(id, lineColor));
+      const routeLayer = createRouteLayer(id, lineColor, isDotted);
+      const startEndLayer = createStartEndLayer(id, lineColor);
+
+      addSourceIfNotExists(map, `route-${id}`, routeLine);
+      addSourceIfNotExists(map, `route-${id}-start-end`, startEndCircles);
+
+      addLayerIfNotExists(map, routeLayer);
+      addLayerIfNotExists(map, startEndLayer);
     },
     [transport],
   );
@@ -62,10 +67,11 @@ export const useMapLegs = (
         staticColors.background.background_accent_0,
       );
 
-      map.addSource(startTextSourceId, startTextPoint);
-      map.addSource(endTextSourceId, endTextPoint);
-      map.addLayer(startTextLayer);
-      map.addLayer(endTextLayer);
+      addSourceIfNotExists(map, startTextSourceId, startTextPoint);
+      addSourceIfNotExists(map, endTextSourceId, endTextPoint);
+
+      addLayerIfNotExists(map, startTextLayer);
+      addLayerIfNotExists(map, endTextLayer);
     },
     [staticColors, t],
   );

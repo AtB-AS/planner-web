@@ -230,6 +230,7 @@ export function createJourneyApi(
         variables: {
           ...tripQuery.query,
           arriveBy: false,
+          ...DEFAULT_JOURNEY_CONFIG,
         },
       });
 
@@ -363,8 +364,8 @@ type RecursivePartial<T> = {
   [P in keyof T]?: T[P] extends (infer U)[]
     ? RecursivePartial<U>[]
     : T[P] extends object | undefined
-    ? RecursivePartial<T[P]>
-    : T[P];
+      ? RecursivePartial<T[P]>
+      : T[P];
 };
 
 function inputToLocation(
@@ -525,9 +526,7 @@ function generateSingleTripQueryString(
   );
 }
 
-export function parseTripQueryString(
-  compressedQueryString: string,
-):
+export function parseTripQueryString(compressedQueryString: string):
   | {
       query: TripsQueryVariables;
       journeyIds: string[];
