@@ -24,6 +24,7 @@ import type {
   NonTransitTripData,
   NonTransitTripInput,
   TripInput,
+  TripViaInput,
 } from '../../types';
 import { filterOutDuplicates, getCursorBySearchMode } from '../../utils';
 import {
@@ -42,6 +43,11 @@ import {
   TripsWithDetailsQueryVariables,
 } from './journey-gql/trip-with-details.generated';
 import { mapToMapLegs } from '@atb/components/map';
+import {
+  ViaTripsDocument,
+  ViaTripsQuery,
+  ViaTripsQueryVariables,
+} from './journey-gql/via-trip.generated';
 
 const MIN_NUMBER_OF_TRIP_PATTERNS = 8;
 const MAX_NUMBER_OF_SEARCH_ATTEMPTS = 5;
@@ -56,6 +62,7 @@ const DEFAULT_JOURNEY_CONFIG = {
 
 export type JourneyPlannerApi = {
   trip(input: TripInput): Promise<TripData>;
+  viaTrip(input: TripViaInput): Promise<TripData>;
   nonTransitTrips(input: NonTransitTripInput): Promise<NonTransitTripData>;
   singleTrip(input: string): Promise<TripPatternWithDetails | undefined>;
 };
@@ -354,6 +361,122 @@ export function createJourneyApi(
 
       return validated.data;
     },
+
+    async viaTrip(input) {
+      const journeyModes = {
+        accessMode: StreetMode.Foot,
+        // Show specific non-transit suggestions through separate API call
+        directMode: undefined,
+        egressMode: StreetMode.Foot,
+        transportModes: input.transportModes as GraphQlTransportModes[],
+      };
+
+      const from = inputToLocation(input, 'from');
+      const to = inputToLocation(input, 'to');
+      const via = inputToViaLocation(input, 'via');
+      const when =
+        input.searchTime.mode !== 'now'
+          ? new Date(input.searchTime.dateTime)
+          : new Date();
+
+      const queryVariables = {
+        from,
+        to,
+        via,
+        when,
+        modes: journeyModes,
+        cursor: input.cursor,
+        ...DEFAULT_JOURNEY_CONFIG,
+      };
+
+      let viaTrip: TripData | undefined = undefined;
+      let cursor = input.cursor;
+      let searchAttempt = 1;
+      do {
+        if (viaTrip && viaTrip.nextPageCursor && viaTrip.previousPageCursor) {
+          cursor =
+            getCursorBySearchMode(viaTrip, input.searchTime.mode) || undefined;
+        }
+
+        const result = await client.query<
+          ViaTripsQuery,
+          ViaTripsQueryVariables
+        >({
+          query: ViaTripsDocument,
+          variables: { ...queryVariables },
+        });
+
+        if (result.error || result.errors) {
+          throw result.error || result.errors;
+        }
+
+        // Creates list to make it easier to access all tripPatternCombinations.
+        const tripPatternCombinations =
+          result.data.viaTrip.tripPatternCombinations.flatMap((combination) => {
+            return combination.map((e) => ({ from: e.from, to: e.to }));
+          });
+
+        // Finds tripPatterns from tripPatternsDestinationA and tripPatternsDestinationB.
+        const tripPatternsDestinationA =
+          result.data.viaTrip.tripPatternsPerSegment[0].tripPatterns;
+        const tripPatternsDestinationB =
+          result.data.viaTrip.tripPatternsPerSegment[1].tripPatterns;
+
+        // Creates a list of tripPatterns where the legs of each tripPattern is the concatenated legs of the possible trip pattern combinations.
+        const combinedTripPatterns: ViaTripsQuery['viaTrip']['tripPatternsPerSegment'][0]['tripPatterns'] =
+          [];
+        tripPatternCombinations.map((combo) => {
+          if (combo.from && combo.to) {
+            combinedTripPatterns.push({
+              expectedStartTime:
+                tripPatternsDestinationA[combo.from].expectedStartTime,
+              expectedEndTime:
+                tripPatternsDestinationB[combo.to].expectedEndTime,
+              legs: [
+                ...tripPatternsDestinationA[combo.from].legs,
+                ...tripPatternsDestinationB[combo.to].legs,
+              ],
+            });
+          }
+        });
+
+        const data: RecursivePartial<TripData> = mapResultToTrips(
+          {
+            nextPageCursor: undefined,
+            previousPageCursor: undefined,
+            metadata: undefined,
+            tripPatterns: combinedTripPatterns,
+          },
+          queryVariables,
+        );
+
+        const validated = tripSchema.safeParse(data);
+        if (!validated.success) {
+          throw validated.error;
+        }
+
+        if (!viaTrip) {
+          viaTrip = validated.data;
+        } else {
+          viaTrip = {
+            ...validated.data,
+            tripPatterns: [
+              ...viaTrip.tripPatterns,
+              ...filterOutDuplicates(
+                validated.data.tripPatterns,
+                viaTrip.tripPatterns,
+              ),
+            ],
+          };
+        }
+        searchAttempt += 1;
+      } while (
+        searchAttempt <= MAX_NUMBER_OF_SEARCH_ATTEMPTS &&
+        viaTrip.tripPatterns.length < MIN_NUMBER_OF_TRIP_PATTERNS
+      );
+
+      return viaTrip;
+    },
   };
 
   return api;
@@ -363,8 +486,8 @@ type RecursivePartial<T> = {
   [P in keyof T]?: T[P] extends (infer U)[]
     ? RecursivePartial<U>[]
     : T[P] extends object | undefined
-    ? RecursivePartial<T[P]>
-    : T[P];
+      ? RecursivePartial<T[P]>
+      : T[P];
 };
 
 function inputToLocation(
@@ -380,10 +503,22 @@ function inputToLocation(
     name: input[direction].name,
   };
 }
+function inputToViaLocation(input: TripViaInput, direction: 'via') {
+  return {
+    place: input[direction].id,
+    coordinates: {
+      latitude: input[direction].geometry.coordinates[1],
+      longitude: input[direction].geometry.coordinates[0],
+    },
+    name: input[direction].name,
+    minSlack: 'PT120S',
+    maxSlack: 'PT2H',
+  };
+}
 
 function mapResultToTrips(
   trip: TripsQuery['trip'],
-  queryVariables: TripsQueryVariables,
+  queryVariables: TripsQueryVariables | ViaTripsQueryVariables,
 ): RecursivePartial<TripData> {
   return {
     nextPageCursor: trip.nextPageCursor ?? null,
@@ -507,17 +642,13 @@ function mapNotices(
 function generateSingleTripQueryString(
   journeyIds: string[],
   aimedStartTime: string,
-  queryVariables: TripsQueryVariables,
+  queryVariables: TripsQueryVariables | ViaTripsQueryVariables,
 ) {
   const when = getPaddedStartTime(aimedStartTime);
   const originalSearchTime = queryVariables.when;
-  const arriveBy = queryVariables.arriveBy;
-
-  const singleTripQuery: TripsQueryVariables = {
-    ...queryVariables,
-    when,
-    arriveBy,
-  };
+  const singleTripQuery = isTripsQueryVariables(queryVariables)
+    ? { ...queryVariables, when, arriveBy: queryVariables.arriveBy }
+    : { ...queryVariables, when, via: queryVariables.via };
 
   // encode to string
   return compressToEncodedURIComponent(
@@ -525,9 +656,7 @@ function generateSingleTripQueryString(
   );
 }
 
-export function parseTripQueryString(
-  compressedQueryString: string,
-):
+export function parseTripQueryString(compressedQueryString: string):
   | {
       query: TripsQueryVariables;
       journeyIds: string[];
@@ -539,11 +668,16 @@ export function parseTripQueryString(
 
   const queryFields = JSON.parse(queryString);
   if (isTripsQueryVariables(queryFields.query)) return queryFields;
+  if (isTripsViaQueryVariables(queryFields.query)) return queryFields;
   return;
 }
 
 function isTripsQueryVariables(a: any): a is TripsQueryVariables {
   return a && 'from' in a && 'to' in a && 'when' in a && 'arriveBy' in a;
+}
+
+function isTripsViaQueryVariables(a: any): a is TripsQueryVariables {
+  return a && 'from' in a && 'to' in a && 'when' in a && 'via' in a;
 }
 
 function getPaddedStartTime(time: string): string {

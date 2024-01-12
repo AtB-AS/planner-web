@@ -58,16 +58,25 @@ export const getServerSideProps = withGlobalData(
         };
       }
 
-      const { from, to, searchTime, transportModeFilter } = tripQuery;
+      const { from, to, searchTime, transportModeFilter, via } = tripQuery;
 
       const [trip, nonTransitTrips] = await Promise.all([
-        client.trip({
-          from,
-          to,
-          searchTime,
-          transportModes:
-            getAllTransportModesFromFilterOptions(transportModeFilter),
-        }),
+        via
+          ? client.viaTrip({
+              from,
+              to,
+              via,
+              searchTime,
+              transportModes:
+                getAllTransportModesFromFilterOptions(transportModeFilter),
+            })
+          : client.trip({
+              from,
+              to,
+              searchTime,
+              transportModes:
+                getAllTransportModesFromFilterOptions(transportModeFilter),
+            }),
         client.nonTransitTrips({
           from,
           to,

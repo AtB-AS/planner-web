@@ -134,6 +134,7 @@ function useTripPatterns(initialTrip: TripData, searchTime: SearchTime) {
       {
         from,
         to,
+        via: null,
         searchTime,
         transportModeFilter: [],
         cursor: cursor,

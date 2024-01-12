@@ -54,6 +54,9 @@
 }
 
 .alternatives {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacings-medium);
   padding: var(--spacings-xLarge);
   width: 100%;
   max-width: var(--maxPageWidth);
@@ -134,7 +137,6 @@
 .nonTransitResult {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--spacings-medium);
 }
 
 .spanColumns {

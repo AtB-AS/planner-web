@@ -81,6 +81,9 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
     setValuesWithLoading({ from });
   const onToSelected = async (to: GeocoderFeature) =>
     setValuesWithLoading({ to });
+  const onViaSelected = async (via: GeocoderFeature) => {
+    setValuesWithLoading({ via });
+  };
 
   const { urls } = getOrgData();
 
@@ -168,19 +171,25 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
               >
                 {' '}
                 <div className={style.alternatives}>
-                  <div>
-                    <Typo.p
-                      textType="body__primary--bold"
-                      className={style.heading}
-                    >
-                      {t(PageText.Assistant.search.filter.label)}
-                    </Typo.p>
+                  <Typo.p
+                    textType="body__primary--bold"
+                    className={style.heading}
+                  >
+                    {t(PageText.Assistant.search.filter.label)}
+                  </Typo.p>
 
-                    <TransportModeFilter
-                      filterState={transportModeFilter}
-                      onFilterChange={setTransportModeFilter}
-                    />
-                  </div>
+                  <TransportModeFilter
+                    filterState={transportModeFilter}
+                    onFilterChange={setTransportModeFilter}
+                  />
+
+                  <Search
+                    label={t(PageText.Assistant.search.input.via)}
+                    placeholder={t(PageText.Assistant.search.input.placeholder)}
+                    onChange={onViaSelected}
+                    selectedItem={tripQuery.via ?? undefined}
+                    autocompleteFocusPoint={tripQuery.via ?? undefined}
+                  />
                 </div>
               </motion.div>
             </FocusScope>

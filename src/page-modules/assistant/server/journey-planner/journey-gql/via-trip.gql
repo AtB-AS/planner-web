@@ -1,0 +1,116 @@
+query ViaTrips(
+  $from: Location!
+  $to: Location!
+  $when: DateTime
+  $via: [ViaLocationInput!]!
+) {
+  viaTrip(
+    from: $from
+    to: $to
+    searchWindow: "PT2H" # 9 hours
+    dateTime: $when
+    via: $via
+  ) {
+    ...viaTrip
+  }
+}
+
+fragment viaTrip on ViaTrip {
+  routingErrors {
+    ...routingError
+  }
+  tripPatternsPerSegment {
+    ...tripPatternsPerSegment
+  }
+  tripPatternCombinations {
+    from
+    to
+  }
+}
+
+fragment routingError on RoutingError {
+  code
+  description
+  inputField
+}
+
+fragment tripPatternsPerSegment on ViaTripPatternSegment {
+  tripPatterns {
+    expectedStartTime
+    expectedEndTime
+    streetDistance
+    legs {
+      mode
+      distance
+      duration
+      aimedStartTime
+      expectedEndTime
+      expectedStartTime
+      realtime
+      line {
+        publicCode
+        flexibleLineType
+        notices {
+          ...notice
+        }
+      }
+      fromEstimatedCall {
+        notices {
+          ...notice
+        }
+      }
+      situations {
+        ...situation
+      }
+      fromPlace {
+        name
+        quay {
+          publicCode
+          name
+          id
+          situations {
+            ...situation
+          }
+        }
+      }
+      serviceJourney {
+        id
+        notices {
+          ...notice
+        }
+        journeyPattern {
+          notices {
+            ...notice
+          }
+        }
+      }
+      transportSubmode
+    }
+  }
+}
+
+fragment notice on Notice {
+  id
+  text
+}
+
+fragment situation on PtSituationElement {
+  id
+  situationNumber
+  summary {
+    ...multilingualString
+  }
+  description {
+    ...multilingualString
+  }
+  reportType
+  advice {
+    ...multilingualString
+  }
+  infoLinks {
+    ...infoLink
+  }
+  validityPeriod {
+    ...validityPeriod
+  }
+}

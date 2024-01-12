@@ -14,6 +14,7 @@ export const Assistant = {
       ),
       from: _('Fra', 'From', 'Frå'),
       to: _('Til', 'To', 'Til'),
+      via: _('Via', 'Via', 'Via'),
       placeholder: _(
         'adresse, kai eller holdeplass',
         'address, quay or bus stop',

@@ -18,12 +18,17 @@ export type TripInput = {
   cursor?: string;
 };
 
+export type TripViaInput = TripInput & {
+  via: GeocoderFeature;
+};
+
 export type FromToTripQuery = {
   from: GeocoderFeature | null;
   to: GeocoderFeature | null;
   transportModeFilter: TransportModeFilterOption[] | null;
   searchTime: SearchTime;
   cursor: string | null;
+  via: GeocoderFeature | null;
 };
 
 export const TripQuerySchema = z.object({
@@ -39,6 +44,10 @@ export const TripQuerySchema = z.object({
   searchMode: searchModeSchema.optional(),
   searchTime: z.number().optional(),
   cursor: z.string().optional(),
+  viaId: z.string().optional(),
+  viaLon: z.number().optional(),
+  viaLat: z.number().optional(),
+  viaLayer: z.union([z.literal('address'), z.literal('venue')]).optional(),
 });
 
 export type TripQuery = z.infer<typeof TripQuerySchema>;
