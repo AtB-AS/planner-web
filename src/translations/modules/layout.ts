@@ -6,7 +6,7 @@ export const LayoutInternal = {
     footer: {
       sections: {
         general: {
-          header: _('Reiseplanlegger', 'Travel Planner', 'Reiseplanlegger'),
+          header: _('Reiseplanlegger', 'Travel Planner', 'Reiseplanleggar'),
           supportPageLink: _('Kontakt oss', 'Contact us', 'Kontakt oss'),
           helpPageLink: _(
             'Hjelp til reiseplanleggeren',
