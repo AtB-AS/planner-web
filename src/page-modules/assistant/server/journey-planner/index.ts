@@ -410,31 +410,35 @@ export function createJourneyApi(
           throw result.error || result.errors;
         }
 
-        // Creates list to make it easier to access all tripPatternCombinations.
+        // Create list to make all trip pattern combinations more accessable.
         const tripPatternCombinations =
-          result.data.viaTrip.tripPatternCombinations.flatMap((combination) => {
-            return combination.map((e) => ({ from: e.from, to: e.to }));
-          });
+          result.data.viaTrip.tripPatternCombinations.flatMap(
+            (combinations) => {
+              return combinations.map((combination) => ({
+                from: combination.from,
+                to: combination.to,
+              }));
+            },
+          );
 
-        // Finds tripPatterns from tripPatternsDestinationA and tripPatternsDestinationB.
-        const tripPatternsDestinationA =
+        // Find trip patterns from-via and via-to destination.
+        const tripPatternsFromVia =
           result.data.viaTrip.tripPatternsPerSegment[0].tripPatterns;
-        const tripPatternsDestinationB =
+        const tripPatternsViaTo =
           result.data.viaTrip.tripPatternsPerSegment[1].tripPatterns;
 
-        // Creates a list of tripPatterns where the legs of each tripPattern is the concatenated legs of the possible trip pattern combinations.
-        const combinedTripPatterns: ViaTripsQuery['viaTrip']['tripPatternsPerSegment'][0]['tripPatterns'] =
+        // Find all possible trip patterns where the legs from the from-via location and the via-to location are concatinated.
+        const tripPatternsFromViaTo: ViaTripsQuery['viaTrip']['tripPatternsPerSegment'][0]['tripPatterns'] =
           [];
         tripPatternCombinations.map((combo) => {
           if (combo.from && combo.to) {
-            combinedTripPatterns.push({
+            tripPatternsFromViaTo.push({
               expectedStartTime:
-                tripPatternsDestinationA[combo.from].expectedStartTime,
-              expectedEndTime:
-                tripPatternsDestinationB[combo.to].expectedEndTime,
+                tripPatternsFromVia[combo.from].expectedStartTime,
+              expectedEndTime: tripPatternsViaTo[combo.to].expectedEndTime,
               legs: [
-                ...tripPatternsDestinationA[combo.from].legs,
-                ...tripPatternsDestinationB[combo.to].legs,
+                ...tripPatternsFromVia[combo.from].legs,
+                ...tripPatternsViaTo[combo.to].legs,
               ],
             });
           }
@@ -445,7 +449,7 @@ export function createJourneyApi(
             nextPageCursor: undefined,
             previousPageCursor: undefined,
             metadata: undefined,
-            tripPatterns: combinedTripPatterns,
+            tripPatterns: tripPatternsFromViaTo,
           },
           queryVariables,
         );

@@ -137,6 +137,7 @@
 .nonTransitResult {
   display: flex;
   flex-wrap: wrap;
+  gap: var(--spacings-medium);
 }
 
 .spanColumns {
