@@ -47,14 +47,7 @@ export function AssistantDetails({ tripPattern }: AssistantDetailsProps) {
         <DetailsHeader tripPattern={tripPattern} />
       </div>
       <div className={style.mapContainer}>
-        <Map
-          position={{
-            lon: tripPattern.legs[0].fromPlace.longitude,
-            lat: tripPattern.legs[0].fromPlace.latitude,
-          }}
-          initialZoom={13.5}
-          mapLegs={mapLegs}
-        />
+        <Map mapLegs={mapLegs} />
         <div className={style.tripDetails}>
           <div className={style.duration}>
             <MonoIcon icon="time/Duration" />

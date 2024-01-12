@@ -1,4 +1,9 @@
-import { MapboxGeoJSONFeature } from 'mapbox-gl';
+import {
+  MapboxGeoJSONFeature,
+  type Map,
+  AnySourceData,
+  AnyLayer,
+} from 'mapbox-gl';
 import { mapboxData } from '@atb/modules/org-data';
 import { MapLegType, Position } from './types';
 import haversineDistance from 'haversine-distance';
@@ -91,3 +96,51 @@ const findIndex = (
     { index: -1, distance: 100 },
   ).index;
 };
+
+export const getMapBounds = (
+  mapLegs: MapLegType[],
+): [[number, number], [number, number]] => {
+  const lineLongitudes = mapLegs
+    .map((leg) => leg.points.map((point) => point[0]))
+    .flat();
+  const lineLatitudes = mapLegs
+    .map((leg) => leg.points.map((point) => point[1]))
+    .flat();
+
+  const westernMost = Math.min(...lineLongitudes);
+  const easternMost = Math.max(...lineLongitudes);
+  const northernMost = Math.max(...lineLatitudes);
+  const southernMost = Math.min(...lineLatitudes);
+
+  // Dividing by 3 here is arbitrary, seems to work
+  // like a fine value for "padding"
+  const latPadding = (northernMost - southernMost) / 3;
+  const lonPadding = (westernMost - easternMost) / 3;
+
+  const sw: [number, number] = [
+    southernMost - latPadding,
+    westernMost + lonPadding,
+  ];
+  const ne: [number, number] = [
+    northernMost + latPadding,
+    easternMost - lonPadding,
+  ];
+
+  return [sw, ne];
+};
+
+export function addSourceIfNotExists(
+  map: Map,
+  sourceId: string,
+  source: AnySourceData,
+) {
+  if (!map.getSource(sourceId)) {
+    map.addSource(sourceId, source);
+  }
+}
+
+export function addLayerIfNotExists(map: Map, layer: AnyLayer) {
+  if (!map.getLayer(layer.id)) {
+    map.addLayer(layer);
+  }
+}

@@ -237,6 +237,7 @@ export function createJourneyApi(
         variables: {
           ...tripQuery.query,
           arriveBy: false,
+          ...DEFAULT_JOURNEY_CONFIG,
         },
       });
 
