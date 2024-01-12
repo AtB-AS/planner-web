@@ -52,6 +52,9 @@ describe('assistant page', function () {
       async singleTrip() {
         return {} as any;
       },
+      async viaTrip() {
+        return tripResult;
+      },
       client: null as any,
     };
 
@@ -80,6 +83,7 @@ describe('assistant page', function () {
       tripQuery: {
         from: fromFeature,
         to: toFeature,
+        via: null,
         searchTime: {
           mode: 'departBy',
           dateTime: 123,
@@ -98,6 +102,7 @@ describe('assistant page', function () {
         tripQuery={{
           from: null,
           to: null,
+          via: null,
           searchTime: { mode: 'now' },
           cursor: null,
           transportModeFilter: null,
@@ -128,6 +133,7 @@ describe('assistant page', function () {
         tripQuery={{
           from: fromFeature,
           to: toFeature,
+          via: null,
           searchTime: { mode: 'departBy', dateTime: Date.now() },
           transportModeFilter: null,
           cursor: null,
@@ -152,6 +158,7 @@ describe('assistant page', function () {
         tripQuery={{
           from: fromFeature,
           to: toFeature,
+          via: null,
           searchTime: { mode: 'departBy', dateTime: Date.now() },
           transportModeFilter: ['bus'],
           cursor: null,
