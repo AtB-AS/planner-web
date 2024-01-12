@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Language, useTranslation } from '@atb/translations';
-import mapboxgl from 'mapbox-gl';
+import mapboxgl, { AnyLayer } from 'mapbox-gl';
 import { getReferenceDataName } from '@atb/utils/reference-data';
 import { centroid } from '@turf/turf';
 import { type TariffZone, getTariffZones } from '@atb/modules/firebase';
 import useSWR from 'swr';
+import { addLayerIfNotExists, addSourceIfNotExists } from '.';
 
 const TARIFF_ZONE_SOURCE_ID = 'tariff-zones';
 const ZONE_BOUNDARY_LAYER_ID = 'zone-boundary-layer';
@@ -25,43 +26,42 @@ export const useMapTariffZones = async (
   const addTariffZonesToMap = useCallback(
     (map: mapboxgl.Map) => {
       if (!data || !isStyleLoaded) return;
-      if (!map.getSource(TARIFF_ZONE_SOURCE_ID)) {
-        map.addSource(
-          TARIFF_ZONE_SOURCE_ID,
-          createTariffZonesFeatureCollection(data, language),
-        );
-      }
+      addSourceIfNotExists(
+        map,
+        TARIFF_ZONE_SOURCE_ID,
+        createTariffZonesFeatureCollection(data, language),
+      );
 
-      if (!map.getLayer(ZONE_BOUNDARY_LAYER_ID)) {
-        map.addLayer({
-          id: ZONE_BOUNDARY_LAYER_ID,
-          type: 'line',
-          source: TARIFF_ZONE_SOURCE_ID,
-          paint: {
-            'line-width': 1,
-            'line-color': '#666666',
-          },
-        });
-      }
+      const zoneBoundaryLayer: AnyLayer = {
+        id: ZONE_BOUNDARY_LAYER_ID,
+        type: 'line',
+        source: TARIFF_ZONE_SOURCE_ID,
+        paint: {
+          'line-width': 1,
+          'line-color': '#666666',
+        },
+      };
 
-      if (!map.getLayer(ZONE_NAMES_LAYER_ID)) {
-        map.addLayer({
-          id: ZONE_NAMES_LAYER_ID,
-          type: 'symbol',
-          source: TARIFF_ZONE_SOURCE_ID,
-          layout: {
-            'text-field': ['get', 'name'],
-            'text-justify': 'auto',
-            'text-offset': [0, 0],
-          },
-          paint: {
-            'text-color': '#000000',
-            'text-halo-color': '#FFFFFF',
-            'text-halo-width': 2,
-          },
-          filter: ['==', '$type', 'Point'],
-        });
-      }
+      addLayerIfNotExists(map, zoneBoundaryLayer);
+
+      const zoneNamesLayer: AnyLayer = {
+        id: ZONE_NAMES_LAYER_ID,
+        type: 'symbol',
+        source: TARIFF_ZONE_SOURCE_ID,
+        layout: {
+          'text-field': ['get', 'name'],
+          'text-justify': 'auto',
+          'text-offset': [0, 0],
+        },
+        paint: {
+          'text-color': '#000000',
+          'text-halo-color': '#FFFFFF',
+          'text-halo-width': 2,
+        },
+        filter: ['==', '$type', 'Point'],
+      };
+
+      addLayerIfNotExists(map, zoneNamesLayer);
 
       setIsZonesVisible(true);
     },

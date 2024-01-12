@@ -1,4 +1,9 @@
-import { MapboxGeoJSONFeature } from 'mapbox-gl';
+import {
+  MapboxGeoJSONFeature,
+  type Map,
+  AnySourceData,
+  AnyLayer,
+} from 'mapbox-gl';
 import { mapboxData } from '@atb/modules/org-data';
 import { MapLegType, Position } from './types';
 import haversineDistance from 'haversine-distance';
@@ -123,3 +128,19 @@ export const getMapBounds = (
 
   return [sw, ne];
 };
+
+export function addSourceIfNotExists(
+  map: Map,
+  sourceId: string,
+  source: AnySourceData,
+) {
+  if (!map.getSource(sourceId)) {
+    map.addSource(sourceId, source);
+  }
+}
+
+export function addLayerIfNotExists(map: Map, layer: AnyLayer) {
+  if (!map.getLayer(layer.id)) {
+    map.addLayer(layer);
+  }
+}
