@@ -27,6 +27,20 @@ export default function Footer({ withoutSettings = false }: FooterProps) {
             </h4>
 
             <ul className={style.footer__linkList}>
+              {urls.helpUrl ? (
+                <li>
+                  <a
+                    href={getConfigUrl(urls.helpUrl, language)}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {t(
+                      ModuleText.Layout.base.footer.sections.general
+                        .helpPageLink,
+                    )}
+                  </a>
+                </li>
+              ) : null}
               {urls.supportUrl ? (
                 <li>
                   <a
@@ -36,7 +50,7 @@ export default function Footer({ withoutSettings = false }: FooterProps) {
                   >
                     {t(
                       ModuleText.Layout.base.footer.sections.general
-                        .helpPageLink,
+                        .supportPageLink,
                     )}
                   </a>
                 </li>

@@ -6,12 +6,13 @@ export const LayoutInternal = {
     footer: {
       sections: {
         general: {
-          header: _(
-            'AtB Reiseplanlegger',
-            'AtB Travel Planner',
-            'AtB Reiseplanlegger',
+          header: _('Reiseplanlegger', 'Travel Planner', 'Reiseplanlegger'),
+          supportPageLink: _('Kontakt oss', 'Contact us', 'Kontakt oss'),
+          helpPageLink: _(
+            'Hjelp til reiseplanleggeren',
+            'Help for the travel planner',
+            'Hjelp for reiseplanleggaren',
           ),
-          helpPageLink: _('Kontakt oss', 'Contact us', 'Kontakt oss'),
         },
         contact: {
           header: _('Kontakt AtB', 'Contact AtB', 'Kontakt AtB'),
@@ -75,13 +76,6 @@ export const Layout = orgSpecificTranslations(LayoutInternal, {
     base: {
       footer: {
         sections: {
-          general: {
-            header: _(
-              'Reis Nordland Reiseplanlegger',
-              'Reis Nordland Travel Planner',
-              'Reis Nordland Reiseplanlegger',
-            ),
-          },
           contact: {
             header: _(
               'Kontakt Reis Nordland',
@@ -102,13 +96,6 @@ export const Layout = orgSpecificTranslations(LayoutInternal, {
     base: {
       footer: {
         sections: {
-          general: {
-            header: _(
-              'Hjelp til reiseplanlegger',
-              'Help with travel planner',
-              'Hjelp til reiseplanleggar',
-            ),
-          },
           contact: {
             header: _('Kontakt', 'Contact', 'Kontakt'),
             contactLink: _('Kontakt FRAM', 'Contact FRAM', 'Kontakt FRAM'),
