@@ -416,8 +416,8 @@ export function createJourneyApi(
           result.data.viaTrip.tripPatternCombinations.flatMap(
             (combinations) => {
               return combinations.map((combination) => ({
-                from: combination.from,
-                to: combination.to,
+                from: combination.from!,
+                to: combination.to!,
               }));
             },
           );
@@ -431,19 +431,22 @@ export function createJourneyApi(
         // Find all possible trip patterns where the legs from the from-via location and the via-to location are concatinated.
         const tripPatternsFromViaTo: ViaTripsQuery['viaTrip']['tripPatternsPerSegment'][0]['tripPatterns'] =
           [];
-        tripPatternCombinations.map((combo) => {
-          if (combo.from && combo.to) {
-            tripPatternsFromViaTo.push({
-              expectedStartTime:
-                tripPatternsFromVia[combo.from].expectedStartTime,
-              expectedEndTime: tripPatternsViaTo[combo.to].expectedEndTime,
-              legs: [
-                ...tripPatternsFromVia[combo.from].legs,
-                ...tripPatternsViaTo[combo.to].legs,
-              ],
-            });
-          }
+        tripPatternCombinations.map((combo: { from: number; to: number }) => {
+          tripPatternsFromViaTo.push({
+            expectedStartTime:
+              tripPatternsFromVia[combo.from].expectedStartTime,
+            expectedEndTime: tripPatternsViaTo[combo.to].expectedEndTime,
+            legs: [
+              ...tripPatternsFromVia[combo.from].legs,
+              ...tripPatternsViaTo[combo.to].legs,
+            ],
+          });
         });
+
+        console.log('tripPatternsFromVia');
+        tripPatternsFromVia.map((v) => console.log(v));
+        console.log('tripPatternCombinations');
+        tripPatternCombinations.map((t) => console.log(t));
 
         const data: RecursivePartial<TripData> = mapResultToTrips(
           {
@@ -479,7 +482,6 @@ export function createJourneyApi(
         searchAttempt <= MAX_NUMBER_OF_SEARCH_ATTEMPTS &&
         viaTrip.tripPatterns.length < MIN_NUMBER_OF_TRIP_PATTERNS
       );
-
       return viaTrip;
     },
   };
