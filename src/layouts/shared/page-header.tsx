@@ -4,6 +4,7 @@ import style from './page-header.module.css';
 import { useDarkMode } from '@atb/modules/theme';
 import Image from 'next/image';
 import { getOrgData } from '@atb/modules/org-data';
+import { MonoIcon } from '@atb/components/icon';
 
 export default function PageHeader() {
   const { t } = useTranslation();
@@ -20,23 +21,33 @@ export default function PageHeader() {
               className={style.pageHeader__logoLink}
               data-testid="homeButton"
             >
-              {t(CommonText.Titles.siteTitle).length
-                ? t(CommonText.Titles.siteTitle)
-                : fylkeskommune && (
-                    <Image
-                      width={0}
-                      height={0}
-                      sizes="100vw"
-                      style={{ width: '100%', height: 'auto' }}
-                      src={
-                        isDarkMode
-                          ? fylkeskommune.logoSrcDark
-                          : fylkeskommune.logoSrc
-                      }
-                      alt={fylkeskommune.name}
-                    />
-                  )}
-              <span>{t(CommonText.Titles.siteTitle)}</span>
+              {t(CommonText.Titles.siteTitle).length ? (
+                <>
+                  <MonoIcon
+                    icon="logo/logo"
+                    alt=""
+                    role="none"
+                    size="normal"
+                    overrideMode="dark"
+                  />
+                  <span>{t(CommonText.Titles.siteTitle)}</span>
+                </>
+              ) : (
+                fylkeskommune && (
+                  <Image
+                    width={0}
+                    height={0}
+                    sizes="100vw"
+                    style={{ width: '100%', height: 'auto' }}
+                    src={
+                      isDarkMode
+                        ? fylkeskommune.logoSrcDark
+                        : fylkeskommune.logoSrc
+                    }
+                    alt={fylkeskommune.name}
+                  />
+                )
+              )}
             </Link>
           </h1>
         </div>
