@@ -21,7 +21,20 @@ export default function PageHeader() {
               className={style.pageHeader__logoLink}
               data-testid="homeButton"
             >
-              {t(CommonText.Titles.siteTitle).length ? (
+              {fylkeskommune?.replaceTitleWithLogoInHeader ? (
+                <Image
+                  width={0}
+                  height={0}
+                  sizes="100vw"
+                  style={{ width: '100%', height: 'auto' }}
+                  src={
+                    isDarkMode
+                      ? fylkeskommune.logoSrcDark
+                      : fylkeskommune.logoSrc
+                  }
+                  alt={fylkeskommune.name}
+                />
+              ) : (
                 <>
                   <MonoIcon
                     icon="logo/logo"
@@ -32,21 +45,6 @@ export default function PageHeader() {
                   />
                   <span>{t(CommonText.Titles.siteTitle)}</span>
                 </>
-              ) : (
-                fylkeskommune && (
-                  <Image
-                    width={0}
-                    height={0}
-                    sizes="100vw"
-                    style={{ width: '100%', height: 'auto' }}
-                    src={
-                      isDarkMode
-                        ? fylkeskommune.logoSrcDark
-                        : fylkeskommune.logoSrc
-                    }
-                    alt={fylkeskommune.name}
-                  />
-                )
               )}
             </Link>
           </h1>
