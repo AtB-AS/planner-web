@@ -453,7 +453,7 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
               value="now"
               checked=""
             />
-            <span aria-hidden="true" class="${style.selector_option__label}">
+            <span class="${style.selector_option__label}">
               <span class="${style.selector_option__text}" id="${prefix}-now">
                 ${texts.searchTime.now}
               </span>
@@ -467,7 +467,7 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
               class="${style.selector_option__input}"
               value="departBy"
             />
-            <span aria-hidden="true" class="${style.selector_option__label}">
+            <span class="${style.selector_option__label}">
               <span
                 class="${style.selector_option__text}"
                 id="${prefix}-depart"
@@ -486,10 +486,7 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
                     class="${style.selector_option__input}"
                     value="arriveBy"
                   />
-                  <span
-                    aria-hidden="true"
-                    class="${style.selector_option__label}"
-                  >
+                  <span class="${style.selector_option__label}">
                     <span
                       class="${style.selector_option__text}"
                       id="${prefix}-arrival"
