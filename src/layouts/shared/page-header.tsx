@@ -20,20 +20,22 @@ export default function PageHeader() {
               className={style.pageHeader__logoLink}
               data-testid="homeButton"
             >
-              {fylkeskommune && (
-                <Image
-                  width={0}
-                  height={0}
-                  sizes="100vw"
-                  style={{ width: '100%', height: 'auto' }}
-                  src={
-                    isDarkMode
-                      ? fylkeskommune.logoSrcDark
-                      : fylkeskommune.logoSrc
-                  }
-                  alt={fylkeskommune.name}
-                />
-              )}
+              {t(CommonText.Titles.siteTitle).length
+                ? t(CommonText.Titles.siteTitle)
+                : fylkeskommune && (
+                    <Image
+                      width={0}
+                      height={0}
+                      sizes="100vw"
+                      style={{ width: '100%', height: 'auto' }}
+                      src={
+                        isDarkMode
+                          ? fylkeskommune.logoSrcDark
+                          : fylkeskommune.logoSrc
+                      }
+                      alt={fylkeskommune.name}
+                    />
+                  )}
               <span>{t(CommonText.Titles.siteTitle)}</span>
             </Link>
           </h1>
