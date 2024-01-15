@@ -41,6 +41,15 @@ export default function Footer({ withoutSettings = false }: FooterProps) {
                   </a>
                 </li>
               ) : null}
+            </ul>
+          </section>
+
+          <section className={style.footer__section}>
+            <h4 className={style.footer__title}>
+              {t(ModuleText.Layout.base.footer.sections.contact.header)}
+            </h4>
+
+            <ul className={style.footer__linkList}>
               {urls.supportUrl ? (
                 <li>
                   <a
