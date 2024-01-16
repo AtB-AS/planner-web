@@ -30,7 +30,7 @@ export default handlerWithAssistantClient<TripApiReturnType>({
           from: tripQuery.from!,
           to: tripQuery.to!,
           searchTime: tripQuery.searchTime,
-          transportModes: transportModes,
+          transportModes,
           cursor: tripQuery.cursor!,
         }),
       );
