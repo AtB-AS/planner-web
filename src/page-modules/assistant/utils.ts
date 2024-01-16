@@ -23,10 +23,7 @@ export function filterOutDuplicates(
   return arrayToFilter.filter((tp) => !existing.has(tp.expectedStartTime));
 }
 
-export function getCursorBySearchMode(
-  trip: TripData,
-  searchMode: SearchMode,
-): string {
+export function getCursorBySearchMode(trip: TripData, searchMode: SearchMode) {
   if (searchMode === 'arriveBy') {
     return trip.previousPageCursor;
   } else {

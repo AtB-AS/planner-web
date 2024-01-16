@@ -386,8 +386,8 @@ function mapResultToTrips(
   queryVariables: TripsQueryVariables,
 ): RecursivePartial<TripData> {
   return {
-    nextPageCursor: trip.nextPageCursor,
-    previousPageCursor: trip.previousPageCursor,
+    nextPageCursor: trip.nextPageCursor ?? null,
+    previousPageCursor: trip.previousPageCursor ?? null,
     tripPatterns: trip.tripPatterns.map((tripPattern) => ({
       expectedStartTime: tripPattern.expectedStartTime,
       expectedEndTime: tripPattern.expectedEndTime,
