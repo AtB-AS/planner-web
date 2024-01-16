@@ -4,6 +4,7 @@ import { swrFetcher } from '@atb/modules/api-browser';
 import useSWRInfinite from 'swr/infinite';
 
 export type TripApiReturnType = TripData;
+export type NonTransitTripApiReturnType = NonTransitTripData;
 
 const getKey =
   (query: TripQuery) =>
@@ -50,6 +51,7 @@ export function useNonTransitTrip(query: TripQuery) {
     isError: error,
   };
 }
+
 function tripQueryToQueryString(input: TripQuery): string {
   return Object.keys(input)
     .map(
@@ -59,13 +61,4 @@ function tripQueryToQueryString(input: TripQuery): string {
         encodeURIComponent(String(input[key as keyof TripQuery])),
     )
     .join('&');
-}
-
-export type NonTransitTripApiReturnType = NonTransitTripData;
-export async function getNonTransitTrip(
-  query: TripQuery,
-): Promise<NonTransitTripApiReturnType> {
-  const queryString = tripQueryToQueryString(query);
-  const result = await fetch(`/api/assistant/non-transit-trip?${queryString}`);
-  return await result.json();
 }
