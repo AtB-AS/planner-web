@@ -21,16 +21,6 @@ const getKey =
     return `/api/assistant/trip?cursor=${previousPageData[cursorKey]}&${queryString}`;
   };
 
-export async function getTripPatterns(
-  query: TripQuery,
-): Promise<TripApiReturnType> {
-  const queryString = tripQueryToQueryString(query);
-
-  const result = await fetch(`/api/assistant/trip?${queryString}`);
-
-  return await result.json();
-}
-
 export function useTripPatterns(query: TripQuery) {
   const { data, error, isLoading, isValidating, size, setSize } =
     useSWRInfinite<TripApiReturnType>(getKey(query), swrFetcher, {});
