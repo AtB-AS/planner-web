@@ -8,15 +8,12 @@ import { PageText, useTranslation } from '@atb/translations';
 import { Typo } from '@atb/components/typography';
 import { useNonTransitTrip, useTripPatterns } from '../client';
 import { FromToTripQuery } from '../types';
-import { createTripQuery } from '../utils';
-import { useEffect, useState } from 'react';
 import { Button } from '@atb/components/button';
 import { NonTransitTrip } from '../non-transit-pill';
 import { isSameDay } from 'date-fns';
 import { capitalize } from 'lodash';
 import EmptySearchResults from '@atb/components/empty-message';
 import TripPattern from './trip-pattern';
-import { getInitialTransportModeFilter } from '@atb/modules/transport-mode';
 import EmptySearch from '@atb/components/loading-empty-results';
 
 export type TripProps = {
@@ -24,17 +21,10 @@ export type TripProps = {
 };
 
 export default function Trip({ tripQuery }: TripProps) {
-  const [query, setQuery] = useState(
-    createTripQuery(tripQuery, getInitialTransportModeFilter(null)),
-  );
   const { t } = useTranslation();
-  const { trips, isLoading, loadMore, isLoadingMore } = useTripPatterns(query);
-  const { nonTransitTrips } = useNonTransitTrip(query);
-
-  useEffect(() => {
-    const q = createTripQuery(tripQuery, getInitialTransportModeFilter(null));
-    setQuery(q);
-  }, [tripQuery]);
+  const { trips, isLoading, loadMore, isLoadingMore } =
+    useTripPatterns(tripQuery);
+  const { nonTransitTrips } = useNonTransitTrip(tripQuery);
 
   const nonTransits = nonTransitTrips ? Object.entries(nonTransitTrips) : [];
 

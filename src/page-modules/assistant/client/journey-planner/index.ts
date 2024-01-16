@@ -1,7 +1,14 @@
 import useSWR from 'swr';
-import { NonTransitTripData, TripQuery, TripData } from '../../types';
+import {
+  NonTransitTripData,
+  TripQuery,
+  TripData,
+  FromToTripQuery,
+} from '../../types';
 import { swrFetcher } from '@atb/modules/api-browser';
 import useSWRInfinite from 'swr/infinite';
+import { createTripQuery } from '../../utils';
+import { getInitialTransportModeFilter } from '@atb/modules/transport-mode';
 
 export type TripApiReturnType = TripData;
 export type NonTransitTripApiReturnType = NonTransitTripData;
@@ -22,7 +29,11 @@ function createKeyGetterOfQuery(query: TripQuery) {
   };
 }
 
-export function useTripPatterns(query: TripQuery) {
+export function useTripPatterns(tripQuery: FromToTripQuery) {
+  const query = createTripQuery(
+    tripQuery,
+    getInitialTransportModeFilter(tripQuery.transportModeFilter),
+  );
   const { data, error, isLoading, isValidating, size, setSize } =
     useSWRInfinite<TripApiReturnType>(
       createKeyGetterOfQuery(query),
@@ -41,7 +52,11 @@ export function useTripPatterns(query: TripQuery) {
   };
 }
 
-export function useNonTransitTrip(query: TripQuery) {
+export function useNonTransitTrip(tripQuery: FromToTripQuery) {
+  const query = createTripQuery(
+    tripQuery,
+    getInitialTransportModeFilter(tripQuery.transportModeFilter),
+  );
   const queryString = tripQueryToQueryString(query);
   const { data, error, isLoading } = useSWR<NonTransitTripApiReturnType>(
     `/api/assistant/non-transit-trip?${queryString}`,
