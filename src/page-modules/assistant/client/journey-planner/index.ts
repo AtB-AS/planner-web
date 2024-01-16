@@ -46,7 +46,7 @@ export function useTripPatterns(tripQuery: FromToTripQuery) {
   return {
     trips: data,
     isLoading: isLoadingInitialData,
-    isError: error,
+    isError: Boolean(error),
     loadMore: () => setSize(size + 1),
     isLoadingMore,
   };
@@ -67,7 +67,7 @@ export function useNonTransitTrip(tripQuery: FromToTripQuery) {
   return {
     nonTransitTrips: data,
     isLoading,
-    isError: error,
+    isError: Boolean(error),
   };
 }
 
