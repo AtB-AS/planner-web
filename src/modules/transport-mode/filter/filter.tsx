@@ -2,26 +2,34 @@ import { getTextForLanguage } from '@atb/translations/utils';
 import { useTranslation, ComponentText } from '@atb/translations';
 import style from './filter.module.css';
 import { MonoIcon } from '@atb/components/icon';
-import { TransportModeFilterOption, TransportModeFilterState } from './types';
 import { Typo } from '@atb/components/typography';
 import { getTransportModeIcon } from '../icon';
-import { filterOptionsWithTransportModes, setAllValues } from './utils';
 import { TransportModeFilterOptionType } from '@atb-as/config-specs';
 import { ChangeEventHandler } from 'react';
 
 type TransportModeFilterProps = {
-  filterState: TransportModeFilterState;
-  onFilterChange: (filterState: TransportModeFilterState) => void;
+  filterState: string[] | null;
+  onChange: (transportModeFilter: string[] | null) => void;
+  data?: TransportModeFilterOptionType[];
 };
 
 export default function TransportModeFilter({
   filterState,
-  onFilterChange,
+  onChange,
+  data,
 }: TransportModeFilterProps) {
   const { t, language } = useTranslation();
 
+  if (!data) {
+    return null;
+  }
+
   return (
-    <div className={style.container}>
+    <div>
+      <Typo.p textType="body__primary--bold" className={style.heading}>
+        {t(ComponentText.TransportModeFilter.label)}
+      </Typo.p>
+
       <ul className={style.filter}>
         <li className={style.transportMode}>
           <input
@@ -30,9 +38,13 @@ export default function TransportModeFilter({
             name="all"
             value="all"
             aria-label={t(ComponentText.TransportModeFilter.allA11y)}
-            checked={Object.values(filterState).every(Boolean)}
+            checked={!filterState || filterState.length === data.length}
             onChange={(event) => {
-              onFilterChange(setAllValues(filterState, event.target.checked));
+              if (event.target.checked) {
+                onChange(null);
+              } else {
+                onChange(['none']);
+              }
             }}
           />
 
@@ -45,27 +57,28 @@ export default function TransportModeFilter({
           </label>
         </li>
 
-        {Object.entries(filterState).map(([key, selected]) => {
-          const option =
-            filterOptionsWithTransportModes[key as TransportModeFilterOption];
-
+        {data.map((option) => {
           return (
             <li key={option.id} className={style.transportMode}>
               <FilterCheckbox
                 option={option}
-                checked={selected}
+                checked={
+                  !filterState || (filterState?.includes(option.id) ?? false)
+                }
                 onChange={(event) => {
-                  if (Object.values(filterState).every(Boolean)) {
-                    const newState = setAllValues(filterState, false);
-                    onFilterChange({
-                      ...(newState as TransportModeFilterState),
-                      [key]: true,
-                    });
+                  // No filter is applied when filterState is `null`, same
+                  // as "All" being checked.
+                  if (!filterState) {
+                    // Only set the clicked filter as filter.
+                    onChange([option.id]);
                   } else {
-                    onFilterChange({
-                      ...filterState,
-                      [key]: event.target.checked,
-                    });
+                    if (event.target.checked) {
+                      // Add the checked filter to the filter state.
+                      onChange([...filterState, option.id]);
+                    } else {
+                      // Remove the unchecked filter from the filter state.
+                      onChange(filterState.filter((id) => id !== option.id));
+                    }
                   }
                 }}
               />

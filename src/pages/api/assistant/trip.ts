@@ -20,15 +20,17 @@ export default handlerWithAssistantClient<TripApiReturnType>({
       );
     }
 
+    const transportModes = await getAllTransportModesFromFilterOptions(
+      tripQuery.transportModeFilter,
+    );
+
     return tryResult(req, res, async () => {
       return ok(
         await client.trip({
           from: tripQuery.from!,
           to: tripQuery.to!,
           searchTime: tripQuery.searchTime,
-          transportModes: getAllTransportModesFromFilterOptions(
-            tripQuery.transportModeFilter,
-          ),
+          transportModes: transportModes,
           cursor: tripQuery.cursor!,
         }),
       );
