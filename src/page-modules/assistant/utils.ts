@@ -5,18 +5,12 @@ import {
   filterToQueryString,
 } from '@atb/modules/transport-mode';
 import { GeocoderFeature } from '@atb/page-modules/departures';
-import {
-  FromToTripQuery,
-  TripData,
-  TripQuery,
-  TripQuerySchema,
-  TripPatternWithTransitionDelay,
-} from './types';
+import { FromToTripQuery, TripData, TripQuery, TripQuerySchema } from './types';
 
 export function filterOutDuplicates(
-  arrayToFilter: TripData['tripPatterns'] | TripPatternWithTransitionDelay[],
-  referenceArray: TripData['tripPatterns'] | TripPatternWithTransitionDelay[],
-): TripData['tripPatterns'] | TripPatternWithTransitionDelay[] {
+  arrayToFilter: TripData['tripPatterns'],
+  referenceArray: TripData['tripPatterns'],
+): TripData['tripPatterns'] {
   const existing = new Set<string>(
     referenceArray.map((tp) => tp.expectedStartTime),
   );
