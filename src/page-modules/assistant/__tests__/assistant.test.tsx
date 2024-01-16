@@ -1,6 +1,6 @@
 import { cleanup, render, screen, waitFor } from '@testing-library/react';
 import mockRouter from 'next-router-mock';
-import { Mock, afterEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { ExternalClient } from '@atb/modules/api-server';
 import { JourneyPlannerApi } from '../server/journey-planner';
 import {
@@ -26,15 +26,6 @@ afterEach(function () {
 vi.mock('next/router', () => require('next-router-mock'));
 
 mockRouter.useParser(createDynamicRouteParser(['/assistant']));
-
-global.fetch = vi.fn(() =>
-  Promise.resolve({
-    json: () =>
-      Promise.resolve({
-        tripPatterns: [],
-      }),
-  }),
-) as Mock;
 
 describe('assistant page', function () {
   it('should return props from getServerSideProps', async () => {
