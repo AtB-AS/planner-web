@@ -5,8 +5,8 @@
       </button>
     </div>
   `,T=(a,c=!0)=>y`
-    <div class="${o.inputBoxes}">
-      <p class="${o.heading}">${e.searchTime.title}</p>
+    <fieldset class="${o.inputBoxes}">
+      <legend class="${o.heading}">${e.searchTime.title}</legend>
       <div>
         <div
           class="${o.selector_options} ${c?"":o.selector_options__small}"
@@ -95,7 +95,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </fieldset>
   `,L=y`
     <form
       class="${o.form}"
@@ -104,8 +104,8 @@
       method="get"
     >
       <div class="${o.main}">
-        <div class="${o.inputBoxes}">
-          <p class="${o.heading}">${e.assistant.title}</p>
+        <fieldset class="${o.inputBoxes}">
+          <legend class="${o.heading}">${e.assistant.title}</legend>
           <div class="${o.search_container}">
             <label
               class="${o.search_label}"
@@ -195,7 +195,7 @@
               </pw-autocomplete>
             </div>
           </div>
-        </div>
+        </fieldset>
         ${T("pw-assistant")}
       </div>
       ${m}
@@ -208,8 +208,8 @@
       method="get"
     >
       <div class="${o.main}">
-        <div class="${o.inputBoxes}">
-          <p class="${o.heading}">${e.departure.title}</p>
+        <fieldset class="${o.inputBoxes}">
+          <legend class="${o.heading}">${e.departure.title}</legend>
           <div class="${o.search_container}">
             <label
               class="${o.search_label}"
@@ -263,7 +263,7 @@
             </pw-geobutton>
           </div>
           <pw-messagebox></pw-messagebox>
-        </div>
+        </fieldset>
         ${T("pw-departures",!1)}
       </div>
       ${m}

@@ -436,8 +436,8 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
   `;
 
   const searchTime = (prefix: string, withArriveBy: boolean = true) => html`
-    <div class="${style.inputBoxes}">
-      <p class="${style.heading}">${texts.searchTime.title}</p>
+    <fieldset class="${style.inputBoxes}">
+      <legend class="${style.heading}">${texts.searchTime.title}</legend>
       <div>
         <div
           class="${style.selector_options} ${!withArriveBy
@@ -530,7 +530,7 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
           </div>
         </div>
       </div>
-    </div>
+    </fieldset>
   `;
   const assistant = html`
     <form
@@ -540,8 +540,8 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
       method="get"
     >
       <div class="${style.main}">
-        <div class="${style.inputBoxes}">
-          <p class="${style.heading}">${texts.assistant.title}</p>
+        <fieldset class="${style.inputBoxes}">
+          <legend class="${style.heading}">${texts.assistant.title}</legend>
           <div class="${style.search_container}">
             <label
               class="${style.search_label}"
@@ -631,7 +631,7 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
               </pw-autocomplete>
             </div>
           </div>
-        </div>
+        </fieldset>
         ${searchTime('pw-assistant')}
       </div>
       ${buttons}
@@ -645,8 +645,8 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
       method="get"
     >
       <div class="${style.main}">
-        <div class="${style.inputBoxes}">
-          <p class="${style.heading}">${texts.departure.title}</p>
+        <fieldset class="${style.inputBoxes}">
+          <legend class="${style.heading}">${texts.departure.title}</legend>
           <div class="${style.search_container}">
             <label
               class="${style.search_label}"
@@ -700,7 +700,7 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
             </pw-geobutton>
           </div>
           <pw-messagebox></pw-messagebox>
-        </div>
+        </fieldset>
         ${searchTime('pw-departures', false)}
       </div>
       ${buttons}
