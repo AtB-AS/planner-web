@@ -29,7 +29,7 @@ export default function Trip({ tripQuery }: TripProps) {
   const nonTransits = nonTransitTrips ? Object.entries(nonTransitTrips) : [];
 
   if (isLoading) {
-    return <EmptySearch isSearching={isLoading} type="trip"></EmptySearch>;
+    return <EmptySearch isSearching={isLoading} type="trip" />;
   }
 
   if ((!trips || trips?.length === 0) && tripQuery.from && tripQuery.to) {
