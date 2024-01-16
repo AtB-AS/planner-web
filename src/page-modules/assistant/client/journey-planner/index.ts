@@ -6,9 +6,8 @@ import useSWRInfinite from 'swr/infinite';
 export type TripApiReturnType = TripData;
 export type NonTransitTripApiReturnType = NonTransitTripData;
 
-const getKey =
-  (query: TripQuery) =>
-  (pageIndex: number, previousPageData: TripApiReturnType) => {
+function createKeyGetterOfQuery(query: TripQuery) {
+  return (pageIndex: number, previousPageData: TripApiReturnType) => {
     const cursorKey =
       query.searchMode === 'arriveBy' ? 'previousPageCursor' : 'nextPageCursor';
 
@@ -21,10 +20,15 @@ const getKey =
 
     return `/api/assistant/trip?cursor=${previousPageData[cursorKey]}&${queryString}`;
   };
+}
 
 export function useTripPatterns(query: TripQuery) {
   const { data, error, isLoading, isValidating, size, setSize } =
-    useSWRInfinite<TripApiReturnType>(getKey(query), swrFetcher, {});
+    useSWRInfinite<TripApiReturnType>(
+      createKeyGetterOfQuery(query),
+      swrFetcher,
+      {},
+    );
 
   const isLoadingInitialData = !data && isLoading;
   const isLoadingMore = isValidating && size > 1;
