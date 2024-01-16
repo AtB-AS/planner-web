@@ -62,7 +62,7 @@ export default function Trip({ tripQuery }: TripProps) {
     if (patternIndex === 0) {
       return trips[tripIndex - 1]?.tripPatterns[
         trips[tripIndex - 1]?.tripPatterns.length - 1
-      ].expectedStartTime;
+      ]?.expectedStartTime;
     }
     return trips[tripIndex].tripPatterns[patternIndex - 1]?.expectedStartTime;
   };
