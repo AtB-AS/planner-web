@@ -390,8 +390,8 @@ function Oe({ URL_BASE: t }, e) {
       </button>
     </div>
   `, $ = (r, c = !0) => y`
-    <fieldset class="${o.inputBoxes}">
-      <legend class="${o.heading}">${e.searchTime.title}</legend>
+    <div class="${o.inputBoxes}">
+      <p class="${o.heading}">${e.searchTime.title}</p>
       <div>
         <div
           class="${o.selector_options} ${c ? "" : o.selector_options__small}"
@@ -480,7 +480,7 @@ function Oe({ URL_BASE: t }, e) {
           </div>
         </div>
       </div>
-    </fieldset>
+    </div>
   `, T = y`
     <form
       class="${o.form}"
@@ -489,8 +489,8 @@ function Oe({ URL_BASE: t }, e) {
       method="get"
     >
       <div class="${o.main}">
-        <fieldset class="${o.inputBoxes}">
-          <legend class="${o.heading}">${e.assistant.title}</legend>
+        <div class="${o.inputBoxes}">
+          <p class="${o.heading}">${e.assistant.title}</p>
           <div class="${o.search_container}">
             <label
               class="${o.search_label}"
@@ -580,7 +580,7 @@ function Oe({ URL_BASE: t }, e) {
               </pw-autocomplete>
             </div>
           </div>
-        </fieldset>
+        </div>
         ${$("pw-assistant")}
       </div>
       ${m}
@@ -593,8 +593,8 @@ function Oe({ URL_BASE: t }, e) {
       method="get"
     >
       <div class="${o.main}">
-        <fieldset class="${o.inputBoxes}">
-          <legend class="${o.heading}">${e.departure.title}</legend>
+        <div class="${o.inputBoxes}">
+          <p class="${o.heading}">${e.departure.title}</p>
           <div class="${o.search_container}">
             <label
               class="${o.search_label}"
@@ -648,7 +648,7 @@ function Oe({ URL_BASE: t }, e) {
             </pw-geobutton>
           </div>
           <pw-messagebox></pw-messagebox>
-        </fieldset>
+        </div>
         ${$("pw-departures", !1)}
       </div>
       ${m}
