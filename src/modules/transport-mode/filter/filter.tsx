@@ -5,7 +5,7 @@ import { MonoIcon } from '@atb/components/icon';
 import { Typo } from '@atb/components/typography';
 import { getTransportModeIcon } from '../icon';
 import { TransportModeFilterOptionType } from '@atb-as/config-specs';
-import { ChangeEventHandler } from 'react';
+import { ChangeEventHandler, useState } from 'react';
 
 type TransportModeFilterProps = {
   filterState: string[] | null;
@@ -19,6 +19,15 @@ export default function TransportModeFilter({
   data,
 }: TransportModeFilterProps) {
   const { t, language } = useTranslation();
+
+  // Local filter state used for updating the checkbox states before the URL
+  // state is updated to reflect the changed filters.
+  const [localFilterState, setLocalFilterState] = useState(filterState);
+
+  const onChangeWrapper = (transportModeFilter: string[] | null) => {
+    setLocalFilterState(transportModeFilter);
+    onChange(transportModeFilter);
+  };
 
   if (!data) {
     return null;
@@ -38,9 +47,11 @@ export default function TransportModeFilter({
             name="all"
             value="all"
             aria-label={t(ComponentText.TransportModeFilter.allA11y)}
-            checked={!filterState || filterState.length === data.length}
+            checked={
+              !localFilterState || localFilterState.length === data.length
+            }
             onChange={(event) => {
-              onChange(event.target.checked ? null : ['none']);
+              onChangeWrapper(event.target.checked ? null : []);
             }}
           />
 
@@ -59,21 +70,24 @@ export default function TransportModeFilter({
               <FilterCheckbox
                 option={option}
                 checked={
-                  !filterState || (filterState?.includes(option.id) ?? false)
+                  !localFilterState ||
+                  (localFilterState?.includes(option.id) ?? false)
                 }
                 onChange={(event) => {
                   // No filter is applied when filterState is `null`, same
                   // as "All" being checked.
-                  if (!filterState) {
+                  if (!localFilterState) {
                     // Only set the clicked filter as filter.
-                    onChange([option.id]);
+                    onChangeWrapper([option.id]);
                   } else {
                     if (event.target.checked) {
                       // Add the checked filter to the filter state.
-                      onChange([...filterState, option.id]);
+                      onChangeWrapper([...localFilterState, option.id]);
                     } else {
                       // Remove the unchecked filter from the filter state.
-                      onChange(filterState.filter((id) => id !== option.id));
+                      onChangeWrapper(
+                        localFilterState.filter((id) => id !== option.id),
+                      );
                     }
                   }
                 }}

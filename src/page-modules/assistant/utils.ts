@@ -49,7 +49,7 @@ function featuresToFromToQuery(
 
 export function createTripQuery(tripQuery: FromToTripQuery): TripQuery {
   let transportModeFilterQuery = {};
-  if (tripQuery.transportModeFilter) {
+  if (tripQuery.transportModeFilter && tripQuery.transportModeFilter.length) {
     transportModeFilterQuery = {
       filter: tripQuery.transportModeFilter.join(','),
     };
