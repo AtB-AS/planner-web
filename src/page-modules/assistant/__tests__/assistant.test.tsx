@@ -1,11 +1,10 @@
-import { cleanup, render, screen } from '@testing-library/react';
+import { cleanup, render, screen, waitFor } from '@testing-library/react';
 import mockRouter from 'next-router-mock';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { ExternalClient } from '@atb/modules/api-server';
 import { JourneyPlannerApi } from '../server/journey-planner';
 import {
   AssistantContentProps,
-  AssistantPageProps,
   getServerSideProps,
 } from '@atb/pages/assistant';
 import { expectProps } from '@atb/tests/utils';
@@ -87,8 +86,6 @@ describe('assistant page', function () {
         transportModeFilter: null,
         cursor: null,
       },
-      trip: tripResult,
-      nonTransitTrips: nonTransitTripResult,
     });
   });
 
@@ -122,7 +119,7 @@ describe('assistant page', function () {
     expect(submitButton).toBeDisabled();
   });
 
-  it('should render empty search results', () => {
+  it('should render empty search results', async () => {
     const output = render(
       <Trip
         tripQuery={{
@@ -132,21 +129,24 @@ describe('assistant page', function () {
           transportModeFilter: null,
           cursor: null,
         }}
-        trip={{ ...tripResult, tripPatterns: [] }}
-        nonTransitTrips={nonTransitTripResult}
       />,
     );
 
-    expect(
-      output.getByText('Ingen kollektivreiser passer til ditt søk'),
-    ).toBeInTheDocument();
+    await waitFor(
+      () => {
+        expect(
+          output.getByText('Ingen kollektivreiser passer til ditt søk'),
+        ).toBeInTheDocument();
 
-    expect(
-      output.getByText('Prøv å justere på sted eller tidspunkt.'),
-    ).toBeInTheDocument();
+        expect(
+          output.getByText('Prøv å justere på sted eller tidspunkt.'),
+        ).toBeInTheDocument();
+      },
+      { timeout: 5000 },
+    );
   });
 
-  it('should render empty search results with filter details', () => {
+  it('should render empty search results with filter details', async () => {
     const output = render(
       <Trip
         tripQuery={{
@@ -156,13 +156,16 @@ describe('assistant page', function () {
           transportModeFilter: ['bus'],
           cursor: null,
         }}
-        trip={{ ...tripResult, tripPatterns: [] }}
-        nonTransitTrips={nonTransitTripResult}
       />,
     );
 
-    expect(
-      output.getByText('Prøv å justere på sted, filter eller tidspunkt.'),
-    ).toBeInTheDocument();
+    await waitFor(
+      () => {
+        expect(
+          output.getByText('Prøv å justere på sted, filter eller tidspunkt.'),
+        ).toBeInTheDocument();
+      },
+      { timeout: 5000 },
+    );
   });
 });
