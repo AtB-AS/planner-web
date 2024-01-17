@@ -14,10 +14,6 @@ export async function getTransportModeFilter() {
     try {
       const validated = TravelSearchFilters.safeParse(data);
       if (validated.success) {
-        console.log(
-          'validated.data.transportModes',
-          JSON.stringify(validated.data.transportModes, null, 2),
-        );
         return validated.data.transportModes;
       }
     } catch (e) {
