@@ -443,11 +443,6 @@ export function createJourneyApi(
           });
         });
 
-        console.log('tripPatternsFromVia');
-        tripPatternsFromVia.map((v) => console.log(v));
-        console.log('tripPatternCombinations');
-        tripPatternCombinations.map((t) => console.log(t));
-
         const data: RecursivePartial<TripData> = mapResultToTrips(
           {
             nextPageCursor: undefined,
