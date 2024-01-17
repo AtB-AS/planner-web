@@ -25,7 +25,6 @@ import type {
   NonTransitTripInput,
   TripInput,
 } from '../../types';
-import { filterOutDuplicates, getCursorBySearchMode } from '../../utils';
 import {
   isTransportModeType,
   isTransportSubmodeType,
@@ -43,8 +42,6 @@ import {
 } from './journey-gql/trip-with-details.generated';
 import { mapToMapLegs } from '@atb/components/map';
 
-const MIN_NUMBER_OF_TRIP_PATTERNS = 8;
-const MAX_NUMBER_OF_SEARCH_ATTEMPTS = 5;
 const DEFAULT_JOURNEY_CONFIG = {
   numTripPatterns: 8, // The maximum number of trip patterns to return.
   waitReluctance: 1.5, // Setting this to a value lower than 1 indicates that waiting is better than staying on a vehicle.
@@ -168,55 +165,26 @@ export function createJourneyApi(
         ...DEFAULT_JOURNEY_CONFIG,
       };
 
-      let trip: TripData | undefined = undefined;
-      let cursor = input.cursor;
-      let searchAttempt = 1;
-      do {
-        if (trip && trip.nextPageCursor && trip.previousPageCursor) {
-          cursor =
-            getCursorBySearchMode(trip, input.searchTime.mode) || undefined;
-        }
+      const result = await client.query<TripsQuery, TripsQueryVariables>({
+        query: TripsDocument,
+        variables: queryVariables,
+      });
 
-        const result = await client.query<TripsQuery, TripsQueryVariables>({
-          query: TripsDocument,
-          variables: { ...queryVariables, cursor },
-        });
+      if (result.error || result.errors) {
+        throw result.error || result.errors;
+      }
 
-        if (result.error || result.errors) {
-          throw result.error || result.errors;
-        }
-
-        const data: RecursivePartial<TripData> = mapResultToTrips(
-          result.data.trip,
-          queryVariables,
-        );
-
-        const validated = tripSchema.safeParse(data);
-        if (!validated.success) {
-          throw validated.error;
-        }
-
-        if (!trip) {
-          trip = validated.data;
-        } else {
-          trip = {
-            ...validated.data,
-            tripPatterns: [
-              ...trip.tripPatterns,
-              ...filterOutDuplicates(
-                validated.data.tripPatterns,
-                trip.tripPatterns,
-              ),
-            ],
-          };
-        }
-        searchAttempt += 1;
-      } while (
-        searchAttempt <= MAX_NUMBER_OF_SEARCH_ATTEMPTS &&
-        trip.tripPatterns.length < MIN_NUMBER_OF_TRIP_PATTERNS
+      const data: RecursivePartial<TripData> = mapResultToTrips(
+        result.data.trip,
+        queryVariables,
       );
 
-      return trip;
+      const validated = tripSchema.safeParse(data);
+      if (!validated.success) {
+        throw validated.error;
+      }
+
+      return validated.data;
     },
     async singleTrip(input) {
       const tripQuery = parseTripQueryString(input);
