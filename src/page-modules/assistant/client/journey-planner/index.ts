@@ -67,12 +67,12 @@ export function useTripPatterns(tripQuery: FromToTripQuery) {
     setSize(size + 1);
   }, [numberOfTripPatterns, size, setSize, isLoading, isValidating]);
 
-  const isLoadingFirstPage = !data && isLoading;
+  const isLoadingFirstTrip = !data && isLoading;
   const isLoadingMore = isValidating && size > 1;
 
   return {
     trips: data,
-    isLoadingFirstPage,
+    isLoadingFirstTrip,
     isError: Boolean(error),
     loadMore: () => setSize(size + 1),
     isLoadingMore,

@@ -23,14 +23,14 @@ export type TripProps = {
 
 export default function Trip({ tripQuery }: TripProps) {
   const { t } = useTranslation();
-  const { trips, isLoadingFirstPage, loadMore, isLoadingMore } =
+  const { trips, isLoadingFirstTrip, loadMore, isLoadingMore } =
     useTripPatterns(tripQuery);
   const { nonTransitTrips } = useNonTransitTrip(tripQuery);
 
   const nonTransits = nonTransitTrips ? Object.entries(nonTransitTrips) : [];
 
-  if (isLoadingFirstPage) {
-    return <EmptySearch isSearching={isLoadingFirstPage} type="trip" />;
+  if (isLoadingFirstTrip) {
+    return <EmptySearch isSearching={isLoadingFirstTrip} type="trip" />;
   }
 
   if ((!trips || trips?.length === 0) && tripQuery.from && tripQuery.to) {
