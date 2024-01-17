@@ -3,48 +3,36 @@ import {
   formatToWeekday,
   parseIfNeeded,
 } from '@atb/utils/date';
-import {
-  TripData,
-  type TripPattern as TripPatternType,
-} from '../server/journey-planner/validators';
 import style from './trip.module.css';
 import { PageText, useTranslation } from '@atb/translations';
 import { Typo } from '@atb/components/typography';
-import { GeocoderFeature } from '@atb/page-modules/departures';
-import { nextTripPatterns } from '../client';
-import { FromToTripQuery, NonTransitTripData } from '../types';
-import {
-  createTripQuery,
-  filterOutDuplicates,
-  getCursorBySearchMode,
-} from '../utils';
-import { useEffect, useState } from 'react';
+import { useNonTransitTrip, useTripPatterns } from '../client';
+import { FromToTripQuery } from '../types';
 import { Button } from '@atb/components/button';
 import { NonTransitTrip } from '../non-transit-pill';
 import { isSameDay } from 'date-fns';
 import { capitalize } from 'lodash';
 import EmptySearchResults from '@atb/components/empty-message';
 import TripPattern from './trip-pattern';
-import { SearchTime } from '@atb/modules/search-time';
-import {
-  getInitialTransportModeFilter,
-  type TransportModeFilterOption,
-} from '@atb/modules/transport-mode';
+import EmptySearch from '@atb/components/loading-empty-results';
 
 export type TripProps = {
   tripQuery: FromToTripQuery;
-  trip: TripData;
-  nonTransitTrips: NonTransitTripData;
 };
 
-export default function Trip({ tripQuery, trip, nonTransitTrips }: TripProps) {
+export default function Trip({ tripQuery }: TripProps) {
   const { t } = useTranslation();
-  const { tripPatterns, fetchNextTripPatterns, isFetchingTripPatterns } =
-    useTripPatterns(trip, tripQuery.searchTime);
+  const { trips, isLoading, loadMore, isLoadingMore } =
+    useTripPatterns(tripQuery);
+  const { nonTransitTrips } = useNonTransitTrip(tripQuery);
 
-  const nonTransits = Object.entries(nonTransitTrips);
+  const nonTransits = nonTransitTrips ? Object.entries(nonTransitTrips) : [];
 
-  if (tripPatterns.length === 0) {
+  if (isLoading) {
+    return <EmptySearch isSearching={isLoading} type="trip" />;
+  }
+
+  if ((!trips || trips?.length === 0) && tripQuery.from && tripQuery.to) {
     return (
       <EmptySearchResults
         title={t(
@@ -65,10 +53,24 @@ export default function Trip({ tripQuery, trip, nonTransitTrips }: TripProps) {
     );
   }
 
+  const getPreviousDepartureTime = (
+    tripIndex: number,
+    patternIndex: number,
+  ): string | undefined => {
+    if (!trips) return undefined;
+    if (tripIndex === 0 && patternIndex === 0) return undefined;
+    if (patternIndex === 0) {
+      return trips[tripIndex - 1]?.tripPatterns[
+        trips[tripIndex - 1]?.tripPatterns.length - 1
+      ]?.expectedStartTime;
+    }
+    return trips[tripIndex].tripPatterns[patternIndex - 1]?.expectedStartTime;
+  };
+
   return (
     <>
       <div className={style.tripResults}>
-        {nonTransits.length > 0 && (
+        {nonTransitTrips && nonTransits.length > 0 && (
           <div className={style.nonTransitResult}>
             {Object.entries(nonTransitTrips).map(([legType, nonTransit]) => (
               <NonTransitTrip key={legType} nonTransit={nonTransit} />
@@ -76,90 +78,34 @@ export default function Trip({ tripQuery, trip, nonTransitTrips }: TripProps) {
           </div>
         )}
 
-        {tripPatterns.map((tripPattern, i) => (
-          <div
-            key={`tripPattern-${tripPattern.expectedStartTime}-${i}`}
-            className={style.tripPatternWrapper}
-          >
-            <DayLabel
-              departureTime={tripPattern.expectedStartTime}
-              previousDepartureTime={tripPatterns[i - 1]?.expectedStartTime}
-            />
-            <TripPattern
-              tripPattern={tripPattern}
-              delay={tripPattern.transitionDelay}
-              index={i}
-            />
-          </div>
-        ))}
+        {trips?.map((trip, tripIndex) =>
+          trip.tripPatterns.map((tripPattern, i) => (
+            <div
+              key={`tripPattern-${tripPattern.expectedStartTime}-${i}`}
+              className={style.tripPatternWrapper}
+            >
+              <DayLabel
+                departureTime={tripPattern.expectedStartTime}
+                previousDepartureTime={getPreviousDepartureTime(tripIndex, i)}
+              />
+              <TripPattern
+                tripPattern={tripPattern}
+                delay={i * 0.1}
+                index={i}
+              />
+            </div>
+          )),
+        )}
       </div>
 
       <Button
         className={style.fetchButton}
-        onClick={() =>
-          fetchNextTripPatterns(
-            tripQuery.from!,
-            tripQuery.to!,
-            tripQuery.transportModeFilter || undefined,
-          )
-        }
+        onClick={() => loadMore()}
         title={t(PageText.Assistant.trip.fetchMore)}
-        state={isFetchingTripPatterns ? 'loading' : undefined}
+        state={isLoadingMore ? 'loading' : undefined}
       />
     </>
   );
-}
-
-function useTripPatterns(initialTrip: TripData, searchTime: SearchTime) {
-  const [tripPatterns, setTripPatterns] = useState(
-    tripPatternsWithTransitionDelay(initialTrip.tripPatterns),
-  );
-  const [cursor, setCursor] = useState(
-    getCursorBySearchMode(initialTrip, searchTime.mode),
-  );
-  const [isFetchingTripPatterns, setIsFetchingTripPatterns] = useState(false);
-
-  useEffect(() => {
-    setTripPatterns(tripPatternsWithTransitionDelay(initialTrip.tripPatterns));
-    setCursor(getCursorBySearchMode(initialTrip, searchTime.mode));
-  }, [initialTrip, searchTime.mode]);
-
-  const fetchNextTripPatterns = async (
-    from: GeocoderFeature,
-    to: GeocoderFeature,
-    filter?: TransportModeFilterOption[],
-  ) => {
-    setIsFetchingTripPatterns(true);
-    const tripQuery = createTripQuery(
-      {
-        from,
-        to,
-        via: null,
-        searchTime,
-        transportModeFilter: [],
-        cursor: cursor,
-      },
-      getInitialTransportModeFilter(filter),
-    );
-    const trip = await nextTripPatterns(tripQuery);
-    const newTripPatternsWithTransitionDelay = tripPatternsWithTransitionDelay(
-      filterOutDuplicates(trip.tripPatterns, tripPatterns),
-    );
-
-    setTripPatterns((prevTripPatterns) => [
-      ...prevTripPatterns,
-      ...newTripPatternsWithTransitionDelay,
-    ]);
-
-    setCursor(getCursorBySearchMode(trip, searchTime.mode));
-    setIsFetchingTripPatterns(false);
-  };
-
-  return {
-    tripPatterns,
-    isFetchingTripPatterns,
-    fetchNextTripPatterns,
-  };
 }
 
 type DayLabelProps = {
@@ -185,11 +131,4 @@ function DayLabel({ departureTime, previousDepartureTime }: DayLabelProps) {
     );
   }
   return null;
-}
-
-function tripPatternsWithTransitionDelay(tripPatterns: TripPatternType[]) {
-  return tripPatterns.map((tripPattern, i) => ({
-    ...tripPattern,
-    transitionDelay: i * 0.1,
-  }));
 }

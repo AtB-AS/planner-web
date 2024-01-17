@@ -39,7 +39,8 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
     getInitialTransportModeFilter(tripQuery.transportModeFilter),
   );
   const [isSwapping, setIsSwapping] = useState(false);
-  const [isSearching, setIsSearching] = useState(false);
+  const [isPerformingSearchNavigation, setIsPerformingSearchNavigation] =
+    useState(false);
   const [geolocationError, setGeolocationError] = useState<string | null>(null);
 
   const setValuesWithLoading = async (override: Partial<FromToTripQuery>) => {
@@ -54,13 +55,13 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
 
     // Only show loading if we have both from and to selected.
     if ((tripQuery.from && query.toId) || (tripQuery.to && query.fromId)) {
-      setIsSearching(true);
+      setIsPerformingSearchNavigation(true);
     }
 
     logSpecificEvent('search_assistant');
 
     await router.push({ query });
-    setIsSearching(false);
+    setIsPerformingSearchNavigation(false);
   };
 
   const onSwap = async () => {
@@ -212,16 +213,17 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
             title={t(PageText.Assistant.search.buttons.find.title)}
             className={style.button}
             mode="interactive_0--bordered"
-            disabled={!tripQuery.from || !tripQuery.to}
+            disabled={
+              !tripQuery.from || !tripQuery.to || isPerformingSearchNavigation
+            }
             buttonProps={{ type: 'submit' }}
-            state={isSearching ? 'loading' : undefined}
           />
         </div>
       </form>
 
       <section className={style.contentContainer}>
         <EmptySearch
-          isSearching={isSearching}
+          isSearching={false}
           isGeolocationError={geolocationError !== null}
           type="trip"
         >

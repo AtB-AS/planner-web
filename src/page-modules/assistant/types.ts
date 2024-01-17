@@ -3,6 +3,7 @@ import { z } from 'zod';
 import type {
   NonTransitData,
   TripData,
+  TripPattern,
 } from './server/journey-planner/validators';
 import { searchModeSchema, type SearchTime } from '@atb/modules/search-time';
 import type {
