@@ -8,7 +8,6 @@ import {
 import { swrFetcher } from '@atb/modules/api-browser';
 import useSWRInfinite from 'swr/infinite';
 import { createTripQuery } from '../../utils';
-import { getInitialTransportModeFilter } from '@atb/modules/transport-mode';
 import { useEffect, useState } from 'react';
 
 const MAX_NUMBER_OF_INITIAL_SEARCH_ATTEMPTS = 3;
@@ -35,10 +34,7 @@ function createKeyGetterOfQuery(query: TripQuery) {
 
 export function useTripPatterns(tripQuery: FromToTripQuery) {
   const [numberOfTripPatterns, setNumberOfTripPatterns] = useState(0);
-  const query = createTripQuery(
-    tripQuery,
-    getInitialTransportModeFilter(tripQuery.transportModeFilter),
-  );
+  const query = createTripQuery(tripQuery);
   const { data, error, isLoading, isValidating, size, setSize } =
     useSWRInfinite<TripApiReturnType>(
       createKeyGetterOfQuery(query),
@@ -82,10 +78,7 @@ export function useTripPatterns(tripQuery: FromToTripQuery) {
 }
 
 export function useNonTransitTrip(tripQuery: FromToTripQuery) {
-  const query = createTripQuery(
-    tripQuery,
-    getInitialTransportModeFilter(tripQuery.transportModeFilter),
-  );
+  const query = createTripQuery(tripQuery);
   const queryString = tripQueryToQueryString(query);
   const { data, error, isLoading } = useSWR<NonTransitTripApiReturnType>(
     `/api/assistant/non-transit-trip?${queryString}`,

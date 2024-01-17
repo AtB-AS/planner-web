@@ -6,10 +6,7 @@ import Search, { GeolocationButton, SwapButton } from '@atb/components/search';
 import { Typo } from '@atb/components/typography';
 import type { SearchTime } from '@atb/modules/search-time';
 import SearchTimeSelector from '@atb/modules/search-time/selector';
-import {
-  TransportModeFilter,
-  getInitialTransportModeFilter,
-} from '@atb/modules/transport-mode';
+import { TransportModeFilter } from '@atb/modules/transport-mode';
 import type { GeocoderFeature } from '@atb/page-modules/departures';
 import { PageText, useTranslation } from '@atb/translations';
 import { FocusScope } from '@react-aria/focus';
@@ -22,6 +19,9 @@ import { createTripQuery } from './utils';
 import { TabLink } from '@atb/components/tab-link';
 import { logSpecificEvent } from '@atb/modules/firebase';
 import { getOrgData } from '@atb/modules/org-data';
+import { getTransportModeFilter } from '@atb/modules/firebase/transport-mode-filter';
+import useSWRImmutable from 'swr/immutable';
+import { debounce } from 'lodash';
 
 export type AssistantLayoutProps = PropsWithChildren<{
   tripQuery: FromToTripQuery;
@@ -35,23 +35,28 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
   const [searchTime, setSearchTime] = useState<SearchTime>(
     tripQuery.searchTime,
   );
-  const [transportModeFilter, setTransportModeFilter] = useState(
-    getInitialTransportModeFilter(tripQuery.transportModeFilter),
-  );
   const [isSwapping, setIsSwapping] = useState(false);
   const [isPerformingSearchNavigation, setIsPerformingSearchNavigation] =
     useState(false);
   const [geolocationError, setGeolocationError] = useState<string | null>(null);
 
-  const setValuesWithLoading = async (override: Partial<FromToTripQuery>) => {
-    const query = createTripQuery(
-      {
-        ...tripQuery,
-        ...override,
-        searchTime,
-      },
-      transportModeFilter,
-    );
+  // Loading the transport mode filter data here instead of in the component
+  // avoids the data loading when the filter is mounted which causes the
+  // height to be incorrect and the animation to be janky.
+  const { data: transportModeFilter } = useSWRImmutable(
+    'transportModeFilter',
+    getTransportModeFilter,
+  );
+
+  const setValuesWithLoading = async (
+    override: Partial<FromToTripQuery>,
+    replace = false,
+  ) => {
+    const query = createTripQuery({
+      ...tripQuery,
+      ...override,
+      searchTime,
+    });
 
     // Only show loading if we have both from and to selected.
     if ((tripQuery.from && query.toId) || (tripQuery.to && query.fromId)) {
@@ -60,7 +65,11 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
 
     logSpecificEvent('search_assistant');
 
-    await router.push({ query });
+    if (replace) {
+      await router.replace({ query });
+    } else {
+      await router.push({ query });
+    }
     setIsPerformingSearchNavigation(false);
   };
 
@@ -75,13 +84,18 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
 
   const onSubmitHandler: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    setValuesWithLoading({});
+    await setValuesWithLoading({});
   };
 
   const onFromSelected = async (from: GeocoderFeature) =>
     setValuesWithLoading({ from });
   const onToSelected = async (to: GeocoderFeature) =>
     setValuesWithLoading({ to });
+  const onTransportFilterChanged = debounce(
+    async (transportModeFilter: string[] | null) =>
+      setValuesWithLoading({ transportModeFilter }, true),
+    500,
+  );
 
   const { urls } = getOrgData();
 
@@ -167,21 +181,12 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
                 }}
                 transition={{ duration: 0.25, ease: [0.04, 0.62, 0.23, 0.98] }}
               >
-                {' '}
                 <div className={style.alternatives}>
-                  <div>
-                    <Typo.p
-                      textType="body__primary--bold"
-                      className={style.heading}
-                    >
-                      {t(PageText.Assistant.search.filter.label)}
-                    </Typo.p>
-
-                    <TransportModeFilter
-                      filterState={transportModeFilter}
-                      onFilterChange={setTransportModeFilter}
-                    />
-                  </div>
+                  <TransportModeFilter
+                    filterState={tripQuery.transportModeFilter}
+                    data={transportModeFilter}
+                    onChange={onTransportFilterChanged}
+                  />
                 </div>
               </motion.div>
             </FocusScope>
