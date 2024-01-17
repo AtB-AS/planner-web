@@ -42,7 +42,7 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
   // Loading the transport mode filter data here instead of in the component
   // avoids the data loading when the filter is mounted which causes the
   // height to be incorrect and the animation to be janky.
-  const { data } = useSWRImmutable(
+  const { data: transportModeFilter } = useSWRImmutable(
     'transportModeFilter',
     getTransportModeFilter,
   );
@@ -181,7 +181,7 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
                 <div className={style.alternatives}>
                   <TransportModeFilter
                     filterState={tripQuery.transportModeFilter}
-                    data={data}
+                    data={transportModeFilter}
                     onChange={onTransportFilterChanged}
                   />
                 </div>
