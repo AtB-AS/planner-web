@@ -22,15 +22,26 @@ export default handlerWithAssistantClient<TripApiReturnType>({
 
     return tryResult(req, res, async () => {
       return ok(
-        await client.trip({
-          from: tripQuery.from!,
-          to: tripQuery.to!,
-          searchTime: tripQuery.searchTime,
-          transportModes: getAllTransportModesFromFilterOptions(
-            tripQuery.transportModeFilter,
-          ),
-          cursor: tripQuery.cursor!,
-        }),
+        tripQuery.via
+          ? await client.viaTrip({
+              from: tripQuery.from!,
+              to: tripQuery.to!,
+              via: tripQuery.via!,
+              searchTime: tripQuery.searchTime,
+              transportModes: getAllTransportModesFromFilterOptions(
+                tripQuery.transportModeFilter,
+              ),
+              cursor: tripQuery.cursor!,
+            })
+          : await client.trip({
+              from: tripQuery.from!,
+              to: tripQuery.to!,
+              searchTime: tripQuery.searchTime,
+              transportModes: getAllTransportModesFromFilterOptions(
+                tripQuery.transportModeFilter,
+              ),
+              cursor: tripQuery.cursor!,
+            }),
       );
     });
   },
