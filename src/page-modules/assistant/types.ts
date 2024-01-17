@@ -3,13 +3,9 @@ import { z } from 'zod';
 import type {
   NonTransitData,
   TripData,
-  TripPattern,
 } from './server/journey-planner/validators';
 import { searchModeSchema, type SearchTime } from '@atb/modules/search-time';
-import type {
-  TransportModeFilterOption,
-  TransportModeGroup,
-} from '@atb/modules/transport-mode';
+import type { TransportModeGroup } from '@atb/modules/transport-mode';
 
 export type TripInput = {
   from: GeocoderFeature;
@@ -22,7 +18,7 @@ export type TripInput = {
 export type FromToTripQuery = {
   from: GeocoderFeature | null;
   to: GeocoderFeature | null;
-  transportModeFilter: TransportModeFilterOption[] | null;
+  transportModeFilter: string[] | null;
   searchTime: SearchTime;
   cursor: string | null;
 };
