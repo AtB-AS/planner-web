@@ -2,7 +2,11 @@ import { Button, ButtonLink } from '@atb/components/button';
 import { MonoIcon } from '@atb/components/icon';
 import EmptySearch from '@atb/components/loading-empty-results';
 import { MessageBox } from '@atb/components/message-box';
-import Search, { GeolocationButton, SwapButton } from '@atb/components/search';
+import Search, {
+  ClearButton,
+  GeolocationButton,
+  SwapButton,
+} from '@atb/components/search';
 import { Typo } from '@atb/components/typography';
 import type { SearchTime } from '@atb/modules/search-time';
 import SearchTimeSelector from '@atb/modules/search-time/selector';
@@ -71,6 +75,11 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
       to: tripQuery.from,
     });
     setIsSwapping(false);
+  };
+
+  const onClear = () => {
+    tripQuery.via = null;
+    setValuesWithLoading(tripQuery);
   };
 
   const onSubmitHandler: FormEventHandler<HTMLFormElement> = async (e) => {
@@ -190,6 +199,12 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
                     onChange={onViaSelected}
                     selectedItem={tripQuery.via ?? undefined}
                     autocompleteFocusPoint={tripQuery.via ?? undefined}
+                    button={
+                      <ClearButton
+                        className={style.searchInputButton}
+                        onClear={onClear}
+                      />
+                    }
                   />
                 </div>
               </motion.div>

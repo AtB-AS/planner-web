@@ -8,3 +8,4 @@ export { TransportModeFilter } from './transport-mode-filter';
 export { SwapButton } from './swap-button';
 export { EmptySearch } from './empty-search';
 export { TabLink } from './tab-link';
+export { ClearButton } from './clear-button';
