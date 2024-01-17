@@ -1,10 +1,15 @@
 import { CommonText, PageText, useTranslation } from '@atb/translations';
 import Link from 'next/link';
 import style from './page-header.module.css';
+import { useDarkMode } from '@atb/modules/theme';
+import Image from 'next/image';
+import { getOrgData } from '@atb/modules/org-data';
 import { MonoIcon } from '@atb/components/icon';
 
 export default function PageHeader() {
   const { t } = useTranslation();
+  const [isDarkMode] = useDarkMode();
+  const { fylkeskommune } = getOrgData();
 
   return (
     <header className={style.pageHeader}>
@@ -16,14 +21,31 @@ export default function PageHeader() {
               className={style.pageHeader__logoLink}
               data-testid="homeButton"
             >
-              <MonoIcon
-                icon="logo/logo"
-                alt=""
-                role="none"
-                size="normal"
-                overrideMode="dark"
-              />
-              <span>{t(CommonText.Titles.siteTitle)}</span>
+              {fylkeskommune?.replaceTitleWithLogoInHeader ? (
+                <Image
+                  width={0}
+                  height={0}
+                  sizes="100vw"
+                  style={{ width: '100%', height: 'auto' }}
+                  src={
+                    isDarkMode
+                      ? fylkeskommune.logoSrcDark
+                      : fylkeskommune.logoSrc
+                  }
+                  alt={fylkeskommune.name}
+                />
+              ) : (
+                <>
+                  <MonoIcon
+                    icon="logo/logo"
+                    alt=""
+                    role="none"
+                    size="normal"
+                    overrideMode="dark"
+                  />
+                  <span>{t(CommonText.Titles.siteTitle)}</span>
+                </>
+              )}
             </Link>
           </h1>
         </div>
