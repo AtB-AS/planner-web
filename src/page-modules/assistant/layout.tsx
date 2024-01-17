@@ -21,6 +21,7 @@ import { logSpecificEvent } from '@atb/modules/firebase';
 import { getOrgData } from '@atb/modules/org-data';
 import { getTransportModeFilter } from '@atb/modules/firebase/transport-mode-filter';
 import useSWRImmutable from 'swr/immutable';
+import { debounce } from 'lodash';
 
 export type AssistantLayoutProps = PropsWithChildren<{
   tripQuery: FromToTripQuery;
@@ -90,9 +91,11 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
     setValuesWithLoading({ from });
   const onToSelected = async (to: GeocoderFeature) =>
     setValuesWithLoading({ to });
-  const onTransportFilterChanged = async (
-    transportModeFilter: string[] | null,
-  ) => setValuesWithLoading({ transportModeFilter }, true);
+  const onTransportFilterChanged = debounce(
+    async (transportModeFilter: string[] | null) =>
+      setValuesWithLoading({ transportModeFilter }, true),
+    500,
+  );
 
   const { urls } = getOrgData();
 

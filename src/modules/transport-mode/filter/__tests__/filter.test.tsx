@@ -69,7 +69,7 @@ describe('transport mode filter', () => {
   it('should uncheck all when clicking "All"', () => {
     const onChange = vi.fn();
     const initialState = null;
-    const expected = ['none'];
+    const expected: string[] = [];
 
     render(
       <TransportModeFilter
@@ -120,7 +120,7 @@ describe('transport mode filter', () => {
   it('should check all when all initially are unchecked', async () => {
     const onChange = vi.fn();
 
-    const initial = ['none'];
+    const initial: string[] = [];
 
     const expected = null;
 
