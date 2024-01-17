@@ -40,11 +40,7 @@ export default function TransportModeFilter({
             aria-label={t(ComponentText.TransportModeFilter.allA11y)}
             checked={!filterState || filterState.length === data.length}
             onChange={(event) => {
-              if (event.target.checked) {
-                onChange(null);
-              } else {
-                onChange(['none']);
-              }
+              onChange(event.target.checked ? null : ['none']);
             }}
           />
 
