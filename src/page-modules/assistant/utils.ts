@@ -1,9 +1,5 @@
 import type { SearchMode } from '@atb/modules/search-time';
 import { searchTimeToQueryString } from '@atb/modules/search-time';
-import {
-  TransportModeFilterState,
-  filterToQueryString,
-} from '@atb/modules/transport-mode';
 import { GeocoderFeature } from '@atb/page-modules/departures';
 import { FromToTripQuery, TripData, TripQuery, TripQuerySchema } from './types';
 
@@ -62,18 +58,12 @@ function featuresToFromToQuery(
   return ret;
 }
 
-export function createTripQuery(
-  tripQuery: FromToTripQuery,
-  transportModeFilter: TransportModeFilterState,
-): TripQuery {
+export function createTripQuery(tripQuery: FromToTripQuery): TripQuery {
   let transportModeFilterQuery = {};
-  if (transportModeFilter) {
-    const filterQueryString = filterToQueryString(transportModeFilter);
-    if (filterQueryString) {
-      transportModeFilterQuery = {
-        filter: filterQueryString,
-      };
-    }
+  if (tripQuery.transportModeFilter && tripQuery.transportModeFilter.length) {
+    transportModeFilterQuery = {
+      filter: tripQuery.transportModeFilter.join(','),
+    };
   }
 
   const searchTimeQuery = searchTimeToQueryString(tripQuery.searchTime);

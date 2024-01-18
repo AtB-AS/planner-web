@@ -16,6 +16,9 @@
             },
             "name": {
               "type": "string"
+            },
+            "replaceTitleWithLogoInHeader": {
+              "type": "boolean"
             }
           },
           "required": ["name", "logoSrc", "logoSrcDark"],

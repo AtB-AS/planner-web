@@ -10,6 +10,10 @@ export const Titles = orgSpecificTranslations(TitlesInternal, {
     siteTitle: _('Reis Reisesøk', 'Reis Travel Search', 'Reis Reisesøk'),
   },
   fram: {
-    siteTitle: _('FRAM Reisesøk', 'FRAM Travel Search', 'FRAM Reisesøk'),
+    siteTitle: _(
+      'FRAM Reiseplanlegger',
+      'FRAM Travel Search',
+      'FRAM Reiseplanleggar',
+    ),
   },
 });

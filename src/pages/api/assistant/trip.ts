@@ -20,6 +20,10 @@ export default handlerWithAssistantClient<TripApiReturnType>({
       );
     }
 
+    const transportModes = await getAllTransportModesFromFilterOptions(
+      tripQuery.transportModeFilter,
+    );
+
     return tryResult(req, res, async () => {
       return ok(
         tripQuery.via
@@ -28,18 +32,14 @@ export default handlerWithAssistantClient<TripApiReturnType>({
               to: tripQuery.to!,
               via: tripQuery.via!,
               searchTime: tripQuery.searchTime,
-              transportModes: getAllTransportModesFromFilterOptions(
-                tripQuery.transportModeFilter,
-              ),
+              transportModes,
               cursor: tripQuery.cursor!,
             })
           : await client.trip({
               from: tripQuery.from!,
               to: tripQuery.to!,
               searchTime: tripQuery.searchTime,
-              transportModes: getAllTransportModesFromFilterOptions(
-                tripQuery.transportModeFilter,
-              ),
+              transportModes,
               cursor: tripQuery.cursor!,
             }),
       );

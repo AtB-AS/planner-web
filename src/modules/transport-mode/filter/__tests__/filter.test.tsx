@@ -2,8 +2,7 @@ import { cleanup, render, screen } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import userEvent from '@testing-library/user-event';
 import TransportModeFilter from '../filter';
-import { getInitialTransportModeFilter } from '../utils';
-import { TransportModeFilterState } from '../types';
+import { filter } from './filter.fixture';
 
 afterEach(() => cleanup());
 
@@ -11,8 +10,9 @@ describe('transport mode filter', () => {
   it('should render', () => {
     render(
       <TransportModeFilter
-        filterState={getInitialTransportModeFilter()}
-        onFilterChange={() => {}}
+        filterState={null}
+        onChange={() => {}}
+        data={filter}
       />,
     );
 
@@ -26,8 +26,9 @@ describe('transport mode filter', () => {
   it('should default select all', () => {
     render(
       <TransportModeFilter
-        filterState={getInitialTransportModeFilter()}
-        onFilterChange={() => {}}
+        filterState={null}
+        onChange={() => {}}
+        data={filter}
       />,
     );
 
@@ -39,8 +40,9 @@ describe('transport mode filter', () => {
   it('should default select only bus', () => {
     render(
       <TransportModeFilter
-        filterState={getInitialTransportModeFilter(['bus'])}
-        onFilterChange={() => {}}
+        filterState={['bus']}
+        onChange={() => {}}
+        data={filter}
       />,
     );
 
@@ -54,8 +56,9 @@ describe('transport mode filter', () => {
 
     render(
       <TransportModeFilter
-        filterState={getInitialTransportModeFilter()}
-        onFilterChange={onChange}
+        filterState={null}
+        onChange={onChange}
+        data={filter}
       />,
     );
 
@@ -65,21 +68,14 @@ describe('transport mode filter', () => {
 
   it('should uncheck all when clicking "All"', () => {
     const onChange = vi.fn();
-    const initialState = getInitialTransportModeFilter();
-    const expected: TransportModeFilterState = {
-      air: false,
-      airportbus: false,
-      bus: false,
-      expressboat: false,
-      ferry: false,
-      other: false,
-      rail: false,
-    };
+    const initialState = null;
+    const expected: string[] = [];
 
     render(
       <TransportModeFilter
         filterState={initialState}
-        onFilterChange={onChange}
+        onChange={onChange}
+        data={filter}
       />,
     );
 
@@ -89,21 +85,14 @@ describe('transport mode filter', () => {
 
   it('should only check "Bus" when "All" is selected', () => {
     const onChange = vi.fn();
-    const initialState = getInitialTransportModeFilter();
-    const expected: TransportModeFilterState = {
-      air: false,
-      airportbus: false,
-      bus: true,
-      expressboat: false,
-      ferry: false,
-      other: false,
-      rail: false,
-    };
+    const initialState = null;
+    const expected = ['bus'];
 
     render(
       <TransportModeFilter
         filterState={initialState}
-        onFilterChange={onChange}
+        onChange={onChange}
+        data={filter}
       />,
     );
 
@@ -113,29 +102,14 @@ describe('transport mode filter', () => {
 
   it('should check "Rail" when only "Bus" is selected', () => {
     const onChange = vi.fn();
-    const initialState: TransportModeFilterState = {
-      air: false,
-      airportbus: false,
-      bus: true,
-      expressboat: false,
-      ferry: false,
-      other: false,
-      rail: false,
-    };
-    const expected: TransportModeFilterState = {
-      air: false,
-      airportbus: false,
-      bus: true,
-      expressboat: false,
-      ferry: false,
-      other: false,
-      rail: true,
-    };
+    const initialState = ['bus'];
+    const expected = ['bus', 'rail'];
 
     render(
       <TransportModeFilter
         filterState={initialState}
-        onFilterChange={onChange}
+        onChange={onChange}
+        data={filter}
       />,
     );
 
@@ -146,28 +120,16 @@ describe('transport mode filter', () => {
   it('should check all when all initially are unchecked', async () => {
     const onChange = vi.fn();
 
-    const initial: TransportModeFilterState = {
-      air: false,
-      airportbus: false,
-      bus: false,
-      expressboat: false,
-      ferry: false,
-      other: false,
-      rail: false,
-    };
+    const initial: string[] = [];
 
-    const expected: TransportModeFilterState = {
-      air: true,
-      airportbus: true,
-      bus: true,
-      expressboat: true,
-      ferry: true,
-      other: true,
-      rail: true,
-    };
+    const expected = null;
 
     render(
-      <TransportModeFilter filterState={initial} onFilterChange={onChange} />,
+      <TransportModeFilter
+        filterState={initial}
+        onChange={onChange}
+        data={filter}
+      />,
     );
 
     const all = screen.getByRole('checkbox', { name: /alle/i });

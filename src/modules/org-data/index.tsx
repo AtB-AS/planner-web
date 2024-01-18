@@ -22,6 +22,7 @@ export type OrgData = {
     name: string;
     logoSrc: string;
     logoSrcDark: string;
+    replaceTitleWithLogoInHeader?: boolean;
   };
 
   urls: {

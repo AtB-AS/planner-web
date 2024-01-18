@@ -8,7 +8,8 @@
   "fylkeskommune": {
     "logoSrc": "/fram_mor_fylkeskommune.svg",
     "logoSrcDark": "/fram_mor_fylkeskommune_dark.svg",
-    "name": "Møre og Romsdal fylkeskommune"
+    "name": "Møre og Romsdal fylkeskommune",
+    "replaceTitleWithLogoInHeader": true
   },
 
   "urls": {

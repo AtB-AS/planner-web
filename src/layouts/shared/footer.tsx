@@ -59,7 +59,7 @@ export default function Footer({ withoutSettings = false }: FooterProps) {
                   >
                     {t(
                       ModuleText.Layout.base.footer.sections.general
-                        .helpPageLink,
+                        .supportPageLink,
                     )}
                   </a>
                 </li>
