@@ -8,6 +8,10 @@ import {
 import { swrFetcher } from '@atb/modules/api-browser';
 import useSWRInfinite from 'swr/infinite';
 import { createTripQuery } from '../../utils';
+import { useEffect, useState } from 'react';
+
+const MAX_NUMBER_OF_INITIAL_SEARCH_ATTEMPTS = 3;
+const INITIAL_NUMBER_OF_WANTED_TRIP_PATTERNS = 6;
 
 export type TripApiReturnType = TripData;
 export type NonTransitTripApiReturnType = NonTransitTripData;
@@ -29,6 +33,7 @@ function createKeyGetterOfQuery(query: TripQuery) {
 }
 
 export function useTripPatterns(tripQuery: FromToTripQuery) {
+  const [numberOfTripPatterns, setNumberOfTripPatterns] = useState(0);
   const query = createTripQuery(tripQuery);
   const { data, error, isLoading, isValidating, size, setSize } =
     useSWRInfinite<TripApiReturnType>(
@@ -37,14 +42,38 @@ export function useTripPatterns(tripQuery: FromToTripQuery) {
       {},
     );
 
-  const isLoadingInitialData = !data && isLoading;
+  useEffect(() => {
+    if (data) {
+      setNumberOfTripPatterns(
+        data.reduce((acc, curr) => acc + curr.tripPatterns.length, 0),
+      );
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (isLoading || isValidating) {
+      return;
+    }
+    if (size >= MAX_NUMBER_OF_INITIAL_SEARCH_ATTEMPTS) {
+      return;
+    }
+    if (numberOfTripPatterns >= INITIAL_NUMBER_OF_WANTED_TRIP_PATTERNS) {
+      return;
+    }
+    setSize(size + 1);
+  }, [numberOfTripPatterns, size, setSize, isLoading, isValidating]);
+
+  const isLoadingFirstTrip = !data && isLoading;
   const isLoadingMore = isValidating && size > 1;
+
   return {
     trips: data,
-    isLoading: isLoadingInitialData,
+    isLoadingFirstTrip,
     isError: Boolean(error),
     loadMore: () => setSize(size + 1),
     isLoadingMore,
+    size,
+    setSize,
   };
 }
 

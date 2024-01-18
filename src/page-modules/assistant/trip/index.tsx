@@ -15,6 +15,7 @@ import { capitalize } from 'lodash';
 import EmptySearchResults from '@atb/components/empty-message';
 import TripPattern from './trip-pattern';
 import EmptySearch from '@atb/components/loading-empty-results';
+import { LoadingIcon } from '@atb/components/loading';
 
 export type TripProps = {
   tripQuery: FromToTripQuery;
@@ -22,14 +23,14 @@ export type TripProps = {
 
 export default function Trip({ tripQuery }: TripProps) {
   const { t } = useTranslation();
-  const { trips, isLoading, loadMore, isLoadingMore } =
+  const { trips, isLoadingFirstTrip, loadMore, isLoadingMore } =
     useTripPatterns(tripQuery);
   const { nonTransitTrips } = useNonTransitTrip(tripQuery);
 
   const nonTransits = nonTransitTrips ? Object.entries(nonTransitTrips) : [];
 
-  if (isLoading) {
-    return <EmptySearch isSearching={isLoading} type="trip" />;
+  if (isLoadingFirstTrip) {
+    return <EmptySearch isSearching={isLoadingFirstTrip} type="trip" />;
   }
 
   if ((!trips || trips?.length === 0) && tripQuery.from && tripQuery.to) {
@@ -98,12 +99,18 @@ export default function Trip({ tripQuery }: TripProps) {
         )}
       </div>
 
-      <Button
-        className={style.fetchButton}
-        onClick={() => loadMore()}
-        title={t(PageText.Assistant.trip.fetchMore)}
-        state={isLoadingMore ? 'loading' : undefined}
-      />
+      {isLoadingMore ? (
+        <div className={style.fetchButton}>
+          <LoadingIcon />
+        </div>
+      ) : (
+        <Button
+          className={style.fetchButton}
+          onClick={() => loadMore()}
+          title={t(PageText.Assistant.trip.fetchMore)}
+          state={isLoadingMore ? 'loading' : undefined}
+        />
+      )}
     </>
   );
 }
