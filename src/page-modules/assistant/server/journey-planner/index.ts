@@ -48,6 +48,11 @@ import {
   ViaTripsQuery,
   ViaTripsQueryVariables,
 } from './journey-gql/via-trip.generated';
+import {
+  ViaTripsWithDetailsDocument,
+  ViaTripsWithDetailsQuery,
+  ViaTripsWithDetailsQueryVariables,
+} from './journey-gql/via-trip-with-details.generated';
 
 const MIN_NUMBER_OF_TRIP_PATTERNS = 8;
 const MAX_NUMBER_OF_SEARCH_ATTEMPTS = 5;
@@ -229,32 +234,70 @@ export function createJourneyApi(
       const tripQuery = parseTripQueryString(input);
       if (!tripQuery) return;
 
-      const result = await client.query<
-        TripsWithDetailsQuery,
-        TripsWithDetailsQueryVariables
-      >({
-        query: TripsWithDetailsDocument,
-        variables: {
-          ...tripQuery.query,
-          arriveBy: false,
-          ...DEFAULT_JOURNEY_CONFIG,
-        },
-      });
+      let formatedResult;
+      if ('via' in tripQuery.query) {
+        const result = await client.query<
+          ViaTripsWithDetailsQuery,
+          ViaTripsWithDetailsQueryVariables
+        >({
+          query: ViaTripsWithDetailsDocument,
+          variables: {
+            ...tripQuery.query,
+            ...DEFAULT_JOURNEY_CONFIG,
+          },
+        });
 
-      if (result.error || result.errors) {
-        throw result.error || result.errors;
+        if (result.error || result.errors) {
+          throw result.error || result.errors;
+        }
+
+        // Create list to make all trip pattern combinations more accessable.
+        const tripPatternCombinations = findTripPatternCombinations(
+          result.data.viaTrip.tripPatternCombinations,
+        );
+
+        // Find trip patterns from-via and via-to destination.
+        const tripPatternsFromVia =
+          result.data.viaTrip.tripPatternsPerSegment[0].tripPatterns;
+        const tripPatternsViaTo =
+          result.data.viaTrip.tripPatternsPerSegment[1].tripPatterns;
+
+        // Find all possible trip patterns where the legs from the from-via location and the via-to location are concatinated.
+        const tripPatternsFromViaTo = generateTripPatternsFromViaTo2(
+          tripPatternCombinations,
+          tripPatternsFromVia,
+          tripPatternsViaTo,
+        );
+
+        formatedResult = { trip: tripPatternsFromViaTo };
+      } else {
+        const result = await client.query<
+          TripsWithDetailsQuery,
+          TripsWithDetailsQueryVariables
+        >({
+          query: TripsWithDetailsDocument,
+          variables: {
+            ...tripQuery.query,
+            arriveBy: false,
+            ...DEFAULT_JOURNEY_CONFIG,
+          },
+        });
+
+        if (result.error || result.errors) {
+          throw result.error || result.errors;
+        }
+
+        formatedResult = { trip: result.data.trip.tripPatterns };
       }
 
       // Find the trip pattern that matches the journey IDs in the query
-      const singleTripPattern = result.data.trip.tripPatterns.find(
-        (pattern) => {
-          const journeyIds = extractServiceJourneyIds(pattern);
-          if (journeyIds.length != tripQuery.journeyIds.length) return false; // Fast comparison
-          return (
-            JSON.stringify(journeyIds) === JSON.stringify(tripQuery.journeyIds) // Slow comparison
-          );
-        },
-      );
+      const singleTripPattern = formatedResult.trip.find((pattern) => {
+        const journeyIds = extractServiceJourneyIds(pattern);
+        if (journeyIds.length != tripQuery.journeyIds.length) return false; // Fast comparison
+        return (
+          JSON.stringify(journeyIds) === JSON.stringify(tripQuery.journeyIds) // Slow comparison
+        );
+      });
 
       if (!singleTripPattern) return;
 
@@ -354,7 +397,6 @@ export function createJourneyApi(
           situations: mapSituations(leg.situations),
         })),
       };
-
       const validated = tripPatternWithDetailsSchema.safeParse(data);
       if (!validated.success) {
         throw validated.error;
@@ -412,15 +454,9 @@ export function createJourneyApi(
         }
 
         // Create list to make all trip pattern combinations more accessable.
-        const tripPatternCombinations =
-          result.data.viaTrip.tripPatternCombinations.flatMap(
-            (combinations) => {
-              return combinations.map((combination) => ({
-                from: combination.from!,
-                to: combination.to!,
-              }));
-            },
-          );
+        const tripPatternCombinations = findTripPatternCombinations(
+          result.data.viaTrip.tripPatternCombinations,
+        );
 
         // Find trip patterns from-via and via-to destination.
         const tripPatternsFromVia =
@@ -429,19 +465,11 @@ export function createJourneyApi(
           result.data.viaTrip.tripPatternsPerSegment[1].tripPatterns;
 
         // Find all possible trip patterns where the legs from the from-via location and the via-to location are concatinated.
-        const tripPatternsFromViaTo: ViaTripsQuery['viaTrip']['tripPatternsPerSegment'][0]['tripPatterns'] =
-          [];
-        tripPatternCombinations.map((combo: { from: number; to: number }) => {
-          tripPatternsFromViaTo.push({
-            expectedStartTime:
-              tripPatternsFromVia[combo.from].expectedStartTime,
-            expectedEndTime: tripPatternsViaTo[combo.to].expectedEndTime,
-            legs: [
-              ...tripPatternsFromVia[combo.from].legs,
-              ...tripPatternsViaTo[combo.to].legs,
-            ],
-          });
-        });
+        const tripPatternsFromViaTo = generateTripPatternsFromViaTo(
+          tripPatternCombinations,
+          tripPatternsFromVia,
+          tripPatternsViaTo,
+        );
 
         const data: RecursivePartial<TripData> = mapResultToTrips(
           {
@@ -477,7 +505,18 @@ export function createJourneyApi(
         searchAttempt <= MAX_NUMBER_OF_SEARCH_ATTEMPTS &&
         viaTrip.tripPatterns.length < MIN_NUMBER_OF_TRIP_PATTERNS
       );
-      return viaTrip;
+
+      const sortedViaTrip = {
+        ...viaTrip,
+        tripPatterns: viaTrip.tripPatterns.sort((a, b) => {
+          const endTimeA = new Date(a.expectedEndTime).getTime();
+          const endTimeB = new Date(b.expectedEndTime).getTime();
+
+          return endTimeA - endTimeB;
+        }),
+      };
+
+      return sortedViaTrip;
     },
   };
 
@@ -660,12 +699,13 @@ function generateSingleTripQueryString(
 
 export function parseTripQueryString(compressedQueryString: string):
   | {
-      query: TripsQueryVariables;
+      query: TripsQueryVariables | ViaTripsQueryVariables;
       journeyIds: string[];
       originalSearchTime: string;
     }
   | undefined {
   const queryString = decompressFromEncodedURIComponent(compressedQueryString);
+
   if (!queryString) return;
 
   const queryFields = JSON.parse(queryString);
@@ -679,6 +719,10 @@ function isTripsQueryVariables(a: any): a is TripsQueryVariables {
 }
 
 function isTripsViaQueryVariables(a: any): a is TripsQueryVariables {
+  return a && 'from' in a && 'to' in a && 'when' in a && 'via' in a;
+}
+
+function isTripsViaWithDetailsQueryVariables(a: any): a is TripsQueryVariables {
   return a && 'from' in a && 'to' in a && 'when' in a && 'via' in a;
 }
 
@@ -718,4 +762,46 @@ function mapAndFilterNotices(notices: GraphQlNotice[]): Notice[] {
     .filter((n) => n) as Notice[];
 
   return filterNotices(mappedNotices);
+}
+
+function findTripPatternCombinations(
+  tripPatternCombinations: ViaTripsWithDetailsQuery['viaTrip']['tripPatternCombinations'],
+): { from: number; to: number }[] {
+  return tripPatternCombinations.flatMap((combinations) =>
+    combinations.map((combination) => ({
+      from: combination.from!,
+      to: combination.to!,
+    })),
+  );
+}
+
+// Todo: generateTripPatternsFromViaTo solves the same task. Should rewrite to one function where the type is taken into account.
+function generateTripPatternsFromViaTo(
+  tripPatternCombinations: { from: number; to: number }[],
+  tripPatternsFromVia: ViaTripsQuery['viaTrip']['tripPatternsPerSegment'][0]['tripPatterns'],
+  tripPatternsViaTo: ViaTripsQuery['viaTrip']['tripPatternsPerSegment'][0]['tripPatterns'],
+): ViaTripsQuery['viaTrip']['tripPatternsPerSegment'][0]['tripPatterns'] {
+  return tripPatternCombinations.map((combo) => ({
+    expectedStartTime: tripPatternsFromVia[combo.from].expectedStartTime,
+    expectedEndTime: tripPatternsViaTo[combo.to].expectedEndTime,
+    legs: [
+      ...tripPatternsFromVia[combo.from].legs,
+      ...tripPatternsViaTo[combo.to].legs,
+    ],
+  }));
+}
+
+function generateTripPatternsFromViaTo2(
+  tripPatternCombinations: { from: number; to: number }[],
+  tripPatternsFromVia: ViaTripsWithDetailsQuery['viaTrip']['tripPatternsPerSegment'][0]['tripPatterns'],
+  tripPatternsViaTo: ViaTripsWithDetailsQuery['viaTrip']['tripPatternsPerSegment'][0]['tripPatterns'],
+): ViaTripsWithDetailsQuery['viaTrip']['tripPatternsPerSegment'][0]['tripPatterns'] {
+  return tripPatternCombinations.map((combo) => ({
+    expectedStartTime: tripPatternsFromVia[combo.from].expectedStartTime,
+    expectedEndTime: tripPatternsViaTo[combo.to].expectedEndTime,
+    legs: [
+      ...tripPatternsFromVia[combo.from].legs,
+      ...tripPatternsViaTo[combo.to].legs,
+    ],
+  }));
 }

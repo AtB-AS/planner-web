@@ -1,0 +1,127 @@
+query ViaTripsWithDetails(
+  $from: Location!
+  $to: Location!
+  $when: DateTime
+  $via: [ViaLocationInput!]!
+) {
+  viaTrip(
+    from: $from
+    to: $to
+    searchWindow: "PT2H" # 1 hour
+    dateTime: $when
+    via: $via
+  ) {
+    tripPatternsPerSegment {
+      tripPatterns {
+        expectedStartTime
+        expectedEndTime
+        streetDistance
+        legs {
+          mode
+          transportSubmode
+          aimedStartTime
+          aimedEndTime
+          expectedStartTime
+          expectedEndTime
+          realtime
+          distance
+          duration
+          pointsOnLink {
+            points
+            length
+          }
+          line {
+            name
+            publicCode
+            notices {
+              id
+              text
+            }
+            journeyPatterns {
+              name
+            }
+          }
+          fromPlace {
+            name
+            quay {
+              id
+              name
+              publicCode
+            }
+            longitude
+            latitude
+          }
+          toPlace {
+            longitude
+            latitude
+            name
+            quay {
+              name
+              publicCode
+            }
+          }
+          serviceJourney {
+            id
+            notices {
+              id
+              text
+            }
+            journeyPattern {
+              notices {
+                id
+                text
+              }
+            }
+          }
+          fromEstimatedCall {
+            notices {
+              id
+              text
+            }
+            destinationDisplay {
+              frontText
+            }
+          }
+          interchangeTo {
+            guaranteed
+            toServiceJourney {
+              id
+            }
+          }
+          intermediateEstimatedCalls {
+            aimedDepartureTime
+          }
+          situations {
+            id
+            situationNumber
+            reportType
+            summary {
+              language
+              value
+            }
+            description {
+              language
+              value
+            }
+            advice {
+              language
+              value
+            }
+            infoLinks {
+              uri
+              label
+            }
+            validityPeriod {
+              startTime
+              endTime
+            }
+          }
+        }
+      }
+    }
+    tripPatternCombinations {
+      from
+      to
+    }
+  }
+}
