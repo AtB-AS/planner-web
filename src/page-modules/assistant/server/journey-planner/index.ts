@@ -44,11 +44,11 @@ import { mapToMapLegs } from '@atb/components/map';
 
 const DEFAULT_JOURNEY_CONFIG = {
   numTripPatterns: 8, // The maximum number of trip patterns to return.
-  waitReluctance: 1.5, // Setting this to a value lower than 1 indicates that waiting is better than staying on a vehicle.
-  walkReluctance: 4, // This is the main parameter to use for limiting walking.
-  walkSpeed: 1.3, // The maximum walk speed along streets, in meters per second.
-  transferPenalty: 10, // An extra penalty added on transfers (i.e. all boardings except the first one)
-  transferSlack: 0, // An expected transfer time (in seconds) that specifies the amount of time that must pass between exiting one public transport vehicle and boarding another.
+  waitReluctance: Number(process.env.WAIT_RELUCTANCE) ?? 1, // Setting this to a value lower than 1 indicates that waiting is better than staying on a vehicle.
+  walkReluctance: Number(process.env.WALKING_RELUCTANCE) ?? 4, // This is the main parameter to use for limiting walking.
+  walkSpeed: Number(process.env.WALKING_SPEED) ?? 1.3, // The maximum walk speed along streets, in meters per second.
+  transferPenalty: Number(process.env.TRANSFER_PENALTY) ?? 10, // An extra penalty added on transfers (i.e. all boardings except the first one)
+  transferSlack: Number(process.env.TRANSFER_SLACK) ?? 0, // An expected transfer time (in seconds) that specifies the amount of time that must pass between exiting one public transport vehicle and boarding another.
 };
 
 export type JourneyPlannerApi = {

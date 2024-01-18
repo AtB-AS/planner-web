@@ -19,6 +19,11 @@ jobs:
         ATB_NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=${{ github.event_name == 'release' && 'atb-mobility-platform.firebaseapp.com' || 'atb-mobility-platform-staging.firebaseapp.com' }}
         ATB_NEXT_PUBLIC_FIREBASE_APP_ID=${{ github.event_name == 'release' && '1:827196677776:web:c4b1d8924bb5778bf50215' || '1:939812594010:web:0308b2a9cdc80b0d069363' }}
         ATB_NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=${{ github.event_name == 'release' && '' || '' }}
+        ATB_WAIT_RELUCTANCE=1
+        ATB_WALKING_RELUCTANCE=4
+        ATB_WALKING_SPEED=1.3
+        ATB_TRANSFER_PENALTY=10
+        ATB_TRANSFER_SLACK=120
         NFK_NEXT_PUBLIC_MAPBOX_DEFAULT_LAT=67.280357
         NFK_NEXT_PUBLIC_MAPBOX_DEFAULT_LNG=14.404916
         NFK_NEXT_PUBLIC_FIREBASE_PROJECT_ID=${{ github.event_name == 'release' && 'nfk-prod' || 'nfk-staging'}}
@@ -26,6 +31,11 @@ jobs:
         NFK_NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=${{ github.event_name == 'release' && 'nfk-prod.firebaseapp.com' || 'nfk-staging.firebaseapp.com' }}
         NFK_NEXT_PUBLIC_FIREBASE_APP_ID=${{ github.event_name == 'release' && '1:638315587956:web:51e95a11a03f27dc9ca421' || '1:793301954236:web:908723b8ded2824cadeab9' }}
         NFK_NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=${{ github.event_name == 'release' && '' || '' }}
+        NFK_WAIT_RELUCTANCE=1
+        NFK_WALKING_RELUCTANCE=4
+        NFK_WALKING_SPEED=1.3
+        NFK_TRANSFER_PENALTY=10
+        NFK_TRANSFER_SLACK=120
         FRAM_NEXT_PUBLIC_MAPBOX_DEFAULT_LAT=62.4705
         FRAM_NEXT_PUBLIC_MAPBOX_DEFAULT_LNG=6.1533
         FRAM_NEXT_PUBLIC_FIREBASE_PROJECT_ID=${{ github.event_name == 'release' && 'fram-prod-a7850' || 'fram-staging'}}
@@ -33,6 +43,11 @@ jobs:
         FRAM_NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=${{ github.event_name == 'release' && 'fram-prod-a7850.firebaseapp.com' || 'fram-staging.firebaseapp.com' }}
         FRAM_NEXT_PUBLIC_FIREBASE_APP_ID=${{ github.event_name == 'release' && '1:717595301444:web:1e16129330d562f1b3ce11' || '1:312905478211:web:41c6f9db83ae5ef0efa4f6' }}
         FRAM_NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=${{ github.event_name == 'release' && 'G-KS45JBFWF4' || '' }}
+        FRAM_WAIT_RELUCTANCE=1
+        FRAM_WALKING_RELUCTANCE=4
+        FRAM_WALKING_SPEED=1.3
+        FRAM_TRANSFER_PENALTY=10
+        FRAM_TRANSFER_SLACK=0
     secrets:
       github_pat: ${{ secrets.GH_PAT }}
       build_secrets: |
