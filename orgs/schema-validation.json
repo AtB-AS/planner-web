@@ -75,6 +75,27 @@
             "supportUrl"
           ],
           "type": "object"
+        },
+        "journeyAPIConfigurations": {
+          "additionalProperties": false,
+          "properties": {
+            "WAIT_RELUCTANCE": {
+              "type": "number"
+            },
+            "WALKING_RELUCTANCE": {
+              "type": "number"
+            },
+            "WALKING_SPEED": {
+              "type": "number"
+            },
+            "TRANSFER_PENALTY": {
+              "type": "number"
+            },
+            "TRANSFER_SLACK": {
+              "type": "number"
+            }
+          },
+          "type": "object"
         }
       },
       "required": ["orgId", "supportEmail", "urls"],

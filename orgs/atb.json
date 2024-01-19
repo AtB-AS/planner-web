@@ -30,5 +30,12 @@
       "name": "atb.no",
       "href": "https://atb.no/"
     }
+  },
+  "journeyAPIConfigurations": {
+    "WAIT_RELUCTANCE": 1.5,
+    "WALKING_RELUCTANCE": 1.5,
+    "WALKING_SPEED": 1.3,
+    "TRANSFER_PENALTY": 10,
+    "TRANSFER_SLACK": 120
   }
 }
