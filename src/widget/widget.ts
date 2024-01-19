@@ -561,7 +561,6 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
                 <input
                   class="${style.search_input}"
                   aria-autocomplete="list"
-                  aria-labelledby="pw-from-1-label"
                   autocomplete="off"
                   id="pw-from-1-input"
                   name="from"
@@ -571,7 +570,6 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
                 <ul
                   id="from-popup-1"
                   role="listbox"
-                  aria-labelledby="pw-from-1-label"
                   class="${style.popupContainer}"
                   hidden
                 ></ul>
@@ -614,7 +612,6 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
                 <input
                   class="${style.search_input} ${style.search_inputLast}"
                   aria-autocomplete="list"
-                  aria-labelledby="pw-to-1-label"
                   autocomplete="off"
                   id="pw-to-1-input"
                   name="to"
@@ -666,7 +663,6 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
                 <input
                   class="${style.search_input}"
                   aria-autocomplete="list"
-                  aria-labelledby="pw-from-2-label"
                   autocomplete="off"
                   name="from"
                   id="pw-from-2-input"
