@@ -231,7 +231,7 @@ export function createJourneyApi(
           result.data.viaTrip.tripPatternsPerSegment[1].tripPatterns;
 
         // Find all possible trip patterns where the legs from the from-via location and the via-to location are concatinated.
-        const tripPatternsFromViaTo = generateTripPatternsFromViaTo2(
+        const tripPatternsFromViaTo = generateTripPatternsFromViaToWithDetails(
           tripPatternCombinations,
           tripPatternsFromVia,
           tripPatternsViaTo,
@@ -658,10 +658,6 @@ function isTripsViaQueryVariables(a: any): a is TripsQueryVariables {
   return a && 'from' in a && 'to' in a && 'when' in a && 'via' in a;
 }
 
-function isTripsViaWithDetailsQueryVariables(a: any): a is TripsQueryVariables {
-  return a && 'from' in a && 'to' in a && 'when' in a && 'via' in a;
-}
-
 function getPaddedStartTime(time: string): string {
   const startTime = parseISO(time);
   return addSeconds(startTime, -60).toISOString();
@@ -727,7 +723,7 @@ function generateTripPatternsFromViaTo(
   }));
 }
 
-function generateTripPatternsFromViaTo2(
+function generateTripPatternsFromViaToWithDetails(
   tripPatternCombinations: { from: number; to: number }[],
   tripPatternsFromVia: ViaTripsWithDetailsQuery['viaTrip']['tripPatternsPerSegment'][0]['tripPatterns'],
   tripPatternsViaTo: ViaTripsWithDetailsQuery['viaTrip']['tripPatternsPerSegment'][0]['tripPatterns'],
