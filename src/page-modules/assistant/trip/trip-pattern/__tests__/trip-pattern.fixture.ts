@@ -21,6 +21,7 @@ export const tripPatternFixture: TripPattern = {
       },
       fromEstimatedCall: {
         notices: [],
+        cancellation: false,
       },
       situations: [],
       fromPlace: {

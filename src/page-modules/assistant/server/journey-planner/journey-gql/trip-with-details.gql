@@ -26,6 +26,8 @@ query TripsWithDetails(
     modes: $modes
     numTripPatterns: $numTripPatterns
     searchWindow: 60 # 1 hour
+    includeRealtimeCancellations: true
+    includePlannedCancellations: true
   ) {
     tripPatterns {
       expectedStartTime
@@ -88,6 +90,7 @@ query TripsWithDetails(
           destinationDisplay {
             frontText
           }
+          cancellation
         }
         interchangeTo {
           guaranteed

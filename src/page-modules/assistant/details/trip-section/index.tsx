@@ -98,7 +98,7 @@ export default function TripSection({
           >
             <Typo.p textType="body__primary--bold">
               {formatLineName(
-                leg.fromEstimatedCall?.destinationDisplay.frontText,
+                leg.fromEstimatedCall?.destinationDisplay?.frontText,
                 leg.line?.name,
                 leg.line?.publicCode,
               )}

@@ -57,6 +57,10 @@ export default function TripPattern({
 
   const maxOpacity = tripIsInPast ? 0.7 : 1;
 
+  const isCancelled = tripPattern.legs.some(
+    (leg) => leg.fromEstimatedCall?.cancellation,
+  );
+
   const className = andIf({
     [style.tripPattern]: true,
     [style['tripPattern--old']]: tripIsInPast,
@@ -78,9 +82,10 @@ export default function TripPattern({
         language,
         tripIsInPast,
         index + 1,
+        isCancelled,
       )}
     >
-      <TripPatternHeader tripPattern={tripPattern} />
+      <TripPatternHeader tripPattern={tripPattern} isCancelled={isCancelled} />
 
       <div className={style.legs}>
         <div className={style.legs__expandedLegsContainer} ref={legsParentRef}>
@@ -124,7 +129,13 @@ export default function TripPattern({
                         </Typo.span>
                       </>
                     ) : (
-                      <Typo.span textType="body__tertiary">
+                      <Typo.span
+                        textType={
+                          isCancelled
+                            ? 'body__tertiary--strike'
+                            : 'body__tertiary'
+                        }
+                      >
                         {formatToClock(leg.aimedStartTime, language, 'floor')}
                       </Typo.span>
                     )}
@@ -158,7 +169,9 @@ export default function TripPattern({
           <div className={style.legs__lastLeg__icon}>
             <MonoIcon icon="places/Destination" />
           </div>
-          <Typo.span textType="body__tertiary">
+          <Typo.span
+            textType={isCancelled ? 'body__tertiary--strike' : 'body__tertiary'}
+          >
             {formatToClock(tripPattern.expectedEndTime, language, 'ceil')}
           </Typo.span>
         </div>
