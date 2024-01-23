@@ -203,9 +203,8 @@ export function createJourneyApi(
       if (!tripQuery) return;
 
       let formatedResult;
-      let result;
       if ('via' in tripQuery.query) {
-        result = await client.query<
+        const result = await client.query<
           ViaTripsWithDetailsQuery,
           ViaTripsWithDetailsQueryVariables
         >({
@@ -215,6 +214,10 @@ export function createJourneyApi(
             ...DEFAULT_JOURNEY_CONFIG,
           },
         });
+
+        if (result.error || result.errors) {
+          throw result.error || result.errors;
+        }
 
         const { tripPatternCombinations, tripPatternsPerSegment } =
           result.data.viaTrip;
@@ -237,7 +240,7 @@ export function createJourneyApi(
 
         formatedResult = { trip: tripPatternsFromViaTo };
       } else {
-        result = await client.query<
+        const result = await client.query<
           TripsWithDetailsQuery,
           TripsWithDetailsQueryVariables
         >({
@@ -249,10 +252,12 @@ export function createJourneyApi(
           },
         });
 
+        if (result.error || result.errors) {
+          throw result.error || result.errors;
+        }
+
         formatedResult = { trip: result.data.trip.tripPatterns };
       }
-
-      if (result.error || result.errors) throw result.error || result.errors;
 
       // Find the trip pattern that matches the journey IDs in the query
       const singleTripPattern = formatedResult.trip.find((pattern) => {
