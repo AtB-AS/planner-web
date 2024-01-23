@@ -288,14 +288,20 @@ export function createJourneyApi(
                 id: leg.serviceJourney.id,
               }
             : null,
-          fromEstimatedCall: leg.fromEstimatedCall?.destinationDisplay
-            ?.frontText
+          fromEstimatedCall: leg.fromEstimatedCall
             ? {
-                destinationDisplay: {
-                  frontText: leg.fromEstimatedCall.destinationDisplay.frontText,
-                },
+                cancellation: leg.fromEstimatedCall.cancellation,
+                ...(leg.fromEstimatedCall.destinationDisplay?.frontText
+                  ? {
+                      destinationDisplay: {
+                        frontText:
+                          leg.fromEstimatedCall.destinationDisplay.frontText,
+                      },
+                    }
+                  : {}),
               }
             : null,
+
           interchangeTo: leg.interchangeTo?.toServiceJourney?.id
             ? {
                 guaranteed: leg.interchangeTo.guaranteed ?? false,
@@ -382,6 +388,7 @@ function mapResultToTrips(
             : null,
           fromEstimatedCall: leg.fromEstimatedCall
             ? {
+                cancellation: leg.fromEstimatedCall.cancellation,
                 notices: mapNotices(leg.fromEstimatedCall.notices),
               }
             : null,

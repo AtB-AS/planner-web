@@ -33,6 +33,7 @@ export const placeSchema = z.object({
 });
 
 export const fromEstimatedCallSchema = z.object({
+  cancellation: z.boolean(),
   notices: z.array(noticeSchema).optional(),
 });
 
@@ -128,7 +129,8 @@ export const tripPatternWithDetailsSchema = z.object({
         .nullable(),
       fromEstimatedCall: z
         .object({
-          destinationDisplay: z.object({ frontText: z.string() }),
+          destinationDisplay: z.object({ frontText: z.string() }).optional(),
+          cancellation: z.boolean(),
         })
         .nullable(),
       interchangeTo: z

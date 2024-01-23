@@ -8,3 +8,9 @@
   color: var(--text-colors-secondary);
   margin-left: auto;
 }
+
+.situationIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
