@@ -76,22 +76,22 @@
           ],
           "type": "object"
         },
-        "journeyAPIConfigurations": {
+        "journeyApiConfigurations": {
           "additionalProperties": false,
           "properties": {
-            "WAIT_RELUCTANCE": {
+            "waitReluctance": {
               "type": "number"
             },
-            "WALKING_RELUCTANCE": {
+            "walkingReluctance": {
               "type": "number"
             },
-            "WALKING_SPEED": {
+            "walkingSpeed": {
               "type": "number"
             },
-            "TRANSFER_PENALTY": {
+            "transferPenalty": {
               "type": "number"
             },
-            "TRANSFER_SLACK": {
+            "transferSlack": {
               "type": "number"
             }
           },

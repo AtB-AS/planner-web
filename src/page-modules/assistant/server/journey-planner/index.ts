@@ -43,15 +43,15 @@ import {
 import { mapToMapLegs } from '@atb/components/map';
 import { getOrgData } from '@atb/modules/org-data';
 
-const { journeyAPIConfigurations } = getOrgData();
+const { journeyApiConfigurations } = getOrgData();
 
 const DEFAULT_JOURNEY_CONFIG = {
   numTripPatterns: 8, // The maximum number of trip patterns to return.
-  waitReluctance: journeyAPIConfigurations.WAIT_RELUCTANCE ?? 1, // Setting this to a value lower than 1 indicates that waiting is better than staying on a vehicle.
-  walkReluctance: journeyAPIConfigurations.WALKING_RELUCTANCE ?? 4, // This is the main parameter to use for limiting walking.
-  walkSpeed: journeyAPIConfigurations.WALKING_SPEED ?? 1.3, // The maximum walk speed along streets, in meters per second.
-  transferPenalty: journeyAPIConfigurations.TRANSFER_PENALTY ?? 10, // An extra penalty added on transfers (i.e. all boardings except the first one)
-  transferSlack: journeyAPIConfigurations.TRANSFER_SLACK ?? 0, // An expected transfer time (in seconds) that specifies the amount of time that must pass between exiting one public transport vehicle and boarding another.
+  waitReluctance: journeyApiConfigurations.waitReluctance ?? 1, // Setting this to a value lower than 1 indicates that waiting is better than staying on a vehicle.
+  walkReluctance: journeyApiConfigurations.walkingReluctance ?? 4, // This is the main parameter to use for limiting walking.
+  walkSpeed: journeyApiConfigurations.walkingSpeed ?? 1.3, // The maximum walk speed along streets, in meters per second.
+  transferPenalty: journeyApiConfigurations.transferPenalty ?? 10, // An extra penalty added on transfers (i.e. all boardings except the first one)
+  transferSlack: journeyApiConfigurations.transferSlack ?? 0, // An expected transfer time (in seconds) that specifies the amount of time that must pass between exiting one public transport vehicle and boarding another.
 };
 
 export type JourneyPlannerApi = {

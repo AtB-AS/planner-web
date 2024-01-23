@@ -40,12 +40,12 @@ export type OrgData = {
       href: string;
     };
   };
-  journeyAPIConfigurations: {
-    WAIT_RELUCTANCE?: number;
-    WALKING_RELUCTANCE?: number;
-    WALKING_SPEED?: number;
-    TRANSFER_PENALTY?: number;
-    TRANSFER_SLACK?: number;
+  journeyApiConfigurations: {
+    waitReluctance?: number;
+    walkingReluctance?: number;
+    walkingSpeed?: number;
+    transferPenalty?: number;
+    transferSlack?: number;
   };
 };
 
