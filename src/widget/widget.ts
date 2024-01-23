@@ -448,7 +448,6 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
             <input
               type="radio"
               name="${prefix}-searchTimeSelector"
-              aria-labelledby="${prefix}-now"
               class="${style.selector_option__input}"
               value="now"
               checked=""
@@ -463,7 +462,6 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
             <input
               type="radio"
               name="${prefix}-searchTimeSelector"
-              aria-labelledby="${prefix}-depart"
               class="${style.selector_option__input}"
               value="departBy"
             />
@@ -482,7 +480,6 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
                   <input
                     type="radio"
                     name="${prefix}-searchTimeSelector"
-                    aria-labelledby="${prefix}-arrival"
                     class="${style.selector_option__input}"
                     value="arriveBy"
                   />
@@ -560,7 +557,6 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
                 <input
                   class="${style.search_input}"
                   aria-autocomplete="list"
-                  aria-labelledby="pw-from-1-label"
                   autocomplete="off"
                   id="pw-from-1-input"
                   name="from"
@@ -612,7 +608,6 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
                 <input
                   class="${style.search_input} ${style.search_inputLast}"
                   aria-autocomplete="list"
-                  aria-labelledby="pw-to-1-label"
                   autocomplete="off"
                   id="pw-to-1-input"
                   name="to"
