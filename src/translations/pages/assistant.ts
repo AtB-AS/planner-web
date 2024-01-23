@@ -86,7 +86,14 @@ export const Assistant = {
         'This trip includes rail replacement bus.',
         'Reisa inkluderer buss for tog.',
       ),
-      isCancelled: _('Kansellert', 'Cancelled', 'Kansellert'),
+      isCancelled: {
+        title: _('Kansellert', 'Cancelled', 'Kansellert'),
+        label: _(
+          'Denne reisen er kansellert',
+          'This trip is cancelled',
+          'Denne reisa er kansellert',
+        ),
+      },
     },
     fetchMore: _(
       'Last inn flere reiseforslag',

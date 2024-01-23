@@ -44,7 +44,11 @@ export default function DetailsHeader({ tripPattern }: DetailsHeaderProps) {
     <div className={style.container}>
       <div className={style.headerContainer}>
         {isCancelled && (
-          <ColorIcon icon="status/Error" className={style.situationIcon} />
+          <ColorIcon
+            icon="status/Error"
+            className={style.situationIcon}
+            alt={t(PageText.Assistant.trip.tripPattern.isCancelled.label)}
+          />
         )}
         <Typo.h2 textType="heading--big">
           {fromName && toName
@@ -57,7 +61,7 @@ export default function DetailsHeader({ tripPattern }: DetailsHeaderProps) {
             : t(PageText.Assistant.details.header.title)}
 
           {isCancelled &&
-            ` (${t(PageText.Assistant.trip.tripPattern.isCancelled)})`}
+            ` (${t(PageText.Assistant.trip.tripPattern.isCancelled.title)})`}
         </Typo.h2>
       </div>
       <div className={style.tripDetails}>

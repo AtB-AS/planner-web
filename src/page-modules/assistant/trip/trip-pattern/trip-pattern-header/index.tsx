@@ -32,12 +32,16 @@ export function TripPatternHeader({
   return (
     <header className={style.header}>
       {isCancelled && (
-        <ColorIcon icon="status/Error" className={style.situationIcon} />
+        <ColorIcon
+          icon="status/Error"
+          className={style.situationIcon}
+          alt={t(PageText.Assistant.trip.tripPattern.isCancelled.label)}
+        />
       )}
       <Typo.span textType="body__secondary--bold">
         {startModeAndPlaceText}
         {isCancelled &&
-          ` (${t(PageText.Assistant.trip.tripPattern.isCancelled)})`}
+          ` (${t(PageText.Assistant.trip.tripPattern.isCancelled.title)})`}
       </Typo.span>
       <Typo.span textType="body__secondary" className={style.header__duration}>
         {duration}
