@@ -7,7 +7,7 @@ query ViaTrips(
   viaTrip(
     from: $from
     to: $to
-    searchWindow: "PT2H" # 9 hours
+    searchWindow: "PT9H"
     dateTime: $when
     via: $via
   ) {
@@ -16,9 +16,6 @@ query ViaTrips(
 }
 
 fragment viaTrip on ViaTrip {
-  routingErrors {
-    ...routingError
-  }
   tripPatternsPerSegment {
     ...tripPatternsPerSegment
   }
@@ -26,12 +23,6 @@ fragment viaTrip on ViaTrip {
     from
     to
   }
-}
-
-fragment routingError on RoutingError {
-  code
-  description
-  inputField
 }
 
 fragment tripPatternsPerSegment on ViaTripPatternSegment {
@@ -86,31 +77,5 @@ fragment tripPatternsPerSegment on ViaTripPatternSegment {
       }
       transportSubmode
     }
-  }
-}
-
-fragment notice on Notice {
-  id
-  text
-}
-
-fragment situation on PtSituationElement {
-  id
-  situationNumber
-  summary {
-    ...multilingualString
-  }
-  description {
-    ...multilingualString
-  }
-  reportType
-  advice {
-    ...multilingualString
-  }
-  infoLinks {
-    ...infoLink
-  }
-  validityPeriod {
-    ...validityPeriod
   }
 }

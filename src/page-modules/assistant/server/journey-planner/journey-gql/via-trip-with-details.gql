@@ -7,7 +7,7 @@ query ViaTripsWithDetails(
   viaTrip(
     from: $from
     to: $to
-    searchWindow: "PT2H" # 1 hour
+    searchWindow: "PT9H"
     dateTime: $when
     via: $via
   ) {
