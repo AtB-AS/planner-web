@@ -41,7 +41,9 @@ export function TripPatternHeader({
       <Typo.span textType="body__secondary--bold">
         {startModeAndPlaceText}
         {isCancelled &&
-          ` (${t(PageText.Assistant.trip.tripPattern.isCancelled.title)})`}
+          ` (${t(
+            PageText.Assistant.trip.tripPattern.isCancelled.title,
+          ).toUpperCase()})`}
       </Typo.span>
       <Typo.span textType="body__secondary" className={style.header__duration}>
         {duration}

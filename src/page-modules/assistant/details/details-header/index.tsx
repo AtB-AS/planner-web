@@ -61,18 +61,32 @@ export default function DetailsHeader({ tripPattern }: DetailsHeaderProps) {
             : t(PageText.Assistant.details.header.title)}
 
           {isCancelled &&
-            ` (${t(PageText.Assistant.trip.tripPattern.isCancelled.title)})`}
+            ` (${t(
+              PageText.Assistant.trip.tripPattern.isCancelled.title,
+            ).toUpperCase()})`}
         </Typo.h2>
       </div>
       <div className={style.tripDetails}>
         <div className={style.date}>
           <MonoIcon icon="time/Date" />
-          <Typo.p textType="body__primary">{weekdayAndDate}</Typo.p>
+          <Typo.p
+            textType={isCancelled ? 'body__primary--strike' : 'body__primary'}
+          >
+            {weekdayAndDate}
+          </Typo.p>
         </div>
         <div className={style.duration}>
           <MonoIcon icon="time/Duration" />
-          <Typo.p textType="body__primary">{timeRange}</Typo.p>
-          <Typo.p textType="body__primary--bold">
+          <Typo.p
+            textType={isCancelled ? 'body__primary--strike' : 'body__primary'}
+          >
+            {timeRange}
+          </Typo.p>
+          <Typo.p
+            textType={
+              isCancelled ? 'body__primary--strike' : 'body__primary--bold'
+            }
+          >
             {t(PageText.Assistant.details.header.travelTime(tripDuration))}
           </Typo.p>
         </div>
