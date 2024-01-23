@@ -22,7 +22,7 @@ export type MapProps = {
 } & (
   | {
       position: Position;
-      initialZoom: number;
+      initialZoom?: number;
     }
   | {
       mapLegs: MapLegType[];
@@ -37,7 +37,7 @@ export function Map({ layer, onSelectStopPlace, ...props }: MapProps) {
   const { t } = useTranslation();
 
   const mapLegs = hasMapLegs(props) ? props.mapLegs : undefined;
-  const { position, initialZoom } = hasInitialPosition(props)
+  const { position, initialZoom = ZOOM_LEVEL } = hasInitialPosition(props)
     ? props
     : { position: defaultPosition, initialZoom: ZOOM_LEVEL };
   const bounds = mapLegs ? getMapBounds(mapLegs) : undefined;
@@ -122,8 +122,8 @@ export function Map({ layer, onSelectStopPlace, ...props }: MapProps) {
 
 function hasInitialPosition(
   a: any,
-): a is { position: Position; initialZoom: number } {
-  return a.position && a.initialZoom;
+): a is { position: Position; initialZoom?: number } {
+  return !!a.position;
 }
 
 function hasMapLegs(a: any): a is { mapLegs: MapLegType[] } {
