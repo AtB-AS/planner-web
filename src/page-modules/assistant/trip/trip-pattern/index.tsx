@@ -82,6 +82,7 @@ export default function TripPattern({
         language,
         tripIsInPast,
         index + 1,
+        isCancelled,
       )}
     >
       <TripPatternHeader tripPattern={tripPattern} isCancelled={isCancelled} />
