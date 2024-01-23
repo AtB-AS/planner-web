@@ -269,7 +269,7 @@ describe('trip pattern', function () {
         .getByTestId('test-id')
         .getAttribute('aria-label');
 
-      const expected = 'Denne reisen er kansellert';
+      const expected = 'Denne reisen er innstilt';
 
       expect(ariaLabel).toContain(expected);
     });

@@ -87,11 +87,11 @@ export const Assistant = {
         'Reisa inkluderer buss for tog.',
       ),
       isCancelled: {
-        title: _('Kansellert', 'Cancelled', 'Kansellert'),
+        title: _('Innstilt', 'Cancelled', 'Innstilt'),
         label: _(
-          'Denne reisen er kansellert',
+          'Denne reisen er innstilt',
           'This trip is cancelled',
-          'Denne reisa er kansellert',
+          'Denne reisa er innstilt',
         ),
       },
     },
