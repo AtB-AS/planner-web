@@ -549,13 +549,13 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
             </label>
             <div
               class="${style.search_inputContainer}"
-              aria-expanded="false"
               aria-haspopup="listbox"
               aria-labelledby="pw-from-1-label"
             >
               <pw-autocomplete for="from-popup-1">
                 <input
                   class="${style.search_input}"
+                  aria-expanded="false"
                   aria-autocomplete="list"
                   autocomplete="off"
                   id="pw-from-1-input"
@@ -600,13 +600,13 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
             </label>
             <div
               class="${style.search_inputContainer}"
-              aria-expanded="false"
               aria-haspopup="listbox"
               aria-labelledby="pw-to-1-label"
             >
               <pw-autocomplete for="to-popup-1">
                 <input
                   class="${style.search_input} ${style.search_inputLast}"
+                  aria-expanded="false"
                   aria-autocomplete="list"
                   autocomplete="off"
                   id="pw-to-1-input"
