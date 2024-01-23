@@ -33,8 +33,8 @@ export function tripQueryStringToQueryParams(
   const { from, to } = tripQueryVariables.query;
 
   let arriveBy = undefined;
-  if ('arrivedBy' in tripQueryVariables.query)
-    arriveBy = tripQueryVariables.query.arrivedBy;
+  if ('arriveBy' in tripQueryVariables.query)
+    arriveBy = tripQueryVariables.query.arriveBy;
 
   const originalSearchTime = tripQueryVariables.originalSearchTime;
   if (
