@@ -81,6 +81,7 @@ query ViaTripsWithDetails(
             destinationDisplay {
               frontText
             }
+            cancellation
           }
           interchangeTo {
             guaranteed
