@@ -24,7 +24,6 @@ import type {
   NonTransitTripData,
   NonTransitTripInput,
   TripInput,
-  TripViaInput,
 } from '../../types';
 import {
   isTransportModeType,
@@ -270,6 +269,7 @@ export function createJourneyApi(
 
       return validated.data;
     },
+
     async singleTrip(input) {
       const tripQuery = parseTripQueryString(input);
       if (!tripQuery) return;

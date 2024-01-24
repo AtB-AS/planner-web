@@ -16,10 +16,6 @@ export type TripInput = {
   via?: GeocoderFeature;
 };
 
-export type TripViaInput = TripInput & {
-  via: GeocoderFeature;
-};
-
 export type FromToTripQuery = {
   from: GeocoderFeature | null;
   to: GeocoderFeature | null;
