@@ -54,9 +54,6 @@ describe('assistant page', function () {
       async singleTrip() {
         return {} as any;
       },
-      async viaTrip() {
-        return tripResult;
-      },
       client: null as any,
     };
 
