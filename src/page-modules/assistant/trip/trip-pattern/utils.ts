@@ -17,6 +17,7 @@ export const tripSummary = (
   language: Language,
   isInPast: boolean,
   listPosition: number,
+  isCancelled: boolean,
 ) => {
   const distance = Math.round(tripPattern.legs[0].distance);
   let humanizedDistance;
@@ -167,8 +168,13 @@ export const tripSummary = (
         )
       : undefined;
 
+  const isCancelledText = isCancelled
+    ? t(PageText.Assistant.trip.tripPattern.isCancelled.label)
+    : undefined;
+
   const texts = [
     resultNumberText,
+    isCancelledText,
     requiresBookingText,
     passedTripText,
     startText,

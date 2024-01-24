@@ -8,12 +8,17 @@ import { getNoticesForLeg } from './utils';
 import { RailReplacementBusMessage } from './rail-replacement-bus';
 import { SituationOrNoticeIcon } from '@atb/modules/situations';
 import { isSubModeBoat } from '@atb/modules/transport-mode';
+import { ColorIcon } from '@atb/components/icon';
 
 type TripPatternHeaderProps = {
   tripPattern: TripPattern;
+  isCancelled?: boolean;
 };
 
-export function TripPatternHeader({ tripPattern }: TripPatternHeaderProps) {
+export function TripPatternHeader({
+  tripPattern,
+  isCancelled = false,
+}: TripPatternHeaderProps) {
   const { t, language } = useTranslation();
 
   const { duration } = formatTripDuration(
@@ -26,8 +31,19 @@ export function TripPatternHeader({ tripPattern }: TripPatternHeaderProps) {
 
   return (
     <header className={style.header}>
+      {isCancelled && (
+        <ColorIcon
+          icon="status/Error"
+          className={style.situationIcon}
+          alt={t(PageText.Assistant.trip.tripPattern.isCancelled.label)}
+        />
+      )}
       <Typo.span textType="body__secondary--bold">
         {startModeAndPlaceText}
+        {isCancelled &&
+          ` (${t(
+            PageText.Assistant.trip.tripPattern.isCancelled.title,
+          ).toUpperCase()})`}
       </Typo.span>
       <Typo.span textType="body__secondary" className={style.header__duration}>
         {duration}
@@ -39,6 +55,7 @@ export function TripPatternHeader({ tripPattern }: TripPatternHeaderProps) {
         situations={flatMap(tripPattern.legs, (leg) => leg.situations)}
         notices={flatMap(tripPattern.legs, getNoticesForLeg)}
         accessibilityLabel={startModeAndPlaceText}
+        cancellation={isCancelled}
       />
     </header>
   );

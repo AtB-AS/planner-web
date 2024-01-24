@@ -26,6 +26,8 @@ query Trips(
     modes: $modes
     numTripPatterns: $numTripPatterns
     searchWindow: 540 # 9 hours
+    includeRealtimeCancellations: true
+    includePlannedCancellations: true
   ) {
     ...trip
   }
@@ -113,6 +115,7 @@ fragment tripPattern on TripPattern {
       }
     }
     fromEstimatedCall {
+      cancellation
       notices {
         ...notice
       }

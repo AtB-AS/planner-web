@@ -4,7 +4,19 @@
   padding: var(--spacings-small) var(--spacings-medium);
 }
 
+@media (max-width: 650px) {
+  .header {
+    align-items: center;
+  }
+}
+
 .header__duration {
   color: var(--text-colors-secondary);
   margin-left: auto;
+}
+
+.situationIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

@@ -51,7 +51,14 @@ describe('trip pattern', function () {
       const Test = function () {
         const { t, language } = useTranslation();
 
-        const summary = tripSummary(tripPatternFixture, t, language, false, 1);
+        const summary = tripSummary(
+          tripPatternFixture,
+          t,
+          language,
+          false,
+          1,
+          false,
+        );
         return (
           <div data-testid="test-id" aria-label={summary}>
             {summary}
@@ -85,7 +92,14 @@ describe('trip pattern', function () {
       const Test = function () {
         const { t, language } = useTranslation();
 
-        const summary = tripSummary(tripPatternFixture, t, language, false, 1);
+        const summary = tripSummary(
+          tripPatternFixture,
+          t,
+          language,
+          false,
+          1,
+          false,
+        );
         return (
           <div data-testid="test-id" aria-label={summary}>
             {summary}
@@ -126,7 +140,14 @@ describe('trip pattern', function () {
       const Test = function () {
         const { t, language } = useTranslation();
 
-        const summary = tripSummary(tripPatternFixture, t, language, false, 1);
+        const summary = tripSummary(
+          tripPatternFixture,
+          t,
+          language,
+          false,
+          1,
+          false,
+        );
         return (
           <div data-testid="test-id" aria-label={summary}>
             {summary}
@@ -167,7 +188,14 @@ describe('trip pattern', function () {
       const Test = function () {
         const { t, language } = useTranslation();
 
-        const summary = tripSummary(tripPatternFixture, t, language, true, 1);
+        const summary = tripSummary(
+          tripPatternFixture,
+          t,
+          language,
+          true,
+          1,
+          false,
+        );
         return (
           <div data-testid="test-id" aria-label={summary}>
             {summary}
@@ -190,7 +218,14 @@ describe('trip pattern', function () {
       const Test = function () {
         const { t, language } = useTranslation();
 
-        const summary = tripSummary(tripPatternFixture, t, language, true, 5);
+        const summary = tripSummary(
+          tripPatternFixture,
+          t,
+          language,
+          true,
+          5,
+          false,
+        );
         return (
           <div data-testid="test-id" aria-label={summary}>
             {summary}
@@ -205,6 +240,36 @@ describe('trip pattern', function () {
         .getAttribute('aria-label');
 
       const expected = 'Reiseresultat 5';
+
+      expect(ariaLabel).toContain(expected);
+    });
+
+    it('should create summary with information about cancelled trip', () => {
+      const Test = function () {
+        const { t, language } = useTranslation();
+
+        const summary = tripSummary(
+          tripPatternFixture,
+          t,
+          language,
+          true,
+          5,
+          true,
+        );
+        return (
+          <div data-testid="test-id" aria-label={summary}>
+            {summary}
+          </div>
+        );
+      };
+
+      customRender(<Test />, {});
+
+      const ariaLabel = screen
+        .getByTestId('test-id')
+        .getAttribute('aria-label');
+
+      const expected = 'Denne reisen er innstilt';
 
       expect(ariaLabel).toContain(expected);
     });

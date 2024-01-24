@@ -552,7 +552,6 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
             </label>
             <div
               class="${style.search_inputContainer}"
-              role="combobox"
               aria-expanded="false"
               aria-haspopup="listbox"
               aria-labelledby="pw-from-1-label"
@@ -605,7 +604,6 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
             </label>
             <div
               class="${style.search_inputContainer}"
-              role="combobox"
               aria-expanded="false"
               aria-haspopup="listbox"
               aria-labelledby="pw-to-1-label"
@@ -657,7 +655,6 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
             </label>
             <div
               class="${style.search_inputContainer}"
-              role="combobox"
               aria-expanded="false"
               aria-haspopup="listbox"
               aria-labelledby="pw-from-2-label"
