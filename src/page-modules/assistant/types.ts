@@ -13,6 +13,7 @@ export type TripInput = {
   searchTime: SearchTime;
   transportModes?: TransportModeGroup[];
   cursor?: string;
+  via?: GeocoderFeature;
 };
 
 export type TripViaInput = TripInput & {

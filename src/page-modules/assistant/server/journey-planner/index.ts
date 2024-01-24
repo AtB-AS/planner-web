@@ -64,7 +64,6 @@ const DEFAULT_JOURNEY_CONFIG = {
 
 export type JourneyPlannerApi = {
   trip(input: TripInput): Promise<TripData>;
-  viaTrip(input: TripViaInput): Promise<TripData>;
   nonTransitTrips(input: NonTransitTripInput): Promise<NonTransitTripData>;
   singleTrip(input: string): Promise<TripPatternWithDetails | undefined>;
 };
@@ -161,11 +160,84 @@ export function createJourneyApi(
 
       const from = inputToLocation(input, 'from');
       const to = inputToLocation(input, 'to');
-
       const when =
         input.searchTime.mode !== 'now'
           ? new Date(input.searchTime.dateTime)
           : new Date();
+
+      if (input.via) {
+        const via = inputToViaLocation(input);
+        const queryVariables = {
+          from,
+          to,
+          via,
+          when,
+          modes: journeyModes,
+          cursor: input.cursor,
+          ...DEFAULT_JOURNEY_CONFIG,
+        };
+
+        const result = await client.query<
+          ViaTripsQuery,
+          ViaTripsQueryVariables
+        >({
+          query: ViaTripsDocument,
+          variables: queryVariables,
+        });
+
+        if (result.error || result.errors) {
+          throw result.error || result.errors;
+        }
+
+        const { tripPatternCombinations, tripPatternsPerSegment } =
+          result.data.viaTrip;
+
+        // Create list to make all trip pattern combinations more accessable.
+        const tripPatternCombinationList = findTripPatternCombinationsList(
+          tripPatternCombinations,
+        );
+
+        // Find trip patterns from-via and via-to destination.
+        const tripPatternsFromVia = tripPatternsPerSegment[0].tripPatterns;
+        const tripPatternsViaTo = tripPatternsPerSegment[1].tripPatterns;
+
+        // Find all possible trip patterns where the legs from the from-via location and the via-to location are concatinated.
+        const tripPatternsFromViaTo = findTripPatternsFromViaTo(
+          tripPatternCombinationList,
+          tripPatternsFromVia,
+          tripPatternsViaTo,
+        );
+
+        const data: RecursivePartial<TripData> = mapResultToTrips(
+          {
+            nextPageCursor: undefined,
+            previousPageCursor: undefined,
+            metadata: undefined,
+            tripPatterns: tripPatternsFromViaTo,
+          },
+          queryVariables,
+        );
+
+        const validated = tripSchema.safeParse(data);
+
+        if (!validated.success) {
+          throw validated.error;
+        }
+
+        const { tripPatterns, ...restData } = validated.data;
+        const tripPatternsSortedByExpectedEndTime = [...tripPatterns].sort(
+          (a, b) =>
+            new Date(a.expectedEndTime).getTime() -
+            new Date(b.expectedEndTime).getTime(),
+        );
+
+        const sortedData = {
+          ...restData,
+          tripPatterns: tripPatternsSortedByExpectedEndTime,
+        };
+
+        return sortedData;
+      }
 
       const queryVariables = {
         from,
@@ -379,92 +451,6 @@ export function createJourneyApi(
 
       return validated.data;
     },
-
-    async viaTrip(input) {
-      const journeyModes = {
-        accessMode: StreetMode.Foot,
-        // Show specific non-transit suggestions through separate API call
-        directMode: undefined,
-        egressMode: StreetMode.Foot,
-        transportModes: input.transportModes as GraphQlTransportModes[],
-      };
-
-      const from = inputToLocation(input, 'from');
-      const to = inputToLocation(input, 'to');
-      const via = inputToViaLocation(input);
-      const when =
-        input.searchTime.mode !== 'now'
-          ? new Date(input.searchTime.dateTime)
-          : new Date();
-
-      const queryVariables = {
-        from,
-        to,
-        via,
-        when,
-        modes: journeyModes,
-        cursor: input.cursor,
-        ...DEFAULT_JOURNEY_CONFIG,
-      };
-
-      const result = await client.query<ViaTripsQuery, ViaTripsQueryVariables>({
-        query: ViaTripsDocument,
-        variables: queryVariables,
-      });
-
-      if (result.error || result.errors) {
-        throw result.error || result.errors;
-      }
-
-      const { tripPatternCombinations, tripPatternsPerSegment } =
-        result.data.viaTrip;
-
-      // Create list to make all trip pattern combinations more accessable.
-      const tripPatternCombinationList2 = findTripPatternCombinationsList(
-        tripPatternCombinations,
-      );
-
-      // Find trip patterns from-via and via-to destination.
-      const tripPatternsFromVia = tripPatternsPerSegment[0].tripPatterns;
-      const tripPatternsViaTo = tripPatternsPerSegment[1].tripPatterns;
-
-      // Find all possible trip patterns where the legs from the from-via location and the via-to location are concatinated.
-      const tripPatternsFromViaTo = findTripPatternsFromViaTo(
-        tripPatternCombinationList2,
-        tripPatternsFromVia,
-        tripPatternsViaTo,
-      );
-
-      const data: RecursivePartial<TripData> = mapResultToTrips(
-        {
-          nextPageCursor: undefined,
-          previousPageCursor: undefined,
-          metadata: undefined,
-          tripPatterns: tripPatternsFromViaTo,
-        },
-        queryVariables,
-      );
-
-      const validated = tripSchema.safeParse(data);
-
-      if (!validated.success) {
-        throw validated.error;
-      }
-
-      const { tripPatterns, ...restData } = validated.data;
-      const tripPatternsSortedByExpectedEndTime = [...tripPatterns].sort(
-        (a, b) =>
-          new Date(a.expectedEndTime).getTime() -
-          new Date(b.expectedEndTime).getTime(),
-      );
-
-      const sortedData = {
-        ...restData,
-        tripPatterns: tripPatternsSortedByExpectedEndTime,
-      };
-
-      return sortedData;
-    },
   };
 
   return api;
@@ -491,7 +477,8 @@ function inputToLocation(
     name: input[direction].name,
   };
 }
-function inputToViaLocation(input: TripViaInput) {
+function inputToViaLocation(input: TripInput) {
+  if (!input.via) throw new Error('Via is required in the input');
   return {
     place: input.via.id,
     coordinates: {
