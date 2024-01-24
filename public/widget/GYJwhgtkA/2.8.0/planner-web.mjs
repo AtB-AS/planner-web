@@ -405,7 +405,7 @@ function Oe({ URL_BASE: t }, e) {
               value="now"
               checked=""
             />
-            <span aria-hidden="true" class="${o.selector_option__label}">
+            <span class="${o.selector_option__label}">
               <span class="${o.selector_option__text}" id="${r}-now">
                 ${e.searchTime.now}
               </span>
@@ -419,7 +419,7 @@ function Oe({ URL_BASE: t }, e) {
               class="${o.selector_option__input}"
               value="departBy"
             />
-            <span aria-hidden="true" class="${o.selector_option__label}">
+            <span class="${o.selector_option__label}">
               <span
                 class="${o.selector_option__text}"
                 id="${r}-depart"
@@ -437,10 +437,7 @@ function Oe({ URL_BASE: t }, e) {
                     class="${o.selector_option__input}"
                     value="arriveBy"
                   />
-                  <span
-                    aria-hidden="true"
-                    class="${o.selector_option__label}"
-                  >
+                  <span class="${o.selector_option__label}">
                     <span
                       class="${o.selector_option__text}"
                       id="${r}-arrival"

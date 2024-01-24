@@ -110,7 +110,7 @@ export default function SearchTimeSelector({
               className={style.option__input}
             />
 
-            <span aria-hidden className={style.option__label}>
+            <span className={style.option__label}>
               {selectedMode.mode === state && (
                 <motion.span
                   layoutId="searchTimeSelector"
