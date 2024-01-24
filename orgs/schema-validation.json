@@ -75,6 +75,27 @@
             "supportUrl"
           ],
           "type": "object"
+        },
+        "journeyApiConfigurations": {
+          "additionalProperties": false,
+          "properties": {
+            "waitReluctance": {
+              "type": "number"
+            },
+            "walkingReluctance": {
+              "type": "number"
+            },
+            "walkingSpeed": {
+              "type": "number"
+            },
+            "transferPenalty": {
+              "type": "number"
+            },
+            "transferSlack": {
+              "type": "number"
+            }
+          },
+          "type": "object"
         }
       },
       "required": ["orgId", "supportEmail", "urls"],
