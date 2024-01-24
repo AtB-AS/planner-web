@@ -92,7 +92,7 @@ export default function TripSection({
                     leg.transportSubmode,
                   ],
                 }}
-                size="small"
+                size="xSmall"
               />
             }
           >
