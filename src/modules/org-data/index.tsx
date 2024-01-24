@@ -40,6 +40,13 @@ export type OrgData = {
       href: string;
     };
   };
+  journeyApiConfigurations: {
+    waitReluctance?: number;
+    walkingReluctance?: number;
+    walkingSpeed?: number;
+    transferPenalty?: number;
+    transferSlack?: number;
+  };
 };
 
 export function getOrgData(): OrgData {
