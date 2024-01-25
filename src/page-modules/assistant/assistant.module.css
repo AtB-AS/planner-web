@@ -50,7 +50,6 @@
   grid-area: alternatives;
   width: 100%;
   background-color: var(--static-background-background_accent_1-background);
-  overflow: hidden;
 }
 
 .alternatives {
