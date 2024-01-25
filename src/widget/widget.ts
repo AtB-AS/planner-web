@@ -448,7 +448,6 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
             <input
               type="radio"
               name="${prefix}-searchTimeSelector"
-              aria-labelledby="${prefix}-now"
               class="${style.selector_option__input}"
               value="now"
               checked=""
@@ -463,7 +462,6 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
             <input
               type="radio"
               name="${prefix}-searchTimeSelector"
-              aria-labelledby="${prefix}-depart"
               class="${style.selector_option__input}"
               value="departBy"
             />
@@ -482,7 +480,6 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
                   <input
                     type="radio"
                     name="${prefix}-searchTimeSelector"
-                    aria-labelledby="${prefix}-arrival"
                     class="${style.selector_option__input}"
                     value="arriveBy"
                   />
@@ -549,15 +546,14 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
             </label>
             <div
               class="${style.search_inputContainer}"
-              aria-expanded="false"
               aria-haspopup="listbox"
               aria-labelledby="pw-from-1-label"
             >
               <pw-autocomplete for="from-popup-1">
                 <input
                   class="${style.search_input}"
+                  aria-expanded="false"
                   aria-autocomplete="list"
-                  aria-labelledby="pw-from-1-label"
                   autocomplete="off"
                   id="pw-from-1-input"
                   name="from"
@@ -601,15 +597,14 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
             </label>
             <div
               class="${style.search_inputContainer}"
-              aria-expanded="false"
               aria-haspopup="listbox"
               aria-labelledby="pw-to-1-label"
             >
               <pw-autocomplete for="to-popup-1">
                 <input
                   class="${style.search_input} ${style.search_inputLast}"
+                  aria-expanded="false"
                   aria-autocomplete="list"
-                  aria-labelledby="pw-to-1-label"
                   autocomplete="off"
                   id="pw-to-1-input"
                   name="to"
