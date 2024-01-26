@@ -79,7 +79,7 @@ export function DeparturesDetails({
         </div>
         {realtimeText && !focusedCall.cancellation && (
           <div className={style.realtimeText}>
-            <ColorIcon icon="status/Realtime" size="small" />
+            <ColorIcon icon="status/Realtime" size="xSmall" />
             <Typo.h3 textType="body__secondary">{realtimeText}</Typo.h3>
           </div>
         )}
