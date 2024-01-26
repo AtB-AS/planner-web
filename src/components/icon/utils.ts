@@ -1,6 +1,6 @@
 import { useTheme, theme } from '@atb/modules/theme';
 
-export type SizeProps = keyof typeof theme.light.icon.size | 'x-large';
+export type SizeProps = keyof typeof theme.light.icon.size;
 
 export function useSize(size: SizeProps) {
   const theme = useTheme();
@@ -14,8 +14,5 @@ export function useSize(size: SizeProps) {
       return theme.icon.size.normal;
     case 'large':
       return theme.icon.size.large;
-    case 'x-large':
-      // @TODO This should in the design system at some point
-      return 40;
   }
 }
