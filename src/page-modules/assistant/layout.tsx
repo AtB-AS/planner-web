@@ -200,21 +200,31 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
                     onChange={onTransportFilterChanged}
                   />
 
-                  <Search
-                    label={t(PageText.Assistant.search.input.via)}
-                    placeholder={t(PageText.Assistant.search.input.placeholder)}
-                    onChange={onViaSelected}
-                    selectedItem={tripQuery.via ?? undefined}
-                    autocompleteFocusPoint={tripQuery.via ?? undefined}
-                    button={
-                      tripQuery.via && (
-                        <ClearButton
-                          className={style.searchInputButton}
-                          onClear={onClear}
-                        />
-                      )
-                    }
-                  />
+                  <div>
+                    <Typo.p
+                      textType="body__primary--bold"
+                      className={style.heading}
+                    >
+                      {t(PageText.Assistant.search.input.via.label)}
+                    </Typo.p>
+                    <Search
+                      label={t(PageText.Assistant.search.input.via.description)}
+                      placeholder={t(
+                        PageText.Assistant.search.input.placeholder,
+                      )}
+                      onChange={onViaSelected}
+                      selectedItem={tripQuery.via ?? undefined}
+                      autocompleteFocusPoint={tripQuery.via ?? undefined}
+                      button={
+                        tripQuery.via && (
+                          <ClearButton
+                            className={style.searchInputButton}
+                            onClear={onClear}
+                          />
+                        )
+                      }
+                    />
+                  </div>
                 </div>
               </motion.div>
             </FocusScope>

@@ -14,7 +14,14 @@ export const Assistant = {
       ),
       from: _('Fra', 'From', 'Frå'),
       to: _('Til', 'To', 'Til'),
-      via: _('Via', 'Via', 'Via'),
+      via: {
+        label: _(
+          'Vil du reise via en mellomdestinasjon?',
+          'Do you want to travel via an intermidiate destination?',
+          'Vil du reise via ein mellomdestinasjon?',
+        ),
+        description: _('Via', 'Via', 'Via'),
+      },
       placeholder: _(
         'adresse, kai eller holdeplass',
         'address, quay or bus stop',
