@@ -207,10 +207,12 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
                     selectedItem={tripQuery.via ?? undefined}
                     autocompleteFocusPoint={tripQuery.via ?? undefined}
                     button={
-                      <ClearButton
-                        className={style.searchInputButton}
-                        onClear={onClear}
-                      />
+                      tripQuery.via && (
+                        <ClearButton
+                          className={style.searchInputButton}
+                          onClear={onClear}
+                        />
+                      )
                     }
                   />
                 </div>
