@@ -122,8 +122,6 @@
 }
 .button--interactive_0--bordered:focus {
   outline: 0;
-  box-shadow: inset 0 0 0 var(--border-width-medium)
-    var(--interactive-interactive_0-outline-background);
 }
 
 /* Interactive button 1 */
