@@ -209,11 +209,6 @@ export function createJourneyApi(
           tripPatternsViaTo,
         );
 
-        console.log('tripPatternsCombinationList', tripPatternCombinationList);
-        console.log('tripPatternsFromVia', tripPatternsFromVia);
-        console.log('tripPatternsViaTo', tripPatternsViaTo);
-        console.log('tripPatternsFromViaTo', tripPatternsFromViaTo);
-
         const data: RecursivePartial<TripData> = mapResultToTrips(
           {
             nextPageCursor: undefined,
