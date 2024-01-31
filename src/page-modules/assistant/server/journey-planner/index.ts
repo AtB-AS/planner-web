@@ -198,7 +198,6 @@ export function createJourneyApi(
         const tripPatternCombinationList = findTripPatternCombinationsList(
           tripPatternCombinations,
         );
-
         // Find trip patterns from-via and via-to destination.
         const tripPatternsFromVia = tripPatternsPerSegment[0].tripPatterns;
         const tripPatternsViaTo = tripPatternsPerSegment[1].tripPatterns;
@@ -209,6 +208,11 @@ export function createJourneyApi(
           tripPatternsFromVia,
           tripPatternsViaTo,
         );
+
+        console.log('tripPatternsCombinationList', tripPatternCombinationList);
+        console.log('tripPatternsFromVia', tripPatternsFromVia);
+        console.log('tripPatternsViaTo', tripPatternsViaTo);
+        console.log('tripPatternsFromViaTo', tripPatternsFromViaTo);
 
         const data: RecursivePartial<TripData> = mapResultToTrips(
           {
@@ -698,7 +702,7 @@ function mapAndFilterNotices(notices: GraphQlNotice[]): Notice[] {
   return filterNotices(mappedNotices);
 }
 
-function findTripPatternCombinationsList(
+export function findTripPatternCombinationsList(
   tripPatternCombinations: ViaTripsWithDetailsQuery['viaTrip']['tripPatternCombinations'],
 ): { from: number; to: number }[][] {
   return tripPatternCombinations.map((combinations) =>
@@ -709,7 +713,7 @@ function findTripPatternCombinationsList(
   );
 }
 
-function findTripPatternsFromViaTo(
+export function findTripPatternsFromViaTo(
   tripPatternCombinations: { from: number; to: number }[][],
   tripPatternsFromVia: ViaTripsQuery['viaTrip']['tripPatternsPerSegment'][0]['tripPatterns'],
   tripPatternsViaTo: ViaTripsQuery['viaTrip']['tripPatternsPerSegment'][0]['tripPatterns'],
@@ -731,7 +735,7 @@ function findTripPatternsFromViaTo(
   return tripPatterns;
 }
 
-function findTripPatternsFromViaToWithDetails(
+export function findTripPatternsFromViaToWithDetails(
   tripPatternCombinations: { from: number; to: number }[][],
   tripPatternsFromVia: ViaTripsWithDetailsQuery['viaTrip']['tripPatternsPerSegment'][0]['tripPatterns'],
   tripPatternsViaTo: ViaTripsWithDetailsQuery['viaTrip']['tripPatternsPerSegment'][0]['tripPatterns'],

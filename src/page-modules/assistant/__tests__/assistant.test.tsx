@@ -2,7 +2,12 @@ import { cleanup, render, screen, waitFor } from '@testing-library/react';
 import mockRouter from 'next-router-mock';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { ExternalClient } from '@atb/modules/api-server';
-import { JourneyPlannerApi } from '../server/journey-planner';
+import {
+  JourneyPlannerApi,
+  findTripPatternCombinationsList,
+  findTripPatternsFromViaTo,
+  findTripPatternsFromViaToWithDetails,
+} from '../server/journey-planner';
 import {
   AssistantContentProps,
   getServerSideProps,
@@ -16,7 +21,13 @@ import {
   fromFeature,
   nonTransitTripResult,
   toFeature,
+  tripPatternCombinationList,
+  tripPatternCombinations,
+  tripPatternsFromVia,
+  tripPatternsFromViaTo,
+  tripPatternsViaTo,
   tripResult,
+  viaFeature,
 } from './assistant-data.fixture';
 
 afterEach(function () {
@@ -174,5 +185,61 @@ describe('assistant page', function () {
       },
       { timeout: 5000 },
     );
+  });
+
+  it('should render empty search results with filter details', async () => {
+    const output = render(
+      <Trip
+        tripQuery={{
+          from: fromFeature,
+          to: toFeature,
+          via: viaFeature,
+          searchTime: { mode: 'departBy', dateTime: Date.now() },
+          transportModeFilter: ['bus'],
+          cursor: null,
+        }}
+      />,
+    );
+
+    await waitFor(
+      () => {
+        expect(
+          output.getByText('Prøv å justere på sted, filter eller tidspunkt.'),
+        ).toBeInTheDocument();
+      },
+      { timeout: 5000 },
+    );
+  });
+});
+
+describe('findTripPatternCombinationsList', () => {
+  it('should return the correct trip pattern combinations list', () => {
+    const result = findTripPatternCombinationsList(tripPatternCombinations);
+
+    expect(result).toEqual(tripPatternCombinationList);
+  });
+});
+
+describe('findTripPatternsFromViaTo', () => {
+  it('should return the correct trip patterns from via to', () => {
+    const result = findTripPatternsFromViaTo(
+      tripPatternCombinationList,
+      tripPatternsFromVia,
+      tripPatternsViaTo,
+    );
+
+    expect(result).toEqual(tripPatternsFromViaTo);
+  });
+});
+
+describe('findTripPatternsFromViaTo', () => {
+  it('should return the correct trip patterns from via to', () => {
+    const result = findTripPatternsFromViaToWithDetails(
+      tripPatternCombinationList,
+      tripPatternsFromVia,
+      tripPatternsViaTo,
+    );
+
+    expect(result).toEqual(tripPatternsFromViaTo);
   });
 });
