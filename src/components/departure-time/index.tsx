@@ -32,7 +32,6 @@ export function DepartureTime({
     expectedTime: expectedDepartureTime,
     missingRealTime: !realtime,
   });
-  console.log('\n\n\n', representationType, '\n\n\n');
   const scheduled = useTimeOrRelative(aimedDepartureTime, relativeTime);
   const expected = useTimeOrRelative(expectedDepartureTime, relativeTime);
 
