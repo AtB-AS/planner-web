@@ -17,11 +17,8 @@ import {
   SituationOrNoticeIcon,
 } from '@atb/modules/situations';
 import { formatQuayName, getSituationsToShowForCall } from './utils';
-import {
-  DecorationLine,
-  DepartureTime,
-  TripRow,
-} from '@atb/modules/trip-details';
+import { DecorationLine, TripRow } from '@atb/modules/trip-details';
+import { DepartureTime } from '@atb/components/departure-time';
 
 export type EstimatedCallRowsProps = {
   calls: EstimatedCallWithMetadata[];
