@@ -277,7 +277,7 @@ export function createJourneyApi(
       const tripQuery = parseTripQueryString(input);
       if (!tripQuery) return;
 
-      let formatedResult;
+      let formattedResult;
       if ('via' in tripQuery.query) {
         const result = await client.query<
           ViaTripsWithDetailsQuery,
@@ -313,7 +313,7 @@ export function createJourneyApi(
           tripPatternsViaTo,
         );
 
-        formatedResult = { trip: tripPatternsFromViaTo };
+        formattedResult = { trip: tripPatternsFromViaTo };
       } else {
         const result = await client.query<
           TripsWithDetailsQuery,
@@ -331,11 +331,11 @@ export function createJourneyApi(
           throw result.error || result.errors;
         }
 
-        formatedResult = { trip: result.data.trip.tripPatterns };
+        formattedResult = { trip: result.data.trip.tripPatterns };
       }
 
       // Find the trip pattern that matches the journey IDs in the query
-      const singleTripPattern = formatedResult.trip.find((pattern) => {
+      const singleTripPattern = formattedResult.trip.find((pattern) => {
         const journeyIds = extractServiceJourneyIds(pattern);
         if (journeyIds.length != tripQuery.journeyIds.length) return false; // Fast comparison
         return (
