@@ -86,7 +86,7 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
     setIsSwapping(false);
   };
 
-  const onClear = () => {
+  const onClearViaLocation = () => {
     tripQuery.via = null;
     setValuesWithLoading(tripQuery);
   };
@@ -219,7 +219,7 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
                         tripQuery.via && (
                           <ClearButton
                             className={style.searchInputButton}
-                            onClear={onClear}
+                            onClear={onClearViaLocation}
                           />
                         )
                       }
