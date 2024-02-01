@@ -109,6 +109,11 @@
   composes: input from search;
 }
 
+.search_input::placeholder {
+  color: var(--text-colors-secondary);
+  opacity: 1;
+}
+
 .search_inputLast {
   border-top-right-radius: 0.75rem;
   border-bottom-right-radius: 0.75rem;
