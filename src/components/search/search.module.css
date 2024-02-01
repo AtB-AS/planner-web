@@ -73,6 +73,8 @@
 
 .itemHighlighted {
   background-color: var(--interactive-interactive_2-active-background);
+  font-weight: bold;
+  font-style: italic;
 }
 
 .itemIcon {
