@@ -22,7 +22,7 @@ export type FromToTripQuery = {
   transportModeFilter: string[] | null;
   searchTime: SearchTime;
   cursor: string | null;
-  via: GeocoderFeature | null;
+  via?: GeocoderFeature | null;
 };
 
 export const TripQuerySchema = z.object({

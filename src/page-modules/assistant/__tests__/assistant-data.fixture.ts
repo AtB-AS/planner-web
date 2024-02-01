@@ -7,7 +7,6 @@ import {
   TransportSubmode,
 } from '@atb/modules/graphql-types/journeyplanner-types_v3.generated';
 import { ReportType } from '@atb/modules/graphql-types';
-import { ViaTripsWithDetailsQuery } from '../server/journey-planner/journey-gql/via-trip-with-details.generated';
 
 export const fromFeature: GeocoderFeature = {
   id: '638651',
