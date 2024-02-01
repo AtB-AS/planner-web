@@ -178,10 +178,6 @@ describe('assistant page', function () {
   });
 });
 
-vi.mock('./', () => ({
-  getServerSideProps: vi.fn(),
-}));
-
 describe('assistant page', function () {
   it('should add trip to trip cache', () => {
     const fromToTripQuery: FromToTripQuery = {
