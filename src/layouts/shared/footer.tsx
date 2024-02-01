@@ -27,7 +27,7 @@ export default function Footer({ withoutSettings = false }: FooterProps) {
             </h4>
 
             <ul className={style.footer__linkList}>
-              {urls.helpUrl ? (
+              {urls.helpUrl && (
                 <li>
                   <a
                     href={getConfigUrl(urls.helpUrl, language)}
@@ -40,7 +40,21 @@ export default function Footer({ withoutSettings = false }: FooterProps) {
                     )}
                   </a>
                 </li>
-              ) : null}
+              )}
+              {urls.ticketsUrl && (
+                <li>
+                  <a
+                    href={getConfigUrl(urls.ticketsUrl, language)}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {t(
+                      ModuleText.Layout.base.footer.sections.general
+                        .ticketPricesPageLink,
+                    )}
+                  </a>
+                </li>
+              )}
             </ul>
           </section>
 

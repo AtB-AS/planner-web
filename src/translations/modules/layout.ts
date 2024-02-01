@@ -13,6 +13,11 @@ export const LayoutInternal = {
             'Help for the travel planner',
             'Hjelp for reiseplanleggaren',
           ),
+          ticketPricesPageLink: _(
+            'Billetter og priser',
+            'Tickets and prices',
+            'Billettar og prisar',
+          ),
         },
         contact: {
           header: _('Kontakt AtB', 'Contact AtB', 'Kontakt AtB'),

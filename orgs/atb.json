@@ -29,6 +29,11 @@
     "homePageUrl": {
       "name": "atb.no",
       "href": "https://atb.no/"
+    },
+    "ticketsUrl": {
+      "en-US": "https://www.atb.no/en/fares/",
+      "no": "https://www.atb.no/priser/",
+      "default": "https://www.atb.no/priser/"
     }
   },
   "journeyApiConfigurations": {

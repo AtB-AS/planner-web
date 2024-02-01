@@ -39,6 +39,7 @@ export type OrgData = {
       name: string;
       href: string;
     };
+    ticketsUrl?: TranslatableUrl;
   };
   journeyApiConfigurations: {
     waitReluctance?: number;
