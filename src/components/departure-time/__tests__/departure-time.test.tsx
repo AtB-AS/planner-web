@@ -1,9 +1,13 @@
 import { cleanup, render } from '@testing-library/react';
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { DepartureTime } from '../';
+import { addMinutes } from 'date-fns';
+import { formatLocaleTime } from '@atb/utils/date';
+import { Language } from '@atb/translations';
 
 afterEach(function () {
   cleanup();
+  vi.useRealTimers();
 });
 
 describe('departure time component', function () {
@@ -73,5 +77,69 @@ describe('departure time component', function () {
       'Avgangen fra denne holdeplassen er kansellert',
     );
     expect(output.queryByLabelText('Sanntid 12:05')).toBeNull();
+  });
+
+  it('should show relative time if activated', () => {
+    const data = new Date().toISOString();
+    const output = render(
+      <DepartureTime
+        aimedDepartureTime={data}
+        expectedDepartureTime={data}
+        relativeTime
+      />,
+    );
+
+    expect(output.getByLabelText('Rutetid Nå')).toBeInTheDocument();
+  });
+
+  it.each([[5], [6], [7]])(
+    'should show relative time if activated, and difference between realtime and aimed for delay %i',
+    (delayInMinutes) => {
+      const now = new Date();
+      vi.useFakeTimers();
+      vi.setSystemTime(new Date());
+
+      const output = render(
+        <DepartureTime
+          aimedDepartureTime={now.toISOString()}
+          expectedDepartureTime={addMinutes(now, delayInMinutes).toISOString()}
+          relativeTime
+          realtime
+        />,
+      );
+
+      const expectedLabel = `Rutetid Nå`;
+
+      expect(output.getByLabelText(expectedLabel)).toBeInTheDocument();
+      expect(output.getByLabelText(expectedLabel)).toHaveClass(
+        'typo-body__tertiary--strike',
+      );
+      expect(
+        output.getByLabelText(`Sanntid ${delayInMinutes} min`),
+      ).toBeInTheDocument();
+    },
+  );
+
+  it('should show clock if in past', () => {
+    const now = new Date();
+    vi.useFakeTimers();
+
+    // Set time 1 minute in the future (making present time in past :o )
+    vi.setSystemTime(addMinutes(new Date(), 1));
+
+    const output = render(
+      <DepartureTime
+        aimedDepartureTime={now.toISOString()}
+        expectedDepartureTime={now.toISOString()}
+        relativeTime
+      />,
+    );
+
+    const expectedLabel = `Rutetid ${formatLocaleTime(
+      now,
+      Language.Norwegian,
+    )}`;
+
+    expect(output.getByLabelText(expectedLabel)).toBeInTheDocument();
   });
 });
