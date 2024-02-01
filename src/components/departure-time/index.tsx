@@ -1,4 +1,8 @@
-import { Typo } from '@atb/components/typography';
+import {
+  Typo,
+  BaseTypographyProps,
+  screenReaderPause,
+} from '@atb/components/typography';
 import { getTimeRepresentationType } from '@atb/modules/time-representation';
 import { ComponentText, useTranslation } from '@atb/translations';
 import dictionary from '@atb/translations/dictionary';
@@ -31,61 +35,87 @@ export function DepartureTime({
     aimedTime: aimedDepartureTime,
     expectedTime: expectedDepartureTime,
     missingRealTime: !realtime,
+    cancelled: cancelled,
   });
   const scheduled = useTimeOrRelative(aimedDepartureTime, relativeTime);
   const expected = useTimeOrRelative(expectedDepartureTime, relativeTime);
 
   switch (representationType) {
+    case 'no-realtime-or-cancelled': {
+      return (
+        <TimeContainer
+          time={scheduled}
+          cancelled={cancelled}
+          prefix="aimedPrefix"
+        />
+      );
+    }
     case 'significant-difference': {
+      // TimeContainer isn't needed for cancelled since
+      // all cancelled departures are without realtime.
+      // But using to make it consistent.
       return (
         <div className={style.significantDifferenceContainer}>
           <div className={style.significantDifference}>
-            <Typo.p
-              className={cancelled ? style.textColor__secondary : ''}
-              textType={cancelled ? 'body__primary--strike' : 'body__primary'}
-              aria-label={`${t(
-                ComponentText.DepartureTime.time.expectedPrefix,
-              )} ${expected}`}
-            >
-              {expected}
-            </Typo.p>
+            <TimeContainer
+              time={expected}
+              cancelled={cancelled}
+              prefix="expectedPrefix"
+            />
           </div>
+
           <Typo.p
-            textType="body__tertiary"
+            textType="body__tertiary--strike"
             color="secondary"
             aria-label={`${t(
               ComponentText.DepartureTime.time.aimedPrefix,
             )} ${scheduled}`}
-            style={{ textDecorationLine: 'line-through' }}
           >
             {scheduled}
           </Typo.p>
         </div>
       );
     }
-    case 'no-realtime': {
-      return (
-        <Typo.p
-          className={cancelled ? style.textColor__secondary : ''}
-          textType={cancelled ? 'body__primary--strike' : 'body__primary'}
-        >
-          {scheduled}
-        </Typo.p>
-      );
-    }
     case 'no-significant-difference': {
       return (
         <div className={style.expectedContainer}>
-          <Typo.p
-            className={cancelled ? style.textColor__secondary : ''}
-            textType={cancelled ? 'body__primary--strike' : 'body__primary'}
-          >
-            {expected}
-          </Typo.p>
+          <TimeContainer
+            time={expected}
+            cancelled={cancelled}
+            prefix={realtime ? 'expectedPrefix' : 'aimedPrefix'}
+          />
         </div>
       );
     }
   }
+}
+
+function TimeContainer({
+  time,
+  cancelled,
+  prefix,
+  ...props
+}: {
+  cancelled: boolean;
+  time: string;
+  prefix: keyof typeof ComponentText.DepartureTime.time;
+} & Omit<BaseTypographyProps<'p'>, 'textType'>) {
+  const { t } = useTranslation();
+
+  return (
+    <Typo.p
+      className={cancelled ? style.textColor__secondary : ''}
+      textType={cancelled ? 'body__primary--strike' : 'body__primary'}
+      aria-label={
+        cancelled
+          ? `${screenReaderPause} ${t(ComponentText.DepartureTime.cancelled)}`
+          : `${t(ComponentText.DepartureTime.time[prefix])} ${time}`
+      }
+      {...props}
+    >
+      {time}
+    </Typo.p>
+  );
 }
 
 function useTimeOrRelative(time: string, relative: boolean) {

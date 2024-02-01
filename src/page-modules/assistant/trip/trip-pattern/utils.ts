@@ -202,6 +202,7 @@ function isSignificantDifference(leg: Leg) {
       missingRealTime: !leg.realtime,
       aimedTime: leg.aimedStartTime,
       expectedTime: leg.expectedStartTime,
+      cancelled: leg.fromEstimatedCall?.cancellation ?? false,
     }) === 'significant-difference'
   );
 }
