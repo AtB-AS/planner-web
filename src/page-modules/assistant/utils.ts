@@ -1,13 +1,7 @@
 import type { SearchMode } from '@atb/modules/search-time';
 import { searchTimeToQueryString } from '@atb/modules/search-time';
 import { GeocoderFeature } from '@atb/page-modules/departures';
-import {
-  FromToTripQuery,
-  TripData,
-  TripInput,
-  TripQuery,
-  TripQuerySchema,
-} from './types';
+import { FromToTripQuery, TripData, TripQuery, TripQuerySchema } from './types';
 
 export function filterOutDuplicates(
   arrayToFilter: TripData['tripPatterns'],
@@ -77,7 +71,7 @@ export function createTripQuery(tripQuery: FromToTripQuery): TripQuery {
   const fromToQuery = featuresToFromToQuery(
     tripQuery.from,
     tripQuery.to,
-    tripQuery.via,
+    tripQuery.via ? tripQuery.via : null,
   );
 
   return {
