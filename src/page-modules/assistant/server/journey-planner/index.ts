@@ -3,6 +3,7 @@ import {
   StreetMode,
   TransportModes as GraphQlTransportModes,
   Notice as GraphQlNotice,
+  ViaSegmentInput,
 } from '@atb/modules/graphql-types';
 import {
   TripsDocument,
@@ -173,35 +174,9 @@ export function createJourneyApi(
           ? new Date(input.searchTime.dateTime)
           : new Date();
 
-      console.log('journeyModes: ', journeyModes);
-      console.log('journeyModes.transportModes: ', journeyModes.transportModes);
-
       if (input.via) {
-        const segments = [
-          {
-            filters: [
-              {
-                select: [
-                  {
-                    transportModes: [{ transportMode: 'water' }],
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            filters: [
-              {
-                select: [
-                  {
-                    transportModes: [{ transportMode: 'bus' }],
-                  },
-                ],
-              },
-            ],
-          },
-        ];
         const via = inputToViaLocation(input);
+        const segments = setFilterSegments(journeyModes.transportModes);
         const queryVariables = {
           from,
           to,
@@ -220,9 +195,6 @@ export function createJourneyApi(
           query: ViaTripsDocument,
           variables: queryVariables,
         });
-
-        console.log('queryVariables: ', queryVariables);
-        console.log('Result: ', result);
 
         if (result.error || result.errors) {
           throw result.error || result.errors;
@@ -738,6 +710,17 @@ function mapAndFilterNotices(notices: GraphQlNotice[]): Notice[] {
     .filter((n) => n) as Notice[];
 
   return filterNotices(mappedNotices);
+}
+
+export function setFilterSegments(transportModes: GraphQlTransportModes[]) {
+  return [
+    {
+      filters: [{ select: [{ transportModes: transportModes }] }],
+    },
+    {
+      filters: [{ select: [{ transportModes: transportModes }] }],
+    },
+  ];
 }
 
 export function findTripPatternCombinationsList(
