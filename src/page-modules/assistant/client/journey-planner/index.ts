@@ -7,7 +7,7 @@ import {
 } from '../../types';
 import { swrFetcher } from '@atb/modules/api-browser';
 import useSWRInfinite from 'swr/infinite';
-import { createTripQuery } from '../../utils';
+import { createTripQuery, tripQueryToQueryString } from '../../utils';
 import { useEffect, useState } from 'react';
 
 const MAX_NUMBER_OF_INITIAL_SEARCH_ATTEMPTS = 3;
@@ -32,14 +32,19 @@ function createKeyGetterOfQuery(query: TripQuery) {
   };
 }
 
-export function useTripPatterns(tripQuery: FromToTripQuery) {
+export function useTripPatterns(
+  tripQuery: FromToTripQuery,
+  fallback?: TripData,
+) {
   const [numberOfTripPatterns, setNumberOfTripPatterns] = useState(0);
   const query = createTripQuery(tripQuery);
   const { data, error, isLoading, isValidating, size, setSize } =
     useSWRInfinite<TripApiReturnType>(
       createKeyGetterOfQuery(query),
       swrFetcher,
-      {},
+      {
+        fallbackData: fallback ? ([fallback] as TripData[]) : undefined,
+      },
     );
 
   useEffect(() => {
@@ -91,15 +96,4 @@ export function useNonTransitTrip(tripQuery: FromToTripQuery) {
     isLoading,
     isError: Boolean(error),
   };
-}
-
-function tripQueryToQueryString(input: TripQuery): string {
-  return Object.keys(input)
-    .map(
-      (key) =>
-        encodeURIComponent(key) +
-        '=' +
-        encodeURIComponent(String(input[key as keyof TripQuery])),
-    )
-    .join('&');
 }

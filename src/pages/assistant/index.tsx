@@ -9,6 +9,7 @@ import {
   type TripProps,
 } from '@atb/page-modules/assistant';
 import { withAssistantClient } from '@atb/page-modules/assistant/server';
+import { getAssistantTripIfCached } from '@atb/page-modules/assistant/server/trip-cache';
 import type { NextPage } from 'next';
 
 export type AssistantContentProps =
@@ -47,6 +48,17 @@ export const getServerSideProps = withGlobalData(
           props: {
             tripQuery,
             empty: true,
+          },
+        };
+      }
+
+      const potential = getAssistantTripIfCached(tripQuery);
+
+      if (potential) {
+        return {
+          props: {
+            tripQuery,
+            fallback: potential,
           },
         };
       }

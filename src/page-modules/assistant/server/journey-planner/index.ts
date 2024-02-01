@@ -20,6 +20,7 @@ import {
   tripSchema,
 } from './validators';
 import type {
+  FromToTripQuery,
   NonTransitData,
   NonTransitTripData,
   NonTransitTripInput,
@@ -44,6 +45,10 @@ import { mapToMapLegs } from '@atb/components/map';
 import { getOrgData } from '@atb/modules/org-data';
 
 const { journeyApiConfigurations } = getOrgData();
+import {
+  addAssistantTripToCache,
+  getAssistantTripIfCached,
+} from '../trip-cache';
 
 const DEFAULT_JOURNEY_CONFIG = {
   numTripPatterns: 8, // The maximum number of trip patterns to return.
@@ -168,6 +173,10 @@ export function createJourneyApi(
         ...DEFAULT_JOURNEY_CONFIG,
       };
 
+      const potential = getAssistantTripIfCached(input as FromToTripQuery);
+
+      if (potential) return potential;
+
       const result = await client.query<TripsQuery, TripsQueryVariables>({
         query: TripsDocument,
         variables: queryVariables,
@@ -186,6 +195,8 @@ export function createJourneyApi(
       if (!validated.success) {
         throw validated.error;
       }
+
+      addAssistantTripToCache(input as FromToTripQuery, validated.data);
 
       return validated.data;
     },
