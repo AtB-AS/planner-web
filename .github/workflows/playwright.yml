@@ -23,6 +23,8 @@ jobs:
         run: yarn playwright install --with-deps
       - name: Run Playwright tests
         run: yarn playwright test
+        env:
+          NEXT_PUBLIC_PLANNER_ORG_ID: atb
       - uses: actions/upload-artifact@v3
         if: always()
         with:
