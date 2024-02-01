@@ -28,6 +28,11 @@
     "homePageUrl": {
       "name": "reisnordland.no",
       "href": "https://www.reisnordland.no/"
+    },
+    "ticketsUrl": {
+      "en-US": "https://www.reisnordland.com/prices-bus",
+      "no": "https://www.reisnordland.no/priser-pa-buss",
+      "default": "https://www.reisnordland.no/priser-pa-buss"
     }
   },
   "journeyApiConfigurations": {
