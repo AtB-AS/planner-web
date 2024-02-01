@@ -43,7 +43,7 @@ export function useTripPatterns(
       createKeyGetterOfQuery(query),
       swrFetcher,
       {
-        fallbackData: [fallback] as TripData[],
+        fallbackData: fallback ? ([fallback] as TripData[]) : undefined,
       },
     );
 
