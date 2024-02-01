@@ -117,10 +117,6 @@ export const Departures = {
       ),
     onTime: _(`I rute`, `On time`, `I rute`),
     notOnTime: _(`Etter rutetid`, `Behind scheduled time`, `Etter rutetid`),
-    time: {
-      aimedPrefix: _('Rutetid', 'Route time', `Rutetid`),
-      expectedPrefix: _('Sanntid', 'Realtime', `Sanntid`),
-    },
     collapse: {
       label: (numberStops: number) =>
         _(

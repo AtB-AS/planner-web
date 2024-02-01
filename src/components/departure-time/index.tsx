@@ -1,6 +1,6 @@
 import { Typo } from '@atb/components/typography';
 import { getTimeRepresentationType } from '@atb/modules/time-representation';
-import { PageText, useTranslation } from '@atb/translations';
+import { ComponentText, useTranslation } from '@atb/translations';
 import dictionary from '@atb/translations/dictionary';
 import {
   formatSimpleTime,
@@ -44,7 +44,7 @@ export function DepartureTime({
               className={cancelled ? style.textColor__secondary : ''}
               textType={cancelled ? 'body__primary--strike' : 'body__primary'}
               aria-label={`${t(
-                PageText.Departures.details.time.expectedPrefix,
+                ComponentText.DepartureTime.time.expectedPrefix,
               )} ${expected}`}
             >
               {expected}
@@ -54,7 +54,7 @@ export function DepartureTime({
             textType="body__tertiary"
             color="secondary"
             aria-label={`${t(
-              PageText.Departures.details.time.aimedPrefix,
+              ComponentText.DepartureTime.time.aimedPrefix,
             )} ${scheduled}`}
             style={{ textDecorationLine: 'line-through' }}
           >
