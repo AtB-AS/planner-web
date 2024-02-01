@@ -232,8 +232,6 @@
 }
 .button:focus {
   outline: 0;
-  box-shadow: inset 0 0 0 var(--border-width-medium)
-    var(--interactive-interactive_0-outline-background);
 }
 
 /* Autocomplete */
@@ -250,6 +248,8 @@
 .listItem[aria-selected='true'],
 .listItem:hover {
   background-color: var(--interactive-interactive_2-active-background);
+  font-weight: bold;
+  font-style: italic;
 }
 
 .itemIcon {
