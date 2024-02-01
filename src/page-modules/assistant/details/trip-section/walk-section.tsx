@@ -17,7 +17,9 @@ export default function WalkSection({ walkDuration }: WalkSectionProps) {
     walkDuration > MIN_SIGNIFICANT_WALK_IN_SECONDS;
   return (
     <TripRow
-      rowLabel={<TransportIcon mode={{ transportMode: 'foot' }} size="small" />}
+      rowLabel={
+        <TransportIcon mode={{ transportMode: 'foot' }} size="xSmall" />
+      }
     >
       <Typo.p textType="body__secondary" className={style.walkTime}>
         {isWalkTimeOfSignificance

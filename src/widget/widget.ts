@@ -448,12 +448,11 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
             <input
               type="radio"
               name="${prefix}-searchTimeSelector"
-              aria-labelledby="${prefix}-now"
               class="${style.selector_option__input}"
               value="now"
               checked=""
             />
-            <span aria-hidden="true" class="${style.selector_option__label}">
+            <span class="${style.selector_option__label}">
               <span class="${style.selector_option__text}" id="${prefix}-now">
                 ${texts.searchTime.now}
               </span>
@@ -463,11 +462,10 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
             <input
               type="radio"
               name="${prefix}-searchTimeSelector"
-              aria-labelledby="${prefix}-depart"
               class="${style.selector_option__input}"
               value="departBy"
             />
-            <span aria-hidden="true" class="${style.selector_option__label}">
+            <span class="${style.selector_option__label}">
               <span
                 class="${style.selector_option__text}"
                 id="${prefix}-depart"
@@ -482,14 +480,10 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
                   <input
                     type="radio"
                     name="${prefix}-searchTimeSelector"
-                    aria-labelledby="${prefix}-arrival"
                     class="${style.selector_option__input}"
                     value="arriveBy"
                   />
-                  <span
-                    aria-hidden="true"
-                    class="${style.selector_option__label}"
-                  >
+                  <span class="${style.selector_option__label}">
                     <span
                       class="${style.selector_option__text}"
                       id="${prefix}-arrival"
@@ -552,15 +546,14 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
             </label>
             <div
               class="${style.search_inputContainer}"
-              aria-expanded="false"
               aria-haspopup="listbox"
               aria-labelledby="pw-from-1-label"
             >
               <pw-autocomplete for="from-popup-1">
                 <input
                   class="${style.search_input}"
+                  aria-expanded="false"
                   aria-autocomplete="list"
-                  aria-labelledby="pw-from-1-label"
                   autocomplete="off"
                   id="pw-from-1-input"
                   name="from"
@@ -604,15 +597,14 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
             </label>
             <div
               class="${style.search_inputContainer}"
-              aria-expanded="false"
               aria-haspopup="listbox"
               aria-labelledby="pw-to-1-label"
             >
               <pw-autocomplete for="to-popup-1">
                 <input
                   class="${style.search_input} ${style.search_inputLast}"
+                  aria-expanded="false"
                   aria-autocomplete="list"
-                  aria-labelledby="pw-to-1-label"
                   autocomplete="off"
                   id="pw-to-1-input"
                   name="to"

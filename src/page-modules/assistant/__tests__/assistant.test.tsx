@@ -28,6 +28,11 @@ import {
   tripResult,
   viaFeature,
 } from './assistant-data.fixture';
+import {
+  addAssistantTripToCache,
+  getAssistantTripIfCached,
+} from '../server/trip-cache';
+import { FromToTripQuery } from '../types';
 
 afterEach(function () {
   cleanup();
@@ -208,6 +213,122 @@ describe('assistant page', function () {
       },
       { timeout: 5000 },
     );
+  });
+});
+
+describe('assistant page', function () {
+  it('should add trip to trip cache', () => {
+    const fromToTripQuery: FromToTripQuery = {
+      from: fromFeature,
+      to: toFeature,
+      searchTime: {
+        mode: 'departBy',
+        dateTime: 123,
+      },
+      transportModeFilter: null,
+      cursor: null,
+    };
+
+    addAssistantTripToCache(fromToTripQuery, tripResult);
+
+    const cachedTrip = getAssistantTripIfCached(fromToTripQuery);
+
+    expect(cachedTrip).toEqual(tripResult);
+  });
+
+  it('should not find trip in cache with different query', () => {
+    const fromToTripQuery1: FromToTripQuery = {
+      from: fromFeature,
+      to: toFeature,
+      searchTime: {
+        mode: 'departBy',
+        dateTime: 123,
+      },
+      transportModeFilter: null,
+      cursor: null,
+    };
+    const fromToTripQuery2: FromToTripQuery = {
+      from: fromFeature,
+      to: toFeature,
+      searchTime: {
+        mode: 'arriveBy',
+        dateTime: 321,
+      },
+      transportModeFilter: null,
+      cursor: null,
+    };
+
+    addAssistantTripToCache(fromToTripQuery1, tripResult);
+
+    const cachedTrip = getAssistantTripIfCached(fromToTripQuery2);
+
+    expect(cachedTrip).toBeUndefined();
+  });
+
+  it('should add trip to fallback prop if it exists in the cache', async () => {
+    await mockRouter.push('/assistant');
+
+    const cachedFromToTripQuery: FromToTripQuery = {
+      from: fromFeature,
+      to: toFeature,
+      searchTime: {
+        mode: 'departBy',
+        dateTime: 123,
+      },
+      transportModeFilter: null,
+      cursor: null,
+    };
+
+    addAssistantTripToCache(cachedFromToTripQuery, tripResult);
+
+    const gqlClient: ExternalClient<
+      'graphql-journeyPlanner3' | 'http-entur',
+      GeocoderApi & JourneyPlannerApi
+    > = {
+      async trip() {
+        return tripResult;
+      },
+      async nonTransitTrips() {
+        return nonTransitTripResult;
+      },
+      async autocomplete() {
+        return {} as any;
+      },
+      async reverse(lat, lon, layers) {
+        if (layers === 'address') return fromFeature;
+        else return toFeature;
+      },
+      async singleTrip() {
+        return {} as any;
+      },
+      client: null as any,
+    };
+
+    const context = {
+      params: {},
+      query: {
+        fromId: '638651',
+        fromLon: 10.4560389,
+        fromLat: 63.4266611,
+        fromLayer: 'address',
+        toId: 'NSR:StopPlace:43984',
+        toLon: 10.358037,
+        toLat: 63.398886,
+        toLayer: 'venue',
+        searchMode: 'departBy',
+        searchTime: 123,
+      },
+    };
+
+    const result = await getServerSideProps({
+      client: gqlClient,
+      ...context,
+    } as any);
+
+    (await expectProps(result)).toMatchObject<AssistantContentProps>({
+      tripQuery: cachedFromToTripQuery,
+      fallback: tripResult,
+    });
   });
 });
 
