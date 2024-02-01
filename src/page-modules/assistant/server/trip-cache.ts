@@ -6,7 +6,7 @@ let tripCache: TTLCache<string, TripData> | null = null;
 
 function getTripCacheInstance(): TTLCache<string, TripData> {
   if (!tripCache) {
-    tripCache = new TTLCache({ ttl: 120000 });
+    tripCache = new TTLCache({ ttl: 20000 });
   }
 
   return tripCache;
