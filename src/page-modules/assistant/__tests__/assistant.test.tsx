@@ -6,7 +6,6 @@ import {
   JourneyPlannerApi,
   findTripPatternCombinationsList,
   findTripPatternsFromViaTo,
-  findTripPatternsFromViaToWithDetails,
 } from '../server/journey-planner';
 import {
   AssistantContentProps,
@@ -223,18 +222,6 @@ describe('findTripPatternCombinationsList', () => {
 describe('findTripPatternsFromViaTo', () => {
   it('should return the correct trip patterns from via to', () => {
     const result = findTripPatternsFromViaTo(
-      tripPatternCombinationList,
-      tripPatternsFromVia,
-      tripPatternsViaTo,
-    );
-
-    expect(result).toEqual(tripPatternsFromViaTo);
-  });
-});
-
-describe('findTripPatternsFromViaTo', () => {
-  it('should return the correct trip patterns from via to', () => {
-    const result = findTripPatternsFromViaToWithDetails(
       tripPatternCombinationList,
       tripPatternsFromVia,
       tripPatternsViaTo,

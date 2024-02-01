@@ -52,6 +52,7 @@ import {
   ViaTripsDocument,
   ViaTripsQueryVariables,
 } from './journey-gql/via-trip.generated';
+import { TransportMode } from '@atb/translations/components';
 
 const { journeyApiConfigurations } = getOrgData();
 
@@ -167,13 +168,41 @@ export function createJourneyApi(
           ? new Date(input.searchTime.dateTime)
           : new Date();
 
+      console.log('journeyModes: ', journeyModes);
+      console.log('journeyModes.transportModes: ', journeyModes.transportModes);
+
       if (input.via) {
+        const segments = [
+          {
+            filters: [
+              {
+                select: [
+                  {
+                    transportModes: [{ transportMode: 'water' }],
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            filters: [
+              {
+                select: [
+                  {
+                    transportModes: [{ transportMode: 'bus' }],
+                  },
+                ],
+              },
+            ],
+          },
+        ];
         const via = inputToViaLocation(input);
         const queryVariables = {
           from,
           to,
           via,
           when,
+          segments,
           modes: journeyModes,
           cursor: input.cursor,
           ...DEFAULT_JOURNEY_CONFIG,
@@ -186,6 +215,9 @@ export function createJourneyApi(
           query: ViaTripsDocument,
           variables: queryVariables,
         });
+
+        console.log('queryVariables: ', queryVariables);
+        console.log('Result: ', result);
 
         if (result.error || result.errors) {
           throw result.error || result.errors;
@@ -489,7 +521,7 @@ function inputToViaLocation(input: TripInput) {
     },
     name: input.via.name,
     minSlack: 'PT120S',
-    maxSlack: 'PT2H',
+    maxSlack: 'PT9H',
   };
 }
 

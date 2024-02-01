@@ -3,6 +3,7 @@ query ViaTrips(
   $to: Location!
   $when: DateTime
   $via: [ViaLocationInput!]!
+  $segments: [ViaSegmentInput!]
 ) {
   viaTrip(
     from: $from
@@ -10,6 +11,7 @@ query ViaTrips(
     searchWindow: "PT9H"
     dateTime: $when
     via: $via
+    segments: $segments
   ) {
     ...viaTrip
   }
