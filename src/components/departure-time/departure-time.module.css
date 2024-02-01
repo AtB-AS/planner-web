@@ -11,3 +11,10 @@
   display: flex;
   align-items: center;
 }
+
+.timeContainer {
+  display: flex;
+  gap: var(--spacings-xSmall);
+  align-items: center;
+  white-space: nowrap;
+}

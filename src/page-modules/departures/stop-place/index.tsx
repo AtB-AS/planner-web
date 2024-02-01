@@ -228,7 +228,8 @@ export function EstimatedCallItem({
           expectedDepartureTime={departure.expectedDepartureTime}
           aimedDepartureTime={departure.aimedDepartureTime}
           relativeTime
-          realtime
+          realtime={departure.realtime}
+          withRealtimeIndicator
         />
       </Link>
     </li>
