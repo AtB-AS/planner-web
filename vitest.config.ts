@@ -10,6 +10,7 @@ export default defineConfig({
     globalSetup: './src/tests/global-setup.ts',
     setupFiles: './src/tests/setup.ts',
     environment: 'happy-dom',
+    exclude: ['e2e-tests/**', '**/node_modules/**'],
   },
   resolve: {
     alias: {
