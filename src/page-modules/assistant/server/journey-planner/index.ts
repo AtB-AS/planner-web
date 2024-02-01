@@ -3,7 +3,6 @@ import {
   StreetMode,
   TransportModes as GraphQlTransportModes,
   Notice as GraphQlNotice,
-  ViaSegmentInput,
 } from '@atb/modules/graphql-types';
 import {
   TripsDocument,
@@ -54,7 +53,6 @@ import {
   ViaTripsDocument,
   ViaTripsQueryVariables,
 } from './journey-gql/via-trip.generated';
-import { TransportMode } from '@atb/translations/components';
 
 const { journeyApiConfigurations } = getOrgData();
 import {
