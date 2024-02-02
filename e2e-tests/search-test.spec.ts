@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test('test', async ({ page }) => {
-  await page.goto('http://localhost:3000/');
+  await page.goto(process.env.E2E_URL ?? 'http://localhost:3000');
   await page.getByRole('textbox', { name: 'From' }).click();
   await page.getByRole('textbox', { name: 'From' }).fill('Kristiansund');
   await page.getByRole('option', { name: 'Kristiansund Kristiansund' }).click();

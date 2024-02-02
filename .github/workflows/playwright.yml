@@ -9,33 +9,19 @@ jobs:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - name: Waiting for 200 from the Vercel Preview
+        uses: patrickedqvist/wait-for-vercel-preview@v1.3.1
+        id: waitFor200
         with:
-          node-version: 20
-          cache: 'yarn'
-      - run: yarn
-      - run: yarn generate
-      - run: yarn setup
-        env:
-          NEXT_PUBLIC_PLANNER_ORG_ID: atb
+          token: ${{ secrets.GITHUB_TOKEN }}
+          max_timeout: 60
       - name: Install Playwright Browsers
         run: yarn playwright install --with-deps
       - name: Run Playwright tests
         run: yarn playwright test
         env:
           NEXT_PUBLIC_PLANNER_ORG_ID: atb
-          NEXT_PUBLIC_MAPBOX_API_TOKEN: ${{ vars.NEXT_PUBLIC_MAPBOX_API_TOKEN }}
-          NEXT_PUBLIC_MAPBOX_STOP_PLACES_STYLE_URL:
-            ${{ vars.NEXT_PUBLIC_MAPBOX_STOP_PLACES_STYLE_URL }}
-          NEXT_PUBLIC_MAPBOX_DEFAULT_LAT:
-            ${{ vars.NEXT_PUBLIC_MAPBOX_DEFAULT_LAT }}
-          NEXT_PUBLIC_MAPBOX_DEFAULT_LNG:
-            ${{ vars.NEXT_PUBLIC_MAPBOX_DEFAULT_LNG }}
-          NEXT_PUBLIC_FIREBASE_PUBLIC_API_KEY: ${{vars.NEXT_PUBLIC_FIREBASE_PUBLIC_API_KEY}}
-          NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: ${{vars.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN}}
-          NEXT_PUBLIC_FIREBASE_PROJECT_ID: ${{vars.NEXT_PUBLIC_FIREBASE_PROJECT_ID}}
-          NEXT_PUBLIC_FIREBASE_APP_ID: ${{vars.NEXT_PUBLIC_FIREBASE_APP_ID}}
+          E2E_URL: ${{ steps.waitFor200.outputs.url }}
 
       - uses: actions/upload-artifact@v3
         if: always()
