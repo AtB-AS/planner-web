@@ -165,7 +165,6 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
             <Typo.p textType="body__primary--bold" className={style.heading}>
               {t(PageText.Assistant.search.date.label)}
             </Typo.p>
-
             <SearchTimeSelector
               initialState={searchTime}
               onChange={setSearchTime}
