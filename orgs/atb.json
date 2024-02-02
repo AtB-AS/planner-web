@@ -37,10 +37,10 @@
     }
   },
   "journeyApiConfigurations": {
-    "waitReluctance": 1.5,
-    "walkingReluctance": 1.5,
+    "waitReluctance": 1.0,
+    "walkingReluctance": 4.0,
     "walkingSpeed": 1.3,
-    "transferPenalty": 10,
+    "transferPenalty": 0,
     "transferSlack": 120
   }
 }
