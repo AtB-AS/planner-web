@@ -105,9 +105,8 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
       setValuesWithLoading({ transportModeFilter }, true),
     500,
   );
-  const onViaSelected = async (via: GeocoderFeature) => {
+  const onViaSelected = async (via: GeocoderFeature) =>
     setValuesWithLoading({ via });
-  };
 
   const { urls } = getOrgData();
 
