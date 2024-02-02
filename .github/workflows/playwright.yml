@@ -25,6 +25,18 @@ jobs:
         run: yarn playwright test
         env:
           NEXT_PUBLIC_PLANNER_ORG_ID: atb
+          NEXT_PUBLIC_MAPBOX_API_TOKEN: ${{ vars.NEXT_PUBLIC_MAPBOX_API_TOKEN }}
+          NEXT_PUBLIC_MAPBOX_STOP_PLACES_STYLE_URL:
+            ${{ vars.NEXT_PUBLIC_MAPBOX_STOP_PLACES_STYLE_URL }}
+          NEXT_PUBLIC_MAPBOX_DEFAULT_LAT:
+            ${{ vars.NEXT_PUBLIC_MAPBOX_DEFAULT_LAT }}
+          NEXT_PUBLIC_MAPBOX_DEFAULT_LNG:
+            ${{ vars.NEXT_PUBLIC_MAPBOX_DEFAULT_LNG }}
+          NEXT_PUBLIC_FIREBASE_PUBLIC_API_KEY: ${{vars.NEXT_PUBLIC_FIREBASE_PUBLIC_API_KEY}}
+          NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: ${{vars.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN}}
+          NEXT_PUBLIC_FIREBASE_PROJECT_ID: ${{vars.NEXT_PUBLIC_FIREBASE_PROJECT_ID}}
+          NEXT_PUBLIC_FIREBASE_APP_ID: ${{vars.NEXT_PUBLIC_FIREBASE_APP_ID}}
+
       - uses: actions/upload-artifact@v3
         if: always()
         with:
