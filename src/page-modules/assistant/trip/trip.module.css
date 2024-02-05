@@ -24,3 +24,12 @@
   align-self: center;
   margin-top: var(--spacings-xLarge);
 }
+
+.disabledButtonContainer {
+  align-self: center;
+  margin-top: var(--spacings-xLarge);
+}
+
+.disabledButton {
+  align-self: center;
+}
