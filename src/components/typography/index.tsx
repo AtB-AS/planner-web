@@ -42,3 +42,5 @@ export const Typo = {
   h2: createConstructor('h2'),
   h3: createConstructor('h3'),
 };
+
+export { screenReaderPause } from './utils';

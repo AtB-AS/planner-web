@@ -35,6 +35,7 @@ export function DeparturesDetails({
       aimedDepartureTime: c.aimedDepartureTime,
       quayName: c.quay.name,
       realtime: c.realtime,
+      cancelled: c.cancellation,
     })),
   );
 

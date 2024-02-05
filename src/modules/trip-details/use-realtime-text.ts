@@ -8,6 +8,7 @@ type RealtimeData = {
   aimedDepartureTime: string;
   quayName?: string;
   realtime: boolean;
+  cancelled: boolean;
 };
 
 export default function useRealtimeText(realtimeData: RealtimeData[]) {
@@ -48,6 +49,7 @@ export default function useRealtimeText(realtimeData: RealtimeData[]) {
     missingRealTime: !firstStop?.realtime,
     aimedTime: firstStop?.aimedDepartureTime,
     expectedTime: firstStop?.expectedDepartureTime,
+    cancelled: firstStop?.cancelled ?? false,
   });
   switch (timeRepType) {
     case 'no-significant-difference':

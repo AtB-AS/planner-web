@@ -28,6 +28,7 @@ export const departureSchema = z.object({
   aimedDepartureTime: z.string(),
   expectedDepartureTime: z.string(),
   cancelled: z.boolean(),
+  realtime: z.boolean(),
   transportMode: transportModeSchema.optional(),
   transportSubmode: transportSubmodeSchema.optional(),
   notices: z.array(noticeSchema),

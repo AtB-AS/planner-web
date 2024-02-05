@@ -43,6 +43,11 @@
   outline: 0;
 }
 
+.input::placeholder {
+  color: var(--text-colors-secondary);
+  opacity: 1;
+}
+
 .menu {
   width: 100%;
   background-color: var(--static-background-background_0-background);

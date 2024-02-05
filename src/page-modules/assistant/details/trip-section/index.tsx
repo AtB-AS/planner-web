@@ -1,8 +1,4 @@
-import {
-  DecorationLine,
-  DepartureTime,
-  TripRow,
-} from '@atb/modules/trip-details';
+import { DecorationLine, TripRow } from '@atb/modules/trip-details';
 import { TripPatternWithDetails } from '../../server/journey-planner/validators';
 import style from './trip-section.module.css';
 import {
@@ -22,6 +18,7 @@ import { InterchangeDetails, InterchangeSection } from './interchange-section';
 import { formatLineName, getPlaceName } from '../utils';
 import WaitSection, { type LegWaitDetails } from './wait-section';
 import { EstimatedCallsSection } from './estimated-calls-section';
+import { DepartureTime } from '@atb/components/departure-time';
 
 export type TripSectionProps = {
   isFirst: boolean;

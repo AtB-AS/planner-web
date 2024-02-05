@@ -1,34 +1,26 @@
-import { MapWithHeader } from '@atb/components/map';
-import {
-  DepartureData,
-  Quay,
-  Departure,
-} from '@atb/page-modules/departures/server/journey-planner';
-import style from './stop-place.module.css';
-import { ColorIcon, MonoIcon } from '@atb/components/icon';
-import {
-  formatLocaleTime,
-  formatSimpleTime,
-  formatToClockOrRelativeMinutes,
-  isInPast,
-  secondsBetween,
-} from '@atb/utils/date';
-import { PageText, useTranslation } from '@atb/translations';
-import dictionary from '@atb/translations/dictionary';
-import Link from 'next/link';
-import { Typo } from '@atb/components/typography';
-import { useState } from 'react';
-import { and, andIf } from '@atb/utils/css';
-import { useRouter } from 'next/router';
-import { Departures } from '@atb/translations/pages';
-import { nextDepartures } from '../client';
 import { Button } from '@atb/components/button';
+import { ColorIcon, MonoIcon } from '@atb/components/icon';
 import LineChip from '@atb/components/line-chip';
+import { MapWithHeader } from '@atb/components/map';
+import { Typo } from '@atb/components/typography';
 import {
   SituationMessageBox,
   SituationOrNoticeIcon,
 } from '@atb/modules/situations';
-import { screenReaderPause } from '@atb/components/typography/utils';
+import {
+  Departure,
+  DepartureData,
+  Quay,
+} from '@atb/page-modules/departures/server/journey-planner';
+import { PageText, useTranslation } from '@atb/translations';
+import { Departures } from '@atb/translations/pages';
+import { and, andIf } from '@atb/utils/css';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
+import { nextDepartures } from '../client';
+import style from './stop-place.module.css';
+import { DepartureTime } from '@atb/components/departure-time';
 
 export type StopPlaceProps = {
   departures: DepartureData;
@@ -235,63 +227,11 @@ export function EstimatedCallItem({
           cancelled={departure.cancelled}
           expectedDepartureTime={departure.expectedDepartureTime}
           aimedDepartureTime={departure.aimedDepartureTime}
+          relativeTime
+          realtime={departure.realtime}
+          withRealtimeIndicator
         />
       </Link>
     </li>
   );
 }
-
-type DepartureTimeProps = {
-  expectedDepartureTime: string;
-  aimedDepartureTime: string;
-  cancelled?: boolean;
-};
-export function DepartureTime({
-  expectedDepartureTime,
-  aimedDepartureTime,
-  cancelled = false,
-}: DepartureTimeProps) {
-  const { t, language } = useTranslation();
-  return (
-    <div className={style.departureTime}>
-      <Typo.p
-        className={cancelled ? style.textColor__secondary : ''}
-        textType={cancelled ? 'body__primary--strike' : 'body__primary'}
-        aria-label={
-          cancelled
-            ? `${screenReaderPause} ${t(
-                PageText.Departures.stopPlace.quaySection.cancelled,
-              )}`
-            : ''
-        }
-      >
-        {isInPast(expectedDepartureTime)
-          ? formatSimpleTime(expectedDepartureTime)
-          : formatToClockOrRelativeMinutes(
-              expectedDepartureTime,
-              language,
-              t(dictionary.date.units.now),
-            )}
-      </Typo.p>
-      {isMoreThanOneMinuteDelayed(
-        expectedDepartureTime,
-        aimedDepartureTime,
-      ) && (
-        <Typo.span
-          textType="body__tertiary--strike"
-          aria-label={
-            t(dictionary.a11yRouteTimePrefix) +
-            formatLocaleTime(aimedDepartureTime, language)
-          }
-        >
-          {formatLocaleTime(aimedDepartureTime, language)}
-        </Typo.span>
-      )}
-    </div>
-  );
-}
-
-const isMoreThanOneMinuteDelayed = (
-  aimedDepartureTime: string,
-  expectedDepartureTime: string,
-) => secondsBetween(expectedDepartureTime, aimedDepartureTime) >= 60;

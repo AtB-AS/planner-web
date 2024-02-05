@@ -85,11 +85,6 @@ export const Departures = {
         'See more departures',
         'Sjå fleire avgangar',
       ),
-      cancelled: _(
-        'Avgangen fra denne holdeplassen er kansellert.',
-        'The departure from this stop has been cancelled.',
-        'Avgangen frå denne haldeplassen er kansellert.',
-      ),
     },
   },
   details: {
@@ -117,10 +112,6 @@ export const Departures = {
       ),
     onTime: _(`I rute`, `On time`, `I rute`),
     notOnTime: _(`Etter rutetid`, `Behind scheduled time`, `Etter rutetid`),
-    time: {
-      aimedPrefix: _('Rutetid', 'Route time', `Rutetid`),
-      expectedPrefix: _('Sanntid', 'Realtime', `Sanntid`),
-    },
     collapse: {
       label: (numberStops: number) =>
         _(
