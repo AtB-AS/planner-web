@@ -6,20 +6,22 @@ type TimeValues = {
   aimedTime: string;
   expectedTime?: string;
   missingRealTime?: boolean;
+  cancelled: boolean;
 };
 
 type TimeRepresentationType =
-  | 'no-realtime'
+  | 'no-realtime-or-cancelled'
   | 'no-significant-difference'
   | 'significant-difference';
 
 export function getTimeRepresentationType({
   missingRealTime,
+  cancelled,
   aimedTime,
   expectedTime,
 }: TimeValues): TimeRepresentationType {
-  if (missingRealTime) {
-    return 'no-realtime';
+  if (missingRealTime || cancelled) {
+    return 'no-realtime-or-cancelled';
   }
   if (!expectedTime) {
     return 'no-significant-difference';
