@@ -70,7 +70,7 @@ function mapGeocoderFeature(data: GeocoderRoot) {
   return data.features.map((f) => ({
     id: f.properties.id,
     name: f.properties.name,
-    locality: f.properties.locality,
+    locality: f.properties.locality ?? null,
     category: f.properties.category as FeatureCategory[],
     layer: f.properties.layer,
     geometry: f.geometry,

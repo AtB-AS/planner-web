@@ -70,37 +70,35 @@ export default function Search({
 
           <ul className={style.menu} {...getMenuProps()}>
             {isOpen &&
-              data
-                ?.filter((item) => item.locality !== undefined)
-                .map((item, index) => (
-                  <li
-                    className={andIf({
-                      [style.item]: true,
-                      [style.itemHighlighted]: highlightedIndex === index,
-                    })}
-                    key={item.id}
-                    {...getItemProps({
-                      index,
-                      item,
-                    })}
-                  >
-                    <div className={style.itemIcon} aria-hidden>
-                      <VenueIcon categories={item.category} />
-                    </div>
-                    <span className={style.itemName}>
-                      {highlightSearchText(inputValue, item.name).map(
-                        ({ part, highlight }) => {
-                          if (!part) return null;
-                          if (highlight)
-                            return <span key={item.id + part}>{part}</span>;
-                          else
-                            return <strong key={item.id + part}>{part}</strong>;
-                        },
-                      )}
-                    </span>
-                    <span className={style.itemLocality}>{item.locality}</span>
-                  </li>
-                ))}
+              data?.map((item, index) => (
+                <li
+                  className={andIf({
+                    [style.item]: true,
+                    [style.itemHighlighted]: highlightedIndex === index,
+                  })}
+                  key={item.id}
+                  {...getItemProps({
+                    index,
+                    item,
+                  })}
+                >
+                  <div className={style.itemIcon} aria-hidden>
+                    <VenueIcon categories={item.category} />
+                  </div>
+                  <span className={style.itemName}>
+                    {highlightSearchText(inputValue, item.name).map(
+                      ({ part, highlight }) => {
+                        if (!part) return null;
+                        if (highlight)
+                          return <span key={item.id + part}>{part}</span>;
+                        else
+                          return <strong key={item.id + part}>{part}</strong>;
+                      },
+                    )}
+                  </span>
+                  <span className={style.itemLocality}>{item.locality}</span>
+                </li>
+              ))}
           </ul>
         </div>
       )}
@@ -136,5 +134,7 @@ function highlightSearchText(input: string | null, name: string) {
 function geocoderFeatureToString(
   feature: GeocoderFeature | null | undefined,
 ): string {
-  return feature ? `${feature.name}, ${feature.locality}` : '';
+  return feature
+    ? `${feature.name}${feature.locality ? ', ' + feature.locality : ''}`
+    : '';
 }

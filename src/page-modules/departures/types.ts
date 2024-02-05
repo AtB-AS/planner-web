@@ -5,7 +5,7 @@ import type { SearchTime } from '@atb/modules/search-time';
 export type GeocoderFeature = {
   id: string;
   name: string;
-  locality?: string;
+  locality: string | null;
   category: FeatureCategory[];
   layer: 'address' | 'venue';
   geometry: {
