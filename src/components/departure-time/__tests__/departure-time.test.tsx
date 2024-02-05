@@ -63,6 +63,41 @@ describe('departure time component', function () {
     expect(output.getByLabelText('Sanntid 12:05')).toBeInTheDocument();
   });
 
+  it('should show realtime indicator if realtime and active', () => {
+    const output = render(
+      <DepartureTime
+        aimedDepartureTime="2021-09-01T12:00:00+02:00"
+        expectedDepartureTime="2021-09-01T12:05:00+02:00"
+        realtime
+        withRealtimeIndicator
+      />,
+    );
+    expect(output.queryByTestId('rt-indicator')).toBeInTheDocument();
+  });
+
+  it('should NOT show realtime indicator if not realtime', () => {
+    const output = render(
+      <DepartureTime
+        aimedDepartureTime="2021-09-01T12:00:00+02:00"
+        expectedDepartureTime="2021-09-01T12:05:00+02:00"
+        realtime={false}
+        withRealtimeIndicator
+      />,
+    );
+    expect(output.queryByTestId('rt-indicator')).toBeNull();
+  });
+
+  it('should NOT show realtime indicator it is not activated', () => {
+    const output = render(
+      <DepartureTime
+        aimedDepartureTime="2021-09-01T12:00:00+02:00"
+        expectedDepartureTime="2021-09-01T12:05:00+02:00"
+        realtime
+      />,
+    );
+    expect(output.queryByTestId('rt-indicator')).toBeNull();
+  });
+
   it('should indicate cancelled if cancelled, and not show realtime', () => {
     const output = render(
       <DepartureTime

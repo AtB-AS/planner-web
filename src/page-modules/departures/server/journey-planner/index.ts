@@ -140,6 +140,7 @@ export function createJourneyApi(
             expectedDepartureTime: e.expectedDepartureTime,
             aimedDepartureTime: e.aimedDepartureTime,
             cancelled: e.cancellation,
+            realtime: e.realtime,
             transportMode: isTransportModeType(
               e.serviceJourney.line.transportMode,
             )
@@ -289,6 +290,7 @@ export function createJourneyApi(
           aimedDepartureTime: e.aimedDepartureTime,
           expectedDepartureTime: e.expectedDepartureTime,
           cancelled: e.cancellation,
+          realtime: e.realtime,
           transportMode: isTransportModeType(
             e.serviceJourney.line.transportMode,
           )
@@ -419,8 +421,8 @@ type RecursivePartial<T> = {
   [P in keyof T]?: T[P] extends (infer U)[]
     ? RecursivePartial<U>[]
     : T[P] extends object | undefined
-    ? RecursivePartial<T[P]>
-    : T[P];
+      ? RecursivePartial<T[P]>
+      : T[P];
 };
 
 const mapAndFilterDuplicateGraphQlSituations = (

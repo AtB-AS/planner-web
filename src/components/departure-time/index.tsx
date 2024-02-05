@@ -13,6 +13,8 @@ import {
   isInPast,
 } from '@atb/utils/date';
 import style from './departure-time.module.css';
+import { ColorIcon } from '../icon';
+import { and } from '@atb/utils/css';
 
 type DepartureTimeProps = {
   aimedDepartureTime: string;
@@ -20,6 +22,7 @@ type DepartureTimeProps = {
   realtime?: boolean;
   cancelled?: boolean;
   relativeTime?: boolean;
+  withRealtimeIndicator?: boolean;
 };
 
 export function DepartureTime({
@@ -28,6 +31,7 @@ export function DepartureTime({
   realtime,
   cancelled = false,
   relativeTime = false,
+  withRealtimeIndicator = false,
 }: DepartureTimeProps) {
   const { t } = useTranslation();
 
@@ -39,6 +43,7 @@ export function DepartureTime({
   });
   const scheduled = useTimeOrRelative(aimedDepartureTime, relativeTime);
   const expected = useTimeOrRelative(expectedDepartureTime, relativeTime);
+  const showRealtimeIndicator = Boolean(withRealtimeIndicator && realtime);
 
   switch (representationType) {
     case 'no-realtime-or-cancelled': {
@@ -47,6 +52,7 @@ export function DepartureTime({
           time={scheduled}
           cancelled={cancelled}
           prefix="aimedPrefix"
+          realtimeIndicator={showRealtimeIndicator}
         />
       );
     }
@@ -61,6 +67,7 @@ export function DepartureTime({
               time={expected}
               cancelled={cancelled}
               prefix="expectedPrefix"
+              realtimeIndicator={showRealtimeIndicator}
             />
           </div>
 
@@ -83,6 +90,7 @@ export function DepartureTime({
             time={expected}
             cancelled={cancelled}
             prefix={realtime ? 'expectedPrefix' : 'aimedPrefix'}
+            realtimeIndicator={showRealtimeIndicator}
           />
         </div>
       );
@@ -94,17 +102,24 @@ function TimeContainer({
   time,
   cancelled,
   prefix,
+  realtimeIndicator,
   ...props
 }: {
   cancelled: boolean;
   time: string;
+  realtimeIndicator: boolean;
   prefix: keyof typeof ComponentText.DepartureTime.time;
 } & Omit<BaseTypographyProps<'p'>, 'textType'>) {
   const { t } = useTranslation();
 
+  // Label notes if it is realtime or not, so shouldn't show realtime indicator
+  // for scren readers.
   return (
     <Typo.p
-      className={cancelled ? style.textColor__secondary : ''}
+      className={and(
+        cancelled ? style.textColor__secondary : '',
+        style.timeContainer,
+      )}
       textType={cancelled ? 'body__primary--strike' : 'body__primary'}
       aria-label={
         cancelled
@@ -113,6 +128,15 @@ function TimeContainer({
       }
       {...props}
     >
+      {realtimeIndicator && (
+        <ColorIcon
+          icon="status/Realtime"
+          data-testid="rt-indicator"
+          size="xSmall"
+          role="none"
+          alt=""
+        />
+      )}
       {time}
     </Typo.p>
   );
