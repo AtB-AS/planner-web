@@ -7,10 +7,21 @@ test('test', async ({ page }) => {
   await page.getByRole('option', { name: 'Kristiansund Kristiansund' }).click();
   await page.getByRole('textbox', { name: 'To' }).click();
   await page.getByRole('textbox', { name: 'To' }).click();
+
   await page.getByRole('textbox', { name: 'To' }).fill('Molde');
   await page.getByRole('option', { name: 'Molde Molde', exact: true }).click();
   await page.getByRole('button', { name: 'More choices' }).click();
+
+  // let tripPromise = page.waitForResponse(/api\/assistant\/trip/);
   await page.getByText('Bus', { exact: true }).click();
   await page.getByRole('button', { name: 'Find departures' }).click();
+  // await tripPromise;
+
+  const orderSent = page.getByTestId('trip-pattern-0');
+
+  await orderSent.waitFor();
+
+  // tripPromise = page.waitForResponse(/api\/assistant\/trip/);
   await page.getByRole('button', { name: 'Load more results' }).click();
+  // await tripPromise;
 });

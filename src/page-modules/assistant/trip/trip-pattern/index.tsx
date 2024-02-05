@@ -70,6 +70,7 @@ export default function TripPattern({
     <motion.a
       href={`/assistant/${tripPattern.compressedQuery}`}
       className={className}
+      data-testid={`trip-pattern-${index}`}
       initial={{ opacity: 0, x: -10 }}
       animate={{ opacity: maxOpacity, x: 0 }}
       exit={{ opacity: 0, x: -10 }}
