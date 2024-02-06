@@ -22,11 +22,15 @@ export default function LineFilter({ filterState, onChange }: LineFilterProps) {
     const lineFilter = event.target.value;
     setLocalFilterState(lineFilter);
 
-    const linesWithPrefix = lineFilter
-      .split(',')
-      .map((line) => `${orgLineIdPrefix}${line.trim()}`);
+    if (!lineFilter) {
+      onChange(null);
+    } else {
+      const linesWithPrefix = lineFilter
+        .split(',')
+        .map((line) => `${orgLineIdPrefix}${line.trim()}`);
 
-    onChange(linesWithPrefix);
+      onChange(linesWithPrefix);
+    }
   };
 
   return (
