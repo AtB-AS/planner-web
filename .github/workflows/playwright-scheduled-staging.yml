@@ -5,12 +5,12 @@ on:
       env:
         description: 'Environment to run tests against'
         required: true
-        default: 'fram, nfk, atb'
+        default: '"atb"'
         type: choice
         options:
-          - fram
-          - nfk
-          - atb
+          - '"fram"'
+          - '"nfk"'
+          - '"atb"'
   schedule:
     # Run every 3 hours
     - cron: '0 */3 * * *'
@@ -22,7 +22,8 @@ jobs:
 
     strategy:
       matrix:
-        env: ${{ fromJSON(format('[{0}]', inputs.env || 'fram, nfk, atb')) }}
+        env:
+          ${{ fromJSON(format('[{0}]', inputs.env || '"fram", "nfk", "atb"')) }}
 
     steps:
       - uses: actions/checkout@v3
