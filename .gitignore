@@ -45,5 +45,7 @@ src/components/icon/generated-icons.ts
 
 
 *.generated.ts
-
-
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
