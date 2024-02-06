@@ -174,6 +174,9 @@ export function createJourneyApi(
 
       const from = inputToLocation(input, 'from');
       const to = inputToLocation(input, 'to');
+
+      const lineFilter = input.lineFilter ?? [];
+
       const when =
         input.searchTime.mode !== 'now'
           ? new Date(input.searchTime.dateTime)
@@ -186,6 +189,7 @@ export function createJourneyApi(
         when,
         modes: journeyModes,
         cursor: input.cursor,
+        lineFilter,
         ...DEFAULT_JOURNEY_CONFIG,
       };
 
