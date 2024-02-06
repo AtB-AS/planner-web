@@ -86,7 +86,7 @@
 .dateSelector,
 .timeSelector {
   --height: 2.75rem;
-  border-radius: 0.75rem;
+  border-radius: var(--border-radius-regular);
   overflow: hidden;
   background-color: var(--static-background-background_0-background);
   display: flex;
