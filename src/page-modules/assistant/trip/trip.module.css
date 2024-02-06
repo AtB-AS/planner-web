@@ -25,11 +25,7 @@
   margin-top: var(--spacings-xLarge);
 }
 
-.disabledButtonContainer {
+.disabledFetchTextContainer {
   align-self: center;
   margin-top: var(--spacings-xLarge);
-}
-
-.disabledButton {
-  align-self: center;
 }

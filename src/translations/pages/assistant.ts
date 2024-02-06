@@ -109,9 +109,9 @@ export const Assistant = {
       'Last inn fleire reiseforslag',
     ),
     disabledFetchMore: _(
-      'Ikke tilgjengelig ved via-søk',
-      'Not available for via search',
-      'Ikkje tilgjengeleg ved via-søk',
+      'Flere resultater er ikke tilgjengelig ved via-søk',
+      'More results are not available through via search',
+      'Fleire resultat er ikkje tilgjengeleg ved via-søk',
     ),
     nonTransit: {
       foot: _('Gå', 'Walk', 'Gå'),
