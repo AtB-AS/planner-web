@@ -1,0 +1,48 @@
+name: Periodic Playwright Tests (Staging)
+on:
+  workflow_dispatch:
+    inputs:
+      env:
+        description: 'Environment to run tests against'
+        required: true
+        default: '"atb"'
+        type: choice
+        options:
+          - '"fram"'
+          - '"nfk"'
+          - '"atb"'
+  schedule:
+    # Run every 3 hours
+    - cron: '0 */3 * * *'
+
+jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        env:
+          ${{ fromJSON(format('[{0}]', inputs.env || '"fram", "nfk", "atb"')) }}
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: 'yarn'
+      - run: yarn
+      - name: Install Playwright Browsers
+        run: yarn playwright install --with-deps
+      - name: Run Playwright tests
+        run: yarn playwright test
+        env:
+          NEXT_PUBLIC_PLANNER_ORG_ID: atb
+          E2E_URL: 'https://${{ matrix.env }}-staging.planner-web.mittatb.no/'
+
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
