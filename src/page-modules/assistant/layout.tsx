@@ -110,7 +110,7 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
   const onLineFilterChanged = debounce(
     async (lineFilter: string[] | null) =>
       setValuesWithLoading({ lineFilter }, true),
-    500,
+    750,
   );
 
   const { urls } = getOrgData();

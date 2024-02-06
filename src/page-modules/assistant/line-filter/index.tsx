@@ -10,11 +10,13 @@ type LineFilterProps = {
 export default function LineFilter({ filterState, onChange }: LineFilterProps) {
   const { t } = useTranslation();
 
-  const [localFilterState, setLocalFilterState] = useState(filterState ?? []);
+  const [localFilterState, setLocalFilterState] = useState(
+    filterState?.join(', ') ?? '',
+  );
 
   const onChangeWrapper = (event: ChangeEvent<HTMLInputElement>) => {
     const lineFilter = event.target.value;
-    setLocalFilterState(lineFilter?.split(',') ?? []);
+    setLocalFilterState(lineFilter);
     onChange(lineFilter?.split(',') ?? null);
   };
 
