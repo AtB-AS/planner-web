@@ -110,7 +110,7 @@ export const Assistant = {
     ),
     disabledFetchMore: _(
       'Flere resultater er ikke tilgjengelig ved via-søk',
-      'More results are not available through via search',
+      'More results are not available with via search',
       'Fleire resultat er ikkje tilgjengeleg ved via-søk',
     ),
     nonTransit: {
