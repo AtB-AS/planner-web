@@ -14,7 +14,6 @@ test('Test fetching Kristiansund - Molde and loading more after first result', a
   await page.getByRole('option', { name: 'Molde Molde', exact: true }).click();
   await page.getByRole('button', { name: 'More choices' }).click();
 
-  // let tripPromise = page.waitForResponse(/api\/assistant\/trip/);
   await page.getByText('Bus', { exact: true }).click();
   await page.getByRole('button', { name: 'Find departures' }).click();
 
