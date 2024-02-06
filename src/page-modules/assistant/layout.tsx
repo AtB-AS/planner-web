@@ -130,9 +130,9 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
           <TabLink activePath="/assistant" />
 
           <div className={style.input}>
-            <Typo.p textType="body__primary--bold" className={style.heading}>
+            <Typo.h3 textType="body__primary--bold" className={style.heading}>
               {t(PageText.Assistant.search.input.label)}
-            </Typo.p>
+            </Typo.h3>
             <Search
               label={t(PageText.Assistant.search.input.from)}
               placeholder={t(PageText.Assistant.search.input.placeholder)}
@@ -162,9 +162,9 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
             />
           </div>
           <div className={style.date}>
-            <Typo.p textType="body__primary--bold" className={style.heading}>
+            <Typo.h3 textType="body__primary--bold" className={style.heading}>
               {t(PageText.Assistant.search.date.label)}
-            </Typo.p>
+            </Typo.h3>
             <SearchTimeSelector
               initialState={searchTime}
               onChange={setSearchTime}
@@ -199,12 +199,12 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
                   />
 
                   <div>
-                    <Typo.p
+                    <Typo.h3
                       textType="body__primary--bold"
                       className={style.heading}
                     >
                       {t(PageText.Assistant.search.input.via.label)}
-                    </Typo.p>
+                    </Typo.h3>
                     <Search
                       label={t(PageText.Assistant.search.input.via.description)}
                       placeholder={t(

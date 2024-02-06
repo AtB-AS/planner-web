@@ -35,9 +35,9 @@ export default function TransportModeFilter({
 
   return (
     <div>
-      <Typo.p textType="body__primary--bold" className={style.heading}>
+      <Typo.h3 textType="body__primary--bold" className={style.heading}>
         {t(ComponentText.TransportModeFilter.label)}
-      </Typo.p>
+      </Typo.h3>
 
       <ul className={style.filter}>
         <li className={style.transportMode}>
