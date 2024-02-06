@@ -53,6 +53,9 @@ jobs:
         run: yarn playwright install --with-deps
         if: steps.playwright-cache.outputs.cache-hit != 'true'
 
+      - run: yarn playwright install-deps
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+
       - name: Run Playwright tests
         run: yarn playwright test
         env:
