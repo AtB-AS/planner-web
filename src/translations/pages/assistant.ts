@@ -50,9 +50,9 @@ export const Assistant = {
       ),
       placeholder: _('linjenummer', 'line number', 'linjenummer'),
       example: _(
-        'Eksempel: MOR:Line:901, ATB:Line:2_800',
-        'Example: MOR:Line:901, ATB:Line:2_800',
-        'Eksempel: MOR:Line:901, ATB:Line:2_800',
+        'Eksempel: 901, 800',
+        'Example: 901, 800',
+        'Eksempel: 901, 800',
       ),
     },
     buttons: {

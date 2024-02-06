@@ -2,6 +2,7 @@ import { Typo } from '@atb/components/typography';
 import { PageText, useTranslation } from '@atb/translations';
 import { ChangeEvent, useState } from 'react';
 import style from './line-filter.module.css';
+import { getOrgData } from '@atb/modules/org-data';
 type LineFilterProps = {
   filterState: string[] | null;
   onChange: (lineFilter: string[] | null) => void;
@@ -10,14 +11,22 @@ type LineFilterProps = {
 export default function LineFilter({ filterState, onChange }: LineFilterProps) {
   const { t } = useTranslation();
 
+  const { orgLineIdPrefix } = getOrgData();
+
   const [localFilterState, setLocalFilterState] = useState(
-    filterState?.join(', ') ?? '',
+    filterState?.map((line) => line.replace(orgLineIdPrefix, '')).join(', ') ??
+      '',
   );
 
   const onChangeWrapper = (event: ChangeEvent<HTMLInputElement>) => {
     const lineFilter = event.target.value;
     setLocalFilterState(lineFilter);
-    onChange(lineFilter?.split(',') ?? null);
+
+    const linesWithPrefix = lineFilter
+      .split(',')
+      .map((line) => `${orgLineIdPrefix}${line.trim()}`);
+
+    onChange(linesWithPrefix);
   };
 
   return (

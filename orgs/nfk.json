@@ -1,6 +1,8 @@
 {
   "$schema": "./schema-validation.json",
   "orgId": "nfk",
+  "orgLineIdPrefix": "NOR:Line:12_",
+
   "supportEmail": "sentrumsterminalen@boreal.no",
 
   "fylkeskommune": {

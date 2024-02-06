@@ -1,6 +1,7 @@
 {
   "$schema": "./schema-validation.json",
   "orgId": "atb",
+  "orgLineIdPrefix": "ATB:Line:2_",
 
   "supportEmail": "kundeservice@atb.no",
 

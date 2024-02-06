@@ -2,6 +2,7 @@
   "$schema": "./schema-validation.json",
 
   "orgId": "fram",
+  "orgLineIdPrefix": "MOR:Line:",
 
   "supportEmail": "fram@mrfylke.no",
 
