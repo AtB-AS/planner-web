@@ -34,14 +34,20 @@ export default function Trip({ tripQuery, fallback }: TripProps) {
     return <EmptySearch isSearching={isLoadingFirstTrip} type="trip" />;
   }
 
-  if ((!trips || trips?.length === 0) && tripQuery.from && tripQuery.to) {
+  if (
+    (!trips ||
+      trips?.length === 0 ||
+      trips.every((trip) => trip.tripPatterns.length === 0)) &&
+    tripQuery.from &&
+    tripQuery.to
+  ) {
     return (
       <EmptySearchResults
         title={t(
           PageText.Assistant.trip.emptySearchResults.emptySearchResultsTitle,
         )}
         details={
-          tripQuery.transportModeFilter
+          tripQuery.transportModeFilter || tripQuery.lineFilter
             ? t(
                 PageText.Assistant.trip.emptySearchResults
                   .emptySearchResultsDetailsWithFilters,
