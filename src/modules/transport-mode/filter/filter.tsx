@@ -5,7 +5,7 @@ import { MonoIcon } from '@atb/components/icon';
 import { Typo } from '@atb/components/typography';
 import { getTransportModeIcon } from '../icon';
 import { TransportModeFilterOptionType } from '@atb-as/config-specs';
-import { ChangeEventHandler, useEffect, useState } from 'react';
+import { ChangeEventHandler, useState } from 'react';
 
 type TransportModeFilterProps = {
   filterState: string[] | null;
@@ -23,15 +23,6 @@ export default function TransportModeFilter({
   // Local filter state used for updating the checkbox states before the URL
   // state is updated to reflect the changed filters.
   const [localFilterState, setLocalFilterState] = useState(filterState);
-  const [checkedFilters, setCheckedFilters] = useState(data?.map((t) => t.id));
-  const orgId = process.env.NEXT_PUBLIC_PLANNER_ORG_ID;
-
-  useEffect(() => {
-    console.log('checkedFilters', checkedFilters);
-    setCheckedFilters(checkedFilters?.filter((f) => f !== 'air'));
-
-    if (orgId !== 'nfk') return;
-  }, [orgId]);
 
   const onChangeWrapper = (transportModeFilter: string[] | null) => {
     setLocalFilterState(transportModeFilter);
@@ -57,8 +48,7 @@ export default function TransportModeFilter({
             value="all"
             aria-label={t(ComponentText.TransportModeFilter.allA11y)}
             checked={
-              (!localFilterState || localFilterState.length === data.length) &&
-              (checkedFilters?.includes('air') ?? false)
+              !localFilterState || localFilterState.length === data.length
             }
             onChange={(event) => {
               onChangeWrapper(event.target.checked ? null : []);
@@ -80,10 +70,8 @@ export default function TransportModeFilter({
               <FilterCheckbox
                 option={option}
                 checked={
-                  (!localFilterState &&
-                    (checkedFilters?.includes(option.id) ?? true)) ||
-                  ((localFilterState?.includes(option.id) ?? false) &&
-                    (checkedFilters?.includes(option.id) ?? true))
+                  !localFilterState ||
+                  (localFilterState?.includes(option.id) ?? false)
                 }
                 onChange={(event) => {
                   // No filter is applied when filterState is `null`, same
