@@ -87,12 +87,9 @@ export default function Search({
                   </div>
                   <span className={style.itemName}>
                     {highlightSearchText(inputValue, item.name).map(
-                      ({ part, highlight }) => {
+                      ({ part }) => {
                         if (!part) return null;
-                        if (highlight)
-                          return <span key={item.id + part}>{part}</span>;
-                        else
-                          return <strong key={item.id + part}>{part}</strong>;
+                        return <span key={item.id + part}>{part}</span>;
                       },
                     )}
                   </span>
