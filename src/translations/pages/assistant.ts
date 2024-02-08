@@ -17,7 +17,7 @@ export const Assistant = {
       via: {
         label: _(
           'Vil du reise via en mellomdestinasjon?',
-          'Do you want to travel via an intermidiate destination?',
+          'Do you want to travel via an intermediate destination?',
           'Vil du reise via ein mellomdestinasjon?',
         ),
         description: _('Via', 'Via', 'Via'),
