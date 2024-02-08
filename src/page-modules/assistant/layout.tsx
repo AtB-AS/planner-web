@@ -87,8 +87,7 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
   };
 
   const onClearViaLocation = () => {
-    tripQuery.via = null;
-    setValuesWithLoading(tripQuery);
+    setValuesWithLoading({ ...tripQuery, via: null });
   };
 
   const onSubmitHandler: FormEventHandler<HTMLFormElement> = async (e) => {
