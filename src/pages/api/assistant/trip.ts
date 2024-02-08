@@ -29,6 +29,7 @@ export default handlerWithAssistantClient<TripApiReturnType>({
         await client.trip({
           from: tripQuery.from!,
           to: tripQuery.to!,
+          via: tripQuery.via || undefined,
           searchTime: tripQuery.searchTime,
           transportModes,
           cursor: tripQuery.cursor!,

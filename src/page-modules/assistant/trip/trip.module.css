@@ -24,3 +24,8 @@
   align-self: center;
   margin-top: var(--spacings-xLarge);
 }
+
+.disabledFetchTextContainer {
+  align-self: center;
+  margin-top: var(--spacings-xLarge);
+}

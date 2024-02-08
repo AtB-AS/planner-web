@@ -43,6 +43,16 @@ import {
 } from './journey-gql/trip-with-details.generated';
 import { mapToMapLegs } from '@atb/components/map';
 import { getOrgData } from '@atb/modules/org-data';
+import {
+  ViaTripsWithDetailsQuery,
+  ViaTripsWithDetailsDocument,
+  ViaTripsWithDetailsQueryVariables,
+} from './journey-gql/via-trip-with-details.generated';
+import {
+  ViaTripsQuery,
+  ViaTripsDocument,
+  ViaTripsQueryVariables,
+} from './journey-gql/via-trip.generated';
 
 const { journeyApiConfigurations } = getOrgData();
 import {
@@ -155,9 +165,15 @@ export function createJourneyApi(
         transportModes: input.transportModes as GraphQlTransportModes[],
       };
 
+      const potential = getAssistantTripIfCached(input as FromToTripQuery);
+
+      if (potential) return potential;
+
+      if (input.via)
+        return getSortedViaTrips(client, input, journeyModes.transportModes);
+
       const from = inputToLocation(input, 'from');
       const to = inputToLocation(input, 'to');
-
       const when =
         input.searchTime.mode !== 'now'
           ? new Date(input.searchTime.dateTime)
@@ -172,10 +188,6 @@ export function createJourneyApi(
         cursor: input.cursor,
         ...DEFAULT_JOURNEY_CONFIG,
       };
-
-      const potential = getAssistantTripIfCached(input as FromToTripQuery);
-
-      if (potential) return potential;
 
       const result = await client.query<TripsQuery, TripsQueryVariables>({
         query: TripsDocument,
@@ -200,36 +212,75 @@ export function createJourneyApi(
 
       return validated.data;
     },
+
     async singleTrip(input) {
       const tripQuery = parseTripQueryString(input);
       if (!tripQuery) return;
 
-      const result = await client.query<
-        TripsWithDetailsQuery,
-        TripsWithDetailsQueryVariables
-      >({
-        query: TripsWithDetailsDocument,
-        variables: {
-          ...tripQuery.query,
-          arriveBy: false,
-          ...DEFAULT_JOURNEY_CONFIG,
-        },
-      });
+      let formattedResult;
+      if ('via' in tripQuery.query) {
+        const result = await client.query<
+          ViaTripsWithDetailsQuery,
+          ViaTripsWithDetailsQueryVariables
+        >({
+          query: ViaTripsWithDetailsDocument,
+          variables: {
+            ...tripQuery.query,
+            ...DEFAULT_JOURNEY_CONFIG,
+          },
+        });
 
-      if (result.error || result.errors) {
-        throw result.error || result.errors;
+        if (result.error || result.errors) {
+          throw result.error || result.errors;
+        }
+
+        const { tripPatternCombinations, tripPatternsPerSegment } =
+          result.data.viaTrip;
+
+        // Create list to make all trip pattern combinations more accessable.
+        const tripPatternCombinationList = findTripPatternCombinationsList(
+          tripPatternCombinations,
+        );
+
+        // Find trip patterns from-via and via-to destination.
+        const tripPatternsFromVia = tripPatternsPerSegment[0].tripPatterns;
+        const tripPatternsViaTo = tripPatternsPerSegment[1].tripPatterns;
+
+        // Find all possible trip patterns where the legs from the from-via location and the via-to location are concatenated.
+        const tripPatternsFromViaTo = findTripPatternsFromViaToWithDetails(
+          tripPatternCombinationList,
+          tripPatternsFromVia,
+          tripPatternsViaTo,
+        );
+        formattedResult = { trip: tripPatternsFromViaTo };
+      } else {
+        const result = await client.query<
+          TripsWithDetailsQuery,
+          TripsWithDetailsQueryVariables
+        >({
+          query: TripsWithDetailsDocument,
+          variables: {
+            ...tripQuery.query,
+            arriveBy: false,
+            ...DEFAULT_JOURNEY_CONFIG,
+          },
+        });
+
+        if (result.error || result.errors) {
+          throw result.error || result.errors;
+        }
+
+        formattedResult = { trip: result.data.trip.tripPatterns };
       }
 
       // Find the trip pattern that matches the journey IDs in the query
-      const singleTripPattern = result.data.trip.tripPatterns.find(
-        (pattern) => {
-          const journeyIds = extractServiceJourneyIds(pattern);
-          if (journeyIds.length != tripQuery.journeyIds.length) return false; // Fast comparison
-          return (
-            JSON.stringify(journeyIds) === JSON.stringify(tripQuery.journeyIds) // Slow comparison
-          );
-        },
-      );
+      const singleTripPattern = formattedResult.trip.find((pattern) => {
+        const journeyIds = extractServiceJourneyIds(pattern);
+        if (journeyIds.length != tripQuery.journeyIds.length) return false; // Fast comparison
+        return (
+          JSON.stringify(journeyIds) === JSON.stringify(tripQuery.journeyIds) // Slow comparison
+        );
+      });
 
       if (!singleTripPattern) return;
 
@@ -335,7 +386,6 @@ export function createJourneyApi(
           situations: mapSituations(leg.situations),
         })),
       };
-
       const validated = tripPatternWithDetailsSchema.safeParse(data);
       if (!validated.success) {
         throw validated.error;
@@ -369,10 +419,23 @@ function inputToLocation(
     name: input[direction].name,
   };
 }
+function inputToViaLocation(input: TripInput) {
+  if (!input.via) throw new Error('Via is required in the input');
+  return {
+    place: input.via.id,
+    coordinates: {
+      latitude: input.via.geometry.coordinates[1],
+      longitude: input.via.geometry.coordinates[0],
+    },
+    name: input.via.name,
+    minSlack: 'PT120S',
+    maxSlack: 'PT9H',
+  };
+}
 
 function mapResultToTrips(
   trip: TripsQuery['trip'],
-  queryVariables: TripsQueryVariables,
+  queryVariables: TripsQueryVariables | ViaTripsQueryVariables,
 ): RecursivePartial<TripData> {
   return {
     nextPageCursor: trip.nextPageCursor ?? null,
@@ -497,17 +560,13 @@ function mapNotices(
 function generateSingleTripQueryString(
   journeyIds: string[],
   aimedStartTime: string,
-  queryVariables: TripsQueryVariables,
+  queryVariables: TripsQueryVariables | ViaTripsQueryVariables,
 ) {
   const when = getPaddedStartTime(aimedStartTime);
   const originalSearchTime = queryVariables.when;
-  const arriveBy = queryVariables.arriveBy;
-
-  const singleTripQuery: TripsQueryVariables = {
-    ...queryVariables,
-    when,
-    arriveBy,
-  };
+  const singleTripQuery = isTripsQueryVariables(queryVariables)
+    ? { ...queryVariables, when, arriveBy: queryVariables.arriveBy }
+    : { ...queryVariables, when, via: queryVariables.via };
 
   // encode to string
   return compressToEncodedURIComponent(
@@ -517,21 +576,27 @@ function generateSingleTripQueryString(
 
 export function parseTripQueryString(compressedQueryString: string):
   | {
-      query: TripsQueryVariables;
+      query: TripsQueryVariables | ViaTripsQueryVariables;
       journeyIds: string[];
       originalSearchTime: string;
     }
   | undefined {
   const queryString = decompressFromEncodedURIComponent(compressedQueryString);
+
   if (!queryString) return;
 
   const queryFields = JSON.parse(queryString);
   if (isTripsQueryVariables(queryFields.query)) return queryFields;
+  if (isTripsViaQueryVariables(queryFields.query)) return queryFields;
   return;
 }
 
 function isTripsQueryVariables(a: any): a is TripsQueryVariables {
   return a && 'from' in a && 'to' in a && 'when' in a && 'arriveBy' in a;
+}
+
+function isTripsViaQueryVariables(a: any): a is TripsQueryVariables {
+  return a && 'from' in a && 'to' in a && 'when' in a && 'via' in a;
 }
 
 function getPaddedStartTime(time: string): string {
@@ -570,4 +635,148 @@ function mapAndFilterNotices(notices: GraphQlNotice[]): Notice[] {
     .filter((n) => n) as Notice[];
 
   return filterNotices(mappedNotices);
+}
+
+export function setFilterSegments(transportModes: GraphQlTransportModes[]) {
+  return [
+    {
+      filters: [{ select: [{ transportModes: transportModes }] }],
+    },
+    {
+      filters: [{ select: [{ transportModes: transportModes }] }],
+    },
+  ];
+}
+
+export function findTripPatternCombinationsList(
+  tripPatternCombinations: ViaTripsWithDetailsQuery['viaTrip']['tripPatternCombinations'],
+): { from: number; to: number }[][] {
+  return tripPatternCombinations.map((combinations) =>
+    combinations.map((combination) => ({
+      from: combination.from!,
+      to: combination.to!,
+    })),
+  );
+}
+
+export function findTripPatternsFromViaTo(
+  tripPatternCombinations: { from: number; to: number }[][],
+  tripPatternsFromVia: ViaTripsQuery['viaTrip']['tripPatternsPerSegment'][0]['tripPatterns'],
+  tripPatternsViaTo: ViaTripsQuery['viaTrip']['tripPatternsPerSegment'][0]['tripPatterns'],
+) {
+  const tripPatterns: ViaTripsQuery['viaTrip']['tripPatternsPerSegment'][0]['tripPatterns'] =
+    [];
+  tripPatternCombinations.map((segment) => {
+    segment.map((combo) =>
+      tripPatterns.push({
+        expectedStartTime: tripPatternsFromVia[combo.from].expectedStartTime,
+        expectedEndTime: tripPatternsViaTo[combo.to].expectedEndTime,
+        legs: [
+          ...tripPatternsFromVia[combo.from].legs,
+          ...tripPatternsViaTo[combo.to].legs,
+        ],
+      }),
+    );
+  });
+  return tripPatterns;
+}
+
+export function findTripPatternsFromViaToWithDetails(
+  tripPatternCombinations: { from: number; to: number }[][],
+  tripPatternsFromVia: ViaTripsWithDetailsQuery['viaTrip']['tripPatternsPerSegment'][0]['tripPatterns'],
+  tripPatternsViaTo: ViaTripsWithDetailsQuery['viaTrip']['tripPatternsPerSegment'][0]['tripPatterns'],
+) {
+  const tripPatterns: ViaTripsWithDetailsQuery['viaTrip']['tripPatternsPerSegment'][0]['tripPatterns'] =
+    [];
+  tripPatternCombinations.map((segment) => {
+    segment.map((combo) =>
+      tripPatterns.push({
+        expectedStartTime: tripPatternsFromVia[combo.from].expectedStartTime,
+        expectedEndTime: tripPatternsViaTo[combo.to].expectedEndTime,
+        legs: [
+          ...tripPatternsFromVia[combo.from].legs,
+          ...tripPatternsViaTo[combo.to].legs,
+        ],
+      }),
+    );
+  });
+  return tripPatterns;
+}
+
+async function getSortedViaTrips(
+  client: GraphQlRequester<'graphql-journeyPlanner3'>,
+  input: TripInput,
+  transportModes: GraphQlTransportModes[],
+): Promise<TripData> {
+  const from = inputToLocation(input, 'from');
+  const to = inputToLocation(input, 'to');
+  const via = inputToViaLocation(input);
+  const segments = setFilterSegments(transportModes);
+
+  const when =
+    input.searchTime.mode !== 'now'
+      ? new Date(input.searchTime.dateTime)
+      : new Date();
+
+  const queryVariables = {
+    from,
+    to,
+    via,
+    when,
+    segments,
+    ...DEFAULT_JOURNEY_CONFIG,
+  };
+
+  const result = await client.query<ViaTripsQuery, ViaTripsQueryVariables>({
+    query: ViaTripsDocument,
+    variables: queryVariables,
+  });
+
+  if (result.error || result.errors) {
+    throw result.error || result.errors;
+  }
+
+  const { tripPatternCombinations, tripPatternsPerSegment } =
+    result.data.viaTrip;
+
+  const tripPatternCombinationList = findTripPatternCombinationsList(
+    tripPatternCombinations,
+  );
+  const tripPatternsFromVia = tripPatternsPerSegment[0].tripPatterns;
+  const tripPatternsViaTo = tripPatternsPerSegment[1].tripPatterns;
+
+  const tripPatternsFromViaTo = findTripPatternsFromViaTo(
+    tripPatternCombinationList,
+    tripPatternsFromVia,
+    tripPatternsViaTo,
+  );
+
+  const data: RecursivePartial<TripData> = mapResultToTrips(
+    {
+      nextPageCursor: undefined,
+      previousPageCursor: undefined,
+      metadata: undefined,
+      tripPatterns: tripPatternsFromViaTo,
+    },
+    queryVariables,
+  );
+
+  const validated = tripSchema.safeParse(data);
+
+  if (!validated.success) {
+    throw validated.error;
+  }
+
+  const { tripPatterns, ...restData } = validated.data;
+  const tripPatternsSortedByExpectedEndTime = [...tripPatterns].sort(
+    (a, b) =>
+      new Date(a.expectedEndTime).getTime() -
+      new Date(b.expectedEndTime).getTime(),
+  );
+
+  const sortedData = {
+    ...restData,
+    tripPatterns: tripPatternsSortedByExpectedEndTime,
+  };
+  return sortedData;
 }

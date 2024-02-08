@@ -21,6 +21,7 @@ export async function fetchFromToTripQuery(
 
   let fromP: Promise<GeocoderFeature | undefined> | undefined = undefined;
   let toP: Promise<GeocoderFeature | undefined> | undefined = undefined;
+  let viaP: Promise<GeocoderFeature | undefined> | undefined = undefined;
 
   if (!fromP && hasFromLatLon(tripQuery)) {
     fromP = client.reverse(
@@ -34,11 +35,20 @@ export async function fetchFromToTripQuery(
     toP = client.reverse(tripQuery.toLat, tripQuery.toLon, tripQuery.toLayer);
   }
 
-  const [from, to] = await Promise.all([fromP, toP]);
+  if (hasVia(tripQuery)) {
+    viaP = client.reverse(
+      tripQuery.viaLat,
+      tripQuery.viaLon,
+      tripQuery.viaLayer,
+    );
+  }
+
+  const [from, to, via] = await Promise.all([fromP, toP, viaP]);
 
   return {
     from: from ?? null,
     to: to ?? null,
+    via: via ?? null,
     transportModeFilter,
     searchTime,
     cursor: cursor ?? null,
@@ -61,5 +71,15 @@ function hasToLatLon(
     query?.toLon !== undefined &&
     query?.toLat !== undefined &&
     query?.toLayer !== undefined
+  );
+}
+
+function hasVia(
+  query: TripQuery | undefined,
+): query is Required<Pick<TripQuery, 'viaLat' | 'viaLayer' | 'viaLon'>> {
+  return (
+    query?.viaLon !== undefined &&
+    query?.viaLat !== undefined &&
+    query?.viaLayer !== undefined
   );
 }

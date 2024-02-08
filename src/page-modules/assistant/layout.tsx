@@ -2,7 +2,11 @@ import { Button, ButtonLink } from '@atb/components/button';
 import { MonoIcon } from '@atb/components/icon';
 import EmptySearch from '@atb/components/loading-empty-results';
 import { MessageBox } from '@atb/components/message-box';
-import Search, { GeolocationButton, SwapButton } from '@atb/components/search';
+import Search, {
+  ClearButton,
+  GeolocationButton,
+  SwapButton,
+} from '@atb/components/search';
 import { Typo } from '@atb/components/typography';
 import type { SearchTime } from '@atb/modules/search-time';
 import SearchTimeSelector from '@atb/modules/search-time/selector';
@@ -82,6 +86,10 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
     setIsSwapping(false);
   };
 
+  const onClearViaLocation = () => {
+    setValuesWithLoading({ ...tripQuery, via: null });
+  };
+
   const onSubmitHandler: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     await setValuesWithLoading({});
@@ -96,6 +104,8 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
       setValuesWithLoading({ transportModeFilter }, true),
     500,
   );
+  const onViaSelected = async (via: GeocoderFeature) =>
+    setValuesWithLoading({ via });
 
   const { urls } = getOrgData();
 
@@ -119,9 +129,9 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
           <TabLink activePath="/assistant" />
 
           <div className={style.input}>
-            <Typo.p textType="body__primary--bold" className={style.heading}>
+            <Typo.h3 textType="body__primary--bold" className={style.heading}>
               {t(PageText.Assistant.search.input.label)}
-            </Typo.p>
+            </Typo.h3>
             <Search
               label={t(PageText.Assistant.search.input.from)}
               placeholder={t(PageText.Assistant.search.input.placeholder)}
@@ -151,10 +161,9 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
             />
           </div>
           <div className={style.date}>
-            <Typo.p textType="body__primary--bold" className={style.heading}>
+            <Typo.h3 textType="body__primary--bold" className={style.heading}>
               {t(PageText.Assistant.search.date.label)}
-            </Typo.p>
-
+            </Typo.h3>
             <SearchTimeSelector
               initialState={searchTime}
               onChange={setSearchTime}
@@ -187,6 +196,32 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
                     data={transportModeFilter}
                     onChange={onTransportFilterChanged}
                   />
+
+                  <div>
+                    <Typo.h3
+                      textType="body__primary--bold"
+                      className={style.heading}
+                    >
+                      {t(PageText.Assistant.search.input.via.label)}
+                    </Typo.h3>
+                    <Search
+                      label={t(PageText.Assistant.search.input.via.description)}
+                      placeholder={t(
+                        PageText.Assistant.search.input.placeholder,
+                      )}
+                      onChange={onViaSelected}
+                      selectedItem={tripQuery.via ?? undefined}
+                      autocompleteFocusPoint={tripQuery.via ?? undefined}
+                      button={
+                        tripQuery.via && (
+                          <ClearButton
+                            className={style.searchInputButton}
+                            onClear={onClearViaLocation}
+                          />
+                        )
+                      }
+                    />
+                  </div>
                 </div>
               </motion.div>
             </FocusScope>

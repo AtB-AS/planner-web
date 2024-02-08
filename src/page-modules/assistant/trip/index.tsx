@@ -100,7 +100,14 @@ export default function Trip({ tripQuery, fallback }: TripProps) {
         )}
       </div>
 
-      {isLoadingMore ? (
+      {tripQuery.via ? (
+        <Typo.p
+          textType="body__primary--bold"
+          className={style.disabledFetchTextContainer}
+        >
+          {t(PageText.Assistant.trip.disabledFetchMore)}
+        </Typo.p>
+      ) : isLoadingMore ? (
         <div className={style.fetchButton}>
           <LoadingIcon />
         </div>

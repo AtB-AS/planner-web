@@ -1,13 +1,7 @@
 import type { SearchMode } from '@atb/modules/search-time';
 import { searchTimeToQueryString } from '@atb/modules/search-time';
 import { GeocoderFeature } from '@atb/page-modules/departures';
-import {
-  FromToTripQuery,
-  TripData,
-  TripInput,
-  TripQuery,
-  TripQuerySchema,
-} from './types';
+import { FromToTripQuery, TripData, TripQuery, TripQuerySchema } from './types';
 
 export function filterOutDuplicates(
   arrayToFilter: TripData['tripPatterns'],
@@ -30,6 +24,7 @@ export function getCursorBySearchMode(trip: TripData, searchMode: SearchMode) {
 function featuresToFromToQuery(
   from: GeocoderFeature | null,
   to: GeocoderFeature | null,
+  via: GeocoderFeature | null,
 ) {
   let ret = {};
   if (from) {
@@ -50,6 +45,16 @@ function featuresToFromToQuery(
       toLayer: to.layer,
     };
   }
+
+  if (via) {
+    ret = {
+      ...ret,
+      viaId: via.id,
+      viaLon: via.geometry.coordinates[0],
+      viaLat: via.geometry.coordinates[1],
+      viaLayer: via.layer,
+    };
+  }
   return ret;
 }
 
@@ -63,7 +68,11 @@ export function createTripQuery(tripQuery: FromToTripQuery): TripQuery {
 
   const searchTimeQuery = searchTimeToQueryString(tripQuery.searchTime);
   const cursorQuery = tripQuery.cursor ? { cursor: tripQuery.cursor } : {};
-  const fromToQuery = featuresToFromToQuery(tripQuery.from, tripQuery.to);
+  const fromToQuery = featuresToFromToQuery(
+    tripQuery.from,
+    tripQuery.to,
+    tripQuery.via ? tripQuery.via : null,
+  );
 
   return {
     ...transportModeFilterQuery,
@@ -79,6 +88,8 @@ export function parseTripQuery(query: any): TripQuery | undefined {
     'fromLon',
     'toLat',
     'toLon',
+    'viaLat',
+    'viaLon',
     'searchTime',
   ];
   optionalNumericFields.forEach((field) => {

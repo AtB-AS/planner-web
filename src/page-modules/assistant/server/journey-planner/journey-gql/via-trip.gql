@@ -1,0 +1,84 @@
+query ViaTrips(
+  $from: Location!
+  $to: Location!
+  $when: DateTime
+  $via: [ViaLocationInput!]!
+  $segments: [ViaSegmentInput!]
+) {
+  viaTrip(
+    from: $from
+    to: $to
+    searchWindow: "PT9H"
+    dateTime: $when
+    via: $via
+    segments: $segments
+  ) {
+    ...viaTrip
+  }
+}
+
+fragment viaTrip on ViaTrip {
+  tripPatternsPerSegment {
+    ...tripPatternsPerSegment
+  }
+  tripPatternCombinations {
+    from
+    to
+  }
+}
+
+fragment tripPatternsPerSegment on ViaTripPatternSegment {
+  tripPatterns {
+    expectedStartTime
+    expectedEndTime
+    streetDistance
+    legs {
+      mode
+      distance
+      duration
+      aimedStartTime
+      expectedEndTime
+      expectedStartTime
+      realtime
+      line {
+        publicCode
+        flexibleLineType
+        notices {
+          ...notice
+        }
+      }
+      fromEstimatedCall {
+        cancellation
+        notices {
+          ...notice
+        }
+      }
+      situations {
+        ...situation
+      }
+      fromPlace {
+        name
+        quay {
+          publicCode
+          name
+          id
+          situations {
+            ...situation
+          }
+        }
+      }
+      serviceJourney {
+        id
+        notices {
+          ...notice
+        }
+        journeyPattern {
+          notices {
+            ...notice
+          }
+        }
+      }
+      transportSubmode
+    }
+  }
+}

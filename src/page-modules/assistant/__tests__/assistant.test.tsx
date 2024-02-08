@@ -2,7 +2,11 @@ import { cleanup, render, screen, waitFor } from '@testing-library/react';
 import mockRouter from 'next-router-mock';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { ExternalClient } from '@atb/modules/api-server';
-import { JourneyPlannerApi } from '../server/journey-planner';
+import {
+  JourneyPlannerApi,
+  findTripPatternCombinationsList,
+  findTripPatternsFromViaTo,
+} from '../server/journey-planner';
 import {
   AssistantContentProps,
   getServerSideProps,
@@ -16,7 +20,13 @@ import {
   fromFeature,
   nonTransitTripResult,
   toFeature,
+  tripPatternCombinationList,
+  tripPatternCombinations,
+  tripPatternsFromVia,
+  tripPatternsFromViaTo,
+  tripPatternsViaTo,
   tripResult,
+  viaFeature,
 } from './assistant-data.fixture';
 import {
   addAssistantTripToCache,
@@ -87,6 +97,7 @@ describe('assistant page', function () {
       tripQuery: {
         from: fromFeature,
         to: toFeature,
+        via: null,
         searchTime: {
           mode: 'departBy',
           dateTime: 123,
@@ -103,6 +114,7 @@ describe('assistant page', function () {
         tripQuery={{
           from: null,
           to: null,
+          via: null,
           searchTime: { mode: 'now' },
           cursor: null,
           transportModeFilter: null,
@@ -133,6 +145,7 @@ describe('assistant page', function () {
         tripQuery={{
           from: fromFeature,
           to: toFeature,
+          via: null,
           searchTime: { mode: 'departBy', dateTime: Date.now() },
           transportModeFilter: null,
           cursor: null,
@@ -160,6 +173,31 @@ describe('assistant page', function () {
         tripQuery={{
           from: fromFeature,
           to: toFeature,
+          via: null,
+          searchTime: { mode: 'departBy', dateTime: Date.now() },
+          transportModeFilter: ['bus'],
+          cursor: null,
+        }}
+      />,
+    );
+
+    await waitFor(
+      () => {
+        expect(
+          output.getByText('Prøv å justere på sted, filter eller tidspunkt.'),
+        ).toBeInTheDocument();
+      },
+      { timeout: 5000 },
+    );
+  });
+
+  it('should render empty search results with filter details', async () => {
+    const output = render(
+      <Trip
+        tripQuery={{
+          from: fromFeature,
+          to: toFeature,
+          via: viaFeature,
           searchTime: { mode: 'departBy', dateTime: Date.now() },
           transportModeFilter: ['bus'],
           cursor: null,
@@ -291,5 +329,25 @@ describe('assistant page', function () {
       tripQuery: cachedFromToTripQuery,
       fallback: tripResult,
     });
+  });
+});
+
+describe('findTripPatternCombinationsList', () => {
+  it('should return the correct trip pattern combinations list', () => {
+    const result = findTripPatternCombinationsList(tripPatternCombinations);
+
+    expect(result).toEqual(tripPatternCombinationList);
+  });
+});
+
+describe('findTripPatternsFromViaTo', () => {
+  it('should return the correct trip patterns from via to', () => {
+    const result = findTripPatternsFromViaTo(
+      tripPatternCombinationList,
+      tripPatternsFromVia,
+      tripPatternsViaTo,
+    );
+
+    expect(result).toEqual(tripPatternsFromViaTo);
   });
 });

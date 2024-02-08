@@ -50,10 +50,12 @@
   grid-area: alternatives;
   width: 100%;
   background-color: var(--static-background-background_accent_1-background);
-  overflow: hidden;
 }
 
 .alternatives {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacings-medium);
   padding: var(--spacings-xLarge);
   width: 100%;
   max-width: var(--maxPageWidth);

@@ -14,6 +14,14 @@ export const Assistant = {
       ),
       from: _('Fra', 'From', 'Frå'),
       to: _('Til', 'To', 'Til'),
+      via: {
+        label: _(
+          'Vil du reise via en mellomdestinasjon?',
+          'Do you want to travel via an intermediate destination?',
+          'Vil du reise via ein mellomdestinasjon?',
+        ),
+        description: _('Via', 'Via', 'Via'),
+      },
       placeholder: _(
         'adresse, kai eller holdeplass',
         'address, quay or bus stop',
@@ -99,6 +107,11 @@ export const Assistant = {
       'Last inn flere reiseforslag',
       'Load more results',
       'Last inn fleire reiseforslag',
+    ),
+    disabledFetchMore: _(
+      'Flere resultater er ikke tilgjengelig ved via-søk',
+      'More results are not available with via search',
+      'Fleire resultat er ikkje tilgjengeleg ved via-søk',
     ),
     nonTransit: {
       foot: _('Gå', 'Walk', 'Gå'),
