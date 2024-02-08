@@ -246,7 +246,7 @@ export function createJourneyApi(
         const tripPatternsFromVia = tripPatternsPerSegment[0].tripPatterns;
         const tripPatternsViaTo = tripPatternsPerSegment[1].tripPatterns;
 
-        // Find all possible trip patterns where the legs from the from-via location and the via-to location are concatinated.
+        // Find all possible trip patterns where the legs from the from-via location and the via-to location are concatenated.
         const tripPatternsFromViaTo = findTripPatternsFromViaToWithDetails(
           tripPatternCombinationList,
           tripPatternsFromVia,
