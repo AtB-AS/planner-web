@@ -134,5 +134,7 @@ function highlightSearchText(input: string | null, name: string) {
 function geocoderFeatureToString(
   feature: GeocoderFeature | null | undefined,
 ): string {
-  return feature ? `${feature.name}, ${feature.locality}` : '';
+  return feature
+    ? `${feature.name}${feature.locality ? ', ' + feature.locality : ''}`
+    : '';
 }
