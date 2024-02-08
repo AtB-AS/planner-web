@@ -85,17 +85,7 @@ export default function Search({
                   <div className={style.itemIcon} aria-hidden>
                     <VenueIcon categories={item.category} />
                   </div>
-                  <span className={style.itemName}>
-                    {highlightSearchText(inputValue, item.name).map(
-                      ({ part, highlight }) => {
-                        if (!part) return null;
-                        if (highlight)
-                          return <span key={item.id + part}>{part}</span>;
-                        else
-                          return <strong key={item.id + part}>{part}</strong>;
-                      },
-                    )}
-                  </span>
+                  <span className={style.itemName}>{item.name}</span>
                   <span className={style.itemLocality}>{item.locality}</span>
                 </li>
               ))}
@@ -106,31 +96,6 @@ export default function Search({
   );
 }
 
-function highlightSearchText(input: string | null, name: string) {
-  if (!input) return [{ part: name, highlight: false }];
-
-  let startIndex = name.toLowerCase().indexOf(input.toLowerCase());
-
-  if (startIndex !== -1) {
-    let endIndex = startIndex + input.length;
-    return [
-      {
-        part: name.substring(0, startIndex),
-        highlight: false,
-      },
-      {
-        part: name.substring(startIndex, endIndex),
-        highlight: true,
-      },
-      {
-        part: name.substring(endIndex),
-        highlight: false,
-      },
-    ];
-  } else {
-    return [{ part: name, highlight: false }];
-  }
-}
 function geocoderFeatureToString(
   feature: GeocoderFeature | null | undefined,
 ): string {
