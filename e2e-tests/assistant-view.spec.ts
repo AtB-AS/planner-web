@@ -98,3 +98,19 @@ test('should show non transit trips on cyclable distance', async ({ page }) => {
     page.getByRole('heading', { name: 'Fylkeshuset i Møre og Romsdal' }),
   ).toBeVisible();
 });
+
+test('should show boats and message on Correspondance', async ({ page }) => {
+  await page.goto(process.env.E2E_URL ?? 'http://localhost:3000');
+
+  await page.getByRole('textbox', { name: 'From' }).click();
+  await page.getByRole('textbox', { name: 'From' }).fill('Moa');
+  await page.getByText('Moa trafikkterminal').click();
+
+  await page.getByRole('textbox', { name: 'To' }).click();
+  await page.getByRole('textbox', { name: 'To' }).fill('Ullstein');
+  await page.getByRole('option', { name: 'Ulsteinvik Ulstein' }).click();
+
+  await page.getByTestId('trip-pattern-0').click();
+  await expect(page.getByText('1145 Hareid')).toBeVisible();
+  await expect(page.getByText('Correspondance between 1145')).toBeVisible();
+});
