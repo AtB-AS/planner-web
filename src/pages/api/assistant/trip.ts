@@ -33,6 +33,7 @@ export default handlerWithAssistantClient<TripApiReturnType>({
           searchTime: tripQuery.searchTime,
           transportModes,
           cursor: tripQuery.cursor!,
+          lineFilter: tripQuery.lineFilter ?? [],
         }),
       );
     });

@@ -11,6 +11,7 @@ query Trips(
   $walkSpeed: Float
   $modes: Modes
   $numTripPatterns: Int
+  $lineFilter: [ID]
 ) {
   trip(
     from: $from
@@ -28,6 +29,7 @@ query Trips(
     searchWindow: 540 # 9 hours
     includeRealtimeCancellations: true
     includePlannedCancellations: true
+    whiteListed: { lines: $lineFilter }
   ) {
     ...trip
   }

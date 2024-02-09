@@ -14,6 +14,7 @@ export async function fetchFromToTripQuery(
   const tripQuery = parseTripQuery(query);
   const cursor = tripQuery?.cursor;
   const transportModeFilter = parseFilterQuery(tripQuery?.filter);
+  const lineFilter = parseFilterQuery(tripQuery?.lineFilter);
   const searchTime = parseSearchTimeQuery(
     tripQuery?.searchMode,
     tripQuery?.searchTime,
@@ -52,6 +53,7 @@ export async function fetchFromToTripQuery(
     transportModeFilter,
     searchTime,
     cursor: cursor ?? null,
+    lineFilter,
   };
 }
 

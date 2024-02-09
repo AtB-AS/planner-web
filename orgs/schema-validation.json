@@ -28,6 +28,9 @@
           "enum": ["atb", "fram", "nfk"],
           "type": "string"
         },
+        "orgLineIdPrefix": {
+          "type": "string"
+        },
         "$schema": {
           "type": "string"
         },

@@ -74,11 +74,19 @@ export function createTripQuery(tripQuery: FromToTripQuery): TripQuery {
     tripQuery.via ? tripQuery.via : null,
   );
 
+  let lineFilterQuery = {};
+  if (tripQuery.lineFilter && tripQuery.lineFilter.length) {
+    lineFilterQuery = {
+      lineFilter: tripQuery.lineFilter.join(','),
+    };
+  }
+
   return {
     ...transportModeFilterQuery,
     ...searchTimeQuery,
     ...cursorQuery,
     ...fromToQuery,
+    ...lineFilterQuery,
   };
 }
 

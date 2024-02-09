@@ -42,6 +42,19 @@ export const Assistant = {
         'Kva vil du reise med?',
       ),
     },
+    lineFilter: {
+      label: _(
+        'Jeg reiser med linje',
+        'I travel with line',
+        'Eg reiser med linje',
+      ),
+      placeholder: _('linjenummer', 'line number', 'linjenummer'),
+      example: _(
+        'Eksempel: 901, 800',
+        'Example: 901, 800',
+        'Eksempel: 901, 800',
+      ),
+    },
     buttons: {
       find: {
         title: _('Finn avganger', 'Find departures', 'Finn avgangar'),

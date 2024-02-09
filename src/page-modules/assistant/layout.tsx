@@ -26,6 +26,7 @@ import { getOrgData } from '@atb/modules/org-data';
 import { getTransportModeFilter } from '@atb/modules/firebase/transport-mode-filter';
 import useSWRImmutable from 'swr/immutable';
 import { debounce } from 'lodash';
+import LineFilter from './line-filter';
 
 export type AssistantLayoutProps = PropsWithChildren<{
   tripQuery: FromToTripQuery;
@@ -106,6 +107,11 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
   );
   const onViaSelected = async (via: GeocoderFeature) =>
     setValuesWithLoading({ via });
+  const onLineFilterChanged = debounce(
+    async (lineFilter: string[] | null) =>
+      setValuesWithLoading({ lineFilter }, true),
+    750,
+  );
 
   const { urls } = getOrgData();
 
@@ -222,6 +228,11 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
                       }
                     />
                   </div>
+
+                  <LineFilter
+                    filterState={tripQuery.lineFilter}
+                    onChange={onLineFilterChanged}
+                  />
                 </div>
               </motion.div>
             </FocusScope>

@@ -104,6 +104,7 @@ describe('assistant page', function () {
         },
         transportModeFilter: null,
         cursor: null,
+        lineFilter: null,
       },
     });
   });
@@ -118,6 +119,7 @@ describe('assistant page', function () {
           searchTime: { mode: 'now' },
           cursor: null,
           transportModeFilter: null,
+          lineFilter: null,
         }}
       />,
     );
@@ -149,6 +151,7 @@ describe('assistant page', function () {
           searchTime: { mode: 'departBy', dateTime: Date.now() },
           transportModeFilter: null,
           cursor: null,
+          lineFilter: null,
         }}
       />,
     );
@@ -177,6 +180,7 @@ describe('assistant page', function () {
           searchTime: { mode: 'departBy', dateTime: Date.now() },
           transportModeFilter: ['bus'],
           cursor: null,
+          lineFilter: [],
         }}
       />,
     );
@@ -201,6 +205,7 @@ describe('assistant page', function () {
           searchTime: { mode: 'departBy', dateTime: Date.now() },
           transportModeFilter: ['bus'],
           cursor: null,
+          lineFilter: null,
         }}
       />,
     );
@@ -227,6 +232,7 @@ describe('assistant page', function () {
       },
       transportModeFilter: null,
       cursor: null,
+      lineFilter: null,
     };
 
     addAssistantTripToCache(fromToTripQuery, tripResult);
@@ -246,6 +252,7 @@ describe('assistant page', function () {
       },
       transportModeFilter: null,
       cursor: null,
+      lineFilter: null,
     };
     const fromToTripQuery2: FromToTripQuery = {
       from: fromFeature,
@@ -256,6 +263,7 @@ describe('assistant page', function () {
       },
       transportModeFilter: null,
       cursor: null,
+      lineFilter: null,
     };
 
     addAssistantTripToCache(fromToTripQuery1, tripResult);
@@ -277,6 +285,7 @@ describe('assistant page', function () {
       },
       transportModeFilter: null,
       cursor: null,
+      lineFilter: null,
     };
 
     addAssistantTripToCache(cachedFromToTripQuery, tripResult);
