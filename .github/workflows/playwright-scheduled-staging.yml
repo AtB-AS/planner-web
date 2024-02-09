@@ -26,21 +26,43 @@ jobs:
           ${{ fromJSON(format('[{0}]', inputs.env || '"fram", "nfk", "atb"')) }}
 
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'yarn'
-      - run: yarn
+
+      - name: Get installed Playwright version
+        id: playwright-version
+        run:
+          echo "PLAYWRIGHT_VERSION=$(grep "\"@playwright/test\"" "package.json"
+          | awk -F'"' '{ print $4 }')" >> $GITHUB_ENV
+
+      - name: Cache playwright binaries
+        uses: actions/cache@v4
+        id: playwright-cache
+        with:
+          path: |
+            ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}
+
+      - name: Install Yarn Dependencies
+        run: yarn
+
       - name: Install Playwright Browsers
         run: yarn playwright install --with-deps
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+
+      - run: yarn playwright install-deps
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+
       - name: Run Playwright tests
         run: yarn playwright test
         env:
           NEXT_PUBLIC_PLANNER_ORG_ID: atb
           E2E_URL: 'https://${{ matrix.env }}-staging.planner-web.mittatb.no/'
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: playwright-report

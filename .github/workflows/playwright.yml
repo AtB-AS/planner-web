@@ -7,14 +7,35 @@ jobs:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'yarn'
-      - run: yarn
+      - name: Get installed Playwright version
+        id: playwright-version
+        run:
+          echo "PLAYWRIGHT_VERSION=$(grep "\"@playwright/test\"" "package.json"
+          | awk -F'"' '{ print $4 }')" >> $GITHUB_ENV
+
+      - name: Cache playwright binaries
+        uses: actions/cache@v4
+        id: playwright-cache
+        with:
+          path: |
+            ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}
+
+      - name: Install Yarn Dependencies
+        run: yarn
+
       - name: Install Playwright Browsers
         run: yarn playwright install --with-deps
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+
+      - run: yarn playwright install-deps
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+
       - name: Waiting for 200 from the Vercel Preview
         uses: patrickedqvist/wait-for-vercel-preview@v1.3.1
         id: waitFor200
@@ -28,7 +49,7 @@ jobs:
           NEXT_PUBLIC_PLANNER_ORG_ID: atb
           E2E_URL: ${{ steps.waitFor200.outputs.url }}
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: playwright-report
