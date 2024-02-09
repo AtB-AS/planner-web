@@ -31,6 +31,7 @@ export function NonTransitTrip({ nonTransit }: NonTransitTripProps) {
       size="pill"
       href={`/assistant/${nonTransit.compressedQuery}`}
       title={`${modeText} ${durationShort}`}
+      testID={`non-transit-pill-${mode}`}
       icon={{
         left: <TransportMonoIcon mode={{ transportMode: mode }} />,
         right: <MonoIcon icon="navigation/ArrowRight" />,

@@ -62,3 +62,39 @@ test('Should filter on line 701', async ({ page }) => {
   await expect(tripPatternItem2).toBeVisible();
   expect(await tripPatternItem2.getAttribute('aria-label')).toContain('701');
 });
+
+test('should show non transit trips on walkable distance', async ({ page }) => {
+  await page.goto(process.env.E2E_URL ?? 'http://localhost:3000');
+  await page.getByRole('textbox', { name: 'From' }).click();
+  await page.getByRole('textbox', { name: 'From' }).fill('Fylkeshus');
+  await page
+    .getByRole('option', { name: 'Fylkeshuset i Møre og Romsdal' })
+    .click();
+  await page.getByRole('textbox', { name: 'To' }).click();
+  await page.getByRole('textbox', { name: 'To' }).fill('Roseby');
+  await page.getByRole('option', { name: 'Roseby Molde', exact: true }).click();
+
+  await page.getByTestId('non-transit-pill-foot').click();
+
+  await expect(
+    page.getByRole('heading', { name: 'Fylkeshuset i Møre og Romsdal' }),
+  ).toBeVisible();
+});
+
+test('should show non transit trips on cyclable distance', async ({ page }) => {
+  await page.goto(process.env.E2E_URL ?? 'http://localhost:3000');
+  await page.getByRole('textbox', { name: 'From' }).click();
+  await page.getByRole('textbox', { name: 'From' }).fill('Fylkeshus');
+  await page
+    .getByRole('option', { name: 'Fylkeshuset i Møre og Romsdal' })
+    .click();
+  await page.getByRole('textbox', { name: 'To' }).click();
+  await page.getByRole('textbox', { name: 'To' }).fill('Roseby');
+  await page.getByRole('option', { name: 'Roseby Molde', exact: true }).click();
+
+  await page.getByTestId('non-transit-pill-bicycle').click();
+
+  await expect(
+    page.getByRole('heading', { name: 'Fylkeshuset i Møre og Romsdal' }),
+  ).toBeVisible();
+});
