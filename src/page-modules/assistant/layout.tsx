@@ -254,7 +254,11 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
           <Button
             title={t(PageText.Assistant.search.buttons.find.title)}
             className={style.button}
-            mode="interactive_0--bordered"
+            mode={
+              urls.homePageUrl.name === 'frammr.no'
+                ? 'fram_interactive_0--bordered'
+                : 'interactive_0--bordered'
+            }
             disabled={
               !tripQuery.from || !tripQuery.to || isPerformingSearchNavigation
             }

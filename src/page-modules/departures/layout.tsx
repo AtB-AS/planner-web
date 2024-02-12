@@ -103,7 +103,11 @@ function DeparturesLayout({ children, fromQuery }: DeparturesLayoutProps) {
           <Button
             title={t(PageText.Departures.search.buttons.find.title)}
             className={style.button}
-            mode="interactive_0--bordered"
+            mode={
+              urls.homePageUrl.name === 'frammr.no'
+                ? 'fram_interactive_0--bordered'
+                : 'interactive_0--bordered'
+            }
             disabled={!fromQuery.from}
             buttonProps={{ type: 'submit' }}
             state={isSearching ? 'loading' : undefined}
