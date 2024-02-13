@@ -9,6 +9,7 @@ export type ButtonModes =
   | 'interactive_0--bordered_alternative'
   | 'interactive_1'
   | 'interactive_2'
+  | 'interactive_2_alternative'
   | 'interactive_3'
   | 'destructive'
   | 'transparent'
