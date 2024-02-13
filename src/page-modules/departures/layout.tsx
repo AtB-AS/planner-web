@@ -46,7 +46,7 @@ function DeparturesLayout({ children, fromQuery }: DeparturesLayoutProps) {
   const onSelectFeature = (feature: GeocoderFeature) =>
     doSearch({ from: feature });
 
-  const { urls } = getOrgData();
+  const { urls, orgId } = getOrgData();
 
   return (
     <div className={style.departuresPage}>
@@ -104,8 +104,8 @@ function DeparturesLayout({ children, fromQuery }: DeparturesLayoutProps) {
             title={t(PageText.Departures.search.buttons.find.title)}
             className={style.button}
             mode={
-              urls.homePageUrl.name === 'frammr.no'
-                ? 'fram_interactive_0--bordered'
+              orgId === 'fram'
+                ? 'interactive_0--bordered_alternative'
                 : 'interactive_0--bordered'
             }
             disabled={!fromQuery.from}

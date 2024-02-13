@@ -113,7 +113,7 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
     750,
   );
 
-  const { urls } = getOrgData();
+  const { urls, orgId } = getOrgData();
 
   return (
     <div>
@@ -250,13 +250,12 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
             onClick={() => setShowAlternatives(!showAlternatives)}
             icon={{ right: <MonoIcon icon="actions/Adjust" /> }}
           />
-
           <Button
             title={t(PageText.Assistant.search.buttons.find.title)}
             className={style.button}
             mode={
-              urls.homePageUrl.name === 'frammr.no'
-                ? 'fram_interactive_0--bordered'
+              orgId === 'fram'
+                ? 'interactive_0--bordered_alternative'
                 : 'interactive_0--bordered'
             }
             disabled={
