@@ -78,9 +78,26 @@ test('should show boats and message on Correspondance', async ({ page }) => {
 
   await page.getByRole('textbox', { name: 'To' }).click();
   await page.getByRole('textbox', { name: 'To' }).fill('Ullstein');
+
+  const additionalRequest = page.waitForResponse((request) => {
+    return request.url().includes('trip');
+  });
+
   await page.getByRole('option', { name: 'Ulsteinvik Ulstein' }).click();
 
-  await page.getByTestId('trip-pattern-0').click();
-  await expect(page.getByText('1145 Hareid')).toBeVisible();
+  await additionalRequest;
+
+  await page.getByRole('button', { name: 'More choices' }).click();
+
+  const additionalRequest2 = page.waitForResponse((request) => {
+    return (
+      request.url().includes('trip') && request.url().includes('expressboat')
+    );
+  });
+  await page.locator('label').filter({ hasText: 'Express boat' }).click();
+
+  await additionalRequest2;
+
+  await page.getByTestId('trip-pattern-1').click();
   await expect(page.getByText('Correspondance between 1145')).toBeVisible();
 });
