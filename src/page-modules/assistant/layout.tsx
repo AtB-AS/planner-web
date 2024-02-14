@@ -250,7 +250,7 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
             className={style.button}
             mode={
               orgId === 'fram' && !isDarkMode
-                ? 'interactive_2_alternative'
+                ? 'interactive_2--customized_off_palette'
                 : 'interactive_2'
             }
             onClick={() => setShowAlternatives(!showAlternatives)}
@@ -261,7 +261,7 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
             className={style.button}
             mode={
               orgId === 'fram'
-                ? 'interactive_0--bordered_alternative'
+                ? 'interactive_0--bordered--customized_off_palette'
                 : 'interactive_0--bordered'
             }
             disabled={
