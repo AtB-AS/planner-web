@@ -1,6 +1,11 @@
 import { test, expect } from '@playwright/test';
 
-test('Test fetching Kristiansund - Molde and loading more after first result', async ({
+test.use({
+  geolocation: { longitude: 62.4722, latitude: 6.1495 },
+  permissions: ['geolocation'],
+});
+
+test('Should fetch Kristiansund - Molde and loading more after first result', async ({
   page,
 }) => {
   await page.goto(process.env.E2E_URL ?? 'http://localhost:3000');
