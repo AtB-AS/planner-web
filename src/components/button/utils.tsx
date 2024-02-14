@@ -6,8 +6,10 @@ import { LoadingIcon } from '../loading';
 export type ButtonModes =
   | 'interactive_0'
   | 'interactive_0--bordered'
+  | 'interactive_0--bordered-light-outline'
   | 'interactive_1'
   | 'interactive_2'
+  | 'interactive_2--light-outline'
   | 'interactive_3'
   | 'destructive'
   | 'transparent'

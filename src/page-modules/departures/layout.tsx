@@ -46,7 +46,7 @@ function DeparturesLayout({ children, fromQuery }: DeparturesLayoutProps) {
   const onSelectFeature = (feature: GeocoderFeature) =>
     doSearch({ from: feature });
 
-  const { urls } = getOrgData();
+  const { urls, orgId } = getOrgData();
 
   return (
     <div className={style.departuresPage}>
@@ -103,7 +103,11 @@ function DeparturesLayout({ children, fromQuery }: DeparturesLayoutProps) {
           <Button
             title={t(PageText.Departures.search.buttons.find.title)}
             className={style.button}
-            mode="interactive_0--bordered"
+            mode={
+              orgId === 'fram'
+                ? 'interactive_0--bordered-light-outline'
+                : 'interactive_0--bordered'
+            }
             disabled={!fromQuery.from}
             buttonProps={{ type: 'submit' }}
             state={isSearching ? 'loading' : undefined}

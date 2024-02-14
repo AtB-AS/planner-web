@@ -27,6 +27,7 @@ import { getTransportModeFilter } from '@atb/modules/firebase/transport-mode-fil
 import useSWRImmutable from 'swr/immutable';
 import { debounce } from 'lodash';
 import LineFilter from './line-filter';
+import { useTheme } from '@atb/modules/theme';
 
 export type AssistantLayoutProps = PropsWithChildren<{
   tripQuery: FromToTripQuery;
@@ -113,7 +114,8 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
     750,
   );
 
-  const { urls } = getOrgData();
+  const { urls, orgId } = getOrgData();
+  const { isDarkMode } = useTheme();
 
   return (
     <div>
@@ -246,15 +248,22 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
                 : t(PageText.Assistant.search.buttons.alternatives.more)
             }
             className={style.button}
-            mode="interactive_2"
+            mode={
+              orgId === 'fram' && !isDarkMode
+                ? 'interactive_2--light-outline'
+                : 'interactive_2'
+            }
             onClick={() => setShowAlternatives(!showAlternatives)}
             icon={{ right: <MonoIcon icon="actions/Adjust" /> }}
           />
-
           <Button
             title={t(PageText.Assistant.search.buttons.find.title)}
             className={style.button}
-            mode="interactive_0--bordered"
+            mode={
+              orgId === 'fram'
+                ? 'interactive_0--bordered-light-outline'
+                : 'interactive_0--bordered'
+            }
             disabled={
               !tripQuery.from || !tripQuery.to || isPerformingSearchNavigation
             }
