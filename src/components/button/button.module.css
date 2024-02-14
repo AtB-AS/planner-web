@@ -131,31 +131,31 @@
 }
 
 /* Interactive button 0 bordered alternative background. */
-.button--interactive_0--bordered--customized_off_palette,
-.button--interactive_0--bordered--customized_off_palette:visited {
+.button--interactive_0--bordered-light-outline,
+.button--interactive_0--bordered-light-outline:visited {
   background-color: var(--interactive-interactive_0-default-background);
   color: var(--interactive-interactive_0-default-text);
   box-shadow: inset 0 0 0 var(--border-width-slim)
     var(--interactive-interactive_0-default-text);
 }
 
-.button--interactive_0--bordered--customized_off_palette:hover {
+.button--interactive_0--bordered-light-outline:hover {
   background-color: var(--interactive-interactive_0-hover-background);
   color: var(--interactive-interactive_0-hover-text);
 }
 
-.button--interactive_0--bordered--customized_off_palette:active {
+.button--interactive_0--bordered-light-outline:active {
   background-color: var(--interactive-interactive_1-hover-background);
   color: var(--interactive-interactive_1-active-text);
 }
 
-.button--interactive_0--bordered--customized-off-palette:disabled,
-.button--interactive_0--bordered--customized_off_palette.button--disabled {
+.button--interactive_0--bordered-light-outline:disabled,
+.button--interactive_0--bordered-light-outline.button--disabled {
   background-color: var(--interactive-interactive_0-disabled-background);
   color: var(--interactive-interactive_0-disabled-text);
 }
 
-.button--interactive_0--bordered--customized_off_palette:focus {
+.button--interactive_0--bordered-light-outline:focus {
   outline: 0;
   box-shadow: inset 0 0 0 var(--border-width-medium)
     var(--interactive-interactive_0-active-background);

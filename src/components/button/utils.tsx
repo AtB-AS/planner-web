@@ -6,7 +6,7 @@ import { LoadingIcon } from '../loading';
 export type ButtonModes =
   | 'interactive_0'
   | 'interactive_0--bordered'
-  | 'interactive_0--bordered--customized_off_palette'
+  | 'interactive_0--bordered-light-outline'
   | 'interactive_1'
   | 'interactive_2'
   | 'interactive_2--customized_off_palette'

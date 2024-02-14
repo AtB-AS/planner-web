@@ -261,7 +261,7 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
             className={style.button}
             mode={
               orgId === 'fram'
-                ? 'interactive_0--bordered--customized_off_palette'
+                ? 'interactive_0--bordered-light-outline'
                 : 'interactive_0--bordered'
             }
             disabled={
