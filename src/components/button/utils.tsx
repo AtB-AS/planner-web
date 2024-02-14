@@ -9,7 +9,7 @@ export type ButtonModes =
   | 'interactive_0--bordered-light-outline'
   | 'interactive_1'
   | 'interactive_2'
-  | 'interactive_2--customized_off_palette'
+  | 'interactive_2--light-outline'
   | 'interactive_3'
   | 'destructive'
   | 'transparent'

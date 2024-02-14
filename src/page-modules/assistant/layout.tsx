@@ -250,7 +250,7 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
             className={style.button}
             mode={
               orgId === 'fram' && !isDarkMode
-                ? 'interactive_2--customized_off_palette'
+                ? 'interactive_2--light-outline'
                 : 'interactive_2'
             }
             onClick={() => setShowAlternatives(!showAlternatives)}
