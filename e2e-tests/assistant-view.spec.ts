@@ -73,11 +73,11 @@ test('should show boats and message on Correspondance', async ({ page }) => {
   await page.goto(process.env.E2E_URL ?? 'http://localhost:3000');
 
   await page.getByRole('textbox', { name: 'From' }).click();
-  await page.getByRole('textbox', { name: 'From' }).fill('Moa');
+  await page.getByRole('textbox', { name: 'From' }).fill('Moa trafikktermin');
   await page.getByText('Moa trafikkterminal').click();
 
   await page.getByRole('textbox', { name: 'To' }).click();
-  await page.getByRole('textbox', { name: 'To' }).fill('Ullstein');
+  await page.getByRole('textbox', { name: 'To' }).fill('Ulsteinvik');
 
   const additionalRequest = page.waitForResponse((request) => {
     return request.url().includes('trip');
