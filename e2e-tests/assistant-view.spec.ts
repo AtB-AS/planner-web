@@ -74,7 +74,7 @@ test('should show boats and message on Correspondance', async ({ page }) => {
 
   await page.getByRole('textbox', { name: 'From' }).click();
   await page.getByRole('textbox', { name: 'From' }).fill('Moa trafikktermin');
-  await page.getByText('Moa trafikkterminal').click();
+  await page.getByRole('option', { name: 'Moa trafikkterminal' }).click();
 
   await page.getByRole('textbox', { name: 'To' }).click();
   await page.getByRole('textbox', { name: 'To' }).fill('Ulsteinvik');
@@ -83,7 +83,9 @@ test('should show boats and message on Correspondance', async ({ page }) => {
     return request.url().includes('trip');
   });
 
-  await page.getByRole('option', { name: 'Ulsteinvik Ulstein' }).click();
+  await page
+    .getByRole('option', { name: 'Ulsteinvik Ulstein', exact: true })
+    .click();
 
   await additionalRequest;
 
@@ -98,6 +100,6 @@ test('should show boats and message on Correspondance', async ({ page }) => {
 
   await additionalRequest2;
 
-  await page.getByTestId('trip-pattern-1').click();
+  await page.getByTestId('trip-pattern-0').click();
   await expect(page.getByText('Correspondance between 1145')).toBeVisible();
 });
