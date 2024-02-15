@@ -37,7 +37,7 @@ test('Should filter on line 701', async ({ page }) => {
   await page.getByRole('button', { name: 'Find departures' }).click();
   await tripResponse2;
 
-  const tripPatternItem2 = page.getByTestId('trip-pattern-0');
+  const tripPatternItem2 = page.getByTestId('tripPattern-0-0');
   await tripPatternItem2.waitFor();
 
   await expect(tripPatternItem2).toBeVisible();

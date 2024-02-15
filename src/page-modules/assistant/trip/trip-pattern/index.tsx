@@ -19,12 +19,14 @@ type TripPatternProps = {
   tripPattern: TripPatternType;
   delay: number;
   index: number;
+  testId?: string;
 };
 
 export default function TripPattern({
   tripPattern,
   delay,
   index,
+  testId,
 }: TripPatternProps) {
   const { t, language } = useTranslation();
 
@@ -70,7 +72,7 @@ export default function TripPattern({
     <motion.a
       href={`/assistant/${tripPattern.compressedQuery}`}
       className={className}
-      data-testid={`trip-pattern-${index}`}
+      data-testid={testId}
       initial={{ opacity: 0, x: -10 }}
       animate={{ opacity: maxOpacity, x: 0 }}
       exit={{ opacity: 0, x: -10 }}

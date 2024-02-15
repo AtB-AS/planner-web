@@ -12,17 +12,26 @@ test('Should fetch Kristiansund - Molde and loading more after first result', as
 
   await page.getByRole('textbox', { name: 'From' }).click();
   await page.getByRole('textbox', { name: 'From' }).fill('Kristiansund');
-  await page.getByRole('option', { name: 'Kristiansund Kristiansund' }).click();
+  await page
+    .getByRole('option', { name: 'Kristiansund Kristiansund', exact: true })
+    .click();
 
   await page.getByRole('textbox', { name: 'To' }).click();
   await page.getByRole('textbox', { name: 'To' }).fill('Molde');
+
+  const initialRequest = page.waitForResponse((request) => {
+    return request.url().includes('trip') && request.url().includes('cursor');
+  });
+
   await page.getByRole('option', { name: 'Molde Molde', exact: true }).click();
+
+  await initialRequest;
 
   await page.getByRole('button', { name: 'More choices' }).click();
   await page.getByText('Bus', { exact: true }).click();
   await page.getByRole('button', { name: 'Find departures' }).click();
 
-  const tripPatternItem = page.getByTestId('trip-pattern-0');
+  const tripPatternItem = page.getByTestId('tripPattern-0-0');
   await tripPatternItem.waitFor();
 
   const additionalRequest = page.waitForRequest((request) => {
@@ -100,6 +109,6 @@ test('should show boats and message on Correspondance', async ({ page }) => {
 
   await additionalRequest2;
 
-  await page.getByTestId('trip-pattern-0').click();
+  await page.getByTestId('tripPattern-0-0').click();
   await expect(page.getByText('Correspondance between 1145')).toBeVisible();
 });
