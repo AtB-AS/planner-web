@@ -100,6 +100,7 @@ export default function Trip({ tripQuery, fallback }: TripProps) {
                 tripPattern={tripPattern}
                 delay={i * 0.1}
                 index={i}
+                testId={`tripPattern-${tripIndex}-${i}`}
               />
             </div>
           )),

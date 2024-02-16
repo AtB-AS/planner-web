@@ -253,6 +253,7 @@ describe('assistant page', function () {
       transportModeFilter: null,
       cursor: null,
       lineFilter: null,
+      via: null,
     };
     const fromToTripQuery2: FromToTripQuery = {
       from: fromFeature,
@@ -286,6 +287,7 @@ describe('assistant page', function () {
       transportModeFilter: null,
       cursor: null,
       lineFilter: null,
+      via: null,
     };
 
     addAssistantTripToCache(cachedFromToTripQuery, tripResult);
