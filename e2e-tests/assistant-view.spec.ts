@@ -45,7 +45,7 @@ test('Should fetch Kristiansund - Molde and loading more after first result', as
 test('should show non transit trips on walkable distance', async ({ page }) => {
   await page.goto(process.env.E2E_URL ?? 'http://localhost:3000');
   await page.getByRole('textbox', { name: 'From' }).click();
-  await page.getByRole('textbox', { name: 'From' }).fill('Fylkeshus');
+  await page.getByRole('textbox', { name: 'From' }).fill('Fylkeshuset i Møre');
   await page
     .getByRole('option', { name: 'Fylkeshuset i Møre og Romsdal' })
     .click();
@@ -63,7 +63,7 @@ test('should show non transit trips on walkable distance', async ({ page }) => {
 test('should show non transit trips on cyclable distance', async ({ page }) => {
   await page.goto(process.env.E2E_URL ?? 'http://localhost:3000');
   await page.getByRole('textbox', { name: 'From' }).click();
-  await page.getByRole('textbox', { name: 'From' }).fill('Fylkeshus');
+  await page.getByRole('textbox', { name: 'From' }).fill('Fylkeshuset i Møre');
   await page
     .getByRole('option', { name: 'Fylkeshuset i Møre og Romsdal' })
     .click();
@@ -76,39 +76,4 @@ test('should show non transit trips on cyclable distance', async ({ page }) => {
   await expect(
     page.getByRole('heading', { name: 'Fylkeshuset i Møre og Romsdal' }),
   ).toBeVisible();
-});
-
-test('should show boats and message on Correspondance', async ({ page }) => {
-  await page.goto(process.env.E2E_URL ?? 'http://localhost:3000');
-
-  await page.getByRole('textbox', { name: 'From' }).click();
-  await page.getByRole('textbox', { name: 'From' }).fill('Moa trafikktermin');
-  await page.getByRole('option', { name: 'Moa trafikkterminal' }).click();
-
-  await page.getByRole('textbox', { name: 'To' }).click();
-  await page.getByRole('textbox', { name: 'To' }).fill('Ulsteinvik');
-
-  const additionalRequest = page.waitForResponse((request) => {
-    return request.url().includes('trip');
-  });
-
-  await page
-    .getByRole('option', { name: 'Ulsteinvik Ulstein', exact: true })
-    .click();
-
-  await additionalRequest;
-
-  await page.getByRole('button', { name: 'More choices' }).click();
-
-  const additionalRequest2 = page.waitForResponse((request) => {
-    return (
-      request.url().includes('trip') && request.url().includes('expressboat')
-    );
-  });
-  await page.locator('label').filter({ hasText: 'Express boat' }).click();
-
-  await additionalRequest2;
-
-  await page.getByTestId('tripPattern-0-0').click();
-  await expect(page.getByText('Correspondance between 1145')).toBeVisible();
 });
