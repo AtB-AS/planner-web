@@ -56,11 +56,14 @@ export default function SearchTimeSelector({
 
   const isPastDate = (selectedDate: string) => {
     const today = new Date().toISOString().split('T')[0];
+    const year = initialDate.getFullYear().toString();
+    const month = initialDate.getMonth().toString().padStart(2, '0');
+    const day = initialDate.getDate().toString().padStart(2, '0');
+    const formatedInitialDate = `${year}-${month}-${day}`;
 
-    // If reselecting from (selectedYear < current year) to current year, the date will automatically be reset to the current date.
-    if (selectedDate.substring(0, 4) < initialDate.getFullYear().toString()) {
+    // If reselecting the current month or current year twice, the date will automatically be reset to the current date.
+    if (selectedDate.substring(0, 12) <= formatedInitialDate)
       resetToCurrentDate();
-    }
 
     // To ensure that the time is not past whenever reselecting back the current date.
     if (selectedDate <= today) resetToCurrentTime();
