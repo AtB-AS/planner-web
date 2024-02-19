@@ -26,7 +26,7 @@
     "@apollo/client": "^3.8.8",
     "@atb-as/config-specs": "^3.13.1",
     "@atb-as/theme": "^8.0.0",
-    "@github/combobox-nav": "^2.3.0",
+    "@github/combobox-nav": "^2.3.1",
     "@isaacs/ttlcache": "^1.4.1",
     "@leile/lobo-t": "^1.0.5",
     "@mapbox/polyline": "^1.2.1",

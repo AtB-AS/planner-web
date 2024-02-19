@@ -1227,10 +1227,10 @@
   resolved "https://registry.yarnpkg.com/@firebase/webchannel-wrapper/-/webchannel-wrapper-0.10.5.tgz#cd9897680d0a2f1bce8d8c23a590e5874f4617c5"
   integrity sha512-eSkJsnhBWv5kCTSU1tSUVl9mpFu+5NXXunZc83le8GMjMlsWwQArSc7cJJ4yl+aDFY0NGLi0AjZWMn1axOrkRg==
 
-"@github/combobox-nav@^2.3.0":
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/@github/combobox-nav/-/combobox-nav-2.3.0.tgz#032b42fcef1e3fad372cab52e054228c473c9398"
-  integrity sha512-5CX03DbsLZ41dX5hKHyQKtg133U6lruX4TD9G0Zs4W8BpWy7lN8DJ6TYaeZN/V7x8K34coaqNYk/Y5ic7stfkg==
+"@github/combobox-nav@^2.3.1":
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/@github/combobox-nav/-/combobox-nav-2.3.1.tgz#76da4c47f1e33af56392c5c9cf661a28d5b4168e"
+  integrity sha512-gwxPzLw8XKecy1nP63i9lOBritS3bWmxl02UX6G0TwMQZbMem1BCS1tEZgYd3mkrkiDrUMWaX+DbFCuDFo3K+A==
 
 "@graphql-codegen/add@^3.2.1":
   version "3.2.3"
