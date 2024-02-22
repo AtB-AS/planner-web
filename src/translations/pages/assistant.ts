@@ -48,6 +48,7 @@ export const Assistant = {
         'I travel with line',
         'Eg reiser med linje',
       ),
+      description: _('Linje', 'Line', 'Linje'),
       placeholder: _('linjenummer', 'line number', 'linjenummer'),
       example: _(
         'Eksempel: 901, 800',

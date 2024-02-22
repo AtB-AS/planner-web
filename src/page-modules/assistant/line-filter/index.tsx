@@ -38,13 +38,20 @@ export default function LineFilter({ filterState, onChange }: LineFilterProps) {
       <Typo.h3 textType="body__primary--bold" className={style.heading}>
         {t(PageText.Assistant.search.lineFilter.label)}
       </Typo.h3>
-      <input
-        className={style.input}
-        type="text"
-        placeholder={t(PageText.Assistant.search.lineFilter.placeholder)}
-        value={localFilterState}
-        onChange={onChangeWrapper}
-      />
+
+      <div className={style.labelInputContainer}>
+        <label className={style.label}>
+          {t(PageText.Assistant.search.lineFilter.description)}
+        </label>
+
+        <input
+          className={style.input}
+          type="text"
+          placeholder={t(PageText.Assistant.search.lineFilter.placeholder)}
+          value={localFilterState}
+          onChange={onChangeWrapper}
+        />
+      </div>
 
       <Typo.p textType="body__tertiary" className={style.infoText}>
         {t(PageText.Assistant.search.lineFilter.example)}
