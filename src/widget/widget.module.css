@@ -184,7 +184,8 @@
   padding: 0 var(--spacings-xLarge) var(--spacings-xLarge);
 }
 
-.button {
+.button,
+.buttonLightOutline {
   cursor: pointer;
   text-align: left;
   border: 0;
@@ -207,7 +208,8 @@
   padding: var(--spacings-medium);
   border-radius: var(--border-radius-regular);
 }
-.button span {
+.button,
+.buttonLightOutline span {
   display: block;
   flex: 1;
 }
@@ -236,6 +238,37 @@
   outline: 0;
   box-shadow: inset 0 0 0 var(--border-width-medium)
     var(--interactive-interactive_0-outline-background);
+}
+
+/* Interactive button 0 bordered alternative background. */
+.buttonLightOutline,
+.buttonLightOutline:visited {
+  background-color: var(--interactive-interactive_0-default-background);
+  color: var(--interactive-interactive_0-default-text);
+  box-shadow: inset 0 0 0 var(--border-width-slim)
+    var(--interactive-interactive_0-default-text);
+}
+
+.buttonLightOutline:hover {
+  background-color: var(--interactive-interactive_0-hover-background);
+  color: var(--interactive-interactive_0-hover-text);
+}
+
+.buttonLightOutline:active {
+  background-color: var(--interactive-interactive_1-hover-background);
+  color: var(--interactive-interactive_1-active-text);
+}
+
+.buttonLightOutline:disabled,
+.buttonLightOutline.button--disabled {
+  background-color: var(--interactive-interactive_0-disabled-background);
+  color: var(--interactive-interactive_0-disabled-text);
+}
+
+.buttonLightOutline:focus {
+  outline: 0;
+  box-shadow: inset 0 0 0 var(--border-width-medium)
+    var(--interactive-interactive_0-active-background);
 }
 
 /* Autocomplete */

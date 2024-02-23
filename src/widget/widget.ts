@@ -19,6 +19,7 @@ const html = String.raw;
 
 const MODULE_VERSION = process.env.MODULE_VERSION;
 const COMPRESSED_ORG = process.env.COMPRESSED_ORG;
+const useDefaultButtonStyle = COMPRESSED_ORG !== 'GYJwhgtkA' ? true : false;
 
 function createSettingsConstants(urlBase: string) {
   if (!urlBase?.startsWith('http')) {
@@ -429,7 +430,12 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
 
   const buttons = html`
     <div class="${style.buttonGroup}">
-      <button type="submit" class="${style.button}">
+      <button
+        type="submit"
+        class="${useDefaultButtonStyle
+          ? style.button
+          : style.buttonLightOutline}"
+      >
         <span>${texts.searchButton}</span>
       </button>
     </div>
