@@ -130,7 +130,6 @@
     var(--interactive-interactive_0-outline-background);
 }
 
-/* Interactive button 0 bordered alternative background. */
 .button--interactive_0--bordered-light-outline,
 .button--interactive_0--bordered-light-outline:visited {
   background-color: var(--interactive-interactive_0-default-background);
