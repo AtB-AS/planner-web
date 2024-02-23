@@ -1,10 +1,11 @@
 /// <reference types="vitest" />
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
+import { defineConfig } from 'vitest/config';
+import react from '@vitejs/plugin-react-swc';
 import path from 'path';
 
 export default defineConfig({
-  plugins: [react()],
+  // @TODO There is an issue with typing in this version, so we need to cast it to any
+  plugins: [react() as any],
 
   test: {
     globalSetup: './src/tests/global-setup.ts',
@@ -12,6 +13,7 @@ export default defineConfig({
     environment: 'happy-dom',
     exclude: ['e2e-tests/**', '**/node_modules/**'],
   },
+
   resolve: {
     alias: {
       '@atb': path.resolve(__dirname, './src'),
