@@ -1,6 +1,7 @@
 import { translation as _ } from '@atb/translations/commons';
+import { orgSpecificTranslations } from '../utils';
 
-export const Assistant = {
+const AssistantInternal = {
   title: _('Planlegg reisen', 'Plan travel', 'Planlegg reisa'),
   homeLink: (name: string) =>
     _(`Tilbake til ${name}`, `Back to ${name}`, `Tilbake til ${name}`),
@@ -49,11 +50,7 @@ export const Assistant = {
         'Eg reiser med linje',
       ),
       placeholder: _('linjenummer', 'line number', 'linjenummer'),
-      example: _(
-        'Eksempel: 901, 800',
-        'Example: 901, 800',
-        'Eksempel: 901, 800',
-      ),
+      example: _('Eksempel: 2, 10', 'Example: 2, 10', 'Eksempel: 2, 10'),
     },
     buttons: {
       find: {
@@ -407,3 +404,28 @@ export const Assistant = {
     },
   },
 };
+
+export const Assistant = orgSpecificTranslations(AssistantInternal, {
+  nfk: {
+    search: {
+      lineFilter: {
+        example: _(
+          'Eksempel: 100, 200, 300',
+          'Example: 100, 200, 300',
+          'Eksempel: 100, 200, 300',
+        ),
+      },
+    },
+  },
+  fram: {
+    search: {
+      lineFilter: {
+        example: _(
+          'Eksempel: 905, 902, 901',
+          'Example: 905, 902, 901',
+          'Eksempel: 905, 902, 901',
+        ),
+      },
+    },
+  },
+});
