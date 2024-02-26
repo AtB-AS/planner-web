@@ -363,9 +363,14 @@ export function setTimezoneIfNeeded(date: Date): Date {
   return new Date(date.toLocaleString(FALLBACK_LANGUAGE, { timeZone: CET }));
 }
 
-export function formatLocalTimeToCTE(localTime: number) {
+export function formatCETToLocal(localTime: number) {
   const offset = getOffsetTimezone();
-  return 3600000 * (offset - 1) + localTime;
+  return localTime + 3600000 * (offset - 1);
+}
+
+export function formatLocalTimeToCET(cet: number) {
+  const offset = getOffsetTimezone();
+  return cet - 3600000 * (offset - 1);
 }
 
 function getOffsetTimezone() {

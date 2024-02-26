@@ -9,7 +9,7 @@ import { swrFetcher } from '@atb/modules/api-browser';
 import useSWRInfinite from 'swr/infinite';
 import { createTripQuery, tripQueryToQueryString } from '../../utils';
 import { useEffect, useState } from 'react';
-import { formatLocalTimeToCTE } from '@atb/utils/date';
+import { formatCETToLocal } from '@atb/utils/date';
 
 const MAX_NUMBER_OF_INITIAL_SEARCH_ATTEMPTS = 3;
 const INITIAL_NUMBER_OF_WANTED_TRIP_PATTERNS = 6;
@@ -45,7 +45,7 @@ export function useTripPatterns(
           ...tripQuery,
           searchTime: {
             ...tripQuery.searchTime,
-            dateTime: formatLocalTimeToCTE(tripQuery.searchTime.dateTime),
+            dateTime: formatCETToLocal(tripQuery.searchTime.dateTime),
           },
         },
   );
