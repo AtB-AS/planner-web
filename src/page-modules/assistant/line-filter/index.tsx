@@ -41,8 +41,10 @@ export default function LineFilter({ filterState, onChange }: LineFilterProps) {
       </Typo.h3>
 
       <LineSearch
-        label={t(PageText.Assistant.search.lineFilter.description)}
-        placeholder={t(PageText.Assistant.search.lineFilter.placeholder)}
+        label={t(PageText.Assistant.search.lineFilter.lineSearch.label)}
+        placeholder={t(
+          PageText.Assistant.search.lineFilter.lineSearch.placeholder,
+        )}
         value={localFilterState}
         onChange={onChangeWrapper}
       />
