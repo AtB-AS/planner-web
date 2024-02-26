@@ -4,7 +4,7 @@ import { z } from 'zod';
 export const tariffZoneSchema = z.object({
   geometry: z.object({
     coordinates: z.array(z.array(z.array(z.number()))),
-    type: z.string(),
+    type: z.literal('Polygon'),
   }),
   id: z.string(),
   name: languageAndTextSchema,

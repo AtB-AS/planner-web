@@ -41,5 +41,10 @@ export default handlerWithDepartureClient<AutocompleteApiReturnType>(
     },
   },
   // @TODO FIX THIS!
-  ['https://frammr.no', /\.frammr.no$/],
+  [
+    'https://frammr.no',
+    /\.frammr.no$/,
+    'https://reisnordland.no',
+    /\.reisnordland.no$/,
+  ],
 );
