@@ -24,6 +24,7 @@ import { FALLBACK_LANGUAGE } from '@atb/translations/commons';
 
 const humanizer = humanizeDuration.humanizer({});
 const CET = 'Europe/Oslo';
+const ONE_HOUR = 3600000;
 
 export function parseIfNeeded(a: string | Date): Date {
   return a instanceof Date ? a : parseISO(a);
@@ -152,7 +153,7 @@ export function formatToClock(
   showSeconds?: boolean,
 ) {
   const parsed = parseIfNeeded(isoDate);
-  const cet = setTimezoneIfNeeded(parsed);
+  const cet = setTimezone(parsed);
   const rounded = !showSeconds ? roundMinute(cet, roundingMethod) : cet;
   const seconds = showSeconds ? ':' + format(cet, 'ss') : '';
 
@@ -358,19 +359,18 @@ export function formatTripDuration(
   return { duration, departure, arrival };
 }
 
-export function setTimezoneIfNeeded(date: Date): Date {
-  if (Intl.DateTimeFormat().resolvedOptions().timeZone === CET) return date;
+export function setTimezone(date: Date): Date {
   return new Date(date.toLocaleString(FALLBACK_LANGUAGE, { timeZone: CET }));
 }
 
-export function formatCETToLocal(localTime: number) {
+export function formatLocalTimeToCET(localTime: number) {
   const offset = getOffsetTimezone();
-  return localTime + 3600000 * (offset - 1);
+  return localTime + ONE_HOUR * (offset - 1);
 }
 
-export function formatLocalTimeToCET(cet: number) {
+export function formatCETToLocalTime(cet: number) {
   const offset = getOffsetTimezone();
-  return cet - 3600000 * (offset - 1);
+  return cet - ONE_HOUR * (offset - 1);
 }
 
 function getOffsetTimezone() {

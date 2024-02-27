@@ -8,7 +8,7 @@ import {
 } from '@atb/translations';
 import { SEARCH_MODES, SearchMode, SearchTime } from '../types';
 import style from './selector.module.css';
-import { setTimezoneIfNeeded } from '@atb/utils/date';
+import { formatLocalTimeToCET, setTimezone } from '@atb/utils/date';
 
 type SearchTimeSelectorProps = {
   onChange: (state: SearchTime) => void;
@@ -23,8 +23,10 @@ export default function SearchTimeSelector({
 }: SearchTimeSelectorProps) {
   const { t } = useTranslation();
   const [selectedMode, setSelectedMode] = useState<SearchTime>(initialState);
-  const initialDate = setTimezoneIfNeeded(
-    'dateTime' in initialState ? new Date(initialState.dateTime) : new Date(),
+  const initialDate = setTimezone(
+    'dateTime' in initialState
+      ? new Date(formatLocalTimeToCET(initialState.dateTime))
+      : new Date(),
   ) as Date;
 
   const [selectedDate, setSelectedDate] = useState(initialDate);
@@ -52,7 +54,7 @@ export default function SearchTimeSelector({
   const resetToCurrentTime = () => {
     const newState = {
       mode: selectedMode.mode,
-      dateTime: setTimezoneIfNeeded(new Date()).getTime(),
+      dateTime: setTimezone(new Date()).getTime(),
     };
     setSelectedTime(() => format(newState.dateTime, 'HH:mm'));
     setSelectedMode(newState);
@@ -62,7 +64,7 @@ export default function SearchTimeSelector({
   const resetToCurrentDate = () => {
     const newState = {
       mode: selectedMode.mode,
-      dateTime: setTimezoneIfNeeded(new Date()).getTime(),
+      dateTime: setTimezone(new Date()).getTime(),
     };
     setSelectedDate(new Date(newState.dateTime));
     setSelectedMode(newState);
