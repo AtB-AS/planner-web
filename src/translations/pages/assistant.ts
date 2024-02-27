@@ -49,7 +49,10 @@ const AssistantInternal = {
         'I travel with line',
         'Eg reiser med linje',
       ),
-      placeholder: _('linjenummer', 'line number', 'linjenummer'),
+      lineSearch: {
+        label: _('Linje', 'Line', 'Linje'),
+        placeholder: _('linjenummer', 'line number', 'linjenummer'),
+      },
       example: _('Eksempel: 2, 10', 'Example: 2, 10', 'Eksempel: 2, 10'),
     },
     buttons: {
