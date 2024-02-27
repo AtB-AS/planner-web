@@ -1,4 +1,4 @@
-import { formatLocalTimeToCET } from '@atb/utils/date';
+import { formatCETToLocalTime } from '@atb/utils/date';
 import { parseTripQueryString } from '../server/journey-planner';
 
 export function formatQuayName(quayName?: string, publicCode?: string | null) {
@@ -53,7 +53,7 @@ export function tripQueryStringToQueryParams(
   const fromLayer = from.place?.includes('StopPlace') ? 'venue' : 'address';
   const toLayer = to.place?.includes('StopPlace') ? 'venue' : 'address';
   const searchTime = String(
-    formatLocalTimeToCET(new Date(originalSearchTime).getTime()),
+    formatCETToLocalTime(new Date(originalSearchTime).getTime()),
   );
 
   const params = {
