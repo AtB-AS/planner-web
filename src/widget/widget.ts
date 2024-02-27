@@ -19,7 +19,8 @@ const html = String.raw;
 
 const MODULE_VERSION = process.env.MODULE_VERSION;
 const COMPRESSED_ORG = process.env.COMPRESSED_ORG;
-const useDefaultButtonStyle = COMPRESSED_ORG !== 'GYJwhgtkA' ? true : false;
+const ORG_ID = process.env.ORG_ID;
+const useDefaultButtonStyle = ORG_ID !== 'fram' ? true : false;
 
 function createSettingsConstants(urlBase: string) {
   if (!urlBase?.startsWith('http')) {
