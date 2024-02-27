@@ -1,19 +1,19 @@
 import { ChangeEvent } from 'react';
-import style from './line-search.module.css';
+import style from './labled-input.module.css';
 
-type LineSearchProps = {
+type LabeledInput = {
   label: string;
   placeholder: string;
   value: string;
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
 };
 
-export default function LineSearch({
+export default function LabeledInput({
   label,
   placeholder,
   value,
   onChange,
-}: LineSearchProps) {
+}: LabeledInput) {
   return (
     <div className={style.container}>
       <label className={style.label}>{label}</label>
