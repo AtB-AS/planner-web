@@ -122,7 +122,15 @@ describe('transport mode filter', () => {
 
     const initial: string[] = [];
 
-    const expected = null;
+    const expected = [
+      'bus',
+      'rail',
+      'expressboat',
+      'ferry',
+      'airportbus',
+      'air',
+      'other',
+    ];
 
     render(
       <TransportModeFilter

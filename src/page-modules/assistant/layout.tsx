@@ -59,15 +59,6 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
     getTransportModeFilter,
   );
 
-  useEffect(() => {
-    if (tripQuery.transportModeFilter === null)
-      onTransportFilterChanged(
-        transportModeFilter
-          ?.filter((filter) => filter.id !== 'air')
-          .map((filter) => filter.id) ?? null,
-      );
-  }, [transportModeFilter]);
-
   const setValuesWithLoading = async (
     override: Partial<FromToTripQuery>,
     replace = false,
@@ -131,8 +122,23 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
   const { urls, orgId } = getOrgData();
   const { isDarkMode } = useTheme();
 
+  /*
+   * Temporary solution until firebase configuration is in place.
+   */
+  useEffect(() => {
+    if (tripQuery.transportModeFilter === null)
+      onTransportFilterChanged(
+        transportModeFilter
+          ?.filter(
+            (filter) =>
+              !filter.modes.some((mode) => mode.transportMode === 'air'),
+          )
+          .map((filter) => filter.id) ?? null,
+      );
+  }, [transportModeFilter]);
+
   /**
-   * Temprorary solution to disable line filter for some orgs until
+   * Temporary solution to disable line filter for some orgs until
    * we have a working solution for all orgs.
    */
   const disableLineFilter =
