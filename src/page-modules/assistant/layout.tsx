@@ -62,8 +62,8 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
   useEffect(() => {
     tripQuery.transportModeFilter =
       transportModeFilter
-        ?.filter((mode) => mode.icon.transportMode !== 'air')
-        .map((mode) => mode.id) ?? null;
+        ?.filter((filter) => filter.icon.transportMode !== 'air')
+        .map((filter) => filter.id) ?? null;
   }, [transportModeFilter]);
 
   const setValuesWithLoading = async (
