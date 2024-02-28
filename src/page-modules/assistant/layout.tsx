@@ -50,7 +50,6 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
   const [isPerformingSearchNavigation, setIsPerformingSearchNavigation] =
     useState(false);
   const [geolocationError, setGeolocationError] = useState<string | null>(null);
-  const [defaultFilters, setDefaultFilters] = useState<string[] | null>(null);
 
   // Loading the transport mode filter data here instead of in the component
   // avoids the data loading when the filter is mounted which causes the
@@ -61,11 +60,12 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
   );
 
   useEffect(() => {
-    setDefaultFilters(
-      transportModeFilter
-        ?.filter((filter) => filter.id !== 'air')
-        .map((filter) => filter.id) ?? null,
-    );
+    if (tripQuery.transportModeFilter === null)
+      onTransportFilterChanged(
+        transportModeFilter
+          ?.filter((filter) => filter.id !== 'air')
+          .map((filter) => filter.id) ?? null,
+      );
   }, [transportModeFilter]);
 
   const setValuesWithLoading = async (
@@ -221,11 +221,7 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
               >
                 <div className={style.alternatives}>
                   <TransportModeFilter
-                    filterState={
-                      tripQuery.transportModeFilter === null
-                        ? defaultFilters
-                        : tripQuery.transportModeFilter
-                    }
+                    filterState={tripQuery.transportModeFilter}
                     data={transportModeFilter}
                     onChange={onTransportFilterChanged}
                   />
