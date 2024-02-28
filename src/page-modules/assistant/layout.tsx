@@ -16,7 +16,12 @@ import { PageText, useTranslation } from '@atb/translations';
 import { FocusScope } from '@react-aria/focus';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useRouter } from 'next/router';
-import { FormEventHandler, PropsWithChildren, useState } from 'react';
+import {
+  FormEventHandler,
+  PropsWithChildren,
+  useEffect,
+  useState,
+} from 'react';
 import style from './assistant.module.css';
 import { FromToTripQuery } from './types';
 import { createTripQuery } from './utils';
@@ -53,6 +58,13 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
     'transportModeFilter',
     getTransportModeFilter,
   );
+
+  useEffect(() => {
+    tripQuery.transportModeFilter =
+      transportModeFilter
+        ?.filter((mode) => mode.icon.transportMode !== 'air')
+        .map((mode) => mode.id) ?? null;
+  }, [transportModeFilter]);
 
   const setValuesWithLoading = async (
     override: Partial<FromToTripQuery>,
