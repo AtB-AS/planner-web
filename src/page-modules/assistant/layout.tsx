@@ -117,6 +117,13 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
   const { urls, orgId } = getOrgData();
   const { isDarkMode } = useTheme();
 
+  /**
+   * Temprorary solution to disable line filter for some orgs until
+   * we have a working solution for all orgs.
+   */
+  const disableLineFilter =
+    process.env.NEXT_PUBLIC_DISABLE_LINE_FILTER === 'true';
+
   return (
     <div>
       <div className={style.homeLink__container}>
@@ -231,10 +238,12 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
                     />
                   </div>
 
-                  <LineFilter
-                    filterState={tripQuery.lineFilter}
-                    onChange={onLineFilterChanged}
-                  />
+                  {!disableLineFilter && (
+                    <LineFilter
+                      filterState={tripQuery.lineFilter}
+                      onChange={onLineFilterChanged}
+                    />
+                  )}
                 </div>
               </motion.div>
             </FocusScope>
