@@ -16,7 +16,12 @@ import { PageText, useTranslation } from '@atb/translations';
 import { FocusScope } from '@react-aria/focus';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useRouter } from 'next/router';
-import { FormEventHandler, PropsWithChildren, useState } from 'react';
+import {
+  FormEventHandler,
+  PropsWithChildren,
+  useEffect,
+  useState,
+} from 'react';
 import style from './assistant.module.css';
 import { FromToTripQuery } from './types';
 import { createTripQuery } from './utils';
@@ -117,8 +122,23 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
   const { urls, orgId } = getOrgData();
   const { isDarkMode } = useTheme();
 
+  /*
+   * Temporary solution until firebase configuration is in place.
+   */
+  useEffect(() => {
+    if (tripQuery.transportModeFilter === null)
+      onTransportFilterChanged(
+        transportModeFilter
+          ?.filter(
+            (filter) =>
+              !filter.modes.some((mode) => mode.transportMode === 'air'),
+          )
+          .map((filter) => filter.id) ?? null,
+      );
+  }, [transportModeFilter]);
+
   /**
-   * Temprorary solution to disable line filter for some orgs until
+   * Temporary solution to disable line filter for some orgs until
    * we have a working solution for all orgs.
    */
   const disableLineFilter =

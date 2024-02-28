@@ -51,7 +51,9 @@ export default function TransportModeFilter({
               !localFilterState || localFilterState.length === data.length
             }
             onChange={(event) => {
-              onChangeWrapper(event.target.checked ? null : []);
+              onChangeWrapper(
+                event.target.checked ? data?.map((option) => option.id) : [],
+              );
             }}
           />
 
