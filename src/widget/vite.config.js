@@ -32,6 +32,7 @@ export default defineConfig({
     'process.env': {
       MODULE_VERSION: version,
       COMPRESSED_ORG: compressedOrgId,
+      ORG_ID: orgId,
     },
   },
   build: {
