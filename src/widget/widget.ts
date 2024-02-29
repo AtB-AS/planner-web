@@ -736,7 +736,9 @@ function tabBar() {
       const href = tab.getAttribute('href');
       if (!href) return;
 
-      const mode = href.replace('/', '');
+      // Handle query params by splitting on `?` after replacing the `/`.
+      const [mode] = href.replace('/', '').split('?');
+
       e.preventDefault();
       const tabpanel = document.querySelector('#pw-' + mode);
       if (!tabpanel) return;
