@@ -712,12 +712,13 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
               href="/assistant"
               class="${style.tabSelected}"
               id="pw-assistant-tab"
+              data-mode="assistant"
             >
               ${texts.assistant.link}
             </a>
           </li>
           <li>
-            <a href="/departures" id="pw-departures-tab">
+            <a href="/departures" id="pw-departures-tab" data-mode="departures">
               ${texts.departure.link}
             </a>
           </li>
@@ -737,16 +738,14 @@ function tabBar() {
   document
     .querySelector<HTMLUListElement>('.js-tablist')
     ?.addEventListener('click', function (e) {
+      e.preventDefault();
+
       const tab = (e.target as HTMLElement)?.closest('a');
       if (!tab) return;
 
-      const href = tab.getAttribute('href');
-      if (!href) return;
+      const mode = tab.getAttribute('data-mode');
+      if (!mode) return;
 
-      // Handle query params by splitting on `?` after replacing the `/`.
-      const [mode] = href.replace('/', '').split('?');
-
-      e.preventDefault();
       const tabpanel = document.querySelector('#pw-' + mode);
       if (!tabpanel) return;
 
