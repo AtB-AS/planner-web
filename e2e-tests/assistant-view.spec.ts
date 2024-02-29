@@ -49,9 +49,14 @@ test('should show non transit trips on walkable distance', async ({ page }) => {
   await page
     .getByRole('option', { name: 'Fylkeshuset i Møre og Romsdal' })
     .click();
+
   await page.getByRole('textbox', { name: 'To' }).click();
   await page.getByRole('textbox', { name: 'To' }).fill('Roseby');
   await page.getByRole('option', { name: 'Roseby Molde', exact: true }).click();
+
+  await page.waitForResponse((request) => {
+    return request.url().includes('assistant/non-transit-trip');
+  });
 
   await page.getByTestId('non-transit-pill-foot').click();
 
@@ -70,6 +75,10 @@ test('should show non transit trips on cyclable distance', async ({ page }) => {
   await page.getByRole('textbox', { name: 'To' }).click();
   await page.getByRole('textbox', { name: 'To' }).fill('Roseby');
   await page.getByRole('option', { name: 'Roseby Molde', exact: true }).click();
+
+  await page.waitForResponse((request) => {
+    return request.url().includes('assistant/non-transit-trip');
+  });
 
   await page.getByTestId('non-transit-pill-bicycle').click();
 
