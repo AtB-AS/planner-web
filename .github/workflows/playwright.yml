@@ -1,9 +1,14 @@
 name: Playwright Tests
 on:
-  pull_request:
-    branches: main
+  deployment_status:
+
 jobs:
   test:
+    if:
+      github.event_name == 'deployment_status' &&
+      github.event.deployment_status.state == 'success' &&
+      endsWith(github.event.deployment.environment, 'Preview')
+
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
@@ -19,18 +24,11 @@ jobs:
       - name: Install Playwright Browsers
         run: yarn playwright install --with-deps
 
-      - name: Waiting for 200 from the Vercel Preview
-        uses: patrickedqvist/wait-for-vercel-preview@v1.3.1
-        id: waitFor200
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          check_interval: 10
-          max_timeout: 120
       - name: Run Playwright tests
         run: yarn playwright test
         env:
           NEXT_PUBLIC_PLANNER_ORG_ID: atb
-          E2E_URL: ${{ steps.waitFor200.outputs.url }}
+          E2E_URL: ${{ github.event.deployment_status.target_url }}
 
       - uses: actions/upload-artifact@v4
         if: always()
