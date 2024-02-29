@@ -75,7 +75,7 @@ export default function DetailsHeader({ tripPattern }: DetailsHeaderProps) {
             {weekdayAndDate}
           </Typo.p>
         </div>
-        <div className={style.duration}>
+        <div className={style.duration} data-testid={'detailsHeader-duration'}>
           <MonoIcon icon="time/Duration" />
           <Typo.p
             textType={isCancelled ? 'body__primary--strike' : 'body__primary'}

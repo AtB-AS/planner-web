@@ -116,7 +116,11 @@ export default function SearchTimeSelector({
         style={{ '--number-of-options': options.length } as CSSProperties}
       >
         {options.map((state) => (
-          <label key={state} className={style.option}>
+          <label
+            key={state}
+            className={style.option}
+            data-testid={'searchTimeSelector-' + state}
+          >
             <input
               type="radio"
               name="searchTimeSelector"
@@ -169,7 +173,10 @@ export default function SearchTimeSelector({
                 />
               </div>
               <div className={style.timeSelector}>
-                <label htmlFor="searchTimeSelector-time">
+                <label
+                  htmlFor="searchTimeSelector-time"
+                  data-testid="searchTimeSelector-time"
+                >
                   {t(ModuleText.SearchTime.time)}
                 </label>
 
