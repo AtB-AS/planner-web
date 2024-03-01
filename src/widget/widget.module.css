@@ -63,12 +63,13 @@
 .tabSelected {
   text-decoration: none;
   border-bottom: 3px solid var(--static-background-background_accent_0-text);
+  font-weight: var(--baseTypo-body__primary--bold-fontWeight, 500);
 }
 .tabs a:hover {
   color: var(--static-background-background_accent_1-text);
 }
 .tabs a:active {
-  color: var(--interactive-interactive_0-active-text);
+  color: var(--static-background-background_accent_0-text);
 }
 
 .main {
@@ -208,7 +209,7 @@
   padding: var(--spacings-medium);
   border-radius: var(--border-radius-regular);
 }
-.button,
+.button span,
 .buttonLightOutline span {
   display: block;
   flex: 1;
