@@ -9,6 +9,7 @@ import { swrFetcher } from '@atb/modules/api-browser';
 import useSWRInfinite from 'swr/infinite';
 import { createTripQuery, tripQueryToQueryString } from '../../utils';
 import { useEffect, useState } from 'react';
+import { formatLocalTimeToCET } from '@atb/utils/date';
 
 const MAX_NUMBER_OF_INITIAL_SEARCH_ATTEMPTS = 3;
 const INITIAL_NUMBER_OF_WANTED_TRIP_PATTERNS = 6;
@@ -37,7 +38,17 @@ export function useTripPatterns(
   fallback?: TripData,
 ) {
   const [numberOfTripPatterns, setNumberOfTripPatterns] = useState(0);
-  const query = createTripQuery(tripQuery);
+  const query = createTripQuery(
+    tripQuery.searchTime.mode === 'now'
+      ? tripQuery
+      : {
+          ...tripQuery,
+          searchTime: {
+            ...tripQuery.searchTime,
+            dateTime: formatLocalTimeToCET(tripQuery.searchTime.dateTime),
+          },
+        },
+  );
   const { data, error, isLoading, isValidating, size, setSize } =
     useSWRInfinite<TripApiReturnType>(
       createKeyGetterOfQuery(query),

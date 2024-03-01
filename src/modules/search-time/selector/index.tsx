@@ -8,6 +8,7 @@ import {
 } from '@atb/translations';
 import { SEARCH_MODES, SearchMode, SearchTime } from '../types';
 import style from './selector.module.css';
+import { formatLocalTimeToCET, setTimezone } from '@atb/utils/date';
 
 type SearchTimeSelectorProps = {
   onChange: (state: SearchTime) => void;
@@ -22,8 +23,12 @@ export default function SearchTimeSelector({
 }: SearchTimeSelectorProps) {
   const { t } = useTranslation();
   const [selectedMode, setSelectedMode] = useState<SearchTime>(initialState);
-  const initialDate =
-    'dateTime' in initialState ? new Date(initialState.dateTime) : new Date();
+  const initialDate = setTimezone(
+    'dateTime' in initialState
+      ? new Date(formatLocalTimeToCET(initialState.dateTime))
+      : new Date(),
+  ) as Date;
+
   const [selectedDate, setSelectedDate] = useState(initialDate);
   const [selectedTime, setSelectedTime] = useState(() =>
     format(initialDate, 'HH:mm'),
@@ -47,11 +52,23 @@ export default function SearchTimeSelector({
   };
 
   const resetToCurrentTime = () => {
-    setSelectedTime(() => format(new Date(), 'HH:mm'));
+    const newState = {
+      mode: selectedMode.mode,
+      dateTime: setTimezone(new Date()).getTime(),
+    };
+    setSelectedTime(() => format(newState.dateTime, 'HH:mm'));
+    setSelectedMode(newState);
+    onChange(newState);
   };
 
   const resetToCurrentDate = () => {
-    setSelectedDate(new Date());
+    const newState = {
+      mode: selectedMode.mode,
+      dateTime: setTimezone(new Date()).getTime(),
+    };
+    setSelectedDate(new Date(newState.dateTime));
+    setSelectedMode(newState);
+    onChange(newState);
   };
 
   const isPastDate = (selectedDate: string) => {
@@ -102,7 +119,11 @@ export default function SearchTimeSelector({
         style={{ '--number-of-options': options.length } as CSSProperties}
       >
         {options.map((state) => (
-          <label key={state} className={style.option}>
+          <label
+            key={state}
+            className={style.option}
+            data-testid={'searchTimeSelector-' + state}
+          >
             <input
               type="radio"
               name="searchTimeSelector"
@@ -155,7 +176,10 @@ export default function SearchTimeSelector({
                 />
               </div>
               <div className={style.timeSelector}>
-                <label htmlFor="searchTimeSelector-time">
+                <label
+                  htmlFor="searchTimeSelector-time"
+                  data-testid="searchTimeSelector-time"
+                >
                   {t(ModuleText.SearchTime.time)}
                 </label>
 

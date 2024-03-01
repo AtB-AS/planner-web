@@ -18,8 +18,11 @@ import humanizeDuration from 'humanize-duration';
 import { DEFAULT_LANGUAGE, Language } from '../translations';
 import dictionary from '@atb/translations/dictionary';
 import { TFunc } from '@leile/lobo-t';
+import { FALLBACK_LANGUAGE } from '@atb/translations/commons';
 
 const humanizer = humanizeDuration.humanizer({});
+const CET = 'Europe/Oslo';
+const ONE_HOUR = 3600000;
 
 export function parseIfNeeded(a: string | Date): Date {
   return a instanceof Date ? a : parseISO(a);
@@ -148,8 +151,9 @@ export function formatToClock(
   showSeconds?: boolean,
 ) {
   const parsed = parseIfNeeded(isoDate);
-  const rounded = !showSeconds ? roundMinute(parsed, roundingMethod) : parsed;
-  const seconds = showSeconds ? ':' + format(parsed, 'ss') : '';
+  const cet = setTimezone(parsed);
+  const rounded = !showSeconds ? roundMinute(cet, roundingMethod) : cet;
+  const seconds = showSeconds ? ':' + format(cet, 'ss') : '';
 
   return formatLocaleTime(rounded, language) + seconds;
 }
@@ -351,4 +355,22 @@ export function formatTripDuration(
   );
 
   return { duration, departure, arrival };
+}
+
+export function setTimezone(date: Date): Date {
+  return new Date(date.toLocaleString(FALLBACK_LANGUAGE, { timeZone: CET }));
+}
+
+export function formatLocalTimeToCET(localTime: number) {
+  const offset = getOffsetTimezone();
+  return localTime + ONE_HOUR * (offset - 1);
+}
+
+export function formatCETToLocalTime(cet: number) {
+  const offset = getOffsetTimezone();
+  return cet - ONE_HOUR * (offset - 1);
+}
+
+function getOffsetTimezone() {
+  return (-1 * new Date().getTimezoneOffset()) / 60;
 }
