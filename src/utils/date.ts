@@ -13,9 +13,7 @@ import {
   differenceInSeconds,
   differenceInCalendarDays,
 } from 'date-fns';
-import en from 'date-fns/locale/en-GB';
-import nb from 'date-fns/locale/nb';
-import nn from 'date-fns/locale/nn';
+import { enGB, nb, nn } from 'date-fns/locale';
 import humanizeDuration from 'humanize-duration';
 import { DEFAULT_LANGUAGE, Language } from '../translations';
 import dictionary from '@atb/translations/dictionary';
@@ -165,7 +163,7 @@ const languageToLocale = (language: Language): Locale => {
     case Language.Norwegian:
       return nb;
     case Language.English:
-      return en;
+      return enGB;
     case Language.Nynorsk:
       return nn;
   }

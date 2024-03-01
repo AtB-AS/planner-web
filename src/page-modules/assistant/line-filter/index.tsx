@@ -3,6 +3,7 @@ import { PageText, useTranslation } from '@atb/translations';
 import { ChangeEvent, useState } from 'react';
 import style from './line-filter.module.css';
 import { getOrgData } from '@atb/modules/org-data';
+import LabeledInput from '@atb/components/labled-input';
 type LineFilterProps = {
   filterState: string[] | null;
   onChange: (lineFilter: string[] | null) => void;
@@ -38,10 +39,12 @@ export default function LineFilter({ filterState, onChange }: LineFilterProps) {
       <Typo.h3 textType="body__primary--bold" className={style.heading}>
         {t(PageText.Assistant.search.lineFilter.label)}
       </Typo.h3>
-      <input
-        className={style.input}
-        type="text"
-        placeholder={t(PageText.Assistant.search.lineFilter.placeholder)}
+
+      <LabeledInput
+        label={t(PageText.Assistant.search.lineFilter.lineSearch.label)}
+        placeholder={t(
+          PageText.Assistant.search.lineFilter.lineSearch.placeholder,
+        )}
         value={localFilterState}
         onChange={onChangeWrapper}
       />

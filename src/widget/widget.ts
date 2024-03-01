@@ -19,6 +19,8 @@ const html = String.raw;
 
 const MODULE_VERSION = process.env.MODULE_VERSION;
 const COMPRESSED_ORG = process.env.COMPRESSED_ORG;
+const ORG_ID = process.env.ORG_ID;
+const useDefaultButtonStyle = ORG_ID !== 'fram' ? true : false;
 
 function createSettingsConstants(urlBase: string) {
   if (!urlBase?.startsWith('http')) {
@@ -429,7 +431,12 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
 
   const buttons = html`
     <div class="${style.buttonGroup}">
-      <button type="submit" class="${style.button}">
+      <button
+        type="submit"
+        class="${useDefaultButtonStyle
+          ? style.button
+          : style.buttonLightOutline}"
+      >
         <span>${texts.searchButton}</span>
       </button>
     </div>
@@ -705,12 +712,13 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
               href="/assistant"
               class="${style.tabSelected}"
               id="pw-assistant-tab"
+              data-mode="assistant"
             >
               ${texts.assistant.link}
             </a>
           </li>
           <li>
-            <a href="/departures" id="pw-departures-tab">
+            <a href="/departures" id="pw-departures-tab" data-mode="departures">
               ${texts.departure.link}
             </a>
           </li>
@@ -730,14 +738,14 @@ function tabBar() {
   document
     .querySelector<HTMLUListElement>('.js-tablist')
     ?.addEventListener('click', function (e) {
+      e.preventDefault();
+
       const tab = (e.target as HTMLElement)?.closest('a');
       if (!tab) return;
 
-      const href = tab.getAttribute('href');
-      if (!href) return;
+      const mode = tab.getAttribute('data-mode');
+      if (!mode) return;
 
-      const mode = href.replace('/', '');
-      e.preventDefault();
       const tabpanel = document.querySelector('#pw-' + mode);
       if (!tabpanel) return;
 

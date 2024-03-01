@@ -1,4 +1,7 @@
+@value typo-body__secondary from "@atb/theme/typography.module.css";
+
 .container {
+  --height: 2.75rem;
   display: flex;
   flex-direction: column;
   max-width: 30rem;
@@ -12,17 +15,9 @@
   color: var(--static-background-background_accent_1-text);
   opacity: 0.6;
 }
-.input {
-  padding: var(--spacings-small);
-  border: none;
-  width: 100%;
-  border-radius: 0.75rem;
-  background-color: var(--static-background-background_0-background);
-  color: var(--static-background-background_0-text);
-  outline: 0;
-}
-.input:focus-within {
-  outline: 0;
-  box-shadow: inset 0 0 0 var(--border-width-medium)
-    var(--interactive-interactive_2-outline-background);
+
+@media (max-width: 650px) {
+  .container {
+    max-width: 100%;
+  }
 }
