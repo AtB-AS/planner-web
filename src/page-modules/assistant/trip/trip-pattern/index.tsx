@@ -113,7 +113,10 @@ export default function TripPattern({
                     </div>
                   )}
 
-                  <div className={style.timeStartContainer}>
+                  <div
+                    className={style.timeStartContainer}
+                    data-testid={`timeStartContainer-${i}`}
+                  >
                     {secondsBetween(leg.aimedStartTime, leg.expectedStartTime) >
                     DEFAULT_THRESHOLD_AIMED_EXPECTED_IN_SECONDS ? (
                       <>
