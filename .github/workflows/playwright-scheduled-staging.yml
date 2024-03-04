@@ -11,9 +11,9 @@ on:
           - '"fram"'
           - '"nfk"'
           - '"atb"'
-  schedule:
-    # Run every 3 hours
-    # - cron: '0 */3 * * *'
+  # schedule:
+  # Run every 3 hours
+  # - cron: '0 */3 * * *'
 
 jobs:
   test:
