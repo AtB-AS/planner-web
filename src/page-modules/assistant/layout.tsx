@@ -50,6 +50,7 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
   const [isPerformingSearchNavigation, setIsPerformingSearchNavigation] =
     useState(false);
   const [geolocationError, setGeolocationError] = useState<string | null>(null);
+  const [noneFilters, setNoneFilters] = useState(false);
 
   // Loading the transport mode filter data here instead of in the component
   // avoids the data loading when the filter is mounted which causes the
@@ -107,9 +108,11 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
   const onToSelected = async (to: GeocoderFeature) =>
     setValuesWithLoading({ to });
   const onTransportFilterChanged = debounce(
-    async (transportModeFilter: string[] | null) =>
-      setValuesWithLoading({ transportModeFilter }, true),
-    500,
+    async (transportModeFilter: string[] | null) => {
+      setNoneFilters(transportModeFilter?.length === 0 ? true : false);
+      setValuesWithLoading({ transportModeFilter }, true);
+      500;
+    },
   );
   const onViaSelected = async (via: GeocoderFeature) =>
     setValuesWithLoading({ via });
@@ -126,7 +129,7 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
    * Temporary solution until firebase configuration is in place.
    */
   useEffect(() => {
-    if (tripQuery.transportModeFilter === null)
+    if (tripQuery.transportModeFilter === null && !noneFilters)
       onTransportFilterChanged(
         transportModeFilter
           ?.filter(
@@ -135,7 +138,7 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
           )
           .map((filter) => filter.id) ?? null,
       );
-  }, [transportModeFilter]);
+  }, [tripQuery, noneFilters, transportModeFilter, onTransportFilterChanged]);
 
   /**
    * Temporary solution to disable line filter for some orgs until
