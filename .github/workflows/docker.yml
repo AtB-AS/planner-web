@@ -19,6 +19,7 @@ jobs:
         ATB_NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=${{ github.event_name == 'release' && 'atb-mobility-platform.firebaseapp.com' || 'atb-mobility-platform-staging.firebaseapp.com' }}
         ATB_NEXT_PUBLIC_FIREBASE_APP_ID=${{ github.event_name == 'release' && '1:827196677776:web:c4b1d8924bb5778bf50215' || '1:939812594010:web:0308b2a9cdc80b0d069363' }}
         ATB_NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=${{ github.event_name == 'release' && '' || '' }}
+        ATB_NEXT_PUBLIC_DISABLE_LINE_FILTER=false
         NFK_NEXT_PUBLIC_MAPBOX_DEFAULT_LAT=67.280357
         NFK_NEXT_PUBLIC_MAPBOX_DEFAULT_LNG=14.404916
         NFK_NEXT_PUBLIC_FIREBASE_PROJECT_ID=${{ github.event_name == 'release' && 'nfk-prod' || 'nfk-staging'}}
@@ -34,6 +35,7 @@ jobs:
         FRAM_NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=${{ github.event_name == 'release' && 'fram-prod-a7850.firebaseapp.com' || 'fram-staging.firebaseapp.com' }}
         FRAM_NEXT_PUBLIC_FIREBASE_APP_ID=${{ github.event_name == 'release' && '1:717595301444:web:1e16129330d562f1b3ce11' || '1:312905478211:web:41c6f9db83ae5ef0efa4f6' }}
         FRAM_NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=${{ github.event_name == 'release' && 'G-KS45JBFWF4' || '' }}
+        FRAM_NEXT_PUBLIC_DISABLE_LINE_FILTER=false
     secrets:
       github_pat: ${{ secrets.GH_PAT }}
       build_secrets: |
