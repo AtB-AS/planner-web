@@ -147,6 +147,8 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
   const disableLineFilter =
     process.env.NEXT_PUBLIC_DISABLE_LINE_FILTER === 'true';
 
+  if (transportModeFilter === null) return null;
+
   return (
     <div>
       <div className={style.homeLink__container}>
