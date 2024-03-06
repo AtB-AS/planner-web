@@ -2,8 +2,9 @@ import { Language } from '@atb/translations';
 import atb from '../../../orgs/atb.json';
 import fram from '../../../orgs/fram.json';
 import nfk from '../../../orgs/nfk.json';
+import troms from '../../../orgs/troms.json';
 
-export type WEBSHOP_ORGS = 'nfk' | 'atb' | 'fram';
+export type WEBSHOP_ORGS = 'nfk' | 'atb' | 'fram' | 'troms';
 export type MAPBOX_DATA = {
   accessToken: string;
   style: string;
@@ -60,6 +61,8 @@ export function getOrgData(): OrgData {
       return nfk as OrgData;
     case 'fram':
       return fram as OrgData;
+    case 'troms':
+      return troms as OrgData;
   }
 
   throw new Error('NEXT_PUBLIC_PLANNER_ORG_ID required but missing');
@@ -80,6 +83,8 @@ function getCurrentOrg(): WEBSHOP_ORGS {
       return 'nfk';
     case 'fram':
       return 'fram';
+    case 'troms':
+      return 'troms';
   }
 
   throw new Error('NEXT_PUBLIC_PLANNER_ORG_ID required but missing');

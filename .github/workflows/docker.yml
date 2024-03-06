@@ -36,6 +36,14 @@ jobs:
         FRAM_NEXT_PUBLIC_FIREBASE_APP_ID=${{ github.event_name == 'release' && '1:717595301444:web:1e16129330d562f1b3ce11' || '1:312905478211:web:41c6f9db83ae5ef0efa4f6' }}
         FRAM_NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=${{ github.event_name == 'release' && 'G-KS45JBFWF4' || '' }}
         FRAM_NEXT_PUBLIC_DISABLE_LINE_FILTER=false
+        TROMS_NEXT_PUBLIC_MAPBOX_DEFAULT_LAT=69.665229
+        TROMS_NEXT_PUBLIC_MAPBOX_DEFAULT_LNG=18.9070347
+        TROMS_NEXT_PUBLIC_FIREBASE_PROJECT_ID=${{ github.event_name == 'release' && '' || 'troms-staging'}}
+        TROMS_NEXT_PUBLIC_FIREBASE_PUBLIC_API_KEY=${{ github.event_name == 'release' && '' || 'AIzaSyCtJMximw0SL9N8YNH21TWDO0s_mv_9crE' }}
+        TROMS_NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=${{ github.event_name == 'release' && '' || 'troms-staging.firebaseapp.com' }}
+        TROMS_NEXT_PUBLIC_FIREBASE_APP_ID=${{ github.event_name == 'release' && '' || '1:973624729382:web:a84d8a489613a14be12be7' }}
+        TROMS_NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=''
+        TROMS_NEXT_PUBLIC_DISABLE_LINE_FILTER=false
     secrets:
       github_pat: ${{ secrets.GH_PAT }}
       build_secrets: |
@@ -45,3 +53,5 @@ jobs:
         NFK_NEXT_PUBLIC_MAPBOX_STOP_PLACES_STYLE_URL=${{ secrets.NFK_NEXT_PUBLIC_MAPBOX_STOP_PLACES_STYLE_URL }}
         FRAM_NEXT_PUBLIC_MAPBOX_API_TOKEN=${{ secrets.FRAM_NEXT_PUBLIC_MAPBOX_API_TOKEN }}
         FRAM_NEXT_PUBLIC_MAPBOX_STOP_PLACES_STYLE_URL=${{ secrets.FRAM_NEXT_PUBLIC_MAPBOX_STOP_PLACES_STYLE_URL }}
+        TROMS_NEXT_PUBLIC_MAPBOX_API_TOKEN=${{ secrets.FRAM_NEXT_PUBLIC_MAPBOX_API_TOKEN }} # @TODO Update with Troms API token
+        TROMS_NEXT_PUBLIC_MAPBOX_STOP_PLACES_STYLE_URL=${{ secrets.FRAM_NEXT_PUBLIC_MAPBOX_STOP_PLACES_STYLE_URL }} # @TODO Update with Troms style URL

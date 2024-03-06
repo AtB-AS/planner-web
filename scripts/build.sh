@@ -6,7 +6,7 @@
 
 mkdir dist
 
-for orgId in atb nfk fram; do
+for orgId in atb nfk fram troms; do
   mkdir dist/$orgId
   export NEXT_PUBLIC_PLANNER_ORG_ID=$orgId
   # @TODO FIX THIS

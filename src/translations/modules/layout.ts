@@ -109,4 +109,24 @@ export const Layout = orgSpecificTranslations(LayoutInternal, {
       },
     },
   },
+  troms: {
+    base: {
+      footer: {
+        sections: {
+          contact: {
+            header: _(
+              'Kontakt Troms fylkestrafikk',
+              'Contact Troms fylkestrafikk',
+              'Kontakt Troms fylkestrafikk',
+            ),
+            contactLink: _(
+              'Kontakt Troms fylkestrafikk',
+              'Contact Troms fylkestrafikk',
+              'Kontakt Troms fylkestrafikk',
+            ),
+          },
+        },
+      },
+    },
+  },
 });
