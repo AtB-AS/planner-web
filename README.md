@@ -5,7 +5,7 @@ TBA
 ## Configuration
 
 ```
-# What ORG to activate (nfk | atb | fram)
+# What ORG to activate (nfk | atb | fram | troms)
 NEXT_PUBLIC_PLANNER_ORG_ID=atb
 ```
 

@@ -16,4 +16,11 @@ export const Titles = orgSpecificTranslations(TitlesInternal, {
       'FRAM Reiseplanleggar',
     ),
   },
+  troms: {
+    siteTitle: _(
+      'Troms fylkestrafikk Reisesøk',
+      'Troms fylkestrafikk Travel Search',
+      'Troms fylkestrafikk Reisesøk',
+    ),
+  },
 });

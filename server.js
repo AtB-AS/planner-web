@@ -10,6 +10,9 @@ switch (orgId) {
   case 'fram':
     require('./dist/fram/standalone/server.js');
     break;
+  case 'troms':
+    require('./dist/troms/standalone/server.js');
+    break;
   default:
     throw new Error('Invalid org ID provided.');
 }

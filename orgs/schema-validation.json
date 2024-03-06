@@ -25,7 +25,7 @@
           "type": "object"
         },
         "orgId": {
-          "enum": ["atb", "fram", "nfk"],
+          "enum": ["atb", "fram", "nfk", "troms"],
           "type": "string"
         },
         "orgLineIdPrefix": {
