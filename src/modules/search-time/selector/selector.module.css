@@ -29,6 +29,7 @@
 
 .option__text {
   z-index: 2;
+  line-height: 1;
 }
 
 .option__label {
