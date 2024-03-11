@@ -63,9 +63,9 @@ function DeparturesLayout({ children, fromQuery }: DeparturesLayoutProps) {
           <TabLink activePath="/departures" />
 
           <div className={style.input}>
-            <Typo.p textType="body__primary--bold" className={style.heading}>
+            <Typo.h2 textType="body__primary--bold" className={style.heading}>
               {t(PageText.Departures.search.input.label)}
-            </Typo.p>
+            </Typo.h2>
             <Search
               label={t(PageText.Departures.search.input.from)}
               placeholder={t(PageText.Departures.search.input.placeholder)}
@@ -82,9 +82,9 @@ function DeparturesLayout({ children, fromQuery }: DeparturesLayoutProps) {
           </div>
 
           <div className={style.date}>
-            <Typo.p textType="body__primary--bold" className={style.heading}>
+            <Typo.h2 textType="body__primary--bold" className={style.heading}>
               {t(PageText.Departures.search.date.label)}
-            </Typo.p>
+            </Typo.h2>
             <SearchTimeSelector
               initialState={searchTime}
               onChange={setSearchTime}

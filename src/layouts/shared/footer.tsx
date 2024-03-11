@@ -22,9 +22,9 @@ export default function Footer({ withoutSettings = false }: FooterProps) {
       <div className={style.footer__content}>
         <div className={style.footer__top}>
           <section className={style.footer__section}>
-            <h4 className={style.footer__title}>
+            <h3 className={style.footer__title}>
               {t(ModuleText.Layout.base.footer.sections.general.header)}
-            </h4>
+            </h3>
 
             <ul className={style.footer__linkList}>
               {urls.helpUrl && (
@@ -59,9 +59,9 @@ export default function Footer({ withoutSettings = false }: FooterProps) {
           </section>
 
           <section className={style.footer__section}>
-            <h4 className={style.footer__title}>
+            <h3 className={style.footer__title}>
               {t(ModuleText.Layout.base.footer.sections.contact.header)}
-            </h4>
+            </h3>
 
             <ul className={style.footer__linkList}>
               {urls.supportUrl ? (
@@ -83,9 +83,9 @@ export default function Footer({ withoutSettings = false }: FooterProps) {
 
           {!withoutSettings && (
             <section className={style.footer__section}>
-              <h4 className={style.footer__title}>
+              <h3 className={style.footer__title}>
                 {t(ModuleText.Layout.base.footer.sections.settings.header)}
-              </h4>
+              </h3>
 
               <ul className={style.footer__linkList}>
                 <LanguageSelections />
