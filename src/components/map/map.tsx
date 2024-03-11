@@ -30,7 +30,7 @@ export type MapProps = {
   | {}
 );
 
-export function Map({ layer, onSelectStopPlace, ...props }: MapProps) {
+export default function Map({ layer, onSelectStopPlace, ...props }: MapProps) {
   const mapWrapper = useRef<HTMLDivElement>(null);
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map>();

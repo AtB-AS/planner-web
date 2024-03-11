@@ -7,7 +7,7 @@ export { MapHeader } from './map-header';
 export * from './utils';
 export * from './types';
 
-export const Map = dynamic(() => import('./map').then((mod) => mod.Map), {
+export const Map = dynamic(() => import('./map'), {
   ssr: false,
   loading: () => <MapLoading />,
 });
