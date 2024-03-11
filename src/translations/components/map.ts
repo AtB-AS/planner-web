@@ -25,4 +25,5 @@ export const Map = {
     travelFrom: _('Reis fra', 'Travel from', 'Reis frå'),
     travelTo: _('Reis til', 'Travel to', 'Reis til'),
   },
+  loading: _('Laster...', 'Loading...', 'Lastar...'),
 };
