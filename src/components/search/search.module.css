@@ -3,7 +3,7 @@
 .container {
   --height: 2.75rem;
 
-  min-width: 10rem;
+  min-width: 20rem;
   max-width: 30rem;
   display: flex;
   position: relative;
