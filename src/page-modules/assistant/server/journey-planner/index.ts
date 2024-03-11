@@ -13,6 +13,7 @@ import {
   TripsQueryVariables,
 } from './journey-gql/trip.generated';
 import {
+  LineData,
   TripData,
   TripPatternWithDetails,
   nonTransitSchema,
@@ -21,6 +22,7 @@ import {
 } from './validators';
 import type {
   FromToTripQuery,
+  LineInput,
   NonTransitData,
   NonTransitTripData,
   NonTransitTripInput,
@@ -59,6 +61,11 @@ import {
   addAssistantTripToCache,
   getAssistantTripIfCached,
 } from '../trip-cache';
+import {
+  LinesDocument,
+  LinesQuery,
+  LinesQueryVariables,
+} from './journey-gql/lines.generated';
 
 const DEFAULT_JOURNEY_CONFIG = {
   numTripPatterns: 8, // The maximum number of trip patterns to return.
@@ -73,6 +80,7 @@ export type JourneyPlannerApi = {
   trip(input: TripInput): Promise<TripData>;
   nonTransitTrips(input: NonTransitTripInput): Promise<NonTransitTripData>;
   singleTrip(input: string): Promise<TripPatternWithDetails | undefined>;
+  lines(input: LineInput): Promise<LineData>;
 };
 
 export function createJourneyApi(
@@ -156,6 +164,19 @@ export function createJourneyApi(
       return nonTransits;
     },
 
+    async lines(input) {
+      const result = await client.query<LinesQuery, LinesQueryVariables>({
+        query: LinesDocument,
+        variables: { authorities: input.authorities },
+      });
+
+      if (result.error || result.errors) {
+        throw result.error || result.errors;
+      }
+
+      const keyValueList = createKeyValueList(result.data.lines);
+      return { keyValueList };
+    },
     async trip(input) {
       const journeyModes = {
         accessMode: StreetMode.Foot,
@@ -783,4 +804,23 @@ async function getSortedViaTrips(
     tripPatterns: tripPatternsSortedByExpectedEndTime,
   };
   return sortedData;
+}
+
+function createKeyValueList(
+  lines: {
+    id: string;
+    publicCode?: string | undefined;
+  }[],
+) {
+  const keyValueList: Record<string, string[]> = {};
+  lines.forEach((line) => {
+    if (line.publicCode) {
+      if (keyValueList.hasOwnProperty(line.publicCode)) {
+        keyValueList[line.publicCode].push(line.id);
+      } else {
+        keyValueList[line.publicCode] = [line.id];
+      }
+    }
+  });
+  return keyValueList;
 }

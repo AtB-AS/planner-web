@@ -42,6 +42,9 @@ export const getServerSideProps = withGlobalData(
   withAssistantClient<AssistantLayoutProps & AssistantContentProps>(
     async function ({ client, query }) {
       const tripQuery = await fetchFromToTripQuery(query, client);
+      const response = await fetch('http://localhost:3000/api/assistant/line');
+      const linesData = await response.json();
+      console.log('linesData', linesData);
 
       if (!tripQuery.from || !tripQuery.to) {
         return {

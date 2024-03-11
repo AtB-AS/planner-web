@@ -146,6 +146,10 @@ export const tripPatternWithDetailsSchema = z.object({
   ),
 });
 
+export const linesSchema = z.object({
+  keyValueList: z.record(z.array(z.string())),
+});
+
 export type TripData = z.infer<typeof tripSchema>;
 export type NonTransitData = z.infer<typeof nonTransitSchema>;
 export type TripPattern = z.infer<typeof tripPatternSchema>;
@@ -154,3 +158,4 @@ export type Quay = z.infer<typeof quaySchema>;
 export type TripPatternWithDetails = z.infer<
   typeof tripPatternWithDetailsSchema
 >;
+export type LineData = z.infer<typeof linesSchema>;
