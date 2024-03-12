@@ -2,13 +2,22 @@
 
 .container {
   --height: 2.75rem;
-  display: flex;
-  flex-direction: relative;
+  display: grid;
+  flex-direction: row;
   width: 100%;
-  height: var(--height);
   border-radius: 0.75rem;
   color: var(--static-background-background_0-text);
   background-color: var(--static-background-background_0-background);
+  flex-wrap: wrap;
+  overflow: hidden;
+  justify-content: stretch;
+}
+
+.container--error {
+  border: 1px solid var(--static-status-error-background);
+}
+.container--warning {
+  border: 1px solid var(--static-status-warning-background);
 }
 
 .container:focus-within {

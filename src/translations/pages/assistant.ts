@@ -49,6 +49,11 @@ const AssistantInternal = {
         'I travel with line',
         'Eg reiser med linje',
       ),
+      error: _(
+        'Linje må være tall eller liste av tall (f.eks. 2, 10)',
+        'Line must be a number or list of numbers (e.g. 2, 10)',
+        'Linje må vere tal eller liste av tal (t.d. 2, 10',
+      ),
       lineSearch: {
         label: _('Linje', 'Line', 'Linje'),
         placeholder: _('linjenummer', 'line number', 'linjenummer'),
@@ -412,6 +417,12 @@ export const Assistant = orgSpecificTranslations(AssistantInternal, {
   nfk: {
     search: {
       lineFilter: {
+        error: _(
+          'Linje må være tall eller liste av tall (f.eks. 100, 200)',
+          'Line must be a number or list of numbers (e.g. 100, 200)',
+          'Linje må vere tal eller liste av tal (t.d. 100, 200',
+        ),
+
         example: _(
           'Eksempel: 100, 200, 300',
           'Example: 100, 200, 300',
@@ -423,6 +434,12 @@ export const Assistant = orgSpecificTranslations(AssistantInternal, {
   fram: {
     search: {
       lineFilter: {
+        error: _(
+          'Linje må være tall eller liste av tall (f.eks. 905, 902)',
+          'Line must be a number or list of numbers (e.g. 905, 902)',
+          'Linje må vere tal eller liste av tal (t.d. 905, 902',
+        ),
+
         example: _(
           'Eksempel: 905, 902, 901',
           'Example: 905, 902, 901',
