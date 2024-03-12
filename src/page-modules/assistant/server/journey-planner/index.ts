@@ -62,6 +62,7 @@ import {
   getAssistantTripIfCached,
 } from '../trip-cache';
 import {
+  LineFragment,
   LinesDocument,
   LinesQuery,
   LinesQueryVariables,
@@ -174,8 +175,9 @@ export function createJourneyApi(
         throw result.error || result.errors;
       }
 
-      const keyValueList = createKeyValueList(result.data.lines);
-      return { keyValueList };
+      const publicCodeLineList = createPublicCodeLineList(result.data.lines);
+      const linePublicCodeList = createLinePublicCodeList(result.data.lines);
+      return { publicCodeLineList, linePublicCodeList };
     },
     async trip(input) {
       const journeyModes = {
@@ -806,21 +808,24 @@ async function getSortedViaTrips(
   return sortedData;
 }
 
-function createKeyValueList(
-  lines: {
-    id: string;
-    publicCode?: string | undefined;
-  }[],
-) {
-  const keyValueList: Record<string, string[]> = {};
+function createPublicCodeLineList(lines: LineFragment[]) {
+  const publicCodeLineList: Record<string, string[]> = {};
   lines.forEach((line) => {
     if (line.publicCode) {
-      if (keyValueList.hasOwnProperty(line.publicCode)) {
-        keyValueList[line.publicCode].push(line.id);
+      if (publicCodeLineList.hasOwnProperty(line.publicCode)) {
+        publicCodeLineList[line.publicCode].push(line.id);
       } else {
-        keyValueList[line.publicCode] = [line.id];
+        publicCodeLineList[line.publicCode] = [line.id];
       }
     }
   });
-  return keyValueList;
+  return publicCodeLineList;
+}
+
+function createLinePublicCodeList(lines: LineFragment[]) {
+  const linePublicCodeList: Record<string, string> = {};
+  lines.forEach((line) => {
+    if (line.publicCode) linePublicCodeList[line.id] = line.publicCode;
+  });
+  return linePublicCodeList;
 }

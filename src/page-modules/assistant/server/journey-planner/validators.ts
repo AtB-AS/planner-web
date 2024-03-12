@@ -147,7 +147,8 @@ export const tripPatternWithDetailsSchema = z.object({
 });
 
 export const linesSchema = z.object({
-  keyValueList: z.record(z.array(z.string())),
+  publicCodeLineList: z.record(z.array(z.string())),
+  linePublicCodeList: z.record(z.string()),
 });
 
 export type TripData = z.infer<typeof tripSchema>;
