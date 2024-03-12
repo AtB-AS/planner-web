@@ -1,16 +1,13 @@
-import { andIf } from '@atb/utils/css';
-import { ChangeEvent } from 'react';
 import { MessageBox } from '@atb/components/message-box';
+import { andIf } from '@atb/utils/css';
+import { ChangeEvent, useId } from 'react';
 import style from './labled-input.module.css';
 
 export type LabeledInputProps = {
   label: string;
   placeholder: string;
   value: string;
-  validation?: {
-    message: string;
-    status: 'error' | 'warning';
-  };
+  validationError?: string;
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
 } & JSX.IntrinsicElements['input'];
 
@@ -19,16 +16,22 @@ export default function LabeledInput({
   placeholder,
   value,
   onChange,
+  validationError,
   ...props
 }: LabeledInputProps) {
-  const status = props.validation?.status;
+  const isError = typeof validationError !== 'undefined';
+  const prefix = useId();
 
+  const errorLabel = prefix + 'Error';
+
+  const validationStatusProps: JSX.IntrinsicElements['input'] = status
+    ? { 'aria-invalid': 'true', 'aria-describedby': errorLabel }
+    : {};
   return (
     <div
       className={andIf({
         [style.container]: true,
-        [style['container--error']]: status === 'error',
-        [style['container--warning']]: status === 'warning',
+        [style['container--error']]: isError,
       })}
     >
       <label className={style.label}>{label}</label>
@@ -39,12 +42,14 @@ export default function LabeledInput({
         value={value}
         onChange={onChange}
         {...props}
+        {...validationStatusProps}
       />
 
-      {props.validation && (
+      {isError && (
         <MessageBox
-          message={props.validation.message}
-          type={status!}
+          textId={errorLabel}
+          message={validationError}
+          type="error"
           borderRadius={false}
         />
       )}
