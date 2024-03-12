@@ -1,6 +1,6 @@
 import { andIf } from '@atb/utils/css';
 import { ChangeEvent } from 'react';
-import { MessageBox } from '../message-box';
+import { MessageBox } from '@atb/components/message-box';
 import style from './labled-input.module.css';
 
 export type LabeledInputProps = {
