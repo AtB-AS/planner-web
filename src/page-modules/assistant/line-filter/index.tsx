@@ -41,7 +41,7 @@ export default function LineFilter({ filterState, onChange }: LineFilterProps) {
     } else {
       const publicCodes = lineFilter
         .split(',')
-        .map((publicCode) => `${publicCode.trim()}`);
+        .map((publicCode) => publicCode.trim());
 
       const lines = publicCodes
         .map((publicCode) => data.publicCodeLineList[publicCode])
