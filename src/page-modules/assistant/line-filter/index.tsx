@@ -13,7 +13,7 @@ export default function LineFilter({ filterState, onChange }: LineFilterProps) {
   const { t } = useTranslation();
 
   const { orgLineIdPrefix } = getOrgData();
-  const [error, setError] = useState<LabeledInputProps['validation']>();
+  const [error, setError] = useState<LabeledInputProps['validationError']>();
   const [localFilterState, setLocalFilterState] = useState(
     filterState?.map((line) => line.replace(orgLineIdPrefix, '')).join(', ') ??
       '',
@@ -25,10 +25,7 @@ export default function LineFilter({ filterState, onChange }: LineFilterProps) {
     setError(undefined);
 
     if (!isValidFilter(lineFilter)) {
-      setError({
-        message: t(PageText.Assistant.search.lineFilter.error),
-        status: 'error',
-      });
+      setError(t(PageText.Assistant.search.lineFilter.error));
       return;
     }
 
@@ -58,7 +55,7 @@ export default function LineFilter({ filterState, onChange }: LineFilterProps) {
         pattern="[0-9, ]*"
         value={localFilterState}
         onChange={onChangeWrapper}
-        validation={error}
+        validationError={error}
       />
 
       <Typo.p textType="body__tertiary" className={style.infoText}>
