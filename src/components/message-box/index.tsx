@@ -17,6 +17,7 @@ export type MessageMode = keyof Theme['static']['status'];
 export type MessageBoxProps = {
   type: MessageMode;
   title?: string;
+  textId?: string;
   message: string;
   noStatusIcon?: boolean;
   onClick?: () => void;
@@ -27,6 +28,7 @@ export const MessageBox = ({
   noStatusIcon,
   type,
   message,
+  textId,
   title,
   onClick,
   borderRadius = true,
@@ -60,7 +62,7 @@ export const MessageBox = ({
             {title}
           </Typo.h2>
         )}
-        <Typo.p className={style.body} textType="body__primary">
+        <Typo.p className={style.body} textType="body__primary" id={textId}>
           {message}
         </Typo.p>
         {onClick && (

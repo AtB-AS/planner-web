@@ -1,9 +1,9 @@
+import LabeledInput, { LabeledInputProps } from '@atb/components/labled-input';
 import { Typo } from '@atb/components/typography';
+import { getOrgData } from '@atb/modules/org-data';
 import { PageText, useTranslation } from '@atb/translations';
 import { ChangeEvent, useEffect, useState } from 'react';
 import style from './line-filter.module.css';
-import { getOrgData } from '@atb/modules/org-data';
-import LabeledInput from '@atb/components/labled-input';
 import useSWR from 'swr';
 type LineFilterProps = {
   filterState: string[] | null;
@@ -21,12 +21,21 @@ export default function LineFilter({ filterState, onChange }: LineFilterProps) {
     `api/assistant/lines/${authorityId}`,
     fetcher,
   );
-
+  const [validationError, setValidationError] =
+    useState<LabeledInputProps['validationError']>();
   const [localFilterState, setLocalFilterState] = useState('');
+
   const onChangeWrapper = (event: ChangeEvent<HTMLInputElement>) => {
     if (error || isLoading) return;
     const lineFilter = event.target.value;
     setLocalFilterState(lineFilter);
+    setValidationError(undefined);
+
+    if (!isValidFilter(lineFilter)) {
+      setValidationError(t(PageText.Assistant.search.lineFilter.error));
+      return;
+    }
+
     if (!lineFilter) {
       onChange(null);
     } else {
@@ -67,8 +76,11 @@ export default function LineFilter({ filterState, onChange }: LineFilterProps) {
         placeholder={t(
           PageText.Assistant.search.lineFilter.lineSearch.placeholder,
         )}
+        type="text"
+        pattern="[0-9, ]*"
         value={localFilterState}
         onChange={onChangeWrapper}
+        validationError={validationError}
       />
 
       <Typo.p textType="body__tertiary" className={style.infoText}>
@@ -76,4 +88,10 @@ export default function LineFilter({ filterState, onChange }: LineFilterProps) {
       </Typo.p>
     </div>
   );
+}
+
+function isValidFilter(filter: string): boolean {
+  return filter.split(',').every((line) => {
+    return !isNaN(Number(line.trim()));
+  });
 }
