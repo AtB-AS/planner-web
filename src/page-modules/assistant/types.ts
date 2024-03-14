@@ -47,6 +47,7 @@ export const TripQuerySchema = z.object({
   viaLat: z.number().optional(),
   viaLayer: z.union([z.literal('address'), z.literal('venue')]).optional(),
   lineFilter: z.string().optional(),
+  inputFilterString: z.string().optional(),
 });
 
 export type TripQuery = z.infer<typeof TripQuerySchema>;

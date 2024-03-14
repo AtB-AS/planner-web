@@ -19,6 +19,7 @@ export async function fetchFromToTripQuery(
     tripQuery?.searchMode,
     tripQuery?.searchTime,
   );
+  const inputFilterString = tripQuery?.inputFilterString;
 
   let fromP: Promise<GeocoderFeature | undefined> | undefined = undefined;
   let toP: Promise<GeocoderFeature | undefined> | undefined = undefined;
@@ -54,6 +55,7 @@ export async function fetchFromToTripQuery(
     searchTime,
     cursor: cursor ?? null,
     lineFilter,
+    inputFilterString: inputFilterString ?? '',
   };
 }
 
