@@ -388,6 +388,20 @@ export function createJourneyApi(
             ...(leg.fromEstimatedCall?.notices || []),
           ]),
           situations: mapSituations(leg.situations),
+          serviceJourneyEstimatedCalls: leg.serviceJourneyEstimatedCalls.map(
+            (ec) => {
+              return {
+                aimedDepartureTime: ec.aimedDepartureTime,
+                expectedDepartureTime: ec.expectedDepartureTime,
+                actualDepartureTime: ec.actualDepartureTime ?? null,
+                quay: {
+                  name: ec.quay.name,
+                },
+                realtime: ec.realtime,
+                cancellation: ec.cancellation,
+              };
+            },
+          ),
         })),
       };
       const validated = tripPatternWithDetailsSchema.safeParse(data);

@@ -142,6 +142,18 @@ export const tripPatternWithDetailsSchema = z.object({
       numberOfIntermediateEstimatedCalls: z.number(),
       notices: z.array(noticeSchema),
       situations: z.array(situationSchema),
+      serviceJourneyEstimatedCalls: z.array(
+        z.object({
+          aimedDepartureTime: z.string(),
+          expectedDepartureTime: z.string(),
+          actualDepartureTime: z.string().nullable(),
+          quay: z.object({
+            name: z.string(),
+          }),
+          realtime: z.boolean(),
+          cancellation: z.boolean(),
+        }),
+      ),
     }),
   ),
 });
