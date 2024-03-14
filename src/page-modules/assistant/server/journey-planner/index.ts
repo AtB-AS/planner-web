@@ -143,6 +143,7 @@ export function createJourneyApi(
             [],
             tripPattern.legs[0].aimedStartTime,
             { ...queryVariables, modes },
+            input.inputFilterString,
           ),
         };
 
@@ -205,6 +206,7 @@ export function createJourneyApi(
       const data: RecursivePartial<TripData> = mapResultToTrips(
         result.data.trip,
         queryVariables,
+        input.inputFilterString,
       );
 
       const validated = tripSchema.safeParse(data);
@@ -440,6 +442,7 @@ function inputToViaLocation(input: TripInput) {
 function mapResultToTrips(
   trip: TripsQuery['trip'],
   queryVariables: TripsQueryVariables | ViaTripsQueryVariables,
+  inputFilterString: string,
 ): RecursivePartial<TripData> {
   return {
     nextPageCursor: trip.nextPageCursor ?? null,
@@ -504,6 +507,7 @@ function mapResultToTrips(
         extractServiceJourneyIds(tripPattern),
         tripPattern.legs[0].aimedStartTime,
         queryVariables,
+        inputFilterString,
       ),
     })),
   };
@@ -565,6 +569,7 @@ function generateSingleTripQueryString(
   journeyIds: string[],
   aimedStartTime: string,
   queryVariables: TripsQueryVariables | ViaTripsQueryVariables,
+  inputFilterString: string,
 ) {
   const when = getPaddedStartTime(aimedStartTime);
   const originalSearchTime = queryVariables.when;
@@ -574,7 +579,12 @@ function generateSingleTripQueryString(
 
   // encode to string
   return compressToEncodedURIComponent(
-    JSON.stringify({ query: singleTripQuery, journeyIds, originalSearchTime }),
+    JSON.stringify({
+      query: singleTripQuery,
+      journeyIds,
+      originalSearchTime,
+      inputFilterString,
+    }),
   );
 }
 
@@ -583,6 +593,7 @@ export function parseTripQueryString(compressedQueryString: string):
       query: TripsQueryVariables | ViaTripsQueryVariables;
       journeyIds: string[];
       originalSearchTime: string;
+      inputFilterString: string;
     }
   | undefined {
   const queryString = decompressFromEncodedURIComponent(compressedQueryString);
@@ -763,6 +774,7 @@ async function getSortedViaTrips(
       tripPatterns: tripPatternsFromViaTo,
     },
     queryVariables,
+    input.inputFilterString,
   );
 
   const validated = tripSchema.safeParse(data);

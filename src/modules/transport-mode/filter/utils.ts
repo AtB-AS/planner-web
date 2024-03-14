@@ -23,3 +23,7 @@ export async function getAllTransportModesFromFilterOptions(
 
   return uniq(transportModes);
 }
+
+export function parseInputFilterString(transportModeFilter: string[] | null) {
+  return transportModeFilter ? transportModeFilter.join(',') : '';
+}

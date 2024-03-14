@@ -49,6 +49,7 @@ export function tripQueryStringToQueryParams(
   )
     return undefined;
 
+  const filter = tripQueryVariables.inputFilterString;
   const searchMode = arriveBy ? 'arriveBy' : 'departBy';
   const fromLayer = from.place?.includes('StopPlace') ? 'venue' : 'address';
   const toLayer = to.place?.includes('StopPlace') ? 'venue' : 'address';
@@ -57,6 +58,7 @@ export function tripQueryStringToQueryParams(
   );
 
   const params = {
+    filter,
     searchMode,
     searchTime,
     fromId: from.place,

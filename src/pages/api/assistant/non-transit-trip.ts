@@ -1,4 +1,5 @@
 import { errorResultAsJson, tryResult } from '@atb/modules/api-server';
+import { parseInputFilterString } from '@atb/modules/transport-mode';
 import {
   fetchFromToTripQuery,
   StreetMode,
@@ -19,6 +20,9 @@ export default handlerWithAssistantClient<NonTransitTripApiReturnType>({
         ServerText.Endpoints.invalidData,
       );
     }
+    const inputFilterString = parseInputFilterString(
+      tripQuery.transportModeFilter,
+    );
 
     return tryResult(req, res, async () => {
       return ok(
@@ -27,6 +31,7 @@ export default handlerWithAssistantClient<NonTransitTripApiReturnType>({
           to: tripQuery.to!,
           searchTime: tripQuery.searchTime,
           directModes: [StreetMode.Foot, StreetMode.Bicycle],
+          inputFilterString: inputFilterString,
         }),
       );
     });
