@@ -3,7 +3,7 @@ import { formatToClock, isInPast } from '@atb/utils/date';
 import { getTimeRepresentationType } from '@atb/modules/time-representation';
 
 type RealtimeData = {
-  actualDepartureTime?: string;
+  actualDepartureTime?: string | null;
   expectedDepartureTime: string;
   aimedDepartureTime: string;
   quayName?: string;

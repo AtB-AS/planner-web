@@ -53,13 +53,13 @@ export default function TripSection({
     interchangeDetails && leg.interchangeTo?.guaranteed && leg.line;
 
   const realtimeText = useRealtimeText(
-    leg.serviceJourneyEstimatedCalls.map((c) => ({
-      actualDepartureTime: c.actualDepartureTime ?? undefined,
-      expectedDepartureTime: c.expectedDepartureTime,
-      aimedDepartureTime: c.aimedDepartureTime,
-      quayName: c.quay.name,
-      realtime: c.realtime,
-      cancelled: c.cancellation,
+    leg.serviceJourneyEstimatedCalls.map((estimatedCall) => ({
+      actualDepartureTime: estimatedCall.actualDepartureTime,
+      expectedDepartureTime: estimatedCall.expectedDepartureTime,
+      aimedDepartureTime: estimatedCall.aimedDepartureTime,
+      quayName: estimatedCall.quay.name,
+      realtime: estimatedCall.realtime,
+      cancelled: estimatedCall.cancellation,
     })),
   );
 

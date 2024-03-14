@@ -389,16 +389,16 @@ export function createJourneyApi(
           ]),
           situations: mapSituations(leg.situations),
           serviceJourneyEstimatedCalls: leg.serviceJourneyEstimatedCalls.map(
-            (ec) => {
+            (estimatedCall) => {
               return {
-                aimedDepartureTime: ec.aimedDepartureTime,
-                expectedDepartureTime: ec.expectedDepartureTime,
-                actualDepartureTime: ec.actualDepartureTime ?? null,
+                aimedDepartureTime: estimatedCall.aimedDepartureTime,
+                expectedDepartureTime: estimatedCall.expectedDepartureTime,
+                actualDepartureTime: estimatedCall.actualDepartureTime ?? null,
                 quay: {
-                  name: ec.quay.name,
+                  name: estimatedCall.quay.name,
                 },
-                realtime: ec.realtime,
-                cancellation: ec.cancellation,
+                realtime: estimatedCall.realtime,
+                cancellation: estimatedCall.cancellation,
               };
             },
           ),
