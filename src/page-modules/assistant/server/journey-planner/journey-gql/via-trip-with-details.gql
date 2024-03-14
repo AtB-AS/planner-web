@@ -117,6 +117,16 @@ query ViaTripsWithDetails(
               endTime
             }
           }
+          serviceJourneyEstimatedCalls {
+            aimedDepartureTime
+            expectedDepartureTime
+            actualDepartureTime
+            cancellation
+            quay {
+              name
+            }
+            realtime
+          }
         }
       }
     }

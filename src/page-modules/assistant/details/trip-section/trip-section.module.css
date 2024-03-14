@@ -16,7 +16,12 @@
 }
 .walkTime,
 .waitTime,
-.intermediateStops {
+.textColor__secondary {
   composes: typo-body__secondary;
   color: var(--text-colors-secondary);
+}
+.realtimeSection {
+  display: flex;
+  align-items: center;
+  gap: var(--spacings-small);
 }

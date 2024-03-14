@@ -1,4 +1,8 @@
-import { DecorationLine, TripRow } from '@atb/modules/trip-details';
+import {
+  DecorationLine,
+  TripRow,
+  useRealtimeText,
+} from '@atb/modules/trip-details';
 import { TripPatternWithDetails } from '../../server/journey-planner/validators';
 import style from './trip-section.module.css';
 import {
@@ -19,6 +23,7 @@ import { formatLineName, getPlaceName } from '../utils';
 import WaitSection, { type LegWaitDetails } from './wait-section';
 import { EstimatedCallsSection } from './estimated-calls-section';
 import { DepartureTime } from '@atb/components/departure-time';
+import { RealtimeSection } from './realtime-section';
 
 export type TripSectionProps = {
   isFirst: boolean;
@@ -46,6 +51,17 @@ export default function TripSection({
 
   const showInterchangeSection =
     interchangeDetails && leg.interchangeTo?.guaranteed && leg.line;
+
+  const realtimeText = useRealtimeText(
+    leg.serviceJourneyEstimatedCalls.map((estimatedCall) => ({
+      actualDepartureTime: estimatedCall.actualDepartureTime,
+      expectedDepartureTime: estimatedCall.expectedDepartureTime,
+      aimedDepartureTime: estimatedCall.aimedDepartureTime,
+      quayName: estimatedCall.quay.name,
+      realtime: estimatedCall.realtime,
+      cancelled: estimatedCall.cancellation,
+    })),
+  );
 
   return (
     <div className={style.container}>
@@ -136,6 +152,8 @@ export default function TripSection({
             />
           </TripRow>
         )}
+
+        {realtimeText && <RealtimeSection realtimeText={realtimeText} />}
 
         <EstimatedCallsSection
           numberOfIntermediateEstimatedCalls={

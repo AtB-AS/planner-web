@@ -33,7 +33,7 @@ export function EstimatedCallsSection({
   return (
     <TripRow>
       {shouldShowLinkToServiceJourney ? (
-        <Link className={style.intermediateStops} href={serviceJourneyHref}>
+        <Link className={style.textColor__secondary} href={serviceJourneyHref}>
           {t(
             PageText.Assistant.details.tripSection.intermediateStops(
               numberOfIntermediateEstimatedCalls,
@@ -41,7 +41,10 @@ export function EstimatedCallsSection({
           )}
         </Link>
       ) : (
-        <Typo.p textType="body__secondary" className={style.intermediateStops}>
+        <Typo.p
+          textType="body__secondary"
+          className={style.textColor__secondary}
+        >
           {t(
             PageText.Assistant.details.tripSection.intermediateStops(
               numberOfIntermediateEstimatedCalls,
@@ -49,7 +52,7 @@ export function EstimatedCallsSection({
           )}
         </Typo.p>
       )}
-      <Typo.p textType="body__secondary" className={style.intermediateStops}>
+      <Typo.p textType="body__secondary" className={style.textColor__secondary}>
         {secondsToDuration(duration, language)}
       </Typo.p>
     </TripRow>
