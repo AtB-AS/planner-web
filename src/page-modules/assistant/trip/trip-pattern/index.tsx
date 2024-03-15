@@ -72,7 +72,7 @@ export default function TripPattern({
 
   return (
     <motion.a
-      href={`/assistant/${tripPattern.compressedQuery}___${router.query.filter}`}
+      href={`/assistant/${tripPattern.compressedQuery}&filter=${router.query.filter}`}
       className={className}
       data-testid={testId}
       initial={{ opacity: 0, x: -10 }}
