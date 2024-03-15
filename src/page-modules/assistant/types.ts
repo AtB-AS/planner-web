@@ -15,7 +15,6 @@ export type TripInput = {
   cursor?: string;
   via?: GeocoderFeature;
   lineFilter?: string[];
-  inputFilterString: string;
 };
 
 export type FromToTripQuery = {
@@ -26,7 +25,6 @@ export type FromToTripQuery = {
   cursor: string | null;
   via?: GeocoderFeature | null;
   lineFilter: string[] | null;
-  inputFilterString: string;
 };
 
 export const TripQuerySchema = z.object({
@@ -47,7 +45,6 @@ export const TripQuerySchema = z.object({
   viaLat: z.number().optional(),
   viaLayer: z.union([z.literal('address'), z.literal('venue')]).optional(),
   lineFilter: z.string().optional(),
-  inputFilterString: z.string().optional(),
 });
 
 export type TripQuery = z.infer<typeof TripQuerySchema>;
@@ -77,7 +74,6 @@ export type NonTransitTripInput = {
   to: GeocoderFeature;
   searchTime: SearchTime;
   directModes: StreetMode[];
-  inputFilterString: string;
 };
 
 export type { TripData, NonTransitData };

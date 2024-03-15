@@ -105,7 +105,6 @@ describe('assistant page', function () {
         transportModeFilter: null,
         cursor: null,
         lineFilter: null,
-        inputFilterString: '',
       },
     });
   });
@@ -121,7 +120,6 @@ describe('assistant page', function () {
           cursor: null,
           transportModeFilter: null,
           lineFilter: null,
-          inputFilterString: '',
         }}
       />,
     );
@@ -154,7 +152,6 @@ describe('assistant page', function () {
           transportModeFilter: null,
           cursor: null,
           lineFilter: null,
-          inputFilterString: '',
         }}
       />,
     );
@@ -184,7 +181,6 @@ describe('assistant page', function () {
           transportModeFilter: ['bus'],
           cursor: null,
           lineFilter: [],
-          inputFilterString: '',
         }}
       />,
     );
@@ -210,7 +206,6 @@ describe('assistant page', function () {
           transportModeFilter: ['bus'],
           cursor: null,
           lineFilter: null,
-          inputFilterString: '',
         }}
       />,
     );
@@ -238,7 +233,6 @@ describe('assistant page', function () {
       transportModeFilter: null,
       cursor: null,
       lineFilter: null,
-      inputFilterString: '',
     };
 
     addAssistantTripToCache(fromToTripQuery, tripResult);
@@ -260,7 +254,6 @@ describe('assistant page', function () {
       cursor: null,
       lineFilter: null,
       via: null,
-      inputFilterString: '',
     };
     const fromToTripQuery2: FromToTripQuery = {
       from: fromFeature,
@@ -272,7 +265,6 @@ describe('assistant page', function () {
       transportModeFilter: null,
       cursor: null,
       lineFilter: null,
-      inputFilterString: '',
     };
 
     addAssistantTripToCache(fromToTripQuery1, tripResult);
@@ -296,7 +288,6 @@ describe('assistant page', function () {
       cursor: null,
       lineFilter: null,
       via: null,
-      inputFilterString: '',
     };
 
     addAssistantTripToCache(cachedFromToTripQuery, tripResult);

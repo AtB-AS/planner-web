@@ -1,8 +1,5 @@
 import { errorResultAsJson, tryResult } from '@atb/modules/api-server';
-import {
-  getAllTransportModesFromFilterOptions,
-  parseInputFilterString,
-} from '@atb/modules/transport-mode';
+import { getAllTransportModesFromFilterOptions } from '@atb/modules/transport-mode';
 import {
   fetchFromToTripQuery,
   type TripApiReturnType,
@@ -27,10 +24,6 @@ export default handlerWithAssistantClient<TripApiReturnType>({
       tripQuery.transportModeFilter,
     );
 
-    const inputFilterString = parseInputFilterString(
-      tripQuery.transportModeFilter,
-    );
-
     return tryResult(req, res, async () => {
       return ok(
         await client.trip({
@@ -41,7 +34,6 @@ export default handlerWithAssistantClient<TripApiReturnType>({
           transportModes,
           cursor: tripQuery.cursor!,
           lineFilter: tripQuery.lineFilter ?? [],
-          inputFilterString: inputFilterString,
         }),
       );
     });
