@@ -67,6 +67,7 @@ import {
   LinesQuery,
   LinesQueryVariables,
 } from './journey-gql/lines.generated';
+import { addLinesToCache, getLinesIfCached } from '../lines-cache';
 
 const DEFAULT_JOURNEY_CONFIG = {
   numTripPatterns: 8, // The maximum number of trip patterns to return.
@@ -166,6 +167,9 @@ export function createJourneyApi(
     },
 
     async lines(input) {
+      const potential = getLinesIfCached(input as LineInput);
+      if (potential) return potential;
+
       const result = await client.query<LinesQuery, LinesQueryVariables>({
         query: LinesDocument,
         variables: { authorities: input.authorities },
@@ -174,9 +178,14 @@ export function createJourneyApi(
       if (result.error || result.errors) {
         throw result.error || result.errors;
       }
-
       const publicCodeLineList = createPublicCodeLineList(result.data.lines);
       const linePublicCodeList = createLinePublicCodeList(result.data.lines);
+
+      addLinesToCache(input as LineInput, {
+        publicCodeLineList,
+        linePublicCodeList,
+      });
+
       return { publicCodeLineList, linePublicCodeList };
     },
     async trip(input) {
