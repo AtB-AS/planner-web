@@ -24,7 +24,7 @@ export default function LabeledInput({
 
   const errorLabel = prefix + 'Error';
 
-  const validationStatusProps: JSX.IntrinsicElements['input'] = status
+  const validationStatusProps: JSX.IntrinsicElements['input'] = isError
     ? { 'aria-invalid': 'true', 'aria-describedby': errorLabel }
     : {};
   return (
