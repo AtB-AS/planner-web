@@ -28,7 +28,7 @@ export function AssistantDetails({ tripPattern }: AssistantDetailsProps) {
   );
 
   const tripSearchParams = router.query.id
-    ? tripQueryStringToQueryParams(String(router.query.id))
+    ? tripQueryStringToQueryParams(router.query)
     : undefined;
 
   return (
