@@ -25,6 +25,7 @@ export const useMapLegs = (
           ],
         },
         transport,
+        mapLeg.isFlexibleLine,
       );
       const lineColor = mapLeg.faded
         ? hexToRgba(transportColor.background, 0.5)

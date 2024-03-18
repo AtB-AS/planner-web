@@ -115,6 +115,7 @@ fragment tripPattern on TripPattern {
       notices {
         ...notice
       }
+      flexibleLineType
     }
     fromEstimatedCall {
       cancellation
