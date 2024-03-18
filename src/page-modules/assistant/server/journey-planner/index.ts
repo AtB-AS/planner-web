@@ -178,15 +178,13 @@ export function createJourneyApi(
       if (result.error || result.errors) {
         throw result.error || result.errors;
       }
-      const publicCodeLineList = createPublicCodeLineList(result.data.lines);
-      const linePublicCodeList = createLinePublicCodeList(result.data.lines);
+      const publicCodeLineMapString = createPublicCodeLineMap(
+        result.data.lines,
+      );
 
-      addLinesToCache(input as LineInput, {
-        publicCodeLineList,
-        linePublicCodeList,
-      });
+      addLinesToCache(input as LineInput, publicCodeLineMapString);
 
-      return { publicCodeLineList, linePublicCodeList };
+      return { publicCodeLineMapString };
     },
     async trip(input) {
       const journeyModes = {
@@ -817,24 +815,20 @@ async function getSortedViaTrips(
   return sortedData;
 }
 
-function createPublicCodeLineList(lines: LineFragment[]) {
-  const publicCodeLineList: Record<string, string[]> = {};
+function createPublicCodeLineMap(lines: LineFragment[]) {
+  const publicCodeLineList = new Map<string, string[]>();
   lines.forEach((line) => {
     if (line.publicCode) {
-      if (publicCodeLineList.hasOwnProperty(line.publicCode)) {
-        publicCodeLineList[line.publicCode].push(line.id);
+      if (publicCodeLineList.has(line.publicCode)) {
+        publicCodeLineList.get(line.publicCode)?.push(line.id);
       } else {
-        publicCodeLineList[line.publicCode] = [line.id];
+        publicCodeLineList.set(line.publicCode, [line.id]);
       }
     }
   });
-  return publicCodeLineList;
-}
 
-function createLinePublicCodeList(lines: LineFragment[]) {
-  const linePublicCodeList: Record<string, string> = {};
-  lines.forEach((line) => {
-    if (line.publicCode) linePublicCodeList[line.id] = line.publicCode;
-  });
-  return linePublicCodeList;
+  // @ts-ignore
+  // @ts-expect-error: This is needed to allow iteration through Map objects
+  // @ts-nocheck
+  return JSON.stringify([...publicCodeLineList]);
 }

@@ -24,6 +24,8 @@ export default function LineFilter({ filterState, onChange }: LineFilterProps) {
   const [validationError, setValidationError] =
     useState<LabeledInputProps['validationError']>();
   const [localFilterState, setLocalFilterState] = useState('');
+  const [publicCodeLineMap, setPublicCodeLineMap] =
+    useState<Map<string, string[]>>();
 
   const onChangeWrapper = (event: ChangeEvent<HTMLInputElement>) => {
     if (error || isLoading) return;
@@ -39,31 +41,27 @@ export default function LineFilter({ filterState, onChange }: LineFilterProps) {
     if (!lineFilter) {
       onChange(null);
     } else {
-      const publicCodes = lineFilter
-        .split(',')
-        .map((publicCode) => publicCode.trim());
-
-      const lines = publicCodes
-        .map((publicCode) => data.publicCodeLineList[publicCode])
-        .filter((line) => line !== undefined);
-
+      const lines = publicCodeLineMap?.get(lineFilter) || null;
       onChange(lines);
     }
   };
 
   useEffect(() => {
-    const mapFromLineIdToPublicCode = () => {
-      if (!data) return;
-      const lines =
-        filterState
-          ?.map((line) => data.linePublicCodeList[line])
-          .filter((line, index, lines) => lines.indexOf(line) === index)
-          .join(', ') ?? '';
-      return lines;
-    };
-    const lines = mapFromLineIdToPublicCode();
-    if (lines) setLocalFilterState(lines);
+    if (!data) return;
+    setPublicCodeLineMap(new Map(JSON.parse(data.publicCodeLineMapString)));
   }, [data]);
+
+  useEffect(() => {
+    if (!publicCodeLineMap) return;
+    const lines =
+      Array.from(publicCodeLineMap.keys()).find((line) =>
+        filterState?.every((publicCode) =>
+          publicCodeLineMap.get(line)?.includes(publicCode),
+        ),
+      ) || '';
+
+    setLocalFilterState(lines);
+  }, [publicCodeLineMap, filterState]);
 
   return (
     <div className={style.container}>
