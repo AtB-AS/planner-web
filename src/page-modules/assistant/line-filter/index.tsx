@@ -57,13 +57,13 @@ export default function LineFilter({ filterState, onChange }: LineFilterProps) {
   }, [data]);
 
   useEffect(() => {
-    if (!publicCodeLineMap || localFilterState !== '') return;
+    if (!publicCodeLineMap) return;
     const publicCodeString = Array.from(publicCodeLineMap.entries())
       .filter(([_, line]) => filterState?.some((code) => line.includes(code)))
       .map(([code]) => code)
       .join(', ');
     setLocalFilterState(publicCodeString);
-  }, [publicCodeLineMap, localFilterState, filterState]);
+  }, [publicCodeLineMap]);
 
   return (
     <div className={style.container}>
