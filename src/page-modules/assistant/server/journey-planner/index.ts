@@ -588,7 +588,11 @@ function generateSingleTripQueryString(
 
   // encode to string
   return compressToEncodedURIComponent(
-    JSON.stringify({ query: singleTripQuery, journeyIds, originalSearchTime }),
+    JSON.stringify({
+      query: singleTripQuery,
+      journeyIds,
+      originalSearchTime,
+    }),
   );
 }
 
