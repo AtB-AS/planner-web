@@ -1,6 +1,5 @@
 import { formatCETToLocalTime } from '@atb/utils/date';
 import { parseTripQueryString } from '../server/journey-planner';
-import { ParsedUrlQuery } from 'querystring';
 
 export function formatQuayName(quayName?: string, publicCode?: string | null) {
   if (!quayName) return;
