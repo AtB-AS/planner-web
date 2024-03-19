@@ -5,12 +5,13 @@ import { PageText, useTranslation } from '@atb/translations';
 import { ChangeEvent, useEffect, useState } from 'react';
 import style from './line-filter.module.css';
 import useSWR from 'swr';
+import { swrFetcher } from '@atb/modules/api-browser';
+import { uniq } from 'lodash';
+
 type LineFilterProps = {
   filterState: string[] | null;
   onChange: (lineFilter: string[] | null) => void;
 };
-
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default function LineFilter({ filterState, onChange }: LineFilterProps) {
   const { t } = useTranslation();
@@ -19,51 +20,57 @@ export default function LineFilter({ filterState, onChange }: LineFilterProps) {
 
   const { data, error, isLoading } = useSWR(
     `api/assistant/lines/${authorityId}`,
-    fetcher,
+    swrFetcher,
   );
   const [validationError, setValidationError] =
     useState<LabeledInputProps['validationError']>();
   const [localFilterState, setLocalFilterState] = useState('');
-  const [publicCodeLineMap, setPublicCodeLineMap] =
-    useState<Map<string, string[]>>();
 
   const onChangeWrapper = (event: ChangeEvent<HTMLInputElement>) => {
-    if (error || isLoading) return;
-    const lineFilter = event.target.value;
-    setLocalFilterState(lineFilter);
+    if (error || isLoading) return; // TODO: This causes the input to not
+    // update if loading or error. Is that confusing?
+    const input = event.target.value;
+    setLocalFilterState(input);
     setValidationError(undefined);
 
-    if (!isValidFilter(lineFilter)) {
+    if (!isValidFilter(input)) {
       setValidationError(t(PageText.Assistant.search.lineFilter.error));
       return;
     }
 
-    if (!lineFilter) {
+    if (!input) {
       onChange(null);
     } else {
-      const lines = lineFilter
+      const lines = input
         .split(',')
-        .map((line) => publicCodeLineMap?.get(line.trim()))
-        .filter((line): line is string[] => line !== undefined)
-        .flat();
+        .flatMap((line) => data[line])
+        .filter(Boolean);
 
       onChange(lines);
     }
   };
 
+  // TODO: Might be a better way to do this. This is to map the line filters
+  //  when the page loads.
   useEffect(() => {
-    if (!data) return;
-    setPublicCodeLineMap(new Map(JSON.parse(data.publicCodeLineMapString)));
-  }, [data]);
+    if (!data || !filterState) return;
+    setLocalFilterState(
+      // TODO: move to helper function
+      uniq(
+        filterState
+          .map((line) => {
+            for (let key in data) {
+              if (data[key].includes(line)) {
+                return key;
+              }
+            }
 
-  useEffect(() => {
-    if (!publicCodeLineMap || localFilterState !== '') return;
-    const publicCodeString = Array.from(publicCodeLineMap.entries())
-      .filter(([_, line]) => filterState?.some((code) => line.includes(code)))
-      .map(([code]) => code)
-      .join(', ');
-    setLocalFilterState(publicCodeString);
-  }, [publicCodeLineMap, localFilterState, filterState]);
+            return null;
+          })
+          .filter(Boolean),
+      ).join(','),
+    );
+  }, [data]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className={style.container}>
