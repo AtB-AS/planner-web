@@ -16,11 +16,9 @@ const SiteMap = () => {
 const getFolderNames = (folderPath: string) => {
   try {
     const folderContents = fs.readdirSync(folderPath, { withFileTypes: true });
-    const folderNames = folderContents
-      .filter((dirent) => dirent.isDirectory())
-      .map((dirent) => dirent.name)
-      .filter((name) => name !== 'api');
-    return folderNames;
+    return folderContents
+      .filter((dirent) => dirent.isDirectory() && dirent.name !== 'api')
+      .map((dirent) => dirent.name);
   } catch (error) {
     console.error('Error when retrieving directory name: ', error);
     return [];
