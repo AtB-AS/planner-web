@@ -7,7 +7,6 @@ import { getOrgData } from '@atb/modules/org-data';
 
 const { urls } = getOrgData();
 
-const folderPath = 'src/pages';
 const travelPlannerUrl = urls.homePageUrl.href.replace('//', '//reise.');
 
 const SiteMap = () => {
@@ -28,11 +27,9 @@ const getFolderNames = (folderPath: string) => {
   }
 };
 
-const getLastModifiedTime = (folderPath: string, folderName: string) => {
+const getLastModifiedTime = (totPath: string) => {
   try {
-    const stats = fs.statSync(
-      path.join(process.cwd(), `${folderPath}/${folderName}`),
-    );
+    const stats = fs.statSync(path.join(process.cwd(), totPath));
     return formatToShortDateWithYear(stats.mtime, Language.Norwegian); // Returns the modification time of the folder
   } catch (error) {
     console.error('Error when retrieving change time: ', error);
@@ -44,7 +41,7 @@ const generateSitemap = (folderPath: string) => {
   const folderNames = getFolderNames(folderPath);
   const sites = folderNames.map((folderName) => ({
     name: folderName,
-    dateModified: getLastModifiedTime(folderPath, folderName),
+    dateModified: getLastModifiedTime(`${folderPath}/${folderName}`),
   }));
 
   return `<?xml version="1.0" encoding="UTF-8"?>
@@ -62,7 +59,7 @@ const generateSitemap = (folderPath: string) => {
 };
 
 export const getServerSideProps: GetServerSideProps<{}> = async (ctx) => {
-  const siteMap = generateSitemap(folderPath);
+  const siteMap = generateSitemap('src/pages');
   ctx.res.setHeader('Content-Type', 'text/xml');
   ctx.res.write(siteMap);
   ctx.res.end();
