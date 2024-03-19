@@ -52,6 +52,7 @@ const generateSitemap = (folderPath: string) => {
     </url>
     `;
   })}
+  ${sites.length === 0 ? `<loc>sites.length === 0</loc>` : `<loc>sites.length !== 0</loc>`}
    </urlset>
  `;
 };
