@@ -59,9 +59,9 @@ const generateSitemap = (folderPath: string) => {
 };
 
 export const getServerSideProps: GetServerSideProps<{}> = async (ctx) => {
-  const siteMap = generateSitemap('src/pages');
+  const sitemap = generateSitemap('src/pages');
   ctx.res.setHeader('Content-Type', 'text/xml');
-  ctx.res.write(siteMap);
+  ctx.res.write(sitemap);
   ctx.res.end();
 
   return {
