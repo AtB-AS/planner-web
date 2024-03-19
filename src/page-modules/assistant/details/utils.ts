@@ -27,9 +27,9 @@ export function formatLineName(
 }
 
 export function tripQueryStringToQueryParams(
-  parsedUrlQuery: ParsedUrlQuery,
+  queryString: string,
 ): URLSearchParams | undefined {
-  const tripQueryVariables = parseTripQueryString(String(parsedUrlQuery.id));
+  const tripQueryVariables = parseTripQueryString(queryString);
   if (!tripQueryVariables) return undefined;
 
   const { from, to } = tripQueryVariables.query;
@@ -50,7 +50,6 @@ export function tripQueryStringToQueryParams(
   )
     return undefined;
 
-  const filter = parsedUrlQuery.filter as string;
   const searchMode = arriveBy ? 'arriveBy' : 'departBy';
   const fromLayer = from.place?.includes('StopPlace') ? 'venue' : 'address';
   const toLayer = to.place?.includes('StopPlace') ? 'venue' : 'address';
@@ -59,7 +58,6 @@ export function tripQueryStringToQueryParams(
   );
 
   const params = {
-    filter,
     searchMode,
     searchTime,
     fromId: from.place,

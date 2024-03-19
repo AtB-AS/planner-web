@@ -28,8 +28,12 @@ export function AssistantDetails({ tripPattern }: AssistantDetailsProps) {
   );
 
   const tripSearchParams = router.query.id
-    ? tripQueryStringToQueryParams(router.query)
+    ? tripQueryStringToQueryParams(String(router.query.id))
     : undefined;
+
+  if (tripSearchParams && router.query.filter) {
+    tripSearchParams.append('filter', router.query.filter as string);
+  }
 
   return (
     <div className={style.container}>
