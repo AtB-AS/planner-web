@@ -41,7 +41,12 @@ export default function LineFilter({ filterState, onChange }: LineFilterProps) {
     if (!lineFilter) {
       onChange(null);
     } else {
-      const lines = publicCodeLineMap?.get(lineFilter) || null;
+      const lines = lineFilter
+        .split(',')
+        .map((line) => publicCodeLineMap?.get(line.trim()))
+        .filter((line): line is string[] => line !== undefined)
+        .flat();
+
       onChange(lines);
     }
   };
@@ -52,16 +57,13 @@ export default function LineFilter({ filterState, onChange }: LineFilterProps) {
   }, [data]);
 
   useEffect(() => {
-    if (!publicCodeLineMap) return;
-    const lines =
-      Array.from(publicCodeLineMap.keys()).find((line) =>
-        filterState?.every((publicCode) =>
-          publicCodeLineMap.get(line)?.includes(publicCode),
-        ),
-      ) || '';
-
-    setLocalFilterState(lines);
-  }, [publicCodeLineMap, filterState]);
+    if (!publicCodeLineMap || localFilterState !== '') return;
+    const publicCodeString = Array.from(publicCodeLineMap.entries())
+      .filter(([_, line]) => filterState?.some((code) => line.includes(code)))
+      .map(([code]) => code)
+      .join(', ');
+    setLocalFilterState(publicCodeString);
+  }, [publicCodeLineMap, localFilterState, filterState]);
 
   return (
     <div className={style.container}>

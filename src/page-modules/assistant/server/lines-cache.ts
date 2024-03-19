@@ -19,9 +19,12 @@ export function getLinesIfCached(query: LineInput): LineData | undefined {
   }
 }
 
-export function addLinesToCache(query: LineInput, linesData: string) {
+export function addLinesToCache(
+  query: LineInput,
+  publicCodeLineMapString: string,
+) {
   getLinesCacheInstance().set(createCacheKey(query), {
-    publicCodeLineMapString: linesData,
+    publicCodeLineMapString: publicCodeLineMapString,
   });
 }
 
