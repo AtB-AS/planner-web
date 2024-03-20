@@ -169,6 +169,7 @@ export function createJourneyApi(
       const result = await client.query<LinesQuery, LinesQueryVariables>({
         query: LinesDocument,
         variables: { authorities: input.authorities },
+        fetchPolicy: 'cache-first',
       });
 
       if (result.error || result.errors) {

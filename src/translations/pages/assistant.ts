@@ -52,7 +52,7 @@ const AssistantInternal = {
       error: _(
         'Linje må være tall eller liste av tall (f.eks. 2, 10)',
         'Line must be a number or list of numbers (e.g. 2, 10)',
-        'Linje må vere tal eller liste av tal (t.d. 2, 10',
+        'Linje må vere tal eller liste av tal (t.d. 2, 10)',
       ),
       lineSearch: {
         label: _('Linje', 'Line', 'Linje'),
@@ -420,7 +420,7 @@ export const Assistant = orgSpecificTranslations(AssistantInternal, {
         error: _(
           'Linje må være tall eller liste av tall (f.eks. 100, 200)',
           'Line must be a number or list of numbers (e.g. 100, 200)',
-          'Linje må vere tal eller liste av tal (t.d. 100, 200',
+          'Linje må vere tal eller liste av tal (t.d. 100, 200)',
         ),
 
         example: _(
@@ -437,7 +437,7 @@ export const Assistant = orgSpecificTranslations(AssistantInternal, {
         error: _(
           'Linje må være tall eller liste av tall (f.eks. 905, 902)',
           'Line must be a number or list of numbers (e.g. 905, 902)',
-          'Linje må vere tal eller liste av tal (t.d. 905, 902',
+          'Linje må vere tal eller liste av tal (t.d. 905, 902)',
         ),
 
         example: _(
