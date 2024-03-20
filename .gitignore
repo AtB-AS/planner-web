@@ -49,3 +49,7 @@ src/components/icon/generated-icons.ts
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+
+
+/public/robots.txt
+/public/sitemap.xml
