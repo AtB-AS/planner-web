@@ -409,6 +409,43 @@ const AssistantInternal = {
             : `${count} intermediate stop`,
           `${count} mellomstopp`,
         ),
+      flexibleTransport: {
+        bookOnline: _(`Reserver på nett`, `Book online`, `Reserver på nett`),
+        bookByPhone: (phone: string) =>
+          _(
+            `Reserver på tlf. ${phone}`,
+            `Book by phone ${phone}`,
+            `Reserver på tlf. ${phone}`,
+          ),
+        onDemandTransportLabel: _(
+          `Bestillingstransport`,
+          `On-demand transport`,
+          `Bestillingstransport`,
+        ),
+        needsBookingAndIsAvailable: (formattedTimeForBooking: string) =>
+          _(
+            `Denne reisen krever reservasjon innen ${formattedTimeForBooking}.`,
+            `This trip requires booking before ${formattedTimeForBooking}.`,
+            `Denne reisa krever reservasjon innen ${formattedTimeForBooking}.`,
+          ),
+        needsBookingButIsTooEarly: (formattedTimeForBooking: string) =>
+          _(
+            `Denne reisen krever reservasjon og kan tidligst reserveres ${formattedTimeForBooking}.`,
+            `This trip requires booking and can be booked no earlier than ${formattedTimeForBooking}.`,
+            `Denne reisa krever reservasjon og kan tidlegast reserverast ${formattedTimeForBooking}.`,
+          ),
+        needsBookingButIsTooLate: _(
+          `Denne reisen krever reservasjon. Frist for reservasjon har utløpt.`,
+          `This trip requires booking. The booking deadline has expired.`,
+          `Denne reisa krever reservasjon. Frist for reservasjon har utgått.`,
+        ),
+        needsBookingWhatIsThis: (publicCode: string) =>
+          _(
+            `Hva er ${publicCode}?`,
+            `What is ${publicCode}?`,
+            `Kva er ${publicCode}?`,
+          ),
+      },
     },
   },
 };

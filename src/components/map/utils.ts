@@ -46,6 +46,7 @@ export const mapToMapLegs = (
   transportSubmode: TransportSubmodeType | undefined,
   fromStopPlace?: { latitude?: number; longitude?: number },
   toStopPlace?: { latitude?: number; longitude?: number },
+  isFlexibleLine?: boolean,
 ) => {
   if (!pointsOnLink || !pointsOnLink.points) return [];
   const points = polyline.decode(pointsOnLink.points);
@@ -72,6 +73,7 @@ export const mapToMapLegs = (
       transportSubmode,
       faded,
       points: item,
+      isFlexibleLine: isFlexibleLine ?? false,
     };
   };
 

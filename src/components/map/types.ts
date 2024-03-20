@@ -14,6 +14,7 @@ export const mapLegSchema = z.object({
   transportSubmode: transportSubmodeSchema.optional(),
   faded: z.boolean(),
   points: z.array(z.array(z.number(), z.number())),
+  isFlexibleLine: z.boolean(),
 });
 
 export type MapLegType = z.infer<typeof mapLegSchema>;

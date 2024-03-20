@@ -25,3 +25,8 @@
   align-items: center;
   gap: var(--spacings-small);
 }
+.onDemandTransportLabel {
+  composes: typo-body__secondary;
+  color: var(--text-colors-secondary);
+  padding-top: var(--spacings-small);
+}

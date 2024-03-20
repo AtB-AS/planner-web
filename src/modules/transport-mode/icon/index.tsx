@@ -29,11 +29,19 @@ export function TransportIcons({ modes }: TransportIconsProps) {
 export type TransportIconProps = {
   mode: TransportModeGroup;
   size?: MonoIconProps['size'];
+  isFlexible?: boolean;
 };
 
-export function TransportIcon({ mode, size = 'normal' }: TransportIconProps) {
+export function TransportIcon({
+  mode,
+  size = 'normal',
+  isFlexible,
+}: TransportIconProps) {
   const { t } = useTranslation();
-  const { backgroundColor, overrideMode } = useTransportationThemeColor(mode);
+  const { backgroundColor, overrideMode } = useTransportationThemeColor(
+    mode,
+    isFlexible,
+  );
   return (
     <span className={style.transportIcon} style={{ backgroundColor }}>
       <MonoIcon
@@ -61,16 +69,18 @@ export type TransportIconWithLabelProps = {
   mode: TransportModeGroup;
   label?: string;
   duration?: number;
+  isFlexible?: boolean;
 };
 
 export function TransportIconWithLabel({
   mode,
   label,
   duration,
+  isFlexible,
 }: TransportIconWithLabelProps) {
   const { t } = useTranslation();
   const { static: staticColors } = useTheme();
-  let colors = useTransportationThemeColor(mode);
+  let colors = useTransportationThemeColor(mode, isFlexible);
 
   // Walking legs should have a lighter background color in the trip pattern view.
   if (mode.transportMode === 'foot') {
@@ -115,9 +125,12 @@ export function TransportIconWithLabel({
   );
 }
 
-export function useTransportationThemeColor(mode: TransportModeGroup) {
+export function useTransportationThemeColor(
+  mode: TransportModeGroup,
+  isFlexible?: boolean,
+) {
   const { transport } = useTheme();
-  let color = transportModeToColor(mode, transport);
+  let color = transportModeToColor(mode, transport, isFlexible);
   return {
     backgroundColor: color.background,
     textColor: color.text,
@@ -128,7 +141,9 @@ export function useTransportationThemeColor(mode: TransportModeGroup) {
 export function transportModeToColor(
   mode: TransportModeGroup,
   transport: Theme['transport'],
+  isFlexible?: boolean,
 ): ContrastColor {
+  if (isFlexible) return transport.transport_flexible.primary;
   switch (mode.transportMode) {
     case 'bus':
     case 'coach':

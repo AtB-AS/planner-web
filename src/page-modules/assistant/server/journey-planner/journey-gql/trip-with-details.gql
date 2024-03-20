@@ -54,6 +54,7 @@ query TripsWithDetails(
           notices {
             ...notice
           }
+          flexibleLineType
         }
         fromPlace {
           name
@@ -115,6 +116,21 @@ query TripsWithDetails(
             name
           }
           realtime
+        }
+        bookingArrangements {
+          bookingMethods
+          latestBookingTime
+          bookingNote
+          bookWhen
+          latestBookingTime
+          minimumBookingPeriod
+          bookingContact {
+            contactPerson
+            email
+            url
+            phone
+            furtherDetails
+          }
         }
       }
     }

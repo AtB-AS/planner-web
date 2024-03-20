@@ -24,6 +24,11 @@ import WaitSection, { type LegWaitDetails } from './wait-section';
 import { EstimatedCallsSection } from './estimated-calls-section';
 import { DepartureTime } from '@atb/components/departure-time';
 import { RealtimeSection } from './realtime-section';
+import {
+  getBookingStatus,
+  isLineFlexibleTransport,
+} from '@atb/modules/flexible';
+import { BookingSection } from './booking-section';
 
 export type TripSectionProps = {
   isFirst: boolean;
@@ -41,10 +46,14 @@ export default function TripSection({
 }: TripSectionProps) {
   const { t } = useTranslation();
   const isWalkSection = leg.mode === 'foot';
-  const legColor = useTransportationThemeColor({
-    transportMode: leg.mode,
-    transportSubModes: leg.transportSubmode && [leg.transportSubmode],
-  });
+  const isFlexible = isLineFlexibleTransport(leg.line);
+  const legColor = useTransportationThemeColor(
+    {
+      transportMode: leg.mode,
+      transportSubModes: leg.transportSubmode && [leg.transportSubmode],
+    },
+    isFlexible,
+  );
 
   const showFrom = !isWalkSection || (isFirst && isWalkSection);
   const showTo = !isWalkSection || (isLast && isWalkSection);
@@ -61,6 +70,12 @@ export default function TripSection({
       realtime: estimatedCall.realtime,
       cancelled: estimatedCall.cancellation,
     })),
+  );
+
+  const bookingStatus = getBookingStatus(
+    leg.bookingArrangements,
+    leg.aimedStartTime,
+    7,
   );
 
   return (
@@ -105,6 +120,7 @@ export default function TripSection({
                     leg.transportSubmode,
                   ],
                 }}
+                isFlexible={isFlexible}
                 size="xSmall"
               />
             }
@@ -116,6 +132,17 @@ export default function TripSection({
                 leg.line?.publicCode,
               )}
             </Typo.p>
+            {isFlexible && (
+              <Typo.p
+                textType="body__secondary"
+                className={style.onDemandTransportLabel}
+              >
+                {t(
+                  PageText.Assistant.details.tripSection.flexibleTransport
+                    .onDemandTransportLabel,
+                )}
+              </Typo.p>
+            )}
           </TripRow>
         )}
 
@@ -138,6 +165,14 @@ export default function TripSection({
                 <MessageBox type="info" noStatusIcon message={notice.text} />
               </TripRow>
             ),
+        )}
+
+        {leg.bookingArrangements && bookingStatus !== 'none' && (
+          <BookingSection
+            bookingStatus={bookingStatus}
+            bookingArrangements={leg.bookingArrangements}
+            aimedStartTime={leg.aimedStartTime}
+          />
         )}
 
         {leg.transportSubmode === 'railReplacementBus' && (

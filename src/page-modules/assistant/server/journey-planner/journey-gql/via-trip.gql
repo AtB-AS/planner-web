@@ -46,6 +46,7 @@ fragment tripPatternsPerSegment on ViaTripPatternSegment {
         notices {
           ...notice
         }
+        flexibleLineType
       }
       fromEstimatedCall {
         cancellation
