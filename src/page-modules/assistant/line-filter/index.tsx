@@ -47,25 +47,23 @@ export default function LineFilter({ filterState, onChange }: LineFilterProps) {
     }
   };
 
-  // TODO: Might be a better way to do this. This is to map the line filters
-  //  when the page loads.
-  useEffect(() => {
-    if (!data || !filterState) return;
-    setLocalFilterState(
-      // TODO: move to helper function
-      filterState
-        .map((line) => {
-          for (let key in data) {
-            if (data[key].includes(line)) {
-              return key;
-            }
+  const mapFilterStateToLineCodes = () => {
+    if (!data || !filterState) return '';
+    return filterState
+      .map((line) => {
+        for (let id in data) {
+          if (data[id].includes(line)) {
+            return id;
           }
+        }
+        return null;
+      })
+      .filter(Boolean)
+      .join(',');
+  };
 
-          return null;
-        })
-        .filter(Boolean)
-        .join(','),
-    );
+  useEffect(() => {
+    setLocalFilterState(mapFilterStateToLineCodes());
   }, [data]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
