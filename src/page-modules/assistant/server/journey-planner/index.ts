@@ -67,7 +67,6 @@ import {
   LinesQuery,
   LinesQueryVariables,
 } from './journey-gql/lines.generated';
-import { addLinesToCache, getLinesIfCached } from '../lines-cache';
 
 const DEFAULT_JOURNEY_CONFIG = {
   numTripPatterns: 8, // The maximum number of trip patterns to return.
@@ -167,9 +166,6 @@ export function createJourneyApi(
     },
 
     async lines(input) {
-      const potential = getLinesIfCached(input as LineInput);
-      if (potential) return potential;
-
       const result = await client.query<LinesQuery, LinesQueryVariables>({
         query: LinesDocument,
         variables: { authorities: input.authorities },
@@ -178,13 +174,8 @@ export function createJourneyApi(
       if (result.error || result.errors) {
         throw result.error || result.errors;
       }
-      const publicCodeLineMapString = createPublicCodeLineMap(
-        result.data.lines,
-      );
 
-      addLinesToCache(input as LineInput, publicCodeLineMapString);
-
-      return { publicCodeLineMapString };
+      return createLinesRecord(result.data.lines);
     },
     async trip(input) {
       const journeyModes = {
@@ -815,20 +806,15 @@ async function getSortedViaTrips(
   return sortedData;
 }
 
-function createPublicCodeLineMap(lines: LineFragment[]) {
-  const publicCodeLineList = new Map<string, string[]>();
-  lines.forEach((line) => {
-    if (line.publicCode) {
-      if (publicCodeLineList.has(line.publicCode)) {
-        publicCodeLineList.get(line.publicCode)?.push(line.id);
-      } else {
-        publicCodeLineList.set(line.publicCode, [line.id]);
-      }
+function createLinesRecord(lines: LineFragment[]) {
+  const record: Record<string, string[]> = {};
+  for (const line of lines) {
+    if (!line.publicCode) continue;
+    if (!record[line.publicCode]) {
+      record[line.publicCode] = [];
     }
-  });
 
-  // @ts-ignore
-  // @ts-expect-error: This is needed to allow iteration through Map objects
-  // @ts-nocheck
-  return JSON.stringify([...publicCodeLineList]);
+    record[line.publicCode].push(line.id);
+  }
+  return record;
 }
