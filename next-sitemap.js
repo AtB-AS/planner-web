@@ -1,22 +1,19 @@
 /** @type {import('next-sitemap').IConfig} */
 
-function getHomepageUrl() {
+function getSiteUrl() {
   const orgId = process.env.NEXT_PUBLIC_PLANNER_ORG_ID;
   const org = require(`./orgs/${orgId}.json`);
-  return org.urls.homePageUrl.href;
+  return org.urls.travelPlannerUrl.href;
 }
 
-function getSiteUrl(url) {
-  return url.includes('www')
-    ? url.replace('www', 'reise')
-    : url.replace('//', '//reise.');
-}
+const prod = process.env.NODE_ENV === 'production';
+const siteUrl = getSiteUrl();
 
-const homePageUrl = getHomepageUrl();
-const siteUrl = getSiteUrl(homePageUrl);
-
+/*
+ * Todo: Find a way to set the correct url when in preview and in staging.
+ */
 module.exports = {
-  siteUrl: siteUrl,
+  siteUrl: prod ? siteUrl : 'http://localhost:3000',
   generateIndexSitemap: false,
   sitemapSize: 7000,
   generateRobotsTxt: true,

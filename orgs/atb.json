@@ -35,6 +35,9 @@
       "en-US": "https://www.atb.no/en/fares/",
       "no": "https://www.atb.no/priser/",
       "default": "https://www.atb.no/priser/"
+    },
+    "travelPlannerUrl": {
+      "href": "https://reise.atb.no/"
     }
   },
   "journeyApiConfigurations": {

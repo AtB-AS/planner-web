@@ -73,6 +73,11 @@
             },
             "ticketsUrl": {
               "$ref": "#/definitions/TranslatableUrl"
+            },
+            "travelPlannerUrl": {
+              "name": {
+                "type": "string"
+              }
             }
           },
           "required": [

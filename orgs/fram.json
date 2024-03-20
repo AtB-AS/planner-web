@@ -34,6 +34,9 @@
       "en-US": "https://frammr.no/billettar/billettar-og-prisar/?sprak=3",
       "nn": "https://frammr.no/billettar/billettar-og-prisar/?sprak=11",
       "default": "https://frammr.no/billettar/billettar-og-prisar/"
+    },
+    "travelPlannerUrl": {
+      "href": "https://reise.frammr.no/"
     }
   },
   "journeyApiConfigurations": {
