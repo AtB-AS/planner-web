@@ -59,7 +59,7 @@ export default function LineFilter({ filterState, onChange }: LineFilterProps) {
         return null;
       })
       .filter(Boolean)
-      .join(',');
+      .join(', ');
   };
 
   useEffect(() => {
