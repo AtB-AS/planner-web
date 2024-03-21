@@ -50,6 +50,3 @@ src/components/icon/generated-icons.ts
 /blob-report/
 /playwright/.cache/
 
-
-/public/robots.txt
-/public/sitemap.xml
