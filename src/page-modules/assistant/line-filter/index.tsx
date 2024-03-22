@@ -23,8 +23,6 @@ export default function LineFilter({ filterState, onChange }: LineFilterProps) {
   const [validationError, setValidationError] =
     useState<LabeledInputProps['validationError']>();
   const [localFilterState, setLocalFilterState] = useState('');
-  const [publicCodeLineMap, setPublicCodeLineMap] =
-    useState<Map<string, string[]>>();
 
   const onChangeWrapper = (event: ChangeEvent<HTMLInputElement>) => {
     const input = event.target.value;
