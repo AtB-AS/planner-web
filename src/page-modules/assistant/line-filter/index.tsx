@@ -2,8 +2,10 @@ import LabeledInput, { LabeledInputProps } from '@atb/components/labled-input';
 import { Typo } from '@atb/components/typography';
 import { getOrgData } from '@atb/modules/org-data';
 import { PageText, useTranslation } from '@atb/translations';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import style from './line-filter.module.css';
+import useSWR from 'swr';
+import { swrFetcher } from '@atb/modules/api-browser';
 type LineFilterProps = {
   filterState: string[] | null;
   onChange: (lineFilter: string[] | null) => void;
@@ -12,33 +14,57 @@ type LineFilterProps = {
 export default function LineFilter({ filterState, onChange }: LineFilterProps) {
   const { t } = useTranslation();
 
-  const { orgLineIdPrefix } = getOrgData();
-  const [error, setError] = useState<LabeledInputProps['validationError']>();
-  const [localFilterState, setLocalFilterState] = useState(
-    filterState?.map((line) => line.replace(orgLineIdPrefix, '')).join(', ') ??
-      '',
+  const { authorityId } = getOrgData();
+
+  const { data, error, isLoading } = useSWR(
+    `api/assistant/lines/${authorityId}`,
+    swrFetcher,
   );
+  const [validationError, setValidationError] =
+    useState<LabeledInputProps['validationError']>();
+  const [localFilterState, setLocalFilterState] = useState('');
+  const [publicCodeLineMap, setPublicCodeLineMap] =
+    useState<Map<string, string[]>>();
 
   const onChangeWrapper = (event: ChangeEvent<HTMLInputElement>) => {
-    const lineFilter = event.target.value;
-    setLocalFilterState(lineFilter);
-    setError(undefined);
+    const input = event.target.value;
+    setLocalFilterState(input);
+    setValidationError(undefined);
 
-    if (!isValidFilter(lineFilter)) {
-      setError(t(PageText.Assistant.search.lineFilter.error));
+    if (!isValidFilter(input)) {
+      setValidationError(t(PageText.Assistant.search.lineFilter.error));
       return;
     }
 
-    if (!lineFilter) {
+    if (!input) {
       onChange(null);
     } else {
-      const linesWithPrefix = lineFilter
+      const lines = input
         .split(',')
-        .map((line) => `${orgLineIdPrefix}${line.trim()}`);
-
-      onChange(linesWithPrefix);
+        .flatMap((line) => data[line.trim()])
+        .filter(Boolean);
+      onChange(lines);
     }
   };
+
+  const mapFilterStateToLineCodes = () => {
+    if (!data || !filterState) return '';
+    return filterState
+      .map((line) => {
+        for (let id in data) {
+          if (data[id].includes(line)) {
+            return id;
+          }
+        }
+        return null;
+      })
+      .filter(Boolean)
+      .join(', ');
+  };
+
+  useEffect(() => {
+    setLocalFilterState(mapFilterStateToLineCodes());
+  }, [data]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className={style.container}>
@@ -55,7 +81,7 @@ export default function LineFilter({ filterState, onChange }: LineFilterProps) {
         pattern="[0-9, ]*"
         value={localFilterState}
         onChange={onChangeWrapper}
-        validationError={error}
+        validationError={validationError}
       />
 
       <Typo.p textType="body__tertiary" className={style.infoText}>
