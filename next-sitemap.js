@@ -6,12 +6,9 @@ function getSiteUrl() {
   return org.urls.travelPlannerUrl.href;
 }
 
-const prod = process.env.NODE_ENV === 'production';
 const siteUrl = getSiteUrl();
+const prod = process.env.NODE_ENV === 'production';
 
-/*
- * Todo: Find a way to set the correct url when in preview and in staging.
- */
 module.exports = {
   siteUrl: prod ? siteUrl : 'http://localhost:3000',
   generateIndexSitemap: false,
