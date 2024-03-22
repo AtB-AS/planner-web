@@ -8,13 +8,18 @@ import { handlerWithAssistantClient } from '@atb/page-modules/assistant/server';
  *  2. Should the 'authorities' be set somewhere else?
  */
 const authorities: string[] = [
-  'NSB:Authority:NSB',
-  'SJN:Authority:SJN',
-  'UNI:Authority:UNI',
-  'GFS:Authority:1',
-  'VYG:Authority:TAG',
-  'BSR:Authority:1',
-  'KOL:Authority:30',
+  'NSB:Authority:NSB', // NSB
+  'SJN:Authority:SJN', // SJ Nord
+  'UNI:Authority:UNI', // Unibuss
+  'GFS:Authority:1', // Geiranger Fjordservice
+  'VYG:Authority:TAG', // Vy Tåg
+  'VYX:Authority:1', // Vy Buss
+  'BSR:Authority:1', // Bussring
+  'KOL:Authority:30', // Fjord 1
+  'BOR:Authority:1', // Boreal
+  'HUR:Authority:1', // Hurtigruten
+  'Geiranger-Hellesylt', // Geiranger-Hellesylt
+  'MOR:Authority:AM008', // Kvamsøya-Voksa-Åram-Larsnes
 ];
 
 export default handlerWithAssistantClient<LinesApiReturnType>({
