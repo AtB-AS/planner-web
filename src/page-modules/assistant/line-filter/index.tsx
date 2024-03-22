@@ -11,6 +11,8 @@ type LineFilterProps = {
   onChange: (lineFilter: string[] | null) => void;
 };
 
+const regexValidChars = /^$|^[0-9a-zA-Z\s-]+$/;
+
 export default function LineFilter({ filterState, onChange }: LineFilterProps) {
   const { t } = useTranslation();
 
@@ -23,8 +25,6 @@ export default function LineFilter({ filterState, onChange }: LineFilterProps) {
   const [validationError, setValidationError] =
     useState<LabeledInputProps['validationError']>();
   const [localFilterState, setLocalFilterState] = useState('');
-  const [publicCodeLineMap, setPublicCodeLineMap] =
-    useState<Map<string, string[]>>();
 
   const onChangeWrapper = (event: ChangeEvent<HTMLInputElement>) => {
     const input = event.target.value;
@@ -40,6 +40,7 @@ export default function LineFilter({ filterState, onChange }: LineFilterProps) {
       onChange(null);
     } else {
       const lines = input
+        .toUpperCase()
         .split(',')
         .flatMap((line) => data[line.trim()])
         .filter(Boolean);
@@ -93,6 +94,6 @@ export default function LineFilter({ filterState, onChange }: LineFilterProps) {
 
 function isValidFilter(filter: string): boolean {
   return filter.split(',').every((line) => {
-    return !isNaN(Number(line.trim()));
+    return regexValidChars.test(line);
   });
 }
