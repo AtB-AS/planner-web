@@ -71,6 +71,11 @@ const AssistantInternal = {
     },
   },
   trip: {
+    resultsFound: _(
+      'Reiseforslag funnet',
+      'Trip suggestions found',
+      'Reiseforslag funne',
+    ),
     tripPattern: {
       travelFrom: {
         bus: (place: string) =>
