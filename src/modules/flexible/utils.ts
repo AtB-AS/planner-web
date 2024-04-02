@@ -22,7 +22,7 @@ export const isLineFlexibleTransport = (
 export const getBookingStatus = (
   bookingArrangements: BookingArrangement | null,
   aimedStartTime: string,
-  flex_booking_number_of_days_available?: number,
+  flexBookingNumberOfDaysAvailable?: number,
 ): BookingStatus => {
   if (!bookingArrangements) return 'none';
 
@@ -36,9 +36,9 @@ export const getBookingStatus = (
     return 'late';
   }
 
-  if (flex_booking_number_of_days_available) {
+  if (flexBookingNumberOfDaysAvailable) {
     const secondsBeforehandItCanBeBooked =
-      flex_booking_number_of_days_available * 24 * 60 * 60;
+      flexBookingNumberOfDaysAvailable * 24 * 60 * 60;
     if (secondsToDeadline > secondsBeforehandItCanBeBooked) {
       return 'early';
     }
@@ -145,7 +145,7 @@ export function getLatestBookingDate(
 export function getEarliestBookingDate(
   bookingArrangements: BookingArrangement,
   aimedStartTime: string,
-  flex_booking_number_of_days_available: number,
+  flexBookingNumberOfDaysAvailable: number,
 ): Date {
   const latestBookingDate = getLatestBookingDate(
     bookingArrangements,
@@ -154,7 +154,7 @@ export function getEarliestBookingDate(
 
   const earliestBookingDate = new Date(latestBookingDate);
   earliestBookingDate.setDate(
-    earliestBookingDate.getDate() - flex_booking_number_of_days_available,
+    earliestBookingDate.getDate() - flexBookingNumberOfDaysAvailable,
   );
 
   return earliestBookingDate;

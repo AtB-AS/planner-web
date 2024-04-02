@@ -33,12 +33,12 @@ describe('booking status', function () {
   it('should have booking status none', () => {
     const bookingArrangements = null;
     const aimedStartTime = '2022-01-01T00:00:00';
-    const flex_booking_number_of_days_available = 7;
+    const flexBookingNumberOfDaysAvailable = 7;
     expect(
       getBookingStatus(
         bookingArrangements,
         aimedStartTime,
-        flex_booking_number_of_days_available,
+        flexBookingNumberOfDaysAvailable,
       ),
     ).toBe('none');
   });
@@ -65,12 +65,12 @@ describe('booking status', function () {
       bookingContact: null,
     };
 
-    const flex_booking_number_of_days_available = 7;
+    const flexBookingNumberOfDaysAvailable = 7;
     expect(
       getBookingStatus(
         bookingArrangements,
         aimedStartTime.toISOString(),
-        flex_booking_number_of_days_available,
+        flexBookingNumberOfDaysAvailable,
       ),
     ).toBe('late');
   });
@@ -97,12 +97,12 @@ describe('booking status', function () {
       bookingContact: null,
     };
 
-    const flex_booking_number_of_days_available = 7;
+    const flexBookingNumberOfDaysAvailable = 7;
     expect(
       getBookingStatus(
         bookingArrangements,
         aimedStartTime.toISOString(),
-        flex_booking_number_of_days_available,
+        flexBookingNumberOfDaysAvailable,
       ),
     ).toBe('early');
   });
@@ -129,17 +129,17 @@ describe('booking status', function () {
       bookingContact: null,
     };
 
-    const flex_booking_number_of_days_available = 7;
+    const flexBookingNumberOfDaysAvailable = 7;
     expect(
       getBookingStatus(
         bookingArrangements,
         aimedStartTime.toISOString(),
-        flex_booking_number_of_days_available,
+        flexBookingNumberOfDaysAvailable,
       ),
     ).toBe('bookable');
   });
 
-  it('should have booking status early because of flex_booking_number_of_days_available', async () => {
+  it('should have booking status early because of flexBookingNumberOfDaysAvailable', async () => {
     const aimedStartTime = new Date();
     aimedStartTime.setDate(aimedStartTime.getDate() + 5);
 
@@ -161,12 +161,12 @@ describe('booking status', function () {
       bookingContact: null,
     };
 
-    const flex_booking_number_of_days_available = 2;
+    const flexBookingNumberOfDaysAvailable = 2;
     expect(
       getBookingStatus(
         bookingArrangements,
         aimedStartTime.toISOString(),
-        flex_booking_number_of_days_available,
+        flexBookingNumberOfDaysAvailable,
       ),
     ).toBe('early');
   });
@@ -186,12 +186,12 @@ describe('booking status', function () {
       bookingContact: null,
     };
 
-    const flex_booking_number_of_days_available = 8;
+    const flexBookingNumberOfDaysAvailable = 8;
     expect(
       getBookingStatus(
         bookingArrangements,
         aimedStartTime.toISOString(),
-        flex_booking_number_of_days_available,
+        flexBookingNumberOfDaysAvailable,
       ),
     ).toBe('late');
   });
@@ -210,12 +210,12 @@ describe('booking status', function () {
         bookingContact: null,
       };
 
-      const flex_booking_number_of_days_available = 7;
+      const flexBookingNumberOfDaysAvailable = 7;
       expect(
         getEarliestBookingDate(
           bookingArrangements,
           aimedStartTime.toISOString(),
-          flex_booking_number_of_days_available,
+          flexBookingNumberOfDaysAvailable,
         ),
       ).toEqual(new Date('2024-01-13T00:00:00'));
     });
@@ -232,12 +232,12 @@ describe('booking status', function () {
         bookingContact: null,
       };
 
-      const flex_booking_number_of_days_available = 5;
+      const flexBookingNumberOfDaysAvailable = 5;
       expect(
         getEarliestBookingDate(
           bookingArrangements,
           aimedStartTime.toISOString(),
-          flex_booking_number_of_days_available,
+          flexBookingNumberOfDaysAvailable,
         ),
       ).toEqual(new Date('2024-01-20T00:00:00'));
     });
