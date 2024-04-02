@@ -7,14 +7,14 @@ function getEnvironmentUrls() {
 }
 
 const environmentUrls = getEnvironmentUrls();
-
 let environment;
-if (process.env.NEXT_PUBLIC_IN_STAGING) {
-  environment = 'staging';
-} else if (!process.env.NEXT_PUBLIC_IN_STAGING) {
-  environment = 'prod';
-} else {
+
+if (dev) {
   environment = 'dev';
+} else if (process.env.NEXT_PUBLIC_IN_STAGING) {
+  environment = 'staging';
+} else {
+  environment = 'prod';
 }
 
 module.exports = {
