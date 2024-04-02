@@ -1,16 +1,24 @@
 /** @type {import('next-sitemap').IConfig} */
 
-function getSiteUrl() {
+function getEnvironmentUrls() {
   const orgId = process.env.NEXT_PUBLIC_PLANNER_ORG_ID;
   const org = require(`./orgs/${orgId}.json`);
-  return org.urls.travelPlannerUrl.href;
+  return org.urls.sitemapUrls;
 }
 
-const siteUrl = getSiteUrl();
-const prod = process.env.NODE_ENV === 'production';
+const environmentUrls = getEnvironmentUrls();
+
+let environment;
+if (process.env.NEXT_PUBLIC_IN_STAGING) {
+  environment = 'staging';
+} else if (!process.env.NEXT_PUBLIC_IN_STAGING) {
+  environment = 'prod';
+} else {
+  environment = 'dev';
+}
 
 module.exports = {
-  siteUrl: prod ? siteUrl : 'http://localhost:3000',
+  siteUrl: environmentUrls[environment],
   generateIndexSitemap: false,
   sitemapSize: 7000,
   generateRobotsTxt: true,

@@ -36,8 +36,10 @@
       "no": "https://www.reisnordland.no/priser-pa-buss",
       "default": "https://www.reisnordland.no/priser-pa-buss"
     },
-    "travelPlannerUrl": {
-      "href": "https://reise.reisnordland.no/"
+    "sitemapUrls": {
+      "dev": "http://localhost:3000",
+      "staging": "https://nfk-staging.planner-web.mittatb.no/",
+      "prod": "https://www.reisnordland.no/"
     }
   },
   "journeyApiConfigurations": {

@@ -74,9 +74,21 @@
             "ticketsUrl": {
               "$ref": "#/definitions/TranslatableUrl"
             },
-            "travelPlannerUrl": {
-              "name": {
-                "type": "string"
+            "sitemapUrls": {
+              "dev": {
+                "name": {
+                  "type": "string"
+                }
+              },
+              "staging": {
+                "name": {
+                  "type": "string"
+                }
+              },
+              "prod": {
+                "name": {
+                  "type": "string"
+                }
               }
             }
           },
