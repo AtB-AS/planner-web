@@ -29,7 +29,7 @@ function GeolocationButton({
 
   return isLoading ? (
     <div className={className}>
-      <LoadingIcon />
+      <LoadingIcon a11yText={t(ComponentText.GeolocationButton.loading)} />
     </div>
   ) : (
     <button
@@ -46,7 +46,7 @@ function GeolocationButton({
 
 function useGeolocation(
   onSuccess: (feature: GeocoderFeature) => void,
-  onError: (error: string | null) => void = () => {},
+  onError: (error: string | null) => void = () => { },
 ) {
   const { t } = useTranslation();
   const [error, setError] = useState<GeolocationPositionError | null>(null);

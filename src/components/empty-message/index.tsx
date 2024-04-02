@@ -13,7 +13,7 @@ export default function EmptyMessage({ title, details }: EmptyMessageProps) {
       <div>
         <Image image="EmptyIllustration" alt="" className={style.emptyImage} />
       </div>
-      <div className={style.text}>
+      <div className={style.text} role='status'>
         <Typo.h3 textType="body__primary--bold">{title}</Typo.h3>
         <Typo.span textType="body__secondary">{details}</Typo.span>
       </div>
