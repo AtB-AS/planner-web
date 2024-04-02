@@ -67,6 +67,7 @@ import {
   LinesQuery,
   LinesQueryVariables,
 } from './journey-gql/lines.generated';
+import { isLineFlexibleTransport } from '@atb/modules/flexible';
 
 const DEFAULT_JOURNEY_CONFIG = {
   numTripPatterns: 8, // The maximum number of trip patterns to return.
@@ -344,6 +345,9 @@ export function createJourneyApi(
                       longitude: leg.toPlace.longitude,
                     }
                   : undefined,
+                isLineFlexibleTransport(
+                  leg.line as TripPatternWithDetails['legs'][0]['line'],
+                ),
               )
             : [],
           line:
@@ -351,6 +355,7 @@ export function createJourneyApi(
               ? {
                   name: leg.line.name,
                   publicCode: leg.line.publicCode ?? '',
+                  flexibleLineType: leg.line.flexibleLineType ?? null,
                 }
               : null,
           fromPlace: {
@@ -424,6 +429,31 @@ export function createJourneyApi(
               };
             },
           ),
+          bookingArrangements: leg.bookingArrangements
+            ? {
+                bookingMethods: leg.bookingArrangements.bookingMethods ?? null,
+                latestBookingTime: leg.bookingArrangements.latestBookingTime,
+                bookingNote: leg.bookingArrangements.bookingNote ?? null,
+                bookWhen: leg.bookingArrangements.bookWhen ?? null,
+                minimumBookingPeriod:
+                  leg.bookingArrangements.minimumBookingPeriod ?? null,
+                bookingContact: leg.bookingArrangements.bookingContact
+                  ? {
+                      contactPerson:
+                        leg.bookingArrangements.bookingContact.contactPerson ??
+                        null,
+                      email:
+                        leg.bookingArrangements.bookingContact.email ?? null,
+                      url: leg.bookingArrangements.bookingContact.url ?? null,
+                      phone:
+                        leg.bookingArrangements.bookingContact.phone ?? null,
+                      furtherDetails:
+                        leg.bookingArrangements.bookingContact.furtherDetails ??
+                        null,
+                    }
+                  : null,
+              }
+            : null,
         })),
       };
       const validated = tripPatternWithDetailsSchema.safeParse(data);

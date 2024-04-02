@@ -12,6 +12,11 @@ import {
   setMinutes,
   differenceInSeconds,
   differenceInCalendarDays,
+  getHours,
+  getMinutes,
+  getSeconds,
+  set,
+  parse,
 } from 'date-fns';
 import { enGB, nb, nn } from 'date-fns/locale';
 import humanizeDuration from 'humanize-duration';
@@ -19,6 +24,10 @@ import { DEFAULT_LANGUAGE, Language } from '../translations';
 import dictionary from '@atb/translations/dictionary';
 import { TFunc } from '@leile/lobo-t';
 import { FALLBACK_LANGUAGE } from '@atb/translations/commons';
+import {
+  parse as parseIso8601Duration,
+  toSeconds as toSecondsIso8601Duration,
+} from 'iso8601-duration';
 
 const humanizer = humanizeDuration.humanizer({});
 const CET = 'Europe/Oslo';
@@ -373,4 +382,60 @@ export function formatCETToLocalTime(cet: number) {
 
 function getOffsetTimezone() {
   return (-1 * new Date().getTimezoneOffset()) / 60;
+}
+
+export function dateWithReplacedTime(
+  date: Date | string,
+  time: string,
+  formatString?: string,
+) {
+  const parsedTime = parse(time, formatString || 'HH:mm', new Date());
+  return set(parseIfNeeded(date), {
+    hours: getHours(parsedTime),
+    minutes: getMinutes(parsedTime),
+    seconds: getSeconds(parsedTime),
+  });
+}
+
+export function iso8601DurationToSeconds(iso8601Duration: string) {
+  return toSecondsIso8601Duration(parseIso8601Duration(iso8601Duration));
+}
+
+function formatToShortDateTimeWithoutYearWithAtTime(
+  isoDate: string | Date,
+  t: TFunc<typeof Language>,
+  language: Language,
+) {
+  const parsed = parseIfNeeded(isoDate);
+  const hourTime =
+    t(dictionary.date.atTime) + ' ' + formatToClock(parsed, language, 'floor');
+  if (isSameDay(parsed, new Date())) {
+    return hourTime;
+  } else {
+    return (
+      format(parsed, 'dd. MMM', { locale: languageToLocale(language) }) +
+      ' ' +
+      hourTime
+    );
+  }
+}
+
+export function formatToShortDateTimeWithRelativeDayNames(
+  fromDate: string | Date,
+  toDate: string | Date,
+  t: TFunc<typeof Language>,
+  language: Language,
+) {
+  const daysDifference = daysBetween(fromDate, toDate);
+
+  let formattedTime = formatToShortDateTimeWithoutYearWithAtTime(
+    toDate,
+    t,
+    language,
+  );
+  if (Math.abs(daysDifference) < 3) {
+    formattedTime =
+      t(dictionary.date.relativeDayNames(daysDifference)) + ' ' + formattedTime;
+  }
+  return formattedTime;
 }
