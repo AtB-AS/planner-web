@@ -52,7 +52,7 @@ const AssistantInternal = {
       error: _(
         'Linje må være tall eller liste av tall (f.eks. 2, 10)',
         'Line must be a number or list of numbers (e.g. 2, 10)',
-        'Linje må vere tal eller liste av tal (t.d. 2, 10',
+        'Linje må vere tal eller liste av tal (t.d. 2, 10)',
       ),
       lineSearch: {
         label: _('Linje', 'Line', 'Linje'),
@@ -409,6 +409,43 @@ const AssistantInternal = {
             : `${count} intermediate stop`,
           `${count} mellomstopp`,
         ),
+      flexibleTransport: {
+        bookOnline: _(`Reserver på nett`, `Book online`, `Reserver på nett`),
+        bookByPhone: (phone: string) =>
+          _(
+            `Reserver på tlf. ${phone}`,
+            `Book by phone ${phone}`,
+            `Reserver på tlf. ${phone}`,
+          ),
+        onDemandTransportLabel: _(
+          `Bestillingstransport`,
+          `On-demand transport`,
+          `Bestillingstransport`,
+        ),
+        needsBookingAndIsAvailable: (formattedTimeForBooking: string) =>
+          _(
+            `Denne reisen krever reservasjon innen ${formattedTimeForBooking}.`,
+            `This trip requires booking before ${formattedTimeForBooking}.`,
+            `Denne reisa krever reservasjon innen ${formattedTimeForBooking}.`,
+          ),
+        needsBookingButIsTooEarly: (formattedTimeForBooking: string) =>
+          _(
+            `Denne reisen krever reservasjon og kan tidligst reserveres ${formattedTimeForBooking}.`,
+            `This trip requires booking and can be booked no earlier than ${formattedTimeForBooking}.`,
+            `Denne reisa krever reservasjon og kan tidlegast reserverast ${formattedTimeForBooking}.`,
+          ),
+        needsBookingButIsTooLate: _(
+          `Denne reisen krever reservasjon. Frist for reservasjon har utløpt.`,
+          `This trip requires booking. The booking deadline has expired.`,
+          `Denne reisa krever reservasjon. Frist for reservasjon har utgått.`,
+        ),
+        needsBookingWhatIsThis: (publicCode: string) =>
+          _(
+            `Hva er ${publicCode}?`,
+            `What is ${publicCode}?`,
+            `Kva er ${publicCode}?`,
+          ),
+      },
     },
   },
 };
@@ -420,7 +457,7 @@ export const Assistant = orgSpecificTranslations(AssistantInternal, {
         error: _(
           'Linje må være tall eller liste av tall (f.eks. 100, 200)',
           'Line must be a number or list of numbers (e.g. 100, 200)',
-          'Linje må vere tal eller liste av tal (t.d. 100, 200',
+          'Linje må vere tal eller liste av tal (t.d. 100, 200)',
         ),
 
         example: _(
@@ -437,7 +474,7 @@ export const Assistant = orgSpecificTranslations(AssistantInternal, {
         error: _(
           'Linje må være tall eller liste av tall (f.eks. 905, 902)',
           'Line must be a number or list of numbers (e.g. 905, 902)',
-          'Linje må vere tal eller liste av tal (t.d. 905, 902',
+          'Linje må vere tal eller liste av tal (t.d. 905, 902)',
         ),
 
         example: _(

@@ -11,6 +11,8 @@ import { MonoIcon } from '@atb/components/icon';
 import { Typo } from '@atb/components/typography';
 import { TransportIconWithLabel } from '@atb/modules/transport-mode';
 import { andIf } from '@atb/utils/css';
+import { useRouter } from 'next/router';
+import { isLineFlexibleTransport } from '@atb/modules/flexible';
 
 const LAST_LEG_PADDING = 20;
 const DEFAULT_THRESHOLD_AIMED_EXPECTED_IN_SECONDS = 60;
@@ -31,6 +33,7 @@ export default function TripPattern({
   const { t, language } = useTranslation();
 
   const filteredLegs = getFilteredLegsByWalkOrWaitTime(tripPattern);
+  const router = useRouter();
 
   const [numberOfExpandedLegs, setNumberOfExpandedLegs] = useState(
     filteredLegs.length,
@@ -70,7 +73,7 @@ export default function TripPattern({
 
   return (
     <motion.a
-      href={`/assistant/${tripPattern.compressedQuery}`}
+      href={`/assistant/${tripPattern.compressedQuery}?filter=${router.query.filter}`}
       className={className}
       data-testid={testId}
       initial={{ opacity: 0, x: -10 }}
@@ -106,6 +109,7 @@ export default function TripPattern({
                       }}
                       label={leg.line?.publicCode ?? undefined}
                       duration={leg.mode === 'foot' ? leg.duration : undefined}
+                      isFlexible={isLineFlexibleTransport(leg.line)}
                     />
                   ) : (
                     <div className={style.legs__leg__walkIcon}>

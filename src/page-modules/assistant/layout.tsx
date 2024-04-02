@@ -137,13 +137,6 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
       );
   }, [transportModeFilter]); //eslint-disable-line react-hooks/exhaustive-deps
 
-  /**
-   * Temporary solution to disable line filter for some orgs until
-   * we have a working solution for all orgs.
-   */
-  const disableLineFilter =
-    process.env.NEXT_PUBLIC_DISABLE_LINE_FILTER === 'true';
-
   return (
     <div>
       <div className={style.homeLink__container}>
@@ -258,12 +251,10 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
                     />
                   </div>
 
-                  {!disableLineFilter && (
-                    <LineFilter
-                      filterState={tripQuery.lineFilter}
-                      onChange={onLineFilterChanged}
-                    />
-                  )}
+                  <LineFilter
+                    filterState={tripQuery.lineFilter}
+                    onChange={onLineFilterChanged}
+                  />
                 </div>
               </motion.div>
             </FocusScope>

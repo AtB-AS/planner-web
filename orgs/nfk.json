@@ -1,7 +1,7 @@
 {
   "$schema": "./schema-validation.json",
   "orgId": "nfk",
-  "orgLineIdPrefix": "NOR:Line:12_",
+  "authorityId": "NOR:Authority:12",
 
   "supportEmail": "sentrumsterminalen@boreal.no",
 

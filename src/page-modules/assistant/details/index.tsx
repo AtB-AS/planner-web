@@ -31,6 +31,10 @@ export function AssistantDetails({ tripPattern }: AssistantDetailsProps) {
     ? tripQueryStringToQueryParams(String(router.query.id))
     : undefined;
 
+  if (tripSearchParams && router.query.filter) {
+    tripSearchParams.append('filter', router.query.filter as string);
+  }
+
   return (
     <div className={style.container}>
       <div className={style.headerContainer}>

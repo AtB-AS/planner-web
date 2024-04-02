@@ -13,6 +13,7 @@ import {
   TripsQueryVariables,
 } from './journey-gql/trip.generated';
 import {
+  LineData,
   TripData,
   TripPatternWithDetails,
   nonTransitSchema,
@@ -21,6 +22,7 @@ import {
 } from './validators';
 import type {
   FromToTripQuery,
+  LineInput,
   NonTransitData,
   NonTransitTripData,
   NonTransitTripInput,
@@ -59,6 +61,13 @@ import {
   addAssistantTripToCache,
   getAssistantTripIfCached,
 } from '../trip-cache';
+import {
+  LineFragment,
+  LinesDocument,
+  LinesQuery,
+  LinesQueryVariables,
+} from './journey-gql/lines.generated';
+import { isLineFlexibleTransport } from '@atb/modules/flexible';
 
 const DEFAULT_JOURNEY_CONFIG = {
   numTripPatterns: 8, // The maximum number of trip patterns to return.
@@ -73,6 +82,7 @@ export type JourneyPlannerApi = {
   trip(input: TripInput): Promise<TripData>;
   nonTransitTrips(input: NonTransitTripInput): Promise<NonTransitTripData>;
   singleTrip(input: string): Promise<TripPatternWithDetails | undefined>;
+  lines(input: LineInput): Promise<LineData>;
 };
 
 export function createJourneyApi(
@@ -156,6 +166,19 @@ export function createJourneyApi(
       return nonTransits;
     },
 
+    async lines(input) {
+      const result = await client.query<LinesQuery, LinesQueryVariables>({
+        query: LinesDocument,
+        variables: { authorities: input.authorities },
+        fetchPolicy: 'cache-first',
+      });
+
+      if (result.error || result.errors) {
+        throw result.error || result.errors;
+      }
+
+      return createLinesRecord(result.data.lines);
+    },
     async trip(input) {
       const journeyModes = {
         accessMode: StreetMode.Foot,
@@ -322,6 +345,9 @@ export function createJourneyApi(
                       longitude: leg.toPlace.longitude,
                     }
                   : undefined,
+                isLineFlexibleTransport(
+                  leg.line as TripPatternWithDetails['legs'][0]['line'],
+                ),
               )
             : [],
           line:
@@ -329,6 +355,7 @@ export function createJourneyApi(
               ? {
                   name: leg.line.name,
                   publicCode: leg.line.publicCode ?? '',
+                  flexibleLineType: leg.line.flexibleLineType ?? null,
                 }
               : null,
           fromPlace: {
@@ -402,6 +429,31 @@ export function createJourneyApi(
               };
             },
           ),
+          bookingArrangements: leg.bookingArrangements
+            ? {
+                bookingMethods: leg.bookingArrangements.bookingMethods ?? null,
+                latestBookingTime: leg.bookingArrangements.latestBookingTime,
+                bookingNote: leg.bookingArrangements.bookingNote ?? null,
+                bookWhen: leg.bookingArrangements.bookWhen ?? null,
+                minimumBookingPeriod:
+                  leg.bookingArrangements.minimumBookingPeriod ?? null,
+                bookingContact: leg.bookingArrangements.bookingContact
+                  ? {
+                      contactPerson:
+                        leg.bookingArrangements.bookingContact.contactPerson ??
+                        null,
+                      email:
+                        leg.bookingArrangements.bookingContact.email ?? null,
+                      url: leg.bookingArrangements.bookingContact.url ?? null,
+                      phone:
+                        leg.bookingArrangements.bookingContact.phone ?? null,
+                      furtherDetails:
+                        leg.bookingArrangements.bookingContact.furtherDetails ??
+                        null,
+                    }
+                  : null,
+              }
+            : null,
         })),
       };
       const validated = tripPatternWithDetailsSchema.safeParse(data);
@@ -588,7 +640,11 @@ function generateSingleTripQueryString(
 
   // encode to string
   return compressToEncodedURIComponent(
-    JSON.stringify({ query: singleTripQuery, journeyIds, originalSearchTime }),
+    JSON.stringify({
+      query: singleTripQuery,
+      journeyIds,
+      originalSearchTime,
+    }),
   );
 }
 
@@ -797,4 +853,17 @@ async function getSortedViaTrips(
     tripPatterns: tripPatternsSortedByExpectedEndTime,
   };
   return sortedData;
+}
+
+function createLinesRecord(lines: LineFragment[]) {
+  const record: Record<string, string[]> = {};
+  for (const line of lines) {
+    if (!line.publicCode) continue;
+    if (!record[line.publicCode]) {
+      record[line.publicCode] = [];
+    }
+
+    record[line.publicCode].push(line.id);
+  }
+  return record;
 }

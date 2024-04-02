@@ -40,6 +40,7 @@ query ViaTripsWithDetails(
             journeyPatterns {
               name
             }
+            flexibleLineType
           }
           fromPlace {
             name
@@ -126,6 +127,20 @@ query ViaTripsWithDetails(
               name
             }
             realtime
+          }
+          bookingArrangements {
+            bookingMethods
+            latestBookingTime
+            bookingNote
+            bookWhen
+            minimumBookingPeriod
+            bookingContact {
+              contactPerson
+              email
+              url
+              phone
+              furtherDetails
+            }
           }
         }
       }

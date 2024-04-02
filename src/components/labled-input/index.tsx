@@ -20,13 +20,13 @@ export default function LabeledInput({
   ...props
 }: LabeledInputProps) {
   const isError = typeof validationError !== 'undefined';
-  const prefix = useId();
+  const postfix = useId();
 
-  const errorLabel = prefix + 'Error';
+  const errorLabel = 'error-' + postfix;
 
-  const validationStatusProps: JSX.IntrinsicElements['input'] = status
+  const validationStatusProps: JSX.IntrinsicElements['input'] = isError
     ? { 'aria-invalid': 'true', 'aria-describedby': errorLabel }
-    : {};
+    : { 'aria-invalid': 'false' };
   return (
     <div
       className={andIf({

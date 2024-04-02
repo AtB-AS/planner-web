@@ -40,6 +40,7 @@ export const MessageBox = ({
     color: staticColors['status'][type].text,
   };
   const overrideMode = useStatusThemeColor(type);
+  const aria = modeToAria(type);
 
   return (
     <div
@@ -62,7 +63,12 @@ export const MessageBox = ({
             {title}
           </Typo.h2>
         )}
-        <Typo.p className={style.body} textType="body__primary" id={textId}>
+        <Typo.p
+          className={style.body}
+          textType="body__primary"
+          id={textId}
+          {...aria}
+        >
           {message}
         </Typo.p>
         {onClick && (
@@ -107,4 +113,17 @@ function useStatusThemeColor(mode: MessageMode): MonoIconProps['overrideMode'] {
   }
 
   return overrideColor;
+}
+
+function modeToAria(mode: MessageMode): JSX.IntrinsicElements['div'] {
+  switch (mode) {
+    case 'error':
+      return { role: 'alert' };
+    case 'valid':
+      return { 'aria-live': 'polite' };
+    case 'warning':
+      return { 'aria-live': 'polite' };
+    case 'info':
+      return { role: 'status' };
+  }
 }

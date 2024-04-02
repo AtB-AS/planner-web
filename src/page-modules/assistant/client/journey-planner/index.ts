@@ -10,12 +10,14 @@ import useSWRInfinite from 'swr/infinite';
 import { createTripQuery, tripQueryToQueryString } from '../../utils';
 import { useEffect, useState } from 'react';
 import { formatLocalTimeToCET } from '@atb/utils/date';
+import { LineData } from '../../server/journey-planner/validators';
 
 const MAX_NUMBER_OF_INITIAL_SEARCH_ATTEMPTS = 3;
 const INITIAL_NUMBER_OF_WANTED_TRIP_PATTERNS = 6;
 
 export type TripApiReturnType = TripData;
 export type NonTransitTripApiReturnType = NonTransitTripData;
+export type LinesApiReturnType = LineData;
 
 function createKeyGetterOfQuery(query: TripQuery) {
   return (pageIndex: number, previousPageData: TripApiReturnType) => {

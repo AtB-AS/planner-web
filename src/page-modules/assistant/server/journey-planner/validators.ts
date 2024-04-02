@@ -5,6 +5,7 @@ import {
 } from '@atb/modules/transport-mode';
 import { noticeSchema, situationSchema } from '@atb/modules/situations';
 import { mapLegSchema } from '@atb/components/map';
+import { bookingArrangementSchema } from '@atb/modules/flexible';
 
 export const serviceJourneySchema = z.object({
   id: z.string(),
@@ -99,6 +100,7 @@ export const tripPatternWithDetailsSchema = z.object({
         .object({
           name: z.string(),
           publicCode: z.string().nullable(),
+          flexibleLineType: z.string().nullable(),
         })
         .nullable(), // line is null for legs with transportMode = foot
       fromPlace: z.object({
@@ -154,9 +156,12 @@ export const tripPatternWithDetailsSchema = z.object({
           cancellation: z.boolean(),
         }),
       ),
+      bookingArrangements: bookingArrangementSchema.nullable(),
     }),
   ),
 });
+
+export const linesSchema = z.record(z.array(z.string()));
 
 export type TripData = z.infer<typeof tripSchema>;
 export type NonTransitData = z.infer<typeof nonTransitSchema>;
@@ -166,3 +171,4 @@ export type Quay = z.infer<typeof quaySchema>;
 export type TripPatternWithDetails = z.infer<
   typeof tripPatternWithDetailsSchema
 >;
+export type LineData = z.infer<typeof linesSchema>;

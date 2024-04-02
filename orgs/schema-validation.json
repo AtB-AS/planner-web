@@ -28,7 +28,7 @@
           "enum": ["atb", "fram", "nfk", "troms"],
           "type": "string"
         },
-        "orgLineIdPrefix": {
+        "authorityId": {
           "type": "string"
         },
         "$schema": {

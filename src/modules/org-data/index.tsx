@@ -17,7 +17,7 @@ export type TranslatableUrl = { default: string } & Partial<{
 }>;
 export type OrgData = {
   orgId: WEBSHOP_ORGS;
-  orgLineIdPrefix: string;
+  authorityId: string;
   supportEmail: string;
 
   fylkeskommune?: {
