@@ -12,6 +12,7 @@ import VenueIcon, { FeatureCategory } from '@atb/components/venue-icon';
 import { PageText, useTranslation } from '@atb/translations';
 import EmptyMessage from '@atb/components/empty-message';
 import { SituationOrNoticeIcon } from '@atb/modules/situations';
+import ScreenReaderOnly from '@atb/components/screen-reader-only';
 
 export type NearestStopPlacesProps = {
   fromQuery: FromDepartureQuery;
@@ -41,6 +42,8 @@ export function NearestStopPlaces({
   }
   return (
     <section className={style.nearestContainer}>
+      <ScreenReaderOnly text={t(PageText.Departures.nearest.resultsFound(nearestStopPlaces.length))} role='status' />
+
       <ul className={style.stopPlacesList}>
         {nearestStopPlaces.map((item) => (
           <li key={item.stopPlace.id}>

@@ -21,6 +21,7 @@ import { useState } from 'react';
 import { nextDepartures } from '../client';
 import style from './stop-place.module.css';
 import { DepartureTime } from '@atb/components/departure-time';
+import ScreenReaderOnly from '@atb/components/screen-reader-only';
 
 export type StopPlaceProps = {
   departures: DepartureData;
@@ -31,6 +32,8 @@ export function StopPlace({ departures }: StopPlaceProps) {
   const [isHoveringRefreshButton, setIsHoveringRefreshButton] = useState(false);
   return (
     <section className={style.stopPlaceContainer}>
+      <ScreenReaderOnly text={t(PageText.Departures.stopPlace.quaySection.resultsLoaded)} role='status' />
+
       <div className={style.quaysContainer}>
         <button
           onClick={() => router.reload()}
