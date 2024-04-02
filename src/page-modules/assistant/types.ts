@@ -82,3 +82,7 @@ export type NonTransitTripData = {
   footTrip?: NonTransitData;
   bikeRentalTrip?: NonTransitData;
 };
+
+export type LineInput = {
+  authorities: string[];
+};

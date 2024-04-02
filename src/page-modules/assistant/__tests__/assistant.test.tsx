@@ -69,6 +69,9 @@ describe('assistant page', function () {
       async singleTrip() {
         return {} as any;
       },
+      async lines() {
+        return {} as any;
+      },
       client: null as any,
     };
 
@@ -310,6 +313,9 @@ describe('assistant page', function () {
         else return toFeature;
       },
       async singleTrip() {
+        return {} as any;
+      },
+      async lines() {
         return {} as any;
       },
       client: null as any,

@@ -1,0 +1,10 @@
+query Lines($authorities: [String]) {
+  lines(authorities: $authorities) {
+    ...line
+  }
+}
+
+fragment line on Line {
+  id
+  publicCode
+}
