@@ -27,7 +27,7 @@ jobs:
         NFK_NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=${{ github.event_name == 'release' && 'nfk-prod.firebaseapp.com' || 'nfk-staging.firebaseapp.com' }}
         NFK_NEXT_PUBLIC_FIREBASE_APP_ID=${{ github.event_name == 'release' && '1:638315587956:web:51e95a11a03f27dc9ca421' || '1:793301954236:web:908723b8ded2824cadeab9' }}
         NFK_NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=${{ github.event_name == 'release' && '' || '' }}
-        NFK_NEXT_PUBLIC_DISABLE_LINE_FILTER=true
+        NFK_NEXT_PUBLIC_DISABLE_LINE_FILTER=false
         FRAM_NEXT_PUBLIC_MAPBOX_DEFAULT_LAT=62.4705
         FRAM_NEXT_PUBLIC_MAPBOX_DEFAULT_LNG=6.1533
         FRAM_NEXT_PUBLIC_FIREBASE_PROJECT_ID=${{ github.event_name == 'release' && 'fram-prod-a7850' || 'fram-staging'}}
