@@ -171,6 +171,8 @@ function WidgetContent({
       <h2>Demo</h2>
       <div dangerouslySetInnerHTML={{ __html: html }} />
 
+      <p>Note: Widget is without padding. Should be up to consumer to decide when integrating.</p>
+
       <h2>Installation (latest version v{data.latest.version})</h2>
 
       <p>
