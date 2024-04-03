@@ -530,7 +530,7 @@ function Pe({ URL_BASE: t }, e) {
                 type="button"
               >
                 <img
-                  src="${t}/assets/mono/light/places/City.svg"
+                  src="${t}/assets/mono/light/places/Location.svg"
                   width="20"
                   height="20"
                   role="none"
@@ -631,7 +631,7 @@ function Pe({ URL_BASE: t }, e) {
                 type="button"
               >
                 <img
-                  src="${t}/assets/mono/light/places/City.svg"
+                  src="${t}/assets/mono/light/places/Location.svg"
                   width="20"
                   height="20"
                   role="none"
