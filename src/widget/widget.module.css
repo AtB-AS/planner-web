@@ -39,7 +39,6 @@
 
 .nav {
   margin: 0;
-  padding: var(--spacings-xLarge) var(--spacings-xLarge) 0;
 }
 
 .tabs {
@@ -74,6 +73,8 @@
 
 .main {
   composes: main from assistant;
+  padding-left: 0;
+  padding-right: 0;
   padding-bottom: 2.75rem;
 }
 .heading {
@@ -182,7 +183,6 @@
 .buttonGroup {
   display: flex;
   justify-content: end;
-  padding: 0 var(--spacings-xLarge) var(--spacings-xLarge);
 }
 
 .button,
