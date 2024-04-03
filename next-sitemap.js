@@ -7,18 +7,10 @@ function getEnvironmentUrls() {
 }
 
 const environmentUrls = getEnvironmentUrls();
-let environment;
-
-if (dev) {
-  environment = 'dev';
-} else if (process.env.NEXT_PUBLIC_IN_STAGING) {
-  environment = 'staging';
-} else {
-  environment = 'prod';
-}
+const environment = process.env.NEXT_PUBLIC_ENVIRONMENT;
 
 module.exports = {
-  siteUrl: environmentUrls[environment],
+  siteUrl: environment ? environmentUrls[environment] : environmentUrls['dev'],
   generateIndexSitemap: false,
   sitemapSize: 7000,
   generateRobotsTxt: true,
