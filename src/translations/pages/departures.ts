@@ -44,6 +44,12 @@ export const Departures = {
           `Holdeplass ${name}. ${distance} meter gåavstand`,
         ),
     },
+    resultsFound: (count: number) =>
+      _(
+        `Fant ${count} holdeplasser i nærheten`,
+        `Found ${count} stop places nearby`,
+        `Fann ${count} holdeplassar i nærleiken`,
+      ),
     emptySearchResults: {
       emptyNearbyLocationsTitle: _(
         'Finner ingen holdeplasser i nærheten',
@@ -64,6 +70,11 @@ export const Departures = {
       'Ingen avgangar i dette tidsrommet.',
     ),
     quaySection: {
+      resultsLoaded: _(
+        'Lastet avganger',
+        'Loaded departures',
+        'Lasta avgangar',
+      ),
       refreshButton: _('Oppdater', 'Refresh', 'Oppdater'),
       a11yExpand: _(
         'Aktiver for å utvide',

@@ -16,6 +16,7 @@ import EmptySearchResults from '@atb/components/empty-message';
 import TripPattern from './trip-pattern';
 import EmptySearch from '@atb/components/loading-empty-results';
 import { LoadingIcon } from '@atb/components/loading';
+import ScreenReaderOnly from '@atb/components/screen-reader-only';
 
 export type TripProps = {
   tripQuery: FromToTripQuery;
@@ -49,13 +50,13 @@ export default function Trip({ tripQuery, fallback }: TripProps) {
         details={
           tripQuery.transportModeFilter || tripQuery.lineFilter
             ? t(
-                PageText.Assistant.trip.emptySearchResults
-                  .emptySearchResultsDetailsWithFilters,
-              )
+              PageText.Assistant.trip.emptySearchResults
+                .emptySearchResultsDetailsWithFilters,
+            )
             : t(
-                PageText.Assistant.trip.emptySearchResults
-                  .emptySearchResultsDetails,
-              )
+              PageText.Assistant.trip.emptySearchResults
+                .emptySearchResultsDetails,
+            )
         }
       />
     );
@@ -77,6 +78,7 @@ export default function Trip({ tripQuery, fallback }: TripProps) {
 
   return (
     <>
+      <ScreenReaderOnly text={t(PageText.Assistant.trip.resultsFound)} role='status' />
       <div className={style.tripResults}>
         {nonTransitTrips && nonTransits.length > 0 && (
           <div className={style.nonTransitResult}>

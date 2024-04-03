@@ -2,6 +2,7 @@ import { translation as _ } from '@atb/translations/commons';
 
 export const GeolocationButton = {
   alt: _('Finn min posisjon', 'Find my position', 'Finn min posisjon'),
+  loading: _('Finner posisjon', 'Finding position', 'Finner posisjon'),
   error: {
     denied: _(
       'Du må endre stedsinnstillinger i nettleseren din for å bruke din posisjon i reisesøket.',
