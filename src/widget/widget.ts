@@ -584,7 +584,7 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
                 type="button"
               >
                 <img
-                  src="${URL_BASE}/assets/mono/light/places/City.svg"
+                  src="${URL_BASE}/assets/mono/light/places/Location.svg"
                   width="20"
                   height="20"
                   role="none"
@@ -686,7 +686,7 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
                 type="button"
               >
                 <img
-                  src="${URL_BASE}/assets/mono/light/places/City.svg"
+                  src="${URL_BASE}/assets/mono/light/places/Location.svg"
                   width="20"
                   height="20"
                   role="none"

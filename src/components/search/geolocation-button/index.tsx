@@ -39,7 +39,7 @@ function GeolocationButton({
       aria-label={t(ComponentText.GeolocationButton.alt)}
       type="button"
     >
-      <MonoIcon icon="places/City" />
+      <MonoIcon icon="places/Location" />
     </button>
   );
 }

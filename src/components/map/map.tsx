@@ -20,15 +20,15 @@ export type MapProps = {
   layer?: string;
   onSelectStopPlace?: (id: string) => void;
 } & (
-  | {
+    | {
       position: Position;
       initialZoom?: number;
     }
-  | {
+    | {
       mapLegs: MapLegType[];
     }
-  | {}
-);
+    | {}
+  );
 
 export default function Map({ layer, onSelectStopPlace, ...props }: MapProps) {
   const mapWrapper = useRef<HTMLDivElement>(null);
@@ -100,7 +100,7 @@ export default function Map({ layer, onSelectStopPlace, ...props }: MapProps) {
           <Button
             className={style.buttonsContainer}
             size="small"
-            icon={{ left: <MonoIcon icon="places/City" /> }}
+            icon={{ left: <MonoIcon icon="places/Location" /> }}
             onClick={() => centerMap(position)}
             buttonProps={{
               'aria-label': t(ComponentText.Map.map.centerMapButton),
