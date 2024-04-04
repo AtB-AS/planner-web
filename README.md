@@ -7,6 +7,10 @@ TBA
 ```
 # What ORG to activate (nfk | atb | fram | troms)
 NEXT_PUBLIC_PLANNER_ORG_ID=atb
+
+
+# Specifies what environment to build locally (dev | staging | prod)
+NEXT_PUBLIC_ENVIRONMENT=dev
 ```
 
 ## Building Planner Widget code
