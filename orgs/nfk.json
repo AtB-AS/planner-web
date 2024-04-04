@@ -35,6 +35,11 @@
       "en-US": "https://www.reisnordland.com/prices-bus",
       "no": "https://www.reisnordland.no/priser-pa-buss",
       "default": "https://www.reisnordland.no/priser-pa-buss"
+    },
+    "sitemapUrls": {
+      "dev": "http://localhost:3000",
+      "staging": "https://nfk-staging.planner-web.mittatb.no/",
+      "prod": "https://www.reisnordland.no/"
     }
   },
   "journeyApiConfigurations": {

@@ -35,6 +35,11 @@
       "en-US": "https://www.atb.no/en/fares/",
       "no": "https://www.atb.no/priser/",
       "default": "https://www.atb.no/priser/"
+    },
+    "sitemapUrls": {
+      "dev": "http://localhost:3000",
+      "staging": "https://atb-staging.planner-web.mittatb.no/",
+      "prod": "https://reise.atb.no/"
     }
   },
   "journeyApiConfigurations": {

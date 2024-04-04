@@ -35,6 +35,12 @@
       "en-US": "https://fylkestrafikk.no/meny/billetter-og-priser/?sprak=3",
       "no": "https://fylkestrafikk.no/meny/billetter-og-priser",
       "default": "https://fylkestrafikk.no/meny/billetter-og-priser"
+    },
+
+    "sitemapUrls": {
+      "dev": "http://localhost:3000",
+      "staging": "https://troms-staging.planner-web.mittatb.no/",
+      "prod": "https://reise.fylkestrafikk.no/"
     }
   },
   "journeyApiConfigurations": {

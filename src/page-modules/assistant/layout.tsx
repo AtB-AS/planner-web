@@ -135,7 +135,7 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
           )
           .map((filter) => filter.id) ?? null,
       );
-  }, [transportModeFilter]);
+  }, [transportModeFilter]); //eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div>

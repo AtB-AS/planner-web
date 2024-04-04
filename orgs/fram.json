@@ -34,6 +34,11 @@
       "en-US": "https://frammr.no/billettar/billettar-og-prisar/?sprak=3",
       "nn": "https://frammr.no/billettar/billettar-og-prisar/?sprak=11",
       "default": "https://frammr.no/billettar/billettar-og-prisar/"
+    },
+    "sitemapUrls": {
+      "dev": "http://localhost:3000",
+      "staging": "https://fram-staging.planner-web.mittatb.no/",
+      "prod": "https://reise.frammr.no/"
     }
   },
   "journeyApiConfigurations": {
