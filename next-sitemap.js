@@ -1,4 +1,3 @@
-/** @type {import('next-sitemap').IConfig} */
 
 function getEnvironmentUrls() {
   const orgId = process.env.NEXT_PUBLIC_PLANNER_ORG_ID;
