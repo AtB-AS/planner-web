@@ -372,12 +372,12 @@ export function setTimezone(date: Date): Date {
 
 export function formatLocalTimeToCET(localTime: number) {
   const offset = getOffsetTimezone();
-  return localTime + ONE_HOUR * (offset - 1);
+  return localTime + ONE_HOUR * (offset - 2);
 }
 
 export function formatCETToLocalTime(cet: number) {
   const offset = getOffsetTimezone();
-  return cet - ONE_HOUR * (offset - 1);
+  return cet - ONE_HOUR * (offset - 2);
 }
 
 function getOffsetTimezone() {
