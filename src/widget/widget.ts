@@ -138,9 +138,13 @@ function setDefaultTimeForDatetime(prefix: string) {
     }
     if (time) {
       const now = new Date();
-      now.setSeconds(0);
+      /*now.setSeconds(0);
       now.setMilliseconds(0);
-      time.valueAsDate = now;
+      time.valueAsDate = now;*/
+
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      time.value = `${hours}:${minutes}`;
     }
   } catch (e) {}
 }
