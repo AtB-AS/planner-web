@@ -371,17 +371,44 @@ export function setTimezone(date: Date): Date {
 }
 
 export function formatLocalTimeToCET(localTime: number) {
-  const offset = getOffsetTimezone();
-  return localTime + ONE_HOUR * (offset - 2);
+  const offsetCET = getCETOffset(localTime);
+  return localTime + ONE_HOUR * offsetCET;
 }
 
 export function formatCETToLocalTime(cet: number) {
-  const offset = getOffsetTimezone();
-  return cet - ONE_HOUR * (offset - 2);
+  const offsetCET = getCETOffset(cet);
+  return cet - ONE_HOUR * offsetCET;
 }
 
-function getOffsetTimezone() {
-  return (-1 * new Date().getTimezoneOffset()) / 60;
+function getCETOffset(time: number) {
+  const date = new Date(time);
+  const currentOffset = date.getTimezoneOffset();
+  const isDST = isDaylightSavingTime(date);
+
+  let offsetToCET = 1; // Winter time
+  if (isDST) offsetToCET = 2; // Summer time
+
+  return -(offsetToCET + currentOffset / 60);
+}
+
+function isDaylightSavingTime(date: Date): boolean {
+  // Checks whether the date is within the summer time period.
+  const year = date.getFullYear();
+  const dstStart = getLastSundayOfMonthWithTime(year, 2, 2); // Last Sunday of March at 02:00
+  const dstEnd = getLastSundayOfMonthWithTime(year, 9, 3); // Last Sunday of October at 03:00
+
+  return date >= dstStart && date < dstEnd;
+}
+
+function getLastSundayOfMonthWithTime(
+  year: number,
+  month: number,
+  hours: number,
+) {
+  const date = new Date(year, month, 31); // Both March and October contains 31 days.
+  date.setDate(date.getDate() - ((date.getDay() + 7) % 7)); // Last sunday in month
+  date.setHours(hours); // Set time.
+  return date;
 }
 
 export function dateWithReplacedTime(
