@@ -16,6 +16,10 @@ type SearchTimeSelectorProps = {
   options?: SearchMode[];
 };
 
+const today = new Date();
+today.setDate(today.getDate() - 1);
+const yesterdayString = today.toISOString().split('T')[0];
+
 export default function SearchTimeSelector({
   onChange,
   initialState = { mode: 'now' },
@@ -72,7 +76,6 @@ export default function SearchTimeSelector({
   };
 
   const isPastDate = (selectedDate: string) => {
-    const today = new Date().toISOString().split('T')[0];
     const year = initialDate.getFullYear().toString();
     const month = initialDate.getMonth().toString().padStart(2, '0');
     const day = initialDate.getDate().toString().padStart(2, '0');
@@ -83,8 +86,8 @@ export default function SearchTimeSelector({
       resetToCurrentDate();
 
     // To ensure that the time is not past whenever reselecting back the current date.
-    if (selectedDate <= today) resetToCurrentTime();
-    return selectedDate < today;
+    if (selectedDate <= yesterdayString) resetToCurrentTime();
+    return selectedDate < yesterdayString;
   };
 
   const internalOnDateChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -171,7 +174,7 @@ export default function SearchTimeSelector({
                   type="date"
                   id="searchTimeSelector-date"
                   value={selectedDate.toISOString().slice(0, 10)}
-                  min={new Date().toISOString().slice(0, 10)}
+                  min={yesterdayString}
                   onChange={internalOnDateChange}
                 />
               </div>
