@@ -1,5 +1,5 @@
 import { ChangeEvent, CSSProperties, useState } from 'react';
-import { format } from 'date-fns';
+import { format, subDays } from 'date-fns';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
   ModuleText,
@@ -16,9 +16,7 @@ type SearchTimeSelectorProps = {
   options?: SearchMode[];
 };
 
-const today = new Date();
-today.setDate(today.getDate() - 1);
-const yesterdayString = today.toISOString().split('T')[0];
+const yesterday = format(subDays(new Date(), 1), 'yyyy-MM-dd');
 
 export default function SearchTimeSelector({
   onChange,
@@ -86,8 +84,8 @@ export default function SearchTimeSelector({
       resetToCurrentDate();
 
     // To ensure that the time is not past whenever reselecting back the current date.
-    if (selectedDate <= yesterdayString) resetToCurrentTime();
-    return selectedDate < yesterdayString;
+    if (selectedDate <= yesterday) resetToCurrentTime();
+    return selectedDate < yesterday;
   };
 
   const internalOnDateChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -174,7 +172,7 @@ export default function SearchTimeSelector({
                   type="date"
                   id="searchTimeSelector-date"
                   value={selectedDate.toISOString().slice(0, 10)}
-                  min={yesterdayString}
+                  min={yesterday}
                   onChange={internalOnDateChange}
                 />
               </div>

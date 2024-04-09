@@ -169,7 +169,7 @@ describe('search time selector', function () {
     ).toBeInTheDocument();
   });
 
-  it('should not call onChange when selecting yesterday as date input.', () => {
+  it('should allow call onChange when selecting yesterday as date input.', () => {
     const onChange = vi.fn();
     const output = render(
       <SearchTimeSelector
@@ -179,6 +179,22 @@ describe('search time selector', function () {
     );
     const dateInput = output.getByLabelText('Dato');
     const yesterday = format(subDays(new Date(), 1), 'yyyy-MM-dd');
+
+    fireEvent.change(dateInput, { target: { value: yesterday } });
+
+    expect(onChange).toHaveBeenCalled();
+  });
+
+  it('should not call onChange when selecting the day before yesterday as date input.', () => {
+    const onChange = vi.fn();
+    const output = render(
+      <SearchTimeSelector
+        initialState={{ mode: 'arriveBy', dateTime: 0 }}
+        onChange={onChange}
+      />,
+    );
+    const dateInput = output.getByLabelText('Dato');
+    const yesterday = format(subDays(new Date(), 2), 'yyyy-MM-dd');
 
     fireEvent.change(dateInput, { target: { value: yesterday } });
 
@@ -201,7 +217,7 @@ describe('search time selector', function () {
     expect(onChange).toHaveBeenCalled();
   });
 
-  it('should reset clock to current time when reselecting today as date', () => {
+  it('should reset clock to current time when reselecting yesterday as date', () => {
     const onChange = vi.fn();
     const output = render(
       <SearchTimeSelector
@@ -211,12 +227,12 @@ describe('search time selector', function () {
     );
     const dateInput = output.getByLabelText('Dato');
     const timeInput = output.getByLabelText('Tid');
-    const today = format(new Date(), 'yyyy-MM-dd');
+    const yesterday = format(subDays(new Date(), 1), 'yyyy-MM-dd');
     const tomorrow = format(addDays(new Date(), 1), 'yyyy-MM-dd');
     const currentTime = format(new Date(), 'HH:mm');
 
     fireEvent.change(dateInput, { target: { value: tomorrow } });
-    fireEvent.change(dateInput, { target: { value: today } });
+    fireEvent.change(dateInput, { target: { value: yesterday } });
 
     expect(onChange).toHaveBeenCalled();
     expect(timeInput).toHaveValue(currentTime);
