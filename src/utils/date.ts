@@ -370,44 +370,69 @@ export function setTimezone(date: Date): Date {
   return new Date(date.toLocaleString(FALLBACK_LANGUAGE, { timeZone: CET }));
 }
 
-export function formatLocalTimeToCET(localTime: number) {
-  const offsetCET = getCETOffset(localTime);
-  return localTime + ONE_HOUR * offsetCET;
+export function fromLocalTimeToCET(localTime: number) {
+  const hoursDifference = getHoursDifferenceFromCET(localTime); // difference from CET.
+  return localTime + ONE_HOUR * hoursDifference;
 }
 
-export function formatCETToLocalTime(cet: number) {
-  const offsetCET = getCETOffset(cet);
-  return cet - ONE_HOUR * offsetCET;
+export function fromCETToLocalTime(cet: number) {
+  const hoursDifference = getHoursDifferenceFromCET(cet);
+  return cet - ONE_HOUR * hoursDifference;
 }
 
-function getCETOffset(time: number) {
-  const date = new Date(time);
-  const currentOffset = date.getTimezoneOffset();
+function getUTCOffset(date: Date, timeZone: string): number {
+  const offsetString = date
+    .toLocaleString('ia', {
+      timeZoneName: 'longOffset',
+      timeZone,
+    })
+    .replace(/^.*? GMT/, '');
+
+  const [offsetHour, offsetMinutes] = offsetString.split(':');
+  const utcOffset =
+    parseInt(offsetHour || '0') +
+    (offsetMinutes ? parseInt(offsetMinutes) / 60 : 0);
+
+  return utcOffset;
+}
+
+export function getHoursDifferenceFromCET(time: number, timeZone?: string) {
+  const date = timeZone
+    ? new Date(new Date(time).toLocaleString('en-US', { timeZone }))
+    : new Date(time);
+
+  let offsetUTC;
+  if (timeZone) offsetUTC = getUTCOffset(new Date(time), timeZone) * -60;
+  else offsetUTC = date.getTimezoneOffset();
   const isDST = isDaylightSavingTime(date);
 
-  let offsetToCET = 1; // Winter time
-  if (isDST) offsetToCET = 2; // Summer time
+  let offsetCET = 1; // Winter time
+  if (isDST) offsetCET = 2; // Summer time
 
-  return -(offsetToCET + currentOffset / 60);
+  let hoursDifferenceToCET = -(offsetCET + offsetUTC / 60);
+
+  // If 0 heours difference, remove '-'
+  hoursDifferenceToCET = hoursDifferenceToCET === -0 ? 0 : hoursDifferenceToCET;
+
+  return hoursDifferenceToCET;
 }
 
-function isDaylightSavingTime(date: Date): boolean {
-  // Checks whether the date is within the summer time period.
-  const year = date.getFullYear();
-  const dstStart = getLastSundayOfMonthWithTime(year, 2, 2); // Last Sunday of March at 02:00
-  const dstEnd = getLastSundayOfMonthWithTime(year, 9, 3); // Last Sunday of October at 03:00
+export function isDaylightSavingTime(date: Date): boolean {
+  const dstStart = getLastSundayOfMonthAndSetTime(date.getFullYear(), 2, 2); // Last Sunday of March at 02:00
+  const dstEnd = getLastSundayOfMonthAndSetTime(date.getFullYear(), 9, 3); // Last Sunday of October at 03:00
 
   return date >= dstStart && date < dstEnd;
 }
 
-function getLastSundayOfMonthWithTime(
+export function getLastSundayOfMonthAndSetTime(
   year: number,
   month: number,
-  hours: number,
+  hour: number,
 ) {
-  const date = new Date(year, month, 31); // Both March and October contains 31 days.
+  let daysInMonth = new Date(year, month + 1, 0).getDate();
+  const date = new Date(year, month, daysInMonth);
   date.setDate(date.getDate() - ((date.getDay() + 7) % 7)); // Last sunday in month
-  date.setHours(hours); // Set time.
+  date.setHours(hour); // Set time.
   return date;
 }
 

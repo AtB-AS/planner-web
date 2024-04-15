@@ -1,12 +1,12 @@
 import { FALLBACK_LANGUAGE } from '@atb/translations/commons';
 import { test, expect } from '@playwright/test';
-import zonedTimeToUtc from 'date-fns';
 
 const JST = 'Asia/Tokyo';
 const EET = 'Europe/Helsinki';
 const CET = 'Europe/Oslo';
 const UTC = 'Europe/London';
 const PST = 'America/Los_Angeles';
+const IST = 'Asia/Kolkata';
 
 const fromTextbox = 'Kristiansund';
 const fromOption = 'Kristiansund trafikkterminal';
@@ -167,6 +167,31 @@ test.describe('Trip search from different timezones - detailed view.', () => {
 
     expect(elementText?.includes(expectedDeparture));
   });
+
+  test.use({
+    timezoneId: IST,
+  });
+  test(IST + ' - (UTC +0550)', async ({ page }) => {
+    await page.getByTestId('searchTimeSelector-departBy').click();
+    await page.getByTestId('searchTimeSelector-time').click();
+    await page.getByTestId('searchTimeSelector-time').fill(searchTime);
+    await page.getByRole('textbox', { name: 'From' }).click();
+    await page.getByRole('textbox', { name: 'From' }).fill(fromTextbox);
+    await page.getByRole('option', { name: fromOption }).click();
+    await page.getByRole('textbox', { name: 'To' }).click();
+    await page.getByRole('textbox', { name: 'To' }).fill(toTextbox);
+    await page
+      .getByRole('option', {
+        name: toOption,
+      })
+      .click();
+    await page.getByTestId('tripPattern-0-0').click();
+    const elementText = await page
+      .getByTestId('detailsHeader-duration')
+      .textContent();
+
+    expect(elementText?.includes(expectedDeparture));
+  });
 });
 
 test.describe('Adjusts for summer and winter time - detailed view.', () => {
@@ -226,6 +251,18 @@ test.describe('Adjusts for summer and winter time - detailed view.', () => {
     timezoneId: PST,
   });
   test(PST + ' - (UTC -0800)', async ({ page }) => {
+    await page.getByTestId('searchTimeSelector-departBy').click();
+    await page.getByTestId('searchTimeSelector-time').click();
+    const departureTime = await page
+      .getByTestId('searchTimeSelector-time')
+      .inputValue();
+    expect(sameTimezone(localTimeCET, departureTime)).toBeTruthy();
+  });
+
+  test.use({
+    timezoneId: IST,
+  });
+  test(IST + ' - (UTC +0550)', async ({ page }) => {
     await page.getByTestId('searchTimeSelector-departBy').click();
     await page.getByTestId('searchTimeSelector-time').click();
     const departureTime = await page
