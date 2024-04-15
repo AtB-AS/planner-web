@@ -16,8 +16,6 @@ type SearchTimeSelectorProps = {
   options?: SearchMode[];
 };
 
-const yesterday = format(subDays(new Date(), 1), 'yyyy-MM-dd');
-
 export default function SearchTimeSelector({
   onChange,
   initialState = { mode: 'now' },
@@ -31,6 +29,7 @@ export default function SearchTimeSelector({
       : new Date(),
   ) as Date;
 
+  const yesterday = format(subDays(new Date(), 1), 'yyyy-MM-dd');
   const [selectedDate, setSelectedDate] = useState(initialDate);
   const [selectedTime, setSelectedTime] = useState(() =>
     format(initialDate, 'HH:mm'),
@@ -73,24 +72,14 @@ export default function SearchTimeSelector({
     onChange(newState);
   };
 
-  const isPastDate = (selectedDate: string) => {
-    const year = initialDate.getFullYear().toString();
-    const month = initialDate.getMonth().toString().padStart(2, '0');
-    const day = initialDate.getDate().toString().padStart(2, '0');
-    const formatedInitialDate = `${year}-${month}-${day}`;
-
-    // If reselecting the current month or current year twice, the date will automatically be reset to the current date.
-    if (selectedDate.substring(0, 12) <= formatedInitialDate)
-      resetToCurrentDate();
-
-    // To ensure that the time is not past whenever reselecting back the current date.
-    if (selectedDate <= yesterday) resetToCurrentTime();
-    return selectedDate < yesterday;
-  };
-
   const internalOnDateChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (!event.target.value) return;
-    if (isPastDate(event.target.value)) return;
+
+    if (event.target.value < yesterday) {
+      resetToCurrentDate();
+      resetToCurrentTime();
+      return;
+    }
 
     setSelectedDate(new Date(event.target.value));
 
