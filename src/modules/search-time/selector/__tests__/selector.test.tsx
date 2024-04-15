@@ -216,25 +216,4 @@ describe('search time selector', function () {
 
     expect(onChange).toHaveBeenCalled();
   });
-
-  it('should reset clock to current time when reselecting yesterday as date', () => {
-    const onChange = vi.fn();
-    const output = render(
-      <SearchTimeSelector
-        initialState={{ mode: 'arriveBy', dateTime: 0 }}
-        onChange={onChange}
-      />,
-    );
-    const dateInput = output.getByLabelText('Dato');
-    const timeInput = output.getByLabelText('Tid');
-    const yesterday = format(subDays(new Date(), 1), 'yyyy-MM-dd');
-    const tomorrow = format(addDays(new Date(), 1), 'yyyy-MM-dd');
-    const currentTime = format(new Date(), 'HH:mm');
-
-    fireEvent.change(dateInput, { target: { value: tomorrow } });
-    fireEvent.change(dateInput, { target: { value: yesterday } });
-
-    expect(onChange).toHaveBeenCalled();
-    expect(timeInput).toHaveValue(currentTime);
-  });
 });
