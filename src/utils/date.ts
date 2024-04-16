@@ -370,18 +370,70 @@ export function setTimezone(date: Date): Date {
   return new Date(date.toLocaleString(FALLBACK_LANGUAGE, { timeZone: CET }));
 }
 
-export function formatLocalTimeToCET(localTime: number) {
-  const offset = getOffsetTimezone();
-  return localTime + ONE_HOUR * (offset - 2);
+export function fromLocalTimeToCET(localTime: number) {
+  const hoursDifference = getHoursDifferenceFromCET(localTime); // difference from CET.
+  return localTime + ONE_HOUR * hoursDifference;
 }
 
-export function formatCETToLocalTime(cet: number) {
-  const offset = getOffsetTimezone();
-  return cet - ONE_HOUR * (offset - 2);
+export function fromCETToLocalTime(cet: number) {
+  const hoursDifference = getHoursDifferenceFromCET(cet);
+  return cet - ONE_HOUR * hoursDifference;
 }
 
-function getOffsetTimezone() {
-  return (-1 * new Date().getTimezoneOffset()) / 60;
+function getUTCOffset(date: Date, timeZone: string): number {
+  const offsetString = date
+    .toLocaleString('ia', {
+      timeZoneName: 'longOffset',
+      timeZone,
+    })
+    .replace(/^.*? GMT/, '');
+
+  const [offsetHour, offsetMinutes] = offsetString.split(':');
+  const utcOffset =
+    parseInt(offsetHour || '0') +
+    (offsetMinutes ? parseInt(offsetMinutes) / 60 : 0);
+
+  return utcOffset;
+}
+
+export function getHoursDifferenceFromCET(time: number, timeZone?: string) {
+  const date = timeZone
+    ? new Date(new Date(time).toLocaleString('en-US', { timeZone }))
+    : new Date(time);
+
+  let offsetUTC;
+  if (timeZone) offsetUTC = getUTCOffset(new Date(time), timeZone) * -60;
+  else offsetUTC = date.getTimezoneOffset();
+  const isDST = isDaylightSavingTime(date);
+
+  let offsetCET = 1; // Winter time
+  if (isDST) offsetCET = 2; // Summer time
+
+  let hoursDifferenceToCET = -(offsetCET + offsetUTC / 60);
+
+  // If 0 heours difference, remove '-'
+  hoursDifferenceToCET = hoursDifferenceToCET === -0 ? 0 : hoursDifferenceToCET;
+
+  return hoursDifferenceToCET;
+}
+
+export function isDaylightSavingTime(date: Date): boolean {
+  const dstStart = getLastSundayOfMonthAndSetTime(date.getFullYear(), 2, 2); // Last Sunday of March at 02:00
+  const dstEnd = getLastSundayOfMonthAndSetTime(date.getFullYear(), 9, 3); // Last Sunday of October at 03:00
+
+  return date >= dstStart && date < dstEnd;
+}
+
+export function getLastSundayOfMonthAndSetTime(
+  year: number,
+  month: number,
+  hour: number,
+) {
+  let daysInMonth = new Date(year, month + 1, 0).getDate();
+  const date = new Date(year, month, daysInMonth);
+  date.setDate(date.getDate() - ((date.getDay() + 7) % 7)); // Last sunday in month
+  date.setHours(hour); // Set time.
+  return date;
 }
 
 export function dateWithReplacedTime(
