@@ -1,5 +1,5 @@
 import { ChangeEvent, CSSProperties, useState } from 'react';
-import { format } from 'date-fns';
+import { format, subDays } from 'date-fns';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
   ModuleText,
@@ -29,6 +29,7 @@ export default function SearchTimeSelector({
       : new Date(),
   ) as Date;
 
+  const yesterday = format(subDays(new Date(), 1), 'yyyy-MM-dd');
   const [selectedDate, setSelectedDate] = useState(initialDate);
   const [selectedTime, setSelectedTime] = useState(() =>
     format(initialDate, 'HH:mm'),
@@ -71,25 +72,14 @@ export default function SearchTimeSelector({
     onChange(newState);
   };
 
-  const isPastDate = (selectedDate: string) => {
-    const today = new Date().toISOString().split('T')[0];
-    const year = initialDate.getFullYear().toString();
-    const month = initialDate.getMonth().toString().padStart(2, '0');
-    const day = initialDate.getDate().toString().padStart(2, '0');
-    const formatedInitialDate = `${year}-${month}-${day}`;
-
-    // If reselecting the current month or current year twice, the date will automatically be reset to the current date.
-    if (selectedDate.substring(0, 12) <= formatedInitialDate)
-      resetToCurrentDate();
-
-    // To ensure that the time is not past whenever reselecting back the current date.
-    if (selectedDate <= today) resetToCurrentTime();
-    return selectedDate < today;
-  };
-
   const internalOnDateChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (!event.target.value) return;
-    if (isPastDate(event.target.value)) return;
+
+    if (event.target.value < yesterday) {
+      resetToCurrentDate();
+      resetToCurrentTime();
+      return;
+    }
 
     setSelectedDate(new Date(event.target.value));
 
@@ -171,7 +161,7 @@ export default function SearchTimeSelector({
                   type="date"
                   id="searchTimeSelector-date"
                   value={selectedDate.toISOString().slice(0, 10)}
-                  min={new Date().toISOString().slice(0, 10)}
+                  min={yesterday}
                   onChange={internalOnDateChange}
                 />
               </div>
