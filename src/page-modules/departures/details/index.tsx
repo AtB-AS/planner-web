@@ -11,6 +11,7 @@ import { Map } from '@atb/components/map';
 import { SituationMessageBox, filterNotices } from '@atb/modules/situations';
 import { useRealtimeText } from '@atb/modules/trip-details';
 import { MessageBox } from '@atb/components/message-box';
+import Head from 'next/head';
 
 export type DeparturesDetailsProps = {
   fromQuayId?: string;
@@ -59,6 +60,13 @@ export function DeparturesDetails({
 
   return (
     <section className={style.container}>
+      <Head>
+        <meta
+          name="description"
+          content={"Hella"}
+        />
+      </Head>
+
       <div className={style.headerContainer}>
         <ButtonLink
           mode="transparent"

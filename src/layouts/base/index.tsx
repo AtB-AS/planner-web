@@ -12,7 +12,7 @@ import PageHeader from '@atb/layouts/shared/page-header';
 import { usePageTitle } from '@atb/layouts/shared/utils';
 
 export type BaseLayoutProps = PropsWithChildren<{
-  title?: TranslatedString;
+  title?: TranslatedString | string;
 }>;
 export function BaseLayout({ children, title }: BaseLayoutProps) {
   useHtmlDarkMode();
