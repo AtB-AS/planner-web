@@ -146,3 +146,13 @@ export function addLayerIfNotExists(map: Map, layer: AnyLayer) {
     map.addLayer(layer);
   }
 }
+
+export function hasInitialPosition(
+  a: any,
+): a is { position: Position; initialZoom?: number } {
+  return !!a.position;
+}
+
+export function hasMapLegs(a: any): a is { mapLegs: MapLegType[] } {
+  return a.mapLegs;
+}

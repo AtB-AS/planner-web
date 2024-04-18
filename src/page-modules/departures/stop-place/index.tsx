@@ -1,7 +1,10 @@
 import { Button } from '@atb/components/button';
+import { DepartureTime } from '@atb/components/departure-time';
 import { ColorIcon, MonoIcon } from '@atb/components/icon';
 import LineChip from '@atb/components/line-chip';
 import { MapWithHeader } from '@atb/components/map';
+import { OpenGraphImage } from '@atb/components/open-graph';
+import ScreenReaderOnly from '@atb/components/screen-reader-only';
 import { Typo } from '@atb/components/typography';
 import {
   SituationMessageBox,
@@ -20,8 +23,6 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { nextDepartures } from '../client';
 import style from './stop-place.module.css';
-import { DepartureTime } from '@atb/components/departure-time';
-import ScreenReaderOnly from '@atb/components/screen-reader-only';
 
 export type StopPlaceProps = {
   departures: DepartureData;
@@ -30,9 +31,17 @@ export function StopPlace({ departures }: StopPlaceProps) {
   const { t } = useTranslation();
   const router = useRouter();
   const [isHoveringRefreshButton, setIsHoveringRefreshButton] = useState(false);
+
   return (
     <section className={style.stopPlaceContainer}>
-      <ScreenReaderOnly text={t(PageText.Departures.stopPlace.quaySection.resultsLoaded)} role='status' />
+      <OpenGraphImage
+        image={`api/departures/open-graph?stopPlaceId=${departures.stopPlace.id}`}
+      />
+
+      <ScreenReaderOnly
+        text={t(PageText.Departures.stopPlace.quaySection.resultsLoaded)}
+        role="status"
+      />
 
       <div className={style.quaysContainer}>
         <button
