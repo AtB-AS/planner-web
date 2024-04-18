@@ -12,6 +12,6 @@ export const SearchInput = {
       `${resultCount} result${
         resultCount === 1 ? ' is' : 's are'
       } available, use up and down arrow keys to navigate. Press Enter key to select.`,
-      `${resultCount} reff, bruk pil opp og pil ned for navigering. Trykk Enter for å velje.`,
+      `${resultCount} treff, bruk pil opp og pil ned for navigering. Trykk Enter for å velje.`,
     ),
 };
