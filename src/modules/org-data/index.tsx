@@ -8,6 +8,7 @@ export type WEBSHOP_ORGS = 'nfk' | 'atb' | 'fram' | 'troms';
 export type MAPBOX_DATA = {
   accessToken: string;
   style: string;
+  styleAndId: string;
   defaultLat: number;
   defaultLng: number;
 };
@@ -42,6 +43,12 @@ export type OrgData = {
       href: string;
     };
     ticketsUrl?: TranslatableUrl;
+
+    sitemapUrls: {
+      dev: string;
+      staging: string,
+      prod: string
+    }
   };
   journeyApiConfigurations: {
     waitReluctance?: number;
@@ -100,9 +107,12 @@ function getMapboxData(): MAPBOX_DATA {
     throw new Error('Mapbox data required but missing');
   }
 
+  const styleAndId = style.replace('mapbox://styles/', '');
+
   return {
     accessToken,
     style,
+    styleAndId,
     defaultLat: parseFloat(parseFloat(defaultLat).toFixed(10)),
     defaultLng: parseFloat(parseFloat(defaultLng).toFixed(10)),
   };

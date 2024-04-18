@@ -1,17 +1,16 @@
-import LineChip from '@atb/components/line-chip';
-import { Typo } from '@atb/components/typography';
-import style from './details.module.css';
 import { ButtonLink } from '@atb/components/button';
 import { ColorIcon, MonoIcon } from '@atb/components/icon';
-import { addMetadataToEstimatedCalls } from './utils';
-import { ServiceJourneyData } from '../server/journey-planner/validators';
-import { EstimatedCallRows } from './estimated-call-rows';
-import { PageText, useTranslation } from '@atb/translations';
+import LineChip from '@atb/components/line-chip';
 import { Map } from '@atb/components/map';
+import { MessageBox } from '@atb/components/message-box';
+import { Typo } from '@atb/components/typography';
 import { SituationMessageBox, filterNotices } from '@atb/modules/situations';
 import { useRealtimeText } from '@atb/modules/trip-details';
-import { MessageBox } from '@atb/components/message-box';
-import Head from 'next/head';
+import { PageText, useTranslation } from '@atb/translations';
+import { ServiceJourneyData } from '../server/journey-planner/validators';
+import style from './details.module.css';
+import { EstimatedCallRows } from './estimated-call-rows';
+import { addMetadataToEstimatedCalls } from './utils';
 
 export type DeparturesDetailsProps = {
   fromQuayId?: string;
@@ -60,12 +59,6 @@ export function DeparturesDetails({
 
   return (
     <section className={style.container}>
-      <Head>
-        <meta
-          name="description"
-          content={"Hella"}
-        />
-      </Head>
 
       <div className={style.headerContainer}>
         <ButtonLink
