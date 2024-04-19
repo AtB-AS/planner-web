@@ -39,7 +39,7 @@
     "sitemapUrls": {
       "dev": "http://localhost:3000",
       "staging": "https://nfk-staging.planner-web.mittatb.no/",
-      "prod": "https://www.reisnordland.no/"
+      "prod": "https://reise.reisnordland.no/"
     }
   },
   "journeyApiConfigurations": {
