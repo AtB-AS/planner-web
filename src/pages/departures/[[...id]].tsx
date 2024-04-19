@@ -59,9 +59,16 @@ const DeparturesPage: NextPage<DeparturesPageProps> = (props) => {
 function getDepartureTitle(
   props: DeparturesPageProps,
 ): TranslatedString | string {
-  if ('stopPlace' in props) {
-    return props.departures?.stopPlace.name ?? PageText.Departures.title;
+  if (isNearestStopPlacesProps(props)) {
+    return props.fromQuery.from?.name
+      ? PageText.Departures.titleAddress(props.fromQuery.from?.name)
+      : PageText.Departures.title;
+  } else if ('stopPlace' in props) {
+    return props.departures?.stopPlace.name
+      ? PageText.Departures.titleStopp(props.departures?.stopPlace.name)
+      : PageText.Departures.title;
   }
+
   return PageText.Departures.title;
 }
 
