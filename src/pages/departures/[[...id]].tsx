@@ -11,6 +11,7 @@ import {
 import { fetchFromDepartureQuery } from '@atb/page-modules/departures/fetch-departure-query';
 import { withDepartureClient } from '@atb/page-modules/departures/server';
 import { FromDepartureQuery } from '@atb/page-modules/departures/types';
+import { PageText, TranslatedString } from '@atb/translations';
 import type { NextPage } from 'next';
 import { encode } from 'querystring';
 
@@ -47,13 +48,22 @@ export type DeparturesPageProps = WithGlobalData<
 >;
 const DeparturesPage: NextPage<DeparturesPageProps> = (props) => {
   return (
-    <DefaultLayout {...props}>
+    <DefaultLayout {...props} title={getDepartureTitle(props)}>
       <DeparturesLayout {...props}>
         <DeparturesRouting {...props} />
       </DeparturesLayout>
     </DefaultLayout>
   );
 };
+
+function getDepartureTitle(
+  props: DeparturesPageProps,
+): TranslatedString | string {
+  if ('stopPlace' in props) {
+    return props.departures?.stopPlace.name ?? PageText.Departures.title;
+  }
+  return PageText.Departures.title;
+}
 
 export default DeparturesPage;
 

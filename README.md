@@ -65,3 +65,28 @@ This will set correct version in releases on Github.
 ```sh
 yarn generate-widget-version
 ```
+
+## Sitemap & Stop Place overview
+
+Sitemap is generated automatically and has an overview of all links to departure
+pages which can be crawled and searchable through search engines.
+
+Sitemap is generated as part of a build step with correct URLs specified in the
+`<org.>.json` files. If you want to generate manually you can run command:
+
+```bash
+yarn next-sitemap --config next-sitemap.js
+```
+
+### Updating StopPlaces data
+
+If the National Stop Register has changed (new stop places etc), we can generate
+a new data layer by running:
+
+```
+node scripts/generate-stopplaces/download-and-generate.js
+```
+
+This will remove the static cache file and regenerate the data. Doing a deploy
+will create sitemap as part of the build step and update all departure URLs with
+the new data.

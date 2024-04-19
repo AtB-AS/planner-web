@@ -1,3 +1,7 @@
+import { OpenGraphBase } from '@atb/components/open-graph';
+import Footer from '@atb/layouts/shared/footer';
+import PageHeader from '@atb/layouts/shared/page-header';
+import { usePageTitle } from '@atb/layouts/shared/utils';
 import { useHtmlDarkMode, useTheme } from '@atb/modules/theme';
 import {
   CommonText,
@@ -7,13 +11,11 @@ import {
 import Head from 'next/head';
 import { PropsWithChildren } from 'react';
 import style from './base.module.css';
-import Footer from '@atb/layouts/shared/footer';
-import PageHeader from '@atb/layouts/shared/page-header';
-import { usePageTitle } from '@atb/layouts/shared/utils';
 
 export type BaseLayoutProps = PropsWithChildren<{
-  title?: TranslatedString;
+  title?: TranslatedString | string;
 }>;
+
 export function BaseLayout({ children, title }: BaseLayoutProps) {
   useHtmlDarkMode();
   const theme = useTheme();
@@ -35,6 +37,8 @@ export function BaseLayout({ children, title }: BaseLayoutProps) {
           content={theme.static.background.background_1.background}
         />
       </Head>
+
+      <OpenGraphBase title={siteTitle} />
 
       <PageHeader />
 

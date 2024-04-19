@@ -7,7 +7,13 @@ import { Button } from '@atb/components/button';
 import { MonoIcon } from '@atb/components/icon';
 import { ComponentText, useTranslation } from '@atb/translations';
 import { FocusScope } from '@react-aria/focus';
-import { ZOOM_LEVEL, defaultPosition, getMapBounds } from './utils';
+import {
+  ZOOM_LEVEL,
+  defaultPosition,
+  getMapBounds,
+  hasInitialPosition,
+  hasMapLegs,
+} from './utils';
 import { useMapInteractions } from './use-map-interactions';
 import { useFullscreenMap } from './use-fullscreen-map';
 import { useMapPin } from './use-map-pin';
@@ -20,15 +26,15 @@ export type MapProps = {
   layer?: string;
   onSelectStopPlace?: (id: string) => void;
 } & (
-    | {
+  | {
       position: Position;
       initialZoom?: number;
     }
-    | {
+  | {
       mapLegs: MapLegType[];
     }
-    | {}
-  );
+  | {}
+);
 
 export default function Map({ layer, onSelectStopPlace, ...props }: MapProps) {
   const mapWrapper = useRef<HTMLDivElement>(null);
@@ -117,14 +123,4 @@ export default function Map({ layer, onSelectStopPlace, ...props }: MapProps) {
       </div>
     </div>
   );
-}
-
-function hasInitialPosition(
-  a: any,
-): a is { position: Position; initialZoom?: number } {
-  return !!a.position;
-}
-
-function hasMapLegs(a: any): a is { mapLegs: MapLegType[] } {
-  return a.mapLegs;
 }

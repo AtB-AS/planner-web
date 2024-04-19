@@ -11,3 +11,5 @@ export const Map = dynamic(() => import('./map'), {
   ssr: false,
   loading: () => <MapLoading />,
 });
+
+export { getStaticMapUrl } from './static-map';
