@@ -91,7 +91,8 @@ export default handlerWithDepartureClient<{}>({
               {stopPlace.name}
             </p>
             <p style={{ padding: 0, margin: 0, fontSize: '24px' }}>
-              Se avganger fra holdeplass
+              {/* Default to Norwegian as we don't know what language to show */}
+              Se avganger i sanntid fra holdeplass
             </p>
           </div>
 
