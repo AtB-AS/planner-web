@@ -65,3 +65,8 @@ This will set correct version in releases on Github.
 ```sh
 yarn generate-widget-version
 ```
+
+## Sitemap & Stop Place overview
+
+Sitemap is generated automatically and has an overview of all links to departure
+pages which can be crawled and searchable through search engines.
