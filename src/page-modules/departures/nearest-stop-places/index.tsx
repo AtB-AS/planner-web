@@ -13,6 +13,10 @@ import { PageText, useTranslation } from '@atb/translations';
 import EmptyMessage from '@atb/components/empty-message';
 import { SituationOrNoticeIcon } from '@atb/modules/situations';
 import ScreenReaderOnly from '@atb/components/screen-reader-only';
+import {
+  OpenGraphDescription,
+  OpenGraphImage,
+} from '@atb/components/open-graph';
 
 export type NearestStopPlacesProps = {
   fromQuery: FromDepartureQuery;
@@ -40,9 +44,32 @@ export function NearestStopPlaces({
       />
     );
   }
+
+  const pos = {
+    lon: fromQuery.from?.geometry.coordinates[0]!,
+    lat: fromQuery.from?.geometry.coordinates[1]!,
+  };
   return (
     <section className={style.nearestContainer}>
-      <ScreenReaderOnly text={t(PageText.Departures.nearest.resultsFound(nearestStopPlaces.length))} role='status' />
+      {fromQuery.from && (
+        <>
+          <OpenGraphImage
+            image={`api/departures/og-location?lat=${pos.lat}&lon=${pos.lon}`}
+          />
+          {/* Hard coded to norwegian as this should be the default for sharing links where
+            we dont know what language to show. */}
+          <OpenGraphDescription
+            description={`Se oversikt over alle stopp i nærheten av ${fromQuery.from?.name ?? ''}.`}
+          />
+        </>
+      )}
+
+      <ScreenReaderOnly
+        text={t(
+          PageText.Departures.nearest.resultsFound(nearestStopPlaces.length),
+        )}
+        role="status"
+      />
 
       <ul className={style.stopPlacesList}>
         {nearestStopPlaces.map((item) => (
@@ -57,10 +84,7 @@ export function NearestStopPlaces({
           <MapWithHeader
             name={fromQuery.from.name}
             layer="address"
-            position={{
-              lon: fromQuery.from.geometry.coordinates[0],
-              lat: fromQuery.from.geometry.coordinates[1],
-            }}
+            position={pos}
             onSelectStopPlace={(stopPlaceId) =>
               router.push(`/departures/${stopPlaceId}`)
             }
