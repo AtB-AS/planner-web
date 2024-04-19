@@ -2,6 +2,14 @@ import { translation as _ } from '@atb/translations/commons';
 
 export const Departures = {
   title: _('Finn avganger', 'Find departures', 'Finn avgangar'),
+  titleAddress: (place: string) =>
+    _(`Stopp nært ${place}`, `Stops near ${place}`, `Stopp nær ${place}`),
+  titleStopp: (place: string) =>
+    _(
+      `Avganger fra ${place}`,
+      `Departures from ${place}`,
+      `Avganger frå ${place}`,
+    ),
   homeLink: (name: string) =>
     _(`Tilbake til ${name}`, `Back to ${name}`, `Tilbake til ${name}`),
   shortTitle: _('Avganger', 'Departures', 'Avganger'),
