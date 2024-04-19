@@ -19,6 +19,20 @@ export function OpenGraphImage({ image }: OpenGraphImageProps) {
   );
 }
 
+export type OpenGraphDescriptionProps = {
+  description: string;
+};
+export function OpenGraphDescription({
+  description,
+}: OpenGraphDescriptionProps) {
+  return (
+    <Head>
+      <meta name="description" content={description} />
+      <meta property="og:description" content={description} />
+    </Head>
+  );
+}
+
 export type OpenGraphBaseProps = {
   title: string;
 };

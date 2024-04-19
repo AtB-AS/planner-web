@@ -3,7 +3,10 @@ import { DepartureTime } from '@atb/components/departure-time';
 import { ColorIcon, MonoIcon } from '@atb/components/icon';
 import LineChip from '@atb/components/line-chip';
 import { MapWithHeader } from '@atb/components/map';
-import { OpenGraphImage } from '@atb/components/open-graph';
+import {
+  OpenGraphDescription,
+  OpenGraphImage,
+} from '@atb/components/open-graph';
 import ScreenReaderOnly from '@atb/components/screen-reader-only';
 import { Typo } from '@atb/components/typography';
 import {
@@ -36,6 +39,12 @@ export function StopPlace({ departures }: StopPlaceProps) {
     <section className={style.stopPlaceContainer}>
       <OpenGraphImage
         image={`api/departures/open-graph?stopPlaceId=${departures.stopPlace.id}`}
+      />
+
+      {/* Hard coded to norwegian as this should be the default for sharing links where
+      we dont know what language to show. */}
+      <OpenGraphDescription
+        description={`Sanntidsoversikt over alle avganger og holdeplasser fra ${departures.stopPlace.name}.`}
       />
 
       <ScreenReaderOnly
