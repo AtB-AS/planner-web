@@ -38,7 +38,7 @@ export function StopPlace({ departures }: StopPlaceProps) {
   return (
     <section className={style.stopPlaceContainer}>
       <OpenGraphImage
-        image={`api/departures/open-graph?stopPlaceId=${departures.stopPlace.id}`}
+        image={`api/departures/og-departure?stopPlaceId=${departures.stopPlace.id}`}
       />
 
       {/* Hard coded to norwegian as this should be the default for sharing links where
