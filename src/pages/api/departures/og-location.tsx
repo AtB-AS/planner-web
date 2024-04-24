@@ -47,8 +47,6 @@ export default handlerWithDepartureClient<{}>({
       },
     });
 
-    console.log(from);
-
     const image = await satori(
       <div
         style={{

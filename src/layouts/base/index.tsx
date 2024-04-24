@@ -34,7 +34,7 @@ export function BaseLayout({ children, title }: BaseLayoutProps) {
         <link rel="icon" href="/assets/colors/icons/favicon.svg" />
         <meta
           name="theme-color"
-          content={theme.static.background.background_1.background}
+          content={theme.static.background.background_accent_0.background}
         />
       </Head>
 
