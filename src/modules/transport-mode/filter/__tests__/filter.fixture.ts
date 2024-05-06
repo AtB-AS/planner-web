@@ -50,6 +50,7 @@ export const filter: TransportModeFilterOptionType[] = [
         transportMode: 'trolleybus',
       },
     ],
+    selectedAsDefault: true,
   },
   {
     id: 'rail',
@@ -79,6 +80,7 @@ export const filter: TransportModeFilterOptionType[] = [
         transportSubModes: ['railReplacementBus'],
       },
     ],
+    selectedAsDefault: false,
   },
   {
     id: 'expressboat',
@@ -112,6 +114,7 @@ export const filter: TransportModeFilterOptionType[] = [
         ],
       },
     ],
+    selectedAsDefault: true,
   },
   {
     id: 'ferry',
@@ -143,6 +146,7 @@ export const filter: TransportModeFilterOptionType[] = [
         ],
       },
     ],
+    selectedAsDefault: true,
   },
   {
     id: 'airportbus',
@@ -169,6 +173,7 @@ export const filter: TransportModeFilterOptionType[] = [
         transportSubModes: ['airportLinkBus'],
       },
     ],
+    selectedAsDefault: true,
   },
   {
     id: 'air',
@@ -194,6 +199,7 @@ export const filter: TransportModeFilterOptionType[] = [
         transportMode: 'air',
       },
     ],
+    selectedAsDefault: false,
   },
   {
     id: 'other',
@@ -248,5 +254,6 @@ export const filter: TransportModeFilterOptionType[] = [
         transportMode: 'lift',
       },
     ],
+    selectedAsDefault: true,
   },
 ];
