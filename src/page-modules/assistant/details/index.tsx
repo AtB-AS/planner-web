@@ -14,7 +14,6 @@ import { useRouter } from 'next/router';
 import { tripQueryStringToQueryParams } from './utils';
 import { MessageBox } from '@atb/components/message-box';
 import { getBookingStatus } from '@atb/modules/flexible/utils';
-import { getOrgData } from '@atb/modules/org-data';
 
 export type AssistantDetailsProps = {
   tripPattern: TripPatternWithDetails;
