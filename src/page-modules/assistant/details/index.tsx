@@ -12,6 +12,9 @@ import { getInterchangeDetails } from './trip-section/interchange-section';
 import { getLegWaitDetails } from './trip-section/wait-section';
 import { useRouter } from 'next/router';
 import { tripQueryStringToQueryParams } from './utils';
+import { MessageBox } from '@atb/components/message-box';
+import { getBookingStatus } from '@atb/modules/flexible/utils';
+import { getOrgData } from '@atb/modules/org-data';
 
 export type AssistantDetailsProps = {
   tripPattern: TripPatternWithDetails;
@@ -34,6 +37,12 @@ export function AssistantDetails({ tripPattern }: AssistantDetailsProps) {
   if (tripSearchParams && router.query.filter) {
     tripSearchParams.append('filter', router.query.filter as string);
   }
+
+  const requireTicketBooking = tripPattern.legs.some(
+    (leg) =>
+      getBookingStatus(leg.bookingArrangements, leg.aimedStartTime, 7) !==
+      'none',
+  );
 
   return (
     <div className={style.container}>
@@ -72,6 +81,12 @@ export function AssistantDetails({ tripPattern }: AssistantDetailsProps) {
         </div>
       </div>
       <div className={style.tripContainer}>
+        {requireTicketBooking && (
+          <MessageBox
+            type="info"
+            message={t(PageText.Assistant.ticketBooking.globalMessage)}
+          />
+        )}
         {tripPattern.legs.map((leg, index) => (
           <TripSection
             key={index}
