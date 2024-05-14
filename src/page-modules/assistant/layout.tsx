@@ -16,15 +16,10 @@ import { PageText, useTranslation } from '@atb/translations';
 import { FocusScope } from '@react-aria/focus';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useRouter } from 'next/router';
-import {
-  FormEventHandler,
-  PropsWithChildren,
-  useEffect,
-  useState,
-} from 'react';
+import { FormEventHandler, PropsWithChildren, useState } from 'react';
 import style from './assistant.module.css';
 import { FromToTripQuery } from './types';
-import { createTripQuery } from './utils';
+import { createTripQuery, setTransportModeFilters } from './utils';
 import { TabLink } from '@atb/components/tab-link';
 import { logSpecificEvent } from '@atb/modules/firebase';
 import { getOrgData } from '@atb/modules/org-data';
@@ -122,20 +117,8 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
   const { urls, orgId } = getOrgData();
   const { isDarkMode } = useTheme();
 
-  /*
-   * Temporary solution until firebase configuration is in place.
-   */
-  useEffect(() => {
-    if (tripQuery.transportModeFilter === null)
-      onTransportFilterChanged(
-        transportModeFilter
-          ?.filter(
-            (filter) =>
-              !filter.modes.some((mode) => mode.transportMode === 'air'),
-          )
-          .map((filter) => filter.id) ?? null,
-      );
-  }, [transportModeFilter]); //eslint-disable-line react-hooks/exhaustive-deps
+  if (tripQuery.transportModeFilter === null)
+    onTransportFilterChanged(setTransportModeFilters(transportModeFilter));
 
   return (
     <div>

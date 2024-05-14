@@ -70,10 +70,10 @@
   dependencies:
     node-fetch "^2.6.1"
 
-"@atb-as/config-specs@^3.16.0":
-  version "3.16.0"
-  resolved "https://registry.yarnpkg.com/@atb-as/config-specs/-/config-specs-3.16.0.tgz#c0693176ad894283a99eca421c9d158436e9f9bb"
-  integrity sha512-+xmB4zKpAWumMjmbwu2Mpyzm5gkejZC2+f+dc1hFQrQnyCcv+6BOIfKfqUs52ziJqzeK2l4YSUlaqqB8lkrrkQ==
+"@atb-as/config-specs@^3.23.0":
+  version "3.23.0"
+  resolved "https://registry.yarnpkg.com/@atb-as/config-specs/-/config-specs-3.23.0.tgz#f915ac43df1d7d59d7e964feb27106c4940647ed"
+  integrity sha512-p3n8E38r2mXggZE6HuTD/Nz/3KOnRnxux5mwqw2xeuClYuP6HnxaC6k7FUo1sAouHZTqA64C+C2Ld0hWMI2dlQ==
   dependencies:
     ajv "^8.12.0"
     ajv-formats "^2.1.1"

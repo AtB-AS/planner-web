@@ -2,6 +2,7 @@ import type { SearchMode } from '@atb/modules/search-time';
 import { searchTimeToQueryString } from '@atb/modules/search-time';
 import { GeocoderFeature } from '@atb/page-modules/departures';
 import { FromToTripQuery, TripData, TripQuery, TripQuerySchema } from './types';
+import { TravelSearchFiltersType } from '@atb-as/config-specs';
 
 export function filterOutDuplicates(
   arrayToFilter: TripData['tripPatterns'],
@@ -121,4 +122,14 @@ export function tripQueryToQueryString(input: TripQuery): string {
         encodeURIComponent(String(input[key as keyof TripQuery])),
     )
     .join('&');
+}
+
+export function setTransportModeFilters(
+  transportModes: TravelSearchFiltersType['transportModes'],
+) {
+  return (
+    transportModes
+      ?.filter((filter) => filter.selectedAsDefault)
+      .map((filter) => filter.id) ?? null
+  );
 }
