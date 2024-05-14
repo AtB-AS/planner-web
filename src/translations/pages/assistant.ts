@@ -70,13 +70,6 @@ const AssistantInternal = {
       },
     },
   },
-  ticketBooking: {
-    globalMessage: _(
-      'Reisen krever billett som må kjøpes fra et annet selskap enn AtB.',
-      'This journey requires a ticket that must be purchased from provider other than AtB.',
-      'Reisa krev billett som ikkje er tilgjengeleg i denne appen, eller som må kjøpast frå eit anna selskap enn AtB.',
-    ),
-  },
   trip: {
     resultsFound: _(
       'Reiseforslag funnet',
@@ -459,6 +452,13 @@ const AssistantInternal = {
           ),
       },
     },
+    ticketBooking: {
+      globalMessage: _(
+        'Reisen krever billett som ikke er tilgjengelig i denne appen, eller som må kjøpes fra et annet selskap enn AtB.',
+        'This journey requires a ticket that is not available from this app, or must be purchased from a provider other than AtB.',
+        'Reisa krev billett som ikkje er tilgjengeleg i denne appen, eller som må kjøpast frå eit anna selskap enn AtB.',
+      ),
+    },
   },
 };
 
@@ -479,12 +479,14 @@ export const Assistant = orgSpecificTranslations(AssistantInternal, {
         ),
       },
     },
-    ticketBooking: {
-      globalMessage: _(
-        'Reisen krever billett som må kjøpes fra et annet selskap enn Reis Nordland.',
-        'This journey requires a ticket that must be purchased from provider other than Reis Nordland.',
-        'Reisa krev billett som ikkje er tilgjengeleg i denne appen, eller som må kjøpast frå eit anna selskap enn Reis Nordland.',
-      ),
+    details: {
+      ticketBooking: {
+        globalMessage: _(
+          'Reisen krever billett som ikke er tilgjengelig i denne appen, eller som må kjøpes fra et annet selskap enn Reis Nordland.',
+          'This journey requires a ticket that is not available from this app, or must be purchased from a provider other than Nordland.',
+          'Reisa krev billett som ikkje er tilgjengeleg i denne appen, eller som må kjøpast frå eit anna selskap enn Reis Nordland.',
+        ),
+      },
     },
   },
   fram: {
@@ -503,12 +505,14 @@ export const Assistant = orgSpecificTranslations(AssistantInternal, {
         ),
       },
     },
-    ticketBooking: {
-      globalMessage: _(
-        'Reisen krever billett som må kjøpes fra et annet selskap enn FRAM.',
-        'This journey requires a ticket that must be purchased from provider other than FRAM.',
-        'Reisa krev billett som ikkje er tilgjengeleg i denne appen, eller som må kjøpast frå eit anna selskap enn FRAM.',
-      ),
+    details: {
+      ticketBooking: {
+        globalMessage: _(
+          'Reisen krever billett som ikke er tilgjengelig i denne appen, eller som må kjøpes fra et annet selskap enn FRAM.',
+          'This journey requires a ticket that is not available from this app, or must be purchased from a provider other than FRAM.',
+          'Reisa krev billett som ikkje er tilgjengeleg i denne appen, eller som må kjøpast frå eit anna selskap enn FRAM.',
+        ),
+      },
     },
   },
 });

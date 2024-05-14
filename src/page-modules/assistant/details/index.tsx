@@ -83,7 +83,7 @@ export function AssistantDetails({ tripPattern }: AssistantDetailsProps) {
         {requireTicketBooking && (
           <MessageBox
             type="info"
-            message={t(PageText.Assistant.ticketBooking.globalMessage)}
+            message={t(PageText.Assistant.details.ticketBooking.globalMessage)}
           />
         )}
         {tripPattern.legs.map((leg, index) => (
