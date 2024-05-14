@@ -452,6 +452,13 @@ const AssistantInternal = {
           ),
       },
     },
+    ticketBooking: {
+      globalMessage: _(
+        'Reisen krever billett som ikke er tilgjengelig i denne appen, eller som må kjøpes fra et annet selskap enn AtB.',
+        'This journey requires a ticket that is not available from this app, or must be purchased from a provider other than AtB.',
+        'Reisa krev billett som ikkje er tilgjengeleg i denne appen, eller som må kjøpast frå eit anna selskap enn AtB.',
+      ),
+    },
   },
 };
 
@@ -472,6 +479,15 @@ export const Assistant = orgSpecificTranslations(AssistantInternal, {
         ),
       },
     },
+    details: {
+      ticketBooking: {
+        globalMessage: _(
+          'Reisen krever billett som ikke er tilgjengelig i denne appen, eller som må kjøpes fra et annet selskap enn Reis Nordland.',
+          'This journey requires a ticket that is not available from this app, or must be purchased from a provider other than Nordland.',
+          'Reisa krev billett som ikkje er tilgjengeleg i denne appen, eller som må kjøpast frå eit anna selskap enn Reis Nordland.',
+        ),
+      },
+    },
   },
   fram: {
     search: {
@@ -486,6 +502,15 @@ export const Assistant = orgSpecificTranslations(AssistantInternal, {
           'Eksempel: 905, 902, 901',
           'Example: 905, 902, 901',
           'Eksempel: 905, 902, 901',
+        ),
+      },
+    },
+    details: {
+      ticketBooking: {
+        globalMessage: _(
+          'Reisen krever billett som ikke er tilgjengelig i denne appen, eller som må kjøpes fra et annet selskap enn FRAM.',
+          'This journey requires a ticket that is not available from this app, or must be purchased from a provider other than FRAM.',
+          'Reisa krev billett som ikkje er tilgjengeleg i denne appen, eller som må kjøpast frå eit anna selskap enn FRAM.',
         ),
       },
     },
