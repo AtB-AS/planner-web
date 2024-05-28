@@ -321,3 +321,10 @@
 .messageBox[hidden] {
   display: none;
 }
+/**
+  * Configurable options for widget
+*/
+.inheritFont,
+.inheritFont * {
+  font-family: inherit !important;
+}
