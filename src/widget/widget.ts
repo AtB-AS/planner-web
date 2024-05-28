@@ -704,7 +704,7 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
   `;
 
   const output = html`
-    <div class="${style.wrapper} ${style.lightWrapper}">
+    <div class="${style.wrapper} ${style.lightWrapper} ${style.inheritFont}">
       <nav class="${style.nav}">
         <ul class="${style.tabs} js-tablist">
           <li>
