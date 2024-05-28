@@ -39,9 +39,13 @@ function createSettingsConstants(urlBase: string) {
   };
 }
 
+type OutputOverrideOptions = {
+  inheritFont?: boolean;
+};
 export type WidgetOptions = {
   urlBase: string;
   language?: Languages;
+  outputOverrideOptions?: Partial<OutputOverrideOptions>;
 };
 export type PlannerWebOutput = {
   output: string;
@@ -51,10 +55,18 @@ export type PlannerWebOutput = {
 export function createWidget({
   urlBase,
   language = 'en',
+  outputOverrideOptions = {},
 }: WidgetOptions): PlannerWebOutput {
   const texts = translations(language);
   const settings = createSettingsConstants(urlBase);
-  const output = createOutput(settings, texts);
+
+  const defaultOutputOverrideOptions: OutputOverrideOptions = {
+    inheritFont: false,
+    ...outputOverrideOptions,
+  };
+
+  const output = createOutput(settings, texts, defaultOutputOverrideOptions);
+
   return {
     output,
     init,
@@ -225,7 +237,11 @@ class MessageBox extends HTMLElement {
   }
 }
 
-function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
+function createOutput(
+  { URL_BASE }: SettingConstants,
+  texts: Texts,
+  outputOverrideOptions: OutputOverrideOptions,
+) {
   function searchItem(item: GeocoderFeature) {
     const img = venueIcon(item);
     const title = el('span', [item.name]);
@@ -704,7 +720,11 @@ function createOutput({ URL_BASE }: SettingConstants, texts: Texts) {
   `;
 
   const output = html`
-    <div class="${style.wrapper} ${style.lightWrapper} ${style.inheritFont}">
+    <div
+      class="${style.wrapper} ${style.lightWrapper} ${outputOverrideOptions.inheritFont
+        ? style.inheritFont
+        : ''}"
+    >
       <nav class="${style.nav}">
         <ul class="${style.tabs} js-tablist">
           <li>

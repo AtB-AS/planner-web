@@ -38,6 +38,13 @@ const initializeCode = html`
     const widget = window.PlannerWeb.createWidget({
       urlBase: 'https://reiseplanlegger.example.no/',
       language: 'nn', // supports 'nb', 'nn' and 'en'
+
+      // Optional options
+      outputOverrideOptions: {
+        // Inherit font from page website.
+        // By default it uses Roboto as the hosted planner web solution.
+        inheritFont: false,
+      },
     });
 
     // After loading JS and CSS file it can be initialized
@@ -171,7 +178,10 @@ function WidgetContent({
       <h2>Demo</h2>
       <div dangerouslySetInnerHTML={{ __html: html }} />
 
-      <p>Note: Widget is without padding. Should be up to consumer to decide when integrating.</p>
+      <p>
+        Note: Widget is without padding. Should be up to consumer to decide when
+        integrating.
+      </p>
 
       <h2>Installation (latest version v{data.latest.version})</h2>
 
@@ -183,6 +193,22 @@ function WidgetContent({
 
       <h3>HTML output</h3>
       <CopyMarkupLarge content={html} />
+
+      <div>
+        <p style={{ marginTop: '2rem' }}>
+          <strong>Note</strong>: If using output override options when calling{' '}
+          <code>createWidget</code> and copy-paste the HTML code you would have
+          to add classes to the container (element with the class{' '}
+          <code>widget-module__wrapper</code>) manually.
+        </p>
+
+        <ul style={{ listStylePosition: 'inside', marginTop: '1rem' }}>
+          <li>
+            <code>.widget-inheritFont</code>: Inherit font family from the
+            website
+          </li>
+        </ul>
+      </div>
 
       <h3>Scripts (UMD / ESM)</h3>
 
