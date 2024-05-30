@@ -328,3 +328,13 @@
 .inheritFont * {
   font-family: inherit !important;
 }
+
+.singleColumnLayout .main {
+  grid-template-columns: 1fr;
+}
+.singleColumnLayout .search_container {
+  max-width: unset;
+}
+.singleColumnLayout .selector_options {
+  width: 100%;
+}

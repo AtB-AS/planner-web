@@ -204,8 +204,12 @@ function WidgetContent({
 
         <ul style={{ listStylePosition: 'inside', marginTop: '1rem' }}>
           <li>
-            <code>.widget-inheritFont</code>: Inherit font family from the
-            website
+            <code>.widget-module__inheritFont</code>: Inherit font family from
+            the website
+          </li>
+          <li>
+            <code>.widget-module__singleColumnLayout</code>: Use single column
+            design of widget layout
           </li>
         </ul>
       </div>

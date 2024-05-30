@@ -41,6 +41,7 @@ function createSettingsConstants(urlBase: string) {
 
 type OutputOverrideOptions = {
   inheritFont?: boolean;
+  singleColumnLayout?: boolean;
 };
 export type WidgetOptions = {
   urlBase: string;
@@ -62,6 +63,7 @@ export function createWidget({
 
   const defaultOutputOverrideOptions: OutputOverrideOptions = {
     inheritFont: false,
+    singleColumnLayout: false,
     ...outputOverrideOptions,
   };
 
@@ -723,6 +725,8 @@ function createOutput(
     <div
       class="${style.wrapper} ${style.lightWrapper} ${outputOverrideOptions.inheritFont
         ? style.inheritFont
+        : ''} ${outputOverrideOptions.singleColumnLayout
+        ? style.singleColumnLayout
         : ''}"
     >
       <nav class="${style.nav}">
