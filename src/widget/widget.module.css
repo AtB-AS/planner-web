@@ -321,14 +321,18 @@
 .messageBox[hidden] {
   display: none;
 }
+
 /**
   * Configurable options for widget
 */
+
+/* Inherit the font from the web page using the widget. */
 .inheritFont,
 .inheritFont * {
   font-family: inherit !important;
 }
 
+/* Change the layout to a single column layout instead of the default layout. */
 .singleColumnLayout .main {
   grid-template-columns: 1fr;
 }
