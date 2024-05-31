@@ -44,6 +44,8 @@ const initializeCode = html`
         // Inherit font from page website.
         // By default it uses Roboto as the hosted planner web solution.
         inheritFont: false,
+        // Use single column design of widget layout
+        singleColumnLayout: false,
       },
     });
 
