@@ -44,6 +44,8 @@ const initializeCode = html`
         // Inherit font from page website.
         // By default it uses Roboto as the hosted planner web solution.
         inheritFont: false,
+        // Use single column design of widget layout
+        singleColumnLayout: false,
       },
     });
 
@@ -204,8 +206,12 @@ function WidgetContent({
 
         <ul style={{ listStylePosition: 'inside', marginTop: '1rem' }}>
           <li>
-            <code>.widget-inheritFont</code>: Inherit font family from the
-            website
+            <code>.widget-module__inheritFont</code>: Inherit font family from
+            the website
+          </li>
+          <li>
+            <code>.widget-module__singleColumnLayout</code>: Use single column
+            design of widget layout
           </li>
         </ul>
       </div>

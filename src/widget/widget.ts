@@ -5,6 +5,7 @@ import type { SearchTime } from '@atb/modules/search-time/types';
 import Combobox from '@github/combobox-nav';
 
 import style from './widget.module.css';
+import { andIf } from '../utils/css';
 
 const DEFAULT_DEBOUNCE_TIME = 300;
 
@@ -41,6 +42,7 @@ function createSettingsConstants(urlBase: string) {
 
 type OutputOverrideOptions = {
   inheritFont?: boolean;
+  singleColumnLayout?: boolean;
 };
 export type WidgetOptions = {
   urlBase: string;
@@ -62,6 +64,7 @@ export function createWidget({
 
   const defaultOutputOverrideOptions: OutputOverrideOptions = {
     inheritFont: false,
+    singleColumnLayout: false,
     ...outputOverrideOptions,
   };
 
@@ -721,9 +724,13 @@ function createOutput(
 
   const output = html`
     <div
-      class="${style.wrapper} ${style.lightWrapper} ${outputOverrideOptions.inheritFont
-        ? style.inheritFont
-        : ''}"
+      class="${andIf({
+        [style.wrapper]: true,
+        [style.lightWrapper]: true,
+        [style.inheritFont]: outputOverrideOptions.inheritFont ?? false,
+        [style.singleColumnLayout]:
+          outputOverrideOptions.singleColumnLayout ?? false,
+      })}"
     >
       <nav class="${style.nav}">
         <ul class="${style.tabs} js-tablist">
