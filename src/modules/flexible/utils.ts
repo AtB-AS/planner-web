@@ -129,16 +129,7 @@ export function getLatestBookingDate(
         latestBookingDate.setDate(latestBookingDate.getDate() - 1);
       }
     }
-  } else if (bookWhen === undefined || bookWhen === null) {
-    const minimumBookingPeriod = bookingArrangements.minimumBookingPeriod;
-    if (minimumBookingPeriod) {
-      latestBookingDate.setSeconds(
-        latestBookingDate.getSeconds() -
-          iso8601DurationToSeconds(minimumBookingPeriod),
-      );
-    }
   }
-
   return latestBookingDate;
 }
 
