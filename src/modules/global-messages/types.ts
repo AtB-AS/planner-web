@@ -6,7 +6,7 @@ export enum GlobalMessageContextEnum {
   plannerWebAssistant = 'planner-web-assistant',
 }
 
-export type GlobalMessageRaw = {
+export type GlobalMessageType = {
   id: string;
   active: boolean;
   title?: LocalizedString[];
@@ -18,8 +18,3 @@ export type GlobalMessageRaw = {
   startDate?: Timestamp;
   endDate?: Timestamp;
 };
-
-export type GlobalMessageType = Omit<
-  GlobalMessageRaw,
-  'startDate' | 'endDate'
-> & { startDate?: number; endDate?: number };

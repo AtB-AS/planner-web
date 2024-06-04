@@ -1,74 +1,95 @@
 import {
   createContext,
   PropsWithChildren,
-  useCallback,
   useContext,
+  useEffect,
   useState,
 } from 'react';
-import { GlobalMessageType } from './types';
+import { GlobalMessageContextEnum, GlobalMessageType } from './types';
+import { collection, onSnapshot, query, where } from '@firebase/firestore';
+import app from '@atb/modules/firebase/firebase';
+import { getFirestore, QueryDocumentSnapshot } from 'firebase/firestore';
 
 type GlobalMessagesState = {
   activeGlobalMessages: GlobalMessageType[];
 };
 
-// Creating context
 const GlobalMessageContext = createContext<GlobalMessagesState | undefined>(
   undefined,
 );
 
-// 4. Hiding context by providing wanted API.
 export type GlobalMessagesContextProps = PropsWithChildren<{}>;
-export function AlertContextProvider({ children }: GlobalMessagesContextProps) {
-  const [alerts, setglobalMessagess] = useState(initialAlerts);
+export function GlobalMessageContextProvider({
+  children,
+}: GlobalMessagesContextProps) {
+  const [activeGlobalMessages, setActiveGlobalMessages] = useState<
+    GlobalMessageType[]
+  >([]);
 
-  const addAlert = useCallback((alert: Alert) => {
-    const alertWithId = {
-      ...alert,
-      id: Date.now(),
-    };
-    // Insert at top
-    setAlerts((all) => [alertWithId].concat(all));
-    return alertWithId;
+  useEffect(() => {
+    return subscribeToActiveGlobalMessagesFromFirestore(
+      setActiveGlobalMessages,
+    );
   }, []);
-
-  const removeAlert = useCallback((alert: AlertWithId) => {
-    // Filter out alert
-    setAlerts((all) => all.filter((i) => i.id !== alert.id));
-    return alert;
-  }, []);
-
-  const filterOldAlerts = useCallback(() => {
-    // Filter out alert
-    if (!alerts.length) return;
-    const threshold = Date.now() - timeoutInMs;
-    setAlerts((all) => all.filter((i) => i.id > threshold));
-  }, [alerts.length, timeoutInMs]);
-
-  const cleanAlerts = useCallback(() => {
-    setAlerts([]);
-  }, []);
-
-  useInterval(filterOldAlerts, UPDATE_FREQUENCY_MS);
 
   return (
-    <AlertContext.Provider
+    <GlobalMessageContext.Provider
       value={{
-        alerts,
-        addAlert,
-        removeAlert,
-        cleanAlerts,
+        activeGlobalMessages,
       }}
     >
       {children}
-    </AlertContext.Provider>
+    </GlobalMessageContext.Provider>
   );
 }
 
-// 5. Exporting context accessor
-export function useAlerts(): AlertsState {
-  const context = useContext(AlertContext);
+export function useGlobalMessages(): GlobalMessagesState {
+  const context = useContext(GlobalMessageContext);
   if (context === undefined) {
-    throw new Error('useAlerts must be used within a AlertContextProvider');
+    throw new Error(
+      'useGlobalMessages must be used within a GlobalMessageContextProvider',
+    );
   }
   return context;
 }
+
+function subscribeToActiveGlobalMessagesFromFirestore(
+  updateActiveGlobalMessages: (
+    activeGlobalMessages: GlobalMessageType[],
+  ) => void,
+) {
+  const db = getFirestore(app);
+
+  const q = query(
+    collection(db, 'globalMessagesV2'),
+    where('active', '==', true),
+    where('context', 'array-contains-any', [
+      GlobalMessageContextEnum.plannerWebAssistant,
+    ]),
+  ).withConverter<GlobalMessageType>(globalMessageConverter);
+
+  return onSnapshot(q, (querySnapshot) => {
+    const activeGlobalMessages: GlobalMessageType[] = [];
+
+    querySnapshot.forEach((doc) => {
+      activeGlobalMessages.push(doc.data());
+    });
+
+    updateActiveGlobalMessages(activeGlobalMessages);
+    console.log(
+      'Current activeGlobalMessages: ',
+      activeGlobalMessages.map((m) => m.id).join(', '),
+    );
+  });
+}
+
+const globalMessageConverter = {
+  toFirestore(_any: any) {
+    throw new Error('Not implemented or used');
+  },
+  fromFirestore(
+    snapshot: QueryDocumentSnapshot<GlobalMessageType>,
+  ): GlobalMessageType {
+    return snapshot.data() as GlobalMessageType;
+  },
+};
