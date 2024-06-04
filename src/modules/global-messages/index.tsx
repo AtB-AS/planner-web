@@ -8,7 +8,8 @@ import {
 import { GlobalMessageContextEnum, GlobalMessageType } from './types';
 import { collection, onSnapshot, query, where } from '@firebase/firestore';
 import app from '@atb/modules/firebase/firebase';
-import { getFirestore, QueryDocumentSnapshot } from 'firebase/firestore';
+import { getFirestore } from 'firebase/firestore';
+import { globalMessageConverter } from './converters';
 
 type GlobalMessagesState = {
   activeGlobalMessages: GlobalMessageType[];
@@ -66,13 +67,16 @@ function subscribeToActiveGlobalMessagesFromFirestore(
     where('context', 'array-contains-any', [
       GlobalMessageContextEnum.plannerWebAssistant,
     ]),
-  ).withConverter<GlobalMessageType>(globalMessageConverter);
+  ).withConverter<GlobalMessageType | undefined>(globalMessageConverter);
 
   return onSnapshot(q, (querySnapshot) => {
     const activeGlobalMessages: GlobalMessageType[] = [];
 
     querySnapshot.forEach((doc) => {
-      activeGlobalMessages.push(doc.data());
+      const data = doc.data();
+      if (data) {
+        activeGlobalMessages.push(data);
+      }
     });
 
     updateActiveGlobalMessages(activeGlobalMessages);
@@ -82,14 +86,3 @@ function subscribeToActiveGlobalMessagesFromFirestore(
     );
   });
 }
-
-const globalMessageConverter = {
-  toFirestore(_any: any) {
-    throw new Error('Not implemented or used');
-  },
-  fromFirestore(
-    snapshot: QueryDocumentSnapshot<GlobalMessageType>,
-  ): GlobalMessageType {
-    return snapshot.data() as GlobalMessageType;
-  },
-};
