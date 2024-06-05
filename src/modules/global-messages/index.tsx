@@ -80,9 +80,5 @@ function subscribeToActiveGlobalMessagesFromFirestore(
     });
 
     updateActiveGlobalMessages(activeGlobalMessages);
-    console.log(
-      'Current activeGlobalMessages: ',
-      activeGlobalMessages.map((m) => m.id).join(', '),
-    );
   });
 }
