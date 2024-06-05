@@ -54,9 +54,11 @@ export const globalMessageConverter = {
     snapshot: QueryDocumentSnapshot<GlobalMessageType>,
   ): GlobalMessageType | undefined {
     const data = snapshot.data();
-    if (!isGlobalMessageType(data)) {
+
+    if (!hasNecessaryGlobalMessageTypeFields(data)) {
       return undefined;
     }
+
     const active = data.active;
     const body = mapToLocalizedStringArray(data.body);
     const title = mapToLocalizedStringArray(data.title);
@@ -67,9 +69,7 @@ export const globalMessageConverter = {
     const startDate = data.startDate;
     const endDate = data.endDate;
 
-    if (!body) return;
-    if (!context) return;
-    if (!type) return;
+    if (!body || !context || !type) return;
 
     return {
       id: snapshot.id,
@@ -86,7 +86,7 @@ export const globalMessageConverter = {
   },
 };
 
-function isGlobalMessageType(data: any): data is GlobalMessageType {
+function hasNecessaryGlobalMessageTypeFields(data: any) {
   return (
     'active' in data && 'body' in data && 'context' in data && 'type' in data
   );
