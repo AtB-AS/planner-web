@@ -33,7 +33,5 @@ export const globalMessageConverter = {
 };
 
 function firestoreTimestampToDate(timestamp: any) {
-  if (!timestamp) return;
-  if (!(timestamp instanceof Timestamp)) return;
-  return timestamp.toDate();
+  return timestamp?.toDate?.();
 }
