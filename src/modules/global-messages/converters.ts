@@ -17,7 +17,7 @@ export const globalMessageConverter = {
       type: data.type,
       subtle: data.subtle,
       context: data.context,
-      isDismissable: data.isDismissable ?? false,
+      isDismissable: data.isDismissable,
       startDate: firestoreTimestampToDate(data.startDate),
       endDate: firestoreTimestampToDate(data.endDate),
     };

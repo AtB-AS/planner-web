@@ -18,9 +18,9 @@ export const globalMessageTypeSchema = z.object({
   title: z.array(languageAndTextSchema).optional(),
   body: z.array(languageAndTextSchema),
   type: messageModeSchema,
-  subtle: z.boolean().optional(),
+  subtle: z.boolean().default(false),
   context: z.array(z.nativeEnum(GlobalMessageContextEnum)),
-  isDismissable: z.boolean().optional(),
+  isDismissable: z.boolean().default(false),
   startDate: z.date().optional(),
   endDate: z.date().optional(),
 });
