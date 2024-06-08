@@ -122,13 +122,17 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
   const { urls, orgId } = getOrgData();
   const { isDarkMode } = useTheme();
 
+  const isTripQueryTransportModeFilterNull =
+    tripQuery.transportModeFilter === null;
+
   useEffect(() => {
-    if (tripQuery.transportModeFilter === null)
+    if (isTripQueryTransportModeFilterNull) {
       onTransportFilterChanged(setTransportModeFilters(transportModeFilter));
+    }
   }, [
     onTransportFilterChanged,
     transportModeFilter,
-    tripQuery.transportModeFilter,
+    isTripQueryTransportModeFilterNull,
   ]);
 
   return (
