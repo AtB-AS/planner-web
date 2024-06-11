@@ -1,8 +1,8 @@
 # Travel Planner Web
 
-TBA
+Travel planner for OMS.
 
-## Configuration
+## Configuration and initial setup
 
 ```
 # What ORG to activate (nfk | atb | fram | troms)
@@ -11,6 +11,31 @@ NEXT_PUBLIC_PLANNER_ORG_ID=atb
 
 # Specifies what environment to build locally (dev | staging | prod)
 NEXT_PUBLIC_ENVIRONMENT=dev
+
+# ... etc
+```
+
+See all additional configuration in `.env.example`. For initial start you can
+copy `.env.example` like so:
+
+```
+cp .env.example .env.local
+```
+
+And populate the `.env.local` file with settings for your org.
+
+### Setup & Running locally
+
+```bash
+
+# Generate assests and icons specific for org
+NEXT_PUBLIC_PLANNER_ORG_ID=<orgID> yarn setup
+
+# Run development build
+yarn dev
+
+# Open service
+open http://localhost:3000
 ```
 
 ## Building Planner Widget code
