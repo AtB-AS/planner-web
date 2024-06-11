@@ -9,7 +9,7 @@ import { MonoIcon } from '@atb/components/icon';
 export default function PageHeader() {
   const { t } = useTranslation();
   const [isDarkMode] = useDarkMode();
-  const { fylkeskommune } = getOrgData();
+  const { fylkeskommune, urls } = getOrgData();
 
   return (
     <header className={style.pageHeader}>
@@ -17,8 +17,9 @@ export default function PageHeader() {
         <div className={style.pageHeader__inner}>
           <h1 className={style.pageHeader__logo}>
             <Link
-              href="/"
+              href={urls.homePageUrl.href}
               className={style.pageHeader__logoLink}
+              title={t(CommonText.Layout.homeLink(urls.homePageUrl.name))}
               data-testid="homeButton"
             >
               {fylkeskommune?.replaceTitleWithLogoInHeader ? (

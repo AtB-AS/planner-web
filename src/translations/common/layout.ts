@@ -2,6 +2,9 @@ import { translation as _ } from '@atb/translations/commons';
 import { orgSpecificTranslations } from '@atb/translations/utils';
 
 const LayoutInternal = {
+  homeLink: (name: string) =>
+    _(`Tilbake til ${name}`, `Back to ${name}`, `Tilbake til ${name}`),
+
   meta: {
     defaultDescription: _(
       'Finn rutetider, holdeplasser og tilbud for buss, trikk, båt og tog i Trøndelag med reiseplanleggeren.',
