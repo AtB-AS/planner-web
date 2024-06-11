@@ -33,6 +33,7 @@ import {
   getAssistantTripIfCached,
 } from '../server/trip-cache';
 import { FromToTripQuery } from '../types';
+import { GlobalMessageContextProvider } from '@atb/modules/global-messages';
 
 afterEach(function () {
   cleanup();
@@ -44,6 +45,12 @@ vi.mock('@atb/modules/firebase/transport-mode-filter', () => ({
 }));
 
 mockRouter.useParser(createDynamicRouteParser(['/assistant']));
+
+const customRender = (ui: React.ReactNode) => {
+  return render(
+    <GlobalMessageContextProvider>{ui}</GlobalMessageContextProvider>,
+  );
+};
 
 describe('assistant page', function () {
   it('should return props from getServerSideProps', async () => {
@@ -113,7 +120,7 @@ describe('assistant page', function () {
   });
 
   it('should render assistant page header', () => {
-    render(
+    customRender(
       <AssistantLayout
         tripQuery={{
           from: null,
