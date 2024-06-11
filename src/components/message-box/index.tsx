@@ -42,6 +42,8 @@ export const MessageBox = ({
   const overrideMode = useStatusThemeColor(type);
   const aria = modeToAria(type);
 
+  if (message === '') return null;
+
   return (
     <div
       className={andIf({

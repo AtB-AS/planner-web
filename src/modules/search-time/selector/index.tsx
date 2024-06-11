@@ -126,10 +126,7 @@ export default function SearchTimeSelector({
 
             <span className={style.option__label}>
               {selectedMode.mode === state && (
-                <motion.span
-                  layoutId="searchTimeSelector"
-                  className={style.option__selected}
-                />
+                <span className={style.option__selected} />
               )}
               <span className={style.option__text}>
                 {stateToLabel(state, t)}

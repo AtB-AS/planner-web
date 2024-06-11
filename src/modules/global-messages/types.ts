@@ -9,7 +9,7 @@ const messageModeSchema = z.union([
 ]);
 
 export enum GlobalMessageContextEnum {
-  plannerWebAssistant = 'planner-web-assistant',
+  plannerWeb = 'planner-web',
 }
 
 export const globalMessageTypeSchema = z.object({

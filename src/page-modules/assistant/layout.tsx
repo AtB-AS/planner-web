@@ -28,6 +28,7 @@ import useSWRImmutable from 'swr/immutable';
 import { debounce } from 'lodash';
 import LineFilter from './line-filter';
 import { useTheme } from '@atb/modules/theme';
+import { SearchContainerLayout } from '@atb/layouts/shared/search-container';
 
 export type AssistantLayoutProps = PropsWithChildren<{
   tripQuery: FromToTripQuery;
@@ -114,22 +115,14 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
     750,
   );
 
-  const { urls, orgId } = getOrgData();
+  const { orgId } = getOrgData();
   const { isDarkMode } = useTheme();
 
   if (tripQuery.transportModeFilter === null)
     onTransportFilterChanged(setTransportModeFilters(transportModeFilter));
 
   return (
-    <div>
-      <div className={style.homeLink__container}>
-        <ButtonLink
-          mode="transparent"
-          href={urls.homePageUrl.href}
-          title={t(PageText.Assistant.homeLink(urls.homePageUrl.name))}
-          icon={{ left: <MonoIcon icon="navigation/ArrowLeft" /> }}
-        />{' '}
-      </div>
+    <SearchContainerLayout>
       <form className={style.container} onSubmit={onSubmitHandler}>
         <motion.div
           animate={{ paddingBottom: showAlternatives ? '1.5rem' : '5.75rem' }}
@@ -284,7 +277,7 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
           {children}
         </EmptySearch>
       </section>
-    </div>
+    </SearchContainerLayout>
   );
 }
 export default AssistantLayout;

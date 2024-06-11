@@ -7,6 +7,9 @@
   padding: 0 var(--spacings-medium);
   margin: 0 auto;
 }
+.homeLink__container > :last-child:not(:only-child) {
+  margin-bottom: var(--spacings-medium);
+}
 .container {
   background-color: var(--static-background-background_accent_0-background);
   height: 100%;
