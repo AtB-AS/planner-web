@@ -28,8 +28,8 @@
     "instagramLink": "https://www.instagram.com/troms_fylkestrafikk/",
     "facebookLink": "https://www.facebook.com/tromsfylkestrafikk/",
     "homePageUrl": {
-      "name": "fylkestrafikk.no",
-      "href": "https://www.fylkestrafikk.no/"
+      "name": "svipper.no",
+      "href": "https://www.svipper.no/"
     },
     "ticketsUrl": {
       "en-US": "https://fylkestrafikk.no/meny/billetter-og-priser/?sprak=3",
@@ -40,7 +40,7 @@
     "sitemapUrls": {
       "dev": "http://localhost:3000",
       "staging": "https://troms-staging.planner-web.mittatb.no/",
-      "prod": "https://reise.fylkestrafikk.no/"
+      "prod": "https://reise.svipper.no/"
     }
   },
   "journeyApiConfigurations": {

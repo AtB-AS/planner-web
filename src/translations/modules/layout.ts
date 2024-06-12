@@ -114,15 +114,11 @@ export const Layout = orgSpecificTranslations(LayoutInternal, {
       footer: {
         sections: {
           contact: {
-            header: _(
-              'Kontakt Troms fylkestrafikk',
-              'Contact Troms fylkestrafikk',
-              'Kontakt Troms fylkestrafikk',
-            ),
+            header: _('Kontakt Svipper', 'Contact Svipper', 'Kontakt Svipper'),
             contactLink: _(
-              'Kontakt Troms fylkestrafikk',
-              'Contact Troms fylkestrafikk',
-              'Kontakt Troms fylkestrafikk',
+              'Kontakt Svipper',
+              'Contact Svipper',
+              'Kontakt Svipper',
             ),
           },
         },
