@@ -18,9 +18,9 @@ export const Titles = orgSpecificTranslations(TitlesInternal, {
   },
   troms: {
     siteTitle: _(
-      'Troms fylkestrafikk Reisesøk',
-      'Troms fylkestrafikk Travel Search',
-      'Troms fylkestrafikk Reisesøk',
+      'Svipper Reisesøk',
+      'Svipper Travel Search',
+      'Svipper Reisesøk',
     ),
   },
 });

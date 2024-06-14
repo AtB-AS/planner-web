@@ -35,11 +35,11 @@ jobs:
         FRAM_NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=${{ github.event_name == 'release' && 'G-KS45JBFWF4' || '' }}
         TROMS_NEXT_PUBLIC_MAPBOX_DEFAULT_LAT=69.665229
         TROMS_NEXT_PUBLIC_MAPBOX_DEFAULT_LNG=18.9070347
-        TROMS_NEXT_PUBLIC_FIREBASE_PROJECT_ID=${{ github.event_name == 'release' && '' || 'troms-staging'}}
-        TROMS_NEXT_PUBLIC_FIREBASE_PUBLIC_API_KEY=${{ github.event_name == 'release' && '' || 'AIzaSyCtJMximw0SL9N8YNH21TWDO0s_mv_9crE' }}
-        TROMS_NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=${{ github.event_name == 'release' && '' || 'troms-staging.firebaseapp.com' }}
-        TROMS_NEXT_PUBLIC_FIREBASE_APP_ID=${{ github.event_name == 'release' && '' || '1:973624729382:web:a84d8a489613a14be12be7' }}
-        TROMS_NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=''
+        TROMS_NEXT_PUBLIC_FIREBASE_PROJECT_ID=${{ github.event_name == 'release' && 'troms-prod' || 'troms-staging'}}
+        TROMS_NEXT_PUBLIC_FIREBASE_PUBLIC_API_KEY=${{ github.event_name == 'release' && 'AIzaSyAzGgJ8ne8N4CIfASHao3YpOsUvZfOAdiE' || 'AIzaSyCtJMximw0SL9N8YNH21TWDO0s_mv_9crE' }}
+        TROMS_NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=${{ github.event_name == 'release' && 'troms-prod.firebaseapp.com' || 'troms-staging.firebaseapp.com' }}
+        TROMS_NEXT_PUBLIC_FIREBASE_APP_ID=${{ github.event_name == 'release' && '1:667141878008:web:b1a8f3e21716e96e954b0d' || '1:973624729382:web:a84d8a489613a14be12be7' }}
+        TROMS_NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=${{ github.event_name == 'release' && 'G-ZDRTXVTCQD' || '' }}
         NEXT_PUBLIC_ENVIRONMENT=${{ github.event_name == 'release' && 'prod' || 'staging' }}
     secrets:
       github_pat: ${{ secrets.GH_PAT }}
