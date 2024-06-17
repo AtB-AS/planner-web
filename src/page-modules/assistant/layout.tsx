@@ -16,7 +16,12 @@ import { PageText, useTranslation } from '@atb/translations';
 import { FocusScope } from '@react-aria/focus';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useRouter } from 'next/router';
-import { FormEventHandler, PropsWithChildren, useState } from 'react';
+import {
+  FormEventHandler,
+  PropsWithChildren,
+  useEffect,
+  useState,
+} from 'react';
 import style from './assistant.module.css';
 import { FromToTripQuery } from './types';
 import { createTripQuery, setTransportModeFilters } from './utils';
@@ -117,8 +122,18 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
   const { urls, orgId } = getOrgData();
   const { isDarkMode } = useTheme();
 
-  if (tripQuery.transportModeFilter === null)
-    onTransportFilterChanged(setTransportModeFilters(transportModeFilter));
+  const isTripQueryTransportModeFilterNull =
+    tripQuery.transportModeFilter === null;
+
+  useEffect(() => {
+    if (isTripQueryTransportModeFilterNull) {
+      onTransportFilterChanged(setTransportModeFilters(transportModeFilter));
+    }
+  }, [
+    onTransportFilterChanged,
+    transportModeFilter,
+    isTripQueryTransportModeFilterNull,
+  ]);
 
   return (
     <div>
