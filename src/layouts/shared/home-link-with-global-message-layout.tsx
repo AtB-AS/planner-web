@@ -7,7 +7,7 @@ import {
   GlobalMessageContextEnum,
   GlobalMessages,
 } from '@atb/modules/global-messages';
-import style from './search-container.module.css';
+import style from './home-link-with-global-message-layout.module.css';
 
 export function HomeLinkWithGlobalMessageLayout({
   children,
