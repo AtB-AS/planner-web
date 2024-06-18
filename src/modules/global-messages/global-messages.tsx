@@ -15,7 +15,8 @@ export function GlobalMessages({ context, className }: GlobalMessagesProps) {
   const { language } = useTranslation();
   const { activeGlobalMessages } = useActiveGlobalMessages();
 
-  if (!activeGlobalMessages || activeGlobalMessages.length === 0) return null;
+  if (!activeGlobalMessages.length) return null;
+
   return (
     <motion.div
       variants={{
