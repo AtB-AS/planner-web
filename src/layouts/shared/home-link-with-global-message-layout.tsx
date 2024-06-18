@@ -9,7 +9,9 @@ import {
 } from '@atb/modules/global-messages';
 import style from './search-container.module.css';
 
-export function SearchContainerLayout({ children }: PropsWithChildren<{}>) {
+export function HomeLinkWithGlobalMessageLayout({
+  children,
+}: PropsWithChildren<{}>) {
   const { t } = useTranslation();
   const { urls } = getOrgData();
 
