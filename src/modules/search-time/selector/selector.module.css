@@ -40,7 +40,6 @@
   padding: var(--spacings-small) var(--spacings-medium);
   border-radius: var(--option-border-radius);
   height: var(--option-height);
-  transition: color 250ms;
 }
 
 .option__input {

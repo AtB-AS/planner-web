@@ -44,16 +44,6 @@ export function GlobalMessageContextProvider({
   );
 }
 
-export function useGlobalMessages(): GlobalMessagesState {
-  const context = useContext(GlobalMessageContext);
-  if (context === undefined) {
-    throw new Error(
-      'useGlobalMessages must be used within a GlobalMessageContextProvider',
-    );
-  }
-  return context;
-}
-
 function subscribeToActiveGlobalMessagesFromFirestore(
   updateActiveGlobalMessages: (
     activeGlobalMessages: GlobalMessageType[],
@@ -65,7 +55,7 @@ function subscribeToActiveGlobalMessagesFromFirestore(
     collection(db, 'globalMessagesV2'),
     where('active', '==', true),
     where('context', 'array-contains-any', [
-      GlobalMessageContextEnum.plannerWebAssistant,
+      GlobalMessageContextEnum.plannerWeb,
     ]),
   ).withConverter<GlobalMessageType | undefined>(globalMessageConverter);
 
@@ -81,4 +71,14 @@ function subscribeToActiveGlobalMessagesFromFirestore(
 
     updateActiveGlobalMessages(activeGlobalMessages);
   });
+}
+
+export function useActiveGlobalMessages(): GlobalMessagesState {
+  const context = useContext(GlobalMessageContext);
+  if (context === undefined) {
+    throw new Error(
+      'useActiveGlobalMessages must be used within a GlobalMessageContextProvider',
+    );
+  }
+  return context;
 }

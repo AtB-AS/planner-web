@@ -15,7 +15,7 @@ import { createFromQuery } from './utils';
 import { TabLink } from '@atb/components/tab-link';
 import { logSpecificEvent } from '@atb/modules/firebase/analytics';
 import { getOrgData } from '@atb/modules/org-data';
-import { MonoIcon } from '@atb/components/icon';
+import { HomeLinkWithGlobalMessageLayout } from '@atb/layouts/shared/home-link-with-global-message-layout';
 
 export type DeparturesLayoutProps = PropsWithChildren<{
   fromQuery: FromDepartureQuery;
@@ -46,18 +46,10 @@ function DeparturesLayout({ children, fromQuery }: DeparturesLayoutProps) {
   const onSelectFeature = (feature: GeocoderFeature) =>
     doSearch({ from: feature });
 
-  const { urls, orgId } = getOrgData();
+  const { orgId } = getOrgData();
 
   return (
-    <div className={style.departuresPage}>
-      <div className={style.homeLink__container}>
-        <ButtonLink
-          mode="transparent"
-          href={urls.homePageUrl.href}
-          title={t(PageText.Departures.homeLink(urls.homePageUrl.name))}
-          icon={{ left: <MonoIcon icon="navigation/ArrowLeft" /> }}
-        />
-      </div>
+    <HomeLinkWithGlobalMessageLayout>
       <form className={style.container} onSubmit={onSubmitHandler}>
         <div className={style.main}>
           <TabLink activePath="/departures" />
@@ -124,7 +116,7 @@ function DeparturesLayout({ children, fromQuery }: DeparturesLayoutProps) {
           {children}
         </LoadingEmptySearch>
       </section>
-    </div>
+    </HomeLinkWithGlobalMessageLayout>
   );
 }
 
