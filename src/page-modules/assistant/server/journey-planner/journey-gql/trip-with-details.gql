@@ -97,6 +97,7 @@ query TripsWithDetails(
         }
         interchangeTo {
           guaranteed
+          maximumWaitTime
           toServiceJourney {
             id
           }

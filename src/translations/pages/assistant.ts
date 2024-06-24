@@ -401,6 +401,12 @@ const AssistantInternal = {
           `Correspondance with ${toPublicCode} on ${location}.`,
           `Korrespondanse med ${toPublicCode} på ${location}.`,
         ),
+      interchangeMaxWait: (maxWaitTime: string) =>
+        _(
+          `Venter inntil ${maxWaitTime}.`,
+          `Waiting up to ${maxWaitTime}.`,
+          `Ventar i opp til ${maxWaitTime}.`,
+        ),
       wait: {
         label: (time: string) =>
           _(`Vent i ${time}`, `Wait for ${time}`, `Vent i ${time}`),

@@ -225,6 +225,7 @@ export default function TripSection({
         <InterchangeSection
           interchangeDetails={interchangeDetails}
           publicCode={leg.line?.publicCode}
+          maximumWaitTime={leg.interchangeTo?.maximumWaitTime}
         />
       )}
 
