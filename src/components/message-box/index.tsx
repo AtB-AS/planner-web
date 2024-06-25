@@ -11,8 +11,9 @@ import { Typo } from '@atb/components/typography';
 import style from './message-box.module.css';
 import { colorToOverrideMode } from '@atb/utils/color';
 import { screenReaderPause } from '@atb/components/typography/utils';
+import { HTMLAttributes } from 'react';
 
-export type MessageMode = keyof Theme['static']['status'];
+export type MessageMode = keyof Theme['status'];
 
 export type MessageBoxProps = {
   type: MessageMode;
@@ -33,11 +34,12 @@ export const MessageBox = ({
   onClick,
   borderRadius = true,
 }: MessageBoxProps) => {
-  const { static: staticColors } = useTheme();
+  const { status } = useTheme();
   const { t } = useTranslation();
-  const backgroundColorStyle = {
-    backgroundColor: staticColors['status'][type].background,
-    color: staticColors['status'][type].text,
+  const backgroundColorStyle: HTMLAttributes<HTMLDivElement>['style'] = {
+    borderColor: status[type].primary.background,
+    backgroundColor: status[type].secondary.background,
+    color: status[type].secondary.text,
   };
   const overrideMode = useStatusThemeColor(type);
   const aria = modeToAria(type);
@@ -93,24 +95,22 @@ export const MessageBox = ({
 };
 
 function useStatusThemeColor(mode: MessageMode): MonoIconProps['overrideMode'] {
-  const {
-    static: { status },
-  } = useTheme();
+  const { status } = useTheme();
 
   let overrideColor: MonoIconProps['overrideMode'] = undefined;
 
   switch (mode) {
     case 'error':
-      overrideColor = colorToOverrideMode(status.error.text);
+      overrideColor = colorToOverrideMode(status.error.secondary.text);
       break;
     case 'valid':
-      overrideColor = colorToOverrideMode(status.valid.text);
+      overrideColor = colorToOverrideMode(status.valid.secondary.text);
       break;
     case 'warning':
-      overrideColor = colorToOverrideMode(status.warning.text);
+      overrideColor = colorToOverrideMode(status.warning.secondary.text);
       break;
     case 'info':
-      overrideColor = colorToOverrideMode(status.info.text);
+      overrideColor = colorToOverrideMode(status.info.secondary.text);
       break;
   }
 
