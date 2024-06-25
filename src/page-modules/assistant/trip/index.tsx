@@ -50,13 +50,13 @@ export default function Trip({ tripQuery, fallback }: TripProps) {
         details={
           tripQuery.transportModeFilter || tripQuery.lineFilter
             ? t(
-              PageText.Assistant.trip.emptySearchResults
-                .emptySearchResultsDetailsWithFilters,
-            )
+                PageText.Assistant.trip.emptySearchResults
+                  .emptySearchResultsDetailsWithFilters,
+              )
             : t(
-              PageText.Assistant.trip.emptySearchResults
-                .emptySearchResultsDetails,
-            )
+                PageText.Assistant.trip.emptySearchResults
+                  .emptySearchResultsDetails,
+              )
         }
       />
     );
@@ -68,12 +68,22 @@ export default function Trip({ tripQuery, fallback }: TripProps) {
   ): string | undefined => {
     if (!trips) return undefined;
     if (tripIndex === 0 && patternIndex === 0) return undefined;
+
     if (patternIndex === 0) {
-      return trips[tripIndex - 1]?.tripPatterns[
-        trips[tripIndex - 1]?.tripPatterns.length - 1
-      ]?.expectedStartTime;
+      // Iterate backwards to find the first trip with a non-empty tripPatterns list
+      for (let i = tripIndex - 1; i >= 0; i--) {
+        const previousTrip = trips[i];
+        if (previousTrip.tripPatterns.length > 0) {
+          return previousTrip.tripPatterns[previousTrip.tripPatterns.length - 1]
+            ?.expectedStartTime;
+        }
+      }
+      // If no previous trip with non-empty tripPatterns is found
+      return undefined;
+    } else {
+      // Return the expectedStartTime of the previous pattern in the current trip
+      return trips[tripIndex].tripPatterns[patternIndex - 1]?.expectedStartTime;
     }
-    return trips[tripIndex].tripPatterns[patternIndex - 1]?.expectedStartTime;
   };
 
   return (
