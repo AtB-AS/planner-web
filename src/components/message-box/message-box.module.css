@@ -1,7 +1,7 @@
 .container {
   display: flex;
   padding: var(--spacings-medium);
-  border: 1px solid;
+  border: var(--border-width-medium) solid;
 }
 .borderRadius {
   border-radius: var(--border-radius-regular);
