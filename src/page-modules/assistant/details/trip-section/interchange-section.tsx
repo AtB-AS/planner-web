@@ -42,13 +42,13 @@ export function InterchangeSection(props: InterchangeSectionProps) {
 function useInterchangeTextTranslation({
   publicCode,
   interchangeDetails,
-  maximumWaitTime,
+  maximumWaitTime = 0,
 }: InterchangeSectionProps) {
   const { t, language } = useTranslation();
 
   // If maximum wait time is defined or over 0, append it to the message.
   const appendWaitTime = (text: string) =>
-    maximumWaitTime
+    maximumWaitTime > 0
       ? [
           text,
           t(
