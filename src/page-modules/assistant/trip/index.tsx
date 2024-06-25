@@ -79,7 +79,7 @@ export default function Trip({ tripQuery, fallback }: TripProps) {
         }
       }
       // If no previous trip with non-empty tripPatterns is found
-      return undefined;
+      return;
     } else {
       // Return the expectedStartTime of the previous pattern in the current trip
       return trips[tripIndex].tripPatterns[patternIndex - 1]?.expectedStartTime;
