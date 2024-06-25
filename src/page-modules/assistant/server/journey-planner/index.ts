@@ -401,6 +401,7 @@ export function createJourneyApi(
           interchangeTo: leg.interchangeTo?.toServiceJourney?.id
             ? {
                 guaranteed: leg.interchangeTo.guaranteed ?? false,
+                maximumWaitTime: leg.interchangeTo.maximumWaitTime ?? 0,
                 toServiceJourney: {
                   id: leg.interchangeTo.toServiceJourney.id,
                 },

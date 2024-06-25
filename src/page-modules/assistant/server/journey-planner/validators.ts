@@ -138,6 +138,7 @@ export const tripPatternWithDetailsSchema = z.object({
       interchangeTo: z
         .object({
           guaranteed: z.boolean(),
+          maximumWaitTime: z.number(),
           toServiceJourney: z.object({ id: z.string() }),
         })
         .nullable(),
