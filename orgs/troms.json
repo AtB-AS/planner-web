@@ -5,8 +5,6 @@
 
   "supportEmail": "",
 
-  "fylkeskommune": {},
-
   "urls": {
     "privacyDeclarationUrl": {
       "default": "https://fylkestrafikk.no/meny/hjelp-og-kontakt/personvern/"
@@ -21,8 +19,6 @@
       "en-US": "https://fylkestrafikk.no/meny/hjelp-og-kontakt/kontakt-oss/kontaktskjema/?sprak=3"
     },
 
-    "instagramLink": null,
-    "facebookLink": null,
     "homePageUrl": {
       "name": "svipper.no",
       "href": "https://www.svipper.no/"
