@@ -7,7 +7,11 @@ export const LayoutInternal = {
       sections: {
         general: {
           header: _('Reiseplanlegger', 'Travel Planner', 'Reiseplanleggar'),
-          supportPageLink: _('Kontakt oss', 'Contact us', 'Kontakt oss'),
+          supportPageLink: _(
+            'Help og kontakt',
+            'Help and contact',
+            'Hjelp og kontakt',
+          ),
           helpPageLink: _(
             'Hjelp til reiseplanleggeren',
             'Help for the travel planner',
