@@ -5,11 +5,7 @@
 
   "supportEmail": "",
 
-  "fylkeskommune": {
-    "logoSrc": "/troms_fylkeskommune.svg",
-    "logoSrcDark": "/troms_fylkeskommune_dark.svg",
-    "name": "Troms fylkeskommune"
-  },
+  "fylkeskommune": {},
 
   "urls": {
     "privacyDeclarationUrl": {
@@ -25,8 +21,8 @@
       "en-US": "https://fylkestrafikk.no/meny/hjelp-og-kontakt/kontakt-oss/kontaktskjema/?sprak=3"
     },
 
-    "instagramLink": "https://www.instagram.com/troms_fylkestrafikk/",
-    "facebookLink": "https://www.facebook.com/tromsfylkestrafikk/",
+    "instagramLink": null,
+    "facebookLink": null,
     "homePageUrl": {
       "name": "svipper.no",
       "href": "https://www.svipper.no/"
