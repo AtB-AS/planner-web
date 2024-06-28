@@ -54,7 +54,7 @@
 
 .infoText {
   color: var(--static-background-background_accent_1-text);
-  opacity: 0.6;
+  opacity: 0.75;
   max-width: 10rem;
 }
 
