@@ -11,12 +11,37 @@ export type FooterProps = {
   withoutSettings?: boolean;
 };
 
+type SomeLink = {
+  href: string;
+  iconSrc: string;
+  title: string;
+};
+
 const { urls, fylkeskommune } = getOrgData();
 
 export default function Footer({ withoutSettings = false }: FooterProps) {
   const { isDarkMode, toggleDarkmode } = useTheme();
   const { t, language } = useTranslation();
 
+  const someLinks: SomeLink[] = [
+    urls.facebookLink && {
+      href: urls.facebookLink,
+      iconSrc: '/fb.svg',
+      title: 'Facebook',
+    },
+    urls.instagramLink && {
+      href: urls.instagramLink,
+      iconSrc: '/ig.svg',
+      title: 'Instagram',
+    },
+    urls.twitterLink && {
+      href: urls.twitterLink,
+      iconSrc: '/twitter.svg',
+      title: 'Twitter',
+    },
+  ].filter(Boolean) as SomeLink[];
+
+  console.log(someLinks);
   return (
     <footer className={style.footer}>
       <div className={style.footer__content}>
@@ -120,55 +145,27 @@ export default function Footer({ withoutSettings = false }: FooterProps) {
         <hr />
 
         <section className={style.footer__bottomLinks}>
-          {(urls.facebookLink || urls.instagramLink || urls.twitterLink) && (
+          {someLinks.length > 0 && (
             <div className={style.footer__some}>
-              {urls.facebookLink && (
+              {someLinks.map((link) => (
                 <ButtonLink
+                  key={link.href}
                   mode={isDarkMode ? 'interactive_2' : 'interactive_1'}
                   radius="top-bottom"
                   display="inline"
                   radiusSize="circular"
-                  icon={{ left: <img src="/fb.svg" alt="Facebook" /> }}
-                  href={urls.facebookLink}
+                  icon={{ left: <img src={link.iconSrc} alt={link.title} /> }}
+                  href={link.href}
                   aProps={{
                     target: '_blank',
                     rel: 'noreferrer',
-                    title: 'Facebook',
+                    title: link.title,
                   }}
                 />
-              )}
-              {urls.instagramLink && (
-                <ButtonLink
-                  mode={isDarkMode ? 'interactive_2' : 'interactive_1'}
-                  radius="top-bottom"
-                  display="inline"
-                  radiusSize="circular"
-                  icon={{ left: <img src="/ig.svg" alt="Instagram" /> }}
-                  href={urls.instagramLink}
-                  aProps={{
-                    target: '_blank',
-                    rel: 'noreferrer',
-                    title: 'Instagram',
-                  }}
-                />
-              )}
-              {urls.twitterLink && (
-                <ButtonLink
-                  mode={isDarkMode ? 'interactive_2' : 'interactive_1'}
-                  radius="top-bottom"
-                  display="inline"
-                  radiusSize="circular"
-                  icon={{ left: <img src="/twitter.svg" alt="Twitter" /> }}
-                  href={urls.twitterLink}
-                  aProps={{
-                    target: '_blank',
-                    rel: 'noreferrer',
-                    title: 'Twitter',
-                  }}
-                />
-              )}
+              ))}
             </div>
           )}
+
           <div className={style.footer__bottomLinks__mid}>
             <a
               href={getConfigUrl(urls.privacyDeclarationUrl, language)}
