@@ -54,6 +54,12 @@
   gap: var(--spacings-medium);
   flex-wrap: wrap;
 }
+.footer__bottomLinks > div:only-child {
+  margin: 0 auto;
+}
+.footer__bottomLinks:has(> :last-child:nth-child(2)) {
+  justify-content: space-evenly;
+}
 .footer__bottomLinks__mid {
   text-align: center;
   display: flex;
