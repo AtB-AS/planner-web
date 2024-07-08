@@ -126,6 +126,11 @@ const WidgetPage: NextPage<WidgetPageProps> = ({ data, ...props }) => {
             lib.current = window.PlannerWeb.createWidget({
               urlBase: location.protocol + '//' + location.host,
               language: 'nb',
+              outputOverrideOptions: {
+                // Use single column design of widget layout
+                singleColumnLayout: true,
+                inheritFont: true
+              },
             });
 
             setHtml(lib.current.output);
@@ -175,10 +180,181 @@ function WidgetContent({
 
   const currentUrlBase = location.protocol + '//' + location.host;
 
+  const customStyle = `
+.svipper-widget {
+    /* Width can be set here too  */
+    width: 50vw;
+
+    --svipper-override-border-radius: 12px;
+    --svipper-override-input-height: 48px;
+
+    --svipper-override-h1-weight: 400;
+    --svipper-override-h1-size: 2rem;    
+
+    --svipper-override-h2-weight: 400;
+    --svipper-override-h2-size: 1rem;
+
+    --svipper-override-primary-default: #D24600;
+    --svipper-override-primary-hover: #bf4000;
+    --svipper-override-primary-active: #953200;
+    --svipper-override-primary-text: white;
+
+    --svipper-override-primary-accent: #ED5D15;
+
+    --svipper-override-widget-background: white;
+    --svipper-override-widget-text: black;
+
+    --svipper-override-tab-background-default: #FFDDCC;
+    --svipper-override-tab-background-hover: #fdeee7;
+    --svipper-override-tab-background-active: var(--svipper-override-widget-background);
+    --svipper-override-tab-text-inactive: #747474;
+    --svipper-override-tab-text-active: black;
+}
+
+/* Style single tab */
+.widget-module__nav .widget-module__tabs {
+    display: grid;
+    /* Separate tabs visually on top, but blend with main page on bottom */
+    grid-template-columns: 1fr 1fr;
+    background: linear-gradient(180deg, var(--svipper-override-tab-background-hover) 50%, var(--svipper-override-tab-background-active) 50%);
+    gap: unset;
+    border-bottom: unset;
+
+    li:first-of-type a {
+        border-bottom-right-radius: var(--svipper-override-border-radius);
+    }
+
+    li:last-of-type a {
+        border-bottom-left-radius: var(--svipper-override-border-radius);
+    }
+
+
+    /* Style a non-selected tab */
+    a {
+        text-align: center;
+        padding: var(--spacings-medium) 0;
+        border-radius: var(--svipper-override-border-radius) var(--svipper-override-border-radius) 0 0;
+        background-color: var(--svipper-override-tab-background-default);
+        color: var(--svipper-override-tab-text-inactive);
+
+        font-size: var(--svipper-override-h2-size);
+        font-weight: var(--svipper-override-h2-weight);
+    }
+
+    /* Hover style on tab when not selected */
+    a:not(.widget-module__tabSelected):hover {
+        background-color: var(--svipper-override-tab-background-hover);
+    }
+
+    /* Style selected tab */
+    .widget-module__tabSelected {
+        border-bottom: unset;
+        background-color: var(--svipper-override-tab-background-active);
+        color: var(--svipper-override-tab-text-active);
+    }
+}
+
+/* Set main background of tab view */
+.widget-module__form {
+    background-color: var(--svipper-override-widget-background);
+}
+
+/* Style main widget */
+.widget-module__wrapper {
+    background-color: var(--svipper-override-widget-background);
+    box-shadow: 0 2px 5px 0 #00000025;
+    border-radius: var(--svipper-override-border-radius);
+
+    .widget-module__heading {
+        color: var(--svipper-override-widget-text);
+    }
+    
+    /* Need to repeat this to not need 'overflow: hidden' to hide background behind border-radius */
+    .widget-module__form, .widget-module__buttonGroup {
+        border-radius: var(--svipper-override-border-radius);
+    }
+}
+
+.widget-module__main {
+    /* Set padding inside the tab view */
+    padding: var(--spacings-xLarge) var(--spacings-large);
+
+    .widget-module__inputBoxes:first-of-type {
+        gap: var(--spacings-small);
+        
+        /* Style main title */
+        legend {
+        margin-bottom: var(--spacings-xLarge);
+        font-size: var(--svipper-override-h1-size);
+        font-weight: var(--svipper-override-h1-weight);
+        }
+    }
+
+    .search-module__container {
+        /* Increase height of search fields and buttons */
+        height: var(--svipper-override-input-height);
+
+        label, button, input {
+        height: var(--svipper-override-input-height);
+    }
+
+    /* Adjust padding inside input fields */
+    label, input {
+        padding-left: var(--spacings-large);
+        padding-right: 0;
+    }
+
+    input {
+        padding-right: var(--spacings-small);
+    }
+
+    /* Labels in input fields */
+    .widget-module__search_label {
+        font-size: var(--svipper-override-h2-size);
+        font-weight: var(--svipper-override-h2-weight);
+    }
+
+    /* Thin outline when input field is not active */
+    &:not(:has(input:focus-within)) {
+        box-shadow: inset 0 0 0 var(--border-width-slim) var(--svipper-override-primary-accent);
+    }
+}
+
+    /* Hide departure timings */
+    .widget-module__inputBoxes:last-of-type {
+        display: none;
+        visibility: hidden;
+    }
+}
+
+/* Submit button */
+.widget-module__buttonGroup {
+    justify-content: start;
+    padding: 0 var(--spacings-large) var(--spacings-xLarge) var(--spacings-large);
+
+    .widget-module__button {
+        height: var(--svipper-override-input-height);
+        border-radius: var(--svipper-override-input-height);
+        padding: var(--spacings-medium) var(--spacings-xLarge);
+        background-color: var(--svipper-override-primary-default);
+        color: var(--svipper-override-primary-text);
+
+        &:hover {
+            background-color: var(--svipper-override-primary-hover);
+        }
+
+        &:active {
+            background-color: var(--svipper-override-primary-active);
+        }
+    }
+}
+  `
+
   return (
     <div>
       <h2>Demo</h2>
-      <div dangerouslySetInnerHTML={{ __html: html }} />
+      <style>{customStyle}</style>
+      <div dangerouslySetInnerHTML={{ __html: html }} className="svipper-widget" />
 
       <p>
         Note: Widget is without padding. Should be up to consumer to decide when
