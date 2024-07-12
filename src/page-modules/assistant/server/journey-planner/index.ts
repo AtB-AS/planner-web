@@ -565,6 +565,11 @@ function mapResultToTrips(
                   : null,
               }
             : null,
+          interchangeTo: leg.interchangeTo?.staySeated
+            ? {
+                staySeated: leg.interchangeTo.staySeated,
+              }
+            : null,
         };
       }),
       compressedQuery: generateSingleTripQueryString(

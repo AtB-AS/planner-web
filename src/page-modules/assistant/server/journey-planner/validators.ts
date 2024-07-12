@@ -58,6 +58,12 @@ export const legSchema = z.object({
   situations: z.array(situationSchema),
   fromPlace: placeSchema,
   serviceJourney: serviceJourneySchema.nullable(),
+  interchangeTo: z
+    .object({
+      staySeated: z.boolean().nullable(),
+    })
+    .nullable()
+    .optional(),
 });
 
 export const tripPatternSchema = z.object({

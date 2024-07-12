@@ -98,66 +98,79 @@ export default function TripPattern({
           <div className={style.legs__expandedLegs} ref={legsContentRef}>
             {expandedLegs.map((leg, i) => (
               <Fragment key={`leg-${leg.expectedStartTime}-${i}`}>
-                <div className={style.legs__leg}>
-                  {leg.mode ? (
-                    <TransportIconWithLabel
-                      mode={{
-                        transportMode: leg.mode,
-                        transportSubModes: leg.transportSubmode
-                          ? [leg.transportSubmode]
-                          : undefined,
-                      }}
-                      label={leg.line?.publicCode ?? undefined}
-                      duration={leg.mode === 'foot' ? leg.duration : undefined}
-                      isFlexible={isLineFlexibleTransport(leg.line)}
-                    />
-                  ) : (
-                    <div className={style.legs__leg__walkIcon}>
-                      <MonoIcon icon="transportation/Walk" />
-                    </div>
-                  )}
+                {i > 0 &&
+                expandedLegs[i - 1].interchangeTo?.staySeated ===
+                  true ? null : (
+                  <div className={style.legs__leg}>
+                    {leg.mode ? (
+                      <TransportIconWithLabel
+                        mode={{
+                          transportMode: leg.mode,
+                          transportSubModes: leg.transportSubmode
+                            ? [leg.transportSubmode]
+                            : undefined,
+                        }}
+                        label={leg.line?.publicCode ?? undefined}
+                        duration={
+                          leg.mode === 'foot' ? leg.duration : undefined
+                        }
+                        isFlexible={isLineFlexibleTransport(leg.line)}
+                      />
+                    ) : (
+                      <div className={style.legs__leg__walkIcon}>
+                        <MonoIcon icon="transportation/Walk" />
+                      </div>
+                    )}
 
-                  <div
-                    className={style.timeStartContainer}
-                    data-testid={`timeStartContainer-${i}`}
-                  >
-                    {secondsBetween(leg.aimedStartTime, leg.expectedStartTime) >
-                    DEFAULT_THRESHOLD_AIMED_EXPECTED_IN_SECONDS ? (
-                      <>
-                        <Typo.span textType="body__tertiary">
-                          {formatToClock(
-                            leg.expectedStartTime,
-                            language,
-                            'floor',
-                          )}
-                        </Typo.span>
+                    <div
+                      className={style.timeStartContainer}
+                      data-testid={`timeStartContainer-${i}`}
+                    >
+                      {secondsBetween(
+                        leg.aimedStartTime,
+                        leg.expectedStartTime,
+                      ) > DEFAULT_THRESHOLD_AIMED_EXPECTED_IN_SECONDS ? (
+                        <>
+                          <Typo.span textType="body__tertiary">
+                            {formatToClock(
+                              leg.expectedStartTime,
+                              language,
+                              'floor',
+                            )}
+                          </Typo.span>
+                          <Typo.span
+                            textType="body__tertiary--strike"
+                            className={style.outdatet}
+                          >
+                            {formatToClock(
+                              leg.aimedStartTime,
+                              language,
+                              'floor',
+                            )}
+                          </Typo.span>
+                        </>
+                      ) : (
                         <Typo.span
-                          textType="body__tertiary--strike"
-                          className={style.outdatet}
+                          textType={
+                            isCancelled
+                              ? 'body__tertiary--strike'
+                              : 'body__tertiary'
+                          }
                         >
                           {formatToClock(leg.aimedStartTime, language, 'floor')}
                         </Typo.span>
-                      </>
-                    ) : (
-                      <Typo.span
-                        textType={
-                          isCancelled
-                            ? 'body__tertiary--strike'
-                            : 'body__tertiary'
-                        }
-                      >
-                        {formatToClock(leg.aimedStartTime, language, 'floor')}
-                      </Typo.span>
-                    )}
-                  </div>
-                </div>
-
-                {(i < expandedLegs.length - 1 || collapsedLegs.length > 0) && (
-                  <div className={style.legs__legLineContainer}>
-                    <div className={style.legs__legLine} />
-                    <div className={style.legs__legLine} />
+                      )}
+                    </div>
                   </div>
                 )}
+
+                {(i < expandedLegs.length - 1 || collapsedLegs.length > 0) &&
+                  expandedLegs[i].interchangeTo?.staySeated !== true && (
+                    <div className={style.legs__legLineContainer}>
+                      <div className={style.legs__legLine} />
+                      <div className={style.legs__legLine} />
+                    </div>
+                  )}
               </Fragment>
             ))}
 
