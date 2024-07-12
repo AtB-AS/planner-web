@@ -145,6 +145,7 @@ export const tripPatternWithDetailsSchema = z.object({
         .object({
           guaranteed: z.boolean(),
           maximumWaitTime: z.number(),
+          staySeated: z.boolean().optional(),
           toServiceJourney: z.object({ id: z.string() }),
         })
         .nullable(),

@@ -457,6 +457,12 @@ const AssistantInternal = {
             `Kva er ${publicCode}?`,
           ),
       },
+      lineChangeStaySeated: (fromPublicCode: string, toPublicCode: string) =>
+        _(
+          `Bli sittende. Linjenummeret endres fra ${fromPublicCode} til ${toPublicCode}.`,
+          `Stay seated. The line number is changing from ${fromPublicCode} to ${toPublicCode}.`,
+          `Bli sittande. Linjenummeret endrar seg frå ${fromPublicCode} til ${toPublicCode}.`,
+        ),
     },
     ticketBooking: {
       globalMessage: _(
