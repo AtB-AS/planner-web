@@ -402,6 +402,7 @@ export function createJourneyApi(
             ? {
                 guaranteed: leg.interchangeTo.guaranteed ?? false,
                 maximumWaitTime: leg.interchangeTo.maximumWaitTime ?? 0,
+                staySeated: leg.interchangeTo.staySeated,
                 toServiceJourney: {
                   id: leg.interchangeTo.toServiceJourney.id,
                 },
@@ -563,6 +564,11 @@ function mapResultToTrips(
                       ),
                     }
                   : null,
+              }
+            : null,
+          interchangeTo: leg.interchangeTo?.staySeated
+            ? {
+                staySeated: leg.interchangeTo.staySeated,
               }
             : null,
         };

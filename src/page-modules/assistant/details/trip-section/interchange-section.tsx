@@ -18,6 +18,7 @@ export type InterchangeSectionProps = {
   interchangeDetails: InterchangeDetails;
   publicCode?: string | null;
   maximumWaitTime?: number;
+  staySeated: boolean | undefined | null;
 };
 
 export function InterchangeSection(props: InterchangeSectionProps) {
@@ -43,6 +44,7 @@ function useInterchangeTextTranslation({
   publicCode,
   interchangeDetails,
   maximumWaitTime = 0,
+  staySeated,
 }: InterchangeSectionProps) {
   const { t, language } = useTranslation();
 
@@ -59,6 +61,16 @@ function useInterchangeTextTranslation({
         ].join(' ')
       : text;
 
+  if (publicCode && staySeated) {
+    return appendWaitTime(
+      t(
+        PageText.Assistant.details.tripSection.lineChangeStaySeated(
+          interchangeDetails.publicCode,
+          publicCode,
+        ),
+      ),
+    );
+  }
   if (publicCode) {
     return appendWaitTime(
       t(

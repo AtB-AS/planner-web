@@ -87,6 +87,7 @@ query ViaTripsWithDetails(
           interchangeTo {
             guaranteed
             maximumWaitTime
+            staySeated
             toServiceJourney {
               id
             }

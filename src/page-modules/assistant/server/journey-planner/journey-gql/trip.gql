@@ -149,6 +149,9 @@ fragment tripPattern on TripPattern {
       }
     }
     transportSubmode
+    interchangeTo {
+      staySeated
+    }
   }
 }
 
