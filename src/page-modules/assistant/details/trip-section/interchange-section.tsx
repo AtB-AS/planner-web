@@ -18,7 +18,7 @@ export type InterchangeSectionProps = {
   interchangeDetails: InterchangeDetails;
   publicCode?: string | null;
   maximumWaitTime?: number;
-  staySeated: boolean | undefined;
+  staySeated: boolean | undefined | null;
 };
 
 export function InterchangeSection(props: InterchangeSectionProps) {
