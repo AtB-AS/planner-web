@@ -71,12 +71,9 @@ export default function TripPattern({
     [style['tripPattern--old']]: tripIsInPast,
   });
 
-  const staySeated = (idx: number) =>
-    expandedLegs[idx].interchangeTo?.staySeated === true;
-
-  const shouldHaveRemainedSeatedInPreviousLeg = (idx: number) => {
-    if (idx > 0) return staySeated(idx - 1);
-    return false;
+  const staySeated = (idx: number) => {
+    const leg = expandedLegs[idx];
+    return leg && leg.interchangeTo?.staySeated === true;
   };
 
   const isNotLastLeg = (i: number) => {
@@ -110,7 +107,7 @@ export default function TripPattern({
           <div className={style.legs__expandedLegs} ref={legsContentRef}>
             {expandedLegs.map((leg, i) => (
               <Fragment key={`leg-${leg.expectedStartTime}-${i}`}>
-                {shouldHaveRemainedSeatedInPreviousLeg(i) ? null : (
+                {staySeated(i - 1) ? null : (
                   <div className={style.legs__leg}>
                     {leg.mode ? (
                       <TransportIconWithLabel
