@@ -71,6 +71,18 @@ export default function TripPattern({
     [style['tripPattern--old']]: tripIsInPast,
   });
 
+  const staySeated = (idx: number) =>
+    expandedLegs[idx].interchangeTo?.staySeated === true;
+
+  const shouldHaveRemainedSeatedInPreviousLeg = (idx: number) => {
+    if (idx > 0) return staySeated(idx - 1);
+    return false;
+  };
+
+  const isNotLastLeg = (i: number) => {
+    return i < expandedLegs.length - 1 || collapsedLegs.length > 0;
+  };
+
   return (
     <motion.a
       href={`/assistant/${tripPattern.compressedQuery}?filter=${router.query.filter}`}
@@ -98,9 +110,7 @@ export default function TripPattern({
           <div className={style.legs__expandedLegs} ref={legsContentRef}>
             {expandedLegs.map((leg, i) => (
               <Fragment key={`leg-${leg.expectedStartTime}-${i}`}>
-                {i > 0 &&
-                expandedLegs[i - 1].interchangeTo?.staySeated ===
-                  true ? null : (
+                {shouldHaveRemainedSeatedInPreviousLeg(i) ? null : (
                   <div className={style.legs__leg}>
                     {leg.mode ? (
                       <TransportIconWithLabel
@@ -164,13 +174,12 @@ export default function TripPattern({
                   </div>
                 )}
 
-                {(i < expandedLegs.length - 1 || collapsedLegs.length > 0) &&
-                  expandedLegs[i].interchangeTo?.staySeated !== true && (
-                    <div className={style.legs__legLineContainer}>
-                      <div className={style.legs__legLine} />
-                      <div className={style.legs__legLine} />
-                    </div>
-                  )}
+                {isNotLastLeg(i) && !staySeated(i) && (
+                  <div className={style.legs__legLineContainer}>
+                    <div className={style.legs__legLine} />
+                    <div className={style.legs__legLine} />
+                  </div>
+                )}
               </Fragment>
             ))}
 
