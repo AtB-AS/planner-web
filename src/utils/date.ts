@@ -289,7 +289,7 @@ export function formatToClockOrRelativeMinutes(
   const diff = secondsBetween(new Date(), parsed);
 
   if (diff / 60 >= minuteThreshold) {
-    return formatLocaleTime(parsed, language);
+    return formatLocaleTime(setTimezone(parsed), language);
   }
 
   if (diff / 60 <= 1) {
