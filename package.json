@@ -3,6 +3,9 @@
   "version": "2.20.1",
   "private": true,
   "license": "EUPL-1.2",
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "scripts": {
     "test": "vitest",
     "test:e2e-local": "E2E_URL=https://localhost:3000 yarn playwright test",
