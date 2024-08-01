@@ -23,9 +23,7 @@ export function useMapInteractions(
       if (map) map.getCanvas().style.cursor = '';
     };
 
-    const handleStopPlaceClick = (
-      e: mapboxgl.MapMouseEvent & mapboxgl.EventData,
-    ) => {
+    const handleStopPlaceClick = (e: mapboxgl.MapMouseEvent) => {
       if (!map) return;
 
       const features = map.queryRenderedFeatures(e.point);

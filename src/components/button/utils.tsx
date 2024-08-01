@@ -118,16 +118,4 @@ function ButtonBase({ title, icon, state }: ButtonBaseProps) {
   );
 }
 
-export const defaultProps: ButtonBaseProps = {
-  mode: 'interactive_2',
-  size: 'small',
-  state: 'none',
-  radius: 'top-bottom',
-  radiusSize: 'regular',
-  display: 'block',
-  disabled: false,
-};
-
-ButtonBase.defaultProps = defaultProps;
-
 export { ButtonBase };
