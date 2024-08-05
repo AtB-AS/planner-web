@@ -93,7 +93,8 @@
 }
 
 .dateSelector label,
-.timeSelector label {
+.timeSelector label,
+.timeSelectorLabel {
   padding: var(--spacings-medium);
   padding-right: 0;
   height: var(--height);
@@ -110,6 +111,19 @@
   flex: 1;
   border-top-right-radius: 0.75rem;
   border-bottom-right-radius: 0.75rem;
+}
+
+.timeSelectorInput {
+  height: var(--height);
+  padding: var(--spacings-medium);
+  color: var(--static-background-background_0-text);
+  flex: 1;
+  border-top-right-radius: 0.75rem;
+  border-bottom-right-radius: 0.75rem;
+  display: flex;
+}
+.timeSelectorSegment:focus {
+  background: var(--static-background-background_2-background);
 }
 
 .dateSelector input[type='date']:focus,

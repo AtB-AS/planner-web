@@ -9,6 +9,7 @@ import {
 import { SEARCH_MODES, SearchMode, SearchTime } from '../types';
 import style from './selector.module.css';
 import { fromLocalTimeToCET, setTimezone } from '@atb/utils/date';
+import TimeSelector from './time-selector';
 
 type SearchTimeSelectorProps = {
   onChange: (state: SearchTime) => void;
@@ -89,15 +90,15 @@ export default function SearchTimeSelector({
     });
   };
 
-  const internalOnTimeChange = (event: ChangeEvent<HTMLInputElement>) => {
-    if (!event.target.value) return;
+  const internalOnTimeChange = (time: string) => {
+    if (!time) return;
 
-    setSelectedTime(event.target.value);
+    setSelectedTime(time);
 
     onChange({
       mode: selectedMode.mode,
       dateTime: new Date(
-        selectedDate.toISOString().slice(0, 10) + 'T' + event.target.value,
+        selectedDate.toISOString().slice(0, 10) + 'T' + time,
       ).getTime(),
     });
   };
@@ -162,21 +163,11 @@ export default function SearchTimeSelector({
                   onChange={internalOnDateChange}
                 />
               </div>
-              <div className={style.timeSelector}>
-                <label
-                  htmlFor="searchTimeSelector-time"
-                  data-testid="searchTimeSelector-time"
-                >
-                  {t(ModuleText.SearchTime.time)}
-                </label>
 
-                <input
-                  type="time"
-                  id="searchTimeSelector-time"
-                  value={selectedTime}
-                  onChange={internalOnTimeChange}
-                />
-              </div>
+              <TimeSelector
+                value={selectedTime}
+                onChange={internalOnTimeChange}
+              />
             </div>
           </motion.div>
         )}

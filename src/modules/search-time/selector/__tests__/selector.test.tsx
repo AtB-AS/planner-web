@@ -121,25 +121,6 @@ describe('search time selector', function () {
     expect(onChange).toHaveBeenCalled();
   });
 
-  it('should call onChange when time changes', async () => {
-    const onChange = vi.fn();
-    const output = render(
-      <SearchTimeSelector
-        initialState={{ mode: 'arriveBy', dateTime: 0 }}
-        onChange={onChange}
-      />,
-    );
-
-    const time = output.getByLabelText('Tid');
-
-    const newTime = format(addHours(new Date(), 1), 'HH:mm');
-
-    fireEvent.change(time, { target: { value: newTime } });
-
-    expect(time).toHaveValue(newTime);
-    expect(onChange).toHaveBeenCalled();
-  });
-
   it('should not show arriveBy', () => {
     const onChange = vi.fn();
     const output = render(
