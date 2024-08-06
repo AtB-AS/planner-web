@@ -7,16 +7,16 @@
 
   "urls": {
     "privacyDeclarationUrl": {
-      "default": "https://fylkestrafikk.no/meny/hjelp-og-kontakt/personvern/"
+      "default": "https://svipper.no/meny/hjelp-og-kontakt/personvern-og-transportvilkar/"
     },
 
     "accessibilityStatementUrl": {
-      "default": "https://fylkestrafikk.no/"
+      "default": "https://svipper.no/"
     },
 
     "supportUrl": {
-      "default": "https://fylkestrafikk.no/meny/hjelp-og-kontakt/kontakt-oss/kontaktskjema/",
-      "en-US": "https://fylkestrafikk.no/meny/hjelp-og-kontakt/kontakt-oss/kontaktskjema/?sprak=3"
+      "default": "https://svipper.no/meny/hjelp-og-kontakt/",
+      "en-US": "https://svipper.no/menu/help-and-contact/?sprak=3"
     },
 
     "homePageUrl": {
@@ -24,9 +24,9 @@
       "href": "https://www.svipper.no/"
     },
     "ticketsUrl": {
-      "en-US": "https://fylkestrafikk.no/meny/billetter-og-priser/?sprak=3",
-      "no": "https://fylkestrafikk.no/meny/billetter-og-priser",
-      "default": "https://fylkestrafikk.no/meny/billetter-og-priser"
+      "en-US": "https://svipper.no/meny/billetter-og-priser/?sprak=3",
+      "no": "https://svipper.no/meny/billetter-og-priser/",
+      "default": "https://svipper.no/meny/billetter-og-priser/"
     },
 
     "sitemapUrls": {
