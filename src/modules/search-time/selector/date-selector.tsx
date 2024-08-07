@@ -13,42 +13,16 @@ import {
   Popover,
 } from 'react-aria-components';
 
+import { MonoIcon } from '@atb/components/icon';
 import { ModuleText, useTranslation } from '@atb/translations';
 import { fromDate, parseDate } from '@internationalized/date';
+import style from './selector.module.css';
 
 export type DateSelectorProps = {
   value: Date;
   min: string;
   onChange: (value: string) => void;
 };
-// export default function TimeSelector({ value, onChange }: TimeSelectorProps) {
-//   const { t } = useTranslation();
-//   const parsedValue = parseTime(value);
-
-//   return (
-//     <TimeField
-//       value={parsedValue}
-//       onChange={(change) => onChange(change.toString())}
-//       hourCycle={24}
-//       shouldForceLeadingZeros
-//       className={style.timeSelector}
-//       data-testid="searchTimeSelector-time"
-//       granularity="minute"
-//     >
-//       <Label className={style.timeSelectorLabel}>
-//         {t(ModuleText.SearchTime.time)}
-//       </Label>
-//       <DateInput className={style.timeSelectorInput}>
-//         {(segment) => (
-//           <DateSegment
-//             className={style.timeSelectorSegment}
-//             segment={segment}
-//           />
-//         )}
-//       </DateInput>
-//     </TimeField>
-//   );
-// }
 
 export default function DateSelector({
   value,
@@ -63,22 +37,50 @@ export default function DateSelector({
       value={fromDate(value, 'Europe/Oslo')}
       onChange={(e) => onChange(e.toString().slice(0, 10))}
       minValue={parseDate(min)}
+      className={style.dateSelector}
+      shouldForceLeadingZeros
     >
-      <Label>{t(ModuleText.SearchTime.date)}</Label>
-      <Group>
-        <DateInput>{(segment) => <DateSegment segment={segment} />}</DateInput>
-        <Button>C</Button>
+      <Label className={style.timeSelectorLabel}>
+        {t(ModuleText.SearchTime.date)}
+      </Label>
+      <Group className={style.calendarSelectorGroup}>
+        <DateInput className={style.timeSelectorInput}>
+          {(segment) => (
+            <DateSegment
+              className={style.timeSelectorSegment}
+              segment={segment}
+            />
+          )}
+        </DateInput>
+        <Button className={style.calendarButton}>
+          <MonoIcon icon="time/Date" />
+        </Button>
       </Group>
-      <Popover>
+      <Popover className={style.calendarDialog} placement="top right">
         <Dialog>
           <Calendar>
-            <header>
-              <Button slot="previous">◀</Button>
-              <Heading />
-              <Button slot="next">▶</Button>
+            <header className={style.calendarDialog__header}>
+              <Button
+                slot="previous"
+                className={style.calendarDialog__headerButtons}
+              >
+                <MonoIcon icon="navigation/ArrowLeft" />
+              </Button>
+              <Heading className={style.calendarDialog__title} />
+              <Button
+                slot="next"
+                className={style.calendarDialog__headerButtons}
+              >
+                <MonoIcon icon="navigation/ArrowRight" />
+              </Button>
             </header>
-            <CalendarGrid>
-              {(date) => <CalendarCell date={date} />}
+            <CalendarGrid className={style.calendarGrid}>
+              {(date) => (
+                <CalendarCell
+                  date={date}
+                  className={style.calendarGrid__cell}
+                />
+              )}
             </CalendarGrid>
           </Calendar>
         </Dialog>
