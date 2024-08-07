@@ -56,7 +56,7 @@ export default function DateSelector({
           <MonoIcon icon="time/Date" />
         </Button>
       </Group>
-      <Popover className={style.calendarDialog} placement="top right">
+      <Popover className={style.calendarDialog} placement="bottom right">
         <Dialog>
           <Calendar>
             <header className={style.calendarDialog__header}>
