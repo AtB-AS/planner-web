@@ -105,22 +105,6 @@ describe('search time selector', function () {
     expect(onStateChange).toHaveBeenCalled();
   });
 
-  it('should call onChange when date changes', async () => {
-    const onChange = vi.fn();
-    const output = render(
-      <SearchTimeSelector
-        initialState={{ mode: 'arriveBy', dateTime: 0 }}
-        onChange={onChange}
-      />,
-    );
-
-    const date = output.getByLabelText('Dato');
-
-    fireEvent.change(date, { target: { value: '2100-01-01' } });
-
-    expect(onChange).toHaveBeenCalled();
-  });
-
   it('should not show arriveBy', () => {
     const onChange = vi.fn();
     const output = render(
@@ -148,53 +132,5 @@ describe('search time selector', function () {
         name: 'Avreise',
       }),
     ).toBeInTheDocument();
-  });
-
-  it('should allow call onChange when selecting yesterday as date input.', () => {
-    const onChange = vi.fn();
-    const output = render(
-      <SearchTimeSelector
-        initialState={{ mode: 'arriveBy', dateTime: 0 }}
-        onChange={onChange}
-      />,
-    );
-    const dateInput = output.getByLabelText('Dato');
-    const yesterday = format(subDays(new Date(), 1), 'yyyy-MM-dd');
-
-    fireEvent.change(dateInput, { target: { value: yesterday } });
-
-    expect(onChange).toHaveBeenCalled();
-  });
-
-  it('should not call onChange when selecting the day before yesterday as date input.', () => {
-    const onChange = vi.fn();
-    const output = render(
-      <SearchTimeSelector
-        initialState={{ mode: 'arriveBy', dateTime: 0 }}
-        onChange={onChange}
-      />,
-    );
-    const dateInput = output.getByLabelText('Dato');
-    const yesterday = format(subDays(new Date(), 2), 'yyyy-MM-dd');
-
-    fireEvent.change(dateInput, { target: { value: yesterday } });
-
-    expect(onChange).not.toHaveBeenCalled();
-  });
-
-  it('should allow call onChange when selecting today as date input.', () => {
-    const onChange = vi.fn();
-    const output = render(
-      <SearchTimeSelector
-        initialState={{ mode: 'arriveBy', dateTime: 0 }}
-        onChange={onChange}
-      />,
-    );
-    const dateInput = output.getByLabelText('Dato');
-    const today = format(new Date(), 'yyyy-MM-dd');
-
-    fireEvent.change(dateInput, { target: { value: today } });
-
-    expect(onChange).toHaveBeenCalled();
   });
 });

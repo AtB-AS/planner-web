@@ -1,14 +1,15 @@
-import { ChangeEvent, CSSProperties, useState } from 'react';
-import { format, subDays } from 'date-fns';
-import { AnimatePresence, motion } from 'framer-motion';
 import {
   ModuleText,
   TranslateFunction,
   useTranslation,
 } from '@atb/translations';
-import { SEARCH_MODES, SearchMode, SearchTime } from '../types';
-import style from './selector.module.css';
 import { fromLocalTimeToCET, setTimezone } from '@atb/utils/date';
+import { format, subDays } from 'date-fns';
+import { AnimatePresence, motion } from 'framer-motion';
+import { CSSProperties, useState } from 'react';
+import { SEARCH_MODES, SearchMode, SearchTime } from '../types';
+import DateSelector from './date-selector';
+import style from './selector.module.css';
 import TimeSelector from './time-selector';
 
 type SearchTimeSelectorProps = {
@@ -73,20 +74,20 @@ export default function SearchTimeSelector({
     onChange(newState);
   };
 
-  const internalOnDateChange = (event: ChangeEvent<HTMLInputElement>) => {
-    if (!event.target.value) return;
+  const internalOnDateChange = (date: string) => {
+    if (!date) return;
 
-    if (event.target.value < yesterday) {
+    if (date < yesterday) {
       resetToCurrentDate();
       resetToCurrentTime();
       return;
     }
 
-    setSelectedDate(new Date(event.target.value));
+    setSelectedDate(new Date(date));
 
     onChange({
       mode: selectedMode.mode,
-      dateTime: new Date(event.target.value + 'T' + selectedTime).getTime(),
+      dateTime: new Date(date + 'T' + selectedTime).getTime(),
     });
   };
 
@@ -151,18 +152,11 @@ export default function SearchTimeSelector({
             transition={{ duration: 0.25, ease: [0.04, 0.62, 0.23, 0.98] }}
           >
             <div className={style.dateAndTimeSelectors}>
-              <div className={style.dateSelector}>
-                <label htmlFor="searchTimeSelector-date">
-                  {t(ModuleText.SearchTime.date)}
-                </label>
-                <input
-                  type="date"
-                  id="searchTimeSelector-date"
-                  value={selectedDate.toISOString().slice(0, 10)}
-                  min={yesterday}
-                  onChange={internalOnDateChange}
-                />
-              </div>
+              <DateSelector
+                min={yesterday}
+                value={selectedDate}
+                onChange={internalOnDateChange}
+              />
 
               <TimeSelector
                 value={selectedTime}
