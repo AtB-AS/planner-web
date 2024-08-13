@@ -95,6 +95,11 @@ query TripsWithDetails(
           }
           cancellation
         }
+        toEstimatedCall {
+          notices {
+            ...notice
+          }
+        }
         interchangeTo {
           guaranteed
           maximumWaitTime
