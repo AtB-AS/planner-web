@@ -397,6 +397,11 @@ export function createJourneyApi(
                   : {}),
               }
             : null,
+          toEstimatedCall: leg.toEstimatedCall?.notices.length
+            ? {
+                notices: mapAndFilterNotices(leg.toEstimatedCall.notices),
+              }
+            : null,
 
           interchangeTo: leg.interchangeTo?.toServiceJourney?.id
             ? {
@@ -415,6 +420,7 @@ export function createJourneyApi(
             ...(leg.serviceJourney?.notices || []),
             ...(leg.serviceJourney?.journeyPattern?.notices || []),
             ...(leg.fromEstimatedCall?.notices || []),
+            ...(leg.toEstimatedCall?.notices || []),
           ]),
           situations: mapSituations(leg.situations),
           serviceJourneyEstimatedCalls: leg.serviceJourneyEstimatedCalls.map(

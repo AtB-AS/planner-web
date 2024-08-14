@@ -141,6 +141,11 @@ export const tripPatternWithDetailsSchema = z.object({
           cancellation: z.boolean(),
         })
         .nullable(),
+      toEstimatedCall: z
+        .object({
+          notices: z.array(noticeSchema),
+        })
+        .nullable(),
       interchangeTo: z
         .object({
           guaranteed: z.boolean(),
