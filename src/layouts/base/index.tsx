@@ -25,7 +25,7 @@ export function BaseLayout({ children, title }: BaseLayoutProps) {
 
   const siteTitle = usePageTitle(title);
 
-  // used for calendards and date pickers, transform to locale supported by react-aria
+  // Used for calendars and date pickers, transform to locale supported by react-aria.
   const i18nLocale = language === Language.English ? 'en-GB' : 'nb-NO';
 
   return (
