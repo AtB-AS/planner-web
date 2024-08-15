@@ -41,7 +41,6 @@ export default function Footer({ withoutSettings = false }: FooterProps) {
     },
   ].filter(Boolean) as SomeLink[];
 
-  console.log(someLinks);
   return (
     <footer className={style.footer}>
       <div className={style.footer__content}>
