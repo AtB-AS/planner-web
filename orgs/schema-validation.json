@@ -91,7 +91,7 @@
                 }
               }
             },
-            "contactPageUrl": {
+            "contactPageUrls": {
               "dev": {
                 "name": {
                   "type": "string"

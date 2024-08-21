@@ -12,15 +12,7 @@ export type ContactPageProps = WithGlobalData<
 function ContactContent(props: ContactContentProps) {
   return (
     <div>
-      <h1>Title</h1>
-      <nav>
-        <li>a</li>
-        <li>b</li>
-        <li>c</li>
-      </nav>
-      <div>
-        <p>body</p>
-      </div>
+      <h1>Initial title contact schema</h1>
     </div>
   );
 }

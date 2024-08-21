@@ -3,7 +3,7 @@ import { PropsWithChildren } from 'react';
 
 export type ContactLayoutProps = PropsWithChildren<{}>;
 
-function AssistantLayout({ children }: ContactLayoutProps) {
+function ContactLayout({ children }: ContactLayoutProps) {
   return (
     <HomeLinkWithGlobalMessageLayout>
       {children}
@@ -11,4 +11,4 @@ function AssistantLayout({ children }: ContactLayoutProps) {
   );
 }
 
-export default AssistantLayout;
+export default ContactLayout;

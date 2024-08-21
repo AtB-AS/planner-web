@@ -49,7 +49,7 @@ export type OrgData = {
       staging: string;
       prod: string;
     };
-    contactPageUrls: {
+    contactPageUrls?: {
       dev: string;
       staging: string;
       prod: string;
