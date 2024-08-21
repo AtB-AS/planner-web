@@ -40,6 +40,11 @@
       "dev": "http://localhost:3000",
       "staging": "https://nfk-staging.planner-web.mittatb.no/",
       "prod": "https://reise.reisnordland.no/"
+    },
+    "contactPageUrls": {
+      "dev": "http://localhost:3000/contact",
+      "staging": "https://nfk-staging.planner-web.mittatb.no/contact",
+      "prod": "https://reise.nordland.no/contact"
     }
   },
   "journeyApiConfigurations": {

@@ -90,6 +90,23 @@
                   "type": "string"
                 }
               }
+            },
+            "contactPageUrl": {
+              "dev": {
+                "name": {
+                  "type": "string"
+                }
+              },
+              "staging": {
+                "name": {
+                  "type": "string"
+                }
+              },
+              "prod": {
+                "name": {
+                  "type": "string"
+                }
+              }
             }
           },
           "required": [

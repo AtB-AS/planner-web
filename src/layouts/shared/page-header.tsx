@@ -1,4 +1,4 @@
-import { CommonText, PageText, useTranslation } from '@atb/translations';
+import { CommonText, useTranslation } from '@atb/translations';
 import Link from 'next/link';
 import style from './page-header.module.css';
 import { useDarkMode } from '@atb/modules/theme';
@@ -10,6 +10,8 @@ export default function PageHeader() {
   const { t } = useTranslation();
   const [isDarkMode] = useDarkMode();
   const { fylkeskommune, urls } = getOrgData();
+  const displayContactPage =
+    process.env.NEXT_PUBLIC_DISPLAY_CONTACT_PAGE === 'true';
 
   return (
     <header className={style.pageHeader}>
@@ -49,6 +51,14 @@ export default function PageHeader() {
               )}
             </Link>
           </h1>
+          {displayContactPage && (
+            <Link
+              className={style.pageHeader__link}
+              href={urls.contactPageUrls?.dev}
+            >
+              <h1>{t(CommonText.Layout.contactLink)}</h1>
+            </Link>
+          )}
         </div>
       </div>
     </header>

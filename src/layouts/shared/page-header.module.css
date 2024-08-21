@@ -12,6 +12,7 @@
 
 .pageHeader__inner {
   display: flex;
+  align-items: center;
   background-color: var(--static-background-background_accent_0-background);
   color: var(--static-background-background_accent_0-text);
   position: relative;
@@ -55,4 +56,9 @@
 }
 .pageHeader__logoLink:active {
   opacity: 0.8;
+}
+
+.pageHeader__link {
+  color: var(--static-background-background_accent_0-text);
+  text-decoration: none;
 }

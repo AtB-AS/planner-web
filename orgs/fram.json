@@ -39,6 +39,11 @@
       "dev": "http://localhost:3000",
       "staging": "https://fram-staging.planner-web.mittatb.no/",
       "prod": "https://reise.frammr.no/"
+    },
+    "contactPageUrls": {
+      "dev": "http://localhost:3000/contact",
+      "staging": "https://fram-staging.planner-web.mittatb.no/contact",
+      "prod": "https://reise.frammr.no/contact"
     }
   },
   "journeyApiConfigurations": {

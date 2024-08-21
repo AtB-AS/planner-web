@@ -40,6 +40,11 @@
       "dev": "http://localhost:3000",
       "staging": "https://atb-staging.planner-web.mittatb.no/",
       "prod": "https://reise.atb.no/"
+    },
+    "contactPageUrls": {
+      "dev": "http://localhost:3000/contact",
+      "staging": "https://atb-staging.planner-web.mittatb.no/contact",
+      "prod": "https://reise.atb.no/contact"
     }
   },
   "journeyApiConfigurations": {
