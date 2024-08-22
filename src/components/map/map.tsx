@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useCallback } from 'react';
 import mapboxgl from 'mapbox-gl';
 import style from './map.module.css';
 import 'mapbox-gl/dist/mapbox-gl.css';
@@ -50,7 +50,7 @@ export default function Map({ layer, onSelectStopPlace, ...props }: MapProps) {
     : { position: defaultPosition, initialZoom: ZOOM_LEVEL };
   const bounds = mapLegs ? getMapBounds(mapLegs) : undefined;
 
-  const initializeMap = () => {
+  const initializeMap = useCallback(() => {
     if (!mapContainer.current || map.current) return;
     // If browsers doesn't support WebGL, don't initialize map
     if (!mapboxgl.supported()) return;
@@ -62,7 +62,7 @@ export default function Map({ layer, onSelectStopPlace, ...props }: MapProps) {
       zoom: initialZoom,
       bounds, // If bounds is specified, it overrides center and zoom constructor options.
     });
-  };
+  }, [position, initialZoom, bounds]);
 
   useEffect(() => {
     if (isMobileDevice) return;
@@ -79,6 +79,12 @@ export default function Map({ layer, onSelectStopPlace, ...props }: MapProps) {
   useMapPin(map, position, layer);
   useMapLegs(map, mapLegs);
   useMapTariffZones(map);
+
+  useEffect(() => {
+    if (!isMobileDevice) {
+      initializeMap();
+    }
+  }, [isMobileDevice, initializeMap]);
 
   return (
     <div className={style.map} aria-hidden="true">
