@@ -3,10 +3,12 @@ import { useCallback, useEffect, useState } from 'react';
 export const useFullscreenMap = (
   mapWrapperRef: React.MutableRefObject<HTMLDivElement | null>,
   mapRef: React.MutableRefObject<mapboxgl.Map | undefined>,
+  initializeMap: () => void,
 ) => {
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
 
   const openFullscreen = () => {
+    initializeMap();
     if (!mapWrapperRef.current || !mapRef.current) return;
     mapWrapperRef.current.style.display = 'block';
     mapRef.current.resize();

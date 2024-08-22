@@ -21,6 +21,7 @@ import { useMapLegs } from './use-map-legs';
 import { and } from '@atb/utils/css';
 import { MapLegType, Position } from './types';
 import { useMapTariffZones } from './use-map-tariff-zones';
+import useMediaQuery from '@atb/utils/user-media-query';
 
 export type MapProps = {
   layer?: string;
@@ -41,6 +42,7 @@ export default function Map({ layer, onSelectStopPlace, ...props }: MapProps) {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map>();
   const { t } = useTranslation();
+  const isMobileDevice = useMediaQuery('(max-width: 650px)');
 
   const mapLegs = hasMapLegs(props) ? props.mapLegs : undefined;
   const { position, initialZoom = ZOOM_LEVEL } = hasInitialPosition(props)
@@ -48,9 +50,8 @@ export default function Map({ layer, onSelectStopPlace, ...props }: MapProps) {
     : { position: defaultPosition, initialZoom: ZOOM_LEVEL };
   const bounds = mapLegs ? getMapBounds(mapLegs) : undefined;
 
-  useEffect(() => {
-    if (!mapContainer.current) return;
-
+  const initializeMap = () => {
+    if (!mapContainer.current || map.current) return;
     // If browsers doesn't support WebGL, don't initialize map
     if (!mapboxgl.supported()) return;
     map.current = new mapboxgl.Map({
@@ -61,7 +62,11 @@ export default function Map({ layer, onSelectStopPlace, ...props }: MapProps) {
       zoom: initialZoom,
       bounds, // If bounds is specified, it overrides center and zoom constructor options.
     });
+  };
 
+  useEffect(() => {
+    if (isMobileDevice) return;
+    initializeMap();
     return () => map.current?.remove();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -69,6 +74,7 @@ export default function Map({ layer, onSelectStopPlace, ...props }: MapProps) {
   const { openFullscreen, closeFullscreen, isFullscreen } = useFullscreenMap(
     mapWrapper,
     map,
+    initializeMap,
   );
   useMapPin(map, position, layer);
   useMapLegs(map, mapLegs);
