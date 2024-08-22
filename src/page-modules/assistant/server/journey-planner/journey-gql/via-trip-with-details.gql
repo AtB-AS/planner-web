@@ -84,11 +84,6 @@ query ViaTripsWithDetails(
             }
             cancellation
           }
-          toEstimatedCall {
-            notices {
-              ...notice
-            }
-          }
           interchangeTo {
             guaranteed
             maximumWaitTime
