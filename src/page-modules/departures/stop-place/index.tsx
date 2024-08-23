@@ -26,6 +26,7 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { nextDepartures } from '../client';
 import style from './stop-place.module.css';
+import { formatDestinationDisplay } from '../utils';
 
 export type StopPlaceProps = {
   departures: DepartureData;
@@ -204,6 +205,8 @@ export function EstimatedCallItem({
   quayId,
   departure,
 }: EstimatedCallItemProps) {
+  const { t } = useTranslation();
+  const lineName = formatDestinationDisplay(t, departure.destinationDisplay);
   return (
     <li>
       <Link
@@ -240,7 +243,7 @@ export function EstimatedCallItem({
               departure.cancelled ? 'body__primary--strike' : 'body__primary'
             }
           >
-            {departure.name}
+            {lineName}
           </Typo.p>
         </div>
 

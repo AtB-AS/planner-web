@@ -22,7 +22,10 @@ export const stopPlaceSchema = z.object({
 
 export const departureSchema = z.object({
   id: z.string(),
-  name: z.string(),
+  destinationDisplay: z.object({
+    frontText: z.string(),
+    via: z.array(z.string()),
+  }),
   publicCode: z.string().nullable(),
   date: z.string(),
   aimedDepartureTime: z.string(),
@@ -79,7 +82,10 @@ export const serviceJourneySchema = z.object({
       aimedDepartureTime: z.string(),
       cancellation: z.boolean(),
       date: z.string(),
-      destinationDisplay: z.object({ frontText: z.string() }),
+      destinationDisplay: z.object({
+        frontText: z.string(),
+        via: z.array(z.string()),
+      }),
       expectedDepartureTime: z.string(),
       expectedArrivalTime: z.string(),
       forAlighting: z.boolean(),

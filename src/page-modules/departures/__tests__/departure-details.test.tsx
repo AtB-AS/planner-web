@@ -3,6 +3,7 @@ import { cleanup, render, screen } from '@testing-library/react';
 import { afterEach, describe, expect, it } from 'vitest';
 import userEvent from '@testing-library/user-event';
 import { DeparturesDetails } from '../details';
+import { formatDestinationDisplay } from '../utils';
 
 afterEach(function () {
   cleanup();
@@ -22,7 +23,7 @@ describe('departure details page', function () {
     );
     expect(
       output.getByText(
-        `${serviceJourneyFixture.line.publicCode} ${serviceJourneyFixture.estimatedCalls[0].destinationDisplay.frontText}`,
+        `${serviceJourneyFixture.line.publicCode} Vestlia via sentrum`,
       ),
     ).toBeInTheDocument();
   });
