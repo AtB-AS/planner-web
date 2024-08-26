@@ -135,6 +135,10 @@ export function createJourneyApi(
             ) ?? [],
           departures: q.estimatedCalls.map((e) => ({
             id: e.serviceJourney.id,
+            destinationDisplay: {
+              frontText: e.destinationDisplay?.frontText,
+              via: e.destinationDisplay?.via ?? [],
+            },
             name: e.destinationDisplay?.frontText,
             date: e.date,
             expectedDepartureTime: e.expectedDepartureTime,
@@ -284,7 +288,10 @@ export function createJourneyApi(
         },
         departures: result.data.quay?.estimatedCalls?.map((e) => ({
           id: e.serviceJourney.id,
-          name: e.destinationDisplay?.frontText,
+          destinationDisplay: {
+            frontText: e.destinationDisplay?.frontText,
+            via: e.destinationDisplay?.via ?? [],
+          },
           publicCode: e.serviceJourney.line.publicCode,
           date: e.date,
           aimedDepartureTime: e.aimedDepartureTime,
@@ -376,6 +383,7 @@ export function createJourneyApi(
             date: estimatedCall.date,
             destinationDisplay: {
               frontText: estimatedCall.destinationDisplay?.frontText,
+              via: estimatedCall.destinationDisplay?.via ?? [],
             },
             expectedDepartureTime: estimatedCall.expectedDepartureTime,
             expectedArrivalTime: estimatedCall.expectedArrivalTime,

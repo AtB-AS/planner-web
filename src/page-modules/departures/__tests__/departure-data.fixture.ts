@@ -19,7 +19,10 @@ export const departureDataFixture: DepartureData = {
       departures: [
         {
           id: 'ATB:ServiceJourney:71_230306097870252_7024',
-          name: 'Dora',
+          destinationDisplay: {
+            frontText: 'Dora',
+            via: [],
+          },
           date: '2023-10-08',
           expectedDepartureTime: '2023-10-08T20:53:15+02:00',
           aimedDepartureTime: '2023-10-08T20:50:00+02:00',
@@ -32,7 +35,10 @@ export const departureDataFixture: DepartureData = {
         },
         {
           id: 'ATB:ServiceJourney:25_230306097862768_7070',
-          name: 'Hurtigbåtterminalen',
+          destinationDisplay: {
+            frontText: 'Hurtigbåtterminalen',
+            via: [],
+          },
           date: '2023-10-08',
           expectedDepartureTime: '2023-10-08T20:53:19+02:00',
           aimedDepartureTime: '2023-10-08T20:47:00+02:00',
@@ -54,7 +60,10 @@ export const departureDataFixture: DepartureData = {
       departures: [
         {
           id: 'ATB:ServiceJourney:10_230905147222030_7096',
-          name: 'Sjetnmarka via Klæbuveien',
+          destinationDisplay: {
+            frontText: 'Sjetnemarka',
+            via: ['Klæbuveien'],
+          },
           date: '2023-10-08',
           expectedDepartureTime: '2023-10-08T20:55:28+02:00',
           aimedDepartureTime: '2023-10-08T20:54:00+02:00',
@@ -67,7 +76,10 @@ export const departureDataFixture: DepartureData = {
         },
         {
           id: 'ATB:ServiceJourney:20_230306097869036_7048',
-          name: 'Romolslia via St. Olavs hospital',
+          destinationDisplay: {
+            frontText: 'Romolslia',
+            via: ['St. Olavs hospital'],
+          },
           date: '2023-10-08',
           expectedDepartureTime: '2023-10-08T20:55:32+02:00',
           aimedDepartureTime: '2023-10-08T20:54:00+02:00',
@@ -80,7 +92,10 @@ export const departureDataFixture: DepartureData = {
         },
         {
           id: 'ATB:ServiceJourney:12_230306097866716_7048',
-          name: 'Marienborg',
+          destinationDisplay: {
+            frontText: 'Marienborg',
+            via: [],
+          },
           date: '2023-10-08',
           expectedDepartureTime: '2023-10-08T20:57:11+02:00',
           aimedDepartureTime: '2023-10-08T20:56:00+02:00',

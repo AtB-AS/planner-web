@@ -25,6 +25,7 @@ query serviceJourneyWithEstimatedCalls($id: String!, $date: Date) {
       date
       destinationDisplay {
         frontText
+        via
       }
       expectedDepartureTime
       expectedArrivalTime

@@ -23,6 +23,7 @@ query quayEstimatedCalls(
       }
       destinationDisplay {
         frontText
+        via
       }
       serviceJourney {
         id

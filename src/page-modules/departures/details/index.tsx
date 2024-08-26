@@ -11,6 +11,7 @@ import { ServiceJourneyData } from '../server/journey-planner/validators';
 import style from './details.module.css';
 import { EstimatedCallRows } from './estimated-call-rows';
 import { addMetadataToEstimatedCalls } from './utils';
+import { formatDestinationDisplay } from '../utils';
 
 export type DeparturesDetailsProps = {
   fromQuayId?: string;
@@ -27,7 +28,7 @@ export function DeparturesDetails({
   const focusedCall =
     serviceJourney.estimatedCalls.find((call) => call.quay.id === fromQuayId) ||
     serviceJourney.estimatedCalls[0];
-  const title = `${serviceJourney.line.publicCode} ${focusedCall.destinationDisplay.frontText}`;
+  const title = `${serviceJourney.line.publicCode} ${formatDestinationDisplay(t, focusedCall.destinationDisplay)}`;
   const realtimeText = useRealtimeText(
     serviceJourney.estimatedCalls.map((c) => ({
       actualDepartureTime: c.actualDepartureTime ?? undefined,

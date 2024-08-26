@@ -20,7 +20,8 @@ export const serviceJourneyFixture: ServiceJourneyData = {
       cancellation: false,
       date: '2023-11-10',
       destinationDisplay: {
-        frontText: 'Vestlia via sentrum-Othilienborg',
+        frontText: 'Vestlia',
+        via: ['sentrum-Othilienborg'],
       },
       expectedDepartureTime: '2023-11-10T14:59:24+01:00',
       expectedArrivalTime: '2023-11-10T14:59:24+01:00',
@@ -48,7 +49,8 @@ export const serviceJourneyFixture: ServiceJourneyData = {
       cancellation: false,
       date: '2023-11-10',
       destinationDisplay: {
-        frontText: 'Vestlia via sentrum-Othilienborg',
+        frontText: 'Vestlia',
+        via: ['sentrum-Othilienborg'],
       },
       expectedDepartureTime: '2023-11-10T15:01:40+01:00',
       expectedArrivalTime: '2023-11-10T15:01:22+01:00',
@@ -76,7 +78,8 @@ export const serviceJourneyFixture: ServiceJourneyData = {
       cancellation: false,
       date: '2023-11-10',
       destinationDisplay: {
-        frontText: 'Vestlia via sentrum-Othilienborg',
+        frontText: 'Vestlia',
+        via: [],
       },
       expectedDepartureTime: '2023-11-10T15:02:50+01:00',
       expectedArrivalTime: '2023-11-10T15:02:11+01:00',
@@ -104,7 +107,8 @@ export const serviceJourneyFixture: ServiceJourneyData = {
       cancellation: false,
       date: '2023-11-10',
       destinationDisplay: {
-        frontText: 'Vestlia via sentrum-Othilienborg',
+        frontText: 'Vestlia',
+        via: [],
       },
       expectedDepartureTime: '2023-11-10T15:03:43+01:00',
       expectedArrivalTime: '2023-11-10T15:03:04+01:00',
@@ -132,7 +136,8 @@ export const serviceJourneyFixture: ServiceJourneyData = {
       cancellation: false,
       date: '2023-11-10',
       destinationDisplay: {
-        frontText: 'Vestlia via sentrum-Othilienborg',
+        frontText: 'Vestlia',
+        via: [],
       },
       expectedDepartureTime: '2023-11-10T15:04:09+01:00',
       expectedArrivalTime: '2023-11-10T15:03:54+01:00',
@@ -160,7 +165,8 @@ export const serviceJourneyFixture: ServiceJourneyData = {
       cancellation: false,
       date: '2023-11-10',
       destinationDisplay: {
-        frontText: 'Vestlia via sentrum-Othilienborg',
+        frontText: 'Vestlia',
+        via: [],
       },
       expectedDepartureTime: '2023-11-10T15:05:07+01:00',
       expectedArrivalTime: '2023-11-10T15:04:42+01:00',
@@ -188,7 +194,8 @@ export const serviceJourneyFixture: ServiceJourneyData = {
       cancellation: false,
       date: '2023-11-10',
       destinationDisplay: {
-        frontText: 'Vestlia via sentrum-Othilienborg',
+        frontText: 'Vestlia',
+        via: [],
       },
       expectedDepartureTime: '2023-11-10T15:05:56+01:00',
       expectedArrivalTime: '2023-11-10T15:05:19+01:00',
@@ -216,7 +223,8 @@ export const serviceJourneyFixture: ServiceJourneyData = {
       cancellation: false,
       date: '2023-11-10',
       destinationDisplay: {
-        frontText: 'Vestlia via sentrum-Othilienborg',
+        frontText: 'Vestlia',
+        via: ['sentrum'],
       },
       expectedDepartureTime: '2023-11-10T15:07:14+01:00',
       expectedArrivalTime: '2023-11-10T15:06:34+01:00',
@@ -244,7 +252,8 @@ export const serviceJourneyFixture: ServiceJourneyData = {
       cancellation: false,
       date: '2023-11-10',
       destinationDisplay: {
-        frontText: 'Vestlia via sentrum-Othilienborg',
+        frontText: 'Vestlia',
+        via: [],
       },
       expectedDepartureTime: '2023-11-10T15:08:22+01:00',
       expectedArrivalTime: '2023-11-10T15:07:52+01:00',
@@ -272,7 +281,8 @@ export const serviceJourneyFixture: ServiceJourneyData = {
       cancellation: false,
       date: '2023-11-10',
       destinationDisplay: {
-        frontText: 'Vestlia via sentrum-Othilienborg',
+        frontText: 'Vestlia',
+        via: [],
       },
       expectedDepartureTime: '2023-11-10T15:10:33+01:00',
       expectedArrivalTime: '2023-11-10T15:09:56+01:00',
