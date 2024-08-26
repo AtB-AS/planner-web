@@ -5,7 +5,7 @@ const LayoutInternal = {
   homeLink: (name: string) =>
     _(`Tilbake til ${name}`, `Back to ${name}`, `Tilbake til ${name}`),
 
-  contactLink: _('Kontaktskjema', 'Contact schema', 'Kontaktskjema'),
+  contactLink: _('Kontaktskjema', 'Contact form', 'Kontaktskjema'),
 
   meta: {
     defaultDescription: _(

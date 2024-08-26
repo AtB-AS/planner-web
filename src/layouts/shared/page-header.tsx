@@ -5,12 +5,13 @@ import { useDarkMode } from '@atb/modules/theme';
 import Image from 'next/image';
 import { getOrgData } from '@atb/modules/org-data';
 import { MonoIcon } from '@atb/components/icon';
+import { shouldShowContactPage } from '@atb/page-modules/contact/utils';
 
 export default function PageHeader() {
   const { t } = useTranslation();
   const [isDarkMode] = useDarkMode();
   const { fylkeskommune, urls } = getOrgData();
-  const displayContactPage = process.env.NEXT_PUBLIC_DISPLAY_CONTACT_PAGE;
+  const hasContactFormUrl = shouldShowContactPage();
 
   return (
     <header className={style.pageHeader}>
@@ -50,12 +51,13 @@ export default function PageHeader() {
               )}
             </Link>
           </h1>
-          {displayContactPage && urls.contactPageUrls && (
+          {hasContactFormUrl && (
             <Link
               className={style.pageHeader__link}
-              href={urls.contactPageUrls.dev}
+              href={'/contact'}
+              title={t(CommonText.Layout.contactLink)}
             >
-              <h1>{t(CommonText.Layout.contactLink)}</h1>
+              <h4>{t(CommonText.Layout.contactLink)}</h4>
             </Link>
           )}
         </div>

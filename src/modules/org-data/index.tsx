@@ -49,11 +49,6 @@ export type OrgData = {
       staging: string;
       prod: string;
     };
-    contactPageUrls?: {
-      dev: string;
-      staging: string;
-      prod: string;
-    };
   };
   journeyApiConfigurations: {
     waitReluctance?: number;

@@ -11,8 +11,10 @@
 }
 
 .pageHeader__inner {
+  width: 100%;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   background-color: var(--static-background-background_accent_0-background);
   color: var(--static-background-background_accent_0-text);
   position: relative;
@@ -59,6 +61,28 @@
 }
 
 .pageHeader__link {
-  color: var(--static-background-background_accent_0-text);
+  composes: typo-body__secondary from '@atb/theme/typography.module.css';
+  transition:
+    background-color 150ms ease,
+    opacity 200ms ease-in-out;
+  display: block;
+}
+.pageHeader__link,
+.pageHeader__link:visited {
+  padding: var(--spacings-medium);
   text-decoration: none;
+  color: var(--static-background-background_accent_0-text);
+}
+.pageHeader__link:hover {
+  background-color: var(--static-background-background_accent_1-background);
+  color: var(--static-background-background_accent_1-text);
+}
+.pageHeader__link:active {
+  opacity: 0.8;
+}
+.pageHeader__link--active {
+  padding-bottom: calc(var(--spacings-medium) - var(--border-width-medium));
+  border-bottom: var(--border-width-medium) solid
+    var(--ws-colors-header-border-bottom);
+  composes: typo-body__secondary--bold from '@atb/theme/typography.module.css';
 }
