@@ -6,9 +6,12 @@ import Image from 'next/image';
 import { getOrgData } from '@atb/modules/org-data';
 import { MonoIcon } from '@atb/components/icon';
 import { shouldShowContactPage } from '@atb/page-modules/contact/utils';
+import { andIf } from '@atb/utils/css';
+import { useRouter } from 'next/router';
 
 export default function PageHeader() {
   const { t } = useTranslation();
+  const router = useRouter();
   const [isDarkMode] = useDarkMode();
   const { fylkeskommune, urls } = getOrgData();
   const hasContactFormUrl = shouldShowContactPage();
@@ -51,16 +54,22 @@ export default function PageHeader() {
               )}
             </Link>
           </h1>
-          {hasContactFormUrl && (
+        </div>
+        {hasContactFormUrl && (
+          <nav>
             <Link
-              className={style.pageHeader__link}
+              className={andIf({
+                [style.pageHeader__link]: true,
+                [style['pageHeader__link--active']]:
+                  router.pathname.startsWith('/contact'),
+              })}
               href={'/contact'}
               title={t(CommonText.Layout.contactLink)}
             >
               <h4>{t(CommonText.Layout.contactLink)}</h4>
             </Link>
-          )}
-        </div>
+          </nav>
+        )}
       </div>
     </header>
   );

@@ -8,13 +8,11 @@
   margin: 0 auto;
   padding: 0 var(--contentPadding);
   display: flex;
+  align-items: center;
 }
 
 .pageHeader__inner {
-  width: 100%;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
   background-color: var(--static-background-background_accent_0-background);
   color: var(--static-background-background_accent_0-text);
   position: relative;
@@ -80,9 +78,13 @@
 .pageHeader__link:active {
   opacity: 0.8;
 }
+
 .pageHeader__link--active {
   padding-bottom: calc(var(--spacings-medium) - var(--border-width-medium));
   border-bottom: var(--border-width-medium) solid
     var(--ws-colors-header-border-bottom);
   composes: typo-body__secondary--bold from '@atb/theme/typography.module.css';
+}
+.pageHeader__nav--modal .pageHeader__link--active {
+  border-bottom-color: transparent;
 }
