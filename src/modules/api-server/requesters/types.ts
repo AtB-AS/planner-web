@@ -7,6 +7,7 @@ import { ApolloClient, type ApolloClientOptions } from '@apollo/client/core';
 
 export const externalHttpUrls = {
   'http-entur': 'https://api.entur.io',
+  'http-contact-api': process.env.NEXT_PUBLIC_CONTACT_API_URL,
 } as const;
 
 export type HttpEndpoints = keyof typeof externalHttpUrls;
@@ -46,8 +47,8 @@ export type ConditionalRequester<U extends AllEndpoints> =
   U extends HttpEndpoints
     ? HttpRequester<U>
     : U extends GraphQlEndpoints
-    ? GraphQlRequester<U>
-    : never;
+      ? GraphQlRequester<U>
+      : never;
 
 export function isGraphQlEndpoint(a: any): a is GraphQlEndpoints {
   return a in externalGraphQlEndpoints;
