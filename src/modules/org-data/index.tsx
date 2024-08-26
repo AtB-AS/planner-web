@@ -46,9 +46,9 @@ export type OrgData = {
 
     sitemapUrls: {
       dev: string;
-      staging: string,
-      prod: string
-    }
+      staging: string;
+      prod: string;
+    };
   };
   journeyApiConfigurations: {
     waitReluctance?: number;
