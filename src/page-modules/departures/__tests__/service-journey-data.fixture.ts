@@ -20,8 +20,8 @@ export const serviceJourneyFixture: ServiceJourneyData = {
       cancellation: false,
       date: '2023-11-10',
       destinationDisplay: {
-        frontText: 'Vestlia via sentrum-Othilienborg',
-        via: [],
+        frontText: 'Vestlia',
+        via: ['sentrum-Othilienborg'],
       },
       expectedDepartureTime: '2023-11-10T14:59:24+01:00',
       expectedArrivalTime: '2023-11-10T14:59:24+01:00',
