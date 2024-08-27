@@ -1,22 +1,16 @@
 import DefaultLayout from '@atb/layouts/default';
 import { withGlobalData, WithGlobalData } from '@atb/layouts/global-data';
 import { ContactLayout, ContactLayoutProps } from '@atb/page-modules/contact';
+import {
+  ContactContent,
+  ContactContentProps,
+} from '@atb/page-modules/contact/content';
 import { shouldShowContactPage } from '@atb/page-modules/contact/utils';
 import { NextPage } from 'next';
-
-export type ContactContentProps = { title: string };
 
 export type ContactPageProps = WithGlobalData<
   ContactLayoutProps & ContactContentProps
 >;
-
-function ContactContent(props: ContactContentProps) {
-  return (
-    <section>
-      <h1>Initial title contact schema</h1>
-    </section>
-  );
-}
 
 const ContactPage: NextPage<ContactPageProps> = (props) => {
   return (
