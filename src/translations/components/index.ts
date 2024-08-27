@@ -11,4 +11,3 @@ export { TabLink } from './tab-link';
 export { DepartureTime } from './departure-time';
 export { ClearButton } from './clear-button';
 export { SearchInput } from './search';
-export { CategorySelector } from './category-selector';

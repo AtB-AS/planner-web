@@ -1,9 +1,11 @@
 import { FormEventHandler } from 'react';
-import style from './content.module.css';
+import style from './ticket-control-and-fee.module.css';
 
-export type ContactContentProps = { title: string };
+export type TicketControlAndFeeContentProps = { title: string };
 
-export const ContactContent = (props: ContactContentProps) => {
+export const TicketControlAndFeeContent = (
+  props: TicketControlAndFeeContentProps,
+) => {
   const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
 
@@ -20,8 +22,7 @@ export const ContactContent = (props: ContactContentProps) => {
   };
 
   return (
-    <section className={style.container}>
-      <h1>Initial title contact schema</h1>
+    <section>
       <form onSubmit={onSubmit}>
         <button type="submit">Send</button>
       </form>

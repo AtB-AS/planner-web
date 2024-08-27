@@ -1,0 +1,8 @@
+.container {
+  margin: 0 auto;
+  max-width: var(--maxPageWidth);
+  padding: var(--spacings-large);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacings-medium);
+}

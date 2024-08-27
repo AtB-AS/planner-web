@@ -1,6 +1,11 @@
 import { translation as _ } from '@atb/translations/commons';
 
-export const CategorySelector = {
+export const Contact = {
+  title: _(
+    'Hva kan vi hjelpe deg med?',
+    'What can we help you with?',
+    'Kva kan vi hjelpe deg med?',
+  ),
   ticketControl: _(
     'Billettkontroll og gebyr',
     'Ticket control and fee',
