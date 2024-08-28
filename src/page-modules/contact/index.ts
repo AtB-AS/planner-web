@@ -1,1 +1,1 @@
-export { default as ContactLayout, type ContactLayoutProps } from './layout';
+export { ContactLayout, type ContactLayoutProps } from './layout';

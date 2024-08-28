@@ -1,0 +1,35 @@
+@value interactive-interactive_2 from "@atb/theme/theme.module.css";
+
+.layout__container {
+  margin: 0 auto;
+  max-width: var(--maxPageWidth);
+  padding: var(--spacings-large);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacings-medium);
+}
+
+.contact_page_navigator__container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  gap: var(--spacings-large);
+}
+
+.contact_page_navigator__link {
+  composes: interactive-interactive_2;
+  text-align: center;
+  text-decoration: none;
+  padding: var(--spacings-medium);
+  border-radius: var(--border-radius-regular);
+}
+
+.contact_page_navigator__link:hover {
+  color: var(--interactive-interactive_2-hover-text);
+  background-color: var(--interactive-interactive_2-hover-background);
+}
+
+.contact_page_navigator__activePage {
+  border: var(--border-radius-small) solid
+    var(--static-background-background_0-text);
+}
