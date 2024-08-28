@@ -13,7 +13,7 @@ function ContactLayout({ children }: ContactLayoutProps) {
 
   return (
     <HomeLinkWithGlobalMessageLayout>
-      <div className={style.container}>
+      <div className={style.layout__container}>
         <h2>{t(PageText.Contact.title)}</h2>
         <ContactPageNavigator />
         {children}

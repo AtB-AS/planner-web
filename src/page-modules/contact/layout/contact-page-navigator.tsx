@@ -1,58 +1,70 @@
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import style from './layout.module.css';
+import { Typo } from '@atb/components/typography';
 import { PageText, TranslatedString, useTranslation } from '@atb/translations';
-import { Route } from 'next';
-import style from './contact-page-navigator.module.css';
+import { andIf } from '@atb/utils/css';
 
-type Category = {
-  name: TranslatedString;
-  route: Route;
+type ContactPage = {
+  title: TranslatedString;
+  href: string;
 };
 
-const categories: Category[] = [
+const contactPages: ContactPage[] = [
   {
-    name: PageText.Contact.ticketControl,
-    route: '/billettkontroll-og-gebyr',
+    title: PageText.Contact.ticketControl.title,
+    href: '/contact/billettkontroll-og-gebyr',
   },
   {
-    name: PageText.Contact.travelGuarantee,
-    route: '/reisegaranti',
+    title: PageText.Contact.travelGuarantee.title,
+    href: '/contact/reisegaranti',
   },
   {
-    name: PageText.Contact.modeOfTransport,
-    route: '/transportmiddel-og-stoppested',
+    title: PageText.Contact.modeOfTransport.title,
+    href: '/contact/transportmiddel-og-stoppested',
   },
   {
-    name: PageText.Contact.ticketsApp,
-    route: '/billette-og-app',
+    title: PageText.Contact.ticketsApp.title,
+    href: '/contact/billette-og-app',
   },
   {
-    name: PageText.Contact.lostAndFound,
-    route: '/hittegods',
+    title: PageText.Contact.lostAndFound.title,
+    href: '/contact/hittegods',
   },
   {
-    name: PageText.Contact.groupTravel,
-    route: '/gruppereise',
+    title: PageText.Contact.groupTravel.title,
+    href: '/contact/gruppereise',
   },
 ];
 
 const ContactPageNavigator = () => {
   const { t } = useTranslation();
+  const pathname = usePathname();
 
   return (
-    <div className={style.container}>
-      {categories.map((category, index) => {
+    <nav className={style.contact_page_navigator__container}>
+      {contactPages.map((contactPage, index) => {
+        const isActive = pathname.includes(contactPage.href);
+
         return (
           <Link
             key={index}
-            className={style.link}
-            href={{ pathname: `/contact${category.route}` }}
+            href={contactPage.href}
+            className={andIf({
+              [style.contact_page_navigator__link]: true,
+              [style.contact_page_navigator__activePage]: isActive,
+            })}
           >
             {/*Add icon*/}
-            <div className={style.link_content_text}>{t(category.name)}</div>
+            <Typo.p
+              textType={isActive ? 'body__primary--bold' : 'body__primary'}
+            >
+              {t(contactPage.title)}
+            </Typo.p>
           </Link>
         );
       })}
-    </div>
+    </nav>
   );
 };
 
