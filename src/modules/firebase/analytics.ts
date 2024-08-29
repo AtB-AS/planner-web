@@ -28,7 +28,11 @@ export async function init() {
 }
 
 export function logSpecificEvent(
-  event: 'search_assistant' | 'search_departure' | 'select_search',
+  event:
+    | 'search_assistant'
+    | 'search_departure'
+    | 'select_search'
+    | 'initialize_map',
 ) {
   if (!isSupported()) {
     return;

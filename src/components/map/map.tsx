@@ -22,6 +22,7 @@ import { and } from '@atb/utils/css';
 import { MapLegType, Position } from './types';
 import { useMapTariffZones } from './use-map-tariff-zones';
 import useMediaQuery from '@atb/utils/user-media-query';
+import { logSpecificEvent } from '@atb/modules/firebase';
 
 export type MapProps = {
   layer?: string;
@@ -54,6 +55,7 @@ export default function Map({ layer, onSelectStopPlace, ...props }: MapProps) {
     if (!mapContainer.current || map.current) return;
     // If browsers doesn't support WebGL, don't initialize map
     if (!mapboxgl.supported()) return;
+    logSpecificEvent('initialize_map');
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       accessToken: mapboxData.accessToken,
