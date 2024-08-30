@@ -1,6 +1,7 @@
 import { FormEventHandler } from 'react';
 import { useMachine } from '@xstate/react';
 import { formMachine } from './formMachine';
+import { SectionCard } from '../components/section-card';
 
 export type TicketControlAndFeeContentProps = { title: string };
 
@@ -26,7 +27,7 @@ export const TicketControlAndFeeContent = (
 
   return (
     <div>
-      <div>
+      <SectionCard>
         <h1>
           Check 1{' '}
           <input
@@ -40,10 +41,10 @@ export const TicketControlAndFeeContent = (
             }
           />
         </h1>
-      </div>
+      </SectionCard>
 
       {state.matches('agreement2') && (
-        <div>
+        <SectionCard>
           <h1>
             Check 2{' '}
             <input
@@ -57,11 +58,11 @@ export const TicketControlAndFeeContent = (
               }
             />
           </h1>
-        </div>
+        </SectionCard>
       )}
 
       {state.matches({ agreement2: 'form' }) && (
-        <div>
+        <SectionCard>
           <form>
             <h1>Informasjon om gebyret</h1>
             <div>
@@ -104,7 +105,7 @@ export const TicketControlAndFeeContent = (
               </label>
             </div>
           </form>
-        </div>
+        </SectionCard>
       )}
     </div>
   );
