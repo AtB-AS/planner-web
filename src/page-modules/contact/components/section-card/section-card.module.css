@@ -1,0 +1,6 @@
+.container {
+  background-color: var(--static-background-background_0-background);
+  padding: var(--spacings-large);
+  margin-bottom: var(--spacings-large);
+  border-radius: var(--border-radius-regular);
+}
