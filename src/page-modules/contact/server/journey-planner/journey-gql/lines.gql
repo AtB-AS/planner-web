@@ -1,0 +1,11 @@
+query lines($authority: String!) {
+  lines(authorities: [$authority]) {
+    id
+    name
+    transportMode
+    quays {
+      id
+      name
+    }
+  }
+}
