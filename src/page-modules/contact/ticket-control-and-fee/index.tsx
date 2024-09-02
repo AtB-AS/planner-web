@@ -1,7 +1,11 @@
 import { FormEventHandler } from 'react';
 import { useMachine } from '@xstate/react';
 import { formMachine } from './formMachine';
+import { PageText } from '@atb/translations';
+import { Input } from '../components/input';
 import { SectionCard } from '../components/section-card';
+import { FeeComplaintForm } from './feeComplaintForm';
+import { AnyEventObject } from 'xstate';
 
 export type TicketControlAndFeeContentProps = { title: string };
 
@@ -9,6 +13,8 @@ export const TicketControlAndFeeContent = (
   props: TicketControlAndFeeContentProps,
 ) => {
   const [state, send] = useMachine(formMachine);
+  console.log('typeof state: ', typeof state._nodes);
+  console.log('typeof send: ', typeof send);
 
   const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
@@ -21,92 +27,83 @@ export const TicketControlAndFeeContent = (
 
     if (response.ok) {
       const res = await response.json();
-      //console.log(res);
+      console.log(res);
     }
   };
 
   return (
     <div>
-      <SectionCard>
-        <h1>
-          Check 1{' '}
-          <input
-            type="checkbox"
-            name="aggreement1"
-            value="aggreement1"
-            onChange={
-              state.matches('idle')
-                ? () => send({ type: 'agree1', target: 'idle2' })
-                : () => send({ type: 'disagree1', target: 'idle' })
-            }
-          />
-        </h1>
+      <SectionCard title={PageText.Contact.ticketControl.title}>
+        <FormSelector state={state} send={send} />
       </SectionCard>
-
-      {state.matches('agreement2') && (
-        <SectionCard>
-          <h1>
-            Check 2{' '}
-            <input
-              type="checkbox"
-              name="aggreement2"
-              value="aggreement2"
-              onChange={
-                state.matches({ agreement2: 'idle2' })
-                  ? () => send({ type: 'agree2', target: 'fill' })
-                  : () => send({ type: 'disagree2', target: 'idle2' })
-              }
-            />
-          </h1>
-        </SectionCard>
+      {state.matches('feeComplaintForm') && (
+        <FeeComplaintForm state={state} send={send} onSubmit={onSubmit} />
       )}
-
-      {state.matches({ agreement2: 'form' }) && (
-        <SectionCard>
-          <form>
-            <h1>Informasjon om gebyret</h1>
-            <div>
-              <label htmlFor="gebyrnummer">Gebyrnummer:</label>
-              <input
-                type="text"
-                id="gebyrnummer"
-                pattern="[0-9]*" // Valgfritt: Begrens inndata til tall
-              />
-            </div>
-            <div>
-              <label>
-                <input
-                  type="radio"
-                  value="useCase"
-                  //checked={}
-                  //onChange={handleOptionChange}
-                />
-                App
-              </label>
-              <br />
-              <label>
-                <input
-                  type="radio"
-                  value="useCase"
-                  //checked={selectedOption === 'useCase'}
-                  //onChange={handleOptionChange}
-                />
-                Reisekort
-              </label>
-              <br />
-              <label>
-                <input
-                  type="radio"
-                  value="useCase"
-                  //checked={selectedOption === 'useCase'}
-                  //onChange={handleOptionChange}
-                />
-                Annet
-              </label>
-            </div>
-          </form>
-        </SectionCard>
+      {state.matches('refundForm') && (
+        <div>
+          {/* Todo : Create and add <RefundForm/> */}
+          refund
+        </div>
       )}
+      {state.matches('feedbackForm') && (
+        <div>
+          {/* Todo : Create and add <FeedbackForm/> */}
+          feedback
+        </div>
+      )}
+    </div>
+  );
+};
+
+type FormSelectorProps = {
+  state: any;
+  send: (event: any) => void;
+};
+
+const FormSelector = ({ state, send }: FormSelectorProps) => {
+  return (
+    <div>
+      <Input
+        label={PageText.Contact.ticketControl.optionDescriptions.feeComplaint}
+        name="formSelector"
+        type="radio"
+        checked={state.matches('feeComplaintForm')}
+        onChange={() =>
+          send({
+            type: 'choose.feeComplaintForm',
+            target: 'feeComplaintForm',
+            title:
+              PageText.Contact.ticketControl.optionDescriptions.feeComplaint.no,
+          })
+        }
+      />
+      <Input
+        label={PageText.Contact.ticketControl.optionDescriptions.refund}
+        type="radio"
+        name="formSelector"
+        checked={state.matches('refundForm')}
+        onChange={() =>
+          send({
+            type: 'choose.refundForm',
+            target: 'refundForm',
+            title: PageText.Contact.ticketControl.optionDescriptions.refund.no,
+          })
+        }
+      />
+      <Input
+        label={PageText.Contact.ticketControl.optionDescriptions.feedback}
+        type="radio"
+        name="formSelector"
+        checked={state.matches('feedbackForm')}
+        onChange={() =>
+          send({
+            type: 'choose.feedbackForm',
+            target: 'feedbackForm',
+            title:
+              PageText.Contact.ticketControl.optionDescriptions.feedback.no,
+          })
+        }
+      />
     </div>
   );
 };
