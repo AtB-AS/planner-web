@@ -33,6 +33,7 @@ jobs:
         FRAM_NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=${{ github.event_name == 'release' && 'fram-prod-a7850.firebaseapp.com' || 'fram-staging.firebaseapp.com' }}
         FRAM_NEXT_PUBLIC_FIREBASE_APP_ID=${{ github.event_name == 'release' && '1:717595301444:web:1e16129330d562f1b3ce11' || '1:312905478211:web:41c6f9db83ae5ef0efa4f6' }}
         FRAM_NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=${{ github.event_name == 'release' && 'G-KS45JBFWF4' || '' }}
+        FRAM_NEXT_PUBLIC_CONTACT_API_URL=${{ github.event_name == 'release' && '' || 'https://pureservice-connect-staging-744284a2bb1b.herokuapp.com'}}
         TROMS_NEXT_PUBLIC_MAPBOX_DEFAULT_LAT=69.665229
         TROMS_NEXT_PUBLIC_MAPBOX_DEFAULT_LNG=18.9070347
         TROMS_NEXT_PUBLIC_FIREBASE_PROJECT_ID=${{ github.event_name == 'release' && 'troms-prod' || 'troms-staging'}}
