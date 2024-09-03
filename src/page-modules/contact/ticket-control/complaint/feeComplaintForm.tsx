@@ -1,67 +1,66 @@
 import { FormEventHandler } from 'react';
-import style from './ticket-control-and-fee.module.css';
+import style from '../ticket-control.module.css';
 import { Button } from '@atb/components/button';
-import { Input } from '../components/input';
-import { SectionCard } from '../components/section-card';
+import { Input } from '../../components/input';
+import { SectionCard } from '../../components/section-card';
 import { PageText, TranslatedString, useTranslation } from '@atb/translations';
+import { useMachine } from '@xstate/react';
+import { formMachine } from './formMachine';
 
-// Todo: Update types
-type FeeComplaintFormProps = {
-  state: any;
-  send: (event: any) => void;
-  onSubmit: FormEventHandler<HTMLFormElement>;
-};
-
-export const FeeComplaintForm = ({
-  state,
-  send,
-  onSubmit,
-}: FeeComplaintFormProps) => {
+export const FeeComplaintForm = () => {
   const { t } = useTranslation();
+  const [state, send] = useMachine(formMachine);
 
-  const doesAgree1 = state.matches({ feeComplaintForm: 'firstAgreement' });
-  const showSecondAgreement = state.matches({
-    feeComplaintForm: 'secondAgreement',
-  });
+  const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
+    e.preventDefault();
 
-  const doesAgree2 = state.matches({
-    feeComplaintForm: { secondAgreement: 'idleSecondAgreement' },
-  });
+    const formData = new FormData(e.currentTarget);
+    const response = await fetch('/api/contact', {
+      method: 'POST',
+      body: formData,
+    });
 
+    if (response.ok) {
+      const res = await response.json();
+      console.log(res);
+    }
+  };
+
+  const doesAgree1 = state.matches('firstAgreement');
+  const showSecondAgreement = state.matches('secondAgreement');
+  const doesAgree2 = state.matches({ secondAgreement: 'idleSecondAgreement' });
   const showForm = state.matches({
-    feeComplaintForm: { secondAgreement: 'form' },
+    secondAgreement: 'form',
   });
-
   const appSelected = state.matches({
-    feeComplaintForm: {
-      secondAgreement: { form: { ticketStorageMode: 'app' } },
-    },
+    secondAgreement: { form: { ticketStorageMode: 'app' } },
   });
 
   const travelcardSelected = state.matches({
-    feeComplaintForm: {
-      secondAgreement: {
-        form: { ticketStorageMode: 'travelcard' },
-      },
+    secondAgreement: {
+      form: { ticketStorageMode: 'travelcard' },
     },
   });
 
   return (
     <div>
       <SectionCard
-        title={PageText.Contact.ticketControl.feeComplaint.agreement1.title}
+        title={PageText.Contact.ticketControl.feeComplaint.firstAgreement.title}
       >
         <p>
-          {t(PageText.Contact.ticketControl.feeComplaint.agreement1.question)}
+          {t(
+            PageText.Contact.ticketControl.feeComplaint.firstAgreement.question,
+          )}
         </p>
         <div>
           <h4>
             {t(
-              PageText.Contact.ticketControl.feeComplaint.agreement1.labelRules,
+              PageText.Contact.ticketControl.feeComplaint.firstAgreement
+                .labelRules,
             )}
           </h4>
           <ul className={style.list}>
-            {PageText.Contact.ticketControl.feeComplaint.agreement1.rules.map(
+            {PageText.Contact.ticketControl.feeComplaint.firstAgreement.rules.map(
               (rule: TranslatedString, index: number) => (
                 <li key={index}>{t(rule)}</li>
               ),
@@ -71,7 +70,7 @@ export const FeeComplaintForm = ({
 
         <Input
           label={
-            PageText.Contact.ticketControl.feeComplaint.agreement1.checkbox
+            PageText.Contact.ticketControl.feeComplaint.firstAgreement.checkbox
           }
           type="checkbox"
           name="aggreement1"

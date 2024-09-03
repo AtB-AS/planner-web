@@ -30,13 +30,14 @@ export const Contact = {
         'Eg vil gi ei tilbakemelding knytt til billettkontroll',
       ),
     },
+
     feeComplaint: {
       info: _(
         'Viss du har fått gebyr på feil grunnlag, kan du sende oss ei skriftleg klage.',
         'If you have received a fee on incorrect grounds, you can submit a written complaint to us.',
         'Dersom du har fått gebyr på feil grunnlag, kan du sende oss ei skriftleg klage.',
       ),
-      agreement1: {
+      firstAgreement: {
         title: _(
           'Har du fått gebyr etter billettkontroll?',
           'Have you received a fine after a ticket inspection?',
