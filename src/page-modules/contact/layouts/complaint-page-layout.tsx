@@ -4,11 +4,11 @@ import { Input } from '../components/input';
 import { useRouter } from 'next/router';
 import { PageText } from '@atb/translations';
 
-export type ComplaintSubPageLayoutProps = PropsWithChildren<{
+export type ComplaintPageLayoutProps = PropsWithChildren<{
   title: string;
 }>;
 
-function ComplaintSubPageLayout({ children }: ComplaintSubPageLayoutProps) {
+function ComplaintPageLayout({ children }: ComplaintPageLayoutProps) {
   const router = useRouter();
 
   return (
@@ -65,4 +65,4 @@ function ComplaintSubPageLayout({ children }: ComplaintSubPageLayoutProps) {
   );
 }
 
-export default ComplaintSubPageLayout;
+export default ComplaintPageLayout;

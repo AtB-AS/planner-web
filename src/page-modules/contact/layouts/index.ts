@@ -4,6 +4,6 @@ export {
 } from './contact-page-layout';
 
 export {
-  default as ComplaintSubPageLayout,
-  type ComplaintSubPageLayoutProps,
-} from './complaint-sub-page-layout';
+  default as ComplaintPageLayout,
+  type ComplaintPageLayoutProps,
+} from './complaint-page-layout';

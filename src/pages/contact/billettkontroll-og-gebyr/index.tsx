@@ -4,7 +4,7 @@ import {
   ContactPageLayout,
   ContactPageLayoutProps,
 } from '@atb/page-modules/contact';
-import ComplaintSubPageLayout from '@atb/page-modules/contact/layouts/complaint-sub-page-layout';
+import ComplaintSubPageLayout from '@atb/page-modules/contact/layouts/complaint-page-layout';
 import { NextPage } from 'next';
 
 export type TicketControlAndFeePageProps = {
