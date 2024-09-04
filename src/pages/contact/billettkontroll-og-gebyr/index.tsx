@@ -1,7 +1,10 @@
 import DefaultLayout from '@atb/layouts/default';
 import { withGlobalData, WithGlobalData } from '@atb/layouts/global-data';
-import { ContactLayout, ContactLayoutProps } from '@atb/page-modules/contact';
-import { TicketControlAndFeeContent } from '@atb/page-modules/contact/ticket-control';
+import {
+  ContactPageLayout,
+  ContactPageLayoutProps,
+} from '@atb/page-modules/contact';
+import ComplaintSubPageLayout from '@atb/page-modules/contact/layouts/complaint-sub-page-layout';
 import { NextPage } from 'next';
 
 export type TicketControlAndFeePageProps = {
@@ -9,15 +12,15 @@ export type TicketControlAndFeePageProps = {
 };
 
 export type ContactPageProps = WithGlobalData<
-  ContactLayoutProps & TicketControlAndFeePageProps
+  ContactPageLayoutProps & TicketControlAndFeePageProps
 >;
 
 const TicketControlAndFeePage: NextPage<ContactPageProps> = (props) => {
   return (
     <DefaultLayout {...props}>
-      <ContactLayout {...props}>
-        <TicketControlAndFeeContent {...props} />
-      </ContactLayout>
+      <ContactPageLayout {...props}>
+        <ComplaintSubPageLayout {...props} />
+      </ContactPageLayout>
     </DefaultLayout>
   );
 };

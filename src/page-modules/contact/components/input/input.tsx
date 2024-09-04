@@ -23,7 +23,7 @@ export const Input = ({ label, type, name, checked, onChange }: InputProps) => {
         name={name}
         className={style.input}
         checked={checked}
-        onChange={() => onChange}
+        onChange={onChange}
       />
     </div>
   );

@@ -1,5 +1,4 @@
 import { translation as _ } from '@atb/translations/commons';
-import { title } from 'process';
 
 export const Contact = {
   title: _(
@@ -13,7 +12,7 @@ export const Contact = {
       'Ticket control and fee',
       'Billettkontroll og gebyr',
     ),
-    optionDescriptions: {
+    subPageTitles: {
       feeComplaint: _(
         'Eg har fått gebyr og ønsker å utsette betalinga',
         'I have received a fee and would like to postpone the payment',

@@ -1,8 +1,7 @@
-import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { usePathname } from 'next/navigation';
 import { TranslatedString } from '@atb/translations';
 import { Input } from '../input';
-import style from './contact-form-selector.module.css';
-import { usePathname } from 'next/navigation';
 
 export type ContactForm = {
   description: TranslatedString;
@@ -15,25 +14,24 @@ type ContactFormSelectorProps = {
 };
 
 const ContactFormSelector = ({ contactForms }: ContactFormSelectorProps) => {
+  const router = useRouter();
   const pathname = usePathname();
   return (
     <nav>
       {contactForms.map((contactForm, index) => {
         const isActive = pathname.includes(contactForm.href);
-
         return (
-          <Link
+          <Input
             key={index}
-            shallow={true}
-            href={contactForm.href}
-            className={style.link}
-          >
-            <Input
-              label={contactForm.description}
-              type="radio"
-              checked={isActive}
-            />
-          </Link>
+            label={contactForm.description}
+            type="radio"
+            checked={isActive}
+            onChange={() =>
+              router.push(contactForm.href, undefined, {
+                shallow: true,
+              })
+            }
+          />
         );
       })}
     </nav>
