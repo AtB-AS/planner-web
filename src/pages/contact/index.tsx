@@ -1,15 +1,18 @@
 import DefaultLayout from '@atb/layouts/default';
 import { withGlobalData, WithGlobalData } from '@atb/layouts/global-data';
-import { ContactLayout, ContactLayoutProps } from '@atb/page-modules/contact';
+import {
+  ContactPageLayout,
+  ContactPageLayoutProps,
+} from '@atb/page-modules/contact';
 import { shouldShowContactPage } from '@atb/page-modules/contact/utils';
 import { NextPage } from 'next';
 
-export type ContactPageProps = WithGlobalData<ContactLayoutProps>;
+export type ContactPageProps = WithGlobalData<ContactPageLayoutProps>;
 
 const ContactPage: NextPage<ContactPageProps> = (props) => {
   return (
     <DefaultLayout {...props}>
-      <ContactLayout {...props} />
+      <ContactPageLayout {...props} />
     </DefaultLayout>
   );
 };
