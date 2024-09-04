@@ -54,7 +54,7 @@ export const Contact = {
         ),
         rules: [
           _(
-            'Du er selv ansvarleg for å ha gyldig billett og legitimasjon på heil reisen.',
+            'Du er selv ansvarlig for å ha gyldig billett og legitimasjon på hele reisen.',
             'You are responsible for having a valid ticket and identification throughout the journey.',
             'Du er sjølv ansvarleg for å ha gyldig billett og legitimasjon på heile reisa.',
           ),
