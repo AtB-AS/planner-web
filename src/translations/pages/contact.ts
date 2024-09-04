@@ -43,7 +43,7 @@ export const Contact = {
           'Har du fått gebyr etter billettkontroll?',
         ),
         question: _(
-          'Vi har full forståing for at det kan være en ubehagelig opplevlese å få gebyr ved billettkontroll, og vi veit at de aller fleste ønsker å reise med gyldig billett.',
+          'Vi har full forståelse for at det kan være en ubehagelig opplevlese å få gebyr ved billettkontroll, og vi vet at de aller fleste ønsker å reise med gyldig billett.',
           'We fully understand that receiving a fine during a ticket inspection can be an unpleasant experience, and we know that the majority of people want to travel with a valid ticket.',
           'Vi har full forståing for at det kan vere ei ubehageleg oppleving å få gebyr ved billettkontroll, og vi veit at dei fleste ønsker å reise med gyldig billett.',
         ),
