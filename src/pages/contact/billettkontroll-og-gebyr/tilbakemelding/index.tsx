@@ -5,6 +5,8 @@ import {
   ContactPageLayoutProps,
 } from '@atb/page-modules/contact';
 import TicketControlPageLayout from '@atb/page-modules/contact/layouts/ticket-control-page-layout';
+import FeedbackForm from '@atb/page-modules/contact/ticket-control/feedback/feedbackForm';
+
 import { NextPage } from 'next';
 
 export type TicketControlAndFeePageProps = {
@@ -19,7 +21,9 @@ const TicketControlAndFeePage: NextPage<ContactPageProps> = (props) => {
   return (
     <DefaultLayout {...props}>
       <ContactPageLayout {...props}>
-        <TicketControlPageLayout {...props} />
+        <TicketControlPageLayout {...props}>
+          <FeedbackForm />
+        </TicketControlPageLayout>
       </ContactPageLayout>
     </DefaultLayout>
   );

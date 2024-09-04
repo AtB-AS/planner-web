@@ -17,7 +17,8 @@ export const useLines = () => {
 
   const getQuaysByLine = (lineId: string): Line['quays'] => {
     if (!lines) return [];
-    return lines.find((line) => line.id === lineId)?.quays || [];
+    const res = lines.find((line) => line.id === lineId)?.quays || [];
+    return res;
   };
 
   return {

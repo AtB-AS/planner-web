@@ -1,7 +1,7 @@
 export {
   ContactPageLayout,
   type ContactPageLayoutProps,
-  ComplaintPageLayout,
-  type ComplaintPageLayoutProps,
+  TicketControlPageLayout,
+  type TicketControlPageLayoutProps,
 } from './layouts';
 export { type Line } from './server/journey-planner/validators';

@@ -158,6 +158,74 @@ export const Contact = {
         },
       },
     },
+
+    feedback: {
+      title: _(
+        'Tilbakemelding billettkontroll ',
+        'Feedback on ticket control',
+        'Tilbakemelding billettkontroll ',
+      ),
+      info: _(
+        'Har du tilbakemelding på en bestemt billettkontroll, trenger vi en beskrivelse av hvor og når billettkontrollen fant sted for å kunne gå videre med saken. Hvis du har en generell tilbakemelding, kan du hoppe over de første punktene.',
+        'If you have feedback regarding a specific ticket inspection, we need a description of where and when the ticket inspection took place in order to proceed with the matter. If you have general feedback, you can skip the initial points.',
+        'Har du tilbakemelding på ein bestemt billettkontroll, treng vi ei beskriving av kor og kva tid billettkontrollen var for å kunne gå vidare med saka. Har du ei generell tilbakemelding, kan du hoppe over dei første punkta.',
+      ),
+      locationQuestion: _(
+        'Hvor var billettkontrollen?',
+        'Where was the ticket control conducted?',
+        'Kor var billettkontrollen?',
+      ),
+      transportMode: {
+        label: _('Reisemåte', 'Transport mode', 'Reisemåte'),
+        optionLabel: _(
+          'Velg reisemåte',
+          'Choose transport mode',
+          'Velg reisemåte',
+        ),
+        notDefinedFeedback: _(
+          'Reisemåte må settes!',
+          'Transport mode must be set!',
+          'Reisemåte må settes!',
+        ),
+      },
+      line: {
+        label: _('Linje', 'Line', 'Linje'),
+        optionLabel: _('Velg linje', 'Choose line', 'Velg linje'),
+        notDefinedFeedback: _(
+          'Line må settes!',
+          'Line must be set!',
+          'Linje må settes!',
+        ),
+      },
+      departureLocation: {
+        label: _('Avreisested', 'Departure location', 'Avreisested'),
+        optionLabel: _(
+          'Velg avreisested',
+          'Choose departure loation',
+          'Velg avreisested',
+        ),
+        notDefinedFeedback: _(
+          'Avreisested må settes!',
+          'Departure location must be set!',
+          'Avreisested må settes!',
+        ),
+      },
+      arrivalLocation: {
+        label: _('Ankomststed', 'Arrival location', 'Ankomststed'),
+        optionLabel: _(
+          'Velg anskomststed',
+          'Choose arrival location',
+          'Velg ankomststed',
+        ),
+        notDefinedFeedback: _(
+          'Anskomststed må settes!',
+          'Arrival location must be set!',
+          'Anskomststed må settes!',
+        ),
+      },
+      date: _('Dato', 'Date', 'Dato'),
+      departureTime: _('Avgangstid', 'Departure time', 'Avgangstid'),
+    },
   },
   travelGuarantee: {
     title: _('Reisegaranti', 'Travel guarantee', 'Reisegaranti'),
@@ -178,29 +246,39 @@ export const Contact = {
   groupTravel: {
     title: _('Gruppereise', 'Group travel', 'Gruppereise'),
   },
-  feedbackQuestion: _(
-    'Hva ønsker du å fortelle oss?',
-    'What do you want to tell us?',
-    'Kva ønskjer du å fortelje oss?',
-  ),
+  feedback: {
+    question: _(
+      'Hva ønsker du å fortelle oss?',
+      'What do you want to tell us?',
+      'Kva ønskjer du å fortelje oss?',
+    ),
+    isToShort: _(
+      'Tilbakemelding mangler!',
+      'Feedback is missing!',
+      'Tilbakemelding mangler!',
+    ),
+    attatchment: _('Vedlegg', 'Attatchment', 'Vedlegg'),
+  },
   aboutYouInfo: {
     title: _(
       'Informasjon om deg',
       'Information about you',
       'Informasjon om deg',
     ),
-    firstAndMiddleName: _(
+
+    firstname: _(
       'Fornavn og mellomnavn',
       'First name and middle name',
       'Fornamn og mellomnamn',
     ),
-    surname: _('Etternavn', 'Surname', 'Etternamn'),
+    lastname: _('Etternavn', 'Surname', 'Etternamn'),
     address: _('Adresse', 'Address', 'Adresse'),
     postalCode: _('Postnummer', 'Postal code', 'Postnummar'),
     city: _('Bosted', 'City', 'Bustad'),
     email: _('E-post', 'Email', 'E-post'),
     mobile: _('Mobil', 'Mobile', 'Mobil'),
     bankAccount: _('Bankkontonummer', 'Bank account number', 'Bankkontonummar'),
+    isEmpty: _('Må settes!', 'Must be set!', 'Må settes!'),
   },
   submit: _('Send', 'Submit', 'Send'),
 };

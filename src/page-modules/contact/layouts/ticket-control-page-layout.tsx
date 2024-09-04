@@ -4,11 +4,11 @@ import { Input } from '../components/input';
 import { useRouter } from 'next/router';
 import { PageText } from '@atb/translations';
 
-export type ComplaintPageLayoutProps = PropsWithChildren<{
+export type TicketControlPageLayoutProps = PropsWithChildren<{
   title: string;
 }>;
 
-function ComplaintPageLayout({ children }: ComplaintPageLayoutProps) {
+function TicketControlPageLayout({ children }: TicketControlPageLayoutProps) {
   const router = useRouter();
 
   return (
@@ -35,7 +35,7 @@ function ComplaintPageLayout({ children }: ComplaintPageLayoutProps) {
             checked={router.pathname.includes('/utsette-betaling')}
             onChange={() =>
               router.push(
-                '/contact/billettkontroll-og-gebyr/klage',
+                '/contact/billettkontroll-og-gebyr/utsette-betaling',
                 undefined,
                 {
                   shallow: true,
@@ -65,4 +65,4 @@ function ComplaintPageLayout({ children }: ComplaintPageLayoutProps) {
   );
 }
 
-export default ComplaintPageLayout;
+export default TicketControlPageLayout;
