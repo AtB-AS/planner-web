@@ -105,7 +105,7 @@ export const Contact = {
           ),
           _(
             'Kunden har gløymt å fornye periodebillett.',
-            'The customer has forgotten to renew the season ticket.',
+            'The customer has forgotten to renew the ticket.',
             'Kunden har gløymt å fornye periodebillett.',
           ),
           _(
