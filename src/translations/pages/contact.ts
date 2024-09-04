@@ -14,14 +14,14 @@ export const Contact = {
     ),
     subPageTitles: {
       feeComplaint: _(
-        'Jeg har fått gebyr og ønsker å utsette betalingen',
-        'I have received a fee and would like to postpone the payment',
-        'Eg har fått gebyr og ønskjer å utsetje betalinga',
-      ),
-      refund: _(
         'Jeg har fått gebyr og ønsker å klage',
         'I have received a fee and would like to file a complaint',
         'Eg har fått gebyr og ønskjer å klage',
+      ),
+      postpone: _(
+        'Jeg har fått gebyr og ønsker å utsette betalingen',
+        'I have received a fee and would like to postpone the payment',
+        'Eg har fått gebyr og ønskjer å utsetje betalinga',
       ),
       feedback: _(
         'Jeg vil gi en tilbakemelding knyttet til billettkontroll',
@@ -32,7 +32,7 @@ export const Contact = {
 
     feeComplaint: {
       info: _(
-        'Viss du har fått gebyr på feil grunnlag, kan du sende oss en skriftleg klage.',
+        'Hvis du har fått gebyr på feil grunnlag, kan du sende oss en skriftlig klage.',
         'If you have received a fee on incorrect grounds, you can submit a written complaint to us.',
         'Dersom du har fått gebyr på feil grunnlag, kan du sende oss ei skriftleg klage.',
       ),

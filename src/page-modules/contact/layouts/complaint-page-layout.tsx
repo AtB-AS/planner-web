@@ -30,7 +30,7 @@ function ComplaintPageLayout({ children }: ComplaintPageLayoutProps) {
             }
           />
           <Input
-            label={PageText.Contact.ticketControl.subPageTitles.refund}
+            label={PageText.Contact.ticketControl.subPageTitles.postpone}
             type="radio"
             checked={router.pathname.includes('/utsette-betaling')}
             onChange={() =>
