@@ -24,7 +24,7 @@ export const Contact = {
         'Eg har fått gebyr og ønskjer å klage',
       ),
       feedback: _(
-        'Jeg vil git en tilbakemling knyttet til billettkontroll',
+        'Jeg vil gi en tilbakemelding knyttet til billettkontroll',
         'I would like to provide feedback regarding ticket control',
         'Eg vil gi ei tilbakemelding knytt til billettkontroll',
       ),
