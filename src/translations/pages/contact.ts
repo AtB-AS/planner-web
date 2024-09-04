@@ -104,7 +104,7 @@ export const Contact = {
             'Kunden kjøper billett til seg sjølv eller andre for seint, for eksempel etter ombordstiging.',
           ),
           _(
-            'Kunden har gløymt å fornye periodebillett.',
+            'Kunden har glemt å fornye periodebillett.',
             'The customer has forgotten to renew the ticket.',
             'Kunden har gløymt å fornye periodebillett.',
           ),
