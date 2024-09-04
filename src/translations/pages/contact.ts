@@ -109,7 +109,7 @@ export const Contact = {
             'Kunden har gløymt å fornye periodebillett.',
           ),
           _(
-            'Kunden reiser med gyldig billett på mobilen, men mobiltelefonen har gått tom for straum.',
+            'Kunden reiser med gyldig billett på mobilen, men mobiltelefonen har gått tom for strøm.',
             'The customer travels with a valid ticket on their mobile phone, but the phone has run out of battery.',
             'Kunden reiser med gyldig billett på mobilen, men mobiltelefonen har gått tom for straum.',
           ),
