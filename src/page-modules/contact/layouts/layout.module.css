@@ -20,16 +20,15 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   gap: var(--spacings-small);
   width: 12rem;
-  height: 120px;
+  height: 7.5rem;
 
   composes: interactive-interactive_2;
   text-align: center;
   text-decoration: none;
 
-  padding: var(--spacings-medium);
+  padding: var(--spacings-large);
   border-radius: var(--border-radius-regular);
 }
 
