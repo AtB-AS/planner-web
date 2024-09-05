@@ -12,14 +12,23 @@
 .contact_page_navigator__container {
   display: flex;
   justify-content: center;
-  width: 100%;
-  gap: var(--spacings-large);
+  flex-wrap: wrap;
+  gap: var(--spacings-medium);
 }
 
 .contact_page_navigator__link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacings-small);
+  width: 12rem;
+  height: 120px;
+
   composes: interactive-interactive_2;
   text-align: center;
   text-decoration: none;
+
   padding: var(--spacings-medium);
   border-radius: var(--border-radius-regular);
 }
@@ -30,6 +39,6 @@
 }
 
 .contact_page_navigator__activePage {
-  border: var(--border-radius-small) solid
-    var(--static-background-background_0-text);
+  border: var(--border-width-medium) solid
+    var(--interactive-interactive_2-outline-background);
 }
