@@ -11,7 +11,7 @@ type InputProps = {
 
 export const Input = ({
   label,
-  validationMessage,
+  errorMessage,
   type,
   name,
   checked,
