@@ -217,7 +217,7 @@ export const Contact = {
           'Choose arrival location',
           'Velg ankomststed',
         ),
-        notDefinedFeedback: _(
+        errorMessage: _(
           'Anskomststed må settes!',
           'Arrival location must be set!',
           'Anskomststed må settes!',
