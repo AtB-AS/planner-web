@@ -182,7 +182,7 @@ export const Contact = {
           'Choose transport mode',
           'Velg reisemåte',
         ),
-        notDefinedFeedback: _(
+        errorMessage: _(
           'Reisemåte må settes!',
           'Transport mode must be set!',
           'Reisemåte må settes!',
