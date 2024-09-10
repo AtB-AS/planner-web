@@ -25,7 +25,7 @@ ul {
     var(--interactive-interactive_2-outline-background);
 }
 
-.errorTextarea {
+.feedback__error {
   border-color: red;
 }
 
