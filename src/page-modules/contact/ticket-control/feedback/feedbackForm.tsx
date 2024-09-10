@@ -45,7 +45,6 @@ export const FeedbackForm = () => {
       user: user,
     };
 
-    console.log({ ticketData });
 
     const response = await fetch('/api/contact', {
       method: 'POST',
