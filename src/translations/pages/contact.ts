@@ -252,7 +252,7 @@ export const Contact = {
       'What do you want to tell us?',
       'Kva ønskjer du å fortelje oss?',
     ),
-    isToShort: _(
+    errorMessage: _(
       'Tilbakemelding mangler!',
       'Feedback is missing!',
       'Tilbakemelding mangler!',
