@@ -29,21 +29,28 @@ export const Input = ({
     >
       <div>
         <label>{t(label)}</label>
-        {errorMessage && (
-          <label className={style.error}>{t(errorMessage)}</label>
-        )}
       </div>
       <input
         type={type}
         name={name}
         className={andIf({
           [style.input]: true,
-          [style.input_error]: errorMessage ? true : false,
+          [style.input__error]: errorMessage ? true : false,
         })}
         checked={checked}
         value={value}
         onChange={onChange}
       />
+
+      {errorMessage && (
+        <label
+          className={andIf({
+            [style.input_label__error]: true,
+          })}
+        >
+          {t(errorMessage)}
+        </label>
+      )}
     </div>
   );
 };

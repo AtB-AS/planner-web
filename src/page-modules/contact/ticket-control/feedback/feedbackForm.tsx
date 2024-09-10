@@ -52,42 +52,50 @@ export const FeedbackForm = () => {
     }
   };
 
-  const TripDetailsSection = () => {
-    const isTransportModeUndefined = state.matches({
-      editing: { transportMode: { error: 'undefinedTransportMode' } },
-    });
+  const isTransportModeUndefined = state.matches({
+    editing: { transportMode: { error: 'undefinedTransportMode' } },
+  });
 
-    const isLineUndefined = state.matches({
-      editing: { line: { error: 'undefinedLine' } },
-    });
+  const isLineUndefined = state.matches({
+    editing: { line: { error: 'undefinedLine' } },
+  });
 
-    const isDepartureLocationUndefined = state.matches({
-      editing: {
-        departureLocation: { error: 'undefinedDepartureLocation' },
-      },
-    });
-    const isArrivalUndefined = state.matches({
-      editing: {
-        arrivalLocation: { error: 'undefinedArrivalLocation' },
-      },
-    });
+  const isDepartureLocationUndefined = state.matches({
+    editing: {
+      departureLocation: { error: 'undefinedDepartureLocation' },
+    },
+  });
+  const isArrivalLocationUndefined = state.matches({
+    editing: {
+      arrivalLocation: { error: 'undefinedArrivalLocation' },
+    },
+  });
 
-    return (
+  const isFeedbackEmpty = state.matches({
+    editing: { feedback: { error: 'emptyFeedback' } },
+  });
+
+  const isFirstnameEmpty = state.matches({
+    editing: { firstname: { error: 'emptyFirstname' } },
+  });
+
+  const isLastnameEmpty = state.matches({
+    editing: { lastname: { error: 'emptyLastname' } },
+  });
+
+  const isEmailEmpty = state.matches({
+    editing: { email: { error: 'emptyEmail' } },
+  });
+
+  return (
+    <form onSubmit={onSubmit}>
       <SectionCard title={PageText.Contact.ticketControl.feedback.title}>
         <p>{t(PageText.Contact.ticketControl.feedback.info)}</p>
         <p>{t(PageText.Contact.ticketControl.feedback.locationQuestion)}</p>
 
         <label>
-          {t(PageText.Contact.ticketControl.feedback.transportMode.label)}:
+          {t(PageText.Contact.ticketControl.feedback.transportMode.label)}
         </label>
-        {isTransportModeUndefined && (
-          <label className={style.error}>
-            {t(
-              PageText.Contact.ticketControl.feedback.transportMode
-                .notDefinedFeedback,
-            )}
-          </label>
-        )}
 
         <select
           name="transportModes"
@@ -103,6 +111,7 @@ export const FeedbackForm = () => {
             label={t(
               PageText.Contact.ticketControl.feedback.transportMode.optionLabel,
             )}
+            disabled
             value={undefined}
           />
           <option value="bus">
@@ -113,20 +122,24 @@ export const FeedbackForm = () => {
             {t(ComponentText.TransportMode.modes['water'])}
           </option>
         </select>
+        {isTransportModeUndefined && (
+          <label
+            className={andIf({
+              [style.feedback_label__error]: isTransportModeUndefined,
+            })}
+          >
+            {t(
+              PageText.Contact.ticketControl.feedback.transportMode
+                .errorMessage,
+            )}
+          </label>
+        )}
 
         {state.context.transportMode && (
           <>
             <label>
-              {t(PageText.Contact.ticketControl.feedback.line.label)}:
+              {t(PageText.Contact.ticketControl.feedback.line.label)}
             </label>
-            {isLineUndefined && (
-              <label className={style.error}>
-                {t(
-                  PageText.Contact.ticketControl.feedback.line
-                    .notDefinedFeedback,
-                )}
-              </label>
-            )}
 
             <select
               name="lines"
@@ -154,20 +167,25 @@ export const FeedbackForm = () => {
                 </option>
               ))}
             </select>
+            {isLineUndefined && (
+              <label
+                className={andIf({
+                  [style.feedback_label__error]: isLineUndefined,
+                })}
+              >
+                {t(PageText.Contact.ticketControl.feedback.line.errorMessage)}
+              </label>
+            )}
           </>
         )}
 
         {state.context.line && (
           <>
-            <label>Fra stoppested</label>
-            {isDepartureLocationUndefined && (
-              <label className={style.error}>
-                {t(
-                  PageText.Contact.ticketControl.feedback.departureLocation
-                    .notDefinedFeedback,
-                )}
-              </label>
-            )}
+            <label>
+              {t(
+                PageText.Contact.ticketControl.feedback.departureLocation.label,
+              )}
+            </label>
 
             <select
               name="departure"
@@ -194,6 +212,18 @@ export const FeedbackForm = () => {
                 </option>
               ))}
             </select>
+            {isDepartureLocationUndefined && (
+              <label
+                className={andIf({
+                  [style.feedback_label__error]: isDepartureLocationUndefined,
+                })}
+              >
+                {t(
+                  PageText.Contact.ticketControl.feedback.departureLocation
+                    .errorMessage,
+                )}
+              </label>
+            )}
           </>
         )}
 
@@ -202,14 +232,6 @@ export const FeedbackForm = () => {
             <label>
               {t(PageText.Contact.ticketControl.feedback.arrivalLocation.label)}
             </label>
-            {isArrivalUndefined && (
-              <label className={style.error}>
-                {t(
-                  PageText.Contact.ticketControl.feedback.arrivalLocation
-                    .notDefinedFeedback,
-                )}
-              </label>
-            )}
 
             <select
               name="arrival"
@@ -236,6 +258,18 @@ export const FeedbackForm = () => {
                 </option>
               ))}
             </select>
+            {isArrivalLocationUndefined && (
+              <label
+                className={andIf({
+                  [style.feedback_label__error]: isArrivalLocationUndefined,
+                })}
+              >
+                {t(
+                  PageText.Contact.ticketControl.feedback.arrivalLocation
+                    .errorMessage,
+                )}
+              </label>
+            )}
 
             <div>
               <Input
@@ -266,25 +300,11 @@ export const FeedbackForm = () => {
           </>
         )}
       </SectionCard>
-    );
-  };
-
-  const FeedbackSection = () => {
-    const isFeedbackEmpty = state.matches({
-      editing: { feedback: { error: 'emptyFeedback' } },
-    });
-
-    return (
       <SectionCard title={PageText.Contact.feedback.question}>
-        {isFeedbackEmpty && (
-          <label className={style.error}>
-            {t(PageText.Contact.feedback.isToShort)}
-          </label>
-        )}
         <textarea
           className={andIf({
             [style.feedback]: true,
-            [style.errorTextarea]: isFeedbackEmpty,
+            [style.feedback__error]: isFeedbackEmpty,
           })}
           name="feedback"
           value={state.context.feedback}
@@ -295,25 +315,13 @@ export const FeedbackForm = () => {
             })
           }
         />
+        {isFeedbackEmpty && (
+          <label className={style.feedback_label__error}>
+            {t(PageText.Contact.feedback.errorMessage)}
+          </label>
+        )}
         {/* Todo button to add attatchments */}
       </SectionCard>
-    );
-  };
-
-  const AboutYouSection = () => {
-    const isFirstnameEmpty = state.matches({
-      editing: { firstname: { error: 'emptyFirstname' } },
-    });
-
-    const isLastnameEmpty = state.matches({
-      editing: { lastname: { error: 'emptyLastname' } },
-    });
-
-    const isEmailEmpty = state.matches({
-      editing: { email: { error: 'emptyEmail' } },
-    });
-
-    return (
       <SectionCard title={PageText.Contact.aboutYouInfo.title}>
         <Input
           label={PageText.Contact.aboutYouInfo.firstname}
@@ -321,7 +329,9 @@ export const FeedbackForm = () => {
           name="firstname"
           value={state.context.firstname}
           errorMessage={
-            isFirstnameEmpty ? PageText.Contact.aboutYouInfo.isEmpty : undefined
+            isFirstnameEmpty
+              ? PageText.Contact.aboutYouInfo.errorMessage
+              : undefined
           }
           onChange={(e) =>
             send({
@@ -336,7 +346,9 @@ export const FeedbackForm = () => {
           name="lastname"
           value={state.context.lastname}
           errorMessage={
-            isLastnameEmpty ? PageText.Contact.aboutYouInfo.isEmpty : undefined
+            isLastnameEmpty
+              ? PageText.Contact.aboutYouInfo.errorMessage
+              : undefined
           }
           onChange={(e) =>
             send({
@@ -351,7 +363,9 @@ export const FeedbackForm = () => {
           name="email"
           value={state.context.email}
           errorMessage={
-            isEmailEmpty ? PageText.Contact.aboutYouInfo.isEmpty : undefined
+            isEmailEmpty
+              ? PageText.Contact.aboutYouInfo.errorMessage
+              : undefined
           }
           onChange={(e) =>
             send({
@@ -361,14 +375,6 @@ export const FeedbackForm = () => {
           }
         />
       </SectionCard>
-    );
-  };
-
-  return (
-    <form onSubmit={onSubmit}>
-      <TripDetailsSection />
-      <FeedbackSection />
-      <AboutYouSection />
       <Button
         title={t(PageText.Contact.submit)}
         mode={'interactive_0--bordered'}

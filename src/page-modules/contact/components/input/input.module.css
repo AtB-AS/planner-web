@@ -23,6 +23,7 @@
   outline: 0;
   background: none;
   border-radius: 0.75rem;
+  margin-bottom: var(--spacings-small);
 }
 
 .input::placeholder {
@@ -37,9 +38,12 @@
 }
 
 .input_label__error {
-  color: red;
+  background-color: var(--status-error-primary-background);
+  outline: 0;
+  padding: var(--spacings-small);
+  color: var(--status-error-primary-text);
 }
 
 .input__error {
-  border-color: red;
+  border-color: var(--status-error-primary-background);
 }
