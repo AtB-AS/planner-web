@@ -36,10 +36,10 @@
     var(--interactive-interactive_2-outline-background);
 }
 
-.error {
+.input_label__error {
   color: red;
 }
 
-.input_error {
+.input__error {
   border-color: red;
 }
