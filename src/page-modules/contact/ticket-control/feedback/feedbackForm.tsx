@@ -48,7 +48,7 @@ export const FeedbackForm = () => {
 
     const response = await fetch('/api/contact', {
       method: 'POST',
-      body: null,
+      body: JSON.stringify(ticketData),
     });
 
     if (response.ok) {
