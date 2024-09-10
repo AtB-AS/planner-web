@@ -111,6 +111,7 @@ export const FeedbackForm = () => {
             label={t(
               PageText.Contact.ticketControl.feedback.transportMode.optionLabel,
             )}
+            selected
             disabled
             value={undefined}
           />
@@ -157,6 +158,8 @@ export const FeedbackForm = () => {
                 label={t(
                   PageText.Contact.ticketControl.feedback.line.optionLabel,
                 )}
+                selected
+                disabled
                 value={undefined}
               />
               {getLinesByMode(
@@ -204,6 +207,8 @@ export const FeedbackForm = () => {
                   PageText.Contact.ticketControl.feedback.departureLocation
                     .optionLabel,
                 )}
+                selected
+                disabled
                 value={undefined}
               />
               {getQuaysByLine(state.context.line.id).map((quay) => (
@@ -250,6 +255,8 @@ export const FeedbackForm = () => {
                   PageText.Contact.ticketControl.feedback.arrivalLocation
                     .optionLabel,
                 )}
+                selected
+                disabled
                 value={undefined}
               />
               {getQuaysByLine(state.context.line.id).map((quay) => (

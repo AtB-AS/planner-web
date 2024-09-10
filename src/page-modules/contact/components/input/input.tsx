@@ -27,9 +27,7 @@ export const Input = ({
           type === 'radio' || type === 'checkbox' || type === 'submit',
       })}
     >
-      <div>
-        <label>{t(label)}</label>
-      </div>
+      <label>{t(label)}</label>
       <input
         type={type}
         name={name}
