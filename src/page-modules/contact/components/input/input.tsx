@@ -30,10 +30,7 @@ export const Input = ({
       <div>
         <label>{t(label)}</label>
         {validationMessage && (
-          <>
-            {' - '}
-            <label className={style.error}>{t(validationMessage)}</label>
-          </>
+          <label className={style.error}>{t(validationMessage)}</label>
         )}
       </div>
       <input
