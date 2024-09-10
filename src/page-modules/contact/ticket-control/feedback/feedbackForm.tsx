@@ -35,16 +35,9 @@ export const FeedbackForm = () => {
 
     if (!state.matches('submitting')) return;
 
-    const { user, subject, description } = fromContextFeedbackFormToTicketData(
+    const ticketData: TicketData = fromContextFeedbackFormToTicketData(
       state.context as ContextFeedbackForm,
     );
-
-    const ticketData: TicketData = {
-      subject: subject,
-      description: description,
-      user: user,
-    };
-
 
     const response = await fetch('/api/contact', {
       method: 'POST',
@@ -327,7 +320,7 @@ export const FeedbackForm = () => {
           type="text"
           name="firstname"
           value={state.context.firstname}
-          validationMessage={
+          errorMessage={
             isFirstnameEmpty ? PageText.Contact.aboutYouInfo.isEmpty : undefined
           }
           onChange={(e) =>
@@ -342,7 +335,7 @@ export const FeedbackForm = () => {
           type="text"
           name="lastname"
           value={state.context.lastname}
-          validationMessage={
+          errorMessage={
             isLastnameEmpty ? PageText.Contact.aboutYouInfo.isEmpty : undefined
           }
           onChange={(e) =>
@@ -357,7 +350,7 @@ export const FeedbackForm = () => {
           type="email"
           name="email"
           value={state.context.email}
-          validationMessage={
+          errorMessage={
             isEmailEmpty ? PageText.Contact.aboutYouInfo.isEmpty : undefined
           }
           onChange={(e) =>

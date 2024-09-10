@@ -5,7 +5,7 @@ import { andIf } from '@atb/utils/css';
 
 type InputProps = {
   label: TranslatedString;
-  validationMessage?: TranslatedString;
+  errorMessage?: TranslatedString;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 } & JSX.IntrinsicElements['input'];
 
@@ -29,8 +29,8 @@ export const Input = ({
     >
       <div>
         <label>{t(label)}</label>
-        {validationMessage && (
-          <label className={style.error}>{t(validationMessage)}</label>
+        {errorMessage && (
+          <label className={style.error}>{t(errorMessage)}</label>
         )}
       </div>
       <input
@@ -38,7 +38,7 @@ export const Input = ({
         name={name}
         className={andIf({
           [style.input]: true,
-          [style.input_error]: validationMessage ? true : false,
+          [style.input_error]: errorMessage ? true : false,
         })}
         checked={checked}
         value={value}
