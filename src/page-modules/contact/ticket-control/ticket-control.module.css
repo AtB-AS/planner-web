@@ -29,6 +29,6 @@ ul {
   border-color: red;
 }
 
-.error {
+.feedback_label__error {
   color: red;
 }
