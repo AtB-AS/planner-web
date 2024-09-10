@@ -158,6 +158,70 @@ export const Contact = {
         },
       },
     },
+
+    feedback: {
+      title: _(
+        'Tilbakemelding billettkontroll ',
+        'Feedback on ticket control',
+        'Tilbakemelding billettkontroll ',
+      ),
+      info: _(
+        'Har du tilbakemelding på en bestemt billettkontroll, trenger vi en beskrivelse av hvor og når billettkontrollen fant sted for å kunne gå videre med saken. Hvis du har en generell tilbakemelding, kan du hoppe over de første punktene.',
+        'If you have feedback regarding a specific ticket inspection, we need a description of where and when the ticket inspection took place in order to proceed with the matter. If you have general feedback, you can skip the initial points.',
+        'Har du tilbakemelding på ein bestemt billettkontroll, treng vi ei beskriving av kor og kva tid billettkontrollen var for å kunne gå vidare med saka. Har du ei generell tilbakemelding, kan du hoppe over dei første punkta.',
+      ),
+      locationQuestion: _(
+        'Hvor var billettkontrollen?',
+        'Where was the ticket control conducted?',
+        'Kor var billettkontrollen?',
+      ),
+      transportMode: {
+        label: _('Reisemåte', 'Transport mode', 'Reisemåte'),
+        optionLabel: _(
+          'Velg reisemåte',
+          'Select transport mode',
+          'Velg reisemåte',
+        ),
+        errorMessage: _(
+          'Velg reisemåte',
+          'Select transport mode',
+          'Velg reisemåte',
+        ),
+      },
+      line: {
+        label: _('Linje', 'Line', 'Linje'),
+        optionLabel: _('Velg linje', 'Choose line', 'Velg linje'),
+        errorMessage: _('Velg linje', 'Select line', 'Velg linje'),
+      },
+      departureLocation: {
+        label: _('Avreisested', 'Departure location', 'Avreisested'),
+        optionLabel: _(
+          'Velg avreisested',
+          'Select departure loation',
+          'Velg avreisested',
+        ),
+        errorMessage: _(
+          'Velg avreisested',
+          'Select departure loation',
+          'Velg avreisested',
+        ),
+      },
+      arrivalLocation: {
+        label: _('Ankomststed', 'Arrival location', 'Ankomststed'),
+        optionLabel: _(
+          'Velg anskomststed',
+          'Select arrival location',
+          'Velg ankomststed',
+        ),
+        errorMessage: _(
+          'Velg anskomststed',
+          'Select arrival location',
+          'Velg ankomststed',
+        ),
+      },
+      date: _('Dato', 'Date', 'Dato'),
+      departureTime: _('Avgangstid', 'Departure time', 'Avgangstid'),
+    },
   },
   travelGuarantee: {
     title: _('Reisegaranti', 'Travel guarantee', 'Reisegaranti'),
@@ -178,29 +242,43 @@ export const Contact = {
   groupTravel: {
     title: _('Gruppereise', 'Group travel', 'Gruppereise'),
   },
-  feedbackQuestion: _(
-    'Hva ønsker du å fortelle oss?',
-    'What do you want to tell us?',
-    'Kva ønskjer du å fortelje oss?',
-  ),
+  feedback: {
+    question: _(
+      'Hva ønsker du å fortelle oss?',
+      'What do you want to tell us?',
+      'Kva ønskjer du å fortelje oss?',
+    ),
+    errorMessage: _(
+      'Tilbakemelding mangler!',
+      'Feedback is missing!',
+      'Tilbakemelding mangler!',
+    ),
+    attatchment: _('Vedlegg', 'Attatchment', 'Vedlegg'),
+  },
   aboutYouInfo: {
     title: _(
       'Informasjon om deg',
       'Information about you',
       'Informasjon om deg',
     ),
-    firstAndMiddleName: _(
+
+    firstname: _(
       'Fornavn og mellomnavn',
       'First name and middle name',
       'Fornamn og mellomnamn',
     ),
-    surname: _('Etternavn', 'Surname', 'Etternamn'),
+    lastname: _('Etternavn', 'Lastname', 'Etternamn'),
     address: _('Adresse', 'Address', 'Adresse'),
     postalCode: _('Postnummer', 'Postal code', 'Postnummar'),
     city: _('Bosted', 'City', 'Bustad'),
     email: _('E-post', 'Email', 'E-post'),
     mobile: _('Mobil', 'Mobile', 'Mobil'),
     bankAccount: _('Bankkontonummer', 'Bank account number', 'Bankkontonummar'),
+    errorMessage: _(
+      'Vennligst fyll ut informasjon om deg',
+      'Please provide your information',
+      'Vennligst fyll ut din informasjon',
+    ),
   },
   submit: _('Send', 'Submit', 'Send'),
 };

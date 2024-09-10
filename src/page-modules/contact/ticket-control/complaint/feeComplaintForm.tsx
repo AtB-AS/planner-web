@@ -74,7 +74,7 @@ export const FeeComplaintForm = () => {
             PageText.Contact.ticketControl.feeComplaint.firstAgreement.checkbox
           }
           type="checkbox"
-          name="aggreement1"
+          name="firstAgreement"
           checked={!agreesFirstAgreement}
           onChange={() =>
             send(
@@ -114,7 +114,7 @@ export const FeeComplaintForm = () => {
             PageText.Contact.ticketControl.feeComplaint.secondAgreement.checkbox
           }
           type="checkbox"
-          name="aggreement2"
+          name="secondAgreement"
           checked={!agreesSecondAgreement}
           onChange={() =>
             send(
@@ -214,17 +214,17 @@ export const FeeComplaintForm = () => {
             />
           )}
         </SectionCard>
-        <SectionCard title={PageText.Contact.feedbackQuestion}>
+        <SectionCard title={PageText.Contact.feedback.question}>
           <textarea name="feedback" className={style.feedback} />
         </SectionCard>
         <SectionCard title={PageText.Contact.aboutYouInfo.title}>
           <Input
-            label={PageText.Contact.aboutYouInfo.firstAndMiddleName}
+            label={PageText.Contact.aboutYouInfo.firstname}
             type="text"
             name="firstAndMiddleName"
           />
           <Input
-            label={PageText.Contact.aboutYouInfo.surname}
+            label={PageText.Contact.aboutYouInfo.lastname}
             type="text"
             name="lastname"
           />

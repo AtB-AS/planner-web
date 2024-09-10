@@ -1,6 +1,5 @@
 import { PropsWithChildren } from 'react';
 import style from './layout.module.css';
-import { HomeLinkWithGlobalMessageLayout } from '@atb/layouts/shared/home-link-with-global-message-layout';
 import { PageText, TranslatedString, useTranslation } from '@atb/translations';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
@@ -56,36 +55,34 @@ function ContactPageLayout({ children }: ContactPageLayoutProps) {
   const pathname = usePathname();
 
   return (
-    <HomeLinkWithGlobalMessageLayout>
-      <div className={style.layout__container}>
-        <h2>{t(PageText.Contact.title)}</h2>
-        <nav className={style.contact_page_navigator__container}>
-          {contactPages.map((contactPage, index) => {
-            const isActive = pathname.includes(contactPage.href);
+    <div className={style.layout__container}>
+      <h2>{t(PageText.Contact.title)}</h2>
+      <nav className={style.contact_page_navigator__container}>
+        {contactPages.map((contactPage, index) => {
+          const isActive = pathname.includes(contactPage.href);
 
-            return (
-              <Link
-                key={index}
-                shallow={true}
-                href={contactPage.href}
-                className={andIf({
-                  [style.contact_page_navigator__link]: true,
-                  [style.contact_page_navigator__activePage]: isActive,
-                })}
+          return (
+            <Link
+              key={index}
+              shallow={true}
+              href={contactPage.href}
+              className={andIf({
+                [style.contact_page_navigator__link]: true,
+                [style.contact_page_navigator__activePage]: isActive,
+              })}
+            >
+              <MonoIcon size="large" icon={contactPage.icon} />
+              <Typo.p
+                textType={isActive ? 'body__primary--bold' : 'body__primary'}
               >
-                <MonoIcon size="large" icon={contactPage.icon} />
-                <Typo.p
-                  textType={isActive ? 'body__primary--bold' : 'body__primary'}
-                >
-                  {t(contactPage.title)}
-                </Typo.p>
-              </Link>
-            );
-          })}
-        </nav>
-        {children}
-      </div>
-    </HomeLinkWithGlobalMessageLayout>
+                {t(contactPage.title)}
+              </Typo.p>
+            </Link>
+          );
+        })}
+      </nav>
+      {children}
+    </div>
   );
 }
 

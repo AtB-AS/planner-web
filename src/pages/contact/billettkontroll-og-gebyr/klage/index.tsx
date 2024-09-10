@@ -4,7 +4,7 @@ import {
   ContactPageLayout,
   ContactPageLayoutProps,
 } from '@atb/page-modules/contact';
-import ComplaintPageLayout from '@atb/page-modules/contact/layouts/complaint-page-layout';
+import TicketControlPageLayout from '@atb/page-modules/contact/layouts/ticket-control-page-layout';
 
 import { FeeComplaintForm } from '@atb/page-modules/contact/ticket-control/complaint/feeComplaintForm';
 import { NextPage } from 'next';
@@ -21,9 +21,9 @@ const TicketControlAndFeePage: NextPage<ContactPageProps> = (props) => {
   return (
     <DefaultLayout {...props}>
       <ContactPageLayout {...props}>
-        <ComplaintPageLayout {...props}>
+        <TicketControlPageLayout {...props}>
           <FeeComplaintForm />
-        </ComplaintPageLayout>
+        </TicketControlPageLayout>
       </ContactPageLayout>
     </DefaultLayout>
   );
