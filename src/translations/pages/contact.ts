@@ -278,7 +278,7 @@ export const Contact = {
     email: _('E-post', 'Email', 'E-post'),
     mobile: _('Mobil', 'Mobile', 'Mobil'),
     bankAccount: _('Bankkontonummer', 'Bank account number', 'Bankkontonummar'),
-    isEmpty: _('Må settes!', 'Must be set!', 'Må settes!'),
+    errorMessage: _('Vennligst fyll ut informasjon om deg', 'Please provide your information', 'Vennligst fyll ut din informasjon'),
   },
   submit: _('Send', 'Submit', 'Send'),
 };
