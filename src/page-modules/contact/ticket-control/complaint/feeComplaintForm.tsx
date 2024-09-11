@@ -1,4 +1,4 @@
-import { FormEventHandler } from 'react';
+import { FormEventHandler, useState } from 'react';
 import style from '../ticket-control.module.css';
 import { Button } from '@atb/components/button';
 import { Input } from '../../components/input';
@@ -8,34 +8,19 @@ import { useMachine } from '@xstate/react';
 import { formMachine } from './complaintFormMachine';
 import { andIf } from '@atb/utils/css';
 import { TicketData } from '../../server/types';
-import {
-  ContextComplaintForm,
-  fromContextComplaintFormToTicketData,
-} from './utlis';
 
 export const FeeComplaintForm = () => {
   const { t } = useTranslation();
-  const [state, send] = useMachine(formMachine, {
-    input: {
-      subject:
-        PageText.Contact.ticketControl.title.no +
-        ' - ' +
-        PageText.Contact.ticketControl.subPageTitles.feeComplaint.no,
-    },
-  });
+  const [state, send] = useMachine(formMachine);
 
   const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
 
-    if (!state.matches('submitting')) return;
-
-    const ticketData: TicketData = fromContextComplaintFormToTicketData(
-      state.context as ContextComplaintForm,
-    );
+    if (!state.can({ type: 'SUBMIT' })) return;
 
     const response = await fetch('/api/contact', {
       method: 'POST',
-      body: JSON.stringify(ticketData),
+      body: JSON.stringify(state.context),
     });
 
     if (response.ok) {
@@ -50,6 +35,7 @@ export const FeeComplaintForm = () => {
   const agreesSecondAgreement = state.matches('editing');
   const isAppSelected = state.context.ticketStorageMode === 'App';
   const isTravelcardSelected = state.context.ticketStorageMode === 'Travelcard';
+  const [isBankAccountForeign, setBankAccountForeign] = useState(false);
 
   const FirstAgreement = () => {
     return (
@@ -209,7 +195,6 @@ export const FeeComplaintForm = () => {
               )}
             </div>
 
-            <br />
             {isAppSelected && (
               <div>
                 <Input
@@ -423,33 +408,79 @@ export const FeeComplaintForm = () => {
               }
             />
 
+            {!isBankAccountForeign && (
+              <Input
+                label={PageText.Contact.aboutYouInfo.bankAccount.label}
+                type="text"
+                name="bankAccount"
+                value={state.context.bankAccount}
+                errorMessage={
+                  state.hasTag('emptyBankAccount')
+                    ? PageText.Contact.aboutYouInfo.bankAccount
+                        .errorMessageBankAccount
+                    : undefined
+                }
+                onChange={(e) =>
+                  send({
+                    type: 'SET_BANK_ACCOUNT',
+                    bankAccount: e.target.value,
+                  })
+                }
+              />
+            )}
+
             <Input
-              label={PageText.Contact.aboutYouInfo.bankAccount}
-              type="text"
-              name="bankAccount"
-              value={state.context.bankAccount}
-              errorMessage={
-                state.hasTag('emptyBankAccount')
-                  ? PageText.Contact.aboutYouInfo.errorMessage
-                  : undefined
-              }
-              onChange={(e) =>
-                send({
-                  type: 'SET_BANK_ACCOUNT',
-                  bankAccount: e.target.value,
-                })
-              }
+              label={PageText.Contact.aboutYouInfo.bankAccount.checkbox}
+              type="checkbox"
+              name="firstAgreement"
+              checked={isBankAccountForeign}
+              onChange={() => setBankAccountForeign(!isBankAccountForeign)}
             />
+
+            {isBankAccountForeign && (
+              <div>
+                <Input
+                  label={PageText.Contact.aboutYouInfo.bankAccount.iban}
+                  type="text"
+                  name="bankAccount"
+                  value={state.context.iban}
+                  onChange={(e) =>
+                    send({
+                      type: 'SET_IBAN',
+                      iban: e.target.value,
+                    })
+                  }
+                />
+                <Input
+                  label={PageText.Contact.aboutYouInfo.bankAccount.swift}
+                  type="text"
+                  name="bankAccount"
+                  value={state.context.swift}
+                  onChange={(e) =>
+                    send({
+                      type: 'SET_SWIFT',
+                      swift: e.target.value,
+                    })
+                  }
+                />
+                {state.hasTag('emptyBankAccount') && (
+                  <label className={style.feedback_label__error}>
+                    {t(
+                      PageText.Contact.aboutYouInfo.bankAccount
+                        .errorMessageBankAccount,
+                    )}
+                  </label>
+                )}
+              </div>
+            )}
           </SectionCard>
           <Button
             title={t(PageText.Contact.submit)}
             mode={'interactive_0--bordered'}
             buttonProps={{ type: 'submit' }}
-            onClick={() => send({ type: 'SUBMIT' })}
           />
         </form>
       )}
-      {state.hasTag('submitting') && <div>Submitt reciet</div>}
     </div>
   );
 };

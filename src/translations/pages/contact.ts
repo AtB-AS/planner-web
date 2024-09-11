@@ -302,7 +302,21 @@ export const Contact = {
     city: _('Bosted', 'City', 'Bustad'),
     email: _('E-post', 'Email', 'E-post'),
     phonenumber: _('Mobil', 'Mobile', 'Mobil'),
-    bankAccount: _('Bankkontonummer', 'Bank account number', 'Bankkontonummar'),
+    bankAccount: {
+      label: _('Bankkontonummer', 'Bank account number', 'Bankkontonummar'),
+      checkbox: _(
+        'Jeg har et utenlandsk bankkontonummer',
+        'I have a foreign bank account',
+        'Eg har eit utanlandsk bankkontonummar',
+      ),
+      iban: _('IBAN', 'IBAN', 'IBAN'),
+      swift: _('SWIFT ', 'SWIFT ', 'SWIFT '),
+      errorMessageBankAccount: _(
+        'Vennligst fyll ut ditt bankkontonummer',
+        'Please provide your bank account',
+        'Vennligst fyll ut ditt bankkontonummar',
+      ),
+    },
     errorMessage: _(
       'Vennligst fyll ut informasjon om deg',
       'Please provide your information',
