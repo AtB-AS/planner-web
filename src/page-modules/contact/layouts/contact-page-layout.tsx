@@ -16,32 +16,32 @@ export type ContactPage = {
 export const contactPages: ContactPage[] = [
   {
     title: PageText.Contact.ticketControl.title,
-    href: '/kontakt/billettkontroll-og-gebyr',
+    href: '/contact/ticket-control',
     icon: 'ticketing/TicketInvalid',
   },
   {
     title: PageText.Contact.travelGuarantee.title,
-    href: '/kontakt/reisegaranti',
+    href: '/contact/travel-guarantee',
     icon: 'transportation-entur/Taxi',
   },
   {
     title: PageText.Contact.modeOfTransport.title,
-    href: '/kontakt/transportmiddel-og-stoppested',
+    href: '/contact/mode-of-transport',
     icon: 'transportation/Bus',
   },
   {
     title: PageText.Contact.ticketsApp.title,
-    href: '/kontakt/billette-og-app',
+    href: '/contact/tickets-app',
     icon: 'devices/Phone',
   },
   {
     title: PageText.Contact.lostAndFound.title,
-    href: '/kontakt/hittegods',
+    href: '/contact/lost-and-found',
     icon: 'actions/Support',
   },
   {
     title: PageText.Contact.groupTravel.title,
-    href: '/kontakt/gruppereise',
+    href: '/contact/group-travel',
     icon: 'ticketing/TicketMultiple',
   },
 ];
