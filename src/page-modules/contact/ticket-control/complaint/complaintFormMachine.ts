@@ -384,7 +384,7 @@ export const formMachine = setup({
           target: 'editing',
         },
       },
-      tags: ['firstAgrreement', 'secondAgreement', 'editing'],
+      tags: ['firstAgreement', 'secondAgreement', 'editing'],
     },
     success: {
       type: 'final',
