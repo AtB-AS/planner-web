@@ -166,60 +166,59 @@ export const formMachine = setup({
         SUBMIT: [
           {
             guard: 'isFeedNumberEmpty',
-            target: 'editing.feeNumber.error.emptyFeeNumber',
+            target: 'editing.error.emptyFeeNumber',
           },
           {
             guard: 'isTicketStorageModeUndefined',
-            target:
-              'editing.ticketStorageMode.error.undefinedTicketStoreageMode',
+            target: 'editing.error.undefinedTicketStorageMode',
           },
           {
             guard: 'isRegisteredMobileUndefined',
-            target: 'editing.ticketStorageMode.error.undefinedRegisteredMobile',
+            target: 'editing.error.undefinedRegisteredMobile',
           },
           {
             guard: 'isCustomerNumberUndefined',
-            target: 'editing.ticketStorageMode.error.undefinedCustomerNumber',
+            target: 'editing.error.undefinedCustomerNumber',
           },
           {
             guard: 'isTravelcardUndefined',
-            target: 'editing.ticketStorageMode.error.undefinedTravelcard',
+            target: 'editing.error.undefinedTravelcard',
           },
           {
             guard: 'isFeedbackEmpty',
-            target: 'editing.feedback.error.emptyFeedback',
+            target: 'editing.error.emptyFeedback',
           },
           {
             guard: 'isFirstnameEmpty',
-            target: 'editing.firstname.error.emptyFirstname',
+            target: 'editing.error.emptyFirstname',
           },
           {
             guard: 'isLastnameEmpty',
-            target: 'editing.lastname.error.emptyLastname',
+            target: 'editing.error.emptyLastname',
           },
           {
             guard: 'isAddressEmpty',
-            target: 'editing.address.error.emptyAddress',
+            target: 'editing.error.emptyAddress',
           },
           {
             guard: 'isPostalCodeEmpty',
-            target: 'editing.postalCode.error.emptyPostalCode',
+            target: 'editing.error.emptyPostalCode',
           },
           {
             guard: 'isCityEmpty',
-            target: 'editing.city.error.emptyCity',
+            target: 'editing.error.emptyCity',
           },
           {
             guard: 'isEmailEmpty',
-            target: 'editing.email.error.emptyEmail',
+            target: 'editing.error.emptyEmail',
           },
           {
             guard: 'isPhonenumberEmpty',
-            target: 'editing.phonenumber.error.emptyPhonenumber',
+            target: 'editing.error.emptyPhonenumber',
           },
           {
             guard: 'isBankAccountEmpty',
-            target: 'editing.bankAccount.error.emptyBankAccount',
+            target: 'editing.error.emptyBankAccount',
           },
           {
             target: 'submitting',
@@ -229,138 +228,51 @@ export const formMachine = setup({
       type: 'parallel',
 
       states: {
-        feeNumber: {
+        error: {
           initial: 'valid',
           states: {
             valid: {},
-            error: {
-              initial: 'emptyFeeNumber',
-              states: {
-                emptyFeeNumber: {},
-              },
+            emptyFeeNumber: {
+              tags: ['emptyFeeNumber'],
             },
-          },
-        },
-        ticketStorageMode: {
-          initial: 'valid',
-          states: {
-            valid: {},
-            error: {
-              initial: 'undefinedTicketStorageMode',
-              states: {
-                undefinedTicketStoreageMode: {},
-                undefinedRegisteredMobile: {},
-                undefinedCustomerNumber: {},
-                undefinedTravelcard: {},
-              },
+            undefinedTicketStorageMode: {
+              tags: ['undefinedTicketStorageMode'],
             },
-          },
-        },
-        feedback: {
-          initial: 'valid',
-          states: {
-            valid: {},
-            error: {
-              initial: 'emptyFeedback',
-              states: {
-                emptyFeedback: {},
-              },
+            undefinedRegisteredMobile: {
+              tags: ['undefinedRegisteredMobile'],
             },
-          },
-        },
-        firstname: {
-          initial: 'valid',
-          states: {
-            valid: {},
-            error: {
-              initial: 'emptyFirstname',
-              states: {
-                emptyFirstname: {},
-              },
+            undefinedCustomerNumber: {
+              tags: ['undefinedCustomerNumber'],
             },
-          },
-        },
-        lastname: {
-          initial: 'valid',
-          states: {
-            valid: {},
-            error: {
-              initial: 'emptyLastname',
-              states: {
-                emptyLastname: {},
-              },
+            undefinedTravelcard: {
+              tags: ['undefinedTravelcard'],
             },
-          },
-        },
-        address: {
-          initial: 'valid',
-          states: {
-            valid: {},
-            error: {
-              initial: 'emptyAddress',
-              states: {
-                emptyAddress: {},
-              },
+            emptyFeedback: {
+              tags: ['emptyFeedback'],
             },
-          },
-        },
-        postalCode: {
-          initial: 'valid',
-          states: {
-            valid: {},
-            error: {
-              initial: 'emptyPostalCode',
-              states: {
-                emptyPostalCode: {},
-              },
+            emptyFirstname: {
+              tags: ['emptyFirstname'],
             },
-          },
-        },
-        city: {
-          initial: 'valid',
-          states: {
-            valid: {},
-            error: {
-              initial: 'emptyCity',
-              states: {
-                emptyCity: {},
-              },
+            emptyLastname: {
+              tags: ['emptyLastname'],
             },
-          },
-        },
-        email: {
-          initial: 'valid',
-          states: {
-            valid: {},
-            error: {
-              initial: 'emptyEmail',
-              states: {
-                emptyEmail: {},
-              },
+            emptyAddress: {
+              tags: ['emptyAddress'],
             },
-          },
-        },
-        phonenumber: {
-          initial: 'valid',
-          states: {
-            valid: {},
-            error: {
-              initial: 'emptyPhonenumber',
-              states: {
-                emptyPhonenumber: {},
-              },
+            emptyPostalCode: {
+              tags: ['emptyPostalCode'],
             },
-          },
-        },
-        bankAccount: {
-          initial: 'valid',
-          states: {
-            valid: {},
-            error: {
-              initial: 'emptyBankAccount',
-              states: {
-                emptyBankAccount: {},
-              },
+            emptyCity: {
+              tags: ['emptyCity'],
+            },
+            emptyEmail: {
+              tags: ['emptyEmail'],
+            },
+            emptyPhonenumber: {
+              tags: ['emptyPhonenumber'],
+            },
+            emptyBankAccount: {
+              tags: ['emptyBankAccount'],
             },
           },
         },

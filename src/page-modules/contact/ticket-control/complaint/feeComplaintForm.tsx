@@ -133,66 +133,6 @@ export const FeeComplaintForm = () => {
     );
   };
 
-  const isFeeNumberEmpty = state.matches({
-    editing: { feeNumber: { error: 'emptyFeeNumber' } },
-  });
-
-  const undefinedTicketStoreageMode = state.matches({
-    editing: {
-      ticketStorageMode: { error: 'undefinedTicketStoreageMode' },
-    },
-  });
-  const isRegisteredMobileUndefined = state.matches({
-    editing: {
-      ticketStorageMode: { error: 'undefinedRegisteredMobile' },
-    },
-  });
-  const isCustomerNumberUndefined = state.matches({
-    editing: {
-      ticketStorageMode: { error: 'undefinedCustomerNumber' },
-    },
-  });
-  const isTravelcardUndefined = state.matches({
-    editing: {
-      ticketStorageMode: { error: 'undefinedTravelcard' },
-    },
-  });
-
-  const isFeedbackEmpty = state.matches({
-    editing: { feedback: { error: 'emptyFeedback' } },
-  });
-
-  const isFirstnameEmpty = state.matches({
-    editing: { firstname: { error: 'emptyFirstname' } },
-  });
-
-  const isLastnameEmpty = state.matches({
-    editing: { lastname: { error: 'emptyLastname' } },
-  });
-
-  const isAddressEmpty = state.matches({
-    editing: { address: { error: 'emptyAddress' } },
-  });
-
-  const isPostalCodeEmpty = state.matches({
-    editing: { postalCode: { error: 'emptyPostalCode' } },
-  });
-
-  const isCityEmpty = state.matches({
-    editing: { city: { error: 'emptyCity' } },
-  });
-
-  const isPhonenumberEmpty = state.matches({
-    editing: { phonenumber: { error: 'emptyPhonenumber' } },
-  });
-
-  const isEmailEmpty = state.matches({
-    editing: { email: { error: 'emptyEmail' } },
-  });
-  const isBankAccountEmpty = state.matches({
-    editing: { bankAccount: { error: 'emptyBankAccount' } },
-  });
-
   return (
     <div>
       {state.hasTag('firstAgreement') && <FirstAgreement />}
@@ -208,7 +148,7 @@ export const FeeComplaintForm = () => {
               name="feeNumber"
               value={state.context.feeNumber}
               errorMessage={
-                isFeeNumberEmpty
+                state.hasTag('emptyFeeNumber')
                   ? PageText.Contact.ticketControl.feeComplaint.fee.errorMessage
                   : undefined
               }
@@ -259,7 +199,7 @@ export const FeeComplaintForm = () => {
                   })
                 }
               />
-              {undefinedTicketStoreageMode && (
+              {state.hasTag('undefinedTicketStorageMode') && (
                 <label className={style.feedback_label__error}>
                   {t(
                     PageText.Contact.ticketControl.feeComplaint.ticketStorage
@@ -280,9 +220,8 @@ export const FeeComplaintForm = () => {
                   type="text"
                   name="registeredMobile"
                   value={state.context.registeredMobile}
-                  defaultValue={undefined}
                   errorMessage={
-                    isRegisteredMobileUndefined
+                    state.hasTag('undefinedRegisteredMobile')
                       ? PageText.Contact.ticketControl.feeComplaint
                           .ticketStorage.app.registeredMobile.errorMessage
                       : undefined
@@ -303,9 +242,8 @@ export const FeeComplaintForm = () => {
                   type="number"
                   name="customerNumber"
                   value={state.context.customerNumber}
-                  defaultValue={undefined}
                   errorMessage={
-                    isCustomerNumberUndefined
+                    state.hasTag('undefinedCustomerNumber')
                       ? PageText.Contact.ticketControl.feeComplaint
                           .ticketStorage.app.customerNumber.errorMessage
                       : undefined
@@ -328,9 +266,8 @@ export const FeeComplaintForm = () => {
                 type="text"
                 name="travelcard"
                 value={state.context.travelcard}
-                defaultValue={undefined}
                 errorMessage={
-                  isTravelcardUndefined
+                  state.hasTag('undefinedTravelcard')
                     ? PageText.Contact.ticketControl.feeComplaint.ticketStorage
                         .travelcard.errorMessage
                     : undefined
@@ -348,7 +285,7 @@ export const FeeComplaintForm = () => {
             <textarea
               className={andIf({
                 [style.feedback]: true,
-                [style.feedback__error]: isFeedbackEmpty,
+                [style.feedback__error]: state.hasTag('emptyFeedback'),
               })}
               name="feedback"
               value={state.context.feedback}
@@ -359,7 +296,7 @@ export const FeeComplaintForm = () => {
                 })
               }
             />
-            {isFeedbackEmpty && (
+            {state.hasTag('emptyFeedback') && (
               <label className={style.feedback_label__error}>
                 {t(PageText.Contact.feedback.errorMessage)}
               </label>
@@ -372,7 +309,7 @@ export const FeeComplaintForm = () => {
               name="firstname"
               value={state.context.firstname}
               errorMessage={
-                isFirstnameEmpty
+                state.hasTag('emptyFirstname')
                   ? PageText.Contact.aboutYouInfo.errorMessage
                   : undefined
               }
@@ -389,7 +326,7 @@ export const FeeComplaintForm = () => {
               name="lastname"
               value={state.context.lastname}
               errorMessage={
-                isLastnameEmpty
+                state.hasTag('emptyLastname')
                   ? PageText.Contact.aboutYouInfo.errorMessage
                   : undefined
               }
@@ -406,7 +343,7 @@ export const FeeComplaintForm = () => {
               name="address"
               value={state.context.address}
               errorMessage={
-                isAddressEmpty
+                state.hasTag('emptyAddress')
                   ? PageText.Contact.aboutYouInfo.errorMessage
                   : undefined
               }
@@ -423,7 +360,7 @@ export const FeeComplaintForm = () => {
               name="postalCode"
               value={state.context.postalCode}
               errorMessage={
-                isPostalCodeEmpty
+                state.hasTag('emptyPostalCode')
                   ? PageText.Contact.aboutYouInfo.errorMessage
                   : undefined
               }
@@ -440,7 +377,7 @@ export const FeeComplaintForm = () => {
               name="city"
               value={state.context.city}
               errorMessage={
-                isCityEmpty
+                state.hasTag('emptyCity')
                   ? PageText.Contact.aboutYouInfo.errorMessage
                   : undefined
               }
@@ -457,7 +394,7 @@ export const FeeComplaintForm = () => {
               name="email"
               value={state.context.email}
               errorMessage={
-                isEmailEmpty
+                state.hasTag('emptyEmail')
                   ? PageText.Contact.aboutYouInfo.errorMessage
                   : undefined
               }
@@ -474,7 +411,7 @@ export const FeeComplaintForm = () => {
               name="phonenumber"
               value={state.context.phonenumber}
               errorMessage={
-                isPhonenumberEmpty
+                state.hasTag('emptyPhonenumber')
                   ? PageText.Contact.aboutYouInfo.errorMessage
                   : undefined
               }
@@ -492,7 +429,7 @@ export const FeeComplaintForm = () => {
               name="bankAccount"
               value={state.context.bankAccount}
               errorMessage={
-                isBankAccountEmpty
+                state.hasTag('emptyBankAccount')
                   ? PageText.Contact.aboutYouInfo.errorMessage
                   : undefined
               }
