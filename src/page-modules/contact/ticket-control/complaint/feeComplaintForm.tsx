@@ -31,8 +31,8 @@ export const FeeComplaintForm = () => {
     }
   };
 
-  const agreesFirstAgreement = state.matches('secondAgreement');
-  const agreesSecondAgreement = state.matches('editing');
+  const agreesFirstAgreement = state.hasTag('secondAgreement');
+  const agreesSecondAgreement = state.hasTag('editing');
   const isAppSelected = state.context.ticketStorageMode === 'App';
   const isTravelcardSelected = state.context.ticketStorageMode === 'Travelcard';
   const [isBankAccountForeign, setBankAccountForeign] = useState(false);
