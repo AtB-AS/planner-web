@@ -375,7 +375,7 @@ export const formMachine = setup({
         },
       },
 
-      tags: ['firstAgrreement', 'secondAgreement', 'editing'],
+      tags: ['firstAgreement', 'secondAgreement', 'editing'],
     },
     submitting: {
       on: {
