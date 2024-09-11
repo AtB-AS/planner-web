@@ -28,7 +28,7 @@ function TicketControlPageLayout({ children }: TicketControlPageLayoutProps) {
           <Input
             label={PageText.Contact.ticketControl.subPageTitles.postpone}
             type="radio"
-            checked={router.pathname.includes('/postpone-paymnet')}
+            checked={router.pathname.includes('/postpone-payment')}
             onChange={() =>
               router.push(
                 '/contact/ticket-control/postpone-payment',
