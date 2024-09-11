@@ -188,6 +188,53 @@ export const Contact = {
       },
     },
 
+    postponePayment: {
+      title: _('Utsette betaling ', 'Postpone payment', 'Utsette betaling'),
+      info: _(
+        'Når du fyller ut skjemaet, blir betalingsfristen utsett med 30 dager fra opprinnelig forfallsdato, dvs. totalt 60 dagers betalingsfrist. Du velger selv om du vil dele opp betalingen og gjøre flere innbetalinger i løpet av denne perioden eller betale hele beløpet på en gang.',
+        'When you fill out the form, the payment deadline is extended by 30 days from the original due date, giving you a total payment deadline of 60 days. You can choose whether to divide the payment and make multiple installments during this period or pay the full amount at once.',
+        'Når du fyller ut skjemaet, blir betalingsfristen utsett med 30 dagar frå opphaveleg forfallsdato, dvs. totalt 60 dagars betalingsfrist. Du vel sjølv om du vil dele opp betalinga og gjere fleire innbetalingar i løpet av denne perioden eller betale heile beløpet på ein gong.  ',
+      ),
+
+      fee: {
+        inputlabel: _('Gebyrnummer', 'Fee number', 'Gebyrnummar'),
+        description: _(
+          'Gebyrnummeret har fire siffer. Du finner det øverst i høyre hjørne på gebyret.',
+          'The fee number has four digits. You can find it in the top right corner of the fee.',
+          'Gebyrnummeret har fire siffer. Du finn det øvst i høgre hjørne på gebyret.',
+        ),
+        instruction: _(
+          'Fyll ut gebyrnummeret ditt',
+          'Enter your fee number',
+          'Fyll ut gebyrnummaret ditt',
+        ),
+        errorMessage: _(
+          'Fyll ut gebyrnummeret ditt',
+          'Enter your fee number',
+          'Fyll ut gebyrnummaret ditt',
+        ),
+      },
+
+      invoiceNumber: {
+        inputlabel: _('Fakturanummer', 'Invoice number', 'Fakturanummar'),
+        description: _(
+          'Fakturanummeret finner du øverst i høyre hjørne på fakturaen.',
+          'The invoice number is found in the top right corner of the invoice.',
+          'Fakturanummeret finn du øvst i høgre hjørne på fakturaen.',
+        ),
+        instruction: _(
+          'Fyll ut fakturanummeret ditt',
+          'Enter your invoice number',
+          'Fyll ut fakturanummeret ditt',
+        ),
+        errorMessage: _(
+          'Fyll ut fakturanummeret ditt',
+          'Enter your invoice number',
+          'Fyll ut fakturanummaret ditt',
+        ),
+      },
+    },
+
     feedback: {
       title: _(
         'Tilbakemelding billettkontroll ',

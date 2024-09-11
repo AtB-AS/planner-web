@@ -1,16 +1,19 @@
 import style from './input.module.css';
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { TranslatedString, useTranslation } from '@atb/translations';
 import { andIf } from '@atb/utils/css';
+import { MonoIcon, MonoIcons } from '@atb/components/icon';
 
 type InputProps = {
   label: TranslatedString;
+  description?: TranslatedString;
   errorMessage?: TranslatedString;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 } & JSX.IntrinsicElements['input'];
 
 export const Input = ({
   label,
+  description,
   errorMessage,
   type,
   name,
@@ -19,6 +22,12 @@ export const Input = ({
   onChange,
 }: InputProps) => {
   const { t } = useTranslation();
+  const [isDescriptionOpen, setDescriptionOpen] = useState(false);
+
+  const toggleInfoBox = () => {
+    setDescriptionOpen(!isDescriptionOpen);
+  };
+
   return (
     <div
       className={andIf({
@@ -27,7 +36,23 @@ export const Input = ({
           type === 'radio' || type === 'checkbox' || type === 'submit',
       })}
     >
-      <label>{t(label)}</label>
+      <div className={style.label_container}>
+        <label>{t(label)}</label>
+
+        {description && (
+          <div className={style.icon_container}>
+            <MonoIcon
+              className={style.icon}
+              onClick={toggleInfoBox}
+              icon={'status/Info'}
+            />
+
+            {isDescriptionOpen && (
+              <p className={style.description}>{t(description)}</p>
+            )}
+          </div>
+        )}
+      </div>
       <input
         type={type}
         name={name}
