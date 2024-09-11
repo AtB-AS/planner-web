@@ -13,7 +13,6 @@
 .rowDisplay {
   flex-direction: row-reverse;
   justify-content: start;
-  align-items: center;
   gap: var(--spacings-small);
 }
 
@@ -23,7 +22,6 @@
   outline: 0;
   background: none;
   border-radius: 0.75rem;
-  margin-bottom: var(--spacings-small);
 }
 
 .input::placeholder {

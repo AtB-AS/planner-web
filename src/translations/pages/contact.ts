@@ -137,6 +137,11 @@ export const Contact = {
           'Enter your fee number',
           'Fyll ut gebyrnummaret ditt',
         ),
+        errorMessage: _(
+          'Fyll ut gebyrnummeret ditt',
+          'Enter your fee number',
+          'Fyll ut gebyrnummaret ditt',
+        ),
       },
       ticketStorage: {
         question: _(
@@ -146,16 +151,40 @@ export const Contact = {
         ),
         app: {
           title: _('App', 'App', 'App'),
-          registeredMobile: _(
-            'Registrert mobilnummer',
-            'Registered mobile number',
-            'Registrert mobilnummar',
-          ),
-          customerNumber: _('Kundenummer', 'Customer number', 'Kundenummar'),
+          registeredMobile: {
+            label: _(
+              'Registrert mobilnummer',
+              'Registered mobile number',
+              'Registrert mobilnummar',
+            ),
+            errorMessage: _(
+              'Legg til registrert mobilnummer',
+              'Legg til registered mobile number',
+              'Legg til registrert mobilnummar',
+            ),
+          },
+          customerNumber: {
+            label: _('Kundenummer', 'Customer number', 'Kundenummar'),
+            errorMessage: _(
+              'Fyll inn kundenummer',
+              'Enter customer number',
+              'Fyll inn kundenummar',
+            ),
+          },
         },
         travelcard: {
           title: _('Reisekort', 'Travelcard', 'Reisekort'),
+          errorMessage: _(
+            'Legg til reisekort',
+            'Enter travelcard number',
+            'Legg til reisekort',
+          ),
         },
+        errorMessage: _(
+          'Velg billettoppbevaring',
+          'Select ticket storage mode',
+          'Velg billettoppbevaring',
+        ),
       },
     },
 
@@ -272,8 +301,22 @@ export const Contact = {
     postalCode: _('Postnummer', 'Postal code', 'Postnummar'),
     city: _('Bosted', 'City', 'Bustad'),
     email: _('E-post', 'Email', 'E-post'),
-    mobile: _('Mobil', 'Mobile', 'Mobil'),
-    bankAccount: _('Bankkontonummer', 'Bank account number', 'Bankkontonummar'),
+    phonenumber: _('Mobil', 'Mobile', 'Mobil'),
+    bankAccount: {
+      label: _('Bankkontonummer', 'Bank account number', 'Bankkontonummar'),
+      checkbox: _(
+        'Jeg har et utenlandsk bankkontonummer',
+        'I have a foreign bank account',
+        'Eg har eit utanlandsk bankkontonummar',
+      ),
+      iban: _('IBAN', 'IBAN', 'IBAN'),
+      swift: _('SWIFT ', 'SWIFT ', 'SWIFT '),
+      errorMessageBankAccount: _(
+        'Vennligst fyll ut ditt bankkontonummer',
+        'Please provide your bank account',
+        'Vennligst fyll ut ditt bankkontonummar',
+      ),
+    },
     errorMessage: _(
       'Vennligst fyll ut informasjon om deg',
       'Please provide your information',

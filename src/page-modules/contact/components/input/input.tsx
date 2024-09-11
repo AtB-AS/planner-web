@@ -39,7 +39,6 @@ export const Input = ({
         value={value}
         onChange={onChange}
       />
-
       {errorMessage && (
         <label
           className={andIf({
