@@ -7,7 +7,6 @@ import { PageText, TranslatedString, useTranslation } from '@atb/translations';
 import { useMachine } from '@xstate/react';
 import { formMachine } from './complaintFormMachine';
 import { andIf } from '@atb/utils/css';
-import { TicketData } from '../../server/types';
 
 export const FeeComplaintForm = () => {
   const { t } = useTranslation();

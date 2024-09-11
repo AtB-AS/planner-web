@@ -1,4 +1,4 @@
-import { and, assign, or, setup } from 'xstate';
+import { assign, setup } from 'xstate';
 
 export const formMachine = setup({
   types: {
