@@ -26,9 +26,20 @@ export const FeedbackForm = () => {
 
     if (!state.matches('submitting')) return;
 
-    const response = await fetch('/api/contact', {
+    const response = await fetch('/api/contact/ticket-control', {
       method: 'POST',
-      body: JSON.stringify(state.context),
+      body: JSON.stringify({
+        transportMode: state.context.transportMode,
+        line: state.context.line?.name,
+        fromStop: state.context.departureLocation?.name,
+        toStop: state.context.arrivalLocation?.name,
+        date: state.context.date,
+        departureTime: state.context.time,
+        feedback: state.context.feedback,
+        firstName: state.context.firstname,
+        lastName: state.context.lastname,
+        email: state.context.email,
+      }),
     });
 
     if (response.ok) {
