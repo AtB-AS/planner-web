@@ -8,12 +8,7 @@ import { Input } from '../../components/input';
 import style from '../ticket-control.module.css';
 import { formMachine } from './feedbackformMachine';
 import { useMachine } from '@xstate/react';
-import { TicketData } from '../../server/types';
 import { andIf } from '@atb/utils/css';
-import {
-  ContextFeedbackForm,
-  fromContextFeedbackFormToTicketData,
-} from './utils';
 import { Line } from '../..';
 
 export const FeedbackForm = () => {
@@ -21,10 +16,6 @@ export const FeedbackForm = () => {
   const { lines, getLinesByMode, getQuaysByLine } = useLines();
   const [state, send] = useMachine(formMachine, {
     input: {
-      subject:
-        PageText.Contact.ticketControl.title.no +
-        ' - ' +
-        PageText.Contact.ticketControl.subPageTitles.feedback.no,
       date: new Date().toISOString().split('T')[0],
       time: `${String(new Date().getHours()).padStart(2, '0')}:${String(new Date().getMinutes()).padStart(2, '0')}`,
     },
@@ -35,13 +26,9 @@ export const FeedbackForm = () => {
 
     if (!state.matches('submitting')) return;
 
-    const ticketData: TicketData = fromContextFeedbackFormToTicketData(
-      state.context as ContextFeedbackForm,
-    );
-
     const response = await fetch('/api/contact', {
       method: 'POST',
-      body: JSON.stringify(ticketData),
+      body: JSON.stringify(state.context),
     });
 
     if (response.ok) {

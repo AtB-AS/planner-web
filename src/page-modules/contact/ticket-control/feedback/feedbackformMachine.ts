@@ -12,7 +12,6 @@ export const formMachine = setup({
       date: string;
       time: string;
       feedback: string;
-      subject: string;
       firstname: string;
       lastname: string;
       email: string;
@@ -35,7 +34,6 @@ export const formMachine = setup({
       | { type: 'RESOLVE' }
       | { type: 'FALIURE' },
     input: {} as {
-      subject: string;
       date: string;
       time: string;
     },
@@ -62,7 +60,6 @@ export const formMachine = setup({
     date: input.date,
     time: input.time,
     feedback: '',
-    subject: input.subject,
     firstname: '',
     lastname: '',
     email: '',
