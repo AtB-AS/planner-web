@@ -18,24 +18,20 @@ function TicketControlPageLayout({ children }: TicketControlPageLayoutProps) {
           <Input
             label={PageText.Contact.ticketControl.subPageTitles.feeComplaint}
             type="radio"
-            checked={router.pathname.includes('/klage')}
+            checked={router.pathname.includes('/complaint')}
             onChange={() =>
-              router.push(
-                '/contact/billettkontroll-og-gebyr/klage',
-                undefined,
-                {
-                  shallow: true,
-                },
-              )
+              router.push('/contact/ticket-control/complaint', undefined, {
+                shallow: true,
+              })
             }
           />
           <Input
             label={PageText.Contact.ticketControl.subPageTitles.postpone}
             type="radio"
-            checked={router.pathname.includes('/utsette-betaling')}
+            checked={router.pathname.includes('/postpone-payment')}
             onChange={() =>
               router.push(
-                '/contact/billettkontroll-og-gebyr/utsette-betaling',
+                '/contact/ticket-control/postpone-payment',
                 undefined,
                 {
                   shallow: true,
@@ -46,15 +42,11 @@ function TicketControlPageLayout({ children }: TicketControlPageLayoutProps) {
           <Input
             label={PageText.Contact.ticketControl.subPageTitles.feedback}
             type="radio"
-            checked={router.pathname.includes('/tilbakemelding')}
+            checked={router.pathname.includes('/feedback')}
             onChange={() =>
-              router.push(
-                '/contact/billettkontroll-og-gebyr/tilbakemelding',
-                undefined,
-                {
-                  shallow: true,
-                },
-              )
+              router.push('/contact/ticket-control/feedback', undefined, {
+                shallow: true,
+              })
             }
           />
         </ul>
