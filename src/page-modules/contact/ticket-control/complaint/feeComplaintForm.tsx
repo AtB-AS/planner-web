@@ -17,9 +17,25 @@ export const FeeComplaintForm = () => {
 
     if (!state.matches('submitting')) return;
 
-    const response = await fetch('/api/contact', {
+    const response = await fetch('/api/contact/ticket-control', {
       method: 'POST',
-      body: JSON.stringify(state.context),
+      body: JSON.stringify({
+        feeNumber: state.context.feeNumber,
+        appPhoneNumber: state.context.registeredMobile,
+        customerNumber: state.context.customerNumber,
+        travelCardNumber: state.context.travelcard,
+        additionalInfo: state.context.feedback,
+        firstName: state.context.firstname,
+        lastName: state.context.lastname,
+        address: state.context.address,
+        postalCode: state.context.postalCode,
+        city: state.context.city,
+        email: state.context.email,
+        phoneNumber: state.context.phonenumber,
+        bankAccountNumber: state.context.bankAccount,
+        IBAN: state.context.iban,
+        SWIFT: state.context.swift,
+      }),
     });
 
     if (response.ok) {
