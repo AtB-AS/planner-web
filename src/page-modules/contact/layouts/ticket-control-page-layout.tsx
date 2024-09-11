@@ -21,7 +21,7 @@ function TicketControlPageLayout({ children }: TicketControlPageLayoutProps) {
             checked={router.pathname.includes('/klage')}
             onChange={() =>
               router.push(
-                '/contact/billettkontroll-og-gebyr/klage',
+                '/kontakt/billettkontroll-og-gebyr/klage',
                 undefined,
                 {
                   shallow: true,
@@ -35,7 +35,7 @@ function TicketControlPageLayout({ children }: TicketControlPageLayoutProps) {
             checked={router.pathname.includes('/utsette-betaling')}
             onChange={() =>
               router.push(
-                '/contact/billettkontroll-og-gebyr/utsette-betaling',
+                '/kontakt/billettkontroll-og-gebyr/utsette-betaling',
                 undefined,
                 {
                   shallow: true,
@@ -49,7 +49,7 @@ function TicketControlPageLayout({ children }: TicketControlPageLayoutProps) {
             checked={router.pathname.includes('/tilbakemelding')}
             onChange={() =>
               router.push(
-                '/contact/billettkontroll-og-gebyr/tilbakemelding',
+                '/kontakt/billettkontroll-og-gebyr/tilbakemelding',
                 undefined,
                 {
                   shallow: true,
