@@ -1,5 +1,5 @@
 import style from './input.module.css';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent } from 'react';
 import { TranslatedString, useTranslation } from '@atb/translations';
 import { andIf } from '@atb/utils/css';
 
@@ -21,11 +21,6 @@ export const Input = ({
   onChange,
 }: InputProps) => {
   const { t } = useTranslation();
-  const [isDescriptionOpen, setDescriptionOpen] = useState(false);
-
-  const toggleInfoBox = () => {
-    setDescriptionOpen(!isDescriptionOpen);
-  };
 
   return (
     <div
