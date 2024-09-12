@@ -7,8 +7,3 @@ export {
   default as TicketControlPageLayout,
   type TicketControlPageLayoutProps,
 } from './ticket-control-page-layout';
-
-export {
-  default as TravelGuaranteePageLayout,
-  type TravelGuarenteePageLayoutProps,
-} from './travel-guarantee-page-layout';

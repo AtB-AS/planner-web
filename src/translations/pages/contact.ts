@@ -1,4 +1,5 @@
 import { translation as _ } from '@atb/translations/commons';
+import { title } from 'process';
 
 export const Contact = {
   title: _(
@@ -339,6 +340,42 @@ export const Contact = {
         'Jeg ønsker refusjon for annen kollektivtransport',
         'I would like a refund for other public transport',
         'Eg ønsker refusjon for annan kollektivtransport',
+      ),
+    },
+
+    refundTaxi: {
+      information: {
+        title: _(
+          'Informasjon frå drosjekvitteringa',
+          'Informasjon frå drosjekvitteringa',
+          'Informasjon frå drosjekvitteringa',
+        ),
+      },
+      aboutYourTrip: {
+        title: _(
+          'Om den planlagde reisa di',
+          'Om den planlagde reisa di',
+          'Om den planlagde reisa di',
+        ),
+      },
+    },
+    refundCar: {
+      aboutTheCarTrip: {
+        title: _('Om bilturen', 'About the car trip', 'Om bilturen'),
+      },
+      aboutThePlanedTrip: {
+        title: _(
+          'Om den planlagde reisen di',
+          'About your planed trip',
+          'Om den planagde reisa di',
+        ),
+      },
+    },
+    optionalFeedback: {
+      title: _(
+        'Ønsker du å fortelje oss noko meir? (valfritt) ',
+        'Ønsker du å fortelje oss noko meir? (valfritt) ',
+        'Ønsker du å fortelje oss noko meir? (valfritt) ',
       ),
     },
   },

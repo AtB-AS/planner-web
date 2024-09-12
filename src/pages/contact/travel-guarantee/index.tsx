@@ -3,8 +3,8 @@ import { withGlobalData, WithGlobalData } from '@atb/layouts/global-data';
 import {
   ContactPageLayout,
   ContactPageLayoutProps,
-  TravelGuaranteePageLayout,
 } from '@atb/page-modules/contact';
+import { RefundForm } from '@atb/page-modules/contact/travel-guarantee';
 
 import { NextPage } from 'next';
 
@@ -14,7 +14,7 @@ const TravelGuaranteePage: NextPage<TravelGuaranteePageProps> = (props) => {
   return (
     <DefaultLayout {...props}>
       <ContactPageLayout {...props}>
-        <TravelGuaranteePageLayout {...props} />
+        <RefundForm />
       </ContactPageLayout>
     </DefaultLayout>
   );
