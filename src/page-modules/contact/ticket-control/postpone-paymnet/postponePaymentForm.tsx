@@ -1,4 +1,4 @@
-import { FormEventHandler, useState } from 'react';
+import { FormEventHandler, useEffect, useState } from 'react';
 import style from '../ticket-control.module.css';
 import { Button } from '@atb/components/button';
 import { Input } from '../../components/input';
@@ -29,25 +29,11 @@ export const PostponePaymentForm = () => {
     }
   };
 
-  const isFeeNumberEmpty = state.matches({
-    editing: { feeNumber: { error: 'emptyFeeNumber' } },
-  });
-
-  const isInvoiceNumberEmpty = state.matches({
-    editing: { invoiceNumber: { error: 'emptyInvoiceNumber' } },
-  });
-
-  const isFirstnameEmpty = state.matches({
-    editing: { firstname: { error: 'emptyFirstname' } },
-  });
-
-  const isLastnameEmpty = state.matches({
-    editing: { lastname: { error: 'emptyLastname' } },
-  });
-
-  const isEmailEmpty = state.matches({
-    editing: { email: { error: 'emptyEmail' } },
-  });
+  const isFeeNumberEmpty = state.hasTag('emptyFeeNumber');
+  const isInvoiceNumberEmpty = state.hasTag('emptyInvoiceNumber');
+  const isFirstnameEmpty = state.hasTag('emptyFirstname');
+  const isLastnameEmpty = state.hasTag('emptyLastname');
+  const isEmailEmpty = state.hasTag('emptyEmail');
 
   return (
     <form onSubmit={onSubmit}>

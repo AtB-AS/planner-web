@@ -97,7 +97,9 @@ export const formMachine = setup({
             error: {
               initial: 'emptyFeeNumber',
               states: {
-                emptyFeeNumber: {},
+                emptyFeeNumber: {
+                  tags: ['emptyFeeNumber'],
+                },
               },
             },
           },
@@ -109,7 +111,9 @@ export const formMachine = setup({
             error: {
               initial: 'emptyInvoiceNumber',
               states: {
-                emptyInvoiceNumber: {},
+                emptyInvoiceNumber: {
+                  tags: ['emptyInvoiceNumber'],
+                },
               },
             },
           },
@@ -121,7 +125,9 @@ export const formMachine = setup({
             error: {
               initial: 'emptyFirstname',
               states: {
-                emptyFirstname: {},
+                emptyFirstname: {
+                  tags: ['emptyFirstname'],
+                },
               },
             },
           },
@@ -133,7 +139,9 @@ export const formMachine = setup({
             error: {
               initial: 'emptyLastname',
               states: {
-                emptyLastname: {},
+                emptyLastname: {
+                  tags: ['emptyLastname'],
+                },
               },
             },
           },
@@ -145,7 +153,9 @@ export const formMachine = setup({
             error: {
               initial: 'emptyEmail',
               states: {
-                emptyEmail: {},
+                emptyEmail: {
+                  tags: ['emptyEmail'],
+                },
               },
             },
           },

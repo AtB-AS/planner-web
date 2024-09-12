@@ -21,19 +21,6 @@
   justify-content: space-between;
 }
 
-.icon_container {
-  display: flex;
-  justify-content: start;
-}
-
-.icon {
-  cursor: 'pointer';
-}
-
-.description {
-  margin-left: var(--spacings-small);
-}
-
 .input {
   padding: var(--spacings-small);
   color: var(--static-background-background_0-text);

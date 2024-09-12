@@ -2,7 +2,6 @@ import style from './input.module.css';
 import { ChangeEvent, useState } from 'react';
 import { TranslatedString, useTranslation } from '@atb/translations';
 import { andIf } from '@atb/utils/css';
-import { MonoIcon, MonoIcons } from '@atb/components/icon';
 
 type InputProps = {
   label: TranslatedString;
@@ -38,20 +37,6 @@ export const Input = ({
     >
       <div className={style.label_container}>
         <label>{t(label)}</label>
-
-        {description && (
-          <div className={style.icon_container}>
-            <MonoIcon
-              className={style.icon}
-              onClick={toggleInfoBox}
-              icon={'status/Info'}
-            />
-
-            {isDescriptionOpen && (
-              <p className={style.description}>{t(description)}</p>
-            )}
-          </div>
-        )}
       </div>
       <input
         type={type}
@@ -64,6 +49,8 @@ export const Input = ({
         value={value}
         onChange={onChange}
       />
+      {description && <p className={style.description}>{t(description)}</p>}
+
       {errorMessage && (
         <label
           className={andIf({
