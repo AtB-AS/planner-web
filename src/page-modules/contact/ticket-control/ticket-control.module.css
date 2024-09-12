@@ -1,6 +1,6 @@
 @value typo-body__secondary from "@atb/theme/typography.module.css";
 
-ul {
+.list {
   padding-left: var(--spacings-large);
 }
 
