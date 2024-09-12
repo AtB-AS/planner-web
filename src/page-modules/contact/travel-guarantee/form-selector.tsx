@@ -1,7 +1,7 @@
 import { PageText, TranslatedString, useTranslation } from '@atb/translations';
 import { SectionCard } from '../components/section-card';
 import { Input } from '../components/input';
-import style from './travel-guarantee.module.css';
+import style from '../contact.module.css';
 
 type FormSelectorProps = {
   state: any;

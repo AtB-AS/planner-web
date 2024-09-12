@@ -7,7 +7,9 @@ import { Input } from '../components/input';
 import { TransportModeType } from '@atb/modules/transport-mode';
 import { useLines } from '../lines/use-lines';
 import { Line } from '..';
-import { andIf } from '@atb/utils/css';
+import { FormEventHandler, useEffect } from 'react';
+import style from '../contact.module.css';
+import { Button } from '@atb/components/button';
 
 export const RefundForm = () => {
   const { t } = useTranslation();
@@ -20,8 +22,43 @@ export const RefundForm = () => {
     },
   });
 
+  const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
+    e.preventDefault();
+
+    console.log('Jeg er her ', state.value);
+    if (!state.matches('submitting')) return;
+    console.log('Jeg er også her');
+
+    const response = await fetch('/api/travel-guarantee', {
+      method: 'POST',
+      body: JSON.stringify({
+        transportMode: state.context.transportMode,
+        line: state.context.line?.name,
+        fromStop: state.context.departureLocation?.name,
+        toStop: state.context.arrivalLocation?.name,
+        date: state.context.date,
+        departureTime: state.context.time,
+        feedback: state.context.feedback,
+        firstName: state.context.firstname,
+        lastName: state.context.lastname,
+        email: state.context.email,
+      }),
+    });
+
+    if (response.ok) {
+      const res = await response.json();
+      send({ type: 'RESOLVE' });
+    } else {
+      send({ type: 'FALIURE' });
+    }
+  };
+
+  useEffect(() => {
+    console.log('Hallo: ', state.value);
+  }, [state]);
+
   return (
-    <div>
+    <form onSubmit={onSubmit}>
       <FormSelector state={state} send={send} />
       {state.hasTag('taxi') && (
         <div>
@@ -40,6 +77,7 @@ export const RefundForm = () => {
             </label>
             <select
               name="transportModes"
+              defaultValue={'DEFAULT'}
               value={state.context.transportMode}
               onChange={(e) =>
                 send({
@@ -53,9 +91,8 @@ export const RefundForm = () => {
                   PageText.Contact.ticketControl.feedback.transportMode
                     .optionLabel,
                 )}
-                selected
                 disabled
-                value={undefined}
+                value="DEFAULT"
               />
               <option value="bus">
                 {t(ComponentText.TransportMode.modes['bus'])}
@@ -74,6 +111,7 @@ export const RefundForm = () => {
 
                 <select
                   name="lines"
+                  defaultValue={'DEFAULT'}
                   value={state.context.line?.id}
                   onChange={(e) =>
                     send({
@@ -88,9 +126,8 @@ export const RefundForm = () => {
                     label={t(
                       PageText.Contact.ticketControl.feedback.line.optionLabel,
                     )}
-                    selected
                     disabled
-                    value={undefined}
+                    value={'DEFAULT'}
                   />
                   {getLinesByMode(
                     state.context.transportMode as TransportModeType,
@@ -125,6 +162,7 @@ export const RefundForm = () => {
 
                 <select
                   name="departure"
+                  defaultValue={'DEFAULT'}
                   value={state.context.departureLocation?.id}
                   onChange={(e) =>
                     send({
@@ -140,9 +178,8 @@ export const RefundForm = () => {
                       PageText.Contact.ticketControl.feedback.departureLocation
                         .optionLabel,
                     )}
-                    selected
                     disabled
-                    value={undefined}
+                    value={'DEFAULT'}
                   />
                   {getQuaysByLine(state.context.line.id).map((quay) => (
                     <option key={quay.id} value={quay.id}>
@@ -188,13 +225,185 @@ export const RefundForm = () => {
         <div>
           <SectionCard
             title={PageText.Contact.travelGuarantee.optionalFeedback.title}
-          ></SectionCard>
-          <SectionCard
-            title={PageText.Contact.aboutYouInfo.title}
-          ></SectionCard>
+          >
+            <textarea
+              className={style.feedback}
+              name="feedback"
+              value={state.context.feedback}
+              onChange={(e) =>
+                send({
+                  type: 'SET_FEEDBACK',
+                  feedback: e.target.value,
+                })
+              }
+            />
+            {/* Todo button to add attatchments */}
+          </SectionCard>
+          <SectionCard title={PageText.Contact.aboutYouInfo.title}>
+            <Input
+              label={PageText.Contact.aboutYouInfo.firstname}
+              type="text"
+              name="firstname"
+              value={state.context.firstname}
+              errorMessage={
+                state.hasTag('empty')
+                  ? PageText.Contact.aboutYouInfo.errorMessage
+                  : undefined
+              }
+              onChange={(e) =>
+                send({
+                  type: 'SET_FIRSTNAME',
+                  firstname: e.target.value,
+                })
+              }
+            />
+            {/*
+            <Input
+              label={PageText.Contact.aboutYouInfo.lastname}
+              type="text"
+              name="lastname"
+              value={state.context.lastname}
+              errorMessage={
+                isLastnameEmpty
+                  ? PageText.Contact.aboutYouInfo.errorMessage
+                  : undefined
+              }
+              onChange={(e) =>
+                send({
+                  type: 'SET_LASTNAME',
+                  lastname: e.target.value,
+                })
+              }
+            />
+            <Input
+              label={PageText.Contact.aboutYouInfo.address}
+              type="text"
+              name="address"
+              value={state.context.address}
+              errorMessage={
+                isAddressEmpty
+                  ? PageText.Contact.aboutYouInfo.errorMessage
+                  : undefined
+              }
+              onChange={(e) =>
+                send({
+                  type: 'SET_ADDRESS',
+                  address: e.target.value,
+                })
+              }
+            />
+            <Input
+              label={PageText.Contact.aboutYouInfo.postalCode}
+              type="text"
+              name="postalCode"
+              value={state.context.postalCode}
+              errorMessage={
+                isPostalCodeEmpty
+                  ? PageText.Contact.aboutYouInfo.errorMessage
+                  : undefined
+              }
+              onChange={(e) =>
+                send({
+                  type: 'SET_POSTAL_CODE',
+                  postalCode: e.target.value,
+                })
+              }
+            />
+            <Input
+              label={PageText.Contact.aboutYouInfo.city}
+              type="text"
+              name="city"
+              value={state.context.city}
+              errorMessage={
+                isCityEmpty
+                  ? PageText.Contact.aboutYouInfo.errorMessage
+                  : undefined
+              }
+              onChange={(e) =>
+                send({
+                  type: 'SET_CITY',
+                  city: e.target.value,
+                })
+              }
+            />
+            <Input
+              label={PageText.Contact.aboutYouInfo.email}
+              type="email"
+              name="email"
+              value={state.context.email}
+              errorMessage={
+                isEmailEmpty
+                  ? PageText.Contact.aboutYouInfo.errorMessage
+                  : undefined
+              }
+              onChange={(e) =>
+                send({
+                  type: 'SET_EMAIL',
+                  email: e.target.value,
+                })
+              }
+            />
+            <Input
+              label={PageText.Contact.aboutYouInfo.phonenumber}
+              type="text"
+              name="phonenumber"
+              value={state.context.phonenumber}
+              errorMessage={
+                isPhonenumberEmpty
+                  ? PageText.Contact.aboutYouInfo.errorMessage
+                  : undefined
+              }
+              onChange={(e) =>
+                send({
+                  type: 'SET_PHONENUMMBER',
+                  phonenumber: e.target.value,
+                })
+              }
+            />
+
+            {!isBankAccountForeign && (
+              <Input
+                label={PageText.Contact.aboutYouInfo.bankAccount.label}
+                type="text"
+                name="bankAccount"
+                value={state.context.bankAccount}
+                errorMessage={
+                  isBankAccountEmpty
+                    ? PageText.Contact.aboutYouInfo.bankAccount
+                        .errorMessageBankAccount
+                    : undefined
+                }
+                onChange={(e) =>
+                  send({
+                    type: 'SET_BANK_ACCOUNT',
+
+                    bankAccount: e.target.value,
+                  })
+                }
+              />
+            )}
+
+            <Input
+              label={PageText.Contact.aboutYouInfo.bankAccount.checkbox}
+              type="checkbox"
+              name="firstAgreement"
+              checked={isBankAccountForeign}
+              onChange={() => setBankAccountForeign(!isBankAccountForeign)}
+            />
+              */}
+          </SectionCard>
+          <Button
+            title={t(PageText.Contact.submit)}
+            mode={'interactive_0--bordered'}
+            buttonProps={{ type: 'submit' }}
+            onClick={() => {
+              console.log('buttonCLicked');
+              send({ type: 'SUBMIT' });
+            }}
+          />
         </div>
       )}
-    </div>
+    </form>
   );
 };
 

@@ -5,7 +5,7 @@ import { ComponentText, PageText, useTranslation } from '@atb/translations';
 import { useLines } from '../../lines/use-lines';
 import { TransportModeType } from '@atb-as/config-specs';
 import { Input } from '../../components/input';
-import style from '../ticket-control.module.css';
+import style from '../../contact.module.css';
 import { formMachine } from './feedbackformMachine';
 import { useMachine } from '@xstate/react';
 import { andIf } from '@atb/utils/css';
