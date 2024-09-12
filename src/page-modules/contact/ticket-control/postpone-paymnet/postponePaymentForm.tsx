@@ -17,7 +17,10 @@ export const PostponePaymentForm = () => {
 
     const response = await fetch('/api/contact', {
       method: 'POST',
-      body: JSON.stringify(state.context),
+      body: JSON.stringify({
+        firstName: state.context.firstname,
+        lastName: state.context.lastname,
+      }),
     });
 
     if (response.ok) {
