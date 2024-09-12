@@ -44,7 +44,7 @@ export const Input = ({
         value={value}
         onChange={onChange}
       />
-      {description && <p className={style.description}>{t(description)}</p>}
+      {description && <p>{t(description)}</p>}
 
       {errorMessage && (
         <label

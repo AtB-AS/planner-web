@@ -16,11 +16,6 @@
   gap: var(--spacings-small);
 }
 
-.label_container {
-  display: flex;
-  justify-content: space-between;
-}
-
 .input {
   padding: var(--spacings-small);
   color: var(--static-background-background_0-text);
