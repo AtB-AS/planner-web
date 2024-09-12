@@ -7,6 +7,8 @@ import { PageText, TranslatedString, useTranslation } from '@atb/translations';
 import { useMachine } from '@xstate/react';
 import { formMachine } from './complaintFormMachine';
 import { andIf } from '@atb/utils/css';
+import { Checkbox } from '../../components/input/checkbox';
+import { Typo } from '@atb/components/typography';
 
 export const FeeComplaintForm = () => {
   const { t } = useTranslation();
@@ -57,33 +59,33 @@ export const FeeComplaintForm = () => {
       <SectionCard
         title={PageText.Contact.ticketControl.feeComplaint.firstAgreement.title}
       >
-        <p>
+        <Typo.p textType="body__primary">
           {t(
             PageText.Contact.ticketControl.feeComplaint.firstAgreement.question,
           )}
-        </p>
+        </Typo.p>
         <div>
-          <h4>
+          <Typo.p textType="body__primary--bold">
             {t(
               PageText.Contact.ticketControl.feeComplaint.firstAgreement
                 .labelRules,
             )}
-          </h4>
-          <ul className={style.list}>
+          </Typo.p>
+          <ul className={style.rules__list}>
             {PageText.Contact.ticketControl.feeComplaint.firstAgreement.rules.map(
               (rule: TranslatedString, index: number) => (
-                <li key={index}>{t(rule)}</li>
+                <li key={index}>
+                  <Typo.span textType="body__primary">{t(rule)}</Typo.span>
+                </li>
               ),
             )}
           </ul>
         </div>
 
-        <Input
-          label={
-            PageText.Contact.ticketControl.feeComplaint.firstAgreement.checkbox
-          }
-          type="checkbox"
-          name="firstAgreement"
+        <Checkbox
+          label={t(
+            PageText.Contact.ticketControl.feeComplaint.firstAgreement.checkbox,
+          )}
           checked={agreesFirstAgreement}
           onChange={() =>
             send({
@@ -104,23 +106,24 @@ export const FeeComplaintForm = () => {
           PageText.Contact.ticketControl.feeComplaint.secondAgreement.title
         }
       >
-        <ul className={style.list}>
+        <ul className={style.rules__list}>
           {PageText.Contact.ticketControl.feeComplaint.secondAgreement.rules.map(
             (rule: TranslatedString, index: number) => (
-              <li key={index}>{t(rule)}</li>
+              <li key={index}>
+                <Typo.span textType="body__primary">{t(rule)}</Typo.span>
+              </li>
             ),
           )}
         </ul>
-        <p>
+        <Typo.p textType="body__primary">
           {t(PageText.Contact.ticketControl.feeComplaint.secondAgreement.info)}
-        </p>
+        </Typo.p>
 
-        <Input
-          label={
-            PageText.Contact.ticketControl.feeComplaint.secondAgreement.checkbox
-          }
-          type="checkbox"
-          name="secondAgreement"
+        <Checkbox
+          label={t(
+            PageText.Contact.ticketControl.feeComplaint.secondAgreement
+              .checkbox,
+          )}
           checked={agreesSecondAgreement}
           onChange={() =>
             send({

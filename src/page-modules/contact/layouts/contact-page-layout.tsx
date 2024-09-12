@@ -56,7 +56,7 @@ function ContactPageLayout({ children }: ContactPageLayoutProps) {
 
   return (
     <div className={style.layout__container}>
-      <h2>{t(PageText.Contact.title)}</h2>
+      <Typo.h2 textType="heading--jumbo">{t(PageText.Contact.title)}</Typo.h2>
       <nav className={style.contact_page_navigator__container}>
         {contactPages.map((contactPage, index) => {
           const isActive = pathname.includes(contactPage.href);
@@ -72,11 +72,7 @@ function ContactPageLayout({ children }: ContactPageLayoutProps) {
               })}
             >
               <MonoIcon size="large" icon={contactPage.icon} />
-              <Typo.p
-                textType={isActive ? 'body__primary--bold' : 'body__primary'}
-              >
-                {t(contactPage.title)}
-              </Typo.p>
+              <Typo.p textType="body__primary">{t(contactPage.title)}</Typo.p>
             </Link>
           );
         })}

@@ -83,9 +83,9 @@ export const Contact = {
       },
       secondAgreement: {
         title: _(
-          'Har du fått gebyr etter billettkontroll?',
-          'Have you received a fine after a ticket inspection?',
-          'Har du fått gebyr etter billettkontroll?',
+          'Typiske saker som ikke får medhold',
+          'Typical cases that do not receive approval',
+          'Typiske saker som ikkje får medhald',
         ),
         info: _(
           'Har du krav på rabatt men har fått gebyr fordi du ikke kunne framvise gyldig legitimasjon, kan du få redusert gebyret ditt til 200 kroner ved å sende oss dokumentasjon på at du har rett på rabatt.',
