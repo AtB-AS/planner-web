@@ -1,9 +1,8 @@
-import { FormEventHandler, useEffect, useState } from 'react';
-import style from '../ticket-control.module.css';
+import { FormEventHandler } from 'react';
 import { Button } from '@atb/components/button';
 import { Input } from '../../components/input';
 import { SectionCard } from '../../components/section-card';
-import { PageText, TranslatedString, useTranslation } from '@atb/translations';
+import { PageText, useTranslation } from '@atb/translations';
 import { useMachine } from '@xstate/react';
 import { formMachine } from './postponePaymentFormMachine';
 
