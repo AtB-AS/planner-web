@@ -1,0 +1,65 @@
+import { andIf } from '@atb/utils/css';
+import style from './input.module.css';
+import { useId } from 'react';
+import { ColorIcon, MonoIcon } from '@atb/components/icon';
+
+export type CheckboxProps = {
+  onChange: (checked: boolean) => void;
+  error?: string;
+  disabled?: boolean;
+  readonly?: boolean;
+  label: string;
+  description?: string;
+  checked?: boolean;
+  onClick?: () => void;
+};
+
+export function Checkbox({
+  onChange,
+  error,
+  disabled = false,
+  readonly = false,
+  label,
+  description,
+  checked = false,
+  onClick,
+}: CheckboxProps) {
+  const id = useId();
+
+  const className = andIf({
+    [style.checkbox]: true,
+    [style['checkbox--error']]: !!error,
+    [style['checkbox--disabled']]: disabled,
+    [style['checkbox--readonly']]: readonly,
+  });
+
+  const icon = checked ? 'input/CheckboxChecked' : 'input/CheckboxUnchecked';
+
+  return (
+    <label htmlFor={`checkbox-${id}`} className={className}>
+      <span className={style.checkbox__content}>
+        <input
+          type="checkbox"
+          id={`checkbox-${id}`}
+          readOnly={readonly}
+          onChange={(e) => onChange(e.target.checked)}
+          className={style.checkbox__checkbox}
+          checked={checked}
+          aria-invalid={!!error}
+          onClick={onClick}
+        />
+        <ColorIcon icon={icon} className={style.checkbox__icon} role="none" />
+        <dl>
+          <dt className={style.checkbox__label}>{label}</dt>
+          <dd className={style.checkbox__description}>{description}</dd>
+        </dl>
+      </span>
+      {!!error && (
+        <span role="alert" className={style.input__error}>
+          <MonoIcon icon="status/Error" />
+          {error}
+        </span>
+      )}
+    </label>
+  );
+}
