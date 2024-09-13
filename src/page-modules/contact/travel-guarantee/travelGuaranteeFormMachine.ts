@@ -1,67 +1,121 @@
 import { TransportModeType } from '@atb-as/config-specs';
-import { assign, createActor, fromPromise, setup } from 'xstate';
-import { Line } from '..';
+import { assign, fromPromise, setup } from 'xstate';
 
-async function getUser(id: string) {
-  // ...
-  return { id /* other user data */ };
-}
-
-import { createMachine } from 'xstate';
-
-export const promiseLogic = fromPromise(async () => {
-  const user = await getUser('123');
-  return user;
-});
-
-interface User {
-  id: string;
+type ContextProps = {
+  isChecked: boolean;
+  transportMode: TransportModeType | undefined;
+  date: string;
+  time: string;
   name: string;
-}
+  apiResponse: boolean;
+};
 
-// Definer maskinen
-export const userMachine = setup({
+export const fetchMachine = setup({
   types: {
-    context: {} as {
-      user: User | null;
+    context: {} as ContextProps,
+    input: {} as {
+      isChecked: boolean;
+      date: string;
+      time: string;
     },
-
-    events: {} as { type: 'FETCH' } | { type: 'RETRY' },
+  },
+  guards: {
+    isValid: () => {
+      return true;
+    },
+    validApiResponse: ({ context }) => {
+      return context.apiResponse;
+    },
+  },
+  actors: {
+    callAPI: fromPromise(async ({ context }) => {
+      return await fetch('/api/travel-guarantee', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json', // Legg til Content-Type header
+        },
+        body: JSON.stringify(context),
+      }).then((response) => response.ok);
+    }),
   },
 }).createMachine({
-  id: 'user',
+  /** @xstate-layout N4IgpgJg5mDOIC5QAoC2BDAxgCwJYDswBKAOlwgBswBiAZQFUAhAWQEkAVAbQAYBdRUAAcA9rFwAXXMPwCQAD0QBGAGzcSAZgCsATnXLlAJi2rN6gDQgAnkoDsmktxsAObstN7FN5eoC+Pi2hYeISk5FTU7ADyAOLRADIAojz8SCAiYpLSsgoIACyKJNpFxSUlFtYIRvZO6rUqBg3c3Fp+ARg4BMRklDTsAIIAGqzJsukSUjKpOSpqWrr6VSbmVojqueoaBk6K3AbOqjYGyq0ggR0hJJDj+FB0TGxcfKOi41lTiJqaBdyKmoaKTmcTkB2nKtnsjhcblqyk83hOZ2CXSukhudAS7AA+uwAEp9ABytAACpEcVjmJEACJJJ6pMaZSagHJ2NSKXKudnqGw7TSAsGVdTaEhOYpOTQ2ZqmZS5BHtJGkCjCdAQAi3CDSMBkfAAN2EAGtNYjOgqlSqbggCLrMOgGckRnSXgzsh8vg5fv9AcCQfztiRcsVnHpuO4bLKgsaSIrlarqGAAE5x4RxkiCCg2gBmSdQJCNFyjZqgFp1wmttr49qEjomzoQn2+7oMAKB3pWlQM9nF20cn20nj8-hA+GEEDgslzxGeGWr7wQAFplA4mkvl8ubPz52Hzl0wmBJ69GfIPkLcgZtMpudovmze6DW7UbH7FGzT9wnA12TKB+PSCjVXunTO2wPq47anmK3DaGKuT8msBS5M4EFit4Ng2OoBifm04Z5qaf4OlObxMqsmi5H6TjrGRhwoV4wb8r8BgOAh5FNCo56bvKJCwAArpgmBwPAeH7jWQEOIYmhgZoiHEbRzQkKY2jBl83C5GKnihv2QA */
   initial: 'idle',
+  context: ({ input }) => ({
+    isChecked: input.isChecked,
+    transportMode: undefined,
+    date: input.date,
+    time: input.time,
+    name: 'World',
+    apiResponse: false,
+  }),
   states: {
     idle: {
       on: {
-        FETCH: 'loading',
-      },
-    },
-    loading: {
-      invoke: {
-        src: promiseLogic,
-        onDone: {
-          target: 'success',
+        SUBMIT: {
+          guard: 'isValid',
+          target: 'submitting',
+        },
+        TOGGLE: {
           actions: assign({
-            user: (context, event) => event.data, // Lagre brukeren i konteksten
+            isChecked: ({ context }) => !context.isChecked,
           }),
         },
-        onError: 'failure',
+        TAXI: {
+          target: 'editing',
+        },
       },
     },
-    success: {
+
+    editing: {
+      tags: ['taxi', 'selected'],
+      //entry: 'cleanup',
       on: {
-        FETCH: 'loading', // Gir mulighet til å hente brukeren på nytt
+        SUBMIT: {
+          guard: 'isValid',
+          target: 'submitting',
+        },
+        SET_TRANSPORT_MODE: {
+          actions: assign({
+            transportMode: ({ event }) => event.transportMode,
+          }),
+        },
       },
     },
-    failure: {
-      on: {
-        FETCH: 'loading', // Gir mulighet til å hente brukeren på nytt
+
+    submitting: {
+      invoke: {
+        src: 'callAPI',
+        input: ({ context }) => ({ context }),
+        onDone: {
+          apiResponse: ({ event }: any) => {
+            console.log('event.output ', event.output);
+            return event.output;
+          },
+          target: 'validateApiRespone',
+        },
+
+        onError: 'editing',
       },
     },
+
+    validateApiRespone: {
+      always: [
+        {
+          target: 'success',
+          guard: {
+            type: 'validApiResponse',
+          },
+        },
+        {
+          target: 'editing',
+        },
+      ],
+    },
+
+    success: {},
   },
 });
-
 /*
 export const travelGuaranteeFormMachine = setup({
   types: {

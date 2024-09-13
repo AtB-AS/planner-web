@@ -6,7 +6,10 @@ import { SectionCard } from '../../components/section-card';
 import { PageText, TranslatedString, useTranslation } from '@atb/translations';
 import { useMachine } from '@xstate/react';
 import { formMachine } from './complaintFormMachine';
-import { andIf } from '@atb/utils/css';
+import { Checkbox } from '../../components/input/checkbox';
+import { Typo } from '@atb/components/typography';
+import { RadioInput } from '../../components/input/radio';
+import { Textarea } from '../../components/input/textarea';
 
 export const FeeComplaintForm = () => {
   const { t } = useTranslation();
@@ -57,33 +60,33 @@ export const FeeComplaintForm = () => {
       <SectionCard
         title={PageText.Contact.ticketControl.feeComplaint.firstAgreement.title}
       >
-        <p>
+        <Typo.p textType="body__primary">
           {t(
             PageText.Contact.ticketControl.feeComplaint.firstAgreement.question,
           )}
-        </p>
+        </Typo.p>
         <div>
-          <h4>
+          <Typo.p textType="body__primary--bold">
             {t(
               PageText.Contact.ticketControl.feeComplaint.firstAgreement
                 .labelRules,
             )}
-          </h4>
-          <ul className={style.list}>
+          </Typo.p>
+          <ul className={style.rules__list}>
             {PageText.Contact.ticketControl.feeComplaint.firstAgreement.rules.map(
               (rule: TranslatedString, index: number) => (
-                <li key={index}>{t(rule)}</li>
+                <li key={index}>
+                  <Typo.span textType="body__primary">{t(rule)}</Typo.span>
+                </li>
               ),
             )}
           </ul>
         </div>
 
-        <Input
-          label={
-            PageText.Contact.ticketControl.feeComplaint.firstAgreement.checkbox
-          }
-          type="checkbox"
-          name="firstAgreement"
+        <Checkbox
+          label={t(
+            PageText.Contact.ticketControl.feeComplaint.firstAgreement.checkbox,
+          )}
           checked={agreesFirstAgreement}
           onChange={() =>
             send({
@@ -104,23 +107,24 @@ export const FeeComplaintForm = () => {
           PageText.Contact.ticketControl.feeComplaint.secondAgreement.title
         }
       >
-        <ul className={style.list}>
+        <ul className={style.rules__list}>
           {PageText.Contact.ticketControl.feeComplaint.secondAgreement.rules.map(
             (rule: TranslatedString, index: number) => (
-              <li key={index}>{t(rule)}</li>
+              <li key={index}>
+                <Typo.span textType="body__primary">{t(rule)}</Typo.span>
+              </li>
             ),
           )}
         </ul>
-        <p>
+        <Typo.p textType="body__primary">
           {t(PageText.Contact.ticketControl.feeComplaint.secondAgreement.info)}
-        </p>
+        </Typo.p>
 
-        <Input
-          label={
-            PageText.Contact.ticketControl.feeComplaint.secondAgreement.checkbox
-          }
-          type="checkbox"
-          name="secondAgreement"
+        <Checkbox
+          label={t(
+            PageText.Contact.ticketControl.feeComplaint.secondAgreement
+              .checkbox,
+          )}
           checked={agreesSecondAgreement}
           onChange={() =>
             send({
@@ -221,20 +225,19 @@ export const FeeComplaintForm = () => {
               }
             />
 
-            <h4>
+            <Typo.h3 textType="heading__component">
               {t(
                 PageText.Contact.ticketControl.feeComplaint.ticketStorage
                   .question,
               )}
-            </h4>
+            </Typo.h3>
 
             <div>
-              <Input
-                label={
+              <RadioInput
+                label={t(
                   PageText.Contact.ticketControl.feeComplaint.ticketStorage.app
-                    .title
-                }
-                type="radio"
+                    .title,
+                )}
                 name="ticketStorage"
                 checked={isAppSelected}
                 onChange={() =>
@@ -244,13 +247,11 @@ export const FeeComplaintForm = () => {
                   })
                 }
               />
-
-              <Input
-                label={
+              <RadioInput
+                label={t(
                   PageText.Contact.ticketControl.feeComplaint.ticketStorage
-                    .travelcard.title
-                }
-                type="radio"
+                    .travelcard.title,
+                )}
                 name="ticketStorage"
                 checked={isTravelcardSelected}
                 onChange={() =>
@@ -345,12 +346,7 @@ export const FeeComplaintForm = () => {
             )}
           </SectionCard>
           <SectionCard title={PageText.Contact.feedback.question}>
-            <textarea
-              className={andIf({
-                [style.feedback]: true,
-                [style.feedback__error]: isFeedbackEmpty,
-              })}
-              name="feedback"
+            <Textarea
               value={state.context.feedback}
               onChange={(e) =>
                 send({
@@ -358,12 +354,12 @@ export const FeeComplaintForm = () => {
                   feedback: e.target.value,
                 })
               }
+              error={
+                isFeedbackEmpty
+                  ? t(PageText.Contact.feedback.errorMessage)
+                  : undefined
+              }
             />
-            {isFeedbackEmpty && (
-              <label className={style.feedback_label__error}>
-                {t(PageText.Contact.feedback.errorMessage)}
-              </label>
-            )}
           </SectionCard>
           <SectionCard title={PageText.Contact.aboutYouInfo.title}>
             <Input
@@ -508,10 +504,8 @@ export const FeeComplaintForm = () => {
               />
             )}
 
-            <Input
-              label={PageText.Contact.aboutYouInfo.bankAccount.checkbox}
-              type="checkbox"
-              name="firstAgreement"
+            <Checkbox
+              label={t(PageText.Contact.aboutYouInfo.bankAccount.checkbox)}
               checked={isBankAccountForeign}
               onChange={() => setBankAccountForeign(!isBankAccountForeign)}
             />

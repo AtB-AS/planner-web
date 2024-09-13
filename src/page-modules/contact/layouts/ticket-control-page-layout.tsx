@@ -1,33 +1,35 @@
 import { PropsWithChildren } from 'react';
 import { SectionCard } from '../components/section-card';
-import { Input } from '../components/input';
 import { useRouter } from 'next/router';
-import { PageText } from '@atb/translations';
+import { PageText, useTranslation } from '@atb/translations';
+import { Checkbox } from '../components/input/checkbox';
+import { Input } from '../components/input';
+import { RadioInput } from '../components/input/radio';
 
 export type TicketControlPageLayoutProps = PropsWithChildren<{
   title: string;
 }>;
 
 function TicketControlPageLayout({ children }: TicketControlPageLayoutProps) {
+  const { t } = useTranslation();
   const router = useRouter();
 
   return (
     <div>
       <SectionCard title={PageText.Contact.ticketControl.title}>
         <ul>
-          <Input
-            label={PageText.Contact.ticketControl.subPageTitles.feeComplaint}
-            type="radio"
+          <RadioInput
+            label={t(PageText.Contact.ticketControl.subPageTitles.feeComplaint)}
             checked={router.pathname.includes('/complaint')}
             onChange={() =>
               router.push('/contact/ticket-control/complaint', undefined, {
                 shallow: true,
               })
             }
+            name="complaint"
           />
-          <Input
-            label={PageText.Contact.ticketControl.subPageTitles.postpone}
-            type="radio"
+          <RadioInput
+            label={t(PageText.Contact.ticketControl.subPageTitles.postpone)}
             checked={router.pathname.includes('/postpone-payment')}
             onChange={() =>
               router.push(
@@ -38,16 +40,17 @@ function TicketControlPageLayout({ children }: TicketControlPageLayoutProps) {
                 },
               )
             }
+            name="postpone-payment"
           />
-          <Input
-            label={PageText.Contact.ticketControl.subPageTitles.feedback}
-            type="radio"
+          <RadioInput
+            label={t(PageText.Contact.ticketControl.subPageTitles.feedback)}
             checked={router.pathname.includes('/feedback')}
             onChange={() =>
               router.push('/contact/ticket-control/feedback', undefined, {
                 shallow: true,
               })
             }
+            name="feedback"
           />
         </ul>
       </SectionCard>

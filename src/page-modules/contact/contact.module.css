@@ -1,7 +1,12 @@
 @value typo-body__secondary from "@atb/theme/typography.module.css";
 
-.list {
-  padding-left: var(--spacings-large);
+.rules__list {
+  padding: var(--spacings-medium);
+  padding-left: var(--spacings-xLarge);
+}
+
+.rules__list > li {
+  padding: var(--spacings-xSmall) 0;
 }
 
 .feedback {
