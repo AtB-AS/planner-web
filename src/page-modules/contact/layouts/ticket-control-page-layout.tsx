@@ -3,6 +3,8 @@ import { SectionCard } from '../components/section-card';
 import { useRouter } from 'next/router';
 import { PageText, useTranslation } from '@atb/translations';
 import { Checkbox } from '../components/input/checkbox';
+import { Input } from '../components/input';
+import { RadioInput } from '../components/input/radio';
 
 export type TicketControlPageLayoutProps = PropsWithChildren<{
   title: string;
@@ -16,7 +18,7 @@ function TicketControlPageLayout({ children }: TicketControlPageLayoutProps) {
     <div>
       <SectionCard title={PageText.Contact.ticketControl.title}>
         <ul>
-          <Checkbox
+          <RadioInput
             label={t(PageText.Contact.ticketControl.subPageTitles.feeComplaint)}
             checked={router.pathname.includes('/complaint')}
             onChange={() =>
@@ -24,8 +26,9 @@ function TicketControlPageLayout({ children }: TicketControlPageLayoutProps) {
                 shallow: true,
               })
             }
+            name="complaint"
           />
-          <Checkbox
+          <RadioInput
             label={t(PageText.Contact.ticketControl.subPageTitles.postpone)}
             checked={router.pathname.includes('/postpone-payment')}
             onChange={() =>
@@ -37,8 +40,9 @@ function TicketControlPageLayout({ children }: TicketControlPageLayoutProps) {
                 },
               )
             }
+            name="postpone-payment"
           />
-          <Checkbox
+          <RadioInput
             label={t(PageText.Contact.ticketControl.subPageTitles.feedback)}
             checked={router.pathname.includes('/feedback')}
             onChange={() =>
@@ -46,6 +50,7 @@ function TicketControlPageLayout({ children }: TicketControlPageLayoutProps) {
                 shallow: true,
               })
             }
+            name="feedback"
           />
         </ul>
       </SectionCard>
