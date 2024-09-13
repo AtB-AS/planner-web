@@ -1,18 +1,38 @@
 import { TransportModeType } from '@atb-as/config-specs';
+import { Line } from '@atb/modules/graphql-types';
 import { assign, fromPromise, setup } from 'xstate';
-
-type ContextProps = {
-  isChecked: boolean;
-  transportMode: TransportModeType | undefined;
-  date: string;
-  time: string;
-  name: string;
-  apiResponse: boolean;
-};
+import { boolean, unknown } from 'zod';
 
 export const fetchMachine = setup({
   types: {
-    context: {} as ContextProps,
+    context: {} as {
+      isChecked: boolean;
+      transportMode: TransportModeType | undefined;
+      date: string;
+      time: string;
+      name: string;
+
+      stateSubmittedFrom: string;
+      apiResponse: boolean | undefined;
+    },
+    // Event types for the state machine context
+    events: {} as
+      | { type: 'TOGGLE' }
+      | { type: 'TAXI' }
+      | { type: 'CAR' }
+      | { type: 'OTHER' }
+      | { type: 'SUBMIT'; stateSubmittedFrom: string }
+      | { type: 'SET_TRANSPORT_MODE'; transportMode: TransportModeType } // Event for setting the transport mode
+      | { type: 'SET_LINE'; line: Line }
+      | { type: 'SET_DATE'; date: string } // Event for setting the form date
+      | { type: 'SET_TIME'; time: string } // Event for setting the form time
+      | {
+          type: 'RECEIVE_API_RESPONSE';
+          success: boolean;
+          data?: any;
+          error?: string;
+        },
+
     input: {} as {
       isChecked: boolean;
       date: string;
@@ -21,10 +41,13 @@ export const fetchMachine = setup({
   },
   guards: {
     isValid: () => {
+      // Validate input.
       return true;
     },
     validApiResponse: ({ context }) => {
-      return context.apiResponse;
+      console.log('context: ', context);
+      console.log('context.apiResponse: ', context.apiResponse);
+      return !!context.apiResponse;
     },
   },
   actors: {
@@ -32,53 +55,72 @@ export const fetchMachine = setup({
       return await fetch('/api/travel-guarantee', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json', // Legg til Content-Type header
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(context),
-      }).then((response) => response.ok);
+      }).then((response) => {
+        if (response.ok) return { success: true };
+        return { success: false };
+      });
     }),
   },
 }).createMachine({
   /** @xstate-layout N4IgpgJg5mDOIC5QAoC2BDAxgCwJYDswBKAOlwgBswBiAZQFUAhAWQEkAVAbQAYBdRUAAcA9rFwAXXMPwCQAD0QBGAGzcSAZgCsATnXLlAJi2rN6gDQgAnkoDsmktxsAObstN7FN5eoC+Pi2hYeISk5FTU7ADyAOLRADIAojz8SCAiYpLSsgoIACyKJNpFxSUlFtYIRvZO6rUqBg3c3Fp+ARg4BMRklDTsAIIAGqzJsukSUjKpOSpqWrr6VSbmVojqueoaBk6K3AbOqjYGyq0ggR0hJJDj+FB0TGxcfKOi41lTiJqaBdyKmoaKTmcTkB2nKtnsjhcblqyk83hOZ2CXSukhudAS7AA+uwAEp9ABytAACpEcVjmJEACJJJ6pMaZSagHJ2NSKXKudnqGw7TSAsGVdTaEhOYpOTQ2ZqmZS5BHtJGkCjCdAQAi3CDSMBkfAAN2EAGtNYjOgqlSqbggCLrMOgGckRnSXgzsh8vg5fv9AcCQfztiRcsVnHpuO4bLKgsaSIrlarqGAAE5x4RxkiCCg2gBmSdQJCNFyjZqgFp1wmttr49qEjomzoQn2+7oMAKB3pWlQM9nF20cn20nj8-hA+GEEDgslzxGeGWr7wQAFplA4mkvl8ubPz52Hzl0wmBJ69GfIPkLcgZtMpudovmze6DW7UbH7FGzT9wnA12TKB+PSCjVXunTO2wPq47anmK3DaGKuT8msBS5M4EFit4Ng2OoBifm04Z5qaf4OlObxMqsmi5H6TjrGRhwoV4wb8r8BgOAh5FNCo56bvKJCwAArpgmBwPAeH7jWQEOIYmhgZoiHEbRzQkKY2jBl83C5GKnihv2QA */
-  initial: 'idle',
+  initial: 'editing',
   context: ({ input }) => ({
     isChecked: input.isChecked,
     transportMode: undefined,
     date: input.date,
     time: input.time,
     name: 'World',
-    apiResponse: false,
+    stateSubmittedFrom: '',
+    apiResponse: undefined,
   }),
   states: {
-    idle: {
-      on: {
-        SUBMIT: {
-          guard: 'isValid',
-          target: 'submitting',
-        },
-        TOGGLE: {
-          actions: assign({
-            isChecked: ({ context }) => !context.isChecked,
-          }),
-        },
-        TAXI: {
-          target: 'editing',
-        },
-      },
-    },
-
     editing: {
-      tags: ['taxi', 'selected'],
+      initial: 'idle',
       //entry: 'cleanup',
       on: {
+        TAXI: {
+          target: 'editing.taxi',
+        },
+        CAR: {
+          target: 'editing.car',
+        },
+        OTHER: {
+          target: 'editing.other',
+        },
         SUBMIT: {
           guard: 'isValid',
           target: 'submitting',
         },
-        SET_TRANSPORT_MODE: {
-          actions: assign({
-            transportMode: ({ event }) => event.transportMode,
-          }),
+      },
+
+      states: {
+        idle: {
+          on: {
+            TOGGLE: {
+              actions: assign({
+                isChecked: ({ context }) => !context.isChecked,
+              }),
+            },
+          },
+        },
+        taxi: {
+          on: {
+            SET_TRANSPORT_MODE: {
+              actions: assign({
+                transportMode: ({ event }) => event.transportMode,
+              }),
+            },
+          },
+          tags: ['taxi', 'selected'],
+        },
+        car: {
+          tags: ['car', 'selected'],
+        },
+        other: {
+          tags: ['other', 'selected'],
         },
       },
     },
@@ -87,19 +129,19 @@ export const fetchMachine = setup({
       invoke: {
         src: 'callAPI',
         input: ({ context }) => ({ context }),
+
         onDone: {
-          apiResponse: ({ event }: any) => {
-            console.log('event.output ', event.output);
-            return event.output;
-          },
-          target: 'validateApiRespone',
+          actions: assign({
+            apiResponse: ({ event }: any) => event.output.success,
+          }),
+          target: 'validateApiResponse',
         },
 
         onError: 'editing',
       },
     },
 
-    validateApiRespone: {
+    validateApiResponse: {
       always: [
         {
           target: 'success',

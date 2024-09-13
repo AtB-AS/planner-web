@@ -2,6 +2,7 @@ import { PageText, TranslatedString, useTranslation } from '@atb/translations';
 import { SectionCard } from '../components/section-card';
 import { Input } from '../components/input';
 import style from '../contact.module.css';
+import { RadioInput } from '../components/input/radio';
 
 type FormSelectorProps = {
   state: any;
@@ -78,24 +79,25 @@ export const FormSelector = ({ state, send }: FormSelectorProps) => {
       {state.context.isChecked && (
         <SectionCard title={PageText.Contact.travelGuarantee.title}>
           <ul>
-            <Input
-              label={PageText.Contact.travelGuarantee.subPageTitles.refundTaxi}
-              type="radio"
+            <RadioInput
+              label={t(
+                PageText.Contact.travelGuarantee.subPageTitles.refundTaxi,
+              )}
               checked={state.hasTag('taxi')}
               onChange={() => send({ type: 'TAXI' })}
             />
-            <Input
-              label={PageText.Contact.travelGuarantee.subPageTitles.refundCar}
-              type="radio"
+            <RadioInput
+              label={t(
+                PageText.Contact.travelGuarantee.subPageTitles.refundCar,
+              )}
               checked={state.hasTag('car')}
               onChange={() => send({ type: 'CAR' })}
             />
-            <Input
-              label={
+            <RadioInput
+              label={t(
                 PageText.Contact.travelGuarantee.subPageTitles
-                  .refundOtherPublicTransport
-              }
-              type="radio"
+                  .refundOtherPublicTransport,
+              )}
               checked={state.hasTag('other')}
               onChange={() => send({ type: 'OTHER' })}
             />
