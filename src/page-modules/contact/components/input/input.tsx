@@ -25,8 +25,7 @@ export const Input = ({
     <div
       className={andIf({
         [style.container]: true,
-        [style.rowDisplay]:
-          type === 'radio' || type === 'checkbox' || type === 'submit',
+        [style.rowDisplay]: type === 'checkbox' || type === 'submit',
       })}
     >
       <label>
@@ -38,7 +37,6 @@ export const Input = ({
         className={andIf({
           [style.input]: true,
           [style.input__error]: errorMessage ? true : false,
-          [style.input__radio]: type === 'radio',
         })}
         checked={checked}
         value={value}
