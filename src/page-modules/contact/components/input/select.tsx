@@ -32,8 +32,6 @@ export default function Select<T>({
     options.find((opt) => valueToId(opt) == id);
 
   const onChangeInternal = (val: string) => {
-    console.log(val);
-    console.log(findItemFromOptions(val));
     onChange(findItemFromOptions(val));
   };
 
