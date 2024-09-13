@@ -18,8 +18,11 @@ export const PostponePaymentForm = () => {
     const response = await fetch('/api/contact', {
       method: 'POST',
       body: JSON.stringify({
+        feeNumber: state.context.feeNumber,
+        invoiceNumber: state.context.invoiceNumber,
         firstName: state.context.firstname,
         lastName: state.context.lastname,
+        email: state.context.email,
       }),
     });
 
