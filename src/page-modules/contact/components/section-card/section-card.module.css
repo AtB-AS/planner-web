@@ -1,7 +1,7 @@
 .container {
   display: flex;
   flex-direction: column;
-  padding: var(--spacings-large);
+  padding: var(--spacings-xLarge);
   margin-bottom: var(--spacings-large);
   border-radius: var(--border-radius-regular);
   color: var(--static-background-background_0-text);

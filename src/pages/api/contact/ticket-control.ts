@@ -6,7 +6,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 export default handlerWithContactFormClient<ContactApiReturnType>({
   async POST(req: NextApiRequest, res: NextApiResponse, { client, ok }) {
     return tryResult(req, res, async () => {
-      return ok(await client.submitForm(req.body));
+      return ok(await client.submitTicketControlForm(req.body));
     });
   },
 });

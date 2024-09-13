@@ -5,11 +5,12 @@ import { ComponentText, PageText, useTranslation } from '@atb/translations';
 import { useLines } from '../../lines/use-lines';
 import { TransportModeType } from '@atb-as/config-specs';
 import { Input } from '../../components/input';
-import style from '../ticket-control.module.css';
 import { formMachine } from './feedbackformMachine';
 import { useMachine } from '@xstate/react';
-import { andIf } from '@atb/utils/css';
 import { Line } from '../..';
+import { Textarea } from '../../components/input/textarea';
+import Select from '../../components/input/select';
+import { Typo } from '@atb/components/typography';
 
 export const FeedbackForm = () => {
   const { t } = useTranslation();
@@ -26,9 +27,20 @@ export const FeedbackForm = () => {
 
     if (!state.matches('submitting')) return;
 
-    const response = await fetch('/api/contact', {
+    const response = await fetch('/api/contact/ticket-control', {
       method: 'POST',
-      body: JSON.stringify(state.context),
+      body: JSON.stringify({
+        transportMode: state.context.transportMode,
+        line: state.context.line?.name,
+        fromStop: state.context.departureLocation?.name,
+        toStop: state.context.arrivalLocation?.name,
+        date: state.context.date,
+        departureTime: state.context.time,
+        feedback: state.context.feedback,
+        firstName: state.context.firstname,
+        lastName: state.context.lastname,
+        email: state.context.email,
+      }),
     });
 
     if (response.ok) {
@@ -77,230 +89,152 @@ export const FeedbackForm = () => {
   return (
     <form onSubmit={onSubmit}>
       <SectionCard title={PageText.Contact.ticketControl.feedback.title}>
-        <p>{t(PageText.Contact.ticketControl.feedback.info)}</p>
-        <p>{t(PageText.Contact.ticketControl.feedback.locationQuestion)}</p>
+        <Typo.p textType="body__primary">
+          {t(PageText.Contact.ticketControl.feedback.info)}
+        </Typo.p>
 
-        <label>
-          {t(PageText.Contact.ticketControl.feedback.transportMode.label)}
-        </label>
-
-        <select
-          name="transportModes"
+        <Select
+          label={t(PageText.Contact.ticketControl.feedback.locationQuestion)}
           value={state.context.transportMode}
-          onChange={(e) =>
+          onChange={(value) =>
             send({
               type: 'SET_TRANSPORT_MODE',
-              transportMode: e.target.value as TransportModeType,
+              transportMode: value as TransportModeType,
             })
           }
-        >
-          <option
-            label={t(
-              PageText.Contact.ticketControl.feedback.transportMode.optionLabel,
-            )}
-            selected
-            disabled
-            value={undefined}
-          />
-          <option value="bus">
-            {t(ComponentText.TransportMode.modes['bus'])}
-          </option>
-          <option value="water">
-            {' '}
-            {t(ComponentText.TransportMode.modes['water'])}
-          </option>
-        </select>
-        {isTransportModeUndefined && (
-          <label
-            className={andIf({
-              [style.feedback_label__error]: isTransportModeUndefined,
-            })}
-          >
-            {t(
-              PageText.Contact.ticketControl.feedback.transportMode
-                .errorMessage,
-            )}
-          </label>
-        )}
-
+          error={
+            isTransportModeUndefined
+              ? t(
+                  PageText.Contact.ticketControl.feedback.transportMode
+                    .errorMessage,
+                )
+              : undefined
+          }
+          valueToText={(val: TransportModeType) =>
+            t(ComponentText.TransportMode.modes[val])
+          }
+          valueToId={(val: TransportModeType) => val}
+          options={['bus', 'water'] as TransportModeType[]}
+          placeholder={t(
+            PageText.Contact.ticketControl.feedback.transportMode.optionLabel,
+          )}
+        />
         {state.context.transportMode && (
-          <>
-            <label>
-              {t(PageText.Contact.ticketControl.feedback.line.label)}
-            </label>
-
-            <select
-              name="lines"
-              value={state.context.line?.id}
-              onChange={(e) =>
-                send({
-                  type: 'SET_LINE',
-                  line: lines?.filter(
-                    (line) => line.id === e.target.value,
-                  )[0] as Line,
-                })
-              }
-            >
-              <option
-                label={t(
-                  PageText.Contact.ticketControl.feedback.line.optionLabel,
-                )}
-                selected
-                disabled
-                value={undefined}
-              />
-              {getLinesByMode(
-                state.context.transportMode as TransportModeType,
-              ).map((line) => (
-                <option key={line.id} value={line.id}>
-                  {line.name}
-                </option>
-              ))}
-            </select>
-            {isLineUndefined && (
-              <label
-                className={andIf({
-                  [style.feedback_label__error]: isLineUndefined,
-                })}
-              >
-                {t(PageText.Contact.ticketControl.feedback.line.errorMessage)}
-              </label>
+          <Select
+            label={t(PageText.Contact.ticketControl.feedback.line.label)}
+            value={state.context.line}
+            onChange={(value: Line | undefined) => {
+              if (!value) return;
+              send({
+                type: 'SET_LINE',
+                line: value,
+              });
+            }}
+            options={getLinesByMode(
+              state.context.transportMode as TransportModeType,
             )}
-          </>
+            valueToId={(line: Line) => line.id}
+            valueToText={(line: Line) => line.name}
+            placeholder={t(
+              PageText.Contact.ticketControl.feedback.line.optionLabel,
+            )}
+            error={
+              isLineUndefined
+                ? t(PageText.Contact.ticketControl.feedback.line.errorMessage)
+                : undefined
+            }
+          />
         )}
 
         {state.context.line && (
           <>
-            <label>
-              {t(
+            <Select
+              label={t(
                 PageText.Contact.ticketControl.feedback.departureLocation.label,
               )}
-            </label>
-
-            <select
-              name="departure"
-              value={state.context.departureLocation?.id}
-              onChange={(e) =>
+              value={state.context.departureLocation}
+              onChange={(value) => {
+                if (!value) return;
                 send({
                   type: 'SET_DEPARTURE_LOCATON',
-                  departureLocation: state.context.line?.quays.filter(
-                    (quay) => quay.id === e.target.value,
-                  )[0] as Line['quays'][0],
-                })
+                  departureLocation: value,
+                });
+              }}
+              options={getQuaysByLine(state.context.line.id)}
+              placeholder={t(
+                PageText.Contact.ticketControl.feedback.departureLocation
+                  .optionLabel,
+              )}
+              error={
+                isDepartureLocationUndefined
+                  ? t(
+                      PageText.Contact.ticketControl.feedback.departureLocation
+                        .errorMessage,
+                    )
+                  : undefined
               }
-            >
-              <option
-                label={t(
-                  PageText.Contact.ticketControl.feedback.departureLocation
-                    .optionLabel,
-                )}
-                selected
-                disabled
-                value={undefined}
-              />
-              {getQuaysByLine(state.context.line.id).map((quay) => (
-                <option key={quay.id} value={quay.id}>
-                  {quay.name}
-                </option>
-              ))}
-            </select>
-            {isDepartureLocationUndefined && (
-              <label
-                className={andIf({
-                  [style.feedback_label__error]: isDepartureLocationUndefined,
-                })}
-              >
-                {t(
-                  PageText.Contact.ticketControl.feedback.departureLocation
-                    .errorMessage,
-                )}
-              </label>
-            )}
-          </>
-        )}
+              valueToId={(quay: Line['quays'][0]) => quay.id}
+              valueToText={(quay: Line['quays'][0]) => quay.name}
+            />
 
-        {state.context.line && (
-          <>
-            <label>
-              {t(PageText.Contact.ticketControl.feedback.arrivalLocation.label)}
-            </label>
-
-            <select
-              name="arrival"
-              value={state.context.arrivalLocation?.id}
-              onChange={(e) =>
+            <Select
+              label={t(
+                PageText.Contact.ticketControl.feedback.arrivalLocation.label,
+              )}
+              value={state.context.arrivalLocation}
+              onChange={(value) => {
+                if (!value) return;
                 send({
                   type: 'SET_ARRIVAL_LOCATON',
-                  arrivalLocation: state.context.line?.quays.filter(
-                    (quay) => quay.id === e.target.value,
-                  )[0] as Line['quays'][0],
+                  arrivalLocation: value,
+                });
+              }}
+              placeholder={t(
+                PageText.Contact.ticketControl.feedback.arrivalLocation
+                  .optionLabel,
+              )}
+              options={getQuaysByLine(state.context.line.id)}
+              error={
+                isArrivalLocationUndefined
+                  ? t(
+                      PageText.Contact.ticketControl.feedback.arrivalLocation
+                        .errorMessage,
+                    )
+                  : undefined
+              }
+              valueToId={(quay: Line['quays'][0]) => quay.id}
+              valueToText={(quay: Line['quays'][0]) => quay.name}
+            />
+
+            <Input
+              label={PageText.Contact.ticketControl.feedback.date}
+              type="date"
+              name="date"
+              value={state.context.date}
+              onChange={(e) =>
+                send({
+                  type: 'SET_DATE',
+                  date: e.target.value,
                 })
               }
-            >
-              <option
-                label={t(
-                  PageText.Contact.ticketControl.feedback.arrivalLocation
-                    .optionLabel,
-                )}
-                selected
-                disabled
-                value={undefined}
-              />
-              {getQuaysByLine(state.context.line.id).map((quay) => (
-                <option key={quay.id} value={quay.id}>
-                  {quay.name}
-                </option>
-              ))}
-            </select>
-            {isArrivalLocationUndefined && (
-              <label
-                className={andIf({
-                  [style.feedback_label__error]: isArrivalLocationUndefined,
-                })}
-              >
-                {t(
-                  PageText.Contact.ticketControl.feedback.arrivalLocation
-                    .errorMessage,
-                )}
-              </label>
-            )}
-
-            <div>
-              <Input
-                label={PageText.Contact.ticketControl.feedback.date}
-                type="date"
-                name="date"
-                value={state.context.date}
-                onChange={(e) =>
-                  send({
-                    type: 'SET_DATE',
-                    date: e.target.value,
-                  })
-                }
-              />
-              <Input
-                label={PageText.Contact.ticketControl.feedback.departureTime}
-                type="time"
-                name="time"
-                value={state.context.time}
-                onChange={(e) =>
-                  send({
-                    type: 'SET_TIME',
-                    time: e.target.value,
-                  })
-                }
-              />
-            </div>
+            />
+            <Input
+              label={PageText.Contact.ticketControl.feedback.departureTime}
+              type="time"
+              name="time"
+              value={state.context.time}
+              onChange={(e) =>
+                send({
+                  type: 'SET_TIME',
+                  time: e.target.value,
+                })
+              }
+            />
           </>
         )}
       </SectionCard>
       <SectionCard title={PageText.Contact.feedback.question}>
-        <textarea
-          className={andIf({
-            [style.feedback]: true,
-            [style.feedback__error]: isFeedbackEmpty,
-          })}
-          name="feedback"
+        <Textarea
           value={state.context.feedback}
           onChange={(e) =>
             send({
@@ -308,12 +242,12 @@ export const FeedbackForm = () => {
               feedback: e.target.value,
             })
           }
+          error={
+            isFeedbackEmpty
+              ? t(PageText.Contact.feedback.errorMessage)
+              : undefined
+          }
         />
-        {isFeedbackEmpty && (
-          <label className={style.feedback_label__error}>
-            {t(PageText.Contact.feedback.errorMessage)}
-          </label>
-        )}
         {/* Todo button to add attatchments */}
       </SectionCard>
       <SectionCard title={PageText.Contact.aboutYouInfo.title}>
