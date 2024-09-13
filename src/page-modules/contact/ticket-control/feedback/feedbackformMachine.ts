@@ -69,7 +69,6 @@ export const formMachine = setup({
     editing: {
       on: {
         SET_TRANSPORT_MODE: {
-          guard: 'isTransportModeUndefined',
           actions: assign({
             transportMode: ({ event }) => event.transportMode,
           }),

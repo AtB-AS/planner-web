@@ -2,6 +2,7 @@ import { andIf } from '@atb/utils/css';
 import style from './input.module.css';
 import { useId } from 'react';
 import { ColorIcon, MonoIcon } from '@atb/components/icon';
+import ErrorMessage from './error-message';
 
 export type CheckboxProps = {
   onChange: (checked: boolean) => void;
@@ -54,12 +55,7 @@ export function Checkbox({
           <dd className={style.checkbox__description}>{description}</dd>
         </dl>
       </span>
-      {!!error && (
-        <span role="alert" className={style.input__error}>
-          <MonoIcon icon="status/Error" />
-          {error}
-        </span>
-      )}
+      {!!error && <ErrorMessage message={error} />}
     </label>
   );
 }

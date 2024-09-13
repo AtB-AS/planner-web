@@ -1,0 +1,36 @@
+import { ChangeEvent, useId } from 'react';
+import style from './input.module.css';
+import { Typo } from '@atb/components/typography';
+
+export type RadioInputProps = {
+  label: string;
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+} & JSX.IntrinsicElements['input'];
+
+export function RadioInput({
+  onChange,
+  checked,
+  label,
+  value,
+  name,
+}: RadioInputProps) {
+  const id = useId();
+  return (
+    <div>
+      <input
+        id={id}
+        type="radio"
+        onChange={onChange}
+        value={value}
+        checked={checked}
+        name={name}
+        className={style.input__radio}
+      />
+
+      <label htmlFor={id} className={style.label__radio}>
+        <span className={style.label__radioBox}></span>
+        <Typo.span textType="body__primary">{label}</Typo.span>
+      </label>
+    </div>
+  );
+}

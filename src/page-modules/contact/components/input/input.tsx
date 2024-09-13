@@ -2,6 +2,8 @@ import style from './input.module.css';
 import { ChangeEvent } from 'react';
 import { TranslatedString, useTranslation } from '@atb/translations';
 import { andIf } from '@atb/utils/css';
+import { Typo } from '@atb/components/typography';
+import ErrorMessage from './error-message';
 
 type InputProps = {
   label: TranslatedString;
@@ -27,27 +29,22 @@ export const Input = ({
           type === 'radio' || type === 'checkbox' || type === 'submit',
       })}
     >
-      <label>{t(label)}</label>
+      <label>
+        <Typo.span textType="body__primary">{t(label)}</Typo.span>
+      </label>
       <input
         type={type}
         name={name}
         className={andIf({
           [style.input]: true,
           [style.input__error]: errorMessage ? true : false,
+          [style.input__radio]: type === 'radio',
         })}
         checked={checked}
         value={value}
         onChange={onChange}
       />
-      {errorMessage && (
-        <label
-          className={andIf({
-            [style.input_label__error]: true,
-          })}
-        >
-          {t(errorMessage)}
-        </label>
-      )}
+      {errorMessage && <ErrorMessage message={t(errorMessage)} />}
     </div>
   );
 };
