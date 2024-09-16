@@ -16,13 +16,7 @@ import { Checkbox } from '../components/input/checkbox';
 export const RefundForm = () => {
   const { t } = useTranslation();
   const { lines, getLinesByMode, getQuaysByLine } = useLines();
-  const [state, send] = useMachine(fetchMachine, {
-    input: {
-      isChecked: false,
-      date: new Date().toISOString().split('T')[0],
-      time: `${String(new Date().getHours()).padStart(2, '0')}:${String(new Date().getMinutes()).padStart(2, '0')}`,
-    },
-  });
+  const [state, send] = useMachine(fetchMachine);
 
   // Local state to force re-render to display errors.
   const [displayErrorsDummyState, setDisplayErrorsDummyState] = useState(true);

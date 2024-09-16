@@ -4,7 +4,7 @@ export type InputErrorMessages = {
   [key: string]: TranslatedString[]; // Error messages indexed by field name
 };
 
-export const validateInputFields = (context: any) => {
+export const formInputValidator = (context: any) => {
   const inputErrorMessages: InputErrorMessages = {};
 
   if (!context.firstname) {

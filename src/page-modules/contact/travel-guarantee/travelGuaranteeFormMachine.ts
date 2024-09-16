@@ -1,13 +1,13 @@
 import { TransportModeType } from '@atb-as/config-specs';
 import { assign, fromPromise, setup } from 'xstate';
 import { Line } from '../server/journey-planner/validators';
-import { machineEvents } from '../events';
-import { InputErrorMessages, validateInputFields } from '../validators';
+import { machineEvents } from '../machineEvents';
+import { InputErrorMessages, formInputValidator } from '../formInputValidator';
 
 export const fetchMachine = setup({
   types: {
     context: {} as {
-      isChecked: boolean;
+      isIntialAgreementChecked: boolean;
       transportMode: TransportModeType | undefined;
       line: Line | undefined;
       departureLocation: Line['quays'][0] | undefined;
@@ -31,18 +31,13 @@ export const fetchMachine = setup({
       errorMessages: InputErrorMessages;
     },
     events: machineEvents,
-    input: {} as {
-      isChecked: boolean;
-      date: string;
-      time: string;
-    },
   },
   guards: {
     validApiResponse: ({ context }) => {
       return !!context.apiResponse;
     },
 
-    validateInputs: ({ context }) => validateInputFields(context),
+    validateInputs: ({ context }) => formInputValidator(context),
   },
   actions: {
     cleanup: assign({
@@ -148,7 +143,8 @@ export const fetchMachine = setup({
         },
         body: JSON.stringify(context),
       }).then((response) => {
-        if (response.ok) return { success: true };
+        // throw an error to force onError
+        if (!response.ok) return { success: true };
         return { success: false };
       });
     }),
@@ -156,14 +152,14 @@ export const fetchMachine = setup({
 }).createMachine({
   /** @xstate-layout N4IgpgJg5mDOIC5QAoC2BDAxgCwJYDswBKAOlwgBswBiAZQFUAhAWQEkAVAbQAYBdRUAAcA9rFwAXXMPwCQAD0QBGAGzcSAZgCsATnXLlAJi2rN6gDQgAnkoDsmktxsAObstN7FN5eoC+Pi2hYeISk5FTU7ADyAOLRADIAojz8SCAiYpLSsgoIACyKJNpFxSUlFtYIRvZO6rUqBg3c3Fp+ARg4BMRklDTsAIIAGqzJsukSUjKpOSpqWrr6VSbmVojqueoaBk6K3AbOqjYGyq0ggR0hJJDj+FB0TGxcfKOi41lTiJqaBdyKmoaKTmcTkB2nKtnsjhcblqyk83hOZ2CXSukhudAS7AA+uwAEp9ABytAACpEcVjmJEACJJJ6pMaZSagHJ2NSKXKudnqGw7TSAsGVdTaEhOYpOTQ2ZqmZS5BHtJGkCjCdAQAi3CDSMBkfAAN2EAGtNYjOgqlSqbggCLrMOgGckRnSXgzsh8vg5fv9AcCQfztiRcsVnHpuO4bLKgsaSIrlarqGAAE5x4RxkiCCg2gBmSdQJCNFyjZqgFp1wmttr49qEjomzoQn2+7oMAKB3pWlQM9nF20cn20nj8-hA+GEEDgslzxGeGWr7wQAFplA4mkvl8ubPz52Hzl0wmBJ69GfIPkLcgZtMpudovmze6DW7UbH7FGzT9wnA12TKB+PSCjVXunTO2wPq47anmK3DaGKuT8msBS5M4EFit4Ng2OoBifm04Z5qaf4OlObxMqsmi5H6TjrGRhwoV4wb8r8BgOAh5FNCo56bvKJCwAArpgmBwPAeH7jWQEOIYmhgZoiHEbRzQkKY2jBl83C5GKnihv2QA */
   initial: 'editing',
-  context: ({ input }) => ({
-    isChecked: input.isChecked,
+  context: {
+    isIntialAgreementChecked: false,
     transportMode: undefined,
     line: undefined,
     departureLocation: undefined,
     arrivalLocation: undefined,
-    date: input.date,
-    time: input.time,
+    date: new Date().toISOString().split('T')[0],
+    time: `${String(new Date().getHours()).padStart(2, '0')}:${String(new Date().getMinutes()).padStart(2, '0')}`,
 
     feedback: '',
     firstname: '',
@@ -179,7 +175,7 @@ export const fetchMachine = setup({
 
     apiResponse: undefined,
     errorMessages: {},
-  }),
+  },
   states: {
     editing: {
       initial: 'idle',
@@ -238,7 +234,8 @@ export const fetchMachine = setup({
           on: {
             TOGGLE: {
               actions: assign({
-                isChecked: ({ context }) => !context.isChecked,
+                isIntialAgreementChecked: ({ context }) =>
+                  !context.isIntialAgreementChecked,
               }),
             },
           },

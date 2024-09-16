@@ -14,7 +14,7 @@ export const FormSelector = ({ state, send }: FormSelectorProps) => {
 
   return (
     <div>
-      {!state.context.isChecked && (
+      {!state.context.isIntialAgreementChecked && (
         <SectionCard title={PageText.Contact.travelGuarantee.title}>
           <p>
             {t(
@@ -76,7 +76,7 @@ export const FormSelector = ({ state, send }: FormSelectorProps) => {
         </SectionCard>
       )}
 
-      {state.context.isChecked && (
+      {state.context.isIntialAgreementChecked && (
         <SectionCard title={PageText.Contact.travelGuarantee.title}>
           <ul>
             <RadioInput
