@@ -1,7 +1,7 @@
 import { PageText, TranslatedString } from '@atb/translations';
 
 export type InputErrorMessages = {
-  [key: string]: TranslatedString[]; // Error messages indexed by field name
+  [key: string]: TranslatedString[];
 };
 
 export const formInputValidator = (context: any) => {
@@ -9,124 +9,125 @@ export const formInputValidator = (context: any) => {
 
   if (!context.firstname) {
     if (!inputErrorMessages['firstname']) {
-      inputErrorMessages['firstname'] = []; // Initialize the array if it doesn't exist
+      inputErrorMessages['firstname'] = [];
     }
     inputErrorMessages['firstname'].push(
-      PageText.Contact.aboutYouInfo.lastname,
+      PageText.Contact.inputFields.firstname.errorMessages.empty,
     );
   }
 
   if (!context.lastname) {
     if (!inputErrorMessages['lastname']) {
-      inputErrorMessages['lastname'] = []; // Initialize the array if it doesn't exist
+      inputErrorMessages['lastname'] = [];
     }
-    inputErrorMessages['lastname'].push(PageText.Contact.aboutYouInfo.lastname);
+    inputErrorMessages['lastname'].push(
+      PageText.Contact.inputFields.lastname.errorMessages.empty,
+    );
   }
 
-  // Check for Email
   if (!context.email) {
     if (!inputErrorMessages['email']) {
-      inputErrorMessages['email'] = []; // Initialize the array if it doesn't exist
+      inputErrorMessages['email'] = [];
     }
-    inputErrorMessages['email'].push(PageText.Contact.aboutYouInfo.email);
+    inputErrorMessages['email'].push(
+      PageText.Contact.inputFields.email.errorMessages.empty,
+    );
   }
 
-  // Check for Address
   if (!context.address) {
     if (!inputErrorMessages['address']) {
-      inputErrorMessages['address'] = []; // Initialize the array if it doesn't exist
+      inputErrorMessages['address'] = [];
     }
-    inputErrorMessages['address'].push(PageText.Contact.aboutYouInfo.address);
+    inputErrorMessages['address'].push(
+      PageText.Contact.inputFields.address.errorMessages.empty,
+    );
   }
 
-  // Check for Postal Code
   if (!context.postalCode) {
     if (!inputErrorMessages['postalCode']) {
-      inputErrorMessages['postalCode'] = []; // Initialize the array if it doesn't exist
+      inputErrorMessages['postalCode'] = [];
     }
     inputErrorMessages['postalCode'].push(
-      PageText.Contact.aboutYouInfo.postalCode,
+      PageText.Contact.inputFields.postalCode.errorMessages.empty,
     );
   }
 
-  // Check for City
   if (!context.city) {
     if (!inputErrorMessages['city']) {
-      inputErrorMessages['city'] = []; // Initialize the array if it doesn't exist
+      inputErrorMessages['city'] = [];
     }
-    inputErrorMessages['city'].push(PageText.Contact.aboutYouInfo.city);
+    inputErrorMessages['city'].push(
+      PageText.Contact.inputFields.city.errorMessages.empty,
+    );
   }
 
-  // Check for Phone Number
   if (!context.phonenumber) {
     if (!inputErrorMessages['phonenumber']) {
-      inputErrorMessages['phonenumber'] = []; // Initialize the array if it doesn't exist
+      inputErrorMessages['phonenumber'] = [];
     }
     inputErrorMessages['phonenumber'].push(
-      PageText.Contact.aboutYouInfo.phonenumber,
+      PageText.Contact.inputFields.phonenumber.errorMessages.empty,
     );
   }
 
-  // Check for Bank Account
+  /*
   if (!context.bankAccount) {
     if (!inputErrorMessages['bankAccount']) {
-      inputErrorMessages['bankAccount'] = []; // Initialize the array if it doesn't exist
+      inputErrorMessages['bankAccount'] = [];
     }
     inputErrorMessages['bankAccount'].push(
-      PageText.Contact.aboutYouInfo.phonenumber,
+      PageText.Contact.errorMessages.bankAccount,
     );
   }
 
-  // Check for IBAN
   if (!context.IBAN) {
     if (!inputErrorMessages['IBAN']) {
-      inputErrorMessages['IBAN'] = []; // Initialize the array if it doesn't exist
+      inputErrorMessages['IBAN'] = [];
     }
     inputErrorMessages['IBAN'].push(PageText.Contact.aboutYouInfo.phonenumber);
   }
 
-  // Check for SWIFT
   if (!context.SWIFT) {
     if (!inputErrorMessages['SWIFT']) {
-      inputErrorMessages['SWIFT'] = []; // Initialize the array if it doesn't exist
+      inputErrorMessages['SWIFT'] = [];
     }
     inputErrorMessages['SWIFT'].push(PageText.Contact.aboutYouInfo.phonenumber);
   }
+  */
 
-  // Check for transportMode
   if (!context.transportMode) {
     if (!inputErrorMessages['transportMode']) {
-      inputErrorMessages['transportMode'] = []; // Initialize the array if it doesn't exist
+      inputErrorMessages['transportMode'] = [];
     }
     inputErrorMessages['transportMode'].push(
-      PageText.Contact.aboutYouInfo.phonenumber,
+      PageText.Contact.inputFields.transportMode.errorMessages.empty,
     );
   }
 
-  // Check for line
   if (!context.line) {
     if (!inputErrorMessages['line']) {
-      inputErrorMessages['line'] = []; // Initialize the array if it doesn't exist
+      inputErrorMessages['line'] = [];
     }
-    inputErrorMessages['line'].push(PageText.Contact.aboutYouInfo.phonenumber);
-  }
-
-  // Check for departureLocation
-  if (!context.line) {
-    if (!inputErrorMessages['departureLocation']) {
-      inputErrorMessages['departureLocation'] = []; // Initialize the array if it doesn't exist
-    }
-    inputErrorMessages['departureLocation'].push(
-      PageText.Contact.aboutYouInfo.phonenumber,
+    inputErrorMessages['line'].push(
+      PageText.Contact.inputFields.line.errorMessages.empty,
     );
   }
-  // Check for arrivalLocation
-  if (!context.line) {
+
+  if (!context.departureLocation) {
+    if (!inputErrorMessages['departureLocation']) {
+      inputErrorMessages['departureLocation'] = [];
+    }
+    inputErrorMessages['departureLocation'].push(
+      PageText.Contact.inputFields.departureLocation.errorMessages.empty,
+    );
+  }
+
+  if (!context.arrivalLocation) {
     if (!inputErrorMessages['arrivalLocation']) {
-      inputErrorMessages['arrivalLocation'] = []; // Initialize the array if it doesn't exist
+      inputErrorMessages['arrivalLocation'] = [];
     }
     inputErrorMessages['arrivalLocation'].push(
-      PageText.Contact.aboutYouInfo.phonenumber,
+      PageText.Contact.inputFields.arrivalLocation.errorMessages.empty,
     );
   }
 

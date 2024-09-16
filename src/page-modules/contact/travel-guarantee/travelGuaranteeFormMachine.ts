@@ -33,13 +33,10 @@ export const fetchMachine = setup({
     validateInputs: ({ context }) => formInputValidator(context),
   },
   actions: {
-    cleanup: assign({
-      transportMode: () => undefined,
-      line: () => undefined,
-      departureLocation: () => undefined,
-      arrivalLocation: () => undefined,
+    setIsIntialAgreementChecked: assign({
+      isIntialAgreementChecked: ({ context }) =>
+        !context.isIntialAgreementChecked,
     }),
-
     setTransportMode: assign({
       transportMode: ({ event }) =>
         (
@@ -49,7 +46,6 @@ export const fetchMachine = setup({
           }
         ).transportMode,
     }),
-
     setLine: assign({
       line: ({ event }) => (event as { type: 'SET_LINE'; line: Line }).line,
     }),
@@ -71,7 +67,6 @@ export const fetchMachine = setup({
           }
         ).arrivalLocation,
     }),
-
     setFeedback: assign({
       feedback: ({ event }) =>
         (event as { type: 'SET_FEEDBACK'; feedback: string }).feedback,
@@ -159,7 +154,6 @@ export const fetchMachine = setup({
   states: {
     editing: {
       initial: 'idle',
-      entry: 'cleanup',
       on: {
         TAXI: {
           target: 'editing.taxi',
@@ -209,10 +203,7 @@ export const fetchMachine = setup({
         idle: {
           on: {
             TOGGLE: {
-              actions: assign({
-                isIntialAgreementChecked: ({ context }) =>
-                  !context.isIntialAgreementChecked,
-              }),
+              actions: 'setIsIntialAgreementChecked',
             },
           },
         },
@@ -263,6 +254,7 @@ export const fetchMachine = setup({
           type: 'final',
         },
       },
+
       onDone: {
         target: 'submitting',
       },

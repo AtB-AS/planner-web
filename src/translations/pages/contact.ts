@@ -448,4 +448,163 @@ export const Contact = {
     ),
   },
   submit: _('Send', 'Submit', 'Send'),
+
+  inputFields: {
+    firstname: {
+      label: _(
+        'Fornavn og mellomnavn',
+        'First name and middle name',
+        'Fornamn og mellomnamn',
+      ),
+      errorMessages: {
+        empty: _(
+          'Vennligst fyll ut informasjon om deg',
+          'Please provide your information',
+          'Vennligst fyll ut din informasjon',
+        ),
+      },
+    },
+
+    lastname: {
+      label: _('Etternavn', 'Lastname', 'Etternamn'),
+      errorMessages: {
+        empty: _(
+          'Vennligst fyll ut informasjon om deg',
+          'Please provide your information',
+          'Vennligst fyll ut din informasjon',
+        ),
+      },
+    },
+
+    email: {
+      label: _('E-post', 'Email', 'E-post'),
+      errorMessages: {
+        empty: _(
+          'Vennligst fyll ut informasjon om deg',
+          'Please provide your information',
+          'Vennligst fyll ut din informasjon',
+        ),
+      },
+    },
+    address: {
+      label: _('Adresse', 'Address', 'Adresse'),
+      errorMessages: {
+        empty: _(
+          'Vennligst fyll ut informasjon om deg',
+          'Please provide your information',
+          'Vennligst fyll ut din informasjon',
+        ),
+      },
+    },
+
+    postalCode: {
+      label: _('Postnummer', 'Postal code', 'Postnummar'),
+      errorMessages: {
+        empty: _(
+          'Vennligst fyll ut informasjon om deg',
+          'Please provide your information',
+          'Vennligst fyll ut din informasjon',
+        ),
+      },
+    },
+
+    city: {
+      label: _('Bosted', 'City', 'Bustad'),
+      errorMessages: {
+        empty: _(
+          'Vennligst fyll ut informasjon om deg',
+          'Please provide your information',
+          'Vennligst fyll ut din informasjon',
+        ),
+      },
+    },
+
+    phonenumber: {
+      label: _('Telefonenummer', 'Phonenumber', 'Telefonenummar'),
+      errorMessages: {
+        empty: _(
+          'Vennligst fyll ut informasjon om deg',
+          'Please provide your information',
+          'Vennligst fyll ut din informasjon',
+        ),
+      },
+    },
+
+    bankAccount: {
+      notForeignLabel: _(
+        'Bankkontonummer',
+        'Bank account number',
+        'Bankkontonummar',
+      ),
+      checkbox: _(
+        'Jeg har et utenlandsk bankkontonummer',
+        'I have a foreign bank account',
+        'Eg har eit utanlandsk bankkontonummar',
+      ),
+      iban: _('IBAN', 'IBAN', 'IBAN'),
+      swift: _('SWIFT ', 'SWIFT ', 'SWIFT '),
+
+      errorMessages: {
+        empty: _(
+          'Vennligst fyll ut ditt bankkontonummer',
+          'Please provide your bank account',
+          'Vennligst fyll ut ditt bankkontonummar',
+        ),
+      },
+    },
+
+    transportMode: {
+      label: _('Reisemåte', 'Transport mode', 'Reisemåte'),
+      optionLabel: _(
+        'Velg reisemåte',
+        'Select transport mode',
+        'Velg reisemåte',
+      ),
+      errorMessages: {
+        empty: _('Velg reisemåte', 'Select transport mode', 'Velg reisemåte'),
+      },
+    },
+
+    line: {
+      label: _('Linje', 'Line', 'Linje'),
+      optionLabel: _('Velg linje', 'Choose line', 'Velg linje'),
+      errorMessages: {
+        empty: _('Velg linje', 'Select line', 'Velg linje'),
+      },
+    },
+
+    departureLocation: {
+      label: _('Avreisested', 'Departure location', 'Avreisested'),
+      optionLabel: _(
+        'Velg avreisested',
+        'Select departure loation',
+        'Velg avreisested',
+      ),
+      errorMessages: {
+        empty: _(
+          'Velg avreisested',
+          'Select departure loation',
+          'Velg avreisested',
+        ),
+      },
+    },
+
+    arrivalLocation: {
+      label: _('Ankomststed', 'Arrival location', 'Ankomststed'),
+      optionLabel: _(
+        'Velg anskomststed',
+        'Select arrival location',
+        'Velg ankomststed',
+      ),
+      errorMessages: {
+        empty: _(
+          'Velg anskomststed',
+          'Select arrival location',
+          'Velg ankomststed',
+        ),
+      },
+    },
+    date: _('Dato', 'Date', 'Dato'),
+    departureTime: _('Avgangstid', 'Departure time', 'Avgangstid'),
+  },
 };

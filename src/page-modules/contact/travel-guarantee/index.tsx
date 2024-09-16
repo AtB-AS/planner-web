@@ -47,14 +47,10 @@ export const RefundForm = () => {
               PageText.Contact.travelGuarantee.refundTaxi.aboutYourTrip.title
             }
           >
-            <label>
-              {t(PageText.Contact.ticketControl.feedback.transportMode.label)}
-            </label>
-
             <Select
               label={t(
-                PageText.Contact.ticketControl.feedback.transportMode.label,
-              )}
+                PageText.Contact.inputFields.transportMode.label,
+              ).toString()}
               value={state.context.transportMode}
               onChange={(value) =>
                 send({
@@ -73,14 +69,13 @@ export const RefundForm = () => {
               valueToId={(val: TransportModeType) => val}
               options={['bus', 'water'] as TransportModeType[]}
               placeholder={t(
-                PageText.Contact.ticketControl.feedback.transportMode
-                  .optionLabel,
+                PageText.Contact.inputFields.transportMode.optionLabel,
               )}
             />
 
             {state.context.transportMode && (
               <Select
-                label={t(PageText.Contact.ticketControl.feedback.line.label)}
+                label={t(PageText.Contact.inputFields.line.label)}
                 value={state.context.line}
                 onChange={(value: Line | undefined) => {
                   if (!value) return;
@@ -94,9 +89,7 @@ export const RefundForm = () => {
                 )}
                 valueToId={(line: Line) => line.id}
                 valueToText={(line: Line) => line.name}
-                placeholder={t(
-                  PageText.Contact.ticketControl.feedback.line.optionLabel,
-                )}
+                placeholder={t(PageText.Contact.inputFields.line.optionLabel)}
                 error={
                   state.context?.errorMessages['line']
                     ? t(state.context?.errorMessages['line']?.[0])
@@ -109,8 +102,7 @@ export const RefundForm = () => {
               <>
                 <Select
                   label={t(
-                    PageText.Contact.ticketControl.feedback.departureLocation
-                      .label,
+                    PageText.Contact.inputFields.departureLocation.label,
                   )}
                   value={state.context.departureLocation}
                   onChange={(value) => {
@@ -122,8 +114,7 @@ export const RefundForm = () => {
                   }}
                   options={getQuaysByLine(state.context.line.id)}
                   placeholder={t(
-                    PageText.Contact.ticketControl.feedback.departureLocation
-                      .optionLabel,
+                    PageText.Contact.inputFields.departureLocation.optionLabel,
                   )}
                   error={
                     state.context?.errorMessages['departureLocation']
@@ -139,10 +130,7 @@ export const RefundForm = () => {
                 />
 
                 <Select
-                  label={t(
-                    PageText.Contact.ticketControl.feedback.arrivalLocation
-                      .label,
-                  )}
+                  label={t(PageText.Contact.inputFields.arrivalLocation.label)}
                   value={state.context.arrivalLocation}
                   onChange={(value) => {
                     if (!value) return;
@@ -152,8 +140,7 @@ export const RefundForm = () => {
                     });
                   }}
                   placeholder={t(
-                    PageText.Contact.ticketControl.feedback.arrivalLocation
-                      .optionLabel,
+                    PageText.Contact.inputFields.arrivalLocation.optionLabel,
                   )}
                   options={getQuaysByLine(state.context.line.id)}
                   error={
@@ -166,7 +153,7 @@ export const RefundForm = () => {
                 />
 
                 <Input
-                  label={PageText.Contact.ticketControl.feedback.date}
+                  label={PageText.Contact.inputFields.date}
                   type="date"
                   name="date"
                   value={state.context.date}
@@ -178,7 +165,7 @@ export const RefundForm = () => {
                   }
                 />
                 <Input
-                  label={PageText.Contact.ticketControl.feedback.departureTime}
+                  label={PageText.Contact.inputFields.departureTime}
                   type="time"
                   name="time"
                   value={state.context.time}
@@ -216,7 +203,7 @@ export const RefundForm = () => {
           </SectionCard>
           <SectionCard title={PageText.Contact.aboutYouInfo.title}>
             <Input
-              label={PageText.Contact.aboutYouInfo.firstname}
+              label={PageText.Contact.inputFields.firstname.label}
               type="text"
               name="firstname"
               value={state.context.firstname}
@@ -232,7 +219,7 @@ export const RefundForm = () => {
             />
 
             <Input
-              label={PageText.Contact.aboutYouInfo.lastname}
+              label={PageText.Contact.inputFields.lastname.label}
               type="text"
               name="lastname"
               value={state.context.lastname}
@@ -247,7 +234,7 @@ export const RefundForm = () => {
               }
             />
             <Input
-              label={PageText.Contact.aboutYouInfo.address}
+              label={PageText.Contact.inputFields.address.label}
               type="text"
               name="address"
               value={state.context.address}
@@ -262,7 +249,7 @@ export const RefundForm = () => {
               }
             />
             <Input
-              label={PageText.Contact.aboutYouInfo.postalCode}
+              label={PageText.Contact.inputFields.postalCode.label}
               type="text"
               name="postalCode"
               value={state.context.postalCode}
@@ -277,7 +264,7 @@ export const RefundForm = () => {
               }
             />
             <Input
-              label={PageText.Contact.aboutYouInfo.city}
+              label={PageText.Contact.inputFields.city.label}
               type="text"
               name="city"
               value={state.context.city}
@@ -292,7 +279,7 @@ export const RefundForm = () => {
               }
             />
             <Input
-              label={PageText.Contact.aboutYouInfo.email}
+              label={PageText.Contact.inputFields.email.label}
               type="email"
               name="email"
               value={state.context.email}
@@ -307,7 +294,7 @@ export const RefundForm = () => {
               }
             />
             <Input
-              label={PageText.Contact.aboutYouInfo.phonenumber}
+              label={PageText.Contact.inputFields.phonenumber.label}
               type="text"
               name="phonenumber"
               value={state.context.phonenumber}
@@ -324,7 +311,7 @@ export const RefundForm = () => {
 
             {!isBankAccountForeign && (
               <Input
-                label={PageText.Contact.aboutYouInfo.bankAccount.label}
+                label={PageText.Contact.inputFields.bankAccount.notForeignLabel}
                 type="text"
                 name="bankAccount"
                 value={state.context.bankAccount}
