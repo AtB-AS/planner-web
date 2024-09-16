@@ -7,6 +7,7 @@ export const machineEvents = {} as
   | { type: 'CAR' }
   | { type: 'OTHER' }
   | { type: 'VALIDATE' }
+  | { type: 'SET_BANK_ACCOUNT_FOREIGN' }
   | { type: 'SET_TRANSPORT_MODE'; transportMode: TransportModeType }
   | { type: 'SET_LINE'; line: Line }
   | { type: 'SET_DEPARTURE_LOCATION'; departureLocation: Line['quays'][0] }

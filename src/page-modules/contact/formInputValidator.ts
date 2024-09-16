@@ -70,30 +70,14 @@ export const formInputValidator = (context: any) => {
     );
   }
 
-  /*
-  if (!context.bankAccount) {
+  if (!context.bankAccount && !context.IBAN && !context.SWIFT) {
     if (!inputErrorMessages['bankAccount']) {
       inputErrorMessages['bankAccount'] = [];
     }
     inputErrorMessages['bankAccount'].push(
-      PageText.Contact.errorMessages.bankAccount,
+      PageText.Contact.inputFields.bankAccount.errorMessages.empty,
     );
   }
-
-  if (!context.IBAN) {
-    if (!inputErrorMessages['IBAN']) {
-      inputErrorMessages['IBAN'] = [];
-    }
-    inputErrorMessages['IBAN'].push(PageText.Contact.aboutYouInfo.phonenumber);
-  }
-
-  if (!context.SWIFT) {
-    if (!inputErrorMessages['SWIFT']) {
-      inputErrorMessages['SWIFT'] = [];
-    }
-    inputErrorMessages['SWIFT'].push(PageText.Contact.aboutYouInfo.phonenumber);
-  }
-  */
 
   if (!context.transportMode) {
     if (!inputErrorMessages['transportMode']) {

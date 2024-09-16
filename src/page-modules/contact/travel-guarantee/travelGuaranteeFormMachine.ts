@@ -8,6 +8,7 @@ export const fetchMachine = setup({
   types: {
     context: {} as {
       isIntialAgreementChecked: boolean;
+      isBankAccountForeign: boolean;
       transportMode: TransportModeType | undefined;
       line: Line | undefined;
       departureLocation: Line['quays'][0] | undefined;
@@ -36,6 +37,9 @@ export const fetchMachine = setup({
     setIsIntialAgreementChecked: assign({
       isIntialAgreementChecked: ({ context }) =>
         !context.isIntialAgreementChecked,
+    }),
+    setIsBankAccountForeign: assign({
+      isBankAccountForeign: ({ context }) => !context.isBankAccountForeign,
     }),
     setTransportMode: assign({
       transportMode: ({ event }) =>
@@ -132,6 +136,7 @@ export const fetchMachine = setup({
   initial: 'editing',
   context: {
     isIntialAgreementChecked: false,
+    isBankAccountForeign: false,
     transportMode: undefined,
     line: undefined,
     departureLocation: undefined,
@@ -197,6 +202,9 @@ export const fetchMachine = setup({
         SET_SWIFT: {
           actions: 'setSWIFT',
         },
+        SET_BANK_ACCOUNT_FOREIGN: {
+          actions: 'setIsBankAccountForeign',
+        },
       },
 
       states: {
@@ -222,6 +230,7 @@ export const fetchMachine = setup({
             SET_ARRIVAL_LOCATION: {
               actions: 'setArrivalLocation',
             },
+
             VALIDATE: {
               guard: 'validateInputs',
               target: 'readyForSubmitt',

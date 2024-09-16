@@ -12,6 +12,7 @@ import { Button } from '@atb/components/button';
 import Select from '../components/input/select';
 import { Line } from '..';
 import { Checkbox } from '../components/input/checkbox';
+import ErrorMessage from '../components/input/error-message';
 
 export const RefundForm = () => {
   const { t } = useTranslation();
@@ -20,7 +21,6 @@ export const RefundForm = () => {
 
   // Local state to force re-render to display errors.
   const [displayErrorsDummyState, setDisplayErrorsDummyState] = useState(true);
-  const [isBankAccountForeign, setBankAccountForeign] = useState(false);
 
   const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
@@ -192,7 +192,7 @@ export const RefundForm = () => {
             <textarea
               className={style.feedback}
               name="feedback"
-              //value={state.context.feedback}
+              value={state.context.feedback}
               onChange={(e) =>
                 send({
                   type: 'SET_FEEDBACK',
@@ -309,7 +309,7 @@ export const RefundForm = () => {
               }
             />
 
-            {!isBankAccountForeign && (
+            {!state.context.isBankAccountForeign && (
               <Input
                 label={PageText.Contact.inputFields.bankAccount.notForeignLabel}
                 type="text"
@@ -330,14 +330,14 @@ export const RefundForm = () => {
 
             <Checkbox
               label={t(PageText.Contact.aboutYouInfo.bankAccount.checkbox)}
-              checked={isBankAccountForeign}
-              onChange={() => setBankAccountForeign(!isBankAccountForeign)}
+              checked={state.context.isBankAccountForeign}
+              onChange={() => send({ type: 'SET_BANK_ACCOUNT_FOREIGN' })}
             />
 
-            {isBankAccountForeign && (
+            {state.context.isBankAccountForeign && (
               <div>
                 <Input
-                  label={PageText.Contact.aboutYouInfo.bankAccount.iban}
+                  label={PageText.Contact.inputFields.bankAccount.iban}
                   type="text"
                   name="bankAccount"
                   value={state.context.IBAN}
@@ -350,7 +350,7 @@ export const RefundForm = () => {
                 />
 
                 <Input
-                  label={PageText.Contact.aboutYouInfo.bankAccount.swift}
+                  label={PageText.Contact.inputFields.bankAccount.swift}
                   type="text"
                   name="bankAccount"
                   value={state.context.SWIFT}
@@ -361,6 +361,13 @@ export const RefundForm = () => {
                     })
                   }
                 />
+                {state.context?.errorMessages['bankAccount'] && (
+                  <ErrorMessage
+                    message={t(
+                      state.context?.errorMessages['bankAccount']?.[0],
+                    )}
+                  />
+                )}
               </div>
             )}
           </SectionCard>
