@@ -129,7 +129,6 @@ export const fetchMachine = setup({
         if (!response.ok) {
           throw new Error('Failed to call API'); // You can add more specific error details if needed
         }
-        return { success: false };
       });
     }),
   },
