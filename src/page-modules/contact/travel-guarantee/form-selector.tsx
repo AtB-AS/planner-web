@@ -48,7 +48,7 @@ export const FormSelector = ({ state, send }: FormSelectorProps) => {
                 .travelGuaranteeExceptions.externalFactors,
             )}
           </p>
-          <ul className={style.list}>
+          <ul className={style.rules__list}>
             {PageText.Contact.travelGuarantee.layoutAgreement.travelGuaranteeExceptions.examples.map(
               (example: TranslatedString, index: number) => (
                 <li key={index}>{t(example)}</li>

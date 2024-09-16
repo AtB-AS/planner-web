@@ -1,11 +1,8 @@
 import { TransportModeType } from '@atb-as/config-specs';
 import { assign, fromPromise, setup } from 'xstate';
 import { Line } from '../server/journey-planner/validators';
-import { PageText, TranslatedString } from '@atb/translations';
-
-type InputErrorMessages = {
-  [key: string]: TranslatedString[]; // Error messages indexed by field name
-};
+import { machineEvents } from '../events';
+import { InputErrorMessages, validateInputFields } from '../validators';
 
 export const fetchMachine = setup({
   types: {
@@ -33,30 +30,7 @@ export const fetchMachine = setup({
       apiResponse: boolean | undefined;
       errorMessages: InputErrorMessages;
     },
-    events: {} as
-      | { type: 'TOGGLE' }
-      | { type: 'TAXI' }
-      | { type: 'CAR' }
-      | { type: 'OTHER' }
-      | { type: 'SUBMIT' }
-      | { type: 'SET_TRANSPORT_MODE'; transportMode: TransportModeType }
-      | { type: 'SET_LINE'; line: Line }
-      | { type: 'SET_DEPARTURE_LOCATION'; departureLocation: Line['quays'][0] }
-      | { type: 'SET_ARRIVAL_LOCATION'; arrivalLocation: Line['quays'][0] }
-      | { type: 'SET_DATE'; date: string }
-      | { type: 'SET_TIME'; time: string }
-      | { type: 'SET_FEEDBACK'; feedback: string }
-      | { type: 'SET_FIRSTNAME'; firstname: string }
-      | { type: 'SET_LASTNAME'; lastname: string }
-      | { type: 'SET_EMAIL'; email: string }
-      | { type: 'SET_ADDRESS'; address: string }
-      | { type: 'SET_POSTAL_CODE'; postalCode: string }
-      | { type: 'SET_PHONENUMBER'; phonenumber: string }
-      | { type: 'SET_CITY'; city: string }
-      | { type: 'SET_BANK_ACCOUNT'; bankAccount: string }
-      | { type: 'SET_IBAN'; IBAN: string }
-      | { type: 'SET_SWIFT'; SWIFT: string },
-
+    events: machineEvents,
     input: {} as {
       isChecked: boolean;
       date: string;
@@ -64,117 +38,11 @@ export const fetchMachine = setup({
     },
   },
   guards: {
-    // TODO: Create guard to validate form input. Maybe create one guard combined by mulpiple guards.
-    isValid: () => {
-      return true;
-    },
     validApiResponse: ({ context }) => {
       return !!context.apiResponse;
     },
 
-    validateInputs: ({ context }) => {
-      const inputErrorMessages: InputErrorMessages = {};
-
-      if (!context.firstname) {
-        if (!inputErrorMessages['firstname']) {
-          inputErrorMessages['firstname'] = []; // Initialize the array if it doesn't exist
-        }
-        inputErrorMessages['firstname'].push(
-          PageText.Contact.aboutYouInfo.lastname,
-        );
-      }
-
-      if (!context.lastname) {
-        if (!inputErrorMessages['lastname']) {
-          inputErrorMessages['lastname'] = []; // Initialize the array if it doesn't exist
-        }
-        inputErrorMessages['lastname'].push(
-          PageText.Contact.aboutYouInfo.lastname,
-        );
-      }
-
-      // Check for Email
-      if (!context.email) {
-        if (!inputErrorMessages['email']) {
-          inputErrorMessages['email'] = []; // Initialize the array if it doesn't exist
-        }
-        inputErrorMessages['email'].push(PageText.Contact.aboutYouInfo.email);
-      }
-
-      // Check for Address
-      if (!context.address) {
-        if (!inputErrorMessages['address']) {
-          inputErrorMessages['address'] = []; // Initialize the array if it doesn't exist
-        }
-        inputErrorMessages['address'].push(
-          PageText.Contact.aboutYouInfo.address,
-        );
-      }
-
-      // Check for Postal Code
-      if (!context.postalCode) {
-        if (!inputErrorMessages['postalCode']) {
-          inputErrorMessages['postalCode'] = []; // Initialize the array if it doesn't exist
-        }
-        inputErrorMessages['postalCode'].push(
-          PageText.Contact.aboutYouInfo.postalCode,
-        );
-      }
-
-      // Check for City
-      if (!context.city) {
-        if (!inputErrorMessages['city']) {
-          inputErrorMessages['city'] = []; // Initialize the array if it doesn't exist
-        }
-        inputErrorMessages['city'].push(PageText.Contact.aboutYouInfo.city);
-      }
-
-      // Check for Phone Number
-      if (!context.phonenumber) {
-        if (!inputErrorMessages['phonenumber']) {
-          inputErrorMessages['phonenumber'] = []; // Initialize the array if it doesn't exist
-        }
-        inputErrorMessages['phonenumber'].push(
-          PageText.Contact.aboutYouInfo.phonenumber,
-        );
-      }
-
-      // Check for Bank Account
-      if (!context.bankAccount) {
-        if (!inputErrorMessages['bankAccount']) {
-          inputErrorMessages['bankAccount'] = []; // Initialize the array if it doesn't exist
-        }
-        inputErrorMessages['bankAccount'].push(
-          PageText.Contact.aboutYouInfo.phonenumber,
-        );
-      }
-
-      // Check for IBAN
-      if (!context.IBAN) {
-        if (!inputErrorMessages['IBAN']) {
-          inputErrorMessages['IBAN'] = []; // Initialize the array if it doesn't exist
-        }
-        inputErrorMessages['IBAN'].push(
-          PageText.Contact.aboutYouInfo.phonenumber,
-        );
-      }
-
-      // Check for SWIFT
-      if (!context.SWIFT) {
-        if (!inputErrorMessages['SWIFT']) {
-          inputErrorMessages['SWIFT'] = []; // Initialize the array if it doesn't exist
-        }
-        inputErrorMessages['SWIFT'].push(
-          PageText.Contact.aboutYouInfo.phonenumber,
-        );
-      }
-
-      // Populate context.errorMessages
-      context.errorMessages = inputErrorMessages;
-
-      // Return false if any error
-      return Object.keys(inputErrorMessages).length > 0 ? false : true;
-    },
+    validateInputs: ({ context }) => validateInputFields(context),
   },
   actions: {
     cleanup: assign({
@@ -315,6 +183,7 @@ export const fetchMachine = setup({
   states: {
     editing: {
       initial: 'idle',
+      entry: 'cleanup',
       on: {
         TAXI: {
           target: 'editing.taxi',

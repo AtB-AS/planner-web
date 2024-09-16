@@ -6,7 +6,7 @@ import { fetchMachine } from './travelGuaranteeFormMachine';
 import { Input } from '../components/input';
 import { TransportModeType } from '@atb-as/config-specs';
 import { useLines } from '../lines/use-lines';
-import { FormEventHandler, useEffect, useState } from 'react';
+import { FormEventHandler, useState } from 'react';
 import style from '../contact.module.css';
 import { Button } from '@atb/components/button';
 import Select from '../components/input/select';
@@ -69,11 +69,8 @@ export const RefundForm = () => {
                 })
               }
               error={
-                !state.context.transportMode
-                  ? t(
-                      PageText.Contact.ticketControl.feedback.transportMode
-                        .errorMessage,
-                    )
+                state.context?.errorMessages['transportMode']
+                  ? t(state.context?.errorMessages['transportMode']?.[0])
                   : undefined
               }
               valueToText={(val: TransportModeType) =>
@@ -107,11 +104,8 @@ export const RefundForm = () => {
                   PageText.Contact.ticketControl.feedback.line.optionLabel,
                 )}
                 error={
-                  true
-                    ? t(
-                        PageText.Contact.ticketControl.feedback.line
-                          .errorMessage,
-                      )
+                  state.context?.errorMessages['line']
+                    ? t(state.context?.errorMessages['line']?.[0])
                     : undefined
                 }
               />
@@ -138,10 +132,11 @@ export const RefundForm = () => {
                       .optionLabel,
                   )}
                   error={
-                    true
+                    state.context?.errorMessages['departureLocation']
                       ? t(
-                          PageText.Contact.ticketControl.feedback
-                            .departureLocation.errorMessage,
+                          state.context?.errorMessages[
+                            'departureLocation'
+                          ]?.[0],
                         )
                       : undefined
                   }
@@ -168,11 +163,8 @@ export const RefundForm = () => {
                   )}
                   options={getQuaysByLine(state.context.line.id)}
                   error={
-                    true
-                      ? t(
-                          PageText.Contact.ticketControl.feedback
-                            .arrivalLocation.errorMessage,
-                        )
+                    state.context?.errorMessages['arrivalLocation']
+                      ? t(state.context?.errorMessages['arrivalLocation']?.[0])
                       : undefined
                   }
                   valueToId={(quay: Line['quays'][0]) => quay.id}
