@@ -81,14 +81,16 @@ export const FormSelector = ({ state, send }: FormSelectorProps) => {
           <ul>
             <RadioInput
               label={t(
-                PageText.Contact.travelGuarantee.subPageTitles.refundTaxi,
+                PageText.Contact.travelGuarantee.subPageTitles.refundTaxi
+                  .description,
               )}
               checked={state.hasTag('taxi')}
               onChange={() => send({ type: 'TAXI' })}
             />
             <RadioInput
               label={t(
-                PageText.Contact.travelGuarantee.subPageTitles.refundCar,
+                PageText.Contact.travelGuarantee.subPageTitles.refundCar
+                  .description,
               )}
               checked={state.hasTag('car')}
               onChange={() => send({ type: 'CAR' })}
@@ -96,7 +98,7 @@ export const FormSelector = ({ state, send }: FormSelectorProps) => {
             <RadioInput
               label={t(
                 PageText.Contact.travelGuarantee.subPageTitles
-                  .refundOtherPublicTransport,
+                  .refundOtherPublicTransport.description,
               )}
               checked={state.hasTag('other')}
               onChange={() => send({ type: 'OTHER' })}

@@ -1,5 +1,4 @@
 import { translation as _ } from '@atb/translations/commons';
-import { title } from 'process';
 
 export const Contact = {
   title: _(
@@ -326,35 +325,54 @@ export const Contact = {
     },
 
     subPageTitles: {
-      refundTaxi: _(
-        'Jeg ønsker refusojon for drosje',
-        'I would like refund for taxi',
-        'Eg ønsker refusjon for drosje',
-      ),
-      refundCar: _(
-        'Jeg ønsker refusojon for bruka av bil',
-        'I would like refund for the use of a car',
-        'Eg ønsker refusjon for bruk av en bil',
-      ),
-      refundOtherPublicTransport: _(
-        'Jeg ønsker refusjon for annen kollektivtransport',
-        'I would like a refund for other public transport',
-        'Eg ønsker refusjon for annan kollektivtransport',
-      ),
+      refundTaxi: {
+        description: _(
+          'Jeg ønsker refusojon for drosje',
+          'I would like refund for taxi',
+          'Eg ønsker refusjon for drosje',
+        ),
+        info: _(
+          'Hvis du ikke kommer frem med et annet rutetilbud, refunderer vi utgifter til drosje i henhold til gjeldende regler.',
+          'If you do not provide an alternative route offer, we will refund taxi expenses according to the applicable regulations.',
+          'Viss du ikkje kjem fram med eit anna rutetilbod, refunderer vi utlegg til drosje etter gjeldande reglar.',
+        ),
+      },
+
+      refundCar: {
+        description: _(
+          'Jeg ønsker refusojon for bruka av bil',
+          'I would like refund for the use of a car',
+          'Eg ønsker refusjon for bruk av en bil',
+        ),
+        info: _(
+          'Hvis du ikke kommer frem med et annet rutetilbud, refunderer vi dokumenterte utgifter for bruk av bil. Vi betaler kilometergodtgjørelse etter statens satser. Refusjonen dekker ikke bompenger, parkering eller andre utgifter knyttet til leiebil/delbil.',
+          'If you do not provide an alternative route offer, we will refund documented expenses for the use of a car. We will pay mileage reimbursement according to the state´s rates. The refund does not cover tolls, parking, or other expenses related to rental cars/sharing cars.',
+          'Viss du ikkje kjem fram med eit anna rutetilbod, refunderer vi dokumenterte utlegg for bruk av bil. Vi betalar kilometergodtgjersle etter statens satsar. Refusjonen dekker ikkje bompengar, parkering eller andre utgifter knytt til leigebil/delebil.',
+        ),
+      },
+
+      refundOtherPublicTransport: {
+        description: _(
+          'Jeg ønsker refusjon for annen kollektivtransport',
+          'I would like a refund for other public transport',
+          'Eg ønsker refusjon for annan kollektivtransport',
+        ),
+        info: _('', '', ''),
+      },
     },
 
     refundTaxi: {
       information: {
         title: _(
-          'Informasjon frå drosjekvitteringa',
-          'Informasjon frå drosjekvitteringa',
+          'Informasjon fra drosjekvitteringen',
+          'Information from the taxi reciet',
           'Informasjon frå drosjekvitteringa',
         ),
       },
       aboutYourTrip: {
         title: _(
-          'Om den planlagde reisa di',
-          'Om den planlagde reisa di',
+          'Om den planlagte reisa di',
+          'About your planed trip',
           'Om den planlagde reisa di',
         ),
       },
@@ -373,9 +391,9 @@ export const Contact = {
     },
     optionalFeedback: {
       title: _(
-        'Ønsker du å fortelje oss noko meir? (valfritt) ',
-        'Ønsker du å fortelje oss noko meir? (valfritt) ',
-        'Ønsker du å fortelje oss noko meir? (valfritt) ',
+        'Ønsker du å fortell oss noe mer? (valgfritt)',
+        'Do you whish to share anyting else with us? - (optional)',
+        'Ønsker du å fortelje oss noko meir? (valfritt)',
       ),
     },
   },
@@ -606,5 +624,46 @@ export const Contact = {
     },
     date: _('Dato', 'Date', 'Dato'),
     departureTime: _('Avgangstid', 'Departure time', 'Avgangstid'),
+    reasonForTransportFailure: {
+      label: _('Mulige valg', 'Options', 'Moglege val'),
+      optionLabel: _('Velg årsak', 'Select reason', 'Vel åtsak'),
+      options: [
+        {
+          id: 'late',
+          name: _('Forsinket', 'public orders and prohibitions', 'Forseinka'),
+        },
+        {
+          id: 'cancelled',
+          name: _('Innstilt', 'pandemic', 'Innstilt'),
+        },
+        {
+          id: 'missedNextTransport',
+          name: _(
+            'Mistet neste transportmiddel ',
+            'pandemic',
+            'Mista neste transportmiddel',
+          ),
+        },
+        {
+          id: 'didNotStopAtStop',
+          name: _(
+            'Stoppa ikke på holdeplassen',
+            'pandemic',
+            'Stoppa ikkje på haldeplassen',
+          ),
+        },
+        {
+          id: 'incorrectAppInformation',
+          name: _(
+            'Feil informasoni app eller reiseplanlegger',
+            'pandemic',
+            'Feil informasjon i app eller reiseplanlegger',
+          ),
+        },
+      ],
+      errorMessages: {
+        empty: _('Velg årsak', 'Select reason', 'Vel årsak'),
+      },
+    },
   },
 };

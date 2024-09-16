@@ -1,5 +1,6 @@
 import { TransportModeType } from '@atb-as/config-specs';
 import { Line } from './server/journey-planner/validators';
+import { TranslatedString } from '@atb/translations';
 
 export const machineEvents = {} as
   | { type: 'TOGGLE' }
@@ -12,6 +13,10 @@ export const machineEvents = {} as
   | { type: 'SET_LINE'; line: Line }
   | { type: 'SET_DEPARTURE_LOCATION'; departureLocation: Line['quays'][0] }
   | { type: 'SET_ARRIVAL_LOCATION'; arrivalLocation: Line['quays'][0] }
+  | {
+      type: 'SET_REASON_FOR_TRANSPORT_FAILIURE';
+      reasonForTransportFailure: { id: string; name: TranslatedString };
+    }
   | { type: 'SET_DATE'; date: string }
   | { type: 'SET_TIME'; time: string }
   | { type: 'SET_FEEDBACK'; feedback: string }

@@ -115,6 +115,16 @@ export const formInputValidator = (context: any) => {
     );
   }
 
+  if (!context.reasonForTransportFailure) {
+    if (!inputErrorMessages['reasonForTransportFailure']) {
+      inputErrorMessages['reasonForTransportFailure'] = [];
+    }
+    inputErrorMessages['reasonForTransportFailure'].push(
+      PageText.Contact.inputFields.reasonForTransportFailure.errorMessages
+        .empty,
+    );
+  }
+
   // Populate context.errorMessages
   context.errorMessages = inputErrorMessages;
 

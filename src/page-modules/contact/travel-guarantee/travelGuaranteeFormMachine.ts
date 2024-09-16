@@ -3,6 +3,7 @@ import { assign, fromPromise, setup } from 'xstate';
 import { Line } from '../server/journey-planner/validators';
 import { machineEvents } from '../machineEvents';
 import { InputErrorMessages, formInputValidator } from '../formInputValidator';
+import { TranslatedString } from '@atb/translations';
 
 export const fetchMachine = setup({
   types: {
@@ -15,6 +16,9 @@ export const fetchMachine = setup({
       arrivalLocation: Line['quays'][0] | undefined;
       date: string;
       time: string;
+      reasonForTransportFailure:
+        | { id: string; name: TranslatedString }
+        | undefined;
       feedback: string;
       firstname: string;
       lastname: string;
@@ -71,6 +75,17 @@ export const fetchMachine = setup({
           }
         ).arrivalLocation,
     }),
+
+    setReasonForTransportFailiure: assign({
+      reasonForTransportFailure: ({ event }) =>
+        (
+          event as {
+            type: 'SET_REASON_FOR_TRANSPORT_FAILIURE';
+            reasonForTransportFailure: { id: string; name: TranslatedString };
+          }
+        ).reasonForTransportFailure,
+    }),
+
     setFeedback: assign({
       feedback: ({ event }) =>
         (event as { type: 'SET_FEEDBACK'; feedback: string }).feedback,
@@ -122,7 +137,29 @@ export const fetchMachine = setup({
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(context),
+        body: JSON.stringify({
+          transportMode: context.transportMode,
+          line: context.line,
+          fromStop: context.departureLocation,
+          toStop: context.arrivalLocation,
+          date: context.date,
+          plannedDepartureTime: context.time,
+          reasonForTransportFailure: context.reasonForTransportFailure,
+          additionalInfo: context.feedback,
+          firstName: context.firstname,
+          lastName: context.lastname,
+          address: context.address,
+          postalCode: context.postalCode,
+          city: context.city,
+          email: context.email,
+          phoneNumber: context.phonenumber,
+          bankAccountNumber: context.bankAccount,
+          IBAN: context.IBAN,
+          SWIFT: context.SWIFT,
+          kilometersDriven: context.kilometersDriven,
+          fromAddress: context.fromAddress,
+          toAddress: context.toAddress,
+        }),
       }).then((response) => {
         // throw an error to force onError
         if (!response.ok) {
@@ -143,6 +180,7 @@ export const fetchMachine = setup({
     arrivalLocation: undefined,
     date: new Date().toISOString().split('T')[0],
     time: `${String(new Date().getHours()).padStart(2, '0')}:${String(new Date().getMinutes()).padStart(2, '0')}`,
+    reasonForTransportFailure: undefined,
     feedback: '',
     firstname: '',
     lastname: '',
@@ -230,7 +268,9 @@ export const fetchMachine = setup({
             SET_ARRIVAL_LOCATION: {
               actions: 'setArrivalLocation',
             },
-
+            SET_REASON_FOR_TRANSPORT_FAILIURE: {
+              actions: 'setReasonForTransportFailiure',
+            },
             VALIDATE: {
               guard: 'validateInputs',
               target: 'readyForSubmitt',

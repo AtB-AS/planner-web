@@ -178,12 +178,75 @@ export const RefundForm = () => {
                 />
               </>
             )}
+            <Select
+              label={t(
+                PageText.Contact.inputFields.reasonForTransportFailure.label,
+              )}
+              value={state.context.reasonForTransportFailure}
+              onChange={(value) => {
+                if (!value) return;
+                send({
+                  type: 'SET_REASON_FOR_TRANSPORT_FAILIURE',
+                  reasonForTransportFailure: value,
+                });
+              }}
+              placeholder={t(
+                PageText.Contact.inputFields.arrivalLocation.optionLabel,
+              )}
+              options={PageText.Contact.inputFields.reasonForTransportFailure.options.map(
+                (option) => ({
+                  id: option.id,
+                  name: option.name,
+                }),
+              )}
+              error={
+                state.context?.errorMessages['reasonForTransportFailure']
+                  ? t(
+                      state.context?.errorMessages[
+                        'reasonForTransportFailure'
+                      ]?.[0],
+                    )
+                  : undefined
+              }
+              valueToId={(option) => option.id}
+              valueToText={(option) => t(option.name)}
+            />
           </SectionCard>
         </div>
       )}
 
-      {state.hasTag('car') && <div>car</div>}
-      {state.hasTag('other') && <div>other</div>}
+      {state.hasTag('car') && (
+        <div>
+          <SectionCard
+            title={
+              PageText.Contact.travelGuarantee.refundCar.aboutTheCarTrip.title
+            }
+          >
+            {/*
+            <Input
+              label={
+                PageText.Contact.travelGuarantee.refundCar.aboutTheCarTrip.km
+              }
+              type="text"
+              name="km"
+              value={state.context.km}
+              onChange={(e) =>
+                send({
+                  type: 'SET_KM_DRIVEN',
+                  time: e.target.value,
+                })
+              }
+            />
+                  */}
+          </SectionCard>
+          <SectionCard
+            title={
+              PageText.Contact.travelGuarantee.refundCar.aboutThePlanedTrip
+                .title
+            }
+          ></SectionCard>
+        </div>
+      )}
       {state.hasTag('selected') && (
         <div>
           <SectionCard
