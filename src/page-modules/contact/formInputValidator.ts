@@ -4,132 +4,97 @@ export type InputErrorMessages = {
   [key: string]: TranslatedString[];
 };
 
+// Utility function to add error messages
+const addErrorMessage = (
+  context: any,
+  field: string,
+  errorMessages: InputErrorMessages,
+  errorMessage: TranslatedString,
+) => {
+  if (!context[field]) {
+    if (!errorMessages[field]) {
+      errorMessages[field] = [];
+    }
+    errorMessages[field].push(errorMessage);
+  }
+};
+
 export const formInputValidator = (context: any) => {
   const inputErrorMessages: InputErrorMessages = {};
 
-  if (!context.firstName) {
-    if (!inputErrorMessages['firstName']) {
-      inputErrorMessages['firstName'] = [];
-    }
-    inputErrorMessages['firstName'].push(
-      PageText.Contact.inputFields.firstName.errorMessages.empty,
-    );
-  }
+  // List of fields and their corresponding error messages
+  const fieldsToValidate = [
+    {
+      field: 'firstName',
+      errorMessage: PageText.Contact.inputFields.firstName.errorMessages.empty,
+    },
+    {
+      field: 'lastName',
+      errorMessage: PageText.Contact.inputFields.lastName.errorMessages.empty,
+    },
+    {
+      field: 'email',
+      errorMessage: PageText.Contact.inputFields.email.errorMessages.empty,
+    },
+    {
+      field: 'address',
+      errorMessage: PageText.Contact.inputFields.address.errorMessages.empty,
+    },
+    {
+      field: 'postalCode',
+      errorMessage: PageText.Contact.inputFields.postalCode.errorMessages.empty,
+    },
+    {
+      field: 'city',
+      errorMessage: PageText.Contact.inputFields.city.errorMessages.empty,
+    },
+    {
+      field: 'phoneNumber',
+      errorMessage:
+        PageText.Contact.inputFields.phoneNumber.errorMessages.empty,
+    },
+    {
+      field: 'transportMode',
+      errorMessage:
+        PageText.Contact.inputFields.transportMode.errorMessages.empty,
+    },
+    {
+      field: 'line',
+      errorMessage: PageText.Contact.inputFields.line.errorMessages.empty,
+    },
+    {
+      field: 'fromStop',
+      errorMessage: PageText.Contact.inputFields.fromStop.errorMessages.empty,
+    },
+    {
+      field: 'toStop',
+      errorMessage: PageText.Contact.inputFields.toStop.errorMessages.empty,
+    },
+    {
+      field: 'reasonForTransportFailure',
+      errorMessage:
+        PageText.Contact.inputFields.reasonForTransportFailure.errorMessages
+          .empty,
+    },
+    {
+      field: 'kilometersDriven',
+      errorMessage:
+        PageText.Contact.inputFields.kilometersDriven.errorMessages.empty,
+    },
+  ];
 
-  if (!context.lastName) {
-    if (!inputErrorMessages['lastName']) {
-      inputErrorMessages['lastName'] = [];
-    }
-    inputErrorMessages['lastName'].push(
-      PageText.Contact.inputFields.lastName.errorMessages.empty,
-    );
-  }
+  // Iterate over each field and apply validation
+  fieldsToValidate.forEach(({ field, errorMessage }) =>
+    addErrorMessage(context, field, inputErrorMessages, errorMessage),
+  );
 
-  if (!context.email) {
-    if (!inputErrorMessages['email']) {
-      inputErrorMessages['email'] = [];
-    }
-    inputErrorMessages['email'].push(
-      PageText.Contact.inputFields.email.errorMessages.empty,
-    );
-  }
-
-  if (!context.address) {
-    if (!inputErrorMessages['address']) {
-      inputErrorMessages['address'] = [];
-    }
-    inputErrorMessages['address'].push(
-      PageText.Contact.inputFields.address.errorMessages.empty,
-    );
-  }
-
-  if (!context.postalCode) {
-    if (!inputErrorMessages['postalCode']) {
-      inputErrorMessages['postalCode'] = [];
-    }
-    inputErrorMessages['postalCode'].push(
-      PageText.Contact.inputFields.postalCode.errorMessages.empty,
-    );
-  }
-
-  if (!context.city) {
-    if (!inputErrorMessages['city']) {
-      inputErrorMessages['city'] = [];
-    }
-    inputErrorMessages['city'].push(
-      PageText.Contact.inputFields.city.errorMessages.empty,
-    );
-  }
-
-  if (!context.phoneNumber) {
-    if (!inputErrorMessages['phoneNumber']) {
-      inputErrorMessages['phoneNumber'] = [];
-    }
-    inputErrorMessages['phoneNumber'].push(
-      PageText.Contact.inputFields.phoneNumber.errorMessages.empty,
-    );
-  }
-
+  // Special case for bank details
   if (!context.bankAccountNumber && !context.IBAN && !context.SWIFT) {
-    if (!inputErrorMessages['bankAccountNumber']) {
-      inputErrorMessages['bankAccountNumber'] = [];
-    }
-    inputErrorMessages['bankAccountNumber'].push(
+    addErrorMessage(
+      context,
+      'bankAccountNumber',
+      inputErrorMessages,
       PageText.Contact.inputFields.bankAccountNumber.errorMessages.empty,
-    );
-  }
-
-  if (!context.transportMode) {
-    if (!inputErrorMessages['transportMode']) {
-      inputErrorMessages['transportMode'] = [];
-    }
-    inputErrorMessages['transportMode'].push(
-      PageText.Contact.inputFields.transportMode.errorMessages.empty,
-    );
-  }
-
-  if (!context.line) {
-    if (!inputErrorMessages['line']) {
-      inputErrorMessages['line'] = [];
-    }
-    inputErrorMessages['line'].push(
-      PageText.Contact.inputFields.line.errorMessages.empty,
-    );
-  }
-
-  if (!context.fromStop) {
-    if (!inputErrorMessages['fromStop']) {
-      inputErrorMessages['fromStop'] = [];
-    }
-    inputErrorMessages['fromStop'].push(
-      PageText.Contact.inputFields.fromStop.errorMessages.empty,
-    );
-  }
-
-  if (!context.toStop) {
-    if (!inputErrorMessages['toStop']) {
-      inputErrorMessages['toStop'] = [];
-    }
-    inputErrorMessages['toStop'].push(
-      PageText.Contact.inputFields.toStop.errorMessages.empty,
-    );
-  }
-
-  if (!context.reasonForTransportFailure) {
-    if (!inputErrorMessages['reasonForTransportFailure']) {
-      inputErrorMessages['reasonForTransportFailure'] = [];
-    }
-    inputErrorMessages['reasonForTransportFailure'].push(
-      PageText.Contact.inputFields.reasonForTransportFailure.errorMessages
-        .empty,
-    );
-  }
-  if (!context.kilometersDriven) {
-    if (!inputErrorMessages['kilometersDriven']) {
-      inputErrorMessages['kilometersDriven'] = [];
-    }
-    inputErrorMessages['kilometersDriven'].push(
-      PageText.Contact.inputFields.kilometersDriven.errorMessages.empty,
     );
   }
 

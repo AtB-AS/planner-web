@@ -3,6 +3,8 @@ import { SectionCard } from '../components/section-card';
 import { Input } from '../components/input';
 import style from '../contact.module.css';
 import { RadioInput } from '../components/input/radio';
+import { Typo } from '@atb/components/typography';
+import { Checkbox } from '../components/input/checkbox';
 
 type FormSelectorProps = {
   state: any;
@@ -16,18 +18,18 @@ export const FormSelector = ({ state, send }: FormSelectorProps) => {
     <div>
       {!state.context.isIntialAgreementChecked && (
         <SectionCard title={PageText.Contact.travelGuarantee.title}>
-          <p>
+          <Typo.p textType="body__primary">
             {t(
               PageText.Contact.travelGuarantee.layoutAgreement
                 .delayedRefundText,
             )}
-          </p>
+          </Typo.p>
 
-          <p>
+          <Typo.h3 textType="heading__component">
             {t(
               PageText.Contact.travelGuarantee.layoutAgreement.ticketRefundText,
             )}
-          </p>
+          </Typo.h3>
 
           <h4>
             {t(
@@ -35,19 +37,19 @@ export const FormSelector = ({ state, send }: FormSelectorProps) => {
                 .travelGuaranteeExceptions.label,
             )}
           </h4>
-          <p>
+          <Typo.p textType="body__primary">
             {t(
               PageText.Contact.travelGuarantee.layoutAgreement
                 .travelGuaranteeExceptions.minimumTimeToNextDeparture,
             )}
-          </p>
+          </Typo.p>
 
-          <p>
+          <Typo.p textType="body__primary">
             {t(
               PageText.Contact.travelGuarantee.layoutAgreement
                 .travelGuaranteeExceptions.externalFactors,
             )}
-          </p>
+          </Typo.p>
           <ul className={style.rules__list}>
             {PageText.Contact.travelGuarantee.layoutAgreement.travelGuaranteeExceptions.examples.map(
               (example: TranslatedString, index: number) => (
@@ -56,20 +58,18 @@ export const FormSelector = ({ state, send }: FormSelectorProps) => {
             )}
           </ul>
 
-          <p>
+          <Typo.p textType="body__primary">
             {t(
               PageText.Contact.travelGuarantee.layoutAgreement
                 .travelGuaranteeExceptions.exclusion,
             )}
-          </p>
+          </Typo.p>
 
-          <Input
-            label={
+          <Checkbox
+            label={t(
               PageText.Contact.ticketControl.feeComplaint.firstAgreement
-                .checkbox
-            }
-            type="checkbox"
-            name="travelGuaranteeCheckbox"
+                .checkbox,
+            )}
             checked={state.context.isChecked}
             onChange={() => send({ type: 'TOGGLE' })}
           />
