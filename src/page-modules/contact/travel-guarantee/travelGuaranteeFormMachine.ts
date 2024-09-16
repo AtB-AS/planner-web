@@ -336,7 +336,7 @@ export const fetchMachine = setup({
           },
           tags: ['other', 'selected'],
         },
-        readyForSubmitt: {
+        readyForSubmit: {
           type: 'final',
         },
       },
