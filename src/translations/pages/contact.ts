@@ -468,7 +468,7 @@ export const Contact = {
   submit: _('Send', 'Submit', 'Send'),
 
   inputFields: {
-    firstname: {
+    firstName: {
       label: _(
         'Fornavn og mellomnavn',
         'First name and middle name',
@@ -483,7 +483,7 @@ export const Contact = {
       },
     },
 
-    lastname: {
+    lastName: {
       label: _('Etternavn', 'Lastname', 'Etternamn'),
       errorMessages: {
         empty: _(
@@ -537,7 +537,7 @@ export const Contact = {
       },
     },
 
-    phonenumber: {
+    phoneNumber: {
       label: _('Telefonenummer', 'Phonenumber', 'Telefonenummar'),
       errorMessages: {
         empty: _(
@@ -548,7 +548,7 @@ export const Contact = {
       },
     },
 
-    bankAccount: {
+    bankAccountNumber: {
       notForeignLabel: _(
         'Bankkontonummer',
         'Bank account number',
@@ -559,8 +559,8 @@ export const Contact = {
         'I have a foreign bank account',
         'Eg har eit utanlandsk bankkontonummar',
       ),
-      iban: _('IBAN', 'IBAN', 'IBAN'),
-      swift: _('SWIFT ', 'SWIFT ', 'SWIFT '),
+      IBAN: _('IBAN', 'IBAN', 'IBAN'),
+      SWIFT: _('SWIFT ', 'SWIFT ', 'SWIFT '),
 
       errorMessages: {
         empty: _(
@@ -591,7 +591,7 @@ export const Contact = {
       },
     },
 
-    departureLocation: {
+    fromStop: {
       label: _('Avreisested', 'Departure location', 'Avreisested'),
       optionLabel: _(
         'Velg avreisested',
@@ -607,7 +607,7 @@ export const Contact = {
       },
     },
 
-    arrivalLocation: {
+    toStop: {
       label: _('Ankomststed', 'Arrival location', 'Ankomststed'),
       optionLabel: _(
         'Velg anskomststed',
@@ -663,6 +663,20 @@ export const Contact = {
       ],
       errorMessages: {
         empty: _('Velg årsak', 'Select reason', 'Vel årsak'),
+      },
+    },
+    kilometersDriven: {
+      label: _(
+        'Antall kjørte kilometer',
+        'Number of kilometres driven',
+        'Antall kjørte kilometer',
+      ),
+      errorMessages: {
+        empty: _(
+          'Vennligst fyll ut antall kjørte kilometer',
+          'Please provide the number of driven kilometres',
+          'Vennligst fyll ut antall kjørte kilometer',
+        ),
       },
     },
   },

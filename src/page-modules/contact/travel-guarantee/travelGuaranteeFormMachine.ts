@@ -12,22 +12,23 @@ export const fetchMachine = setup({
       isBankAccountForeign: boolean;
       transportMode: TransportModeType | undefined;
       line: Line | undefined;
-      departureLocation: Line['quays'][0] | undefined;
-      arrivalLocation: Line['quays'][0] | undefined;
+      fromStop: Line['quays'][0] | undefined;
+      toStop: Line['quays'][0] | undefined;
       date: string;
-      time: string;
+      plannedDepartureTime: string;
+      kilometersDriven: string;
       reasonForTransportFailure:
         | { id: string; name: TranslatedString }
         | undefined;
       feedback: string;
-      firstname: string;
-      lastname: string;
+      firstName: string;
+      lastName: string;
       email: string;
       address: string;
       postalCode: string;
-      phonenumber: string;
+      phoneNumber: string;
       city: string;
-      bankAccount: string;
+      bankAccountNumber: string;
       IBAN: string;
       SWIFT: string;
       errorMessages: InputErrorMessages;
@@ -57,23 +58,41 @@ export const fetchMachine = setup({
     setLine: assign({
       line: ({ event }) => (event as { type: 'SET_LINE'; line: Line }).line,
     }),
-    setDepartureLocation: assign({
-      departureLocation: ({ event }) =>
+    setFromStop: assign({
+      fromStop: ({ event }) =>
         (
           event as {
-            type: 'SET_DEPARTURE_LOCATION';
-            departureLocation: Line['quays'][0];
+            type: 'SET_FROM_STOP';
+            fromStop: Line['quays'][0];
           }
-        ).departureLocation,
+        ).fromStop,
     }),
     setArrivalLocation: assign({
-      arrivalLocation: ({ event }) =>
+      toStop: ({ event }) =>
         (
           event as {
-            type: 'SET_ARRIVAL_LOCATION';
-            arrivalLocation: Line['quays'][0];
+            type: 'SET_TO_STOP';
+            toStop: Line['quays'][0];
           }
-        ).arrivalLocation,
+        ).toStop,
+    }),
+    setDate: assign({
+      date: ({ event }) =>
+        (
+          event as {
+            type: 'SET_DATE';
+            date: string;
+          }
+        ).date,
+    }),
+    setPlannedDepartureTime: assign({
+      plannedDepartureTime: ({ event }) =>
+        (
+          event as {
+            type: 'SET_PLANNED_DEPARTURE_TIME';
+            plannedDepartureTime: string;
+          }
+        ).plannedDepartureTime,
     }),
 
     setReasonForTransportFailiure: assign({
@@ -86,17 +105,23 @@ export const fetchMachine = setup({
         ).reasonForTransportFailure,
     }),
 
+    setKilometersDriven: assign({
+      kilometersDriven: ({ event }) =>
+        (event as { type: 'SET_KILOMETRES_DRIVEN'; kilometersDriven: string })
+          .kilometersDriven,
+    }),
+
     setFeedback: assign({
       feedback: ({ event }) =>
         (event as { type: 'SET_FEEDBACK'; feedback: string }).feedback,
     }),
-    setFirstname: assign({
-      firstname: ({ event }) =>
-        (event as { type: 'SET_FIRSTNAME'; firstname: string }).firstname,
+    setFirstName: assign({
+      firstName: ({ event }) =>
+        (event as { type: 'SET_FIRSTNAME'; firstName: string }).firstName,
     }),
-    setLastname: assign({
-      lastname: ({ event }) =>
-        (event as { type: 'SET_LASTNAME'; lastname: string }).lastname,
+    setLastName: assign({
+      lastName: ({ event }) =>
+        (event as { type: 'SET_LASTNAME'; lastName: string }).lastName,
     }),
     setAddress: assign({
       address: ({ event }) =>
@@ -113,14 +138,18 @@ export const fetchMachine = setup({
       email: ({ event }) =>
         (event as { type: 'SET_EMAIL'; email: string }).email,
     }),
-    setPhonenumber: assign({
-      phonenumber: ({ event }) =>
-        (event as { type: 'SET_PHONENUMBER'; phonenumber: string }).phonenumber,
+    setPhoneNumber: assign({
+      phoneNumber: ({ event }) =>
+        (event as { type: 'SET_PHONENUMBER'; phoneNumber: string }).phoneNumber,
     }),
-    setBankAccount: assign({
-      bankAccount: ({ event }) =>
-        (event as { type: 'SET_BANK_ACCOUNT'; bankAccount: string })
-          .bankAccount,
+    setBankAccountNumber: assign({
+      bankAccountNumber: ({ event }) =>
+        (
+          event as {
+            type: 'SET_BANK_ACCOUNT_NUMBER';
+            bankAccountNumber: string;
+          }
+        ).bankAccountNumber,
     }),
     setIBAN: assign({
       IBAN: ({ event }) => (event as { type: 'SET_IBAN'; IBAN: string }).IBAN,
@@ -140,19 +169,19 @@ export const fetchMachine = setup({
         body: JSON.stringify({
           transportMode: context.transportMode,
           line: context.line,
-          fromStop: context.departureLocation,
-          toStop: context.arrivalLocation,
+          fromStop: context.fromStop,
+          toStop: context.toStop,
           date: context.date,
-          plannedDepartureTime: context.time,
+          plannedDepartureTime: context.plannedDepartureTime,
           reasonForTransportFailure: context.reasonForTransportFailure,
           additionalInfo: context.feedback,
-          firstName: context.firstname,
-          lastName: context.lastname,
+          firstName: context.firstName,
+          lastName: context.lastName,
           address: context.address,
           postalCode: context.postalCode,
           city: context.city,
           email: context.email,
-          phoneNumber: context.phonenumber,
+          phoneNumber: context.phoneNumber,
           bankAccountNumber: context.bankAccount,
           IBAN: context.IBAN,
           SWIFT: context.SWIFT,
@@ -162,9 +191,7 @@ export const fetchMachine = setup({
         }),
       }).then((response) => {
         // throw an error to force onError
-        if (!response.ok) {
-          throw new Error('Failed to call API'); // You can add more specific error details if needed
-        }
+        if (!response.ok) throw new Error('Failed to call API');
       });
     }),
   },
@@ -176,20 +203,21 @@ export const fetchMachine = setup({
     isBankAccountForeign: false,
     transportMode: undefined,
     line: undefined,
-    departureLocation: undefined,
-    arrivalLocation: undefined,
+    fromStop: undefined,
+    toStop: undefined,
     date: new Date().toISOString().split('T')[0],
-    time: `${String(new Date().getHours()).padStart(2, '0')}:${String(new Date().getMinutes()).padStart(2, '0')}`,
+    plannedDepartureTime: `${String(new Date().getHours()).padStart(2, '0')}:${String(new Date().getMinutes()).padStart(2, '0')}`,
     reasonForTransportFailure: undefined,
+    kilometersDriven: '',
     feedback: '',
-    firstname: '',
-    lastname: '',
+    firstName: '',
+    lastName: '',
     email: '',
     address: '',
     postalCode: '',
-    phonenumber: '',
+    phoneNumber: '',
     city: '',
-    bankAccount: '',
+    bankAccountNumber: '',
     IBAN: '',
     SWIFT: '',
     errorMessages: {},
@@ -211,10 +239,10 @@ export const fetchMachine = setup({
           actions: 'setFeedback',
         },
         SET_FIRSTNAME: {
-          actions: 'setFirstname',
+          actions: 'setFirstName',
         },
         SET_LASTNAME: {
-          actions: 'setLastname',
+          actions: 'setLastName',
         },
         SET_EMAIL: {
           actions: 'setEmail',
@@ -229,10 +257,10 @@ export const fetchMachine = setup({
           actions: 'setCity',
         },
         SET_PHONENUMBER: {
-          actions: 'setPhonenumber',
+          actions: 'setPhoneNumber',
         },
-        SET_BANK_ACCOUNT: {
-          actions: 'setBankAccount',
+        SET_BANK_ACCOUNT_NUMBER: {
+          actions: 'setBankAccountNumber',
         },
         SET_IBAN: {
           actions: 'setIBAN',
@@ -262,11 +290,17 @@ export const fetchMachine = setup({
             SET_LINE: {
               actions: 'setLine',
             },
-            SET_DEPARTURE_LOCATION: {
-              actions: 'setDepartureLocation',
+            SET_FROM_STOP: {
+              actions: 'setFromStop',
             },
             SET_ARRIVAL_LOCATION: {
               actions: 'setArrivalLocation',
+            },
+            SET_DATE: {
+              actions: 'setDate',
+            },
+            SET_PLANNED_DEPARTURE_TIME: {
+              actions: 'setPlannedDepartureTime',
             },
             SET_REASON_FOR_TRANSPORT_FAILIURE: {
               actions: 'setReasonForTransportFailiure',
@@ -282,6 +316,9 @@ export const fetchMachine = setup({
 
         car: {
           on: {
+            SET_KILOMETRES_DRIVEN: {
+              actions: 'setKilometersDriven',
+            },
             VALIDATE: {
               guard: 'validateInputs',
               target: 'readyForSubmitt',

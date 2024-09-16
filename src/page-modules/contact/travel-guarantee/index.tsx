@@ -101,28 +101,22 @@ export const RefundForm = () => {
             {state.context.line && (
               <>
                 <Select
-                  label={t(
-                    PageText.Contact.inputFields.departureLocation.label,
-                  )}
-                  value={state.context.departureLocation}
+                  label={t(PageText.Contact.inputFields.fromStop.label)}
+                  value={state.context.fromStop}
                   onChange={(value) => {
                     if (!value) return;
                     send({
-                      type: 'SET_DEPARTURE_LOCATION',
-                      departureLocation: value,
+                      type: 'SET_FROM_STOP',
+                      fromStop: value,
                     });
                   }}
                   options={getQuaysByLine(state.context.line.id)}
                   placeholder={t(
-                    PageText.Contact.inputFields.departureLocation.optionLabel,
+                    PageText.Contact.inputFields.fromStop.optionLabel,
                   )}
                   error={
-                    state.context?.errorMessages['departureLocation']
-                      ? t(
-                          state.context?.errorMessages[
-                            'departureLocation'
-                          ]?.[0],
-                        )
+                    state.context?.errorMessages['fromStop']
+                      ? t(state.context?.errorMessages['fromStop']?.[0])
                       : undefined
                   }
                   valueToId={(quay: Line['quays'][0]) => quay.id}
@@ -130,22 +124,22 @@ export const RefundForm = () => {
                 />
 
                 <Select
-                  label={t(PageText.Contact.inputFields.arrivalLocation.label)}
-                  value={state.context.arrivalLocation}
+                  label={t(PageText.Contact.inputFields.toStop.label)}
+                  value={state.context.toStop}
                   onChange={(value) => {
                     if (!value) return;
                     send({
-                      type: 'SET_ARRIVAL_LOCATION',
-                      arrivalLocation: value,
+                      type: 'SET_TO_STOP',
+                      toStop: value,
                     });
                   }}
                   placeholder={t(
-                    PageText.Contact.inputFields.arrivalLocation.optionLabel,
+                    PageText.Contact.inputFields.toStop.optionLabel,
                   )}
                   options={getQuaysByLine(state.context.line.id)}
                   error={
-                    state.context?.errorMessages['arrivalLocation']
-                      ? t(state.context?.errorMessages['arrivalLocation']?.[0])
+                    state.context?.errorMessages['toStop']
+                      ? t(state.context?.errorMessages['toStop']?.[0])
                       : undefined
                   }
                   valueToId={(quay: Line['quays'][0]) => quay.id}
@@ -168,11 +162,11 @@ export const RefundForm = () => {
                   label={PageText.Contact.inputFields.departureTime}
                   type="time"
                   name="time"
-                  value={state.context.time}
+                  value={state.context.plannedDepartureTime}
                   onChange={(e) =>
                     send({
-                      type: 'SET_TIME',
-                      time: e.target.value,
+                      type: 'SET_PLANNED_DEPARTURE_TIME',
+                      plannedDepartureTime: e.target.value,
                     })
                   }
                 />
@@ -190,9 +184,7 @@ export const RefundForm = () => {
                   reasonForTransportFailure: value,
                 });
               }}
-              placeholder={t(
-                PageText.Contact.inputFields.arrivalLocation.optionLabel,
-              )}
+              placeholder={t(PageText.Contact.inputFields.toStop.optionLabel)}
               options={PageText.Contact.inputFields.reasonForTransportFailure.options.map(
                 (option) => ({
                   id: option.id,
@@ -222,22 +214,22 @@ export const RefundForm = () => {
               PageText.Contact.travelGuarantee.refundCar.aboutTheCarTrip.title
             }
           >
-            {/*
             <Input
-              label={
-                PageText.Contact.travelGuarantee.refundCar.aboutTheCarTrip.km
-              }
+              label={PageText.Contact.inputFields.kilometersDriven.label}
               type="text"
               name="km"
-              value={state.context.km}
+              value={state.context.kilometersDriven}
+              errorMessage={
+                state.context?.errorMessages['kilometresDriven']?.[0] ||
+                undefined
+              }
               onChange={(e) =>
                 send({
-                  type: 'SET_KM_DRIVEN',
-                  time: e.target.value,
+                  type: 'SET_KILOMETRES_DRIVEN',
+                  kilometersDriven: e.target.value,
                 })
               }
             />
-                  */}
           </SectionCard>
           <SectionCard
             title={
@@ -266,33 +258,33 @@ export const RefundForm = () => {
           </SectionCard>
           <SectionCard title={PageText.Contact.aboutYouInfo.title}>
             <Input
-              label={PageText.Contact.inputFields.firstname.label}
+              label={PageText.Contact.inputFields.firstName.label}
               type="text"
-              name="firstname"
-              value={state.context.firstname}
+              name="firstName"
+              value={state.context.firstName}
               errorMessage={
-                state.context?.errorMessages['firstname']?.[0] || undefined
+                state.context?.errorMessages['firstName']?.[0] || undefined
               }
               onChange={(e) =>
                 send({
                   type: 'SET_FIRSTNAME',
-                  firstname: e.target.value,
+                  firstName: e.target.value,
                 })
               }
             />
 
             <Input
-              label={PageText.Contact.inputFields.lastname.label}
+              label={PageText.Contact.inputFields.lastName.label}
               type="text"
-              name="lastname"
-              value={state.context.lastname}
+              name="lastName"
+              value={state.context.lastName}
               errorMessage={
-                state.context?.errorMessages['lastname']?.[0] || undefined
+                state.context?.errorMessages['lastName']?.[0] || undefined
               }
               onChange={(e) =>
                 send({
                   type: 'SET_LASTNAME',
-                  lastname: e.target.value,
+                  lastName: e.target.value,
                 })
               }
             />
@@ -357,42 +349,44 @@ export const RefundForm = () => {
               }
             />
             <Input
-              label={PageText.Contact.inputFields.phonenumber.label}
+              label={PageText.Contact.inputFields.phoneNumber.label}
               type="text"
-              name="phonenumber"
-              value={state.context.phonenumber}
+              name="phoneNumber"
+              value={state.context.phoneNumber}
               errorMessage={
-                state.context?.errorMessages['phonenumber']?.[0] || undefined
+                state.context?.errorMessages['phoneNumber']?.[0] || undefined
               }
               onChange={(e) =>
                 send({
                   type: 'SET_PHONENUMBER',
-                  phonenumber: e.target.value,
+                  phoneNumber: e.target.value,
                 })
               }
             />
 
             {!state.context.isBankAccountForeign && (
               <Input
-                label={PageText.Contact.inputFields.bankAccount.notForeignLabel}
+                label={
+                  PageText.Contact.inputFields.bankAccountNumber.notForeignLabel
+                }
                 type="text"
-                name="bankAccount"
-                value={state.context.bankAccount}
+                name="bankAccountNumber"
+                value={state.context.bankAccountNumber}
                 errorMessage={
-                  state.context?.errorMessages['bankAccount']?.[0] || undefined
+                  state.context?.errorMessages['bankAccountNumber']?.[0] ||
+                  undefined
                 }
                 onChange={(e) =>
                   send({
-                    type: 'SET_BANK_ACCOUNT',
-
-                    bankAccount: e.target.value,
+                    type: 'SET_BANK_ACCOUNT_NUMBER',
+                    bankAccountNumber: e.target.value,
                   })
                 }
               />
             )}
 
             <Checkbox
-              label={t(PageText.Contact.aboutYouInfo.bankAccount.checkbox)}
+              label={t(PageText.Contact.inputFields.bankAccountNumber.checkbox)}
               checked={state.context.isBankAccountForeign}
               onChange={() => send({ type: 'SET_BANK_ACCOUNT_FOREIGN' })}
             />
@@ -400,9 +394,9 @@ export const RefundForm = () => {
             {state.context.isBankAccountForeign && (
               <div>
                 <Input
-                  label={PageText.Contact.inputFields.bankAccount.iban}
+                  label={PageText.Contact.inputFields.bankAccountNumber.IBAN}
                   type="text"
-                  name="bankAccount"
+                  name="bankAccountNumber"
                   value={state.context.IBAN}
                   onChange={(e) =>
                     send({
@@ -413,9 +407,9 @@ export const RefundForm = () => {
                 />
 
                 <Input
-                  label={PageText.Contact.inputFields.bankAccount.swift}
+                  label={PageText.Contact.inputFields.bankAccountNumber.SWIFT}
                   type="text"
-                  name="bankAccount"
+                  name="bankAccountNumber"
                   value={state.context.SWIFT}
                   onChange={(e) =>
                     send({
@@ -424,10 +418,10 @@ export const RefundForm = () => {
                     })
                   }
                 />
-                {state.context?.errorMessages['bankAccount'] && (
+                {state.context?.errorMessages['bankAccountNumber'] && (
                   <ErrorMessage
                     message={t(
-                      state.context?.errorMessages['bankAccount']?.[0],
+                      state.context?.errorMessages['bankAccountNumber']?.[0],
                     )}
                   />
                 )}

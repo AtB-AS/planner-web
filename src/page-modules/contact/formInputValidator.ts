@@ -7,21 +7,21 @@ export type InputErrorMessages = {
 export const formInputValidator = (context: any) => {
   const inputErrorMessages: InputErrorMessages = {};
 
-  if (!context.firstname) {
-    if (!inputErrorMessages['firstname']) {
-      inputErrorMessages['firstname'] = [];
+  if (!context.firstName) {
+    if (!inputErrorMessages['firstName']) {
+      inputErrorMessages['firstName'] = [];
     }
-    inputErrorMessages['firstname'].push(
-      PageText.Contact.inputFields.firstname.errorMessages.empty,
+    inputErrorMessages['firstName'].push(
+      PageText.Contact.inputFields.firstName.errorMessages.empty,
     );
   }
 
-  if (!context.lastname) {
-    if (!inputErrorMessages['lastname']) {
-      inputErrorMessages['lastname'] = [];
+  if (!context.lastName) {
+    if (!inputErrorMessages['lastName']) {
+      inputErrorMessages['lastName'] = [];
     }
-    inputErrorMessages['lastname'].push(
-      PageText.Contact.inputFields.lastname.errorMessages.empty,
+    inputErrorMessages['lastName'].push(
+      PageText.Contact.inputFields.lastName.errorMessages.empty,
     );
   }
 
@@ -61,21 +61,21 @@ export const formInputValidator = (context: any) => {
     );
   }
 
-  if (!context.phonenumber) {
-    if (!inputErrorMessages['phonenumber']) {
-      inputErrorMessages['phonenumber'] = [];
+  if (!context.phoneNumber) {
+    if (!inputErrorMessages['phoneNumber']) {
+      inputErrorMessages['phoneNumber'] = [];
     }
-    inputErrorMessages['phonenumber'].push(
-      PageText.Contact.inputFields.phonenumber.errorMessages.empty,
+    inputErrorMessages['phoneNumber'].push(
+      PageText.Contact.inputFields.phoneNumber.errorMessages.empty,
     );
   }
 
-  if (!context.bankAccount && !context.IBAN && !context.SWIFT) {
-    if (!inputErrorMessages['bankAccount']) {
-      inputErrorMessages['bankAccount'] = [];
+  if (!context.bankAccountNumber && !context.IBAN && !context.SWIFT) {
+    if (!inputErrorMessages['bankAccountNumber']) {
+      inputErrorMessages['bankAccountNumber'] = [];
     }
-    inputErrorMessages['bankAccount'].push(
-      PageText.Contact.inputFields.bankAccount.errorMessages.empty,
+    inputErrorMessages['bankAccountNumber'].push(
+      PageText.Contact.inputFields.bankAccountNumber.errorMessages.empty,
     );
   }
 
@@ -97,21 +97,21 @@ export const formInputValidator = (context: any) => {
     );
   }
 
-  if (!context.departureLocation) {
-    if (!inputErrorMessages['departureLocation']) {
-      inputErrorMessages['departureLocation'] = [];
+  if (!context.fromStop) {
+    if (!inputErrorMessages['fromStop']) {
+      inputErrorMessages['fromStop'] = [];
     }
-    inputErrorMessages['departureLocation'].push(
-      PageText.Contact.inputFields.departureLocation.errorMessages.empty,
+    inputErrorMessages['fromStop'].push(
+      PageText.Contact.inputFields.fromStop.errorMessages.empty,
     );
   }
 
-  if (!context.arrivalLocation) {
-    if (!inputErrorMessages['arrivalLocation']) {
-      inputErrorMessages['arrivalLocation'] = [];
+  if (!context.toStop) {
+    if (!inputErrorMessages['toStop']) {
+      inputErrorMessages['toStop'] = [];
     }
-    inputErrorMessages['arrivalLocation'].push(
-      PageText.Contact.inputFields.arrivalLocation.errorMessages.empty,
+    inputErrorMessages['toStop'].push(
+      PageText.Contact.inputFields.toStop.errorMessages.empty,
     );
   }
 
