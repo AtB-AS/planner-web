@@ -14,7 +14,6 @@ export const fetchMachine = setup({
       arrivalLocation: Line['quays'][0] | undefined;
       date: string;
       time: string;
-
       feedback: string;
       firstname: string;
       lastname: string;
@@ -26,17 +25,11 @@ export const fetchMachine = setup({
       bankAccount: string;
       IBAN: string;
       SWIFT: string;
-
-      apiResponse: boolean | undefined;
       errorMessages: InputErrorMessages;
     },
     events: machineEvents,
   },
   guards: {
-    validApiResponse: ({ context }) => {
-      return !!context.apiResponse;
-    },
-
     validateInputs: ({ context }) => formInputValidator(context),
   },
   actions: {
@@ -144,7 +137,9 @@ export const fetchMachine = setup({
         body: JSON.stringify(context),
       }).then((response) => {
         // throw an error to force onError
-        if (!response.ok) return { success: true };
+        if (!response.ok) {
+          throw new Error('Failed to call API'); // You can add more specific error details if needed
+        }
         return { success: false };
       });
     }),
@@ -173,7 +168,7 @@ export const fetchMachine = setup({
     IBAN: '',
     SWIFT: '',
 
-    apiResponse: undefined,
+    //apiResponse: undefined,
     errorMessages: {},
   },
   states: {
@@ -272,29 +267,11 @@ export const fetchMachine = setup({
         input: ({ context }) => ({ context }),
 
         onDone: {
-          actions: assign({
-            apiResponse: ({ event }: any) => event.output.success,
-          }),
-          target: 'validateApiResponse',
+          target: 'success',
         },
 
         onError: 'editing',
       },
-    },
-
-    validateApiResponse: {
-      always: [
-        {
-          target: 'success',
-          guard: 'validApiResponse',
-        },
-        {
-          target: 'editing', // Stay in 'editing' if validation fails
-          actions: assign({
-            errorMessages: {}, // Clear messages on retry
-          }),
-        },
-      ],
     },
 
     success: {},
