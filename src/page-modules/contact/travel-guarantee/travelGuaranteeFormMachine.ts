@@ -67,7 +67,7 @@ export const fetchMachine = setup({
           }
         ).fromStop,
     }),
-    setArrivalLocation: assign({
+    setToStop: assign({
       toStop: ({ event }) =>
         (
           event as {
@@ -293,8 +293,8 @@ export const fetchMachine = setup({
             SET_FROM_STOP: {
               actions: 'setFromStop',
             },
-            SET_ARRIVAL_LOCATION: {
-              actions: 'setArrivalLocation',
+            SET_TO_STOP: {
+              actions: 'setToStop',
             },
             SET_DATE: {
               actions: 'setDate',

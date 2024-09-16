@@ -35,209 +35,194 @@ export const RefundForm = () => {
   return (
     <form onSubmit={onSubmit}>
       <FormSelector state={state} send={send} />
-      {state.hasTag('taxi') && (
-        <div>
-          <SectionCard
-            title={
-              PageText.Contact.travelGuarantee.refundTaxi.information.title
+      {(state.hasTag('taxi') || state.hasTag('car')) && (
+        <SectionCard
+          title={
+            PageText.Contact.travelGuarantee.refundTaxi.aboutYourTrip.title
+          }
+        >
+          <Select
+            label={t(
+              PageText.Contact.inputFields.transportMode.label,
+            ).toString()}
+            value={state.context.transportMode}
+            onChange={(value) =>
+              send({
+                type: 'SET_TRANSPORT_MODE',
+                transportMode: value as TransportModeType,
+              })
             }
-          ></SectionCard>
-          <SectionCard
-            title={
-              PageText.Contact.travelGuarantee.refundTaxi.aboutYourTrip.title
+            error={
+              state.context?.errorMessages['transportMode']
+                ? t(state.context?.errorMessages['transportMode']?.[0])
+                : undefined
             }
-          >
-            <Select
-              label={t(
-                PageText.Contact.inputFields.transportMode.label,
-              ).toString()}
-              value={state.context.transportMode}
-              onChange={(value) =>
-                send({
-                  type: 'SET_TRANSPORT_MODE',
-                  transportMode: value as TransportModeType,
-                })
-              }
-              error={
-                state.context?.errorMessages['transportMode']
-                  ? t(state.context?.errorMessages['transportMode']?.[0])
-                  : undefined
-              }
-              valueToText={(val: TransportModeType) =>
-                t(ComponentText.TransportMode.modes[val])
-              }
-              valueToId={(val: TransportModeType) => val}
-              options={['bus', 'water'] as TransportModeType[]}
-              placeholder={t(
-                PageText.Contact.inputFields.transportMode.optionLabel,
-              )}
-            />
-
-            {state.context.transportMode && (
-              <Select
-                label={t(PageText.Contact.inputFields.line.label)}
-                value={state.context.line}
-                onChange={(value: Line | undefined) => {
-                  if (!value) return;
-                  send({
-                    type: 'SET_LINE',
-                    line: value,
-                  });
-                }}
-                options={getLinesByMode(
-                  state.context.transportMode as TransportModeType,
-                )}
-                valueToId={(line: Line) => line.id}
-                valueToText={(line: Line) => line.name}
-                placeholder={t(PageText.Contact.inputFields.line.optionLabel)}
-                error={
-                  state.context?.errorMessages['line']
-                    ? t(state.context?.errorMessages['line']?.[0])
-                    : undefined
-                }
-              />
+            valueToText={(val: TransportModeType) =>
+              t(ComponentText.TransportMode.modes[val])
+            }
+            valueToId={(val: TransportModeType) => val}
+            options={['bus', 'water'] as TransportModeType[]}
+            placeholder={t(
+              PageText.Contact.inputFields.transportMode.optionLabel,
             )}
+          />
 
-            {state.context.line && (
-              <>
-                <Select
-                  label={t(PageText.Contact.inputFields.fromStop.label)}
-                  value={state.context.fromStop}
-                  onChange={(value) => {
-                    if (!value) return;
-                    send({
-                      type: 'SET_FROM_STOP',
-                      fromStop: value,
-                    });
-                  }}
-                  options={getQuaysByLine(state.context.line.id)}
-                  placeholder={t(
-                    PageText.Contact.inputFields.fromStop.optionLabel,
-                  )}
-                  error={
-                    state.context?.errorMessages['fromStop']
-                      ? t(state.context?.errorMessages['fromStop']?.[0])
-                      : undefined
-                  }
-                  valueToId={(quay: Line['quays'][0]) => quay.id}
-                  valueToText={(quay: Line['quays'][0]) => quay.name}
-                />
-
-                <Select
-                  label={t(PageText.Contact.inputFields.toStop.label)}
-                  value={state.context.toStop}
-                  onChange={(value) => {
-                    if (!value) return;
-                    send({
-                      type: 'SET_TO_STOP',
-                      toStop: value,
-                    });
-                  }}
-                  placeholder={t(
-                    PageText.Contact.inputFields.toStop.optionLabel,
-                  )}
-                  options={getQuaysByLine(state.context.line.id)}
-                  error={
-                    state.context?.errorMessages['toStop']
-                      ? t(state.context?.errorMessages['toStop']?.[0])
-                      : undefined
-                  }
-                  valueToId={(quay: Line['quays'][0]) => quay.id}
-                  valueToText={(quay: Line['quays'][0]) => quay.name}
-                />
-
-                <Input
-                  label={PageText.Contact.inputFields.date}
-                  type="date"
-                  name="date"
-                  value={state.context.date}
-                  onChange={(e) =>
-                    send({
-                      type: 'SET_DATE',
-                      date: e.target.value,
-                    })
-                  }
-                />
-                <Input
-                  label={PageText.Contact.inputFields.departureTime}
-                  type="time"
-                  name="time"
-                  value={state.context.plannedDepartureTime}
-                  onChange={(e) =>
-                    send({
-                      type: 'SET_PLANNED_DEPARTURE_TIME',
-                      plannedDepartureTime: e.target.value,
-                    })
-                  }
-                />
-              </>
-            )}
+          {state.context.transportMode && (
             <Select
-              label={t(
-                PageText.Contact.inputFields.reasonForTransportFailure.label,
-              )}
-              value={state.context.reasonForTransportFailure}
-              onChange={(value) => {
+              label={t(PageText.Contact.inputFields.line.label)}
+              value={state.context.line}
+              onChange={(value: Line | undefined) => {
                 if (!value) return;
                 send({
-                  type: 'SET_REASON_FOR_TRANSPORT_FAILIURE',
-                  reasonForTransportFailure: value,
+                  type: 'SET_LINE',
+                  line: value,
                 });
               }}
-              placeholder={t(PageText.Contact.inputFields.toStop.optionLabel)}
-              options={PageText.Contact.inputFields.reasonForTransportFailure.options.map(
-                (option) => ({
-                  id: option.id,
-                  name: option.name,
-                }),
+              options={getLinesByMode(
+                state.context.transportMode as TransportModeType,
               )}
+              valueToId={(line: Line) => line.id}
+              valueToText={(line: Line) => line.name}
+              placeholder={t(PageText.Contact.inputFields.line.optionLabel)}
               error={
-                state.context?.errorMessages['reasonForTransportFailure']
-                  ? t(
-                      state.context?.errorMessages[
-                        'reasonForTransportFailure'
-                      ]?.[0],
-                    )
+                state.context?.errorMessages['line']
+                  ? t(state.context?.errorMessages['line']?.[0])
                   : undefined
               }
-              valueToId={(option) => option.id}
-              valueToText={(option) => t(option.name)}
             />
-          </SectionCard>
-        </div>
+          )}
+
+          {state.context.line && (
+            <>
+              <Select
+                label={t(PageText.Contact.inputFields.fromStop.label)}
+                value={state.context.fromStop}
+                onChange={(value) => {
+                  if (!value) return;
+                  send({
+                    type: 'SET_FROM_STOP',
+                    fromStop: value,
+                  });
+                }}
+                options={getQuaysByLine(state.context.line.id)}
+                placeholder={t(
+                  PageText.Contact.inputFields.fromStop.optionLabel,
+                )}
+                error={
+                  state.context?.errorMessages['fromStop']
+                    ? t(state.context?.errorMessages['fromStop']?.[0])
+                    : undefined
+                }
+                valueToId={(quay: Line['quays'][0]) => quay.id}
+                valueToText={(quay: Line['quays'][0]) => quay.name}
+              />
+
+              <Select
+                label={t(PageText.Contact.inputFields.toStop.label)}
+                value={state.context.toStop}
+                onChange={(value) => {
+                  if (!value) return;
+                  send({
+                    type: 'SET_TO_STOP',
+                    toStop: value,
+                  });
+                }}
+                placeholder={t(PageText.Contact.inputFields.toStop.optionLabel)}
+                options={getQuaysByLine(state.context.line.id)}
+                error={
+                  state.context?.errorMessages['toStop']
+                    ? t(state.context?.errorMessages['toStop']?.[0])
+                    : undefined
+                }
+                valueToId={(quay: Line['quays'][0]) => quay.id}
+                valueToText={(quay: Line['quays'][0]) => quay.name}
+              />
+
+              <Input
+                label={PageText.Contact.inputFields.date}
+                type="date"
+                name="date"
+                value={state.context.date}
+                onChange={(e) =>
+                  send({
+                    type: 'SET_DATE',
+                    date: e.target.value,
+                  })
+                }
+              />
+              <Input
+                label={PageText.Contact.inputFields.plannedDepartureTime}
+                type="time"
+                name="time"
+                value={state.context.plannedDepartureTime}
+                onChange={(e) =>
+                  send({
+                    type: 'SET_PLANNED_DEPARTURE_TIME',
+                    plannedDepartureTime: e.target.value,
+                  })
+                }
+              />
+            </>
+          )}
+          <Select
+            label={t(
+              PageText.Contact.inputFields.reasonForTransportFailure.label,
+            )}
+            value={state.context.reasonForTransportFailure}
+            onChange={(value) => {
+              if (!value) return;
+              send({
+                type: 'SET_REASON_FOR_TRANSPORT_FAILIURE',
+                reasonForTransportFailure: value,
+              });
+            }}
+            placeholder={t(
+              PageText.Contact.inputFields.reasonForTransportFailure
+                .optionLabel,
+            )}
+            options={PageText.Contact.inputFields.reasonForTransportFailure.options.map(
+              (option) => ({
+                id: option.id,
+                name: option.name,
+              }),
+            )}
+            error={
+              state.context?.errorMessages['reasonForTransportFailure']
+                ? t(
+                    state.context?.errorMessages[
+                      'reasonForTransportFailure'
+                    ]?.[0],
+                  )
+                : undefined
+            }
+            valueToId={(option) => option.id}
+            valueToText={(option) => t(option.name)}
+          />
+        </SectionCard>
       )}
 
       {state.hasTag('car') && (
-        <div>
-          <SectionCard
-            title={
-              PageText.Contact.travelGuarantee.refundCar.aboutTheCarTrip.title
+        <SectionCard
+          title={
+            PageText.Contact.travelGuarantee.refundCar.aboutTheCarTrip.title
+          }
+        >
+          <Input
+            label={PageText.Contact.inputFields.kilometersDriven.label}
+            type="text"
+            name="km"
+            value={state.context.kilometersDriven}
+            errorMessage={
+              state.context?.errorMessages['kilometersDriven']?.[0] || undefined
             }
-          >
-            <Input
-              label={PageText.Contact.inputFields.kilometersDriven.label}
-              type="text"
-              name="km"
-              value={state.context.kilometersDriven}
-              errorMessage={
-                state.context?.errorMessages['kilometresDriven']?.[0] ||
-                undefined
-              }
-              onChange={(e) =>
-                send({
-                  type: 'SET_KILOMETRES_DRIVEN',
-                  kilometersDriven: e.target.value,
-                })
-              }
-            />
-          </SectionCard>
-          <SectionCard
-            title={
-              PageText.Contact.travelGuarantee.refundCar.aboutThePlanedTrip
-                .title
+            onChange={(e) =>
+              send({
+                type: 'SET_KILOMETRES_DRIVEN',
+                kilometersDriven: e.target.value,
+              })
             }
-          ></SectionCard>
-        </div>
+          />
+        </SectionCard>
       )}
       {state.hasTag('selected') && (
         <div>

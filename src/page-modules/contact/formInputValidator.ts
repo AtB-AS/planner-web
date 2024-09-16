@@ -124,6 +124,14 @@ export const formInputValidator = (context: any) => {
         .empty,
     );
   }
+  if (!context.kilometersDriven) {
+    if (!inputErrorMessages['kilometersDriven']) {
+      inputErrorMessages['kilometersDriven'] = [];
+    }
+    inputErrorMessages['kilometersDriven'].push(
+      PageText.Contact.inputFields.kilometersDriven.errorMessages.empty,
+    );
+  }
 
   // Populate context.errorMessages
   context.errorMessages = inputErrorMessages;

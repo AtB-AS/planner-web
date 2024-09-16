@@ -623,24 +623,24 @@ export const Contact = {
       },
     },
     date: _('Dato', 'Date', 'Dato'),
-    departureTime: _('Avgangstid', 'Departure time', 'Avgangstid'),
+    plannedDepartureTime: _('Avgangstid', 'Departure time', 'Avgangstid'),
     reasonForTransportFailure: {
       label: _('Mulige valg', 'Options', 'Moglege val'),
       optionLabel: _('Velg årsak', 'Select reason', 'Vel åtsak'),
       options: [
         {
           id: 'late',
-          name: _('Forsinket', 'public orders and prohibitions', 'Forseinka'),
+          name: _('Forsinket', 'Late', 'Forseinka'),
         },
         {
           id: 'cancelled',
-          name: _('Innstilt', 'pandemic', 'Innstilt'),
+          name: _('Innstilt', 'Cancelled', 'Innstilt'),
         },
         {
           id: 'missedNextTransport',
           name: _(
-            'Mistet neste transportmiddel ',
-            'pandemic',
+            'Mistet neste transportmiddel',
+            'Lost next mode of transport',
             'Mista neste transportmiddel',
           ),
         },
@@ -648,15 +648,15 @@ export const Contact = {
           id: 'didNotStopAtStop',
           name: _(
             'Stoppa ikke på holdeplassen',
-            'pandemic',
+            'Did not stop at the stop',
             'Stoppa ikkje på haldeplassen',
           ),
         },
         {
           id: 'incorrectAppInformation',
           name: _(
-            'Feil informasoni app eller reiseplanlegger',
-            'pandemic',
+            'Feil informasjon app eller reiseplanlegger',
+            'Incorrect information in app or travel planner',
             'Feil informasjon i app eller reiseplanlegger',
           ),
         },
