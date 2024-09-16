@@ -53,7 +53,6 @@ export const fetchMachine = setup({
     setLine: assign({
       line: ({ event }) => (event as { type: 'SET_LINE'; line: Line }).line,
     }),
-
     setDepartureLocation: assign({
       departureLocation: ({ event }) =>
         (
@@ -77,51 +76,41 @@ export const fetchMachine = setup({
       feedback: ({ event }) =>
         (event as { type: 'SET_FEEDBACK'; feedback: string }).feedback,
     }),
-
     setFirstname: assign({
       firstname: ({ event }) =>
         (event as { type: 'SET_FIRSTNAME'; firstname: string }).firstname,
     }),
-
     setLastname: assign({
       lastname: ({ event }) =>
         (event as { type: 'SET_LASTNAME'; lastname: string }).lastname,
     }),
-
     setAddress: assign({
       address: ({ event }) =>
         (event as { type: 'SET_ADDRESS'; address: string }).address,
     }),
-
     setPostalCode: assign({
       postalCode: ({ event }) =>
         (event as { type: 'SET_POSTAL_CODE'; postalCode: string }).postalCode,
     }),
-
     setCity: assign({
       city: ({ event }) => (event as { type: 'SET_CITY'; city: string }).city,
     }),
-
     setEmail: assign({
       email: ({ event }) =>
         (event as { type: 'SET_EMAIL'; email: string }).email,
     }),
-
     setPhonenumber: assign({
       phonenumber: ({ event }) =>
         (event as { type: 'SET_PHONENUMBER'; phonenumber: string }).phonenumber,
     }),
-
     setBankAccount: assign({
       bankAccount: ({ event }) =>
         (event as { type: 'SET_BANK_ACCOUNT'; bankAccount: string })
           .bankAccount,
     }),
-
     setIBAN: assign({
       IBAN: ({ event }) => (event as { type: 'SET_IBAN'; IBAN: string }).IBAN,
     }),
-
     setSWIFT: assign({
       SWIFT: ({ event }) =>
         (event as { type: 'SET_SWIFT'; SWIFT: string }).SWIFT,
@@ -155,7 +144,6 @@ export const fetchMachine = setup({
     arrivalLocation: undefined,
     date: new Date().toISOString().split('T')[0],
     time: `${String(new Date().getHours()).padStart(2, '0')}:${String(new Date().getMinutes()).padStart(2, '0')}`,
-
     feedback: '',
     firstname: '',
     lastname: '',
@@ -167,8 +155,6 @@ export const fetchMachine = setup({
     bankAccount: '',
     IBAN: '',
     SWIFT: '',
-
-    //apiResponse: undefined,
     errorMessages: {},
   },
   states: {
@@ -184,10 +170,6 @@ export const fetchMachine = setup({
         },
         OTHER: {
           target: 'editing.other',
-        },
-        SUBMIT: {
-          guard: 'validateInputs',
-          target: 'submitting',
         },
         SET_FEEDBACK: {
           actions: 'setFeedback',
@@ -235,6 +217,7 @@ export const fetchMachine = setup({
             },
           },
         },
+
         taxi: {
           on: {
             SET_TRANSPORT_MODE: {
@@ -249,15 +232,40 @@ export const fetchMachine = setup({
             SET_ARRIVAL_LOCATION: {
               actions: 'setArrivalLocation',
             },
+            VALIDATE: {
+              guard: 'validateInputs',
+              target: 'readyForSubmitt',
+            },
           },
+
           tags: ['taxi', 'selected'],
         },
+
         car: {
+          on: {
+            VALIDATE: {
+              guard: 'validateInputs',
+              target: 'readyForSubmitt',
+            },
+          },
           tags: ['car', 'selected'],
         },
+
         other: {
+          on: {
+            VALIDATE: {
+              guard: 'validateInputs',
+              target: 'readyForSubmitt',
+            },
+          },
           tags: ['other', 'selected'],
         },
+        readyForSubmitt: {
+          type: 'final',
+        },
+      },
+      onDone: {
+        target: 'submitting',
       },
     },
 
@@ -274,6 +282,8 @@ export const fetchMachine = setup({
       },
     },
 
-    success: {},
+    success: {
+      type: 'final',
+    },
   },
 });

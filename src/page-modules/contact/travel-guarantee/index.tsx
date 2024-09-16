@@ -24,9 +24,9 @@ export const RefundForm = () => {
 
   const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    send({ type: 'SUBMIT' });
+    send({ type: 'VALIDATE' });
 
-    // Force a re-render.
+    //// Force a re-render.
     if (Object.keys(state.context.errorMessages).length > 0) {
       setDisplayErrorsDummyState(!displayErrorsDummyState);
     }
