@@ -99,9 +99,6 @@ export const fetchMachine = setup({
       }: any) => {
         return await fetch('/contact/travel-guarantee', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
           body: JSON.stringify({
             transportMode: transportMode,
             line: line,
