@@ -648,7 +648,7 @@ export const Contact = {
         {
           id: 'didNotStopAtStop',
           name: _(
-            'Stoppa ikke på holdeplassen',
+            'Stoppet ikke på holdeplassen',
             'Did not stop at the stop',
             'Stoppa ikkje på haldeplassen',
           ),
