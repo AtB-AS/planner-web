@@ -1,4 +1,5 @@
 import { PageText, TranslatedString } from '@atb/translations';
+import { string } from 'zod';
 
 export type InputErrorMessages = {
   [key: string]: TranslatedString[];
@@ -19,95 +20,283 @@ const addErrorMessage = (
   }
 };
 
+// Helper function to set fields in travel guarantee machine, which only uses on statemachine for all three formes.
+const setFieldsToValidateSpecialCase = (stateSubmitted: string) => {
+  const fields = [];
+  switch (stateSubmitted) {
+    case 'car':
+      fields.push(
+        {
+          field: 'transportMode',
+          errorMessage:
+            PageText.Contact.inputFields.transportMode.errorMessages.empty,
+        },
+        {
+          field: 'line',
+          errorMessage: PageText.Contact.inputFields.line.errorMessages.empty,
+        },
+        {
+          field: 'fromStop',
+          errorMessage:
+            PageText.Contact.inputFields.fromStop.errorMessages.empty,
+        },
+        {
+          field: 'toStop',
+          errorMessage: PageText.Contact.inputFields.toStop.errorMessages.empty,
+        },
+        {
+          field: 'reasonForTransportFailure',
+          errorMessage:
+            PageText.Contact.inputFields.reasonForTransportFailure.errorMessages
+              .empty,
+        },
+        {
+          field: 'kilometersDriven',
+          errorMessage:
+            PageText.Contact.inputFields.kilometersDriven.errorMessages.empty,
+        },
+        {
+          field: 'firstName',
+          errorMessage:
+            PageText.Contact.inputFields.firstName.errorMessages.empty,
+        },
+        {
+          field: 'lastName',
+          errorMessage:
+            PageText.Contact.inputFields.lastName.errorMessages.empty,
+        },
+        {
+          field: 'email',
+          errorMessage: PageText.Contact.inputFields.email.errorMessages.empty,
+        },
+        {
+          field: 'address',
+          errorMessage:
+            PageText.Contact.inputFields.address.errorMessages.empty,
+        },
+        {
+          field: 'postalCode',
+          errorMessage:
+            PageText.Contact.inputFields.postalCode.errorMessages.empty,
+        },
+        {
+          field: 'city',
+          errorMessage: PageText.Contact.inputFields.city.errorMessages.empty,
+        },
+        {
+          field: 'phoneNumber',
+          errorMessage:
+            PageText.Contact.inputFields.phoneNumber.errorMessages.empty,
+        },
+      );
+
+    case 'taxi':
+      fields.push(
+        {
+          field: 'transportMode',
+          errorMessage:
+            PageText.Contact.inputFields.transportMode.errorMessages.empty,
+        },
+        {
+          field: 'line',
+          errorMessage: PageText.Contact.inputFields.line.errorMessages.empty,
+        },
+        {
+          field: 'fromStop',
+          errorMessage:
+            PageText.Contact.inputFields.fromStop.errorMessages.empty,
+        },
+        {
+          field: 'toStop',
+          errorMessage: PageText.Contact.inputFields.toStop.errorMessages.empty,
+        },
+        {
+          field: 'reasonForTransportFailure',
+          errorMessage:
+            PageText.Contact.inputFields.reasonForTransportFailure.errorMessages
+              .empty,
+        },
+        {
+          field: 'firstName',
+          errorMessage:
+            PageText.Contact.inputFields.firstName.errorMessages.empty,
+        },
+        {
+          field: 'lastName',
+          errorMessage:
+            PageText.Contact.inputFields.lastName.errorMessages.empty,
+        },
+        {
+          field: 'email',
+          errorMessage: PageText.Contact.inputFields.email.errorMessages.empty,
+        },
+        {
+          field: 'address',
+          errorMessage:
+            PageText.Contact.inputFields.address.errorMessages.empty,
+        },
+        {
+          field: 'postalCode',
+          errorMessage:
+            PageText.Contact.inputFields.postalCode.errorMessages.empty,
+        },
+        {
+          field: 'city',
+          errorMessage: PageText.Contact.inputFields.city.errorMessages.empty,
+        },
+        {
+          field: 'phoneNumber',
+          errorMessage:
+            PageText.Contact.inputFields.phoneNumber.errorMessages.empty,
+        },
+      );
+
+    case 'other':
+      fields.push(
+        {
+          field: 'firstName',
+          errorMessage:
+            PageText.Contact.inputFields.firstName.errorMessages.empty,
+        },
+        {
+          field: 'lastName',
+          errorMessage:
+            PageText.Contact.inputFields.lastName.errorMessages.empty,
+        },
+        {
+          field: 'email',
+          errorMessage: PageText.Contact.inputFields.email.errorMessages.empty,
+        },
+        {
+          field: 'address',
+          errorMessage:
+            PageText.Contact.inputFields.address.errorMessages.empty,
+        },
+        {
+          field: 'postalCode',
+          errorMessage:
+            PageText.Contact.inputFields.postalCode.errorMessages.empty,
+        },
+        {
+          field: 'city',
+          errorMessage: PageText.Contact.inputFields.city.errorMessages.empty,
+        },
+        {
+          field: 'phoneNumber',
+          errorMessage:
+            PageText.Contact.inputFields.phoneNumber.errorMessages.empty,
+        },
+      );
+
+      return fields;
+  }
+};
+
 export const formInputValidator = (context: any) => {
   const inputErrorMessages: InputErrorMessages = {};
 
-  console.log('context: ', context);
-  // List of fields and their corresponding error messages
-  const fieldsToValidate = [
-    {
-      field: 'firstName',
-      errorMessage: PageText.Contact.inputFields.firstName.errorMessages.empty,
-    },
-    {
-      field: 'lastName',
-      errorMessage: PageText.Contact.inputFields.lastName.errorMessages.empty,
-    },
-    {
-      field: 'email',
-      errorMessage: PageText.Contact.inputFields.email.errorMessages.empty,
-    },
-    {
-      field: 'address',
-      errorMessage: PageText.Contact.inputFields.address.errorMessages.empty,
-    },
-    {
-      field: 'postalCode',
-      errorMessage: PageText.Contact.inputFields.postalCode.errorMessages.empty,
-    },
-    {
-      field: 'city',
-      errorMessage: PageText.Contact.inputFields.city.errorMessages.empty,
-    },
-    {
-      field: 'phoneNumber',
-      errorMessage:
-        PageText.Contact.inputFields.phoneNumber.errorMessages.empty,
-    },
-    {
-      field: 'transportMode',
-      errorMessage:
-        PageText.Contact.inputFields.transportMode.errorMessages.empty,
-    },
-    {
-      field: 'line',
-      errorMessage: PageText.Contact.inputFields.line.errorMessages.empty,
-    },
-    {
-      field: 'fromStop',
-      errorMessage: PageText.Contact.inputFields.fromStop.errorMessages.empty,
-    },
-    {
-      field: 'toStop',
-      errorMessage: PageText.Contact.inputFields.toStop.errorMessages.empty,
-    },
-    {
-      field: 'reasonForTransportFailure',
-      errorMessage:
-        PageText.Contact.inputFields.reasonForTransportFailure.errorMessages
-          .empty,
-    },
-  ];
+  let fieldsToValidate;
 
-  // Iterate over each field and apply validation
-  fieldsToValidate.forEach(({ field, errorMessage }) =>
-    addErrorMessage(context, field, inputErrorMessages, errorMessage),
-  );
-
-  // Special case for bank details
-  if (!context.bankAccountNumber && !context.IBAN && !context.SWIFT) {
-    addErrorMessage(
-      context,
-      'bankAccountNumber',
-      inputErrorMessages,
-      PageText.Contact.inputFields.bankAccountNumber.errorMessages.empty,
+  if (context.stateSubmitted) {
+    fieldsToValidate = setFieldsToValidateSpecialCase(
+      String(context.stateSubmitted),
     );
-  }
 
-  // Special case for kilometersDriven
-  if (!context.kilometersDriven && context.stateSubmitted === 'car') {
-    addErrorMessage(
-      context,
-      'kilometersDriven',
-      inputErrorMessages,
-      PageText.Contact.inputFields.kilometersDriven.errorMessages.empty,
+    // Iterate over each field and apply validation
+    if (fieldsToValidate !== undefined) {
+      fieldsToValidate.forEach(({ field, errorMessage }) =>
+        addErrorMessage(context, field, inputErrorMessages, errorMessage),
+      );
+
+      // Special case for bank details
+      if (!context.bankAccountNumber && !context.IBAN && !context.SWIFT) {
+        addErrorMessage(
+          context,
+          'bankAccountNumber',
+          inputErrorMessages,
+          PageText.Contact.inputFields.bankAccountNumber.errorMessages.empty,
+        );
+      }
+    }
+  } else {
+    fieldsToValidate = [
+      {
+        field: 'firstName',
+        errorMessage:
+          PageText.Contact.inputFields.firstName.errorMessages.empty,
+      },
+      {
+        field: 'lastName',
+        errorMessage: PageText.Contact.inputFields.lastName.errorMessages.empty,
+      },
+      {
+        field: 'email',
+        errorMessage: PageText.Contact.inputFields.email.errorMessages.empty,
+      },
+      {
+        field: 'address',
+        errorMessage: PageText.Contact.inputFields.address.errorMessages.empty,
+      },
+      {
+        field: 'postalCode',
+        errorMessage:
+          PageText.Contact.inputFields.postalCode.errorMessages.empty,
+      },
+      {
+        field: 'city',
+        errorMessage: PageText.Contact.inputFields.city.errorMessages.empty,
+      },
+      {
+        field: 'phoneNumber',
+        errorMessage:
+          PageText.Contact.inputFields.phoneNumber.errorMessages.empty,
+      },
+      {
+        field: 'transportMode',
+        errorMessage:
+          PageText.Contact.inputFields.transportMode.errorMessages.empty,
+      },
+      {
+        field: 'line',
+        errorMessage: PageText.Contact.inputFields.line.errorMessages.empty,
+      },
+      {
+        field: 'fromStop',
+        errorMessage: PageText.Contact.inputFields.fromStop.errorMessages.empty,
+      },
+      {
+        field: 'toStop',
+        errorMessage: PageText.Contact.inputFields.toStop.errorMessages.empty,
+      },
+      {
+        field: 'reasonForTransportFailure',
+        errorMessage:
+          PageText.Contact.inputFields.reasonForTransportFailure.errorMessages
+            .empty,
+      },
+    ];
+
+    // Iterate over each field and apply validation
+    fieldsToValidate.forEach(({ field, errorMessage }) =>
+      addErrorMessage(context, field, inputErrorMessages, errorMessage),
     );
+
+    // Special case for bank details
+    if (!context.bankAccountNumber && !context.IBAN && !context.SWIFT) {
+      addErrorMessage(
+        context,
+        'bankAccountNumber',
+        inputErrorMessages,
+        PageText.Contact.inputFields.bankAccountNumber.errorMessages.empty,
+      );
+    }
   }
 
   // Populate context.errorMessages
   context.errorMessages = inputErrorMessages;
 
-  console.log(inputErrorMessages['kilometersDriven']);
+  console.log('inputErrorMessages:', inputErrorMessages);
+
   // Return false if any error
   return Object.keys(context.errorMessages).length > 0 ? false : true;
 };

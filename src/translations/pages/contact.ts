@@ -302,7 +302,7 @@ export const Contact = {
           _(
             'ekstraordinære værforhold',
             'extraordinary weather conditions',
-            'ekstraordinære vêrforhold',
+            'ekstraordinære verforhold',
           ),
           _(
             'vegarbeid eller uforutsette problemer med kjøreveien',

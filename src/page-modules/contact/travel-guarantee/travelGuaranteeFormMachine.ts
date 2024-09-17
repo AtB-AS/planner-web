@@ -69,6 +69,10 @@ export const fetchMachine = setup({
       }
       return context;
     }),
+
+    cleanErrorMessages: assign({
+      errorMessages: () => ({}),
+    }),
   },
   actors: {
     callAPI: fromPromise(
@@ -93,7 +97,7 @@ export const fetchMachine = setup({
         IBAN,
         SWIFT,
       }: any) => {
-        return await fetch('/api/travel-guarantee', {
+        return await fetch('/contact/travel-guarantee', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -120,7 +124,6 @@ export const fetchMachine = setup({
             kilometersDriven: kilometersDriven,
           }),
         }).then((response) => {
-          console.log('respons: ', response);
           // throw an error to force onError
           if (!response.ok) throw new Error('Failed to call API');
           return response.ok;
@@ -191,17 +194,17 @@ export const fetchMachine = setup({
         },
 
         taxi: {
-          entry: 'setStateSubmitted',
+          entry: ['cleanErrorMessages', 'setStateSubmitted'],
           tags: ['taxi', 'selected'],
         },
 
         car: {
-          entry: 'setStateSubmitted',
+          entry: ['cleanErrorMessages', 'setStateSubmitted'],
           tags: ['car', 'selected'],
         },
 
         other: {
-          entry: 'setStateSubmitted',
+          entry: ['cleanErrorMessages', 'setStateSubmitted'],
           tags: ['other', 'selected'],
         },
         readyForSubmit: {
