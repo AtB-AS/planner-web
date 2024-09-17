@@ -22,10 +22,41 @@ const addErrorMessage = (
 
 // Helper function to set fields in travel guarantee machine, which only uses on statemachine for all three formes.
 const setFieldsToValidateSpecialCase = (stateSubmitted: string) => {
-  const fields = [];
+  const commonFields = [
+    {
+      field: 'firstName',
+      errorMessage: PageText.Contact.inputFields.firstName.errorMessages.empty,
+    },
+    {
+      field: 'lastName',
+      errorMessage: PageText.Contact.inputFields.lastName.errorMessages.empty,
+    },
+    {
+      field: 'email',
+      errorMessage: PageText.Contact.inputFields.email.errorMessages.empty,
+    },
+    {
+      field: 'address',
+      errorMessage: PageText.Contact.inputFields.address.errorMessages.empty,
+    },
+    {
+      field: 'postalCode',
+      errorMessage: PageText.Contact.inputFields.postalCode.errorMessages.empty,
+    },
+    {
+      field: 'city',
+      errorMessage: PageText.Contact.inputFields.city.errorMessages.empty,
+    },
+    {
+      field: 'phoneNumber',
+      errorMessage:
+        PageText.Contact.inputFields.phoneNumber.errorMessages.empty,
+    },
+  ];
+
   switch (stateSubmitted) {
     case 'car':
-      fields.push(
+      commonFields.push(
         {
           field: 'transportMode',
           errorMessage:
@@ -55,43 +86,10 @@ const setFieldsToValidateSpecialCase = (stateSubmitted: string) => {
           errorMessage:
             PageText.Contact.inputFields.kilometersDriven.errorMessages.empty,
         },
-        {
-          field: 'firstName',
-          errorMessage:
-            PageText.Contact.inputFields.firstName.errorMessages.empty,
-        },
-        {
-          field: 'lastName',
-          errorMessage:
-            PageText.Contact.inputFields.lastName.errorMessages.empty,
-        },
-        {
-          field: 'email',
-          errorMessage: PageText.Contact.inputFields.email.errorMessages.empty,
-        },
-        {
-          field: 'address',
-          errorMessage:
-            PageText.Contact.inputFields.address.errorMessages.empty,
-        },
-        {
-          field: 'postalCode',
-          errorMessage:
-            PageText.Contact.inputFields.postalCode.errorMessages.empty,
-        },
-        {
-          field: 'city',
-          errorMessage: PageText.Contact.inputFields.city.errorMessages.empty,
-        },
-        {
-          field: 'phoneNumber',
-          errorMessage:
-            PageText.Contact.inputFields.phoneNumber.errorMessages.empty,
-        },
       );
 
     case 'taxi':
-      fields.push(
+      commonFields.push(
         {
           field: 'transportMode',
           errorMessage:
@@ -116,80 +114,9 @@ const setFieldsToValidateSpecialCase = (stateSubmitted: string) => {
             PageText.Contact.inputFields.reasonForTransportFailure.errorMessages
               .empty,
         },
-        {
-          field: 'firstName',
-          errorMessage:
-            PageText.Contact.inputFields.firstName.errorMessages.empty,
-        },
-        {
-          field: 'lastName',
-          errorMessage:
-            PageText.Contact.inputFields.lastName.errorMessages.empty,
-        },
-        {
-          field: 'email',
-          errorMessage: PageText.Contact.inputFields.email.errorMessages.empty,
-        },
-        {
-          field: 'address',
-          errorMessage:
-            PageText.Contact.inputFields.address.errorMessages.empty,
-        },
-        {
-          field: 'postalCode',
-          errorMessage:
-            PageText.Contact.inputFields.postalCode.errorMessages.empty,
-        },
-        {
-          field: 'city',
-          errorMessage: PageText.Contact.inputFields.city.errorMessages.empty,
-        },
-        {
-          field: 'phoneNumber',
-          errorMessage:
-            PageText.Contact.inputFields.phoneNumber.errorMessages.empty,
-        },
       );
-
-    case 'other':
-      fields.push(
-        {
-          field: 'firstName',
-          errorMessage:
-            PageText.Contact.inputFields.firstName.errorMessages.empty,
-        },
-        {
-          field: 'lastName',
-          errorMessage:
-            PageText.Contact.inputFields.lastName.errorMessages.empty,
-        },
-        {
-          field: 'email',
-          errorMessage: PageText.Contact.inputFields.email.errorMessages.empty,
-        },
-        {
-          field: 'address',
-          errorMessage:
-            PageText.Contact.inputFields.address.errorMessages.empty,
-        },
-        {
-          field: 'postalCode',
-          errorMessage:
-            PageText.Contact.inputFields.postalCode.errorMessages.empty,
-        },
-        {
-          field: 'city',
-          errorMessage: PageText.Contact.inputFields.city.errorMessages.empty,
-        },
-        {
-          field: 'phoneNumber',
-          errorMessage:
-            PageText.Contact.inputFields.phoneNumber.errorMessages.empty,
-        },
-      );
-
-      return fields;
   }
+  return commonFields;
 };
 
 export const formInputValidator = (context: any) => {
