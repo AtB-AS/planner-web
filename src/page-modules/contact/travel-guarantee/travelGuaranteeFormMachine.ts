@@ -68,6 +68,8 @@ export const fetchMachine = setup({
     updateField: assign(({ context, event }) => {
       if (event.type === 'UPDATE_FIELD') {
         const { field, value } = event;
+        // Remove errorMessages if any
+        context.errorMessages[field] = [];
         return {
           ...context,
           [field]: value,

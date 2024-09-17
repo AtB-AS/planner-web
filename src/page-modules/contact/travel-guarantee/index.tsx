@@ -54,7 +54,7 @@ export const RefundForm = () => {
               })
             }
             error={
-              state.context?.errorMessages['transportMode']
+              state.context?.errorMessages['transportMode']?.[0]
                 ? t(state.context?.errorMessages['transportMode']?.[0])
                 : undefined
             }
@@ -87,7 +87,7 @@ export const RefundForm = () => {
             valueToText={(line: Line) => line.name}
             placeholder={t(PageText.Contact.inputFields.line.optionLabel)}
             error={
-              state.context?.errorMessages['line']
+              state.context?.errorMessages['line']?.[0]
                 ? t(state.context?.errorMessages['line']?.[0])
                 : undefined
             }
@@ -112,7 +112,7 @@ export const RefundForm = () => {
             }
             placeholder={t(PageText.Contact.inputFields.fromStop.optionLabel)}
             error={
-              state.context?.errorMessages['fromStop']
+              state.context?.errorMessages['fromStop']?.[0]
                 ? t(state.context?.errorMessages['fromStop']?.[0])
                 : undefined
             }
@@ -139,7 +139,7 @@ export const RefundForm = () => {
                 : []
             }
             error={
-              state.context?.errorMessages['toStop']
+              state.context?.errorMessages['toStop']?.[0]
                 ? t(state.context?.errorMessages['toStop']?.[0])
                 : undefined
             }
@@ -196,7 +196,7 @@ export const RefundForm = () => {
               PageText.Contact.inputFields.reasonForTransportFailure.options
             }
             error={
-              state.context?.errorMessages['reasonForTransportFailure']
+              state.context?.errorMessages['reasonForTransportFailure']?.[0]
                 ? t(
                     state.context?.errorMessages[
                       'reasonForTransportFailure'
@@ -424,7 +424,7 @@ export const RefundForm = () => {
                     })
                   }
                 />
-                {state.context?.errorMessages['bankAccountNumber'] && (
+                {state.context?.errorMessages['bankAccountNumber']?.[0] && (
                   <ErrorMessage
                     message={t(
                       state.context?.errorMessages['bankAccountNumber']?.[0],
