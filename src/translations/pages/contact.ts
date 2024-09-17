@@ -321,7 +321,7 @@ export const Contact = {
           'The travel guarantee does not cover losses resulting from the delay, such as missed dental appointments, job agreements, train departures, or flight departures.',
           'Reisegarantien omfattar heller ikkje tap som følge av forseinkinga, som for eksempel mista tannlegetime, jobbavtale, togavgang eller flyavgang.',
         ),
-        checkbox: _('Jeg forsår', 'I understand', 'Eg forstår'),
+        checkbox: _('Jeg forstår', 'I understand', 'Eg forstår'),
       },
     },
 
