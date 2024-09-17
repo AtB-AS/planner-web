@@ -6,7 +6,7 @@ import { fetchMachine } from './travelGuaranteeFormMachine';
 import { Input } from '../components/input';
 import { TransportModeType } from '@atb-as/config-specs';
 import { useLines } from '../lines/use-lines';
-import { FormEventHandler, useState } from 'react';
+import { FormEventHandler } from 'react';
 import style from '../contact.module.css';
 import { Button } from '@atb/components/button';
 import Select from '../components/input/select';
@@ -16,20 +16,12 @@ import ErrorMessage from '../components/input/error-message';
 
 export const RefundForm = () => {
   const { t } = useTranslation();
-  const { lines, getLinesByMode, getQuaysByLine } = useLines();
+  const { getLinesByMode, getQuaysByLine } = useLines();
   const [state, send] = useMachine(fetchMachine);
-
-  // Local state to force re-render to display errors.
-  const [displayErrorsDummyState, setDisplayErrorsDummyState] = useState(true);
 
   const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     send({ type: 'VALIDATE' });
-
-    //// Force a re-render.
-    if (Object.keys(state.context.errorMessages).length > 0) {
-      setDisplayErrorsDummyState(!displayErrorsDummyState);
-    }
   };
 
   return (
