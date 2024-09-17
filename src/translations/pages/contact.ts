@@ -341,7 +341,7 @@ export const Contact = {
 
       refundCar: {
         description: _(
-          'Jeg ønsker refusojon for bruka av bil',
+          'Jeg ønsker refusjon for bruk av bil',
           'I would like refund for the use of a car',
           'Eg ønsker refusjon for bruk av en bil',
         ),
