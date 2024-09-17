@@ -656,7 +656,7 @@ export const Contact = {
         {
           id: 'incorrectAppInformation',
           name: _(
-            'Feil informasjon app eller reiseplanlegger',
+            'Feil informasjon i app eller reiseplanlegger',
             'Incorrect information in app or travel planner',
             'Feil informasjon i app eller reiseplanlegger',
           ),
