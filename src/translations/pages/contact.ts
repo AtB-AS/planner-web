@@ -328,7 +328,7 @@ export const Contact = {
     subPageTitles: {
       refundTaxi: {
         description: _(
-          'Jeg ønsker refusojon for drosje',
+          'Jeg ønsker refusjon for drosje',
           'I would like refund for taxi',
           'Eg ønsker refusjon for drosje',
         ),
