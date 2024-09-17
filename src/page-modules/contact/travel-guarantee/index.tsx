@@ -48,8 +48,9 @@ export const RefundForm = () => {
             value={state.context.transportMode}
             onChange={(value) =>
               send({
-                type: 'SET_TRANSPORT_MODE',
-                transportMode: value as TransportModeType,
+                type: 'UPDATE_FIELD',
+                field: 'transportMode',
+                value: value as TransportModeType,
               })
             }
             error={
@@ -74,8 +75,9 @@ export const RefundForm = () => {
               onChange={(value: Line | undefined) => {
                 if (!value) return;
                 send({
-                  type: 'SET_LINE',
-                  line: value,
+                  type: 'UPDATE_FIELD',
+                  field: 'line',
+                  value: value,
                 });
               }}
               options={getLinesByMode(
@@ -100,8 +102,9 @@ export const RefundForm = () => {
                 onChange={(value) => {
                   if (!value) return;
                   send({
-                    type: 'SET_FROM_STOP',
-                    fromStop: value,
+                    type: 'UPDATE_FIELD',
+                    field: 'fromStop',
+                    value: value,
                   });
                 }}
                 options={getQuaysByLine(state.context.line.id)}
@@ -123,8 +126,9 @@ export const RefundForm = () => {
                 onChange={(value) => {
                   if (!value) return;
                   send({
-                    type: 'SET_TO_STOP',
-                    toStop: value,
+                    type: 'UPDATE_FIELD',
+                    field: 'toStop',
+                    value: value,
                   });
                 }}
                 placeholder={t(PageText.Contact.inputFields.toStop.optionLabel)}
@@ -145,8 +149,9 @@ export const RefundForm = () => {
                 value={state.context.date}
                 onChange={(e) =>
                   send({
-                    type: 'SET_DATE',
-                    date: e.target.value,
+                    type: 'UPDATE_FIELD',
+                    field: 'date',
+                    value: e.target.value,
                   })
                 }
               />
@@ -157,8 +162,9 @@ export const RefundForm = () => {
                 value={state.context.plannedDepartureTime}
                 onChange={(e) =>
                   send({
-                    type: 'SET_PLANNED_DEPARTURE_TIME',
-                    plannedDepartureTime: e.target.value,
+                    type: 'UPDATE_FIELD',
+                    field: 'plannedDepartureTime',
+                    value: e.target.value,
                   })
                 }
               />
@@ -172,20 +178,18 @@ export const RefundForm = () => {
             onChange={(value) => {
               if (!value) return;
               send({
-                type: 'SET_REASON_FOR_TRANSPORT_FAILIURE',
-                reasonForTransportFailure: value,
+                type: 'UPDATE_FIELD',
+                field: 'reasonForTransportFailure',
+                value: value,
               });
             }}
             placeholder={t(
               PageText.Contact.inputFields.reasonForTransportFailure
                 .optionLabel,
             )}
-            options={PageText.Contact.inputFields.reasonForTransportFailure.options.map(
-              (option) => ({
-                id: option.id,
-                name: option.name,
-              }),
-            )}
+            options={
+              PageText.Contact.inputFields.reasonForTransportFailure.options
+            }
             error={
               state.context?.errorMessages['reasonForTransportFailure']
                 ? t(
@@ -217,8 +221,9 @@ export const RefundForm = () => {
             }
             onChange={(e) =>
               send({
-                type: 'SET_KILOMETRES_DRIVEN',
-                kilometersDriven: e.target.value,
+                type: 'UPDATE_FIELD',
+                field: 'kilometersDriven',
+                value: e.target.value,
               })
             }
           />
@@ -235,8 +240,9 @@ export const RefundForm = () => {
               value={state.context.feedback}
               onChange={(e) =>
                 send({
-                  type: 'SET_FEEDBACK',
-                  feedback: e.target.value,
+                  type: 'UPDATE_FIELD',
+                  field: 'feedback',
+                  value: e.target.value,
                 })
               }
             />
@@ -252,8 +258,9 @@ export const RefundForm = () => {
               }
               onChange={(e) =>
                 send({
-                  type: 'SET_FIRSTNAME',
-                  firstName: e.target.value,
+                  type: 'UPDATE_FIELD',
+                  field: 'firstName',
+                  value: e.target.value,
                 })
               }
             />
@@ -268,8 +275,9 @@ export const RefundForm = () => {
               }
               onChange={(e) =>
                 send({
-                  type: 'SET_LASTNAME',
-                  lastName: e.target.value,
+                  type: 'UPDATE_FIELD',
+                  field: 'lastName',
+                  value: e.target.value,
                 })
               }
             />
@@ -283,14 +291,15 @@ export const RefundForm = () => {
               }
               onChange={(e) =>
                 send({
-                  type: 'SET_ADDRESS',
-                  address: e.target.value,
+                  type: 'UPDATE_FIELD',
+                  field: 'address',
+                  value: e.target.value,
                 })
               }
             />
             <Input
               label={PageText.Contact.inputFields.postalCode.label}
-              type="text"
+              type="number"
               name="postalCode"
               value={state.context.postalCode}
               errorMessage={
@@ -298,8 +307,9 @@ export const RefundForm = () => {
               }
               onChange={(e) =>
                 send({
-                  type: 'SET_POSTAL_CODE',
-                  postalCode: e.target.value,
+                  type: 'UPDATE_FIELD',
+                  field: 'postalCode',
+                  value: e.target.value,
                 })
               }
             />
@@ -313,8 +323,9 @@ export const RefundForm = () => {
               }
               onChange={(e) =>
                 send({
-                  type: 'SET_CITY',
-                  city: e.target.value,
+                  type: 'UPDATE_FIELD',
+                  field: 'city',
+                  value: e.target.value,
                 })
               }
             />
@@ -328,14 +339,15 @@ export const RefundForm = () => {
               }
               onChange={(e) =>
                 send({
-                  type: 'SET_EMAIL',
-                  email: e.target.value,
+                  type: 'UPDATE_FIELD',
+                  field: 'email',
+                  value: e.target.value,
                 })
               }
             />
             <Input
               label={PageText.Contact.inputFields.phoneNumber.label}
-              type="text"
+              type="tel"
               name="phoneNumber"
               value={state.context.phoneNumber}
               errorMessage={
@@ -343,8 +355,9 @@ export const RefundForm = () => {
               }
               onChange={(e) =>
                 send({
-                  type: 'SET_PHONENUMBER',
-                  phoneNumber: e.target.value,
+                  type: 'UPDATE_FIELD',
+                  field: 'phoneNumber',
+                  value: e.target.value,
                 })
               }
             />
@@ -363,8 +376,9 @@ export const RefundForm = () => {
                 }
                 onChange={(e) =>
                   send({
-                    type: 'SET_BANK_ACCOUNT_NUMBER',
-                    bankAccountNumber: e.target.value,
+                    type: 'UPDATE_FIELD',
+                    field: 'bankAccountNumber',
+                    value: e.target.value,
                   })
                 }
               />
@@ -385,8 +399,9 @@ export const RefundForm = () => {
                   value={state.context.IBAN}
                   onChange={(e) =>
                     send({
-                      type: 'SET_IBAN',
-                      IBAN: e.target.value,
+                      type: 'UPDATE_FIELD',
+                      field: 'IBAN',
+                      value: e.target.value,
                     })
                   }
                 />
@@ -398,8 +413,9 @@ export const RefundForm = () => {
                   value={state.context.SWIFT}
                   onChange={(e) =>
                     send({
-                      type: 'SET_SWIFT',
-                      SWIFT: e.target.value,
+                      type: 'UPDATE_FIELD',
+                      field: 'SWIFT',
+                      value: e.target.value,
                     })
                   }
                 />

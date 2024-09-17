@@ -1,15 +1,15 @@
 import { TransportModeType } from '@atb-as/config-specs';
 import { assign, fromPromise, setup } from 'xstate';
 import { Line } from '../server/journey-planner/validators';
-import { machineEvents } from '../machineEvents';
+import { machineEvents, ReasonForTransportFailure } from '../machineEvents';
 import { InputErrorMessages, formInputValidator } from '../formInputValidator';
-import { TranslatedString } from '@atb/translations';
 
 export const fetchMachine = setup({
   types: {
     context: {} as {
       isIntialAgreementChecked: boolean;
       isBankAccountForeign: boolean;
+      stateSubmitted: 'car' | 'taxi' | 'other' | undefined;
       transportMode: TransportModeType | undefined;
       line: Line | undefined;
       fromStop: Line['quays'][0] | undefined;
@@ -17,9 +17,7 @@ export const fetchMachine = setup({
       date: string;
       plannedDepartureTime: string;
       kilometersDriven: string;
-      reasonForTransportFailure:
-        | { id: string; name: TranslatedString }
-        | undefined;
+      reasonForTransportFailure: ReasonForTransportFailure | undefined;
       feedback: string;
       firstName: string;
       lastName: string;
@@ -46,154 +44,89 @@ export const fetchMachine = setup({
     setIsBankAccountForeign: assign({
       isBankAccountForeign: ({ context }) => !context.isBankAccountForeign,
     }),
-    setTransportMode: assign({
-      transportMode: ({ event }) =>
-        (
-          event as {
-            type: 'SET_TRANSPORT_MODE';
-            transportMode: TransportModeType;
-          }
-        ).transportMode,
-    }),
-    setLine: assign({
-      line: ({ event }) => (event as { type: 'SET_LINE'; line: Line }).line,
-    }),
-    setFromStop: assign({
-      fromStop: ({ event }) =>
-        (
-          event as {
-            type: 'SET_FROM_STOP';
-            fromStop: Line['quays'][0];
-          }
-        ).fromStop,
-    }),
-    setToStop: assign({
-      toStop: ({ event }) =>
-        (
-          event as {
-            type: 'SET_TO_STOP';
-            toStop: Line['quays'][0];
-          }
-        ).toStop,
-    }),
-    setDate: assign({
-      date: ({ event }) =>
-        (
-          event as {
-            type: 'SET_DATE';
-            date: string;
-          }
-        ).date,
-    }),
-    setPlannedDepartureTime: assign({
-      plannedDepartureTime: ({ event }) =>
-        (
-          event as {
-            type: 'SET_PLANNED_DEPARTURE_TIME';
-            plannedDepartureTime: string;
-          }
-        ).plannedDepartureTime,
+    setStateSubmitted: assign({
+      stateSubmitted: ({ event }) => {
+        switch (event.type) {
+          case 'TAXI':
+            return 'taxi';
+          case 'CAR':
+            return 'car';
+          case 'OTHER':
+            return 'other';
+          default:
+            return undefined; // In case of an unexpected event type
+        }
+      },
     }),
 
-    setReasonForTransportFailiure: assign({
-      reasonForTransportFailure: ({ event }) =>
-        (
-          event as {
-            type: 'SET_REASON_FOR_TRANSPORT_FAILIURE';
-            reasonForTransportFailure: { id: string; name: TranslatedString };
-          }
-        ).reasonForTransportFailure,
-    }),
-
-    setKilometersDriven: assign({
-      kilometersDriven: ({ event }) =>
-        (event as { type: 'SET_KILOMETRES_DRIVEN'; kilometersDriven: string })
-          .kilometersDriven,
-    }),
-
-    setFeedback: assign({
-      feedback: ({ event }) =>
-        (event as { type: 'SET_FEEDBACK'; feedback: string }).feedback,
-    }),
-    setFirstName: assign({
-      firstName: ({ event }) =>
-        (event as { type: 'SET_FIRSTNAME'; firstName: string }).firstName,
-    }),
-    setLastName: assign({
-      lastName: ({ event }) =>
-        (event as { type: 'SET_LASTNAME'; lastName: string }).lastName,
-    }),
-    setAddress: assign({
-      address: ({ event }) =>
-        (event as { type: 'SET_ADDRESS'; address: string }).address,
-    }),
-    setPostalCode: assign({
-      postalCode: ({ event }) =>
-        (event as { type: 'SET_POSTAL_CODE'; postalCode: string }).postalCode,
-    }),
-    setCity: assign({
-      city: ({ event }) => (event as { type: 'SET_CITY'; city: string }).city,
-    }),
-    setEmail: assign({
-      email: ({ event }) =>
-        (event as { type: 'SET_EMAIL'; email: string }).email,
-    }),
-    setPhoneNumber: assign({
-      phoneNumber: ({ event }) =>
-        (event as { type: 'SET_PHONENUMBER'; phoneNumber: string }).phoneNumber,
-    }),
-    setBankAccountNumber: assign({
-      bankAccountNumber: ({ event }) =>
-        (
-          event as {
-            type: 'SET_BANK_ACCOUNT_NUMBER';
-            bankAccountNumber: string;
-          }
-        ).bankAccountNumber,
-    }),
-    setIBAN: assign({
-      IBAN: ({ event }) => (event as { type: 'SET_IBAN'; IBAN: string }).IBAN,
-    }),
-    setSWIFT: assign({
-      SWIFT: ({ event }) =>
-        (event as { type: 'SET_SWIFT'; SWIFT: string }).SWIFT,
+    updateField: assign(({ context, event }) => {
+      if (event.type === 'UPDATE_FIELD') {
+        const { field, value } = event;
+        return {
+          ...context,
+          [field]: value,
+        };
+      }
+      return context;
     }),
   },
   actors: {
-    callAPI: fromPromise(async ({ context }: any) => {
-      return await fetch('/api/travel-guarantee', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          transportMode: context.transportMode,
-          line: context.line,
-          fromStop: context.fromStop,
-          toStop: context.toStop,
-          date: context.date,
-          plannedDepartureTime: context.plannedDepartureTime,
-          reasonForTransportFailure: context.reasonForTransportFailure,
-          additionalInfo: context.feedback,
-          firstName: context.firstName,
-          lastName: context.lastName,
-          address: context.address,
-          postalCode: context.postalCode,
-          city: context.city,
-          email: context.email,
-          phoneNumber: context.phoneNumber,
-          bankAccountNumber: context.bankAccount,
-          IBAN: context.IBAN,
-          SWIFT: context.SWIFT,
-          kilometersDriven: context.kilometersDriven,
-          fromAddress: context.fromAddress,
-          toAddress: context.toAddress,
-        }),
-      }).then((response) => {
-        // throw an error to force onError
-        if (!response.ok) throw new Error('Failed to call API');
-      });
-    }),
+    callAPI: fromPromise(
+      async ({
+        transportMode,
+        line,
+        fromStop,
+        toStop,
+        date,
+        plannedDepartureTime,
+        kilometersDriven: kilometersDriven,
+        reasonForTransportFailure,
+        feedback,
+        firstName,
+        lastName,
+        address,
+        postalCode,
+        city,
+        email,
+        phoneNumber,
+        bankAccountNumber,
+        IBAN,
+        SWIFT,
+      }: any) => {
+        return await fetch('/api/travel-guarantee', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            transportMode: transportMode,
+            line: line,
+            fromStop: fromStop,
+            toStop: toStop,
+            date: date,
+            plannedDepartureTime: plannedDepartureTime,
+            reasonForTransportFailure: reasonForTransportFailure,
+            additionalInfo: feedback,
+            firstName: firstName,
+            lastName: lastName,
+            address: address,
+            postalCode: postalCode,
+            city: city,
+            email: email,
+            phoneNumber: phoneNumber,
+            bankAccountNumber: bankAccountNumber,
+            IBAN: IBAN,
+            SWIFT: SWIFT,
+            kilometersDriven: kilometersDriven,
+          }),
+        }).then((response) => {
+          console.log('respons: ', response);
+          // throw an error to force onError
+          if (!response.ok) throw new Error('Failed to call API');
+          return response.ok;
+        });
+      },
+    ),
   },
 }).createMachine({
   /** @xstate-layout N4IgpgJg5mDOIC5QAoC2BDAxgCwJYDswBKAOlwgBswBiAZQFUAhAWQEkAVAbQAYBdRUAAcA9rFwAXXMPwCQAD0QBGAGzcSAZgCsATnXLlAJi2rN6gDQgAnkoDsmktxsAObstN7FN5eoC+Pi2hYeISk5FTU7ADyAOLRADIAojz8SCAiYpLSsgoIACyKJNpFxSUlFtYIRvZO6rUqBg3c3Fp+ARg4BMRklDTsAIIAGqzJsukSUjKpOSpqWrr6VSbmVojqueoaBk6K3AbOqjYGyq0ggR0hJJDj+FB0TGxcfKOi41lTiJqaBdyKmoaKTmcTkB2nKtnsjhcblqyk83hOZ2CXSukhudAS7AA+uwAEp9ABytAACpEcVjmJEACJJJ6pMaZSagHJ2NSKXKudnqGw7TSAsGVdTaEhOYpOTQ2ZqmZS5BHtJGkCjCdAQAi3CDSMBkfAAN2EAGtNYjOgqlSqbggCLrMOgGckRnSXgzsh8vg5fv9AcCQfztiRcsVnHpuO4bLKgsaSIrlarqGAAE5x4RxkiCCg2gBmSdQJCNFyjZqgFp1wmttr49qEjomzoQn2+7oMAKB3pWlQM9nF20cn20nj8-hA+GEEDgslzxGeGWr7wQAFplA4mkvl8ubPz52Hzl0wmBJ69GfIPkLcgZtMpudovmze6DW7UbH7FGzT9wnA12TKB+PSCjVXunTO2wPq47anmK3DaGKuT8msBS5M4EFit4Ng2OoBifm04Z5qaf4OlObxMqsmi5H6TjrGRhwoV4wb8r8BgOAh5FNCo56bvKJCwAArpgmBwPAeH7jWQEOIYmhgZoiHEbRzQkKY2jBl83C5GKnihv2QA */
@@ -201,6 +134,7 @@ export const fetchMachine = setup({
   context: {
     isIntialAgreementChecked: false,
     isBankAccountForeign: false,
+    stateSubmitted: undefined,
     transportMode: undefined,
     line: undefined,
     fromStop: undefined,
@@ -235,41 +169,15 @@ export const fetchMachine = setup({
         OTHER: {
           target: 'editing.other',
         },
-        SET_FEEDBACK: {
-          actions: 'setFeedback',
-        },
-        SET_FIRSTNAME: {
-          actions: 'setFirstName',
-        },
-        SET_LASTNAME: {
-          actions: 'setLastName',
-        },
-        SET_EMAIL: {
-          actions: 'setEmail',
-        },
-        SET_ADDRESS: {
-          actions: 'setAddress',
-        },
-        SET_POSTAL_CODE: {
-          actions: 'setPostalCode',
-        },
-        SET_CITY: {
-          actions: 'setCity',
-        },
-        SET_PHONENUMBER: {
-          actions: 'setPhoneNumber',
-        },
-        SET_BANK_ACCOUNT_NUMBER: {
-          actions: 'setBankAccountNumber',
-        },
-        SET_IBAN: {
-          actions: 'setIBAN',
-        },
-        SET_SWIFT: {
-          actions: 'setSWIFT',
-        },
         SET_BANK_ACCOUNT_FOREIGN: {
           actions: 'setIsBankAccountForeign',
+        },
+        UPDATE_FIELD: {
+          actions: 'updateField',
+        },
+        VALIDATE: {
+          guard: 'validateInputs',
+          target: 'editing.readyForSubmit',
         },
       },
 
@@ -283,57 +191,17 @@ export const fetchMachine = setup({
         },
 
         taxi: {
-          on: {
-            SET_TRANSPORT_MODE: {
-              actions: 'setTransportMode',
-            },
-            SET_LINE: {
-              actions: 'setLine',
-            },
-            SET_FROM_STOP: {
-              actions: 'setFromStop',
-            },
-            SET_TO_STOP: {
-              actions: 'setToStop',
-            },
-            SET_DATE: {
-              actions: 'setDate',
-            },
-            SET_PLANNED_DEPARTURE_TIME: {
-              actions: 'setPlannedDepartureTime',
-            },
-            SET_REASON_FOR_TRANSPORT_FAILIURE: {
-              actions: 'setReasonForTransportFailiure',
-            },
-            VALIDATE: {
-              guard: 'validateInputs',
-              target: 'readyForSubmitt',
-            },
-          },
-
+          entry: 'setStateSubmitted',
           tags: ['taxi', 'selected'],
         },
 
         car: {
-          on: {
-            SET_KILOMETRES_DRIVEN: {
-              actions: 'setKilometersDriven',
-            },
-            VALIDATE: {
-              guard: 'validateInputs',
-              target: 'readyForSubmitt',
-            },
-          },
+          entry: 'setStateSubmitted',
           tags: ['car', 'selected'],
         },
 
         other: {
-          on: {
-            VALIDATE: {
-              guard: 'validateInputs',
-              target: 'readyForSubmitt',
-            },
-          },
+          entry: 'setStateSubmitted',
           tags: ['other', 'selected'],
         },
         readyForSubmit: {
@@ -349,7 +217,27 @@ export const fetchMachine = setup({
     submitting: {
       invoke: {
         src: 'callAPI',
-        input: ({ context }) => ({ context }),
+        input: ({ context }) => ({
+          transportMode: context.transportMode,
+          line: context.line,
+          fromStop: context.fromStop,
+          toStop: context.toStop,
+          date: context.date,
+          plannedDepartureTime: context.plannedDepartureTime,
+          kilometersDriven: context.kilometersDriven,
+          reasonForTransportFailure: context.reasonForTransportFailure,
+          additionalInfo: context.feedback,
+          firstname: context.firstName,
+          lastname: context.lastName,
+          address: context.address,
+          postalCode: context.postalCode,
+          city: context.city,
+          email: context.email,
+          phoneNumber: context.phoneNumber,
+          bankAccountNumber: context.bankAccountNumber,
+          IBAN: context.IBAN,
+          SWIFT: context.SWIFT,
+        }),
 
         onDone: {
           target: 'success',

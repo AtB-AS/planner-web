@@ -22,6 +22,7 @@ const addErrorMessage = (
 export const formInputValidator = (context: any) => {
   const inputErrorMessages: InputErrorMessages = {};
 
+  console.log('context: ', context);
   // List of fields and their corresponding error messages
   const fieldsToValidate = [
     {
@@ -76,11 +77,6 @@ export const formInputValidator = (context: any) => {
         PageText.Contact.inputFields.reasonForTransportFailure.errorMessages
           .empty,
     },
-    {
-      field: 'kilometersDriven',
-      errorMessage:
-        PageText.Contact.inputFields.kilometersDriven.errorMessages.empty,
-    },
   ];
 
   // Iterate over each field and apply validation
@@ -98,9 +94,20 @@ export const formInputValidator = (context: any) => {
     );
   }
 
+  // Special case for kilometersDriven
+  if (!context.kilometersDriven && context.stateSubmitted === 'car') {
+    addErrorMessage(
+      context,
+      'kilometersDriven',
+      inputErrorMessages,
+      PageText.Contact.inputFields.kilometersDriven.errorMessages.empty,
+    );
+  }
+
   // Populate context.errorMessages
   context.errorMessages = inputErrorMessages;
 
+  console.log(inputErrorMessages['kilometersDriven']);
   // Return false if any error
-  return Object.keys(inputErrorMessages).length > 0 ? false : true;
+  return Object.keys(context.errorMessages).length > 0 ? false : true;
 };

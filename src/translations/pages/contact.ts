@@ -1,3 +1,4 @@
+import { ReasonForTransportFailure } from '@atb/page-modules/contact/machineEvents';
 import { translation as _ } from '@atb/translations/commons';
 
 export const Contact = {
@@ -660,7 +661,7 @@ export const Contact = {
             'Feil informasjon i app eller reiseplanlegger',
           ),
         },
-      ],
+      ] as ReasonForTransportFailure[],
       errorMessages: {
         empty: _('Velg årsak', 'Select reason', 'Vel årsak'),
       },
