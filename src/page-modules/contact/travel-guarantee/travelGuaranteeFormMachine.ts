@@ -4,33 +4,38 @@ import { Line } from '../server/journey-planner/validators';
 import { machineEvents, ReasonForTransportFailure } from '../machineEvents';
 import { InputErrorMessages, formInputValidator } from '../formInputValidator';
 
+type APIParams = {
+  transportMode: TransportModeType | undefined;
+  line: Line | undefined;
+  fromStop: Line['quays'][0] | undefined;
+  toStop: Line['quays'][0] | undefined;
+  date: string;
+  plannedDepartureTime: string;
+  kilometersDriven: string;
+  reasonForTransportFailure: ReasonForTransportFailure | undefined;
+  feedback: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  address: string;
+  postalCode: string;
+  city: string;
+  phoneNumber: string;
+  bankAccountNumber: string;
+  IBAN: string;
+  SWIFT: string;
+};
+
+type ContextProps = {
+  isIntialAgreementChecked: boolean;
+  hasInternationalBankAccount: boolean;
+  travelGuaranteeStateWhenSubmitted: 'car' | 'taxi' | 'other' | undefined;
+  errorMessages: InputErrorMessages;
+} & APIParams;
+
 export const fetchMachine = setup({
   types: {
-    context: {} as {
-      isIntialAgreementChecked: boolean;
-      isBankAccountForeign: boolean;
-      stateSubmitted: 'car' | 'taxi' | 'other' | undefined;
-      transportMode: TransportModeType | undefined;
-      line: Line | undefined;
-      fromStop: Line['quays'][0] | undefined;
-      toStop: Line['quays'][0] | undefined;
-      date: string;
-      plannedDepartureTime: string;
-      kilometersDriven: string;
-      reasonForTransportFailure: ReasonForTransportFailure | undefined;
-      feedback: string;
-      firstName: string;
-      lastName: string;
-      email: string;
-      address: string;
-      postalCode: string;
-      phoneNumber: string;
-      city: string;
-      bankAccountNumber: string;
-      IBAN: string;
-      SWIFT: string;
-      errorMessages: InputErrorMessages;
-    },
+    context: {} as ContextProps,
     events: machineEvents,
   },
   guards: {
@@ -42,10 +47,11 @@ export const fetchMachine = setup({
         !context.isIntialAgreementChecked,
     }),
     setIsBankAccountForeign: assign({
-      isBankAccountForeign: ({ context }) => !context.isBankAccountForeign,
+      hasInternationalBankAccount: ({ context }) =>
+        !context.hasInternationalBankAccount,
     }),
     setStateSubmitted: assign({
-      stateSubmitted: ({ event }) => {
+      travelGuaranteeStateWhenSubmitted: ({ event }) => {
         switch (event.type) {
           case 'TAXI':
             return 'taxi';
@@ -77,26 +83,30 @@ export const fetchMachine = setup({
   actors: {
     callAPI: fromPromise(
       async ({
-        transportMode,
-        line,
-        fromStop,
-        toStop,
-        date,
-        plannedDepartureTime,
-        kilometersDriven: kilometersDriven,
-        reasonForTransportFailure,
-        feedback,
-        firstName,
-        lastName,
-        address,
-        postalCode,
-        city,
-        email,
-        phoneNumber,
-        bankAccountNumber,
-        IBAN,
-        SWIFT,
-      }: any) => {
+        input: {
+          transportMode,
+          line,
+          fromStop,
+          toStop,
+          date,
+          plannedDepartureTime,
+          kilometersDriven: kilometersDriven,
+          reasonForTransportFailure,
+          feedback,
+          firstName,
+          lastName,
+          address,
+          postalCode,
+          city,
+          email,
+          phoneNumber,
+          bankAccountNumber,
+          IBAN,
+          SWIFT,
+        },
+      }: {
+        input: APIParams;
+      }) => {
         return await fetch('/contact/travel-guarantee', {
           method: 'POST',
           body: JSON.stringify({
@@ -133,8 +143,8 @@ export const fetchMachine = setup({
   initial: 'editing',
   context: {
     isIntialAgreementChecked: false,
-    isBankAccountForeign: false,
-    stateSubmitted: undefined,
+    hasInternationalBankAccount: false,
+    travelGuaranteeStateWhenSubmitted: undefined,
     transportMode: undefined,
     line: undefined,
     fromStop: undefined,
@@ -226,9 +236,9 @@ export const fetchMachine = setup({
           plannedDepartureTime: context.plannedDepartureTime,
           kilometersDriven: context.kilometersDriven,
           reasonForTransportFailure: context.reasonForTransportFailure,
-          additionalInfo: context.feedback,
-          firstname: context.firstName,
-          lastname: context.lastName,
+          feedback: context.feedback,
+          firstName: context.firstName,
+          lastName: context.lastName,
           address: context.address,
           postalCode: context.postalCode,
           city: context.city,
@@ -243,7 +253,9 @@ export const fetchMachine = setup({
           target: 'success',
         },
 
-        onError: 'editing',
+        onError: {
+          target: 'editing',
+        },
       },
     },
 

@@ -19,14 +19,14 @@ export const RefundForm = () => {
   const { getLinesByMode, getQuaysByLine } = useLines();
   const [state, send] = useMachine(fetchMachine);
 
-  // Local state to force re-render to display errors.
+  //// Local state to force re-render to display errors.
   const [displayErrorsDummyState, setDisplayErrorsDummyState] = useState(true);
 
   const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     send({ type: 'VALIDATE' });
 
-    //// Force a re-render.
+    // Force a re-render.
     if (Object.keys(state.context.errorMessages).length > 0) {
       setDisplayErrorsDummyState(!displayErrorsDummyState);
     }
@@ -367,7 +367,7 @@ export const RefundForm = () => {
               }
             />
 
-            {!state.context.isBankAccountForeign && (
+            {!state.context.hasInternationalBankAccount && (
               <Input
                 label={
                   PageText.Contact.inputFields.bankAccountNumber.notForeignLabel
@@ -391,11 +391,11 @@ export const RefundForm = () => {
 
             <Checkbox
               label={t(PageText.Contact.inputFields.bankAccountNumber.checkbox)}
-              checked={state.context.isBankAccountForeign}
+              checked={state.context.hasInternationalBankAccount}
               onChange={() => send({ type: 'SET_BANK_ACCOUNT_FOREIGN' })}
             />
 
-            {state.context.isBankAccountForeign && (
+            {state.context.hasInternationalBankAccount && (
               <div>
                 <Input
                   label={PageText.Contact.inputFields.bankAccountNumber.IBAN}

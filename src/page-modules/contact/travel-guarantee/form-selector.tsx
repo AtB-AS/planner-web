@@ -25,18 +25,19 @@ export const FormSelector = ({ state, send }: FormSelectorProps) => {
             )}
           </Typo.p>
 
-          <Typo.h3 textType="heading__component">
+          <Typo.p textType="body__primary">
             {t(
               PageText.Contact.travelGuarantee.layoutAgreement.ticketRefundText,
             )}
-          </Typo.h3>
+          </Typo.p>
 
-          <h4>
+          <Typo.p textType="heading__component">
             {t(
               PageText.Contact.travelGuarantee.layoutAgreement
                 .travelGuaranteeExceptions.label,
             )}
-          </h4>
+          </Typo.p>
+
           <Typo.p textType="body__primary">
             {t(
               PageText.Contact.travelGuarantee.layoutAgreement
@@ -53,7 +54,9 @@ export const FormSelector = ({ state, send }: FormSelectorProps) => {
           <ul className={style.rules__list}>
             {PageText.Contact.travelGuarantee.layoutAgreement.travelGuaranteeExceptions.examples.map(
               (example: TranslatedString, index: number) => (
-                <li key={index}>{t(example)}</li>
+                <li key={index}>
+                  <Typo.p textType="body__primary">{t(example)}</Typo.p>
+                </li>
               ),
             )}
           </ul>

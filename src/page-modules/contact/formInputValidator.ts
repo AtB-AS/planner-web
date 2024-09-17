@@ -21,7 +21,9 @@ const addErrorMessage = (
 };
 
 // Helper function to set fields in travel guarantee machine, which only uses on statemachine for all three formes.
-const setFieldsToValidateSpecialCase = (stateSubmitted: string) => {
+const setFieldsToValidateSpecialCase = (
+  travelGuaranteeStateWhenSubmitted: string,
+) => {
   const commonFields = [
     {
       field: 'firstName',
@@ -54,7 +56,7 @@ const setFieldsToValidateSpecialCase = (stateSubmitted: string) => {
     },
   ];
 
-  switch (stateSubmitted) {
+  switch (travelGuaranteeStateWhenSubmitted) {
     case 'car':
       commonFields.push(
         {
@@ -124,9 +126,9 @@ export const formInputValidator = (context: any) => {
 
   let fieldsToValidate;
 
-  if (context.stateSubmitted) {
+  if (context.travelGuaranteeStateWhenSubmitted) {
     fieldsToValidate = setFieldsToValidateSpecialCase(
-      String(context.stateSubmitted),
+      String(context.travelGuaranteeStateWhenSubmitted),
     );
 
     // Iterate over each field and apply validation
