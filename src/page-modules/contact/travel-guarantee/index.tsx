@@ -19,16 +19,16 @@ export const RefundForm = () => {
   const { getLinesByMode, getQuaysByLine } = useLines();
   const [state, send] = useMachine(fetchMachine);
 
-  //// Local state to force re-render to display errors.
-  const [displayErrorsDummyState, setDisplayErrorsDummyState] = useState(true);
+  // Local state to force re-render to display errors.
+  const [forsceRerender, setForsceRerender] = useState(false);
 
   const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     send({ type: 'VALIDATE' });
 
-    // Force a re-render.
+    // Force a re-render with dummy state.
     if (Object.keys(state.context.errorMessages).length > 0) {
-      setDisplayErrorsDummyState(!displayErrorsDummyState);
+      setForsceRerender(!forsceRerender);
     }
   };
 
