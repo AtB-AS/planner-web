@@ -5,9 +5,9 @@ import { useDarkMode } from '@atb/modules/theme';
 import Image from 'next/image';
 import { getOrgData } from '@atb/modules/org-data';
 import { MonoIcon } from '@atb/components/icon';
-import { shouldShowContactPage } from '@atb/page-modules/contact/utils';
 import { andIf } from '@atb/utils/css';
 import { useRouter } from 'next/router';
+import { shouldShowContactPage } from '@atb/page-modules/contact';
 
 export default function PageHeader() {
   const { t } = useTranslation();
