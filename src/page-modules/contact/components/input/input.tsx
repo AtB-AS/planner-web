@@ -7,14 +7,12 @@ import ErrorMessage from './error-message';
 
 type InputProps = {
   label: TranslatedString;
-  description?: TranslatedString;
   errorMessage?: TranslatedString;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 } & JSX.IntrinsicElements['input'];
 
 export const Input = ({
   label,
-  description,
   errorMessage,
   type,
   name,
