@@ -3,7 +3,7 @@ import { addErrorMessage, InputErrorMessages } from './utils';
 
 export const commonFieldValidator = (context: any) => {
   const inputErrorMessages: InputErrorMessages = {};
-  const fieldsToValidate = [
+  const inputFieldRules = [
     {
       field: 'firstName',
       validCondition: context.firstName,
@@ -36,13 +36,7 @@ export const commonFieldValidator = (context: any) => {
     },
     {
       field: 'phoneNumber',
-      validCondition: context.validCondition,
-      errorMessage:
-        PageText.Contact.inputFields.phoneNumber.errorMessages.empty,
-    },
-    {
-      field: 'phoneNumber',
-      validCondition: context.validCondition,
+      validCondition: context.phoneNumber,
       errorMessage:
         PageText.Contact.inputFields.phoneNumber.errorMessages.empty,
     },
@@ -101,7 +95,7 @@ export const commonFieldValidator = (context: any) => {
   ];
 
   // Iterate over each field and apply validation
-  fieldsToValidate.forEach(({ field, validCondition, errorMessage }) =>
+  inputFieldRules.forEach(({ field, validCondition, errorMessage }) =>
     addErrorMessage(
       context,
       field,

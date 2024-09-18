@@ -1,9 +1,9 @@
 import { PageText } from '@atb/translations';
-import { addErrorMessage, InputErrorMessages } from './utils';
+import { addErrorMessage, InputErrorMessages } from '../utils';
 
 export const travelGuaranteeFieldValidator = (context: any) => {
   const inputErrorMessages: InputErrorMessages = {};
-  const fieldsToValidate = [
+  const inputFieldRules = [
     {
       field: 'firstName',
       validCondition: context.firstName,
@@ -108,7 +108,7 @@ export const travelGuaranteeFieldValidator = (context: any) => {
   ];
 
   // Iterate over each field and apply validation
-  fieldsToValidate.forEach(({ field, validCondition, errorMessage }) =>
+  inputFieldRules.forEach(({ field, validCondition, errorMessage }) =>
     addErrorMessage(
       context,
       field,
