@@ -15,45 +15,18 @@ export const FeeComplaintForm = () => {
   const { t } = useTranslation();
   const [state, send] = useMachine(formMachine);
 
+  // Local state to force re-render to display errors.
+  const [forceRerender, setForceRerender] = useState(false);
+
   const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
+    send({ type: 'VALIDATE' });
 
-    if (!state.matches('submitting')) return;
-
-    const response = await fetch('/api/contact/ticket-control', {
-      method: 'POST',
-      body: JSON.stringify({
-        feeNumber: state.context.feeNumber,
-        appPhoneNumber: state.context.registeredMobile,
-        customerNumber: state.context.customerNumber,
-        travelCardNumber: state.context.travelcard,
-        additionalInfo: state.context.feedback,
-        firstName: state.context.firstname,
-        lastName: state.context.lastname,
-        address: state.context.address,
-        postalCode: state.context.postalCode,
-        city: state.context.city,
-        email: state.context.email,
-        phoneNumber: state.context.phonenumber,
-        bankAccountNumber: state.context.bankAccount,
-        IBAN: state.context.iban,
-        SWIFT: state.context.swift,
-      }),
-    });
-
-    if (response.ok) {
-      const res = await response.json();
-      send({ type: 'RESOLVE' });
-    } else {
-      send({ type: 'FALIURE' });
+    // Force a re-render with dummy state.
+    if (Object.keys(state.context.errorMessages).length > 0) {
+      setForceRerender(!forceRerender);
     }
   };
-
-  const agreesFirstAgreement = state.hasTag('secondAgreement');
-  const agreesSecondAgreement = state.hasTag('editing');
-  const isAppSelected = state.context.ticketStorageMode === 'App';
-  const isTravelcardSelected = state.context.ticketStorageMode === 'Travelcard';
-  const [isBankAccountForeign, setBankAccountForeign] = useState(false);
 
   const FirstAgreement = () => {
     return (
@@ -87,14 +60,16 @@ export const FeeComplaintForm = () => {
           label={t(
             PageText.Contact.ticketControl.feeComplaint.firstAgreement.checkbox,
           )}
-          checked={agreesFirstAgreement}
-          onChange={() =>
+          checked={state.context.agreesFirstAgreement}
+          onChange={(value) => {
+            console.log(state.context.agreesFirstAgreement);
+            console.log('value:', value);
             send({
-              type: !agreesFirstAgreement
-                ? 'agreeFirstAgreement'
-                : 'disagreeFirstAgreement',
-            })
-          }
+              type: 'TOOGLE_AGREEMENT',
+              field: 'agreesFirstAgreement',
+              value: value, //!state.context.agreesFirstAgreement,
+            });
+          }}
         />
       </SectionCard>
     );
@@ -125,12 +100,12 @@ export const FeeComplaintForm = () => {
             PageText.Contact.ticketControl.feeComplaint.secondAgreement
               .checkbox,
           )}
-          checked={agreesSecondAgreement}
+          checked={state.context.agreesSecondAgreement}
           onChange={() =>
             send({
-              type: !agreesSecondAgreement
-                ? 'agreeSecondAgreement'
-                : 'disagreeSecondAgreement',
+              type: 'TOOGLE_AGREEMENT',
+              field: 'agreesSecondAgreement',
+              value: !state.context.agreesSecondAgreement,
             })
           }
         />
@@ -138,72 +113,13 @@ export const FeeComplaintForm = () => {
     );
   };
 
-  const isFeeNumberEmpty = state.matches({
-    editing: { feeNumber: { error: 'emptyFeeNumber' } },
-  });
-
-  const undefinedTicketStoreageMode = state.matches({
-    editing: {
-      ticketStorageMode: { error: 'undefinedTicketStoreageMode' },
-    },
-  });
-  const isRegisteredMobileUndefined = state.matches({
-    editing: {
-      ticketStorageMode: { error: 'undefinedRegisteredMobile' },
-    },
-  });
-  const isCustomerNumberUndefined = state.matches({
-    editing: {
-      ticketStorageMode: { error: 'undefinedCustomerNumber' },
-    },
-  });
-  const isTravelcardUndefined = state.matches({
-    editing: {
-      ticketStorageMode: { error: 'undefinedTravelcard' },
-    },
-  });
-
-  const isFeedbackEmpty = state.matches({
-    editing: { feedback: { error: 'emptyFeedback' } },
-  });
-
-  const isFirstnameEmpty = state.matches({
-    editing: { firstname: { error: 'emptyFirstname' } },
-  });
-
-  const isLastnameEmpty = state.matches({
-    editing: { lastname: { error: 'emptyLastname' } },
-  });
-
-  const isAddressEmpty = state.matches({
-    editing: { address: { error: 'emptyAddress' } },
-  });
-
-  const isPostalCodeEmpty = state.matches({
-    editing: { postalCode: { error: 'emptyPostalCode' } },
-  });
-
-  const isCityEmpty = state.matches({
-    editing: { city: { error: 'emptyCity' } },
-  });
-
-  const isPhonenumberEmpty = state.matches({
-    editing: { phonenumber: { error: 'emptyPhonenumber' } },
-  });
-
-  const isEmailEmpty = state.matches({
-    editing: { email: { error: 'emptyEmail' } },
-  });
-  const isBankAccountEmpty = state.matches({
-    editing: { bankAccount: { error: 'emptyBankAccount' } },
-  });
-
   return (
     <div>
-      {state.hasTag('firstAgreement') && <FirstAgreement />}
-      {state.hasTag('secondAgreement') && <SecondAgreement />}
-      {state.hasTag('editing') && (
+      <FirstAgreement />
+      {state.context.agreesFirstAgreement && <SecondAgreement />}
+      {state.context.agreesSecondAgreement && (
         <form onSubmit={onSubmit}>
+          {/*
           <SectionCard
             title={PageText.Contact.ticketControl.feeComplaint.title}
           >
@@ -555,8 +471,11 @@ export const FeeComplaintForm = () => {
             buttonProps={{ type: 'submit' }}
             onClick={() => send({ type: 'SUBMIT' })}
           />
+          */}
         </form>
       )}
     </div>
   );
 };
+
+export default FeeComplaintForm;

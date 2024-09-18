@@ -6,12 +6,13 @@ export type ReasonForTransportFailure = { id: string; name: TranslatedString };
 
 export const machineEvents = {} as
   | { type: 'TOGGLE' }
-  | { type: 'TAXI' }
-  | { type: 'CAR' }
-  | { type: 'OTHER' }
   | { type: 'VALIDATE' }
   | { type: 'SET_BANK_ACCOUNT_FOREIGN' }
-  | { type: 'SET_STATE_SUBMITTED'; stateSubmitted: string | undefined }
+  | {
+      type: 'TOOGLE_AGREEMENT';
+      field: 'agreesFirstAgreement' | 'agreesSecondAgreement';
+      value: boolean;
+    }
   | {
       type: 'UPDATE_FIELD';
       field:
@@ -34,7 +35,10 @@ export const machineEvents = {} as
         | 'city'
         | 'bankAccountNumber'
         | 'IBAN'
-        | 'SWIFT';
+        | 'SWIFT'
+        | 'appPhoneNumber'
+        | 'customerNumber'
+        | 'travelCardNumber';
       value:
         | string
         | number
@@ -42,4 +46,10 @@ export const machineEvents = {} as
         | Line['quays'][0]
         | TransportModeType
         | ReasonForTransportFailure;
-    };
+    }
+
+  // travel-guarantee
+  | { type: 'TAXI' }
+  | { type: 'CAR' }
+  | { type: 'OTHER' }
+  | { type: 'SET_STATE_SUBMITTED'; stateSubmitted: string | undefined };
