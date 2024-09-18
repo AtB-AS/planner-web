@@ -1,5 +1,5 @@
 import { FormEventHandler, useState } from 'react';
-import style from '../ticket-control.module.css';
+import style from '../../contact.module.css';
 import { Button } from '@atb/components/button';
 import { Input } from '../../components/input';
 import { SectionCard } from '../../components/section-card';

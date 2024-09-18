@@ -4,24 +4,22 @@ import {
   ContactPageLayout,
   ContactPageLayoutProps,
 } from '@atb/page-modules/contact';
-import TicketControlPageLayout from '@atb/page-modules/contact/layouts/ticket-control-page-layout';
+import { RefundForm } from '@atb/page-modules/contact/travel-guarantee';
+
 import { NextPage } from 'next';
 
-export type TicketControlAndFeePageProps =
-  WithGlobalData<ContactPageLayoutProps>;
+export type TravelGuaranteePageProps = WithGlobalData<ContactPageLayoutProps>;
 
-const TicketControlAndFeePage: NextPage<TicketControlAndFeePageProps> = (
-  props,
-) => {
+const TravelGuaranteePage: NextPage<TravelGuaranteePageProps> = (props) => {
   return (
     <DefaultLayout {...props}>
       <ContactPageLayout {...props}>
-        <TicketControlPageLayout {...props} />
+        <RefundForm />
       </ContactPageLayout>
     </DefaultLayout>
   );
 };
 
-export default TicketControlAndFeePage;
+export default TravelGuaranteePage;
 
 export const getServerSideProps = withGlobalData();
