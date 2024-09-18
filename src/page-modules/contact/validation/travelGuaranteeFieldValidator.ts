@@ -121,8 +121,6 @@ export const travelGuaranteeFieldValidator = (context: any) => {
   // Populate context.errorMessages
   context.errorMessages = inputErrorMessages;
 
-  console.log(context.errorMessages);
-
   // Return false if any error
   return Object.keys(context.errorMessages).length > 0 ? false : true;
 };

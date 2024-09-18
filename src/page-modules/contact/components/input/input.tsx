@@ -21,7 +21,6 @@ export const Input = ({
   onChange,
 }: InputProps) => {
   const { t } = useTranslation();
-
   return (
     <div
       className={andIf({
