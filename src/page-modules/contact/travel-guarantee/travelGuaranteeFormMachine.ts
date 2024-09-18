@@ -50,7 +50,7 @@ export const fetchMachine = setup({
       hasInternationalBankAccount: ({ context }) =>
         !context.hasInternationalBankAccount,
     }),
-    setStateSubmitted: assign({
+    setCurrentStateWhenSubmitted: assign({
       travelGuaranteeStateWhenSubmitted: ({ event }) => {
         switch (event.type) {
           case 'TAXI':
@@ -203,17 +203,17 @@ export const fetchMachine = setup({
         },
 
         taxi: {
-          entry: ['cleanErrorMessages', 'setStateSubmitted'],
+          entry: ['cleanErrorMessages', 'setCurrentStateWhenSubmitted'],
           tags: ['taxi', 'selected'],
         },
 
         car: {
-          entry: ['cleanErrorMessages', 'setStateSubmitted'],
+          entry: ['cleanErrorMessages', 'setCurrentStateWhenSubmitted'],
           tags: ['car', 'selected'],
         },
 
         other: {
-          entry: ['cleanErrorMessages', 'setStateSubmitted'],
+          entry: ['cleanErrorMessages', 'setCurrentStateWhenSubmitted'],
           tags: ['other', 'selected'],
         },
         readyForSubmit: {

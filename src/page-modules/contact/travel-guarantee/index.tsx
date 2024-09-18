@@ -28,7 +28,7 @@ export const RefundForm = () => {
 
     // Force a re-render with dummy state.
     if (Object.keys(state.context.errorMessages).length > 0) {
-      setForsceRerender(!forsceRerender);
+      setForceRerender(!forceRerender);
     }
   };
 
