@@ -1,44 +1,27 @@
-import { FormEventHandler } from 'react';
+import { FormEventHandler, useState } from 'react';
 import { Button } from '@atb/components/button';
 import { Input } from '../../components/input';
 import { SectionCard } from '../../components/section-card';
 import { PageText, useTranslation } from '@atb/translations';
 import { useMachine } from '@xstate/react';
-import { formMachine } from './postponePaymentFormMachine';
+import { postponePaymentForm } from './postponePaymentFormMachine';
 
 export const PostponePaymentForm = () => {
   const { t } = useTranslation();
-  const [state, send] = useMachine(formMachine);
+  const [state, send] = useMachine(postponePaymentForm);
+
+  // Local state to force re-render to display errors.
+  const [forceRerender, setForceRerender] = useState(false);
 
   const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
+    send({ type: 'VALIDATE' });
 
-    if (!state.matches('submitting')) return;
-
-    const response = await fetch('/api/contact', {
-      method: 'POST',
-      body: JSON.stringify({
-        feeNumber: state.context.feeNumber,
-        invoiceNumber: state.context.invoiceNumber,
-        firstName: state.context.firstname,
-        lastName: state.context.lastname,
-        email: state.context.email,
-      }),
-    });
-
-    if (response.ok) {
-      const res = await response.json();
-      send({ type: 'RESOLVE' });
-    } else {
-      send({ type: 'FALIURE' });
+    // Force a re-render with dummy state.
+    if (Object.keys(state.context.errorMessages).length > 0) {
+      setForceRerender(!forceRerender);
     }
   };
-
-  const isFeeNumberEmpty = state.hasTag('emptyFeeNumber');
-  const isInvoiceNumberEmpty = state.hasTag('emptyInvoiceNumber');
-  const isFirstnameEmpty = state.hasTag('emptyFirstname');
-  const isLastnameEmpty = state.hasTag('emptyLastname');
-  const isEmailEmpty = state.hasTag('emptyEmail');
 
   return (
     <form onSubmit={onSubmit}>
@@ -46,101 +29,83 @@ export const PostponePaymentForm = () => {
         <p>{t(PageText.Contact.ticketControl.postponePayment.info)}</p>
 
         <Input
-          label={PageText.Contact.ticketControl.postponePayment.fee.inputlabel}
+          label={PageText.Contact.inputFields.feeNumber.label}
           type="text"
           name="feeNumber"
           value={state.context.feeNumber}
-          description={
-            PageText.Contact.ticketControl.postponePayment.fee.description
-          }
           errorMessage={
-            isFeeNumberEmpty
-              ? PageText.Contact.ticketControl.feeComplaint.fee.errorMessage
-              : undefined
+            state.context?.errorMessages['feeNumber']?.[0] || undefined
           }
           onChange={(e) =>
             send({
-              type: 'SET_FEE_NUMBER',
-              feeNumber: e.target.value,
+              type: 'UPDATE_FIELD',
+              field: 'feeNumber',
+              value: e.target.value,
             })
           }
         />
 
         <Input
-          label={
-            PageText.Contact.ticketControl.postponePayment.invoiceNumber
-              .inputlabel
-          }
+          label={PageText.Contact.inputFields.invoiceNumber.label}
           type="text"
           name="invoiceNumber"
           value={state.context.invoiceNumber}
-          description={
-            PageText.Contact.ticketControl.postponePayment.invoiceNumber
-              .description
-          }
           errorMessage={
-            isInvoiceNumberEmpty
-              ? PageText.Contact.ticketControl.postponePayment.invoiceNumber
-                  .errorMessage
-              : undefined
+            state.context?.errorMessages['invoiceNumber']?.[0] || undefined
           }
           onChange={(e) =>
             send({
-              type: 'SET_INVOICE_NUMBER',
-              invoiceNumber: e.target.value,
+              type: 'UPDATE_FIELD',
+              field: 'invoiceNumber',
+              value: e.target.value,
             })
           }
         />
       </SectionCard>
       <SectionCard title={PageText.Contact.aboutYouInfo.title}>
         <Input
-          label={PageText.Contact.aboutYouInfo.firstname}
+          label={PageText.Contact.inputFields.firstName.label}
           type="text"
-          name="firstname"
-          value={state.context.firstname}
+          name="firstName"
+          value={state.context.firstName}
           errorMessage={
-            isFirstnameEmpty
-              ? PageText.Contact.aboutYouInfo.errorMessage
-              : undefined
+            state.context?.errorMessages['firstName']?.[0] || undefined
           }
           onChange={(e) =>
             send({
-              type: 'SET_FIRSTNAME',
-              firstname: e.target.value,
+              type: 'UPDATE_FIELD',
+              field: 'firstName',
+              value: e.target.value,
             })
           }
         />
         <Input
-          label={PageText.Contact.aboutYouInfo.lastname}
+          label={PageText.Contact.inputFields.lastName.label}
           type="text"
-          name="lastname"
-          value={state.context.lastname}
+          name="lastName"
+          value={state.context.lastName}
           errorMessage={
-            isLastnameEmpty
-              ? PageText.Contact.aboutYouInfo.errorMessage
-              : undefined
+            state.context?.errorMessages['lastName']?.[0] || undefined
           }
           onChange={(e) =>
             send({
-              type: 'SET_LASTNAME',
-              lastname: e.target.value,
+              type: 'UPDATE_FIELD',
+              field: 'lastName',
+              value: e.target.value,
             })
           }
         />
         <Input
-          label={PageText.Contact.aboutYouInfo.email}
+          label={PageText.Contact.inputFields.email.label}
           type="email"
           name="email"
           value={state.context.email}
-          errorMessage={
-            isEmailEmpty
-              ? PageText.Contact.aboutYouInfo.errorMessage
-              : undefined
-          }
+          errorMessage={state.context?.errorMessages['email']?.[0] || undefined}
           onChange={(e) =>
             send({
-              type: 'SET_EMAIL',
-              email: e.target.value,
+              type: 'UPDATE_FIELD',
+              field: 'email',
+              value: e.target.value,
             })
           }
         />
@@ -149,7 +114,6 @@ export const PostponePaymentForm = () => {
         title={t(PageText.Contact.submit)}
         mode={'interactive_0--bordered'}
         buttonProps={{ type: 'submit' }}
-        onClick={() => send({ type: 'SUBMIT' })}
       />
     </form>
   );
