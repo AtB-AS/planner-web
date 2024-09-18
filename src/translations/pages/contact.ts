@@ -1,3 +1,4 @@
+import { ReasonForTransportFailure } from '@atb/page-modules/contact/machineEvents';
 import { translation as _ } from '@atb/translations/commons';
 
 export const Contact = {
@@ -301,6 +302,148 @@ export const Contact = {
   },
   travelGuarantee: {
     title: _('Reisegaranti', 'Travel guarantee', 'Reisegaranti'),
+
+    layoutAgreement: {
+      delayedRefundText: _(
+        'Ble du forsinket fordi vi ikke var i rute? Du kan ha krav på å få refundert utgifter til alternativ transport som for eksempel drosje, bil og annen kollektivtransport.',
+        'Were you delayed because we were not on schedule? You may be entitled to reimbursement for expenses related to alternative transportation such as taxi, car, and other public transportation.',
+        'Vart du forseinka fordi vi ikkje var i rute? Du kan du ha krav på å få refundert utlegg til alternativ transport som for eksempel drosje, bil og annan kollektivtransport.',
+      ),
+      ticketRefundText: _(
+        'Ønsker du refusjon av feilkjøpt eller ikke brukt billett, skal du ikke søke reisegaranti, men refusjon. Dette finner du under Billetter og app.',
+        'If you want a refund for a mistakenly purchased or unused ticket, you should not apply for travel guarantee, but rather for a refund. You can find this under Tickets and app.',
+        'Ønsker du refusjon av feilkjøpt eller ikkje brukt billett, skal du ikkje søke reisegaranti, men refusjon. Dette finn du under Billettar og app.',
+      ),
+      travelGuaranteeExceptions: {
+        label: _(
+          'I hvilke tilfeller gjelder ikke reisegarantien?',
+          'In which cases does the travel guarentee not apply?',
+          'I kva tilfelle gjeld ikkje reisegarantien?',
+        ),
+
+        minimumTimeToNextDeparture: _(
+          'Reisegarantien gjelder ikke dersom det er 20 minutter eller mindre til neste avgang i henhold til rutetabellen.',
+
+          'The travel guarantee does not apply if there are 20 minutes or less until the next departure according to the timetable.',
+          'Reisegarantien gjeld ikkje dersom det er 20 minutt eller mindre til neste avgang i følgje rutetabellen.',
+        ),
+
+        externalFactors: _(
+          'Reisegarantien gjelder heller ikke hvis forsinkelsen eller innstillingen skyldes forhold utenfor kontrollen til FRAM eller operatøren. Dette inkluderer situasjoner som (for eksempel):',
+          'The travel guarantee also does not apply if the delay or cancellation is due to circumstances beyond the control of FRAM or the operator. These are cases such as (for example):',
+          'Reisegarantien gjeld heller ikkje dersom forseinkinga eller innstillinga skjer på grunn av forhold utanfor kontrollen til FRAM eller operatøren. Dette er tilfelle som (for eksempel):',
+        ),
+
+        examples: [
+          _(
+            'offentlige påbud og forbud',
+            'public orders and prohibitions',
+            'offentlege påbod og forbod',
+          ),
+          _(
+            'streik og lignende',
+            'strikes and similar situations',
+            'streik og liknande',
+          ),
+          _('naturkatastrofer', 'natural disasters', 'naturkatastrofar'),
+          _(
+            'ekstraordinære værforhold',
+            'extraordinary weather conditions',
+            'ekstraordinære verforhold',
+          ),
+          _(
+            'vegarbeid eller uforutsette problemer med kjøreveien',
+            'roadworks or unforeseen issues with the road',
+            'vegarbeid eller uførutsette problem med køyrevegen',
+          ),
+          _(
+            'større arrangementer eller andre trafikale forhold som i stor grad rammer kollektivtrafikken',
+            'major events or other traffic conditions that significantly affect public transportation',
+            'større arrangement eller andre trafikale forhold som i stor grad rammar kollektivtrafikken',
+          ),
+          _('pandemi', 'pandemic', 'pandemi'),
+        ],
+        exclusion: _(
+          'Reisegarantien omfatter heller ikke tap som følge av forsinkelsen, som for eksempel mistet tannlegetime, jobbavtale, togavgang eller flyavgang.',
+          'The travel guarantee does not cover losses resulting from the delay, such as missed dental appointments, job agreements, train departures, or flight departures.',
+          'Reisegarantien omfattar heller ikkje tap som følge av forseinkinga, som for eksempel mista tannlegetime, jobbavtale, togavgang eller flyavgang.',
+        ),
+        checkbox: _('Jeg forstår', 'I understand', 'Eg forstår'),
+      },
+    },
+
+    subPageTitles: {
+      refundTaxi: {
+        description: _(
+          'Jeg ønsker refusjon for drosje',
+          'I would like refund for taxi',
+          'Eg ønsker refusjon for drosje',
+        ),
+        info: _(
+          'Hvis du ikke kommer frem med et annet rutetilbud, refunderer vi utgifter til drosje i henhold til gjeldende regler.',
+          'If you do not provide an alternative route offer, we will refund taxi expenses according to the applicable regulations.',
+          'Viss du ikkje kjem fram med eit anna rutetilbod, refunderer vi utlegg til drosje etter gjeldande reglar.',
+        ),
+      },
+
+      refundCar: {
+        description: _(
+          'Jeg ønsker refusjon for bruk av bil',
+          'I would like refund for the use of a car',
+          'Eg ønsker refusjon for bruk av en bil',
+        ),
+        info: _(
+          'Hvis du ikke kommer frem med et annet rutetilbud, refunderer vi dokumenterte utgifter for bruk av bil. Vi betaler kilometergodtgjørelse etter statens satser. Refusjonen dekker ikke bompenger, parkering eller andre utgifter knyttet til leiebil/delbil.',
+          'If you do not provide an alternative route offer, we will refund documented expenses for the use of a car. We will pay mileage reimbursement according to the state´s rates. The refund does not cover tolls, parking, or other expenses related to rental cars/sharing cars.',
+          'Viss du ikkje kjem fram med eit anna rutetilbod, refunderer vi dokumenterte utlegg for bruk av bil. Vi betalar kilometergodtgjersle etter statens satsar. Refusjonen dekker ikkje bompengar, parkering eller andre utgifter knytt til leigebil/delebil.',
+        ),
+      },
+
+      refundOtherPublicTransport: {
+        description: _(
+          'Jeg ønsker refusjon for annen kollektivtransport',
+          'I would like a refund for other public transport',
+          'Eg ønsker refusjon for annan kollektivtransport',
+        ),
+        info: _('', '', ''),
+      },
+    },
+
+    refundTaxi: {
+      information: {
+        title: _(
+          'Informasjon fra drosjekvitteringen',
+          'Information from the taxi reciet',
+          'Informasjon frå drosjekvitteringa',
+        ),
+      },
+      aboutYourTrip: {
+        title: _(
+          'Om den planlagte reisa di',
+          'About your planed trip',
+          'Om den planlagde reisa di',
+        ),
+      },
+    },
+    refundCar: {
+      aboutTheCarTrip: {
+        title: _('Om bilturen', 'About the car trip', 'Om bilturen'),
+      },
+      aboutThePlanedTrip: {
+        title: _(
+          'Om den planlagde reisen di',
+          'About your planed trip',
+          'Om den planagde reisa di',
+        ),
+      },
+    },
+    optionalFeedback: {
+      title: _(
+        'Ønsker du å fortell oss noe mer? (valgfritt)',
+        'Do you whish to share anyting else with us? - (optional)',
+        'Ønsker du å fortelje oss noko meir? (valfritt)',
+      ),
+    },
   },
   modeOfTransport: {
     title: _(
@@ -371,4 +514,218 @@ export const Contact = {
     ),
   },
   submit: _('Send', 'Submit', 'Send'),
+
+  inputFields: {
+    firstName: {
+      label: _(
+        'Fornavn og mellomnavn',
+        'First name and middle name',
+        'Fornamn og mellomnamn',
+      ),
+      errorMessages: {
+        empty: _(
+          'Vennligst fyll ut informasjon om deg',
+          'Please provide your information',
+          'Vennligst fyll ut din informasjon',
+        ),
+      },
+    },
+
+    lastName: {
+      label: _('Etternavn', 'Lastname', 'Etternamn'),
+      errorMessages: {
+        empty: _(
+          'Vennligst fyll ut informasjon om deg',
+          'Please provide your information',
+          'Vennligst fyll ut din informasjon',
+        ),
+      },
+    },
+
+    email: {
+      label: _('E-post', 'Email', 'E-post'),
+      errorMessages: {
+        empty: _(
+          'Vennligst fyll ut informasjon om deg',
+          'Please provide your information',
+          'Vennligst fyll ut din informasjon',
+        ),
+      },
+    },
+    address: {
+      label: _('Adresse', 'Address', 'Adresse'),
+      errorMessages: {
+        empty: _(
+          'Vennligst fyll ut informasjon om deg',
+          'Please provide your information',
+          'Vennligst fyll ut din informasjon',
+        ),
+      },
+    },
+
+    postalCode: {
+      label: _('Postnummer', 'Postal code', 'Postnummar'),
+      errorMessages: {
+        empty: _(
+          'Vennligst fyll ut informasjon om deg',
+          'Please provide your information',
+          'Vennligst fyll ut din informasjon',
+        ),
+      },
+    },
+
+    city: {
+      label: _('Bosted', 'City', 'Bustad'),
+      errorMessages: {
+        empty: _(
+          'Vennligst fyll ut informasjon om deg',
+          'Please provide your information',
+          'Vennligst fyll ut din informasjon',
+        ),
+      },
+    },
+
+    phoneNumber: {
+      label: _('Telefonenummer', 'Phonenumber', 'Telefonenummar'),
+      errorMessages: {
+        empty: _(
+          'Vennligst fyll ut informasjon om deg',
+          'Please provide your information',
+          'Vennligst fyll ut din informasjon',
+        ),
+      },
+    },
+
+    bankAccountNumber: {
+      notForeignLabel: _(
+        'Bankkontonummer',
+        'Bank account number',
+        'Bankkontonummar',
+      ),
+      checkbox: _(
+        'Jeg har et utenlandsk bankkontonummer',
+        'I have a foreign bank account',
+        'Eg har eit utanlandsk bankkontonummar',
+      ),
+      IBAN: _('IBAN', 'IBAN', 'IBAN'),
+      SWIFT: _('SWIFT ', 'SWIFT ', 'SWIFT '),
+
+      errorMessages: {
+        empty: _(
+          'Vennligst fyll ut ditt bankkontonummer',
+          'Please provide your bank account',
+          'Vennligst fyll ut ditt bankkontonummar',
+        ),
+      },
+    },
+
+    transportMode: {
+      label: _('Reisemåte', 'Transport mode', 'Reisemåte'),
+      optionLabel: _(
+        'Velg reisemåte',
+        'Select transport mode',
+        'Velg reisemåte',
+      ),
+      errorMessages: {
+        empty: _('Velg reisemåte', 'Select transport mode', 'Velg reisemåte'),
+      },
+    },
+
+    line: {
+      label: _('Linje', 'Line', 'Linje'),
+      optionLabel: _('Velg linje', 'Choose line', 'Velg linje'),
+      errorMessages: {
+        empty: _('Velg linje', 'Select line', 'Velg linje'),
+      },
+    },
+
+    fromStop: {
+      label: _('Avreisested', 'Departure location', 'Avreisested'),
+      optionLabel: _(
+        'Velg avreisested',
+        'Select departure loation',
+        'Velg avreisested',
+      ),
+      errorMessages: {
+        empty: _(
+          'Velg avreisested',
+          'Select departure loation',
+          'Velg avreisested',
+        ),
+      },
+    },
+
+    toStop: {
+      label: _('Ankomststed', 'Arrival location', 'Ankomststed'),
+      optionLabel: _(
+        'Velg anskomststed',
+        'Select arrival location',
+        'Velg ankomststed',
+      ),
+      errorMessages: {
+        empty: _(
+          'Velg anskomststed',
+          'Select arrival location',
+          'Velg ankomststed',
+        ),
+      },
+    },
+    date: _('Dato', 'Date', 'Dato'),
+    plannedDepartureTime: _('Avgangstid', 'Departure time', 'Avgangstid'),
+    reasonForTransportFailure: {
+      label: _('Mulige valg', 'Options', 'Moglege val'),
+      optionLabel: _('Velg årsak', 'Select reason', 'Vel åtsak'),
+      options: [
+        {
+          id: 'late',
+          name: _('Forsinket', 'Late', 'Forseinka'),
+        },
+        {
+          id: 'cancelled',
+          name: _('Innstilt', 'Cancelled', 'Innstilt'),
+        },
+        {
+          id: 'missedNextTransport',
+          name: _(
+            'Mistet neste transportmiddel',
+            'Lost next mode of transport',
+            'Mista neste transportmiddel',
+          ),
+        },
+        {
+          id: 'didNotStopAtStop',
+          name: _(
+            'Stoppet ikke på holdeplassen',
+            'Did not stop at the stop',
+            'Stoppa ikkje på haldeplassen',
+          ),
+        },
+        {
+          id: 'incorrectAppInformation',
+          name: _(
+            'Feil informasjon i app eller reiseplanlegger',
+            'Incorrect information in app or travel planner',
+            'Feil informasjon i app eller reiseplanlegger',
+          ),
+        },
+      ] as ReasonForTransportFailure[],
+      errorMessages: {
+        empty: _('Velg årsak', 'Select reason', 'Vel årsak'),
+      },
+    },
+    kilometersDriven: {
+      label: _(
+        'Antall kjørte kilometer',
+        'Number of kilometres driven',
+        'Antall kjørte kilometer',
+      ),
+      errorMessages: {
+        empty: _(
+          'Vennligst fyll ut antall kjørte kilometer',
+          'Please provide the number of driven kilometres',
+          'Vennligst fyll ut antall kjørte kilometer',
+        ),
+      },
+    },
+  },
 };

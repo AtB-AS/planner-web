@@ -13,6 +13,7 @@ export type SelectProps<T> = {
   valueToId: (val: T) => string;
   valueToText: (val: T) => string;
   placeholder?: string;
+  disabled?: boolean;
 };
 
 export default function Select<T>({
@@ -24,6 +25,7 @@ export default function Select<T>({
   valueToId,
   valueToText,
   placeholder,
+  disabled,
 }: SelectProps<T>) {
   const id = useId();
   const showError = !!error;
@@ -45,6 +47,7 @@ export default function Select<T>({
         onChange={(e) => onChangeInternal(e.target.value)}
         value={value ? valueToId(value) : placeholder}
         className={style.select__select}
+        disabled={disabled}
       >
         {placeholder && (
           <option value={placeholder} disabled>
