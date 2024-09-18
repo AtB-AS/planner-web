@@ -46,7 +46,7 @@ export const postponePaymentForm = setup({
       }: {
         input: APIParams;
       }) => {
-        return await fetch('/contact/travel-guarantee', {
+        return await fetch('/contact/ticket-control', {
           method: 'POST',
           body: JSON.stringify({
             feeNumber: feeNumber,
