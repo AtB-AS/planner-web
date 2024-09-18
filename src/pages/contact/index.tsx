@@ -3,8 +3,8 @@ import { withGlobalData, WithGlobalData } from '@atb/layouts/global-data';
 import {
   ContactPageLayout,
   ContactPageLayoutProps,
+  shouldShowContactPage,
 } from '@atb/page-modules/contact';
-import { shouldShowContactPage } from '@atb/page-modules/contact/utils';
 import { NextPage } from 'next';
 
 export type ContactPageProps = WithGlobalData<ContactPageLayoutProps>;
