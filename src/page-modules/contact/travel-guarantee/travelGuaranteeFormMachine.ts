@@ -2,7 +2,10 @@ import { TransportModeType } from '@atb-as/config-specs';
 import { assign, fromPromise, setup } from 'xstate';
 import { Line } from '../server/journey-planner/validators';
 import { machineEvents, ReasonForTransportFailure } from '../machineEvents';
-import { InputErrorMessages, formInputValidator } from '../formInputValidator';
+import {
+  InputErrorMessages,
+  travelGuaranteeFieldValidator,
+} from '../validation';
 
 type APIParams = {
   transportMode: TransportModeType | undefined;
@@ -39,7 +42,7 @@ export const fetchMachine = setup({
     events: machineEvents,
   },
   guards: {
-    validateInputs: ({ context }) => formInputValidator(context),
+    validateInputs: ({ context }) => travelGuaranteeFieldValidator(context),
   },
   actions: {
     setIsIntialAgreementChecked: assign({
