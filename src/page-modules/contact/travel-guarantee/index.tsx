@@ -20,7 +20,7 @@ export const RefundForm = () => {
   const [state, send] = useMachine(fetchMachine);
 
   // Local state to force re-render to display errors.
-  const [forsceRerender, setForsceRerender] = useState(false);
+  const [forceRerender, setForceRerender] = useState(false);
 
   const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
