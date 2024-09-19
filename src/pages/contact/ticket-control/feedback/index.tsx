@@ -1,23 +1,16 @@
 import DefaultLayout from '@atb/layouts/default';
+import { NextPage } from 'next';
 import { withGlobalData, WithGlobalData } from '@atb/layouts/global-data';
 import {
   ContactPageLayout,
   ContactPageLayoutProps,
+  TicketControlPageLayout,
+  FeedbackForm,
 } from '@atb/page-modules/contact';
-import TicketControlPageLayout from '@atb/page-modules/contact/layouts/ticket-control-page-layout';
-import FeedbackForm from '@atb/page-modules/contact/ticket-control/feedback/feedbackForm';
 
-import { NextPage } from 'next';
+export type FeedbackPageProps = WithGlobalData<ContactPageLayoutProps>;
 
-export type TicketControlAndFeePageProps = {
-  title: string;
-};
-
-export type ContactPageProps = WithGlobalData<
-  ContactPageLayoutProps & TicketControlAndFeePageProps
->;
-
-const TicketControlAndFeePage: NextPage<ContactPageProps> = (props) => {
+const FeedbackPage: NextPage<FeedbackPageProps> = (props) => {
   return (
     <DefaultLayout {...props}>
       <ContactPageLayout {...props}>
@@ -29,6 +22,6 @@ const TicketControlAndFeePage: NextPage<ContactPageProps> = (props) => {
   );
 };
 
-export default TicketControlAndFeePage;
+export default FeedbackPage;
 
 export const getServerSideProps = withGlobalData();
