@@ -10,6 +10,7 @@ import { Checkbox } from '../../components/input/checkbox';
 import { Typo } from '@atb/components/typography';
 import { RadioInput } from '../../components/input/radio';
 import { Textarea } from '../../components/input/textarea';
+import ErrorMessage from '../../components/input/error-message';
 
 export const FeeComplaintForm = () => {
   const { t } = useTranslation();
@@ -61,15 +62,9 @@ export const FeeComplaintForm = () => {
             PageText.Contact.ticketControl.feeComplaint.firstAgreement.checkbox,
           )}
           checked={state.context.agreesFirstAgreement}
-          onChange={(value) => {
-            console.log(state.context.agreesFirstAgreement);
-            console.log('value:', value);
-            send({
-              type: 'TOOGLE_AGREEMENT',
-              field: 'agreesFirstAgreement',
-              value: value, //!state.context.agreesFirstAgreement,
-            });
-          }}
+          onChange={() =>
+            send({ type: 'TOGGLE', field: 'agreesFirstAgreement' })
+          }
         />
       </SectionCard>
     );
@@ -103,9 +98,8 @@ export const FeeComplaintForm = () => {
           checked={state.context.agreesSecondAgreement}
           onChange={() =>
             send({
-              type: 'TOOGLE_AGREEMENT',
+              type: 'TOGGLE',
               field: 'agreesSecondAgreement',
-              value: !state.context.agreesSecondAgreement,
             })
           }
         />
@@ -119,348 +113,326 @@ export const FeeComplaintForm = () => {
       {state.context.agreesFirstAgreement && <SecondAgreement />}
       {state.context.agreesSecondAgreement && (
         <form onSubmit={onSubmit}>
-          {/*
           <SectionCard
             title={PageText.Contact.ticketControl.feeComplaint.title}
           >
             <Input
-              label={PageText.Contact.ticketControl.feeComplaint.fee.inputlabel}
+              label={PageText.Contact.inputFields.feeNumber.label}
               type="text"
               name="feeNumber"
               value={state.context.feeNumber}
               errorMessage={
-                isFeeNumberEmpty
-                  ? PageText.Contact.ticketControl.feeComplaint.fee.errorMessage
-                  : undefined
+                state.context?.errorMessages['feeNumber']?.[0] || undefined
               }
               onChange={(e) =>
                 send({
-                  type: 'SET_FEE_NUMBER',
-                  feeNumber: e.target.value,
+                  type: 'UPDATE_FIELD',
+                  field: 'feeNumber',
+                  value: e.target.value,
                 })
               }
             />
 
             <Typo.h3 textType="heading__component">
-              {t(
-                PageText.Contact.ticketControl.feeComplaint.ticketStorage
-                  .question,
-              )}
+              {t(PageText.Contact.inputFields.ticketStorage.question)}
             </Typo.h3>
 
-            <div>
-              <RadioInput
-                label={t(
-                  PageText.Contact.ticketControl.feeComplaint.ticketStorage.app
-                    .title,
-                )}
-                name="ticketStorage"
-                checked={isAppSelected}
-                onChange={() =>
-                  send({
-                    type: 'SET_TICKET_STORAGE_MODE',
-                    ticketStorageMode: 'App',
-                  })
-                }
-              />
-              <RadioInput
-                label={t(
-                  PageText.Contact.ticketControl.feeComplaint.ticketStorage
-                    .travelcard.title,
-                )}
-                name="ticketStorage"
-                checked={isTravelcardSelected}
-                onChange={() =>
-                  send({
-                    type: 'SET_TICKET_STORAGE_MODE',
-                    ticketStorageMode: 'Travelcard',
-                  })
-                }
-              />
-              {undefinedTicketStoreageMode && (
-                <label className={style.feedback_label__error}>
-                  {t(
-                    PageText.Contact.ticketControl.feeComplaint.ticketStorage
-                      .errorMessage,
-                  )}
-                </label>
+            <RadioInput
+              label={t(PageText.Contact.inputFields.ticketStorage.app.title)}
+              name="isAppTicketStorageMode"
+              checked={state.context.isAppTicketStorageMode}
+              onChange={() =>
+                send({
+                  type: 'TOGGLE',
+                  field: 'isAppTicketStorageMode',
+                })
+              }
+            />
+            <RadioInput
+              label={t(
+                PageText.Contact.inputFields.ticketStorage.travelCardNumber
+                  .label,
               )}
-            </div>
+              name="isAppTicketStorageMode"
+              checked={!state.context.isAppTicketStorageMode}
+              onChange={() =>
+                send({
+                  type: 'TOGGLE',
+                  field: 'isAppTicketStorageMode',
+                })
+              }
+            />
 
-            {isAppSelected && (
+            {state.context.isAppTicketStorageMode && (
               <div>
                 <Input
                   label={
-                    PageText.Contact.ticketControl.feeComplaint.ticketStorage
-                      .app.registeredMobile.label
+                    PageText.Contact.inputFields.ticketStorage.app
+                      .appPhoneNumber.label
                   }
                   type="text"
-                  name="registeredMobile"
-                  value={state.context.registeredMobile}
-                  defaultValue={undefined}
+                  name="appPhoneNumber"
+                  value={state.context.appPhoneNumber}
                   errorMessage={
-                    isRegisteredMobileUndefined
-                      ? PageText.Contact.ticketControl.feeComplaint
-                          .ticketStorage.app.registeredMobile.errorMessage
-                      : undefined
+                    state.context?.errorMessages['appPhoneNumber']?.[0] ||
+                    undefined
                   }
                   onChange={(e) =>
                     send({
-                      type: 'SET_REGISTERED_MOBILE',
-                      registeredMobile: e.target.value,
+                      type: 'UPDATE_FIELD',
+                      field: 'appPhoneNumber',
+                      value: e.target.value,
                     })
                   }
                 />
 
                 <Input
                   label={
-                    PageText.Contact.ticketControl.feeComplaint.ticketStorage
-                      .app.customerNumber.label
+                    PageText.Contact.inputFields.ticketStorage.app
+                      .customerNumber.label
                   }
                   type="number"
                   name="customerNumber"
                   value={state.context.customerNumber}
                   defaultValue={undefined}
                   errorMessage={
-                    isCustomerNumberUndefined
-                      ? PageText.Contact.ticketControl.feeComplaint
-                          .ticketStorage.app.customerNumber.errorMessage
-                      : undefined
+                    state.context?.errorMessages['appPhoneNumber']?.[0] ||
+                    undefined
                   }
                   onChange={(e) =>
                     send({
-                      type: 'SET_CUSTOMER_NUMBER',
-                      customerNumber: e.target.value,
+                      type: 'UPDATE_FIELD',
+                      field: 'customerNumber',
+                      value: e.target.value,
                     })
                   }
                 />
               </div>
             )}
-            {isTravelcardSelected && (
+            {!state.context.isAppTicketStorageMode && (
               <Input
                 label={
-                  PageText.Contact.ticketControl.feeComplaint.ticketStorage
-                    .travelcard.title
+                  PageText.Contact.inputFields.ticketStorage.travelCardNumber
+                    .label
                 }
                 type="text"
-                name="travelcard"
-                value={state.context.travelcard}
-                defaultValue={undefined}
+                name="travelCardNumber"
+                value={state.context.travelCardNumber}
                 errorMessage={
-                  isTravelcardUndefined
-                    ? PageText.Contact.ticketControl.feeComplaint.ticketStorage
-                        .travelcard.errorMessage
-                    : undefined
+                  state.context.errorMessages['travelCardNumber']?.[0] ||
+                  undefined
                 }
                 onChange={(e) =>
                   send({
-                    type: 'SET_TRAVELCARD',
-                    travelcard: e.target.value,
+                    type: 'UPDATE_FIELD',
+                    field: 'travelCardNumber',
+                    value: e.target.value,
                   })
                 }
               />
             )}
           </SectionCard>
-          <SectionCard title={PageText.Contact.feedback.question}>
+          <SectionCard title={PageText.Contact.inputFields.feedback.title}>
             <Textarea
               value={state.context.feedback}
               onChange={(e) =>
                 send({
-                  type: 'SET_FEEDBACK',
-                  feedback: e.target.value,
+                  type: 'UPDATE_FIELD',
+                  field: 'feedback',
+                  value: e.target.value,
                 })
               }
               error={
-                isFeedbackEmpty
-                  ? t(PageText.Contact.feedback.errorMessage)
+                state.context.errorMessages['feedback']?.[0]
+                  ? t(state.context.errorMessages['feedback']?.[0]).toString()
                   : undefined
               }
             />
           </SectionCard>
+
           <SectionCard title={PageText.Contact.aboutYouInfo.title}>
             <Input
-              label={PageText.Contact.aboutYouInfo.firstname}
+              label={PageText.Contact.inputFields.firstName.label}
               type="text"
-              name="firstname"
-              value={state.context.firstname}
+              name="firstName"
+              value={state.context.firstName}
               errorMessage={
-                isFirstnameEmpty
-                  ? PageText.Contact.aboutYouInfo.errorMessage
-                  : undefined
+                state.context?.errorMessages['firstName']?.[0] || undefined
               }
               onChange={(e) =>
                 send({
-                  type: 'SET_FIRSTNAME',
-                  firstname: e.target.value,
+                  type: 'UPDATE_FIELD',
+                  field: 'firstName',
+                  value: e.target.value,
+                })
+              }
+            />
+
+            <Input
+              label={PageText.Contact.inputFields.lastName.label}
+              type="text"
+              name="lastName"
+              value={state.context.lastName}
+              errorMessage={
+                state.context?.errorMessages['lastName']?.[0] || undefined
+              }
+              onChange={(e) =>
+                send({
+                  type: 'UPDATE_FIELD',
+                  field: 'lastName',
+                  value: e.target.value,
                 })
               }
             />
             <Input
-              label={PageText.Contact.aboutYouInfo.lastname}
-              type="text"
-              name="lastname"
-              value={state.context.lastname}
-              errorMessage={
-                isLastnameEmpty
-                  ? PageText.Contact.aboutYouInfo.errorMessage
-                  : undefined
-              }
-              onChange={(e) =>
-                send({
-                  type: 'SET_LASTNAME',
-                  lastname: e.target.value,
-                })
-              }
-            />
-            <Input
-              label={PageText.Contact.aboutYouInfo.address}
+              label={PageText.Contact.inputFields.address.label}
               type="text"
               name="address"
               value={state.context.address}
               errorMessage={
-                isAddressEmpty
-                  ? PageText.Contact.aboutYouInfo.errorMessage
-                  : undefined
+                state.context?.errorMessages['address']?.[0] || undefined
               }
               onChange={(e) =>
                 send({
-                  type: 'SET_ADDRESS',
-                  address: e.target.value,
+                  type: 'UPDATE_FIELD',
+                  field: 'address',
+                  value: e.target.value,
                 })
               }
             />
             <Input
-              label={PageText.Contact.aboutYouInfo.postalCode}
-              type="text"
+              label={PageText.Contact.inputFields.postalCode.label}
+              type="number"
               name="postalCode"
               value={state.context.postalCode}
               errorMessage={
-                isPostalCodeEmpty
-                  ? PageText.Contact.aboutYouInfo.errorMessage
-                  : undefined
+                state.context?.errorMessages['postalCode']?.[0] || undefined
               }
               onChange={(e) =>
                 send({
-                  type: 'SET_POSTAL_CODE',
-                  postalCode: e.target.value,
+                  type: 'UPDATE_FIELD',
+                  field: 'postalCode',
+                  value: e.target.value,
                 })
               }
             />
             <Input
-              label={PageText.Contact.aboutYouInfo.city}
+              label={PageText.Contact.inputFields.city.label}
               type="text"
               name="city"
               value={state.context.city}
               errorMessage={
-                isCityEmpty
-                  ? PageText.Contact.aboutYouInfo.errorMessage
-                  : undefined
+                state.context?.errorMessages['city']?.[0] || undefined
               }
               onChange={(e) =>
                 send({
-                  type: 'SET_CITY',
-                  city: e.target.value,
+                  type: 'UPDATE_FIELD',
+                  field: 'city',
+                  value: e.target.value,
                 })
               }
             />
             <Input
-              label={PageText.Contact.aboutYouInfo.email}
+              label={PageText.Contact.inputFields.email.label}
               type="email"
               name="email"
               value={state.context.email}
               errorMessage={
-                isEmailEmpty
-                  ? PageText.Contact.aboutYouInfo.errorMessage
-                  : undefined
+                state.context?.errorMessages['email']?.[0] || undefined
               }
               onChange={(e) =>
                 send({
-                  type: 'SET_EMAIL',
-                  email: e.target.value,
+                  type: 'UPDATE_FIELD',
+                  field: 'email',
+                  value: e.target.value,
                 })
               }
             />
             <Input
-              label={PageText.Contact.aboutYouInfo.phonenumber}
-              type="text"
-              name="phonenumber"
-              value={state.context.phonenumber}
+              label={PageText.Contact.inputFields.phoneNumber.label}
+              type="tel"
+              name="phoneNumber"
+              value={state.context.phoneNumber}
               errorMessage={
-                isPhonenumberEmpty
-                  ? PageText.Contact.aboutYouInfo.errorMessage
-                  : undefined
+                state.context?.errorMessages['phoneNumber']?.[0] || undefined
               }
               onChange={(e) =>
                 send({
-                  type: 'SET_PHONENUMMBER',
-                  phonenumber: e.target.value,
+                  type: 'UPDATE_FIELD',
+                  field: 'phoneNumber',
+                  value: e.target.value,
                 })
               }
             />
 
-            {!isBankAccountForeign && (
+            {!state.context.hasInternationalBankAccount && (
               <Input
-                label={PageText.Contact.aboutYouInfo.bankAccount.label}
+                label={
+                  PageText.Contact.inputFields.bankAccountNumber.notForeignLabel
+                }
                 type="text"
-                name="bankAccount"
-                value={state.context.bankAccount}
+                name="bankAccountNumber"
+                value={state.context.bankAccountNumber}
                 errorMessage={
-                  isBankAccountEmpty
-                    ? PageText.Contact.aboutYouInfo.bankAccount
-                        .errorMessageBankAccount
-                    : undefined
+                  state.context?.errorMessages['bankAccountNumber']?.[0] ||
+                  undefined
                 }
                 onChange={(e) =>
                   send({
-                    type: 'SET_BANK_ACCOUNT',
-
-                    bankAccount: e.target.value,
+                    type: 'UPDATE_FIELD',
+                    field: 'bankAccountNumber',
+                    value: e.target.value,
                   })
                 }
               />
             )}
 
             <Checkbox
-              label={t(PageText.Contact.aboutYouInfo.bankAccount.checkbox)}
-              checked={isBankAccountForeign}
-              onChange={() => setBankAccountForeign(!isBankAccountForeign)}
+              label={t(PageText.Contact.inputFields.bankAccountNumber.checkbox)}
+              checked={state.context.hasInternationalBankAccount}
+              onChange={() =>
+                send({
+                  type: 'TOGGLE',
+                  field: 'hasInternationalBankAccount',
+                })
+              }
             />
 
-            {isBankAccountForeign && (
+            {state.context.hasInternationalBankAccount && (
               <div>
                 <Input
-                  label={PageText.Contact.aboutYouInfo.bankAccount.iban}
+                  label={PageText.Contact.inputFields.bankAccountNumber.IBAN}
                   type="text"
-                  name="bankAccount"
-                  value={state.context.iban}
+                  name="bankAccountNumber"
+                  value={state.context.IBAN}
                   onChange={(e) =>
                     send({
-                      type: 'SET_IBAN',
-                      iban: e.target.value,
+                      type: 'UPDATE_FIELD',
+                      field: 'IBAN',
+                      value: e.target.value,
                     })
                   }
                 />
 
                 <Input
-                  label={PageText.Contact.aboutYouInfo.bankAccount.swift}
+                  label={PageText.Contact.inputFields.bankAccountNumber.SWIFT}
                   type="text"
-                  name="bankAccount"
-                  value={state.context.swift}
+                  name="bankAccountNumber"
+                  value={state.context.SWIFT}
                   onChange={(e) =>
                     send({
-                      type: 'SET_SWIFT',
-                      swift: e.target.value,
+                      type: 'UPDATE_FIELD',
+                      field: 'SWIFT',
+                      value: e.target.value,
                     })
                   }
                 />
-
-                {isBankAccountEmpty && (
-                  <label className={style.feedback_label__error}>
-                    {t(
-                      PageText.Contact.aboutYouInfo.bankAccount
-                        .errorMessageBankAccount,
+                {state.context?.errorMessages['bankAccountNumber']?.[0] && (
+                  <ErrorMessage
+                    message={t(
+                      state.context?.errorMessages['bankAccountNumber']?.[0],
                     )}
-                  </label>
+                  />
                 )}
               </div>
             )}
@@ -469,9 +441,7 @@ export const FeeComplaintForm = () => {
             title={t(PageText.Contact.submit)}
             mode={'interactive_0--bordered'}
             buttonProps={{ type: 'submit' }}
-            onClick={() => send({ type: 'SUBMIT' })}
           />
-          */}
         </form>
       )}
     </div>
