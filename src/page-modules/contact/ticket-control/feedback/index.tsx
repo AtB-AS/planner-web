@@ -1,4 +1,4 @@
-import { FormEventHandler } from 'react';
+import { FormEventHandler, useState } from 'react';
 import { Button } from '@atb/components/button';
 import { SectionCard } from '../../components/section-card';
 import { ComponentText, PageText, useTranslation } from '@atb/translations';
@@ -14,77 +14,21 @@ import { Typo } from '@atb/components/typography';
 
 export const FeedbackForm = () => {
   const { t } = useTranslation();
-  const { lines, getLinesByMode, getQuaysByLine } = useLines();
-  const [state, send] = useMachine(formMachine, {
-    input: {
-      date: new Date().toISOString().split('T')[0],
-      time: `${String(new Date().getHours()).padStart(2, '0')}:${String(new Date().getMinutes()).padStart(2, '0')}`,
-    },
-  });
+  const { getLinesByMode, getQuaysByLine } = useLines();
+  const [state, send] = useMachine(formMachine);
+
+  // Local state to force re-render to display errors.
+  const [forceRerender, setForceRerender] = useState(false);
 
   const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
+    send({ type: 'VALIDATE' });
 
-    if (!state.matches('submitting')) return;
-
-    const response = await fetch('/api/contact/ticket-control', {
-      method: 'POST',
-      body: JSON.stringify({
-        transportMode: state.context.transportMode,
-        line: state.context.line?.name,
-        fromStop: state.context.departureLocation?.name,
-        toStop: state.context.arrivalLocation?.name,
-        date: state.context.date,
-        departureTime: state.context.time,
-        feedback: state.context.feedback,
-        firstName: state.context.firstname,
-        lastName: state.context.lastname,
-        email: state.context.email,
-      }),
-    });
-
-    if (response.ok) {
-      const res = await response.json();
-      send({ type: 'RESOLVE' });
-    } else {
-      send({ type: 'FALIURE' });
+    // Force a re-render with dummy state.
+    if (Object.keys(state.context.errorMessages).length > 0) {
+      setForceRerender(!forceRerender);
     }
   };
-
-  const isTransportModeUndefined = state.matches({
-    editing: { transportMode: { error: 'undefinedTransportMode' } },
-  });
-
-  const isLineUndefined = state.matches({
-    editing: { line: { error: 'undefinedLine' } },
-  });
-
-  const isDepartureLocationUndefined = state.matches({
-    editing: {
-      departureLocation: { error: 'undefinedDepartureLocation' },
-    },
-  });
-  const isArrivalLocationUndefined = state.matches({
-    editing: {
-      arrivalLocation: { error: 'undefinedArrivalLocation' },
-    },
-  });
-
-  const isFeedbackEmpty = state.matches({
-    editing: { feedback: { error: 'emptyFeedback' } },
-  });
-
-  const isFirstnameEmpty = state.matches({
-    editing: { firstname: { error: 'emptyFirstname' } },
-  });
-
-  const isLastnameEmpty = state.matches({
-    editing: { lastname: { error: 'emptyLastname' } },
-  });
-
-  const isEmailEmpty = state.matches({
-    editing: { email: { error: 'emptyEmail' } },
-  });
 
   return (
     <form onSubmit={onSubmit}>
@@ -94,20 +38,18 @@ export const FeedbackForm = () => {
         </Typo.p>
 
         <Select
-          label={t(PageText.Contact.ticketControl.feedback.locationQuestion)}
+          label={t(PageText.Contact.inputFields.transportMode.label).toString()}
           value={state.context.transportMode}
           onChange={(value) =>
             send({
-              type: 'SET_TRANSPORT_MODE',
-              transportMode: value as TransportModeType,
+              type: 'UPDATE_FIELD',
+              field: 'transportMode',
+              value: value as TransportModeType,
             })
           }
           error={
-            isTransportModeUndefined
-              ? t(
-                  PageText.Contact.ticketControl.feedback.transportMode
-                    .errorMessage,
-                )
+            state.context?.errorMessages['transportMode']?.[0]
+              ? t(state.context?.errorMessages['transportMode']?.[0])
               : undefined
           }
           valueToText={(val: TransportModeType) =>
@@ -116,185 +58,174 @@ export const FeedbackForm = () => {
           valueToId={(val: TransportModeType) => val}
           options={['bus', 'water'] as TransportModeType[]}
           placeholder={t(
-            PageText.Contact.ticketControl.feedback.transportMode.optionLabel,
+            PageText.Contact.inputFields.transportMode.optionLabel,
           )}
         />
-        {state.context.transportMode && (
-          <Select
-            label={t(PageText.Contact.ticketControl.feedback.line.label)}
-            value={state.context.line}
-            onChange={(value: Line | undefined) => {
-              if (!value) return;
-              send({
-                type: 'SET_LINE',
-                line: value,
-              });
-            }}
-            options={getLinesByMode(
-              state.context.transportMode as TransportModeType,
-            )}
-            valueToId={(line: Line) => line.id}
-            valueToText={(line: Line) => line.name}
-            placeholder={t(
-              PageText.Contact.ticketControl.feedback.line.optionLabel,
-            )}
-            error={
-              isLineUndefined
-                ? t(PageText.Contact.ticketControl.feedback.line.errorMessage)
-                : undefined
-            }
-          />
-        )}
 
-        {state.context.line && (
-          <>
-            <Select
-              label={t(
-                PageText.Contact.ticketControl.feedback.departureLocation.label,
-              )}
-              value={state.context.departureLocation}
-              onChange={(value) => {
-                if (!value) return;
-                send({
-                  type: 'SET_DEPARTURE_LOCATON',
-                  departureLocation: value,
-                });
-              }}
-              options={getQuaysByLine(state.context.line.id)}
-              placeholder={t(
-                PageText.Contact.ticketControl.feedback.departureLocation
-                  .optionLabel,
-              )}
-              error={
-                isDepartureLocationUndefined
-                  ? t(
-                      PageText.Contact.ticketControl.feedback.departureLocation
-                        .errorMessage,
-                    )
-                  : undefined
-              }
-              valueToId={(quay: Line['quays'][0]) => quay.id}
-              valueToText={(quay: Line['quays'][0]) => quay.name}
-            />
+        <Select
+          label={t(PageText.Contact.inputFields.line.label)}
+          value={state.context.line}
+          disabled={!state.context.transportMode}
+          onChange={(value: Line | undefined) => {
+            if (!value) return;
+            send({
+              type: 'UPDATE_FIELD',
+              field: 'line',
+              value: value,
+            });
+          }}
+          options={getLinesByMode(
+            state.context.transportMode as TransportModeType,
+          )}
+          valueToId={(line: Line) => line.id}
+          valueToText={(line: Line) => line.name}
+          placeholder={t(PageText.Contact.inputFields.line.optionLabel)}
+          error={
+            state.context?.errorMessages['line']?.[0]
+              ? t(state.context?.errorMessages['line']?.[0])
+              : undefined
+          }
+        />
 
-            <Select
-              label={t(
-                PageText.Contact.ticketControl.feedback.arrivalLocation.label,
-              )}
-              value={state.context.arrivalLocation}
-              onChange={(value) => {
-                if (!value) return;
-                send({
-                  type: 'SET_ARRIVAL_LOCATON',
-                  arrivalLocation: value,
-                });
-              }}
-              placeholder={t(
-                PageText.Contact.ticketControl.feedback.arrivalLocation
-                  .optionLabel,
-              )}
-              options={getQuaysByLine(state.context.line.id)}
-              error={
-                isArrivalLocationUndefined
-                  ? t(
-                      PageText.Contact.ticketControl.feedback.arrivalLocation
-                        .errorMessage,
-                    )
-                  : undefined
-              }
-              valueToId={(quay: Line['quays'][0]) => quay.id}
-              valueToText={(quay: Line['quays'][0]) => quay.name}
-            />
+        <Select
+          label={t(PageText.Contact.inputFields.fromStop.label)}
+          value={state.context.fromStop}
+          disabled={!state.context.line}
+          onChange={(value) => {
+            if (!value) return;
+            send({
+              type: 'UPDATE_FIELD',
+              field: 'fromStop',
+              value: value,
+            });
+          }}
+          options={
+            state.context.line?.id ? getQuaysByLine(state.context.line.id) : []
+          }
+          placeholder={t(PageText.Contact.inputFields.fromStop.optionLabel)}
+          error={
+            state.context?.errorMessages['fromStop']?.[0]
+              ? t(state.context?.errorMessages['fromStop']?.[0])
+              : undefined
+          }
+          valueToId={(quay: Line['quays'][0]) => quay.id}
+          valueToText={(quay: Line['quays'][0]) => quay.name}
+        />
 
-            <Input
-              label={PageText.Contact.ticketControl.feedback.date}
-              type="date"
-              name="date"
-              value={state.context.date}
-              onChange={(e) =>
-                send({
-                  type: 'SET_DATE',
-                  date: e.target.value,
-                })
-              }
-            />
-            <Input
-              label={PageText.Contact.ticketControl.feedback.departureTime}
-              type="time"
-              name="time"
-              value={state.context.time}
-              onChange={(e) =>
-                send({
-                  type: 'SET_TIME',
-                  time: e.target.value,
-                })
-              }
-            />
-          </>
-        )}
+        <Select
+          label={t(PageText.Contact.inputFields.toStop.label)}
+          value={state.context.toStop}
+          disabled={!state.context.line}
+          onChange={(value) => {
+            if (!value) return;
+            send({
+              type: 'UPDATE_FIELD',
+              field: 'toStop',
+              value: value,
+            });
+          }}
+          placeholder={t(PageText.Contact.inputFields.toStop.optionLabel)}
+          options={
+            state.context.line?.id ? getQuaysByLine(state.context.line.id) : []
+          }
+          error={
+            state.context?.errorMessages['toStop']?.[0]
+              ? t(state.context?.errorMessages['toStop']?.[0])
+              : undefined
+          }
+          valueToId={(quay: Line['quays'][0]) => quay.id}
+          valueToText={(quay: Line['quays'][0]) => quay.name}
+        />
+
+        <Input
+          label={PageText.Contact.inputFields.date}
+          type="date"
+          name="date"
+          value={state.context.date}
+          onChange={(e) =>
+            send({
+              type: 'UPDATE_FIELD',
+              field: 'date',
+              value: e.target.value,
+            })
+          }
+        />
+        <Input
+          label={PageText.Contact.inputFields.plannedDepartureTime}
+          type="time"
+          name="time"
+          value={state.context.plannedDepartureTime}
+          onChange={(e) =>
+            send({
+              type: 'UPDATE_FIELD',
+              field: 'plannedDepartureTime',
+              value: e.target.value,
+            })
+          }
+        />
       </SectionCard>
       <SectionCard title={PageText.Contact.inputFields.feedback.title}>
         <Textarea
           value={state.context.feedback}
           onChange={(e) =>
             send({
-              type: 'SET_FEEDBACK',
-              feedback: e.target.value,
+              type: 'UPDATE_FIELD',
+              field: 'feedback',
+              value: e.target.value,
             })
           }
-          error={undefined}
+          error={
+            state.context.errorMessages['feedback']?.[0]
+              ? t(state.context.errorMessages['feedback']?.[0]).toString()
+              : undefined
+          }
         />
-        {/* Todo button to add attatchments */}
       </SectionCard>
+
       <SectionCard title={PageText.Contact.aboutYouInfo.title}>
         <Input
-          label={PageText.Contact.aboutYouInfo.firstname}
+          label={PageText.Contact.inputFields.firstName.label}
           type="text"
-          name="firstname"
-          value={state.context.firstname}
+          name="firstName"
+          value={state.context.firstName}
           errorMessage={
-            isFirstnameEmpty
-              ? PageText.Contact.aboutYouInfo.errorMessage
-              : undefined
+            state.context?.errorMessages['firstName']?.[0] || undefined
           }
           onChange={(e) =>
             send({
-              type: 'SET_FIRSTNAME',
-              firstname: e.target.value,
+              type: 'UPDATE_FIELD',
+              field: 'firstName',
+              value: e.target.value,
             })
           }
         />
         <Input
-          label={PageText.Contact.aboutYouInfo.lastname}
+          label={PageText.Contact.inputFields.lastName.label}
           type="text"
-          name="lastname"
-          value={state.context.lastname}
+          name="lastName"
+          value={state.context.lastName}
           errorMessage={
-            isLastnameEmpty
-              ? PageText.Contact.aboutYouInfo.errorMessage
-              : undefined
+            state.context?.errorMessages['lastName']?.[0] || undefined
           }
           onChange={(e) =>
             send({
-              type: 'SET_LASTNAME',
-              lastname: e.target.value,
+              type: 'UPDATE_FIELD',
+              field: 'lastName',
+              value: e.target.value,
             })
           }
         />
         <Input
-          label={PageText.Contact.aboutYouInfo.email}
+          label={PageText.Contact.inputFields.email.label}
           type="email"
           name="email"
           value={state.context.email}
-          errorMessage={
-            isEmailEmpty
-              ? PageText.Contact.aboutYouInfo.errorMessage
-              : undefined
-          }
+          errorMessage={state.context?.errorMessages['email']?.[0] || undefined}
           onChange={(e) =>
             send({
-              type: 'SET_EMAIL',
-              email: e.target.value,
+              type: 'UPDATE_FIELD',
+              field: 'email',
+              value: e.target.value,
             })
           }
         />
@@ -303,7 +234,6 @@ export const FeedbackForm = () => {
         title={t(PageText.Contact.submit)}
         mode={'interactive_0--bordered'}
         buttonProps={{ type: 'submit' }}
-        onClick={() => send({ type: 'SUBMIT' })}
       />
     </form>
   );

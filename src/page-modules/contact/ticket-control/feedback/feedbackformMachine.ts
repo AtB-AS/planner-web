@@ -1,272 +1,150 @@
 import { TransportModeType } from '@atb-as/config-specs';
 import { Line } from '../../server/journey-planner/validators';
-import { assign, setup } from 'xstate';
+import { assign, fromPromise, setup } from 'xstate';
+import { commonFieldValidator, InputErrorMessages } from '../../validation';
+import { machineEvents } from '../../machineEvents';
+
+type APIParams = {
+  transportMode: TransportModeType | undefined;
+  line: Line | undefined;
+  fromStop: Line['quays'][0] | undefined;
+  toStop: Line['quays'][0] | undefined;
+  date: string;
+  plannedDepartureTime: string;
+  feedback: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+};
+
+type ContextProps = {
+  errorMessages: InputErrorMessages;
+} & APIParams;
 
 export const formMachine = setup({
   types: {
-    context: {} as {
-      transportMode: TransportModeType | undefined;
-      line: Line | undefined;
-      departureLocation: Line['quays'][0] | undefined;
-      arrivalLocation: Line['quays'][0] | undefined;
-      date: string;
-      time: string;
-      feedback: string;
-      firstname: string;
-      lastname: string;
-      email: string;
-    },
-    events: {} as
-      | {
-          type: 'SET_TRANSPORT_MODE';
-          transportMode: TransportModeType;
-        }
-      | { type: 'SET_LINE'; line: Line }
-      | { type: 'SET_DEPARTURE_LOCATON'; departureLocation: Line['quays'][0] }
-      | { type: 'SET_ARRIVAL_LOCATON'; arrivalLocation: Line['quays'][0] }
-      | { type: 'SET_DATE'; date: string }
-      | { type: 'SET_TIME'; time: string }
-      | { type: 'SET_FEEDBACK'; feedback: string }
-      | { type: 'SET_FIRSTNAME'; firstname: string }
-      | { type: 'SET_LASTNAME'; lastname: string }
-      | { type: 'SET_EMAIL'; email: string }
-      | { type: 'SUBMIT' }
-      | { type: 'RESOLVE' }
-      | { type: 'FALIURE' },
-    input: {} as {
-      date: string;
-      time: string;
-    },
+    context: {} as ContextProps,
+    events: machineEvents,
   },
   guards: {
-    isTransportModeUndefined: ({ context }) => !context.transportMode,
-    isLineModeUndefined: ({ context }) => !context.line,
-    isDepartureLocationUndefined: ({ context }) => !context.departureLocation,
-    isArrivalLocationUndefined: ({ context }) => !context.arrivalLocation,
-    isFeedbackTooShort: ({ context }) => context.feedback.length === 0,
-    isFirstnameEmpty: ({ context }) => context.firstname.length === 0,
-    isLastnameEmpty: ({ context }) => context.lastname.length === 0,
-    isEmailEmpty: ({ context }) => context.email.length === 0,
+    validateInputs: ({ context }) => commonFieldValidator(context),
+  },
+  actions: {
+    updateField: assign(({ context, event }) => {
+      if (event.type === 'UPDATE_FIELD') {
+        const { field, value } = event;
+        // Remove errorMessages if any
+        context.errorMessages[field] = [];
+        return {
+          ...context,
+          [field]: value,
+        };
+      }
+      return context;
+    }),
+
+    cleanErrorMessages: assign({
+      errorMessages: () => ({}),
+    }),
+  },
+  actors: {
+    callAPI: fromPromise(
+      async ({
+        input: {
+          transportMode,
+          line,
+          fromStop,
+          toStop,
+          date,
+          plannedDepartureTime,
+          feedback,
+          firstName,
+          lastName,
+          email,
+        },
+      }: {
+        input: APIParams;
+      }) => {
+        return await fetch('/contact/ticket-control', {
+          method: 'POST',
+          body: JSON.stringify({
+            transportMode: transportMode,
+            line: line,
+            fromStop: fromStop,
+            toStop: toStop,
+            date: date,
+            plannedDepartureTime: plannedDepartureTime,
+            feedback: feedback,
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+          }),
+        }).then((response) => {
+          // throw an error to force onError
+          if (!response.ok) throw new Error('Failed to call API');
+          return response.ok;
+        });
+      },
+    ),
   },
 }).createMachine({
   /** @xstate-layout N4IgpgJg5mDOIC5QDMyQEYEMDGBrAYgPYBOAtgHQAuxmAbmADYCyhEYAxLGJQCo33NWYANoAGALqJQAB0KwAlpXmEAdlJAAPRAFoAjADYATOV0BOAKwBmXYfMAaEAE9Eu8+QDsugCwAOL5fdzAF8gh1QMHAISCgZ5FQ4uSgAZOJEJdVkFJVV1LQRbHw9Rd1FrWwdnfN1yfVFzL30fQJCwtAgsPCIycjZpTGJKAFdiMCTCbExslU5uABEwPoHh0fHJ5RUxSSQQTMV13J1dS0sTUVcjeycXdy9yUtNRC5aQcPbIrop+4nlaTAYxiZTGaUACCxG+v3+qymmwycj2OW2eW0lh8hVM3ke5SuCEshn0RTKwWeKiE8G2rw6UTIcKy+yROn8hWOpj8AUulW0ng8PnM51sz0p72iVH4jBYbFpCLUDIQKIe5BZbMCFRcbk8vn8zVCLzaVI+5Fi8SlUwOCH0pnIPn0eJ8Ng5iEM1Vq9Ua2taEU6It6-SGIwBa0RMnhptlhlElt5pnZqoQBgJNh8DyeOqFXu6Xx+fwDoeDdKDmh0ln0CYxXixDrjPlEivdus91IosEG6FIikoJvpoGR1nIvlEDSala8DUVfPMKZCQA */
   id: 'feedbackForm',
   initial: 'editing',
-  context: ({ input }) => ({
+  context: {
     transportMode: undefined,
     line: undefined,
-    departureLocation: undefined,
-    arrivalLocation: undefined,
-    date: input.date,
-    time: input.time,
+    fromStop: undefined,
+    toStop: undefined,
+    date: new Date().toISOString().split('T')[0],
+    plannedDepartureTime: `${String(new Date().getHours()).padStart(2, '0')}:${String(new Date().getMinutes()).padStart(2, '0')}`,
     feedback: '',
-    firstname: '',
-    lastname: '',
+    firstName: '',
+    lastName: '',
     email: '',
-  }),
+    errorMessages: {},
+  },
 
   states: {
     editing: {
+      entry: 'cleanErrorMessages',
       on: {
-        SET_TRANSPORT_MODE: {
-          actions: assign({
-            transportMode: ({ event }) => event.transportMode,
-          }),
+        UPDATE_FIELD: {
+          actions: 'updateField',
         },
-        SET_LINE: {
-          actions: assign({
-            line: ({ event }) => event.line,
-          }),
-        },
-        SET_DEPARTURE_LOCATON: {
-          actions: assign({
-            departureLocation: ({ event }) => event.departureLocation,
-          }),
-        },
-        SET_ARRIVAL_LOCATON: {
-          actions: assign({
-            arrivalLocation: ({ event }) => event.arrivalLocation,
-          }),
-        },
-        SET_DATE: {
-          actions: assign({
-            date: ({ event }) => event.date,
-          }),
-        },
-        SET_TIME: {
-          actions: assign({
-            time: ({ event }) => event.time,
-          }),
-        },
-        SET_FEEDBACK: {
-          actions: assign({
-            feedback: ({ event }) => event.feedback,
-          }),
-        },
-        SET_FIRSTNAME: {
-          actions: assign({
-            firstname: ({ event }) => event.firstname,
-          }),
-        },
-        SET_LASTNAME: {
-          actions: assign({
-            lastname: ({ event }) => event.lastname,
-          }),
-        },
-        SET_EMAIL: {
-          actions: assign({
-            email: ({ event }) => event.email,
-          }),
-        },
-        SUBMIT: [
-          {
-            guard: 'isTransportModeUndefined',
-            target: 'editing.transportMode.error.undefinedTransportMode',
-          },
-          {
-            guard: 'isLineModeUndefined',
-            target: 'editing.line.error.undefinedLine',
-          },
-          {
-            guard: 'isDepartureLocationUndefined',
-            target:
-              'editing.departureLocation.error.undefinedDepartureLocation',
-          },
-          {
-            guard: 'isArrivalLocationUndefined',
-            target: 'editing.arrivalLocation.error.undefinedArrivalLocation',
-          },
-          {
-            guard: 'isFeedbackTooShort',
-            target: 'editing.feedback.error.emptyFeedback',
-          },
-          {
-            guard: 'isFirstnameEmpty',
-            target: 'editing.firstname.error.emptyFirstname',
-          },
-          {
-            guard: 'isLastnameEmpty',
-            target: 'editing.lastname.error.emptyLastname',
-          },
-          {
-            guard: 'isEmailEmpty',
-            target: 'editing.email.error.emptyEmail',
-          },
-          {
-            target: 'submitting',
-          },
-        ],
-      },
-
-      type: 'parallel',
-      states: {
-        transportMode: {
-          initial: 'valid',
-          states: {
-            valid: {},
-            error: {
-              initial: 'undefinedTransportMode',
-              states: {
-                undefinedTransportMode: {},
-              },
-            },
-          },
-        },
-        line: {
-          initial: 'valid',
-          states: {
-            valid: {},
-            error: {
-              initial: 'undefinedLine',
-              states: {
-                undefinedLine: {},
-              },
-            },
-          },
-        },
-        departureLocation: {
-          initial: 'valid',
-          states: {
-            valid: {},
-            error: {
-              initial: 'undefinedDepartureLocation',
-              states: {
-                undefinedDepartureLocation: {},
-              },
-            },
-          },
-        },
-        arrivalLocation: {
-          initial: 'valid',
-          states: {
-            valid: {},
-            error: {
-              initial: 'undefinedArrivalLocation',
-              states: {
-                undefinedArrivalLocation: {},
-              },
-            },
-          },
-        },
-        feedback: {
-          initial: 'valid',
-          states: {
-            valid: {},
-            error: {
-              initial: 'emptyFeedback',
-              states: {
-                emptyFeedback: {},
-              },
-            },
-          },
-        },
-        firstname: {
-          initial: 'valid',
-          states: {
-            valid: {},
-            error: {
-              initial: 'emptyFirstname',
-              states: {
-                emptyFirstname: {},
-              },
-            },
-          },
-        },
-        lastname: {
-          initial: 'valid',
-          states: {
-            valid: {},
-            error: {
-              initial: 'emptyLastname',
-              states: {
-                emptyLastname: {},
-              },
-            },
-          },
-        },
-        email: {
-          initial: 'valid',
-          states: {
-            valid: {},
-            error: {
-              initial: 'emptyEmail',
-              states: {
-                emptyEmail: {},
-              },
-            },
-          },
+        VALIDATE: {
+          guard: 'validateInputs',
+          target: 'submitting',
         },
       },
     },
 
     submitting: {
-      on: {
-        RESOLVE: 'success',
-        FALIURE: {
+      invoke: {
+        src: 'callAPI',
+        input: ({ context }) => ({
+          transportMode: context.transportMode,
+          line: context.line,
+          fromStop: context.fromStop,
+          toStop: context.toStop,
+          date: context.date,
+          plannedDepartureTime: context.plannedDepartureTime,
+          feedback: context.feedback,
+          firstName: context.firstName,
+          lastName: context.lastName,
+          email: context.email,
+        }),
+
+        onDone: {
+          target: 'success',
+        },
+
+        onError: {
           target: 'editing',
         },
       },
     },
+
     success: {
       type: 'final',
     },
