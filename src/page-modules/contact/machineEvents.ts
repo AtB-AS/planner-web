@@ -5,13 +5,15 @@ import { TranslatedString } from '@atb/translations';
 export type ReasonForTransportFailure = { id: string; name: TranslatedString };
 
 export const machineEvents = {} as
-  | { type: 'TOGGLE' }
   | { type: 'VALIDATE' }
   | { type: 'SET_BANK_ACCOUNT_FOREIGN' }
   | {
-      type: 'TOOGLE_AGREEMENT';
-      field: 'agreesFirstAgreement' | 'agreesSecondAgreement';
-      value: boolean;
+      type: 'TOGGLE';
+      field:
+        | 'isAppTicketStorageMode'
+        | 'agreesFirstAgreement'
+        | 'agreesSecondAgreement'
+        | 'hasInternationalBankAccount';
     }
   | {
       type: 'UPDATE_FIELD';
@@ -36,9 +38,11 @@ export const machineEvents = {} as
         | 'bankAccountNumber'
         | 'IBAN'
         | 'SWIFT'
+        | 'feeNumber'
         | 'appPhoneNumber'
         | 'customerNumber'
-        | 'travelCardNumber';
+        | 'travelCardNumber'
+        | 'isAppTicketStorageMode';
       value:
         | string
         | number
