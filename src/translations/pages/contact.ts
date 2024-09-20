@@ -714,7 +714,7 @@ export const Contact = {
       ),
 
       optionalTitle: _(
-        'Ønsker du å fortell oss noe mer? (valgfritt)',
+        'Ønsker du å fortelle oss noe mer? (valgfritt)',
         'Do you whish to share anyting else with us? - (optional)',
         'Ønsker du å fortelje oss noko meir? (valfritt)',
       ),
