@@ -131,62 +131,6 @@ export const Contact = {
         'Information from the fee',
         'Informasjon frå gebyret',
       ),
-      fee: {
-        inputlabel: _('Gebyrnummer', 'Fee number', 'Gebyrnummar'),
-        instruction: _(
-          'Fyll ut gebyrnummeret ditt',
-          'Enter your fee number',
-          'Fyll ut gebyrnummaret ditt',
-        ),
-        errorMessage: _(
-          'Fyll ut gebyrnummeret ditt',
-          'Enter your fee number',
-          'Fyll ut gebyrnummaret ditt',
-        ),
-      },
-      ticketStorage: {
-        question: _(
-          'Hvor pleier du å ha billetten din?',
-          'Where do you usually keep your ticket?',
-          'Kor pleier du å ha billetten din?',
-        ),
-        app: {
-          title: _('App', 'App', 'App'),
-          registeredMobile: {
-            label: _(
-              'Registrert mobilnummer',
-              'Registered mobile number',
-              'Registrert mobilnummar',
-            ),
-            errorMessage: _(
-              'Legg til registrert mobilnummer',
-              'Legg til registered mobile number',
-              'Legg til registrert mobilnummar',
-            ),
-          },
-          customerNumber: {
-            label: _('Kundenummer', 'Customer number', 'Kundenummar'),
-            errorMessage: _(
-              'Fyll inn kundenummer',
-              'Enter customer number',
-              'Fyll inn kundenummar',
-            ),
-          },
-        },
-        travelcard: {
-          title: _('Reisekort', 'Travelcard', 'Reisekort'),
-          errorMessage: _(
-            'Legg til reisekort',
-            'Enter travelcard number',
-            'Legg til reisekort',
-          ),
-        },
-        errorMessage: _(
-          'Velg billettoppbevaring',
-          'Select ticket storage mode',
-          'Velg billettoppbevaring',
-        ),
-      },
     },
 
     postponePayment: {
@@ -399,13 +343,6 @@ export const Contact = {
         ),
       },
     },
-    optionalFeedback: {
-      title: _(
-        'Ønsker du å fortell oss noe mer? (valgfritt)',
-        'Do you whish to share anyting else with us? - (optional)',
-        'Ønsker du å fortelje oss noko meir? (valfritt)',
-      ),
-    },
   },
   modeOfTransport: {
     title: _(
@@ -423,19 +360,7 @@ export const Contact = {
   groupTravel: {
     title: _('Gruppereise', 'Group travel', 'Gruppereise'),
   },
-  feedback: {
-    question: _(
-      'Hva ønsker du å fortelle oss?',
-      'What do you want to tell us?',
-      'Kva ønskjer du å fortelje oss?',
-    ),
-    errorMessage: _(
-      'Tilbakemelding mangler!',
-      'Feedback is missing!',
-      'Tilbakemelding mangler!',
-    ),
-    attatchment: _('Vedlegg', 'Attatchment', 'Vedlegg'),
-  },
+
   aboutYouInfo: {
     title: _(
       'Informasjon om deg',
@@ -733,6 +658,73 @@ export const Contact = {
           'Fyll ut fakturanummeret ditt',
           'Enter your invoice number',
           'Fyll ut fakturanummaret ditt',
+        ),
+      },
+    },
+    ticketStorage: {
+      question: _(
+        'Hvor pleier du å ha billetten din?',
+        'Where do you usually keep your ticket?',
+        'Kor pleier du å ha billetten din?',
+      ),
+
+      app: {
+        title: _('App', 'App', 'App'),
+        appPhoneNumber: {
+          label: _(
+            'Registrert mobilnummer',
+            'Registered mobile number',
+            'Registrert mobilnummar',
+          ),
+          errorMessages: {
+            empty: _(
+              'Legg til registrert mobilnummer',
+              'Legg til registered mobile number',
+              'Legg til registrert mobilnummar',
+            ),
+          },
+        },
+        customerNumber: {
+          label: _('Kundenummer', 'Customer number', 'Kundenummar'),
+          errorMessages: {
+            empty: _(
+              'Fyll inn kundenummer',
+              'Enter customer number',
+              'Fyll inn kundenummar',
+            ),
+          },
+        },
+      },
+      travelCardNumber: {
+        label: _('Reisekort', 'Travelcard', 'Reisekort'),
+        errorMessages: {
+          empty: _(
+            'Legg til reisekort',
+            'Enter travelcard number',
+            'Legg til reisekort',
+          ),
+        },
+      },
+    },
+    feedback: {
+      title: _(
+        'Hva ønsker du å fortelle oss?',
+        'What do you want to tell us?',
+        'Kva ønskjer du å fortelje oss?',
+      ),
+
+      optionalTitle: _(
+        'Ønsker du å fortelle oss noe mer? (valgfritt)',
+        'Do you whish to share anyting else with us? - (optional)',
+        'Ønsker du å fortelje oss noko meir? (valfritt)',
+      ),
+
+      attatchment: _('Vedlegg', 'Attatchment', 'Vedlegg'),
+      errorMessages: {
+        empty: _(
+          'Tilbakemelding mangler',
+          'Feedback is missing',
+          'Tilbakemelding mangler',
         ),
       },
     },

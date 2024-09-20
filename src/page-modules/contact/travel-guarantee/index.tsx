@@ -237,7 +237,7 @@ export const RefundForm = () => {
       {state.hasTag('selected') && (
         <div>
           <SectionCard
-            title={PageText.Contact.travelGuarantee.optionalFeedback.title}
+            title={PageText.Contact.inputFields.feedback.optionalTitle}
           >
             <textarea
               className={style.feedback}

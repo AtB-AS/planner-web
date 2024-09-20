@@ -45,7 +45,7 @@ export const commonFieldValidator = (context: any) => {
       validCondition:
         context.bankAccountNumber || context.IBAN || context.SWIFT,
       errorMessage:
-        PageText.Contact.inputFields.transportMode.errorMessages.empty,
+        PageText.Contact.inputFields.bankAccountNumber.errorMessages.empty,
     },
     {
       field: 'transportMode',
@@ -91,6 +91,34 @@ export const commonFieldValidator = (context: any) => {
       validCondition: context.invoiceNumber,
       errorMessage:
         PageText.Contact.inputFields.invoiceNumber.errorMessages.empty,
+    },
+    {
+      field: 'appPhoneNumber',
+      validCondition: context.appPhoneNumber || context.travelCardNumber,
+      errorMessage:
+        PageText.Contact.inputFields.ticketStorage.app.appPhoneNumber
+          .errorMessages.empty,
+    },
+    {
+      field: 'customerNumber',
+      validCondition: context.customerNumber || context.travelCardNumber,
+      errorMessage:
+        PageText.Contact.inputFields.ticketStorage.app.customerNumber
+          .errorMessages.empty,
+    },
+    {
+      field: 'travelCardNumber',
+      validCondition:
+        context.travelCardNumber ||
+        (context.appPhoneNumber && context.customerNumber),
+      errorMessage:
+        PageText.Contact.inputFields.ticketStorage.travelCardNumber
+          .errorMessages.empty,
+    },
+    {
+      field: 'feedback',
+      validCondition: context.feedback,
+      errorMessage: PageText.Contact.inputFields.feedback.errorMessages.empty,
     },
   ];
 
