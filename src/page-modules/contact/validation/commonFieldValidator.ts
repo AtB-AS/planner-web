@@ -82,7 +82,7 @@ export const commonFieldValidator = (context: any) => {
     },
     {
       field: 'feeNumber',
-      validCondition: context.feeNumber.length === 4,
+      validCondition: context.feeNumber && context.feeNumber.length === 4,
       errorMessage:
         PageText.Contact.inputFields.feeNumber.errorMessages.notFourDigits,
     },
