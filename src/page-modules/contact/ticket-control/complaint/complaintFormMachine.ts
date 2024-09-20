@@ -1,6 +1,7 @@
 import { assign, fromPromise, setup } from 'xstate';
 import { machineEvents } from '../../machineEvents';
 import { commonFieldValidator, InputErrorMessages } from '../../validation';
+import { convertFilesToBase64 } from '../../utils';
 
 type APIParams = {
   feeNumber: string;
@@ -18,6 +19,7 @@ type APIParams = {
   bankAccountNumber: string;
   IBAN: string;
   SWIFT: string;
+  attachments?: File[];
 };
 
 type ContextProps = {
@@ -83,11 +85,15 @@ export const formMachine = setup({
           bankAccountNumber,
           IBAN,
           SWIFT,
+          attachments,
         },
       }: {
         input: APIParams;
       }) => {
-        return await fetch('/contact/ticket-control', {
+        const base64EncodedAttachments = await convertFilesToBase64(
+          attachments || [],
+        );
+        return await fetch('/api/contact/ticket-control', {
           method: 'POST',
           body: JSON.stringify({
             feeNumber: feeNumber,
@@ -105,12 +111,17 @@ export const formMachine = setup({
             bankAccountNumber: bankAccountNumber,
             IBAN: IBAN,
             SWIFT: SWIFT,
+            attachments: base64EncodedAttachments,
           }),
-        }).then((response) => {
-          // throw an error to force onError
-          if (!response.ok) throw new Error('Failed to call API');
-          return response.ok;
-        });
+        })
+          .then((response) => {
+            // throw an error to force onError
+            if (!response.ok) throw new Error('Failed to call API');
+            return response.ok;
+          })
+          .catch((error) => {
+            throw error;
+          });
       },
     ),
   },
@@ -176,6 +187,7 @@ export const formMachine = setup({
           bankAccountNumber: context.bankAccountNumber,
           IBAN: context.IBAN,
           SWIFT: context.SWIFT,
+          attachments: context.attachments,
         }),
 
         onDone: {

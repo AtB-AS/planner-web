@@ -360,7 +360,6 @@ export const Contact = {
   groupTravel: {
     title: _('Gruppereise', 'Group travel', 'Gruppereise'),
   },
-
   aboutYouInfo: {
     title: _(
       'Informasjon om deg',
@@ -719,7 +718,11 @@ export const Contact = {
         'Ønsker du å fortelje oss noko meir? (valfritt)',
       ),
 
-      attatchment: _('Vedlegg', 'Attatchment', 'Vedlegg'),
+      attachment: _(
+        'Last opp vedlegg',
+        'Upload attachments',
+        'Last opp vedlegg',
+      ),
       errorMessages: {
         empty: _(
           'Tilbakemelding mangler',

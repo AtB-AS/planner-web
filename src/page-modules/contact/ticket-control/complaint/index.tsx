@@ -11,6 +11,7 @@ import { Typo } from '@atb/components/typography';
 import { RadioInput } from '../../components/input/radio';
 import { Textarea } from '../../components/input/textarea';
 import ErrorMessage from '../../components/input/error-message';
+import { FileInput } from '../../components/input/file';
 
 export const FeeComplaintForm = () => {
   const { t } = useTranslation();
@@ -247,6 +248,18 @@ export const FeeComplaintForm = () => {
                   ? t(state.context.errorMessages['feedback']?.[0]).toString()
                   : undefined
               }
+            />
+
+            <FileInput
+              name="attachments"
+              onChange={(files) => {
+                send({
+                  type: 'UPDATE_FIELD',
+                  field: 'attachments',
+                  value: files,
+                });
+              }}
+              label={t(PageText.Contact.inputFields.feedback.attachment)}
             />
           </SectionCard>
 
