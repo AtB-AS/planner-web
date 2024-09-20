@@ -1,4 +1,7 @@
-import { ReasonForTransportFailure } from '@atb/page-modules/contact/machineEvents';
+import {
+  ReasonForTransportFailure,
+  RouteArea,
+} from '@atb/page-modules/contact/machineEvents';
 import { translation as _ } from '@atb/translations/commons';
 
 export const Contact = {
@@ -350,7 +353,65 @@ export const Contact = {
       'Means of transport and stopping place',
       'Transportmiddel og stoppested',
     ),
+
+    driverCrewFeedback: {
+      description: _(
+        'Tilbakemelding på sjåfør/mannskap',
+        'Feedback on driver/crew',
+        'Tilbakemelding på sjåfør/mannskap',
+      ),
+      info: _('Jeg', 'I', 'Eg '),
+      aboutTheTrip: {
+        title: _('Om reisen', 'About the trip', 'Om reise'),
+        description: _(
+          'Vi trenger å vite litt om reisen din. Da er det lettere for oss å følge opp saken.',
+          'We need to know a bit about your journey. Then it is easier for us to follow up on the case.',
+          'Vi treng å vite litt om reisa di. Då er det enklare for oss å følgje opp saka.',
+        ),
+      },
+    },
+    transportFeedback: {
+      description: _(
+        'Tilbakemelding på transportmiddel',
+        'Feedback on transport vehicle',
+        'Tilbakemelding på transportmiddel',
+      ),
+      info: _('Jeg', 'I', 'Eg '),
+    },
+    delayEarlyCancellationReport: {
+      description: _(
+        'Forinkelse, kjørt for tidlig eller innstilt',
+        'Delay, driven too early or cancelled',
+        'Forseinking, køyrd for tidleg eller innstilt',
+      ),
+      info: _('Jeg', 'I', 'Eg '),
+    },
+    stopDockFeedback: {
+      description: _(
+        'Tilbakemelding på holdeplass/kai',
+        'Feedback on stop/dock',
+        'Tilbakemelding på haldeplass/kai',
+      ),
+      info: _('Jeg', 'I', 'Eg '),
+    },
+    routeOfferFeedback: {
+      description: _(
+        'Tilbakemelding på rutetilbudet',
+        'Feedback on route offering',
+        'Tilbakemelding på rutetilbodet',
+      ),
+      info: _('Jeg', 'I', 'Eg '),
+    },
+    incidentReport: {
+      description: _(
+        'Melde fra om personskade eller ulykke',
+        'Report of personal injury or accident',
+        'Melde frå om personskade eller ulykke',
+      ),
+      info: _('Jeg', 'I', 'Eg '),
+    },
   },
+
   ticketsApp: {
     title: _('Billetter og app', 'Tickets and app', 'Billettar og app'),
   },
@@ -730,6 +791,68 @@ export const Contact = {
           'Tilbakemelding mangler',
         ),
       },
+    },
+    routeArea: {
+      label: _('Område', 'Area', 'Område'),
+      optionLabel: _('Velg område', 'Select area', 'Vel område'),
+      options: [
+        {
+          id: 'rp1',
+          name: _(
+            'Ålesund, Giske, Sula (RP1)',
+            'Ålesund, Giske, Sula (RP1)',
+            'Ålesund, Giske, Sula (RP1)',
+          ),
+        },
+        {
+          id: 'rp2',
+          name: _(
+            'Kristiansund, Averøy, Aure, Smøla (RP2)',
+            'Kristiansund, Averøy, Aure, Smøla (RP2)',
+            'Kristiansund, Averøy, Aure, Smøla (RP2)',
+          ),
+        },
+        {
+          id: 'rp3',
+          name: _(
+            'Molde (unntatt Skåla), Gjemnes (RP3)',
+            'Molde (except Skåla), Gjemnes (RP3)',
+            'Molde (unntatt Skåla), Gjemnes (RP3)',
+          ),
+        },
+        {
+          id: 'rp4',
+          name: _(
+            'Sunnmøre nord (RP4)',
+            'Sunnmøre nord (RP4)',
+            'Sunnmøre nord (RP4)',
+          ),
+        },
+        {
+          id: 'rp5',
+          name: _(
+            'Sunnmøre sør (RP5)',
+            'Sunnmøre sør (RP5)',
+            'Sunnmøre sør (RP5)',
+          ),
+        },
+        {
+          id: 'rp6',
+          name: _(
+            'Sunndalsøra, Surnadal, Trondheim, Oppdal (RP6)',
+            'Sunndalsøra, Surnadal, Trondheim, Oppdal (RP6)',
+            'Sunndalsøra, Surnadal, Trondheim, Oppdal (RP6)',
+          ),
+        },
+        {
+          id: 'rp7',
+          name: _(
+            'Hustadvika, Midsund, Aukra (RP8)',
+            'Hustadvika, Midsund, Aukra (RP8)',
+            'Hustadvika, Midsund, Aukra (RP8)',
+          ),
+        },
+      ] as RouteArea[],
     },
   },
 };

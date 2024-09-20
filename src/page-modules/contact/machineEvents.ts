@@ -3,6 +3,7 @@ import { Line } from './server/journey-planner/validators';
 import { TranslatedString } from '@atb/translations';
 
 export type ReasonForTransportFailure = { id: string; name: TranslatedString };
+export type RouteArea = { id: string; name: TranslatedString };
 
 export const machineEvents = {} as
   | { type: 'VALIDATE' }
@@ -43,7 +44,8 @@ export const machineEvents = {} as
         | 'appPhoneNumber'
         | 'customerNumber'
         | 'travelCardNumber'
-        | 'isAppTicketStorageMode';
+        | 'isAppTicketStorageMode'
+        | 'routeArea';
       value:
         | string
         | number
@@ -58,4 +60,12 @@ export const machineEvents = {} as
   | { type: 'TAXI' }
   | { type: 'CAR' }
   | { type: 'OTHER' }
-  | { type: 'SET_STATE_SUBMITTED'; stateSubmitted: string | undefined };
+  | { type: 'SET_STATE_SUBMITTED'; stateSubmitted: string | undefined }
+
+  // mode-of-transport
+  | { type: 'DRIVER_CREW_FEEDBACK' }
+  | { type: 'TRANSPORT_FEEDBACK' }
+  | { type: 'DELAY_EARLY_CANCELLATION_REPORT' }
+  | { type: 'ROUTE_OFFER_FEEDBACK' }
+  | { type: 'STOP_DOCK_FEEDBACK' }
+  | { type: 'INCIDENT_REPORT' };
