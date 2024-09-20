@@ -233,7 +233,7 @@ export const FeedbackForm = () => {
           </>
         )}
       </SectionCard>
-      <SectionCard title={PageText.Contact.inputFields.feedback.title}>
+      <SectionCard title={PageText.Contact.feedback.question}>
         <Textarea
           value={state.context.feedback}
           onChange={(e) =>
@@ -242,7 +242,11 @@ export const FeedbackForm = () => {
               feedback: e.target.value,
             })
           }
-          error={undefined}
+          error={
+            isFeedbackEmpty
+              ? t(PageText.Contact.feedback.errorMessage)
+              : undefined
+          }
         />
         {/* Todo button to add attatchments */}
       </SectionCard>
