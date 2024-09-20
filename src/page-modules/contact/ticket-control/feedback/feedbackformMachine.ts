@@ -3,6 +3,7 @@ import { Line } from '../../server/journey-planner/validators';
 import { assign, fromPromise, setup } from 'xstate';
 import { commonFieldValidator, InputErrorMessages } from '../../validation';
 import { machineEvents } from '../../machineEvents';
+import { convertFilesToBase64 } from '../../utils';
 
 type APIParams = {
   transportMode: TransportModeType | undefined;
@@ -15,6 +16,7 @@ type APIParams = {
   firstName: string;
   lastName: string;
   email: string;
+  attachments?: File[];
 };
 
 type ContextProps = {
@@ -61,29 +63,39 @@ export const formMachine = setup({
           firstName,
           lastName,
           email,
+          attachments,
         },
       }: {
         input: APIParams;
       }) => {
-        return await fetch('/contact/ticket-control', {
+        const base64EncodedAttachments = await convertFilesToBase64(
+          attachments || [],
+        );
+        return await fetch('/api/contact/ticket-control', {
           method: 'POST',
           body: JSON.stringify({
             transportMode: transportMode,
-            line: line,
-            fromStop: fromStop,
-            toStop: toStop,
+            line: line?.id,
+            fromStop: fromStop?.id,
+            toStop: toStop?.id,
             date: date,
             plannedDepartureTime: plannedDepartureTime,
             feedback: feedback,
             firstName: firstName,
             lastName: lastName,
             email: email,
+            attachments: base64EncodedAttachments,
           }),
-        }).then((response) => {
-          // throw an error to force onError
-          if (!response.ok) throw new Error('Failed to call API');
-          return response.ok;
-        });
+        })
+          .then((response) => {
+            // throw an error to force onError
+            if (!response.ok) throw new Error('Failed to call API');
+            return response.ok;
+          })
+          .catch((error) => {
+            console.log(error);
+            throw error;
+          });
       },
     ),
   },
@@ -133,6 +145,7 @@ export const formMachine = setup({
           firstName: context.firstName,
           lastName: context.lastName,
           email: context.email,
+          attachments: context.attachments,
         }),
 
         onDone: {

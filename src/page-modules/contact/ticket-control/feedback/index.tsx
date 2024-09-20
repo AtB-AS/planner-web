@@ -11,6 +11,7 @@ import { Line } from '../..';
 import { Textarea } from '../../components/input/textarea';
 import Select from '../../components/input/select';
 import { Typo } from '@atb/components/typography';
+import { FileInput } from '../../components/input/file';
 
 export const FeedbackForm = () => {
   const { t } = useTranslation();
@@ -179,6 +180,18 @@ export const FeedbackForm = () => {
               ? t(state.context.errorMessages['feedback']?.[0]).toString()
               : undefined
           }
+        />
+
+        <FileInput
+          name="attachments"
+          onChange={(files) => {
+            send({
+              type: 'UPDATE_FIELD',
+              field: 'attachments',
+              value: files,
+            });
+          }}
+          label={t(PageText.Contact.inputFields.feedback.attachment)}
         />
       </SectionCard>
 

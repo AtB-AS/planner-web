@@ -28,6 +28,7 @@ export const machineEvents = {} as
         | 'date'
         | 'plannedDepartureTime'
         | 'feedback'
+        | 'attachments'
         | 'firstName'
         | 'lastName'
         | 'email'
@@ -49,7 +50,8 @@ export const machineEvents = {} as
         | Line
         | Line['quays'][0]
         | TransportModeType
-        | ReasonForTransportFailure;
+        | ReasonForTransportFailure
+        | File[];
     }
 
   // travel-guarantee

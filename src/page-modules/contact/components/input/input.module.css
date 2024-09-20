@@ -214,3 +214,36 @@
   display: flex;
   gap: var(--spacings-small);
 }
+
+/** file input */
+
+.input__file {
+  opacity: 0;
+  display: none;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.label__file {
+  display: flex;
+  gap: var(--spacings-small);
+  align-items: center;
+  background-color: var(--interactive-background-background_1);
+  color: var(--text-colors-primary);
+  padding: var(--spacings-small);
+  border: var(--border-width-medium) solid var(--text-colors-primary);
+  border-radius: var(--border-radius-small);
+  cursor: pointer;
+}
+.fileList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacings-small);
+  padding: var(--spacings-small) 0;
+}
+.fileItem {
+  display: flex;
+  align-items: center;
+  gap: var(--spacings-small);
+}
