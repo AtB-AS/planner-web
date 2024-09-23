@@ -20,7 +20,7 @@ type APIParams = {
   email: string;
 };
 
-type ContextProps = {
+export type ContextProps = {
   modeOfTransportStateWhenSubmitted:
     | 'driverForm'
     | 'transportationForm'

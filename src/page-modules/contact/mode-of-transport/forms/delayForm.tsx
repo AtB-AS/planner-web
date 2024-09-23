@@ -1,6 +1,4 @@
 import { PageText, useTranslation } from '@atb/translations';
-import { useMachine } from '@xstate/react';
-import { modeOfTransportFormMachine } from '../mode-of-transport-form-machine';
 import { useLines } from '../../lines/use-lines';
 import { FormEventHandler, useState } from 'react';
 import { SectionCard } from '../../components/section-card';
@@ -14,11 +12,20 @@ import { Line } from '../..';
 import { FileInput } from '../../components/input/file';
 import { Textarea } from '../../components/input/textarea';
 import { RadioInput } from '../../components/input/radio';
+import { ContextProps } from '../mode-of-transport-form-machine';
+import { machineEvents } from '../../machineEvents';
 
-export const DelayForm = () => {
+type DelayFormProps = {
+  state: {
+    hasTag(arg0: string): boolean | undefined;
+    context: ContextProps;
+  };
+  send: (event: typeof machineEvents) => void; // Function to send events to the state machine
+};
+
+export const DelayForm = ({ state, send }: DelayFormProps) => {
   const { t } = useTranslation();
   const { getLinesByMode, getQuaysByLine } = useLines();
-  const [state, send] = useMachine(modeOfTransportFormMachine);
 
   // Local state to force re-render to display errors.
   const [forceRerender, setForceRerender] = useState(false);

@@ -16,12 +16,17 @@ export const ModsOfTransportContent = () => {
   return (
     <div>
       <ModeOfTransportFormSelector state={state} send={send} />
-      {state.hasTag('driverForm') && <DriverForm />}
-      {state.hasTag('transportationForm') && <TransportationForm />}
-      {state.hasTag('delayForm') && <DelayForm />}
-      {state.hasTag('stopForm') && <StopForm />}
-      {state.hasTag('serviceOfferingForm') && <ServiceOfferingForm />}
-      {state.hasTag('injuryForm') && <InjuryForm />}
+      {state.hasTag('driverForm') && <DriverForm state={state} send={send} />}
+      {state.hasTag('transportationForm') && (
+        <TransportationForm state={state} send={send} />
+      )}
+
+      {state.hasTag('delayForm') && <DelayForm state={state} send={send} />}
+      {state.hasTag('stopForm') && <StopForm state={state} send={send} />}
+      {state.hasTag('serviceOfferingForm') && (
+        <ServiceOfferingForm state={state} send={send} />
+      )}
+      {state.hasTag('injuryForm') && <InjuryForm state={state} send={send} />}
       {state.hasTag('success') && <div>success!</div>}
     </div>
   );
