@@ -1,8 +1,8 @@
-import { PageText, TranslatedString, useTranslation } from '@atb/translations';
+import { PageText, useTranslation } from '@atb/translations';
 import { SectionCard } from '../components/section-card';
 import { RadioInput } from '../components/input/radio';
 import { ContextProps } from './means-of-transport-form-machine';
-import { machineEvents, RouteArea } from '../machineEvents';
+import { machineEvents } from '../machineEvents';
 
 type MeansOfTransportFormSelectorProps = {
   state: {

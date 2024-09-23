@@ -58,23 +58,23 @@ export const DriverForm = ({ state, send }: DriverFormProps) => {
         </Typo.p>
 
         <Select
-          label={t(PageText.Contact.inputFields.routeArea.label).toString()}
-          value={state.context.routeArea}
+          label={t(PageText.Contact.inputFields.area.label).toString()}
+          value={state.context.area}
           valueToId={(option) => option.id}
           valueToText={(option) => t(option.name)}
           onChange={(value) => {
             if (!value) return;
             send({
               type: 'UPDATE_FIELD',
-              field: 'routeArea',
+              field: 'area',
               value: value,
             });
           }}
-          placeholder={t(PageText.Contact.inputFields.routeArea.optionLabel)}
-          options={PageText.Contact.inputFields.routeArea.options}
+          placeholder={t(PageText.Contact.inputFields.area.optionLabel)}
+          options={PageText.Contact.inputFields.area.options}
           error={
-            state.context?.errorMessages['routeArea']?.[0]
-              ? t(state.context?.errorMessages['routeArea']?.[0])
+            state.context?.errorMessages['area']?.[0]
+              ? t(state.context?.errorMessages['area']?.[0])
               : undefined
           }
         />

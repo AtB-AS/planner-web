@@ -1,6 +1,6 @@
 import {
   ReasonForTransportFailure,
-  RouteArea,
+  Area,
 } from '@atb/page-modules/contact/machineEvents';
 import { translation as _ } from '@atb/translations/commons';
 
@@ -901,7 +901,7 @@ export const Contact = {
         ),
       },
     },
-    routeArea: {
+    area: {
       label: _('Område', 'Area', 'Område'),
       optionLabel: _('Velg område', 'Select area', 'Vel område'),
       options: [
@@ -969,7 +969,7 @@ export const Contact = {
             'Hustadvika, Midsund, Aukra (RP8)',
           ),
         },
-      ] as RouteArea[],
+      ] as Area[],
       errorMessages: {
         empty: _('Område mangler', 'Area is missing', 'Område mangler'),
       },

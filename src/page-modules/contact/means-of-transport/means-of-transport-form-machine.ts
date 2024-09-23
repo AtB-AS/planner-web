@@ -1,7 +1,7 @@
 import { TransportModeType } from '@atb-as/config-specs';
 import { assign, fromPromise, setup } from 'xstate';
 import { Line } from '../server/journey-planner/validators';
-import { machineEvents, RouteArea } from '../machineEvents';
+import { machineEvents, Area } from '../machineEvents';
 import { InputErrorMessages, commonFieldValidator } from '../validation';
 import { convertFilesToBase64 } from '../utils';
 
@@ -14,7 +14,7 @@ type APIParams = {
     | 'serviceOffering'
     | 'injury'
     | undefined;
-  routeArea: RouteArea | undefined;
+  area: Area | undefined;
   transportMode: TransportModeType | undefined;
   line: Line | undefined;
   fromStop: Line['quays'][0] | undefined;
@@ -94,7 +94,7 @@ export const meansOfTransportFormMachine = setup({
     callAPI: fromPromise(
       async ({
         input: {
-          routeArea,
+          area,
           transportMode,
           line,
           fromStop,
@@ -116,7 +116,7 @@ export const meansOfTransportFormMachine = setup({
         return await fetch('api/contact/means-of-transport', {
           method: 'POST',
           body: JSON.stringify({
-            routeArea: routeArea,
+            area: area,
             transportMode: transportMode,
             line: line,
             fromStop: fromStop,
@@ -142,7 +142,7 @@ export const meansOfTransportFormMachine = setup({
   initial: 'editing',
   context: {
     formType: undefined,
-    routeArea: undefined,
+    area: undefined,
     transportMode: undefined,
     line: undefined,
     fromStop: undefined,
@@ -239,7 +239,7 @@ export const meansOfTransportFormMachine = setup({
         src: 'callAPI',
         input: ({ context }) => ({
           formType: context.formType,
-          routeArea: context.routeArea,
+          area: context.area,
           transportMode: context.transportMode,
           line: context.line,
           fromStop: context.fromStop,

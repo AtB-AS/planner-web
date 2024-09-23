@@ -3,7 +3,7 @@ import { Line } from './server/journey-planner/validators';
 import { TranslatedString } from '@atb/translations';
 
 export type ReasonForTransportFailure = { id: string; name: TranslatedString };
-export type RouteArea = { id: string; name: TranslatedString };
+export type Area = { id: string; name: TranslatedString };
 
 export const machineEvents = {} as
   | { type: 'VALIDATE' }
@@ -46,7 +46,7 @@ export const machineEvents = {} as
         | 'customerNumber'
         | 'travelCardNumber'
         | 'isAppTicketStorageMode'
-        | 'routeArea';
+        | 'area';
       value:
         | string
         | number
@@ -54,6 +54,7 @@ export const machineEvents = {} as
         | Line['quays'][0]
         | TransportModeType
         | ReasonForTransportFailure
+        | Area
         | File[];
     }
 
