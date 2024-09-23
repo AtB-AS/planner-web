@@ -223,15 +223,12 @@ export const TransportationForm = ({
           }}
         />
       </SectionCard>
-      <SectionCard title={PageText.Contact.inputFields.feedback.optionalTitle}>
+      <SectionCard title={PageText.Contact.aboutYouInfo.optionalTitle}>
         <Input
           label={PageText.Contact.inputFields.firstName.label}
           type="text"
           name="firstName"
           value={state.context.firstName}
-          errorMessage={
-            state.context?.errorMessages['firstName']?.[0] || undefined
-          }
           onChange={(e) =>
             send({
               type: 'UPDATE_FIELD',
@@ -246,9 +243,6 @@ export const TransportationForm = ({
           type="text"
           name="lastName"
           value={state.context.lastName}
-          errorMessage={
-            state.context?.errorMessages['lastName']?.[0] || undefined
-          }
           onChange={(e) =>
             send({
               type: 'UPDATE_FIELD',
@@ -257,6 +251,10 @@ export const TransportationForm = ({
             })
           }
         />
+
+        <Typo.p textType="body__primary">
+          {t(PageText.Contact.inputFields.email.wantsToBeContacted.question)}
+        </Typo.p>
 
         <RadioInput
           label={t(PageText.Contact.inputFields.email.wantsToBeContacted.yes)}
@@ -282,13 +280,10 @@ export const TransportationForm = ({
         />
         {state.context.wantsToBeContacted && (
           <Input
-            label={PageText.Contact.inputFields.email.label}
+            label={PageText.Contact.inputFields.email.wantsToBeContacted.label}
             type="email"
             name="email"
             value={state.context.email}
-            errorMessage={
-              state.context?.errorMessages['email']?.[0] || undefined
-            }
             onChange={(e) =>
               send({
                 type: 'UPDATE_FIELD',

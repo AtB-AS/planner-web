@@ -72,12 +72,8 @@ export const InjuryForm = ({ state, send }: InjuryFormProps) => {
           placeholder={t(PageText.Contact.inputFields.routeArea.optionLabel)}
           options={PageText.Contact.inputFields.routeArea.options}
           error={
-            state.context?.errorMessages['reasonForTransportFailure']?.[0]
-              ? t(
-                  state.context?.errorMessages[
-                    'reasonForTransportFailure'
-                  ]?.[0],
-                )
+            state.context?.errorMessages['routeArea']?.[0]
+              ? t(state.context?.errorMessages['routeArea']?.[0])
               : undefined
           }
         />
@@ -242,15 +238,12 @@ export const InjuryForm = ({ state, send }: InjuryFormProps) => {
           }}
         />
       </SectionCard>
-      <SectionCard title={PageText.Contact.inputFields.feedback.optionalTitle}>
+      <SectionCard title={PageText.Contact.aboutYouInfo.optionalTitle}>
         <Input
           label={PageText.Contact.inputFields.firstName.label}
           type="text"
           name="firstName"
           value={state.context.firstName}
-          errorMessage={
-            state.context?.errorMessages['firstName']?.[0] || undefined
-          }
           onChange={(e) =>
             send({
               type: 'UPDATE_FIELD',
@@ -265,9 +258,6 @@ export const InjuryForm = ({ state, send }: InjuryFormProps) => {
           type="text"
           name="lastName"
           value={state.context.lastName}
-          errorMessage={
-            state.context?.errorMessages['lastName']?.[0] || undefined
-          }
           onChange={(e) =>
             send({
               type: 'UPDATE_FIELD',
@@ -276,6 +266,10 @@ export const InjuryForm = ({ state, send }: InjuryFormProps) => {
             })
           }
         />
+
+        <Typo.p textType="body__primary">
+          {t(PageText.Contact.inputFields.email.wantsToBeContacted.question)}
+        </Typo.p>
 
         <RadioInput
           label={t(PageText.Contact.inputFields.email.wantsToBeContacted.yes)}
@@ -301,13 +295,10 @@ export const InjuryForm = ({ state, send }: InjuryFormProps) => {
         />
         {state.context.wantsToBeContacted && (
           <Input
-            label={PageText.Contact.inputFields.email.label}
+            label={PageText.Contact.inputFields.email.wantsToBeContacted.label}
             type="email"
             name="email"
             value={state.context.email}
-            errorMessage={
-              state.context?.errorMessages['email']?.[0] || undefined
-            }
             onChange={(e) =>
               send({
                 type: 'UPDATE_FIELD',

@@ -78,12 +78,8 @@ export const ServiceOfferingForm = ({
           placeholder={t(PageText.Contact.inputFields.routeArea.optionLabel)}
           options={PageText.Contact.inputFields.routeArea.options}
           error={
-            state.context?.errorMessages['reasonForTransportFailure']?.[0]
-              ? t(
-                  state.context?.errorMessages[
-                    'reasonForTransportFailure'
-                  ]?.[0],
-                )
+            state.context?.errorMessages['routeArea']?.[0]
+              ? t(state.context?.errorMessages['routeArea']?.[0])
               : undefined
           }
         />
@@ -170,15 +166,12 @@ export const ServiceOfferingForm = ({
           }}
         />
       </SectionCard>
-      <SectionCard title={PageText.Contact.inputFields.feedback.optionalTitle}>
+      <SectionCard title={PageText.Contact.aboutYouInfo.optionalTitle}>
         <Input
           label={PageText.Contact.inputFields.firstName.label}
           type="text"
           name="firstName"
           value={state.context.firstName}
-          errorMessage={
-            state.context?.errorMessages['firstName']?.[0] || undefined
-          }
           onChange={(e) =>
             send({
               type: 'UPDATE_FIELD',
@@ -193,9 +186,6 @@ export const ServiceOfferingForm = ({
           type="text"
           name="lastName"
           value={state.context.lastName}
-          errorMessage={
-            state.context?.errorMessages['lastName']?.[0] || undefined
-          }
           onChange={(e) =>
             send({
               type: 'UPDATE_FIELD',

@@ -497,6 +497,11 @@ export const Contact = {
       'Information about you',
       'Informasjon om deg',
     ),
+    optionalTitle: _(
+      'Informasjon om deg (valgfritt)',
+      'Information about you (optinal)',
+      'Informasjon om deg  (valfritt)',
+    ),
 
     firstname: _(
       'Fornavn og mellomnavn',
@@ -572,6 +577,7 @@ export const Contact = {
           'Ønsker du svar på angåande saka?',
           'Ønsker du svar på angåande saka?',
         ),
+
         yes: _('Ja', 'Yes', 'Ja'),
         no: _('Nei', 'No', 'Nei'),
       },

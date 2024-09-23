@@ -217,15 +217,12 @@ export const DelayForm = ({ state, send }: DelayFormProps) => {
           }}
         />
       </SectionCard>
-      <SectionCard title={PageText.Contact.inputFields.feedback.optionalTitle}>
+      <SectionCard title={PageText.Contact.aboutYouInfo.optionalTitle}>
         <Input
           label={PageText.Contact.inputFields.firstName.label}
           type="text"
           name="firstName"
           value={state.context.firstName}
-          errorMessage={
-            state.context?.errorMessages['firstName']?.[0] || undefined
-          }
           onChange={(e) =>
             send({
               type: 'UPDATE_FIELD',
@@ -240,9 +237,6 @@ export const DelayForm = ({ state, send }: DelayFormProps) => {
           type="text"
           name="lastName"
           value={state.context.lastName}
-          errorMessage={
-            state.context?.errorMessages['lastName']?.[0] || undefined
-          }
           onChange={(e) =>
             send({
               type: 'UPDATE_FIELD',
@@ -252,46 +246,19 @@ export const DelayForm = ({ state, send }: DelayFormProps) => {
           }
         />
 
-        <RadioInput
-          label={t(PageText.Contact.inputFields.email.wantsToBeContacted.yes)}
-          name="wantsToBeContacted"
-          checked={state.context.wantsToBeContacted}
-          onChange={() =>
+        <Input
+          label={PageText.Contact.inputFields.email.label}
+          type="email"
+          name="email"
+          value={state.context.email}
+          onChange={(e) =>
             send({
-              type: 'TOGGLE',
-              field: 'wantsToBeContacted',
+              type: 'UPDATE_FIELD',
+              field: 'email',
+              value: e.target.value,
             })
           }
         />
-        <RadioInput
-          label={t(PageText.Contact.inputFields.email.wantsToBeContacted.no)}
-          name="wantsToBeContacted"
-          checked={!state.context.wantsToBeContacted}
-          onChange={() =>
-            send({
-              type: 'TOGGLE',
-              field: 'wantsToBeContacted',
-            })
-          }
-        />
-        {state.context.wantsToBeContacted && (
-          <Input
-            label={PageText.Contact.inputFields.email.label}
-            type="email"
-            name="email"
-            value={state.context.email}
-            errorMessage={
-              state.context?.errorMessages['email']?.[0] || undefined
-            }
-            onChange={(e) =>
-              send({
-                type: 'UPDATE_FIELD',
-                field: 'email',
-                value: e.target.value,
-              })
-            }
-          />
-        )}
       </SectionCard>
 
       <Button

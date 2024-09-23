@@ -14,7 +14,7 @@ import { FileInput } from '../../components/input/file';
 import { Textarea } from '../../components/input/textarea';
 import { machineEvents } from '../../machineEvents';
 
-type StopFormFormProps = {
+type StopFormProps = {
   state: {
     hasTag(arg0: string): boolean | undefined;
     context: ContextProps;
@@ -22,7 +22,7 @@ type StopFormFormProps = {
   send: (event: typeof machineEvents) => void;
 };
 
-export const StopForm = ({ state, send }: StopFormFormProps) => {
+export const StopForm = ({ state, send }: StopFormProps) => {
   const { t } = useTranslation();
   const { getLinesByMode, getQuaysByLine } = useLines();
 
@@ -179,15 +179,12 @@ export const StopForm = ({ state, send }: StopFormFormProps) => {
           }}
         />
       </SectionCard>
-      <SectionCard title={PageText.Contact.inputFields.feedback.optionalTitle}>
+      <SectionCard title={PageText.Contact.aboutYouInfo.optionalTitle}>
         <Input
           label={PageText.Contact.inputFields.firstName.label}
           type="text"
           name="firstName"
           value={state.context.firstName}
-          errorMessage={
-            state.context?.errorMessages['firstName']?.[0] || undefined
-          }
           onChange={(e) =>
             send({
               type: 'UPDATE_FIELD',
@@ -202,9 +199,6 @@ export const StopForm = ({ state, send }: StopFormFormProps) => {
           type="text"
           name="lastName"
           value={state.context.lastName}
-          errorMessage={
-            state.context?.errorMessages['lastName']?.[0] || undefined
-          }
           onChange={(e) =>
             send({
               type: 'UPDATE_FIELD',
@@ -219,7 +213,6 @@ export const StopForm = ({ state, send }: StopFormFormProps) => {
           type="email"
           name="email"
           value={state.context.email}
-          errorMessage={state.context?.errorMessages['email']?.[0] || undefined}
           onChange={(e) =>
             send({
               type: 'UPDATE_FIELD',

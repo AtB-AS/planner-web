@@ -6,17 +6,39 @@ export const commonFieldValidator = (context: any) => {
   const inputFieldRules = [
     {
       field: 'firstName',
-      validCondition: context.firstName,
+      validCondition:
+        context.firstName ||
+        context.formType === 'driver' ||
+        context.formType === 'transportation' ||
+        context.formType === 'delay' ||
+        context.formType === 'stop' ||
+        context.formType === 'serviceOffering' ||
+        context.formType === 'injury',
       errorMessage: PageText.Contact.inputFields.firstName.errorMessages.empty,
     },
     {
       field: 'lastName',
-      validCondition: context.lastName,
+      validCondition:
+        context.lastName ||
+        context.formType === 'driver' ||
+        context.formType === 'transportation' ||
+        context.formType === 'delay' ||
+        context.formType === 'stop' ||
+        context.formType === 'serviceOffering' ||
+        context.formType === 'injury',
       errorMessage: PageText.Contact.inputFields.lastName.errorMessages.empty,
     },
     {
       field: 'email',
-      validCondition: context.email || context.wantsToBeContacted === false,
+      validCondition:
+        context.email ||
+        context.formType === 'driver' ||
+        context.formType === 'transportation' ||
+        context.formType === 'delay' ||
+        context.formType === 'stop' ||
+        context.formType === 'serviceOffering' ||
+        context.formType === 'injury' ||
+        context.wantsToBeContacted === false,
       errorMessage: PageText.Contact.inputFields.email.errorMessages.empty,
     },
     {
@@ -140,6 +162,8 @@ export const commonFieldValidator = (context: any) => {
 
   // Populate context.errorMessages
   context.errorMessages = inputErrorMessages;
+
+  console.log(context.errorMessages);
 
   // Return false if any error
   return Object.keys(context.errorMessages).length > 0 ? false : true;
