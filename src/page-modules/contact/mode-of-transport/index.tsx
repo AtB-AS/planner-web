@@ -10,11 +10,11 @@ import Select from '../components/input/select';
 import { ComponentText } from '@atb/translations';
 import { Input } from '../components/input';
 import { TransportModeType } from '@atb-as/config-specs';
-import style from '../contact.module.css';
 import { Button } from '@atb/components/button';
 import { Line } from '..';
-import { Checkbox } from '../components/input/checkbox';
-import ErrorMessage from '../components/input/error-message';
+import { FileInput } from '../components/input/file';
+import { Textarea } from '../components/input/textarea';
+import { RadioInput } from '../components/input/radio';
 
 export const ModsOfTransportContent = () => {
   const { t } = useTranslation();
@@ -37,19 +37,71 @@ export const ModsOfTransportContent = () => {
   return (
     <form onSubmit={onSubmit}>
       <ModeOfTransportFormSelector state={state} send={send} />
-      {state.hasTag('driverCrewFeedback') && (
+      {state.hasTag('driverForm') && (
+        <SectionCard
+          title={PageText.Contact.modeOfTransport.driverForm.description}
+        >
+          <Typo.p textType="body__primary">
+            {t(PageText.Contact.modeOfTransport.driverForm.info)}
+          </Typo.p>
+        </SectionCard>
+      )}
+      {state.hasTag('transportationForm') && (
+        <SectionCard
+          title={
+            PageText.Contact.modeOfTransport.transportationForm.description
+          }
+        >
+          <Typo.p textType="body__primary">
+            {t(PageText.Contact.modeOfTransport.transportationForm.info)}
+          </Typo.p>
+        </SectionCard>
+      )}
+      {state.hasTag('delayForm') && (
+        <SectionCard
+          title={PageText.Contact.modeOfTransport.delayForm.description}
+        >
+          <Typo.p textType="body__primary">
+            {t(PageText.Contact.modeOfTransport.delayForm.info)}
+          </Typo.p>
+        </SectionCard>
+      )}
+      {state.hasTag('stopForm') && (
+        <SectionCard
+          title={PageText.Contact.modeOfTransport.stopForm.description}
+        >
+          <Typo.p textType="body__primary">
+            {t(PageText.Contact.modeOfTransport.stopForm.info)}
+          </Typo.p>
+        </SectionCard>
+      )}
+      {state.hasTag('serviceOfferingForm') && (
+        <SectionCard
+          title={
+            PageText.Contact.modeOfTransport.serviceOfferingForm.description
+          }
+        >
+          <Typo.p textType="body__primary">
+            {t(PageText.Contact.modeOfTransport.serviceOfferingForm.info)}
+          </Typo.p>
+        </SectionCard>
+      )}
+      {state.hasTag('injuryForm') && (
+        <SectionCard
+          title={PageText.Contact.modeOfTransport.injuryForm.description}
+        >
+          <Typo.p textType="body__primary">
+            {t(PageText.Contact.modeOfTransport.injuryForm.info)}
+          </Typo.p>
+        </SectionCard>
+      )}
+      {state.hasTag('selected') && state.hasTag('driverForm') && (
         <div>
           <SectionCard
-            title={
-              PageText.Contact.modeOfTransport.driverCrewFeedback.aboutTheTrip
-                .title
-            }
+            title={PageText.Contact.modeOfTransport.driverForm.about.title}
           >
             <Typo.p textType="body__primary">
-              {t(
-                PageText.Contact.modeOfTransport.driverCrewFeedback.aboutTheTrip
-                  .description,
-              )}
+              {t(PageText.Contact.modeOfTransport.driverForm.about.description)}
             </Typo.p>
 
             <Select
@@ -79,6 +131,7 @@ export const ModsOfTransportContent = () => {
                   : undefined
               }
             />
+
             <Select
               label={t(
                 PageText.Contact.inputFields.transportMode.label,
@@ -198,6 +251,7 @@ export const ModsOfTransportContent = () => {
                 })
               }
             />
+
             <Input
               label={PageText.Contact.inputFields.plannedDepartureTime}
               type="time"
@@ -212,20 +266,781 @@ export const ModsOfTransportContent = () => {
               }
             />
           </SectionCard>
+
+          <SectionCard title={PageText.Contact.inputFields.feedback.title}>
+            <Typo.p textType="body__primary">
+              {t(PageText.Contact.inputFields.feedback.description)}
+            </Typo.p>
+            <Textarea
+              value={state.context.feedback}
+              onChange={(e) =>
+                send({
+                  type: 'UPDATE_FIELD',
+                  field: 'feedback',
+                  value: e.target.value,
+                })
+              }
+              error={
+                state.context.errorMessages['feedback']?.[0]
+                  ? t(state.context.errorMessages['feedback']?.[0]).toString()
+                  : undefined
+              }
+            />
+            <FileInput
+              name="attachments"
+              label={t(PageText.Contact.inputFields.feedback.attachment)}
+              onChange={(files) => {
+                send({
+                  type: 'UPDATE_FIELD',
+                  field: 'attachments',
+                  value: files,
+                });
+              }}
+            />
+          </SectionCard>
+          <SectionCard
+            title={PageText.Contact.inputFields.feedback.optionalTitle}
+          >
+            <Input
+              label={PageText.Contact.inputFields.firstName.label}
+              type="text"
+              name="firstName"
+              value={state.context.firstName}
+              errorMessage={
+                state.context?.errorMessages['firstName']?.[0] || undefined
+              }
+              onChange={(e) =>
+                send({
+                  type: 'UPDATE_FIELD',
+                  field: 'firstName',
+                  value: e.target.value,
+                })
+              }
+            />
+
+            <Input
+              label={PageText.Contact.inputFields.lastName.label}
+              type="text"
+              name="lastName"
+              value={state.context.lastName}
+              errorMessage={
+                state.context?.errorMessages['lastName']?.[0] || undefined
+              }
+              onChange={(e) =>
+                send({
+                  type: 'UPDATE_FIELD',
+                  field: 'lastName',
+                  value: e.target.value,
+                })
+              }
+            />
+
+            <RadioInput
+              label={t(
+                PageText.Contact.inputFields.email.wantsToBeContacted.yes,
+              )}
+              name="wantsToBeContacted"
+              checked={state.context.wantsToBeContacted}
+              onChange={() =>
+                send({
+                  type: 'TOGGLE',
+                  field: 'wantsToBeContacted',
+                })
+              }
+            />
+            <RadioInput
+              label={t(
+                PageText.Contact.inputFields.email.wantsToBeContacted.no,
+              )}
+              name="wantsToBeContacted"
+              checked={!state.context.wantsToBeContacted}
+              onChange={() =>
+                send({
+                  type: 'TOGGLE',
+                  field: 'wantsToBeContacted',
+                })
+              }
+            />
+            {state.context.wantsToBeContacted && (
+              <Input
+                label={PageText.Contact.inputFields.email.label}
+                type="email"
+                name="email"
+                value={state.context.email}
+                errorMessage={
+                  state.context?.errorMessages['email']?.[0] || undefined
+                }
+                onChange={(e) =>
+                  send({
+                    type: 'UPDATE_FIELD',
+                    field: 'email',
+                    value: e.target.value,
+                  })
+                }
+              />
+            )}
+          </SectionCard>
         </div>
       )}
-      {state.hasTag('transportFeedback') && <div>transportFeedback</div>}
-      {state.hasTag('delayEarlyCancellationReport') && (
-        <div>delayEarlyCancellationReport</div>
-      )}
-      {state.hasTag('stopDockFeedback') && <div>stopDockFeedback</div>}
-      {state.hasTag('routeOfferFeedback') && <div>routeOfferFeedback</div>}
-      {state.hasTag('incidentReport') && <div>incidentReport</div>}
-      {state.hasTag('selected') && (
+      {state.hasTag('selected') && state.hasTag('transportationForm') && (
         <div>
           <SectionCard
-            title={PageText.Contact.inputFields.feedback.title}
-          ></SectionCard>
+            title={
+              PageText.Contact.modeOfTransport.transportationForm.about.title
+            }
+          >
+            <Typo.p textType="body__primary">
+              {t(
+                PageText.Contact.modeOfTransport.transportationForm.about
+                  .description,
+              )}
+            </Typo.p>
+
+            <Select
+              label={t(
+                PageText.Contact.inputFields.transportMode.label,
+              ).toString()}
+              value={state.context.transportMode}
+              onChange={(value) =>
+                send({
+                  type: 'UPDATE_FIELD',
+                  field: 'transportMode',
+                  value: value as TransportModeType,
+                })
+              }
+              error={
+                state.context?.errorMessages['transportMode']?.[0]
+                  ? t(state.context?.errorMessages['transportMode']?.[0])
+                  : undefined
+              }
+              valueToText={(val: TransportModeType) =>
+                t(ComponentText.TransportMode.modes[val])
+              }
+              valueToId={(val: TransportModeType) => val}
+              options={['bus', 'water'] as TransportModeType[]}
+              placeholder={t(
+                PageText.Contact.inputFields.transportMode.optionLabel,
+              )}
+            />
+
+            <Select
+              label={t(PageText.Contact.inputFields.line.label)}
+              value={state.context.line}
+              disabled={!state.context.transportMode}
+              onChange={(value: Line | undefined) => {
+                if (!value) return;
+                send({
+                  type: 'UPDATE_FIELD',
+                  field: 'line',
+                  value: value,
+                });
+              }}
+              options={getLinesByMode(
+                state.context.transportMode as TransportModeType,
+              )}
+              valueToId={(line: Line) => line.id}
+              valueToText={(line: Line) => line.name}
+              placeholder={t(PageText.Contact.inputFields.line.optionLabel)}
+              error={
+                state.context?.errorMessages['line']?.[0]
+                  ? t(state.context?.errorMessages['line']?.[0])
+                  : undefined
+              }
+            />
+
+            <Select
+              label={t(PageText.Contact.inputFields.fromStop.label)}
+              value={state.context.fromStop}
+              disabled={!state.context.line}
+              onChange={(value) => {
+                if (!value) return;
+                send({
+                  type: 'UPDATE_FIELD',
+                  field: 'fromStop',
+                  value: value,
+                });
+              }}
+              options={
+                state.context.line?.id
+                  ? getQuaysByLine(state.context.line.id)
+                  : []
+              }
+              placeholder={t(PageText.Contact.inputFields.fromStop.optionLabel)}
+              error={
+                state.context?.errorMessages['fromStop']?.[0]
+                  ? t(state.context?.errorMessages['fromStop']?.[0])
+                  : undefined
+              }
+              valueToId={(quay: Line['quays'][0]) => quay.id}
+              valueToText={(quay: Line['quays'][0]) => quay.name}
+            />
+
+            <Select
+              label={t(PageText.Contact.inputFields.toStop.label)}
+              value={state.context.toStop}
+              disabled={!state.context.line}
+              onChange={(value) => {
+                if (!value) return;
+                send({
+                  type: 'UPDATE_FIELD',
+                  field: 'toStop',
+                  value: value,
+                });
+              }}
+              placeholder={t(PageText.Contact.inputFields.toStop.optionLabel)}
+              options={
+                state.context.line?.id
+                  ? getQuaysByLine(state.context.line.id)
+                  : []
+              }
+              error={
+                state.context?.errorMessages['toStop']?.[0]
+                  ? t(state.context?.errorMessages['toStop']?.[0])
+                  : undefined
+              }
+              valueToId={(quay: Line['quays'][0]) => quay.id}
+              valueToText={(quay: Line['quays'][0]) => quay.name}
+            />
+
+            <Input
+              label={PageText.Contact.inputFields.date}
+              type="date"
+              name="date"
+              value={state.context.date}
+              onChange={(e) =>
+                send({
+                  type: 'UPDATE_FIELD',
+                  field: 'date',
+                  value: e.target.value,
+                })
+              }
+            />
+
+            <Input
+              label={PageText.Contact.inputFields.plannedDepartureTime}
+              type="time"
+              name="time"
+              value={state.context.plannedDepartureTime}
+              onChange={(e) =>
+                send({
+                  type: 'UPDATE_FIELD',
+                  field: 'plannedDepartureTime',
+                  value: e.target.value,
+                })
+              }
+            />
+          </SectionCard>
+
+          <SectionCard title={PageText.Contact.inputFields.feedback.title}>
+            <Typo.p textType="body__primary">
+              {t(PageText.Contact.inputFields.feedback.description)}
+            </Typo.p>
+            <Textarea
+              value={state.context.feedback}
+              onChange={(e) =>
+                send({
+                  type: 'UPDATE_FIELD',
+                  field: 'feedback',
+                  value: e.target.value,
+                })
+              }
+              error={
+                state.context.errorMessages['feedback']?.[0]
+                  ? t(state.context.errorMessages['feedback']?.[0]).toString()
+                  : undefined
+              }
+            />
+            <FileInput
+              name="attachments"
+              label={t(PageText.Contact.inputFields.feedback.attachment)}
+              onChange={(files) => {
+                send({
+                  type: 'UPDATE_FIELD',
+                  field: 'attachments',
+                  value: files,
+                });
+              }}
+            />
+          </SectionCard>
+          <SectionCard
+            title={PageText.Contact.inputFields.feedback.optionalTitle}
+          >
+            <Input
+              label={PageText.Contact.inputFields.firstName.label}
+              type="text"
+              name="firstName"
+              value={state.context.firstName}
+              errorMessage={
+                state.context?.errorMessages['firstName']?.[0] || undefined
+              }
+              onChange={(e) =>
+                send({
+                  type: 'UPDATE_FIELD',
+                  field: 'firstName',
+                  value: e.target.value,
+                })
+              }
+            />
+
+            <Input
+              label={PageText.Contact.inputFields.lastName.label}
+              type="text"
+              name="lastName"
+              value={state.context.lastName}
+              errorMessage={
+                state.context?.errorMessages['lastName']?.[0] || undefined
+              }
+              onChange={(e) =>
+                send({
+                  type: 'UPDATE_FIELD',
+                  field: 'lastName',
+                  value: e.target.value,
+                })
+              }
+            />
+
+            <RadioInput
+              label={t(
+                PageText.Contact.inputFields.email.wantsToBeContacted.yes,
+              )}
+              name="wantsToBeContacted"
+              checked={state.context.wantsToBeContacted}
+              onChange={() =>
+                send({
+                  type: 'TOGGLE',
+                  field: 'wantsToBeContacted',
+                })
+              }
+            />
+            <RadioInput
+              label={t(
+                PageText.Contact.inputFields.email.wantsToBeContacted.no,
+              )}
+              name="wantsToBeContacted"
+              checked={!state.context.wantsToBeContacted}
+              onChange={() =>
+                send({
+                  type: 'TOGGLE',
+                  field: 'wantsToBeContacted',
+                })
+              }
+            />
+            {state.context.wantsToBeContacted && (
+              <Input
+                label={PageText.Contact.inputFields.email.label}
+                type="email"
+                name="email"
+                value={state.context.email}
+                errorMessage={
+                  state.context?.errorMessages['email']?.[0] || undefined
+                }
+                onChange={(e) =>
+                  send({
+                    type: 'UPDATE_FIELD',
+                    field: 'email',
+                    value: e.target.value,
+                  })
+                }
+              />
+            )}
+          </SectionCard>
+        </div>
+      )}
+      {state.hasTag('selected') && state.hasTag('delayForm') && (
+        <div>
+          <SectionCard
+            title={PageText.Contact.modeOfTransport.delayForm.about.title}
+          >
+            <Typo.p textType="body__primary">
+              {t(PageText.Contact.modeOfTransport.delayForm.about.description)}
+            </Typo.p>
+
+            <Select
+              label={t(
+                PageText.Contact.inputFields.transportMode.label,
+              ).toString()}
+              value={state.context.transportMode}
+              onChange={(value) =>
+                send({
+                  type: 'UPDATE_FIELD',
+                  field: 'transportMode',
+                  value: value as TransportModeType,
+                })
+              }
+              error={
+                state.context?.errorMessages['transportMode']?.[0]
+                  ? t(state.context?.errorMessages['transportMode']?.[0])
+                  : undefined
+              }
+              valueToText={(val: TransportModeType) =>
+                t(ComponentText.TransportMode.modes[val])
+              }
+              valueToId={(val: TransportModeType) => val}
+              options={['bus', 'water'] as TransportModeType[]}
+              placeholder={t(
+                PageText.Contact.inputFields.transportMode.optionLabel,
+              )}
+            />
+
+            <Select
+              label={t(PageText.Contact.inputFields.line.label)}
+              value={state.context.line}
+              disabled={!state.context.transportMode}
+              onChange={(value: Line | undefined) => {
+                if (!value) return;
+                send({
+                  type: 'UPDATE_FIELD',
+                  field: 'line',
+                  value: value,
+                });
+              }}
+              options={getLinesByMode(
+                state.context.transportMode as TransportModeType,
+              )}
+              valueToId={(line: Line) => line.id}
+              valueToText={(line: Line) => line.name}
+              placeholder={t(PageText.Contact.inputFields.line.optionLabel)}
+              error={
+                state.context?.errorMessages['line']?.[0]
+                  ? t(state.context?.errorMessages['line']?.[0])
+                  : undefined
+              }
+            />
+
+            <Select
+              label={t(PageText.Contact.inputFields.fromStop.label)}
+              value={state.context.fromStop}
+              disabled={!state.context.line}
+              onChange={(value) => {
+                if (!value) return;
+                send({
+                  type: 'UPDATE_FIELD',
+                  field: 'fromStop',
+                  value: value,
+                });
+              }}
+              options={
+                state.context.line?.id
+                  ? getQuaysByLine(state.context.line.id)
+                  : []
+              }
+              placeholder={t(PageText.Contact.inputFields.fromStop.optionLabel)}
+              error={
+                state.context?.errorMessages['fromStop']?.[0]
+                  ? t(state.context?.errorMessages['fromStop']?.[0])
+                  : undefined
+              }
+              valueToId={(quay: Line['quays'][0]) => quay.id}
+              valueToText={(quay: Line['quays'][0]) => quay.name}
+            />
+
+            <Select
+              label={t(PageText.Contact.inputFields.toStop.label)}
+              value={state.context.toStop}
+              disabled={!state.context.line}
+              onChange={(value) => {
+                if (!value) return;
+                send({
+                  type: 'UPDATE_FIELD',
+                  field: 'toStop',
+                  value: value,
+                });
+              }}
+              placeholder={t(PageText.Contact.inputFields.toStop.optionLabel)}
+              options={
+                state.context.line?.id
+                  ? getQuaysByLine(state.context.line.id)
+                  : []
+              }
+              error={
+                state.context?.errorMessages['toStop']?.[0]
+                  ? t(state.context?.errorMessages['toStop']?.[0])
+                  : undefined
+              }
+              valueToId={(quay: Line['quays'][0]) => quay.id}
+              valueToText={(quay: Line['quays'][0]) => quay.name}
+            />
+
+            <Input
+              label={PageText.Contact.inputFields.date}
+              type="date"
+              name="date"
+              value={state.context.date}
+              onChange={(e) =>
+                send({
+                  type: 'UPDATE_FIELD',
+                  field: 'date',
+                  value: e.target.value,
+                })
+              }
+            />
+
+            <Input
+              label={PageText.Contact.inputFields.plannedDepartureTime}
+              type="time"
+              name="time"
+              value={state.context.plannedDepartureTime}
+              onChange={(e) =>
+                send({
+                  type: 'UPDATE_FIELD',
+                  field: 'plannedDepartureTime',
+                  value: e.target.value,
+                })
+              }
+            />
+          </SectionCard>
+
+          <SectionCard title={PageText.Contact.inputFields.feedback.title}>
+            <Typo.p textType="body__primary">
+              {t(PageText.Contact.inputFields.feedback.description)}
+            </Typo.p>
+            <Textarea
+              value={state.context.feedback}
+              onChange={(e) =>
+                send({
+                  type: 'UPDATE_FIELD',
+                  field: 'feedback',
+                  value: e.target.value,
+                })
+              }
+              error={
+                state.context.errorMessages['feedback']?.[0]
+                  ? t(state.context.errorMessages['feedback']?.[0]).toString()
+                  : undefined
+              }
+            />
+            <FileInput
+              name="attachments"
+              label={t(PageText.Contact.inputFields.feedback.attachment)}
+              onChange={(files) => {
+                send({
+                  type: 'UPDATE_FIELD',
+                  field: 'attachments',
+                  value: files,
+                });
+              }}
+            />
+          </SectionCard>
+          <SectionCard
+            title={PageText.Contact.inputFields.feedback.optionalTitle}
+          >
+            <Input
+              label={PageText.Contact.inputFields.firstName.label}
+              type="text"
+              name="firstName"
+              value={state.context.firstName}
+              errorMessage={
+                state.context?.errorMessages['firstName']?.[0] || undefined
+              }
+              onChange={(e) =>
+                send({
+                  type: 'UPDATE_FIELD',
+                  field: 'firstName',
+                  value: e.target.value,
+                })
+              }
+            />
+
+            <Input
+              label={PageText.Contact.inputFields.lastName.label}
+              type="text"
+              name="lastName"
+              value={state.context.lastName}
+              errorMessage={
+                state.context?.errorMessages['lastName']?.[0] || undefined
+              }
+              onChange={(e) =>
+                send({
+                  type: 'UPDATE_FIELD',
+                  field: 'lastName',
+                  value: e.target.value,
+                })
+              }
+            />
+
+            <RadioInput
+              label={t(
+                PageText.Contact.inputFields.email.wantsToBeContacted.yes,
+              )}
+              name="wantsToBeContacted"
+              checked={state.context.wantsToBeContacted}
+              onChange={() =>
+                send({
+                  type: 'TOGGLE',
+                  field: 'wantsToBeContacted',
+                })
+              }
+            />
+            <RadioInput
+              label={t(
+                PageText.Contact.inputFields.email.wantsToBeContacted.no,
+              )}
+              name="wantsToBeContacted"
+              checked={!state.context.wantsToBeContacted}
+              onChange={() =>
+                send({
+                  type: 'TOGGLE',
+                  field: 'wantsToBeContacted',
+                })
+              }
+            />
+            {state.context.wantsToBeContacted && (
+              <Input
+                label={PageText.Contact.inputFields.email.label}
+                type="email"
+                name="email"
+                value={state.context.email}
+                errorMessage={
+                  state.context?.errorMessages['email']?.[0] || undefined
+                }
+                onChange={(e) =>
+                  send({
+                    type: 'UPDATE_FIELD',
+                    field: 'email',
+                    value: e.target.value,
+                  })
+                }
+              />
+            )}
+          </SectionCard>
+        </div>
+      )}
+      {state.hasTag('selected') && state.hasTag('stopForm') && (
+        <div>
+          <SectionCard
+            title={PageText.Contact.modeOfTransport.stopForm.about.title}
+          >
+            <Typo.p textType="body__primary">
+              {t(PageText.Contact.modeOfTransport.stopForm.about.description)}
+            </Typo.p>
+
+            <Select
+              label={t(
+                PageText.Contact.inputFields.transportMode.label,
+              ).toString()}
+              value={state.context.transportMode}
+              onChange={(value) =>
+                send({
+                  type: 'UPDATE_FIELD',
+                  field: 'transportMode',
+                  value: value as TransportModeType,
+                })
+              }
+              error={
+                state.context?.errorMessages['transportMode']?.[0]
+                  ? t(state.context?.errorMessages['transportMode']?.[0])
+                  : undefined
+              }
+              valueToText={(val: TransportModeType) =>
+                t(ComponentText.TransportMode.modes[val])
+              }
+              valueToId={(val: TransportModeType) => val}
+              options={['bus', 'water'] as TransportModeType[]}
+              placeholder={t(
+                PageText.Contact.inputFields.transportMode.optionLabel,
+              )}
+            />
+
+            <Select
+              label={t(PageText.Contact.inputFields.line.label)}
+              value={state.context.line}
+              disabled={!state.context.transportMode}
+              onChange={(value: Line | undefined) => {
+                if (!value) return;
+                send({
+                  type: 'UPDATE_FIELD',
+                  field: 'line',
+                  value: value,
+                });
+              }}
+              options={getLinesByMode(
+                state.context.transportMode as TransportModeType,
+              )}
+              valueToId={(line: Line) => line.id}
+              valueToText={(line: Line) => line.name}
+              placeholder={t(PageText.Contact.inputFields.line.optionLabel)}
+              error={
+                state.context?.errorMessages['line']?.[0]
+                  ? t(state.context?.errorMessages['line']?.[0])
+                  : undefined
+              }
+            />
+
+            <Select
+              label={t(
+                PageText.Contact.inputFields.fromStop.labelWhitoutSpecification,
+              )}
+              value={state.context.fromStop}
+              disabled={!state.context.line}
+              onChange={(value) => {
+                if (!value) return;
+                send({
+                  type: 'UPDATE_FIELD',
+                  field: 'fromStop',
+                  value: value,
+                });
+              }}
+              options={
+                state.context.line?.id
+                  ? getQuaysByLine(state.context.line.id)
+                  : []
+              }
+              placeholder={t(PageText.Contact.inputFields.fromStop.optionLabel)}
+              error={
+                state.context?.errorMessages['fromStop']?.[0]
+                  ? t(state.context?.errorMessages['fromStop']?.[0])
+                  : undefined
+              }
+              valueToId={(quay: Line['quays'][0]) => quay.id}
+              valueToText={(quay: Line['quays'][0]) => quay.name}
+            />
+
+            <Input
+              label={PageText.Contact.inputFields.date}
+              type="date"
+              name="date"
+              value={state.context.date}
+              onChange={(e) =>
+                send({
+                  type: 'UPDATE_FIELD',
+                  field: 'date',
+                  value: e.target.value,
+                })
+              }
+            />
+          </SectionCard>
+
+          <SectionCard title={PageText.Contact.inputFields.feedback.title}>
+            <Typo.p textType="body__primary">
+              {t(PageText.Contact.inputFields.feedback.description)}
+            </Typo.p>
+            <Textarea
+              value={state.context.feedback}
+              onChange={(e) =>
+                send({
+                  type: 'UPDATE_FIELD',
+                  field: 'feedback',
+                  value: e.target.value,
+                })
+              }
+              error={
+                state.context.errorMessages['feedback']?.[0]
+                  ? t(state.context.errorMessages['feedback']?.[0]).toString()
+                  : undefined
+              }
+            />
+            <FileInput
+              name="attachments"
+              label={t(PageText.Contact.inputFields.feedback.attachment)}
+              onChange={(files) => {
+                send({
+                  type: 'UPDATE_FIELD',
+                  field: 'attachments',
+                  value: files,
+                });
+              }}
+            />
+          </SectionCard>
           <SectionCard
             title={PageText.Contact.inputFields.feedback.optionalTitle}
           >
@@ -280,13 +1095,468 @@ export const ModsOfTransportContent = () => {
               }
             />
           </SectionCard>
-          <Button
-            title={t(PageText.Contact.submit)}
-            mode={'interactive_0--bordered'}
-            buttonProps={{ type: 'submit' }}
-          />
         </div>
       )}
+      {state.hasTag('selected') && state.hasTag('serviceOfferingForm') && (
+        <div>
+          <SectionCard
+            title={
+              PageText.Contact.modeOfTransport.serviceOfferingForm.about.title
+            }
+          >
+            <Typo.p textType="body__primary">
+              {t(
+                PageText.Contact.modeOfTransport.serviceOfferingForm.about
+                  .description,
+              )}
+            </Typo.p>
+
+            <Select
+              label={t(PageText.Contact.inputFields.routeArea.label).toString()}
+              value={state.context.routeArea}
+              valueToId={(option) => option.id}
+              valueToText={(option) => t(option.name)}
+              onChange={(value) => {
+                if (!value) return;
+                send({
+                  type: 'UPDATE_FIELD',
+                  field: 'routeArea',
+                  value: value,
+                });
+              }}
+              placeholder={t(
+                PageText.Contact.inputFields.routeArea.optionLabel,
+              )}
+              options={PageText.Contact.inputFields.routeArea.options}
+              error={
+                state.context?.errorMessages['reasonForTransportFailure']?.[0]
+                  ? t(
+                      state.context?.errorMessages[
+                        'reasonForTransportFailure'
+                      ]?.[0],
+                    )
+                  : undefined
+              }
+            />
+
+            <Select
+              label={t(
+                PageText.Contact.inputFields.transportMode.label,
+              ).toString()}
+              value={state.context.transportMode}
+              onChange={(value) =>
+                send({
+                  type: 'UPDATE_FIELD',
+                  field: 'transportMode',
+                  value: value as TransportModeType,
+                })
+              }
+              error={
+                state.context?.errorMessages['transportMode']?.[0]
+                  ? t(state.context?.errorMessages['transportMode']?.[0])
+                  : undefined
+              }
+              valueToText={(val: TransportModeType) =>
+                t(ComponentText.TransportMode.modes[val])
+              }
+              valueToId={(val: TransportModeType) => val}
+              options={['bus', 'water'] as TransportModeType[]}
+              placeholder={t(
+                PageText.Contact.inputFields.transportMode.optionLabel,
+              )}
+            />
+
+            <Select
+              label={t(PageText.Contact.inputFields.line.label)}
+              value={state.context.line}
+              disabled={!state.context.transportMode}
+              onChange={(value: Line | undefined) => {
+                if (!value) return;
+                send({
+                  type: 'UPDATE_FIELD',
+                  field: 'line',
+                  value: value,
+                });
+              }}
+              options={getLinesByMode(
+                state.context.transportMode as TransportModeType,
+              )}
+              valueToId={(line: Line) => line.id}
+              valueToText={(line: Line) => line.name}
+              placeholder={t(PageText.Contact.inputFields.line.optionLabel)}
+              error={
+                state.context?.errorMessages['line']?.[0]
+                  ? t(state.context?.errorMessages['line']?.[0])
+                  : undefined
+              }
+            />
+          </SectionCard>
+
+          <SectionCard title={PageText.Contact.inputFields.feedback.title}>
+            <Typo.p textType="body__primary">
+              {t(PageText.Contact.inputFields.feedback.description)}
+            </Typo.p>
+            <Textarea
+              value={state.context.feedback}
+              onChange={(e) =>
+                send({
+                  type: 'UPDATE_FIELD',
+                  field: 'feedback',
+                  value: e.target.value,
+                })
+              }
+              error={
+                state.context.errorMessages['feedback']?.[0]
+                  ? t(state.context.errorMessages['feedback']?.[0]).toString()
+                  : undefined
+              }
+            />
+            <FileInput
+              name="attachments"
+              label={t(PageText.Contact.inputFields.feedback.attachment)}
+              onChange={(files) => {
+                send({
+                  type: 'UPDATE_FIELD',
+                  field: 'attachments',
+                  value: files,
+                });
+              }}
+            />
+          </SectionCard>
+          <SectionCard
+            title={PageText.Contact.inputFields.feedback.optionalTitle}
+          >
+            <Input
+              label={PageText.Contact.inputFields.firstName.label}
+              type="text"
+              name="firstName"
+              value={state.context.firstName}
+              errorMessage={
+                state.context?.errorMessages['firstName']?.[0] || undefined
+              }
+              onChange={(e) =>
+                send({
+                  type: 'UPDATE_FIELD',
+                  field: 'firstName',
+                  value: e.target.value,
+                })
+              }
+            />
+
+            <Input
+              label={PageText.Contact.inputFields.lastName.label}
+              type="text"
+              name="lastName"
+              value={state.context.lastName}
+              errorMessage={
+                state.context?.errorMessages['lastName']?.[0] || undefined
+              }
+              onChange={(e) =>
+                send({
+                  type: 'UPDATE_FIELD',
+                  field: 'lastName',
+                  value: e.target.value,
+                })
+              }
+            />
+          </SectionCard>
+        </div>
+      )}
+      {state.hasTag('selected') && state.hasTag('injuryForm') && (
+        <div>
+          <SectionCard
+            title={PageText.Contact.modeOfTransport.injuryForm.about.title}
+          >
+            <Typo.p textType="body__primary">
+              {t(PageText.Contact.modeOfTransport.injuryForm.about.description)}
+            </Typo.p>
+
+            <Select
+              label={t(PageText.Contact.inputFields.routeArea.label).toString()}
+              value={state.context.routeArea}
+              valueToId={(option) => option.id}
+              valueToText={(option) => t(option.name)}
+              onChange={(value) => {
+                if (!value) return;
+                send({
+                  type: 'UPDATE_FIELD',
+                  field: 'routeArea',
+                  value: value,
+                });
+              }}
+              placeholder={t(
+                PageText.Contact.inputFields.routeArea.optionLabel,
+              )}
+              options={PageText.Contact.inputFields.routeArea.options}
+              error={
+                state.context?.errorMessages['reasonForTransportFailure']?.[0]
+                  ? t(
+                      state.context?.errorMessages[
+                        'reasonForTransportFailure'
+                      ]?.[0],
+                    )
+                  : undefined
+              }
+            />
+
+            <Select
+              label={t(
+                PageText.Contact.inputFields.transportMode.label,
+              ).toString()}
+              value={state.context.transportMode}
+              onChange={(value) =>
+                send({
+                  type: 'UPDATE_FIELD',
+                  field: 'transportMode',
+                  value: value as TransportModeType,
+                })
+              }
+              error={
+                state.context?.errorMessages['transportMode']?.[0]
+                  ? t(state.context?.errorMessages['transportMode']?.[0])
+                  : undefined
+              }
+              valueToText={(val: TransportModeType) =>
+                t(ComponentText.TransportMode.modes[val])
+              }
+              valueToId={(val: TransportModeType) => val}
+              options={['bus', 'water'] as TransportModeType[]}
+              placeholder={t(
+                PageText.Contact.inputFields.transportMode.optionLabel,
+              )}
+            />
+
+            <Select
+              label={t(PageText.Contact.inputFields.line.label)}
+              value={state.context.line}
+              disabled={!state.context.transportMode}
+              onChange={(value: Line | undefined) => {
+                if (!value) return;
+                send({
+                  type: 'UPDATE_FIELD',
+                  field: 'line',
+                  value: value,
+                });
+              }}
+              options={getLinesByMode(
+                state.context.transportMode as TransportModeType,
+              )}
+              valueToId={(line: Line) => line.id}
+              valueToText={(line: Line) => line.name}
+              placeholder={t(PageText.Contact.inputFields.line.optionLabel)}
+              error={
+                state.context?.errorMessages['line']?.[0]
+                  ? t(state.context?.errorMessages['line']?.[0])
+                  : undefined
+              }
+            />
+
+            <Select
+              label={t(PageText.Contact.inputFields.fromStop.label)}
+              value={state.context.fromStop}
+              disabled={!state.context.line}
+              onChange={(value) => {
+                if (!value) return;
+                send({
+                  type: 'UPDATE_FIELD',
+                  field: 'fromStop',
+                  value: value,
+                });
+              }}
+              options={
+                state.context.line?.id
+                  ? getQuaysByLine(state.context.line.id)
+                  : []
+              }
+              placeholder={t(PageText.Contact.inputFields.fromStop.optionLabel)}
+              error={
+                state.context?.errorMessages['fromStop']?.[0]
+                  ? t(state.context?.errorMessages['fromStop']?.[0])
+                  : undefined
+              }
+              valueToId={(quay: Line['quays'][0]) => quay.id}
+              valueToText={(quay: Line['quays'][0]) => quay.name}
+            />
+
+            <Select
+              label={t(PageText.Contact.inputFields.toStop.label)}
+              value={state.context.toStop}
+              disabled={!state.context.line}
+              onChange={(value) => {
+                if (!value) return;
+                send({
+                  type: 'UPDATE_FIELD',
+                  field: 'toStop',
+                  value: value,
+                });
+              }}
+              placeholder={t(PageText.Contact.inputFields.toStop.optionLabel)}
+              options={
+                state.context.line?.id
+                  ? getQuaysByLine(state.context.line.id)
+                  : []
+              }
+              error={
+                state.context?.errorMessages['toStop']?.[0]
+                  ? t(state.context?.errorMessages['toStop']?.[0])
+                  : undefined
+              }
+              valueToId={(quay: Line['quays'][0]) => quay.id}
+              valueToText={(quay: Line['quays'][0]) => quay.name}
+            />
+
+            <Input
+              label={PageText.Contact.inputFields.date}
+              type="date"
+              name="date"
+              value={state.context.date}
+              onChange={(e) =>
+                send({
+                  type: 'UPDATE_FIELD',
+                  field: 'date',
+                  value: e.target.value,
+                })
+              }
+            />
+
+            <Input
+              label={PageText.Contact.inputFields.plannedDepartureTime}
+              type="time"
+              name="time"
+              value={state.context.plannedDepartureTime}
+              onChange={(e) =>
+                send({
+                  type: 'UPDATE_FIELD',
+                  field: 'plannedDepartureTime',
+                  value: e.target.value,
+                })
+              }
+            />
+          </SectionCard>
+
+          <SectionCard title={PageText.Contact.inputFields.feedback.title}>
+            <Typo.p textType="body__primary">
+              {t(PageText.Contact.inputFields.feedback.description)}
+            </Typo.p>
+            <Textarea
+              value={state.context.feedback}
+              onChange={(e) =>
+                send({
+                  type: 'UPDATE_FIELD',
+                  field: 'feedback',
+                  value: e.target.value,
+                })
+              }
+              error={
+                state.context.errorMessages['feedback']?.[0]
+                  ? t(state.context.errorMessages['feedback']?.[0]).toString()
+                  : undefined
+              }
+            />
+            <FileInput
+              name="attachments"
+              label={t(PageText.Contact.inputFields.feedback.attachment)}
+              onChange={(files) => {
+                send({
+                  type: 'UPDATE_FIELD',
+                  field: 'attachments',
+                  value: files,
+                });
+              }}
+            />
+          </SectionCard>
+          <SectionCard
+            title={PageText.Contact.inputFields.feedback.optionalTitle}
+          >
+            <Input
+              label={PageText.Contact.inputFields.firstName.label}
+              type="text"
+              name="firstName"
+              value={state.context.firstName}
+              errorMessage={
+                state.context?.errorMessages['firstName']?.[0] || undefined
+              }
+              onChange={(e) =>
+                send({
+                  type: 'UPDATE_FIELD',
+                  field: 'firstName',
+                  value: e.target.value,
+                })
+              }
+            />
+
+            <Input
+              label={PageText.Contact.inputFields.lastName.label}
+              type="text"
+              name="lastName"
+              value={state.context.lastName}
+              errorMessage={
+                state.context?.errorMessages['lastName']?.[0] || undefined
+              }
+              onChange={(e) =>
+                send({
+                  type: 'UPDATE_FIELD',
+                  field: 'lastName',
+                  value: e.target.value,
+                })
+              }
+            />
+
+            <RadioInput
+              label={t(
+                PageText.Contact.inputFields.email.wantsToBeContacted.yes,
+              )}
+              name="wantsToBeContacted"
+              checked={state.context.wantsToBeContacted}
+              onChange={() =>
+                send({
+                  type: 'TOGGLE',
+                  field: 'wantsToBeContacted',
+                })
+              }
+            />
+            <RadioInput
+              label={t(
+                PageText.Contact.inputFields.email.wantsToBeContacted.no,
+              )}
+              name="wantsToBeContacted"
+              checked={!state.context.wantsToBeContacted}
+              onChange={() =>
+                send({
+                  type: 'TOGGLE',
+                  field: 'wantsToBeContacted',
+                })
+              }
+            />
+            {state.context.wantsToBeContacted && (
+              <Input
+                label={PageText.Contact.inputFields.email.label}
+                type="email"
+                name="email"
+                value={state.context.email}
+                errorMessage={
+                  state.context?.errorMessages['email']?.[0] || undefined
+                }
+                onChange={(e) =>
+                  send({
+                    type: 'UPDATE_FIELD',
+                    field: 'email',
+                    value: e.target.value,
+                  })
+                }
+              />
+            )}
+          </SectionCard>
+        </div>
+      )}
+      {state.hasTag('selected') && (
+        <Button
+          title={t(PageText.Contact.submit)}
+          mode={'interactive_0--bordered'}
+          buttonProps={{ type: 'submit' }}
+        />
+      )}
+      {state.hasTag('success') && <div>success!</div>}
     </form>
   );
 };

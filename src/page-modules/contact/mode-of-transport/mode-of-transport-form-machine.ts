@@ -1,15 +1,12 @@
 import { TransportModeType } from '@atb-as/config-specs';
 import { assign, fromPromise, setup } from 'xstate';
 import { Line } from '../server/journey-planner/validators';
-import {
-  machineEvents,
-  ReasonForTransportFailure,
-  RouteArea,
-} from '../machineEvents';
+import { machineEvents, RouteArea } from '../machineEvents';
 import {
   InputErrorMessages,
   travelGuaranteeFieldValidator,
 } from '../validation';
+import { convertFilesToBase64 } from '../utils';
 
 type APIParams = {
   routeArea: RouteArea | undefined;
@@ -20,6 +17,7 @@ type APIParams = {
   date: string;
   plannedDepartureTime: string;
   feedback: string;
+  attachments?: File[];
   firstName: string;
   lastName: string;
   email: string;
@@ -27,13 +25,14 @@ type APIParams = {
 
 type ContextProps = {
   modeOfTransportStateWhenSubmitted:
-    | 'driverCrewFeedback'
-    | 'transportFeedback'
-    | 'delayEarlyCancellationReport'
-    | 'stopDockFeedback'
-    | 'routeOfferFeedback'
-    | 'incidentReport'
+    | 'driverForm'
+    | 'transportationForm'
+    | 'delayForm'
+    | 'stopForm'
+    | 'serviceOfferingForm'
+    | 'injuryForm'
     | undefined;
+  wantsToBeContacted: boolean;
   errorMessages: InputErrorMessages;
 } & APIParams;
 
@@ -49,18 +48,18 @@ export const modeOfTransportFormMachine = setup({
     setCurrentStateWhenSubmitted: assign({
       modeOfTransportStateWhenSubmitted: ({ event }) => {
         switch (event.type) {
-          case 'DRIVER_CREW_FEEDBACK':
-            return 'driverCrewFeedback';
-          case 'TRANSPORT_FEEDBACK':
-            return 'transportFeedback';
-          case 'DELAY_EARLY_CANCELLATION_REPORT':
-            return 'delayEarlyCancellationReport';
-          case 'STOP_DOCK_FEEDBACK':
-            return 'stopDockFeedback';
-          case 'ROUTE_OFFER_FEEDBACK':
-            return 'routeOfferFeedback';
-          case 'INCIDENT_REPORT':
-            return 'incidentReport';
+          case 'DRIVER_FORM':
+            return 'driverForm';
+          case 'TRANSPORTATION_FORM':
+            return 'transportationForm';
+          case 'DELAY_FORM':
+            return 'delayForm';
+          case 'STOP_FORM':
+            return 'stopForm';
+          case 'SERVICE_OFFERING_FORM':
+            return 'serviceOfferingForm';
+          case 'INJURY_FORM':
+            return 'injuryForm';
           default:
             return undefined; // In case of an unexpected event type
         }
@@ -75,6 +74,16 @@ export const modeOfTransportFormMachine = setup({
         return {
           ...context,
           [field]: value,
+        };
+      }
+      return context;
+    }),
+
+    toggleField: assign(({ context, event }: any) => {
+      if (event.type === 'TOGGLE') {
+        const { field } = event;
+        return {
+          [field]: !context[field],
         };
       }
       return context;
@@ -96,6 +105,7 @@ export const modeOfTransportFormMachine = setup({
           date,
           plannedDepartureTime,
           feedback,
+          attachments,
           firstName,
           lastName,
           email,
@@ -103,6 +113,9 @@ export const modeOfTransportFormMachine = setup({
       }: {
         input: APIParams;
       }) => {
+        const base64EncodedAttachments = await convertFilesToBase64(
+          attachments || [],
+        );
         return await fetch('/contact/mode-of-transport', {
           method: 'POST',
           body: JSON.stringify({
@@ -142,29 +155,34 @@ export const modeOfTransportFormMachine = setup({
     firstName: '',
     lastName: '',
     email: '',
+    wantsToBeContacted: false,
     errorMessages: {},
   },
   states: {
     editing: {
       initial: 'idle',
       on: {
-        DRIVER_CREW_FEEDBACK: {
-          target: 'editing.driverCrewFeedback',
+        DRIVER_FORM: {
+          target: 'editing.driverForm',
         },
         TRANSPORT_FEEDBACK: {
-          target: 'editing.transportFeedback',
+          target: 'editing.transportationForm',
         },
-        DELAY_EARLY_CANCELLATION_REPORT: {
-          target: 'editing.delayEarlyCancellationReport',
+        DELAY_FORM: {
+          target: 'editing.delayForm',
         },
-        STOP_DOCK_FEEDBACK: {
-          target: 'editing.stopDockFeedback',
+        STOP_FORM: {
+          target: 'editing.stopForm',
         },
         ROUTE_OFFER_FEEDBACK: {
-          target: 'editing.routeOfferFeedback',
+          target: 'editing.serviceOfferingForm',
         },
         INCIDENT_REPORT: {
-          target: 'editing.incidentReport',
+          target: 'editing.injuryForm',
+        },
+
+        TOGGLE: {
+          actions: 'toggleField',
         },
 
         UPDATE_FIELD: {
@@ -178,34 +196,34 @@ export const modeOfTransportFormMachine = setup({
 
       states: {
         idle: {},
-        driverCrewFeedback: {
+        driverForm: {
           entry: ['cleanErrorMessages', 'setCurrentStateWhenSubmitted'],
-          tags: ['driverCrewFeedback', 'selected'],
+          tags: ['driverForm', 'selected'],
         },
 
-        transportFeedback: {
+        transportationForm: {
           entry: ['cleanErrorMessages', 'setCurrentStateWhenSubmitted'],
-          tags: ['transportFeedback', 'selected'],
+          tags: ['transportationForm', 'selected'],
         },
 
-        delayEarlyCancellationReport: {
+        delayForm: {
           entry: ['cleanErrorMessages', 'setCurrentStateWhenSubmitted'],
-          tags: ['delayEarlyCancellationReport', 'selected'],
+          tags: ['delayForm', 'selected'],
         },
 
-        stopDockFeedback: {
+        stopForm: {
           entry: ['cleanErrorMessages', 'setCurrentStateWhenSubmitted'],
-          tags: ['stopDockFeedback', 'selected'],
+          tags: ['stopForm', 'selected'],
         },
 
-        routeOfferFeedback: {
+        serviceOfferingForm: {
           entry: ['cleanErrorMessages', 'setCurrentStateWhenSubmitted'],
-          tags: ['routeOfferFeedback', 'selected'],
+          tags: ['serviceOfferingForm', 'selected'],
         },
 
-        incidentReport: {
+        injuryForm: {
           entry: ['cleanErrorMessages', 'setCurrentStateWhenSubmitted'],
-          tags: ['incidentReport', 'selected'],
+          tags: ['injuryForm', 'selected'],
         },
 
         readyForSubmit: {
