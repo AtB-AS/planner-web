@@ -162,7 +162,7 @@ export const modeOfTransportFormMachine = setup({
         DRIVER_FORM: {
           target: 'editing.driverForm',
         },
-        TRANSPORT_FEEDBACK: {
+        TRANSPORTATION_FORM: {
           target: 'editing.transportationForm',
         },
         DELAY_FORM: {
@@ -171,10 +171,10 @@ export const modeOfTransportFormMachine = setup({
         STOP_FORM: {
           target: 'editing.stopForm',
         },
-        ROUTE_OFFER_FEEDBACK: {
+        SERVICE_OFFERING_FORM: {
           target: 'editing.serviceOfferingForm',
         },
-        INCIDENT_REPORT: {
+        INJURY_FORM: {
           target: 'editing.injuryForm',
         },
 
@@ -195,32 +195,32 @@ export const modeOfTransportFormMachine = setup({
         idle: {},
         driverForm: {
           entry: ['cleanErrorMessages', 'setCurrentStateWhenSubmitted'],
-          tags: ['driverForm', 'selected'],
+          tags: 'driverForm',
         },
 
         transportationForm: {
           entry: ['cleanErrorMessages', 'setCurrentStateWhenSubmitted'],
-          tags: ['transportationForm', 'selected'],
+          tags: 'transportationForm',
         },
 
         delayForm: {
           entry: ['cleanErrorMessages', 'setCurrentStateWhenSubmitted'],
-          tags: ['delayForm', 'selected'],
+          tags: 'delayForm',
         },
 
         stopForm: {
           entry: ['cleanErrorMessages', 'setCurrentStateWhenSubmitted'],
-          tags: ['stopForm', 'selected'],
+          tags: 'stopForm',
         },
 
         serviceOfferingForm: {
           entry: ['cleanErrorMessages', 'setCurrentStateWhenSubmitted'],
-          tags: ['serviceOfferingForm', 'selected'],
+          tags: 'serviceOfferingForm',
         },
 
         injuryForm: {
           entry: ['cleanErrorMessages', 'setCurrentStateWhenSubmitted'],
-          tags: ['injuryForm', 'selected'],
+          tags: 'injuryForm',
         },
 
         readyForSubmit: {
