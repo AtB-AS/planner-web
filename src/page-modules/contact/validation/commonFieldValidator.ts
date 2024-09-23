@@ -16,7 +16,7 @@ export const commonFieldValidator = (context: any) => {
     },
     {
       field: 'email',
-      validCondition: context.email,
+      validCondition: context.email || context.wantsToBeContacted === false,
       errorMessage: PageText.Contact.inputFields.email.errorMessages.empty,
     },
     {
