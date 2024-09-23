@@ -6,6 +6,14 @@ import { InputErrorMessages, commonFieldValidator } from '../validation';
 import { convertFilesToBase64 } from '../utils';
 
 type APIParams = {
+  formType:
+    | 'driver'
+    | 'transportation'
+    | 'delay'
+    | 'stop'
+    | 'serviceOffering'
+    | 'injury'
+    | undefined;
   routeArea: RouteArea | undefined;
   transportMode: TransportModeType | undefined;
   line: Line | undefined;
@@ -21,14 +29,6 @@ type APIParams = {
 };
 
 export type ContextProps = {
-  modeOfTransportStateWhenSubmitted:
-    | 'driverForm'
-    | 'transportationForm'
-    | 'delayForm'
-    | 'stopForm'
-    | 'serviceOfferingForm'
-    | 'injuryForm'
-    | undefined;
   wantsToBeContacted: boolean;
   errorMessages: InputErrorMessages;
 } & APIParams;
@@ -42,23 +42,23 @@ export const modeOfTransportFormMachine = setup({
     validateInputs: ({ context }) => commonFieldValidator(context),
   },
   actions: {
-    setCurrentStateWhenSubmitted: assign({
-      modeOfTransportStateWhenSubmitted: ({ event }) => {
+    setFormType: assign({
+      formType: ({ event }) => {
         switch (event.type) {
           case 'DRIVER_FORM':
-            return 'driverForm';
+            return 'driver';
           case 'TRANSPORTATION_FORM':
-            return 'transportationForm';
+            return 'transportation';
           case 'DELAY_FORM':
-            return 'delayForm';
+            return 'delay';
           case 'STOP_FORM':
-            return 'stopForm';
+            return 'stop';
           case 'SERVICE_OFFERING_FORM':
-            return 'serviceOfferingForm';
+            return 'serviceOffering';
           case 'INJURY_FORM':
-            return 'injuryForm';
+            return 'injury';
           default:
-            return undefined; // In case of an unexpected event type
+            return undefined;
         }
       },
     }),
@@ -127,6 +127,7 @@ export const modeOfTransportFormMachine = setup({
             firstName: firstName,
             lastName: lastName,
             email: email,
+            attachments: base64EncodedAttachments,
           }),
         }).then((response) => {
           // throw an error to force onError
@@ -140,8 +141,8 @@ export const modeOfTransportFormMachine = setup({
   /** @xstate-layout N4IgpgJg5mDOIC5QAoC2BDAxgCwJYDswBKAOlwgBswBiAZQFUAhAWQEkAVAbQAYBdRUAAcA9rFwAXXMPwCQAD0QBGAGzcSAZgCsATnXLlAJi2rN6gDQgAnkoDsmktxsAObstN7FN5eoC+Pi2hYeISk5FTU7ADyAOLRADIAojz8SCAiYpLSsgoIACyKJNpFxSUlFtYIRvZO6rUqBg3c3Fp+ARg4BMRklDTsAIIAGqzJsukSUjKpOSpqWrr6VSbmVojqueoaBk6K3AbOqjYGyq0ggR0hJJDj+FB0TGxcfKOi41lTiJqaBdyKmoaKTmcTkB2nKtnsjhcblqyk83hOZ2CXSukhudAS7AA+uwAEp9ABytAACpEcVjmJEACJJJ6pMaZSagHJ2NSKXKudnqGw7TSAsGVdTaEhOYpOTQ2ZqmZS5BHtJGkCjCdAQAi3CDSMBkfAAN2EAGtNYjOgqlSqbggCLrMOgGckRnSXgzsh8vg5fv9AcCQfztiRcsVnHpuO4bLKgsaSIrlarqGAAE5x4RxkiCCg2gBmSdQJCNFyjZqgFp1wmttr49qEjomzoQn2+7oMAKB3pWlQM9nF20cn20nj8-hA+GEEDgslzxGeGWr7wQAFplA4mkvl8ubPz52Hzl0wmBJ69GfIPkLcgZtMpudovmze6DW7UbH7FGzT9wnA12TKB+PSCjVXunTO2wPq47anmK3DaGKuT8msBS5M4EFit4Ng2OoBifm04Z5qaf4OlObxMqsmi5H6TjrGRhwoV4wb8r8BgOAh5FNCo56bvKJCwAArpgmBwPAeH7jWQEOIYmhgZoiHEbRzQkKY2jBl83C5GKnihv2QA */
   initial: 'editing',
   context: {
+    formType: undefined,
     routeArea: undefined,
-    modeOfTransportStateWhenSubmitted: undefined,
     transportMode: undefined,
     line: undefined,
     fromStop: undefined,
@@ -194,32 +195,32 @@ export const modeOfTransportFormMachine = setup({
       states: {
         idle: {},
         driverForm: {
-          entry: ['cleanErrorMessages', 'setCurrentStateWhenSubmitted'],
+          entry: ['cleanErrorMessages', 'setFormType'],
           tags: 'driverForm',
         },
 
         transportationForm: {
-          entry: ['cleanErrorMessages', 'setCurrentStateWhenSubmitted'],
+          entry: ['cleanErrorMessages', 'setFormType'],
           tags: 'transportationForm',
         },
 
         delayForm: {
-          entry: ['cleanErrorMessages', 'setCurrentStateWhenSubmitted'],
+          entry: ['cleanErrorMessages', 'setFormType'],
           tags: 'delayForm',
         },
 
         stopForm: {
-          entry: ['cleanErrorMessages', 'setCurrentStateWhenSubmitted'],
+          entry: ['cleanErrorMessages', 'setFormType'],
           tags: 'stopForm',
         },
 
         serviceOfferingForm: {
-          entry: ['cleanErrorMessages', 'setCurrentStateWhenSubmitted'],
+          entry: ['cleanErrorMessages', 'setFormType'],
           tags: 'serviceOfferingForm',
         },
 
         injuryForm: {
-          entry: ['cleanErrorMessages', 'setCurrentStateWhenSubmitted'],
+          entry: ['cleanErrorMessages', 'setFormType'],
           tags: 'injuryForm',
         },
 
@@ -237,6 +238,7 @@ export const modeOfTransportFormMachine = setup({
       invoke: {
         src: 'callAPI',
         input: ({ context }) => ({
+          formType: context.formType,
           routeArea: context.routeArea,
           transportMode: context.transportMode,
           line: context.line,
