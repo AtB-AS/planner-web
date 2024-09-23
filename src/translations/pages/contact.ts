@@ -354,15 +354,19 @@ export const Contact = {
       'Transportmiddel og stoppested',
     ),
 
-    driverCrewFeedback: {
+    driverForm: {
       description: _(
         'Tilbakemelding på sjåfør/mannskap',
         'Feedback on driver/crew',
         'Tilbakemelding på sjåfør/mannskap',
       ),
-      info: _('Jeg', 'I', 'Eg '),
-      aboutTheTrip: {
-        title: _('Om reisen', 'About the trip', 'Om reise'),
+      info: _(
+        'Har du opplevd uansvarlig kjøring, eller reagert på hvordan mannskapet gjorde jobben sin, kan du gi tilbakemelding her. Har du hatt en ekstra hyggelig opplevelse, vil vi gjerne høre om det også.',
+        'If you have experienced irresponsible driving, or reacted to how the crew did their job, you can give feedback here. If you have had an extra pleasant experience, we would like to hear about it too.',
+        'Har du opplevd uforsvarleg køyring, eller reagert på korleis mannskapet gjorde jobben sin, kan du gi tilbakemelding her. Har du hatt ei ekstra hyggeleg oppleving, vil vi gjerne høyre om det også.',
+      ),
+      about: {
+        title: _('Om reisen', 'About the trip', 'Om reisa'),
         description: _(
           'Vi trenger å vite litt om reisen din. Da er det lettere for oss å følge opp saken.',
           'We need to know a bit about your journey. Then it is easier for us to follow up on the case.',
@@ -370,45 +374,111 @@ export const Contact = {
         ),
       },
     },
-    transportFeedback: {
+    transportationForm: {
       description: _(
         'Tilbakemelding på transportmiddel',
         'Feedback on transport vehicle',
         'Tilbakemelding på transportmiddel',
       ),
-      info: _('Jeg', 'I', 'Eg '),
+      info: _(
+        'Har du opplevd noe som ikke var som det skulle på transportmiddelet, kan du gi tilbakemelding her. Har du hatt en ekstra hyggelig opplevelse, vil vi gjerne høre om det også.',
+        'If you have experienced something that was not as it should be on the means of transport, you can give feedback here. If you have had an extra pleasant experience, we would like to hear about it too.',
+        'Har du opplevd noko som ikkje var som det skulle på transportmiddelet, kan du gi tilbakemelding her. Har du hatt ei ekstra hyggeleg oppleving, vil vi gjerne høyre om det også.',
+      ),
+      about: {
+        title: _('Om reisen', 'About the trip', 'Om reisa'),
+        description: _(
+          'Vi trenger å vite litt om reisen din. Da er det lettere for oss å følge opp saken.',
+          'We need to know a bit about your journey. Then it is easier for us to follow up on the case.',
+          'Vi treng å vite litt om reisa di. Då er det enklare for oss å følgje opp saka.',
+        ),
+      },
     },
-    delayEarlyCancellationReport: {
+    delayForm: {
       description: _(
         'Forinkelse, kjørt for tidlig eller innstilt',
         'Delay, driven too early or cancelled',
         'Forseinking, køyrd for tidleg eller innstilt',
       ),
-      info: _('Jeg', 'I', 'Eg '),
+      info: _(
+        'If your means of transport is delayed, left too early, did not stop, lacked space or if you did not receive sufficient information about planned deviations, you can give feedback here.',
+        'If your means of transport is delayed, left too early, did not stop, lacked space or if you did not receive sufficient information about planned deviations, you can give feedback here.',
+        'Viss transportmiddelet ditt er forseinka, for tidleg ute, ikkje stoppa, mangla plass eller viss du ikkje fekk tilstrekkeleg informasjon om planlagde avvik, kan du gi tilbakemelding her. ',
+      ),
+      about: {
+        title: _('Om reisen', 'About the trip', 'Om reisa'),
+        description: _(
+          'Vi trenger å vite litt om reisen din. Da er det lettere for oss å følge opp saken.',
+          'We need to know a bit about your journey. Then it is easier for us to follow up on the case.',
+          'Vi treng å vite litt om reisa di. Då er det enklare for oss å følgje opp saka.',
+        ),
+      },
     },
-    stopDockFeedback: {
+    stopForm: {
       description: _(
         'Tilbakemelding på holdeplass/kai',
         'Feedback on stop/dock',
         'Tilbakemelding på haldeplass/kai',
       ),
-      info: _('Jeg', 'I', 'Eg '),
+      info: _(
+        'Har du opplevd en feil eller manglende stopp? Eksempler kan være skade på leseskur, søppel, feil med sanntidsskilt eller lignende.',
+        'Have you experienced an error or lack of a stop? Examples could be damage to reading sheds, litter, errors with real-time signs, or the like.',
+        'Har du opplevd ein feil eller mangel på stoppestaden? Eksempel kan vere skader på leskur, søppel, feil med sanntidsskilt, eller liknande.',
+      ),
+      about: {
+        title: _(
+          'Om holdeplassen/kaia',
+          'About the stop/dock',
+          'Om haldeplassen/kaia',
+        ),
+        description: _(
+          'Vi trenger å vite litt om reisen din. Da er det lettere for oss å følge opp saken.',
+          'We need to know a bit about your journey. Then it is easier for us to follow up on the case.',
+          'Vi treng å vite litt om reisa di. Då er det enklare for oss å følgje opp saka.',
+        ),
+      },
     },
-    routeOfferFeedback: {
+    serviceOfferingForm: {
       description: _(
         'Tilbakemelding på rutetilbudet',
         'Feedback on route offering',
         'Tilbakemelding på rutetilbodet',
       ),
-      info: _('Jeg', 'I', 'Eg '),
+      info: _(
+        'Har du et forslag til ruteendring, eller vil du gi tilbakemelding på tilbudet vårt? Gi oss gjerne tilbakemelding her. Alle oppføringer lagres og systematiseres og inngår i den årlige ruteendringsprosessen. Vi kan ikke gi individuell tilbakemelding på hvilke innspill/forslag som innføres.',
+        'Do you have a suggestion for a route change, or would you like to give feedback on our offer? Feel free to give us feedback here. All entries are stored and systematized and are included in the annual route change process. We cannot give individual feedback on which input/suggestions are introduced.',
+        'Har du eit forslag til ruteendring, eller ønsker du å gi tilbakemelding på tilbodet vårt? Gi oss gjerne tilbakemelding her. Alle innspel blir lagra og systematisert og blir tatt med i den årlege ruteendringsprosessen. Vi kan ikkje gi individuelle tilbakemeldingar på kva innspel/forslag som blir innførte. ',
+      ),
+
+      about: {
+        title: _('Om reisen', 'About the trip', 'Om reisa'),
+        description: _(
+          'Vi trenger å vite litt om reisen din. Da er det lettere for oss å følge opp saken.',
+          'We need to know a bit about your journey. Then it is easier for us to follow up on the case.',
+          'Vi treng å vite litt om reisa di. Då er det enklare for oss å følgje opp saka.',
+        ),
+      },
     },
-    incidentReport: {
+    injuryForm: {
       description: _(
         'Melde fra om personskade eller ulykke',
         'Report of personal injury or accident',
         'Melde frå om personskade eller ulykke',
       ),
-      info: _('Jeg', 'I', 'Eg '),
+      info: _(
+        'Har du skadet deg selv eller noe du eier om bord på et av våre transportmidler eller ved kai/brygge? Gi tilbakemelding her, så tar vi saken videre med det aktuelle busselskapet eller ledergruppen.',
+        'Did you injure yourself or something you own on board one of our means of transport or at a berth/dock? Give feedback here, and we will take the matter further with the relevant bus company or management team.',
+        'Skada du deg sjølv eller noko du eig om bord på eit av våre transportmiddel eller på haldeplass/kai? Gi tilbakemelding her, så tar vi saka vidare med aktuelt busselskap eller reiarlag.',
+      ),
+
+      about: {
+        title: _('Om reisen', 'About the trip', 'Om reisa'),
+        description: _(
+          'Vi trenger å vite litt om reisen din. Da er det lettere for oss å følge opp saken.',
+          'We need to know a bit about your journey. Then it is easier for us to follow up on the case.',
+          'Vi treng å vite litt om reisa di. Då er det enklare for oss å følgje opp saka.',
+        ),
+      },
     },
   },
 
@@ -491,6 +561,20 @@ export const Contact = {
 
     email: {
       label: _('E-post', 'Email', 'E-post'),
+      wantsToBeContacted: {
+        label: _(
+          'E-post (må fylles ut viss du vill ha svar)',
+          'Email (must be entered if you want to receive an answer)',
+          'E-post (må fyllast ut viss du vil ha svar)',
+        ),
+        question: _(
+          'Ønsker du svar på angåande saka?',
+          'Ønsker du svar på angåande saka?',
+          'Ønsker du svar på angåande saka?',
+        ),
+        yes: _('Ja', 'Yes', 'Ja'),
+        no: _('Nei', 'No', 'Nei'),
+      },
       errorMessages: {
         empty: _(
           'Vennligst fyll ut informasjon om deg',
@@ -567,14 +651,18 @@ export const Contact = {
     },
 
     transportMode: {
-      label: _('Reisemåte', 'Transport mode', 'Reisemåte'),
+      label: _('Transportmiddel', 'Transport mode', 'Transportmiddel'),
       optionLabel: _(
-        'Velg reisemåte',
+        'Velg transportmiddel',
         'Select transport mode',
-        'Velg reisemåte',
+        'Velg transportmiddel',
       ),
       errorMessages: {
-        empty: _('Velg reisemåte', 'Select transport mode', 'Velg reisemåte'),
+        empty: _(
+          'Velg transportmiddel',
+          'Select transport mode',
+          'Velg transportmiddel',
+        ),
       },
     },
 
@@ -587,7 +675,12 @@ export const Contact = {
     },
 
     fromStop: {
-      label: _('Avreisested', 'Departure location', 'Avreisested'),
+      label: _('Fra holdeplass/kai', 'From stop/quay', 'Frå haldeplass/kai'),
+      labelWhitoutSpecification: _(
+        'Holdeplass/kai',
+        'Stop/quay',
+        'Haldeplass/kai',
+      ),
       optionLabel: _(
         'Velg avreisested',
         'Select departure loation',
@@ -603,7 +696,7 @@ export const Contact = {
     },
 
     toStop: {
-      label: _('Ankomststed', 'Arrival location', 'Ankomststed'),
+      label: _('Til holdeplass/kai', 'To stop/quay', 'Til haldeplass/kai'),
       optionLabel: _(
         'Velg anskomststed',
         'Select arrival location',
@@ -618,7 +711,11 @@ export const Contact = {
       },
     },
     date: _('Dato', 'Date', 'Dato'),
-    plannedDepartureTime: _('Avgangstid', 'Departure time', 'Avgangstid'),
+    plannedDepartureTime: _(
+      'Planlagt avgangstid',
+      'Planed departure time',
+      'Planlagd avgangstid',
+    ),
     reasonForTransportFailure: {
       label: _('Mulige valg', 'Options', 'Moglege val'),
       optionLabel: _('Velg årsak', 'Select reason', 'Vel åtsak'),
@@ -779,6 +876,12 @@ export const Contact = {
         'Ønsker du å fortelje oss noko meir? (valfritt)',
       ),
 
+      description: _(
+        'Unngå å oppgi personlig informasjon som bankkortnummer eller helseopplysninger. Vi vil spørre deg senere om det er nødvendig.',
+        'Avoid providing personal information such as bank card numbers or health information. We will ask you later if it is necessary.',
+        'Unngå å oppgi personopplysningar som bankkortnummer eller helseopplysningar. Vi spør deg seinare viss det er nødvendig.',
+      ),
+
       attachment: _(
         'Last opp vedlegg',
         'Upload attachments',
@@ -846,6 +949,14 @@ export const Contact = {
         },
         {
           id: 'rp7',
+          name: _(
+            'Rauma, Vestnes, Skåla (RP7)',
+            'Rauma, Vestnes, Skåla (RP7)',
+            'Rauma, Vestnes, Skåla (RP7)',
+          ),
+        },
+        {
+          id: 'rp8',
           name: _(
             'Hustadvika, Midsund, Aukra (RP8)',
             'Hustadvika, Midsund, Aukra (RP8)',
