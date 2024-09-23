@@ -14,7 +14,8 @@ export const machineEvents = {} as
         | 'isAppTicketStorageMode'
         | 'agreesFirstAgreement'
         | 'agreesSecondAgreement'
-        | 'hasInternationalBankAccount';
+        | 'hasInternationalBankAccount'
+        | 'wantsToBeContacted';
     }
   | {
       type: 'UPDATE_FIELD';
@@ -63,9 +64,9 @@ export const machineEvents = {} as
   | { type: 'SET_STATE_SUBMITTED'; stateSubmitted: string | undefined }
 
   // mode-of-transport
-  | { type: 'DRIVER_CREW_FEEDBACK' }
-  | { type: 'TRANSPORT_FEEDBACK' }
-  | { type: 'DELAY_EARLY_CANCELLATION_REPORT' }
-  | { type: 'ROUTE_OFFER_FEEDBACK' }
-  | { type: 'STOP_DOCK_FEEDBACK' }
-  | { type: 'INCIDENT_REPORT' };
+  | { type: 'DRIVER_FORM' }
+  | { type: 'TRANSPORTATION_FORM' }
+  | { type: 'DELAY_FORM' }
+  | { type: 'STOP_FORM' }
+  | { type: 'SERVICE_OFFERING_FORM' }
+  | { type: 'INJURY_FORM' };
