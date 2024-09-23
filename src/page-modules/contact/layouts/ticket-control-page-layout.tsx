@@ -2,8 +2,6 @@ import { PropsWithChildren } from 'react';
 import { SectionCard } from '../components/section-card';
 import { useRouter } from 'next/router';
 import { PageText, useTranslation } from '@atb/translations';
-import { Checkbox } from '../components/input/checkbox';
-import { Input } from '../components/input';
 import { RadioInput } from '../components/input/radio';
 
 export type TicketControlPageLayoutProps = PropsWithChildren<{

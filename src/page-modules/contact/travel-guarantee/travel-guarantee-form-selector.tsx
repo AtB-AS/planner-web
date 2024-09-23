@@ -1,18 +1,51 @@
 import { PageText, TranslatedString, useTranslation } from '@atb/translations';
 import { SectionCard } from '../components/section-card';
-import { Input } from '../components/input';
 import style from '../contact.module.css';
-import { RadioInput } from '../components/input/radio';
 import { Typo } from '@atb/components/typography';
 import { Checkbox } from '../components/input/checkbox';
+import { FormSelector } from '../components/form-selector';
+import { machineEvents } from '../machineEvents';
+import { ContextProps } from './travelGuaranteeFormMachine';
+import { FormSelectorOption } from '../components/form-selector/form-selector';
 
-type FormSelectorProps = {
-  state: any;
-  send: any;
+type TravelGuaranteeFormSelectorProps = {
+  state: {
+    hasTag(arg0: string): boolean | undefined;
+    context: ContextProps;
+  };
+  send: (event: typeof machineEvents) => void; // Function to send events to the state machine
 };
 
-export const FormSelector = ({ state, send }: FormSelectorProps) => {
+export const TravelGuaranteeFormSelector = ({
+  state,
+  send,
+}: TravelGuaranteeFormSelectorProps) => {
   const { t } = useTranslation();
+
+  const options = [
+    {
+      label: t(
+        PageText.Contact.travelGuarantee.subPageTitles.refundTaxi.description,
+      ),
+      checked: state.hasTag('taxi'),
+      onChange: () => send({ type: 'TAXI' }),
+    },
+    {
+      label: t(
+        PageText.Contact.travelGuarantee.subPageTitles.refundCar.description,
+      ),
+      checked: state.hasTag('car'),
+      onChange: () => send({ type: 'CAR' }),
+    },
+    {
+      label: t(
+        PageText.Contact.travelGuarantee.subPageTitles
+          .refundOtherPublicTransport.description,
+      ),
+      checked: state.hasTag('other'),
+      onChange: () => send({ type: 'OTHER' }),
+    },
+  ] as FormSelectorOption[];
 
   return (
     <div>
@@ -73,44 +106,22 @@ export const FormSelector = ({ state, send }: FormSelectorProps) => {
               PageText.Contact.ticketControl.feeComplaint.firstAgreement
                 .checkbox,
             )}
-            checked={state.context.isChecked}
-            onChange={() => send({ type: 'TOGGLE' })}
+            checked={state.context.isIntialAgreementChecked}
+            onChange={() =>
+              send({ type: 'TOGGLE', field: 'isIntialAgreementChecked' })
+            }
           />
         </SectionCard>
       )}
 
       {state.context.isIntialAgreementChecked && (
-        <SectionCard title={PageText.Contact.travelGuarantee.title}>
-          <ul>
-            <RadioInput
-              label={t(
-                PageText.Contact.travelGuarantee.subPageTitles.refundTaxi
-                  .description,
-              )}
-              checked={state.hasTag('taxi')}
-              onChange={() => send({ type: 'TAXI' })}
-            />
-            <RadioInput
-              label={t(
-                PageText.Contact.travelGuarantee.subPageTitles.refundCar
-                  .description,
-              )}
-              checked={state.hasTag('car')}
-              onChange={() => send({ type: 'CAR' })}
-            />
-            <RadioInput
-              label={t(
-                PageText.Contact.travelGuarantee.subPageTitles
-                  .refundOtherPublicTransport.description,
-              )}
-              checked={state.hasTag('other')}
-              onChange={() => send({ type: 'OTHER' })}
-            />
-          </ul>
-        </SectionCard>
+        <FormSelector
+          title={PageText.Contact.travelGuarantee.title}
+          options={options}
+        />
       )}
     </div>
   );
 };
 
-export default FormSelector;
+export default TravelGuaranteeFormSelector;

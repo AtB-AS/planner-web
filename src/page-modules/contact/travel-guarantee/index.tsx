@@ -1,4 +1,4 @@
-import FormSelector from './form-selector';
+import TravelGuaranteeFormSelector from './travel-guarantee-form-selector';
 import { SectionCard } from '../components/section-card';
 import { ComponentText, PageText, useTranslation } from '@atb/translations';
 import { useMachine } from '@xstate/react';
@@ -34,7 +34,7 @@ export const RefundForm = () => {
 
   return (
     <form onSubmit={onSubmit}>
-      <FormSelector state={state} send={send} />
+      <TravelGuaranteeFormSelector state={state} send={send} />
       {(state.hasTag('taxi') || state.hasTag('car')) && (
         <SectionCard
           title={

@@ -29,7 +29,7 @@ type APIParams = {
   SWIFT: string;
 };
 
-type ContextProps = {
+export type ContextProps = {
   isIntialAgreementChecked: boolean;
   hasInternationalBankAccount: boolean;
   travelGuaranteeStateWhenSubmitted: 'car' | 'taxi' | 'other' | undefined;
@@ -76,6 +76,16 @@ export const fetchMachine = setup({
         return {
           ...context,
           [field]: value,
+        };
+      }
+      return context;
+    }),
+
+    toggleField: assign(({ context, event }: any) => {
+      if (event.type === 'TOGGLE') {
+        const { field } = event;
+        return {
+          [field]: !context[field],
         };
       }
       return context;

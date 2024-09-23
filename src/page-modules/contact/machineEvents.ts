@@ -13,7 +13,8 @@ export const machineEvents = {} as
         | 'isAppTicketStorageMode'
         | 'agreesFirstAgreement'
         | 'agreesSecondAgreement'
-        | 'hasInternationalBankAccount';
+        | 'hasInternationalBankAccount'
+        | 'isIntialAgreementChecked';
     }
   | {
       type: 'UPDATE_FIELD';
