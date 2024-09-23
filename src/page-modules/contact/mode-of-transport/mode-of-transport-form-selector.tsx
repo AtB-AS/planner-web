@@ -17,45 +17,38 @@ export const ModeOfTransportFormSelector = ({
     <SectionCard title={PageText.Contact.travelGuarantee.title}>
       <ul>
         <RadioInput
-          label={t(
-            PageText.Contact.modeOfTransport.driverCrewFeedback.description,
-          )}
-          checked={state.hasTag('driverCrewFeedback')}
-          onChange={() => send({ type: 'DRIVER_CREW_FEEDBACK' })}
+          label={t(PageText.Contact.modeOfTransport.driverForm.description)}
+          checked={state.hasTag('driverForm')}
+          onChange={() => send({ type: 'DRIVER_FORM' })}
         />
         <RadioInput
           label={t(
-            PageText.Contact.modeOfTransport.transportFeedback.description,
+            PageText.Contact.modeOfTransport.transportationForm.description,
           )}
-          checked={state.hasTag('transportFeedback')}
-          onChange={() => send({ type: 'TRANSPORT_FEEDBACK' })}
+          checked={state.hasTag('transportationForm')}
+          onChange={() => send({ type: 'TRANSPORTATION_FORM' })}
+        />
+        <RadioInput
+          label={t(PageText.Contact.modeOfTransport.delayForm.description)}
+          checked={state.hasTag('delayForm')}
+          onChange={() => send({ type: 'DELAY_FORM' })}
+        />
+        <RadioInput
+          label={t(PageText.Contact.modeOfTransport.stopForm.description)}
+          checked={state.hasTag('stopForm')}
+          onChange={() => send({ type: 'STOP_FORM' })}
         />
         <RadioInput
           label={t(
-            PageText.Contact.modeOfTransport.delayEarlyCancellationReport
-              .description,
+            PageText.Contact.modeOfTransport.serviceOfferingForm.description,
           )}
-          checked={state.hasTag('delayEarlyCancellationReport')}
-          onChange={() => send({ type: 'DELAY_EARLY_CANCELLATION_REPORT' })}
+          checked={state.hasTag('serviceOfferingForm')}
+          onChange={() => send({ type: 'SERVICE_OFFERING_FORM' })}
         />
         <RadioInput
-          label={t(
-            PageText.Contact.modeOfTransport.stopDockFeedback.description,
-          )}
-          checked={state.hasTag('stopDockFeedback')}
-          onChange={() => send({ type: 'STOP_DOCK_FEEDBACK' })}
-        />
-        <RadioInput
-          label={t(
-            PageText.Contact.modeOfTransport.routeOfferFeedback.description,
-          )}
-          checked={state.hasTag('routeOfferFeedback')}
-          onChange={() => send({ type: 'ROUTE_OFFER_FEEDBACK' })}
-        />
-        <RadioInput
-          label={t(PageText.Contact.modeOfTransport.incidentReport.description)}
-          checked={state.hasTag('incidentReport')}
-          onChange={() => send({ type: 'INCIDENT_REPORT' })}
+          label={t(PageText.Contact.modeOfTransport.injuryForm.description)}
+          checked={state.hasTag('injuryForm')}
+          onChange={() => send({ type: 'INJURY_FORM' })}
         />
       </ul>
     </SectionCard>
