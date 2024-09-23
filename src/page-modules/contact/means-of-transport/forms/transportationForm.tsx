@@ -1,5 +1,5 @@
 import { PageText, useTranslation } from '@atb/translations';
-import { ContextProps } from '../mode-of-transport-form-machine';
+import { ContextProps } from '../means-of-transport-form-machine';
 import { useLines } from '../../lines/use-lines';
 import { FormEventHandler, useState } from 'react';
 import { SectionCard } from '../../components/section-card';

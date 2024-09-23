@@ -12,7 +12,7 @@ import { Line } from '../..';
 import { FileInput } from '../../components/input/file';
 import { Textarea } from '../../components/input/textarea';
 import { RadioInput } from '../../components/input/radio';
-import { ContextProps } from '../mode-of-transport-form-machine';
+import { ContextProps } from '../means-of-transport-form-machine';
 import { machineEvents } from '../../machineEvents';
 
 type DelayFormProps = {

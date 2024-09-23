@@ -1,5 +1,5 @@
 import { PageText, useTranslation } from '@atb/translations';
-import { ContextProps } from '../mode-of-transport-form-machine';
+import { ContextProps } from '../means-of-transport-form-machine';
 import { useLines } from '../../lines/use-lines';
 import { FormEventHandler, useState } from 'react';
 import { SectionCard } from '../../components/section-card';
@@ -14,7 +14,7 @@ import { FileInput } from '../../components/input/file';
 import { Textarea } from '../../components/input/textarea';
 import { machineEvents } from '../../machineEvents';
 
-type ServiceOfferingFormProps = {
+type StopFormProps = {
   state: {
     hasTag(arg0: string): boolean | undefined;
     context: ContextProps;
@@ -22,10 +22,7 @@ type ServiceOfferingFormProps = {
   send: (event: typeof machineEvents) => void;
 };
 
-export const ServiceOfferingForm = ({
-  state,
-  send,
-}: ServiceOfferingFormProps) => {
+export const StopForm = ({ state, send }: StopFormProps) => {
   const { t } = useTranslation();
   const { getLinesByMode, getQuaysByLine } = useLines();
 
@@ -45,44 +42,19 @@ export const ServiceOfferingForm = ({
   return (
     <form onSubmit={onSubmit}>
       <SectionCard
-        title={PageText.Contact.modeOfTransport.serviceOfferingForm.description}
+        title={PageText.Contact.modeOfTransport.stopForm.description}
       >
         <Typo.p textType="body__primary">
-          {t(PageText.Contact.modeOfTransport.serviceOfferingForm.info)}
+          {t(PageText.Contact.modeOfTransport.stopForm.info)}
         </Typo.p>
       </SectionCard>
 
       <SectionCard
-        title={PageText.Contact.modeOfTransport.serviceOfferingForm.about.title}
+        title={PageText.Contact.modeOfTransport.stopForm.about.title}
       >
         <Typo.p textType="body__primary">
-          {t(
-            PageText.Contact.modeOfTransport.serviceOfferingForm.about
-              .description,
-          )}
+          {t(PageText.Contact.modeOfTransport.stopForm.about.description)}
         </Typo.p>
-
-        <Select
-          label={t(PageText.Contact.inputFields.routeArea.label).toString()}
-          value={state.context.routeArea}
-          valueToId={(option) => option.id}
-          valueToText={(option) => t(option.name)}
-          onChange={(value) => {
-            if (!value) return;
-            send({
-              type: 'UPDATE_FIELD',
-              field: 'routeArea',
-              value: value,
-            });
-          }}
-          placeholder={t(PageText.Contact.inputFields.routeArea.optionLabel)}
-          options={PageText.Contact.inputFields.routeArea.options}
-          error={
-            state.context?.errorMessages['routeArea']?.[0]
-              ? t(state.context?.errorMessages['routeArea']?.[0])
-              : undefined
-          }
-        />
 
         <Select
           label={t(PageText.Contact.inputFields.transportMode.label).toString()}
@@ -131,6 +103,47 @@ export const ServiceOfferingForm = ({
             state.context?.errorMessages['line']?.[0]
               ? t(state.context?.errorMessages['line']?.[0])
               : undefined
+          }
+        />
+
+        <Select
+          label={t(
+            PageText.Contact.inputFields.fromStop.labelWhitoutSpecification,
+          )}
+          value={state.context.fromStop}
+          disabled={!state.context.line}
+          onChange={(value) => {
+            if (!value) return;
+            send({
+              type: 'UPDATE_FIELD',
+              field: 'fromStop',
+              value: value,
+            });
+          }}
+          options={
+            state.context.line?.id ? getQuaysByLine(state.context.line.id) : []
+          }
+          placeholder={t(PageText.Contact.inputFields.fromStop.optionLabel)}
+          error={
+            state.context?.errorMessages['fromStop']?.[0]
+              ? t(state.context?.errorMessages['fromStop']?.[0])
+              : undefined
+          }
+          valueToId={(quay: Line['quays'][0]) => quay.id}
+          valueToText={(quay: Line['quays'][0]) => quay.name}
+        />
+
+        <Input
+          label={PageText.Contact.inputFields.date}
+          type="date"
+          name="date"
+          value={state.context.date}
+          onChange={(e) =>
+            send({
+              type: 'UPDATE_FIELD',
+              field: 'date',
+              value: e.target.value,
+            })
           }
         />
       </SectionCard>
@@ -194,6 +207,20 @@ export const ServiceOfferingForm = ({
             })
           }
         />
+
+        <Input
+          label={PageText.Contact.inputFields.email.label}
+          type="email"
+          name="email"
+          value={state.context.email}
+          onChange={(e) =>
+            send({
+              type: 'UPDATE_FIELD',
+              field: 'email',
+              value: e.target.value,
+            })
+          }
+        />
       </SectionCard>
       <Button
         title={t(PageText.Contact.submit)}
@@ -204,4 +231,4 @@ export const ServiceOfferingForm = ({
   );
 };
 
-export default ServiceOfferingForm;
+export default StopForm;

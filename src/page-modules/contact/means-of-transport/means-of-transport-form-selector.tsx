@@ -1,10 +1,10 @@
 import { PageText, TranslatedString, useTranslation } from '@atb/translations';
 import { SectionCard } from '../components/section-card';
 import { RadioInput } from '../components/input/radio';
-import { ContextProps } from './mode-of-transport-form-machine';
+import { ContextProps } from './means-of-transport-form-machine';
 import { machineEvents, RouteArea } from '../machineEvents';
 
-type FormSelectorProps = {
+type MeansOfTransportFormSelectorProps = {
   state: {
     hasTag(arg0: string): boolean | undefined;
     context: ContextProps;
@@ -12,10 +12,10 @@ type FormSelectorProps = {
   send: (event: typeof machineEvents) => void;
 };
 
-export const ModeOfTransportFormSelector = ({
+export const MeansOfTransportFormSelector = ({
   state,
   send,
-}: FormSelectorProps) => {
+}: MeansOfTransportFormSelectorProps) => {
   const { t } = useTranslation();
 
   return (
@@ -60,4 +60,4 @@ export const ModeOfTransportFormSelector = ({
   );
 };
 
-export default ModeOfTransportFormSelector;
+export default MeansOfTransportFormSelector;

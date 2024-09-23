@@ -3,7 +3,7 @@ import { withGlobalData, WithGlobalData } from '@atb/layouts/global-data';
 import {
   ContactPageLayout,
   ContactPageLayoutProps,
-  ModsOfTransportContent,
+  MeansOfTransportContent,
 } from '@atb/page-modules/contact';
 import { NextPage } from 'next';
 
@@ -16,7 +16,7 @@ const TicketControlAndFeePage: NextPage<TicketControlAndFeePageProps> = (
   return (
     <DefaultLayout {...props}>
       <ContactPageLayout {...props}>
-        <ModsOfTransportContent />
+        <MeansOfTransportContent />
       </ContactPageLayout>
     </DefaultLayout>
   );

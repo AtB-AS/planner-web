@@ -33,7 +33,7 @@ export type ContextProps = {
   errorMessages: InputErrorMessages;
 } & APIParams;
 
-export const modeOfTransportFormMachine = setup({
+export const meansOfTransportFormMachine = setup({
   types: {
     context: {} as ContextProps,
     events: machineEvents,
@@ -113,7 +113,7 @@ export const modeOfTransportFormMachine = setup({
         const base64EncodedAttachments = await convertFilesToBase64(
           attachments || [],
         );
-        return await fetch('api/contact/mode-of-transport', {
+        return await fetch('api/contact/means-of-transport', {
           method: 'POST',
           body: JSON.stringify({
             routeArea: routeArea,

@@ -1,6 +1,6 @@
 import { useMachine } from '@xstate/react';
-import { modeOfTransportFormMachine } from './mode-of-transport-form-machine';
-import ModeOfTransportFormSelector from './mode-of-transport-form-selector';
+import { meansOfTransportFormMachine } from './means-of-transport-form-machine';
+import ModeOfTransportFormSelector from './means-of-transport-form-selector';
 import {
   DelayForm,
   DriverForm,
@@ -10,8 +10,8 @@ import {
   TransportationForm,
 } from './forms';
 
-export const ModsOfTransportContent = () => {
-  const [state, send] = useMachine(modeOfTransportFormMachine);
+export const MeansOfTransportContent = () => {
+  const [state, send] = useMachine(meansOfTransportFormMachine);
 
   return (
     <div>
@@ -32,4 +32,4 @@ export const ModsOfTransportContent = () => {
   );
 };
 
-export default ModsOfTransportContent;
+export default MeansOfTransportContent;

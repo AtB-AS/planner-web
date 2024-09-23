@@ -1,5 +1,5 @@
 import { PageText, useTranslation } from '@atb/translations';
-import { ContextProps } from '../mode-of-transport-form-machine';
+import { ContextProps } from '../means-of-transport-form-machine';
 import { useLines } from '../../lines/use-lines';
 import { FormEventHandler, useState } from 'react';
 import { SectionCard } from '../../components/section-card';
@@ -12,10 +12,9 @@ import { Button } from '@atb/components/button';
 import { Line } from '../..';
 import { FileInput } from '../../components/input/file';
 import { Textarea } from '../../components/input/textarea';
-import { RadioInput } from '../../components/input/radio';
 import { machineEvents } from '../../machineEvents';
 
-type DriverFormProps = {
+type ServiceOfferingFormProps = {
   state: {
     hasTag(arg0: string): boolean | undefined;
     context: ContextProps;
@@ -23,7 +22,10 @@ type DriverFormProps = {
   send: (event: typeof machineEvents) => void;
 };
 
-export const DriverForm = ({ state, send }: DriverFormProps) => {
+export const ServiceOfferingForm = ({
+  state,
+  send,
+}: ServiceOfferingFormProps) => {
   const { t } = useTranslation();
   const { getLinesByMode, getQuaysByLine } = useLines();
 
@@ -43,18 +45,21 @@ export const DriverForm = ({ state, send }: DriverFormProps) => {
   return (
     <form onSubmit={onSubmit}>
       <SectionCard
-        title={PageText.Contact.modeOfTransport.driverForm.description}
+        title={PageText.Contact.modeOfTransport.serviceOfferingForm.description}
       >
         <Typo.p textType="body__primary">
-          {t(PageText.Contact.modeOfTransport.driverForm.info)}
+          {t(PageText.Contact.modeOfTransport.serviceOfferingForm.info)}
         </Typo.p>
       </SectionCard>
 
       <SectionCard
-        title={PageText.Contact.modeOfTransport.driverForm.about.title}
+        title={PageText.Contact.modeOfTransport.serviceOfferingForm.about.title}
       >
         <Typo.p textType="body__primary">
-          {t(PageText.Contact.modeOfTransport.driverForm.about.description)}
+          {t(
+            PageText.Contact.modeOfTransport.serviceOfferingForm.about
+              .description,
+          )}
         </Typo.p>
 
         <Select
@@ -128,84 +133,6 @@ export const DriverForm = ({ state, send }: DriverFormProps) => {
               : undefined
           }
         />
-
-        <Select
-          label={t(PageText.Contact.inputFields.fromStop.label)}
-          value={state.context.fromStop}
-          disabled={!state.context.line}
-          onChange={(value) => {
-            if (!value) return;
-            send({
-              type: 'UPDATE_FIELD',
-              field: 'fromStop',
-              value: value,
-            });
-          }}
-          options={
-            state.context.line?.id ? getQuaysByLine(state.context.line.id) : []
-          }
-          placeholder={t(PageText.Contact.inputFields.fromStop.optionLabel)}
-          error={
-            state.context?.errorMessages['fromStop']?.[0]
-              ? t(state.context?.errorMessages['fromStop']?.[0])
-              : undefined
-          }
-          valueToId={(quay: Line['quays'][0]) => quay.id}
-          valueToText={(quay: Line['quays'][0]) => quay.name}
-        />
-
-        <Select
-          label={t(PageText.Contact.inputFields.toStop.label)}
-          value={state.context.toStop}
-          disabled={!state.context.line}
-          onChange={(value) => {
-            if (!value) return;
-            send({
-              type: 'UPDATE_FIELD',
-              field: 'toStop',
-              value: value,
-            });
-          }}
-          placeholder={t(PageText.Contact.inputFields.toStop.optionLabel)}
-          options={
-            state.context.line?.id ? getQuaysByLine(state.context.line.id) : []
-          }
-          error={
-            state.context?.errorMessages['toStop']?.[0]
-              ? t(state.context?.errorMessages['toStop']?.[0])
-              : undefined
-          }
-          valueToId={(quay: Line['quays'][0]) => quay.id}
-          valueToText={(quay: Line['quays'][0]) => quay.name}
-        />
-
-        <Input
-          label={PageText.Contact.inputFields.date}
-          type="date"
-          name="date"
-          value={state.context.date}
-          onChange={(e) =>
-            send({
-              type: 'UPDATE_FIELD',
-              field: 'date',
-              value: e.target.value,
-            })
-          }
-        />
-
-        <Input
-          label={PageText.Contact.inputFields.plannedDepartureTime}
-          type="time"
-          name="time"
-          value={state.context.plannedDepartureTime}
-          onChange={(e) =>
-            send({
-              type: 'UPDATE_FIELD',
-              field: 'plannedDepartureTime',
-              value: e.target.value,
-            })
-          }
-        />
       </SectionCard>
 
       <SectionCard title={PageText.Contact.inputFields.feedback.title}>
@@ -267,50 +194,7 @@ export const DriverForm = ({ state, send }: DriverFormProps) => {
             })
           }
         />
-
-        <Typo.p textType="body__primary">
-          {t(PageText.Contact.inputFields.email.wantsToBeContacted.question)}
-        </Typo.p>
-
-        <RadioInput
-          label={t(PageText.Contact.inputFields.email.wantsToBeContacted.yes)}
-          name="wantsToBeContacted"
-          checked={state.context.wantsToBeContacted}
-          onChange={() =>
-            send({
-              type: 'TOGGLE',
-              field: 'wantsToBeContacted',
-            })
-          }
-        />
-        <RadioInput
-          label={t(PageText.Contact.inputFields.email.wantsToBeContacted.no)}
-          name="wantsToBeContacted"
-          checked={!state.context.wantsToBeContacted}
-          onChange={() =>
-            send({
-              type: 'TOGGLE',
-              field: 'wantsToBeContacted',
-            })
-          }
-        />
-        {state.context.wantsToBeContacted && (
-          <Input
-            label={PageText.Contact.inputFields.email.wantsToBeContacted.label}
-            type="email"
-            name="email"
-            value={state.context.email}
-            onChange={(e) =>
-              send({
-                type: 'UPDATE_FIELD',
-                field: 'email',
-                value: e.target.value,
-              })
-            }
-          />
-        )}
       </SectionCard>
-
       <Button
         title={t(PageText.Contact.submit)}
         mode={'interactive_0--bordered'}
@@ -320,4 +204,4 @@ export const DriverForm = ({ state, send }: DriverFormProps) => {
   );
 };
 
-export default DriverForm;
+export default ServiceOfferingForm;

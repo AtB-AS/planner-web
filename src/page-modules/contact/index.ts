@@ -11,4 +11,4 @@ export { FeeComplaintForm } from './ticket-control/complaint';
 export { type Line } from './server/journey-planner/validators';
 export { shouldShowContactPage } from './utils';
 export { FeedbackForm } from './ticket-control/feedback';
-export { ModsOfTransportContent } from './mode-of-transport';
+export { MeansOfTransportContent } from './means-of-transport';
