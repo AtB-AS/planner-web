@@ -964,6 +964,9 @@ export const Contact = {
           ),
         },
       ] as RouteArea[],
+      errorMessages: {
+        empty: _('Område mangler', 'Area is missing', 'Område mangler'),
+      },
     },
   },
 };

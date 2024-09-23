@@ -2,10 +2,7 @@ import { TransportModeType } from '@atb-as/config-specs';
 import { assign, fromPromise, setup } from 'xstate';
 import { Line } from '../server/journey-planner/validators';
 import { machineEvents, RouteArea } from '../machineEvents';
-import {
-  InputErrorMessages,
-  travelGuaranteeFieldValidator,
-} from '../validation';
+import { InputErrorMessages, commonFieldValidator } from '../validation';
 import { convertFilesToBase64 } from '../utils';
 
 type APIParams = {
@@ -42,7 +39,7 @@ export const modeOfTransportFormMachine = setup({
     events: machineEvents,
   },
   guards: {
-    validateInputs: ({ context }) => travelGuaranteeFieldValidator(context),
+    validateInputs: ({ context }) => commonFieldValidator(context),
   },
   actions: {
     setCurrentStateWhenSubmitted: assign({
@@ -116,7 +113,7 @@ export const modeOfTransportFormMachine = setup({
         const base64EncodedAttachments = await convertFilesToBase64(
           attachments || [],
         );
-        return await fetch('/contact/mode-of-transport', {
+        return await fetch('api/contact/mode-of-transport', {
           method: 'POST',
           body: JSON.stringify({
             routeArea: routeArea,

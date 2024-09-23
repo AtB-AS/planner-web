@@ -48,6 +48,11 @@ export const commonFieldValidator = (context: any) => {
         PageText.Contact.inputFields.bankAccountNumber.errorMessages.empty,
     },
     {
+      field: 'routeArea',
+      validCondition: context.routeArea,
+      errorMessage: PageText.Contact.inputFields.routeArea.errorMessages.empty,
+    },
+    {
       field: 'transportMode',
       validCondition: context.transportMode,
       errorMessage:

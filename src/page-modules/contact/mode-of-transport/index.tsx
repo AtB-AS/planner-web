@@ -122,12 +122,8 @@ export const ModsOfTransportContent = () => {
               )}
               options={PageText.Contact.inputFields.routeArea.options}
               error={
-                state.context?.errorMessages['reasonForTransportFailure']?.[0]
-                  ? t(
-                      state.context?.errorMessages[
-                        'reasonForTransportFailure'
-                      ]?.[0],
-                    )
+                state.context?.errorMessages['routeArea']?.[0]
+                  ? t(state.context?.errorMessages['routeArea']?.[0])
                   : undefined
               }
             />
