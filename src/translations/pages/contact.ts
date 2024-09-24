@@ -348,16 +348,6 @@ export const Contact = {
     },
   },
 
-  /*
-   Driver = 'driver',
-  Transportation = 'transportation',
-  Delay = 'delay',
-  Stop = 'stop',
-  ServiceOffering = 'serviceOffering',
-  Injury = 'injury',
-}
-  
-  */
   modeOfTransport: {
     title: _(
       'Transportmiddel og stoppested',
@@ -412,7 +402,7 @@ export const Contact = {
         'Forseinking, køyrd for tidleg eller innstilt',
       ),
       info: _(
-        'If your means of transport is delayed, left too early, did not stop, lacked space or if you did not receive sufficient information about planned deviations, you can give feedback here.',
+        'Hvis transportmiddelet ditt er forsinket, for tidlig ute, ikke stoppet, manglet plass eller hvis du ikke fikk tilstrekkelig informasjon om planlakte avvik, kan du gi tilbakemelding her.',
         'If your means of transport is delayed, left too early, did not stop, lacked space or if you did not receive sufficient information about planned deviations, you can give feedback here.',
         'Viss transportmiddelet ditt er forseinka, for tidleg ute, ikkje stoppa, mangla plass eller viss du ikkje fekk tilstrekkeleg informasjon om planlagde avvik, kan du gi tilbakemelding her. ',
       ),
@@ -478,7 +468,7 @@ export const Contact = {
       ),
       info: _(
         'Har du skadet deg selv eller noe du eier om bord på et av våre transportmidler eller ved kai/brygge? Gi tilbakemelding her, så tar vi saken videre med det aktuelle busselskapet eller ledergruppen.',
-        'Did you injure yourself or something you own on board one of our means of transport or at a berth/dock? Give feedback here, and we will take the matter further with the relevant bus company or management team.',
+        'Did you injure yourself or something you own on board one of our means of transport or at a dock? Give feedback here, and we will take the matter further with the relevant bus company or management team.',
         'Skada du deg sjølv eller noko du eig om bord på eit av våre transportmiddel eller på haldeplass/kai? Gi tilbakemelding her, så tar vi saka vidare med aktuelt busselskap eller reiarlag.',
       ),
 
