@@ -30,3 +30,9 @@ export const convertFilesToBase64 = (
 
   return Promise.all(filePromises);
 };
+
+export const getCurrentDateString = (): string =>
+  new Date().toISOString().split('T')[0];
+
+export const getCurrentTimeString = (): string =>
+  `${String(new Date().getHours()).padStart(2, '0')}:${String(new Date().getMinutes()).padStart(2, '0')}`;

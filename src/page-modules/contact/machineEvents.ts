@@ -3,6 +3,7 @@ import { Line } from './server/journey-planner/validators';
 import { TranslatedString } from '@atb/translations';
 
 export type ReasonForTransportFailure = { id: string; name: TranslatedString };
+export type Area = { id: string; name: TranslatedString };
 
 export const machineEvents = {} as
   | { type: 'VALIDATE' }
@@ -13,7 +14,8 @@ export const machineEvents = {} as
         | 'isAppTicketStorageMode'
         | 'agreesFirstAgreement'
         | 'agreesSecondAgreement'
-        | 'hasInternationalBankAccount';
+        | 'hasInternationalBankAccount'
+        | 'wantsToBeContacted';
     }
   | {
       type: 'UPDATE_FIELD';
@@ -43,7 +45,9 @@ export const machineEvents = {} as
         | 'appPhoneNumber'
         | 'customerNumber'
         | 'travelCardNumber'
-        | 'isAppTicketStorageMode';
+        | 'isAppTicketStorageMode'
+        | 'formType'
+        | 'area';
       value:
         | string
         | number
@@ -51,6 +55,7 @@ export const machineEvents = {} as
         | Line['quays'][0]
         | TransportModeType
         | ReasonForTransportFailure
+        | Area
         | File[];
     }
 
@@ -58,4 +63,12 @@ export const machineEvents = {} as
   | { type: 'TAXI' }
   | { type: 'CAR' }
   | { type: 'OTHER' }
-  | { type: 'SET_STATE_SUBMITTED'; stateSubmitted: string | undefined };
+  | { type: 'SET_STATE_SUBMITTED'; stateSubmitted: string | undefined }
+
+  // mode-of-transport
+  | { type: 'DRIVER_FORM' }
+  | { type: 'TRANSPORTATION_FORM' }
+  | { type: 'DELAY_FORM' }
+  | { type: 'STOP_FORM' }
+  | { type: 'SERVICE_OFFERING_FORM' }
+  | { type: 'INJURY_FORM' };

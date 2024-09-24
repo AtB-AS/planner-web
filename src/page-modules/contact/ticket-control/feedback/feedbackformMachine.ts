@@ -3,7 +3,11 @@ import { Line } from '../../server/journey-planner/validators';
 import { assign, fromPromise, setup } from 'xstate';
 import { commonFieldValidator, InputErrorMessages } from '../../validation';
 import { machineEvents } from '../../machineEvents';
-import { convertFilesToBase64 } from '../../utils';
+import {
+  convertFilesToBase64,
+  getCurrentDateString,
+  getCurrentTimeString,
+} from '../../utils';
 
 type APIParams = {
   transportMode: TransportModeType | undefined;
@@ -108,8 +112,8 @@ export const formMachine = setup({
     line: undefined,
     fromStop: undefined,
     toStop: undefined,
-    date: new Date().toISOString().split('T')[0],
-    plannedDepartureTime: `${String(new Date().getHours()).padStart(2, '0')}:${String(new Date().getMinutes()).padStart(2, '0')}`,
+    date: getCurrentDateString(),
+    plannedDepartureTime: getCurrentTimeString(),
     feedback: '',
     firstName: '',
     lastName: '',

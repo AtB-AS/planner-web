@@ -6,17 +6,18 @@ export const commonFieldValidator = (context: any) => {
   const inputFieldRules = [
     {
       field: 'firstName',
-      validCondition: context.firstName,
+      validCondition: context.firstName || context.isContactInfoOptional,
+
       errorMessage: PageText.Contact.inputFields.firstName.errorMessages.empty,
     },
     {
       field: 'lastName',
-      validCondition: context.lastName,
+      validCondition: context.lastName || context.isContactInfoOptional,
       errorMessage: PageText.Contact.inputFields.lastName.errorMessages.empty,
     },
     {
       field: 'email',
-      validCondition: context.email,
+      validCondition: context.email || context.isContactInfoOptional,
       errorMessage: PageText.Contact.inputFields.email.errorMessages.empty,
     },
     {
@@ -46,6 +47,11 @@ export const commonFieldValidator = (context: any) => {
         context.bankAccountNumber || context.IBAN || context.SWIFT,
       errorMessage:
         PageText.Contact.inputFields.bankAccountNumber.errorMessages.empty,
+    },
+    {
+      field: 'area',
+      validCondition: context.area,
+      errorMessage: PageText.Contact.inputFields.area.errorMessages.empty,
     },
     {
       field: 'transportMode',
