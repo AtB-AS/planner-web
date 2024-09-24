@@ -18,7 +18,23 @@ export enum FormType {
   Injury = 'injury',
 }
 
-type APIParams = {
+type submitInput = {
+  formType: string;
+  areaName: string;
+  transportMode: string;
+  lineName: string;
+  fromStopName: string;
+  toStopName: string;
+  date: string;
+  plannedDepartureTime: string;
+  feedback: string;
+  attachments?: File[];
+  firstName: string;
+  lastName: string;
+  email: string;
+};
+
+export type ContextProps = {
   formType: FormType | undefined;
   area: Area | undefined;
   transportMode: TransportModeType | undefined;
@@ -32,14 +48,11 @@ type APIParams = {
   firstName: string;
   lastName: string;
   email: string;
-};
-
-export type ContextProps = {
   target?: string;
   isContactInfoOptional: boolean;
   wantsToBeContacted: boolean;
   errorMessages: InputErrorMessages;
-} & APIParams;
+};
 
 export const meansOfTransportFormMachine = setup({
   types: {
@@ -80,14 +93,15 @@ export const meansOfTransportFormMachine = setup({
     }),
   },
   actors: {
-    callAPI: fromPromise(
+    submit: fromPromise(
       async ({
         input: {
-          area,
+          formType,
+          areaName,
           transportMode,
-          line,
-          fromStop,
-          toStop,
+          lineName,
+          fromStopName,
+          toStopName,
           date,
           plannedDepartureTime,
           feedback,
@@ -97,7 +111,7 @@ export const meansOfTransportFormMachine = setup({
           email,
         },
       }: {
-        input: APIParams;
+        input: submitInput;
       }) => {
         const base64EncodedAttachments = await convertFilesToBase64(
           attachments || [],
@@ -105,11 +119,12 @@ export const meansOfTransportFormMachine = setup({
         return await fetch('api/contact/means-of-transport', {
           method: 'POST',
           body: JSON.stringify({
-            area: area,
+            formType: formType,
+            area: areaName,
             transportMode: transportMode,
-            line: line,
-            fromStop: fromStop,
-            toStop: toStop,
+            line: lineName,
+            fromStop: fromStopName,
+            toStop: toStopName,
             date: date,
             plannedDepartureTime: plannedDepartureTime,
             additionalInfo: feedback,
@@ -178,21 +193,47 @@ export const meansOfTransportFormMachine = setup({
 
     submitting: {
       invoke: {
-        src: 'callAPI',
-        input: ({ context }) => ({
-          formType: context.formType,
-          area: context.area,
-          transportMode: context.transportMode,
-          line: context.line,
-          fromStop: context.fromStop,
-          toStop: context.toStop,
-          date: context.date,
-          plannedDepartureTime: context.plannedDepartureTime,
-          feedback: context.feedback,
-          firstName: context.firstName,
-          lastName: context.lastName,
-          email: context.email,
-        }),
+        src: 'submit',
+        input: ({ context }) => {
+          const {
+            formType,
+            area,
+            transportMode,
+            line,
+            fromStop,
+            toStop,
+            date,
+            plannedDepartureTime,
+            feedback,
+            firstName,
+            lastName,
+            email,
+          } = context;
+          if (
+            !formType ||
+            !area ||
+            !transportMode ||
+            !line ||
+            !fromStop ||
+            !toStop
+          ) {
+            throw new Error(`Missing required field(s)`);
+          }
+          return {
+            formType: formType,
+            areaName: area.name.no,
+            transportMode: transportMode,
+            lineName: line.name,
+            fromStopName: fromStop.name,
+            toStopName: toStop.name,
+            date: date,
+            plannedDepartureTime: plannedDepartureTime,
+            feedback: feedback,
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+          };
+        },
 
         onDone: {
           target: 'success',
