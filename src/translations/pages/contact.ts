@@ -684,7 +684,7 @@ export const Contact = {
       label: _('Fra holdeplass/kai', 'From stop/harbor', 'Frå haldeplass/kai'),
       labelWhitoutSpecification: _(
         'Holdeplass/kai',
-        'Stop/quay',
+        'Stop/harbor',
         'Haldeplass/kai',
       ),
       optionLabel: _(
