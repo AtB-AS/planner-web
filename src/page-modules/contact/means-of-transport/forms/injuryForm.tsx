@@ -11,14 +11,14 @@ import { Line } from '../..';
 import { FileInput } from '../../components/input/file';
 import { Textarea } from '../../components/input/textarea';
 import { RadioInput } from '../../components/input/radio';
-import { machineEvents } from '../../machineEvents';
+import { meansOfTransportFormEvents } from '../events';
 
 type InjuryFormProps = {
   state: {
     hasTag(arg0: string): boolean | undefined;
     context: ContextProps;
   };
-  send: (event: typeof machineEvents) => void;
+  send: (event: typeof meansOfTransportFormEvents) => void;
 };
 
 export const InjuryForm = ({ state, send }: InjuryFormProps) => {

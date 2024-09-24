@@ -1,7 +1,7 @@
 import { assign, fromPromise, setup } from 'xstate';
-import { machineEvents } from '../../machineEvents';
 import { commonFieldValidator, InputErrorMessages } from '../../validation';
 import { convertFilesToBase64 } from '../../utils';
+import { ticketControlFormEvents } from '../events';
 
 type APIParams = {
   feeNumber: string;
@@ -33,7 +33,7 @@ type ContextProps = {
 export const formMachine = setup({
   types: {
     context: {} as ContextProps,
-    events: machineEvents,
+    events: ticketControlFormEvents,
   },
   guards: {
     validateInputs: ({ context }) => commonFieldValidator(context),
@@ -43,7 +43,7 @@ export const formMachine = setup({
       errorMessages: () => ({}),
     }),
 
-    toggleField: assign(({ context, event }: any) => {
+    toggle: assign(({ context, event }) => {
       if (event.type === 'TOGGLE') {
         const { field } = event;
         return {
@@ -155,7 +155,7 @@ export const formMachine = setup({
       entry: 'cleanErrorMessages',
       on: {
         TOGGLE: {
-          actions: 'toggleField',
+          actions: 'toggle',
         },
 
         UPDATE_FIELD: {

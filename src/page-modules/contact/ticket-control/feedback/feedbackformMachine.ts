@@ -2,12 +2,12 @@ import { TransportModeType } from '@atb-as/config-specs';
 import { Line } from '../../server/journey-planner/validators';
 import { assign, fromPromise, setup } from 'xstate';
 import { commonFieldValidator, InputErrorMessages } from '../../validation';
-import { machineEvents } from '../../machineEvents';
 import {
   convertFilesToBase64,
   getCurrentDateString,
   getCurrentTimeString,
 } from '../../utils';
+import { ticketControlFormEvents } from '../events';
 
 type APIParams = {
   transportMode: TransportModeType | undefined;
@@ -30,7 +30,7 @@ type ContextProps = {
 export const formMachine = setup({
   types: {
     context: {} as ContextProps,
-    events: machineEvents,
+    events: ticketControlFormEvents,
   },
   guards: {
     validateInputs: ({ context }) => commonFieldValidator(context),

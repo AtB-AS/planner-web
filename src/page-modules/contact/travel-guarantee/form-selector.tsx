@@ -73,8 +73,13 @@ export const FormSelector = ({ state, send }: FormSelectorProps) => {
               PageText.Contact.ticketControl.feeComplaint.firstAgreement
                 .checkbox,
             )}
-            checked={state.context.isChecked}
-            onChange={() => send({ type: 'TOGGLE' })}
+            checked={state.context.isIntialAgreementChecked}
+            onChange={() =>
+              send({
+                type: 'TOGGLE',
+                field: 'isIntialAgreementChecked',
+              })
+            }
           />
         </SectionCard>
       )}

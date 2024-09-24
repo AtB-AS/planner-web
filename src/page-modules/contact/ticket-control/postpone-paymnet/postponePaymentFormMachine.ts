@@ -1,5 +1,6 @@
 import { assign, fromPromise, setup } from 'xstate';
 import { commonFieldValidator, InputErrorMessages } from '../../validation';
+import { ticketControlFormEvents } from '../events';
 
 type APIParams = {
   feeNumber: string;
@@ -16,6 +17,7 @@ type ContextProps = {
 export const postponePaymentForm = setup({
   types: {
     context: {} as ContextProps,
+    events: ticketControlFormEvents,
   },
 
   guards: {

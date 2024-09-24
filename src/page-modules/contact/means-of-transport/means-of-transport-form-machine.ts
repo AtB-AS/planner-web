@@ -1,13 +1,13 @@
 import { TransportModeType } from '@atb-as/config-specs';
 import { assign, fromPromise, setup } from 'xstate';
 import { Line } from '../server/journey-planner/validators';
-import { machineEvents, Area } from '../machineEvents';
 import { InputErrorMessages, commonFieldValidator } from '../validation';
 import {
   convertFilesToBase64,
   getCurrentDateString,
   getCurrentTimeString,
 } from '../utils';
+import { Area, meansOfTransportFormEvents } from './events';
 
 export enum FormType {
   Driver = 'driver',
@@ -57,7 +57,7 @@ export type ContextProps = {
 export const meansOfTransportFormMachine = setup({
   types: {
     context: {} as ContextProps,
-    events: machineEvents,
+    events: meansOfTransportFormEvents,
   },
   guards: {
     validateInputs: ({ context }) => commonFieldValidator(context),
@@ -82,7 +82,7 @@ export const meansOfTransportFormMachine = setup({
       return context;
     }),
 
-    toggleField: assign(({ context, event }: any) => {
+    toggleField: assign(({ context, event }) => {
       if (event.type === 'TOGGLE') {
         const { field } = event;
         return {

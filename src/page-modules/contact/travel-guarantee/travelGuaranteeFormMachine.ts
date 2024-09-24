@@ -1,12 +1,13 @@
 import { TransportModeType } from '@atb-as/config-specs';
 import { assign, fromPromise, setup } from 'xstate';
 import { Line } from '../server/journey-planner/validators';
-import { machineEvents, ReasonForTransportFailure } from '../machineEvents';
+import { ReasonForTransportFailure } from './events';
 import {
   InputErrorMessages,
   travelGuaranteeFieldValidator,
 } from '../validation';
 import { getCurrentDateString, getCurrentTimeString } from '../utils';
+import { TravelGuaranteeFormEvents } from './events';
 
 type APIParams = {
   transportMode: TransportModeType | undefined;
@@ -40,20 +41,12 @@ type ContextProps = {
 export const fetchMachine = setup({
   types: {
     context: {} as ContextProps,
-    events: machineEvents,
+    events: TravelGuaranteeFormEvents,
   },
   guards: {
     validateInputs: ({ context }) => travelGuaranteeFieldValidator(context),
   },
   actions: {
-    setIsIntialAgreementChecked: assign({
-      isIntialAgreementChecked: ({ context }) =>
-        !context.isIntialAgreementChecked,
-    }),
-    setIsBankAccountForeign: assign({
-      hasInternationalBankAccount: ({ context }) =>
-        !context.hasInternationalBankAccount,
-    }),
     setCurrentStateWhenSubmitted: assign({
       travelGuaranteeStateWhenSubmitted: ({ event }) => {
         switch (event.type) {
@@ -72,11 +65,20 @@ export const fetchMachine = setup({
     updateField: assign(({ context, event }) => {
       if (event.type === 'UPDATE_FIELD') {
         const { field, value } = event;
-        // Remove errorMessages if any
         context.errorMessages[field] = [];
         return {
           ...context,
           [field]: value,
+        };
+      }
+      return context;
+    }),
+
+    toggle: assign(({ context, event }) => {
+      if (event.type === 'TOGGLE') {
+        const { field } = event;
+        return {
+          [field]: !context[field],
         };
       }
       return context;
@@ -185,8 +187,8 @@ export const fetchMachine = setup({
         OTHER: {
           target: 'editing.other',
         },
-        SET_BANK_ACCOUNT_FOREIGN: {
-          actions: 'setIsBankAccountForeign',
+        TOGGLE: {
+          actions: 'toggle',
         },
         UPDATE_FIELD: {
           actions: 'updateField',
@@ -198,14 +200,7 @@ export const fetchMachine = setup({
       },
 
       states: {
-        idle: {
-          on: {
-            TOGGLE: {
-              actions: 'setIsIntialAgreementChecked',
-            },
-          },
-        },
-
+        idle: {},
         taxi: {
           entry: ['cleanErrorMessages', 'setCurrentStateWhenSubmitted'],
           tags: ['taxi', 'selected'],

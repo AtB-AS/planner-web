@@ -10,14 +10,14 @@ import { TransportModeType } from '@atb-as/config-specs';
 import { Line } from '../..';
 import { FileInput } from '../../components/input/file';
 import { Textarea } from '../../components/input/textarea';
-import { machineEvents } from '../../machineEvents';
+import { meansOfTransportFormEvents } from '../events';
 
 type StopFormProps = {
   state: {
     hasTag(arg0: string): boolean | undefined;
     context: ContextProps;
   };
-  send: (event: typeof machineEvents) => void;
+  send: (event: typeof meansOfTransportFormEvents) => void;
 };
 
 export const StopForm = ({ state, send }: StopFormProps) => {
