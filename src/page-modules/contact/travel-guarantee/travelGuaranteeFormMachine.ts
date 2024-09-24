@@ -6,6 +6,7 @@ import {
   InputErrorMessages,
   travelGuaranteeFieldValidator,
 } from '../validation';
+import { getCurrentDateString, getCurrentTimeString } from '../utils';
 
 type APIParams = {
   transportMode: TransportModeType | undefined;
@@ -154,8 +155,8 @@ export const fetchMachine = setup({
     line: undefined,
     fromStop: undefined,
     toStop: undefined,
-    date: new Date().toISOString().split('T')[0],
-    plannedDepartureTime: `${String(new Date().getHours()).padStart(2, '0')}:${String(new Date().getMinutes()).padStart(2, '0')}`,
+    date: getCurrentDateString(),
+    plannedDepartureTime: getCurrentTimeString(),
     reasonForTransportFailure: undefined,
     kilometersDriven: '',
     feedback: '',
