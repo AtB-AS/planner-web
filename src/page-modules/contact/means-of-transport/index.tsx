@@ -9,8 +9,11 @@ import {
   StopForm,
   TransportationForm,
 } from './forms';
+import { Button } from '@atb/components/button';
+import { PageText, useTranslation } from '@atb/translations';
 
 export const MeansOfTransportContent = () => {
+  const { t } = useTranslation();
   const [state, send] = useMachine(meansOfTransportFormMachine);
 
   return (
@@ -27,6 +30,13 @@ export const MeansOfTransportContent = () => {
         <ServiceOfferingForm state={state} send={send} />
       )}
       {state.hasTag('injuryForm') && <InjuryForm state={state} send={send} />}
+      {state.hasTag('selected') && (
+        <Button
+          title={t(PageText.Contact.submit)}
+          mode={'interactive_0--bordered'}
+          buttonProps={{ type: 'submit' }}
+        />
+      )}
       {state.hasTag('success') && <div>success!</div>}
     </div>
   );

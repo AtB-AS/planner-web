@@ -196,32 +196,32 @@ export const meansOfTransportFormMachine = setup({
         idle: {},
         driverForm: {
           entry: ['cleanErrorMessages', 'setFormType'],
-          tags: 'driverForm',
+          tags: ['driverForm', 'selected'],
         },
 
         transportationForm: {
           entry: ['cleanErrorMessages', 'setFormType'],
-          tags: 'transportationForm',
+          tags: ['transportationForm', 'selected'],
         },
 
         delayForm: {
           entry: ['cleanErrorMessages', 'setFormType'],
-          tags: 'delayForm',
+          tags: ['delayForm', 'selected'],
         },
 
         stopForm: {
           entry: ['cleanErrorMessages', 'setFormType'],
-          tags: 'stopForm',
+          tags: ['stopForm', 'selected'],
         },
 
         serviceOfferingForm: {
           entry: ['cleanErrorMessages', 'setFormType'],
-          tags: 'serviceOfferingForm',
+          tags: ['serviceOfferingForm', 'selected'],
         },
 
         injuryForm: {
           entry: ['cleanErrorMessages', 'setFormType'],
-          tags: 'injuryForm',
+          tags: ['injuryForm', 'selected'],
         },
 
         readyForSubmit: {

@@ -8,7 +8,6 @@ import Select from '../../components/input/select';
 import { ComponentText } from '@atb/translations';
 import { Input } from '../../components/input';
 import { TransportModeType } from '@atb-as/config-specs';
-import { Button } from '@atb/components/button';
 import { Line } from '../..';
 import { FileInput } from '../../components/input/file';
 import { Textarea } from '../../components/input/textarea';
@@ -294,12 +293,6 @@ export const TransportationForm = ({
           />
         )}
       </SectionCard>
-
-      <Button
-        title={t(PageText.Contact.submit)}
-        mode={'interactive_0--bordered'}
-        buttonProps={{ type: 'submit' }}
-      />
     </form>
   );
 };
