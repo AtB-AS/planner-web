@@ -7,12 +7,9 @@ import {
 } from '@atb/page-modules/contact';
 import { NextPage } from 'next';
 
-export type TicketControlAndFeePageProps =
-  WithGlobalData<ContactPageLayoutProps>;
+export type MeansOfTransportPageProps = WithGlobalData<ContactPageLayoutProps>;
 
-const TicketControlAndFeePage: NextPage<TicketControlAndFeePageProps> = (
-  props,
-) => {
+const MeansOfTransportPage: NextPage<MeansOfTransportPageProps> = (props) => {
   return (
     <DefaultLayout {...props}>
       <ContactPageLayout {...props}>
@@ -22,6 +19,6 @@ const TicketControlAndFeePage: NextPage<TicketControlAndFeePageProps> = (
   );
 };
 
-export default TicketControlAndFeePage;
+export default MeansOfTransportPage;
 
 export const getServerSideProps = withGlobalData();
