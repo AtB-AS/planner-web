@@ -42,7 +42,7 @@ export const DelayForm = ({ state, send }: DelayFormProps) => {
           value={state.context.transportMode}
           onChange={(value) =>
             send({
-              type: 'UPDATE_FIELD',
+              type: 'ON_INPUT_CHANGE',
               field: 'transportMode',
               value: value as TransportModeType,
             })
@@ -69,7 +69,7 @@ export const DelayForm = ({ state, send }: DelayFormProps) => {
           onChange={(value: Line | undefined) => {
             if (!value) return;
             send({
-              type: 'UPDATE_FIELD',
+              type: 'ON_INPUT_CHANGE',
               field: 'line',
               value: value,
             });
@@ -94,7 +94,7 @@ export const DelayForm = ({ state, send }: DelayFormProps) => {
           onChange={(value) => {
             if (!value) return;
             send({
-              type: 'UPDATE_FIELD',
+              type: 'ON_INPUT_CHANGE',
               field: 'fromStop',
               value: value,
             });
@@ -119,7 +119,7 @@ export const DelayForm = ({ state, send }: DelayFormProps) => {
           onChange={(value) => {
             if (!value) return;
             send({
-              type: 'UPDATE_FIELD',
+              type: 'ON_INPUT_CHANGE',
               field: 'toStop',
               value: value,
             });
@@ -144,7 +144,7 @@ export const DelayForm = ({ state, send }: DelayFormProps) => {
           value={state.context.date}
           onChange={(e) =>
             send({
-              type: 'UPDATE_FIELD',
+              type: 'ON_INPUT_CHANGE',
               field: 'date',
               value: e.target.value,
             })
@@ -158,7 +158,7 @@ export const DelayForm = ({ state, send }: DelayFormProps) => {
           value={state.context.plannedDepartureTime}
           onChange={(e) =>
             send({
-              type: 'UPDATE_FIELD',
+              type: 'ON_INPUT_CHANGE',
               field: 'plannedDepartureTime',
               value: e.target.value,
             })
@@ -174,7 +174,7 @@ export const DelayForm = ({ state, send }: DelayFormProps) => {
           value={state.context.feedback}
           onChange={(e) =>
             send({
-              type: 'UPDATE_FIELD',
+              type: 'ON_INPUT_CHANGE',
               field: 'feedback',
               value: e.target.value,
             })
@@ -190,7 +190,7 @@ export const DelayForm = ({ state, send }: DelayFormProps) => {
           label={t(PageText.Contact.inputFields.feedback.attachment)}
           onChange={(files) => {
             send({
-              type: 'UPDATE_FIELD',
+              type: 'ON_INPUT_CHANGE',
               field: 'attachments',
               value: files,
             });
@@ -205,7 +205,7 @@ export const DelayForm = ({ state, send }: DelayFormProps) => {
           value={state.context.firstName}
           onChange={(e) =>
             send({
-              type: 'UPDATE_FIELD',
+              type: 'ON_INPUT_CHANGE',
               field: 'firstName',
               value: e.target.value,
             })
@@ -219,7 +219,7 @@ export const DelayForm = ({ state, send }: DelayFormProps) => {
           value={state.context.lastName}
           onChange={(e) =>
             send({
-              type: 'UPDATE_FIELD',
+              type: 'ON_INPUT_CHANGE',
               field: 'lastName',
               value: e.target.value,
             })
@@ -233,7 +233,7 @@ export const DelayForm = ({ state, send }: DelayFormProps) => {
           value={state.context.email}
           onChange={(e) =>
             send({
-              type: 'UPDATE_FIELD',
+              type: 'ON_INPUT_CHANGE',
               field: 'email',
               value: e.target.value,
             })

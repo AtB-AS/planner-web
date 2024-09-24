@@ -62,8 +62,8 @@ export const fetchMachine = setup({
       },
     }),
 
-    updateField: assign(({ context, event }) => {
-      if (event.type === 'UPDATE_FIELD') {
+    onInputChange: assign(({ context, event }) => {
+      if (event.type === 'ON_INPUT_CHANGE') {
         const { field, value } = event;
         context.errorMessages[field] = [];
         return {
@@ -190,8 +190,8 @@ export const fetchMachine = setup({
         TOGGLE: {
           actions: 'toggle',
         },
-        UPDATE_FIELD: {
-          actions: 'updateField',
+        ON_INPUT_CHANGE: {
+          actions: 'onInputChange',
         },
         VALIDATE: {
           guard: 'validateInputs',

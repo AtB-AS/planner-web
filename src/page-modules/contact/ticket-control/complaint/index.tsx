@@ -127,7 +127,7 @@ export const FeeComplaintForm = () => {
               }
               onChange={(e) =>
                 send({
-                  type: 'UPDATE_FIELD',
+                  type: 'ON_INPUT_CHANGE',
                   field: 'feeNumber',
                   value: e.target.value,
                 })
@@ -180,7 +180,7 @@ export const FeeComplaintForm = () => {
                   }
                   onChange={(e) =>
                     send({
-                      type: 'UPDATE_FIELD',
+                      type: 'ON_INPUT_CHANGE',
                       field: 'appPhoneNumber',
                       value: e.target.value,
                     })
@@ -202,7 +202,7 @@ export const FeeComplaintForm = () => {
                   }
                   onChange={(e) =>
                     send({
-                      type: 'UPDATE_FIELD',
+                      type: 'ON_INPUT_CHANGE',
                       field: 'customerNumber',
                       value: e.target.value,
                     })
@@ -225,7 +225,7 @@ export const FeeComplaintForm = () => {
                 }
                 onChange={(e) =>
                   send({
-                    type: 'UPDATE_FIELD',
+                    type: 'ON_INPUT_CHANGE',
                     field: 'travelCardNumber',
                     value: e.target.value,
                   })
@@ -238,7 +238,7 @@ export const FeeComplaintForm = () => {
               value={state.context.feedback}
               onChange={(e) =>
                 send({
-                  type: 'UPDATE_FIELD',
+                  type: 'ON_INPUT_CHANGE',
                   field: 'feedback',
                   value: e.target.value,
                 })
@@ -254,7 +254,7 @@ export const FeeComplaintForm = () => {
               name="attachments"
               onChange={(files) => {
                 send({
-                  type: 'UPDATE_FIELD',
+                  type: 'ON_INPUT_CHANGE',
                   field: 'attachments',
                   value: files,
                 });
@@ -274,7 +274,7 @@ export const FeeComplaintForm = () => {
               }
               onChange={(e) =>
                 send({
-                  type: 'UPDATE_FIELD',
+                  type: 'ON_INPUT_CHANGE',
                   field: 'firstName',
                   value: e.target.value,
                 })
@@ -291,7 +291,7 @@ export const FeeComplaintForm = () => {
               }
               onChange={(e) =>
                 send({
-                  type: 'UPDATE_FIELD',
+                  type: 'ON_INPUT_CHANGE',
                   field: 'lastName',
                   value: e.target.value,
                 })
@@ -307,7 +307,7 @@ export const FeeComplaintForm = () => {
               }
               onChange={(e) =>
                 send({
-                  type: 'UPDATE_FIELD',
+                  type: 'ON_INPUT_CHANGE',
                   field: 'address',
                   value: e.target.value,
                 })
@@ -323,7 +323,7 @@ export const FeeComplaintForm = () => {
               }
               onChange={(e) =>
                 send({
-                  type: 'UPDATE_FIELD',
+                  type: 'ON_INPUT_CHANGE',
                   field: 'postalCode',
                   value: e.target.value,
                 })
@@ -339,7 +339,7 @@ export const FeeComplaintForm = () => {
               }
               onChange={(e) =>
                 send({
-                  type: 'UPDATE_FIELD',
+                  type: 'ON_INPUT_CHANGE',
                   field: 'city',
                   value: e.target.value,
                 })
@@ -355,7 +355,7 @@ export const FeeComplaintForm = () => {
               }
               onChange={(e) =>
                 send({
-                  type: 'UPDATE_FIELD',
+                  type: 'ON_INPUT_CHANGE',
                   field: 'email',
                   value: e.target.value,
                 })
@@ -371,7 +371,7 @@ export const FeeComplaintForm = () => {
               }
               onChange={(e) =>
                 send({
-                  type: 'UPDATE_FIELD',
+                  type: 'ON_INPUT_CHANGE',
                   field: 'phoneNumber',
                   value: e.target.value,
                 })
@@ -392,7 +392,7 @@ export const FeeComplaintForm = () => {
                 }
                 onChange={(e) =>
                   send({
-                    type: 'UPDATE_FIELD',
+                    type: 'ON_INPUT_CHANGE',
                     field: 'bankAccountNumber',
                     value: e.target.value,
                   })
@@ -420,7 +420,7 @@ export const FeeComplaintForm = () => {
                   value={state.context.IBAN}
                   onChange={(e) =>
                     send({
-                      type: 'UPDATE_FIELD',
+                      type: 'ON_INPUT_CHANGE',
                       field: 'IBAN',
                       value: e.target.value,
                     })
@@ -434,7 +434,7 @@ export const FeeComplaintForm = () => {
                   value={state.context.SWIFT}
                   onChange={(e) =>
                     send({
-                      type: 'UPDATE_FIELD',
+                      type: 'ON_INPUT_CHANGE',
                       field: 'SWIFT',
                       value: e.target.value,
                     })

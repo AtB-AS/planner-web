@@ -48,7 +48,7 @@ export const RefundForm = () => {
             value={state.context.transportMode}
             onChange={(value) =>
               send({
-                type: 'UPDATE_FIELD',
+                type: 'ON_INPUT_CHANGE',
                 field: 'transportMode',
                 value: value as TransportModeType,
               })
@@ -75,7 +75,7 @@ export const RefundForm = () => {
             onChange={(value: Line | undefined) => {
               if (!value) return;
               send({
-                type: 'UPDATE_FIELD',
+                type: 'ON_INPUT_CHANGE',
                 field: 'line',
                 value: value,
               });
@@ -100,7 +100,7 @@ export const RefundForm = () => {
             onChange={(value) => {
               if (!value) return;
               send({
-                type: 'UPDATE_FIELD',
+                type: 'ON_INPUT_CHANGE',
                 field: 'fromStop',
                 value: value,
               });
@@ -127,7 +127,7 @@ export const RefundForm = () => {
             onChange={(value) => {
               if (!value) return;
               send({
-                type: 'UPDATE_FIELD',
+                type: 'ON_INPUT_CHANGE',
                 field: 'toStop',
                 value: value,
               });
@@ -154,7 +154,7 @@ export const RefundForm = () => {
             value={state.context.date}
             onChange={(e) =>
               send({
-                type: 'UPDATE_FIELD',
+                type: 'ON_INPUT_CHANGE',
                 field: 'date',
                 value: e.target.value,
               })
@@ -167,7 +167,7 @@ export const RefundForm = () => {
             value={state.context.plannedDepartureTime}
             onChange={(e) =>
               send({
-                type: 'UPDATE_FIELD',
+                type: 'ON_INPUT_CHANGE',
                 field: 'plannedDepartureTime',
                 value: e.target.value,
               })
@@ -183,7 +183,7 @@ export const RefundForm = () => {
             onChange={(value) => {
               if (!value) return;
               send({
-                type: 'UPDATE_FIELD',
+                type: 'ON_INPUT_CHANGE',
                 field: 'reasonForTransportFailure',
                 value: value,
               });
@@ -226,7 +226,7 @@ export const RefundForm = () => {
             }
             onChange={(e) =>
               send({
-                type: 'UPDATE_FIELD',
+                type: 'ON_INPUT_CHANGE',
                 field: 'kilometersDriven',
                 value: e.target.value,
               })
@@ -245,7 +245,7 @@ export const RefundForm = () => {
               value={state.context.feedback}
               onChange={(e) =>
                 send({
-                  type: 'UPDATE_FIELD',
+                  type: 'ON_INPUT_CHANGE',
                   field: 'feedback',
                   value: e.target.value,
                 })
@@ -263,7 +263,7 @@ export const RefundForm = () => {
               }
               onChange={(e) =>
                 send({
-                  type: 'UPDATE_FIELD',
+                  type: 'ON_INPUT_CHANGE',
                   field: 'firstName',
                   value: e.target.value,
                 })
@@ -280,7 +280,7 @@ export const RefundForm = () => {
               }
               onChange={(e) =>
                 send({
-                  type: 'UPDATE_FIELD',
+                  type: 'ON_INPUT_CHANGE',
                   field: 'lastName',
                   value: e.target.value,
                 })
@@ -296,7 +296,7 @@ export const RefundForm = () => {
               }
               onChange={(e) =>
                 send({
-                  type: 'UPDATE_FIELD',
+                  type: 'ON_INPUT_CHANGE',
                   field: 'address',
                   value: e.target.value,
                 })
@@ -312,7 +312,7 @@ export const RefundForm = () => {
               }
               onChange={(e) =>
                 send({
-                  type: 'UPDATE_FIELD',
+                  type: 'ON_INPUT_CHANGE',
                   field: 'postalCode',
                   value: e.target.value,
                 })
@@ -328,7 +328,7 @@ export const RefundForm = () => {
               }
               onChange={(e) =>
                 send({
-                  type: 'UPDATE_FIELD',
+                  type: 'ON_INPUT_CHANGE',
                   field: 'city',
                   value: e.target.value,
                 })
@@ -344,7 +344,7 @@ export const RefundForm = () => {
               }
               onChange={(e) =>
                 send({
-                  type: 'UPDATE_FIELD',
+                  type: 'ON_INPUT_CHANGE',
                   field: 'email',
                   value: e.target.value,
                 })
@@ -360,7 +360,7 @@ export const RefundForm = () => {
               }
               onChange={(e) =>
                 send({
-                  type: 'UPDATE_FIELD',
+                  type: 'ON_INPUT_CHANGE',
                   field: 'phoneNumber',
                   value: e.target.value,
                 })
@@ -381,7 +381,7 @@ export const RefundForm = () => {
                 }
                 onChange={(e) =>
                   send({
-                    type: 'UPDATE_FIELD',
+                    type: 'ON_INPUT_CHANGE',
                     field: 'bankAccountNumber',
                     value: e.target.value,
                   })
@@ -406,7 +406,7 @@ export const RefundForm = () => {
                   value={state.context.IBAN}
                   onChange={(e) =>
                     send({
-                      type: 'UPDATE_FIELD',
+                      type: 'ON_INPUT_CHANGE',
                       field: 'IBAN',
                       value: e.target.value,
                     })
@@ -420,7 +420,7 @@ export const RefundForm = () => {
                   value={state.context.SWIFT}
                   onChange={(e) =>
                     send({
-                      type: 'UPDATE_FIELD',
+                      type: 'ON_INPUT_CHANGE',
                       field: 'SWIFT',
                       value: e.target.value,
                     })

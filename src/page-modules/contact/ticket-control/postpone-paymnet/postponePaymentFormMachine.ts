@@ -24,8 +24,8 @@ export const postponePaymentForm = setup({
     validateInputs: ({ context }) => commonFieldValidator(context),
   },
   actions: {
-    updateField: assign(({ context, event }) => {
-      if (event.type === 'UPDATE_FIELD') {
+    onInputChange: assign(({ context, event }) => {
+      if (event.type === 'ON_INPUT_CHANGE') {
         const { field, value } = event;
         // Remove errorMessages if any
         context.errorMessages[field] = [];
@@ -80,8 +80,8 @@ export const postponePaymentForm = setup({
     editing: {
       entry: 'cleanErrorMessages',
       on: {
-        UPDATE_FIELD: {
-          actions: 'updateField',
+        ON_INPUT_CHANGE: {
+          actions: 'onInputChange',
         },
         VALIDATE: {
           guard: 'validateInputs',

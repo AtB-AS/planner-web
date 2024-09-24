@@ -38,7 +38,7 @@ export const PostponePaymentForm = () => {
           }
           onChange={(e) =>
             send({
-              type: 'UPDATE_FIELD',
+              type: 'ON_INPUT_CHANGE',
               field: 'feeNumber',
               value: e.target.value,
             })
@@ -55,7 +55,7 @@ export const PostponePaymentForm = () => {
           }
           onChange={(e) =>
             send({
-              type: 'UPDATE_FIELD',
+              type: 'ON_INPUT_CHANGE',
               field: 'invoiceNumber',
               value: e.target.value,
             })
@@ -73,7 +73,7 @@ export const PostponePaymentForm = () => {
           }
           onChange={(e) =>
             send({
-              type: 'UPDATE_FIELD',
+              type: 'ON_INPUT_CHANGE',
               field: 'firstName',
               value: e.target.value,
             })
@@ -89,7 +89,7 @@ export const PostponePaymentForm = () => {
           }
           onChange={(e) =>
             send({
-              type: 'UPDATE_FIELD',
+              type: 'ON_INPUT_CHANGE',
               field: 'lastName',
               value: e.target.value,
             })
@@ -103,7 +103,7 @@ export const PostponePaymentForm = () => {
           errorMessage={state.context?.errorMessages['email']?.[0] || undefined}
           onChange={(e) =>
             send({
-              type: 'UPDATE_FIELD',
+              type: 'ON_INPUT_CHANGE',
               field: 'email',
               value: e.target.value,
             })

@@ -54,7 +54,7 @@ export const ServiceOfferingForm = ({
           onChange={(value) => {
             if (!value) return;
             send({
-              type: 'UPDATE_FIELD',
+              type: 'ON_INPUT_CHANGE',
               field: 'area',
               value: value,
             });
@@ -73,7 +73,7 @@ export const ServiceOfferingForm = ({
           value={state.context.transportMode}
           onChange={(value) =>
             send({
-              type: 'UPDATE_FIELD',
+              type: 'ON_INPUT_CHANGE',
               field: 'transportMode',
               value: value as TransportModeType,
             })
@@ -100,7 +100,7 @@ export const ServiceOfferingForm = ({
           onChange={(value: Line | undefined) => {
             if (!value) return;
             send({
-              type: 'UPDATE_FIELD',
+              type: 'ON_INPUT_CHANGE',
               field: 'line',
               value: value,
             });
@@ -127,7 +127,7 @@ export const ServiceOfferingForm = ({
           value={state.context.feedback}
           onChange={(e) =>
             send({
-              type: 'UPDATE_FIELD',
+              type: 'ON_INPUT_CHANGE',
               field: 'feedback',
               value: e.target.value,
             })
@@ -143,7 +143,7 @@ export const ServiceOfferingForm = ({
           label={t(PageText.Contact.inputFields.feedback.attachment)}
           onChange={(files) => {
             send({
-              type: 'UPDATE_FIELD',
+              type: 'ON_INPUT_CHANGE',
               field: 'attachments',
               value: files,
             });
@@ -158,7 +158,7 @@ export const ServiceOfferingForm = ({
           value={state.context.firstName}
           onChange={(e) =>
             send({
-              type: 'UPDATE_FIELD',
+              type: 'ON_INPUT_CHANGE',
               field: 'firstName',
               value: e.target.value,
             })
@@ -172,7 +172,7 @@ export const ServiceOfferingForm = ({
           value={state.context.lastName}
           onChange={(e) =>
             send({
-              type: 'UPDATE_FIELD',
+              type: 'ON_INPUT_CHANGE',
               field: 'lastName',
               value: e.target.value,
             })

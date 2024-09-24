@@ -12,7 +12,7 @@ const TravelGuaranteeSpecificFormEvents = {} as
       field: 'isIntialAgreementChecked' | 'hasInternationalBankAccount';
     }
   | {
-      type: 'UPDATE_FIELD';
+      type: 'ON_INPUT_CHANGE';
       field: 'kilometersDriven' | 'reasonForTransportFailure';
       value: string | ReasonForTransportFailure;
     }

@@ -53,8 +53,8 @@ export const formMachine = setup({
       return context;
     }),
 
-    updateField: assign(({ context, event }) => {
-      if (event.type === 'UPDATE_FIELD') {
+    onInputChange: assign(({ context, event }) => {
+      if (event.type === 'ON_INPUT_CHANGE') {
         const { field, value } = event;
         // Remove errorMessages if any
         context.errorMessages[field] = [];
@@ -158,8 +158,8 @@ export const formMachine = setup({
           actions: 'toggle',
         },
 
-        UPDATE_FIELD: {
-          actions: 'updateField',
+        ON_INPUT_CHANGE: {
+          actions: 'onInputChange',
         },
         VALIDATE: {
           guard: 'validateInputs',

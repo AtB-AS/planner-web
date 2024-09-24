@@ -1,7 +1,7 @@
 export const commonEvents = {} as
   | { type: 'VALIDATE' }
   | {
-      type: 'UPDATE_FIELD';
+      type: 'ON_INPUT_CHANGE';
       field:
         | 'address'
         | 'attachments'

@@ -9,7 +9,7 @@ const meansOfTransportSpecificFormEvents = {} as
       field: 'wantsToBeContacted';
     }
   | {
-      type: 'UPDATE_FIELD';
+      type: 'ON_INPUT_CHANGE';
       field: 'area' | 'formType';
       value: Area | string;
     };

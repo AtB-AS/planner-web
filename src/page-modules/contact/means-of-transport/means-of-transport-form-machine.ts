@@ -63,8 +63,8 @@ export const meansOfTransportFormMachine = setup({
     validateInputs: ({ context }) => commonFieldValidator(context),
   },
   actions: {
-    updateField: assign(({ context, event }) => {
-      if (event.type === 'UPDATE_FIELD') {
+    onInputChange: assign(({ context, event }) => {
+      if (event.type === 'ON_INPUT_CHANGE') {
         const { field, value } = event;
 
         // Remove all errorMessages if changing form type.
@@ -82,7 +82,7 @@ export const meansOfTransportFormMachine = setup({
       return context;
     }),
 
-    toggleField: assign(({ context, event }) => {
+    toggle: assign(({ context, event }) => {
       if (event.type === 'TOGGLE') {
         const { field } = event;
         return {
@@ -166,11 +166,11 @@ export const meansOfTransportFormMachine = setup({
       initial: 'idle',
       on: {
         TOGGLE: {
-          actions: 'toggleField',
+          actions: 'toggle',
         },
 
-        UPDATE_FIELD: {
-          actions: 'updateField',
+        ON_INPUT_CHANGE: {
+          actions: 'onInputChange',
         },
 
         VALIDATE: {

@@ -10,7 +10,7 @@ const ticketControlSpecificFormEvents = {} as
         | 'hasInternationalBankAccount';
     }
   | {
-      type: 'UPDATE_FIELD';
+      type: 'ON_INPUT_CHANGE';
       field:
         | 'feeNumber'
         | 'invoiceNumber'
