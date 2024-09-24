@@ -43,7 +43,7 @@ export const StopForm = ({ state, send }: StopFormProps) => {
           onChange={(value) =>
             send({
               type: 'ON_INPUT_CHANGE',
-              field: 'transportMode',
+              inputName: 'transportMode',
               value: value as TransportModeType,
             })
           }
@@ -70,7 +70,7 @@ export const StopForm = ({ state, send }: StopFormProps) => {
             if (!value) return;
             send({
               type: 'ON_INPUT_CHANGE',
-              field: 'line',
+              inputName: 'line',
               value: value,
             });
           }}
@@ -97,7 +97,7 @@ export const StopForm = ({ state, send }: StopFormProps) => {
             if (!value) return;
             send({
               type: 'ON_INPUT_CHANGE',
-              field: 'fromStop',
+              inputName: 'fromStop',
               value: value,
             });
           }}
@@ -122,7 +122,7 @@ export const StopForm = ({ state, send }: StopFormProps) => {
           onChange={(e) =>
             send({
               type: 'ON_INPUT_CHANGE',
-              field: 'date',
+              inputName: 'date',
               value: e.target.value,
             })
           }
@@ -138,7 +138,7 @@ export const StopForm = ({ state, send }: StopFormProps) => {
           onChange={(e) =>
             send({
               type: 'ON_INPUT_CHANGE',
-              field: 'feedback',
+              inputName: 'feedback',
               value: e.target.value,
             })
           }
@@ -154,7 +154,7 @@ export const StopForm = ({ state, send }: StopFormProps) => {
           onChange={(files) => {
             send({
               type: 'ON_INPUT_CHANGE',
-              field: 'attachments',
+              inputName: 'attachments',
               value: files,
             });
           }}
@@ -169,7 +169,7 @@ export const StopForm = ({ state, send }: StopFormProps) => {
           onChange={(e) =>
             send({
               type: 'ON_INPUT_CHANGE',
-              field: 'firstName',
+              inputName: 'firstName',
               value: e.target.value,
             })
           }
@@ -183,7 +183,7 @@ export const StopForm = ({ state, send }: StopFormProps) => {
           onChange={(e) =>
             send({
               type: 'ON_INPUT_CHANGE',
-              field: 'lastName',
+              inputName: 'lastName',
               value: e.target.value,
             })
           }
@@ -197,7 +197,7 @@ export const StopForm = ({ state, send }: StopFormProps) => {
           onChange={(e) =>
             send({
               type: 'ON_INPUT_CHANGE',
-              field: 'email',
+              inputName: 'email',
               value: e.target.value,
             })
           }

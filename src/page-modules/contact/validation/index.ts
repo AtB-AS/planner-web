@@ -1,3 +1,3 @@
-export { default as commonFieldValidator } from './commonFieldValidator';
-export { default as travelGuaranteeFieldValidator } from './special-field-validators/travelGuaranteeFieldValidator';
+export { default as commonInputValidator } from './commonInputValidator';
+export { default as travelGuaranteeInputValidator } from './special-field-validators/travelGuaranteeInputValidator';
 export { addErrorMessage, type InputErrorMessages } from './utils';

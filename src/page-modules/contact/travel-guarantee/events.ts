@@ -9,11 +9,11 @@ const TravelGuaranteeSpecificFormEvents = {} as
   | { type: 'OTHER' }
   | {
       type: 'TOGGLE';
-      field: 'isIntialAgreementChecked' | 'hasInternationalBankAccount';
+      inputName: 'isIntialAgreementChecked' | 'hasInternationalBankAccount';
     }
   | {
       type: 'ON_INPUT_CHANGE';
-      field: 'kilometersDriven' | 'reasonForTransportFailure';
+      inputName: 'kilometersDriven' | 'reasonForTransportFailure';
       value: string | ReasonForTransportFailure;
     }
   | { type: 'SET_STATE_SUBMITTED'; stateSubmitted: string | undefined };

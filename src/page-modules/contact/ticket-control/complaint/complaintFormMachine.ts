@@ -1,5 +1,5 @@
 import { assign, fromPromise, setup } from 'xstate';
-import { commonFieldValidator, InputErrorMessages } from '../../validation';
+import { commonInputValidator, InputErrorMessages } from '../../validation';
 import { convertFilesToBase64 } from '../../utils';
 import { ticketControlFormEvents } from '../events';
 
@@ -36,7 +36,7 @@ export const formMachine = setup({
     events: ticketControlFormEvents,
   },
   guards: {
-    validateInputs: ({ context }) => commonFieldValidator(context),
+    validateInputs: ({ context }) => commonInputValidator(context),
   },
   actions: {
     cleanErrorMessages: assign({
@@ -45,9 +45,9 @@ export const formMachine = setup({
 
     toggle: assign(({ context, event }) => {
       if (event.type === 'TOGGLE') {
-        const { field } = event;
+        const { inputName } = event;
         return {
-          [field]: !context[field],
+          [inputName]: !context[inputName],
         };
       }
       return context;
@@ -55,12 +55,12 @@ export const formMachine = setup({
 
     onInputChange: assign(({ context, event }) => {
       if (event.type === 'ON_INPUT_CHANGE') {
-        const { field, value } = event;
+        const { inputName, value } = event;
         // Remove errorMessages if any
-        context.errorMessages[field] = [];
+        context.errorMessages[inputName] = [];
         return {
           ...context,
-          [field]: value,
+          [inputName]: value,
         };
       }
       return context;

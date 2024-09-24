@@ -1,5 +1,5 @@
 import { assign, fromPromise, setup } from 'xstate';
-import { commonFieldValidator, InputErrorMessages } from '../../validation';
+import { commonInputValidator, InputErrorMessages } from '../../validation';
 import { ticketControlFormEvents } from '../events';
 
 type APIParams = {
@@ -21,17 +21,17 @@ export const postponePaymentForm = setup({
   },
 
   guards: {
-    validateInputs: ({ context }) => commonFieldValidator(context),
+    validateInputs: ({ context }) => commonInputValidator(context),
   },
   actions: {
     onInputChange: assign(({ context, event }) => {
       if (event.type === 'ON_INPUT_CHANGE') {
-        const { field, value } = event;
+        const { inputName, value } = event;
         // Remove errorMessages if any
-        context.errorMessages[field] = [];
+        context.errorMessages[inputName] = [];
         return {
           ...context,
-          [field]: value,
+          [inputName]: value,
         };
       }
       return context;

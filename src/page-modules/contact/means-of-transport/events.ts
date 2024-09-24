@@ -6,11 +6,11 @@ export type Area = { id: string; name: TranslatedString };
 const meansOfTransportSpecificFormEvents = {} as
   | {
       type: 'TOGGLE';
-      field: 'wantsToBeContacted';
+      inputName: 'wantsToBeContacted';
     }
   | {
       type: 'ON_INPUT_CHANGE';
-      field: 'area' | 'formType';
+      inputName: 'area' | 'formType';
       value: Area | string;
     };
 

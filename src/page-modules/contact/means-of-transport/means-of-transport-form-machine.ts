@@ -1,7 +1,7 @@
 import { TransportModeType } from '@atb-as/config-specs';
 import { assign, fromPromise, setup } from 'xstate';
 import { Line } from '../server/journey-planner/validators';
-import { InputErrorMessages, commonFieldValidator } from '../validation';
+import { commonInputValidator, InputErrorMessages } from '../validation';
 import {
   convertFilesToBase64,
   getCurrentDateString,
@@ -60,23 +60,23 @@ export const meansOfTransportFormMachine = setup({
     events: meansOfTransportFormEvents,
   },
   guards: {
-    validateInputs: ({ context }) => commonFieldValidator(context),
+    validateInputs: ({ context }) => commonInputValidator(context),
   },
   actions: {
     onInputChange: assign(({ context, event }) => {
       if (event.type === 'ON_INPUT_CHANGE') {
-        const { field, value } = event;
+        const { inputName, value } = event;
 
         // Remove all errorMessages if changing form type.
         // Else, remove errorMessages related to type.
-        if (field === 'formType') {
+        if (inputName === 'formType') {
           context.errorMessages = {};
         } else {
-          context.errorMessages[field] = [];
+          context.errorMessages[inputName] = [];
         }
         return {
           ...context,
-          [field]: value,
+          [inputName]: value,
         };
       }
       return context;
@@ -84,9 +84,9 @@ export const meansOfTransportFormMachine = setup({
 
     toggle: assign(({ context, event }) => {
       if (event.type === 'TOGGLE') {
-        const { field } = event;
+        const { inputName } = event;
         return {
-          [field]: !context[field],
+          [inputName]: !context[inputName],
         };
       }
       return context;

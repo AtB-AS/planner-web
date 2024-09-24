@@ -39,7 +39,7 @@ export const PostponePaymentForm = () => {
           onChange={(e) =>
             send({
               type: 'ON_INPUT_CHANGE',
-              field: 'feeNumber',
+              inputName: 'feeNumber',
               value: e.target.value,
             })
           }
@@ -56,7 +56,7 @@ export const PostponePaymentForm = () => {
           onChange={(e) =>
             send({
               type: 'ON_INPUT_CHANGE',
-              field: 'invoiceNumber',
+              inputName: 'invoiceNumber',
               value: e.target.value,
             })
           }
@@ -74,7 +74,7 @@ export const PostponePaymentForm = () => {
           onChange={(e) =>
             send({
               type: 'ON_INPUT_CHANGE',
-              field: 'firstName',
+              inputName: 'firstName',
               value: e.target.value,
             })
           }
@@ -90,7 +90,7 @@ export const PostponePaymentForm = () => {
           onChange={(e) =>
             send({
               type: 'ON_INPUT_CHANGE',
-              field: 'lastName',
+              inputName: 'lastName',
               value: e.target.value,
             })
           }
@@ -104,7 +104,7 @@ export const PostponePaymentForm = () => {
           onChange={(e) =>
             send({
               type: 'ON_INPUT_CHANGE',
-              field: 'email',
+              inputName: 'email',
               value: e.target.value,
             })
           }

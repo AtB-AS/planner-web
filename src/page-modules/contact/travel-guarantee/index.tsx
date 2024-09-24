@@ -49,7 +49,7 @@ export const RefundForm = () => {
             onChange={(value) =>
               send({
                 type: 'ON_INPUT_CHANGE',
-                field: 'transportMode',
+                inputName: 'transportMode',
                 value: value as TransportModeType,
               })
             }
@@ -76,7 +76,7 @@ export const RefundForm = () => {
               if (!value) return;
               send({
                 type: 'ON_INPUT_CHANGE',
-                field: 'line',
+                inputName: 'line',
                 value: value,
               });
             }}
@@ -101,7 +101,7 @@ export const RefundForm = () => {
               if (!value) return;
               send({
                 type: 'ON_INPUT_CHANGE',
-                field: 'fromStop',
+                inputName: 'fromStop',
                 value: value,
               });
             }}
@@ -128,7 +128,7 @@ export const RefundForm = () => {
               if (!value) return;
               send({
                 type: 'ON_INPUT_CHANGE',
-                field: 'toStop',
+                inputName: 'toStop',
                 value: value,
               });
             }}
@@ -155,7 +155,7 @@ export const RefundForm = () => {
             onChange={(e) =>
               send({
                 type: 'ON_INPUT_CHANGE',
-                field: 'date',
+                inputName: 'date',
                 value: e.target.value,
               })
             }
@@ -168,7 +168,7 @@ export const RefundForm = () => {
             onChange={(e) =>
               send({
                 type: 'ON_INPUT_CHANGE',
-                field: 'plannedDepartureTime',
+                inputName: 'plannedDepartureTime',
                 value: e.target.value,
               })
             }
@@ -184,7 +184,7 @@ export const RefundForm = () => {
               if (!value) return;
               send({
                 type: 'ON_INPUT_CHANGE',
-                field: 'reasonForTransportFailure',
+                inputName: 'reasonForTransportFailure',
                 value: value,
               });
             }}
@@ -227,7 +227,7 @@ export const RefundForm = () => {
             onChange={(e) =>
               send({
                 type: 'ON_INPUT_CHANGE',
-                field: 'kilometersDriven',
+                inputName: 'kilometersDriven',
                 value: e.target.value,
               })
             }
@@ -246,7 +246,7 @@ export const RefundForm = () => {
               onChange={(e) =>
                 send({
                   type: 'ON_INPUT_CHANGE',
-                  field: 'feedback',
+                  inputName: 'feedback',
                   value: e.target.value,
                 })
               }
@@ -264,7 +264,7 @@ export const RefundForm = () => {
               onChange={(e) =>
                 send({
                   type: 'ON_INPUT_CHANGE',
-                  field: 'firstName',
+                  inputName: 'firstName',
                   value: e.target.value,
                 })
               }
@@ -281,7 +281,7 @@ export const RefundForm = () => {
               onChange={(e) =>
                 send({
                   type: 'ON_INPUT_CHANGE',
-                  field: 'lastName',
+                  inputName: 'lastName',
                   value: e.target.value,
                 })
               }
@@ -297,7 +297,7 @@ export const RefundForm = () => {
               onChange={(e) =>
                 send({
                   type: 'ON_INPUT_CHANGE',
-                  field: 'address',
+                  inputName: 'address',
                   value: e.target.value,
                 })
               }
@@ -313,7 +313,7 @@ export const RefundForm = () => {
               onChange={(e) =>
                 send({
                   type: 'ON_INPUT_CHANGE',
-                  field: 'postalCode',
+                  inputName: 'postalCode',
                   value: e.target.value,
                 })
               }
@@ -329,7 +329,7 @@ export const RefundForm = () => {
               onChange={(e) =>
                 send({
                   type: 'ON_INPUT_CHANGE',
-                  field: 'city',
+                  inputName: 'city',
                   value: e.target.value,
                 })
               }
@@ -345,7 +345,7 @@ export const RefundForm = () => {
               onChange={(e) =>
                 send({
                   type: 'ON_INPUT_CHANGE',
-                  field: 'email',
+                  inputName: 'email',
                   value: e.target.value,
                 })
               }
@@ -361,7 +361,7 @@ export const RefundForm = () => {
               onChange={(e) =>
                 send({
                   type: 'ON_INPUT_CHANGE',
-                  field: 'phoneNumber',
+                  inputName: 'phoneNumber',
                   value: e.target.value,
                 })
               }
@@ -382,7 +382,7 @@ export const RefundForm = () => {
                 onChange={(e) =>
                   send({
                     type: 'ON_INPUT_CHANGE',
-                    field: 'bankAccountNumber',
+                    inputName: 'bankAccountNumber',
                     value: e.target.value,
                   })
                 }
@@ -393,7 +393,10 @@ export const RefundForm = () => {
               label={t(PageText.Contact.inputFields.bankAccountNumber.checkbox)}
               checked={state.context.hasInternationalBankAccount}
               onChange={() =>
-                send({ type: 'TOGGLE', field: 'hasInternationalBankAccount' })
+                send({
+                  type: 'TOGGLE',
+                  inputName: 'hasInternationalBankAccount',
+                })
               }
             />
 
@@ -407,7 +410,7 @@ export const RefundForm = () => {
                   onChange={(e) =>
                     send({
                       type: 'ON_INPUT_CHANGE',
-                      field: 'IBAN',
+                      inputName: 'IBAN',
                       value: e.target.value,
                     })
                   }
@@ -421,7 +424,7 @@ export const RefundForm = () => {
                   onChange={(e) =>
                     send({
                       type: 'ON_INPUT_CHANGE',
-                      field: 'SWIFT',
+                      inputName: 'SWIFT',
                       value: e.target.value,
                     })
                   }

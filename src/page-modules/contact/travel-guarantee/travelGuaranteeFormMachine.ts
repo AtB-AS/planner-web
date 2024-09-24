@@ -4,7 +4,7 @@ import { Line } from '../server/journey-planner/validators';
 import { ReasonForTransportFailure } from './events';
 import {
   InputErrorMessages,
-  travelGuaranteeFieldValidator,
+  travelGuaranteeInputValidator,
 } from '../validation';
 import { getCurrentDateString, getCurrentTimeString } from '../utils';
 import { TravelGuaranteeFormEvents } from './events';
@@ -44,7 +44,7 @@ export const fetchMachine = setup({
     events: TravelGuaranteeFormEvents,
   },
   guards: {
-    validateInputs: ({ context }) => travelGuaranteeFieldValidator(context),
+    validateInputs: ({ context }) => travelGuaranteeInputValidator(context),
   },
   actions: {
     setCurrentStateWhenSubmitted: assign({
@@ -64,11 +64,11 @@ export const fetchMachine = setup({
 
     onInputChange: assign(({ context, event }) => {
       if (event.type === 'ON_INPUT_CHANGE') {
-        const { field, value } = event;
-        context.errorMessages[field] = [];
+        const { inputName, value } = event;
+        context.errorMessages[inputName] = [];
         return {
           ...context,
-          [field]: value,
+          [inputName]: value,
         };
       }
       return context;
@@ -76,9 +76,9 @@ export const fetchMachine = setup({
 
     toggle: assign(({ context, event }) => {
       if (event.type === 'TOGGLE') {
-        const { field } = event;
+        const { inputName } = event;
         return {
-          [field]: !context[field],
+          [inputName]: !context[inputName],
         };
       }
       return context;

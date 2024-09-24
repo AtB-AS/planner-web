@@ -2,7 +2,7 @@ export const commonEvents = {} as
   | { type: 'VALIDATE' }
   | {
       type: 'ON_INPUT_CHANGE';
-      field:
+      inputName:
         | 'address'
         | 'attachments'
         | 'bankAccountNumber'

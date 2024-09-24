@@ -3,7 +3,7 @@ import { commonEvents } from '../commoneEvents';
 const ticketControlSpecificFormEvents = {} as
   | {
       type: 'TOGGLE';
-      field:
+      inputName:
         | 'isAppTicketStorageMode'
         | 'agreesFirstAgreement'
         | 'agreesSecondAgreement'
@@ -11,7 +11,7 @@ const ticketControlSpecificFormEvents = {} as
     }
   | {
       type: 'ON_INPUT_CHANGE';
-      field:
+      inputName:
         | 'feeNumber'
         | 'invoiceNumber'
         | 'appPhoneNumber'

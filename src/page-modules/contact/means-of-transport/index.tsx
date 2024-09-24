@@ -50,7 +50,7 @@ export const MeansOfTransportContent = () => {
                 onChange={(e) =>
                   send({
                     type: 'ON_INPUT_CHANGE',
-                    field: 'formType',
+                    inputName: 'formType',
                     value: e.target.value,
                   })
                 }

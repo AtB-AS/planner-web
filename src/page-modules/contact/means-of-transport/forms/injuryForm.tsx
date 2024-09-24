@@ -46,7 +46,7 @@ export const InjuryForm = ({ state, send }: InjuryFormProps) => {
             if (!value) return;
             send({
               type: 'ON_INPUT_CHANGE',
-              field: 'area',
+              inputName: 'area',
               value: value,
             });
           }}
@@ -65,7 +65,7 @@ export const InjuryForm = ({ state, send }: InjuryFormProps) => {
           onChange={(value) =>
             send({
               type: 'ON_INPUT_CHANGE',
-              field: 'transportMode',
+              inputName: 'transportMode',
               value: value as TransportModeType,
             })
           }
@@ -92,7 +92,7 @@ export const InjuryForm = ({ state, send }: InjuryFormProps) => {
             if (!value) return;
             send({
               type: 'ON_INPUT_CHANGE',
-              field: 'line',
+              inputName: 'line',
               value: value,
             });
           }}
@@ -117,7 +117,7 @@ export const InjuryForm = ({ state, send }: InjuryFormProps) => {
             if (!value) return;
             send({
               type: 'ON_INPUT_CHANGE',
-              field: 'fromStop',
+              inputName: 'fromStop',
               value: value,
             });
           }}
@@ -142,7 +142,7 @@ export const InjuryForm = ({ state, send }: InjuryFormProps) => {
             if (!value) return;
             send({
               type: 'ON_INPUT_CHANGE',
-              field: 'toStop',
+              inputName: 'toStop',
               value: value,
             });
           }}
@@ -167,7 +167,7 @@ export const InjuryForm = ({ state, send }: InjuryFormProps) => {
           onChange={(e) =>
             send({
               type: 'ON_INPUT_CHANGE',
-              field: 'date',
+              inputName: 'date',
               value: e.target.value,
             })
           }
@@ -181,7 +181,7 @@ export const InjuryForm = ({ state, send }: InjuryFormProps) => {
           onChange={(e) =>
             send({
               type: 'ON_INPUT_CHANGE',
-              field: 'plannedDepartureTime',
+              inputName: 'plannedDepartureTime',
               value: e.target.value,
             })
           }
@@ -197,7 +197,7 @@ export const InjuryForm = ({ state, send }: InjuryFormProps) => {
           onChange={(e) =>
             send({
               type: 'ON_INPUT_CHANGE',
-              field: 'feedback',
+              inputName: 'feedback',
               value: e.target.value,
             })
           }
@@ -213,7 +213,7 @@ export const InjuryForm = ({ state, send }: InjuryFormProps) => {
           onChange={(files) => {
             send({
               type: 'ON_INPUT_CHANGE',
-              field: 'attachments',
+              inputName: 'attachments',
               value: files,
             });
           }}
@@ -228,7 +228,7 @@ export const InjuryForm = ({ state, send }: InjuryFormProps) => {
           onChange={(e) =>
             send({
               type: 'ON_INPUT_CHANGE',
-              field: 'firstName',
+              inputName: 'firstName',
               value: e.target.value,
             })
           }
@@ -242,7 +242,7 @@ export const InjuryForm = ({ state, send }: InjuryFormProps) => {
           onChange={(e) =>
             send({
               type: 'ON_INPUT_CHANGE',
-              field: 'lastName',
+              inputName: 'lastName',
               value: e.target.value,
             })
           }
@@ -259,7 +259,7 @@ export const InjuryForm = ({ state, send }: InjuryFormProps) => {
           onChange={() =>
             send({
               type: 'TOGGLE',
-              field: 'wantsToBeContacted',
+              inputName: 'wantsToBeContacted',
             })
           }
         />
@@ -270,7 +270,7 @@ export const InjuryForm = ({ state, send }: InjuryFormProps) => {
           onChange={() =>
             send({
               type: 'TOGGLE',
-              field: 'wantsToBeContacted',
+              inputName: 'wantsToBeContacted',
             })
           }
         />
@@ -283,7 +283,7 @@ export const InjuryForm = ({ state, send }: InjuryFormProps) => {
             onChange={(e) =>
               send({
                 type: 'ON_INPUT_CHANGE',
-                field: 'email',
+                inputName: 'email',
                 value: e.target.value,
               })
             }
