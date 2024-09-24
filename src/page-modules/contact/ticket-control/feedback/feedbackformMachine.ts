@@ -1,13 +1,13 @@
 import { TransportModeType } from '@atb-as/config-specs';
 import { Line } from '../../server/journey-planner/validators';
 import { assign, fromPromise, setup } from 'xstate';
-import { commonFieldValidator, InputErrorMessages } from '../../validation';
-import { machineEvents } from '../../machineEvents';
+import { commonInputValidator, InputErrorMessages } from '../../validation';
 import {
   convertFilesToBase64,
   getCurrentDateString,
   getCurrentTimeString,
 } from '../../utils';
+import { ticketControlFormEvents } from '../events';
 
 type APIParams = {
   transportMode: TransportModeType | undefined;
@@ -30,20 +30,20 @@ type ContextProps = {
 export const formMachine = setup({
   types: {
     context: {} as ContextProps,
-    events: machineEvents,
+    events: ticketControlFormEvents,
   },
   guards: {
-    validateInputs: ({ context }) => commonFieldValidator(context),
+    validateInputs: ({ context }) => commonInputValidator(context),
   },
   actions: {
-    updateField: assign(({ context, event }) => {
-      if (event.type === 'UPDATE_FIELD') {
-        const { field, value } = event;
+    onInputChange: assign(({ context, event }) => {
+      if (event.type === 'ON_INPUT_CHANGE') {
+        const { inputName, value } = event;
         // Remove errorMessages if any
-        context.errorMessages[field] = [];
+        context.errorMessages[inputName] = [];
         return {
           ...context,
-          [field]: value,
+          [inputName]: value,
         };
       }
       return context;
@@ -125,8 +125,8 @@ export const formMachine = setup({
     editing: {
       entry: 'cleanErrorMessages',
       on: {
-        UPDATE_FIELD: {
-          actions: 'updateField',
+        ON_INPUT_CHANGE: {
+          actions: 'onInputChange',
         },
         VALIDATE: {
           guard: 'validateInputs',

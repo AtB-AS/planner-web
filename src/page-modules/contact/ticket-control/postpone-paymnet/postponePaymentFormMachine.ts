@@ -1,5 +1,6 @@
 import { assign, fromPromise, setup } from 'xstate';
-import { commonFieldValidator, InputErrorMessages } from '../../validation';
+import { commonInputValidator, InputErrorMessages } from '../../validation';
+import { ticketControlFormEvents } from '../events';
 
 type APIParams = {
   feeNumber: string;
@@ -16,20 +17,21 @@ type ContextProps = {
 export const postponePaymentForm = setup({
   types: {
     context: {} as ContextProps,
+    events: ticketControlFormEvents,
   },
 
   guards: {
-    validateInputs: ({ context }) => commonFieldValidator(context),
+    validateInputs: ({ context }) => commonInputValidator(context),
   },
   actions: {
-    updateField: assign(({ context, event }) => {
-      if (event.type === 'UPDATE_FIELD') {
-        const { field, value } = event;
+    onInputChange: assign(({ context, event }) => {
+      if (event.type === 'ON_INPUT_CHANGE') {
+        const { inputName, value } = event;
         // Remove errorMessages if any
-        context.errorMessages[field] = [];
+        context.errorMessages[inputName] = [];
         return {
           ...context,
-          [field]: value,
+          [inputName]: value,
         };
       }
       return context;
@@ -78,8 +80,8 @@ export const postponePaymentForm = setup({
     editing: {
       entry: 'cleanErrorMessages',
       on: {
-        UPDATE_FIELD: {
-          actions: 'updateField',
+        ON_INPUT_CHANGE: {
+          actions: 'onInputChange',
         },
         VALIDATE: {
           guard: 'validateInputs',

@@ -1,119 +1,119 @@
 import { PageText } from '@atb/translations';
 import { addErrorMessage, InputErrorMessages } from './utils';
 
-export const commonFieldValidator = (context: any) => {
+export const commonInputValidator = (context: any) => {
   const inputErrorMessages: InputErrorMessages = {};
-  const inputFieldRules = [
+  const inputRules = [
     {
-      field: 'firstName',
+      inputName: 'firstName',
       validCondition: context.firstName || context.isContactInfoOptional,
 
       errorMessage: PageText.Contact.inputFields.firstName.errorMessages.empty,
     },
     {
-      field: 'lastName',
+      inputName: 'lastName',
       validCondition: context.lastName || context.isContactInfoOptional,
       errorMessage: PageText.Contact.inputFields.lastName.errorMessages.empty,
     },
     {
-      field: 'email',
+      inputName: 'email',
       validCondition: context.email || context.isContactInfoOptional,
       errorMessage: PageText.Contact.inputFields.email.errorMessages.empty,
     },
     {
-      field: 'address',
+      inputName: 'address',
       validCondition: context.address,
       errorMessage: PageText.Contact.inputFields.address.errorMessages.empty,
     },
     {
-      field: 'postalCode',
+      inputName: 'postalCode',
       validCondition: context.postalCode,
       errorMessage: PageText.Contact.inputFields.postalCode.errorMessages.empty,
     },
     {
-      field: 'city',
+      inputName: 'city',
       validCondition: context.city,
       errorMessage: PageText.Contact.inputFields.city.errorMessages.empty,
     },
     {
-      field: 'phoneNumber',
+      inputName: 'phoneNumber',
       validCondition: context.phoneNumber,
       errorMessage:
         PageText.Contact.inputFields.phoneNumber.errorMessages.empty,
     },
     {
-      field: 'bankAccountNumber',
+      inputName: 'bankAccountNumber',
       validCondition:
         context.bankAccountNumber || context.IBAN || context.SWIFT,
       errorMessage:
         PageText.Contact.inputFields.bankAccountNumber.errorMessages.empty,
     },
     {
-      field: 'area',
+      inputName: 'area',
       validCondition: context.area,
       errorMessage: PageText.Contact.inputFields.area.errorMessages.empty,
     },
     {
-      field: 'transportMode',
+      inputName: 'transportMode',
       validCondition: context.transportMode,
       errorMessage:
         PageText.Contact.inputFields.transportMode.errorMessages.empty,
     },
     {
-      field: 'line',
+      inputName: 'line',
       validCondition: context.line,
       errorMessage: PageText.Contact.inputFields.line.errorMessages.empty,
     },
     {
-      field: 'fromStop',
+      inputName: 'fromStop',
       validCondition: context.fromStop,
       errorMessage: PageText.Contact.inputFields.fromStop.errorMessages.empty,
     },
     {
-      field: 'toStop',
+      inputName: 'toStop',
       validCondition: context.toStop,
       errorMessage: PageText.Contact.inputFields.toStop.errorMessages.empty,
     },
     {
-      field: 'reasonForTransportFailure',
+      inputName: 'reasonForTransportFailure',
       validCondition: context.reasonForTransportFailure,
       errorMessage:
         PageText.Contact.inputFields.reasonForTransportFailure.errorMessages
           .empty,
     },
     {
-      field: 'feeNumber',
+      inputName: 'feeNumber',
       validCondition: context.feeNumber,
       errorMessage: PageText.Contact.inputFields.feeNumber.errorMessages.empty,
     },
     {
-      field: 'feeNumber',
+      inputName: 'feeNumber',
       validCondition: context.feeNumber && context.feeNumber.length === 4,
       errorMessage:
         PageText.Contact.inputFields.feeNumber.errorMessages.notFourDigits,
     },
     {
-      field: 'invoiceNumber',
+      inputName: 'invoiceNumber',
       validCondition: context.invoiceNumber,
       errorMessage:
         PageText.Contact.inputFields.invoiceNumber.errorMessages.empty,
     },
     {
-      field: 'appPhoneNumber',
+      inputName: 'appPhoneNumber',
       validCondition: context.appPhoneNumber || context.travelCardNumber,
       errorMessage:
         PageText.Contact.inputFields.ticketStorage.app.appPhoneNumber
           .errorMessages.empty,
     },
     {
-      field: 'customerNumber',
+      inputName: 'customerNumber',
       validCondition: context.customerNumber || context.travelCardNumber,
       errorMessage:
         PageText.Contact.inputFields.ticketStorage.app.customerNumber
           .errorMessages.empty,
     },
     {
-      field: 'travelCardNumber',
+      inputName: 'travelCardNumber',
       validCondition:
         context.travelCardNumber ||
         (context.appPhoneNumber && context.customerNumber),
@@ -122,17 +122,17 @@ export const commonFieldValidator = (context: any) => {
           .errorMessages.empty,
     },
     {
-      field: 'feedback',
+      inputName: 'feedback',
       validCondition: context.feedback,
       errorMessage: PageText.Contact.inputFields.feedback.errorMessages.empty,
     },
   ];
 
   // Iterate over each field and apply validation
-  inputFieldRules.forEach(({ field, validCondition, errorMessage }) =>
+  inputRules.forEach(({ inputName, validCondition, errorMessage }) =>
     addErrorMessage(
       context,
-      field,
+      inputName,
       validCondition,
       inputErrorMessages,
       errorMessage,
@@ -146,4 +146,4 @@ export const commonFieldValidator = (context: any) => {
   return Object.keys(context.errorMessages).length > 0 ? false : true;
 };
 
-export default commonFieldValidator;
+export default commonInputValidator;

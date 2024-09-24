@@ -1,13 +1,13 @@
 import { TransportModeType } from '@atb-as/config-specs';
 import { assign, fromPromise, setup } from 'xstate';
 import { Line } from '../server/journey-planner/validators';
-import { machineEvents, Area } from '../machineEvents';
-import { InputErrorMessages, commonFieldValidator } from '../validation';
+import { commonInputValidator, InputErrorMessages } from '../validation';
 import {
   convertFilesToBase64,
   getCurrentDateString,
   getCurrentTimeString,
 } from '../utils';
+import { Area, meansOfTransportFormEvents } from './events';
 
 export enum FormType {
   Driver = 'driver',
@@ -57,36 +57,26 @@ export type ContextProps = {
 export const meansOfTransportFormMachine = setup({
   types: {
     context: {} as ContextProps,
-    events: machineEvents,
+    events: meansOfTransportFormEvents,
   },
   guards: {
-    validateInputs: ({ context }) => commonFieldValidator(context),
+    validateInputs: ({ context }) => commonInputValidator(context),
   },
   actions: {
-    updateField: assign(({ context, event }) => {
-      if (event.type === 'UPDATE_FIELD') {
-        const { field, value } = event;
+    onInputChange: assign(({ context, event }) => {
+      if (event.type === 'ON_INPUT_CHANGE') {
+        const { inputName, value } = event;
 
         // Remove all errorMessages if changing form type.
         // Else, remove errorMessages related to type.
-        if (field === 'formType') {
+        if (inputName === 'formType') {
           context.errorMessages = {};
         } else {
-          context.errorMessages[field] = [];
+          context.errorMessages[inputName] = [];
         }
         return {
           ...context,
-          [field]: value,
-        };
-      }
-      return context;
-    }),
-
-    toggleField: assign(({ context, event }: any) => {
-      if (event.type === 'TOGGLE') {
-        const { field } = event;
-        return {
-          [field]: !context[field],
+          [inputName]: value,
         };
       }
       return context;
@@ -165,12 +155,8 @@ export const meansOfTransportFormMachine = setup({
     editing: {
       initial: 'idle',
       on: {
-        TOGGLE: {
-          actions: 'toggleField',
-        },
-
-        UPDATE_FIELD: {
-          actions: 'updateField',
+        ON_INPUT_CHANGE: {
+          actions: 'onInputChange',
         },
 
         VALIDATE: {

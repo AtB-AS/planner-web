@@ -1,48 +1,48 @@
 import { PageText } from '@atb/translations';
 import { addErrorMessage, InputErrorMessages } from '../utils';
 
-export const travelGuaranteeFieldValidator = (context: any) => {
+export const travelGuaranteeInputValidator = (context: any) => {
   const inputErrorMessages: InputErrorMessages = {};
-  const inputFieldRules = [
+  const inputRules = [
     {
-      field: 'firstName',
+      inputName: 'firstName',
       validCondition: context.firstName,
       errorMessage: PageText.Contact.inputFields.firstName.errorMessages.empty,
     },
     {
-      field: 'lastName',
+      inputName: 'lastName',
       validCondition: context.lastName,
       errorMessage: PageText.Contact.inputFields.lastName.errorMessages.empty,
     },
     {
-      field: 'email',
+      inputName: 'email',
       validCondition: context.email,
       errorMessage: PageText.Contact.inputFields.email.errorMessages.empty,
     },
     {
-      field: 'address',
+      inputName: 'address',
       validCondition: context.address,
       errorMessage: PageText.Contact.inputFields.address.errorMessages.empty,
     },
     {
-      field: 'postalCode',
+      inputName: 'postalCode',
       validCondition: context.postalCode,
       errorMessage: PageText.Contact.inputFields.postalCode.errorMessages.empty,
     },
     {
-      field: 'city',
+      inputName: 'city',
       validCondition: context.city,
       errorMessage: PageText.Contact.inputFields.city.errorMessages.empty,
     },
     {
-      field: 'phoneNumber',
+      inputName: 'phoneNumber',
       validCondition: context.phoneNumber,
       errorMessage:
         PageText.Contact.inputFields.phoneNumber.errorMessages.empty,
     },
 
     {
-      field: 'bankAccountNumber',
+      inputName: 'bankAccountNumber',
       validCondition:
         context.bankAccountNumber || context.IBAN || context.SWIFT,
       errorMessage:
@@ -50,7 +50,7 @@ export const travelGuaranteeFieldValidator = (context: any) => {
     },
 
     {
-      field: 'transportMode',
+      inputName: 'transportMode',
       validCondition:
         (context.transportMode &&
           context.travelGuaranteeStateWhenSubmitted !== 'other') ||
@@ -60,7 +60,7 @@ export const travelGuaranteeFieldValidator = (context: any) => {
         PageText.Contact.inputFields.transportMode.errorMessages.empty,
     },
     {
-      field: 'line',
+      inputName: 'line',
       validCondition:
         (context.line &&
           context.travelGuaranteeStateWhenSubmitted !== 'other') ||
@@ -68,7 +68,7 @@ export const travelGuaranteeFieldValidator = (context: any) => {
       errorMessage: PageText.Contact.inputFields.line.errorMessages.empty,
     },
     {
-      field: 'fromStop',
+      inputName: 'fromStop',
       validCondition:
         (context.fromStop &&
           context.travelGuaranteeStateWhenSubmitted !== 'other') ||
@@ -76,7 +76,7 @@ export const travelGuaranteeFieldValidator = (context: any) => {
       errorMessage: PageText.Contact.inputFields.fromStop.errorMessages.empty,
     },
     {
-      field: 'toStop',
+      inputName: 'toStop',
       validCondition:
         (context.toStop &&
           context.travelGuaranteeStateWhenSubmitted !== 'other') ||
@@ -85,7 +85,7 @@ export const travelGuaranteeFieldValidator = (context: any) => {
       errorMessage: PageText.Contact.inputFields.toStop.errorMessages.empty,
     },
     {
-      field: 'reasonForTransportFailure',
+      inputName: 'reasonForTransportFailure',
       validCondition:
         (context.reasonForTransportFailure &&
           context.travelGuaranteeStateWhenSubmitted !== 'other') ||
@@ -96,7 +96,7 @@ export const travelGuaranteeFieldValidator = (context: any) => {
           .empty,
     },
     {
-      field: 'kilometersDriven',
+      inputName: 'kilometersDriven',
       validCondition:
         (context.kilometersDriven &&
           context.travelGuaranteeStateWhenSubmitted == 'car') ||
@@ -108,10 +108,10 @@ export const travelGuaranteeFieldValidator = (context: any) => {
   ];
 
   // Iterate over each field and apply validation
-  inputFieldRules.forEach(({ field, validCondition, errorMessage }) =>
+  inputRules.forEach(({ inputName, validCondition, errorMessage }) =>
     addErrorMessage(
       context,
-      field,
+      inputName,
       validCondition,
       inputErrorMessages,
       errorMessage,
@@ -125,4 +125,4 @@ export const travelGuaranteeFieldValidator = (context: any) => {
   return Object.keys(context.errorMessages).length > 0 ? false : true;
 };
 
-export default travelGuaranteeFieldValidator;
+export default travelGuaranteeInputValidator;

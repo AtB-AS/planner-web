@@ -43,8 +43,8 @@ export const FeedbackForm = () => {
           value={state.context.transportMode}
           onChange={(value) =>
             send({
-              type: 'UPDATE_FIELD',
-              field: 'transportMode',
+              type: 'ON_INPUT_CHANGE',
+              inputName: 'transportMode',
               value: value as TransportModeType,
             })
           }
@@ -70,8 +70,8 @@ export const FeedbackForm = () => {
           onChange={(value: Line | undefined) => {
             if (!value) return;
             send({
-              type: 'UPDATE_FIELD',
-              field: 'line',
+              type: 'ON_INPUT_CHANGE',
+              inputName: 'line',
               value: value,
             });
           }}
@@ -95,8 +95,8 @@ export const FeedbackForm = () => {
           onChange={(value) => {
             if (!value) return;
             send({
-              type: 'UPDATE_FIELD',
-              field: 'fromStop',
+              type: 'ON_INPUT_CHANGE',
+              inputName: 'fromStop',
               value: value,
             });
           }}
@@ -120,8 +120,8 @@ export const FeedbackForm = () => {
           onChange={(value) => {
             if (!value) return;
             send({
-              type: 'UPDATE_FIELD',
-              field: 'toStop',
+              type: 'ON_INPUT_CHANGE',
+              inputName: 'toStop',
               value: value,
             });
           }}
@@ -145,8 +145,8 @@ export const FeedbackForm = () => {
           value={state.context.date}
           onChange={(e) =>
             send({
-              type: 'UPDATE_FIELD',
-              field: 'date',
+              type: 'ON_INPUT_CHANGE',
+              inputName: 'date',
               value: e.target.value,
             })
           }
@@ -158,8 +158,8 @@ export const FeedbackForm = () => {
           value={state.context.plannedDepartureTime}
           onChange={(e) =>
             send({
-              type: 'UPDATE_FIELD',
-              field: 'plannedDepartureTime',
+              type: 'ON_INPUT_CHANGE',
+              inputName: 'plannedDepartureTime',
               value: e.target.value,
             })
           }
@@ -170,8 +170,8 @@ export const FeedbackForm = () => {
           value={state.context.feedback}
           onChange={(e) =>
             send({
-              type: 'UPDATE_FIELD',
-              field: 'feedback',
+              type: 'ON_INPUT_CHANGE',
+              inputName: 'feedback',
               value: e.target.value,
             })
           }
@@ -186,8 +186,8 @@ export const FeedbackForm = () => {
           name="attachments"
           onChange={(files) => {
             send({
-              type: 'UPDATE_FIELD',
-              field: 'attachments',
+              type: 'ON_INPUT_CHANGE',
+              inputName: 'attachments',
               value: files,
             });
           }}
@@ -206,8 +206,8 @@ export const FeedbackForm = () => {
           }
           onChange={(e) =>
             send({
-              type: 'UPDATE_FIELD',
-              field: 'firstName',
+              type: 'ON_INPUT_CHANGE',
+              inputName: 'firstName',
               value: e.target.value,
             })
           }
@@ -222,8 +222,8 @@ export const FeedbackForm = () => {
           }
           onChange={(e) =>
             send({
-              type: 'UPDATE_FIELD',
-              field: 'lastName',
+              type: 'ON_INPUT_CHANGE',
+              inputName: 'lastName',
               value: e.target.value,
             })
           }
@@ -236,8 +236,8 @@ export const FeedbackForm = () => {
           errorMessage={state.context?.errorMessages['email']?.[0] || undefined}
           onChange={(e) =>
             send({
-              type: 'UPDATE_FIELD',
-              field: 'email',
+              type: 'ON_INPUT_CHANGE',
+              inputName: 'email',
               value: e.target.value,
             })
           }

@@ -11,14 +11,14 @@ import { Line } from '../..';
 import { FileInput } from '../../components/input/file';
 import { Textarea } from '../../components/input/textarea';
 import { RadioInput } from '../../components/input/radio';
-import { machineEvents } from '../../machineEvents';
+import { meansOfTransportFormEvents } from '../events';
 
 type InjuryFormProps = {
   state: {
     hasTag(arg0: string): boolean | undefined;
     context: ContextProps;
   };
-  send: (event: typeof machineEvents) => void;
+  send: (event: typeof meansOfTransportFormEvents) => void;
 };
 
 export const InjuryForm = ({ state, send }: InjuryFormProps) => {
@@ -45,8 +45,8 @@ export const InjuryForm = ({ state, send }: InjuryFormProps) => {
           onChange={(value) => {
             if (!value) return;
             send({
-              type: 'UPDATE_FIELD',
-              field: 'area',
+              type: 'ON_INPUT_CHANGE',
+              inputName: 'area',
               value: value,
             });
           }}
@@ -64,8 +64,8 @@ export const InjuryForm = ({ state, send }: InjuryFormProps) => {
           value={state.context.transportMode}
           onChange={(value) =>
             send({
-              type: 'UPDATE_FIELD',
-              field: 'transportMode',
+              type: 'ON_INPUT_CHANGE',
+              inputName: 'transportMode',
               value: value as TransportModeType,
             })
           }
@@ -91,8 +91,8 @@ export const InjuryForm = ({ state, send }: InjuryFormProps) => {
           onChange={(value: Line | undefined) => {
             if (!value) return;
             send({
-              type: 'UPDATE_FIELD',
-              field: 'line',
+              type: 'ON_INPUT_CHANGE',
+              inputName: 'line',
               value: value,
             });
           }}
@@ -116,8 +116,8 @@ export const InjuryForm = ({ state, send }: InjuryFormProps) => {
           onChange={(value) => {
             if (!value) return;
             send({
-              type: 'UPDATE_FIELD',
-              field: 'fromStop',
+              type: 'ON_INPUT_CHANGE',
+              inputName: 'fromStop',
               value: value,
             });
           }}
@@ -141,8 +141,8 @@ export const InjuryForm = ({ state, send }: InjuryFormProps) => {
           onChange={(value) => {
             if (!value) return;
             send({
-              type: 'UPDATE_FIELD',
-              field: 'toStop',
+              type: 'ON_INPUT_CHANGE',
+              inputName: 'toStop',
               value: value,
             });
           }}
@@ -166,8 +166,8 @@ export const InjuryForm = ({ state, send }: InjuryFormProps) => {
           value={state.context.date}
           onChange={(e) =>
             send({
-              type: 'UPDATE_FIELD',
-              field: 'date',
+              type: 'ON_INPUT_CHANGE',
+              inputName: 'date',
               value: e.target.value,
             })
           }
@@ -180,8 +180,8 @@ export const InjuryForm = ({ state, send }: InjuryFormProps) => {
           value={state.context.plannedDepartureTime}
           onChange={(e) =>
             send({
-              type: 'UPDATE_FIELD',
-              field: 'plannedDepartureTime',
+              type: 'ON_INPUT_CHANGE',
+              inputName: 'plannedDepartureTime',
               value: e.target.value,
             })
           }
@@ -196,8 +196,8 @@ export const InjuryForm = ({ state, send }: InjuryFormProps) => {
           value={state.context.feedback}
           onChange={(e) =>
             send({
-              type: 'UPDATE_FIELD',
-              field: 'feedback',
+              type: 'ON_INPUT_CHANGE',
+              inputName: 'feedback',
               value: e.target.value,
             })
           }
@@ -212,8 +212,8 @@ export const InjuryForm = ({ state, send }: InjuryFormProps) => {
           label={t(PageText.Contact.inputFields.feedback.attachment)}
           onChange={(files) => {
             send({
-              type: 'UPDATE_FIELD',
-              field: 'attachments',
+              type: 'ON_INPUT_CHANGE',
+              inputName: 'attachments',
               value: files,
             });
           }}
@@ -227,8 +227,8 @@ export const InjuryForm = ({ state, send }: InjuryFormProps) => {
           value={state.context.firstName}
           onChange={(e) =>
             send({
-              type: 'UPDATE_FIELD',
-              field: 'firstName',
+              type: 'ON_INPUT_CHANGE',
+              inputName: 'firstName',
               value: e.target.value,
             })
           }
@@ -241,8 +241,8 @@ export const InjuryForm = ({ state, send }: InjuryFormProps) => {
           value={state.context.lastName}
           onChange={(e) =>
             send({
-              type: 'UPDATE_FIELD',
-              field: 'lastName',
+              type: 'ON_INPUT_CHANGE',
+              inputName: 'lastName',
               value: e.target.value,
             })
           }
@@ -258,8 +258,9 @@ export const InjuryForm = ({ state, send }: InjuryFormProps) => {
           checked={state.context.wantsToBeContacted}
           onChange={() =>
             send({
-              type: 'TOGGLE',
-              field: 'wantsToBeContacted',
+              type: 'ON_INPUT_CHANGE',
+              inputName: 'wantsToBeContacted',
+              value: !state.context.wantsToBeContacted,
             })
           }
         />
@@ -269,8 +270,9 @@ export const InjuryForm = ({ state, send }: InjuryFormProps) => {
           checked={!state.context.wantsToBeContacted}
           onChange={() =>
             send({
-              type: 'TOGGLE',
-              field: 'wantsToBeContacted',
+              type: 'ON_INPUT_CHANGE',
+              inputName: 'wantsToBeContacted',
+              value: !state.context.wantsToBeContacted,
             })
           }
         />
@@ -282,8 +284,8 @@ export const InjuryForm = ({ state, send }: InjuryFormProps) => {
             value={state.context.email}
             onChange={(e) =>
               send({
-                type: 'UPDATE_FIELD',
-                field: 'email',
+                type: 'ON_INPUT_CHANGE',
+                inputName: 'email',
                 value: e.target.value,
               })
             }

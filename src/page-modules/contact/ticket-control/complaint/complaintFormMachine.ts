@@ -1,7 +1,7 @@
 import { assign, fromPromise, setup } from 'xstate';
-import { machineEvents } from '../../machineEvents';
-import { commonFieldValidator, InputErrorMessages } from '../../validation';
+import { commonInputValidator, InputErrorMessages } from '../../validation';
 import { convertFilesToBase64 } from '../../utils';
+import { ticketControlFormEvents } from '../events';
 
 type APIParams = {
   feeNumber: string;
@@ -33,34 +33,24 @@ type ContextProps = {
 export const formMachine = setup({
   types: {
     context: {} as ContextProps,
-    events: machineEvents,
+    events: ticketControlFormEvents,
   },
   guards: {
-    validateInputs: ({ context }) => commonFieldValidator(context),
+    validateInputs: ({ context }) => commonInputValidator(context),
   },
   actions: {
     cleanErrorMessages: assign({
       errorMessages: () => ({}),
     }),
 
-    toggleField: assign(({ context, event }: any) => {
-      if (event.type === 'TOGGLE') {
-        const { field } = event;
-        return {
-          [field]: !context[field],
-        };
-      }
-      return context;
-    }),
-
-    updateField: assign(({ context, event }) => {
-      if (event.type === 'UPDATE_FIELD') {
-        const { field, value } = event;
+    onInputChange: assign(({ context, event }) => {
+      if (event.type === 'ON_INPUT_CHANGE') {
+        const { inputName, value } = event;
         // Remove errorMessages if any
-        context.errorMessages[field] = [];
+        context.errorMessages[inputName] = [];
         return {
           ...context,
-          [field]: value,
+          [inputName]: value,
         };
       }
       return context;
@@ -154,12 +144,8 @@ export const formMachine = setup({
     editing: {
       entry: 'cleanErrorMessages',
       on: {
-        TOGGLE: {
-          actions: 'toggleField',
-        },
-
-        UPDATE_FIELD: {
-          actions: 'updateField',
+        ON_INPUT_CHANGE: {
+          actions: 'onInputChange',
         },
         VALIDATE: {
           guard: 'validateInputs',

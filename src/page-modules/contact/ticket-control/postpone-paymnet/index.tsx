@@ -38,8 +38,8 @@ export const PostponePaymentForm = () => {
           }
           onChange={(e) =>
             send({
-              type: 'UPDATE_FIELD',
-              field: 'feeNumber',
+              type: 'ON_INPUT_CHANGE',
+              inputName: 'feeNumber',
               value: e.target.value,
             })
           }
@@ -55,8 +55,8 @@ export const PostponePaymentForm = () => {
           }
           onChange={(e) =>
             send({
-              type: 'UPDATE_FIELD',
-              field: 'invoiceNumber',
+              type: 'ON_INPUT_CHANGE',
+              inputName: 'invoiceNumber',
               value: e.target.value,
             })
           }
@@ -73,8 +73,8 @@ export const PostponePaymentForm = () => {
           }
           onChange={(e) =>
             send({
-              type: 'UPDATE_FIELD',
-              field: 'firstName',
+              type: 'ON_INPUT_CHANGE',
+              inputName: 'firstName',
               value: e.target.value,
             })
           }
@@ -89,8 +89,8 @@ export const PostponePaymentForm = () => {
           }
           onChange={(e) =>
             send({
-              type: 'UPDATE_FIELD',
-              field: 'lastName',
+              type: 'ON_INPUT_CHANGE',
+              inputName: 'lastName',
               value: e.target.value,
             })
           }
@@ -103,8 +103,8 @@ export const PostponePaymentForm = () => {
           errorMessage={state.context?.errorMessages['email']?.[0] || undefined}
           onChange={(e) =>
             send({
-              type: 'UPDATE_FIELD',
-              field: 'email',
+              type: 'ON_INPUT_CHANGE',
+              inputName: 'email',
               value: e.target.value,
             })
           }

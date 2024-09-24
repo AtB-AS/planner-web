@@ -1,7 +1,5 @@
-import {
-  ReasonForTransportFailure,
-  Area,
-} from '@atb/page-modules/contact/machineEvents';
+import { Area } from '@atb/page-modules/contact/means-of-transport/events';
+import { ReasonForTransportFailure } from '@atb/page-modules/contact/travel-guarantee/events';
 import { translation as _ } from '@atb/translations/commons';
 
 export const Contact = {

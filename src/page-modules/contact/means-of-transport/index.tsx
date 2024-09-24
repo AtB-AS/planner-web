@@ -49,8 +49,8 @@ export const MeansOfTransportContent = () => {
                 checked={state.context.formType === formType}
                 onChange={(e) =>
                   send({
-                    type: 'UPDATE_FIELD',
-                    field: 'formType',
+                    type: 'ON_INPUT_CHANGE',
+                    inputName: 'formType',
                     value: e.target.value,
                   })
                 }
