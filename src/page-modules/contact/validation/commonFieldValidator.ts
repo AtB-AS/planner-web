@@ -6,39 +6,18 @@ export const commonFieldValidator = (context: any) => {
   const inputFieldRules = [
     {
       field: 'firstName',
-      validCondition:
-        context.firstName ||
-        context.formType === 'driver' ||
-        context.formType === 'transportation' ||
-        context.formType === 'delay' ||
-        context.formType === 'stop' ||
-        context.formType === 'serviceOffering' ||
-        context.formType === 'injury',
+      validCondition: context.firstName || context.isContactInfoOptional,
+
       errorMessage: PageText.Contact.inputFields.firstName.errorMessages.empty,
     },
     {
       field: 'lastName',
-      validCondition:
-        context.lastName ||
-        context.formType === 'driver' ||
-        context.formType === 'transportation' ||
-        context.formType === 'delay' ||
-        context.formType === 'stop' ||
-        context.formType === 'serviceOffering' ||
-        context.formType === 'injury',
+      validCondition: context.lastName || context.isContactInfoOptional,
       errorMessage: PageText.Contact.inputFields.lastName.errorMessages.empty,
     },
     {
       field: 'email',
-      validCondition:
-        context.email ||
-        context.formType === 'driver' ||
-        context.formType === 'transportation' ||
-        context.formType === 'delay' ||
-        context.formType === 'stop' ||
-        context.formType === 'serviceOffering' ||
-        context.formType === 'injury' ||
-        context.wantsToBeContacted === false,
+      validCondition: context.email || context.isContactInfoOptional,
       errorMessage: PageText.Contact.inputFields.email.errorMessages.empty,
     },
     {

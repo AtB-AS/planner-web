@@ -78,7 +78,7 @@ export const MeansOfTransportContent = () => {
       {state.context.formType === 'injury' && (
         <InjuryForm state={state} send={send} />
       )}
-      {state.hasTag('selected') && (
+      {state.context.formType && (
         <Button
           title={t(PageText.Contact.submit)}
           mode={'interactive_0--bordered'}

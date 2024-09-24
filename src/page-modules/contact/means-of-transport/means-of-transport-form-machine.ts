@@ -36,6 +36,7 @@ type APIParams = {
 
 export type ContextProps = {
   target?: string;
+  isContactInfoOptional: boolean;
   wantsToBeContacted: boolean;
   errorMessages: InputErrorMessages;
 } & APIParams;
@@ -52,8 +53,14 @@ export const meansOfTransportFormMachine = setup({
     updateField: assign(({ context, event }) => {
       if (event.type === 'UPDATE_FIELD') {
         const { field, value } = event;
-        // Remove errorMessages if any
-        context.errorMessages[field] = [];
+
+        // Remove all errorMessages if changing form type.
+        // Else, remove errorMessages related to type.
+        if (field === 'formType') {
+          context.errorMessages = {};
+        } else {
+          context.errorMessages[field] = [];
+        }
         return {
           ...context,
           [field]: value,
@@ -70,10 +77,6 @@ export const meansOfTransportFormMachine = setup({
         };
       }
       return context;
-    }),
-
-    cleanErrorMessages: assign({
-      errorMessages: () => ({}),
     }),
   },
   actors: {
@@ -139,6 +142,7 @@ export const meansOfTransportFormMachine = setup({
     firstName: '',
     lastName: '',
     email: '',
+    isContactInfoOptional: true,
     wantsToBeContacted: false,
     errorMessages: {},
   },
@@ -162,36 +166,6 @@ export const meansOfTransportFormMachine = setup({
 
       states: {
         idle: {},
-        driverForm: {
-          entry: 'cleanErrorMessages',
-          tags: 'selected',
-        },
-
-        transportationForm: {
-          entry: 'cleanErrorMessages',
-          tags: 'selected',
-        },
-
-        delayForm: {
-          entry: 'cleanErrorMessages',
-          tags: 'selected',
-        },
-
-        stopForm: {
-          entry: 'cleanErrorMessages',
-          tags: 'selected',
-        },
-
-        serviceOfferingForm: {
-          entry: 'cleanErrorMessages',
-          tags: 'selected',
-        },
-
-        injuryForm: {
-          entry: 'cleanErrorMessages',
-          tags: 'selected',
-        },
-
         readyForSubmit: {
           type: 'final',
         },
