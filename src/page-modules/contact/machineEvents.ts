@@ -46,6 +46,7 @@ export const machineEvents = {} as
         | 'customerNumber'
         | 'travelCardNumber'
         | 'isAppTicketStorageMode'
+        | 'formType'
         | 'area';
       value:
         | string

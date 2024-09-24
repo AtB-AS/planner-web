@@ -31,21 +31,18 @@ export const TransportationForm = ({
   return (
     <div>
       <SectionCard
-        title={PageText.Contact.modeOfTransport.transportationForm.description}
+        title={PageText.Contact.modeOfTransport.transportation.description}
       >
         <Typo.p textType="body__primary">
-          {t(PageText.Contact.modeOfTransport.transportationForm.info)}
+          {t(PageText.Contact.modeOfTransport.transportation.info)}
         </Typo.p>
       </SectionCard>
 
       <SectionCard
-        title={PageText.Contact.modeOfTransport.transportationForm.about.title}
+        title={PageText.Contact.modeOfTransport.transportation.about.title}
       >
         <Typo.p textType="body__primary">
-          {t(
-            PageText.Contact.modeOfTransport.transportationForm.about
-              .description,
-          )}
+          {t(PageText.Contact.modeOfTransport.transportation.about.description)}
         </Typo.p>
 
         <Select

@@ -26,19 +26,15 @@ export const StopForm = ({ state, send }: StopFormProps) => {
 
   return (
     <div>
-      <SectionCard
-        title={PageText.Contact.modeOfTransport.stopForm.description}
-      >
+      <SectionCard title={PageText.Contact.modeOfTransport.stop.description}>
         <Typo.p textType="body__primary">
-          {t(PageText.Contact.modeOfTransport.stopForm.info)}
+          {t(PageText.Contact.modeOfTransport.stop.info)}
         </Typo.p>
       </SectionCard>
 
-      <SectionCard
-        title={PageText.Contact.modeOfTransport.stopForm.about.title}
-      >
+      <SectionCard title={PageText.Contact.modeOfTransport.stop.about.title}>
         <Typo.p textType="body__primary">
-          {t(PageText.Contact.modeOfTransport.stopForm.about.description)}
+          {t(PageText.Contact.modeOfTransport.stop.about.description)}
         </Typo.p>
 
         <Select

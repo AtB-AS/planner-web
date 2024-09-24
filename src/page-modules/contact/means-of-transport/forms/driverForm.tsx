@@ -27,19 +27,15 @@ export const DriverForm = ({ state, send }: DriverFormProps) => {
 
   return (
     <div>
-      <SectionCard
-        title={PageText.Contact.modeOfTransport.driverForm.description}
-      >
+      <SectionCard title={PageText.Contact.modeOfTransport.driver.description}>
         <Typo.p textType="body__primary">
-          {t(PageText.Contact.modeOfTransport.driverForm.info)}
+          {t(PageText.Contact.modeOfTransport.driver.info)}
         </Typo.p>
       </SectionCard>
 
-      <SectionCard
-        title={PageText.Contact.modeOfTransport.driverForm.about.title}
-      >
+      <SectionCard title={PageText.Contact.modeOfTransport.driver.about.title}>
         <Typo.p textType="body__primary">
-          {t(PageText.Contact.modeOfTransport.driverForm.about.description)}
+          {t(PageText.Contact.modeOfTransport.driver.about.description)}
         </Typo.p>
 
         <Select

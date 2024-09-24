@@ -347,6 +347,17 @@ export const Contact = {
       },
     },
   },
+
+  /*
+   Driver = 'driver',
+  Transportation = 'transportation',
+  Delay = 'delay',
+  Stop = 'stop',
+  ServiceOffering = 'serviceOffering',
+  Injury = 'injury',
+}
+  
+  */
   modeOfTransport: {
     title: _(
       'Transportmiddel og stoppested',
@@ -354,7 +365,7 @@ export const Contact = {
       'Transportmiddel og stoppested',
     ),
 
-    driverForm: {
+    driver: {
       description: _(
         'Tilbakemelding på sjåfør/mannskap',
         'Feedback on driver/crew',
@@ -374,7 +385,7 @@ export const Contact = {
         ),
       },
     },
-    transportationForm: {
+    transportation: {
       description: _(
         'Tilbakemelding på transportmiddel',
         'Feedback on transport vehicle',
@@ -394,7 +405,7 @@ export const Contact = {
         ),
       },
     },
-    delayForm: {
+    delay: {
       description: _(
         'Forinkelse, kjørt for tidlig eller innstilt',
         'Delay, driven too early or cancelled',
@@ -414,7 +425,7 @@ export const Contact = {
         ),
       },
     },
-    stopForm: {
+    stop: {
       description: _(
         'Tilbakemelding på holdeplass/kai',
         'Feedback on stop/dock',
@@ -438,7 +449,7 @@ export const Contact = {
         ),
       },
     },
-    serviceOfferingForm: {
+    serviceOffering: {
       description: _(
         'Tilbakemelding på rutetilbudet',
         'Feedback on route offering',
@@ -459,7 +470,7 @@ export const Contact = {
         ),
       },
     },
-    injuryForm: {
+    injury: {
       description: _(
         'Melde fra om personskade eller ulykke',
         'Report of personal injury or accident',

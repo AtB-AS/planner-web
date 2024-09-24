@@ -1,5 +1,9 @@
 @value typo-body__secondary from "@atb/theme/typography.module.css";
 
+.form_options__list {
+  list-style-type: none;
+}
+
 .rules__list {
   padding: var(--spacings-medium);
   padding-left: var(--spacings-xLarge);

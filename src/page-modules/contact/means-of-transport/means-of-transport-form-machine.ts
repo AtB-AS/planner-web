@@ -9,15 +9,17 @@ import {
   getCurrentTimeString,
 } from '../utils';
 
+export enum FormType {
+  Driver = 'driver',
+  Transportation = 'transportation',
+  Delay = 'delay',
+  Stop = 'stop',
+  ServiceOffering = 'serviceOffering',
+  Injury = 'injury',
+}
+
 type APIParams = {
-  formType:
-    | 'driver'
-    | 'transportation'
-    | 'delay'
-    | 'stop'
-    | 'serviceOffering'
-    | 'injury'
-    | undefined;
+  formType: FormType | undefined;
   area: Area | undefined;
   transportMode: TransportModeType | undefined;
   line: Line | undefined;
@@ -33,6 +35,7 @@ type APIParams = {
 };
 
 export type ContextProps = {
+  target?: string;
   wantsToBeContacted: boolean;
   errorMessages: InputErrorMessages;
 } & APIParams;
@@ -46,27 +49,6 @@ export const meansOfTransportFormMachine = setup({
     validateInputs: ({ context }) => commonFieldValidator(context),
   },
   actions: {
-    setFormType: assign({
-      formType: ({ event }) => {
-        switch (event.type) {
-          case 'DRIVER_FORM':
-            return 'driver';
-          case 'TRANSPORTATION_FORM':
-            return 'transportation';
-          case 'DELAY_FORM':
-            return 'delay';
-          case 'STOP_FORM':
-            return 'stop';
-          case 'SERVICE_OFFERING_FORM':
-            return 'serviceOffering';
-          case 'INJURY_FORM':
-            return 'injury';
-          default:
-            return undefined;
-        }
-      },
-    }),
-
     updateField: assign(({ context, event }) => {
       if (event.type === 'UPDATE_FIELD') {
         const { field, value } = event;
@@ -164,25 +146,6 @@ export const meansOfTransportFormMachine = setup({
     editing: {
       initial: 'idle',
       on: {
-        DRIVER_FORM: {
-          target: 'editing.driverForm',
-        },
-        TRANSPORTATION_FORM: {
-          target: 'editing.transportationForm',
-        },
-        DELAY_FORM: {
-          target: 'editing.delayForm',
-        },
-        STOP_FORM: {
-          target: 'editing.stopForm',
-        },
-        SERVICE_OFFERING_FORM: {
-          target: 'editing.serviceOfferingForm',
-        },
-        INJURY_FORM: {
-          target: 'editing.injuryForm',
-        },
-
         TOGGLE: {
           actions: 'toggleField',
         },
@@ -190,6 +153,7 @@ export const meansOfTransportFormMachine = setup({
         UPDATE_FIELD: {
           actions: 'updateField',
         },
+
         VALIDATE: {
           guard: 'validateInputs',
           target: 'editing.readyForSubmit',
@@ -199,33 +163,33 @@ export const meansOfTransportFormMachine = setup({
       states: {
         idle: {},
         driverForm: {
-          entry: ['cleanErrorMessages', 'setFormType'],
-          tags: ['driverForm', 'selected'],
+          entry: 'cleanErrorMessages',
+          tags: 'selected',
         },
 
         transportationForm: {
-          entry: ['cleanErrorMessages', 'setFormType'],
-          tags: ['transportationForm', 'selected'],
+          entry: 'cleanErrorMessages',
+          tags: 'selected',
         },
 
         delayForm: {
-          entry: ['cleanErrorMessages', 'setFormType'],
-          tags: ['delayForm', 'selected'],
+          entry: 'cleanErrorMessages',
+          tags: 'selected',
         },
 
         stopForm: {
-          entry: ['cleanErrorMessages', 'setFormType'],
-          tags: ['stopForm', 'selected'],
+          entry: 'cleanErrorMessages',
+          tags: 'selected',
         },
 
         serviceOfferingForm: {
-          entry: ['cleanErrorMessages', 'setFormType'],
-          tags: ['serviceOfferingForm', 'selected'],
+          entry: 'cleanErrorMessages',
+          tags: 'selected',
         },
 
         injuryForm: {
-          entry: ['cleanErrorMessages', 'setFormType'],
-          tags: ['injuryForm', 'selected'],
+          entry: 'cleanErrorMessages',
+          tags: 'selected',
         },
 
         readyForSubmit: {

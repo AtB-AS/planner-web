@@ -30,20 +30,19 @@ export const ServiceOfferingForm = ({
   return (
     <div>
       <SectionCard
-        title={PageText.Contact.modeOfTransport.serviceOfferingForm.description}
+        title={PageText.Contact.modeOfTransport.serviceOffering.description}
       >
         <Typo.p textType="body__primary">
-          {t(PageText.Contact.modeOfTransport.serviceOfferingForm.info)}
+          {t(PageText.Contact.modeOfTransport.serviceOffering.info)}
         </Typo.p>
       </SectionCard>
 
       <SectionCard
-        title={PageText.Contact.modeOfTransport.serviceOfferingForm.about.title}
+        title={PageText.Contact.modeOfTransport.serviceOffering.about.title}
       >
         <Typo.p textType="body__primary">
           {t(
-            PageText.Contact.modeOfTransport.serviceOfferingForm.about
-              .description,
+            PageText.Contact.modeOfTransport.serviceOffering.about.description,
           )}
         </Typo.p>
 

@@ -1,6 +1,8 @@
 import { useMachine } from '@xstate/react';
-import { meansOfTransportFormMachine } from './means-of-transport-form-machine';
-import ModeOfTransportFormSelector from './means-of-transport-form-selector';
+import {
+  FormType,
+  meansOfTransportFormMachine,
+} from './means-of-transport-form-machine';
 import {
   DelayForm,
   DriverForm,
@@ -12,6 +14,9 @@ import {
 import { Button } from '@atb/components/button';
 import { PageText, useTranslation } from '@atb/translations';
 import { FormEventHandler, useState } from 'react';
+import { SectionCard } from '../components/section-card';
+import { RadioInput } from '../components/input/radio';
+import style from '../contact.module.css';
 
 export const MeansOfTransportContent = () => {
   const { t } = useTranslation();
@@ -32,17 +37,47 @@ export const MeansOfTransportContent = () => {
 
   return (
     <form onSubmit={onSubmit}>
-      <ModeOfTransportFormSelector state={state} send={send} />
-      {state.hasTag('driverForm') && <DriverForm state={state} send={send} />}
-      {state.hasTag('transportationForm') && (
+      <SectionCard title={PageText.Contact.travelGuarantee.title}>
+        <ul className={style.form_options__list}>
+          {Object.values(FormType).map((formType) => (
+            <li key={formType}>
+              <RadioInput
+                label={t(
+                  PageText.Contact.modeOfTransport[formType].description,
+                )}
+                value={formType}
+                checked={state.context.formType === formType}
+                onChange={(e) =>
+                  send({
+                    type: 'UPDATE_FIELD',
+                    field: 'formType',
+                    value: e.target.value,
+                  })
+                }
+              />
+            </li>
+          ))}
+        </ul>
+      </SectionCard>
+
+      {state.context.formType === 'driver' && (
+        <DriverForm state={state} send={send} />
+      )}
+      {state.context.formType === 'transportation' && (
         <TransportationForm state={state} send={send} />
       )}
-      {state.hasTag('delayForm') && <DelayForm state={state} send={send} />}
-      {state.hasTag('stopForm') && <StopForm state={state} send={send} />}
-      {state.hasTag('serviceOfferingForm') && (
+      {state.context.formType === 'delay' && (
+        <DelayForm state={state} send={send} />
+      )}
+      {state.context.formType === 'stop' && (
+        <StopForm state={state} send={send} />
+      )}
+      {state.context.formType === 'serviceOffering' && (
         <ServiceOfferingForm state={state} send={send} />
       )}
-      {state.hasTag('injuryForm') && <InjuryForm state={state} send={send} />}
+      {state.context.formType === 'injury' && (
+        <InjuryForm state={state} send={send} />
+      )}
       {state.hasTag('selected') && (
         <Button
           title={t(PageText.Contact.submit)}

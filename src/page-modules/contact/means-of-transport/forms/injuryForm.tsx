@@ -27,18 +27,14 @@ export const InjuryForm = ({ state, send }: InjuryFormProps) => {
 
   return (
     <div>
-      <SectionCard
-        title={PageText.Contact.modeOfTransport.injuryForm.description}
-      >
+      <SectionCard title={PageText.Contact.modeOfTransport.injury.description}>
         <Typo.p textType="body__primary">
-          {t(PageText.Contact.modeOfTransport.injuryForm.info)}
+          {t(PageText.Contact.modeOfTransport.injury.info)}
         </Typo.p>
       </SectionCard>
-      <SectionCard
-        title={PageText.Contact.modeOfTransport.injuryForm.about.title}
-      >
+      <SectionCard title={PageText.Contact.modeOfTransport.injury.about.title}>
         <Typo.p textType="body__primary">
-          {t(PageText.Contact.modeOfTransport.injuryForm.about.description)}
+          {t(PageText.Contact.modeOfTransport.injury.about.description)}
         </Typo.p>
 
         <Select

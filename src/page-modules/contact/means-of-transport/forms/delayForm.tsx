@@ -27,19 +27,15 @@ export const DelayForm = ({ state, send }: DelayFormProps) => {
 
   return (
     <div>
-      <SectionCard
-        title={PageText.Contact.modeOfTransport.delayForm.description}
-      >
+      <SectionCard title={PageText.Contact.modeOfTransport.delay.description}>
         <Typo.p textType="body__primary">
-          {t(PageText.Contact.modeOfTransport.delayForm.info)}
+          {t(PageText.Contact.modeOfTransport.delay.info)}
         </Typo.p>
       </SectionCard>
 
-      <SectionCard
-        title={PageText.Contact.modeOfTransport.delayForm.about.title}
-      >
+      <SectionCard title={PageText.Contact.modeOfTransport.delay.about.title}>
         <Typo.p textType="body__primary">
-          {t(PageText.Contact.modeOfTransport.delayForm.about.description)}
+          {t(PageText.Contact.modeOfTransport.delay.about.description)}
         </Typo.p>
 
         <Select
