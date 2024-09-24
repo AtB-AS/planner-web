@@ -568,7 +568,7 @@ export const Contact = {
       label: _('E-post', 'Email', 'E-post'),
       wantsToBeContacted: {
         label: _(
-          'E-post (må fylles ut viss du vill ha svar)',
+          'E-post (må fylles ut hvis du vil ha svar)',
           'Email (must be entered if you want to receive an answer)',
           'E-post (må fyllast ut viss du vil ha svar)',
         ),
