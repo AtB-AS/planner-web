@@ -1,6 +1,5 @@
 import { PageText, useTranslation } from '@atb/translations';
 import { useLines } from '../../lines/use-lines';
-import { FormEventHandler, useState } from 'react';
 import { SectionCard } from '../../components/section-card';
 import { Typo } from '@atb/components/typography';
 import Select from '../../components/input/select';
