@@ -702,7 +702,7 @@ export const Contact = {
     },
 
     toStop: {
-      label: _('Til holdeplass/kai', 'To stop/quay', 'Til haldeplass/kai'),
+      label: _('Til holdeplass/kai', 'To stop/harbor', 'Til haldeplass/kai'),
       optionLabel: _(
         'Velg anskomststed',
         'Select arrival location',
