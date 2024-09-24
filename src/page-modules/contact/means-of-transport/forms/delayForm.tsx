@@ -18,28 +18,15 @@ type DelayFormProps = {
     hasTag(arg0: string): boolean | undefined;
     context: ContextProps;
   };
-  send: (event: typeof machineEvents) => void; // Function to send events to the state machine
+  send: (event: typeof machineEvents) => void;
 };
 
 export const DelayForm = ({ state, send }: DelayFormProps) => {
   const { t } = useTranslation();
   const { getLinesByMode, getQuaysByLine } = useLines();
 
-  // Local state to force re-render to display errors.
-  const [forceRerender, setForceRerender] = useState(false);
-
-  const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
-    e.preventDefault();
-    send({ type: 'VALIDATE' });
-
-    // Force a re-render with dummy state.
-    if (Object.keys(state.context.errorMessages).length > 0) {
-      setForceRerender(!forceRerender);
-    }
-  };
-
   return (
-    <form onSubmit={onSubmit}>
+    <div>
       <SectionCard
         title={PageText.Contact.modeOfTransport.delayForm.description}
       >
@@ -258,7 +245,7 @@ export const DelayForm = ({ state, send }: DelayFormProps) => {
           }
         />
       </SectionCard>
-    </form>
+    </div>
   );
 };
 

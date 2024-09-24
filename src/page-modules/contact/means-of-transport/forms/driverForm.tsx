@@ -1,7 +1,6 @@
 import { PageText, useTranslation } from '@atb/translations';
 import { ContextProps } from '../means-of-transport-form-machine';
 import { useLines } from '../../lines/use-lines';
-import { FormEventHandler, useState } from 'react';
 import { SectionCard } from '../../components/section-card';
 import { Typo } from '@atb/components/typography';
 import Select from '../../components/input/select';
@@ -26,21 +25,8 @@ export const DriverForm = ({ state, send }: DriverFormProps) => {
   const { t } = useTranslation();
   const { getLinesByMode, getQuaysByLine } = useLines();
 
-  // Local state to force re-render to display errors.
-  const [forceRerender, setForceRerender] = useState(false);
-
-  const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
-    e.preventDefault();
-    send({ type: 'VALIDATE' });
-
-    // Force a re-render with dummy state.
-    if (Object.keys(state.context.errorMessages).length > 0) {
-      setForceRerender(!forceRerender);
-    }
-  };
-
   return (
-    <form onSubmit={onSubmit}>
+    <div>
       <SectionCard
         title={PageText.Contact.modeOfTransport.driverForm.description}
       >
@@ -309,7 +295,7 @@ export const DriverForm = ({ state, send }: DriverFormProps) => {
           />
         )}
       </SectionCard>
-    </form>
+    </div>
   );
 };
 
