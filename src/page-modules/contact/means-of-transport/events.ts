@@ -3,16 +3,11 @@ import { commonEvents } from '../commoneEvents';
 
 export type Area = { id: string; name: TranslatedString };
 
-const meansOfTransportSpecificFormEvents = {} as
-  | {
-      type: 'TOGGLE';
-      inputName: 'wantsToBeContacted';
-    }
-  | {
-      type: 'ON_INPUT_CHANGE';
-      inputName: 'area' | 'formType';
-      value: Area | string;
-    };
+const meansOfTransportSpecificFormEvents = {} as {
+  type: 'ON_INPUT_CHANGE';
+  inputName: 'area' | 'formType' | 'wantsToBeContacted';
+  value: Area | string | boolean;
+};
 
 export const meansOfTransportFormEvents = {} as
   | typeof meansOfTransportSpecificFormEvents

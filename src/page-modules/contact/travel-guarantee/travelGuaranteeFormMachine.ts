@@ -74,16 +74,6 @@ export const fetchMachine = setup({
       return context;
     }),
 
-    toggle: assign(({ context, event }) => {
-      if (event.type === 'TOGGLE') {
-        const { inputName } = event;
-        return {
-          [inputName]: !context[inputName],
-        };
-      }
-      return context;
-    }),
-
     cleanErrorMessages: assign({
       errorMessages: () => ({}),
     }),
@@ -187,9 +177,7 @@ export const fetchMachine = setup({
         OTHER: {
           target: 'editing.other',
         },
-        TOGGLE: {
-          actions: 'toggle',
-        },
+
         ON_INPUT_CHANGE: {
           actions: 'onInputChange',
         },

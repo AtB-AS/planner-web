@@ -394,8 +394,9 @@ export const RefundForm = () => {
               checked={state.context.hasInternationalBankAccount}
               onChange={() =>
                 send({
-                  type: 'TOGGLE',
+                  type: 'ON_INPUT_CHANGE',
                   inputName: 'hasInternationalBankAccount',
+                  value: !state.context.hasInternationalBankAccount,
                 })
               }
             />

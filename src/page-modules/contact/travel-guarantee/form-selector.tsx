@@ -76,8 +76,9 @@ export const FormSelector = ({ state, send }: FormSelectorProps) => {
             checked={state.context.isIntialAgreementChecked}
             onChange={() =>
               send({
-                type: 'TOGGLE',
-                field: 'isIntialAgreementChecked',
+                type: 'ON_INPUT_CHANGE',
+                fieldName: 'isIntialAgreementChecked',
+                value: !state.context.isIntialAgreementChecked,
               })
             }
           />

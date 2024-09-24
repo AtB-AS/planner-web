@@ -43,16 +43,6 @@ export const formMachine = setup({
       errorMessages: () => ({}),
     }),
 
-    toggle: assign(({ context, event }) => {
-      if (event.type === 'TOGGLE') {
-        const { inputName } = event;
-        return {
-          [inputName]: !context[inputName],
-        };
-      }
-      return context;
-    }),
-
     onInputChange: assign(({ context, event }) => {
       if (event.type === 'ON_INPUT_CHANGE') {
         const { inputName, value } = event;
@@ -154,10 +144,6 @@ export const formMachine = setup({
     editing: {
       entry: 'cleanErrorMessages',
       on: {
-        TOGGLE: {
-          actions: 'toggle',
-        },
-
         ON_INPUT_CHANGE: {
           actions: 'onInputChange',
         },

@@ -258,8 +258,9 @@ export const InjuryForm = ({ state, send }: InjuryFormProps) => {
           checked={state.context.wantsToBeContacted}
           onChange={() =>
             send({
-              type: 'TOGGLE',
+              type: 'ON_INPUT_CHANGE',
               inputName: 'wantsToBeContacted',
+              value: !state.context.wantsToBeContacted,
             })
           }
         />
@@ -269,8 +270,9 @@ export const InjuryForm = ({ state, send }: InjuryFormProps) => {
           checked={!state.context.wantsToBeContacted}
           onChange={() =>
             send({
-              type: 'TOGGLE',
+              type: 'ON_INPUT_CHANGE',
               inputName: 'wantsToBeContacted',
+              value: !state.context.wantsToBeContacted,
             })
           }
         />

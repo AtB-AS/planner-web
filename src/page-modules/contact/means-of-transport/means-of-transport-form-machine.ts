@@ -81,16 +81,6 @@ export const meansOfTransportFormMachine = setup({
       }
       return context;
     }),
-
-    toggle: assign(({ context, event }) => {
-      if (event.type === 'TOGGLE') {
-        const { inputName } = event;
-        return {
-          [inputName]: !context[inputName],
-        };
-      }
-      return context;
-    }),
   },
   actors: {
     submit: fromPromise(
@@ -165,10 +155,6 @@ export const meansOfTransportFormMachine = setup({
     editing: {
       initial: 'idle',
       on: {
-        TOGGLE: {
-          actions: 'toggle',
-        },
-
         ON_INPUT_CHANGE: {
           actions: 'onInputChange',
         },

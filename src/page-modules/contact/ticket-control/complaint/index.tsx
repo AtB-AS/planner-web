@@ -12,6 +12,7 @@ import { RadioInput } from '../../components/input/radio';
 import { Textarea } from '../../components/input/textarea';
 import ErrorMessage from '../../components/input/error-message';
 import { FileInput } from '../../components/input/file';
+import { input } from '@testing-library/user-event/dist/cjs/event/input.js';
 
 export const FeeComplaintForm = () => {
   const { t } = useTranslation();
@@ -64,7 +65,11 @@ export const FeeComplaintForm = () => {
           )}
           checked={state.context.agreesFirstAgreement}
           onChange={() =>
-            send({ type: 'TOGGLE', inputName: 'agreesFirstAgreement' })
+            send({
+              type: 'ON_INPUT_CHANGE',
+              inputName: 'agreesFirstAgreement',
+              value: !state.context.agreesFirstAgreement,
+            })
           }
         />
       </SectionCard>
@@ -99,8 +104,9 @@ export const FeeComplaintForm = () => {
           checked={state.context.agreesSecondAgreement}
           onChange={() =>
             send({
-              type: 'TOGGLE',
+              type: 'ON_INPUT_CHANGE',
               inputName: 'agreesSecondAgreement',
+              value: !state.context.agreesSecondAgreement,
             })
           }
         />
@@ -144,8 +150,9 @@ export const FeeComplaintForm = () => {
               checked={state.context.isAppTicketStorageMode}
               onChange={() =>
                 send({
-                  type: 'TOGGLE',
+                  type: 'ON_INPUT_CHANGE',
                   inputName: 'isAppTicketStorageMode',
+                  value: !state.context.isAppTicketStorageMode,
                 })
               }
             />
@@ -158,8 +165,9 @@ export const FeeComplaintForm = () => {
               checked={!state.context.isAppTicketStorageMode}
               onChange={() =>
                 send({
-                  type: 'TOGGLE',
+                  type: 'ON_INPUT_CHANGE',
                   inputName: 'isAppTicketStorageMode',
+                  value: !state.context.isAppTicketStorageMode,
                 })
               }
             />
@@ -405,8 +413,9 @@ export const FeeComplaintForm = () => {
               checked={state.context.hasInternationalBankAccount}
               onChange={() =>
                 send({
-                  type: 'TOGGLE',
+                  type: 'ON_INPUT_CHANGE',
                   inputName: 'hasInternationalBankAccount',
+                  value: !state.context.hasInternationalBankAccount,
                 })
               }
             />
