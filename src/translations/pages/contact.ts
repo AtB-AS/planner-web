@@ -719,7 +719,7 @@ export const Contact = {
     date: _('Dato', 'Date', 'Dato'),
     plannedDepartureTime: _(
       'Planlagt avgangstid',
-      'Planed departure time',
+      'Planned departure time',
       'Planlagd avgangstid',
     ),
     reasonForTransportFailure: {
