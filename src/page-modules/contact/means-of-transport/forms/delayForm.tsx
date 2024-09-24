@@ -13,10 +13,7 @@ import { ContextProps } from '../means-of-transport-form-machine';
 import { meansOfTransportFormEvents } from '../events';
 
 type DelayFormProps = {
-  state: {
-    hasTag(arg0: string): boolean | undefined;
-    context: ContextProps;
-  };
+  state: { context: ContextProps };
   send: (event: typeof meansOfTransportFormEvents) => void;
 };
 

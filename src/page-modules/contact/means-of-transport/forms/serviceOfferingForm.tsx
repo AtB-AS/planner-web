@@ -13,10 +13,7 @@ import { Textarea } from '../../components/input/textarea';
 import { meansOfTransportFormEvents } from '../events';
 
 type ServiceOfferingFormProps = {
-  state: {
-    hasTag(arg0: string): boolean | undefined;
-    context: ContextProps;
-  };
+  state: { context: ContextProps };
   send: (event: typeof meansOfTransportFormEvents) => void;
 };
 

@@ -14,10 +14,7 @@ import { RadioInput } from '../../components/input/radio';
 import { meansOfTransportFormEvents } from '../events';
 
 type DriverFormProps = {
-  state: {
-    hasTag(arg0: string): boolean | undefined;
-    context: ContextProps;
-  };
+  state: { context: ContextProps };
   send: (event: typeof meansOfTransportFormEvents) => void;
 };
 
