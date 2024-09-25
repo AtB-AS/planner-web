@@ -1,12 +1,22 @@
 @value interactive-interactive_2 from "@atb/theme/theme.module.css";
 
-.layout__container {
-  margin: 0 auto;
-  max-width: var(--maxPageWidth);
-  padding: var(--spacings-large);
+.layout {
   display: flex;
   flex-direction: column;
-  gap: var(--spacings-medium);
+  width: 100%;
+  max-width: var(--maxPageWidth);
+  margin: 0 auto;
+}
+.homeLink__container {
+  padding: 0 var(--spacings-medium);
+}
+
+.layout__container {
+  padding: var(--spacings-large);
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacings-xLarge);
 }
 
 .contact_page_navigator__container {

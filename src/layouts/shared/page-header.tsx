@@ -66,7 +66,7 @@ export default function PageHeader() {
               href={'/contact'}
               title={t(CommonText.Layout.contactLink)}
             >
-              <h4>{t(CommonText.Layout.contactLink)}</h4>
+              {t(CommonText.Layout.contactLink)}
             </Link>
           </nav>
         )}

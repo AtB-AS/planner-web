@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { andIf } from '@atb/utils/css';
 import { Typo } from '@atb/components/typography';
 import { MonoIcon, MonoIcons } from '@atb/components/icon';
+import { ButtonLink } from '@atb/components/button';
 
 export type ContactPage = {
   title: TranslatedString;
@@ -55,28 +56,44 @@ function ContactPageLayout({ children }: ContactPageLayoutProps) {
   const pathname = usePathname();
 
   return (
-    <div className={style.layout__container}>
-      <Typo.h2 textType="heading--jumbo">{t(PageText.Contact.title)}</Typo.h2>
-      <nav className={style.contact_page_navigator__container}>
-        {contactPages.map((contactPage, index) => {
-          const isActive = pathname.includes(contactPage.href);
+    <div className={style.layout}>
+      <div>
+        <div className={style.homeLink__container}>
+          <ButtonLink
+            mode="transparent"
+            href="/"
+            title={t(PageText.Contact.homeLink)}
+            icon={{ left: <MonoIcon icon="navigation/ArrowLeft" /> }}
+          />
+        </div>
+        <div className={style.layout__container}>
+          <Typo.h2 textType="heading--jumbo">
+            {t(PageText.Contact.title)}
+          </Typo.h2>
+          <nav className={style.contact_page_navigator__container}>
+            {contactPages.map((contactPage, index) => {
+              const isActive = pathname.includes(contactPage.href);
 
-          return (
-            <Link
-              key={index}
-              shallow={true}
-              href={contactPage.href}
-              className={andIf({
-                [style.contact_page_navigator__link]: true,
-                [style.contact_page_navigator__activePage]: isActive,
-              })}
-            >
-              <MonoIcon size="large" icon={contactPage.icon} />
-              <Typo.p textType="body__primary">{t(contactPage.title)}</Typo.p>
-            </Link>
-          );
-        })}
-      </nav>
+              return (
+                <Link
+                  key={index}
+                  shallow={true}
+                  href={contactPage.href}
+                  className={andIf({
+                    [style.contact_page_navigator__link]: true,
+                    [style.contact_page_navigator__activePage]: isActive,
+                  })}
+                >
+                  <MonoIcon size="large" icon={contactPage.icon} />
+                  <Typo.p textType="body__primary">
+                    {t(contactPage.title)}
+                  </Typo.p>
+                </Link>
+              );
+            })}
+          </nav>
+        </div>
+      </div>
       {children}
     </div>
   );

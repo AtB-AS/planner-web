@@ -9,6 +9,7 @@
   padding: 0 var(--contentPadding);
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 
 .pageHeader__inner {
@@ -83,7 +84,6 @@
   padding-bottom: calc(var(--spacings-medium) - var(--border-width-medium));
   border-bottom: var(--border-width-medium) solid
     var(--ws-colors-header-border-bottom);
-  composes: typo-body__secondary--bold from '@atb/theme/typography.module.css';
 }
 .pageHeader__nav--modal .pageHeader__link--active {
   border-bottom-color: transparent;
