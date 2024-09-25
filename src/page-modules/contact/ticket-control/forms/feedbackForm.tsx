@@ -9,7 +9,7 @@ import Select from '../../components/input/select';
 import { Typo } from '@atb/components/typography';
 import { FileInput } from '../../components/input/file';
 import { ticketControlFormEvents } from '../events';
-import { ContextProps } from '../ticket-controll-form-machine';
+import { ContextProps } from '../ticket-control-form-machine';
 
 type FeedbackFormProps = {
   state: { context: ContextProps };
@@ -156,7 +156,7 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
       </SectionCard>
       <SectionCard title={PageText.Contact.inputFields.feedback.title}>
         <Textarea
-          value={state.context.feedback}
+          value={state.context.feedback || ''}
           onChange={(e) =>
             send({
               type: 'ON_INPUT_CHANGE',

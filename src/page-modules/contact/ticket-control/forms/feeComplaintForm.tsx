@@ -8,7 +8,7 @@ import { RadioInput } from '../../components/input/radio';
 import { Textarea } from '../../components/input/textarea';
 import ErrorMessage from '../../components/input/error-message';
 import { FileInput } from '../../components/input/file';
-import { ContextProps } from '../ticket-controll-form-machine';
+import { ContextProps } from '../ticket-control-form-machine';
 import { ticketControlFormEvents } from '../events';
 
 type FeeComplaintFormProps = {
@@ -231,7 +231,7 @@ export const FeeComplaintForm = ({ state, send }: FeeComplaintFormProps) => {
           </SectionCard>
           <SectionCard title={PageText.Contact.inputFields.feedback.title}>
             <Textarea
-              value={state.context.feedback}
+              value={state.context.feedback || ''}
               onChange={(e) =>
                 send({
                   type: 'ON_INPUT_CHANGE',

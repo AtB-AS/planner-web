@@ -123,7 +123,7 @@ export const commonInputValidator = (context: any) => {
     },
     {
       inputName: 'feedback',
-      validCondition: context.feedback,
+      validCondition: context.feedback && context.feedback.length > 0,
       errorMessage: PageText.Contact.inputFields.feedback.errorMessages.empty,
     },
   ];
@@ -139,11 +139,7 @@ export const commonInputValidator = (context: any) => {
     ),
   );
 
-  // Populate context.errorMessages
-  context.errorMessages = inputErrorMessages;
-
-  // Return false if any error
-  return Object.keys(context.errorMessages).length > 0 ? false : true;
+  return inputErrorMessages;
 };
 
 export default commonInputValidator;

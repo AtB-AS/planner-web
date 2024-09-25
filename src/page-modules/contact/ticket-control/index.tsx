@@ -4,7 +4,7 @@ import { FormEventHandler, useState } from 'react';
 import {
   FormType,
   ticketControlFormMachine,
-} from './ticket-controll-form-machine';
+} from './ticket-control-form-machine';
 import { SectionCard } from '../components/section-card';
 import style from '../contact.module.css';
 import { RadioInput } from '../components/input/radio';

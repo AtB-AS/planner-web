@@ -2,7 +2,7 @@ import { Input } from '../../components/input';
 import { SectionCard } from '../../components/section-card';
 import { PageText, useTranslation } from '@atb/translations';
 import { ticketControlFormEvents } from '../events';
-import { ContextProps } from '../ticket-controll-form-machine';
+import { ContextProps } from '../ticket-control-form-machine';
 import { Typo } from '@atb/components/typography';
 
 type PostponePaymentFormProps = {
