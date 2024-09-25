@@ -1,0 +1,11 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacings-large);
+
+  height: 100%;
+  max-width: var(--maxPageWidth);
+
+  margin: 0 auto;
+  padding: var(--spacings-xLarge);
+}

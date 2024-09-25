@@ -974,4 +974,38 @@ export const Contact = {
       },
     },
   },
+  success: {
+    backButton: _(
+      'Tilbake til forsiden',
+      'Back to frontpage',
+      'Tilbake til forsida',
+    ),
+    title: _(
+      'Takk for din henvendelse',
+      'Thank you for your inquiry',
+      'Takk for din førespurnad',
+    ),
+    info: _(
+      'Vi har mottatt din henvendelse og vil behandle den så raskt som mulig.',
+      'We have received your inquiry and will process it as soon as possible.',
+      'Vi har motteke din førespurnad og vil behandle den så raskt som mogleg.',
+    ),
+  },
+  error: {
+    backButton: _(
+      'Tilbake til skjemaside',
+      'Back to form page',
+      'Tilbake til skjemaside',
+    ),
+    title: _(
+      'Ojda! Noe gikk galt med innsending av skjema',
+      'Oops! Something went wrong with submitting the form',
+      'Oi då! Noko gjekk gale med innsending av skjema',
+    ),
+    info: _(
+      'Her gikk vi på en blemme og det skjedde en feil. Kan du prøve igjen?',
+      'An error occured. Could you try again for us?',
+      'Her gjekk vi på ei blemme og det skjedde ein feil. Kan du prøve igjen?',
+    ),
+  },
 };
