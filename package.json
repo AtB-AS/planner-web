@@ -71,7 +71,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@atb-as/generate-assets": "^12.2.2",
+    "@atb-as/generate-assets": "^13.0.2",
     "@graphql-codegen/cli": "^5.0.2",
     "@graphql-codegen/near-operation-file-preset": "^3.0.0",
     "@graphql-codegen/typescript": "^4.0.9",
