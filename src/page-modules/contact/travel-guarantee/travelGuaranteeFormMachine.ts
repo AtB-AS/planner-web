@@ -44,7 +44,10 @@ export const fetchMachine = setup({
     events: TravelGuaranteeFormEvents,
   },
   guards: {
-    validateInputs: ({ context }) => travelGuaranteeInputValidator(context),
+    validateInputs: ({ context }) => {
+      context.errorMessages = travelGuaranteeInputValidator(context);
+      return Object.keys(context.errorMessages).length > 0 ? false : true;
+    },
   },
   actions: {
     setCurrentStateWhenSubmitted: assign({
