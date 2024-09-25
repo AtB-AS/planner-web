@@ -1,35 +1,23 @@
-import { FormEventHandler, useState } from 'react';
 import style from '../../contact.module.css';
-import { Button } from '@atb/components/button';
 import { Input } from '../../components/input';
 import { SectionCard } from '../../components/section-card';
 import { PageText, TranslatedString, useTranslation } from '@atb/translations';
-import { useMachine } from '@xstate/react';
-import { formMachine } from './complaintFormMachine';
 import { Checkbox } from '../../components/input/checkbox';
 import { Typo } from '@atb/components/typography';
 import { RadioInput } from '../../components/input/radio';
 import { Textarea } from '../../components/input/textarea';
 import ErrorMessage from '../../components/input/error-message';
 import { FileInput } from '../../components/input/file';
-import { input } from '@testing-library/user-event/dist/cjs/event/input.js';
+import { ContextProps } from '../ticket-control-form-machine';
+import { ticketControlFormEvents } from '../events';
 
-export const FeeComplaintForm = () => {
+type FeeComplaintFormProps = {
+  state: { context: ContextProps };
+  send: (event: typeof ticketControlFormEvents) => void;
+};
+
+export const FeeComplaintForm = ({ state, send }: FeeComplaintFormProps) => {
   const { t } = useTranslation();
-  const [state, send] = useMachine(formMachine);
-
-  // Local state to force re-render to display errors.
-  const [forceRerender, setForceRerender] = useState(false);
-
-  const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
-    e.preventDefault();
-    send({ type: 'VALIDATE' });
-
-    // Force a re-render with dummy state.
-    if (Object.keys(state.context.errorMessages).length > 0) {
-      setForceRerender(!forceRerender);
-    }
-  };
 
   const FirstAgreement = () => {
     return (
@@ -119,7 +107,7 @@ export const FeeComplaintForm = () => {
       <FirstAgreement />
       {state.context.agreesFirstAgreement && <SecondAgreement />}
       {state.context.agreesSecondAgreement && (
-        <form onSubmit={onSubmit}>
+        <div>
           <SectionCard
             title={PageText.Contact.ticketControl.feeComplaint.title}
           >
@@ -243,7 +231,7 @@ export const FeeComplaintForm = () => {
           </SectionCard>
           <SectionCard title={PageText.Contact.inputFields.feedback.title}>
             <Textarea
-              value={state.context.feedback}
+              value={state.context.feedback || ''}
               onChange={(e) =>
                 send({
                   type: 'ON_INPUT_CHANGE',
@@ -459,12 +447,7 @@ export const FeeComplaintForm = () => {
               </div>
             )}
           </SectionCard>
-          <Button
-            title={t(PageText.Contact.submit)}
-            mode={'interactive_0--bordered'}
-            buttonProps={{ type: 'submit' }}
-          />
-        </form>
+        </div>
       )}
     </div>
   );

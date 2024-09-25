@@ -3,6 +3,7 @@ import { commonEvents } from '../commoneEvents';
 const ticketControlSpecificFormEvents = {} as {
   type: 'ON_INPUT_CHANGE';
   inputName:
+    | 'formType'
     | 'feeNumber'
     | 'invoiceNumber'
     | 'appPhoneNumber'

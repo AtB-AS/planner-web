@@ -19,25 +19,13 @@ export const Contact = {
       'Ticket control and fee',
       'Billettkontroll og gebyr',
     ),
-    subPageTitles: {
-      feeComplaint: _(
+
+    feeComplaint: {
+      description: _(
         'Jeg har fått gebyr og ønsker å klage',
         'I have received a fee and would like to file a complaint',
         'Eg har fått gebyr og ønskjer å klage',
       ),
-      postpone: _(
-        'Jeg har fått gebyr og ønsker å utsette betalingen',
-        'I have received a fee and would like to postpone the payment',
-        'Eg har fått gebyr og ønskjer å utsetje betalinga',
-      ),
-      feedback: _(
-        'Jeg vil gi en tilbakemelding knyttet til billettkontroll',
-        'I would like to provide feedback regarding ticket control',
-        'Eg vil gi ei tilbakemelding knytt til billettkontroll',
-      ),
-    },
-
-    feeComplaint: {
       info: _(
         'Hvis du har fått gebyr på feil grunnlag, kan du sende oss en skriftlig klage.',
         'If you have received a fee on incorrect grounds, you can submit a written complaint to us.',
@@ -141,6 +129,11 @@ export const Contact = {
 
     postponePayment: {
       title: _('Utsette betaling ', 'Postpone payment', 'Utsette betaling'),
+      description: _(
+        'Jeg har fått gebyr og ønsker å utsette betalingen',
+        'I have received a fee and would like to postpone the payment',
+        'Eg har fått gebyr og ønskjer å utsetje betalinga',
+      ),
       info: _(
         'Når du fyller ut skjemaet, blir betalingsfristen utsatt med 30 dager fra opprinnelig forfallsdato, dvs. totalt 60 dagers betalingsfrist. Du velger selv om du vil dele opp betalingen og gjøre flere innbetalinger i løpet av denne perioden eller betale hele beløpet på en gang',
         'When you fill out the form, the payment deadline is extended by 30 days from the original due date, giving you a total payment deadline of 60 days. You can choose whether to divide the payment and make multiple installments during this period or pay the full amount at once',
@@ -153,6 +146,11 @@ export const Contact = {
         'Tilbakemelding billettkontroll ',
         'Feedback on ticket control',
         'Tilbakemelding billettkontroll ',
+      ),
+      description: _(
+        'Jeg vil gi en tilbakemelding knyttet til billettkontroll',
+        'I would like to provide feedback regarding ticket control',
+        'Eg vil gi ei tilbakemelding knytt til billettkontroll',
       ),
       info: _(
         'Har du tilbakemelding på en bestemt billettkontroll, trenger vi en beskrivelse av hvor og når billettkontrollen fant sted for å kunne gå videre med saken. Hvis du har en generell tilbakemelding, kan du hoppe over de første punktene.',

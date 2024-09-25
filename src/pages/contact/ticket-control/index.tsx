@@ -3,8 +3,8 @@ import { withGlobalData, WithGlobalData } from '@atb/layouts/global-data';
 import {
   ContactPageLayout,
   ContactPageLayoutProps,
+  TicketControlPageContent,
 } from '@atb/page-modules/contact';
-import TicketControlPageLayout from '@atb/page-modules/contact/layouts/ticket-control-page-layout';
 import { NextPage } from 'next';
 
 export type TicketControlAndFeePageProps =
@@ -16,7 +16,7 @@ const TicketControlAndFeePage: NextPage<TicketControlAndFeePageProps> = (
   return (
     <DefaultLayout {...props}>
       <ContactPageLayout {...props}>
-        <TicketControlPageLayout {...props} />
+        <TicketControlPageContent />
       </ContactPageLayout>
     </DefaultLayout>
   );

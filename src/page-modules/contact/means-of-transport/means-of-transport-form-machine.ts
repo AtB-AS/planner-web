@@ -60,7 +60,10 @@ export const meansOfTransportFormMachine = setup({
     events: meansOfTransportFormEvents,
   },
   guards: {
-    validateInputs: ({ context }) => commonInputValidator(context),
+    validateInputs: ({ context }) => {
+      context.errorMessages = commonInputValidator(context);
+      return Object.keys(context.errorMessages).length > 0 ? false : true;
+    },
   },
   actions: {
     onInputChange: assign(({ context, event }) => {
