@@ -976,9 +976,9 @@ export const Contact = {
   },
   success: {
     backButton: _(
-      'Tilbake til forsiden',
-      'Back to frontpage',
-      'Tilbake til forsida',
+      'Tilbake til hovedsiden',
+      'Back to the main page',
+      'Tilbake til hovedsida',
     ),
     title: _(
       'Takk for din henvendelse',
@@ -993,9 +993,9 @@ export const Contact = {
   },
   error: {
     backButton: _(
-      'Tilbake til skjemaside',
-      'Back to form page',
-      'Tilbake til skjemaside',
+      'Tilbake til skjemasiden',
+      'Back to the contact page',
+      'Tilbake til skjemasiden',
     ),
     title: _(
       'Ojda! Noe gikk galt med innsending av skjema',
