@@ -61,7 +61,6 @@ const TicketControlPageContent = () => {
       {state.context.formType === 'postponePayment' && (
         <PostponePaymentForm state={state} send={send} />
       )}
-
       {state.context.formType && (
         <Button
           title={t(PageText.Contact.submit)}
@@ -69,6 +68,7 @@ const TicketControlPageContent = () => {
           buttonProps={{ type: 'submit' }}
         />
       )}
+      {state.matches('success') && <div>success!</div>}
     </form>
   );
 };
