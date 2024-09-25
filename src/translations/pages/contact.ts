@@ -8,6 +8,11 @@ export const Contact = {
     'What can we help you with?',
     'Kva kan vi hjelpe deg med?',
   ),
+  homeLink: _(
+    'Tilbake til reisesøk',
+    'Back to travel search',
+    'Tilbake til reisesøk',
+  ),
   ticketControl: {
     title: _(
       'Billettkontroll og gebyr',
