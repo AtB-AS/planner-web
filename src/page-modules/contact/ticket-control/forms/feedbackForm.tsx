@@ -1,38 +1,27 @@
-import { FormEventHandler, useState } from 'react';
-import { Button } from '@atb/components/button';
 import { SectionCard } from '../../components/section-card';
 import { ComponentText, PageText, useTranslation } from '@atb/translations';
 import { useLines } from '../../lines/use-lines';
 import { TransportModeType } from '@atb-as/config-specs';
 import { Input } from '../../components/input';
-import { formMachine } from './feedbackformMachine';
-import { useMachine } from '@xstate/react';
 import { Line } from '../..';
 import { Textarea } from '../../components/input/textarea';
 import Select from '../../components/input/select';
 import { Typo } from '@atb/components/typography';
 import { FileInput } from '../../components/input/file';
+import { ticketControlFormEvents } from '../events';
+import { ContextProps } from '../ticket-controll-form-machine';
 
-export const FeedbackForm = () => {
+type FeedbackFormProps = {
+  state: { context: ContextProps };
+  send: (event: typeof ticketControlFormEvents) => void;
+};
+
+export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
   const { t } = useTranslation();
   const { getLinesByMode, getQuaysByLine } = useLines();
-  const [state, send] = useMachine(formMachine);
-
-  // Local state to force re-render to display errors.
-  const [forceRerender, setForceRerender] = useState(false);
-
-  const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
-    e.preventDefault();
-    send({ type: 'VALIDATE' });
-
-    // Force a re-render with dummy state.
-    if (Object.keys(state.context.errorMessages).length > 0) {
-      setForceRerender(!forceRerender);
-    }
-  };
 
   return (
-    <form onSubmit={onSubmit}>
+    <div>
       <SectionCard title={PageText.Contact.ticketControl.feedback.title}>
         <Typo.p textType="body__primary">
           {t(PageText.Contact.ticketControl.feedback.info)}
@@ -243,12 +232,7 @@ export const FeedbackForm = () => {
           }
         />
       </SectionCard>
-      <Button
-        title={t(PageText.Contact.submit)}
-        mode={'interactive_0--bordered'}
-        buttonProps={{ type: 'submit' }}
-      />
-    </form>
+    </div>
   );
 };
 
