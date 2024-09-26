@@ -288,41 +288,13 @@ export const ticketControlFormMachine = setup({
   id: 'ticketControlForm',
   initial: 'editing',
   context: {
-    // Common
-    formType: undefined,
-    firstName: undefined,
-    lastName: undefined,
-    email: undefined,
-    feedback: undefined,
-    feeNumber: undefined,
-    errorMessages: {},
-
-    // Complaint
-    appPhoneNumber: undefined,
-    customerNumber: undefined,
-    travelCardNumber: undefined,
-    address: undefined,
-    postalCode: undefined,
-    city: undefined,
-    phoneNumber: undefined,
-    bankAccountNumber: undefined,
-    IBAN: undefined,
-    SWIFT: undefined,
+    date: getCurrentDateString(),
+    plannedDepartureTime: getCurrentTimeString(),
     agreesFirstAgreement: false,
     agreesSecondAgreement: false,
     hasInternationalBankAccount: false,
     isAppTicketStorageMode: true,
-
-    // Feeback
-    transportMode: undefined,
-    line: undefined,
-    fromStop: undefined,
-    toStop: undefined,
-    date: getCurrentDateString(),
-    plannedDepartureTime: getCurrentTimeString(),
-
-    // PostponePayment
-    invoiceNumber: undefined,
+    errorMessages: {},
   },
   states: {
     editing: {
