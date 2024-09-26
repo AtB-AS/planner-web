@@ -191,9 +191,8 @@ export const FeeComplaintForm = ({ state, send }: FeeComplaintFormProps) => {
                   type="number"
                   name="customerNumber"
                   value={state.context.customerNumber}
-                  defaultValue={undefined}
                   errorMessage={
-                    state.context?.errorMessages['appPhoneNumber']?.[0] ||
+                    state.context?.errorMessages['customerNumber']?.[0] ||
                     undefined
                   }
                   onChange={(e) =>
@@ -214,7 +213,7 @@ export const FeeComplaintForm = ({ state, send }: FeeComplaintFormProps) => {
                 }
                 type="text"
                 name="travelCardNumber"
-                value={state.context.travelCardNumber}
+                value={state.context.travelCardNumber ?? ''}
                 errorMessage={
                   state.context.errorMessages['travelCardNumber']?.[0] ||
                   undefined

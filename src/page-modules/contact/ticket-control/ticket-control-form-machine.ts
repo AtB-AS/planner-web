@@ -61,9 +61,9 @@ export type ContextProps = {
   feeNumber?: string;
 
   // Complaint
-  appPhoneNumber?: string | undefined;
-  customerNumber?: string | undefined;
-  travelCardNumber?: string | undefined;
+  appPhoneNumber?: string;
+  customerNumber?: string;
+  travelCardNumber?: string;
   address?: string;
   postalCode?: string;
   city?: string;
@@ -297,9 +297,9 @@ export const ticketControlFormMachine = setup({
     errorMessages: {},
 
     // Complaint
-    appPhoneNumber: undefined,
-    customerNumber: undefined,
-    travelCardNumber: undefined,
+    appPhoneNumber: '',
+    customerNumber: '',
+    travelCardNumber: '',
     address: '',
     postalCode: '',
     city: '',
