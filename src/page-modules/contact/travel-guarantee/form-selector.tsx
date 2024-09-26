@@ -17,7 +17,7 @@ export const FormSelector = ({ state, send }: FormSelectorProps) => {
   return (
     <div>
       {!state.context.isIntialAgreementChecked && (
-        <SectionCard title={PageText.Contact.travelGuarantee.title}>
+        <SectionCard title={t(PageText.Contact.travelGuarantee.title)}>
           <Typo.p textType="body__primary">
             {t(
               PageText.Contact.travelGuarantee.layoutAgreement
@@ -86,7 +86,7 @@ export const FormSelector = ({ state, send }: FormSelectorProps) => {
       )}
 
       {state.context.isIntialAgreementChecked && (
-        <SectionCard title={PageText.Contact.travelGuarantee.title}>
+        <SectionCard title={t(PageText.Contact.travelGuarantee.title)}>
           <ul>
             <RadioInput
               label={t(

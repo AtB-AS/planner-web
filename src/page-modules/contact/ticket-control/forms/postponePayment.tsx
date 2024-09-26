@@ -18,7 +18,9 @@ export const PostponePaymentForm = ({
 
   return (
     <div>
-      <SectionCard title={PageText.Contact.ticketControl.postponePayment.title}>
+      <SectionCard
+        title={t(PageText.Contact.ticketControl.postponePayment.title)}
+      >
         <Typo.p textType="body__primary">
           {t(PageText.Contact.ticketControl.postponePayment.info)}
         </Typo.p>
@@ -53,7 +55,7 @@ export const PostponePaymentForm = ({
           }
         />
       </SectionCard>
-      <SectionCard title={PageText.Contact.aboutYouInfo.title}>
+      <SectionCard title={t(PageText.Contact.aboutYouInfo.title)}>
         <Input
           label={PageText.Contact.inputFields.firstName.label}
           type="text"

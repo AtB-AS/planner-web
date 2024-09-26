@@ -27,7 +27,7 @@ export const ServiceOfferingForm = ({
   return (
     <div>
       <SectionCard
-        title={PageText.Contact.modeOfTransport.serviceOffering.description}
+        title={t(PageText.Contact.modeOfTransport.serviceOffering.description)}
       >
         <Typo.p textType="body__primary">
           {t(PageText.Contact.modeOfTransport.serviceOffering.info)}
@@ -35,7 +35,7 @@ export const ServiceOfferingForm = ({
       </SectionCard>
 
       <SectionCard
-        title={PageText.Contact.modeOfTransport.serviceOffering.about.title}
+        title={t(PageText.Contact.modeOfTransport.serviceOffering.about.title)}
       >
         <Typo.p textType="body__primary">
           {t(
@@ -116,7 +116,7 @@ export const ServiceOfferingForm = ({
         />
       </SectionCard>
 
-      <SectionCard title={PageText.Contact.inputFields.feedback.title}>
+      <SectionCard title={t(PageText.Contact.inputFields.feedback.title)}>
         <Typo.p textType="body__primary">
           {t(PageText.Contact.inputFields.feedback.description)}
         </Typo.p>
@@ -147,7 +147,7 @@ export const ServiceOfferingForm = ({
           }}
         />
       </SectionCard>
-      <SectionCard title={PageText.Contact.aboutYouInfo.optionalTitle}>
+      <SectionCard title={t(PageText.Contact.aboutYouInfo.optionalTitle)}>
         <Input
           label={PageText.Contact.inputFields.firstName.label}
           type="text"

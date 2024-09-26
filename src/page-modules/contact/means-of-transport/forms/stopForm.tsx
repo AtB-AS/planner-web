@@ -23,13 +23,13 @@ export const StopForm = ({ state, send }: StopFormProps) => {
 
   return (
     <div>
-      <SectionCard title={PageText.Contact.modeOfTransport.stop.description}>
+      <SectionCard title={t(PageText.Contact.modeOfTransport.stop.description)}>
         <Typo.p textType="body__primary">
           {t(PageText.Contact.modeOfTransport.stop.info)}
         </Typo.p>
       </SectionCard>
 
-      <SectionCard title={PageText.Contact.modeOfTransport.stop.about.title}>
+      <SectionCard title={t(PageText.Contact.modeOfTransport.stop.about.title)}>
         <Typo.p textType="body__primary">
           {t(PageText.Contact.modeOfTransport.stop.about.description)}
         </Typo.p>
@@ -126,7 +126,7 @@ export const StopForm = ({ state, send }: StopFormProps) => {
         />
       </SectionCard>
 
-      <SectionCard title={PageText.Contact.inputFields.feedback.title}>
+      <SectionCard title={t(PageText.Contact.inputFields.feedback.title)}>
         <Typo.p textType="body__primary">
           {t(PageText.Contact.inputFields.feedback.description)}
         </Typo.p>
@@ -157,7 +157,7 @@ export const StopForm = ({ state, send }: StopFormProps) => {
           }}
         />
       </SectionCard>
-      <SectionCard title={PageText.Contact.aboutYouInfo.optionalTitle}>
+      <SectionCard title={t(PageText.Contact.aboutYouInfo.optionalTitle)}>
         <Input
           label={PageText.Contact.inputFields.firstName.label}
           type="text"

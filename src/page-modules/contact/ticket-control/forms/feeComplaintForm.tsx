@@ -22,7 +22,9 @@ export const FeeComplaintForm = ({ state, send }: FeeComplaintFormProps) => {
   const FirstAgreement = () => {
     return (
       <SectionCard
-        title={PageText.Contact.ticketControl.feeComplaint.firstAgreement.title}
+        title={t(
+          PageText.Contact.ticketControl.feeComplaint.firstAgreement.title,
+        )}
       >
         <Typo.p textType="body__primary">
           {t(
@@ -67,9 +69,9 @@ export const FeeComplaintForm = ({ state, send }: FeeComplaintFormProps) => {
   const SecondAgreement = () => {
     return (
       <SectionCard
-        title={
-          PageText.Contact.ticketControl.feeComplaint.secondAgreement.title
-        }
+        title={t(
+          PageText.Contact.ticketControl.feeComplaint.secondAgreement.title,
+        )}
       >
         <ul className={style.rules__list}>
           {PageText.Contact.ticketControl.feeComplaint.secondAgreement.rules.map(
@@ -109,7 +111,7 @@ export const FeeComplaintForm = ({ state, send }: FeeComplaintFormProps) => {
       {state.context.agreesSecondAgreement && (
         <div>
           <SectionCard
-            title={PageText.Contact.ticketControl.feeComplaint.title}
+            title={t(PageText.Contact.ticketControl.feeComplaint.title)}
           >
             <Input
               label={PageText.Contact.inputFields.feeNumber.label}
@@ -223,7 +225,7 @@ export const FeeComplaintForm = ({ state, send }: FeeComplaintFormProps) => {
               />
             )}
           </SectionCard>
-          <SectionCard title={PageText.Contact.inputFields.feedback.title}>
+          <SectionCard title={t(PageText.Contact.inputFields.feedback.title)}>
             <Textarea
               value={state.context.feedback || ''}
               onChange={(e) =>
@@ -252,7 +254,7 @@ export const FeeComplaintForm = ({ state, send }: FeeComplaintFormProps) => {
             />
           </SectionCard>
 
-          <SectionCard title={PageText.Contact.aboutYouInfo.title}>
+          <SectionCard title={t(PageText.Contact.aboutYouInfo.title)}>
             <Input
               label={PageText.Contact.inputFields.firstName.label}
               type="text"

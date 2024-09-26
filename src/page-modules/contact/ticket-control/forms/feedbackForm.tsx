@@ -22,7 +22,7 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
 
   return (
     <div>
-      <SectionCard title={PageText.Contact.ticketControl.feedback.title}>
+      <SectionCard title={t(PageText.Contact.ticketControl.feedback.title)}>
         <Typo.p textType="body__primary">
           {t(PageText.Contact.ticketControl.feedback.info)}
         </Typo.p>
@@ -152,7 +152,7 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
           }
         />
       </SectionCard>
-      <SectionCard title={PageText.Contact.inputFields.feedback.title}>
+      <SectionCard title={t(PageText.Contact.inputFields.feedback.title)}>
         <Textarea
           value={state.context.feedback || ''}
           onChange={(e) =>
@@ -181,7 +181,7 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
         />
       </SectionCard>
 
-      <SectionCard title={PageText.Contact.aboutYouInfo.title}>
+      <SectionCard title={t(PageText.Contact.aboutYouInfo.title)}>
         <Input
           label={PageText.Contact.inputFields.firstName.label}
           type="text"
