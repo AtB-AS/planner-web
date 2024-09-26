@@ -213,7 +213,7 @@ export const FeeComplaintForm = ({ state, send }: FeeComplaintFormProps) => {
                 }
                 type="text"
                 name="travelCardNumber"
-                value={state.context.travelCardNumber ?? ''}
+                value={state.context.travelCardNumber || ''}
                 errorMessage={
                   state.context.errorMessages['travelCardNumber']?.[0] ||
                   undefined
