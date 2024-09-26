@@ -165,7 +165,7 @@ export const FeeComplaintForm = ({ state, send }: FeeComplaintFormProps) => {
                     PageText.Contact.inputFields.ticketStorage.app
                       .appPhoneNumber.label
                   }
-                  type="text"
+                  type="tel"
                   name="appPhoneNumber"
                   value={state.context.appPhoneNumber || ''}
                   errorMessage={
@@ -207,7 +207,7 @@ export const FeeComplaintForm = ({ state, send }: FeeComplaintFormProps) => {
                   PageText.Contact.inputFields.ticketStorage.travelCardNumber
                     .label
                 }
-                type="text"
+                type="number"
                 name="travelCardNumber"
                 value={state.context.travelCardNumber || ''}
                 errorMessage={
@@ -256,6 +256,7 @@ export const FeeComplaintForm = ({ state, send }: FeeComplaintFormProps) => {
             <Input
               label={PageText.Contact.inputFields.firstName.label}
               type="text"
+              autoComplete="given-name additional-name"
               name="firstName"
               value={state.context.firstName || ''}
               errorMessage={state.context?.errorMessages['firstName']?.[0]}
@@ -271,6 +272,7 @@ export const FeeComplaintForm = ({ state, send }: FeeComplaintFormProps) => {
             <Input
               label={PageText.Contact.inputFields.lastName.label}
               type="text"
+              autoComplete="family-name"
               name="lastName"
               value={state.context.lastName || ''}
               errorMessage={state.context?.errorMessages['lastName']?.[0]}
@@ -285,6 +287,7 @@ export const FeeComplaintForm = ({ state, send }: FeeComplaintFormProps) => {
             <Input
               label={PageText.Contact.inputFields.address.label}
               type="text"
+              autoComplete="street-address"
               name="address"
               value={state.context.address || ''}
               errorMessage={state.context?.errorMessages['address']?.[0]}
@@ -299,6 +302,7 @@ export const FeeComplaintForm = ({ state, send }: FeeComplaintFormProps) => {
             <Input
               label={PageText.Contact.inputFields.postalCode.label}
               type="number"
+              autoComplete="postal-code"
               name="postalCode"
               value={state.context.postalCode || ''}
               errorMessage={state.context?.errorMessages['postalCode']?.[0]}
@@ -327,6 +331,7 @@ export const FeeComplaintForm = ({ state, send }: FeeComplaintFormProps) => {
             <Input
               label={PageText.Contact.inputFields.email.label}
               type="email"
+              autoComplete="email"
               name="email"
               value={state.context.email || ''}
               errorMessage={state.context?.errorMessages['email']?.[0]}
@@ -358,7 +363,7 @@ export const FeeComplaintForm = ({ state, send }: FeeComplaintFormProps) => {
                 label={
                   PageText.Contact.inputFields.bankAccountNumber.notForeignLabel
                 }
-                type="text"
+                type="number"
                 name="bankAccountNumber"
                 value={state.context.bankAccountNumber || ''}
                 errorMessage={
@@ -390,8 +395,8 @@ export const FeeComplaintForm = ({ state, send }: FeeComplaintFormProps) => {
               <div>
                 <Input
                   label={PageText.Contact.inputFields.bankAccountNumber.IBAN}
-                  type="text"
-                  name="bankAccountNumber"
+                  type="number"
+                  name="IBAN"
                   value={state.context.IBAN || ''}
                   onChange={(e) =>
                     send({
@@ -404,8 +409,8 @@ export const FeeComplaintForm = ({ state, send }: FeeComplaintFormProps) => {
 
                 <Input
                   label={PageText.Contact.inputFields.bankAccountNumber.SWIFT}
-                  type="text"
-                  name="bankAccountNumber"
+                  type="number"
+                  name="SWIFT"
                   value={state.context.SWIFT || ''}
                   onChange={(e) =>
                     send({

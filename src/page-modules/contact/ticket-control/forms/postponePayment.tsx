@@ -57,6 +57,7 @@ export const PostponePaymentForm = ({
         <Input
           label={PageText.Contact.inputFields.firstName.label}
           type="text"
+          autoComplete="given-name additional-name"
           name="firstName"
           value={state.context.firstName || ''}
           errorMessage={state.context?.errorMessages['firstName']?.[0]}
@@ -71,6 +72,7 @@ export const PostponePaymentForm = ({
         <Input
           label={PageText.Contact.inputFields.lastName.label}
           type="text"
+          autoComplete="family-name"
           name="lastName"
           value={state.context.lastName || ''}
           errorMessage={state.context?.errorMessages['lastName']?.[0]}

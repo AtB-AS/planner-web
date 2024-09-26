@@ -185,6 +185,7 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
         <Input
           label={PageText.Contact.inputFields.firstName.label}
           type="text"
+          autoComplete="given-name additonal-name"
           name="firstName"
           value={state.context.firstName || ''}
           errorMessage={
@@ -201,6 +202,7 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
         <Input
           label={PageText.Contact.inputFields.lastName.label}
           type="text"
+          autoComplete="family-name"
           name="lastName"
           value={state.context.lastName || ''}
           errorMessage={
