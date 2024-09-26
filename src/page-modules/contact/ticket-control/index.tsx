@@ -16,7 +16,7 @@ import PostponePaymentForm from './forms/postponePayment';
 const TicketControlPageContent = () => {
   const { t } = useTranslation();
   const [state, send] = useMachine(ticketControlFormMachine);
-  const displayButton =
+  const displaySubmitButton =
     (state.context.formType === 'feeComplaint' &&
       state.context.agreesSecondAgreement) ||
     (state.context.formType && state.context.formType !== 'feeComplaint');
