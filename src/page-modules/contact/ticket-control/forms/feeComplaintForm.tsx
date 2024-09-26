@@ -192,8 +192,7 @@ export const FeeComplaintForm = ({ state, send }: FeeComplaintFormProps) => {
                   name="customerNumber"
                   value={state.context.customerNumber}
                   errorMessage={
-                    state.context?.errorMessages['customerNumber']?.[0] ||
-                    undefined
+                    state.context?.errorMessages['customerNumber']?.[0]
                   }
                   onChange={(e) =>
                     send({
