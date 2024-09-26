@@ -1,12 +1,9 @@
 import { ChangeEvent, useId } from 'react';
 import style from './input.module.css';
 import { Typo } from '@atb/components/typography';
-import { MonoIcon } from '@atb/components/icon';
-import { andIf } from '@atb/utils/css';
 
 export type RadioInputProps = {
   label: string;
-  info?: string;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 } & JSX.IntrinsicElements['input'];
 
@@ -16,7 +13,6 @@ export function RadioInput({
   label,
   value,
   name,
-  info,
 }: RadioInputProps) {
   const id = useId();
   return (
@@ -35,18 +31,6 @@ export function RadioInput({
         <span className={style.label__radioBox}></span>
         <Typo.span textType="body__primary">{label}</Typo.span>
       </label>
-
-      {info && checked && (
-        <label
-          className={andIf({
-            [style.label__radio]: true,
-            [style.label__info]: true,
-          })}
-        >
-          <MonoIcon size="large" icon={'status/Info'} />
-          <Typo.span textType="body__primary">{info}</Typo.span>
-        </label>
-      )}
     </div>
   );
 }
