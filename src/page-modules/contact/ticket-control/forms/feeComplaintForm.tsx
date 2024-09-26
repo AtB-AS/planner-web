@@ -16,7 +16,7 @@ type FeeComplaintFormProps = {
   send: (event: typeof ticketControlFormEvents) => void;
 };
 
-type FirstAgreementProps = FeeComplaintFormProps;
+type FirstAgreementProps = Pick<FeeComplaintFormProps, 'state' | 'send'>;
 
 const FirstAgreement = ({ state, send }: FirstAgreementProps) => {
   const { t } = useTranslation();
@@ -64,7 +64,7 @@ const FirstAgreement = ({ state, send }: FirstAgreementProps) => {
   );
 };
 
-type SecondAgreementProps = FeeComplaintFormProps;
+type SecondAgreementProps = Pick<FeeComplaintFormProps, 'state' | 'send'>;
 
 const SecondAgreement = ({ state, send }: SecondAgreementProps) => {
   const { t } = useTranslation();
@@ -104,8 +104,7 @@ const SecondAgreement = ({ state, send }: SecondAgreementProps) => {
   );
 };
 
-type FormProps = FeeComplaintFormProps;
-
+type FormProps = Pick<FeeComplaintFormProps, 'state' | 'send'>;
 const FormContent = ({ state, send }: FormProps) => {
   const { t } = useTranslation();
   return (
