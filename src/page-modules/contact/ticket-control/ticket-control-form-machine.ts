@@ -297,9 +297,9 @@ export const ticketControlFormMachine = setup({
     errorMessages: {},
 
     // Complaint
-    appPhoneNumber: '',
-    customerNumber: '',
-    travelCardNumber: '',
+    appPhoneNumber: undefined,
+    customerNumber: undefined,
+    travelCardNumber: undefined,
     address: '',
     postalCode: '',
     city: '',
