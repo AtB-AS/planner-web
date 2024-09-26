@@ -16,6 +16,10 @@ import PostponePaymentForm from './forms/postponePayment';
 const TicketControlPageContent = () => {
   const { t } = useTranslation();
   const [state, send] = useMachine(ticketControlFormMachine);
+  const displaySubmitButton =
+    (state.context.formType === 'feeComplaint' &&
+      state.context.agreesSecondAgreement) ||
+    (state.context.formType && state.context.formType !== 'feeComplaint');
 
   // Local state to force re-render to display errors.
   const [forceRerender, setForceRerender] = useState(false);
@@ -61,7 +65,7 @@ const TicketControlPageContent = () => {
       {state.context.formType === 'postponePayment' && (
         <PostponePaymentForm state={state} send={send} />
       )}
-      {state.context.formType && (
+      {displaySubmitButton && (
         <Button
           title={t(PageText.Contact.submit)}
           mode={'interactive_0--bordered'}
