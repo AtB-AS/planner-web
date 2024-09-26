@@ -206,6 +206,15 @@ export const ticketControlFormMachine = setup({
           return resetAgreementFieldsAndErrors(context, value as FormType);
         }
 
+        // Set both agreements to false if agreesFirstAgreement is set to false.
+        if (inputName === 'agreesFirstAgreement' && !value) {
+          return {
+            ...context,
+            ['agreesFirstAgreement']: false,
+            ['agreesSecondAgreement']: false,
+          };
+        }
+
         context.errorMessages[inputName] = [];
         return {
           ...context,
