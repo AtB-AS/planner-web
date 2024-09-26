@@ -84,6 +84,12 @@ export const meansOfTransportFormMachine = setup({
       }
       return context;
     }),
+    navigateToErrorPage: () => {
+      window.location.href = '/contact/error';
+    },
+    navigateToSuccessPage: () => {
+      window.location.href = '/contact/success';
+    },
   },
   actors: {
     submit: fromPromise(
@@ -229,12 +235,17 @@ export const meansOfTransportFormMachine = setup({
         },
 
         onError: {
-          target: 'editing',
+          target: 'error',
         },
       },
     },
 
     success: {
+      entry: 'navigateToSuccessPage',
+      type: 'final',
+    },
+    error: {
+      entry: 'navigateToErrorPage',
       type: 'final',
     },
   },

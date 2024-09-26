@@ -83,9 +83,9 @@ export const MeansOfTransportContent = () => {
           title={t(PageText.Contact.submit)}
           mode={'interactive_0--bordered'}
           buttonProps={{ type: 'submit' }}
+          state={state.matches('submitting') ? 'loading' : undefined}
         />
       )}
-      {state.hasTag('success') && <div>success!</div>}
     </form>
   );
 };

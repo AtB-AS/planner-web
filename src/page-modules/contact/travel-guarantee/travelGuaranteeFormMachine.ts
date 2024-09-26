@@ -65,9 +65,16 @@ export const fetchMachine = setup({
       },
     }),
 
+    navigateToErrorPage: () => {
+      window.location.href = '/contact/error';
+    },
+    navigateToSuccessPage: () => {
+      window.location.href = '/contact/success';
+    },
+
     onInputChange: assign(({ context, event }) => {
       if (event.type === 'ON_INPUT_CHANGE') {
-        const { inputName, value } = event;
+        let { inputName, value } = event;
         context.errorMessages[inputName] = [];
         return {
           ...context,
@@ -246,12 +253,17 @@ export const fetchMachine = setup({
         },
 
         onError: {
-          target: 'editing',
+          target: 'error',
         },
       },
     },
 
     success: {
+      entry: 'navigateToSuccessPage',
+      type: 'final',
+    },
+    error: {
+      entry: 'navigateToErrorPage',
       type: 'final',
     },
   },
