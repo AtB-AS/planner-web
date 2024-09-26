@@ -42,6 +42,7 @@ const TicketControlPageContent = () => {
             <li key={formType}>
               <RadioInput
                 label={t(PageText.Contact.ticketControl[formType].description)}
+                info={t(PageText.Contact.ticketControl[formType].info)}
                 value={formType}
                 checked={state.context.formType === formType}
                 onChange={(e) => {

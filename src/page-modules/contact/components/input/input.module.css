@@ -100,6 +100,16 @@
   padding: var(--spacings-small) 0;
 }
 
+.label__info {
+  display: flex;
+  align-items: center;
+  gap: var(--spacings-medium);
+  margin: var(--spacings-small);
+  margin-left: var(--spacings-large);
+  padding: var(--spacings-small);
+  background: var(--static-background-background_1-background);
+}
+
 /* Checkbox */
 .checkbox {
   display: block;
