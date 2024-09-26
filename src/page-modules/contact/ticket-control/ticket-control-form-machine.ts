@@ -8,8 +8,6 @@ import {
 import { TransportModeType } from '@atb-as/config-specs';
 import { Line } from '../server/journey-planner/validators';
 import { commonInputValidator, InputErrorMessages } from '../validation';
-import ErrorMessage from '../components/input/error-message';
-import { error } from 'console';
 
 export enum FormType {
   FeeComplaint = 'feeComplaint',
@@ -19,9 +17,9 @@ export enum FormType {
 
 type submitInput = {
   // Common
-  firstName: string;
-  lastName: string;
-  email: string;
+  firstName?: string;
+  lastName?: string;
+  email?: string;
   feedback?: string;
   attachments?: File[];
   feeNumber?: string;
@@ -52,10 +50,10 @@ type submitInput = {
 
 export type ContextProps = {
   // Common
-  formType: FormType | undefined;
-  firstName: string;
-  lastName: string;
-  email: string;
+  formType?: FormType;
+  firstName?: string;
+  lastName?: string;
+  email?: string;
   feedback?: string;
   attachments?: File[];
   feeNumber?: string;
@@ -136,16 +134,18 @@ const setInputToValidate = (context: ContextProps) => {
   switch (formType) {
     case FormType.FeeComplaint:
       return {
-        firstName,
-        lastName,
-        email,
-        phoneNumber,
+        feeNumber,
         appPhoneNumber,
         customerNumber,
         travelCardNumber,
+        feedback,
+        firstName,
+        lastName,
+        email,
         address,
         postalCode,
         city,
+        phoneNumber,
         bankAccountNumber,
         IBAN,
         SWIFT,
@@ -153,25 +153,25 @@ const setInputToValidate = (context: ContextProps) => {
 
     case FormType.Feedback:
       return {
-        firstName,
-        lastName,
-        email,
-        feedback,
         transportMode,
         line,
         fromStop,
         toStop,
         date,
         plannedDepartureTime,
+        feedback,
+        firstName,
+        lastName,
+        email,
       };
 
     case FormType.PostponePayment:
       return {
+        feeNumber,
+        invoiceNumber,
         firstName,
         lastName,
         email,
-        feeNumber,
-        invoiceNumber,
       };
   }
 };
@@ -252,6 +252,7 @@ export const ticketControlFormMachine = setup({
             customerNumber: customerNumber,
             travelCardNumber: travelCardNumber,
             additionalInfo: feedback,
+            feedback: feedback,
             firstName: firstName,
             lastName: lastName,
             address: address,
@@ -289,24 +290,24 @@ export const ticketControlFormMachine = setup({
   context: {
     // Common
     formType: undefined,
-    firstName: '',
-    lastName: '',
-    email: '',
-    feedback: '',
-    feeNumber: '',
+    firstName: undefined,
+    lastName: undefined,
+    email: undefined,
+    feedback: undefined,
+    feeNumber: undefined,
     errorMessages: {},
 
     // Complaint
     appPhoneNumber: undefined,
     customerNumber: undefined,
     travelCardNumber: undefined,
-    address: '',
-    postalCode: '',
-    city: '',
-    phoneNumber: '',
-    bankAccountNumber: '',
-    IBAN: '',
-    SWIFT: '',
+    address: undefined,
+    postalCode: undefined,
+    city: undefined,
+    phoneNumber: undefined,
+    bankAccountNumber: undefined,
+    IBAN: undefined,
+    SWIFT: undefined,
     agreesFirstAgreement: false,
     agreesSecondAgreement: false,
     hasInternationalBankAccount: false,
@@ -321,7 +322,7 @@ export const ticketControlFormMachine = setup({
     plannedDepartureTime: getCurrentTimeString(),
 
     // PostponePayment
-    invoiceNumber: '',
+    invoiceNumber: undefined,
   },
   states: {
     editing: {
@@ -359,23 +360,23 @@ export const ticketControlFormMachine = setup({
           feedback: context.feedback,
           attachments: context.attachments,
           feeNumber: context.feeNumber,
-          appPhoneNumber: context?.appPhoneNumber,
-          customerNumber: context?.customerNumber,
-          travelCardNumber: context?.travelCardNumber,
-          address: context?.address,
-          postalCode: context?.postalCode,
-          city: context?.city,
-          phoneNumber: context?.phoneNumber,
-          bankAccountNumber: context?.bankAccountNumber,
-          IBAN: context?.IBAN,
-          SWIFT: context?.SWIFT,
-          transportMode: context?.transportMode,
-          lineName: context?.line?.name,
-          fromStopName: context?.fromStop?.name,
-          toStopName: context?.toStop?.name,
-          date: context?.date,
-          plannedDepartureTime: context?.plannedDepartureTime,
-          invoiceNumber: context?.invoiceNumber,
+          appPhoneNumber: context.appPhoneNumber,
+          customerNumber: context.customerNumber,
+          travelCardNumber: context.travelCardNumber,
+          address: context.address,
+          postalCode: context.postalCode,
+          city: context.city,
+          phoneNumber: context.phoneNumber,
+          bankAccountNumber: context.bankAccountNumber,
+          IBAN: context.IBAN,
+          SWIFT: context.SWIFT,
+          transportMode: context.transportMode,
+          lineName: context.line?.name,
+          fromStopName: context.fromStop?.name,
+          toStopName: context.toStop?.name,
+          date: context.date,
+          plannedDepartureTime: context.plannedDepartureTime,
+          invoiceNumber: context.invoiceNumber,
         }),
 
         onDone: {
