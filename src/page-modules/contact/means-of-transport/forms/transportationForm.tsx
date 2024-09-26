@@ -28,7 +28,7 @@ export const TransportationForm = ({
   return (
     <div>
       <SectionCard
-        title={PageText.Contact.modeOfTransport.transportation.description}
+        title={t(PageText.Contact.modeOfTransport.transportation.description)}
       >
         <Typo.p textType="body__primary">
           {t(PageText.Contact.modeOfTransport.transportation.info)}
@@ -36,7 +36,7 @@ export const TransportationForm = ({
       </SectionCard>
 
       <SectionCard
-        title={PageText.Contact.modeOfTransport.transportation.about.title}
+        title={t(PageText.Contact.modeOfTransport.transportation.about.title)}
       >
         <Typo.p textType="body__primary">
           {t(PageText.Contact.modeOfTransport.transportation.about.description)}
@@ -171,7 +171,7 @@ export const TransportationForm = ({
         />
       </SectionCard>
 
-      <SectionCard title={PageText.Contact.inputFields.feedback.title}>
+      <SectionCard title={t(PageText.Contact.inputFields.feedback.title)}>
         <Typo.p textType="body__primary">
           {t(PageText.Contact.inputFields.feedback.description)}
         </Typo.p>
@@ -202,7 +202,7 @@ export const TransportationForm = ({
           }}
         />
       </SectionCard>
-      <SectionCard title={PageText.Contact.aboutYouInfo.optionalTitle}>
+      <SectionCard title={t(PageText.Contact.aboutYouInfo.optionalTitle)}>
         <Input
           label={PageText.Contact.inputFields.firstName.label}
           type="text"

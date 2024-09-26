@@ -37,9 +37,9 @@ export const RefundForm = () => {
       <FormSelector state={state} send={send} />
       {(state.hasTag('taxi') || state.hasTag('car')) && (
         <SectionCard
-          title={
-            PageText.Contact.travelGuarantee.refundTaxi.aboutYourTrip.title
-          }
+          title={t(
+            PageText.Contact.travelGuarantee.refundTaxi.aboutYourTrip.title,
+          )}
         >
           <Select
             label={t(
@@ -212,9 +212,9 @@ export const RefundForm = () => {
 
       {state.hasTag('car') && (
         <SectionCard
-          title={
-            PageText.Contact.travelGuarantee.refundCar.aboutTheCarTrip.title
-          }
+          title={t(
+            PageText.Contact.travelGuarantee.refundCar.aboutTheCarTrip.title,
+          )}
         >
           <Input
             label={PageText.Contact.inputFields.kilometersDriven.label}
@@ -237,7 +237,7 @@ export const RefundForm = () => {
       {state.hasTag('selected') && (
         <div>
           <SectionCard
-            title={PageText.Contact.inputFields.feedback.optionalTitle}
+            title={t(PageText.Contact.inputFields.feedback.optionalTitle)}
           >
             <textarea
               className={style.feedback}
@@ -252,7 +252,7 @@ export const RefundForm = () => {
               }
             />
           </SectionCard>
-          <SectionCard title={PageText.Contact.aboutYouInfo.title}>
+          <SectionCard title={t(PageText.Contact.aboutYouInfo.title)}>
             <Input
               label={PageText.Contact.inputFields.firstName.label}
               type="text"
