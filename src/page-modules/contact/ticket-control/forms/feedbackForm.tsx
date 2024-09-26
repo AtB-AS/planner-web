@@ -38,9 +38,8 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
             })
           }
           error={
-            state.context?.errorMessages['transportMode']?.[0]
-              ? t(state.context?.errorMessages['transportMode']?.[0])
-              : undefined
+            state.context?.errorMessages['transportMode']?.[0] &&
+            t(state.context?.errorMessages['transportMode']?.[0])
           }
           valueToText={(val: TransportModeType) =>
             t(ComponentText.TransportMode.modes[val])
@@ -71,9 +70,8 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
           valueToText={(line: Line) => line.name}
           placeholder={t(PageText.Contact.inputFields.line.optionLabel)}
           error={
-            state.context?.errorMessages['line']?.[0]
-              ? t(state.context?.errorMessages['line']?.[0])
-              : undefined
+            state.context?.errorMessages['line']?.[0] &&
+            t(state.context?.errorMessages['line']?.[0])
           }
         />
 
@@ -165,9 +163,8 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
             })
           }
           error={
-            state.context.errorMessages['feedback']?.[0]
-              ? t(state.context.errorMessages['feedback']?.[0]).toString()
-              : undefined
+            state.context.errorMessages['feedback']?.[0] &&
+            t(state.context.errorMessages['feedback']?.[0]).toString()
           }
         />
 
@@ -189,7 +186,7 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
           label={PageText.Contact.inputFields.firstName.label}
           type="text"
           name="firstName"
-          value={state.context.firstName}
+          value={state.context.firstName || ''}
           errorMessage={
             state.context?.errorMessages['firstName']?.[0] || undefined
           }
@@ -205,7 +202,7 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
           label={PageText.Contact.inputFields.lastName.label}
           type="text"
           name="lastName"
-          value={state.context.lastName}
+          value={state.context.lastName || ''}
           errorMessage={
             state.context?.errorMessages['lastName']?.[0] || undefined
           }
@@ -221,7 +218,7 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
           label={PageText.Contact.inputFields.email.label}
           type="email"
           name="email"
-          value={state.context.email}
+          value={state.context.email || ''}
           errorMessage={state.context?.errorMessages['email']?.[0] || undefined}
           onChange={(e) =>
             send({

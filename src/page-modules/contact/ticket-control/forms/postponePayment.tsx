@@ -27,10 +27,8 @@ export const PostponePaymentForm = ({
           label={PageText.Contact.inputFields.feeNumber.label}
           type="text"
           name="feeNumber"
-          value={state.context.feeNumber}
-          errorMessage={
-            state.context?.errorMessages['feeNumber']?.[0] || undefined
-          }
+          value={state.context.feeNumber || ''}
+          errorMessage={state.context?.errorMessages['feeNumber']?.[0]}
           onChange={(e) =>
             send({
               type: 'ON_INPUT_CHANGE',
@@ -44,10 +42,8 @@ export const PostponePaymentForm = ({
           label={PageText.Contact.inputFields.invoiceNumber.label}
           type="text"
           name="invoiceNumber"
-          value={state.context.invoiceNumber}
-          errorMessage={
-            state.context?.errorMessages['invoiceNumber']?.[0] || undefined
-          }
+          value={state.context.invoiceNumber || ''}
+          errorMessage={state.context?.errorMessages['invoiceNumber']?.[0]}
           onChange={(e) =>
             send({
               type: 'ON_INPUT_CHANGE',
@@ -62,10 +58,8 @@ export const PostponePaymentForm = ({
           label={PageText.Contact.inputFields.firstName.label}
           type="text"
           name="firstName"
-          value={state.context.firstName}
-          errorMessage={
-            state.context?.errorMessages['firstName']?.[0] || undefined
-          }
+          value={state.context.firstName || ''}
+          errorMessage={state.context?.errorMessages['firstName']?.[0]}
           onChange={(e) =>
             send({
               type: 'ON_INPUT_CHANGE',
@@ -78,10 +72,8 @@ export const PostponePaymentForm = ({
           label={PageText.Contact.inputFields.lastName.label}
           type="text"
           name="lastName"
-          value={state.context.lastName}
-          errorMessage={
-            state.context?.errorMessages['lastName']?.[0] || undefined
-          }
+          value={state.context.lastName || ''}
+          errorMessage={state.context?.errorMessages['lastName']?.[0]}
           onChange={(e) =>
             send({
               type: 'ON_INPUT_CHANGE',
@@ -94,8 +86,8 @@ export const PostponePaymentForm = ({
           label={PageText.Contact.inputFields.email.label}
           type="email"
           name="email"
-          value={state.context.email}
-          errorMessage={state.context?.errorMessages['email']?.[0] || undefined}
+          value={state.context.email || ''}
+          errorMessage={state.context?.errorMessages['email']?.[0]}
           onChange={(e) =>
             send({
               type: 'ON_INPUT_CHANGE',

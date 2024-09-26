@@ -115,10 +115,8 @@ export const FeeComplaintForm = ({ state, send }: FeeComplaintFormProps) => {
               label={PageText.Contact.inputFields.feeNumber.label}
               type="text"
               name="feeNumber"
-              value={state.context.feeNumber}
-              errorMessage={
-                state.context?.errorMessages['feeNumber']?.[0] || undefined
-              }
+              value={state.context.feeNumber || ''}
+              errorMessage={state.context?.errorMessages['feeNumber']?.[0]}
               onChange={(e) =>
                 send({
                   type: 'ON_INPUT_CHANGE',
@@ -169,10 +167,9 @@ export const FeeComplaintForm = ({ state, send }: FeeComplaintFormProps) => {
                   }
                   type="text"
                   name="appPhoneNumber"
-                  value={state.context.appPhoneNumber}
+                  value={state.context.appPhoneNumber || ''}
                   errorMessage={
-                    state.context?.errorMessages['appPhoneNumber']?.[0] ||
-                    undefined
+                    state.context?.errorMessages['appPhoneNumber']?.[0]
                   }
                   onChange={(e) =>
                     send({
@@ -190,11 +187,9 @@ export const FeeComplaintForm = ({ state, send }: FeeComplaintFormProps) => {
                   }
                   type="number"
                   name="customerNumber"
-                  value={state.context.customerNumber}
-                  defaultValue={undefined}
+                  value={state.context.customerNumber || ''}
                   errorMessage={
-                    state.context?.errorMessages['appPhoneNumber']?.[0] ||
-                    undefined
+                    state.context?.errorMessages['customerNumber']?.[0]
                   }
                   onChange={(e) =>
                     send({
@@ -214,10 +209,9 @@ export const FeeComplaintForm = ({ state, send }: FeeComplaintFormProps) => {
                 }
                 type="text"
                 name="travelCardNumber"
-                value={state.context.travelCardNumber}
+                value={state.context.travelCardNumber || ''}
                 errorMessage={
-                  state.context.errorMessages['travelCardNumber']?.[0] ||
-                  undefined
+                  state.context.errorMessages['travelCardNumber']?.[0]
                 }
                 onChange={(e) =>
                   send({
@@ -240,9 +234,8 @@ export const FeeComplaintForm = ({ state, send }: FeeComplaintFormProps) => {
                 })
               }
               error={
-                state.context.errorMessages['feedback']?.[0]
-                  ? t(state.context.errorMessages['feedback']?.[0]).toString()
-                  : undefined
+                state.context.errorMessages['feedback']?.[0] &&
+                t(state.context.errorMessages['feedback']?.[0]).toString()
               }
             />
 
@@ -264,10 +257,8 @@ export const FeeComplaintForm = ({ state, send }: FeeComplaintFormProps) => {
               label={PageText.Contact.inputFields.firstName.label}
               type="text"
               name="firstName"
-              value={state.context.firstName}
-              errorMessage={
-                state.context?.errorMessages['firstName']?.[0] || undefined
-              }
+              value={state.context.firstName || ''}
+              errorMessage={state.context?.errorMessages['firstName']?.[0]}
               onChange={(e) =>
                 send({
                   type: 'ON_INPUT_CHANGE',
@@ -281,10 +272,8 @@ export const FeeComplaintForm = ({ state, send }: FeeComplaintFormProps) => {
               label={PageText.Contact.inputFields.lastName.label}
               type="text"
               name="lastName"
-              value={state.context.lastName}
-              errorMessage={
-                state.context?.errorMessages['lastName']?.[0] || undefined
-              }
+              value={state.context.lastName || ''}
+              errorMessage={state.context?.errorMessages['lastName']?.[0]}
               onChange={(e) =>
                 send({
                   type: 'ON_INPUT_CHANGE',
@@ -297,10 +286,8 @@ export const FeeComplaintForm = ({ state, send }: FeeComplaintFormProps) => {
               label={PageText.Contact.inputFields.address.label}
               type="text"
               name="address"
-              value={state.context.address}
-              errorMessage={
-                state.context?.errorMessages['address']?.[0] || undefined
-              }
+              value={state.context.address || ''}
+              errorMessage={state.context?.errorMessages['address']?.[0]}
               onChange={(e) =>
                 send({
                   type: 'ON_INPUT_CHANGE',
@@ -313,10 +300,8 @@ export const FeeComplaintForm = ({ state, send }: FeeComplaintFormProps) => {
               label={PageText.Contact.inputFields.postalCode.label}
               type="number"
               name="postalCode"
-              value={state.context.postalCode}
-              errorMessage={
-                state.context?.errorMessages['postalCode']?.[0] || undefined
-              }
+              value={state.context.postalCode || ''}
+              errorMessage={state.context?.errorMessages['postalCode']?.[0]}
               onChange={(e) =>
                 send({
                   type: 'ON_INPUT_CHANGE',
@@ -329,10 +314,8 @@ export const FeeComplaintForm = ({ state, send }: FeeComplaintFormProps) => {
               label={PageText.Contact.inputFields.city.label}
               type="text"
               name="city"
-              value={state.context.city}
-              errorMessage={
-                state.context?.errorMessages['city']?.[0] || undefined
-              }
+              value={state.context.city || ''}
+              errorMessage={state.context?.errorMessages['city']?.[0]}
               onChange={(e) =>
                 send({
                   type: 'ON_INPUT_CHANGE',
@@ -345,10 +328,8 @@ export const FeeComplaintForm = ({ state, send }: FeeComplaintFormProps) => {
               label={PageText.Contact.inputFields.email.label}
               type="email"
               name="email"
-              value={state.context.email}
-              errorMessage={
-                state.context?.errorMessages['email']?.[0] || undefined
-              }
+              value={state.context.email || ''}
+              errorMessage={state.context?.errorMessages['email']?.[0]}
               onChange={(e) =>
                 send({
                   type: 'ON_INPUT_CHANGE',
@@ -361,10 +342,8 @@ export const FeeComplaintForm = ({ state, send }: FeeComplaintFormProps) => {
               label={PageText.Contact.inputFields.phoneNumber.label}
               type="tel"
               name="phoneNumber"
-              value={state.context.phoneNumber}
-              errorMessage={
-                state.context?.errorMessages['phoneNumber']?.[0] || undefined
-              }
+              value={state.context.phoneNumber || ''}
+              errorMessage={state.context?.errorMessages['phoneNumber']?.[0]}
               onChange={(e) =>
                 send({
                   type: 'ON_INPUT_CHANGE',
@@ -381,10 +360,9 @@ export const FeeComplaintForm = ({ state, send }: FeeComplaintFormProps) => {
                 }
                 type="text"
                 name="bankAccountNumber"
-                value={state.context.bankAccountNumber}
+                value={state.context.bankAccountNumber || ''}
                 errorMessage={
-                  state.context?.errorMessages['bankAccountNumber']?.[0] ||
-                  undefined
+                  state.context?.errorMessages['bankAccountNumber']?.[0]
                 }
                 onChange={(e) =>
                   send({
@@ -414,7 +392,7 @@ export const FeeComplaintForm = ({ state, send }: FeeComplaintFormProps) => {
                   label={PageText.Contact.inputFields.bankAccountNumber.IBAN}
                   type="text"
                   name="bankAccountNumber"
-                  value={state.context.IBAN}
+                  value={state.context.IBAN || ''}
                   onChange={(e) =>
                     send({
                       type: 'ON_INPUT_CHANGE',
@@ -428,7 +406,7 @@ export const FeeComplaintForm = ({ state, send }: FeeComplaintFormProps) => {
                   label={PageText.Contact.inputFields.bankAccountNumber.SWIFT}
                   type="text"
                   name="bankAccountNumber"
-                  value={state.context.SWIFT}
+                  value={state.context.SWIFT || ''}
                   onChange={(e) =>
                     send({
                       type: 'ON_INPUT_CHANGE',
