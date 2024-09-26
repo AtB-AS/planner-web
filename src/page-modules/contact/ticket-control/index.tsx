@@ -65,7 +65,7 @@ const TicketControlPageContent = () => {
       {state.context.formType === 'postponePayment' && (
         <PostponePaymentForm state={state} send={send} />
       )}
-      {displayButton && (
+      {displaySubmitButton && (
         <Button
           title={t(PageText.Contact.submit)}
           mode={'interactive_0--bordered'}
