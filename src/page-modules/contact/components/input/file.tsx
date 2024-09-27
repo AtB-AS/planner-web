@@ -31,6 +31,10 @@ export function FileInput({ onChange, label, name }: FileInputProps) {
     }
   };
 
+  const handleDragOver = (event: DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+  };
+
   const handleDrop = (event: DragEvent<HTMLDivElement>) => {
     event.preventDefault();
 
@@ -44,7 +48,7 @@ export function FileInput({ onChange, label, name }: FileInputProps) {
   };
 
   return (
-    <div onDrop={handleDrop}>
+    <div onDragOver={handleDragOver} onDrop={handleDrop}>
       <input
         id={id}
         type="file"
