@@ -367,6 +367,18 @@ export const RefundForm = () => {
               }
             />
 
+            <Checkbox
+              label={t(PageText.Contact.inputFields.bankAccountNumber.checkbox)}
+              checked={state.context.hasInternationalBankAccount}
+              onChange={() =>
+                send({
+                  type: 'ON_INPUT_CHANGE',
+                  inputName: 'hasInternationalBankAccount',
+                  value: !state.context.hasInternationalBankAccount,
+                })
+              }
+            />
+
             {!state.context.hasInternationalBankAccount && (
               <Input
                 label={
@@ -388,18 +400,6 @@ export const RefundForm = () => {
                 }
               />
             )}
-
-            <Checkbox
-              label={t(PageText.Contact.inputFields.bankAccountNumber.checkbox)}
-              checked={state.context.hasInternationalBankAccount}
-              onChange={() =>
-                send({
-                  type: 'ON_INPUT_CHANGE',
-                  inputName: 'hasInternationalBankAccount',
-                  value: !state.context.hasInternationalBankAccount,
-                })
-              }
-            />
 
             {state.context.hasInternationalBankAccount && (
               <div>
