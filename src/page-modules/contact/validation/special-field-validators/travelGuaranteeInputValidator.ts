@@ -7,46 +7,44 @@ export const travelGuaranteeInputValidator = (context: any) => {
     {
       inputName: 'firstName',
       validCondition: context.firstName,
-      errorMessage: PageText.Contact.inputFields.firstName.errorMessages.empty,
+      errorMessage: PageText.Contact.input.firstName.errorMessages.empty,
     },
     {
       inputName: 'lastName',
       validCondition: context.lastName,
-      errorMessage: PageText.Contact.inputFields.lastName.errorMessages.empty,
+      errorMessage: PageText.Contact.input.lastName.errorMessages.empty,
     },
     {
       inputName: 'email',
       validCondition: context.email,
-      errorMessage: PageText.Contact.inputFields.email.errorMessages.empty,
+      errorMessage: PageText.Contact.input.email.errorMessages.empty,
     },
     {
       inputName: 'address',
       validCondition: context.address,
-      errorMessage: PageText.Contact.inputFields.address.errorMessages.empty,
+      errorMessage: PageText.Contact.input.address.errorMessages.empty,
     },
     {
       inputName: 'postalCode',
       validCondition: context.postalCode,
-      errorMessage: PageText.Contact.inputFields.postalCode.errorMessages.empty,
+      errorMessage: PageText.Contact.input.postalCode.errorMessages.empty,
     },
     {
       inputName: 'city',
       validCondition: context.city,
-      errorMessage: PageText.Contact.inputFields.city.errorMessages.empty,
+      errorMessage: PageText.Contact.input.city.errorMessages.empty,
     },
     {
       inputName: 'phoneNumber',
       validCondition: context.phoneNumber,
-      errorMessage:
-        PageText.Contact.inputFields.phoneNumber.errorMessages.empty,
+      errorMessage: PageText.Contact.input.phoneNumber.errorMessages.empty,
     },
 
     {
       inputName: 'bankAccountNumber',
       validCondition:
         context.bankAccountNumber || context.IBAN || context.SWIFT,
-      errorMessage:
-        PageText.Contact.inputFields.transportMode.errorMessages.empty,
+      errorMessage: PageText.Contact.input.transportMode.errorMessages.empty,
     },
 
     {
@@ -56,8 +54,7 @@ export const travelGuaranteeInputValidator = (context: any) => {
           context.travelGuaranteeStateWhenSubmitted !== 'other') ||
         context.travelGuaranteeStateWhenSubmitted === 'other',
 
-      errorMessage:
-        PageText.Contact.inputFields.transportMode.errorMessages.empty,
+      errorMessage: PageText.Contact.input.transportMode.errorMessages.empty,
     },
     {
       inputName: 'line',
@@ -65,7 +62,7 @@ export const travelGuaranteeInputValidator = (context: any) => {
         (context.line &&
           context.travelGuaranteeStateWhenSubmitted !== 'other') ||
         context.travelGuaranteeStateWhenSubmitted === 'other',
-      errorMessage: PageText.Contact.inputFields.line.errorMessages.empty,
+      errorMessage: PageText.Contact.input.line.errorMessages.empty,
     },
     {
       inputName: 'fromStop',
@@ -73,7 +70,7 @@ export const travelGuaranteeInputValidator = (context: any) => {
         (context.fromStop &&
           context.travelGuaranteeStateWhenSubmitted !== 'other') ||
         context.travelGuaranteeStateWhenSubmitted === 'other',
-      errorMessage: PageText.Contact.inputFields.fromStop.errorMessages.empty,
+      errorMessage: PageText.Contact.input.fromStop.errorMessages.empty,
     },
     {
       inputName: 'toStop',
@@ -82,7 +79,7 @@ export const travelGuaranteeInputValidator = (context: any) => {
           context.travelGuaranteeStateWhenSubmitted !== 'other') ||
         context.travelGuaranteeStateWhenSubmitted === 'other',
 
-      errorMessage: PageText.Contact.inputFields.toStop.errorMessages.empty,
+      errorMessage: PageText.Contact.input.toStop.errorMessages.empty,
     },
     {
       inputName: 'reasonForTransportFailure',
@@ -92,8 +89,7 @@ export const travelGuaranteeInputValidator = (context: any) => {
         context.travelGuaranteeStateWhenSubmitted === 'other',
 
       errorMessage:
-        PageText.Contact.inputFields.reasonForTransportFailure.errorMessages
-          .empty,
+        PageText.Contact.input.reasonForTransportFailure.errorMessages.empty,
     },
     {
       inputName: 'kilometersDriven',
@@ -102,8 +98,7 @@ export const travelGuaranteeInputValidator = (context: any) => {
           context.travelGuaranteeStateWhenSubmitted == 'car') ||
         context.travelGuaranteeStateWhenSubmitted == 'taxi' ||
         context.travelGuaranteeStateWhenSubmitted == 'other',
-      errorMessage:
-        PageText.Contact.inputFields.kilometersDriven.errorMessages.empty,
+      errorMessage: PageText.Contact.input.kilometersDriven.errorMessages.empty,
     },
   ];
 

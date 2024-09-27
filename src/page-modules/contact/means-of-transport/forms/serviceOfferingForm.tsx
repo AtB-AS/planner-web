@@ -44,7 +44,7 @@ export const ServiceOfferingForm = ({
         </Typo.p>
 
         <Select
-          label={t(PageText.Contact.inputFields.area.label).toString()}
+          label={t(PageText.Contact.input.area.label).toString()}
           value={state.context.area}
           valueToId={(option) => option.id}
           valueToText={(option) => t(option.name)}
@@ -56,8 +56,8 @@ export const ServiceOfferingForm = ({
               value: value,
             });
           }}
-          placeholder={t(PageText.Contact.inputFields.area.optionLabel)}
-          options={PageText.Contact.inputFields.area.options}
+          placeholder={t(PageText.Contact.input.area.optionLabel)}
+          options={PageText.Contact.input.area.options}
           error={
             state.context?.errorMessages['area']?.[0]
               ? t(state.context?.errorMessages['area']?.[0])
@@ -66,7 +66,7 @@ export const ServiceOfferingForm = ({
         />
 
         <Select
-          label={t(PageText.Contact.inputFields.transportMode.label).toString()}
+          label={t(PageText.Contact.input.transportMode.label).toString()}
           value={state.context.transportMode}
           onChange={(value) =>
             send({
@@ -85,13 +85,11 @@ export const ServiceOfferingForm = ({
           }
           valueToId={(val: TransportModeType) => val}
           options={['bus', 'water'] as TransportModeType[]}
-          placeholder={t(
-            PageText.Contact.inputFields.transportMode.optionLabel,
-          )}
+          placeholder={t(PageText.Contact.input.transportMode.optionLabel)}
         />
 
         <Select
-          label={t(PageText.Contact.inputFields.line.label)}
+          label={t(PageText.Contact.input.line.label)}
           value={state.context.line}
           disabled={!state.context.transportMode}
           onChange={(value: Line | undefined) => {
@@ -107,7 +105,7 @@ export const ServiceOfferingForm = ({
           )}
           valueToId={(line: Line) => line.id}
           valueToText={(line: Line) => line.name}
-          placeholder={t(PageText.Contact.inputFields.line.optionLabel)}
+          placeholder={t(PageText.Contact.input.line.optionLabel)}
           error={
             state.context?.errorMessages['line']?.[0]
               ? t(state.context?.errorMessages['line']?.[0])
@@ -116,9 +114,9 @@ export const ServiceOfferingForm = ({
         />
       </SectionCard>
 
-      <SectionCard title={t(PageText.Contact.inputFields.feedback.title)}>
+      <SectionCard title={t(PageText.Contact.input.feedback.title)}>
         <Typo.p textType="body__primary">
-          {t(PageText.Contact.inputFields.feedback.description)}
+          {t(PageText.Contact.input.feedback.description)}
         </Typo.p>
         <Textarea
           value={state.context.feedback}
@@ -137,7 +135,7 @@ export const ServiceOfferingForm = ({
         />
         <FileInput
           name="attachments"
-          label={t(PageText.Contact.inputFields.feedback.attachment)}
+          label={t(PageText.Contact.input.feedback.attachment)}
           onChange={(files) => {
             send({
               type: 'ON_INPUT_CHANGE',
@@ -149,7 +147,7 @@ export const ServiceOfferingForm = ({
       </SectionCard>
       <SectionCard title={t(PageText.Contact.aboutYouInfo.optionalTitle)}>
         <Input
-          label={PageText.Contact.inputFields.firstName.label}
+          label={PageText.Contact.input.firstName.label}
           type="text"
           name="firstName"
           value={state.context.firstName}
@@ -163,7 +161,7 @@ export const ServiceOfferingForm = ({
         />
 
         <Input
-          label={PageText.Contact.inputFields.lastName.label}
+          label={PageText.Contact.input.lastName.label}
           type="text"
           name="lastName"
           value={state.context.lastName}

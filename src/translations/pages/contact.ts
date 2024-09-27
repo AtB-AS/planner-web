@@ -452,7 +452,7 @@ export const Contact = {
 
   submit: _('Send', 'Submit', 'Send'),
 
-  inputFields: {
+  input: {
     firstName: {
       label: _(
         'Fornavn og mellomnavn',

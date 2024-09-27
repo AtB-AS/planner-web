@@ -40,7 +40,7 @@ export const DriverForm = ({ state, send }: DriverFormProps) => {
         </Typo.p>
 
         <Select
-          label={t(PageText.Contact.inputFields.area.label).toString()}
+          label={t(PageText.Contact.input.area.label).toString()}
           value={state.context.area}
           valueToId={(option) => option.id}
           valueToText={(option) => t(option.name)}
@@ -52,8 +52,8 @@ export const DriverForm = ({ state, send }: DriverFormProps) => {
               value: value,
             });
           }}
-          placeholder={t(PageText.Contact.inputFields.area.optionLabel)}
-          options={PageText.Contact.inputFields.area.options}
+          placeholder={t(PageText.Contact.input.area.optionLabel)}
+          options={PageText.Contact.input.area.options}
           error={
             state.context?.errorMessages['area']?.[0]
               ? t(state.context?.errorMessages['area']?.[0])
@@ -62,7 +62,7 @@ export const DriverForm = ({ state, send }: DriverFormProps) => {
         />
 
         <Select
-          label={t(PageText.Contact.inputFields.transportMode.label).toString()}
+          label={t(PageText.Contact.input.transportMode.label).toString()}
           value={state.context.transportMode}
           onChange={(value) =>
             send({
@@ -81,13 +81,11 @@ export const DriverForm = ({ state, send }: DriverFormProps) => {
           }
           valueToId={(val: TransportModeType) => val}
           options={['bus', 'water'] as TransportModeType[]}
-          placeholder={t(
-            PageText.Contact.inputFields.transportMode.optionLabel,
-          )}
+          placeholder={t(PageText.Contact.input.transportMode.optionLabel)}
         />
 
         <Select
-          label={t(PageText.Contact.inputFields.line.label)}
+          label={t(PageText.Contact.input.line.label)}
           value={state.context.line}
           disabled={!state.context.transportMode}
           onChange={(value: Line | undefined) => {
@@ -103,7 +101,7 @@ export const DriverForm = ({ state, send }: DriverFormProps) => {
           )}
           valueToId={(line: Line) => line.id}
           valueToText={(line: Line) => line.name}
-          placeholder={t(PageText.Contact.inputFields.line.optionLabel)}
+          placeholder={t(PageText.Contact.input.line.optionLabel)}
           error={
             state.context?.errorMessages['line']?.[0]
               ? t(state.context?.errorMessages['line']?.[0])
@@ -112,7 +110,7 @@ export const DriverForm = ({ state, send }: DriverFormProps) => {
         />
 
         <Select
-          label={t(PageText.Contact.inputFields.fromStop.label)}
+          label={t(PageText.Contact.input.fromStop.label)}
           value={state.context.fromStop}
           disabled={!state.context.line}
           onChange={(value) => {
@@ -126,7 +124,7 @@ export const DriverForm = ({ state, send }: DriverFormProps) => {
           options={
             state.context.line?.id ? getQuaysByLine(state.context.line.id) : []
           }
-          placeholder={t(PageText.Contact.inputFields.fromStop.optionLabel)}
+          placeholder={t(PageText.Contact.input.fromStop.optionLabel)}
           error={
             state.context?.errorMessages['fromStop']?.[0]
               ? t(state.context?.errorMessages['fromStop']?.[0])
@@ -137,7 +135,7 @@ export const DriverForm = ({ state, send }: DriverFormProps) => {
         />
 
         <Select
-          label={t(PageText.Contact.inputFields.toStop.label)}
+          label={t(PageText.Contact.input.toStop.label)}
           value={state.context.toStop}
           disabled={!state.context.line}
           onChange={(value) => {
@@ -148,7 +146,7 @@ export const DriverForm = ({ state, send }: DriverFormProps) => {
               value: value,
             });
           }}
-          placeholder={t(PageText.Contact.inputFields.toStop.optionLabel)}
+          placeholder={t(PageText.Contact.input.toStop.optionLabel)}
           options={
             state.context.line?.id ? getQuaysByLine(state.context.line.id) : []
           }
@@ -162,7 +160,7 @@ export const DriverForm = ({ state, send }: DriverFormProps) => {
         />
 
         <Input
-          label={PageText.Contact.inputFields.date.label}
+          label={PageText.Contact.input.date.label}
           type="date"
           name="date"
           value={state.context.date}
@@ -177,7 +175,7 @@ export const DriverForm = ({ state, send }: DriverFormProps) => {
         />
 
         <Input
-          label={PageText.Contact.inputFields.plannedDepartureTime.label}
+          label={PageText.Contact.input.plannedDepartureTime.label}
           type="time"
           name="time"
           value={state.context.plannedDepartureTime}
@@ -194,9 +192,9 @@ export const DriverForm = ({ state, send }: DriverFormProps) => {
         />
       </SectionCard>
 
-      <SectionCard title={t(PageText.Contact.inputFields.feedback.title)}>
+      <SectionCard title={t(PageText.Contact.input.feedback.title)}>
         <Typo.p textType="body__primary">
-          {t(PageText.Contact.inputFields.feedback.description)}
+          {t(PageText.Contact.input.feedback.description)}
         </Typo.p>
         <Textarea
           value={state.context.feedback}
@@ -215,7 +213,7 @@ export const DriverForm = ({ state, send }: DriverFormProps) => {
         />
         <FileInput
           name="attachments"
-          label={t(PageText.Contact.inputFields.feedback.attachment)}
+          label={t(PageText.Contact.input.feedback.attachment)}
           onChange={(files) => {
             send({
               type: 'ON_INPUT_CHANGE',
@@ -227,7 +225,7 @@ export const DriverForm = ({ state, send }: DriverFormProps) => {
       </SectionCard>
       <SectionCard title={t(PageText.Contact.aboutYouInfo.optionalTitle)}>
         <Input
-          label={PageText.Contact.inputFields.firstName.label}
+          label={PageText.Contact.input.firstName.label}
           type="text"
           name="firstName"
           value={state.context.firstName}
@@ -241,7 +239,7 @@ export const DriverForm = ({ state, send }: DriverFormProps) => {
         />
 
         <Input
-          label={PageText.Contact.inputFields.lastName.label}
+          label={PageText.Contact.input.lastName.label}
           type="text"
           name="lastName"
           value={state.context.lastName}
@@ -255,11 +253,11 @@ export const DriverForm = ({ state, send }: DriverFormProps) => {
         />
 
         <Typo.p textType="body__primary">
-          {t(PageText.Contact.inputFields.email.wantsToBeContacted.question)}
+          {t(PageText.Contact.input.email.wantsToBeContacted.question)}
         </Typo.p>
 
         <RadioInput
-          label={t(PageText.Contact.inputFields.email.wantsToBeContacted.yes)}
+          label={t(PageText.Contact.input.email.wantsToBeContacted.yes)}
           name="wantsToBeContacted"
           checked={state.context.wantsToBeContacted}
           onChange={() =>
@@ -271,7 +269,7 @@ export const DriverForm = ({ state, send }: DriverFormProps) => {
           }
         />
         <RadioInput
-          label={t(PageText.Contact.inputFields.email.wantsToBeContacted.no)}
+          label={t(PageText.Contact.input.email.wantsToBeContacted.no)}
           name="wantsToBeContacted"
           checked={!state.context.wantsToBeContacted}
           onChange={() =>
@@ -284,7 +282,7 @@ export const DriverForm = ({ state, send }: DriverFormProps) => {
         />
         {state.context.wantsToBeContacted && (
           <Input
-            label={PageText.Contact.inputFields.email.wantsToBeContacted.label}
+            label={PageText.Contact.input.email.wantsToBeContacted.label}
             type="email"
             name="email"
             value={state.context.email}
