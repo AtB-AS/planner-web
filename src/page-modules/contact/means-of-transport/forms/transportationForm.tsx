@@ -43,7 +43,7 @@ export const TransportationForm = ({
         </Typo.p>
 
         <Select
-          label={t(PageText.Contact.inputFields.transportMode.label).toString()}
+          label={t(PageText.Contact.input.transportMode.label).toString()}
           value={state.context.transportMode}
           onChange={(value) =>
             send({
@@ -62,13 +62,11 @@ export const TransportationForm = ({
           }
           valueToId={(val: TransportModeType) => val}
           options={['bus', 'water'] as TransportModeType[]}
-          placeholder={t(
-            PageText.Contact.inputFields.transportMode.optionLabel,
-          )}
+          placeholder={t(PageText.Contact.input.transportMode.optionLabel)}
         />
 
         <Select
-          label={t(PageText.Contact.inputFields.line.label)}
+          label={t(PageText.Contact.input.line.label)}
           value={state.context.line}
           disabled={!state.context.transportMode}
           onChange={(value: Line | undefined) => {
@@ -84,7 +82,7 @@ export const TransportationForm = ({
           )}
           valueToId={(line: Line) => line.id}
           valueToText={(line: Line) => line.name}
-          placeholder={t(PageText.Contact.inputFields.line.optionLabel)}
+          placeholder={t(PageText.Contact.input.line.optionLabel)}
           error={
             state.context?.errorMessages['line']?.[0]
               ? t(state.context?.errorMessages['line']?.[0])
@@ -93,7 +91,7 @@ export const TransportationForm = ({
         />
 
         <Select
-          label={t(PageText.Contact.inputFields.fromStop.label)}
+          label={t(PageText.Contact.input.fromStop.label)}
           value={state.context.fromStop}
           disabled={!state.context.line}
           onChange={(value) => {
@@ -107,7 +105,7 @@ export const TransportationForm = ({
           options={
             state.context.line?.id ? getQuaysByLine(state.context.line.id) : []
           }
-          placeholder={t(PageText.Contact.inputFields.fromStop.optionLabel)}
+          placeholder={t(PageText.Contact.input.fromStop.optionLabel)}
           error={
             state.context?.errorMessages['fromStop']?.[0]
               ? t(state.context?.errorMessages['fromStop']?.[0])
@@ -118,7 +116,7 @@ export const TransportationForm = ({
         />
 
         <Select
-          label={t(PageText.Contact.inputFields.toStop.label)}
+          label={t(PageText.Contact.input.toStop.label)}
           value={state.context.toStop}
           disabled={!state.context.line}
           onChange={(value) => {
@@ -129,7 +127,7 @@ export const TransportationForm = ({
               value: value,
             });
           }}
-          placeholder={t(PageText.Contact.inputFields.toStop.optionLabel)}
+          placeholder={t(PageText.Contact.input.toStop.optionLabel)}
           options={
             state.context.line?.id ? getQuaysByLine(state.context.line.id) : []
           }
@@ -143,10 +141,11 @@ export const TransportationForm = ({
         />
 
         <Input
-          label={PageText.Contact.inputFields.date}
+          label={PageText.Contact.input.date.label}
           type="date"
           name="date"
           value={state.context.date}
+          errorMessage={state.context?.errorMessages['date']?.[0]}
           onChange={(e) =>
             send({
               type: 'ON_INPUT_CHANGE',
@@ -157,10 +156,13 @@ export const TransportationForm = ({
         />
 
         <Input
-          label={PageText.Contact.inputFields.plannedDepartureTime}
+          label={PageText.Contact.input.plannedDepartureTime.label}
           type="time"
           name="time"
           value={state.context.plannedDepartureTime}
+          errorMessage={
+            state.context?.errorMessages['plannedDepartureTime']?.[0]
+          }
           onChange={(e) =>
             send({
               type: 'ON_INPUT_CHANGE',
@@ -171,9 +173,9 @@ export const TransportationForm = ({
         />
       </SectionCard>
 
-      <SectionCard title={t(PageText.Contact.inputFields.feedback.title)}>
+      <SectionCard title={t(PageText.Contact.input.feedback.title)}>
         <Typo.p textType="body__primary">
-          {t(PageText.Contact.inputFields.feedback.description)}
+          {t(PageText.Contact.input.feedback.description)}
         </Typo.p>
         <Textarea
           value={state.context.feedback}
@@ -192,7 +194,7 @@ export const TransportationForm = ({
         />
         <FileInput
           name="attachments"
-          label={t(PageText.Contact.inputFields.feedback.attachment)}
+          label={t(PageText.Contact.input.feedback.attachment)}
           onChange={(files) => {
             send({
               type: 'ON_INPUT_CHANGE',
@@ -204,7 +206,7 @@ export const TransportationForm = ({
       </SectionCard>
       <SectionCard title={t(PageText.Contact.aboutYouInfo.optionalTitle)}>
         <Input
-          label={PageText.Contact.inputFields.firstName.label}
+          label={PageText.Contact.input.firstName.label}
           type="text"
           name="firstName"
           value={state.context.firstName}
@@ -218,7 +220,7 @@ export const TransportationForm = ({
         />
 
         <Input
-          label={PageText.Contact.inputFields.lastName.label}
+          label={PageText.Contact.input.lastName.label}
           type="text"
           name="lastName"
           value={state.context.lastName}
@@ -232,11 +234,11 @@ export const TransportationForm = ({
         />
 
         <Typo.p textType="body__primary">
-          {t(PageText.Contact.inputFields.email.wantsToBeContacted.question)}
+          {t(PageText.Contact.input.email.wantsToBeContacted.question)}
         </Typo.p>
 
         <RadioInput
-          label={t(PageText.Contact.inputFields.email.wantsToBeContacted.yes)}
+          label={t(PageText.Contact.input.email.wantsToBeContacted.yes)}
           name="wantsToBeContacted"
           checked={state.context.wantsToBeContacted}
           onChange={() =>
@@ -248,7 +250,7 @@ export const TransportationForm = ({
           }
         />
         <RadioInput
-          label={t(PageText.Contact.inputFields.email.wantsToBeContacted.no)}
+          label={t(PageText.Contact.input.email.wantsToBeContacted.no)}
           name="wantsToBeContacted"
           checked={!state.context.wantsToBeContacted}
           onChange={() =>
@@ -261,7 +263,7 @@ export const TransportationForm = ({
         />
         {state.context.wantsToBeContacted && (
           <Input
-            label={PageText.Contact.inputFields.email.wantsToBeContacted.label}
+            label={PageText.Contact.input.email.wantsToBeContacted.label}
             type="email"
             name="email"
             value={state.context.email}

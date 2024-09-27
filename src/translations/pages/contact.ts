@@ -21,6 +21,11 @@ export const Contact = {
     ),
 
     feeComplaint: {
+      title: _(
+        'Informasjon fra gebyret',
+        'Information from the fee',
+        'Informasjon frå gebyret',
+      ),
       description: _(
         'Jeg har fått gebyr og ønsker å klage',
         'I have received a fee and would like to file a complaint',
@@ -31,6 +36,7 @@ export const Contact = {
         'If you have received a fee on incorrect grounds, you can submit a written complaint to us.',
         'Dersom du har fått gebyr på feil grunnlag, kan du sende oss ei skriftleg klage.',
       ),
+
       firstAgreement: {
         title: _(
           'Har du fått gebyr etter billettkontroll?',
@@ -50,7 +56,7 @@ export const Contact = {
         rules: [
           _(
             'Du er selv ansvarlig for å ha gyldig billett og legitimasjon på hele reisen.',
-            'You are responsible for having a valid ticket and identification throughout the journey.',
+            'You are responsible for having a valid ticket and identification throughout the trip.',
             'Du er sjølv ansvarleg for å ha gyldig billett og legitimasjon på heile reisa.',
           ),
           _(
@@ -59,13 +65,13 @@ export const Contact = {
             'Reiser du med ein rabattert billett, må du også ha legitimasjon på at du har rett til rabatten for at billetten skal vere gyldig.',
           ),
           _(
-            'Har du kjøpt billett på forhånd, må du ha kjøpt og startet billetten før du går om bord.',
-            'If you have purchased a ticket in advance, you must have bought and activated the ticket before boarding.',
-            'Har du kjøpt billett på førehand, må du ha kjøpt og starta billetten før du går om bord.',
+            'Har du kjøpt billett på forhånd, må du ha startet billetten før du går om bord.',
+            'If you have purchased a ticket in advance, you must have activated the ticket before boarding.',
+            'Har du kjøpt billett på førehand, må du ha starta billetten før du går om bord.',
           ),
           _(
-            'Har du ikke gyldig billett for reiser, vil du få gebyr ved billettkontroll.',
-            'If you do not have a valid ticket for the journey, you will receive a fine during the ticket inspection.',
+            'Har du ikke gyldig billett for reisen, vil du få gebyr ved billettkontroll.',
+            'If you do not have a valid ticket for the trip, you will receive a fine during the ticket inspection.',
             'Har du ikkje gyldig billett for reisa, vil du få gebyr ved billettkontroll.',
           ),
           _(
@@ -76,6 +82,7 @@ export const Contact = {
         ],
         checkbox: _('Jeg forsår', 'I understand', 'Eg forstår'),
       },
+
       secondAgreement: {
         title: _(
           'Typiske saker som ikke får medhold',
@@ -83,8 +90,8 @@ export const Contact = {
           'Typiske saker som ikkje får medhald',
         ),
         info: _(
-          'Har du krav på rabatt men har fått gebyr fordi du ikke kunne framvise gyldig legitimasjon, kan du få redusert gebyret ditt til 200 kroner ved å sende oss dokumentasjon på at du har rett på rabatt.',
-          'If you are entitled to a discount but have been charged a fee because you could not present valid identification, you can have your fee reduced to 200 kroner by sending us documentation that you are eligible for the discount.',
+          'Har du krav på rabatt, men har fått gebyr fordi du ikke kunne framvise gyldig legitimasjon, kan du få redusert gebyret ditt til 200 kroner ved å sende oss dokumentasjon på at du har rett på rabatt.',
+          'If you are entitled to a discount, but have been charged a fee because you were unable to present valid identification, you can have your fee reduced to 200 kroner by sending us documentation that you are eligible for the discount.',
           'Dersom du har krav på rabatt, men har fått gebyr fordi du ikkje kunne framvise gyldig legitimasjon, kan du få redusert gebyret ditt til 200 kroner ved å sende oss dokumentasjon på at du har rett på rabatt.',
         ),
         rules: [
@@ -120,11 +127,6 @@ export const Contact = {
           'Eg forstår reglane og ønsker å klage på gebyret.',
         ),
       },
-      title: _(
-        'Informasjon fra gebyret',
-        'Information from the fee',
-        'Informasjon frå gebyret',
-      ),
     },
 
     postponePayment: {
@@ -135,9 +137,9 @@ export const Contact = {
         'Eg har fått gebyr og ønskjer å utsetje betalinga',
       ),
       info: _(
-        'Når du fyller ut skjemaet, blir betalingsfristen utsatt med 30 dager fra opprinnelig forfallsdato, dvs. totalt 60 dagers betalingsfrist. Du velger selv om du vil dele opp betalingen og gjøre flere innbetalinger i løpet av denne perioden eller betale hele beløpet på en gang',
-        'When you fill out the form, the payment deadline is extended by 30 days from the original due date, giving you a total payment deadline of 60 days. You can choose whether to divide the payment and make multiple installments during this period or pay the full amount at once',
-        'Når du fyller ut skjemaet, blir betalingsfristen utsett med 30 dagar frå opphaveleg forfallsdato, dvs. totalt 60 dagars betalingsfrist. Du vel sjølv om du vil dele opp betalinga og gjere fleire innbetalingar i løpet av denne perioden eller betale heile beløpet på ein gong',
+        'Ved å sende inn skjemaet, blir betalingsfristen utsatt med 30 dager fra opprinnelig forfallsdato, dvs. totalt 60 dagers betalingsfrist. Du velger selv om du vil dele opp betalingen og gjøre flere innbetalinger i løpet av denne perioden eller betale hele beløpet på en gang',
+        'By sending the form, the payment deadline is extended by 30 days from the original due date, providing a total of 60 days to make your payment. During this period, you can choose to either divide it into multiple installments or pay the full amount at once.',
+        'Ved å sende inn skjemaet, blir betalingsfristen utsett med 30 dagar frå opphaveleg forfallsdato, dvs. totalt 60 dagars betalingsfrist. Du vel sjølv om du vil dele opp betalinga og gjere fleire innbetalingar i løpet av denne perioden eller betale heile beløpet på ein gong',
       ),
     },
 
@@ -157,63 +159,13 @@ export const Contact = {
         'If you have feedback regarding a specific ticket inspection, we need a description of where and when the ticket inspection took place in order to proceed with the matter. If you have general feedback, you can skip the initial points.',
         'Har du tilbakemelding på ein bestemt billettkontroll, treng vi ei beskriving av kor og kva tid billettkontrollen var for å kunne gå vidare med saka. Har du ei generell tilbakemelding, kan du hoppe over dei første punkta.',
       ),
-      locationQuestion: _(
-        'Hvor var billettkontrollen?',
-        'Where was the ticket control conducted?',
-        'Kor var billettkontrollen?',
-      ),
-      transportMode: {
-        label: _('Reisemåte', 'Transport mode', 'Reisemåte'),
-        optionLabel: _(
-          'Velg reisemåte',
-          'Select transport mode',
-          'Velg reisemåte',
-        ),
-        errorMessage: _(
-          'Velg reisemåte',
-          'Select transport mode',
-          'Velg reisemåte',
-        ),
-      },
-      line: {
-        label: _('Linje', 'Line', 'Linje'),
-        optionLabel: _('Velg linje', 'Choose line', 'Velg linje'),
-        errorMessage: _('Velg linje', 'Select line', 'Velg linje'),
-      },
-      departureLocation: {
-        label: _('Avreisested', 'Departure location', 'Avreisested'),
-        optionLabel: _(
-          'Velg avreisested',
-          'Select departure loation',
-          'Velg avreisested',
-        ),
-        errorMessage: _(
-          'Velg avreisested',
-          'Select departure loation',
-          'Velg avreisested',
-        ),
-      },
-      arrivalLocation: {
-        label: _('Ankomststed', 'Arrival location', 'Ankomststed'),
-        optionLabel: _(
-          'Velg anskomststed',
-          'Select arrival location',
-          'Velg ankomststed',
-        ),
-        errorMessage: _(
-          'Velg anskomststed',
-          'Select arrival location',
-          'Velg ankomststed',
-        ),
-      },
-      date: _('Dato', 'Date', 'Dato'),
-      departureTime: _('Avgangstid', 'Departure time', 'Avgangstid'),
     },
   },
+
   travelGuarantee: {
     title: _('Reisegaranti', 'Travel guarantee', 'Reisegaranti'),
 
-    layoutAgreement: {
+    agreement: {
       delayedRefundText: _(
         'Ble du forsinket fordi vi ikke var i rute? Du kan ha krav på å få refundert utgifter til alternativ transport som for eksempel drosje, bil og annen kollektivtransport.',
         'Were you delayed because we were not on schedule? You may be entitled to reimbursement for expenses related to alternative transportation such as taxi, car, and other public transportation.',
@@ -233,7 +185,6 @@ export const Contact = {
 
         minimumTimeToNextDeparture: _(
           'Reisegarantien gjelder ikke dersom det er 20 minutter eller mindre til neste avgang i henhold til rutetabellen.',
-
           'The travel guarantee does not apply if there are 20 minutes or less until the next departure according to the timetable.',
           'Reisegarantien gjeld ikkje dersom det er 20 minutt eller mindre til neste avgang i følgje rutetabellen.',
         ),
@@ -282,44 +233,17 @@ export const Contact = {
       },
     },
 
-    subPageTitles: {
-      refundTaxi: {
-        description: _(
-          'Jeg ønsker refusjon for drosje',
-          'I would like refund for taxi',
-          'Eg ønsker refusjon for drosje',
-        ),
-        info: _(
-          'Hvis du ikke kommer frem med et annet rutetilbud, refunderer vi utgifter til drosje i henhold til gjeldende regler.',
-          'If you do not provide an alternative route offer, we will refund taxi expenses according to the applicable regulations.',
-          'Viss du ikkje kjem fram med eit anna rutetilbod, refunderer vi utlegg til drosje etter gjeldande reglar.',
-        ),
-      },
-
-      refundCar: {
-        description: _(
-          'Jeg ønsker refusjon for bruk av bil',
-          'I would like refund for the use of a car',
-          'Eg ønsker refusjon for bruk av en bil',
-        ),
-        info: _(
-          'Hvis du ikke kommer frem med et annet rutetilbud, refunderer vi dokumenterte utgifter for bruk av bil. Vi betaler kilometergodtgjørelse etter statens satser. Refusjonen dekker ikke bompenger, parkering eller andre utgifter knyttet til leiebil/delbil.',
-          'If you do not provide an alternative route offer, we will refund documented expenses for the use of a car. We will pay mileage reimbursement according to the state´s rates. The refund does not cover tolls, parking, or other expenses related to rental cars/sharing cars.',
-          'Viss du ikkje kjem fram med eit anna rutetilbod, refunderer vi dokumenterte utlegg for bruk av bil. Vi betalar kilometergodtgjersle etter statens satsar. Refusjonen dekker ikkje bompengar, parkering eller andre utgifter knytt til leigebil/delebil.',
-        ),
-      },
-
-      refundOtherPublicTransport: {
-        description: _(
-          'Jeg ønsker refusjon for annen kollektivtransport',
-          'I would like a refund for other public transport',
-          'Eg ønsker refusjon for annan kollektivtransport',
-        ),
-        info: _('', '', ''),
-      },
-    },
-
     refundTaxi: {
+      description: _(
+        'Jeg ønsker refusjon for drosje',
+        'I would like refund for taxi',
+        'Eg ønsker refusjon for drosje',
+      ),
+      info: _(
+        'Hvis du ikke kommer frem med et annet rutetilbud, refunderer vi utgifter til drosje i henhold til gjeldende regler.',
+        'If you are unable to reach your destination by an alternative service, we will refund taxi expenses according to the applicable regulations.',
+        'Viss du ikkje kjem fram med eit anna rutetilbod, refunderer vi utlegg til drosje etter gjeldande reglar.',
+      ),
       information: {
         title: _(
           'Informasjon fra drosjekvitteringen',
@@ -335,7 +259,19 @@ export const Contact = {
         ),
       },
     },
+
     refundCar: {
+      description: _(
+        'Jeg ønsker refusjon for bruk av bil',
+        'I would like refund for the use of a car',
+        'Eg ønsker refusjon for bruk av en bil',
+      ),
+      info: _(
+        'Hvis du ikke kommer frem med et annet rutetilbud, refunderer vi dokumenterte utgifter for bruk av bil. Vi betaler kilometergodtgjørelse etter statens satser. Refusjonen dekker ikke bompenger, parkering eller andre utgifter knyttet til leiebil/delbil.',
+        'If you are unable to reach your destination by an alternative service, we will refund documented expenses for the use of a car. We pay compensation per kilometer according to government rates. The refund does not cover tolls, parking, or other expenses related to rental cars/sharing cars',
+        'Viss du ikkje kjem fram med eit anna rutetilbod, refunderer vi dokumenterte utlegg for bruk av bil. Vi betalar kilometergodtgjersle etter statens satsar. Refusjonen dekker ikkje bompengar, parkering eller andre utgifter knytt til leigebil/delebil.',
+      ),
+
       aboutTheCarTrip: {
         title: _('Om bilturen', 'About the car trip', 'Om bilturen'),
       },
@@ -346,6 +282,14 @@ export const Contact = {
           'Om den planagde reisa di',
         ),
       },
+    },
+
+    refundOtherPublicTransport: {
+      description: _(
+        'Jeg ønsker refusjon for annen kollektivtransport',
+        'I would like a refund for other public transport',
+        'Eg ønsker refusjon for annan kollektivtransport',
+      ),
     },
   },
 
@@ -371,7 +315,7 @@ export const Contact = {
         title: _('Om reisen', 'About the trip', 'Om reisa'),
         description: _(
           'Vi trenger å vite litt om reisen din. Da er det lettere for oss å følge opp saken.',
-          'We need to know a bit about your journey. Then it is easier for us to follow up on the case.',
+          'We need to know a bit about your trip. Then it is easier for us to follow up on the case.',
           'Vi treng å vite litt om reisa di. Då er det enklare for oss å følgje opp saka.',
         ),
       },
@@ -391,7 +335,7 @@ export const Contact = {
         title: _('Om reisen', 'About the trip', 'Om reisa'),
         description: _(
           'Vi trenger å vite litt om reisen din. Da er det lettere for oss å følge opp saken.',
-          'We need to know a bit about your journey. Then it is easier for us to follow up on the case.',
+          'We need to know a bit about your trip. Then it is easier for us to follow up on the case.',
           'Vi treng å vite litt om reisa di. Då er det enklare for oss å følgje opp saka.',
         ),
       },
@@ -411,7 +355,7 @@ export const Contact = {
         title: _('Om reisen', 'About the trip', 'Om reisa'),
         description: _(
           'Vi trenger å vite litt om reisen din. Da er det lettere for oss å følge opp saken.',
-          'We need to know a bit about your journey. Then it is easier for us to follow up on the case.',
+          'We need to know a bit about your trip. Then it is easier for us to follow up on the case.',
           'Vi treng å vite litt om reisa di. Då er det enklare for oss å følgje opp saka.',
         ),
       },
@@ -435,7 +379,7 @@ export const Contact = {
         ),
         description: _(
           'Vi trenger å vite litt om reisen din. Da er det lettere for oss å følge opp saken.',
-          'We need to know a bit about your journey. Then it is easier for us to follow up on the case.',
+          'We need to know a bit about your trip. Then it is easier for us to follow up on the case.',
           'Vi treng å vite litt om reisa di. Då er det enklare for oss å følgje opp saka.',
         ),
       },
@@ -443,12 +387,12 @@ export const Contact = {
     serviceOffering: {
       description: _(
         'Tilbakemelding på rutetilbudet',
-        'Feedback on route offering',
+        'Feedback on service offering',
         'Tilbakemelding på rutetilbodet',
       ),
       info: _(
         'Har du et forslag til ruteendring, eller vil du gi tilbakemelding på tilbudet vårt? Gi oss gjerne tilbakemelding her. Alle oppføringer lagres og systematiseres og inngår i den årlige ruteendringsprosessen. Vi kan ikke gi individuell tilbakemelding på hvilke innspill/forslag som innføres.',
-        'Do you have a suggestion for a route change, or would you like to give feedback on our offer? Feel free to give us feedback here. All entries are stored and systematized and are included in the annual route change process. We cannot give individual feedback on which input/suggestions are introduced.',
+        'Do you have a suggestion for a service change, or would you like to give feedback on our service offer? Feel free to give us feedback here. All entries are stored and systematized and are included in the annual service change process. We cannot give individual feedback on which input/suggestions are introduced.',
         'Har du eit forslag til ruteendring, eller ønsker du å gi tilbakemelding på tilbodet vårt? Gi oss gjerne tilbakemelding her. Alle innspel blir lagra og systematisert og blir tatt med i den årlege ruteendringsprosessen. Vi kan ikkje gi individuelle tilbakemeldingar på kva innspel/forslag som blir innførte. ',
       ),
 
@@ -456,7 +400,7 @@ export const Contact = {
         title: _('Om reisen', 'About the trip', 'Om reisa'),
         description: _(
           'Vi trenger å vite litt om reisen din. Da er det lettere for oss å følge opp saken.',
-          'We need to know a bit about your journey. Then it is easier for us to follow up on the case.',
+          'We need to know a bit about your trip. Then it is easier for us to follow up on the case.',
           'Vi treng å vite litt om reisa di. Då er det enklare for oss å følgje opp saka.',
         ),
       },
@@ -477,7 +421,7 @@ export const Contact = {
         title: _('Om reisen', 'About the trip', 'Om reisa'),
         description: _(
           'Vi trenger å vite litt om reisen din. Da er det lettere for oss å følge opp saken.',
-          'We need to know a bit about your journey. Then it is easier for us to follow up on the case.',
+          'We need to know a bit about your trip. Then it is easier for us to follow up on the case.',
           'Vi treng å vite litt om reisa di. Då er det enklare for oss å følgje opp saka.',
         ),
       },
@@ -504,42 +448,11 @@ export const Contact = {
       'Information about you (optinal)',
       'Informasjon om deg  (valfritt)',
     ),
-
-    firstname: _(
-      'Fornavn og mellomnavn',
-      'First name and middle name',
-      'Fornamn og mellomnamn',
-    ),
-    lastname: _('Etternavn', 'Lastname', 'Etternamn'),
-    address: _('Adresse', 'Address', 'Adresse'),
-    postalCode: _('Postnummer', 'Postal code', 'Postnummar'),
-    city: _('Bosted', 'City', 'Bustad'),
-    email: _('E-post', 'Email', 'E-post'),
-    phonenumber: _('Mobil', 'Mobile', 'Mobil'),
-    bankAccount: {
-      label: _('Bankkontonummer', 'Bank account number', 'Bankkontonummar'),
-      checkbox: _(
-        'Jeg har et utenlandsk bankkontonummer',
-        'I have a foreign bank account',
-        'Eg har eit utanlandsk bankkontonummar',
-      ),
-      iban: _('IBAN', 'IBAN', 'IBAN'),
-      swift: _('SWIFT ', 'SWIFT ', 'SWIFT '),
-      errorMessageBankAccount: _(
-        'Vennligst fyll ut ditt bankkontonummer',
-        'Please provide your bank account',
-        'Vennligst fyll ut ditt bankkontonummar',
-      ),
-    },
-    errorMessage: _(
-      'Vennligst fyll ut informasjon om deg',
-      'Please provide your information',
-      'Vennligst fyll ut din informasjon',
-    ),
   },
+
   submit: _('Send', 'Submit', 'Send'),
 
-  inputFields: {
+  input: {
     firstName: {
       label: _(
         'Fornavn og mellomnavn',
@@ -575,8 +488,8 @@ export const Contact = {
           'E-post (må fyllast ut viss du vil ha svar)',
         ),
         question: _(
-          'Ønsker du svar på angåande saka?',
-          'Ønsker du svar på angåande saka?',
+          'Ønsker du svar på angående saken?',
+          'Do you want an answer to the case?',
           'Ønsker du svar på angåande saka?',
         ),
 
@@ -591,6 +504,7 @@ export const Contact = {
         ),
       },
     },
+
     address: {
       label: _('Adresse', 'Address', 'Adresse'),
       errorMessages: {
@@ -603,7 +517,7 @@ export const Contact = {
     },
 
     postalCode: {
-      label: _('Postnummer', 'Postal code', 'Postnummar'),
+      label: _('Postnummer', 'Postal code', 'Postnummer'),
       errorMessages: {
         empty: _(
           'Vennligst fyll ut informasjon om deg',
@@ -625,7 +539,7 @@ export const Contact = {
     },
 
     phoneNumber: {
-      label: _('Telefonenummer', 'Phonenumber', 'Telefonenummar'),
+      label: _('Telefonnummer', 'Phonenumber', 'Telefonnummer'),
       errorMessages: {
         empty: _(
           'Vennligst fyll ut informasjon om deg',
@@ -639,12 +553,12 @@ export const Contact = {
       notForeignLabel: _(
         'Bankkontonummer',
         'Bank account number',
-        'Bankkontonummar',
+        'Bankkontonummer',
       ),
       checkbox: _(
         'Jeg har et utenlandsk bankkontonummer',
         'I have a foreign bank account',
-        'Eg har eit utanlandsk bankkontonummar',
+        'Eg har eit utanlandsk bankkontonummer',
       ),
       IBAN: _('IBAN', 'IBAN', 'IBAN'),
       SWIFT: _('SWIFT ', 'SWIFT ', 'SWIFT '),
@@ -653,7 +567,7 @@ export const Contact = {
         empty: _(
           'Vennligst fyll ut ditt bankkontonummer',
           'Please provide your bank account',
-          'Vennligst fyll ut ditt bankkontonummar',
+          'Vennligst fyll ut ditt bankkontonummer',
         ),
       },
     },
@@ -663,22 +577,22 @@ export const Contact = {
       optionLabel: _(
         'Velg transportmiddel',
         'Select transport mode',
-        'Velg transportmiddel',
+        'Vel transportmiddel',
       ),
       errorMessages: {
         empty: _(
           'Velg transportmiddel',
           'Select transport mode',
-          'Velg transportmiddel',
+          'Vel transportmiddel',
         ),
       },
     },
 
     line: {
       label: _('Linje', 'Line', 'Linje'),
-      optionLabel: _('Velg linje', 'Choose line', 'Velg linje'),
+      optionLabel: _('Velg linje', 'Choose line', 'Vel linje'),
       errorMessages: {
-        empty: _('Velg linje', 'Select line', 'Velg linje'),
+        empty: _('Velg linje', 'Select line', 'Vel linje'),
       },
     },
 
@@ -690,15 +604,15 @@ export const Contact = {
         'Haldeplass/kai',
       ),
       optionLabel: _(
-        'Velg avreisested',
-        'Select departure loation',
-        'Velg avreisested',
+        'Velg holdeplass/kai',
+        'Select stop/harbor',
+        'Vel haldeplass/kai',
       ),
       errorMessages: {
         empty: _(
-          'Velg avreisested',
-          'Select departure loation',
-          'Velg avreisested',
+          'Velg holdeplass/kai',
+          'Select stop/harbor',
+          'Vel haldeplass/kai',
         ),
       },
     },
@@ -706,24 +620,38 @@ export const Contact = {
     toStop: {
       label: _('Til holdeplass/kai', 'To stop/harbor', 'Til haldeplass/kai'),
       optionLabel: _(
-        'Velg anskomststed',
-        'Select arrival location',
-        'Velg ankomststed',
+        'Velg holdeplass/kai',
+        'Select stop/harbor',
+        'Vel haldeplass/kai',
       ),
       errorMessages: {
         empty: _(
-          'Velg anskomststed',
-          'Select arrival location',
-          'Velg ankomststed',
+          'Velg holdeplass/kai',
+          'Select stop/harbor',
+          'Vel haldeplass/kai',
         ),
       },
     },
-    date: _('Dato', 'Date', 'Dato'),
-    plannedDepartureTime: _(
-      'Planlagt avgangstid',
-      'Planned departure time',
-      'Planlagd avgangstid',
-    ),
+    date: {
+      label: _('Dato', 'Date', 'Dato'),
+      errorMessages: {
+        empty: _('Velg dato', 'Select date', 'Vel dato'),
+      },
+    },
+    plannedDepartureTime: {
+      label: _(
+        'Planlagt avgangstid',
+        'Planned departure time',
+        'Planlagd avgangstid',
+      ),
+      errorMessages: {
+        empty: _(
+          'Velg planlagt avgangstid',
+          'Select planned departure time',
+          'Vel avgangstid',
+        ),
+      },
+    },
     reasonForTransportFailure: {
       label: _('Mulige valg', 'Options', 'Moglege val'),
       optionLabel: _('Velg årsak', 'Select reason', 'Vel åtsak'),
@@ -765,49 +693,50 @@ export const Contact = {
         empty: _('Velg årsak', 'Select reason', 'Vel årsak'),
       },
     },
+
     kilometersDriven: {
       label: _(
         'Antall kjørte kilometer',
         'Number of kilometres driven',
-        'Antall kjørte kilometer',
+        'Antall køyrde kilometer',
       ),
       errorMessages: {
         empty: _(
           'Vennligst fyll ut antall kjørte kilometer',
           'Please provide the number of driven kilometres',
-          'Vennligst fyll ut antall kjørte kilometer',
+          'Vennligst fyll ut antall køyrde kilometer',
         ),
       },
     },
 
     feeNumber: {
-      label: _('Gebyrnummer', 'Fee number', 'Gebyrnummar'),
+      label: _('Gebyrnummer', 'Fee number', 'Gebyrnummer'),
       description: _(
         'Gebyrnummeret har fire siffer. Du finner det øverst i høyre hjørne på gebyret',
         'The fee number has four digits. You can find it in the top right corner of the fee',
-        'Gebyrnummeret har fire siffer. Du finn det øvst i høgre hjørne på gebyret',
+        'Gebyrnummert har fire siffer. Du finn det øvst i høgre hjørne på gebyret',
       ),
       instruction: _(
         'Fyll ut gebyrnummeret ditt',
         'Enter your fee number',
-        'Fyll ut gebyrnummaret ditt',
+        'Fyll ut gebyrnummeret ditt',
       ),
       errorMessages: {
         empty: _(
           'Fyll ut gebyrnummeret ditt',
           'Enter your fee number',
-          'Fyll ut gebyrnummaret ditt',
+          'Fyll ut gebyrnummeret ditt',
         ),
         notFourDigits: _(
           'Gebyrnummeret består av fire siffer',
           'The fee number consists of four digits',
-          'Gebyrnummaret består av fire siffer',
+          'Gebyrnummeret består av fire siffer',
         ),
       },
     },
 
     invoiceNumber: {
-      label: _('Fakturanummer', 'Invoice number', 'Fakturanummar'),
+      label: _('Fakturanummer', 'Invoice number', 'Fakturanummer'),
       description: _(
         'Fakturanummeret finner du øverst i høyre hjørne på fakturaen.',
         'The invoice number is found in the top right corner of the invoice.',
@@ -822,10 +751,11 @@ export const Contact = {
         empty: _(
           'Fyll ut fakturanummeret ditt',
           'Enter your invoice number',
-          'Fyll ut fakturanummaret ditt',
+          'Fyll ut fakturanummeret ditt',
         ),
       },
     },
+
     ticketStorage: {
       question: _(
         'Hvor pleier du å ha billetten din?',
@@ -839,27 +769,29 @@ export const Contact = {
           label: _(
             'Registrert mobilnummer',
             'Registered mobile number',
-            'Registrert mobilnummar',
+            'Registrert mobilnummer',
           ),
           errorMessages: {
             empty: _(
               'Legg til registrert mobilnummer',
               'Legg til registered mobile number',
-              'Legg til registrert mobilnummar',
+              'Legg til registrert mobilnummer',
             ),
           },
         },
+
         customerNumber: {
-          label: _('Kundenummer', 'Customer number', 'Kundenummar'),
+          label: _('Kundenummer', 'Customer number', 'Kundenummer'),
           errorMessages: {
             empty: _(
               'Fyll inn kundenummer',
               'Enter customer number',
-              'Fyll inn kundenummar',
+              'Fyll inn kundenummer',
             ),
           },
         },
       },
+
       travelCardNumber: {
         label: _('Reisekort', 'Travelcard', 'Reisekort'),
         errorMessages: {

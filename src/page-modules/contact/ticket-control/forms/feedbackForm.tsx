@@ -28,7 +28,7 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
         </Typo.p>
 
         <Select
-          label={t(PageText.Contact.inputFields.transportMode.label).toString()}
+          label={t(PageText.Contact.input.transportMode.label).toString()}
           value={state.context.transportMode}
           onChange={(value) =>
             send({
@@ -46,13 +46,11 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
           }
           valueToId={(val: TransportModeType) => val}
           options={['bus', 'water'] as TransportModeType[]}
-          placeholder={t(
-            PageText.Contact.inputFields.transportMode.optionLabel,
-          )}
+          placeholder={t(PageText.Contact.input.transportMode.optionLabel)}
         />
 
         <Select
-          label={t(PageText.Contact.inputFields.line.label)}
+          label={t(PageText.Contact.input.line.label)}
           value={state.context.line}
           disabled={!state.context.transportMode}
           onChange={(value: Line | undefined) => {
@@ -68,7 +66,7 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
           )}
           valueToId={(line: Line) => line.id}
           valueToText={(line: Line) => line.name}
-          placeholder={t(PageText.Contact.inputFields.line.optionLabel)}
+          placeholder={t(PageText.Contact.input.line.optionLabel)}
           error={
             state.context?.errorMessages['line']?.[0] &&
             t(state.context?.errorMessages['line']?.[0])
@@ -76,7 +74,7 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
         />
 
         <Select
-          label={t(PageText.Contact.inputFields.fromStop.label)}
+          label={t(PageText.Contact.input.fromStop.label)}
           value={state.context.fromStop}
           disabled={!state.context.line}
           onChange={(value) => {
@@ -90,7 +88,7 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
           options={
             state.context.line?.id ? getQuaysByLine(state.context.line.id) : []
           }
-          placeholder={t(PageText.Contact.inputFields.fromStop.optionLabel)}
+          placeholder={t(PageText.Contact.input.fromStop.optionLabel)}
           error={
             state.context?.errorMessages['fromStop']?.[0]
               ? t(state.context?.errorMessages['fromStop']?.[0])
@@ -101,7 +99,7 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
         />
 
         <Select
-          label={t(PageText.Contact.inputFields.toStop.label)}
+          label={t(PageText.Contact.input.toStop.label)}
           value={state.context.toStop}
           disabled={!state.context.line}
           onChange={(value) => {
@@ -112,7 +110,7 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
               value: value,
             });
           }}
-          placeholder={t(PageText.Contact.inputFields.toStop.optionLabel)}
+          placeholder={t(PageText.Contact.input.toStop.optionLabel)}
           options={
             state.context.line?.id ? getQuaysByLine(state.context.line.id) : []
           }
@@ -126,10 +124,11 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
         />
 
         <Input
-          label={PageText.Contact.inputFields.date}
+          label={PageText.Contact.input.date.label}
           type="date"
           name="date"
           value={state.context.date}
+          errorMessage={state.context?.errorMessages['date']?.[0]}
           onChange={(e) =>
             send({
               type: 'ON_INPUT_CHANGE',
@@ -139,10 +138,13 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
           }
         />
         <Input
-          label={PageText.Contact.inputFields.plannedDepartureTime}
+          label={PageText.Contact.input.plannedDepartureTime.label}
           type="time"
           name="time"
           value={state.context.plannedDepartureTime}
+          errorMessage={
+            state.context?.errorMessages['plannedDepartureTime']?.[0]
+          }
           onChange={(e) =>
             send({
               type: 'ON_INPUT_CHANGE',
@@ -152,7 +154,7 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
           }
         />
       </SectionCard>
-      <SectionCard title={t(PageText.Contact.inputFields.feedback.title)}>
+      <SectionCard title={t(PageText.Contact.input.feedback.title)}>
         <Textarea
           value={state.context.feedback || ''}
           onChange={(e) =>
@@ -177,13 +179,13 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
               value: files,
             });
           }}
-          label={t(PageText.Contact.inputFields.feedback.attachment)}
+          label={t(PageText.Contact.input.feedback.attachment)}
         />
       </SectionCard>
 
       <SectionCard title={t(PageText.Contact.aboutYouInfo.title)}>
         <Input
-          label={PageText.Contact.inputFields.firstName.label}
+          label={PageText.Contact.input.firstName.label}
           type="text"
           autoComplete="given-name additonal-name"
           name="firstName"
@@ -200,7 +202,7 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
           }
         />
         <Input
-          label={PageText.Contact.inputFields.lastName.label}
+          label={PageText.Contact.input.lastName.label}
           type="text"
           autoComplete="family-name"
           name="lastName"
@@ -217,7 +219,7 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
           }
         />
         <Input
-          label={PageText.Contact.inputFields.email.label}
+          label={PageText.Contact.input.email.label}
           type="email"
           name="email"
           value={state.context.email || ''}

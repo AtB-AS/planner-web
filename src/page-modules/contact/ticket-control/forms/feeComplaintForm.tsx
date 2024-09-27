@@ -111,7 +111,7 @@ const FormContent = ({ state, send }: FormProps) => {
     <div>
       <SectionCard title={t(PageText.Contact.ticketControl.feeComplaint.title)}>
         <Input
-          label={PageText.Contact.inputFields.feeNumber.label}
+          label={PageText.Contact.input.feeNumber.label}
           type="text"
           name="feeNumber"
           value={state.context.feeNumber || ''}
@@ -126,11 +126,11 @@ const FormContent = ({ state, send }: FormProps) => {
         />
 
         <Typo.h3 textType="heading__component">
-          {t(PageText.Contact.inputFields.ticketStorage.question)}
+          {t(PageText.Contact.input.ticketStorage.question)}
         </Typo.h3>
 
         <RadioInput
-          label={t(PageText.Contact.inputFields.ticketStorage.app.title)}
+          label={t(PageText.Contact.input.ticketStorage.app.title)}
           name="isAppTicketStorageMode"
           checked={state.context.isAppTicketStorageMode}
           onChange={() =>
@@ -142,9 +142,7 @@ const FormContent = ({ state, send }: FormProps) => {
           }
         />
         <RadioInput
-          label={t(
-            PageText.Contact.inputFields.ticketStorage.travelCardNumber.label,
-          )}
+          label={t(PageText.Contact.input.ticketStorage.travelCardNumber.label)}
           name="isAppTicketStorageMode"
           checked={!state.context.isAppTicketStorageMode}
           onChange={() =>
@@ -160,8 +158,7 @@ const FormContent = ({ state, send }: FormProps) => {
           <div>
             <Input
               label={
-                PageText.Contact.inputFields.ticketStorage.app.appPhoneNumber
-                  .label
+                PageText.Contact.input.ticketStorage.app.appPhoneNumber.label
               }
               type="tel"
               name="appPhoneNumber"
@@ -178,8 +175,7 @@ const FormContent = ({ state, send }: FormProps) => {
 
             <Input
               label={
-                PageText.Contact.inputFields.ticketStorage.app.customerNumber
-                  .label
+                PageText.Contact.input.ticketStorage.app.customerNumber.label
               }
               type="number"
               name="customerNumber"
@@ -197,9 +193,7 @@ const FormContent = ({ state, send }: FormProps) => {
         )}
         {!state.context.isAppTicketStorageMode && (
           <Input
-            label={
-              PageText.Contact.inputFields.ticketStorage.travelCardNumber.label
-            }
+            label={PageText.Contact.input.ticketStorage.travelCardNumber.label}
             type="number"
             name="travelCardNumber"
             value={state.context.travelCardNumber || ''}
@@ -214,7 +208,7 @@ const FormContent = ({ state, send }: FormProps) => {
           />
         )}
       </SectionCard>
-      <SectionCard title={t(PageText.Contact.inputFields.feedback.title)}>
+      <SectionCard title={t(PageText.Contact.input.feedback.title)}>
         <Textarea
           value={state.context.feedback || ''}
           onChange={(e) =>
@@ -239,13 +233,13 @@ const FormContent = ({ state, send }: FormProps) => {
               value: files,
             });
           }}
-          label={t(PageText.Contact.inputFields.feedback.attachment)}
+          label={t(PageText.Contact.input.feedback.attachment)}
         />
       </SectionCard>
 
       <SectionCard title={t(PageText.Contact.aboutYouInfo.title)}>
         <Input
-          label={PageText.Contact.inputFields.firstName.label}
+          label={PageText.Contact.input.firstName.label}
           type="text"
           autoComplete="given-name additional-name"
           name="firstName"
@@ -261,7 +255,7 @@ const FormContent = ({ state, send }: FormProps) => {
         />
 
         <Input
-          label={PageText.Contact.inputFields.lastName.label}
+          label={PageText.Contact.input.lastName.label}
           type="text"
           autoComplete="family-name"
           name="lastName"
@@ -276,7 +270,7 @@ const FormContent = ({ state, send }: FormProps) => {
           }
         />
         <Input
-          label={PageText.Contact.inputFields.address.label}
+          label={PageText.Contact.input.address.label}
           type="text"
           autoComplete="street-address"
           name="address"
@@ -291,7 +285,7 @@ const FormContent = ({ state, send }: FormProps) => {
           }
         />
         <Input
-          label={PageText.Contact.inputFields.postalCode.label}
+          label={PageText.Contact.input.postalCode.label}
           type="number"
           autoComplete="postal-code"
           name="postalCode"
@@ -306,7 +300,7 @@ const FormContent = ({ state, send }: FormProps) => {
           }
         />
         <Input
-          label={PageText.Contact.inputFields.city.label}
+          label={PageText.Contact.input.city.label}
           type="text"
           name="city"
           value={state.context.city || ''}
@@ -320,7 +314,7 @@ const FormContent = ({ state, send }: FormProps) => {
           }
         />
         <Input
-          label={PageText.Contact.inputFields.email.label}
+          label={PageText.Contact.input.email.label}
           type="email"
           autoComplete="email"
           name="email"
@@ -335,7 +329,7 @@ const FormContent = ({ state, send }: FormProps) => {
           }
         />
         <Input
-          label={PageText.Contact.inputFields.phoneNumber.label}
+          label={PageText.Contact.input.phoneNumber.label}
           type="tel"
           name="phoneNumber"
           value={state.context.phoneNumber || ''}
@@ -350,7 +344,7 @@ const FormContent = ({ state, send }: FormProps) => {
         />
 
         <Checkbox
-          label={t(PageText.Contact.inputFields.bankAccountNumber.checkbox)}
+          label={t(PageText.Contact.input.bankAccountNumber.checkbox)}
           checked={state.context.hasInternationalBankAccount}
           onChange={() =>
             send({
@@ -363,9 +357,7 @@ const FormContent = ({ state, send }: FormProps) => {
 
         {!state.context.hasInternationalBankAccount && (
           <Input
-            label={
-              PageText.Contact.inputFields.bankAccountNumber.notForeignLabel
-            }
+            label={PageText.Contact.input.bankAccountNumber.notForeignLabel}
             type="number"
             name="bankAccountNumber"
             value={state.context.bankAccountNumber || ''}
@@ -385,7 +377,7 @@ const FormContent = ({ state, send }: FormProps) => {
         {state.context.hasInternationalBankAccount && (
           <div>
             <Input
-              label={PageText.Contact.inputFields.bankAccountNumber.IBAN}
+              label={PageText.Contact.input.bankAccountNumber.IBAN}
               type="number"
               name="IBAN"
               value={state.context.IBAN || ''}
@@ -399,7 +391,7 @@ const FormContent = ({ state, send }: FormProps) => {
             />
 
             <Input
-              label={PageText.Contact.inputFields.bankAccountNumber.SWIFT}
+              label={PageText.Contact.input.bankAccountNumber.SWIFT}
               type="number"
               name="SWIFT"
               value={state.context.SWIFT || ''}

@@ -42,9 +42,7 @@ export const RefundForm = () => {
           )}
         >
           <Select
-            label={t(
-              PageText.Contact.inputFields.transportMode.label,
-            ).toString()}
+            label={t(PageText.Contact.input.transportMode.label).toString()}
             value={state.context.transportMode}
             onChange={(value) =>
               send({
@@ -63,13 +61,11 @@ export const RefundForm = () => {
             }
             valueToId={(val: TransportModeType) => val}
             options={['bus', 'water'] as TransportModeType[]}
-            placeholder={t(
-              PageText.Contact.inputFields.transportMode.optionLabel,
-            )}
+            placeholder={t(PageText.Contact.input.transportMode.optionLabel)}
           />
 
           <Select
-            label={t(PageText.Contact.inputFields.line.label)}
+            label={t(PageText.Contact.input.line.label)}
             value={state.context.line}
             disabled={!state.context.transportMode}
             onChange={(value: Line | undefined) => {
@@ -85,7 +81,7 @@ export const RefundForm = () => {
             )}
             valueToId={(line: Line) => line.id}
             valueToText={(line: Line) => line.name}
-            placeholder={t(PageText.Contact.inputFields.line.optionLabel)}
+            placeholder={t(PageText.Contact.input.line.optionLabel)}
             error={
               state.context?.errorMessages['line']?.[0]
                 ? t(state.context?.errorMessages['line']?.[0])
@@ -94,7 +90,7 @@ export const RefundForm = () => {
           />
 
           <Select
-            label={t(PageText.Contact.inputFields.fromStop.label)}
+            label={t(PageText.Contact.input.fromStop.label)}
             value={state.context.fromStop}
             disabled={!state.context.line}
             onChange={(value) => {
@@ -110,7 +106,7 @@ export const RefundForm = () => {
                 ? getQuaysByLine(state.context.line.id)
                 : []
             }
-            placeholder={t(PageText.Contact.inputFields.fromStop.optionLabel)}
+            placeholder={t(PageText.Contact.input.fromStop.optionLabel)}
             error={
               state.context?.errorMessages['fromStop']?.[0]
                 ? t(state.context?.errorMessages['fromStop']?.[0])
@@ -121,7 +117,7 @@ export const RefundForm = () => {
           />
 
           <Select
-            label={t(PageText.Contact.inputFields.toStop.label)}
+            label={t(PageText.Contact.input.toStop.label)}
             value={state.context.toStop}
             disabled={!state.context.line}
             onChange={(value) => {
@@ -132,7 +128,7 @@ export const RefundForm = () => {
                 value: value,
               });
             }}
-            placeholder={t(PageText.Contact.inputFields.toStop.optionLabel)}
+            placeholder={t(PageText.Contact.input.toStop.optionLabel)}
             options={
               state.context.line?.id
                 ? getQuaysByLine(state.context.line.id)
@@ -148,10 +144,11 @@ export const RefundForm = () => {
           />
 
           <Input
-            label={PageText.Contact.inputFields.date}
+            label={PageText.Contact.input.date.label}
             type="date"
             name="date"
             value={state.context.date}
+            errorMessage={state.context?.errorMessages['date']?.[0]}
             onChange={(e) =>
               send({
                 type: 'ON_INPUT_CHANGE',
@@ -161,10 +158,13 @@ export const RefundForm = () => {
             }
           />
           <Input
-            label={PageText.Contact.inputFields.plannedDepartureTime}
+            label={PageText.Contact.input.plannedDepartureTime.label}
             type="time"
             name="time"
             value={state.context.plannedDepartureTime}
+            errorMessage={
+              state.context?.errorMessages['plannedDepartureTime']?.[0]
+            }
             onChange={(e) =>
               send({
                 type: 'ON_INPUT_CHANGE',
@@ -175,9 +175,7 @@ export const RefundForm = () => {
           />
 
           <Select
-            label={t(
-              PageText.Contact.inputFields.reasonForTransportFailure.label,
-            )}
+            label={t(PageText.Contact.input.reasonForTransportFailure.label)}
             value={state.context.reasonForTransportFailure}
             disabled={!state.context.line}
             onChange={(value) => {
@@ -189,12 +187,9 @@ export const RefundForm = () => {
               });
             }}
             placeholder={t(
-              PageText.Contact.inputFields.reasonForTransportFailure
-                .optionLabel,
+              PageText.Contact.input.reasonForTransportFailure.optionLabel,
             )}
-            options={
-              PageText.Contact.inputFields.reasonForTransportFailure.options
-            }
+            options={PageText.Contact.input.reasonForTransportFailure.options}
             error={
               state.context?.errorMessages['reasonForTransportFailure']?.[0]
                 ? t(
@@ -217,7 +212,7 @@ export const RefundForm = () => {
           )}
         >
           <Input
-            label={PageText.Contact.inputFields.kilometersDriven.label}
+            label={PageText.Contact.input.kilometersDriven.label}
             type="text"
             name="km"
             value={state.context.kilometersDriven}
@@ -236,9 +231,7 @@ export const RefundForm = () => {
       )}
       {state.hasTag('selected') && (
         <div>
-          <SectionCard
-            title={t(PageText.Contact.inputFields.feedback.optionalTitle)}
-          >
+          <SectionCard title={t(PageText.Contact.input.feedback.optionalTitle)}>
             <textarea
               className={style.feedback}
               name="feedback"
@@ -254,7 +247,7 @@ export const RefundForm = () => {
           </SectionCard>
           <SectionCard title={t(PageText.Contact.aboutYouInfo.title)}>
             <Input
-              label={PageText.Contact.inputFields.firstName.label}
+              label={PageText.Contact.input.firstName.label}
               type="text"
               name="firstName"
               value={state.context.firstName}
@@ -271,7 +264,7 @@ export const RefundForm = () => {
             />
 
             <Input
-              label={PageText.Contact.inputFields.lastName.label}
+              label={PageText.Contact.input.lastName.label}
               type="text"
               name="lastName"
               value={state.context.lastName}
@@ -287,7 +280,7 @@ export const RefundForm = () => {
               }
             />
             <Input
-              label={PageText.Contact.inputFields.address.label}
+              label={PageText.Contact.input.address.label}
               type="text"
               name="address"
               value={state.context.address}
@@ -303,7 +296,7 @@ export const RefundForm = () => {
               }
             />
             <Input
-              label={PageText.Contact.inputFields.postalCode.label}
+              label={PageText.Contact.input.postalCode.label}
               type="number"
               name="postalCode"
               value={state.context.postalCode}
@@ -319,7 +312,7 @@ export const RefundForm = () => {
               }
             />
             <Input
-              label={PageText.Contact.inputFields.city.label}
+              label={PageText.Contact.input.city.label}
               type="text"
               name="city"
               value={state.context.city}
@@ -335,7 +328,7 @@ export const RefundForm = () => {
               }
             />
             <Input
-              label={PageText.Contact.inputFields.email.label}
+              label={PageText.Contact.input.email.label}
               type="email"
               name="email"
               value={state.context.email}
@@ -351,7 +344,7 @@ export const RefundForm = () => {
               }
             />
             <Input
-              label={PageText.Contact.inputFields.phoneNumber.label}
+              label={PageText.Contact.input.phoneNumber.label}
               type="tel"
               name="phoneNumber"
               value={state.context.phoneNumber}
@@ -368,7 +361,7 @@ export const RefundForm = () => {
             />
 
             <Checkbox
-              label={t(PageText.Contact.inputFields.bankAccountNumber.checkbox)}
+              label={t(PageText.Contact.input.bankAccountNumber.checkbox)}
               checked={state.context.hasInternationalBankAccount}
               onChange={() =>
                 send({
@@ -381,9 +374,7 @@ export const RefundForm = () => {
 
             {!state.context.hasInternationalBankAccount && (
               <Input
-                label={
-                  PageText.Contact.inputFields.bankAccountNumber.notForeignLabel
-                }
+                label={PageText.Contact.input.bankAccountNumber.notForeignLabel}
                 type="text"
                 name="bankAccountNumber"
                 value={state.context.bankAccountNumber}
@@ -404,7 +395,7 @@ export const RefundForm = () => {
             {state.context.hasInternationalBankAccount && (
               <div>
                 <Input
-                  label={PageText.Contact.inputFields.bankAccountNumber.IBAN}
+                  label={PageText.Contact.input.bankAccountNumber.IBAN}
                   type="text"
                   name="bankAccountNumber"
                   value={state.context.IBAN}
@@ -418,7 +409,7 @@ export const RefundForm = () => {
                 />
 
                 <Input
-                  label={PageText.Contact.inputFields.bankAccountNumber.SWIFT}
+                  label={PageText.Contact.input.bankAccountNumber.SWIFT}
                   type="text"
                   name="bankAccountNumber"
                   value={state.context.SWIFT}

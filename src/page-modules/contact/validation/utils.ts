@@ -7,15 +7,15 @@ export type InputErrorMessages = {
 // Utility function to add error messages
 export const addErrorMessage = (
   context: any,
-  field: string,
+  inputName: string,
   validCondition: boolean,
   errorMessages: InputErrorMessages,
   errorMessage: TranslatedString,
 ) => {
-  if (context.hasOwnProperty(field) && !validCondition) {
-    if (!errorMessages[field]) {
-      errorMessages[field] = [];
+  if (context.hasOwnProperty(inputName) && !validCondition) {
+    if (!errorMessages[inputName]) {
+      errorMessages[inputName] = [];
     }
-    errorMessages[field].push(errorMessage);
+    errorMessages[inputName].push(errorMessage);
   }
 };

@@ -39,7 +39,7 @@ export const DelayForm = ({ state, send }: DelayFormProps) => {
         </Typo.p>
 
         <Select
-          label={t(PageText.Contact.inputFields.transportMode.label).toString()}
+          label={t(PageText.Contact.input.transportMode.label).toString()}
           value={state.context.transportMode}
           onChange={(value) =>
             send({
@@ -58,13 +58,11 @@ export const DelayForm = ({ state, send }: DelayFormProps) => {
           }
           valueToId={(val: TransportModeType) => val}
           options={['bus', 'water'] as TransportModeType[]}
-          placeholder={t(
-            PageText.Contact.inputFields.transportMode.optionLabel,
-          )}
+          placeholder={t(PageText.Contact.input.transportMode.optionLabel)}
         />
 
         <Select
-          label={t(PageText.Contact.inputFields.line.label)}
+          label={t(PageText.Contact.input.line.label)}
           value={state.context.line}
           disabled={!state.context.transportMode}
           onChange={(value: Line | undefined) => {
@@ -80,7 +78,7 @@ export const DelayForm = ({ state, send }: DelayFormProps) => {
           )}
           valueToId={(line: Line) => line.id}
           valueToText={(line: Line) => line.name}
-          placeholder={t(PageText.Contact.inputFields.line.optionLabel)}
+          placeholder={t(PageText.Contact.input.line.optionLabel)}
           error={
             state.context?.errorMessages['line']?.[0]
               ? t(state.context?.errorMessages['line']?.[0])
@@ -89,7 +87,7 @@ export const DelayForm = ({ state, send }: DelayFormProps) => {
         />
 
         <Select
-          label={t(PageText.Contact.inputFields.fromStop.label)}
+          label={t(PageText.Contact.input.fromStop.label)}
           value={state.context.fromStop}
           disabled={!state.context.line}
           onChange={(value) => {
@@ -103,7 +101,7 @@ export const DelayForm = ({ state, send }: DelayFormProps) => {
           options={
             state.context.line?.id ? getQuaysByLine(state.context.line.id) : []
           }
-          placeholder={t(PageText.Contact.inputFields.fromStop.optionLabel)}
+          placeholder={t(PageText.Contact.input.fromStop.optionLabel)}
           error={
             state.context?.errorMessages['fromStop']?.[0]
               ? t(state.context?.errorMessages['fromStop']?.[0])
@@ -114,7 +112,7 @@ export const DelayForm = ({ state, send }: DelayFormProps) => {
         />
 
         <Select
-          label={t(PageText.Contact.inputFields.toStop.label)}
+          label={t(PageText.Contact.input.toStop.label)}
           value={state.context.toStop}
           disabled={!state.context.line}
           onChange={(value) => {
@@ -125,7 +123,7 @@ export const DelayForm = ({ state, send }: DelayFormProps) => {
               value: value,
             });
           }}
-          placeholder={t(PageText.Contact.inputFields.toStop.optionLabel)}
+          placeholder={t(PageText.Contact.input.toStop.optionLabel)}
           options={
             state.context.line?.id ? getQuaysByLine(state.context.line.id) : []
           }
@@ -139,10 +137,11 @@ export const DelayForm = ({ state, send }: DelayFormProps) => {
         />
 
         <Input
-          label={PageText.Contact.inputFields.date}
+          label={PageText.Contact.input.date.label}
           type="date"
           name="date"
           value={state.context.date}
+          errorMessage={state.context?.errorMessages['date']?.[0]}
           onChange={(e) =>
             send({
               type: 'ON_INPUT_CHANGE',
@@ -153,10 +152,13 @@ export const DelayForm = ({ state, send }: DelayFormProps) => {
         />
 
         <Input
-          label={PageText.Contact.inputFields.plannedDepartureTime}
+          label={PageText.Contact.input.plannedDepartureTime.label}
           type="time"
           name="time"
           value={state.context.plannedDepartureTime}
+          errorMessage={
+            state.context?.errorMessages['plannedDepartureTime']?.[0]
+          }
           onChange={(e) =>
             send({
               type: 'ON_INPUT_CHANGE',
@@ -167,9 +169,9 @@ export const DelayForm = ({ state, send }: DelayFormProps) => {
         />
       </SectionCard>
 
-      <SectionCard title={t(PageText.Contact.inputFields.feedback.title)}>
+      <SectionCard title={t(PageText.Contact.input.feedback.title)}>
         <Typo.p textType="body__primary">
-          {t(PageText.Contact.inputFields.feedback.description)}
+          {t(PageText.Contact.input.feedback.description)}
         </Typo.p>
         <Textarea
           value={state.context.feedback}
@@ -188,7 +190,7 @@ export const DelayForm = ({ state, send }: DelayFormProps) => {
         />
         <FileInput
           name="attachments"
-          label={t(PageText.Contact.inputFields.feedback.attachment)}
+          label={t(PageText.Contact.input.feedback.attachment)}
           onChange={(files) => {
             send({
               type: 'ON_INPUT_CHANGE',
@@ -200,7 +202,7 @@ export const DelayForm = ({ state, send }: DelayFormProps) => {
       </SectionCard>
       <SectionCard title={t(PageText.Contact.aboutYouInfo.optionalTitle)}>
         <Input
-          label={PageText.Contact.inputFields.firstName.label}
+          label={PageText.Contact.input.firstName.label}
           type="text"
           name="firstName"
           value={state.context.firstName}
@@ -214,7 +216,7 @@ export const DelayForm = ({ state, send }: DelayFormProps) => {
         />
 
         <Input
-          label={PageText.Contact.inputFields.lastName.label}
+          label={PageText.Contact.input.lastName.label}
           type="text"
           name="lastName"
           value={state.context.lastName}
@@ -228,7 +230,7 @@ export const DelayForm = ({ state, send }: DelayFormProps) => {
         />
 
         <Input
-          label={PageText.Contact.inputFields.email.label}
+          label={PageText.Contact.input.email.label}
           type="email"
           name="email"
           value={state.context.email}

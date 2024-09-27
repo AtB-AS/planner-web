@@ -8,109 +8,116 @@ export const commonInputValidator = (context: any) => {
       inputName: 'firstName',
       validCondition: context.firstName || context.isContactInfoOptional,
 
-      errorMessage: PageText.Contact.inputFields.firstName.errorMessages.empty,
+      errorMessage: PageText.Contact.input.firstName.errorMessages.empty,
     },
     {
       inputName: 'lastName',
       validCondition: context.lastName || context.isContactInfoOptional,
-      errorMessage: PageText.Contact.inputFields.lastName.errorMessages.empty,
+      errorMessage: PageText.Contact.input.lastName.errorMessages.empty,
     },
     {
       inputName: 'email',
       validCondition: context.email || context.isContactInfoOptional,
-      errorMessage: PageText.Contact.inputFields.email.errorMessages.empty,
+      errorMessage: PageText.Contact.input.email.errorMessages.empty,
     },
     {
       inputName: 'address',
       validCondition: context.address,
-      errorMessage: PageText.Contact.inputFields.address.errorMessages.empty,
+      errorMessage: PageText.Contact.input.address.errorMessages.empty,
     },
     {
       inputName: 'postalCode',
       validCondition: context.postalCode,
-      errorMessage: PageText.Contact.inputFields.postalCode.errorMessages.empty,
+      errorMessage: PageText.Contact.input.postalCode.errorMessages.empty,
     },
     {
       inputName: 'city',
       validCondition: context.city,
-      errorMessage: PageText.Contact.inputFields.city.errorMessages.empty,
+      errorMessage: PageText.Contact.input.city.errorMessages.empty,
     },
     {
       inputName: 'phoneNumber',
       validCondition: context.phoneNumber,
-      errorMessage:
-        PageText.Contact.inputFields.phoneNumber.errorMessages.empty,
+      errorMessage: PageText.Contact.input.phoneNumber.errorMessages.empty,
     },
     {
       inputName: 'bankAccountNumber',
       validCondition:
         context.bankAccountNumber || context.IBAN || context.SWIFT,
       errorMessage:
-        PageText.Contact.inputFields.bankAccountNumber.errorMessages.empty,
+        PageText.Contact.input.bankAccountNumber.errorMessages.empty,
     },
     {
       inputName: 'area',
       validCondition: context.area,
-      errorMessage: PageText.Contact.inputFields.area.errorMessages.empty,
+      errorMessage: PageText.Contact.input.area.errorMessages.empty,
     },
     {
       inputName: 'transportMode',
       validCondition: context.transportMode,
-      errorMessage:
-        PageText.Contact.inputFields.transportMode.errorMessages.empty,
+      errorMessage: PageText.Contact.input.transportMode.errorMessages.empty,
     },
     {
       inputName: 'line',
       validCondition: context.line,
-      errorMessage: PageText.Contact.inputFields.line.errorMessages.empty,
+      errorMessage: PageText.Contact.input.line.errorMessages.empty,
     },
     {
       inputName: 'fromStop',
       validCondition: context.fromStop,
-      errorMessage: PageText.Contact.inputFields.fromStop.errorMessages.empty,
+      errorMessage: PageText.Contact.input.fromStop.errorMessages.empty,
     },
     {
       inputName: 'toStop',
       validCondition: context.toStop,
-      errorMessage: PageText.Contact.inputFields.toStop.errorMessages.empty,
+      errorMessage: PageText.Contact.input.toStop.errorMessages.empty,
+    },
+    {
+      inputName: 'date',
+      validCondition: context.date,
+      errorMessage: PageText.Contact.input.date.errorMessages.empty,
+    },
+    {
+      inputName: 'plannedDepartureTime',
+      validCondition: context.plannedDepartureTime,
+      errorMessage:
+        PageText.Contact.input.plannedDepartureTime.errorMessages.empty,
     },
     {
       inputName: 'reasonForTransportFailure',
       validCondition: context.reasonForTransportFailure,
       errorMessage:
-        PageText.Contact.inputFields.reasonForTransportFailure.errorMessages
-          .empty,
+        PageText.Contact.input.reasonForTransportFailure.errorMessages.empty,
     },
     {
       inputName: 'feeNumber',
       validCondition: context.feeNumber,
-      errorMessage: PageText.Contact.inputFields.feeNumber.errorMessages.empty,
+      errorMessage: PageText.Contact.input.feeNumber.errorMessages.empty,
     },
     {
       inputName: 'feeNumber',
       validCondition: context.feeNumber && context.feeNumber.length === 4,
       errorMessage:
-        PageText.Contact.inputFields.feeNumber.errorMessages.notFourDigits,
+        PageText.Contact.input.feeNumber.errorMessages.notFourDigits,
     },
     {
       inputName: 'invoiceNumber',
       validCondition: context.invoiceNumber,
-      errorMessage:
-        PageText.Contact.inputFields.invoiceNumber.errorMessages.empty,
+      errorMessage: PageText.Contact.input.invoiceNumber.errorMessages.empty,
     },
     {
       inputName: 'appPhoneNumber',
       validCondition: context.appPhoneNumber || context.travelCardNumber,
       errorMessage:
-        PageText.Contact.inputFields.ticketStorage.app.appPhoneNumber
-          .errorMessages.empty,
+        PageText.Contact.input.ticketStorage.app.appPhoneNumber.errorMessages
+          .empty,
     },
     {
       inputName: 'customerNumber',
       validCondition: context.customerNumber || context.travelCardNumber,
       errorMessage:
-        PageText.Contact.inputFields.ticketStorage.app.customerNumber
-          .errorMessages.empty,
+        PageText.Contact.input.ticketStorage.app.customerNumber.errorMessages
+          .empty,
     },
     {
       inputName: 'travelCardNumber',
@@ -118,13 +125,13 @@ export const commonInputValidator = (context: any) => {
         context.travelCardNumber ||
         (context.appPhoneNumber && context.customerNumber),
       errorMessage:
-        PageText.Contact.inputFields.ticketStorage.travelCardNumber
-          .errorMessages.empty,
+        PageText.Contact.input.ticketStorage.travelCardNumber.errorMessages
+          .empty,
     },
     {
       inputName: 'feedback',
       validCondition: context.feedback && context.feedback.length > 0,
-      errorMessage: PageText.Contact.inputFields.feedback.errorMessages.empty,
+      errorMessage: PageText.Contact.input.feedback.errorMessages.empty,
     },
   ];
 
