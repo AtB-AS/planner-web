@@ -3,23 +3,24 @@ import style from './input.module.css';
 import { Typo } from '@atb/components/typography';
 import { Button } from '@atb/components/button';
 import { MonoIcon } from '@atb/components/icon';
+import { PageText, useTranslation } from '@atb/translations';
 
 export type FileInputProps = {
   label: string;
   onChange?: (files: File[]) => void;
 } & Omit<JSX.IntrinsicElements['input'], 'onChange'>;
 
+const MAX_ALLOWED_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+
 export function FileInput({ onChange, label, name }: FileInputProps) {
+  const { t } = useTranslation();
   const id = useId();
   const [files, setFiles] = useState<File[]>([]);
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
       const newFilesArray = Array.from(event.target.files);
-      setFiles((prevFiles) => [...prevFiles, ...newFilesArray]);
-      if (onChange) {
-        onChange([...files, ...newFilesArray]);
-      }
+      handleFileUpload(newFilesArray);
     }
   };
 
@@ -40,10 +41,28 @@ export function FileInput({ onChange, label, name }: FileInputProps) {
 
     if (event.dataTransfer.files) {
       const droppedFiles = Array.from(event.dataTransfer.files);
-      setFiles((prevFiles) => [...prevFiles, ...droppedFiles]);
-      if (onChange) {
-        onChange([...files, ...droppedFiles]);
+      handleFileUpload(droppedFiles);
+    }
+  };
+
+  const handleFileUpload = (uploadedFiles: File[]) => {
+    const filteredFiles = uploadedFiles.filter((file) => {
+      const isTooLarge = file.size > MAX_ALLOWED_FILE_SIZE;
+      if (isTooLarge) {
+        alert(
+          t(
+            PageText.Contact.components.fileinput.errorMessages.tooLarge(
+              file.name,
+            ),
+          ),
+        );
       }
+      return !isTooLarge;
+    });
+
+    setFiles((prevFiles) => [...prevFiles, ...filteredFiles]);
+    if (onChange) {
+      onChange([...files, ...filteredFiles]);
     }
   };
 

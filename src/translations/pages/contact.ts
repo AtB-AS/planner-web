@@ -1011,4 +1011,16 @@ export const Contact = {
       'Her gjekk vi på ei blemme og det skjedde ein feil. Kan du prøve igjen?',
     ),
   },
+  components: {
+    fileinput: {
+      errorMessages: {
+        tooLarge: (fileName: string) =>
+          _(
+            `Filen "${fileName}" er for stor. Maks 5 MB`,
+            `The file "${fileName}" is too large. Max 5 MB`,
+            `Fila "${fileName}" er for stor. Maks 5 MB`,
+          ),
+      },
+    },
+  },
 };
