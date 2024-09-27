@@ -718,12 +718,26 @@ export const Contact = {
         ),
       },
     },
-    date: _('Dato', 'Date', 'Dato'),
-    plannedDepartureTime: _(
-      'Planlagt avgangstid',
-      'Planned departure time',
-      'Planlagd avgangstid',
-    ),
+    date: {
+      label: _('Dato', 'Date', 'Dato'),
+      errorMessages: {
+        empty: _('Velg dato', 'Select date', 'Vel dato'),
+      },
+    },
+    plannedDepartureTime: {
+      label: _(
+        'Planlagt avgangstid',
+        'Planned departure time',
+        'Planlagd avgangstid',
+      ),
+      errorMessages: {
+        empty: _(
+          'Velg planlagt avgangstid',
+          'Select planned departure time',
+          'Vel avgangstid',
+        ),
+      },
+    },
     reasonForTransportFailure: {
       label: _('Mulige valg', 'Options', 'Moglege val'),
       optionLabel: _('Velg årsak', 'Select reason', 'Vel åtsak'),

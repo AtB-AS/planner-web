@@ -112,10 +112,11 @@ export const StopForm = ({ state, send }: StopFormProps) => {
         />
 
         <Input
-          label={PageText.Contact.inputFields.date}
+          label={PageText.Contact.inputFields.date.label}
           type="date"
           name="date"
           value={state.context.date}
+          errorMessage={state.context?.errorMessages['date']?.[0]}
           onChange={(e) =>
             send({
               type: 'ON_INPUT_CHANGE',

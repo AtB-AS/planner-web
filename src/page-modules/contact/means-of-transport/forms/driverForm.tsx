@@ -162,10 +162,11 @@ export const DriverForm = ({ state, send }: DriverFormProps) => {
         />
 
         <Input
-          label={PageText.Contact.inputFields.date}
+          label={PageText.Contact.inputFields.date.label}
           type="date"
           name="date"
           value={state.context.date}
+          errorMessage={state.context?.errorMessages['date']?.[0]}
           onChange={(e) =>
             send({
               type: 'ON_INPUT_CHANGE',
@@ -176,10 +177,13 @@ export const DriverForm = ({ state, send }: DriverFormProps) => {
         />
 
         <Input
-          label={PageText.Contact.inputFields.plannedDepartureTime}
+          label={PageText.Contact.inputFields.plannedDepartureTime.label}
           type="time"
           name="time"
           value={state.context.plannedDepartureTime}
+          errorMessage={
+            state.context?.errorMessages['plannedDepartureTime']?.[0]
+          }
           onChange={(e) =>
             send({
               type: 'ON_INPUT_CHANGE',
