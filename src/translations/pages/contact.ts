@@ -36,6 +36,7 @@ export const Contact = {
         'If you have received a fee on incorrect grounds, you can submit a written complaint to us.',
         'Dersom du har fått gebyr på feil grunnlag, kan du sende oss ei skriftleg klage.',
       ),
+
       firstAgreement: {
         title: _(
           'Har du fått gebyr etter billettkontroll?',
@@ -81,6 +82,7 @@ export const Contact = {
         ],
         checkbox: _('Jeg forsår', 'I understand', 'Eg forstår'),
       },
+
       secondAgreement: {
         title: _(
           'Typiske saker som ikke får medhold',
@@ -125,11 +127,6 @@ export const Contact = {
           'Eg forstår reglane og ønsker å klage på gebyret.',
         ),
       },
-      title: _(
-        'Informasjon fra gebyret',
-        'Information from the fee',
-        'Informasjon frå gebyret',
-      ),
     },
 
     postponePayment: {
@@ -162,59 +159,9 @@ export const Contact = {
         'If you have feedback regarding a specific ticket inspection, we need a description of where and when the ticket inspection took place in order to proceed with the matter. If you have general feedback, you can skip the initial points.',
         'Har du tilbakemelding på ein bestemt billettkontroll, treng vi ei beskriving av kor og kva tid billettkontrollen var for å kunne gå vidare med saka. Har du ei generell tilbakemelding, kan du hoppe over dei første punkta.',
       ),
-      locationQuestion: _(
-        'Hvor var billettkontrollen?',
-        'Where was the ticket control conducted?',
-        'Kor var billettkontrollen?',
-      ),
-      transportMode: {
-        label: _('Reisemåte', 'Transport mode', 'Reisemåte'),
-        optionLabel: _(
-          'Velg reisemåte',
-          'Select transport mode',
-          'Velg reisemåte',
-        ),
-        errorMessage: _(
-          'Velg reisemåte',
-          'Select transport mode',
-          'Velg reisemåte',
-        ),
-      },
-      line: {
-        label: _('Linje', 'Line', 'Linje'),
-        optionLabel: _('Velg linje', 'Choose line', 'Velg linje'),
-        errorMessage: _('Velg linje', 'Select line', 'Velg linje'),
-      },
-      departureLocation: {
-        label: _('Avreisested', 'Departure location', 'Avreisested'),
-        optionLabel: _(
-          'Velg avreisested',
-          'Select departure loation',
-          'Velg avreisested',
-        ),
-        errorMessage: _(
-          'Velg avreisested',
-          'Select departure loation',
-          'Velg avreisested',
-        ),
-      },
-      arrivalLocation: {
-        label: _('Ankomststed', 'Arrival location', 'Ankomststed'),
-        optionLabel: _(
-          'Velg anskomststed',
-          'Select arrival location',
-          'Velg ankomststed',
-        ),
-        errorMessage: _(
-          'Velg anskomststed',
-          'Select arrival location',
-          'Velg ankomststed',
-        ),
-      },
-      date: _('Dato', 'Date', 'Dato'),
-      departureTime: _('Avgangstid', 'Departure time', 'Avgangstid'),
     },
   },
+
   travelGuarantee: {
     title: _('Reisegaranti', 'Travel guarantee', 'Reisegaranti'),
 
@@ -509,39 +456,8 @@ export const Contact = {
       'Information about you (optinal)',
       'Informasjon om deg  (valfritt)',
     ),
-
-    firstname: _(
-      'Fornavn og mellomnavn',
-      'First name and middle name',
-      'Fornamn og mellomnamn',
-    ),
-    lastname: _('Etternavn', 'Lastname', 'Etternamn'),
-    address: _('Adresse', 'Address', 'Adresse'),
-    postalCode: _('Postnummer', 'Postal code', 'Postnummar'),
-    city: _('Bosted', 'City', 'Bustad'),
-    email: _('E-post', 'Email', 'E-post'),
-    phonenumber: _('Mobil', 'Mobile', 'Mobil'),
-    bankAccount: {
-      label: _('Bankkontonummer', 'Bank account number', 'Bankkontonummar'),
-      checkbox: _(
-        'Jeg har et utenlandsk bankkontonummer',
-        'I have a foreign bank account',
-        'Eg har eit utanlandsk bankkontonummar',
-      ),
-      iban: _('IBAN', 'IBAN', 'IBAN'),
-      swift: _('SWIFT ', 'SWIFT ', 'SWIFT '),
-      errorMessageBankAccount: _(
-        'Vennligst fyll ut ditt bankkontonummer',
-        'Please provide your bank account',
-        'Vennligst fyll ut ditt bankkontonummar',
-      ),
-    },
-    errorMessage: _(
-      'Vennligst fyll ut informasjon om deg',
-      'Please provide your information',
-      'Vennligst fyll ut din informasjon',
-    ),
   },
+
   submit: _('Send', 'Submit', 'Send'),
 
   inputFields: {
@@ -596,6 +512,7 @@ export const Contact = {
         ),
       },
     },
+
     address: {
       label: _('Adresse', 'Address', 'Adresse'),
       errorMessages: {
@@ -784,6 +701,7 @@ export const Contact = {
         empty: _('Velg årsak', 'Select reason', 'Vel årsak'),
       },
     },
+
     kilometersDriven: {
       label: _(
         'Antall kjørte kilometer',
@@ -845,6 +763,7 @@ export const Contact = {
         ),
       },
     },
+
     ticketStorage: {
       question: _(
         'Hvor pleier du å ha billetten din?',
@@ -868,6 +787,7 @@ export const Contact = {
             ),
           },
         },
+
         customerNumber: {
           label: _('Kundenummer', 'Customer number', 'Kundenummar'),
           errorMessages: {
@@ -879,6 +799,7 @@ export const Contact = {
           },
         },
       },
+
       travelCardNumber: {
         label: _('Reisekort', 'Travelcard', 'Reisekort'),
         errorMessages: {
