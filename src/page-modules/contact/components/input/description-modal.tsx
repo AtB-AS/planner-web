@@ -4,13 +4,12 @@ import { motion } from 'framer-motion';
 import { FocusScope } from '@react-aria/focus';
 import { MonoIcon } from '@atb/components/icon';
 import { useEffect, useRef } from 'react';
-import { PageText, TranslatedString } from '@atb/translations';
 
 type DescriptionModalProps = {
   title: string;
   description: string;
   ariaLabel: string;
-  openModal: boolean;
+  isModalOpen: boolean;
   closeModal: () => void;
 };
 
@@ -18,7 +17,7 @@ const DescriptionModal = ({
   title,
   description,
   ariaLabel,
-  openModal,
+  isModalOpen,
   closeModal,
 }: DescriptionModalProps) => {
   const modalRef = useRef<HTMLDivElement | null>(null);
@@ -53,7 +52,7 @@ const DescriptionModal = ({
     };
   }, []);
 
-  if (!openModal) return null;
+  if (!isModalOpen) return null;
 
   return (
     <motion.div
@@ -76,7 +75,7 @@ const DescriptionModal = ({
               <Typo.h2 textType="body__primary">{title}</Typo.h2>
               <button
                 type="button"
-                name="closeModal"
+                name="closeModalButton"
                 aria-label={ariaLabel}
                 className={style.iconButton}
                 onClick={closeModal}

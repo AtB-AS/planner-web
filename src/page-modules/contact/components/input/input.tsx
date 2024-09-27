@@ -25,11 +25,11 @@ export const Input = ({
   onChange,
 }: InputProps) => {
   const { t } = useTranslation();
-  const [openModal, setOpenModal] = useState(false);
-  const displayDescriptionModal = description && openModal; // Condition to avoid rendering of useEffect inside DescriptionModal before opened.
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const displayDescriptionModal = description && isModalOpen; // Condition to avoid rendering of useEffect inside DescriptionModal before opened.
 
   const handleModal = () => {
-    setOpenModal(!openModal);
+    setIsModalOpen(!isModalOpen);
   };
 
   return (
@@ -47,7 +47,7 @@ export const Input = ({
         {description && (
           <button
             type="button"
-            name="openModal"
+            name="openModalButton"
             aria-label={t(PageText.Contact.components.modal.open.ariaLabel)}
             onClick={handleModal}
             className={style.iconButton}
@@ -73,7 +73,7 @@ export const Input = ({
         <DescriptionModal
           title={t(label)}
           description={description}
-          openModal={openModal}
+          isModalOpen={isModalOpen}
           closeModal={handleModal}
           ariaLabel={t(PageText.Contact.components.modal.close.ariaLabel)}
         />
