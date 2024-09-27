@@ -954,5 +954,21 @@ export const Contact = {
           ),
       },
     },
+    modal: {
+      open: {
+        ariaLabel: _(
+          'Klikk for å åpne modal',
+          'Click to open modal',
+          'Klikk for å åpne modal',
+        ),
+      },
+      close: {
+        ariaLabel: _(
+          'Klikk for å lukke modal',
+          'Click to close modal',
+          'Klikk for å lukke modal',
+        ),
+      },
+    },
   },
 };

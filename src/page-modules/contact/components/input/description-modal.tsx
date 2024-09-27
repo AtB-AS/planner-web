@@ -4,10 +4,12 @@ import { motion } from 'framer-motion';
 import { FocusScope } from '@react-aria/focus';
 import { MonoIcon } from '@atb/components/icon';
 import { useEffect, useRef } from 'react';
+import { PageText, TranslatedString } from '@atb/translations';
 
 type DescriptionModalProps = {
   title: string;
   description: string;
+  ariaLabel: string;
   openModal: boolean;
   closeModal: () => void;
 };
@@ -15,6 +17,7 @@ type DescriptionModalProps = {
 const DescriptionModal = ({
   title,
   description,
+  ariaLabel,
   openModal,
   closeModal,
 }: DescriptionModalProps) => {
@@ -73,6 +76,8 @@ const DescriptionModal = ({
               <Typo.h2 textType="body__primary">{title}</Typo.h2>
               <button
                 type="button"
+                name="closeModal"
+                aria-label={ariaLabel}
                 className={style.iconButton}
                 onClick={closeModal}
               >
