@@ -6,6 +6,8 @@ import {
   convertFilesToBase64,
   getCurrentDateString,
   getCurrentTimeString,
+  setLineAndResetStops,
+  setTransportModeAndResetLineAndStops,
 } from '../utils';
 import { Area, meansOfTransportFormEvents } from './events';
 
@@ -77,6 +79,12 @@ export const meansOfTransportFormMachine = setup({
         } else {
           context.errorMessages[inputName] = [];
         }
+
+        if (inputName === 'transportMode')
+          return setTransportModeAndResetLineAndStops(context, value);
+
+        if (inputName === 'line') return setLineAndResetStops(context, value);
+
         return {
           ...context,
           [inputName]: value,

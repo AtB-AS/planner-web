@@ -4,6 +4,8 @@ import {
   convertFilesToBase64,
   getCurrentDateString,
   getCurrentTimeString,
+  setLineAndResetStops,
+  setTransportModeAndResetLineAndStops,
 } from '../utils';
 import { TransportModeType } from '@atb-as/config-specs';
 import { Line } from '../server/journey-planner/validators';
@@ -88,7 +90,7 @@ export type ContextProps = {
 };
 
 // Function to reset the agreement fields and error messages
-const resetAgreementFieldsAndErrors = (
+const setFormtypeAndInitialContext = (
   context: ContextProps,
   formType: FormType,
 ) => {
@@ -100,6 +102,14 @@ const resetAgreementFieldsAndErrors = (
     isAppTicketStorageMode: true,
     hasInternationalBankAccount: false,
     errorMessages: {},
+  };
+};
+
+const disagreeAgreements = (context: ContextProps) => {
+  return {
+    ...context,
+    agreesFirstAgreement: false,
+    agreesSecondAgreement: false,
   };
 };
 
@@ -202,18 +212,17 @@ export const ticketControlFormMachine = setup({
       if (event.type === 'ON_INPUT_CHANGE') {
         const { inputName, value } = event;
 
-        if (inputName === 'formType') {
-          return resetAgreementFieldsAndErrors(context, value as FormType);
-        }
+        if (inputName === 'formType')
+          return setFormtypeAndInitialContext(context, value as FormType);
 
         // Set both agreements to false if agreesFirstAgreement is set to false.
-        if (inputName === 'agreesFirstAgreement' && !value) {
-          return {
-            ...context,
-            ['agreesFirstAgreement']: false,
-            ['agreesSecondAgreement']: false,
-          };
-        }
+        if (inputName === 'agreesFirstAgreement' && !value)
+          return disagreeAgreements(context);
+
+        if (inputName === 'transportMode')
+          return setTransportModeAndResetLineAndStops(context, value);
+
+        if (inputName === 'line') return setLineAndResetStops(context, value);
 
         context.errorMessages[inputName] = [];
         return {

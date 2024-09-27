@@ -6,7 +6,12 @@ import {
   InputErrorMessages,
   travelGuaranteeInputValidator,
 } from '../validation';
-import { getCurrentDateString, getCurrentTimeString } from '../utils';
+import {
+  getCurrentDateString,
+  getCurrentTimeString,
+  setLineAndResetStops,
+  setTransportModeAndResetLineAndStops,
+} from '../utils';
 import { TravelGuaranteeFormEvents } from './events';
 
 type APIParams = {
@@ -75,6 +80,12 @@ export const fetchMachine = setup({
     onInputChange: assign(({ context, event }) => {
       if (event.type === 'ON_INPUT_CHANGE') {
         let { inputName, value } = event;
+
+        if (inputName === 'transportMode')
+          return setTransportModeAndResetLineAndStops(context, value);
+
+        if (inputName === 'line') return setLineAndResetStops(context, value);
+
         context.errorMessages[inputName] = [];
         return {
           ...context,

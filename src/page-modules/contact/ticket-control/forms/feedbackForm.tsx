@@ -10,6 +10,7 @@ import { Typo } from '@atb/components/typography';
 import { FileInput } from '../../components/input/file';
 import { ticketControlFormEvents } from '../events';
 import { ContextProps } from '../ticket-control-form-machine';
+import { useEffect } from 'react';
 
 type FeedbackFormProps = {
   state: { context: ContextProps };
@@ -19,6 +20,10 @@ type FeedbackFormProps = {
 export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
   const { t } = useTranslation();
   const { getLinesByMode, getQuaysByLine } = useLines();
+
+  useEffect(() => {
+    console.log('state.context.line: ', state.context.line);
+  }, [state]);
 
   return (
     <div>
