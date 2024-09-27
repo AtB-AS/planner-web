@@ -21,6 +21,11 @@ export const Contact = {
     ),
 
     feeComplaint: {
+      title: _(
+        'Informasjon fra gebyret',
+        'Information from the fee',
+        'Informasjon frå gebyret',
+      ),
       description: _(
         'Jeg har fått gebyr og ønsker å klage',
         'I have received a fee and would like to file a complaint',
