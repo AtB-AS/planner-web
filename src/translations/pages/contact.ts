@@ -241,7 +241,7 @@ export const Contact = {
       ),
       info: _(
         'Hvis du ikke kommer frem med et annet rutetilbud, refunderer vi utgifter til drosje i henhold til gjeldende regler.',
-        'If you do not provide an alternative service offer, we will refund taxi expenses according to the applicable regulations.',
+        'If you are unable to reach your destination by an alternative service, we will refund taxi expenses according to the applicable regulations.',
         'Viss du ikkje kjem fram med eit anna rutetilbod, refunderer vi utlegg til drosje etter gjeldande reglar.',
       ),
       information: {
