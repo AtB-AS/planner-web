@@ -19,40 +19,35 @@ export const FormSelector = ({ state, send }: FormSelectorProps) => {
       {!state.context.isIntialAgreementChecked && (
         <SectionCard title={t(PageText.Contact.travelGuarantee.title)}>
           <Typo.p textType="body__primary">
-            {t(
-              PageText.Contact.travelGuarantee.layoutAgreement
-                .delayedRefundText,
-            )}
+            {t(PageText.Contact.travelGuarantee.agreement.delayedRefundText)}
           </Typo.p>
 
           <Typo.p textType="body__primary">
-            {t(
-              PageText.Contact.travelGuarantee.layoutAgreement.ticketRefundText,
-            )}
+            {t(PageText.Contact.travelGuarantee.agreement.ticketRefundText)}
           </Typo.p>
 
           <Typo.p textType="heading__component">
             {t(
-              PageText.Contact.travelGuarantee.layoutAgreement
+              PageText.Contact.travelGuarantee.agreement
                 .travelGuaranteeExceptions.label,
             )}
           </Typo.p>
 
           <Typo.p textType="body__primary">
             {t(
-              PageText.Contact.travelGuarantee.layoutAgreement
+              PageText.Contact.travelGuarantee.agreement
                 .travelGuaranteeExceptions.minimumTimeToNextDeparture,
             )}
           </Typo.p>
 
           <Typo.p textType="body__primary">
             {t(
-              PageText.Contact.travelGuarantee.layoutAgreement
+              PageText.Contact.travelGuarantee.agreement
                 .travelGuaranteeExceptions.externalFactors,
             )}
           </Typo.p>
           <ul className={style.rules__list}>
-            {PageText.Contact.travelGuarantee.layoutAgreement.travelGuaranteeExceptions.examples.map(
+            {PageText.Contact.travelGuarantee.agreement.travelGuaranteeExceptions.examples.map(
               (example: TranslatedString, index: number) => (
                 <li key={index}>
                   <Typo.p textType="body__primary">{t(example)}</Typo.p>
@@ -63,7 +58,7 @@ export const FormSelector = ({ state, send }: FormSelectorProps) => {
 
           <Typo.p textType="body__primary">
             {t(
-              PageText.Contact.travelGuarantee.layoutAgreement
+              PageText.Contact.travelGuarantee.agreement
                 .travelGuaranteeExceptions.exclusion,
             )}
           </Typo.p>

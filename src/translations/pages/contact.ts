@@ -165,7 +165,7 @@ export const Contact = {
   travelGuarantee: {
     title: _('Reisegaranti', 'Travel guarantee', 'Reisegaranti'),
 
-    layoutAgreement: {
+    agreement: {
       delayedRefundText: _(
         'Ble du forsinket fordi vi ikke var i rute? Du kan ha krav på å få refundert utgifter til alternativ transport som for eksempel drosje, bil og annen kollektivtransport.',
         'Were you delayed because we were not on schedule? You may be entitled to reimbursement for expenses related to alternative transportation such as taxi, car, and other public transportation.',
