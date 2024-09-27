@@ -76,7 +76,6 @@ export function FileInput({ onChange, label, name }: FileInputProps) {
         className={style.input__file}
         multiple
         accept="image/*,.pdf,.doc,docx,.txt"
-        capture="environment"
       />
 
       <label htmlFor={id} className={style.label__file}>
