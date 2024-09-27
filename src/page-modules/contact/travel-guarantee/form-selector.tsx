@@ -84,25 +84,19 @@ export const FormSelector = ({ state, send }: FormSelectorProps) => {
         <SectionCard title={t(PageText.Contact.travelGuarantee.title)}>
           <ul>
             <RadioInput
-              label={t(
-                PageText.Contact.travelGuarantee.subPageTitles.refundTaxi
-                  .description,
-              )}
+              label={t(PageText.Contact.travelGuarantee.refundTaxi.description)}
               checked={state.hasTag('taxi')}
               onChange={() => send({ type: 'TAXI' })}
             />
             <RadioInput
-              label={t(
-                PageText.Contact.travelGuarantee.subPageTitles.refundCar
-                  .description,
-              )}
+              label={t(PageText.Contact.travelGuarantee.refundCar.description)}
               checked={state.hasTag('car')}
               onChange={() => send({ type: 'CAR' })}
             />
             <RadioInput
               label={t(
-                PageText.Contact.travelGuarantee.subPageTitles
-                  .refundOtherPublicTransport.description,
+                PageText.Contact.travelGuarantee.refundOtherPublicTransport
+                  .description,
               )}
               checked={state.hasTag('other')}
               onChange={() => send({ type: 'OTHER' })}

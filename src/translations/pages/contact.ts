@@ -234,44 +234,17 @@ export const Contact = {
       },
     },
 
-    subPageTitles: {
-      refundTaxi: {
-        description: _(
-          'Jeg ønsker refusjon for drosje',
-          'I would like refund for taxi',
-          'Eg ønsker refusjon for drosje',
-        ),
-        info: _(
-          'Hvis du ikke kommer frem med et annet rutetilbud, refunderer vi utgifter til drosje i henhold til gjeldende regler.',
-          'If you do not provide an alternative route offer, we will refund taxi expenses according to the applicable regulations.',
-          'Viss du ikkje kjem fram med eit anna rutetilbod, refunderer vi utlegg til drosje etter gjeldande reglar.',
-        ),
-      },
-
-      refundCar: {
-        description: _(
-          'Jeg ønsker refusjon for bruk av bil',
-          'I would like refund for the use of a car',
-          'Eg ønsker refusjon for bruk av en bil',
-        ),
-        info: _(
-          'Hvis du ikke kommer frem med et annet rutetilbud, refunderer vi dokumenterte utgifter for bruk av bil. Vi betaler kilometergodtgjørelse etter statens satser. Refusjonen dekker ikke bompenger, parkering eller andre utgifter knyttet til leiebil/delbil.',
-          'If you do not provide an alternative route offer, we will refund documented expenses for the use of a car. We will pay mileage reimbursement according to the state´s rates. The refund does not cover tolls, parking, or other expenses related to rental cars/sharing cars.',
-          'Viss du ikkje kjem fram med eit anna rutetilbod, refunderer vi dokumenterte utlegg for bruk av bil. Vi betalar kilometergodtgjersle etter statens satsar. Refusjonen dekker ikkje bompengar, parkering eller andre utgifter knytt til leigebil/delebil.',
-        ),
-      },
-
-      refundOtherPublicTransport: {
-        description: _(
-          'Jeg ønsker refusjon for annen kollektivtransport',
-          'I would like a refund for other public transport',
-          'Eg ønsker refusjon for annan kollektivtransport',
-        ),
-        info: _('', '', ''),
-      },
-    },
-
     refundTaxi: {
+      description: _(
+        'Jeg ønsker refusjon for drosje',
+        'I would like refund for taxi',
+        'Eg ønsker refusjon for drosje',
+      ),
+      info: _(
+        'Hvis du ikke kommer frem med et annet rutetilbud, refunderer vi utgifter til drosje i henhold til gjeldende regler.',
+        'If you do not provide an alternative route offer, we will refund taxi expenses according to the applicable regulations.',
+        'Viss du ikkje kjem fram med eit anna rutetilbod, refunderer vi utlegg til drosje etter gjeldande reglar.',
+      ),
       information: {
         title: _(
           'Informasjon fra drosjekvitteringen',
@@ -287,7 +260,18 @@ export const Contact = {
         ),
       },
     },
+
     refundCar: {
+      description: _(
+        'Jeg ønsker refusjon for bruk av bil',
+        'I would like refund for the use of a car',
+        'Eg ønsker refusjon for bruk av en bil',
+      ),
+      info: _(
+        'Hvis du ikke kommer frem med et annet rutetilbud, refunderer vi dokumenterte utgifter for bruk av bil. Vi betaler kilometergodtgjørelse etter statens satser. Refusjonen dekker ikke bompenger, parkering eller andre utgifter knyttet til leiebil/delbil.',
+        'If you do not provide an alternative route offer, we will refund documented expenses for the use of a car. We will pay mileage reimbursement according to the state´s rates. The refund does not cover tolls, parking, or other expenses related to rental cars/sharing cars.',
+        'Viss du ikkje kjem fram med eit anna rutetilbod, refunderer vi dokumenterte utlegg for bruk av bil. Vi betalar kilometergodtgjersle etter statens satsar. Refusjonen dekker ikkje bompengar, parkering eller andre utgifter knytt til leigebil/delebil.',
+      ),
       aboutTheCarTrip: {
         title: _('Om bilturen', 'About the car trip', 'Om bilturen'),
       },
@@ -298,6 +282,14 @@ export const Contact = {
           'Om den planagde reisa di',
         ),
       },
+    },
+
+    refundOtherPublicTransport: {
+      description: _(
+        'Jeg ønsker refusjon for annen kollektivtransport',
+        'I would like a refund for other public transport',
+        'Eg ønsker refusjon for annan kollektivtransport',
+      ),
     },
   },
 
