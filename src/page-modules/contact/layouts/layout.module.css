@@ -7,6 +7,11 @@
   max-width: var(--maxPageWidth);
   margin: 0 auto;
 }
+@media (max-width: 650px) {
+  .layout {
+    padding: 0 var(--spacings-medium);
+  }
+}
 .homeLink__container {
   padding: 0 var(--spacings-medium);
 }
