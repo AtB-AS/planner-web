@@ -116,8 +116,7 @@
 }
 
 /* Icon button */
-.iconButton,
-.iconButtonModal {
+.iconButton {
   background: transparent;
   padding: 0;
   cursor: pointer;
@@ -305,6 +304,8 @@
     var(--interactive-interactive_2-outline-background);
   background-color: var(--static-background-background_0-background);
   border-radius: var(--border-radius-regular);
+  position: relative;
+  z-index: 201;
 }
 
 .modal_content > * + * {
@@ -314,12 +315,4 @@
 .modal_header {
   display: flex;
   justify-content: space-between;
-}
-
-.iconButtonModal:focus {
-  outline: none;
-}
-.iconButtonModal:hover {
-  outline: 2px solid var(--interactive-interactive_2-outline-background);
-  outline-offset: 2px;
 }

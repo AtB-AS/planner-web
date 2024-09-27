@@ -1,5 +1,5 @@
 import style from './input.module.css';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { TranslatedString, useTranslation } from '@atb/translations';
 import { andIf } from '@atb/utils/css';
 import { Typo } from '@atb/components/typography';
@@ -25,7 +25,8 @@ export const Input = ({
   onChange,
 }: InputProps) => {
   const { t } = useTranslation();
-  const [showModal, setShowModal] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
+  const displayDescriptionModal = description && openModal; // Condition to avoid rendering of useEffect inside DescriptionModal before opened.
 
   return (
     <div
@@ -42,7 +43,7 @@ export const Input = ({
         {description && (
           <button
             type="button"
-            onClick={() => setShowModal(true)}
+            onClick={() => setOpenModal(true)}
             className={style.iconButton}
           >
             <MonoIcon icon={'status/Info'} />
@@ -54,7 +55,7 @@ export const Input = ({
         name={name}
         className={andIf({
           [style.input]: true,
-          [style.input__error]: errorMessage ? true : false,
+          [style.input__error]: !!errorMessage,
         })}
         checked={checked}
         value={value}
@@ -62,11 +63,12 @@ export const Input = ({
       />
       {errorMessage && <ErrorMessage message={t(errorMessage)} />}
 
-      {showModal && description && (
+      {displayDescriptionModal && (
         <DescriptionModal
-          label={t(label)}
+          title={t(label)}
           description={description}
-          onClose={() => setShowModal(false)}
+          openModal={openModal}
+          closeModal={() => setOpenModal(false)}
         />
       )}
     </div>

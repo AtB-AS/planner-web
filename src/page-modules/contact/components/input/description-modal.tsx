@@ -3,35 +3,59 @@ import style from './input.module.css';
 import { motion } from 'framer-motion';
 import { FocusScope } from '@react-aria/focus';
 import { MonoIcon } from '@atb/components/icon';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 type DescriptionModalProps = {
-  label: string;
+  title: string;
   description: string;
-  onClose: () => void;
+  openModal: boolean;
+  closeModal: () => void;
 };
 
 const DescriptionModal = ({
-  label,
+  title,
   description,
-  onClose,
+  openModal,
+  closeModal,
 }: DescriptionModalProps) => {
-  const handleKeyDown = (event: KeyboardEvent) => {
+  const modalRef = useRef<HTMLDivElement | null>(null);
+  const wrapperRef = useRef<HTMLDivElement | null>(null);
+
+  const handleEscape = (event: KeyboardEvent) => {
     if (event.key === 'Escape') {
-      onClose();
+      closeModal();
+    }
+  };
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      wrapperRef.current &&
+      modalRef.current &&
+      !modalRef.current.contains(event.target as Node)
+    ) {
+      closeModal();
     }
   };
 
   useEffect(() => {
-    window.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('keydown', handleEscape);
+    if (wrapperRef.current) {
+      wrapperRef.current.addEventListener('click', handleClickOutside);
+    }
     return () => {
-      window.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('keydown', handleEscape);
+      if (wrapperRef.current) {
+        wrapperRef.current.removeEventListener('click', handleClickOutside);
+      }
     };
   }, []);
+
+  if (!openModal) return null;
 
   return (
     <motion.div
       className={style.modal_wrapper}
+      ref={wrapperRef}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -44,10 +68,14 @@ const DescriptionModal = ({
           exit={{ opacity: 0, y: 0 }}
           transition={{ ease: 'backOut', delay: 0.1, duration: 0.15 }}
         >
-          <div className={style.modal_content}>
+          <div ref={modalRef} className={style.modal_content}>
             <div className={style.modal_header}>
-              <Typo.h2 textType="body__primary">{label}</Typo.h2>
-              <button className={style.iconButtonModal} onClick={onClose}>
+              <Typo.h2 textType="body__primary">{title}</Typo.h2>
+              <button
+                type="button"
+                className={style.iconButton}
+                onClick={closeModal}
+              >
                 <MonoIcon icon={'actions/Close'} />
               </button>
             </div>
