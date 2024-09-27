@@ -690,15 +690,15 @@ export const Contact = {
         'Haldeplass/kai',
       ),
       optionLabel: _(
-        'Velg avreisested',
-        'Select departure loation',
-        'Velg avreisested',
+        'Velg holdeplass/kai',
+        'Select stop/harbor',
+        'Velg haldeplass/kai',
       ),
       errorMessages: {
         empty: _(
-          'Velg avreisested',
-          'Select departure loation',
-          'Velg avreisested',
+          'Velg holdeplass/kai',
+          'Select stop/harbor',
+          'Velg haldeplass/kai',
         ),
       },
     },
@@ -706,15 +706,15 @@ export const Contact = {
     toStop: {
       label: _('Til holdeplass/kai', 'To stop/harbor', 'Til haldeplass/kai'),
       optionLabel: _(
-        'Velg anskomststed',
-        'Select arrival location',
-        'Velg ankomststed',
+        'Velg holdeplass/kai',
+        'Select stop/harbor',
+        'Velg haldeplass/kai',
       ),
       errorMessages: {
         empty: _(
-          'Velg anskomststed',
-          'Select arrival location',
-          'Velg ankomststed',
+          'Velg holdeplass/kai',
+          'Select stop/harbor',
+          'Velg haldeplass/kai',
         ),
       },
     },
