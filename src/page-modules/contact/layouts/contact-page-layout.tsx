@@ -20,7 +20,7 @@ export const contactPages: ContactPage[] = [
     href: '/contact/ticket-control',
     icon: 'ticketing/TicketInvalid',
   },
-  {
+  /*{
     title: PageText.Contact.travelGuarantee.title,
     href: '/contact/travel-guarantee',
     icon: 'transportation-entur/Taxi',
@@ -44,7 +44,7 @@ export const contactPages: ContactPage[] = [
     title: PageText.Contact.groupTravel.title,
     href: '/contact/group-travel',
     icon: 'ticketing/TicketMultiple',
-  },
+  },*/
 ];
 
 export type ContactPageLayoutProps = PropsWithChildren<{
