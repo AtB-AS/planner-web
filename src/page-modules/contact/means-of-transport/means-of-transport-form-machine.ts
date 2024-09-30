@@ -80,8 +80,6 @@ export const meansOfTransportFormMachine = setup({
           context.errorMessages[inputName] = [];
         }
 
-        if (inputName === 'line') return setLineAndResetStops(context, value);
-
         return {
           ...context,
           [inputName]: value,
@@ -97,6 +95,15 @@ export const meansOfTransportFormMachine = setup({
       }
       return context;
     }),
+
+    onLineChange: assign(({ context, event }) => {
+      if (event.type === 'ON_LINE_CHANGE') {
+        const { inputName, value } = event;
+        if (inputName === 'line') return setLineAndResetStops(context, value);
+      }
+      return context;
+    }),
+
     navigateToErrorPage: () => {
       window.location.href = '/contact/error';
     },
@@ -182,6 +189,9 @@ export const meansOfTransportFormMachine = setup({
         },
         ON_TRANSPORTMODE_CHANGE: {
           actions: 'onTransportModeChange',
+        },
+        ON_LINE_CHANGE: {
+          actions: 'onLineChange',
         },
 
         VALIDATE: {

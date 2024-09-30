@@ -64,7 +64,7 @@ export const StopForm = ({ state, send }: StopFormProps) => {
           onChange={(value: Line | undefined) => {
             if (!value) return;
             send({
-              type: 'ON_INPUT_CHANGE',
+              type: 'ON_LINE_CHANGE',
               inputName: 'line',
               value: value,
             });

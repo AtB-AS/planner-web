@@ -219,8 +219,6 @@ export const ticketControlFormMachine = setup({
         if (inputName === 'agreesFirstAgreement' && !value)
           return disagreeAgreements(context);
 
-        if (inputName === 'line') return setLineAndResetStops(context, value);
-
         context.errorMessages[inputName] = [];
         return {
           ...context,
@@ -234,6 +232,14 @@ export const ticketControlFormMachine = setup({
         const { inputName, value } = event;
         if (inputName === 'transportMode')
           return setTransportModeAndResetLineAndStops(context, value);
+      }
+      return context;
+    }),
+
+    onLineChange: assign(({ context, event }) => {
+      if (event.type === 'ON_LINE_CHANGE') {
+        const { inputName, value } = event;
+        if (inputName === 'line') return setLineAndResetStops(context, value);
       }
       return context;
     }),
@@ -333,6 +339,9 @@ export const ticketControlFormMachine = setup({
         },
         ON_TRANSPORTMODE_CHANGE: {
           actions: 'onTransportModeChange',
+        },
+        ON_LINE_CHANGE: {
+          actions: 'onLineChange',
         },
 
         VALIDATE: {

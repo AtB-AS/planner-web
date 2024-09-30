@@ -81,8 +81,6 @@ export const fetchMachine = setup({
       if (event.type === 'ON_INPUT_CHANGE') {
         let { inputName, value } = event;
 
-        if (inputName === 'line') return setLineAndResetStops(context, value);
-
         context.errorMessages[inputName] = [];
         return {
           ...context,
@@ -97,6 +95,14 @@ export const fetchMachine = setup({
         const { inputName, value } = event;
         if (inputName === 'transportMode')
           return setTransportModeAndResetLineAndStops(context, value);
+      }
+      return context;
+    }),
+
+    onLineChange: assign(({ context, event }) => {
+      if (event.type === 'ON_LINE_CHANGE') {
+        const { inputName, value } = event;
+        if (inputName === 'line') return setLineAndResetStops(context, value);
       }
       return context;
     }),
@@ -209,6 +215,9 @@ export const fetchMachine = setup({
         },
         ON_TRANSPORTMODE_CHANGE: {
           actions: 'onTransportModeChange',
+        },
+        ON_LINE_CHANGE: {
+          actions: 'onLineChange',
         },
         VALIDATE: {
           guard: 'validateInputs',

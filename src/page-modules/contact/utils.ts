@@ -66,5 +66,11 @@ export const setLineAndResetStops = (context: any, line: Line) => {
     line: line,
     fromStop: undefined,
     toStop: undefined,
+    errorMessages: {
+      ...context.errorMessages,
+      line: [],
+      fromStop: [],
+      toStop: [],
+    },
   };
 };

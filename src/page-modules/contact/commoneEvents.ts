@@ -1,3 +1,6 @@
+import { TransportModeType } from '@atb-as/config-specs';
+import { Line } from '.';
+
 export const commonEvents = {} as
   | { type: 'VALIDATE' }
   | {
@@ -12,7 +15,6 @@ export const commonEvents = {} as
         | 'firstName'
         | 'feedback'
         | 'IBAN'
-        | 'line'
         | 'lastName'
         | 'phoneNumber'
         | 'postalCode'
@@ -25,5 +27,10 @@ export const commonEvents = {} as
   | {
       type: 'ON_TRANSPORTMODE_CHANGE';
       inputName: 'transportMode';
-      value: any;
+      value: TransportModeType;
+    }
+  | {
+      type: 'ON_LINE_CHANGE';
+      inputName: 'line';
+      value: Line;
     };
