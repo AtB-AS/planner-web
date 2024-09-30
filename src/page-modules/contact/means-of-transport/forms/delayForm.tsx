@@ -68,7 +68,6 @@ export const DelayForm = ({ state, send }: DelayFormProps) => {
             if (!value) return;
             send({
               type: 'ON_LINE_CHANGE',
-              inputName: 'line',
               value: value,
             });
           }}

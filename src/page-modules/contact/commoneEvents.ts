@@ -30,6 +30,5 @@ export const commonEvents = {} as
     }
   | {
       type: 'ON_LINE_CHANGE';
-      inputName: 'line';
       value: Line;
     };

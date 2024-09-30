@@ -64,7 +64,6 @@ export const StopForm = ({ state, send }: StopFormProps) => {
             if (!value) return;
             send({
               type: 'ON_LINE_CHANGE',
-              inputName: 'line',
               value: value,
             });
           }}

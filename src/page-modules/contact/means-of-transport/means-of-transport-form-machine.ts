@@ -95,10 +95,8 @@ export const meansOfTransportFormMachine = setup({
     }),
 
     onLineChange: assign(({ context, event }) => {
-      if (event.type === 'ON_LINE_CHANGE') {
-        const { inputName, value } = event;
-        if (inputName === 'line') return setLineAndResetStops(context, value);
-      }
+      if (event.type === 'ON_LINE_CHANGE')
+        return setLineAndResetStops(context, event.value);
       return context;
     }),
 
