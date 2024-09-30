@@ -6,6 +6,7 @@ import { Typo } from '@atb/components/typography';
 import ErrorMessage from './error-message';
 import DescriptionModal from './description-modal';
 import { MonoIcon } from '@atb/components/icon';
+import { Button } from '@atb/components/button';
 
 type InputProps = {
   label: TranslatedString;
@@ -45,15 +46,16 @@ export const Input = ({
         </label>
 
         {description && (
-          <button
-            type="button"
-            name="openModalButton"
-            aria-label={t(PageText.Contact.components.modal.open.ariaLabel)}
-            onClick={handleModal}
+          <Button
             className={style.iconButton}
-          >
-            <MonoIcon icon={'status/Info'} />
-          </button>
+            onClick={toggleModalState}
+            icon={{ right: <MonoIcon icon={'status/Info'} /> }}
+            buttonProps={{
+              'aria-label': t(
+                PageText.Contact.components.modal.moreInformation(t(label)),
+              ),
+            }}
+          />
         )}
       </div>
       <input
@@ -74,8 +76,7 @@ export const Input = ({
           title={t(label)}
           description={description}
           isModalOpen={isModalOpen}
-          closeModal={handleModal}
-          ariaLabel={t(PageText.Contact.components.modal.close.ariaLabel)}
+          closeModal={toggleModalState}
         />
       )}
     </div>

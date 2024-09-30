@@ -300,12 +300,14 @@
   flex-direction: column;
   max-width: 22.5rem;
   padding: var(--spacings-large);
+  border: var(--border-width-medium) solid
+    var(--interactive-interactive_2-outline-background); /* Use border property */
   box-shadow: inset 0 0 0 var(--border-width-medium)
     var(--interactive-interactive_2-outline-background);
+  color: var(--static-background-background_0-text);
   background-color: var(--static-background-background_0-background);
   border-radius: var(--border-radius-regular);
   position: relative;
-  z-index: 201;
 }
 
 .modal_content > * + * {

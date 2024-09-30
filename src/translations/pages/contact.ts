@@ -955,20 +955,19 @@ export const Contact = {
       },
     },
     modal: {
-      open: {
-        ariaLabel: _(
-          'Klikk for å åpne modal',
-          'Click to open modal',
-          'Klikk for å åpne modal',
+      moreInformation: (inputName: string) =>
+        _(
+          `Mer informasjon om ${inputName}`,
+          `More information about ${inputName}`,
+          `Mer informasjon om ${inputName}`,
         ),
-      },
-      close: {
-        ariaLabel: _(
-          'Klikk for å lukke modal',
-          'Click to close modal',
-          'Klikk for å lukke modal',
+
+      close: (inputName: string) =>
+        _(
+          `Klikk for  å lukke informasjonsboks om  ${inputName}`,
+          `Click to the information box ${inputName}`,
+          `Klikk for å lukke informasjonsboksen  ${inputName}`,
         ),
-      },
     },
   },
 };
