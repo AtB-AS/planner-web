@@ -28,7 +28,7 @@ export const Input = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const displayDescriptionModal = description && isModalOpen; // Condition to avoid rendering of useEffect inside DescriptionModal before opened.
 
-  const handleModal = () => {
+  const toggleModalState = () => {
     setIsModalOpen(!isModalOpen);
   };
 
