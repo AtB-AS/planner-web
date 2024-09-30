@@ -213,16 +213,28 @@ export const ticketControlFormMachine = setup({
         const { inputName, value } = event;
 
         if (inputName === 'formType')
-          return setFormtypeAndInitialContext(context, value as FormType);
+          return setFormTypeAndInitialContext(context, value as FormType);
 
         // Set both agreements to false if agreesFirstAgreement is set to false.
         if (inputName === 'agreesFirstAgreement' && !value)
           return disagreeAgreements(context);
 
+        if (inputName === 'line') return setLineAndResetStops(context, value);
+
+        context.errorMessages[inputName] = [];
+        return {
+          ...context,
+          [inputName]: value,
+        };
+      }
+      return context;
+    }),
+    onTransportModeChange: assign(({ context, event }) => {
+      if (event.type === 'ON_TRANSPORTMODE_CHANGE') {
+        const { inputName, value } = event;
+
         if (inputName === 'transportMode')
           return setTransportModeAndResetLineAndStops(context, value);
-
-        if (inputName === 'line') return setLineAndResetStops(context, value);
 
         context.errorMessages[inputName] = [];
         return {
@@ -325,6 +337,9 @@ export const ticketControlFormMachine = setup({
       on: {
         ON_INPUT_CHANGE: {
           actions: 'onInputChange',
+        },
+        ON_TRANSPORTMODE_CHANGE: {
+          actions: 'onTransportModeChange',
         },
 
         VALIDATE: {

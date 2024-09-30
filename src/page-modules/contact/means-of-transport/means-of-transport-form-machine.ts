@@ -80,11 +80,23 @@ export const meansOfTransportFormMachine = setup({
           context.errorMessages[inputName] = [];
         }
 
+        if (inputName === 'line') return setLineAndResetStops(context, value);
+
+        return {
+          ...context,
+          [inputName]: value,
+        };
+      }
+      return context;
+    }),
+    onTransportModeChange: assign(({ context, event }) => {
+      if (event.type === 'ON_TRANSPORTMODE_CHANGE') {
+        const { inputName, value } = event;
+
         if (inputName === 'transportMode')
           return setTransportModeAndResetLineAndStops(context, value);
 
-        if (inputName === 'line') return setLineAndResetStops(context, value);
-
+        context.errorMessages[inputName] = [];
         return {
           ...context,
           [inputName]: value,
@@ -174,6 +186,9 @@ export const meansOfTransportFormMachine = setup({
       on: {
         ON_INPUT_CHANGE: {
           actions: 'onInputChange',
+        },
+        ON_TRANSPORTMODE_CHANGE: {
+          actions: 'onTransportModeChange',
         },
 
         VALIDATE: {

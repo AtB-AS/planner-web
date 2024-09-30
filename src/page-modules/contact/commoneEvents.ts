@@ -18,8 +18,12 @@ export const commonEvents = {} as
         | 'postalCode'
         | 'SWIFT'
         | 'toStop'
-        | 'transportMode'
         | 'fromStop'
         | 'plannedDepartureTime';
+      value: any;
+    }
+  | {
+      type: 'ON_TRANSPORTMODE_CHANGE';
+      inputName: 'transportMode';
       value: any;
     };
