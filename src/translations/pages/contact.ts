@@ -965,7 +965,7 @@ export const Contact = {
       close: (inputName: string) =>
         _(
           `Klikk for å lukke informasjonsboksen`,
-          `Click to the information box ${inputName}`,
+          `Click to close the information box`,
           `Klikk for å lukke informasjonsboksen`,
         ),
     },
