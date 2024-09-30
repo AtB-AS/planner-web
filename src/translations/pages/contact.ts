@@ -966,7 +966,7 @@ export const Contact = {
         _(
           `Klikk for å lukke informasjonsboksen`,
           `Click to the information box ${inputName}`,
-          `Klikk for å lukke informasjonsboksen  ${inputName}`,
+          `Klikk for å lukke informasjonsboksen`,
         ),
     },
   },
