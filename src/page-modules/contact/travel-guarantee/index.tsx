@@ -46,7 +46,7 @@ export const RefundForm = () => {
             value={state.context.transportMode}
             onChange={(value) =>
               send({
-                type: 'ON_INPUT_CHANGE',
+                type: 'ON_TRANSPORTMODE_CHANGE',
                 inputName: 'transportMode',
                 value: value as TransportModeType,
               })

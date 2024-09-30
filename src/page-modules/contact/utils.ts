@@ -50,6 +50,13 @@ export const setTransportModeAndResetLineAndStops = (
     line: undefined,
     fromStop: undefined,
     toStop: undefined,
+    errorMessages: {
+      ...context.errorMessages,
+      transportMode: [],
+      line: [],
+      fromStop: [],
+      toStop: [],
+    },
   };
 };
 

@@ -81,9 +81,6 @@ export const fetchMachine = setup({
       if (event.type === 'ON_INPUT_CHANGE') {
         let { inputName, value } = event;
 
-        if (inputName === 'transportMode')
-          return setTransportModeAndResetLineAndStops(context, value);
-
         if (inputName === 'line') return setLineAndResetStops(context, value);
 
         context.errorMessages[inputName] = [];
@@ -91,6 +88,15 @@ export const fetchMachine = setup({
           ...context,
           [inputName]: value,
         };
+      }
+      return context;
+    }),
+
+    onTransportModeChange: assign(({ context, event }) => {
+      if (event.type === 'ON_TRANSPORTMODE_CHANGE') {
+        const { inputName, value } = event;
+        if (inputName === 'transportMode')
+          return setTransportModeAndResetLineAndStops(context, value);
       }
       return context;
     }),
@@ -198,9 +204,11 @@ export const fetchMachine = setup({
         OTHER: {
           target: 'editing.other',
         },
-
         ON_INPUT_CHANGE: {
           actions: 'onInputChange',
+        },
+        ON_TRANSPORTMODE_CHANGE: {
+          actions: 'onTransportModeChange',
         },
         VALIDATE: {
           guard: 'validateInputs',
