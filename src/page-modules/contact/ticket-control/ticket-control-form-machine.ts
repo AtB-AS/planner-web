@@ -4,6 +4,8 @@ import {
   convertFilesToBase64,
   getCurrentDateString,
   getCurrentTimeString,
+  setLineAndResetStops,
+  setTransportModeAndResetLineAndStops,
 } from '../utils';
 import { TransportModeType } from '@atb-as/config-specs';
 import { Line } from '../server/journey-planner/validators';
@@ -88,7 +90,7 @@ export type ContextProps = {
 };
 
 // Function to reset the agreement fields and error messages
-const resetAgreementFieldsAndErrors = (
+const setFormTypeAndInitialContext = (
   context: ContextProps,
   formType: FormType,
 ) => {
@@ -100,6 +102,14 @@ const resetAgreementFieldsAndErrors = (
     isAppTicketStorageMode: true,
     hasInternationalBankAccount: false,
     errorMessages: {},
+  };
+};
+
+const disagreeAgreements = (context: ContextProps) => {
+  return {
+    ...context,
+    agreesFirstAgreement: false,
+    agreesSecondAgreement: false,
   };
 };
 
@@ -202,18 +212,12 @@ export const ticketControlFormMachine = setup({
       if (event.type === 'ON_INPUT_CHANGE') {
         const { inputName, value } = event;
 
-        if (inputName === 'formType') {
-          return resetAgreementFieldsAndErrors(context, value as FormType);
-        }
+        if (inputName === 'formType')
+          return setFormTypeAndInitialContext(context, value as FormType);
 
         // Set both agreements to false if agreesFirstAgreement is set to false.
-        if (inputName === 'agreesFirstAgreement' && !value) {
-          return {
-            ...context,
-            ['agreesFirstAgreement']: false,
-            ['agreesSecondAgreement']: false,
-          };
-        }
+        if (inputName === 'agreesFirstAgreement' && !value)
+          return disagreeAgreements(context);
 
         context.errorMessages[inputName] = [];
         return {
@@ -221,6 +225,17 @@ export const ticketControlFormMachine = setup({
           [inputName]: value,
         };
       }
+      return context;
+    }),
+    onTransportModeChange: assign(({ context, event }) => {
+      if (event.type === 'ON_TRANSPORTMODE_CHANGE')
+        return setTransportModeAndResetLineAndStops(context, event.value);
+      return context;
+    }),
+
+    onLineChange: assign(({ context, event }) => {
+      if (event.type === 'ON_LINE_CHANGE')
+        return setLineAndResetStops(context, event.value);
       return context;
     }),
   },
@@ -316,6 +331,12 @@ export const ticketControlFormMachine = setup({
       on: {
         ON_INPUT_CHANGE: {
           actions: 'onInputChange',
+        },
+        ON_TRANSPORTMODE_CHANGE: {
+          actions: 'onTransportModeChange',
+        },
+        ON_LINE_CHANGE: {
+          actions: 'onLineChange',
         },
 
         VALIDATE: {

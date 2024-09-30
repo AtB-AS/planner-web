@@ -6,7 +6,12 @@ import {
   InputErrorMessages,
   travelGuaranteeInputValidator,
 } from '../validation';
-import { getCurrentDateString, getCurrentTimeString } from '../utils';
+import {
+  getCurrentDateString,
+  getCurrentTimeString,
+  setLineAndResetStops,
+  setTransportModeAndResetLineAndStops,
+} from '../utils';
 import { TravelGuaranteeFormEvents } from './events';
 
 type APIParams = {
@@ -75,12 +80,25 @@ export const fetchMachine = setup({
     onInputChange: assign(({ context, event }) => {
       if (event.type === 'ON_INPUT_CHANGE') {
         let { inputName, value } = event;
+
         context.errorMessages[inputName] = [];
         return {
           ...context,
           [inputName]: value,
         };
       }
+      return context;
+    }),
+
+    onTransportModeChange: assign(({ context, event }) => {
+      if (event.type === 'ON_TRANSPORTMODE_CHANGE')
+        return setTransportModeAndResetLineAndStops(context, event.value);
+      return context;
+    }),
+
+    onLineChange: assign(({ context, event }) => {
+      if (event.type === 'ON_LINE_CHANGE')
+        return setLineAndResetStops(context, event.value);
       return context;
     }),
 
@@ -187,9 +205,14 @@ export const fetchMachine = setup({
         OTHER: {
           target: 'editing.other',
         },
-
         ON_INPUT_CHANGE: {
           actions: 'onInputChange',
+        },
+        ON_TRANSPORTMODE_CHANGE: {
+          actions: 'onTransportModeChange',
+        },
+        ON_LINE_CHANGE: {
+          actions: 'onLineChange',
         },
         VALIDATE: {
           guard: 'validateInputs',

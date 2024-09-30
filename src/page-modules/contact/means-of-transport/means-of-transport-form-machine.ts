@@ -6,6 +6,8 @@ import {
   convertFilesToBase64,
   getCurrentDateString,
   getCurrentTimeString,
+  setLineAndResetStops,
+  setTransportModeAndResetLineAndStops,
 } from '../utils';
 import { Area, meansOfTransportFormEvents } from './events';
 
@@ -77,6 +79,7 @@ export const meansOfTransportFormMachine = setup({
         } else {
           context.errorMessages[inputName] = [];
         }
+
         return {
           ...context,
           [inputName]: value,
@@ -84,6 +87,19 @@ export const meansOfTransportFormMachine = setup({
       }
       return context;
     }),
+
+    onTransportModeChange: assign(({ context, event }) => {
+      if (event.type === 'ON_TRANSPORTMODE_CHANGE')
+        return setTransportModeAndResetLineAndStops(context, event.value);
+      return context;
+    }),
+
+    onLineChange: assign(({ context, event }) => {
+      if (event.type === 'ON_LINE_CHANGE')
+        return setLineAndResetStops(context, event.value);
+      return context;
+    }),
+
     navigateToErrorPage: () => {
       window.location.href = '/contact/error';
     },
@@ -166,6 +182,12 @@ export const meansOfTransportFormMachine = setup({
       on: {
         ON_INPUT_CHANGE: {
           actions: 'onInputChange',
+        },
+        ON_TRANSPORTMODE_CHANGE: {
+          actions: 'onTransportModeChange',
+        },
+        ON_LINE_CHANGE: {
+          actions: 'onLineChange',
         },
 
         VALIDATE: {
