@@ -20,10 +20,6 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
   const { t } = useTranslation();
   const { getLinesByMode, getQuaysByLine } = useLines();
 
-  useEffect(() => {
-    console.log('state.context.line: ', state.context.line);
-  }, [state]);
-
   return (
     <div>
       <SectionCard title={t(PageText.Contact.ticketControl.feedback.title)}>
