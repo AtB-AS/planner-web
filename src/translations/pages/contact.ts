@@ -954,5 +954,20 @@ export const Contact = {
           ),
       },
     },
+    modal: {
+      moreInformation: (inputName: string) =>
+        _(
+          `Mer informasjon om ${inputName}`,
+          `More information about ${inputName}`,
+          `Mer informasjon om ${inputName}`,
+        ),
+
+      close: (inputName: string) =>
+        _(
+          `Klikk for å lukke informasjonsboksen`,
+          `Click to close the information box`,
+          `Klikk for å lukke informasjonsboksen`,
+        ),
+    },
   },
 };
