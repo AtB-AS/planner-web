@@ -26,7 +26,6 @@ export const commonEvents = {} as
     }
   | {
       type: 'ON_TRANSPORTMODE_CHANGE';
-      inputName: 'transportMode';
       value: TransportModeType;
     }
   | {

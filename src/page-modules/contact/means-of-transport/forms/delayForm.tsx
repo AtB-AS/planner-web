@@ -44,7 +44,6 @@ export const DelayForm = ({ state, send }: DelayFormProps) => {
           onChange={(value) =>
             send({
               type: 'ON_TRANSPORTMODE_CHANGE',
-              inputName: 'transportMode',
               value: value as TransportModeType,
             })
           }

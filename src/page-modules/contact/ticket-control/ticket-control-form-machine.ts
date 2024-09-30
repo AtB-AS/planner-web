@@ -228,11 +228,8 @@ export const ticketControlFormMachine = setup({
       return context;
     }),
     onTransportModeChange: assign(({ context, event }) => {
-      if (event.type === 'ON_TRANSPORTMODE_CHANGE') {
-        const { inputName, value } = event;
-        if (inputName === 'transportMode')
-          return setTransportModeAndResetLineAndStops(context, value);
-      }
+      if (event.type === 'ON_TRANSPORTMODE_CHANGE')
+        return setTransportModeAndResetLineAndStops(context, event.value);
       return context;
     }),
 

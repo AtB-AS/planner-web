@@ -40,7 +40,6 @@ export const StopForm = ({ state, send }: StopFormProps) => {
           onChange={(value) =>
             send({
               type: 'ON_TRANSPORTMODE_CHANGE',
-              inputName: 'transportMode',
               value: value as TransportModeType,
             })
           }

@@ -66,7 +66,6 @@ export const InjuryForm = ({ state, send }: InjuryFormProps) => {
           onChange={(value) =>
             send({
               type: 'ON_TRANSPORTMODE_CHANGE',
-              inputName: 'transportMode',
               value: value as TransportModeType,
             })
           }
