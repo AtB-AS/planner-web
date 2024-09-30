@@ -10,7 +10,6 @@ import { Typo } from '@atb/components/typography';
 import { FileInput } from '../../components/input/file';
 import { ticketControlFormEvents } from '../events';
 import { ContextProps } from '../ticket-control-form-machine';
-import { useEffect } from 'react';
 
 type FeedbackFormProps = {
   state: { context: ContextProps };
