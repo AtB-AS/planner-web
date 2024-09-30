@@ -90,7 +90,7 @@ export type ContextProps = {
 };
 
 // Function to reset the agreement fields and error messages
-const setFormtypeAndInitialContext = (
+const setFormTypeAndInitialContext = (
   context: ContextProps,
   formType: FormType,
 ) => {
