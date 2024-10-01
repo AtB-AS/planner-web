@@ -80,6 +80,17 @@ export function FileInput({ onChange, label, name }: FileInputProps) {
         accept="image/*,.pdf,.doc,docx,.txt"
       />
 
+      <label
+        htmlFor={id}
+        className={style.label__file}
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === ' ' || e.key === 'Enter') {
+            e.preventDefault();
+            (e.target as HTMLElement).click();
+          }
+        }}
+      >
         <FileIcon color={staticColors.background.background_0.text} />
         <Typo.span textType="body__primary">{label}</Typo.span>
       </label>
