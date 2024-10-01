@@ -5,7 +5,7 @@ export type ContactApi = {
   submitTicketControlForm(formData: any): Promise<ContactApiReturnType>;
   submitTravelGuaranteeForm(
     formData: any,
-  ): Promise<TravelGuaranteeApiReturnType>; /
+  ): Promise<TravelGuaranteeApiReturnType>;
 };
 
 export function createContactApi(
