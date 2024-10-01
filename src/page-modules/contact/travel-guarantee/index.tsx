@@ -1,22 +1,18 @@
-import FormSelector from './form-selector';
-import { SectionCard } from '../components/section-card';
-import { ComponentText, PageText, useTranslation } from '@atb/translations';
+import { PageText, TranslatedString, useTranslation } from '@atb/translations';
 import { useMachine } from '@xstate/react';
-import { fetchMachine } from './travelGuaranteeFormMachine';
-import { Input } from '../components/input';
-import { TransportModeType } from '@atb-as/config-specs';
-import { useLines } from '../lines/use-lines';
+import { fetchMachine, FormType } from './travelGuaranteeFormMachine';
 import { FormEventHandler, useState } from 'react';
-import style from '../contact.module.css';
 import { Button } from '@atb/components/button';
-import Select from '../components/input/select';
-import { Line } from '..';
+import RefundTaxiForm from './forms/refundTaxiForm';
+import RefundCarForm from './forms/refundCarForm';
+import { SectionCard } from '../components/section-card';
+import style from '../contact.module.css';
+import { RadioInput } from '../components/input/radio';
+import { Typo } from '@atb/components/typography';
 import { Checkbox } from '../components/input/checkbox';
-import ErrorMessage from '../components/input/error-message';
 
 export const RefundForm = () => {
   const { t } = useTranslation();
-  const { getLinesByMode, getQuaysByLine } = useLines();
   const [state, send] = useMachine(fetchMachine);
 
   // Local state to force re-render to display errors.
@@ -34,409 +30,105 @@ export const RefundForm = () => {
 
   return (
     <form onSubmit={onSubmit}>
-      <FormSelector state={state} send={send} />
-      {(state.hasTag('taxi') || state.hasTag('car')) && (
-        <SectionCard
-          title={t(
-            PageText.Contact.travelGuarantee.refundTaxi.aboutYourTrip.title,
+      <SectionCard title={t(PageText.Contact.travelGuarantee.title)}>
+        <Typo.p textType="body__primary">
+          {t(PageText.Contact.travelGuarantee.agreement.delayedRefundText)}
+        </Typo.p>
+
+        <Typo.p textType="body__primary">
+          {t(PageText.Contact.travelGuarantee.agreement.ticketRefundText)}
+        </Typo.p>
+
+        <Typo.p textType="heading__component">
+          {t(
+            PageText.Contact.travelGuarantee.agreement.travelGuaranteeExceptions
+              .label,
           )}
-        >
-          <Select
-            label={t(PageText.Contact.input.transportMode.label).toString()}
-            value={state.context.transportMode}
-            onChange={(value) =>
-              send({
-                type: 'ON_TRANSPORTMODE_CHANGE',
-                value: value as TransportModeType,
-              })
-            }
-            error={
-              state.context?.errorMessages['transportMode']?.[0]
-                ? t(state.context?.errorMessages['transportMode']?.[0])
-                : undefined
-            }
-            valueToText={(val: TransportModeType) =>
-              t(ComponentText.TransportMode.modes[val])
-            }
-            valueToId={(val: TransportModeType) => val}
-            options={['bus', 'water'] as TransportModeType[]}
-            placeholder={t(PageText.Contact.input.transportMode.optionLabel)}
-          />
+        </Typo.p>
 
-          <Select
-            label={t(PageText.Contact.input.line.label)}
-            value={state.context.line}
-            disabled={!state.context.transportMode}
-            onChange={(value: Line | undefined) => {
-              if (!value) return;
-              send({
-                type: 'ON_LINE_CHANGE',
-                value: value,
-              });
-            }}
-            options={getLinesByMode(
-              state.context.transportMode as TransportModeType,
-            )}
-            valueToId={(line: Line) => line.id}
-            valueToText={(line: Line) => line.name}
-            placeholder={t(PageText.Contact.input.line.optionLabel)}
-            error={
-              state.context?.errorMessages['line']?.[0]
-                ? t(state.context?.errorMessages['line']?.[0])
-                : undefined
-            }
-          />
-
-          <Select
-            label={t(PageText.Contact.input.fromStop.label)}
-            value={state.context.fromStop}
-            disabled={!state.context.line}
-            onChange={(value) => {
-              if (!value) return;
-              send({
-                type: 'ON_INPUT_CHANGE',
-                inputName: 'fromStop',
-                value: value,
-              });
-            }}
-            options={
-              state.context.line?.id
-                ? getQuaysByLine(state.context.line.id)
-                : []
-            }
-            placeholder={t(PageText.Contact.input.fromStop.optionLabel)}
-            error={
-              state.context?.errorMessages['fromStop']?.[0]
-                ? t(state.context?.errorMessages['fromStop']?.[0])
-                : undefined
-            }
-            valueToId={(quay: Line['quays'][0]) => quay.id}
-            valueToText={(quay: Line['quays'][0]) => quay.name}
-          />
-
-          <Select
-            label={t(PageText.Contact.input.toStop.label)}
-            value={state.context.toStop}
-            disabled={!state.context.line}
-            onChange={(value) => {
-              if (!value) return;
-              send({
-                type: 'ON_INPUT_CHANGE',
-                inputName: 'toStop',
-                value: value,
-              });
-            }}
-            placeholder={t(PageText.Contact.input.toStop.optionLabel)}
-            options={
-              state.context.line?.id
-                ? getQuaysByLine(state.context.line.id)
-                : []
-            }
-            error={
-              state.context?.errorMessages['toStop']?.[0]
-                ? t(state.context?.errorMessages['toStop']?.[0])
-                : undefined
-            }
-            valueToId={(quay: Line['quays'][0]) => quay.id}
-            valueToText={(quay: Line['quays'][0]) => quay.name}
-          />
-
-          <Input
-            label={PageText.Contact.input.date.label}
-            type="date"
-            name="date"
-            value={state.context.date}
-            errorMessage={state.context?.errorMessages['date']?.[0]}
-            onChange={(e) =>
-              send({
-                type: 'ON_INPUT_CHANGE',
-                inputName: 'date',
-                value: e.target.value,
-              })
-            }
-          />
-          <Input
-            label={PageText.Contact.input.plannedDepartureTime.label}
-            type="time"
-            name="time"
-            value={state.context.plannedDepartureTime}
-            errorMessage={
-              state.context?.errorMessages['plannedDepartureTime']?.[0]
-            }
-            onChange={(e) =>
-              send({
-                type: 'ON_INPUT_CHANGE',
-                inputName: 'plannedDepartureTime',
-                value: e.target.value,
-              })
-            }
-          />
-
-          <Select
-            label={t(PageText.Contact.input.reasonForTransportFailure.label)}
-            value={state.context.reasonForTransportFailure}
-            disabled={!state.context.line}
-            onChange={(value) => {
-              if (!value) return;
-              send({
-                type: 'ON_INPUT_CHANGE',
-                inputName: 'reasonForTransportFailure',
-                value: value,
-              });
-            }}
-            placeholder={t(
-              PageText.Contact.input.reasonForTransportFailure.optionLabel,
-            )}
-            options={PageText.Contact.input.reasonForTransportFailure.options}
-            error={
-              state.context?.errorMessages['reasonForTransportFailure']?.[0]
-                ? t(
-                    state.context?.errorMessages[
-                      'reasonForTransportFailure'
-                    ]?.[0],
-                  )
-                : undefined
-            }
-            valueToId={(option) => option.id}
-            valueToText={(option) => t(option.name)}
-          />
-        </SectionCard>
-      )}
-
-      {state.hasTag('car') && (
-        <SectionCard
-          title={t(
-            PageText.Contact.travelGuarantee.refundCar.aboutTheCarTrip.title,
+        <Typo.p textType="body__primary">
+          {t(
+            PageText.Contact.travelGuarantee.agreement.travelGuaranteeExceptions
+              .minimumTimeToNextDeparture,
           )}
-        >
-          <Input
-            label={PageText.Contact.input.kilometersDriven.label}
-            type="text"
-            name="km"
-            value={state.context.kilometersDriven}
-            errorMessage={
-              state.context?.errorMessages['kilometersDriven']?.[0] || undefined
-            }
-            onChange={(e) =>
-              send({
-                type: 'ON_INPUT_CHANGE',
-                inputName: 'kilometersDriven',
-                value: e.target.value,
-              })
-            }
-          />
-        </SectionCard>
-      )}
-      {state.hasTag('selected') && (
-        <div>
-          <SectionCard title={t(PageText.Contact.input.feedback.optionalTitle)}>
-            <textarea
-              className={style.feedback}
-              name="feedback"
-              value={state.context.feedback}
-              onChange={(e) =>
-                send({
-                  type: 'ON_INPUT_CHANGE',
-                  inputName: 'feedback',
-                  value: e.target.value,
-                })
-              }
-            />
-          </SectionCard>
-          <SectionCard title={t(PageText.Contact.aboutYouInfo.title)}>
-            <Input
-              label={PageText.Contact.input.firstName.label}
-              type="text"
-              name="firstName"
-              value={state.context.firstName}
-              errorMessage={
-                state.context?.errorMessages['firstName']?.[0] || undefined
-              }
-              onChange={(e) =>
-                send({
-                  type: 'ON_INPUT_CHANGE',
-                  inputName: 'firstName',
-                  value: e.target.value,
-                })
-              }
-            />
+        </Typo.p>
 
-            <Input
-              label={PageText.Contact.input.lastName.label}
-              type="text"
-              name="lastName"
-              value={state.context.lastName}
-              errorMessage={
-                state.context?.errorMessages['lastName']?.[0] || undefined
-              }
-              onChange={(e) =>
-                send({
-                  type: 'ON_INPUT_CHANGE',
-                  inputName: 'lastName',
-                  value: e.target.value,
-                })
-              }
-            />
-            <Input
-              label={PageText.Contact.input.address.label}
-              type="text"
-              name="address"
-              value={state.context.address}
-              errorMessage={
-                state.context?.errorMessages['address']?.[0] || undefined
-              }
-              onChange={(e) =>
-                send({
-                  type: 'ON_INPUT_CHANGE',
-                  inputName: 'address',
-                  value: e.target.value,
-                })
-              }
-            />
-            <Input
-              label={PageText.Contact.input.postalCode.label}
-              type="number"
-              name="postalCode"
-              value={state.context.postalCode}
-              errorMessage={
-                state.context?.errorMessages['postalCode']?.[0] || undefined
-              }
-              onChange={(e) =>
-                send({
-                  type: 'ON_INPUT_CHANGE',
-                  inputName: 'postalCode',
-                  value: e.target.value,
-                })
-              }
-            />
-            <Input
-              label={PageText.Contact.input.city.label}
-              type="text"
-              name="city"
-              value={state.context.city}
-              errorMessage={
-                state.context?.errorMessages['city']?.[0] || undefined
-              }
-              onChange={(e) =>
-                send({
-                  type: 'ON_INPUT_CHANGE',
-                  inputName: 'city',
-                  value: e.target.value,
-                })
-              }
-            />
-            <Input
-              label={PageText.Contact.input.email.label}
-              type="email"
-              name="email"
-              value={state.context.email}
-              errorMessage={
-                state.context?.errorMessages['email']?.[0] || undefined
-              }
-              onChange={(e) =>
-                send({
-                  type: 'ON_INPUT_CHANGE',
-                  inputName: 'email',
-                  value: e.target.value,
-                })
-              }
-            />
-            <Input
-              label={PageText.Contact.input.phoneNumber.label}
-              type="tel"
-              name="phoneNumber"
-              value={state.context.phoneNumber}
-              errorMessage={
-                state.context?.errorMessages['phoneNumber']?.[0] || undefined
-              }
-              onChange={(e) =>
-                send({
-                  type: 'ON_INPUT_CHANGE',
-                  inputName: 'phoneNumber',
-                  value: e.target.value,
-                })
-              }
-            />
+        <Typo.p textType="body__primary">
+          {t(
+            PageText.Contact.travelGuarantee.agreement.travelGuaranteeExceptions
+              .externalFactors,
+          )}
+        </Typo.p>
+        <ul className={style.rules__list}>
+          {PageText.Contact.travelGuarantee.agreement.travelGuaranteeExceptions.examples.map(
+            (example: TranslatedString, index: number) => (
+              <li key={index}>
+                <Typo.p textType="body__primary">{t(example)}</Typo.p>
+              </li>
+            ),
+          )}
+        </ul>
 
-            <Checkbox
-              label={t(PageText.Contact.input.bankAccountNumber.checkbox)}
-              checked={state.context.hasInternationalBankAccount}
-              onChange={() =>
-                send({
-                  type: 'ON_INPUT_CHANGE',
-                  inputName: 'hasInternationalBankAccount',
-                  value: !state.context.hasInternationalBankAccount,
-                })
-              }
-            />
+        <Typo.p textType="body__primary">
+          {t(
+            PageText.Contact.travelGuarantee.agreement.travelGuaranteeExceptions
+              .exclusion,
+          )}
+        </Typo.p>
 
-            {!state.context.hasInternationalBankAccount && (
-              <Input
-                label={PageText.Contact.input.bankAccountNumber.notForeignLabel}
-                type="text"
-                name="bankAccountNumber"
-                value={state.context.bankAccountNumber}
-                errorMessage={
-                  state.context?.errorMessages['bankAccountNumber']?.[0] ||
-                  undefined
-                }
-                onChange={(e) =>
-                  send({
-                    type: 'ON_INPUT_CHANGE',
-                    inputName: 'bankAccountNumber',
-                    value: e.target.value,
-                  })
-                }
-              />
-            )}
+        <Checkbox
+          label={t(
+            PageText.Contact.ticketControl.feeComplaint.firstAgreement.checkbox,
+          )}
+          checked={state.context.isIntialAgreementChecked}
+          onChange={() =>
+            send({
+              type: 'ON_INPUT_CHANGE',
+              inputName: 'isIntialAgreementChecked',
+              value: !state.context.isIntialAgreementChecked,
+            })
+          }
+        />
+      </SectionCard>
 
-            {state.context.hasInternationalBankAccount && (
-              <div>
-                <Input
-                  label={PageText.Contact.input.bankAccountNumber.IBAN}
-                  type="text"
-                  name="bankAccountNumber"
-                  value={state.context.IBAN}
-                  onChange={(e) =>
+      {state.context.isIntialAgreementChecked && (
+        <SectionCard title={t(PageText.Contact.ticketControl.title)}>
+          <ul className={style.form_options__list}>
+            {Object.values(FormType).map((formType) => (
+              <li key={formType}>
+                <RadioInput
+                  label={t(
+                    PageText.Contact.travelGuarantee[formType].description,
+                  )}
+                  value={formType}
+                  checked={state.context.formType === formType}
+                  onChange={(e) => {
                     send({
                       type: 'ON_INPUT_CHANGE',
-                      inputName: 'IBAN',
+                      inputName: 'formType',
                       value: e.target.value,
-                    })
-                  }
+                    });
+                  }}
                 />
+              </li>
+            ))}
+          </ul>
+        </SectionCard>
+      )}
+      {state.context.formType === 'refundTaxi' && (
+        <RefundTaxiForm state={state} send={send} />
+      )}
+      {state.context.formType === 'refundCar' && (
+        <RefundCarForm state={state} send={send} />
+      )}
 
-                <Input
-                  label={PageText.Contact.input.bankAccountNumber.SWIFT}
-                  type="text"
-                  name="bankAccountNumber"
-                  value={state.context.SWIFT}
-                  onChange={(e) =>
-                    send({
-                      type: 'ON_INPUT_CHANGE',
-                      inputName: 'SWIFT',
-                      value: e.target.value,
-                    })
-                  }
-                />
-                {state.context?.errorMessages['bankAccountNumber']?.[0] && (
-                  <ErrorMessage
-                    message={t(
-                      state.context?.errorMessages['bankAccountNumber']?.[0],
-                    )}
-                  />
-                )}
-              </div>
-            )}
-          </SectionCard>
-
-          <Button
-            title={t(PageText.Contact.submit)}
-            mode={'interactive_0--bordered'}
-            buttonProps={{ type: 'submit' }}
-            state={state.matches('submitting') ? 'loading' : undefined}
-          />
-        </div>
+      {state.context.formType && (
+        <Button
+          title={t(PageText.Contact.submit)}
+          mode={'interactive_0--bordered'}
+          buttonProps={{ type: 'submit' }}
+          state={state.matches('submitting') ? 'loading' : undefined}
+        />
       )}
     </form>
   );

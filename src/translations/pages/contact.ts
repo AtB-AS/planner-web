@@ -708,6 +708,26 @@ export const Contact = {
         ),
       },
     },
+    fromAddress: {
+      label: _('Fra adresse', 'From address', 'Frå adresse'),
+      errorMessages: {
+        empty: _(
+          'Vennligst oppgi start adressen',
+          'Please provide the start address',
+          'Vennligst oppgi start adressa',
+        ),
+      },
+    },
+    toAddress: {
+      label: _('Til adresse', 'To address', 'Til adresse'),
+      errorMessages: {
+        empty: _(
+          'Vennligst oppgi slutt adressen',
+          'Please provide the end address',
+          'Vennligst oppgi slutt adressa',
+        ),
+      },
+    },
 
     feeNumber: {
       label: _('Gebyrnummer', 'Fee number', 'Gebyrnummer'),
