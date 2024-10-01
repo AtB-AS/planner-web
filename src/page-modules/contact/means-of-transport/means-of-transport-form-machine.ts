@@ -27,12 +27,14 @@ type submitInput = {
   lineName?: string;
   fromStopName?: string;
   toStopName?: string;
+  stopName?: string;
   date?: string;
   plannedDepartureTime?: string;
   feedback?: string;
   attachments?: File[];
   firstName?: string;
   lastName?: string;
+  isResponseWanted?: boolean;
   email?: string;
 };
 
@@ -43,6 +45,7 @@ export type ContextProps = {
   line?: Line;
   fromStop?: Line['quays'][0];
   toStop?: Line['quays'][0];
+  stop?: Line['quays'][0];
   date?: string;
   plannedDepartureTime?: string;
   feedback?: string;
@@ -50,7 +53,7 @@ export type ContextProps = {
   firstName?: string;
   lastName?: string;
   email?: string;
-  wantsToBeContacted: boolean;
+  isResponseWanted: boolean;
   errorMessages: InputErrorMessages;
 };
 
@@ -62,9 +65,12 @@ const setInputToValidate = (context: ContextProps) => {
     line,
     fromStop,
     toStop,
+    stop,
     date,
     plannedDepartureTime,
     feedback,
+    email,
+    isResponseWanted,
   } = context;
 
   switch (formType) {
@@ -75,6 +81,7 @@ const setInputToValidate = (context: ContextProps) => {
         line,
         fromStop,
         toStop,
+        stop,
         date,
         plannedDepartureTime,
         feedback,
@@ -89,6 +96,7 @@ const setInputToValidate = (context: ContextProps) => {
         date,
         plannedDepartureTime,
         feedback,
+        ...(isResponseWanted === true && { email }), // Include email if response is wanted.
       };
 
     case FormType.Delay:
@@ -106,7 +114,7 @@ const setInputToValidate = (context: ContextProps) => {
       return {
         transportMode,
         line,
-        fromStop,
+        stop,
         date,
         feedback,
       };
@@ -193,6 +201,7 @@ export const meansOfTransportFormMachine = setup({
           lineName,
           fromStopName,
           toStopName,
+          stopName,
           date,
           plannedDepartureTime,
           feedback,
@@ -200,6 +209,7 @@ export const meansOfTransportFormMachine = setup({
           firstName,
           lastName,
           email,
+          isResponseWanted,
         },
       }: {
         input: submitInput;
@@ -217,6 +227,7 @@ export const meansOfTransportFormMachine = setup({
             line: lineName,
             fromStop: fromStopName,
             toStop: toStopName,
+            stop: stopName,
             date: date,
             departureTime: plannedDepartureTime,
             feedback: feedback,
@@ -224,6 +235,7 @@ export const meansOfTransportFormMachine = setup({
             firstName: firstName,
             lastName: lastName,
             email: email,
+            isResponseWanted: isResponseWanted,
           }),
         }).then((response) => {
           // throw an error to force onError
@@ -239,7 +251,7 @@ export const meansOfTransportFormMachine = setup({
   context: {
     date: getCurrentDateString(),
     plannedDepartureTime: getCurrentTimeString(),
-    wantsToBeContacted: false,
+    isResponseWanted: false,
     errorMessages: {},
   },
   states: {
@@ -285,12 +297,14 @@ export const meansOfTransportFormMachine = setup({
             lineName: context.line?.name,
             fromStopName: context.fromStop?.name,
             toStopName: context.toStop?.name,
+            stopName: context.stop?.name,
             date: context.date,
             plannedDepartureTime: context.plannedDepartureTime,
             feedback: context.feedback,
             firstName: context.firstName,
             lastName: context.lastName,
             email: context.email,
+            isResponseWanted: context.isResponseWanted,
           };
         },
 

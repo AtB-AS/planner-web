@@ -81,14 +81,14 @@ export const StopForm = ({ state, send }: StopFormProps) => {
         />
 
         <Select
-          label={t(PageText.Contact.input.fromStop.labelWhitoutSpecification)}
-          value={state.context.fromStop}
+          label={t(PageText.Contact.input.stop.label)}
+          value={state.context.stop}
           disabled={!state.context.line}
           onChange={(value) => {
             if (!value) return;
             send({
               type: 'ON_INPUT_CHANGE',
-              inputName: 'fromStop',
+              inputName: 'stop',
               value: value,
             });
           }}
