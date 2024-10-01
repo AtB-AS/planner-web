@@ -227,7 +227,6 @@ export const meansOfTransportFormMachine = setup({
           }),
         }).then((response) => {
           // throw an error to force onError
-          console.log(response);
           if (!response.ok) throw new Error('Failed to call API');
           return response.ok;
         });
