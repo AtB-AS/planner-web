@@ -81,14 +81,14 @@ export const StopForm = ({ state, send }: StopFormProps) => {
         />
 
         <Select
-          label={t(PageText.Contact.input.fromStop.labelWhitoutSpecification)}
-          value={state.context.fromStop}
+          label={t(PageText.Contact.input.stop.label)}
+          value={state.context.stop}
           disabled={!state.context.line}
           onChange={(value) => {
             if (!value) return;
             send({
               type: 'ON_INPUT_CHANGE',
-              inputName: 'fromStop',
+              inputName: 'stop',
               value: value,
             });
           }}
@@ -126,7 +126,7 @@ export const StopForm = ({ state, send }: StopFormProps) => {
           {t(PageText.Contact.input.feedback.description)}
         </Typo.p>
         <Textarea
-          value={state.context.feedback}
+          value={state.context.feedback || ''}
           onChange={(e) =>
             send({
               type: 'ON_INPUT_CHANGE',
@@ -157,7 +157,7 @@ export const StopForm = ({ state, send }: StopFormProps) => {
           label={PageText.Contact.input.firstName.label}
           type="text"
           name="firstName"
-          value={state.context.firstName}
+          value={state.context.firstName || ''}
           onChange={(e) =>
             send({
               type: 'ON_INPUT_CHANGE',
@@ -171,7 +171,7 @@ export const StopForm = ({ state, send }: StopFormProps) => {
           label={PageText.Contact.input.lastName.label}
           type="text"
           name="lastName"
-          value={state.context.lastName}
+          value={state.context.lastName || ''}
           onChange={(e) =>
             send({
               type: 'ON_INPUT_CHANGE',
@@ -185,7 +185,7 @@ export const StopForm = ({ state, send }: StopFormProps) => {
           label={PageText.Contact.input.email.label}
           type="email"
           name="email"
-          value={state.context.email}
+          value={state.context.email || ''}
           onChange={(e) =>
             send({
               type: 'ON_INPUT_CHANGE',

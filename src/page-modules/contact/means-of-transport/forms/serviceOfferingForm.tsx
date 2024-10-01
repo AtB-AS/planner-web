@@ -22,7 +22,7 @@ export const ServiceOfferingForm = ({
   send,
 }: ServiceOfferingFormProps) => {
   const { t } = useTranslation();
-  const { getLinesByMode, getQuaysByLine } = useLines();
+  const { getLinesByMode } = useLines();
 
   return (
     <div>
@@ -117,7 +117,7 @@ export const ServiceOfferingForm = ({
           {t(PageText.Contact.input.feedback.description)}
         </Typo.p>
         <Textarea
-          value={state.context.feedback}
+          value={state.context.feedback || ''}
           onChange={(e) =>
             send({
               type: 'ON_INPUT_CHANGE',
@@ -148,7 +148,7 @@ export const ServiceOfferingForm = ({
           label={PageText.Contact.input.firstName.label}
           type="text"
           name="firstName"
-          value={state.context.firstName}
+          value={state.context.firstName || ''}
           onChange={(e) =>
             send({
               type: 'ON_INPUT_CHANGE',
@@ -162,7 +162,7 @@ export const ServiceOfferingForm = ({
           label={PageText.Contact.input.lastName.label}
           type="text"
           name="lastName"
-          value={state.context.lastName}
+          value={state.context.lastName || ''}
           onChange={(e) =>
             send({
               type: 'ON_INPUT_CHANGE',

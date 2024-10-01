@@ -10,7 +10,6 @@ import { TransportModeType } from '@atb-as/config-specs';
 import { Line } from '../..';
 import { FileInput } from '../../components/input/file';
 import { Textarea } from '../../components/input/textarea';
-import { RadioInput } from '../../components/input/radio';
 import { meansOfTransportFormEvents } from '../events';
 
 type DriverFormProps = {
@@ -195,7 +194,7 @@ export const DriverForm = ({ state, send }: DriverFormProps) => {
           {t(PageText.Contact.input.feedback.description)}
         </Typo.p>
         <Textarea
-          value={state.context.feedback}
+          value={state.context.feedback || ''}
           onChange={(e) =>
             send({
               type: 'ON_INPUT_CHANGE',
@@ -226,7 +225,7 @@ export const DriverForm = ({ state, send }: DriverFormProps) => {
           label={PageText.Contact.input.firstName.label}
           type="text"
           name="firstName"
-          value={state.context.firstName}
+          value={state.context.firstName || ''}
           onChange={(e) =>
             send({
               type: 'ON_INPUT_CHANGE',
@@ -240,7 +239,7 @@ export const DriverForm = ({ state, send }: DriverFormProps) => {
           label={PageText.Contact.input.lastName.label}
           type="text"
           name="lastName"
-          value={state.context.lastName}
+          value={state.context.lastName || ''}
           onChange={(e) =>
             send({
               type: 'ON_INPUT_CHANGE',
@@ -250,49 +249,19 @@ export const DriverForm = ({ state, send }: DriverFormProps) => {
           }
         />
 
-        <Typo.p textType="body__primary">
-          {t(PageText.Contact.input.email.wantsToBeContacted.question)}
-        </Typo.p>
-
-        <RadioInput
-          label={t(PageText.Contact.input.email.wantsToBeContacted.yes)}
-          name="wantsToBeContacted"
-          checked={state.context.wantsToBeContacted}
-          onChange={() =>
+        <Input
+          label={PageText.Contact.input.email.label}
+          type="email"
+          name="email"
+          value={state.context.email || ''}
+          onChange={(e) =>
             send({
               type: 'ON_INPUT_CHANGE',
-              inputName: 'wantsToBeContacted',
-              value: !state.context.wantsToBeContacted,
+              inputName: 'email',
+              value: e.target.value,
             })
           }
         />
-        <RadioInput
-          label={t(PageText.Contact.input.email.wantsToBeContacted.no)}
-          name="wantsToBeContacted"
-          checked={!state.context.wantsToBeContacted}
-          onChange={() =>
-            send({
-              type: 'ON_INPUT_CHANGE',
-              inputName: 'wantsToBeContacted',
-              value: !state.context.wantsToBeContacted,
-            })
-          }
-        />
-        {state.context.wantsToBeContacted && (
-          <Input
-            label={PageText.Contact.input.email.wantsToBeContacted.label}
-            type="email"
-            name="email"
-            value={state.context.email}
-            onChange={(e) =>
-              send({
-                type: 'ON_INPUT_CHANGE',
-                inputName: 'email',
-                value: e.target.value,
-              })
-            }
-          />
-        )}
       </SectionCard>
     </div>
   );

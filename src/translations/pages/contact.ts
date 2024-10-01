@@ -481,20 +481,17 @@ export const Contact = {
 
     email: {
       label: _('E-post', 'Email', 'E-post'),
-      wantsToBeContacted: {
+      isResponseWanted: {
         label: _(
           'E-post (må fylles ut hvis du vil ha svar)',
           'Email (must be entered if you want to receive an answer)',
           'E-post (må fyllast ut viss du vil ha svar)',
         ),
-        question: _(
-          'Ønsker du svar på angående saken?',
-          'Do you want an answer to the case?',
-          'Ønsker du svar på angåande saka?',
+        checkbox: _(
+          'Ja, jeg ønsker å motta svar på epost',
+          'Yes, I want to receive an answer on email',
+          'Ja, eg ønsker å motta svar på epost',
         ),
-
-        yes: _('Ja', 'Yes', 'Ja'),
-        no: _('Nei', 'No', 'Nei'),
       },
       errorMessages: {
         empty: _(
@@ -598,11 +595,6 @@ export const Contact = {
 
     fromStop: {
       label: _('Fra holdeplass/kai', 'From stop/harbor', 'Frå haldeplass/kai'),
-      labelWhitoutSpecification: _(
-        'Holdeplass/kai',
-        'Stop/harbor',
-        'Haldeplass/kai',
-      ),
       optionLabel: _(
         'Velg holdeplass/kai',
         'Select stop/harbor',
@@ -619,6 +611,21 @@ export const Contact = {
 
     toStop: {
       label: _('Til holdeplass/kai', 'To stop/harbor', 'Til haldeplass/kai'),
+      optionLabel: _(
+        'Velg holdeplass/kai',
+        'Select stop/harbor',
+        'Vel haldeplass/kai',
+      ),
+      errorMessages: {
+        empty: _(
+          'Velg holdeplass/kai',
+          'Select stop/harbor',
+          'Vel haldeplass/kai',
+        ),
+      },
+    },
+    stop: {
+      label: _('Holdeplass/kai', 'Stop/harbor', 'Haldeplass/kai'),
       optionLabel: _(
         'Velg holdeplass/kai',
         'Select stop/harbor',
