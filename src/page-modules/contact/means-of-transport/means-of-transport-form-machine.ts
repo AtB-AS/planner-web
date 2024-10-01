@@ -96,7 +96,7 @@ const setInputToValidate = (context: ContextProps) => {
         date,
         plannedDepartureTime,
         feedback,
-        ...(isResponseWanted === true && { email }), // Include email if response is wanted.
+        ...(isResponseWanted && { email }), // Include email if response is wanted.
       };
 
     case FormType.Delay:
