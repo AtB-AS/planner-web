@@ -4,13 +4,13 @@ import { commonEvents } from '../commoneEvents';
 export type ReasonForTransportFailure = { id: string; name: TranslatedString };
 
 const TravelGuaranteeSpecificFormEvents = {} as
-  | { type: 'TAXI' }
-  | { type: 'CAR' }
-  | { type: 'OTHER' }
   | {
       type: 'ON_INPUT_CHANGE';
       inputName:
+        | 'formType'
         | 'kilometersDriven'
+        | 'fromAddress'
+        | 'toAddress'
         | 'reasonForTransportFailure'
         | 'isIntialAgreementChecked'
         | 'hasInternationalBankAccount';

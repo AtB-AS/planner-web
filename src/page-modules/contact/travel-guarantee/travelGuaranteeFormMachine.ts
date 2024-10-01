@@ -2,11 +2,9 @@ import { TransportModeType } from '@atb-as/config-specs';
 import { assign, fromPromise, setup } from 'xstate';
 import { Line } from '../server/journey-planner/validators';
 import { ReasonForTransportFailure } from './events';
+import { commonInputValidator, InputErrorMessages } from '../validation';
 import {
-  InputErrorMessages,
-  travelGuaranteeInputValidator,
-} from '../validation';
-import {
+  convertFilesToBase64,
   getCurrentDateString,
   getCurrentTimeString,
   setLineAndResetStops,
@@ -14,34 +12,137 @@ import {
 } from '../utils';
 import { TravelGuaranteeFormEvents } from './events';
 
-type APIParams = {
-  transportMode: TransportModeType | undefined;
-  line: Line | undefined;
-  fromStop: Line['quays'][0] | undefined;
-  toStop: Line['quays'][0] | undefined;
-  date: string;
-  plannedDepartureTime: string;
-  kilometersDriven: string;
-  reasonForTransportFailure: ReasonForTransportFailure | undefined;
-  feedback: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  address: string;
-  postalCode: string;
-  city: string;
-  phoneNumber: string;
-  bankAccountNumber: string;
-  IBAN: string;
-  SWIFT: string;
+export enum FormType {
+  RefundTaxi = 'refundTaxi',
+  RefundCar = 'refundCar',
+}
+
+type submitInput = {
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  address?: string;
+  postalCode?: string;
+  city?: string;
+  phoneNumber?: string;
+  bankAccountNumber?: string;
+  IBAN?: string;
+  SWIFT?: string;
+  feedback?: string;
+  attachments?: File[];
+  transportMode?: string;
+  lineName?: string;
+  fromStopName?: string;
+  toStopName?: string;
+  date?: string;
+  plannedDepartureTime?: string;
+  kilometersDriven?: string;
+  fromAddress?: string;
+  toAddress?: string;
+  reasonForTransportFailureName?: string;
 };
 
-type ContextProps = {
+export type ContextProps = {
+  formType?: FormType;
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  address?: string;
+  postalCode?: string;
+  city?: string;
+  phoneNumber?: string;
+  bankAccountNumber?: string;
+  IBAN?: string;
+  SWIFT?: string;
+  feedback?: string;
+  attachments?: File[];
+  transportMode?: TransportModeType | undefined;
+  line?: Line | undefined;
+  fromStop?: Line['quays'][0] | undefined;
+  toStop?: Line['quays'][0] | undefined;
+  date: string;
+  plannedDepartureTime: string;
+  kilometersDriven?: string;
+  fromAddress?: string;
+  toAddress?: string;
+  reasonForTransportFailure?: ReasonForTransportFailure;
+
   isIntialAgreementChecked: boolean;
   hasInternationalBankAccount: boolean;
-  travelGuaranteeStateWhenSubmitted: 'car' | 'taxi' | 'other' | undefined;
   errorMessages: InputErrorMessages;
-} & APIParams;
+};
+
+const setFormTypeAndInitialContext = (
+  context: ContextProps,
+  formType: FormType,
+) => {
+  return {
+    ...context,
+    formType: formType,
+    errorMessages: {},
+  };
+};
+
+const setInputToValidate = (context: ContextProps) => {
+  const {
+    formType,
+    firstName,
+    lastName,
+    email,
+    phoneNumber,
+    address,
+    postalCode,
+    city,
+    bankAccountNumber,
+    IBAN,
+    SWIFT,
+    transportMode,
+    line,
+    fromStop,
+    toStop,
+    date,
+    kilometersDriven,
+    fromAddress,
+    toAddress,
+    plannedDepartureTime,
+    reasonForTransportFailure,
+  } = context;
+
+  const commonFields = {
+    transportMode,
+    line,
+    fromStop,
+    toStop,
+    date,
+    plannedDepartureTime,
+    reasonForTransportFailure,
+    firstName,
+    lastName,
+    email,
+    address,
+    postalCode,
+    city,
+    phoneNumber,
+    bankAccountNumber,
+    IBAN,
+    SWIFT,
+  };
+
+  switch (formType) {
+    case FormType.RefundTaxi:
+      return {
+        ...commonFields,
+      };
+
+    case FormType.RefundCar:
+      return {
+        ...commonFields,
+        kilometersDriven,
+        fromAddress,
+        toAddress,
+      };
+  }
+};
 
 export const fetchMachine = setup({
   types: {
@@ -50,26 +151,12 @@ export const fetchMachine = setup({
   },
   guards: {
     validateInputs: ({ context }) => {
-      context.errorMessages = travelGuaranteeInputValidator(context);
+      const inputToValidate = setInputToValidate(context);
+      context.errorMessages = commonInputValidator(inputToValidate);
       return Object.keys(context.errorMessages).length > 0 ? false : true;
     },
   },
   actions: {
-    setCurrentStateWhenSubmitted: assign({
-      travelGuaranteeStateWhenSubmitted: ({ event }) => {
-        switch (event.type) {
-          case 'TAXI':
-            return 'taxi';
-          case 'CAR':
-            return 'car';
-          case 'OTHER':
-            return 'other';
-          default:
-            return undefined; // In case of an unexpected event type
-        }
-      },
-    }),
-
     navigateToErrorPage: () => {
       window.location.href = '/contact/error';
     },
@@ -80,6 +167,9 @@ export const fetchMachine = setup({
     onInputChange: assign(({ context, event }) => {
       if (event.type === 'ON_INPUT_CHANGE') {
         let { inputName, value } = event;
+
+        if (inputName === 'formType')
+          return setFormTypeAndInitialContext(context, value as FormType);
 
         context.errorMessages[inputName] = [];
         return {
@@ -101,24 +191,23 @@ export const fetchMachine = setup({
         return setLineAndResetStops(context, event.value);
       return context;
     }),
-
-    cleanErrorMessages: assign({
-      errorMessages: () => ({}),
-    }),
   },
   actors: {
-    callAPI: fromPromise(
+    submit: fromPromise(
       async ({
         input: {
           transportMode,
-          line,
-          fromStop,
-          toStop,
+          lineName,
+          fromStopName,
+          toStopName,
           date,
           plannedDepartureTime,
-          kilometersDriven: kilometersDriven,
-          reasonForTransportFailure,
+          kilometersDriven,
+          fromAddress,
+          toAddress,
+          reasonForTransportFailureName,
           feedback,
+          attachments,
           firstName,
           lastName,
           address,
@@ -131,18 +220,22 @@ export const fetchMachine = setup({
           SWIFT,
         },
       }: {
-        input: APIParams;
+        input: submitInput;
       }) => {
-        return await fetch('/contact/travel-guarantee', {
+        const base64EncodedAttachments = await convertFilesToBase64(
+          attachments || [],
+        );
+        return await fetch('/api/contact/travel-guarantee', {
           method: 'POST',
           body: JSON.stringify({
+            attachments: base64EncodedAttachments,
             transportMode: transportMode,
-            line: line,
-            fromStop: fromStop,
-            toStop: toStop,
+            line: lineName,
+            fromStop: fromStopName,
+            toStop: toStopName,
             date: date,
             plannedDepartureTime: plannedDepartureTime,
-            reasonForTransportFailure: reasonForTransportFailure,
+            reasonForTransportFailure: reasonForTransportFailureName,
             additionalInfo: feedback,
             firstName: firstName,
             lastName: lastName,
@@ -155,9 +248,12 @@ export const fetchMachine = setup({
             IBAN: IBAN,
             SWIFT: SWIFT,
             kilometersDriven: kilometersDriven,
+            fromAddress: fromAddress,
+            toAddress: toAddress,
           }),
         }).then((response) => {
           // throw an error to force onError
+          console.log(response);
           if (!response.ok) throw new Error('Failed to call API');
           return response.ok;
         });
@@ -170,41 +266,14 @@ export const fetchMachine = setup({
   context: {
     isIntialAgreementChecked: false,
     hasInternationalBankAccount: false,
-    travelGuaranteeStateWhenSubmitted: undefined,
-    transportMode: undefined,
-    line: undefined,
-    fromStop: undefined,
-    toStop: undefined,
     date: getCurrentDateString(),
     plannedDepartureTime: getCurrentTimeString(),
-    reasonForTransportFailure: undefined,
-    kilometersDriven: '',
-    feedback: '',
-    firstName: '',
-    lastName: '',
-    email: '',
-    address: '',
-    postalCode: '',
-    phoneNumber: '',
-    city: '',
-    bankAccountNumber: '',
-    IBAN: '',
-    SWIFT: '',
     errorMessages: {},
   },
   states: {
     editing: {
       initial: 'idle',
       on: {
-        TAXI: {
-          target: 'editing.taxi',
-        },
-        CAR: {
-          target: 'editing.car',
-        },
-        OTHER: {
-          target: 'editing.other',
-        },
         ON_INPUT_CHANGE: {
           actions: 'onInputChange',
         },
@@ -222,20 +291,6 @@ export const fetchMachine = setup({
 
       states: {
         idle: {},
-        taxi: {
-          entry: ['cleanErrorMessages', 'setCurrentStateWhenSubmitted'],
-          tags: ['taxi', 'selected'],
-        },
-
-        car: {
-          entry: ['cleanErrorMessages', 'setCurrentStateWhenSubmitted'],
-          tags: ['car', 'selected'],
-        },
-
-        other: {
-          entry: ['cleanErrorMessages', 'setCurrentStateWhenSubmitted'],
-          tags: ['other', 'selected'],
-        },
         readyForSubmit: {
           type: 'final',
         },
@@ -248,27 +303,31 @@ export const fetchMachine = setup({
 
     submitting: {
       invoke: {
-        src: 'callAPI',
-        input: ({ context }) => ({
-          transportMode: context.transportMode,
-          line: context.line,
-          fromStop: context.fromStop,
-          toStop: context.toStop,
-          date: context.date,
-          plannedDepartureTime: context.plannedDepartureTime,
-          kilometersDriven: context.kilometersDriven,
-          reasonForTransportFailure: context.reasonForTransportFailure,
-          feedback: context.feedback,
-          firstName: context.firstName,
-          lastName: context.lastName,
-          address: context.address,
-          postalCode: context.postalCode,
-          city: context.city,
-          email: context.email,
-          phoneNumber: context.phoneNumber,
-          bankAccountNumber: context.bankAccountNumber,
-          IBAN: context.IBAN,
-          SWIFT: context.SWIFT,
+        src: 'submit',
+        input: ({ context }: { context: ContextProps }) => ({
+          transportMode: context?.transportMode,
+          lineName: context.line?.name,
+          fromStopName: context.fromStop?.name,
+          toStopName: context.toStop?.name,
+          date: context?.date,
+          plannedDepartureTime: context?.plannedDepartureTime,
+          kilometersDriven: context?.kilometersDriven,
+          fromAddress: context?.fromAddress,
+          toAddress: context?.toAddress,
+          reasonForTransportFailureName:
+            context?.reasonForTransportFailure?.name.no,
+          feedback: context?.feedback,
+          attachments: context.attachments,
+          firstName: context?.firstName,
+          lastName: context?.lastName,
+          address: context?.address,
+          postalCode: context?.postalCode,
+          city: context?.city,
+          email: context?.email,
+          phoneNumber: context?.phoneNumber,
+          bankAccountNumber: context?.bankAccountNumber,
+          IBAN: context?.IBAN,
+          SWIFT: context?.SWIFT,
         }),
 
         onDone: {

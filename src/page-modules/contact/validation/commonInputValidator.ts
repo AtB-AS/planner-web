@@ -133,6 +133,21 @@ export const commonInputValidator = (context: any) => {
       validCondition: context.feedback && context.feedback.length > 0,
       errorMessage: PageText.Contact.input.feedback.errorMessages.empty,
     },
+    {
+      inputName: 'kilometersDriven',
+      validCondition: context.kilometersDriven,
+      errorMessage: PageText.Contact.input.kilometersDriven.errorMessages.empty,
+    },
+    {
+      inputName: 'fromAddress',
+      validCondition: context.fromAddress,
+      errorMessage: PageText.Contact.input.fromAddress.errorMessages.empty,
+    },
+    {
+      inputName: 'toAddress',
+      validCondition: context.toAddress,
+      errorMessage: PageText.Contact.input.toAddress.errorMessages.empty,
+    },
   ];
 
   // Iterate over each field and apply validation
