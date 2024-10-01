@@ -6,18 +6,18 @@ export const commonInputValidator = (context: any) => {
   const inputRules = [
     {
       inputName: 'firstName',
-      validCondition: context.firstName || context.isContactInfoOptional,
+      validCondition: context.firstName,
 
       errorMessage: PageText.Contact.input.firstName.errorMessages.empty,
     },
     {
       inputName: 'lastName',
-      validCondition: context.lastName || context.isContactInfoOptional,
+      validCondition: context.lastName,
       errorMessage: PageText.Contact.input.lastName.errorMessages.empty,
     },
     {
       inputName: 'email',
-      validCondition: context.email || context.isContactInfoOptional,
+      validCondition: context.email,
       errorMessage: PageText.Contact.input.email.errorMessages.empty,
     },
     {
