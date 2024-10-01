@@ -1,11 +1,9 @@
 import { HttpRequester } from '@atb/modules/api-server';
-import { ContactApiReturnType, TravelGuaranteeApiReturnType } from '../types';
+import { ContactApiReturnType } from '../types';
 
 export type ContactApi = {
   submitTicketControlForm(formData: any): Promise<ContactApiReturnType>;
-  submitTravelGuaranteeForm(
-    formData: any,
-  ): Promise<TravelGuaranteeApiReturnType>;
+  submitTravelGuaranteeForm(formData: any): Promise<ContactApiReturnType>;
 };
 
 export function createContactApi(
@@ -26,7 +24,7 @@ export function createContactApi(
         method: 'POST',
         body: formData,
       });
-      const data: TravelGuaranteeApiReturnType = await response.json();
+      const data: ContactApiReturnType = await response.json();
       return data;
     },
   };
