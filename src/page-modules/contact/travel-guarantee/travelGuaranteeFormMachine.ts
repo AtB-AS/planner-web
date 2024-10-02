@@ -93,6 +93,7 @@ const setInputToValidate = (context: ContextProps) => {
     address,
     postalCode,
     city,
+    hasInternationalBankAccount,
     bankAccountNumber,
     IBAN,
     SWIFT,
@@ -123,9 +124,7 @@ const setInputToValidate = (context: ContextProps) => {
     postalCode,
     city,
     phoneNumber,
-    bankAccountNumber,
-    IBAN,
-    SWIFT,
+    ...(hasInternationalBankAccount ? { IBAN, SWIFT } : { bankAccountNumber }),
   };
 
   switch (formType) {

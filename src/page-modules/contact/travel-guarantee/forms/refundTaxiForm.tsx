@@ -318,7 +318,7 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
         />
 
         <Checkbox
-          label={t(PageText.Contact.input.bankAccountNumber.checkbox)}
+          label={t(PageText.Contact.input.bankInformation.checkbox)}
           checked={state.context.hasInternationalBankAccount}
           onChange={() =>
             send({
@@ -331,7 +331,9 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
 
         {!state.context.hasInternationalBankAccount && (
           <Input
-            label={PageText.Contact.input.bankAccountNumber.notForeignLabel}
+            label={
+              PageText.Contact.input.bankInformation.bankAccountNumber.label
+            }
             type="number"
             name="bankAccountNumber"
             value={state.context.bankAccountNumber || ''}
@@ -351,10 +353,11 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
         {state.context.hasInternationalBankAccount && (
           <div>
             <Input
-              label={PageText.Contact.input.bankAccountNumber.IBAN}
+              label={PageText.Contact.input.bankInformation.IBAN.label}
               type="string"
               name="IBAN"
               value={state.context.IBAN || ''}
+              errorMessage={state.context?.errorMessages['IBAN']?.[0]}
               onChange={(e) =>
                 send({
                   type: 'ON_INPUT_CHANGE',
@@ -365,10 +368,11 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
             />
 
             <Input
-              label={PageText.Contact.input.bankAccountNumber.SWIFT}
+              label={PageText.Contact.input.bankInformation.SWIFT.label}
               type="string"
               name="SWIFT"
               value={state.context.SWIFT || ''}
+              errorMessage={state.context?.errorMessages['SWIFT']?.[0]}
               onChange={(e) =>
                 send({
                   type: 'ON_INPUT_CHANGE',
@@ -377,13 +381,6 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
                 })
               }
             />
-            {state.context?.errorMessages['bankAccountNumber']?.[0] && (
-              <ErrorMessage
-                message={t(
-                  state.context?.errorMessages['bankAccountNumber']?.[0],
-                )}
-              />
-            )}
           </div>
         )}
       </SectionCard>

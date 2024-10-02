@@ -546,27 +546,42 @@ export const Contact = {
       },
     },
 
-    bankAccountNumber: {
-      notForeignLabel: _(
-        'Bankkontonummer',
-        'Bank account number',
-        'Bankkontonummer',
-      ),
+    bankInformation: {
+      bankAccountNumber: {
+        label: _('Bankkontonummer', 'Bank account number', 'Bankkontonummer'),
+        errorMessages: {
+          empty: _(
+            'Vennligst fyll ut ditt bankkontonummer',
+            'Please provide your bank account',
+            'Vennligst fyll ut ditt bankkontonummer',
+          ),
+        },
+      },
+      IBAN: {
+        label: _('IBAN', 'IBAN', 'IBAN'),
+        errorMessages: {
+          empty: _(
+            'Vennligst fyll ut ditt IBAN-nummer',
+            'Please provide your bank IBAN number',
+            'Vennligst fyll ut ditt IBAN-nummer',
+          ),
+        },
+      },
+      SWIFT: {
+        label: _('SWIFT ', 'SWIFT ', 'SWIFT '),
+        errorMessages: {
+          empty: _(
+            'Vennligst fyll ut ditt SWIFT-nummer',
+            'Please provide your SWIFT number',
+            'Vennligst fyll ut ditt SWIFT-nummer',
+          ),
+        },
+      },
       checkbox: _(
         'Jeg har et utenlandsk bankkontonummer',
         'I have a foreign bank account',
         'Eg har eit utanlandsk bankkontonummer',
       ),
-      IBAN: _('IBAN', 'IBAN', 'IBAN'),
-      SWIFT: _('SWIFT ', 'SWIFT ', 'SWIFT '),
-
-      errorMessages: {
-        empty: _(
-          'Vennligst fyll ut ditt bankkontonummer',
-          'Please provide your bank account',
-          'Vennligst fyll ut ditt bankkontonummer',
-        ),
-      },
     },
 
     transportMode: {
