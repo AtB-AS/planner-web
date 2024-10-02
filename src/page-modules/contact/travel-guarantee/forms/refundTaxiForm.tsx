@@ -7,7 +7,6 @@ import { Line } from '../..';
 import Select from '../../components/input/select';
 import { TravelGuaranteeFormEvents } from '../events';
 import { ContextProps } from '../travelGuaranteeFormMachine';
-import ErrorMessage from '../../components/input/error-message';
 import { Checkbox } from '../../components/input/checkbox';
 import { Textarea } from '../../components/input/textarea';
 import { FileInput } from '../../components/input/file';
