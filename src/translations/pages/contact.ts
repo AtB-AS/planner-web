@@ -450,6 +450,55 @@ export const Contact = {
 
   ticketsApp: {
     title: _('Billetter og app', 'Tickets and app', 'Billettar og app'),
+    priceAndTicketTypes: {
+      description: _(
+        'Priser og billettyper',
+        'Prices and tickets type',
+        'Prisar og billettypar',
+      ),
+    },
+    app: {
+      description: _('App', 'App', 'App'),
+
+      appTicketing: {
+        title: _(
+          'Hvilke billett gjelder det?',
+          'Which ticket',
+          'Kva billett gjeld det?',
+        ),
+        label: _('appTicketing', 'appTicketing', 'appTicketing'),
+      },
+
+      appTravelSuggestion: {
+        label: _(
+          'appTravelSuggestion',
+          'appTravelSuggestion',
+          'appTravelSuggestion',
+        ),
+      },
+
+      appAccount: {
+        label: _('appAccount', 'appAccount', 'appAccount'),
+      },
+    },
+    webshop: {
+      description: _('Nettbutikk', 'Webshop', 'Nettbutikk'),
+    },
+    travelCard: {
+      description: _('Resekort', 'Travel card', 'Resiekort'),
+      travelCardQuestion: {
+        label: _('test', 'test', 'test'),
+      },
+      orderTravelCard: { label: _('test', 'test', 'test') },
+    },
+    refund: {
+      description: _('Refusjon', 'Refund', 'Refusjon'),
+      appTicketRefund: { label: _('test', 'test', 'test') },
+      otherTicketRefundForm: { label: _('test', 'test', 'test') },
+    },
+  },
+  lostAndFound: {
+    title: _('Hittegods', 'Lost and found', 'Hittegods'),
   },
   groupTravel: {
     title: _('Gruppereise', 'Group travel', 'Gruppereise'),
@@ -1272,6 +1321,45 @@ export const Contact = {
       ] as Area[],
       errorMessages: {
         empty: _('Område mangler', 'Area is missing', 'Område mangler'),
+      },
+    },
+
+    question: {
+      label: _('q', 'q', 'q'),
+      errorMessages: {
+        empty: _('q', 'q', 'q'),
+      },
+    },
+    orderId: {
+      label: _('q', 'q', 'q'),
+      errorMessages: {
+        empty: _('q', 'q', 'q'),
+      },
+    },
+
+    customerId: {
+      label: _('q', 'q', 'q'),
+      errorMessages: {
+        empty: _('q', 'q', 'q'),
+      },
+    },
+
+    ticketType: {
+      label: _('q', 'q', 'q'),
+      errorMessages: {
+        empty: _('q', 'q', 'q'),
+      },
+    },
+    refundReason: {
+      label: _('q', 'q', 'q'),
+      errorMessages: {
+        empty: _('q', 'q', 'q'),
+      },
+    },
+    amount: {
+      label: _('q', 'q', 'q'),
+      errorMessages: {
+        empty: _('q', 'q', 'q'),
       },
     },
   },

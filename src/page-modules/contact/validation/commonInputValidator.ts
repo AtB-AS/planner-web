@@ -160,6 +160,36 @@ export const commonInputValidator = (context: any) => {
       validCondition: context.toAddress,
       errorMessage: PageText.Contact.input.toAddress.errorMessages.empty,
     },
+    {
+      inputName: 'question',
+      validCondition: context.question,
+      errorMessage: PageText.Contact.input.question.errorMessages.empty,
+    },
+    {
+      inputName: 'orderId',
+      validCondition: context.orderId,
+      errorMessage: PageText.Contact.input.orderId.errorMessages.empty,
+    },
+    {
+      inputName: 'customerId',
+      validCondition: context.orderId,
+      errorMessage: PageText.Contact.input.customerId.errorMessages.empty,
+    },
+    {
+      inputName: 'ticketType',
+      validCondition: context.ticketType,
+      errorMessage: PageText.Contact.input.ticketType.errorMessages.empty,
+    },
+    {
+      inputName: 'refundReason',
+      validCondition: context.refundReason,
+      errorMessage: PageText.Contact.input.refundReason.errorMessages.empty,
+    },
+    {
+      inputName: 'amount',
+      validCondition: context.amount,
+      errorMessage: PageText.Contact.input.amount.errorMessages.empty,
+    },
   ];
 
   // Iterate over each field and apply validation
