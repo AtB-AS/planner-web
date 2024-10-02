@@ -1384,7 +1384,7 @@ export const Contact = {
         empty: _('Område mangler', 'Area is missing', 'Område mangler'),
       },
     },
-    
+
     appPhoneNumber: {
       label: _(
         'Registrert mobilnummer',
@@ -1421,7 +1421,7 @@ export const Contact = {
         ),
       },
     },
-    
+
     question: {
       title: _(
         'Hva ønsker du å spørre om?',
@@ -1518,9 +1518,10 @@ export const Contact = {
         empty: _(
           'Grunn for refusjon mangler',
           'Reason for refund is missing',
-          'Grunn for refusjon mangler',)
-      }
-    }
+          'Grunn for refusjon mangler',
+        ),
+      },
+    },
   },
   success: {
     backButton: _(
