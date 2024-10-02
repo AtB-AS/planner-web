@@ -61,6 +61,12 @@
   outline: 2px solid var(--interactive-interactive_2-outline-background);
   outline-offset: 2px;
 }
+
+.label__radioBox:hover {
+  background-color: var(--interactive-interactive_2-hover-background);
+  color: var(--interactive-interactive_2-hover-text);
+}
+
 .label__radioBox {
   display: block;
   border-radius: 50%;
@@ -126,10 +132,14 @@
   border-radius: 50%;
 }
 
-.iconButton:focus,
-.iconButton:hover {
+.iconButton:focus {
   outline: 2px solid var(--interactive-interactive_2-outline-background);
   outline-offset: 2px;
+}
+
+.iconButton:hover {
+  background-color: var(--interactive-interactive_2-hover-background);
+  color: var(--interactive-interactive_2-hover-text);
 }
 
 /* Checkbox */
@@ -268,6 +278,12 @@
   border-radius: var(--border-radius-small);
   cursor: pointer;
 }
+
+.label__file:hover {
+  background-color: var(--interactive-interactive_2-hover-background);
+  color: var(--interactive-interactive_2-hover-text);
+}
+
 .fileList {
   display: flex;
   flex-direction: column;
