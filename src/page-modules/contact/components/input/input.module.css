@@ -26,6 +26,7 @@
 
   border: var(--border-width-medium) solid var(--text-colors-primary);
   border-radius: var(--border-radius-small);
+  width: 100%;
 }
 
 .input:focus {
