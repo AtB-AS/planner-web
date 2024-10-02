@@ -352,7 +352,7 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
           <div>
             <Input
               label={PageText.Contact.input.bankAccountNumber.IBAN}
-              type="number"
+              type="string"
               name="IBAN"
               value={state.context.IBAN || ''}
               onChange={(e) =>
@@ -366,7 +366,7 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
 
             <Input
               label={PageText.Contact.input.bankAccountNumber.SWIFT}
-              type="number"
+              type="string"
               name="SWIFT"
               value={state.context.SWIFT || ''}
               onChange={(e) =>

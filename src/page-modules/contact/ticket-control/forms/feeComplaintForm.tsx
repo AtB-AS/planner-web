@@ -379,7 +379,7 @@ const FormContent = ({ state, send }: FormProps) => {
           <div>
             <Input
               label={PageText.Contact.input.bankAccountNumber.IBAN}
-              type="number"
+              type="string"
               name="IBAN"
               value={state.context.IBAN || ''}
               onChange={(e) =>
@@ -393,7 +393,7 @@ const FormContent = ({ state, send }: FormProps) => {
 
             <Input
               label={PageText.Contact.input.bankAccountNumber.SWIFT}
-              type="number"
+              type="string"
               name="SWIFT"
               value={state.context.SWIFT || ''}
               onChange={(e) =>
