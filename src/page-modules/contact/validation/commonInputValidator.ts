@@ -42,10 +42,22 @@ export const commonInputValidator = (context: any) => {
     },
     {
       inputName: 'bankAccountNumber',
-      validCondition:
-        context.bankAccountNumber || context.IBAN || context.SWIFT,
+      validCondition: context.bankAccountNumber,
       errorMessage:
-        PageText.Contact.input.bankAccountNumber.errorMessages.empty,
+        PageText.Contact.input.bankInformation.bankAccountNumber.errorMessages
+          .empty,
+    },
+    {
+      inputName: 'IBAN',
+      validCondition: context.IBAN,
+      errorMessage:
+        PageText.Contact.input.bankInformation.IBAN.errorMessages.empty,
+    },
+    {
+      inputName: 'SWIFT',
+      validCondition: context.SWIFT,
+      errorMessage:
+        PageText.Contact.input.bankInformation.SWIFT.errorMessages.empty,
     },
     {
       inputName: 'area',

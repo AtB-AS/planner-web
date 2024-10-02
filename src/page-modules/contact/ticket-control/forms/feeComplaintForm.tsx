@@ -345,7 +345,7 @@ const FormContent = ({ state, send }: FormProps) => {
         />
 
         <Checkbox
-          label={t(PageText.Contact.input.bankAccountNumber.checkbox)}
+          label={t(PageText.Contact.input.bankInformation.checkbox)}
           checked={state.context.hasInternationalBankAccount}
           onChange={() =>
             send({
@@ -358,7 +358,9 @@ const FormContent = ({ state, send }: FormProps) => {
 
         {!state.context.hasInternationalBankAccount && (
           <Input
-            label={PageText.Contact.input.bankAccountNumber.notForeignLabel}
+            label={
+              PageText.Contact.input.bankInformation.bankAccountNumber.label
+            }
             type="number"
             name="bankAccountNumber"
             value={state.context.bankAccountNumber || ''}
@@ -378,10 +380,11 @@ const FormContent = ({ state, send }: FormProps) => {
         {state.context.hasInternationalBankAccount && (
           <div>
             <Input
-              label={PageText.Contact.input.bankAccountNumber.IBAN}
-              type="number"
+              label={PageText.Contact.input.bankInformation.IBAN.label}
+              type="string"
               name="IBAN"
               value={state.context.IBAN || ''}
+              errorMessage={state.context?.errorMessages['IBAN']?.[0]}
               onChange={(e) =>
                 send({
                   type: 'ON_INPUT_CHANGE',
@@ -392,10 +395,11 @@ const FormContent = ({ state, send }: FormProps) => {
             />
 
             <Input
-              label={PageText.Contact.input.bankAccountNumber.SWIFT}
-              type="number"
+              label={PageText.Contact.input.bankInformation.SWIFT.label}
+              type="string"
               name="SWIFT"
               value={state.context.SWIFT || ''}
+              errorMessage={state.context?.errorMessages['SWIFT']?.[0]}
               onChange={(e) =>
                 send({
                   type: 'ON_INPUT_CHANGE',
@@ -404,13 +408,6 @@ const FormContent = ({ state, send }: FormProps) => {
                 })
               }
             />
-            {state.context?.errorMessages['bankAccountNumber']?.[0] && (
-              <ErrorMessage
-                message={t(
-                  state.context?.errorMessages['bankAccountNumber']?.[0],
-                )}
-              />
-            )}
           </div>
         )}
       </SectionCard>
