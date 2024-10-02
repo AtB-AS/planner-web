@@ -552,7 +552,7 @@ export const Contact = {
         errorMessages: {
           empty: _(
             'Vennligst fyll ut ditt bankkontonummer',
-            'Please provide your bank account',
+            'Please provide your bank account number',
             'Vennligst fyll ut ditt bankkontonummer',
           ),
         },
