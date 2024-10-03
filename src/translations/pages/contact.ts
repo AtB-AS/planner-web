@@ -427,12 +427,29 @@ export const Contact = {
       },
     },
   },
+  lostProperty: {
+    title: _('Hittegods', 'Lost property', 'Hittegods'),
+    description: {
+      info: _(
+        'Har du glemt igjen noe i en av bussene, hurtigbåtene eller fergene',
+        'If you have forgotten something on one of the buses, express boats, or ferries',
+        'Har du gløymt igjen noko i ein av bussane, hurtigbåtane eller ferjene',
+      ),
+      externalLink: _(
+        'finner du informasjon om hvem du kan kontakte her.',
+        'you can find information on who to contact here.',
+        'finn du informasjon om kven du kan ta kontakt med her.',
+      ),
+      url: _(
+        'https://frammr.no/hjelp-og-kontakt/hittegods/',
+        'https://frammr.no/hjelp-og-kontakt/hittegods/?sprak=3',
+        'https://frammr.no/hjelp-og-kontakt/hittegods/',
+      ),
+    },
+  },
 
   ticketsApp: {
     title: _('Billetter og app', 'Tickets and app', 'Billettar og app'),
-  },
-  lostAndFound: {
-    title: _('Hittegods', 'Lost and found', 'Hittegods'),
   },
   groupTravel: {
     title: _('Gruppereise', 'Group travel', 'Gruppereise'),
