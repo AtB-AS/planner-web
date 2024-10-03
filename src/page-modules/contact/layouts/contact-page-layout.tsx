@@ -36,11 +36,13 @@ export const contactPages: ContactPage[] = [
     href: '/contact/tickets-app',
     icon: 'devices/Phone',
   },
+  */
   {
-    title: PageText.Contact.lostAndFound.title,
-    href: '/contact/lost-and-found',
+    title: PageText.Contact.lostProperty.title,
+    href: '/contact/lost-property',
     icon: 'actions/Support',
   },
+  /*
   {
     title: PageText.Contact.groupTravel.title,
     href: '/contact/group-travel',
