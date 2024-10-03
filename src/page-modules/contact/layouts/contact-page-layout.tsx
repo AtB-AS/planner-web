@@ -25,12 +25,12 @@ export const contactPages: ContactPage[] = [
     href: '/contact/travel-guarantee',
     icon: 'transportation-entur/Taxi',
   },
-  /*
   {
     title: PageText.Contact.modeOfTransport.title,
     href: '/contact/means-of-transport',
     icon: 'transportation/Bus',
   },
+  /*
   {
     title: PageText.Contact.ticketsApp.title,
     href: '/contact/tickets-app',
