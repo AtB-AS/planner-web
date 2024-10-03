@@ -436,6 +436,296 @@ export const Contact = {
   },
   groupTravel: {
     title: _('Gruppereise', 'Group travel', 'Gruppereise'),
+    travelTypeBus: {
+      radioLabel: _(
+        'Gruppereise med buss',
+        'Group travel by bus',
+        'Gruppereise med buss',
+      ),
+      paragraphs: [
+        _(
+          'Det er ikke mulig å reservere seter om bord på buss, men ved å melde fra om større grupper vil det blir enklere å planlegge avgangene slik at ingen blir stående igjen.',
+          "It's not possible to reserve seats on the bus, but by notifying us about larger groups, it will be easier to plan the departures so that no one is left behind.",
+          'Det er ikkje mogleg å reservere seter om bord på bussar, men ved å melde frå om større grupper vil det bli enklare å planlegge avgangane slik at ingen blir ståande att.',
+        ),
+        _(
+          'Det er ingen grupperabatt på bussene til FRAM.',
+          'There is no group discount on the FRAM buses.',
+          'Det er ingen grupperabatt på bussane til FRAM.',
+        ),
+        _(
+          'Fristen for å melde inn er klokken 12.00 dagen før. Om du skal reise på en mandag, er fristen kl. 12.00 fredagen før.',
+          'The deadline for notification is 12.00 the day before. If you are traveling on a Monday, the deadline is 12.00 on the Friday before.',
+          'Fristen for å melde inn er klokka 12.00 dagen før. Om du skal reise på ein måndag, er fristen kl. 12.00 fredagen før.',
+        ),
+        _(
+          'Vi anbefaler grupper å ha med barnesete til alle som normalt bruker dette. Det er setebelte i alle bussene bortsett fra bybussene.',
+          'We recommend groups to bring a child seat for everyone who normally uses this. There are seat belts on all buses except for the city buses.',
+          'Vi anbefaler grupper å ha med barnesete til alle som normalt bruker dette. Det er setebelte i alle bussane bortsett frå bybussane.',
+        ),
+      ],
+      kindergarden: {
+        title: _(
+          'Barnehage på buss',
+          'Kindergarten on bus',
+          'Barnehage på buss',
+        ),
+        paragraphs: [
+          _(
+            'Barn på tur med barnehage kan reise gratis med buss mellom klokka 09.00 og 13.00 alle hverdager. Voksne må kjøpe vanlig billett for bussen.',
+            'Children on a trip with a kindergarten can travel for free by bus between 09.00 and 13.00 every weekday. The adults must purchase a regular bus ticket.',
+            'Barn på tur med barnehage kan reise gratis med buss mellom klokka 09.00 og 13.00 alle kvardagar. Dei vaksne må kjøpe vanleg billett for bussen.',
+          ),
+          _(
+            'Barnehagar skal sende inn skjema for gruppereise.',
+            'Kindergartens must submit a group travel form.',
+            'Barnehagar skal sende inn skjema for gruppereise.',
+          ),
+        ],
+      },
+      form: {
+        title: _('Gruppereiseskjema', 'Group travel form', 'Gruppereiseskjema'),
+        info: _(
+          'Vi ber om de personopplysningene vi trenger for å behandle saken din. Du skal derfor ikke legge inn personopplysninger i fritekstfeltene. Personopplysninger er alle opplysninger som kan knyttes til en fysisk person, eller bidra til å identifisere en fysisk person.',
+          'We ask for the personal information we need to process your case. Therefore, you should not enter personal information in the free text fields. Personal information is all information that can be linked to a physical person, or contribute to identifying a physical person.',
+          'Vi ber om dei personopplysningane vi treng for å behandle saka di. Du skal derfor ikkje legge inn personopplysningar i fritekstfelta. Personopplysningar er alle opplysningar som kan knytast til ein fysisk person, eller bidra til å identifisere ein fysisk person.',
+        ),
+        travelInformation: {
+          title: _(
+            'Reiseinformasjon',
+            'Travel information',
+            'Reiseinformasjon',
+          ),
+          dateOfTravel: {
+            title: _(
+              'Dato de skal reise',
+              'Date of travel',
+              'Dato de skal reise',
+            ),
+          },
+          line: {
+            title: _('Linje (påkrevd)', 'Line (required)', 'Linje (påkrevd)'),
+            info: _(
+              'Velg linjen på bussen de vil reise med.',
+              'Select the bus line you would like to travel with.',
+              'Velg linjen på bussen de vil reise med.',
+            ),
+          },
+          fromStop: {
+            title: _(
+              'Fra holdeplass (påkrevd)',
+              'From stop (required)',
+              'Frå holdeplass (påkrevd)',
+            ),
+            info: _(
+              'Velg holdeplassen de vil reise fra.',
+              'Select the stop you would like to travel from.',
+              'Velg haldeplassen de vil reise frå.',
+            ),
+          },
+          departureTime: {
+            title: _(
+              'Avgangstid (påkrevd)',
+              'Departure time (påkrevd)',
+              'Avgangstid (påkrevd)',
+            ),
+            info: _(
+              'Skriv inn avgangstiden fra holdeplassen de vil reise fra.',
+              'Write the departure time from the stop you would like to travel from.',
+              'Skriv inn avgangstida frå haldeplassen de vil reise frå.',
+            ),
+          },
+          toStop: {
+            title: _(
+              'Til holdeplass (påkrevd)',
+              'To stop (required)',
+              'Til holdeplass (påkrevd)',
+            ),
+            info: _(
+              'Velg holdeplassen de vil reise til.',
+              'Select the stop you would like to travel to.',
+              'Velg haldeplassen de vil reise til.',
+            ),
+          },
+        },
+        travelReturn: {
+          title: _(
+            'Retur (hvis aktuelt)',
+            'Return (if applicable)',
+            'Retur (viss aktuelt)',
+          ),
+          line: {
+            title: _(
+              'Linje (for returen)',
+              'Line (for the return)',
+              'Linje (for returen)',
+            ),
+            info: _(
+              'Velg linjen på bussen de vil reise med på returen.',
+              'Select the bus line you would like to travel with on the return.',
+              'Velg linjen på bussen de vil reise med på returen.',
+            ),
+          },
+          fromStop: {
+            title: _(
+              'Fra holdeplass (for returen)',
+              'From stop (for the return)',
+              'Frå holdeplass (for returen)',
+            ),
+            info: _(
+              'Velg holdeplassen de vil reise fra på returen.',
+              'Select the stop you would like to travel from on the return.',
+              'Velg haldeplassen de vil reise frå på returen.',
+            ),
+          },
+          departureTime: {
+            title: _(
+              'Avgangstid (for returen)',
+              'Departure time (for the return)',
+              'Avgangstid (for returen)',
+            ),
+            info: _(
+              'Skriv inn avgangstiden fra holdeplassen de vil reise fra på returen.',
+              'Write the departure time from the stop you would like to travel from on the return.',
+              'Skriv inn avgangstida frå haldeplassen de vil reise frå med på returen.',
+            ),
+          },
+          toStop: {
+            title: _(
+              'Til holdeplass (for returen)',
+              'To stop (for the return)',
+              'Til holdeplass (for returen)',
+            ),
+            info: _(
+              'Velg holdeplassen de vil reise til på returen.',
+              'Select the stop you would like to travel to on the return.',
+              'Velg haldeplassen de vil reise til på returen.',
+            ),
+          },
+        },
+        groupInformation: {
+          title: _(
+            'Informasjon om gruppen',
+            'Information about the group',
+            'Informasjon om gruppa',
+          ),
+          groupSize: {
+            title: _(
+              'Antall reisende (påkrevd)',
+              'Number of travelers (required)',
+              'Talet reisande (påkrevd)',
+            ),
+            info: _(
+              'Skriv inn antall som skal reise',
+              'Write number of travellers',
+              'Skriv inn talet reisande som skal reise. ',
+            ),
+            error: _(
+              'Antall reisende må være et tall',
+              'Number of travelers must be a number',
+              'Talet reisande må vere eit tal',
+            ),
+          },
+          groupInfo: {
+            title: _(
+              'Gruppe (påkrevd)',
+              'Group (required)',
+              'Gruppe (påkrevd)',
+            ),
+            info: _(
+              'Skriv inn navnet på bedriften, skolen, barnehagen, organisasjonen og lignende. Ikke skriv personopplysninger.',
+              'Write the name of the company, school, kindergarten, organization, and the like. Do not write personal information.',
+              'Skriv inn namnet på bedrifta, skolen, barnehagen, organisasjonen og liknande. Ikkje skriv personopplysningar. ',
+            ),
+            error: _(
+              'Info om gruppe kan ikke være tom',
+              'Group info cannot be empty',
+              'Info om gruppe kan ikkje vere tom',
+            ),
+          },
+          responsiblePerson: {
+            title: _(
+              'Navn på ansvarlig person (påkrevd)',
+              'Name of responsible person (required)',
+              'Namn på ansvarleg person (påkrevd)',
+            ),
+            info: _(
+              'Skriv inn navnet på personen som er ansvarlig for gruppen',
+              'Write the name of the person responsilbe for the group',
+              'Skriv inn namnet på personen som er ansvarleg for gruppa. ',
+            ),
+            error: _(
+              'Navn på ansvarlig person kan ikke være tom',
+              'Name of responsible person cannot be empty',
+              'Namn på ansvarleg person kan ikkje vere tom',
+            ),
+          },
+          responsiblePersonPhone: {
+            title: _(
+              'Mobilnummer til ansvarlig person (påkrevd)',
+              'Phone number of responsible person (required)',
+              'Mobilnummer til ansvarleg person (påkrevd)',
+            ),
+            info: _(
+              'Skriv inn mobilnummeret til personen som er ansvarlig for gruppen',
+              'Write the phone number of the person responsible for the group',
+              'Skriv inn mobilnummeret til personen som er ansvarleg for reisefølget. ',
+            ),
+            error: _(
+              'Mobilnummer til ansvarlig person kan ikke være tom',
+              'Phone number of responsible person cannot be empty',
+              'Mobilnummer til ansvarleg person kan ikkje vere tom',
+            ),
+          },
+          responsiblePersonEmail: {
+            title: _(
+              'E-post til ansvarlig person (påkrevd)',
+              'Email to responsible person (required)',
+              'E-post til ansvarleg person (påkrevd)',
+            ),
+            info: _(
+              'Skriv inn e-postadressen til personen som er ansvarlig for gruppen',
+              'Write the email address of the person responsible for the group',
+              'Skriv inn e-postadressa til personen som er ansvarlege for reisefølget. ',
+            ),
+            error: _(
+              'E-post til ansvarlig person kan ikke være tom',
+              'Email to responsible person cannot be empty',
+              'E-post til ansvarleg person kan ikkje vere tom',
+            ),
+          },
+        },
+      },
+    },
+    travelTypeBoat: {
+      radioLabel: _(
+        'Gruppereise med hurtigbåt',
+        'Group travel by express boat',
+        'Gruppereise med hurtigbåt',
+      ),
+      contactInformation: {
+        info: _(
+          'For gruppereiser med hurtigbåt melder du fra direkte til hurtigbåtene.',
+          'For group travel by express boat, you report directly to the express boats.',
+          'For gruppereiser med hurtigbåt melder du frå direkte til hurtigbåten.',
+        ),
+        externalLink: _(
+          'Kontaktinformasjon finner du på rutetabellene for hurtigbåt.',
+          'You can find the contact information on the express boat timetables.',
+          'Du finn kontaktinformasjon på rutetabellane for hurtigbåt.',
+        ),
+        url: _(
+          'https://frammr.no/reise/rutetabellar-og-linjekart/hurtigbat/',
+          'https://frammr.no/reise/rutetabellar-og-linjekart/hurtigbat/?sprak=11',
+          'https://frammr.no/reise/rutetabellar-og-linjekart/hurtigbat/',
+        ),
+      },
+      discountInformation: _(
+        'Grupper på 10 eller flere som kjøpe samlet billett får 30 prosent rabatt på enkeltbillett. Rabatten for gruppe gjelder bare voksne og barn, ikke for andre rabatterte billetter som for eksempel honnør.',
+        'Groups of 10 or more who buy a collective ticket receive a 30 percent discount on a single ticket. The group discount applies only to adults and children, not to other discounted tickets such as senior.',
+        'Grupper på 10 eller fleire som kjøper samla billett får 30 prosent rabatt på enkeltbillett. Rabatten for gruppe gjeld berre vaksne og barn, ikkje for andre rabatterte billettar som for eksempel honnør.',
+      ),
+    },
   },
   aboutYouInfo: {
     title: _(
