@@ -82,6 +82,17 @@ const setFormTypeAndInitialContext = (
     errorMessages: {},
   };
 };
+const setInitialAgreementAndFormType = (
+  context: ContextProps,
+  isChecked: boolean,
+) => {
+  return {
+    ...context,
+    isIntialAgreementChecked: isChecked,
+    formType: undefined,
+    errorMessages: {},
+  };
+};
 
 const setInputToValidate = (context: ContextProps) => {
   const {
@@ -169,6 +180,9 @@ export const fetchMachine = setup({
 
         if (inputName === 'formType')
           return setFormTypeAndInitialContext(context, value as FormType);
+
+        if (inputName === 'isIntialAgreementChecked')
+          return setInitialAgreementAndFormType(context, value);
 
         context.errorMessages[inputName] = [];
         return {
