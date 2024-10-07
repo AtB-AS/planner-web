@@ -54,6 +54,17 @@ type GroupTravelEvents =
   | { type: 'UPDATE_FORM_DATA'; formData: GroupTravelContextType['formData'] }
   | { type: 'SUBMIT' };
 
+const getFormDataErrors = (formData: GroupTravelContextType['formData']) => {
+  const errors: GroupTravelContextType['errors'] = defaultErrors;
+
+  Object.keys(errors).forEach((key) => {
+    errors[key as keyof GroupTravelContextType['errors']] =
+      !formData[key as keyof GroupTravelContextType['formData']];
+  });
+
+  return errors;
+};
+
 export const groupTravelStateMachine = setup({
   types: {
     context: {} as GroupTravelContextType,
@@ -61,19 +72,8 @@ export const groupTravelStateMachine = setup({
   },
   guards: {
     isFormValid: ({ context }) => {
-      const errors: GroupTravelContextType['errors'] = defaultErrors;
-
-      Object.keys(context.errors).forEach((key) => {
-        errors[key as keyof GroupTravelContextType['errors']] =
-          !context.formData[key as keyof GroupTravelContextType['formData']];
-      });
-
-      const hasErrors = Object.values(errors).some((isError) => isError);
-
-      if (hasErrors) {
-        return false;
-      }
-      return true;
+      const errors = getFormDataErrors(context.formData);
+      return !Object.values(errors).some((isError) => isError);
     },
   },
   actions: {
@@ -99,14 +99,8 @@ export const groupTravelStateMachine = setup({
       };
     }),
     setValidationErrors: assign(({ context }) => {
-      const updatedErrors: GroupTravelContextType['errors'] = defaultErrors;
-
-      Object.keys(context.errors).forEach((key) => {
-        updatedErrors[key as keyof GroupTravelContextType['errors']] =
-          !context.formData[key as keyof GroupTravelContextType['formData']];
-      });
-
-      return { errors: { ...updatedErrors } };
+      const errors = getFormDataErrors(context.formData);
+      return { errors: { ...errors } };
     }),
     clearValidationErrors: assign({ errors: defaultErrors }),
   },
