@@ -329,18 +329,32 @@ export default function GroupTravelContent() {
             <Input
               label={
                 PageText.Contact.groupTravel.travelTypeBus.form.groupInformation
-                  .responsiblePerson.title
+                  .firstName.title
               }
               type="text"
-              name="responsiblePerson"
-              value={formData.responsiblePerson}
-              onChange={(e) =>
-                handleInputChange('responsiblePerson', e.target.value)
-              }
+              name="firstName"
+              value={formData.firstName}
+              onChange={(e) => handleInputChange('firstName', e.target.value)}
               errorMessage={
-                errors.responsiblePerson
+                errors.firstName
                   ? PageText.Contact.groupTravel.travelTypeBus.form
-                      .groupInformation.responsiblePerson.error
+                      .groupInformation.firstName.error
+                  : undefined
+              }
+            />
+            <Input
+              label={
+                PageText.Contact.groupTravel.travelTypeBus.form.groupInformation
+                  .lastName.title
+              }
+              type="text"
+              name="lastName"
+              value={formData.lastName}
+              onChange={(e) => handleInputChange('lastName', e.target.value)}
+              errorMessage={
+                errors.lastName
+                  ? PageText.Contact.groupTravel.travelTypeBus.form
+                      .groupInformation.lastName.error
                   : undefined
               }
             />

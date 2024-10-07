@@ -643,21 +643,38 @@ export const Contact = {
               'Info om gruppe kan ikkje vere tom',
             ),
           },
-          responsiblePerson: {
+          firstName: {
             title: _(
-              'Navn på ansvarlig person (påkrevd)',
-              'Name of responsible person (required)',
-              'Namn på ansvarleg person (påkrevd)',
+              'Fornavnet til ansvarlig person (påkrevd)',
+              'First name of responsible person (required)',
+              'Fornamnet til ansvarleg person (påkrevd)',
             ),
             info: _(
-              'Skriv inn navnet på personen som er ansvarlig for gruppen',
-              'Write the name of the person responsilbe for the group',
-              'Skriv inn namnet på personen som er ansvarleg for gruppa. ',
+              'Skriv inn fornavnet til personen som er ansvarlig for gruppen',
+              'Write the first name of the person responsible for the group',
+              'Skriv inn fornamnet til personen som er ansvarleg for gruppa. ',
             ),
             error: _(
-              'Navn på ansvarlig person kan ikke være tom',
-              'Name of responsible person cannot be empty',
-              'Namn på ansvarleg person kan ikkje vere tom',
+              'Fornavnet til ansvarlig person kan ikke være tom',
+              'First name of responsible person cannot be empty',
+              'Fornamnet på ansvarleg person kan ikkje vere tom',
+            ),
+          },
+          lastName: {
+            title: _(
+              'Etternavnet til ansvarlig person (påkrevd)',
+              'Last name of responsible person (required)',
+              'Etternamnet til ansvarleg person (påkrevd)',
+            ),
+            info: _(
+              'Skriv inn etternavnet til personen som er ansvarlig for gruppen',
+              'Write the last name of the person responsible for the group',
+              'Skriv inn etternamnet til personen som er ansvarleg for gruppa. ',
+            ),
+            error: _(
+              'Etternavnet til ansvarlig person kan ikke være tom',
+              'Last name of responsible person cannot be empty',
+              'Etternamnet på ansvarleg person kan ikkje vere tom',
             ),
           },
           responsiblePersonPhone: {

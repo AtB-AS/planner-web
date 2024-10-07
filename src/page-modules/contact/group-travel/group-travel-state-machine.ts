@@ -18,7 +18,8 @@ export type GroupTravelContextType = {
 
     groupSize: string;
     groupInfo: string;
-    responsiblePerson: string;
+    firstName: string;
+    lastName: string;
     phoneNumber: string;
     email: string;
   };
@@ -30,7 +31,8 @@ export type GroupTravelContextType = {
     toStop: boolean;
     groupSize: boolean;
     groupInfo: boolean;
-    responsiblePerson: boolean;
+    firstName: boolean;
+    lastName: boolean;
     phoneNumber: boolean;
     email: boolean;
   };
@@ -44,7 +46,8 @@ const defaultErrors: GroupTravelContextType['errors'] = {
   toStop: false,
   groupSize: false,
   groupInfo: false,
-  responsiblePerson: false,
+  firstName: false,
+  lastName: false,
   phoneNumber: false,
   email: false,
 };
