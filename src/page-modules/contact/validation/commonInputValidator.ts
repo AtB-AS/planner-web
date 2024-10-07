@@ -171,16 +171,6 @@ export const commonInputValidator = (context: any) => {
       errorMessage: PageText.Contact.input.orderId.errorMessages.empty,
     },
     {
-      inputName: 'customerId',
-      validCondition: context.orderId,
-      errorMessage: PageText.Contact.input.customerId.errorMessages.empty,
-    },
-    {
-      inputName: 'ticketType',
-      validCondition: context.ticketType,
-      errorMessage: PageText.Contact.input.ticketType.errorMessages.empty,
-    },
-    {
       inputName: 'refundReason',
       validCondition: context.refundReason,
       errorMessage: PageText.Contact.input.refundReason.errorMessages.empty,

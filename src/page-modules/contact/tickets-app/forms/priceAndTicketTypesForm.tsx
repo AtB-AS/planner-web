@@ -1,14 +1,14 @@
 import { SectionCard } from '../../components/section-card';
 import { PageText, useTranslation } from '@atb/translations';
 import { ticketsAppFormEvents } from '../events';
-import { ContextProps, FormType } from '../tickets-app-form-machine';
+import { TicketsAppContextProps } from '../tickets-app-form-machine';
 import { Typo } from '@atb/components/typography';
 import { Textarea } from '../../components/input/textarea';
 import { FileInput } from '../../components/input/file';
 import { Input } from '../../components/input';
 
 type PriceAndTicketTypesFormProps = {
-  state: { context: ContextProps };
+  state: { context: TicketsAppContextProps };
   send: (event: typeof ticketsAppFormEvents) => void;
 };
 
@@ -20,28 +20,28 @@ export const PriceAndTicketTypesForm = ({
 
   return (
     <div>
-      <SectionCard title={t(PageText.Contact.input.feedback.title)}>
+      <SectionCard title={t(PageText.Contact.input.question.title)}>
         <Typo.p textType="body__primary">
-          {t(PageText.Contact.input.feedback.description)}
+          {t(PageText.Contact.input.question.info)}
         </Typo.p>
         <Textarea
-          value={state.context.feedback || ''}
+          value={state.context.question || ''}
           onChange={(e) =>
             send({
               type: 'ON_INPUT_CHANGE',
-              inputName: 'feedback',
+              inputName: 'question',
               value: e.target.value,
             })
           }
           error={
-            state.context.errorMessages['feedback']?.[0]
-              ? t(state.context.errorMessages['feedback']?.[0]).toString()
+            state.context.errorMessages['question']?.[0]
+              ? t(state.context.errorMessages['question']?.[0]).toString()
               : undefined
           }
         />
         <FileInput
           name="attachments"
-          label={t(PageText.Contact.input.feedback.attachment)}
+          label={t(PageText.Contact.input.question.attachment)}
           onChange={(files) => {
             send({
               type: 'ON_INPUT_CHANGE',

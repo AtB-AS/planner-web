@@ -11,7 +11,7 @@ import { RadioInput } from '../components/input/radio';
 import { Typo } from '@atb/components/typography';
 import { Checkbox } from '../components/input/checkbox';
 
-const TravelGuaranteeContent = () => {
+export const RefundForm = () => {
   const { t } = useTranslation();
   const [state, send] = useMachine(fetchMachine);
 
@@ -134,4 +134,4 @@ const TravelGuaranteeContent = () => {
   );
 };
 
-export default TravelGuaranteeContent;
+export default RefundForm;

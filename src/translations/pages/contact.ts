@@ -1,4 +1,5 @@
 import { Area } from '@atb/page-modules/contact/means-of-transport/events';
+import { RefundReason } from '@atb/page-modules/contact/tickets-app/events';
 import { ReasonForTransportFailure } from '@atb/page-modules/contact/travel-guarantee/events';
 import { translation as _ } from '@atb/translations/commons';
 
@@ -463,22 +464,22 @@ export const Contact = {
       appTicketing: {
         title: _(
           'Hvilke billett gjelder det?',
-          'Which ticket',
+          'Which ticket does it apply to?',
           'Kva billett gjeld det?',
         ),
-        label: _('appTicketing', 'appTicketing', 'appTicketing'),
+        label: _('Kjøp billett', 'Purchase ticket', 'Kjøp billett'),
       },
 
       appTravelSuggestion: {
-        label: _(
-          'appTravelSuggestion',
-          'appTravelSuggestion',
-          'appTravelSuggestion',
-        ),
+        label: _('Reiseforslag', 'Travel suggestions', 'Reiseforslag'),
       },
 
       appAccount: {
-        label: _('appAccount', 'appAccount', 'appAccount'),
+        label: _(
+          'Innlogging, profil, innstillinger',
+          'Login, profle, settings',
+          'Innlogging, profil, innstillinger',
+        ),
       },
     },
     webshop: {
@@ -1197,6 +1198,16 @@ export const Contact = {
 
         customerNumber: {
           label: _('Kundenummer', 'Customer number', 'Kundenummer'),
+          labelOptional: _(
+            'Kundenummer - (valgfritt)',
+            'Customer number - (optinal)',
+            'Kundenummer - (valfritt)',
+          ),
+          description: _(
+            'Kundenummeret finner du under Min bruker i FRAM-appen, eller i nettbutikken.',
+            'You can find the customer number under My user in the FRAM app, or in the webshop.',
+            'Kundenummeret finn du under Min bruker i FRAM-appen, eller i nettbutikken.',
+          ),
           errorMessages: {
             empty: _(
               'Fyll inn kundenummer',
@@ -1209,6 +1220,11 @@ export const Contact = {
 
       travelCardNumber: {
         label: _('Reisekort', 'Travelcard', 'Reisekort'),
+        info: _(
+          'Legg inn reisekortnummeret her hvis du allerede har et reisekort. Reisekortnummeret finner du bak på reisekortet ditt. ',
+          'Enter the travel card number here if you already have a travel card. You can find the travel card number on the back of your travel card.',
+          'Legg inn reisekortnummeret her viss du allereie har eit reisekort. Reisekortnummeret finn du bak på reisekortet ditt. ',
+        ),
         errorMessages: {
           empty: _(
             'Legg til reisekort',
@@ -1325,41 +1341,103 @@ export const Contact = {
     },
 
     question: {
-      label: _('q', 'q', 'q'),
+      title: _(
+        'Hva ønsker du å spørre om?',
+        'What do you want to ask about?',
+        'Kva ønskjer du å spørje om?',
+      ),
+
+      info: _(
+        'Unngå å oppgi personlig informasjon som bankkortnummer eller helseopplysninger. Vi vil spørre deg senere om det er nødvendig.',
+        'Avoid providing personal information such as bank card numbers or health information. We will ask you later if it is necessary.',
+        'Unngå å oppgi personopplysningar som bankkortnummer eller helseopplysningar. Vi spør deg seinare viss det er nødvendig.',
+      ),
+
+      attachment: _(
+        'Last opp vedlegg',
+        'Upload attachments',
+        'Last opp vedlegg',
+      ),
       errorMessages: {
-        empty: _('q', 'q', 'q'),
+        empty: _(
+          'Spørsmålet mangler',
+          'The question is missing',
+          'Smørsmålet mangler',
+        ),
       },
     },
+
     orderId: {
-      label: _('q', 'q', 'q'),
+      label: _('Ordre-id(er)', 'Order ID(s)', 'Ordre-id(er)'),
+      info: _(
+        'Hvis du vil ha hjelp med en billet du allrede har kjøpt, trenger vi å vite ordre-id. Den finner du på billetten i appen, eller på kvitteringen din. Di finner ordre-id også på utgåtte billetter. Gjelder forespørslen din flere billetter, må du huske å sende med ordre-id for alle billettene.',
+        'If you want help with a ticket you have already bought, we need to know the order ID. You can find it on the ticket in the app, or on your receipt. You can also find the order ID on expired tickets. If your request concerns several tickets, you must remember to send with the order ID for all the tickets.',
+        'Viss du vil ha hjelp med ein billett du allereie har kjøpt, treng vi å vite ordre-id. Den finn du på billetten i appen, eller på kvitteringa di. Du finn ordre-id også på utgåtte billettar. Gjeld førespurnaden din fleire billettar, må du huske å sende med ordre-id for alle billettane.',
+      ),
+      description: _(
+        `Ved flere ordre-id-er, skill med komma (',').`,
+        `For multiple order IDs, separate with commas (','').`,
+        `Ved flere ordre-id-er, skill med komma (',').`,
+      ),
       errorMessages: {
-        empty: _('q', 'q', 'q'),
+        empty: _('Ordre-id mangler', 'Order-id is missing', 'Ordre-id mangler'),
       },
     },
 
-    customerId: {
-      label: _('q', 'q', 'q'),
-      errorMessages: {
-        empty: _('q', 'q', 'q'),
-      },
-    },
-
-    ticketType: {
-      label: _('q', 'q', 'q'),
-      errorMessages: {
-        empty: _('q', 'q', 'q'),
-      },
-    },
     refundReason: {
-      label: _('q', 'q', 'q'),
+      label: _('Refusjonen gjelder', 'The refund applies', 'Refusjonen gjeld'),
+      optionLabel: _(
+        'Velg grunnen for refusjonen',
+        'Select reson for the refund',
+        'Vel grunn for refusjon',
+      ),
+      options: [
+        {
+          id: 'singleTicket',
+          name: _('Enkeltbillett', 'Single ticket', 'Enkeltbillett'),
+        },
+        {
+          id: 'periodTicket',
+          name: _(
+            'Periodebillet (sonebasert)',
+            'Period ticket (zone-based)',
+            'Periodebillet (sonebasert)',
+          ),
+        },
+        {
+          id: 'framYoung',
+          name: _('FRAM Ung', 'FRAM Young', 'FRAM Ung'),
+        },
+        {
+          id: 'framStudent',
+          name: _('FRAM Student', 'FRAM Student', 'FRAM Student'),
+        },
+        {
+          id: 'framAdult',
+          name: _('FRAM Voksen', 'FRAM Adoult', 'FRAM Voksen'),
+        },
+        {
+          id: 'framSenior',
+          name: _('Fram Honnør', 'Fram Senior', 'Fram Honnør'),
+        },
+      ] as RefundReason[],
       errorMessages: {
-        empty: _('q', 'q', 'q'),
+        empty: _('Område mangler', 'Area is missing', 'Område mangler'),
       },
     },
     amount: {
-      label: _('q', 'q', 'q'),
+      label: _('Beløp', 'Amount', 'Beløf'),
+      info: _(
+        'Skriv inn beløpet du ønsker utbetalt, i norske kroner.',
+        'Enter the amount you want paid out, in Norwegian kroner.',
+        'Skriv inn beløpet du ønsker utbetalt, i norske kroner. ',
+      ),
       errorMessages: {
-        empty: _('q', 'q', 'q'),
+        empty: _(
+          'Grunn for refusjon mangler',
+          'Reason for refund is missing',
+          'Grunn for refusjon mangler',
+        ),
       },
     },
   },

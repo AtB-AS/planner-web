@@ -6,6 +6,7 @@ export type ContactApi = {
   submitTravelGuaranteeForm(formData: any): Promise<ContactApiReturnType>;
   submitMeansOfTransportForm(formData: any): Promise<ContactApiReturnType>;
   submitGroupTravelForm(formData: any): Promise<ContactApiReturnType>;
+  submitTicketsAppForm(formData: any): Promise<ContactApiReturnType>;
 };
 
 export function createContactApi(
@@ -41,6 +42,15 @@ export function createContactApi(
 
     async submitGroupTravelForm(formData) {
       const response = await request('/group-travel', {
+        method: 'POST',
+        body: formData,
+      });
+      const data: ContactApiReturnType = await response.json();
+      return data;
+    },
+
+    async submitTicketsAppForm(formData) {
+      const response = await request('/ticketing', {
         method: 'POST',
         body: formData,
       });
