@@ -3,7 +3,7 @@ import { ticketsAppFormEvents } from './events';
 import { commonInputValidator, InputErrorMessages } from '../validation';
 import { convertFilesToBase64 } from '../utils';
 
-export enum EditingState {
+export enum FormCategory {
   PriceAndTicketTypes = 'priceAndTicketTypes',
   App = 'app',
   Webshop = 'webshop',
@@ -11,7 +11,13 @@ export enum EditingState {
   Refund = 'refund',
 }
 
-export enum FormType {
+export enum AppForm {
+  AppTicketing = 'appTicketing',
+  AppTravelSuggestion = 'appTravelSuggestion',
+  AppAccount = 'appAccount',
+}
+
+enum FormType {
   PriceAndTicketTypes = 'priceAndTicketTypes',
   AppTicketing = 'appTicketing',
   AppTravelSuggestion = 'appTravelSuggestion',
@@ -25,7 +31,6 @@ export enum FormType {
 
 type submitInput = {
   formType?: string;
-  feedback?: string;
   attachments?: File[];
   firstName?: string;
   lastName?: string;
@@ -39,16 +44,14 @@ type submitInput = {
   SWIFT?: string;
   question?: string;
   orderId?: string;
-  customerId?: string;
+  customerNumber?: string;
   travelCardNumber?: string;
-  ticketType?: string;
   refundReason?: string;
   amount?: string;
 };
 
-export type ContextProps = {
+export type TicketsAppContextProps = {
   formType?: FormType;
-  feedback?: string;
   attachments?: File[];
   firstName?: string;
   lastName?: string;
@@ -63,19 +66,16 @@ export type ContextProps = {
   SWIFT?: string;
   question?: string;
   orderId?: string;
-  customerId?: string;
+  customerNumber?: string;
   travelCardNumber?: string;
-  ticketType?: string;
   refundReason?: string;
   amount?: string;
   errorMessages: InputErrorMessages;
 };
 
-const setInputToValidate = (context: ContextProps) => {
-  // Destructure the needed fields from context
+const setInputToValidate = (context: TicketsAppContextProps) => {
   const {
     formType,
-    feedback,
     attachments,
     firstName,
     lastName,
@@ -90,9 +90,8 @@ const setInputToValidate = (context: ContextProps) => {
     SWIFT,
     question,
     orderId,
-    customerId,
+    customerNumber,
     travelCardNumber,
-    ticketType,
     refundReason,
     amount,
   } = context;
@@ -110,7 +109,7 @@ const setInputToValidate = (context: ContextProps) => {
     case FormType.PriceAndTicketTypes:
       return {
         formType,
-        feedback,
+        question,
         firstName,
         lastName,
         email,
@@ -131,7 +130,7 @@ const setInputToValidate = (context: ContextProps) => {
     case FormType.AppAccount:
       return {
         ...commonAppFields,
-        customerId,
+        customerNumber,
         phoneNumber,
       };
 
@@ -160,14 +159,13 @@ const setInputToValidate = (context: ContextProps) => {
     case FormType.AppTicketRefund:
       return {
         formType,
-        customerId,
+        customerNumber,
         orderId,
       };
 
     case FormType.OtherTicketRefund:
       return {
         formType,
-        ticketType,
         travelCardNumber,
         refundReason,
         amount,
@@ -187,11 +185,11 @@ const setInputToValidate = (context: ContextProps) => {
 
 export const ticketsAppFormMachine = setup({
   types: {
-    context: {} as ContextProps,
+    context: {} as TicketsAppContextProps,
     events: ticketsAppFormEvents,
   },
   guards: {
-    validateInputs: ({ context }) => {
+    isFormValid: ({ context }) => {
       const inputToValidate = setInputToValidate(context);
       context.errorMessages = commonInputValidator(inputToValidate);
       return Object.keys(context.errorMessages).length > 0 ? false : true;
@@ -208,15 +206,28 @@ export const ticketsAppFormMachine = setup({
     setFormTypeToUndefined: assign({
       formType: () => undefined,
     }),
+
+    setFormTypeToPriceAndTicketTypes: assign({
+      formType: () => FormType.PriceAndTicketTypes,
+    }),
+
+    setFormTypeToWebshopForm: assign({
+      formType: () => FormType.WebshopForm,
+    }),
+
+    clearValidationErrors: assign({ errorMessages: {} }),
+
+    setValidationErrors: assign(({ context }) => {
+      const inputToValidate = setInputToValidate(context);
+      const errors = commonInputValidator(inputToValidate);
+      return { errorMessages: { ...errors } };
+    }),
+
     onInputChange: assign(({ context, event }) => {
       if (event.type === 'ON_INPUT_CHANGE') {
         const { inputName, value } = event;
 
-        if (inputName === 'formType') {
-          context.errorMessages = {};
-        } else {
-          context.errorMessages[inputName] = [];
-        }
+        context.errorMessages[inputName] = [];
 
         return {
           ...context,
@@ -231,7 +242,6 @@ export const ticketsAppFormMachine = setup({
       async ({
         input: {
           formType,
-          feedback,
           attachments,
           firstName,
           lastName,
@@ -245,9 +255,8 @@ export const ticketsAppFormMachine = setup({
           SWIFT,
           question,
           orderId,
-          customerId,
+          customerNumber,
           travelCardNumber,
-          ticketType,
           refundReason,
           amount,
         },
@@ -262,7 +271,6 @@ export const ticketsAppFormMachine = setup({
           method: 'POST',
           body: JSON.stringify({
             formType: formType,
-            feedback: feedback,
             attachments: base64EncodedAttachments,
             firstName: firstName,
             lastName: lastName,
@@ -276,9 +284,8 @@ export const ticketsAppFormMachine = setup({
             SWIFT: SWIFT,
             question: question,
             orderId: orderId,
-            customerId: customerId,
+            customerNumber: customerNumber,
             travelCardNumber: travelCardNumber,
-            ticketType: ticketType,
             refundReason: refundReason,
             amount: amount,
           }),
@@ -296,69 +303,177 @@ export const ticketsAppFormMachine = setup({
   },
 }).createMachine({
   id: 'ticketControlForm',
-  initial: 'editing',
+  initial: 'formCategoryHandler',
   context: {
     hasInternationalBankAccount: false,
     errorMessages: {},
   },
+  on: {
+    SELECT_FORM_CATEGORY: {
+      target: '#formCategoryHandler',
+    },
+
+    SELECT_APP_FORM: {
+      target: '#appFormHandler',
+    },
+
+    ON_INPUT_CHANGE: {
+      actions: 'onInputChange',
+    },
+  },
   states: {
-    editing: {
-      initial: 'idle',
-      on: {
-        ON_INPUT_CHANGE: {
-          actions: 'onInputChange',
+    selectFormCategory: {},
+    formCategoryHandler: {
+      id: 'formCategoryHandler',
+      always: [
+        {
+          guard: ({ event }) =>
+            event.type === 'SELECT_FORM_CATEGORY' &&
+            event.formCategory === FormCategory.PriceAndTicketTypes,
+          target: FormCategory.PriceAndTicketTypes,
         },
-
-        ON_SET_STATE: Object.values(EditingState).map((state) => {
-          return {
-            target: `editing.${state}`,
-            guard: ({ event }) => event.target === state,
-          };
-        }),
-
-        VALIDATE: {
-          guard: 'validateInputs',
-          target: 'editing.readyForSubmit',
+        {
+          guard: ({ event }) =>
+            event.type === 'SELECT_FORM_CATEGORY' &&
+            event.formCategory === FormCategory.App,
+          target: FormCategory.App,
         },
-      },
+        {
+          guard: ({ event }) =>
+            event.type === 'SELECT_FORM_CATEGORY' &&
+            event.formCategory === FormCategory.TravelCard,
+          target: FormCategory.TravelCard,
+        },
+        {
+          guard: ({ event }) =>
+            event.type === 'SELECT_FORM_CATEGORY' &&
+            event.formCategory === FormCategory.Webshop,
+          target: FormCategory.Webshop,
+        },
+        {
+          guard: ({ event }) =>
+            event.type === 'SELECT_FORM_CATEGORY' &&
+            event.formCategory === FormCategory.Refund,
+          target: FormCategory.Refund,
+        },
+      ],
+    },
 
+    appFormHandler: {
+      id: 'appFormHandler',
+      always: [
+        {
+          guard: ({ event }) =>
+            event.type === 'SELECT_APP_FORM' &&
+            event.appForm === AppForm.AppAccount,
+          target: `#${AppForm.AppAccount}`,
+        },
+        {
+          guard: ({ event }) =>
+            event.type === 'SELECT_APP_FORM' &&
+            event.appForm === AppForm.AppTicketing,
+          target: `#${AppForm.AppTicketing}`,
+        },
+        {
+          guard: ({ event }) =>
+            event.type === 'SELECT_APP_FORM' &&
+            event.appForm === AppForm.AppTravelSuggestion,
+          target: `#${AppForm.AppTravelSuggestion}`,
+        },
+      ],
+    },
+
+    priceAndTicketTypes: {
+      initial: 'editing',
+      entry: ['setFormTypeToPriceAndTicketTypes'],
+      exit: 'clearValidationErrors',
       states: {
-        idle: {},
-        priceAndTicketTypes: {
-          entry: assign({
-            formType: () => FormType.PriceAndTicketTypes,
-          }),
+        editing: {
+          on: { SUBMIT: 'validating' },
         },
-        app: {
-          entry: 'setFormTypeToUndefined',
-        },
-        webshop: {
-          entry: assign({
-            formType: () => FormType.WebshopForm,
-          }),
-        },
-        travelCard: {
-          entry: 'setFormTypeToUndefined',
-        },
-        refund: {
-          entry: 'setFormTypeToUndefined',
-        },
-        readyForSubmit: {
-          type: 'final',
-        },
-      },
+        validating: {
+          always: [
+            {
+              guard: 'isFormValid',
+              target: '#submitting',
+            },
 
-      onDone: {
-        target: 'submitting',
+            {
+              actions: ['setValidationErrors'],
+              target: 'editing',
+            },
+          ],
+        },
       },
+    },
+    app: {
+      initial: 'editing',
+      entry: 'setFormTypeToUndefined',
+      exit: ['clearValidationErrors'],
+      states: {
+        editing: {
+          initial: 'selectAppForm',
+          on: { SUBMIT: 'validating' },
+
+          states: {
+            selectAppForm: {},
+            appAccount: {
+              id: 'appAccount',
+              entry: assign({
+                formType: () => FormType.AppAccount,
+              }),
+            },
+            appTicketing: {
+              id: 'appTicketing',
+              entry: assign({
+                formType: () => FormType.AppTicketing,
+              }),
+            },
+            appTravelSuggestion: {
+              id: 'appTravelSuggestion',
+              entry: assign({
+                formType: () => FormType.AppTravelSuggestion,
+              }),
+            },
+            history: {
+              type: 'history',
+            },
+          },
+        },
+        validating: {
+          always: [
+            {
+              guard: 'isFormValid',
+              target: '#submitting',
+            },
+
+            {
+              actions: 'setValidationErrors',
+              target: 'editing.history',
+            },
+          ],
+        },
+      },
+    },
+    travelCard: {
+      entry: 'setFormTypeToUndefined',
+      exit: 'clearValidationErrors',
+    },
+    webshop: {
+      entry: 'setFormTypeToWebshopForm',
+      exit: 'clearValidationErrors',
+    },
+    refund: {
+      entry: 'setFormTypeToUndefined',
+      exit: 'clearValidationErrors',
     },
 
     submitting: {
+      id: 'submitting',
       invoke: {
         src: 'submit',
-        input: ({ context }: { context: ContextProps }) => ({
+        input: ({ context }: { context: TicketsAppContextProps }) => ({
           formType: context.formType,
-          feedback: context.feedback,
           attachments: context.attachments,
           firstName: context.firstName,
           lastName: context.lastName,
@@ -372,9 +487,8 @@ export const ticketsAppFormMachine = setup({
           SWIFT: context.SWIFT,
           question: context.question,
           orderId: context.orderId,
-          customerId: context.customerId,
+          customerNumber: context.customerNumber,
           travelCardNumber: context.travelCardNumber,
-          ticketType: context.ticketType,
           refundReason: context.refundReason,
           amount: context.amount,
         }),

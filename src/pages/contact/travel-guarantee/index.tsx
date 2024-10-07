@@ -4,7 +4,7 @@ import { NextPage } from 'next';
 import {
   ContactPageLayout,
   ContactPageLayoutProps,
-  TravelGuaranteeContent,
+  RefundForm,
 } from '@atb/page-modules/contact';
 
 export type TravelGuaranteePageProps = WithGlobalData<ContactPageLayoutProps>;
@@ -13,7 +13,7 @@ const TravelGuaranteePage: NextPage<TravelGuaranteePageProps> = (props) => {
   return (
     <DefaultLayout {...props}>
       <ContactPageLayout {...props}>
-        <TravelGuaranteeContent />
+        <RefundForm />
       </ContactPageLayout>
     </DefaultLayout>
   );
