@@ -114,12 +114,12 @@ export const groupTravelStateMachine = setup({
           method: 'POST',
           body: JSON.stringify({
             ...input,
-            line: input.line.id,
-            fromStop: input.fromStop.id,
-            toStop: input.toStop.id,
-            returnLine: input.returnLine?.id,
-            returnFromStop: input.returnFromStop?.id,
-            returnToStop: input.returnToStop?.id,
+            line: input.line.name,
+            fromStop: input.fromStop.name,
+            toStop: input.toStop.name,
+            returnLine: input.returnLine?.name,
+            returnFromStop: input.returnFromStop?.name,
+            returnToStop: input.returnToStop?.name,
           }),
         })
           .then((response) => {
