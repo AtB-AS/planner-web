@@ -24,7 +24,7 @@
 
   padding: var(--spacings-small);
 
-  border: var(--border-width-medium) solid var(--text-colors-primary);
+  border: var(--border-width-slim) solid var(--text-colors-primary);
   border-radius: var(--border-radius-small);
   width: 100%;
 }
@@ -40,7 +40,7 @@
 
 .input:focus-within {
   outline: 0;
-  box-shadow: inset 0 0 0 var(--border-width-medium)
+  box-shadow: inset 0 0 0 var(--border-width-slim)
     var(--interactive-interactive_2-outline-background);
 }
 
@@ -74,16 +74,15 @@
   height: 1.25rem;
   width: 1.25rem;
   --padding: 2px;
-  --border: 2px;
-  border: var(--border) solid var(--text-colors-primary);
+  border: var(--border-width-slim) solid var(--text-colors-primary);
   padding: var(--padding);
   margin-right: var(--spacings-medium);
 }
 .label__radioBox::after {
   content: '';
   display: block;
-  height: calc(1rem - 2 * var(--padding));
-  width: calc(1rem - 2 * var(--padding));
+  height: calc(1rem - 2 * var(--border-width-slim));
+  width: calc(1rem - 2 * var(--border-width-slim));
   border-radius: 50%;
   background: var(--text-colors-primary);
 
@@ -102,7 +101,7 @@
 
   border-radius: var(--border-radius-regular);
 
-  border: var(--border-width-medium) solid transparent;
+  border: var(--border-width-slim) solid transparent;
 
   padding: var(--spacings-small) 0;
 }
@@ -170,7 +169,7 @@
 }
 .checkbox:not(.checkbox--readonly):focus-within {
   outline: 0;
-  box-shadow: inset 0 0 0 var(--border-width-medium)
+  box-shadow: inset 0 0 0 var(--border-width-slim)
     var(--interactive-interactive_2-outline-background);
 }
 
@@ -213,13 +212,13 @@
   composes: typo-body__secondary from '@atb/theme/typography.module.css';
 }
 .checkbox__checkbox:not(:checked) + .checkbox__icon {
-  border: var(--border-width-medium) solid var(--text-colors-primary);
+  border: var(--border-width-slim) solid var(--text-colors-primary);
   border-radius: var(--border-radius-small);
 }
 
 /* textare */
 .textarea {
-  border: var(--border-width-medium) solid var(--text-colors-primary);
+  border: var(--border-width-slim) solid var(--text-colors-primary);
   border-radius: var(--border-radius-small);
 
   padding: var(--spacings-small);
@@ -245,7 +244,7 @@
 }
 
 .select__select {
-  border: var(--border-width-medium) solid var(--text-colors-primary);
+  border: var(--border-width-slim) solid var(--text-colors-primary);
   border-radius: var(--border-radius-small);
 
   padding: var(--spacings-small);
@@ -275,7 +274,7 @@
   background-color: var(--interactive-background-background_1);
   color: var(--text-colors-primary);
   padding: var(--spacings-small);
-  border: var(--border-width-medium) solid var(--text-colors-primary);
+  border: var(--border-width-slim) solid var(--text-colors-primary);
   border-radius: var(--border-radius-small);
   cursor: pointer;
 }
