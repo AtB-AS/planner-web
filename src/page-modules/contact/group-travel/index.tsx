@@ -390,15 +390,17 @@ export default function GroupTravelContent() {
                   : undefined
               }
             />
-            <Button
-              title={t(PageText.Contact.submit)}
-              mode={'interactive_0--bordered'}
-              buttonProps={{ type: 'submit' }}
-              state={
-                state.matches({ busForm: 'submitting' }) ? 'loading' : undefined
-              }
-            />
           </SectionCard>
+
+          <Button
+            title={t(PageText.Contact.submit)}
+            mode={'interactive_0--bordered'}
+            buttonProps={{ type: 'submit' }}
+            state={
+              state.matches({ busForm: 'submitting' }) ? 'loading' : undefined
+            }
+            className={style.submitButton}
+          />
         </form>
       )}
 
