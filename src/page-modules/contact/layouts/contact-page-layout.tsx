@@ -42,12 +42,11 @@ export const contactPages: ContactPage[] = [
     href: '/contact/lost-property',
     icon: 'actions/Support',
   },
-  /*
   {
     title: PageText.Contact.groupTravel.title,
     href: '/contact/group-travel',
     icon: 'ticketing/TicketMultiple',
-  },*/
+  },
 ];
 
 export type ContactPageLayoutProps = PropsWithChildren<{
