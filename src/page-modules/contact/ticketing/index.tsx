@@ -6,6 +6,7 @@ import { FormCategory, ticketingStateMachine } from './ticketingStateMachine';
 import PriceAndTicketTypesForm from './forms/priceAndTicketTypesForm';
 import { Button } from '@atb/components/button';
 import { SectionCard, Radio } from '../components';
+import AppForms from './forms/app';
 
 const TicketingContent = () => {
   const { t } = useTranslation();
@@ -39,6 +40,10 @@ const TicketingContent = () => {
 
       {state.matches({ editing: 'priceAndTicketTypes' }) && (
         <PriceAndTicketTypesForm state={state} send={send} />
+      )}
+
+      {state.matches({ editing: 'app' }) && (
+        <AppForms state={state} send={send} />
       )}
 
       {state.context.formType && (
