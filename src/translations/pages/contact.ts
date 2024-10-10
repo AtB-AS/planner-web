@@ -463,7 +463,7 @@ export const Contact = {
 
       appTicketing: {
         title: _(
-          'Hvilke billett gjelder det?',
+          'Hvilken billett gjelder det?',
           'Which ticket is it about?',
           'Kva billett gjeld det?',
         ),

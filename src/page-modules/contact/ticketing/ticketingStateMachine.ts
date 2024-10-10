@@ -29,7 +29,7 @@ enum FormType {
   OtherTicketRefund = 'otherTicketRefund',
 }
 
-type submitInput = {
+type SubmitInput = {
   formType?: string;
   attachments?: File[];
   firstName?: string;
@@ -50,7 +50,7 @@ type submitInput = {
   amount?: string;
 };
 
-export type ticketingContextType = {
+export type TicketingContextType = {
   formType?: FormType;
   attachments?: File[];
   firstName?: string;
@@ -73,7 +73,7 @@ export type ticketingContextType = {
   errorMessages: InputErrorMessages;
 };
 
-const setInputsToValidate = (context: ticketingContextType) => {
+const setInputsToValidate = (context: TicketingContextType) => {
   const {
     formType,
     attachments,
@@ -185,7 +185,7 @@ const setInputsToValidate = (context: ticketingContextType) => {
 
 export const ticketingStateMachine = setup({
   types: {
-    context: {} as ticketingContextType,
+    context: {} as TicketingContextType,
     events: ticketingFormEvents,
   },
   guards: {
@@ -235,7 +235,7 @@ export const ticketingStateMachine = setup({
     }),
   },
   actors: {
-    submit: fromPromise(async ({ input }: { input: submitInput }) => {
+    submit: fromPromise(async ({ input }: { input: SubmitInput }) => {
       const base64EncodedAttachments = await convertFilesToBase64(
         input.attachments || [],
       );
@@ -426,7 +426,7 @@ export const ticketingStateMachine = setup({
       id: 'submitting',
       invoke: {
         src: 'submit',
-        input: ({ context }: { context: ticketingContextType }) => ({
+        input: ({ context }: { context: TicketingContextType }) => ({
           formType: context.formType,
           attachments: context.attachments,
           firstName: context.firstName,
