@@ -235,68 +235,27 @@ export const ticketingStateMachine = setup({
     }),
   },
   actors: {
-    submit: fromPromise(
-      async ({
-        input: {
-          formType,
-          attachments,
-          firstName,
-          lastName,
-          email,
-          phoneNumber,
-          address,
-          postalCode,
-          city,
-          bankAccountNumber,
-          IBAN,
-          SWIFT,
-          question,
-          orderId,
-          customerNumber,
-          travelCardNumber,
-          refundReason,
-          amount,
-        },
-      }: {
-        input: submitInput;
-      }) => {
-        const base64EncodedAttachments = await convertFilesToBase64(
-          attachments || [],
-        );
+    submit: fromPromise(async ({ input }: { input: submitInput }) => {
+      const base64EncodedAttachments = await convertFilesToBase64(
+        input.attachments || [],
+      );
 
-        return await fetch('/api/contact/tickets-app', {
-          method: 'POST',
-          body: JSON.stringify({
-            formType: formType,
-            attachments: base64EncodedAttachments,
-            firstName: firstName,
-            lastName: lastName,
-            email: email,
-            phoneNumber: phoneNumber,
-            address: address,
-            postalCode: postalCode,
-            city: city,
-            bankAccountNumber: bankAccountNumber,
-            IBAN: IBAN,
-            SWIFT: SWIFT,
-            question: question,
-            orderId: orderId,
-            customerNumber: customerNumber,
-            travelCardNumber: travelCardNumber,
-            refundReason: refundReason,
-            amount: amount,
-          }),
+      return await fetch('/api/contact/ticketing', {
+        method: 'POST',
+        body: JSON.stringify({
+          ...input,
+          attachments: base64EncodedAttachments,
+        }),
+      })
+        .then((response) => {
+          // throw an error to force onError
+          if (!response.ok) throw new Error('Failed to call API');
+          return response.ok;
         })
-          .then((response) => {
-            // throw an error to force onError
-            if (!response.ok) throw new Error('Failed to call API');
-            return response.ok;
-          })
-          .catch((error) => {
-            throw error;
-          });
-      },
-    ),
+        .catch((error) => {
+          throw error;
+        });
+    }),
   },
 }).createMachine({
   id: 'ticketingStateMachine',
