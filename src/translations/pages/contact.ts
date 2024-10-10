@@ -454,7 +454,7 @@ export const Contact = {
     priceAndTicketTypes: {
       description: _(
         'Priser og billettyper',
-        'Prices and tickets type',
+        'Prices and ticket types',
         'Prisar og billettypar',
       ),
     },
@@ -464,7 +464,7 @@ export const Contact = {
       appTicketing: {
         title: _(
           'Hvilke billett gjelder det?',
-          'Which ticket does it apply to?',
+          'Which ticket is it about?',
           'Kva billett gjeld det?',
         ),
         label: _('Kjøp billett', 'Purchase ticket', 'Kjøp billett'),
@@ -477,8 +477,8 @@ export const Contact = {
       appAccount: {
         label: _(
           'Innlogging, profil, innstillinger',
-          'Login, profle, settings',
-          'Innlogging, profil, innstillinger',
+          'Login, profile, settings',
+          'Innlogging, profil, innstillingar',
         ),
       },
     },
@@ -487,15 +487,110 @@ export const Contact = {
     },
     travelCard: {
       description: _('Resekort', 'Travel card', 'Resiekort'),
-      travelCardQuestion: {
-        label: _('test', 'test', 'test'),
+      question: _(
+        'Hva gjelder forespørselen?',
+        'What is the request about?',
+        'Kva gjeld førespurnaden',
+      ),
+
+      orderTravelCard: {
+        label: _('Bestill reisekort', 'Order travel card', 'Bestill reisekort'),
+        info: {
+          firstParagraph: _(
+            'Et reisekort er et fysisk plastkort. På reisekortet kan du legge periodebilletter.<1/>Fyll ut dette skjemaet viss du vil bestille eit reisekort og få det tilsendt. Merk at vi berre sender reisekort til adresser i Noreg.',
+            'A travel card is a physical plastic card. You can add period tickets to the travel card',
+            'Eit reisekort er eit fysisk plastkort. På reisekortet kan du legge periodebillettar.',
+          ),
+          secondParagraph: _(
+            'Fyll ut dette skjemaet hvis du vil bestille et reisekort og få det tilsendt. Merk at vi bare sender reisekort til adresser i Norge.',
+            'Fill in this form if you want to order a travel card and have it sent to you. Note that we only send travel cards to addresses in Norway.',
+            'Fyll ut dette skjemaet viss du vil bestille eit reisekort og få det tilsendt. Merk at vi berre sender reisekort til adresser i Noreg.',
+          ),
+          thirdParagraph: _(
+            'Du kan også få reisekort på bussen, hurtigbåten eller på en av trafikkterminalane. På de samme stedene og i nettbutikken kan du fylle på kortet med nye billetter.',
+            'You can also get a travel card on the bus, express boat or at one of the traffic terminals. At the same places and in the online shop, you can top up the card with new tickets.',
+            'Du kan også få reisekort på bussen, hurtigbåten eller på ein av trafikkterminalane. På dei same stadane og i nettbutikken kan du fylle på kortet med nye billettar.',
+          ),
+        },
       },
-      orderTravelCard: { label: _('test', 'test', 'test') },
+      otherQuestionsRegardingTravelCard: {
+        label: _(
+          'Andre spørsmål om reisekort',
+          'Other questions regarding travel card',
+          'Andre førespurnader om reisekort',
+        ),
+      },
     },
     refund: {
       description: _('Refusjon', 'Refund', 'Refusjon'),
-      appTicketRefund: { label: _('test', 'test', 'test') },
-      otherTicketRefundForm: { label: _('test', 'test', 'test') },
+      agreement: {
+        ticketRefundAvailability: {
+          title: _(
+            'Når kan du få refundert billetten din?  ',
+            'When can you get your ticket refunded?',
+            'Når kan du få refundert billetten din?',
+          ),
+          rules: [
+            _(
+              'Når du ikke reise med oss lenger. Hvis du for eksempel flytter, blir sjukemeldt, endrer reisemønster eller har en annen grunn til å søke om refusjon.',
+              'When you no longer travel with us. If, for example, you move, are on sick leave, change your travel pattern or have another reason to apply for a refund.',
+              'Når du ikkje reise med oss lenger. Viss du for eksempel flytter, blir sjukemeldt, endrar reisemønster eller har en anna grunn til å søke om refusjon.',
+            ),
+            _(
+              'Ved kjøp av feil reisestrekning, passasjerkategori eller tidspunkt/dato. Vi vil refundere billetten som du har kjøpt feil dersom du kjøper ny, korrekt billett.',
+              'When purchasing the wrong journey, passenger category or time/date. We will refund the ticket that you bought incorrectly if you buy a new, correct ticket.',
+              'Ved kjøp av feil reisestrekning, passasjerkategori eller tidspunkt/dato. Vi vil refundere billetten som du har kjøpt feil dersom du kjøper ny, korrekt billett.',
+            ),
+          ],
+        },
+        refundableTicketTypes: {
+          title: _(
+            'Vi refunderer disse billettypene:',
+            'We refund these ticket types:',
+            'Vi refunderer desse billettypane:  ',
+          ),
+          rules: [
+            _(
+              'Periodebillett 7 dager: Du får refusjon for antall resterende døgn.',
+              'Period ticket 7 days: You will receive a refund for the number of days remaining.',
+              'Periodebillett 7 dagar: Du får refusjon for antall resterande døgn.',
+            ),
+            _(
+              'Periodebillett 30 dager: Du får refusjon for antall resterende døgn.',
+              'Period ticket 30 days: You will receive a refund for the number of remaining days.',
+              'Periodebillett 30 dagar: Du får refusjon for antall resterande døgn.',
+            ),
+            _(
+              'Fylkesbillettene FRAM Ung, FRAM Student, FRAM Voksen og FRAM Honnør: Du får refusjon for antall resterende døgn.',
+              'The county tickets FRAM Ung, FRAM Student, FRAM Adult and FRAM Senior: You will receive a refund for numbers remaining on the day.',
+              'Fylkesbillettane FRAM Ung, FRAM Student, FRAM Vaksen og FRAM Honnør: Du får refusjon for antall resterande døgn. ',
+            ),
+            _(
+              'Reisekort: Du får tilbakebetalt verdien som gjenstår på reisekortet. ',
+              'Travel card: You will be reimbursed the value remaining on the travel card.',
+              'Reisekort: Du får tilbakebetalt verdien som gjenstår på reisekortet. ',
+            ),
+            _(
+              'Enkeltbilletter etter feilkjøp og når ny, riktig billett er kjøpt. ',
+              'Single tickets after incorrect purchase and when a new, correct ticket has been purchased.',
+              'Enkeltbillettar etter feilkjøp og når ny, riktig billett er kjøpt. ',
+            ),
+          ],
+          info: _(
+            'Gjelder kravet reisegaranti, dvs refusjon for utgifter til andre transportmiddel fordi buss eller hurtigbåt ikke var i rute? Da skal du ikke søke refusjon, men reisegaranti. Dette finner du under Reisegaranti.',
+            'Does the claim apply to a travel guarantee, i.e. refund for expenses for other means of transport because the bus or express boat was not on schedule? Then you should not apply for a refund, but a travel guarantee. You can find this under Travel guarantee.',
+            'Gjeld kravet reisegaranti, dvs refusjon for utgifter til andre transportmiddel fordi buss eller hurtigbåt ikkje var i rute? Då skal du ikkje søke refusjon, men reisegaranti. Dette finn du under Reisegaranti. ',
+          ),
+          checkbox: _('Jeg forsår', 'I understand', 'Eg forstår'),
+        },
+      },
+      appTicketRefund: {
+        label: _(
+          'Billett kjøpt i FRAM-appen (alle billettyper) ',
+          'Ticket purchased in the FRAM app (all ticket types)',
+          'Billett kjøpt i FRAM-appen (alle billettypar) ',
+        ),
+      },
     },
   },
   lostAndFound: {
@@ -1388,7 +1483,7 @@ export const Contact = {
       label: _('Refusjonen gjelder', 'The refund applies', 'Refusjonen gjeld'),
       optionLabel: _(
         'Velg grunnen for refusjonen',
-        'Select reson for the refund',
+        'Select reason for the refund',
         'Vel grunn for refusjon',
       ),
       options: [
