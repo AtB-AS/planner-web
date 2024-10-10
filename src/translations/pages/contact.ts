@@ -1465,7 +1465,7 @@ export const Contact = {
     orderId: {
       label: _('Ordre-id(er)', 'Order ID(s)', 'Ordre-id(er)'),
       info: _(
-        'Hvis du vil ha hjelp med en billet du allrede har kjøpt, trenger vi å vite ordre-id. Den finner du på billetten i appen, eller på kvitteringen din. Di finner ordre-id også på utgåtte billetter. Gjelder forespørslen din flere billetter, må du huske å sende med ordre-id for alle billettene.',
+        'Hvis du vil ha hjelp med en billet du allrede har kjøpt, trenger vi å vite ordre-id. Den finner du på billetten i appen, eller på kvitteringen din. Du finner ordre-id også på utgåtte billetter. Gjelder forespørslen din flere billetter, må du huske å sende med ordre-id for alle billettene.',
         'If you want help with a ticket you have already bought, we need to know the order ID. You can find it on the ticket in the app, or on your receipt. You can also find the order ID on expired tickets. If your request concerns several tickets, you must remember to send with the order ID for all the tickets.',
         'Viss du vil ha hjelp med ein billett du allereie har kjøpt, treng vi å vite ordre-id. Den finn du på billetten i appen, eller på kvitteringa di. Du finn ordre-id også på utgåtte billettar. Gjeld førespurnaden din fleire billettar, må du huske å sende med ordre-id for alle billettane.',
       ),
