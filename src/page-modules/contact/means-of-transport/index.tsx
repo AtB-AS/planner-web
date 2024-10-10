@@ -18,7 +18,7 @@ import { SectionCard } from '../components/section-card';
 import { RadioInput } from '../components/input/radio';
 import style from '../contact.module.css';
 
-export const MeansOfTransportContent = () => {
+const MeansOfTransportContent = () => {
   const { t } = useTranslation();
   const [state, send] = useMachine(meansOfTransportFormMachine);
 
