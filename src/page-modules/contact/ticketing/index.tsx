@@ -25,7 +25,7 @@ const TicketingContent = () => {
             <li key={formCategory}>
               <RadioInput
                 label={t(PageText.Contact.ticketing[formCategory].description)}
-                checked={state.matches(formCategory)}
+                checked={state.matches({ editing: formCategory })}
                 onChange={() =>
                   send({
                     type: 'SELECT_FORM_CATEGORY',
@@ -38,7 +38,7 @@ const TicketingContent = () => {
         </ul>
       </SectionCard>
 
-      {state.matches('priceAndTicketTypes') && (
+      {state.matches({ editing: 'priceAndTicketTypes' }) && (
         <PriceAndTicketTypesForm state={state} send={send} />
       )}
 

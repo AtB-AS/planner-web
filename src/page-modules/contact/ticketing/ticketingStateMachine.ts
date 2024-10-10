@@ -189,8 +189,11 @@ export const ticketingStateMachine = setup({
     events: ticketingFormEvents,
   },
   guards: {
-    isFormValid: ({ context }) =>
-      Object.keys(context.errorMessages).length === 0,
+    isFormValid: ({ context }) => {
+      const inputsToValidate = setInputsToValidate(context);
+      const errors = commonInputValidator(inputsToValidate);
+      return Object.keys(errors).length === 0;
+    },
   },
   actions: {
     navigateToErrorPage: () => {
@@ -204,17 +207,9 @@ export const ticketingStateMachine = setup({
       formType: () => undefined,
     }),
 
-    setFormTypeToPriceAndTicketTypes: assign({
-      formType: () => FormType.PriceAndTicketTypes,
-    }),
-
-    setFormTypeToWebshopForm: assign({
-      formType: () => FormType.WebshopForm,
-    }),
-
     clearValidationErrors: assign({ errorMessages: {} }),
 
-    validateInputs: assign(({ context }) => {
+    setValidationErrors: assign(({ context }) => {
       const inputsToValidate = setInputsToValidate(context);
       const errors = commonInputValidator(inputsToValidate);
       return { errorMessages: { ...errors } };
@@ -248,7 +243,6 @@ export const ticketingStateMachine = setup({
         }),
       })
         .then((response) => {
-          // throw an error to force onError
           if (!response.ok) throw new Error('Failed to call API');
           return response.ok;
         })
@@ -259,12 +253,16 @@ export const ticketingStateMachine = setup({
   },
 }).createMachine({
   id: 'ticketingStateMachine',
-  initial: 'formCategoryHandler',
+  initial: 'editing',
   context: {
     hasInternationalBankAccount: false,
     errorMessages: {},
   },
   on: {
+    ON_INPUT_CHANGE: {
+      actions: 'onInputChange',
+    },
+
     SELECT_FORM_CATEGORY: {
       target: '#formCategoryHandler',
     },
@@ -273,12 +271,9 @@ export const ticketingStateMachine = setup({
       target: '#appFormHandler',
     },
 
-    ON_INPUT_CHANGE: {
-      actions: 'onInputChange',
-    },
+    SUBMIT: { target: '#validating' },
   },
   states: {
-    selectFormCategory: {},
     formCategoryHandler: {
       id: 'formCategoryHandler',
       always: [
@@ -286,31 +281,31 @@ export const ticketingStateMachine = setup({
           guard: ({ event }) =>
             event.type === 'SELECT_FORM_CATEGORY' &&
             event.formCategory === FormCategory.PriceAndTicketTypes,
-          target: FormCategory.PriceAndTicketTypes,
+          target: `#${FormCategory.PriceAndTicketTypes}`,
         },
         {
           guard: ({ event }) =>
             event.type === 'SELECT_FORM_CATEGORY' &&
             event.formCategory === FormCategory.App,
-          target: FormCategory.App,
+          target: `#${FormCategory.App}`,
         },
         {
           guard: ({ event }) =>
             event.type === 'SELECT_FORM_CATEGORY' &&
             event.formCategory === FormCategory.TravelCard,
-          target: FormCategory.TravelCard,
+          target: `#${FormCategory.TravelCard}`,
         },
         {
           guard: ({ event }) =>
             event.type === 'SELECT_FORM_CATEGORY' &&
             event.formCategory === FormCategory.Webshop,
-          target: FormCategory.Webshop,
+          target: `#${FormCategory.Webshop}`,
         },
         {
           guard: ({ event }) =>
             event.type === 'SELECT_FORM_CATEGORY' &&
             event.formCategory === FormCategory.Refund,
-          target: FormCategory.Refund,
+          target: `#${FormCategory.Refund}`,
         },
       ],
     },
@@ -339,37 +334,23 @@ export const ticketingStateMachine = setup({
       ],
     },
 
-    priceAndTicketTypes: {
-      initial: 'editing',
-      entry: ['setFormTypeToPriceAndTicketTypes'],
-      exit: 'clearValidationErrors',
+    editing: {
+      initial: 'selectFormCategory',
       states: {
-        editing: {
-          on: { SUBMIT: 'validating' },
+        selectFormCategory: {},
+        priceAndTicketTypes: {
+          id: 'priceAndTicketTypes',
+          entry: assign({
+            formType: () => FormType.PriceAndTicketTypes,
+          }),
+          exit: 'clearValidationErrors',
         },
-        validating: {
-          entry: 'validateInputs',
-          always: [
-            {
-              guard: 'isFormValid',
-              target: '#submitting',
-            },
-            {
-              target: 'editing',
-            },
-          ],
-        },
-      },
-    },
-    app: {
-      initial: 'editing',
-      entry: 'setFormTypeToUndefined',
-      exit: ['clearValidationErrors'],
-      states: {
-        editing: {
-          initial: 'selectAppForm',
-          on: { SUBMIT: 'validating' },
 
+        app: {
+          id: 'app',
+          initial: 'selectAppForm',
+          entry: 'setFormTypeToUndefined',
+          exit: 'clearValidationErrors',
           states: {
             selectAppForm: {},
             appAccount: {
@@ -390,36 +371,43 @@ export const ticketingStateMachine = setup({
                 formType: () => FormType.AppTravelSuggestion,
               }),
             },
-            history: {
-              type: 'history',
-            },
           },
         },
-        validating: {
-          entry: 'validateInputs',
-          always: [
-            {
-              guard: 'isFormValid',
-              target: '#submitting',
-            },
-            {
-              target: 'editing',
-            },
-          ],
+        travelCard: {
+          id: 'travelCard',
+          entry: 'setFormTypeToUndefined',
+          exit: 'clearValidationErrors',
+        },
+        webshop: {
+          id: 'webshop',
+          entry: assign({
+            formType: () => FormType.WebshopForm,
+          }),
+          exit: 'clearValidationErrors',
+        },
+        refund: {
+          id: 'refund',
+          entry: 'setFormTypeToUndefined',
+          exit: 'clearValidationErrors',
+        },
+        history: {
+          type: 'history',
+          history: 'deep',
         },
       },
     },
-    travelCard: {
-      entry: 'setFormTypeToUndefined',
-      exit: 'clearValidationErrors',
-    },
-    webshop: {
-      entry: 'setFormTypeToWebshopForm',
-      exit: 'clearValidationErrors',
-    },
-    refund: {
-      entry: 'setFormTypeToUndefined',
-      exit: 'clearValidationErrors',
+    validating: {
+      id: 'validating',
+      always: [
+        {
+          guard: 'isFormValid',
+          target: '#submitting',
+        },
+        {
+          actions: 'setValidationErrors',
+          target: 'editing.history',
+        },
+      ],
     },
 
     submitting: {
