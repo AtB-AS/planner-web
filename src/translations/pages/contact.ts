@@ -1295,7 +1295,7 @@ export const Contact = {
           label: _('Kundenummer', 'Customer number', 'Kundenummer'),
           labelOptional: _(
             'Kundenummer - (valgfritt)',
-            'Customer number - (optinal)',
+            'Customer number - (optional)',
             'Kundenummer - (valfritt)',
           ),
           description: _(
