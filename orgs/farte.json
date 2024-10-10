@@ -1,0 +1,50 @@
+{
+  "$schema": "./schema-validation.json",
+
+  "orgId": "farte",
+  "authorityId": "TEL:Authority:TFK_ID",
+
+  "supportEmail": "farte@telemarkfylke.no ",
+
+  "fylkeskommune": {
+    "logoSrc": "/telemark_fylkeskommune.svg",
+    "logoSrcDark": "/telemark_fylkeskommune.svg",
+    "name": "Telemark fylkeskommune"
+  },
+
+  "urls": {
+    "privacyDeclarationUrl": {
+      "default": "https://www.farte.no/"
+    },
+
+    "accessibilityStatementUrl": {
+      "default": "https://www.farte.no/"
+    },
+
+    "supportUrl": {
+      "default": "https://www.farte.no/",
+      "en-US": "https://www.farte.no/"
+    },
+    "homePageUrl": {
+      "name": "farte.no",
+      "href": "https://www.farte.no/"
+    },
+    "ticketsUrl": {
+      "en-US": "https://www.farte.no/",
+      "nn": "https://www.farte.no/",
+      "default": "https://www.farte.no/"
+    },
+    "sitemapUrls": {
+      "dev": "http://localhost:3000",
+      "staging": "https://farte-staging.planner-web.mittatb.no/",
+      "prod": "https://reise.farte.no/"
+    }
+  },
+  "journeyApiConfigurations": {
+    "waitReluctance": 1.0,
+    "walkingReluctance": 4.0,
+    "walkingSpeed": 1.3,
+    "transferPenalty": 0,
+    "transferSlack": 0
+  }
+}

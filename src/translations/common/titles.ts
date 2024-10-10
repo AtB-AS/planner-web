@@ -23,4 +23,14 @@ export const Titles = orgSpecificTranslations(TitlesInternal, {
       'Svipper Reisesøk',
     ),
   },
+  vkt: {
+    siteTitle: _(
+      'Vestfold Kollektivtrafikk Reisesøk',
+      'Vestfold Kollektivtrafikk Travel Search',
+      'Vestfold Kollektivtrafikk Reisesøk',
+    ),
+  },
+  farte: {
+    siteTitle: _('Farte Reisesøk', 'Farte Travel Search', 'Farte Reisesøk'),
+  },
 });

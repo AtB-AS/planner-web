@@ -44,4 +44,22 @@ export const Layout = orgSpecificTranslations(LayoutInternal, {
       ),
     },
   },
+  vkt: {
+    meta: {
+      defaultDescription: _(
+        'Finn rutetider, holdeplasser, kaier og tilbud for buss, hurtigbåt og ferge i Vestfold med reiseplanleggeren.',
+        'Find timetables, stops and offers for bus, boat and ferry in Vestfold with the travel planner.',
+        'Finn rutetider, haldeplassar, kaier og tilbod for buss, hurtigbåt og ferje i Vestfold med reiseplanleggaren.',
+      ),
+    },
+  },
+  farte: {
+    meta: {
+      defaultDescription: _(
+        'Finn rutetider, holdeplasser, kaier og tilbud for buss, hurtigbåt og ferge i Telemark med reiseplanleggeren.',
+        'Find timetables, stops and offers for bus, boat and ferry in Telemark with the travel planner.',
+        'Finn rutetider, haldeplassar, kaier og tilbod for buss, hurtigbåt og ferje i Telemark med reiseplanleggaren.',
+      ),
+    },
+  },
 });

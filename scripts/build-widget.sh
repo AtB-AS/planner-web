@@ -5,7 +5,7 @@
 
 mkdir public/widget
 
-for orgId in atb nfk fram troms; do
+for orgId in atb nfk fram troms vkt farte; do
   # @TODO FIX THIS
   echo "Building widget for $orgId"
   NEXT_PUBLIC_PLANNER_ORG_ID=$orgId yarn build:widget
