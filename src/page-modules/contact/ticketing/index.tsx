@@ -7,6 +7,7 @@ import { RadioInput } from '../components/input/radio';
 import { FormCategory, ticketingStateMachine } from './ticketingStateMachine';
 import PriceAndTicketTypesForm from './forms/priceAndTicketTypesForm';
 import { Button } from '@atb/components/button';
+import WebshopForm from './forms/webshopForm';
 
 const TicketingContent = () => {
   const { t } = useTranslation();
@@ -40,6 +41,10 @@ const TicketingContent = () => {
 
       {state.matches({ editing: 'priceAndTicketTypes' }) && (
         <PriceAndTicketTypesForm state={state} send={send} />
+      )}
+
+      {state.matches({ editing: 'webshop' }) && (
+        <WebshopForm state={state} send={send} />
       )}
 
       {state.context.formType && (
