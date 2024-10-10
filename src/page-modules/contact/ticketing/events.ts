@@ -26,6 +26,6 @@ const ticketingSpecificFormEvents = {} as
       type: 'SUBMIT';
     };
 
-export const ticketsAppFormEvents = {} as
+export const ticketingFormEvents = {} as
   | typeof commonEvents
   | typeof ticketsAppSpecificFormEvents;
