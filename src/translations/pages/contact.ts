@@ -37,6 +37,18 @@ export const Contact = {
         'Dersom du har fått gebyr på feil grunnlag, kan du sende oss ei skriftleg klage.',
       ),
 
+      ticketStorage: {
+        question: _(
+          'Hvor pleier du å ha billetten din?',
+          'Where do you usually keep your ticket?',
+          'Kor pleier du å ha billetten din?',
+        ),
+
+        app: {
+          title: _('App', 'App', 'App'),
+        },
+      },
+
       firstAgreement: {
         title: _(
           'Har du fått gebyr etter billettkontroll?',
@@ -1122,53 +1134,6 @@ export const Contact = {
       },
     },
 
-    ticketStorage: {
-      question: _(
-        'Hvor pleier du å ha billetten din?',
-        'Where do you usually keep your ticket?',
-        'Kor pleier du å ha billetten din?',
-      ),
-
-      app: {
-        title: _('App', 'App', 'App'),
-        appPhoneNumber: {
-          label: _(
-            'Registrert mobilnummer',
-            'Registered mobile number',
-            'Registrert mobilnummer',
-          ),
-          errorMessages: {
-            empty: _(
-              'Legg til registrert mobilnummer',
-              'Legg til registered mobile number',
-              'Legg til registrert mobilnummer',
-            ),
-          },
-        },
-
-        customerNumber: {
-          label: _('Kundenummer', 'Customer number', 'Kundenummer'),
-          errorMessages: {
-            empty: _(
-              'Fyll inn kundenummer',
-              'Enter customer number',
-              'Fyll inn kundenummer',
-            ),
-          },
-        },
-      },
-
-      travelCardNumber: {
-        label: _('Reisekort', 'Travelcard', 'Reisekort'),
-        errorMessages: {
-          empty: _(
-            'Legg til reisekort',
-            'Enter travelcard number',
-            'Legg til reisekort',
-          ),
-        },
-      },
-    },
     feedback: {
       title: _(
         'Hva ønsker du å fortelle oss?',
@@ -1272,6 +1237,42 @@ export const Contact = {
       ] as Area[],
       errorMessages: {
         empty: _('Område mangler', 'Area is missing', 'Område mangler'),
+      },
+    },
+    appPhoneNumber: {
+      label: _(
+        'Registrert mobilnummer',
+        'Registered mobile number',
+        'Registrert mobilnummer',
+      ),
+      errorMessages: {
+        empty: _(
+          'Legg til registrert mobilnummer',
+          'Legg til registered mobile number',
+          'Legg til registrert mobilnummer',
+        ),
+      },
+    },
+
+    customerNumber: {
+      label: _('Kundenummer', 'Customer number', 'Kundenummer'),
+      errorMessages: {
+        empty: _(
+          'Fyll inn kundenummer',
+          'Enter customer number',
+          'Fyll inn kundenummer',
+        ),
+      },
+    },
+
+    travelCardNumber: {
+      label: _('Reisekort', 'Travelcard', 'Reisekort'),
+      errorMessages: {
+        empty: _(
+          'Legg til reisekort',
+          'Enter travelcard number',
+          'Legg til reisekort',
+        ),
       },
     },
   },

@@ -127,11 +127,15 @@ const FormContent = ({ state, send }: FormProps) => {
         />
 
         <Typo.h3 textType="heading__component">
-          {t(PageText.Contact.input.ticketStorage.question)}
+          {t(
+            PageText.Contact.ticketControl.feeComplaint.ticketStorage.question,
+          )}
         </Typo.h3>
 
         <RadioInput
-          label={t(PageText.Contact.input.ticketStorage.app.title)}
+          label={t(
+            PageText.Contact.ticketControl.feeComplaint.ticketStorage.app.title,
+          )}
           name="isAppTicketStorageMode"
           checked={state.context.isAppTicketStorageMode}
           onChange={() =>
@@ -143,7 +147,7 @@ const FormContent = ({ state, send }: FormProps) => {
           }
         />
         <RadioInput
-          label={t(PageText.Contact.input.ticketStorage.travelCardNumber.label)}
+          label={t(PageText.Contact.input.travelCardNumber.label)}
           name="isAppTicketStorageMode"
           checked={!state.context.isAppTicketStorageMode}
           onChange={() =>
@@ -158,9 +162,7 @@ const FormContent = ({ state, send }: FormProps) => {
         {state.context.isAppTicketStorageMode && (
           <div>
             <Input
-              label={
-                PageText.Contact.input.ticketStorage.app.appPhoneNumber.label
-              }
+              label={PageText.Contact.input.appPhoneNumber.label}
               type="tel"
               name="appPhoneNumber"
               value={state.context.appPhoneNumber || ''}
@@ -175,9 +177,7 @@ const FormContent = ({ state, send }: FormProps) => {
             />
 
             <Input
-              label={
-                PageText.Contact.input.ticketStorage.app.customerNumber.label
-              }
+              label={PageText.Contact.input.customerNumber.label}
               type="number"
               name="customerNumber"
               value={state.context.customerNumber || ''}
@@ -194,7 +194,7 @@ const FormContent = ({ state, send }: FormProps) => {
         )}
         {!state.context.isAppTicketStorageMode && (
           <Input
-            label={PageText.Contact.input.ticketStorage.travelCardNumber.label}
+            label={PageText.Contact.input.travelCardNumber.label}
             type="number"
             name="travelCardNumber"
             value={state.context.travelCardNumber || ''}
