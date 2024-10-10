@@ -9,7 +9,7 @@ import style from '../contact.module.css';
 import { Typo } from '@atb/components/typography';
 import { SectionCard, Radio, Checkbox } from '../components';
 
-export const RefundForm = () => {
+const TravelGuaranteeContent = () => {
   const { t } = useTranslation();
   const [state, send] = useMachine(fetchMachine);
 
@@ -133,4 +133,4 @@ export const RefundForm = () => {
   );
 };
 
-export default RefundForm;
+export default TravelGuaranteeContent;

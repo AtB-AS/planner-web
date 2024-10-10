@@ -17,7 +17,7 @@ import { FormEventHandler, useState } from 'react';
 import { Radio, SectionCard } from '../components';
 import style from '../contact.module.css';
 
-export const MeansOfTransportContent = () => {
+const MeansOfTransportContent = () => {
   const { t } = useTranslation();
   const [state, send] = useMachine(meansOfTransportFormMachine);
 
