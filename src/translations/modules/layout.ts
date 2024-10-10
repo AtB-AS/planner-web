@@ -129,4 +129,36 @@ export const Layout = orgSpecificTranslations(LayoutInternal, {
       },
     },
   },
+  vkt: {
+    base: {
+      footer: {
+        sections: {
+          contact: {
+            header: _(
+              'Kontakt Vestfold Kollektivtrafikk',
+              'Contact Vestfold Kollektivtrafikk',
+              'Kontakt Vestfold Kollektivtrafikk',
+            ),
+            contactLink: _(
+              'Kontakt Vestfold Kollektivtrafikk',
+              'Contact Vestfold Kollektivtrafikk',
+              'Kontakt Vestfold Kollektivtrafikk',
+            ),
+          },
+        },
+      },
+    },
+  },
+  farte: {
+    base: {
+      footer: {
+        sections: {
+          contact: {
+            header: _('Kontakt Farte', 'Contact Farte', 'Kontakt Farte'),
+            contactLink: _('Kontakt Farte', 'Contact Farte', 'Kontakt Farte'),
+          },
+        },
+      },
+    },
+  },
 });

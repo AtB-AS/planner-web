@@ -15,6 +15,10 @@ function getThemeVariant(orgId: WEBSHOP_ORGS): ThemeVariant {
       return ThemeVariant.FRAM;
     case 'troms':
       return ThemeVariant.Troms;
+    case 'vkt':
+      return ThemeVariant.VKT;
+    case 'farte':
+      return ThemeVariant.Farte;
   }
 }
 
