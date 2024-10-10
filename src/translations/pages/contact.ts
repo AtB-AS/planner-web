@@ -1414,7 +1414,7 @@ export const Contact = {
         },
         {
           id: 'framAdult',
-          name: _('FRAM Voksen', 'FRAM Adoult', 'FRAM Voksen'),
+          name: _('FRAM Voksen', 'FRAM Adult', 'FRAM Voksen'),
         },
         {
           id: 'framSenior',
@@ -1426,7 +1426,7 @@ export const Contact = {
       },
     },
     amount: {
-      label: _('Beløp', 'Amount', 'Beløf'),
+      label: _('Beløp', 'Amount', 'Beløp'),
       info: _(
         'Skriv inn beløpet du ønsker utbetalt, i norske kroner.',
         'Enter the amount you want paid out, in Norwegian kroner.',
