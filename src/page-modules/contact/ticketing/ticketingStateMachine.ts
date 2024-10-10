@@ -50,7 +50,7 @@ type submitInput = {
   amount?: string;
 };
 
-export type TicketsAppContextProps = {
+export type ticketingContextType = {
   formType?: FormType;
   attachments?: File[];
   firstName?: string;
