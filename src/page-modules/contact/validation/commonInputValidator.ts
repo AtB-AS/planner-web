@@ -120,25 +120,19 @@ export const commonInputValidator = (context: any) => {
     {
       inputName: 'appPhoneNumber',
       validCondition: context.appPhoneNumber || context.travelCardNumber,
-      errorMessage:
-        PageText.Contact.input.ticketStorage.app.appPhoneNumber.errorMessages
-          .empty,
+      errorMessage: PageText.Contact.input.appPhoneNumber.errorMessages.empty,
     },
     {
       inputName: 'customerNumber',
       validCondition: context.customerNumber || context.travelCardNumber,
-      errorMessage:
-        PageText.Contact.input.ticketStorage.app.customerNumber.errorMessages
-          .empty,
+      errorMessage: PageText.Contact.input.customerNumber.errorMessages.empty,
     },
     {
       inputName: 'travelCardNumber',
       validCondition:
         context.travelCardNumber ||
         (context.appPhoneNumber && context.customerNumber),
-      errorMessage:
-        PageText.Contact.input.ticketStorage.travelCardNumber.errorMessages
-          .empty,
+      errorMessage: PageText.Contact.input.travelCardNumber.errorMessages.empty,
     },
     {
       inputName: 'feedback',
