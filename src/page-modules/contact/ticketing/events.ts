@@ -4,7 +4,7 @@ import { AppForm, FormCategory } from './ticketingStateMachine';
 
 export type RefundReason = { id: string; name: TranslatedString };
 
-const ticketsAppSpecificFormEvents = {} as
+const ticketingSpecificFormEvents = {} as
   | {
       type: 'ON_INPUT_CHANGE';
       inputName: 'question' | 'orderId' | 'customerNumber';
