@@ -1,5 +1,5 @@
-import { assign, fromPromise, setup, TransitionTarget } from 'xstate';
-import { ticketsAppFormEvents } from './events';
+import { assign, fromPromise, setup } from 'xstate';
+import { ticketingFormEvents } from './events';
 import { commonInputValidator, InputErrorMessages } from '../validation';
 import { convertFilesToBase64 } from '../utils';
 
@@ -73,7 +73,7 @@ export type ticketingContextType = {
   errorMessages: InputErrorMessages;
 };
 
-const setInputToValidate = (context: TicketsAppContextProps) => {
+const setInputsToValidate = (context: ticketingContextType) => {
   const {
     formType,
     attachments,
@@ -185,15 +185,12 @@ const setInputToValidate = (context: TicketsAppContextProps) => {
 
 export const ticketingStateMachine = setup({
   types: {
-    context: {} as TicketsAppContextProps,
-    events: ticketsAppFormEvents,
+    context: {} as ticketingContextType,
+    events: ticketingFormEvents,
   },
   guards: {
-    isFormValid: ({ context }) => {
-      const inputToValidate = setInputToValidate(context);
-      context.errorMessages = commonInputValidator(inputToValidate);
-      return Object.keys(context.errorMessages).length > 0 ? false : true;
-    },
+    isFormValid: ({ context }) =>
+      Object.keys(context.errorMessages).length === 0,
   },
   actions: {
     navigateToErrorPage: () => {
@@ -217,9 +214,9 @@ export const ticketingStateMachine = setup({
 
     clearValidationErrors: assign({ errorMessages: {} }),
 
-    setValidationErrors: assign(({ context }) => {
-      const inputToValidate = setInputToValidate(context);
-      const errors = commonInputValidator(inputToValidate);
+    validateInputs: assign(({ context }) => {
+      const inputsToValidate = setInputsToValidate(context);
+      const errors = commonInputValidator(inputsToValidate);
       return { errorMessages: { ...errors } };
     }),
 
@@ -392,14 +389,13 @@ export const ticketingStateMachine = setup({
           on: { SUBMIT: 'validating' },
         },
         validating: {
+          entry: 'validateInputs',
           always: [
             {
               guard: 'isFormValid',
               target: '#submitting',
             },
-
             {
-              actions: ['setValidationErrors'],
               target: 'editing',
             },
           ],
@@ -441,15 +437,14 @@ export const ticketingStateMachine = setup({
           },
         },
         validating: {
+          entry: 'validateInputs',
           always: [
             {
               guard: 'isFormValid',
               target: '#submitting',
             },
-
             {
-              actions: 'setValidationErrors',
-              target: 'editing.history',
+              target: 'editing',
             },
           ],
         },
@@ -472,7 +467,7 @@ export const ticketingStateMachine = setup({
       id: 'submitting',
       invoke: {
         src: 'submit',
-        input: ({ context }: { context: TicketsAppContextProps }) => ({
+        input: ({ context }: { context: ticketingContextType }) => ({
           formType: context.formType,
           attachments: context.attachments,
           firstName: context.firstName,

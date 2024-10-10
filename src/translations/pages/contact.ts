@@ -495,23 +495,23 @@ export const Contact = {
 
       orderTravelCard: {
         label: _('Bestill reisekort', 'Order travel card', 'Bestill reisekort'),
-        info: {
-          firstParagraph: _(
-            'Et reisekort er et fysisk plastkort. På reisekortet kan du legge periodebilletter.<1/>Fyll ut dette skjemaet viss du vil bestille eit reisekort og få det tilsendt. Merk at vi berre sender reisekort til adresser i Noreg.',
+        info: [
+          _(
+            'Et reisekort er et fysisk plastkort. På reisekortet kan du legge periodebilletter.',
             'A travel card is a physical plastic card. You can add period tickets to the travel card',
             'Eit reisekort er eit fysisk plastkort. På reisekortet kan du legge periodebillettar.',
           ),
-          secondParagraph: _(
+          _(
             'Fyll ut dette skjemaet hvis du vil bestille et reisekort og få det tilsendt. Merk at vi bare sender reisekort til adresser i Norge.',
             'Fill in this form if you want to order a travel card and have it sent to you. Note that we only send travel cards to addresses in Norway.',
             'Fyll ut dette skjemaet viss du vil bestille eit reisekort og få det tilsendt. Merk at vi berre sender reisekort til adresser i Noreg.',
           ),
-          thirdParagraph: _(
+          _(
             'Du kan også få reisekort på bussen, hurtigbåten eller på en av trafikkterminalane. På de samme stedene og i nettbutikken kan du fylle på kortet med nye billetter.',
             'You can also get a travel card on the bus, express boat or at one of the traffic terminals. At the same places and in the online shop, you can top up the card with new tickets.',
             'Du kan også få reisekort på bussen, hurtigbåten eller på ein av trafikkterminalane. På dei same stadane og i nettbutikken kan du fylle på kortet med nye billettar.',
           ),
-        },
+        ],
       },
       otherQuestionsRegardingTravelCard: {
         label: _(
@@ -532,7 +532,7 @@ export const Contact = {
           ),
           rules: [
             _(
-              'Når du ikke reise med oss lenger. Hvis du for eksempel flytter, blir sjukemeldt, endrer reisemønster eller har en annen grunn til å søke om refusjon.',
+              'Når du ikke reiser med oss lenger. Hvis du for eksempel flytter, blir sjukemeldt, endrer reisemønster eller har en annen grunn til å søke om refusjon.',
               'When you no longer travel with us. If, for example, you move, are on sick leave, change your travel pattern or have another reason to apply for a refund.',
               'Når du ikkje reise med oss lenger. Viss du for eksempel flytter, blir sjukemeldt, endrar reisemønster eller har en anna grunn til å søke om refusjon.',
             ),

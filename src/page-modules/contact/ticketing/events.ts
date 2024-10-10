@@ -28,4 +28,4 @@ const ticketingSpecificFormEvents = {} as
 
 export const ticketingFormEvents = {} as
   | typeof commonEvents
-  | typeof ticketsAppSpecificFormEvents;
+  | typeof ticketingSpecificFormEvents;

@@ -1,15 +1,15 @@
 import { SectionCard } from '../../components/section-card';
 import { PageText, useTranslation } from '@atb/translations';
-import { ticketsAppFormEvents } from '../events';
-import { TicketsAppContextProps } from '../ticketingStateMachine';
+import { ticketingContextType } from '../ticketingStateMachine';
 import { Typo } from '@atb/components/typography';
 import { Textarea } from '../../components/input/textarea';
 import { FileInput } from '../../components/input/file';
 import { Input } from '../../components/input';
+import { ticketingFormEvents } from '../events';
 
 type PriceAndTicketTypesFormProps = {
-  state: { context: TicketsAppContextProps };
-  send: (event: typeof ticketsAppFormEvents) => void;
+  state: { context: ticketingContextType };
+  send: (event: typeof ticketingFormEvents) => void;
 };
 
 export const PriceAndTicketTypesForm = ({
