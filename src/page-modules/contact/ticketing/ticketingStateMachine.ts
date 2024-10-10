@@ -183,7 +183,7 @@ const setInputToValidate = (context: TicketsAppContextProps) => {
   }
 };
 
-export const ticketsAppFormMachine = setup({
+export const ticketingStateMachine = setup({
   types: {
     context: {} as TicketsAppContextProps,
     events: ticketsAppFormEvents,
@@ -302,7 +302,7 @@ export const ticketsAppFormMachine = setup({
     ),
   },
 }).createMachine({
-  id: 'ticketControlForm',
+  id: 'ticketingStateMachine',
   initial: 'formCategoryHandler',
   context: {
     hasInternationalBankAccount: false,

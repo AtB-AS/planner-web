@@ -4,16 +4,13 @@ import { useMachine } from '@xstate/react';
 import { FormEventHandler } from 'react';
 import { SectionCard } from '../components/section-card';
 import { RadioInput } from '../components/input/radio';
-import {
-  FormCategory,
-  ticketsAppFormMachine,
-} from './tickets-app-form-machine';
+import { FormCategory, ticketingStateMachine } from './ticketingStateMachine';
 import PriceAndTicketTypesForm from './forms/priceAndTicketTypesForm';
 import { Button } from '@atb/components/button';
 
-const TicketsAppContent = () => {
+const TicketingContent = () => {
   const { t } = useTranslation();
-  const [state, send] = useMachine(ticketsAppFormMachine);
+  const [state, send] = useMachine(ticketingStateMachine);
 
   const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
@@ -22,12 +19,12 @@ const TicketsAppContent = () => {
 
   return (
     <form onSubmit={onSubmit}>
-      <SectionCard title={t(PageText.Contact.ticketsApp.title)}>
+      <SectionCard title={t(PageText.Contact.ticketing.title)}>
         <ul className={style.form_options__list}>
           {Object.values(FormCategory).map((formCategory) => (
             <li key={formCategory}>
               <RadioInput
-                label={t(PageText.Contact.ticketsApp[formCategory].description)}
+                label={t(PageText.Contact.ticketing[formCategory].description)}
                 checked={state.matches(formCategory)}
                 onChange={() =>
                   send({
@@ -57,4 +54,4 @@ const TicketsAppContent = () => {
   );
 };
 
-export default TicketsAppContent;
+export default TicketingContent;

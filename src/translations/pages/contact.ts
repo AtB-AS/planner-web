@@ -1,5 +1,5 @@
 import { Area } from '@atb/page-modules/contact/means-of-transport/events';
-import { RefundReason } from '@atb/page-modules/contact/tickets-app/events';
+import { RefundReason } from '@atb/page-modules/contact/ticketing/events';
 import { ReasonForTransportFailure } from '@atb/page-modules/contact/travel-guarantee/events';
 import { translation as _ } from '@atb/translations/commons';
 
@@ -449,7 +449,7 @@ export const Contact = {
     },
   },
 
-  ticketsApp: {
+  ticketing: {
     title: _('Billetter og app', 'Tickets and app', 'Billettar og app'),
     priceAndTicketTypes: {
       description: _(

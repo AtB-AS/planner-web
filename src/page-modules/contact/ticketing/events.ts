@@ -1,6 +1,6 @@
 import { TranslatedString } from '@atb/translations';
 import { commonEvents } from '../commoneEvents';
-import { AppForm, FormCategory } from './tickets-app-form-machine';
+import { AppForm, FormCategory } from './ticketingStateMachine';
 
 export type RefundReason = { id: string; name: TranslatedString };
 
