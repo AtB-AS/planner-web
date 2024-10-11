@@ -1,7 +1,6 @@
-import { cleanup, render, fireEvent } from '@testing-library/react';
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { cleanup, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { addDays, addHours, format, subDays } from 'date-fns';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import SearchTimeSelector from '..';
 
 afterEach(function () {

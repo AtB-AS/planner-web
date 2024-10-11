@@ -8,9 +8,9 @@ import { format, subDays } from 'date-fns';
 import { AnimatePresence, motion } from 'framer-motion';
 import { CSSProperties, useState } from 'react';
 import { SEARCH_MODES, SearchMode, SearchTime } from '../types';
-import DateSelector from './date-selector';
 import style from './selector.module.css';
-import TimeSelector from './time-selector';
+import DateInput from '@atb/components/date-time-input/dateinput';
+import TimeInput from '@atb/components/date-time-input/timeinput';
 
 type SearchTimeSelectorProps = {
   onChange: (state: SearchTime) => void;
@@ -152,16 +152,13 @@ export default function SearchTimeSelector({
             transition={{ duration: 0.25, ease: [0.04, 0.62, 0.23, 0.98] }}
           >
             <div className={style.dateAndTimeSelectors}>
-              <DateSelector
+              <DateInput
                 min={yesterday}
                 value={selectedDate}
                 onChange={internalOnDateChange}
               />
 
-              <TimeSelector
-                value={selectedTime}
-                onChange={internalOnTimeChange}
-              />
+              <TimeInput value={selectedTime} onChange={internalOnTimeChange} />
             </div>
           </motion.div>
         )}

@@ -3,7 +3,7 @@ import {
   Calendar,
   CalendarCell,
   CalendarGrid,
-  DateInput,
+  DateInput as DateInputInternal,
   DatePicker,
   DateSegment,
   Dialog,
@@ -16,7 +16,7 @@ import {
 import { MonoIcon } from '@atb/components/icon';
 import { ModuleText, useTranslation } from '@atb/translations';
 import { fromDate, parseDate } from '@internationalized/date';
-import style from './selector.module.css';
+import style from './inputs.module.css';
 
 export type DateSelectorProps = {
   value: Date;
@@ -24,11 +24,7 @@ export type DateSelectorProps = {
   onChange: (value: string) => void;
 };
 
-export default function DateSelector({
-  value,
-  onChange,
-  min,
-}: DateSelectorProps) {
+export default function DateInput({ value, onChange, min }: DateSelectorProps) {
   const { t } = useTranslation();
 
   return (
@@ -44,14 +40,14 @@ export default function DateSelector({
         {t(ModuleText.SearchTime.date)}
       </Label>
       <Group className={style.calendarSelectorGroup}>
-        <DateInput className={style.timeSelectorInput}>
+        <DateInputInternal className={style.timeSelectorInput}>
           {(segment) => (
             <DateSegment
               className={style.timeSelectorSegment}
               segment={segment}
             />
           )}
-        </DateInput>
+        </DateInputInternal>
         <Button className={style.calendarButton}>
           <MonoIcon icon="time/Date" />
         </Button>

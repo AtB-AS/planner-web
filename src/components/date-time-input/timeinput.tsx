@@ -7,13 +7,13 @@ import {
 
 import { ModuleText, useTranslation } from '@atb/translations';
 import { parseTime } from '@internationalized/date';
-import style from './selector.module.css';
+import style from './inputs.module.css';
 
 export type TimeSelectorProps = {
   value: string;
   onChange: (value: string) => void;
 };
-export default function TimeSelector({ value, onChange }: TimeSelectorProps) {
+export default function TimeInput({ value, onChange }: TimeSelectorProps) {
   const { t } = useTranslation();
   const parsedValue = parseTime(value);
 
