@@ -2,6 +2,7 @@ query lines($authority: String!) {
   lines(authorities: [$authority]) {
     id
     name
+    publicCode
     transportMode
     quays {
       id

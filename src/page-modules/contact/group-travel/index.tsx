@@ -11,6 +11,7 @@ import { Line } from '../server/journey-planner/validators';
 import { Input } from '../components/input';
 import { Textarea } from '../components/input/textarea';
 import { Button } from '@atb/components/button';
+import { formatLineName } from '../utils';
 
 export default function GroupTravelContent() {
   const { t } = useTranslation();
@@ -133,7 +134,7 @@ export default function GroupTravelContent() {
               }}
               options={getLinesByMode('bus')}
               valueToId={(line: Line) => line.id}
-              valueToText={(line: Line) => line.name}
+              valueToText={(line: Line) => formatLineName(line)}
               placeholder={t(PageText.Contact.input.line.optionLabel)}
               error={
                 errors.line
@@ -227,7 +228,7 @@ export default function GroupTravelContent() {
               }}
               options={getLinesByMode('bus')}
               valueToId={(line: Line) => line.id}
-              valueToText={(line: Line) => line.name}
+              valueToText={(line: Line) => formatLineName(line)}
               placeholder={t(PageText.Contact.input.line.optionLabel)}
             />
 

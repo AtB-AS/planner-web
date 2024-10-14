@@ -11,6 +11,7 @@ import ErrorMessage from '../../components/input/error-message';
 import { Checkbox } from '../../components/input/checkbox';
 import { Textarea } from '../../components/input/textarea';
 import { FileInput } from '../../components/input/file';
+import { formatLineName } from '../../utils';
 
 type RefundTaxiFormProps = {
   state: { context: ContextProps };
@@ -65,7 +66,7 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
             state.context.transportMode as TransportModeType,
           )}
           valueToId={(line: Line) => line.id}
-          valueToText={(line: Line) => line.name}
+          valueToText={(line: Line) => formatLineName(line)}
           placeholder={t(PageText.Contact.input.line.optionLabel)}
           error={
             state.context?.errorMessages['line']?.[0]

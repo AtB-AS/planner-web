@@ -30,6 +30,7 @@ export function createJourneyApi(
       const data: RecursivePartial<Line[]> = result.data.lines.map((line) => ({
         id: line.id,
         name: line.name ?? '',
+        publicCode: line.publicCode ?? null,
         transportMode: isTransportModeType(line.transportMode)
           ? line.transportMode
           : null,

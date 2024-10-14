@@ -74,3 +74,7 @@ export const setLineAndResetStops = (context: any, line: Line) => {
     },
   };
 };
+
+export const formatLineName = (line: Line): string => {
+  return line.publicCode ? `${line.publicCode} - ${line.name}` : line.name;
+};
