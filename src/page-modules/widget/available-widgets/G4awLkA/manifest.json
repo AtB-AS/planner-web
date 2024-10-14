@@ -1,0 +1,22 @@
+{
+  "latest": {
+    "version": "2.27.0",
+    "created": "2024-10-14T13:24:10.465Z",
+    "urls": {
+      "umd": "/widget/G4awLkA/2.27.0/planner-web.umd.js",
+      "esm": "/widget/G4awLkA/2.27.0/planner-web.mjs",
+      "css": "/widget/G4awLkA/2.27.0/planner-web.css"
+    }
+  },
+  "all": [
+    {
+      "version": "2.27.0",
+      "created": "2024-10-14T13:24:10.465Z",
+      "urls": {
+        "umd": "/widget/G4awLkA/2.27.0/planner-web.umd.js",
+        "esm": "/widget/G4awLkA/2.27.0/planner-web.mjs",
+        "css": "/widget/G4awLkA/2.27.0/planner-web.css"
+      }
+    }
+  ]
+}
