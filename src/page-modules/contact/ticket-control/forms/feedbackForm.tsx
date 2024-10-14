@@ -10,6 +10,7 @@ import { Typo } from '@atb/components/typography';
 import { FileInput } from '../../components/input/file';
 import { ticketControlFormEvents } from '../events';
 import { ContextProps } from '../ticket-control-form-machine';
+import { formatLineName } from '../../utils';
 
 type FeedbackFormProps = {
   state: { context: ContextProps };
@@ -63,7 +64,7 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
             state.context.transportMode as TransportModeType,
           )}
           valueToId={(line: Line) => line.id}
-          valueToText={(line: Line) => line.name}
+          valueToText={(line: Line) => formatLineName(line)}
           placeholder={t(PageText.Contact.input.line.optionLabel)}
           error={
             state.context?.errorMessages['line']?.[0] &&

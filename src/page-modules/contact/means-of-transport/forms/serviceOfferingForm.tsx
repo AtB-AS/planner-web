@@ -11,6 +11,7 @@ import { Line } from '../..';
 import { FileInput } from '../../components/input/file';
 import { Textarea } from '../../components/input/textarea';
 import { meansOfTransportFormEvents } from '../events';
+import { formatLineName } from '../../utils';
 
 type ServiceOfferingFormProps = {
   state: { context: ContextProps };
@@ -102,7 +103,7 @@ export const ServiceOfferingForm = ({
             state.context.transportMode as TransportModeType,
           )}
           valueToId={(line: Line) => line.id}
-          valueToText={(line: Line) => line.name}
+          valueToText={(line: Line) => formatLineName(line)}
           placeholder={t(PageText.Contact.input.line.optionLabel)}
           error={
             state.context?.errorMessages['line']?.[0]

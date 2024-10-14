@@ -12,6 +12,7 @@ import { FileInput } from '../../components/input/file';
 import { Textarea } from '../../components/input/textarea';
 import { meansOfTransportFormEvents } from '../events';
 import { Checkbox } from '../../components/input/checkbox';
+import { formatLineName } from '../../utils';
 
 type TransportationFormProps = {
   state: { context: ContextProps };
@@ -79,7 +80,7 @@ export const TransportationForm = ({
             state.context.transportMode as TransportModeType,
           )}
           valueToId={(line: Line) => line.id}
-          valueToText={(line: Line) => line.name}
+          valueToText={(line: Line) => formatLineName(line)}
           placeholder={t(PageText.Contact.input.line.optionLabel)}
           error={
             state.context?.errorMessages['line']?.[0]
