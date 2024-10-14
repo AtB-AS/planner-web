@@ -3,8 +3,10 @@ import atb from '../../../orgs/atb.json';
 import fram from '../../../orgs/fram.json';
 import nfk from '../../../orgs/nfk.json';
 import troms from '../../../orgs/troms.json';
+import vkt from '../../../orgs/vkt.json';
+import farte from '../../../orgs/farte.json';
 
-export type WEBSHOP_ORGS = 'nfk' | 'atb' | 'fram' | 'troms';
+export type WEBSHOP_ORGS = 'nfk' | 'atb' | 'fram' | 'troms' | 'vkt' | 'farte';
 export type MAPBOX_DATA = {
   accessToken: string;
   style: string;
@@ -70,6 +72,10 @@ export function getOrgData(): OrgData {
       return fram as OrgData;
     case 'troms':
       return troms as OrgData;
+    case 'vkt':
+      return vkt as OrgData;
+    case 'farte':
+      return farte as OrgData;
   }
 
   throw new Error('NEXT_PUBLIC_PLANNER_ORG_ID required but missing');
@@ -92,6 +98,10 @@ function getCurrentOrg(): WEBSHOP_ORGS {
       return 'fram';
     case 'troms':
       return 'troms';
+    case 'vkt':
+      return 'vkt';
+    case 'farte':
+      return 'farte';
   }
 
   throw new Error('NEXT_PUBLIC_PLANNER_ORG_ID required but missing');

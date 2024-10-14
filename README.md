@@ -5,7 +5,7 @@ Travel planner for OMS.
 ## Configuration and initial setup
 
 ```
-# What ORG to activate (nfk | atb | fram | troms)
+# What ORG to activate (nfk | atb | fram | troms | vkt | farte)
 NEXT_PUBLIC_PLANNER_ORG_ID=atb
 
 

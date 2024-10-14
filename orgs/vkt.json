@@ -1,0 +1,50 @@
+{
+  "$schema": "./schema-validation.json",
+
+  "orgId": "vkt",
+  "authorityId": "VKT:Authority:VKT_ID",
+
+  "supportEmail": "post@vkt.no",
+
+  "fylkeskommune": {
+    "logoSrc": "/vestfold_fylkeskommune.svg",
+    "logoSrcDark": "/vestfold_fylkeskommune.svg",
+    "name": "Vestfolld fylkeskommune"
+  },
+
+  "urls": {
+    "privacyDeclarationUrl": {
+      "default": "https://vkt.no"
+    },
+
+    "accessibilityStatementUrl": {
+      "default": "https://vkt.no"
+    },
+
+    "supportUrl": {
+      "default": "https://vkt.no",
+      "en-US": "https://vkt.no"
+    },
+    "homePageUrl": {
+      "name": "vkt.no",
+      "href": "https://vkt.no"
+    },
+    "ticketsUrl": {
+      "en-US": "https://vkt.no",
+      "nn": "https://vkt.no",
+      "default": "https://vkt.no"
+    },
+    "sitemapUrls": {
+      "dev": "http://localhost:3000",
+      "staging": "https://vkt-staging.planner-web.mittatb.no/",
+      "prod": "https://reise.vkt.no/"
+    }
+  },
+  "journeyApiConfigurations": {
+    "waitReluctance": 1.0,
+    "walkingReluctance": 4.0,
+    "walkingSpeed": 1.3,
+    "transferPenalty": 0,
+    "transferSlack": 0
+  }
+}

@@ -38,6 +38,18 @@ export const Contact = {
         'Dersom du har fått gebyr på feil grunnlag, kan du sende oss ei skriftleg klage.',
       ),
 
+      ticketStorage: {
+        question: _(
+          'Hvor pleier du å ha billetten din?',
+          'Where do you usually keep your ticket?',
+          'Kor pleier du å ha billetten din?',
+        ),
+
+        app: {
+          title: _('App', 'App', 'App'),
+        },
+      },
+
       firstAgreement: {
         title: _(
           'Har du fått gebyr etter billettkontroll?',
@@ -1267,68 +1279,6 @@ export const Contact = {
       },
     },
 
-    ticketStorage: {
-      question: _(
-        'Hvor pleier du å ha billetten din?',
-        'Where do you usually keep your ticket?',
-        'Kor pleier du å ha billetten din?',
-      ),
-
-      app: {
-        title: _('App', 'App', 'App'),
-        appPhoneNumber: {
-          label: _(
-            'Registrert mobilnummer',
-            'Registered mobile number',
-            'Registrert mobilnummer',
-          ),
-          errorMessages: {
-            empty: _(
-              'Legg til registrert mobilnummer',
-              'Legg til registered mobile number',
-              'Legg til registrert mobilnummer',
-            ),
-          },
-        },
-
-        customerNumber: {
-          label: _('Kundenummer', 'Customer number', 'Kundenummer'),
-          labelOptional: _(
-            'Kundenummer - (valgfritt)',
-            'Customer number - (optional)',
-            'Kundenummer - (valfritt)',
-          ),
-          description: _(
-            'Kundenummeret finner du under Min bruker i FRAM-appen, eller i nettbutikken.',
-            'You can find the customer number under My user in the FRAM app, or in the webshop.',
-            'Kundenummeret finn du under Min bruker i FRAM-appen, eller i nettbutikken.',
-          ),
-          errorMessages: {
-            empty: _(
-              'Fyll inn kundenummer',
-              'Enter customer number',
-              'Fyll inn kundenummer',
-            ),
-          },
-        },
-      },
-
-      travelCardNumber: {
-        label: _('Reisekort', 'Travelcard', 'Reisekort'),
-        info: _(
-          'Legg inn reisekortnummeret her hvis du allerede har et reisekort. Reisekortnummeret finner du bak på reisekortet ditt. ',
-          'Enter the travel card number here if you already have a travel card. You can find the travel card number on the back of your travel card.',
-          'Legg inn reisekortnummeret her viss du allereie har eit reisekort. Reisekortnummeret finn du bak på reisekortet ditt. ',
-        ),
-        errorMessages: {
-          empty: _(
-            'Legg til reisekort',
-            'Enter travelcard number',
-            'Legg til reisekort',
-          ),
-        },
-      },
-    },
     feedback: {
       title: _(
         'Hva ønsker du å fortelle oss?',
@@ -1434,7 +1384,44 @@ export const Contact = {
         empty: _('Område mangler', 'Area is missing', 'Område mangler'),
       },
     },
+    
+    appPhoneNumber: {
+      label: _(
+        'Registrert mobilnummer',
+        'Registered mobile number',
+        'Registrert mobilnummer',
+      ),
+      errorMessages: {
+        empty: _(
+          'Legg til registrert mobilnummer',
+          'Legg til registered mobile number',
+          'Legg til registrert mobilnummer',
+        ),
+      },
+    },
 
+    customerNumber: {
+      label: _('Kundenummer', 'Customer number', 'Kundenummer'),
+      errorMessages: {
+        empty: _(
+          'Fyll inn kundenummer',
+          'Enter customer number',
+          'Fyll inn kundenummer',
+        ),
+      },
+    },
+
+    travelCardNumber: {
+      label: _('Reisekort', 'Travelcard', 'Reisekort'),
+      errorMessages: {
+        empty: _(
+          'Legg til reisekort',
+          'Enter travelcard number',
+          'Legg til reisekort',
+        ),
+      },
+    },
+    
     question: {
       title: _(
         'Hva ønsker du å spørre om?',
@@ -1531,10 +1518,9 @@ export const Contact = {
         empty: _(
           'Grunn for refusjon mangler',
           'Reason for refund is missing',
-          'Grunn for refusjon mangler',
-        ),
-      },
-    },
+          'Grunn for refusjon mangler',)
+      }
+    }
   },
   success: {
     backButton: _(
