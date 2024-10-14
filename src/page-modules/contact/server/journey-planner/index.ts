@@ -43,6 +43,21 @@ export function createJourneyApi(
       const validated = linesSchema.safeParse(data);
       if (!validated.success) throw validated.error;
 
+      // Sort lines by publicCode
+      validated.data.sort((a, b) => {
+        if (a.publicCode === null && b.publicCode === null) return 0;
+        if (a.publicCode === null) return 1;
+        if (b.publicCode === null) return -1;
+
+        const aIsNumber = !isNaN(Number(a.publicCode));
+        const bIsNumber = !isNaN(Number(b.publicCode));
+
+        if (aIsNumber && bIsNumber) {
+          return Number(a.publicCode) - Number(b.publicCode);
+        }
+        return a.publicCode.localeCompare(b.publicCode);
+      });
+
       return validated.data;
     },
   };
