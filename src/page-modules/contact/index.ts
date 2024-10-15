@@ -4,3 +4,4 @@ export { ContactPageLayout, type ContactPageLayoutProps } from './layouts';
 export { default as TravelGuaranteeContent } from './travel-guarantee';
 export { default as MeansOfTransportContent } from './means-of-transport';
 export { default as TicketControlPageContent } from './ticket-control';
+export { default as TicketingContent } from './ticketing';
