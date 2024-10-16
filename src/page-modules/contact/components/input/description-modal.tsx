@@ -43,7 +43,7 @@ const DescriptionModal = ({
       document.removeEventListener('keydown', handleEscapeOrClickOutside);
       document.removeEventListener('mousedown', handleEscapeOrClickOutside);
     };
-  }, []);
+  });
 
   if (!isModalOpen) return null;
 
