@@ -1,5 +1,7 @@
 import { TransportModeType } from '@atb-as/config-specs';
 import { Line } from '.';
+import { Option } from './components/input/searchable-select';
+import { ComponentText, Language } from '@atb/translations';
 
 export const shouldShowContactPage = (): boolean => {
   return process.env.NEXT_PUBLIC_CONTACT_API_URL ? true : false;
@@ -60,7 +62,7 @@ export const setTransportModeAndResetLineAndStops = (
   };
 };
 
-export const setLineAndResetStops = (context: any, line: Line) => {
+export const setLineAndResetStops = (context: any, line: Line | undefined) => {
   return {
     ...context,
     line: line,
@@ -77,4 +79,22 @@ export const setLineAndResetStops = (context: any, line: Line) => {
 
 export const formatLineName = (line: Line): string => {
   return line.publicCode ? `${line.publicCode} - ${line.name}` : line.name;
+};
+
+export const getLineOptions = (lines: Line[]): Option<Line>[] => {
+  return lines.map((line) => ({
+    id: line.id,
+    name: line.publicCode ? `${line.publicCode} - ${line.name}` : line.name,
+    value: line,
+  }));
+};
+
+export const getStopOptions = (
+  stops: Line['quays'],
+): Option<Line['quays'][0]>[] => {
+  return stops.map((stop) => ({
+    id: stop.id,
+    name: stop.name,
+    value: stop,
+  }));
 };

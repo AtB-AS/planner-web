@@ -30,5 +30,5 @@ export const commonEvents = {} as
     }
   | {
       type: 'ON_LINE_CHANGE';
-      value: Line;
+      value: Line | undefined;
     };
