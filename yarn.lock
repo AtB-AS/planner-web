@@ -91,10 +91,10 @@
     zod "^3.21.4"
     zod-to-json-schema "^3.20.4"
 
-"@atb-as/generate-assets@^13.2.0-rc.3":
-  version "13.2.0-rc.3"
-  resolved "https://registry.yarnpkg.com/@atb-as/generate-assets/-/generate-assets-13.2.0-rc.3.tgz#0aec371b2a60eabe478061f4eef0215b6fb79067"
-  integrity sha512-Di2ztdexkBHymHXqpOdqYhEoAOA/oEukKI6VmyFw6E6tuAh/8x51elLaxJx/HfoimiF6KEGShzgiX0F+C5Px8g==
+"@atb-as/generate-assets@^13.2.0-rc.4":
+  version "13.2.0-rc.4"
+  resolved "https://registry.yarnpkg.com/@atb-as/generate-assets/-/generate-assets-13.2.0-rc.4.tgz#314e4e9e01e750c06bee49cf4cc7f69ece268178"
+  integrity sha512-nKiL/cDt1Hrmx4G3tKXuwLcvgpZK3JX3CN2Hj2DCjg+DDVmEIXz6jnoRNCFeWCgDy9oShzzn+PUrfsqPrnNN5Q==
   dependencies:
     "@atb-as/theme" "^11.0.0-rc.3"
     commander "^9.4.0"
