@@ -77,10 +77,6 @@ export const setLineAndResetStops = (context: any, line: Line | undefined) => {
   };
 };
 
-export const formatLineName = (line: Line): string => {
-  return line.publicCode ? `${line.publicCode} - ${line.name}` : line.name;
-};
-
 export const getLineOptions = (lines: Line[]): Option<Line>[] => {
   return lines.map((line) => ({
     id: line.id,
