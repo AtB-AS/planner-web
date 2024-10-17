@@ -11,7 +11,8 @@ import { Line } from '../..';
 import { FileInput } from '../../components/input/file';
 import { Textarea } from '../../components/input/textarea';
 import { meansOfTransportFormEvents } from '../events';
-import { formatLineName } from '../../utils';
+import SearchableSelect from '../../components/input/searchable-select';
+import { getLineOptions } from '../../utils';
 
 type ServiceOfferingFormProps = {
   state: { context: ContextProps };
@@ -88,22 +89,19 @@ export const ServiceOfferingForm = ({
           placeholder={t(PageText.Contact.input.transportMode.optionLabel)}
         />
 
-        <Select
+        <SearchableSelect
           label={t(PageText.Contact.input.line.label)}
           value={state.context.line}
-          disabled={!state.context.transportMode}
+          isDisabled={!state.context.transportMode}
           onChange={(value: Line | undefined) => {
-            if (!value) return;
             send({
               type: 'ON_LINE_CHANGE',
               value: value,
             });
           }}
-          options={getLinesByMode(
-            state.context.transportMode as TransportModeType,
+          options={getLineOptions(
+            getLinesByMode(state.context.transportMode as TransportModeType),
           )}
-          valueToId={(line: Line) => line.id}
-          valueToText={(line: Line) => formatLineName(line)}
           placeholder={t(PageText.Contact.input.line.optionLabel)}
           error={
             state.context?.errorMessages['line']?.[0]
