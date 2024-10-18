@@ -69,8 +69,6 @@ export const AppTicketingForm = ({ state, send }: AppTicketingFormProps) => {
         />
       </SectionCard>
       <SectionCard title={t(PageText.Contact.aboutYouInfo.title)}>
-        {/*
-        // Must be merged first: https://github.com/AtB-AS/planner-web/pull/387
         <Input
           label={PageText.Contact.input.customerNumber.labelOptional}
           type="text"
@@ -85,7 +83,6 @@ export const AppTicketingForm = ({ state, send }: AppTicketingFormProps) => {
             })
           }
         />
-         */}
         <Input
           label={PageText.Contact.input.firstName.label}
           type="text"

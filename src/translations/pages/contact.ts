@@ -1402,6 +1402,16 @@ export const Contact = {
 
     customerNumber: {
       label: _('Kundenummer', 'Customer number', 'Kundenummer'),
+      labelOptional: _(
+        'Kundenummer - (valgfritt)',
+        'Customer number - (optional)',
+        'Kundenummer - (valfritt)',
+      ),
+      description: _(
+        'Kundenummeret finner du under Min bruker i FRAM-appen, eller i nettbutikken.',
+        'The customber number can be found under My profile in the FRAM app, or in the webshop',
+        'Kundenummeret finn du under Min bruker i FRAM-appen, eller i nettbutikken.',
+      ),
       errorMessages: {
         empty: _(
           'Fyll inn kundenummer',
