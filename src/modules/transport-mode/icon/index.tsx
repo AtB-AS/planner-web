@@ -171,7 +171,7 @@ export function transportModeToColor(
       return transport.transport_boat.primary;
 
     case 'air':
-      return transport.transport_plane.primary;
+      return transport.transport_other.primary;
 
     case 'metro':
       return transport.transport_train.primary;
