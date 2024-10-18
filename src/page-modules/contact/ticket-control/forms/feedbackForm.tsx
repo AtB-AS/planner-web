@@ -8,10 +8,13 @@ import { Typo } from '@atb/components/typography';
 import { FileInput } from '../../components/input/file';
 import { ticketControlFormEvents } from '../events';
 import { ContextProps } from '../ticket-control-form-machine';
-import SearchableSelect from '../../components/input/searchable-select';
 import Select from '../../components/input/select';
-import { getLineOptions, getStopOptions } from '../../utils';
 import { useLines } from '../../lines/use-lines';
+import SearchableSelect from '../../components/input/searchable-select';
+import {
+  getLineOptions,
+  getStopOptions,
+} from '../../components/input/searchable-select/utils';
 
 type FeedbackFormProps = {
   state: { context: ContextProps };

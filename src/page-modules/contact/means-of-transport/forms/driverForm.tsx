@@ -12,7 +12,10 @@ import { FileInput } from '../../components/input/file';
 import { Textarea } from '../../components/input/textarea';
 import { meansOfTransportFormEvents } from '../events';
 import SearchableSelect from '../../components/input/searchable-select';
-import { getLineOptions, getStopOptions } from '../../utils';
+import {
+  getLineOptions,
+  getStopOptions,
+} from '../../components/input/searchable-select/utils';
 
 type DriverFormProps = {
   state: { context: ContextProps };

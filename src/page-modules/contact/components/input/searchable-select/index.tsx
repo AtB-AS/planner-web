@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { MonoIcon } from '@atb/components/icon';
-import ErrorMessage from './error-message';
+import ErrorMessage from '../error-message';
 import { andIf } from '@atb/utils/css';
 import style from './input.module.css';
 import {

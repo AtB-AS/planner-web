@@ -11,7 +11,10 @@ import { Input } from '../components/input';
 import { Textarea } from '../components/input/textarea';
 import { Button } from '@atb/components/button';
 import SearchableSelect from '../components/input/searchable-select';
-import { getLineOptions, getStopOptions } from '../utils';
+import {
+  getLineOptions,
+  getStopOptions,
+} from '../components/input/searchable-select/utils';
 
 export default function GroupTravelContent() {
   const { t } = useTranslation();

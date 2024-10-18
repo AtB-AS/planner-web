@@ -13,7 +13,10 @@ import { Textarea } from '../../components/input/textarea';
 import { meansOfTransportFormEvents } from '../events';
 import { Checkbox } from '../../components/input/checkbox';
 import SearchableSelect from '../../components/input/searchable-select';
-import { getLineOptions, getStopOptions } from '../../utils';
+import {
+  getLineOptions,
+  getStopOptions,
+} from '../../components/input/searchable-select/utils';
 
 type TransportationFormProps = {
   state: { context: ContextProps };

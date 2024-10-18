@@ -12,8 +12,10 @@ import { Textarea } from '../../components/input/textarea';
 import { ContextProps } from '../means-of-transport-form-machine';
 import { meansOfTransportFormEvents } from '../events';
 import SearchableSelect from '../../components/input/searchable-select';
-import { getLineOptions, getStopOptions } from '../../utils';
-
+import {
+  getLineOptions,
+  getStopOptions,
+} from '../../components/input/searchable-select/utils';
 type DelayFormProps = {
   state: { context: ContextProps };
   send: (event: typeof meansOfTransportFormEvents) => void;
