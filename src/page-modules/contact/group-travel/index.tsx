@@ -2,7 +2,7 @@ import { useMachine } from '@xstate/react';
 import { groupTravelStateMachine } from './group-travel-state-machine';
 import { SectionCard } from '../components/section-card';
 import { PageText, useTranslation } from '@atb/translations';
-import style from './group-travel.module.css';
+import style from '../contact.module.css';
 import { RadioInput } from '../components/input/radio';
 import { Typo } from '@atb/components/typography';
 import { useLines } from '../lines/use-lines';
@@ -40,7 +40,7 @@ export default function GroupTravelContent() {
   return (
     <div>
       <SectionCard title={t(PageText.Contact.groupTravel.title)}>
-        <ul className={style.list}>
+        <ul className={style.form_options__list}>
           <li>
             <RadioInput
               label={t(PageText.Contact.groupTravel.travelTypeBus.radioLabel)}

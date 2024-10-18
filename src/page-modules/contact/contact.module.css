@@ -44,3 +44,7 @@
   padding: var(--spacings-small);
   color: var(--status-error-primary-text);
 }
+
+.submitButton {
+  width: 100%;
+}

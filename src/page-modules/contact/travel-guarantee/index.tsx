@@ -128,6 +128,7 @@ const TravelGuaranteeContent = () => {
           mode={'interactive_0--bordered'}
           buttonProps={{ type: 'submit' }}
           state={state.matches('submitting') ? 'loading' : undefined}
+          className={style.submitButton}
         />
       )}
     </form>
