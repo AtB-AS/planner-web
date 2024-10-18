@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { MonoIcon } from '@atb/components/icon';
 import ErrorMessage from '../error-message';
 import { andIf } from '@atb/utils/css';
-import style from './input.module.css';
+import style from '../input.module.css';
 import {
   Key,
   Button,
@@ -109,7 +109,7 @@ export default function SearchableSelect<T>({
           >
             <div className={style.searchable_select__item}>
               <span className={style.searchable_select__checkmark}>
-                {!value ? '✔' : '\u00A0'}
+                {!value ? <MonoIcon icon={'actions/Confirm'} /> : '\u00A0'}
               </span>
               <span className={style.searchable_select__truncate}>
                 {placeholder}
@@ -130,7 +130,11 @@ export default function SearchableSelect<T>({
                   } ${isSelected ? style.searchable_select__selected : ''}`}
                 >
                   <span className={style.searchable_select__checkmark}>
-                    {value && isSelected ? '✔' : '\u00A0'}
+                    {value && isSelected ? (
+                      <MonoIcon icon={'actions/Confirm'} />
+                    ) : (
+                      '\u00A0'
+                    )}
                   </span>
                   <span className={style.searchable_select__truncate}>
                     {item.name}
