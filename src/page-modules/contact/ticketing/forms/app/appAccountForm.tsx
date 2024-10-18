@@ -49,8 +49,6 @@ export const AppAccountForm = ({ state, send }: AppAccountFormProps) => {
         />
       </SectionCard>
       <SectionCard title={t(PageText.Contact.aboutYouInfo.title)}>
-        {/*
-         // Must be merged first: https://github.com/AtB-AS/planner-web/pull/387
         <Input
           label={PageText.Contact.input.customerNumber.label}
           type="text"
@@ -66,7 +64,6 @@ export const AppAccountForm = ({ state, send }: AppAccountFormProps) => {
             })
           }
         />
-        */}
         <Input
           label={PageText.Contact.input.firstName.label}
           type="text"
