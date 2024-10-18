@@ -1,16 +1,20 @@
 import { SectionCard } from '../../components/section-card';
 import { ComponentText, PageText, useTranslation } from '@atb/translations';
-import { useLines } from '../../lines/use-lines';
 import { TransportModeType } from '@atb-as/config-specs';
 import { Input } from '../../components/input';
 import { Line } from '../..';
 import { Textarea } from '../../components/input/textarea';
-import Select from '../../components/input/select';
 import { Typo } from '@atb/components/typography';
 import { FileInput } from '../../components/input/file';
 import { ticketControlFormEvents } from '../events';
 import { ContextProps } from '../ticket-control-form-machine';
-import { formatLineName } from '../../utils';
+import Select from '../../components/input/select';
+import { useLines } from '../../lines/use-lines';
+import SearchableSelect from '../../components/input/searchable-select';
+import {
+  getLineOptions,
+  getStopOptions,
+} from '../../components/input/searchable-select/utils';
 
 type FeedbackFormProps = {
   state: { context: ContextProps };
@@ -38,8 +42,9 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
             })
           }
           error={
-            state.context?.errorMessages['transportMode']?.[0] &&
-            t(state.context?.errorMessages['transportMode']?.[0])
+            state.context?.errorMessages['transportMode']?.[0]
+              ? t(state.context?.errorMessages['transportMode']?.[0])
+              : undefined
           }
           valueToText={(val: TransportModeType) =>
             t(ComponentText.TransportMode.modes[val])
@@ -49,77 +54,64 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
           placeholder={t(PageText.Contact.input.transportMode.optionLabel)}
         />
 
-        <Select
+        <SearchableSelect
           label={t(PageText.Contact.input.line.label)}
           value={state.context.line}
-          disabled={!state.context.transportMode}
+          placeholder={t(PageText.Contact.input.line.optionLabel)}
+          isDisabled={!state.context.transportMode}
+          options={getLineOptions(
+            getLinesByMode(state.context.transportMode as TransportModeType),
+          )}
           onChange={(value: Line | undefined) => {
-            if (!value) return;
             send({
               type: 'ON_LINE_CHANGE',
               value: value,
             });
           }}
-          options={getLinesByMode(
-            state.context.transportMode as TransportModeType,
-          )}
-          valueToId={(line: Line) => line.id}
-          valueToText={(line: Line) => formatLineName(line)}
-          placeholder={t(PageText.Contact.input.line.optionLabel)}
           error={
             state.context?.errorMessages['line']?.[0] &&
             t(state.context?.errorMessages['line']?.[0])
           }
         />
 
-        <Select
+        <SearchableSelect
           label={t(PageText.Contact.input.fromStop.label)}
           value={state.context.fromStop}
-          disabled={!state.context.line}
+          placeholder={t(PageText.Contact.input.fromStop.optionLabel)}
+          isDisabled={!state.context.line}
+          options={getStopOptions(getQuaysByLine(state.context.line?.id ?? ''))}
           onChange={(value) => {
-            if (!value) return;
             send({
               type: 'ON_INPUT_CHANGE',
               inputName: 'fromStop',
               value: value,
             });
           }}
-          options={
-            state.context.line?.id ? getQuaysByLine(state.context.line.id) : []
-          }
-          placeholder={t(PageText.Contact.input.fromStop.optionLabel)}
           error={
             state.context?.errorMessages['fromStop']?.[0]
               ? t(state.context?.errorMessages['fromStop']?.[0])
               : undefined
           }
-          valueToId={(quay: Line['quays'][0]) => quay.id}
-          valueToText={(quay: Line['quays'][0]) => quay.name}
         />
 
-        <Select
+        <SearchableSelect
           label={t(PageText.Contact.input.toStop.label)}
           value={state.context.toStop}
-          disabled={!state.context.line}
+          placeholder={t(PageText.Contact.input.toStop.optionLabel)}
+          isDisabled={!state.context.line}
+          options={getStopOptions(getQuaysByLine(state.context.line?.id ?? ''))}
           onChange={(value) => {
-            if (!value) return;
             send({
               type: 'ON_INPUT_CHANGE',
               inputName: 'toStop',
               value: value,
             });
           }}
-          placeholder={t(PageText.Contact.input.toStop.optionLabel)}
-          options={
-            state.context.line?.id ? getQuaysByLine(state.context.line.id) : []
-          }
           error={
             state.context?.errorMessages['toStop']?.[0]
               ? t(state.context?.errorMessages['toStop']?.[0])
               : undefined
           }
-          valueToId={(quay: Line['quays'][0]) => quay.id}
-          valueToText={(quay: Line['quays'][0]) => quay.name}
         />
 
         <Input

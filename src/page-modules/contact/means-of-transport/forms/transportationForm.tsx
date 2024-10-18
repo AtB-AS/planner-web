@@ -12,7 +12,11 @@ import { FileInput } from '../../components/input/file';
 import { Textarea } from '../../components/input/textarea';
 import { meansOfTransportFormEvents } from '../events';
 import { Checkbox } from '../../components/input/checkbox';
-import { formatLineName } from '../../utils';
+import SearchableSelect from '../../components/input/searchable-select';
+import {
+  getLineOptions,
+  getStopOptions,
+} from '../../components/input/searchable-select/utils';
 
 type TransportationFormProps = {
   state: { context: ContextProps };
@@ -65,22 +69,19 @@ export const TransportationForm = ({
           placeholder={t(PageText.Contact.input.transportMode.optionLabel)}
         />
 
-        <Select
+        <SearchableSelect
           label={t(PageText.Contact.input.line.label)}
           value={state.context.line}
-          disabled={!state.context.transportMode}
+          isDisabled={!state.context.transportMode}
           onChange={(value: Line | undefined) => {
-            if (!value) return;
             send({
               type: 'ON_LINE_CHANGE',
               value: value,
             });
           }}
-          options={getLinesByMode(
-            state.context.transportMode as TransportModeType,
+          options={getLineOptions(
+            getLinesByMode(state.context.transportMode as TransportModeType),
           )}
-          valueToId={(line: Line) => line.id}
-          valueToText={(line: Line) => formatLineName(line)}
           placeholder={t(PageText.Contact.input.line.optionLabel)}
           error={
             state.context?.errorMessages['line']?.[0]
@@ -89,37 +90,31 @@ export const TransportationForm = ({
           }
         />
 
-        <Select
+        <SearchableSelect
           label={t(PageText.Contact.input.fromStop.label)}
           value={state.context.fromStop}
-          disabled={!state.context.line}
+          isDisabled={!state.context.line}
           onChange={(value) => {
-            if (!value) return;
             send({
               type: 'ON_INPUT_CHANGE',
               inputName: 'fromStop',
               value: value,
             });
           }}
-          options={
-            state.context.line?.id ? getQuaysByLine(state.context.line.id) : []
-          }
+          options={getStopOptions(getQuaysByLine(state.context.line?.id ?? ''))}
           placeholder={t(PageText.Contact.input.fromStop.optionLabel)}
           error={
             state.context?.errorMessages['fromStop']?.[0]
               ? t(state.context?.errorMessages['fromStop']?.[0])
               : undefined
           }
-          valueToId={(quay: Line['quays'][0]) => quay.id}
-          valueToText={(quay: Line['quays'][0]) => quay.name}
         />
 
-        <Select
+        <SearchableSelect
           label={t(PageText.Contact.input.toStop.label)}
           value={state.context.toStop}
-          disabled={!state.context.line}
+          isDisabled={!state.context.line}
           onChange={(value) => {
-            if (!value) return;
             send({
               type: 'ON_INPUT_CHANGE',
               inputName: 'toStop',
@@ -127,16 +122,12 @@ export const TransportationForm = ({
             });
           }}
           placeholder={t(PageText.Contact.input.toStop.optionLabel)}
-          options={
-            state.context.line?.id ? getQuaysByLine(state.context.line.id) : []
-          }
+          options={getStopOptions(getQuaysByLine(state.context.line?.id ?? ''))}
           error={
             state.context?.errorMessages['toStop']?.[0]
               ? t(state.context?.errorMessages['toStop']?.[0])
               : undefined
           }
-          valueToId={(quay: Line['quays'][0]) => quay.id}
-          valueToText={(quay: Line['quays'][0]) => quay.name}
         />
 
         <Input

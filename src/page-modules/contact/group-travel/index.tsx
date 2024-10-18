@@ -6,12 +6,15 @@ import style from './group-travel.module.css';
 import { RadioInput } from '../components/input/radio';
 import { Typo } from '@atb/components/typography';
 import { useLines } from '../lines/use-lines';
-import Select from '../components/input/select';
 import { Line } from '../server/journey-planner/validators';
 import { Input } from '../components/input';
 import { Textarea } from '../components/input/textarea';
 import { Button } from '@atb/components/button';
-import { formatLineName } from '../utils';
+import SearchableSelect from '../components/input/searchable-select';
+import {
+  getLineOptions,
+  getStopOptions,
+} from '../components/input/searchable-select/utils';
 
 export default function GroupTravelContent() {
   const { t } = useTranslation();
@@ -122,7 +125,7 @@ export default function GroupTravelContent() {
               }
             />
 
-            <Select
+            <SearchableSelect
               label={t(
                 PageText.Contact.groupTravel.travelTypeBus.form
                   .travelInformation.line.title,
@@ -132,9 +135,7 @@ export default function GroupTravelContent() {
                 if (!value) return;
                 handleInputChange('line', value);
               }}
-              options={getLinesByMode('bus')}
-              valueToId={(line: Line) => line.id}
-              valueToText={(line: Line) => formatLineName(line)}
+              options={getLineOptions(getLinesByMode('bus'))}
               placeholder={t(PageText.Contact.input.line.optionLabel)}
               error={
                 errors.line
@@ -143,23 +144,19 @@ export default function GroupTravelContent() {
               }
             />
 
-            <Select
+            <SearchableSelect
               label={t(
                 PageText.Contact.groupTravel.travelTypeBus.form
                   .travelInformation.fromStop.title,
               )}
               value={formData.fromStop}
-              disabled={!formData.line}
+              isDisabled={!formData.line}
               onChange={(value) => {
                 if (!value) return;
                 handleInputChange('fromStop', value);
               }}
-              options={
-                formData.line?.id ? getQuaysByLine(formData.line.id) : []
-              }
+              options={getStopOptions(getQuaysByLine(formData.line?.id ?? ''))}
               placeholder={t(PageText.Contact.input.fromStop.optionLabel)}
-              valueToId={(quay: Line['quays'][0]) => quay.id}
-              valueToText={(quay: Line['quays'][0]) => quay.name}
               error={
                 errors.fromStop
                   ? t(PageText.Contact.input.fromStop.errorMessages.empty)
@@ -185,23 +182,19 @@ export default function GroupTravelContent() {
               }
             />
 
-            <Select
+            <SearchableSelect
               label={t(
                 PageText.Contact.groupTravel.travelTypeBus.form
                   .travelInformation.toStop.title,
               )}
               value={formData.toStop}
-              disabled={!formData.line}
+              isDisabled={!formData.line}
               onChange={(value) => {
                 if (!value) return;
                 handleInputChange('toStop', value);
               }}
               placeholder={t(PageText.Contact.input.toStop.optionLabel)}
-              options={
-                formData.line?.id ? getQuaysByLine(formData.line.id) : []
-              }
-              valueToId={(quay: Line['quays'][0]) => quay.id}
-              valueToText={(quay: Line['quays'][0]) => quay.name}
+              options={getStopOptions(getQuaysByLine(formData.line?.id ?? ''))}
               error={
                 errors.toStop
                   ? t(PageText.Contact.input.toStop.errorMessages.empty)
@@ -216,7 +209,7 @@ export default function GroupTravelContent() {
                 .title,
             )}
           >
-            <Select
+            <SearchableSelect
               label={t(
                 PageText.Contact.groupTravel.travelTypeBus.form.travelReturn
                   .line.title,
@@ -226,31 +219,23 @@ export default function GroupTravelContent() {
                 if (!value) return;
                 handleInputChange('returnLine', value);
               }}
-              options={getLinesByMode('bus')}
-              valueToId={(line: Line) => line.id}
-              valueToText={(line: Line) => formatLineName(line)}
+              options={getLineOptions(getLinesByMode('bus'))}
               placeholder={t(PageText.Contact.input.line.optionLabel)}
             />
 
-            <Select
+            <SearchableSelect
               label={t(
                 PageText.Contact.groupTravel.travelTypeBus.form.travelReturn
                   .fromStop.title,
               )}
               value={formData.returnFromStop}
-              disabled={!formData.returnLine}
+              isDisabled={!formData.returnLine}
               onChange={(value) => {
                 if (!value) return;
                 handleInputChange('returnFromStop', value);
               }}
-              options={
-                formData.line?.id
-                  ? getQuaysByLine(formData.returnLine?.id || '')
-                  : []
-              }
+              options={getStopOptions(getQuaysByLine(formData.line?.id ?? ''))}
               placeholder={t(PageText.Contact.input.fromStop.optionLabel)}
-              valueToId={(quay: Line['quays'][0]) => quay.id}
-              valueToText={(quay: Line['quays'][0]) => quay.name}
             />
             <Input
               label={
@@ -265,25 +250,19 @@ export default function GroupTravelContent() {
               }
             />
 
-            <Select
+            <SearchableSelect
               label={t(
                 PageText.Contact.groupTravel.travelTypeBus.form.travelReturn
                   .toStop.title,
               )}
               value={formData.returnToStop}
-              disabled={!formData.returnLine}
+              isDisabled={!formData.returnLine}
               onChange={(value) => {
                 if (!value) return;
                 handleInputChange('returnToStop', value);
               }}
               placeholder={t(PageText.Contact.input.toStop.optionLabel)}
-              options={
-                formData.line?.id
-                  ? getQuaysByLine(formData.returnLine?.id || '')
-                  : []
-              }
-              valueToId={(quay: Line['quays'][0]) => quay.id}
-              valueToText={(quay: Line['quays'][0]) => quay.name}
+              options={getStopOptions(getQuaysByLine(formData.line?.id ?? ''))}
             />
           </SectionCard>
 

@@ -60,7 +60,7 @@ export const setTransportModeAndResetLineAndStops = (
   };
 };
 
-export const setLineAndResetStops = (context: any, line: Line) => {
+export const setLineAndResetStops = (context: any, line: Line | undefined) => {
   return {
     ...context,
     line: line,
@@ -73,8 +73,4 @@ export const setLineAndResetStops = (context: any, line: Line) => {
       toStop: [],
     },
   };
-};
-
-export const formatLineName = (line: Line): string => {
-  return line.publicCode ? `${line.publicCode} - ${line.name}` : line.name;
 };
