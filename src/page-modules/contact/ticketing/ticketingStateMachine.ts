@@ -156,6 +156,9 @@ const setInputsToValidate = (context: TicketingContextType) => {
         email,
       };
 
+    case FormType.WebshopForm:
+      return { formType, question, ...(!customerNumber && { email }) };
+
     case FormType.AppTicketRefund:
       return {
         formType,
