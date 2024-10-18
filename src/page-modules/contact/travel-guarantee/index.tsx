@@ -5,11 +5,9 @@ import { FormEventHandler, useState } from 'react';
 import { Button } from '@atb/components/button';
 import RefundTaxiForm from './forms/refundTaxiForm';
 import RefundCarForm from './forms/refundCarForm';
-import { SectionCard } from '../components/section-card';
 import style from '../contact.module.css';
-import { RadioInput } from '../components/input/radio';
 import { Typo } from '@atb/components/typography';
-import { Checkbox } from '../components/input/checkbox';
+import { SectionCard, Radio, Checkbox } from '../components';
 
 const TravelGuaranteeContent = () => {
   const { t } = useTranslation();
@@ -96,7 +94,7 @@ const TravelGuaranteeContent = () => {
           <ul className={style.form_options__list}>
             {Object.values(FormType).map((formType) => (
               <li key={formType}>
-                <RadioInput
+                <Radio
                   label={t(
                     PageText.Contact.travelGuarantee[formType].description,
                   )}

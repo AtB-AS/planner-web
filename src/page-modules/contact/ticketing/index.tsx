@@ -2,11 +2,10 @@ import style from '../contact.module.css';
 import { PageText, useTranslation } from '@atb/translations';
 import { useMachine } from '@xstate/react';
 import { FormEventHandler } from 'react';
-import { SectionCard } from '../components/section-card';
-import { RadioInput } from '../components/input/radio';
 import { FormCategory, ticketingStateMachine } from './ticketingStateMachine';
 import PriceAndTicketTypesForm from './forms/priceAndTicketTypesForm';
 import { Button } from '@atb/components/button';
+import { SectionCard, Radio } from '../components';
 
 const TicketingContent = () => {
   const { t } = useTranslation();
@@ -23,7 +22,7 @@ const TicketingContent = () => {
         <ul className={style.form_options__list}>
           {Object.values(FormCategory).map((formCategory) => (
             <li key={formCategory}>
-              <RadioInput
+              <Radio
                 label={t(PageText.Contact.ticketing[formCategory].description)}
                 checked={state.matches({ editing: formCategory })}
                 onChange={() =>

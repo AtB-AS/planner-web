@@ -14,8 +14,7 @@ import {
 import { Button } from '@atb/components/button';
 import { PageText, useTranslation } from '@atb/translations';
 import { FormEventHandler, useState } from 'react';
-import { SectionCard } from '../components/section-card';
-import { RadioInput } from '../components/input/radio';
+import { Radio, SectionCard } from '../components';
 import style from '../contact.module.css';
 
 const MeansOfTransportContent = () => {
@@ -41,7 +40,7 @@ const MeansOfTransportContent = () => {
         <ul className={style.form_options__list}>
           {Object.values(FormType).map((formType) => (
             <li key={formType}>
-              <RadioInput
+              <Radio
                 label={t(
                   PageText.Contact.modeOfTransport[formType].description,
                 )}
