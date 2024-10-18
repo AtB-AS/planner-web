@@ -7,7 +7,7 @@ export type CheckboxProps = {
   value: string;
 };
 
-export function Textarea({ onChange, error, value }: CheckboxProps) {
+export default function Textarea({ onChange, error, value }: CheckboxProps) {
   return (
     <div>
       <textarea className={style.textarea} value={value} onChange={onChange} />

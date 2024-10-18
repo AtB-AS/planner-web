@@ -13,7 +13,7 @@ export type FileInputProps = {
 
 const MAX_ALLOWED_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 
-export function FileInput({ onChange, label, name }: FileInputProps) {
+export default function FileInput({ onChange, label, name }: FileInputProps) {
   const { t } = useTranslation();
   const id = useId();
   const { static: staticColors } = useTheme();
