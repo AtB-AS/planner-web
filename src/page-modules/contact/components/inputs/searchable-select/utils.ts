@@ -1,5 +1,5 @@
 import { Line } from '@atb/page-modules/contact';
-import { Option } from './index';
+import { Option } from './searchable-select';
 
 export const getLineOptions = (lines: Line[]): Option<Line>[] => {
   return lines.map((line) => ({

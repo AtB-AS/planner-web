@@ -1,11 +1,8 @@
-import { SectionCard } from '../../components/section-card';
 import { PageText, useTranslation } from '@atb/translations';
 import { TicketingContextType } from '../ticketingStateMachine';
 import { Typo } from '@atb/components/typography';
-import { Textarea } from '../../components/input/textarea';
-import { FileInput } from '../../components/input/file';
-import { Input } from '../../components/input';
 import { ticketingFormEvents } from '../events';
+import { SectionCard, Input, Textarea, FileInput } from '../../components';
 
 type PriceAndTicketTypesFormProps = {
   state: { context: TicketingContextType };

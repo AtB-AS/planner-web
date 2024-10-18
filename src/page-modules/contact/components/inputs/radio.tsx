@@ -7,7 +7,7 @@ export type RadioInputProps = {
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 } & JSX.IntrinsicElements['input'];
 
-export function RadioInput({
+export default function Radio({
   onChange,
   checked,
   label,

@@ -1,21 +1,22 @@
 import { PageText, useTranslation } from '@atb/translations';
 import { useLines } from '../../lines/use-lines';
-import { SectionCard } from '../../components/section-card';
 import { Typo } from '@atb/components/typography';
-import Select from '../../components/input/select';
 import { ComponentText } from '@atb/translations';
-import { Input } from '../../components/input';
 import { TransportModeType } from '@atb-as/config-specs';
 import { Line } from '../..';
-import { FileInput } from '../../components/input/file';
-import { Textarea } from '../../components/input/textarea';
 import { ContextProps } from '../means-of-transport-form-machine';
 import { meansOfTransportFormEvents } from '../events';
-import SearchableSelect from '../../components/input/searchable-select';
 import {
+  SectionCard,
+  Select,
+  Input,
+  FileInput,
+  Textarea,
+  SearchableSelect,
   getLineOptions,
   getStopOptions,
-} from '../../components/input/searchable-select/utils';
+} from '../../components';
+
 type DelayFormProps = {
   state: { context: ContextProps };
   send: (event: typeof meansOfTransportFormEvents) => void;

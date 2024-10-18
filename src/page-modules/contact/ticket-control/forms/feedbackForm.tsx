@@ -1,20 +1,20 @@
-import { SectionCard } from '../../components/section-card';
 import { ComponentText, PageText, useTranslation } from '@atb/translations';
 import { TransportModeType } from '@atb-as/config-specs';
-import { Input } from '../../components/input';
 import { Line } from '../..';
-import { Textarea } from '../../components/input/textarea';
 import { Typo } from '@atb/components/typography';
-import { FileInput } from '../../components/input/file';
 import { ticketControlFormEvents } from '../events';
 import { ContextProps } from '../ticket-control-form-machine';
-import Select from '../../components/input/select';
 import { useLines } from '../../lines/use-lines';
-import SearchableSelect from '../../components/input/searchable-select';
 import {
+  SectionCard,
+  Input,
+  Textarea,
+  FileInput,
+  Select,
+  SearchableSelect,
   getLineOptions,
   getStopOptions,
-} from '../../components/input/searchable-select/utils';
+} from '../../components';
 
 type FeedbackFormProps = {
   state: { context: ContextProps };

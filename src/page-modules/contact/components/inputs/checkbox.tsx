@@ -15,7 +15,7 @@ export type CheckboxProps = {
   onClick?: () => void;
 };
 
-export function Checkbox({
+export default function Checkbox({
   onChange,
   error,
   disabled = false,
