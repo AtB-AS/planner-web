@@ -940,6 +940,11 @@ export const Contact = {
         'First name and middle name',
         'Fornamn og mellomnamn',
       ),
+      labelOptional: _(
+        'Fornavn og mellomnavn (valgfritt)',
+        'First name and middle name (optinal)',
+        'Fornamn og mellomnamn (valfritt)',
+      ),
       errorMessages: {
         empty: _(
           'Vennligst fyll ut informasjon om deg',
@@ -951,6 +956,11 @@ export const Contact = {
 
     lastName: {
       label: _('Etternavn', 'Lastname', 'Etternamn'),
+      labelOptional: _(
+        'Etternavn (valgfritt)',
+        'Lastname (optional)',
+        'Etternamn (valfritt)',
+      ),
       errorMessages: {
         empty: _(
           'Vennligst fyll ut informasjon om deg',
@@ -962,6 +972,12 @@ export const Contact = {
 
     email: {
       label: _('E-post', 'Email', 'E-post'),
+      labelOptionalIfCustomerNumberIsProvided: _(
+        'E-post (valgfritt hvis kundenummer er oppgitt)',
+        'Email (optional if customber number is provided)',
+        'E-post (valfritt viss kundenummer er oppgitt) ',
+      ),
+
       isResponseWanted: {
         label: _(
           'E-post (må fylles ut hvis du vil ha svar)',
@@ -1018,6 +1034,11 @@ export const Contact = {
 
     phoneNumber: {
       label: _('Telefonnummer', 'Phonenumber', 'Telefonnummer'),
+      labelOptional: _(
+        'Telefonnummer (valgfritt)',
+        'Phonenumber (optinal)',
+        'Telefonnummer (valfritt)',
+      ),
       errorMessages: {
         empty: _(
           'Vennligst fyll ut informasjon om deg',
