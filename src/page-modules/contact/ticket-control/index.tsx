@@ -5,13 +5,12 @@ import {
   FormType,
   ticketControlFormMachine,
 } from './ticket-control-form-machine';
-import { SectionCard } from '../components/section-card';
 import style from '../contact.module.css';
-import { RadioInput } from '../components/input/radio';
+import { Button } from '@atb/components/button';
 import FeeComplaintForm from './forms/feeComplaintForm';
 import FeedbackForm from './forms/feedbackForm';
-import { Button } from '@atb/components/button';
 import PostponePaymentForm from './forms/postponePayment';
+import { SectionCard, Radio } from '../components';
 
 const TicketControlPageContent = () => {
   const { t } = useTranslation();
@@ -40,7 +39,7 @@ const TicketControlPageContent = () => {
         <ul className={style.form_options__list}>
           {Object.values(FormType).map((formType) => (
             <li key={formType}>
-              <RadioInput
+              <Radio
                 label={t(PageText.Contact.ticketControl[formType].description)}
                 value={formType}
                 checked={state.context.formType === formType}

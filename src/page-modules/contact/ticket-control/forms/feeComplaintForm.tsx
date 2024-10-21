@@ -1,15 +1,16 @@
 import style from '../../contact.module.css';
-import { Input } from '../../components/input';
-import { SectionCard } from '../../components/section-card';
 import { PageText, TranslatedString, useTranslation } from '@atb/translations';
-import { Checkbox } from '../../components/input/checkbox';
 import { Typo } from '@atb/components/typography';
-import { RadioInput } from '../../components/input/radio';
-import { Textarea } from '../../components/input/textarea';
-import ErrorMessage from '../../components/input/error-message';
-import { FileInput } from '../../components/input/file';
 import { ContextProps } from '../ticket-control-form-machine';
 import { ticketControlFormEvents } from '../events';
+import {
+  Input,
+  SectionCard,
+  Checkbox,
+  Radio,
+  Textarea,
+  FileInput,
+} from '../../components';
 
 type FeeComplaintFormProps = {
   state: { context: ContextProps };
@@ -132,7 +133,7 @@ const FormContent = ({ state, send }: FormProps) => {
           )}
         </Typo.h3>
 
-        <RadioInput
+        <Radio
           label={t(
             PageText.Contact.ticketControl.feeComplaint.ticketStorage.app.title,
           )}
@@ -146,7 +147,7 @@ const FormContent = ({ state, send }: FormProps) => {
             })
           }
         />
-        <RadioInput
+        <Radio
           label={t(PageText.Contact.input.travelCardNumber.label)}
           name="isAppTicketStorageMode"
           checked={!state.context.isAppTicketStorageMode}

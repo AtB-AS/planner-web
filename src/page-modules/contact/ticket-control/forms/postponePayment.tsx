@@ -1,5 +1,4 @@
-import { Input } from '../../components/input';
-import { SectionCard } from '../../components/section-card';
+import { Input, SectionCard } from '../../components';
 import { PageText, useTranslation } from '@atb/translations';
 import { ticketControlFormEvents } from '../events';
 import { ContextProps } from '../ticket-control-form-machine';

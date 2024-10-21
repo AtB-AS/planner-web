@@ -1,20 +1,20 @@
-import { SectionCard } from '../../components/section-card';
 import { ComponentText, PageText, useTranslation } from '@atb/translations';
 import { useLines } from '../../lines/use-lines';
 import { TransportModeType } from '@atb-as/config-specs';
-import { Input } from '../../components/input';
 import { Line } from '../..';
-import Select from '../../components/input/select';
 import { TravelGuaranteeFormEvents } from '../events';
 import { ContextProps } from '../travelGuaranteeFormMachine';
-import { Checkbox } from '../../components/input/checkbox';
-import { Textarea } from '../../components/input/textarea';
-import { FileInput } from '../../components/input/file';
-import SearchableSelect from '../../components/input/searchable-select';
 import {
+  SectionCard,
+  Input,
+  Select,
+  Checkbox,
+  Textarea,
+  FileInput,
+  SearchableSelect,
   getLineOptions,
   getStopOptions,
-} from '../../components/input/searchable-select/utils';
+} from '../../components';
 
 type RefundTaxiFormProps = {
   state: { context: ContextProps };
