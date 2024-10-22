@@ -1,40 +1,22 @@
 import { PageText, useTranslation } from '@atb/translations';
-import { ticketingFormEvents } from '../events';
-import { TicketingContextType } from '../ticketingStateMachine';
+import { ticketingFormEvents } from '../../events';
+import { TicketingContextType } from '../../ticketingStateMachine';
 import { Typo } from '@atb/components/typography';
-import { SectionCard, Textarea, FileInput, Input } from '../../components';
+import { SectionCard, Textarea, FileInput, Input } from '../../../components';
 
-type WebshopFormProps = {
+type WebshopAccountFormProps = {
   state: { context: TicketingContextType };
   send: (event: typeof ticketingFormEvents) => void;
 };
 
-export const WebshopForm = ({ state, send }: WebshopFormProps) => {
+export const WebshopAccountForm = ({
+  state,
+  send,
+}: WebshopAccountFormProps) => {
   const { t } = useTranslation();
 
   return (
     <div>
-      <SectionCard title={t(PageText.Contact.ticketing.webshop.description)}>
-        <Typo.p textType="body__primary">
-          {t(PageText.Contact.input.orderId.info)}
-        </Typo.p>
-        <Input
-          label={PageText.Contact.input.orderId.label}
-          type="text"
-          autoComplete="given-name additional-name"
-          name="orderId"
-          value={state.context.orderId || ''}
-          errorMessage={state.context?.errorMessages['orderId']?.[0]}
-          onChange={(e) =>
-            send({
-              type: 'ON_INPUT_CHANGE',
-              inputName: 'orderId',
-              value: e.target.value,
-            })
-          }
-        />
-      </SectionCard>
-
       <SectionCard title={t(PageText.Contact.input.question.title)}>
         <Typo.p textType="body__primary">
           {t(PageText.Contact.input.question.info)}
@@ -50,7 +32,7 @@ export const WebshopForm = ({ state, send }: WebshopFormProps) => {
           }
           error={
             state.context.errorMessages['question']?.[0]
-              ? t(state.context.errorMessages['question']?.[0]).toString()
+              ? t(state.context.errorMessages['question'][0])
               : undefined
           }
         />
@@ -151,4 +133,4 @@ export const WebshopForm = ({ state, send }: WebshopFormProps) => {
   );
 };
 
-export default WebshopForm;
+export default WebshopAccountForm;

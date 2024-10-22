@@ -496,6 +496,21 @@ export const Contact = {
     },
     webshop: {
       description: _('Nettbutikk', 'Webshop', 'Nettbutikk'),
+      webshopTicketing: {
+        title: _(
+          'Hvilken billett gjelder det?',
+          'Which ticket is it about?',
+          'Kva billett gjeld det?',
+        ),
+        label: _('Kjøp billett', 'Purchase ticket', 'Kjøp billett'),
+      },
+      webshopAccount: {
+        label: _(
+          'Innlogging, profil, innstillinger',
+          'Login, profile, settings',
+          'Innlogging, profil, innstillingar',
+        ),
+      },
     },
     travelCard: {
       description: _('Resekort', 'Travel card', 'Resiekort'),

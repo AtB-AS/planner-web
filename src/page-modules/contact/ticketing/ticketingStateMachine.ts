@@ -17,12 +17,18 @@ export enum AppForm {
   AppAccount = 'appAccount',
 }
 
+export enum WebshopForm {
+  WebshopTicketing = 'webshopTicketing',
+  WebshopAccount = 'webshopAccount',
+}
+
 enum FormType {
   PriceAndTicketTypes = 'priceAndTicketTypes',
   AppTicketing = 'appTicketing',
   AppTravelSuggestion = 'appTravelSuggestion',
   AppAccount = 'appAccount',
-  WebshopForm = 'webshopForm',
+  WebshopTicketing = 'webshopTicketing',
+  WebshopAccount = 'webshopAccount',
   TravelCardQuestion = 'travelCardQuestion',
   OrderTravelCard = 'orderTravelCard',
   AppTicketRefund = 'appTicketRefund',
@@ -156,7 +162,10 @@ const setInputsToValidate = (context: TicketingContextType) => {
         email,
       };
 
-    case FormType.WebshopForm:
+    case FormType.WebshopTicketing:
+      return { formType, orderId, question, ...(!customerNumber && { email }) };
+
+    case FormType.WebshopAccount:
       return { formType, question, ...(!customerNumber && { email }) };
 
     case FormType.AppTicketRefund:
@@ -274,6 +283,10 @@ export const ticketingStateMachine = setup({
       target: '#appFormHandler',
     },
 
+    SELECT_WEBSHOP_FORM: {
+      target: '#webshopFormHandler',
+    },
+
     SUBMIT: { target: '#validating' },
   },
   states: {
@@ -336,6 +349,23 @@ export const ticketingStateMachine = setup({
         },
       ],
     },
+    webshopFormHandler: {
+      id: 'webshopFormHandler',
+      always: [
+        {
+          guard: ({ event }) =>
+            event.type === 'SELECT_WEBSHOP_FORM' &&
+            event.webshopForm === WebshopForm.WebshopTicketing,
+          target: `#${WebshopForm.WebshopTicketing}`,
+        },
+        {
+          guard: ({ event }) =>
+            event.type === 'SELECT_WEBSHOP_FORM' &&
+            event.webshopForm === WebshopForm.WebshopAccount,
+          target: `#${WebshopForm.WebshopAccount}`,
+        },
+      ],
+    },
 
     editing: {
       initial: 'selectFormCategory',
@@ -381,12 +411,28 @@ export const ticketingStateMachine = setup({
           entry: 'setFormTypeToUndefined',
           exit: 'clearValidationErrors',
         },
+
         webshop: {
           id: 'webshop',
-          entry: assign({
-            formType: () => FormType.WebshopForm,
-          }),
+          initial: 'selectWebshopForm',
+          entry: 'setFormTypeToUndefined',
           exit: 'clearValidationErrors',
+
+          states: {
+            selectWebshopForm: {},
+            webshopTicketing: {
+              id: 'webshopTicketing',
+              entry: assign({
+                formType: () => FormType.WebshopTicketing,
+              }),
+            },
+            webshopAccount: {
+              id: 'webshopAccount',
+              entry: assign({
+                formType: () => FormType.WebshopAccount,
+              }),
+            },
+          },
         },
         refund: {
           id: 'refund',
