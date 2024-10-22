@@ -7,9 +7,9 @@ import {
   setLineAndResetStops,
   setTransportModeAndResetLineAndStops,
 } from '../utils';
-import { TransportModeType } from '@atb-as/config-specs';
 import { Line } from '../server/journey-planner/validators';
 import { commonInputValidator, InputErrorMessages } from '../validation';
+import { TransportModeType } from '../types';
 
 export enum FormType {
   FeeComplaint = 'feeComplaint',

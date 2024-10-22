@@ -1,4 +1,4 @@
-import { TransportModeType } from '@atb-as/config-specs';
+import { TransportModeType } from './types';
 import { Line } from '.';
 
 export const shouldShowContactPage = (): boolean => {
