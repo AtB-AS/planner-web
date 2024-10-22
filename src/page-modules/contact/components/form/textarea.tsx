@@ -1,4 +1,4 @@
-import style from './input.module.css';
+import style from './form.module.css';
 import ErrorMessage from './error-message';
 
 export type CheckboxProps = {

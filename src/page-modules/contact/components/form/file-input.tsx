@@ -1,5 +1,5 @@
 import { ChangeEvent, DragEvent, useId, useState } from 'react';
-import style from './input.module.css';
+import style from './form.module.css';
 import { Typo } from '@atb/components/typography';
 import { Button } from '@atb/components/button';
 import { MonoIcon } from '@atb/components/icon';

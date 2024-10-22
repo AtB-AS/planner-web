@@ -1,5 +1,5 @@
 import { Typo } from '@atb/components/typography';
-import style from './input.module.css';
+import style from './form.module.css';
 import { motion } from 'framer-motion';
 import { FocusScope } from '@react-aria/focus';
 import { MonoIcon } from '@atb/components/icon';

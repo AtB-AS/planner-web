@@ -1,7 +1,7 @@
 import { andIf } from '@atb/utils/css';
-import style from './input.module.css';
+import style from './form.module.css';
 import { useId } from 'react';
-import { ColorIcon, MonoIcon } from '@atb/components/icon';
+import { ColorIcon } from '@atb/components/icon';
 import ErrorMessage from './error-message';
 
 export type CheckboxProps = {

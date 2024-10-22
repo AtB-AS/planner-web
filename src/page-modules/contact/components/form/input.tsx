@@ -1,4 +1,4 @@
-import style from './input.module.css';
+import style from './form.module.css';
 import { ChangeEvent, useState } from 'react';
 import { PageText, TranslatedString, useTranslation } from '@atb/translations';
 import { andIf } from '@atb/utils/css';
