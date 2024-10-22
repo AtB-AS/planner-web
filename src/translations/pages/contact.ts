@@ -1051,7 +1051,7 @@ export const Contact = {
       label: _('Telefonnummer', 'Phonenumber', 'Telefonnummer'),
       labelOptional: _(
         'Telefonnummer (valgfritt)',
-        'Phonenumber (optinal)',
+        'Phone number (optional)',
         'Telefonnummer (valfritt)',
       ),
       errorMessages: {
