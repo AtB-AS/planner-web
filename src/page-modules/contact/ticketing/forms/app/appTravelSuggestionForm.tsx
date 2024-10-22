@@ -1,11 +1,8 @@
-import { SectionCard } from '../../../components/section-card';
 import { PageText, useTranslation } from '@atb/translations';
-import { Input } from '../../../components/input';
-import { FileInput } from '../../../components/input/file';
 import { Typo } from '@atb/components/typography';
-import { Textarea } from '../../../components/input/textarea';
 import { TicketingContextType } from '../../ticketingStateMachine';
 import { ticketingFormEvents } from '../../events';
+import { SectionCard, Input, Textarea, FileInput } from '../../../components';
 
 type AppTravelSuggestionFormProps = {
   state: { context: TicketingContextType };
@@ -35,7 +32,7 @@ export const AppTravelSuggestionForm = ({
           }
           error={
             state.context.errorMessages['question']?.[0]
-              ? t(state.context.errorMessages['question']?.[0]).toString()
+              ? t(state.context.errorMessages['question']?.[0])
               : undefined
           }
         />

@@ -1,11 +1,8 @@
-import { SectionCard } from '../../../components/section-card';
 import { PageText, useTranslation } from '@atb/translations';
 import { ticketingFormEvents } from '../../events';
 import { TicketingContextType } from '../../ticketingStateMachine';
-import { Input } from '../../../components/input';
-import { FileInput } from '../../../components/input/file';
 import { Typo } from '@atb/components/typography';
-import { Textarea } from '../../../components/input/textarea';
+import { SectionCard, Input, Textarea, FileInput } from '../../../components';
 
 type AppAccountFormProps = {
   state: { context: TicketingContextType };
@@ -32,7 +29,7 @@ export const AppAccountForm = ({ state, send }: AppAccountFormProps) => {
           }
           error={
             state.context.errorMessages['question']?.[0]
-              ? t(state.context.errorMessages['question']?.[0]).toString()
+              ? t(state.context.errorMessages['question']?.[0])
               : undefined
           }
         />

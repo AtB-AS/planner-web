@@ -1,13 +1,12 @@
 import style from '../../..//contact.module.css';
 import { StateFrom } from 'xstate';
-import { SectionCard } from '../../../components/section-card';
 import { PageText, useTranslation } from '@atb/translations';
 import { AppForm, ticketingStateMachine } from '../../ticketingStateMachine';
-import { RadioInput } from '../../../components/input/radio';
 import AppAccountForm from './appAccountForm';
 import AppTicketingForm from './appTicketingForm';
 import AppTravelSuggestionForm from './appTravelSuggestionForm';
 import { ticketingFormEvents } from '../../events';
+import { SectionCard, Radio } from '../../../components';
 
 type AppFormsProps = {
   state: StateFrom<typeof ticketingStateMachine>;
@@ -23,7 +22,7 @@ export const AppForms = ({ state, send }: AppFormsProps) => {
         <ul className={style.form_options__list}>
           {Object.values(AppForm).map((appForm) => (
             <li key={appForm}>
-              <RadioInput
+              <Radio
                 label={t(PageText.Contact.ticketing.app[appForm].label)}
                 checked={state.matches({ editing: { app: appForm } })}
                 onChange={(e) =>
