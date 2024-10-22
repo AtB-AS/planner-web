@@ -1,7 +1,6 @@
 import { Typo } from '@atb/components/typography';
 import { ColorIcon } from '@atb/components/icon';
-
-import style from './input.module.css';
+import style from './form.module.css';
 
 export type ErrorMessageProps = {
   message: string;

@@ -2,7 +2,7 @@ import { useId } from 'react';
 import ErrorMessage from './error-message';
 import { Typo } from '@atb/components/typography';
 
-import style from './input.module.css';
+import style from './form.module.css';
 
 export type SelectProps<T> = {
   label: string;

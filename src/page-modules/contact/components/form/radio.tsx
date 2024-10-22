@@ -1,5 +1,5 @@
 import { ChangeEvent, useId } from 'react';
-import style from './input.module.css';
+import style from './form.module.css';
 import { Typo } from '@atb/components/typography';
 
 export type RadioInputProps = {
