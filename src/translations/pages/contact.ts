@@ -957,7 +957,7 @@ export const Contact = {
       ),
       labelOptional: _(
         'Fornavn og mellomnavn (valgfritt)',
-        'First name and middle name (optinal)',
+        'First name and middle name (optional)',
         'Fornamn og mellomnamn (valfritt)',
       ),
       errorMessages: {
