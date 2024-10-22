@@ -973,7 +973,7 @@ export const Contact = {
       label: _('Etternavn', 'Lastname', 'Etternamn'),
       labelOptional: _(
         'Etternavn (valgfritt)',
-        'Lastname (optional)',
+        'Last name (optional)',
         'Etternamn (valfritt)',
       ),
       errorMessages: {
