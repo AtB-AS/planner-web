@@ -8,6 +8,7 @@ import { SectionCard, Radio } from '../components';
 import PriceAndTicketTypesForm from './forms/priceAndTicketTypesForm';
 import AppForms from './forms/app';
 import WebshopForms from './forms/webshop';
+import TravelCardForms from './forms/travel-card';
 
 const TicketingContent = () => {
   const { t } = useTranslation();
@@ -49,6 +50,10 @@ const TicketingContent = () => {
 
       {state.matches({ editing: 'webshop' }) && (
         <WebshopForms state={state} send={send} />
+      )}
+
+      {state.matches({ editing: 'travelCard' }) && (
+        <TravelCardForms state={state} send={send} />
       )}
 
       {state.context.formType && (

@@ -22,6 +22,11 @@ export enum WebshopForm {
   WebshopAccount = 'webshopAccount',
 }
 
+export enum TravelCardForm {
+  OrderTravelCard = 'orderTravelCard',
+  TravelCardQuestion = 'travelCardQuestion',
+}
+
 enum FormType {
   PriceAndTicketTypes = 'priceAndTicketTypes',
   AppTicketing = 'appTicketing',
@@ -143,7 +148,6 @@ const setInputsToValidate = (context: TicketingContextType) => {
     case FormType.TravelCardQuestion:
       return {
         formType,
-        travelCardNumber,
         question,
         firstName,
         lastName,
@@ -287,6 +291,10 @@ export const ticketingStateMachine = setup({
       target: '#webshopFormHandler',
     },
 
+    SELECT_TRAVELCARD_FORM: {
+      target: '#travelCardFormHandler',
+    },
+
     SUBMIT: { target: '#validating' },
   },
   states: {
@@ -367,6 +375,24 @@ export const ticketingStateMachine = setup({
       ],
     },
 
+    travelCardFormHandler: {
+      id: 'travelCardFormHandler',
+      always: [
+        {
+          guard: ({ event }) =>
+            event.type === 'SELECT_TRAVELCARD_FORM' &&
+            event.travelCardForm === TravelCardForm.TravelCardQuestion,
+          target: `#${TravelCardForm.TravelCardQuestion}`,
+        },
+        {
+          guard: ({ event }) =>
+            event.type === 'SELECT_TRAVELCARD_FORM' &&
+            event.travelCardForm === TravelCardForm.OrderTravelCard,
+          target: `#${TravelCardForm.OrderTravelCard}`,
+        },
+      ],
+    },
+
     editing: {
       initial: 'selectFormCategory',
       states: {
@@ -408,8 +434,24 @@ export const ticketingStateMachine = setup({
         },
         travelCard: {
           id: 'travelCard',
+          initial: 'selectTravelCardForm',
           entry: 'setFormTypeToUndefined',
           exit: 'clearValidationErrors',
+          states: {
+            selectTravelCardForm: {},
+            travelCardQuestion: {
+              id: 'travelCardQuestion',
+              entry: assign({
+                formType: () => FormType.TravelCardQuestion,
+              }),
+            },
+            orderTravelCard: {
+              id: 'orderTravelCard',
+              entry: assign({
+                formType: () => FormType.OrderTravelCard,
+              }),
+            },
+          },
         },
 
         webshop: {
