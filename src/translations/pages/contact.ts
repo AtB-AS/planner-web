@@ -496,6 +496,21 @@ export const Contact = {
     },
     webshop: {
       description: _('Nettbutikk', 'Webshop', 'Nettbutikk'),
+      webshopTicketing: {
+        title: _(
+          'Hvilken billett gjelder det?',
+          'Which ticket is it about?',
+          'Kva billett gjeld det?',
+        ),
+        label: _('Kjøp billett', 'Purchase ticket', 'Kjøp billett'),
+      },
+      webshopAccount: {
+        label: _(
+          'Innlogging, profil, innstillinger',
+          'Login, profile, settings',
+          'Innlogging, profil, innstillingar',
+        ),
+      },
     },
     travelCard: {
       description: _('Resekort', 'Travel card', 'Resiekort'),
@@ -940,6 +955,11 @@ export const Contact = {
         'First name and middle name',
         'Fornamn og mellomnamn',
       ),
+      labelOptional: _(
+        'Fornavn og mellomnavn (valgfritt)',
+        'First name and middle name (optional)',
+        'Fornamn og mellomnamn (valfritt)',
+      ),
       errorMessages: {
         empty: _(
           'Vennligst fyll ut informasjon om deg',
@@ -951,6 +971,11 @@ export const Contact = {
 
     lastName: {
       label: _('Etternavn', 'Lastname', 'Etternamn'),
+      labelOptional: _(
+        'Etternavn (valgfritt)',
+        'Last name (optional)',
+        'Etternamn (valfritt)',
+      ),
       errorMessages: {
         empty: _(
           'Vennligst fyll ut informasjon om deg',
@@ -962,6 +987,12 @@ export const Contact = {
 
     email: {
       label: _('E-post', 'Email', 'E-post'),
+      labelOptionalIfCustomerNumberIsProvided: _(
+        'E-post (valgfritt hvis kundenummer er oppgitt)',
+        'Email (optional if customer number is provided)',
+        'E-post (valfritt viss kundenummer er oppgitt) ',
+      ),
+
       isResponseWanted: {
         label: _(
           'E-post (må fylles ut hvis du vil ha svar)',
@@ -1018,6 +1049,11 @@ export const Contact = {
 
     phoneNumber: {
       label: _('Telefonnummer', 'Phonenumber', 'Telefonnummer'),
+      labelOptional: _(
+        'Telefonnummer (valgfritt)',
+        'Phone number (optional)',
+        'Telefonnummer (valfritt)',
+      ),
       errorMessages: {
         empty: _(
           'Vennligst fyll ut informasjon om deg',

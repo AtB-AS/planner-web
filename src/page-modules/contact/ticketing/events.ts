@@ -1,6 +1,6 @@
 import { TranslatedString } from '@atb/translations';
 import { commonEvents } from '../commoneEvents';
-import { AppForm, FormCategory } from './ticketingStateMachine';
+import { AppForm, FormCategory, WebshopForm } from './ticketingStateMachine';
 
 export type RefundReason = { id: string; name: TranslatedString };
 
@@ -21,6 +21,10 @@ const ticketingSpecificFormEvents = {} as
   | {
       type: 'SELECT_APP_FORM';
       appForm: AppForm;
+    }
+  | {
+      type: 'SELECT_WEBSHOP_FORM';
+      webshopForm: WebshopForm;
     }
   | {
       type: 'SUBMIT';
