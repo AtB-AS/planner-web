@@ -989,7 +989,7 @@ export const Contact = {
       label: _('E-post', 'Email', 'E-post'),
       labelOptionalIfCustomerNumberIsProvided: _(
         'E-post (valgfritt hvis kundenummer er oppgitt)',
-        'Email (optional if customber number is provided)',
+        'Email (optional if customer number is provided)',
         'E-post (valfritt viss kundenummer er oppgitt) ',
       ),
 
