@@ -1384,7 +1384,7 @@ export const Contact = {
         empty: _('Område mangler', 'Area is missing', 'Område mangler'),
       },
     },
-    
+
     appPhoneNumber: {
       label: _(
         'Registrert mobilnummer',
@@ -1402,6 +1402,16 @@ export const Contact = {
 
     customerNumber: {
       label: _('Kundenummer', 'Customer number', 'Kundenummer'),
+      labelOptional: _(
+        'Kundenummer - (valgfritt)',
+        'Customer number - (optional)',
+        'Kundenummer - (valfritt)',
+      ),
+      description: _(
+        'Kundenummeret finner du under Min bruker i FRAM-appen, eller i nettbutikken.',
+        'The customer number can be found under My user in the FRAM app, or in the webshop',
+        'Kundenummeret finn du under Min bruker i FRAM-appen, eller i nettbutikken.',
+      ),
       errorMessages: {
         empty: _(
           'Fyll inn kundenummer',
@@ -1421,7 +1431,7 @@ export const Contact = {
         ),
       },
     },
-    
+
     question: {
       title: _(
         'Hva ønsker du å spørre om?',
@@ -1518,9 +1528,10 @@ export const Contact = {
         empty: _(
           'Grunn for refusjon mangler',
           'Reason for refund is missing',
-          'Grunn for refusjon mangler',)
-      }
-    }
+          'Grunn for refusjon mangler',
+        ),
+      },
+    },
   },
   success: {
     backButton: _(
