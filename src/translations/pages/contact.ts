@@ -1409,7 +1409,7 @@ export const Contact = {
       ),
       description: _(
         'Kundenummeret finner du under Min bruker i FRAM-appen, eller i nettbutikken.',
-        'The customber number can be found under My profile in the FRAM app, or in the webshop',
+        'The customer number can be found under My user in the FRAM app, or in the webshop',
         'Kundenummeret finn du under Min bruker i FRAM-appen, eller i nettbutikken.',
       ),
       errorMessages: {
