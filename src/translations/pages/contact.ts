@@ -1,5 +1,8 @@
 import { Area } from '@atb/page-modules/contact/means-of-transport/events';
-import { RefundReason } from '@atb/page-modules/contact/ticketing/events';
+import {
+  RefundReason,
+  TicketType,
+} from '@atb/page-modules/contact/ticketing/events';
 import { ReasonForTransportFailure } from '@atb/page-modules/contact/travel-guarantee/events';
 import { translation as _ } from '@atb/translations/commons';
 
@@ -555,7 +558,7 @@ export const Contact = {
     },
     refund: {
       description: _('Refusjon', 'Refund', 'Refusjon'),
-      agreement: {
+      initialAgreement: {
         ticketRefundAvailability: {
           title: _(
             'Når kan du få refundert billetten din?  ',
@@ -621,6 +624,13 @@ export const Contact = {
           'Billett kjøpt i FRAM-appen (alle billettyper) ',
           'Ticket purchased in the FRAM app (all ticket types)',
           'Billett kjøpt i FRAM-appen (alle billettypar) ',
+        ),
+      },
+      otherTicketRefund: {
+        label: _(
+          'Billett på reisekort eller kjøpt i nettbutikken, om bord eller på trafikkterminal',
+          'Ticket on travel card or purchased in the webshop, on board or at the terminal',
+          'Billett på reisekort eller kjøpt i nettbutikken, om bord eller på trafikkterminal',
         ),
       },
     },
@@ -1524,6 +1534,11 @@ export const Contact = {
 
     refundReason: {
       label: _('Refusjonen gjelder', 'The refund applies', 'Refusjonen gjeld'),
+      question: _(
+        'Hva er grunnen til at du ønsker refusjon?',
+        'What is the reason you want a refund?',
+        'Kva er grunnen til at du ønsker refusjon?',
+      ),
       optionLabel: _(
         'Velg grunnen for refusjonen',
         'Select reason for the refund',
@@ -1560,9 +1575,54 @@ export const Contact = {
         },
       ] as RefundReason[],
       errorMessages: {
-        empty: _('Område mangler', 'Area is missing', 'Område mangler'),
+        empty: _(
+          'Grunn for refusjon mangler',
+          'Reason for refund is missing',
+          'Grunn for refusjon mangler',
+        ),
       },
     },
+
+    ticketType: {
+      tickets: [
+        {
+          id: 'singleTicket',
+          name: _('Enkeltbillett', 'Single ticket', 'Enkeltbillett'),
+        },
+        {
+          id: 'periodTicket',
+          name: _(
+            'Periodebillet (sonebasert)',
+            'Period ticket (zone-based)',
+            'Periodebillet (sonebasert)',
+          ),
+        },
+        {
+          id: 'framYoung',
+          name: _('FRAM Ung', 'FRAM Young', 'FRAM Ung'),
+        },
+        {
+          id: 'framStudent',
+          name: _('FRAM Student', 'FRAM Student', 'FRAM Student'),
+        },
+        {
+          id: 'framAdult',
+          name: _('FRAM Voksen', 'FRAM Adult', 'FRAM Voksen'),
+        },
+        {
+          id: 'framSenior',
+          name: _('Fram Honnør', 'Fram Senior', 'Fram Honnør'),
+        },
+      ] as TicketType[],
+      errorMessages: {
+        empty: _(
+          'Grunn for refusjon mangler',
+          'Reason for refund is missing',
+          'Grunn for refusjon mangler',
+        ),
+      },
+    },
+
     amount: {
       label: _('Beløp', 'Amount', 'Beløp'),
       info: _(
