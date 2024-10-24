@@ -2,8 +2,7 @@ import { PageText, useTranslation } from '@atb/translations';
 import { ContextProps } from '../means-of-transport-form-machine';
 import { useLines } from '../../lines/use-lines';
 import { Typo } from '@atb/components/typography';
-import { ComponentText } from '@atb/translations';
-import { TransportModeType } from '@atb-as/config-specs';
+import { TransportModeType } from '../../types';
 import { Line } from '../..';
 import { meansOfTransportFormEvents } from '../events';
 import {
@@ -65,8 +64,8 @@ export const InjuryForm = ({ state, send }: InjuryFormProps) => {
         />
 
         <Select
-          label={t(PageText.Contact.input.transportMode.label).toString()}
-          value={state.context.transportMode}
+          label={t(PageText.Contact.input.transportMode.label)}
+          value={state.context.transportMode || ''}
           onChange={(value) =>
             send({
               type: 'ON_TRANSPORTMODE_CHANGE',
@@ -78,32 +77,35 @@ export const InjuryForm = ({ state, send }: InjuryFormProps) => {
               ? t(state.context?.errorMessages['transportMode']?.[0])
               : undefined
           }
-          valueToText={(val: TransportModeType) =>
-            t(ComponentText.TransportMode.modes[val])
+          valueToId={(val: string) => val}
+          valueToText={(val: string) =>
+            t(
+              PageText.Contact.input.transportMode.modes[
+                val as TransportModeType
+              ],
+            )
           }
-          valueToId={(val: TransportModeType) => val}
-          options={['bus', 'water'] as TransportModeType[]}
+          options={['bus', 'expressboat', 'ferry']}
           placeholder={t(PageText.Contact.input.transportMode.optionLabel)}
         />
 
         <SearchableSelect
           label={t(PageText.Contact.input.line.label)}
           value={state.context.line}
+          placeholder={t(PageText.Contact.input.line.optionLabel)}
           isDisabled={!state.context.transportMode}
+          options={getLineOptions(
+            getLinesByMode(state.context.transportMode as TransportModeType),
+          )}
           onChange={(value: Line | undefined) => {
             send({
               type: 'ON_LINE_CHANGE',
               value: value,
             });
           }}
-          options={getLineOptions(
-            getLinesByMode(state.context.transportMode as TransportModeType),
-          )}
-          placeholder={t(PageText.Contact.input.line.optionLabel)}
           error={
-            state.context?.errorMessages['line']?.[0]
-              ? t(state.context?.errorMessages['line']?.[0])
-              : undefined
+            state.context?.errorMessages['line']?.[0] &&
+            t(state.context?.errorMessages['line']?.[0])
           }
         />
 

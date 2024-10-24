@@ -1,9 +1,9 @@
-import { ComponentText, PageText, useTranslation } from '@atb/translations';
-import { TransportModeType } from '@atb-as/config-specs';
+import { PageText, useTranslation } from '@atb/translations';
 import { Line } from '../..';
 import { Typo } from '@atb/components/typography';
 import { ticketControlFormEvents } from '../events';
 import { ContextProps } from '../ticket-control-form-machine';
+import { TransportModeType } from '../../types';
 import { useLines } from '../../lines/use-lines';
 import {
   SectionCard,
@@ -33,8 +33,8 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
         </Typo.p>
 
         <Select
-          label={t(PageText.Contact.input.transportMode.label).toString()}
-          value={state.context.transportMode}
+          label={t(PageText.Contact.input.transportMode.label)}
+          value={state.context.transportMode || ''}
           onChange={(value) =>
             send({
               type: 'ON_TRANSPORTMODE_CHANGE',
@@ -46,11 +46,15 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
               ? t(state.context?.errorMessages['transportMode']?.[0])
               : undefined
           }
-          valueToText={(val: TransportModeType) =>
-            t(ComponentText.TransportMode.modes[val])
+          valueToId={(val: string) => val}
+          valueToText={(val: string) =>
+            t(
+              PageText.Contact.input.transportMode.modes[
+                val as TransportModeType
+              ],
+            )
           }
-          valueToId={(val: TransportModeType) => val}
-          options={['bus', 'water'] as TransportModeType[]}
+          options={['bus', 'expressboat', 'ferry']}
           placeholder={t(PageText.Contact.input.transportMode.optionLabel)}
         />
 

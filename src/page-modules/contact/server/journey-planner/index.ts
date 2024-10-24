@@ -6,7 +6,10 @@ import {
 } from './journey-gql/lines.generated';
 import { getOrgData } from '@atb/modules/org-data';
 import { Line, linesSchema } from './validators';
-import { isTransportModeType } from '@atb/modules/transport-mode';
+import {
+  isTransportModeType,
+  isTransportSubmodeType,
+} from '@atb/modules/transport-mode';
 
 export type JourneyPlannerApi = {
   lines(): Promise<Line[]>;
@@ -33,6 +36,9 @@ export function createJourneyApi(
         publicCode: line.publicCode ?? null,
         transportMode: isTransportModeType(line.transportMode)
           ? line.transportMode
+          : null,
+        transportSubmode: isTransportSubmodeType(line.transportSubmode)
+          ? line.transportSubmode
           : null,
         quays: line.quays.map((quay) => ({
           id: quay.id,

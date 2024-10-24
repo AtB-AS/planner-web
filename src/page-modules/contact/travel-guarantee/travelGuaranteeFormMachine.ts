@@ -1,4 +1,4 @@
-import { TransportModeType } from '@atb-as/config-specs';
+import { TransportModeType } from '../types';
 import { assign, fromPromise, setup } from 'xstate';
 import { Line } from '../server/journey-planner/validators';
 import { ReasonForTransportFailure } from './events';
