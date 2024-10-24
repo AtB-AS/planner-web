@@ -386,6 +386,12 @@
   opacity: 1;
 }
 
+.searchable_select__input:not(:focus):placeholder-shown {
+  color: var(--text-colors-secondary);
+  font-style: italic;
+  opacity: 0.7;
+}
+
 .searchable_select__button {
   display: flex;
   border: none;
