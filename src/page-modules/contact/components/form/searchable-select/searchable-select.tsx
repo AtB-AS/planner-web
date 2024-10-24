@@ -39,12 +39,6 @@ export default function SearchableSelect<T>({
   const [inputValue, setInputValue] = useState('');
   const [focused, setFocused] = useState(false);
 
-  //useEffect(() => {
-  //  if (isDisabled) {
-  //    setInputValue('');
-  //  }
-  //}, [isDisabled]);
-
   useEffect(() => {
     if (value === undefined && !focused && inputValue !== '') {
       setInputValue('');
