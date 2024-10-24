@@ -28,9 +28,7 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
   return (
     <div>
       <SectionCard
-        title={t(
-          PageText.Contact.travelGuarantee.refundTaxi.aboutYourTrip.title,
-        )}
+        title={t(PageText.Contact.travelGuarantee.refundTaxi.carTrip.title)}
       >
         <Input
           label={PageText.Contact.input.kilometersDriven.label}
@@ -80,6 +78,12 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
             })
           }
         />
+      </SectionCard>
+      <SectionCard
+        title={t(
+          PageText.Contact.travelGuarantee.refundTaxi.aboutYourTrip.title,
+        )}
+      >
         <Select
           label={t(PageText.Contact.input.transportMode.label).toString()}
           value={state.context.transportMode}
