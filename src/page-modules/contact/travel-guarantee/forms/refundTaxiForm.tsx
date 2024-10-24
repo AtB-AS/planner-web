@@ -4,6 +4,7 @@ import { TransportModeType } from '@atb-as/config-specs';
 import { Line } from '../..';
 import { TravelGuaranteeFormEvents } from '../events';
 import { ContextProps } from '../travelGuaranteeFormMachine';
+import { Typo } from '@atb/components/typography';
 import {
   SectionCard,
   Input,
@@ -27,6 +28,44 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
 
   return (
     <div>
+      <SectionCard
+        title={t(PageText.Contact.travelGuarantee.refundTaxi.taxiReceipt.title)}
+      >
+        <Typo.p textType="body__primary">
+          {t(PageText.Contact.travelGuarantee.refundTaxi.taxiReceipt.info)}
+        </Typo.p>
+
+        {/*Should here add a component for using camara in phone directly.*/}
+        <FileInput
+          label={t(PageText.Contact.input.feedback.attachment)}
+          name="attachments"
+          onChange={(files) => {
+            send({
+              type: 'ON_INPUT_CHANGE',
+              inputName: 'attachments',
+              value: files,
+            });
+          }}
+          errorMessage={state.context?.errorMessages['attachments']?.[0]}
+        />
+        <Input
+          label={PageText.Contact.input.amount.label}
+          type="text"
+          name="amount"
+          value={state.context.amount || ''}
+          errorMessage={state.context?.errorMessages['amount']?.[0]}
+          onChange={(e) =>
+            send({
+              type: 'ON_INPUT_CHANGE',
+              inputName: 'amount',
+              value: e.target.value,
+            })
+          }
+        />
+        <Typo.p textType="body__primary">
+          {t(PageText.Contact.input.amount.info)}
+        </Typo.p>
+      </SectionCard>
       <SectionCard
         title={t(
           PageText.Contact.travelGuarantee.refundTaxi.aboutYourTrip.title,

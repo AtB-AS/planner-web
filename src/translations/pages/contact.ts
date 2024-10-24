@@ -257,11 +257,16 @@ export const Contact = {
         'If you are unable to reach your destination by an alternative service, we will refund taxi expenses according to the applicable regulations.',
         'Viss du ikkje kjem fram med eit anna rutetilbod, refunderer vi utlegg til drosje etter gjeldande reglar.',
       ),
-      information: {
+      taxiReceipt: {
         title: _(
           'Informasjon fra drosjekvitteringen',
           'Information from the taxi receipt',
           'Informasjon frå drosjekvitteringa',
+        ),
+        info: _(
+          'Last opp en kopi eller et bilde av kvitteringen fra drosjeturen. Kvitteringen må inneholde informasjon om hvor du reiste fra og til.',
+          'Upload a copy or a photo of the receipt from the taxi ride. The receipt must contain information about where you traveled from and to.',
+          'Last opp ein kopi eller eit bilde av kvitteringa frå drosjeturen. Kvitteringa må innehalde informasjon om kor du reiste frå og til.',
         ),
       },
 
@@ -1566,16 +1571,12 @@ export const Contact = {
     amount: {
       label: _('Beløp', 'Amount', 'Beløp'),
       info: _(
-        'Skriv inn beløpet du ønsker utbetalt, i norske kroner.',
-        'Enter the amount you want paid out, in Norwegian kroner.',
-        'Skriv inn beløpet du ønsker utbetalt, i norske kroner. ',
+        'Skriv inn beløpet du ønsker utbetalt i norske kroner.',
+        'Enter the amount you want paid out in Norwegian kroner.',
+        'Skriv inn beløpet du ønsker utbetalt i norske kroner. ',
       ),
       errorMessages: {
-        empty: _(
-          'Grunn for refusjon mangler',
-          'Reason for refund is missing',
-          'Grunn for refusjon mangler',
-        ),
+        empty: _('Beløp mangler', 'Amount is missing', 'Beløp mangler'),
       },
     },
   },
