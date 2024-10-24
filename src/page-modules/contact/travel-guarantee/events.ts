@@ -11,6 +11,7 @@ const TravelGuaranteeSpecificFormEvents = {} as
         | 'kilometersDriven'
         | 'fromAddress'
         | 'toAddress'
+        | 'amount'
         | 'reasonForTransportFailure'
         | 'isIntialAgreementChecked'
         | 'hasInternationalBankAccount';
