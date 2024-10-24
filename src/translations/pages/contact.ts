@@ -271,7 +271,7 @@ export const Contact = {
 
       aboutYourTrip: {
         title: _(
-          'Om den planlagte reisa di',
+          'Om den planlagte reisen din',
           'About your planed trip',
           'Om den planlagde reisa di',
         ),
