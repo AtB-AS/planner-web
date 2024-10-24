@@ -3,17 +3,24 @@ import style from './form.module.css';
 import { Typo } from '@atb/components/typography';
 import { Button } from '@atb/components/button';
 import { MonoIcon } from '@atb/components/icon';
-import { PageText, useTranslation } from '@atb/translations';
+import { PageText, TranslatedString, useTranslation } from '@atb/translations';
 import { useTheme } from '@atb/modules/theme';
+import ErrorMessage from './error-message';
 
 export type FileInputProps = {
   label: string;
+  errorMessage?: TranslatedString;
   onChange?: (files: File[]) => void;
 } & Omit<JSX.IntrinsicElements['input'], 'onChange'>;
 
 const MAX_ALLOWED_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 
-export default function FileInput({ onChange, label, name }: FileInputProps) {
+export default function FileInput({
+  onChange,
+  label,
+  name,
+  errorMessage,
+}: FileInputProps) {
   const { t } = useTranslation();
   const id = useId();
   const { static: staticColors } = useTheme();
@@ -69,7 +76,11 @@ export default function FileInput({ onChange, label, name }: FileInputProps) {
   };
 
   return (
-    <div onDragOver={handleDragOver} onDrop={handleDrop}>
+    <div
+      onDragOver={handleDragOver}
+      onDrop={handleDrop}
+      className={style.file_input__container}
+    >
       <input
         id={id}
         type="file"
@@ -111,6 +122,7 @@ export default function FileInput({ onChange, label, name }: FileInputProps) {
           ))}
         </div>
       )}
+      {errorMessage && <ErrorMessage message={t(errorMessage)} />}
     </div>
   );
 }
