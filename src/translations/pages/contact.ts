@@ -596,8 +596,8 @@ export const Contact = {
               'Periodebillett 30 dagar: Du får refusjon for antall resterande døgn.',
             ),
             _(
-              'Fylkesbillettene FRAM Ung, FRAM Student, FRAM Voksen og FRAM Honnør: Du får refusjon for antall resterende døgn.',
-              'The county tickets FRAM Ung, FRAM Student, FRAM Adult and FRAM Senior: You will receive a refund for numbers remaining on the day.',
+              'Fylkesbillettene FRAM Ung, FRAM Student, FRAM Vaksen og FRAM Honnør: Du får refusjon for antall resterende døgn.',
+              'The county tickets FRAM Ung, FRAM Student, FRAM Vaksen and FRAM Honnør: You will receive a refund for numbers remaining on the day.',
               'Fylkesbillettane FRAM Ung, FRAM Student, FRAM Vaksen og FRAM Honnør: Du får refusjon for antall resterande døgn. ',
             ),
             _(
@@ -611,11 +611,14 @@ export const Contact = {
               'Enkeltbillettar etter feilkjøp og når ny, riktig billett er kjøpt. ',
             ),
           ],
-          info: _(
-            'Gjelder kravet reisegaranti, dvs refusjon for utgifter til andre transportmiddel fordi buss eller hurtigbåt ikke var i rute? Da skal du ikke søke refusjon, men reisegaranti. Dette finner du under Reisegaranti.',
-            'Does the claim apply to a travel guarantee, i.e. refund for expenses for other means of transport because the bus or express boat was not on schedule? Then you should not apply for a refund, but a travel guarantee. You can find this under Travel guarantee.',
-            'Gjeld kravet reisegaranti, dvs refusjon for utgifter til andre transportmiddel fordi buss eller hurtigbåt ikkje var i rute? Då skal du ikkje søke refusjon, men reisegaranti. Dette finn du under Reisegaranti. ',
-          ),
+          info: {
+            text: _(
+              'Gjelder kravet reisegaranti, dvs refusjon for utgifter til andre transportmiddel fordi buss eller hurtigbåt ikke var i rute? Da skal du søke om',
+              'Does the claim apply to a travel guarantee, i.e. refund for expenses for other means of transport because the bus or express boat was not on schedule? Then you should not apply for',
+              'Gjeld kravet reisegaranti, dvs refusjon for utgifter til andre transportmiddel fordi buss eller hurtigbåt ikkje var i rute? Då skal du søke om',
+            ),
+            link: _('reisegaranti.', 'travel guarantee.', 'reisegaranti.'),
+          },
           checkbox: _('Jeg forsår', 'I understand', 'Eg forstår'),
         },
       },
@@ -1516,17 +1519,23 @@ export const Contact = {
     },
 
     orderId: {
-      label: _('Ordre-id(er)', 'Order ID(s)', 'Ordre-id(er)'),
-      info: _(
-        'Hvis du vil ha hjelp med en billet du allrede har kjøpt, trenger vi å vite ordre-id. Den finner du på billetten i appen, eller på kvitteringen din. Du finner ordre-id også på utgåtte billetter. Gjelder forespørslen din flere billetter, må du huske å sende med ordre-id for alle billettene.',
-        'If you want help with a ticket you have already bought, we need to know the order ID. You can find it on the ticket in the app, or on your receipt. You can also find the order ID on expired tickets. If your request concerns several tickets, you must remember to send with the order ID for all the tickets.',
-        'Viss du vil ha hjelp med ein billett du allereie har kjøpt, treng vi å vite ordre-id. Den finn du på billetten i appen, eller på kvitteringa di. Du finn ordre-id også på utgåtte billettar. Gjeld førespurnaden din fleire billettar, må du huske å sende med ordre-id for alle billettane.',
-      ),
-      description: _(
-        `Ved flere ordre-id-er, skill med komma (',').`,
-        `For multiple order IDs, separate with commas (','').`,
-        `Ved flere ordre-id-er, skill med komma (',').`,
-      ),
+      label: (expectsSingleOrderId: boolean) =>
+        expectsSingleOrderId
+          ? _('Ordre-id', 'Order ID', 'Ordre-id')
+          : _('Ordre-id(er)', 'Order ID(s)', 'Ordre-id(er)'),
+      description: (expectsSingleOrderId: boolean) =>
+        expectsSingleOrderId
+          ? _(
+              'Ordre-id finner du på billetten i appen eller på kvitteringen din. Du finner ordre-id også på utgåtte billetter.',
+              'The order ID can be found on the ticket in the app or on your receipt. You can also find the order ID on expired tickets.',
+              'Ordre-id finn du på billetten i appen eller på kvitteringa di. Du finn ordre-id også på utgåtte billettar.',
+            )
+          : _(
+              "Hvis du vil ha hjelp med en billett du allrede har kjøpt, trenger vi å vite ordre-id. Den finner du på billetten i appen, eller på kvitteringen din. Du finner ordre-id også på utgåtte billetter. Gjelder forespørslen din flere billetter, må du huske å sende med ordre-id for alle billettene.<br><br>Ved flere ordre-id-er, skill med komma (',').",
+              "If you want help with a ticket you have already bought, we need to know the order ID. You can find it on the ticket in the app, or on your receipt. You can also find the order ID on expired tickets. If your request concerns several tickets, you must remember to send with the order ID for all the tickets.<br><br>For multiple order IDs, separate with commas (',').",
+              "Viss du vil ha hjelp med ein billett du allereie har kjøpt, treng vi å vite ordre-id. Den finn du på billetten i appen, eller på kvitteringa di. Du finn ordre-id også på utgåtte billettar. Gjeld førespurnaden din fleire billettar, må du hugse å sende med ordre-id for alle billettane.<br><br>Ved flere ordre-id-er, skill med komma (',').",
+            ),
+
       errorMessages: {
         empty: _('Ordre-id mangler', 'Order-id is missing', 'Ordre-id mangler'),
       },
@@ -1559,7 +1568,7 @@ export const Contact = {
         },
         {
           id: 'framYoung',
-          name: _('FRAM Ung', 'FRAM Young', 'FRAM Ung'),
+          name: _('FRAM Ung', 'FRAM Ung', 'FRAM Ung'),
         },
         {
           id: 'framStudent',
@@ -1567,11 +1576,11 @@ export const Contact = {
         },
         {
           id: 'framAdult',
-          name: _('FRAM Voksen', 'FRAM Adult', 'FRAM Voksen'),
+          name: _('FRAM Vaksen', 'FRAM Vaksen', 'FRAM Vaksen'),
         },
         {
           id: 'framSenior',
-          name: _('Fram Honnør', 'Fram Senior', 'Fram Honnør'),
+          name: _('FRAM Honnør', 'FRAM Honnør', 'FRAM Honnør'),
         },
       ] as RefundReason[],
       errorMessages: {
@@ -1599,7 +1608,7 @@ export const Contact = {
         },
         {
           id: 'framYoung',
-          name: _('FRAM Ung', 'FRAM Young', 'FRAM Ung'),
+          name: _('FRAM Ung', 'FRAM Ung', 'FRAM Ung'),
         },
         {
           id: 'framStudent',
@@ -1607,11 +1616,11 @@ export const Contact = {
         },
         {
           id: 'framAdult',
-          name: _('FRAM Voksen', 'FRAM Adult', 'FRAM Voksen'),
+          name: _('FRAM Vaksen', 'FRAM Vaksen', 'FRAM Vaksen'),
         },
         {
           id: 'framSenior',
-          name: _('Fram Honnør', 'Fram Senior', 'Fram Honnør'),
+          name: _('FRAM HONNØR', 'FRAM HONNØR', 'FRAM HONNØR'),
         },
       ] as TicketType[],
       errorMessages: {

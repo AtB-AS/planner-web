@@ -21,10 +21,10 @@ export const WebshopTicketingForm = ({
         title={t(PageText.Contact.ticketing.webshop.webshopTicketing.title)}
       >
         <Typo.p textType="body__primary">
-          {t(PageText.Contact.input.orderId.info)}
+          {t(PageText.Contact.input.orderId.description(false))}
         </Typo.p>
         <Input
-          label={PageText.Contact.input.orderId.label}
+          label={PageText.Contact.input.orderId.label(false)}
           type="text"
           name="orderId"
           value={state.context.orderId || ''}

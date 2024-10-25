@@ -7,6 +7,7 @@ import { Typo } from '@atb/components/typography';
 import { SectionCard, Radio, Checkbox } from '../../../components';
 import AppTicketRefund from './appTicketRefund';
 import OtherTicketRefund from './otherTicketRefund';
+import Link from 'next/link';
 
 type RefundFormsProps = {
   state: StateFrom<typeof ticketingStateMachine>;
@@ -52,8 +53,14 @@ export const RefundForms = ({ state, send }: RefundFormsProps) => {
         <Typo.p textType="body__primary">
           {t(
             PageText.Contact.ticketing.refund.initialAgreement
-              .refundableTicketTypes.info,
-          )}
+              .refundableTicketTypes.info.text,
+          )}{' '}
+          <Link href={'travel-guarantee'}>
+            {t(
+              PageText.Contact.ticketing.refund.initialAgreement
+                .refundableTicketTypes.info.link,
+            )}
+          </Link>
         </Typo.p>
         <Checkbox
           label={t(

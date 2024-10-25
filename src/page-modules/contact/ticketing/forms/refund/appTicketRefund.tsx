@@ -16,9 +16,6 @@ export const AppTicketRefund = ({ state, send }: AppTicketRefundProps) => {
     <SectionCard
       title={t(PageText.Contact.ticketing.refund.appTicketRefund.label)}
     >
-      <Typo.p textType="body__primary">
-        {t(PageText.Contact.input.customerNumber.description)}
-      </Typo.p>
       <Input
         label={PageText.Contact.input.customerNumber.label}
         type="text"
@@ -34,14 +31,12 @@ export const AppTicketRefund = ({ state, send }: AppTicketRefundProps) => {
           })
         }
       />
-      <Typo.p textType="body__primary">
-        {t(PageText.Contact.input.orderId.info)}
-      </Typo.p>
+
       <Input
-        label={PageText.Contact.input.orderId.label}
+        label={PageText.Contact.input.orderId.label(true)}
         type="text"
         name="orderId"
-        description={t(PageText.Contact.input.orderId.description)}
+        description={t(PageText.Contact.input.orderId.description(true))}
         value={state.context.orderId || ''}
         errorMessage={state.context?.errorMessages['orderId']?.[0]}
         onChange={(e) =>

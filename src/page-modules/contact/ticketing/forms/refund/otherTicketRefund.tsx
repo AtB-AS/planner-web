@@ -76,14 +76,11 @@ const RefundSection = ({ state, send }: RefundSectionProps) => {
         }
       />
 
-      <Typo.p textType="body__primary">
-        {t(PageText.Contact.input.orderId.info)}
-      </Typo.p>
       <Input
-        label={PageText.Contact.input.orderId.label}
+        label={PageText.Contact.input.orderId.label(false)}
         type="text"
         name="orderId"
-        description={t(PageText.Contact.input.orderId.description)}
+        description={t(PageText.Contact.input.orderId.description(false))}
         value={state.context.orderId || ''}
         errorMessage={state.context?.errorMessages['orderId']?.[0]}
         onChange={(e) =>
