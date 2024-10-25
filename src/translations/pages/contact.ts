@@ -1606,6 +1606,7 @@ export const Contact = {
   components: {
     fileinput: {
       errorMessages: {
+        empty: _('Vedlegg mangler', 'Attachment is missing', 'Vedlegg mangler'),
         tooLarge: (fileName: string) =>
           _(
             `Filen "${fileName}" er for stor. Maks 5 MB`,

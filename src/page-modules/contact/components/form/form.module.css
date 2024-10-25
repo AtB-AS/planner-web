@@ -258,6 +258,11 @@
 }
 
 /** file input */
+.file_input__container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacings-small);
+}
 
 .input__file {
   opacity: 0;
