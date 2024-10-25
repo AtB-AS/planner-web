@@ -37,12 +37,21 @@ export default function SearchableSelect<T>({
 }: SearchableSelectProps<T>) {
   const showError = !!error;
   const [inputValue, setInputValue] = useState('');
+  const [focused, setFocused] = useState(false);
 
   useEffect(() => {
-    if (isDisabled) {
+    if (value === undefined && !focused && inputValue !== '') {
       setInputValue('');
     }
-  }, [isDisabled]);
+  }, [value, focused, inputValue]);
+
+  const handleFocus = () => {
+    setFocused(true);
+  };
+
+  const handleBlur = () => {
+    setFocused(false);
+  };
 
   const filteredOptions = options.filter((item) =>
     item.name
@@ -95,6 +104,8 @@ export default function SearchableSelect<T>({
           className={style.searchable_select__input}
           value={inputValue}
           onChange={(e) => handleInputChange(e.target.value)}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
         />
         <Button className={style.searchable_select__button}>
           <MonoIcon icon={'navigation/ExpandMore'} />

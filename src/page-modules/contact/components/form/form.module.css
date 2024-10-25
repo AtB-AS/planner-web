@@ -150,6 +150,7 @@
     background-color 100ms ease;
   cursor: pointer;
   padding: var(--spacings-xSmall);
+  border-radius: var(--border-radius-small);
 }
 .checkbox:not(.checkbox--readonly) {
   background-color: var(--interactive-interactive_2-default-background);
@@ -246,7 +247,6 @@
 .select__select {
   border: var(--border-width-slim) solid var(--text-colors-primary);
   border-radius: var(--border-radius-small);
-
   padding: var(--spacings-small);
 }
 
@@ -282,6 +282,12 @@
   border: var(--border-width-slim) solid var(--text-colors-primary);
   border-radius: var(--border-radius-small);
   cursor: pointer;
+}
+
+.label__file:focus {
+  outline: 0;
+  box-shadow: inset 0 0 0 var(--border-width-slim)
+    var(--interactive-interactive_2-outline-background);
 }
 
 .label__file:hover {
@@ -389,6 +395,12 @@
 .searchable_select__input::placeholder {
   color: var(--text-colors-secondary);
   opacity: 1;
+}
+
+.searchable_select__input:not(:focus):placeholder-shown {
+  color: var(--text-colors-secondary);
+  font-style: italic;
+  opacity: 0.7;
 }
 
 .searchable_select__button {
