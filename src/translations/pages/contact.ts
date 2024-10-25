@@ -518,7 +518,7 @@ export const Contact = {
       },
     },
     travelCard: {
-      description: _('Resekort', 'Travel card', 'Resiekort'),
+      description: _('Reisekort', 'Travel card', 'Reisekort'),
       question: _(
         'Hva gjelder forespørselen?',
         'What is the request about?',
@@ -545,7 +545,7 @@ export const Contact = {
           ),
         ],
       },
-      otherQuestionsRegardingTravelCard: {
+      travelCardQuestion: {
         label: _(
           'Andre spørsmål om reisekort',
           'Other questions regarding travel card',
@@ -1464,6 +1464,11 @@ export const Contact = {
 
     travelCardNumber: {
       label: _('Reisekort', 'Travelcard', 'Reisekort'),
+      info: _(
+        'Legg inn reisekortnummeret her hvis du allerede har et reisekort. Reisekortnummeret finner du på baksiden av reisekortet ditt',
+        'Enter the travel card number here if you already have a travel card. The travel card number can be found on the back of your travel card',
+        'Legg inn reisekortnummeret her viss du allereie har eit reisekort. Reisekortnummeret finn du bak på reisekortet ditt.',
+      ),
       errorMessages: {
         empty: _(
           'Legg til reisekort',
