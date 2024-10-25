@@ -260,13 +260,18 @@ export const Contact = {
       information: {
         title: _(
           'Informasjon fra drosjekvitteringen',
-          'Information from the taxi reciet',
+          'Information from the taxi receipt',
           'Informasjon frå drosjekvitteringa',
         ),
       },
+
+      carTrip: {
+        title: _('Om bilturen', 'About the car trip', 'Om bilturen'),
+      },
+
       aboutYourTrip: {
         title: _(
-          'Om den planlagte reisa di',
+          'Om den planlagte reisen din',
           'About your planed trip',
           'Om den planlagde reisa di',
         ),
