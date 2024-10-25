@@ -11,10 +11,11 @@ export const useLines = () => {
   } = useSWR<Line[]>('/api/contact/lines', swrFetcher);
 
   const subTransportModesExpressboat = [
+    'highSpeedPassengerService',
     'highSpeedVehicleService',
-    'internationalCarFerry',
-    'localCarFerry',
-    'nationalCarFerry',
+    'sightseeingService',
+    'localPassengerFerry',
+    'internationalPassengerFerry',
   ];
 
   const subTransportModesFerry = [
