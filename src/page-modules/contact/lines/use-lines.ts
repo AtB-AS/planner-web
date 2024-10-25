@@ -10,6 +10,20 @@ export const useLines = () => {
     isLoading,
   } = useSWR<Line[]>('/api/contact/lines', swrFetcher);
 
+  const subTransportModesExpressboat = [
+    'highSpeedVehicleService',
+    'internationalCarFerry',
+    'localCarFerry',
+    'nationalCarFerry',
+  ];
+
+  const subTransportModesFerry = [
+    'highSpeedVehicleService',
+    'internationalCarFerry',
+    'localCarFerry',
+    'nationalCarFerry',
+  ];
+
   const getLinesByMode = (transportMode: TransportModeType): Line[] => {
     if (!lines) return [];
 
@@ -21,21 +35,16 @@ export const useLines = () => {
         return lines.filter(
           (line) =>
             line.transportMode === 'water' &&
-            (line.transportSubmode === 'highSpeedPassengerService' ||
-              line.transportSubmode === 'highSpeedVehicleService' ||
-              line.transportSubmode === 'sightseeingService' ||
-              line.transportSubmode === 'localPassengerFerry' ||
-              line.transportSubmode === 'internationalPassengerFerry'),
+            line.transportSubmode !== null &&
+            subTransportModesExpressboat.includes(line.transportSubmode),
         );
 
       case 'ferry':
         return lines.filter(
           (line) =>
             line.transportMode === 'water' &&
-            (line.transportSubmode === 'highSpeedVehicleService' ||
-              line.transportSubmode === 'internationalCarFerry' ||
-              line.transportSubmode === 'localCarFerry' ||
-              line.transportSubmode === 'nationalCarFerry'),
+            line.transportSubmode !== null &&
+            subTransportModesFerry.includes(line.transportSubmode),
         );
       default:
         return [];
