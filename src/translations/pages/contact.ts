@@ -1113,6 +1113,11 @@ export const Contact = {
         'Select transport mode',
         'Vel transportmiddel',
       ),
+      modes: {
+        bus: _('Buss', 'Bus', 'Buss'),
+        expressboat: _('Hurtigbåt', 'Express boat', 'Hurtigbåt'),
+        ferry: _('Ferge', 'Ferry', 'Ferje'),
+      },
       errorMessages: {
         empty: _(
           'Velg transportmiddel',

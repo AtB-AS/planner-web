@@ -4,6 +4,7 @@ query lines($authority: String!) {
     name
     publicCode
     transportMode
+    transportSubmode
     quays {
       id
       name
