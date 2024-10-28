@@ -369,14 +369,6 @@
   border-radius: var(--border-radius-small);
 }
 
-.searchable_select__group {
-  background-color: var(--static-background-background_2-background);
-}
-
-.searchable_select__disabled {
-  background-color: var(--static-background-background_0-background);
-}
-
 .searchable_select__group:focus-within {
   outline: 0;
   box-shadow: inset 0 0 0 var(--border-width-slim)
