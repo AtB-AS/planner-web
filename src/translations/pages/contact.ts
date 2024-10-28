@@ -430,9 +430,9 @@ export const Contact = {
         'Melde frå om personskade eller ulykke',
       ),
       info: _(
-        'Har du skadet deg selv eller noe du eier om bord på et av våre transportmidler eller ved kai/brygge? Gi tilbakemelding her, så tar vi saken videre med det aktuelle busselskapet eller ledergruppen.',
-        'Did you injure yourself or something you own on board one of our means of transport or at a dock? Give feedback here, and we will take the matter further with the relevant bus company or management team.',
-        'Skada du deg sjølv eller noko du eig om bord på eit av våre transportmiddel eller på haldeplass/kai? Gi tilbakemelding her, så tar vi saka vidare med aktuelt busselskap eller reiarlag.',
+        'Skadet du deg selv eller noe du eier om bord eller på stoppestedet/kai? Gi tilbakemelding her, så hjelper vi deg.',
+        'Did you injure yourself or something you own on board or at the stop/dock? Give feedback here, and we will help you.',
+        'Skada du deg sjølv eller noko du eig om bord eller på haldeplass/kai? Gje tilbakemelding her, så hjelper vi deg.',
       ),
 
       about: {
