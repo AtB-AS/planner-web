@@ -242,6 +242,19 @@ export const Contact = {
           'The travel guarantee does not cover losses resulting from the delay, such as missed dental appointments, job agreements, train departures, or flight departures.',
           'Reisegarantien omfattar heller ikkje tap som følge av forseinkinga, som for eksempel mista tannlegetime, jobbavtale, togavgang eller flyavgang.',
         ),
+
+        link: {
+          text: _(
+            'Les mer om reisegranti',
+            'Read more about travel guarantee',
+            'Les meir om reisegaranti',
+          ),
+          href: _(
+            'https://frammr.no/hjelp-og-kontakt/reisegaranti/',
+            'https://frammr.no/hjelp-og-kontakt/reisegaranti/?sprak=3',
+            'https://frammr.no/hjelp-og-kontakt/reisegaranti/',
+          ),
+        },
         checkbox: _('Jeg forstår', 'I understand', 'Eg forstår'),
       },
     },
