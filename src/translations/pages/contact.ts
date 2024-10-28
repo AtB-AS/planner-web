@@ -238,9 +238,9 @@ export const Contact = {
           _('pandemi', 'pandemic', 'pandemi'),
         ],
         exclusion: _(
-          'Reisegarantien omfatter heller ikke tap som følge av forsinkelsen, som for eksempel mistet tannlegetime, jobbavtale, togavgang eller flyavgang.',
-          'The travel guarantee does not cover losses resulting from the delay, such as missed dental appointments, job agreements, train departures, or flight departures.',
-          'Reisegarantien omfattar heller ikkje tap som følge av forseinkinga, som for eksempel mista tannlegetime, jobbavtale, togavgang eller flyavgang.',
+          'Reisegarantien omfatter heller ikke tap som følge av forsinkelsen, som for eksempel mistet tannlegetime, jobbavtale, togavgang, fergeavgang eller flyavgang.',
+          'The travel guarantee does not cover losses resulting from the delay, such as missed dental appointments, job agreements, train departures, ferry departures or flight departures.',
+          'Reisegarantien omfattar heller ikkje tap som følge av forseinkinga, som for eksempel mista tannlegetime, jobbavtale, togavgang, ferjeavgang eller flyavgang.',
         ),
 
         link: {
