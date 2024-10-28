@@ -8,6 +8,7 @@ import RefundCarForm from './forms/refundCarForm';
 import style from '../contact.module.css';
 import { Typo } from '@atb/components/typography';
 import { SectionCard, Radio, Checkbox } from '../components';
+import Link from 'next/link';
 
 const TravelGuaranteeContent = () => {
   const { t } = useTranslation();
@@ -71,7 +72,18 @@ const TravelGuaranteeContent = () => {
           {t(
             PageText.Contact.travelGuarantee.agreement.travelGuaranteeExceptions
               .exclusion,
-          )}
+          )}{' '}
+          <Link
+            href={t(
+              PageText.Contact.travelGuarantee.agreement
+                .travelGuaranteeExceptions.link.href,
+            )}
+          >
+            {t(
+              PageText.Contact.travelGuarantee.agreement
+                .travelGuaranteeExceptions.link.text,
+            )}
+          </Link>
         </Typo.p>
 
         <Checkbox
