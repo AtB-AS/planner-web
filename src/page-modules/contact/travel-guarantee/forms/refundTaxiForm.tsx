@@ -35,7 +35,6 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
           {t(PageText.Contact.travelGuarantee.refundTaxi.taxiReceipt.info)}
         </Typo.p>
 
-        {/* TODO: Add a component for using camera in phone directly. */}
         <FileInput
           label={t(PageText.Contact.input.feedback.attachment)}
           name="attachments"
