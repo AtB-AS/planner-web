@@ -40,6 +40,7 @@ type submitInput = {
   fromAddress?: string;
   toAddress?: string;
   reasonForTransportFailureName?: string;
+  amount?: string;
 };
 
 export type ContextProps = {
@@ -66,6 +67,7 @@ export type ContextProps = {
   fromAddress?: string;
   toAddress?: string;
   reasonForTransportFailure?: ReasonForTransportFailure;
+  amount?: string;
 
   isIntialAgreementChecked: boolean;
   hasInternationalBankAccount: boolean;
@@ -118,6 +120,8 @@ const setInputToValidate = (context: ContextProps) => {
     toAddress,
     plannedDepartureTime,
     reasonForTransportFailure,
+    amount,
+    attachments,
   } = context;
 
   const commonFields = {
@@ -142,6 +146,8 @@ const setInputToValidate = (context: ContextProps) => {
     case FormType.RefundTaxi:
       return {
         ...commonFields,
+        attachments,
+        amount,
       };
 
     case FormType.RefundCar:
@@ -231,6 +237,7 @@ export const fetchMachine = setup({
           bankAccountNumber,
           IBAN,
           SWIFT,
+          amount,
         },
       }: {
         input: submitInput;
@@ -263,6 +270,7 @@ export const fetchMachine = setup({
             kilometersDriven: kilometersDriven,
             fromAddress: fromAddress,
             toAddress: toAddress,
+            amount: amount,
           }),
         }).then((response) => {
           // throw an error to force onError
@@ -340,6 +348,7 @@ export const fetchMachine = setup({
           bankAccountNumber: context?.bankAccountNumber,
           IBAN: context?.IBAN,
           SWIFT: context?.SWIFT,
+          amount: context?.amount,
         }),
 
         onDone: {
