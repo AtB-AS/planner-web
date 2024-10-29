@@ -71,10 +71,7 @@ function ContactPageLayout({ children }: ContactPageLayoutProps) {
   }, [pathname]);
 
   const handleSelectChange = (contactPage?: ContactPage) => {
-    if (contactPage) {
-      setSelectedContactPage(contactPage);
-      router.push(contactPage.href);
-    }
+    if (contactPage) router.push(contactPage.href);
   };
 
   return (
