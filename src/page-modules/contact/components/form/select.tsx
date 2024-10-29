@@ -5,7 +5,7 @@ import { Typo } from '@atb/components/typography';
 import style from './form.module.css';
 
 export type SelectProps<T> = {
-  label: string;
+  label?: string;
   onChange: (value?: T) => void;
   error?: string;
   value?: T;
@@ -39,9 +39,11 @@ export default function Select<T>({
 
   return (
     <div className={style.select}>
-      <label>
-        <Typo.span textType="body__primary">{label}</Typo.span>
-      </label>
+      {label && (
+        <label>
+          <Typo.span textType="body__primary">{label}</Typo.span>
+        </label>
+      )}
       <select
         id={`select-${id}`}
         onChange={(e) => onChangeInternal(e.target.value)}

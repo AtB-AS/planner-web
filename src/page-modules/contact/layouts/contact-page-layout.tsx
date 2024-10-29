@@ -1,12 +1,14 @@
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, useEffect, useState } from 'react';
 import style from './layout.module.css';
 import { PageText, TranslatedString, useTranslation } from '@atb/translations';
 import { usePathname } from 'next/navigation';
+import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { andIf } from '@atb/utils/css';
 import { Typo } from '@atb/components/typography';
 import { MonoIcon, MonoIcons } from '@atb/components/icon';
 import { ButtonLink } from '@atb/components/button';
+import { Select } from '../components';
 
 export type ContactPage = {
   title: TranslatedString;
@@ -56,6 +58,24 @@ export type ContactPageLayoutProps = PropsWithChildren<{
 function ContactPageLayout({ children }: ContactPageLayoutProps) {
   const { t } = useTranslation();
   const pathname = usePathname();
+  const router = useRouter();
+  const [selectedContactPage, setSelectedContactPage] = useState<
+    ContactPage | undefined
+  >(undefined);
+
+  useEffect(() => {
+    const activePage = contactPages.find((contactPage) =>
+      pathname.includes(contactPage.href),
+    );
+    setSelectedContactPage(activePage);
+  }, [pathname]);
+
+  const handleSelectChange = (contactPage?: ContactPage) => {
+    if (contactPage) {
+      setSelectedContactPage(contactPage);
+      router.push(contactPage.href);
+    }
+  };
 
   return (
     <div className={style.layout}>
@@ -64,14 +84,24 @@ function ContactPageLayout({ children }: ContactPageLayoutProps) {
           <ButtonLink
             mode="transparent"
             href="/"
-            title={t(PageText.Contact.homeLink)}
+            title={t(PageText.Contact.contactPageLayout.homeLink)}
             icon={{ left: <MonoIcon icon="navigation/ArrowLeft" /> }}
           />
         </div>
         <div className={style.layout__container}>
           <Typo.h2 textType="heading--jumbo">
-            {t(PageText.Contact.title)}
+            {t(PageText.Contact.contactPageLayout.title)}
           </Typo.h2>
+          <div className={style.contact_page_navigator__dropdown}>
+            <Select
+              options={contactPages}
+              value={selectedContactPage}
+              placeholder={t(PageText.Contact.contactPageLayout.placeholder)}
+              onChange={handleSelectChange}
+              valueToId={(contactPage) => contactPage.href}
+              valueToText={(contactPage) => t(contactPage.title)}
+            />
+          </div>
           <nav className={style.contact_page_navigator__container}>
             {contactPages.map((contactPage, index) => {
               const isActive = pathname.includes(contactPage.href);
