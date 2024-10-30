@@ -20,7 +20,7 @@ const TicketingContent = () => {
   };
 
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={onSubmit} className={style.form}>
       <SectionCard title={t(PageText.Contact.ticketing.title)}>
         <ul className={style.form_options__list}>
           {Object.values(FormCategory).map((formCategory) => (

@@ -1,5 +1,10 @@
 @value typo-body__secondary from "@atb/theme/typography.module.css";
 
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 .form_options__list {
   list-style-type: none;
 }
@@ -46,5 +51,6 @@
 }
 
 .submitButton {
-  width: 100%;
+  margin: var(--spacings-large);
+  margin-top: 0px;
 }

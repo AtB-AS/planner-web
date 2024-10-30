@@ -28,7 +28,7 @@ const TravelGuaranteeContent = () => {
   };
 
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={onSubmit} className={style.form}>
       <SectionCard title={t(PageText.Contact.travelGuarantee.title)}>
         <Typo.p textType="body__primary">
           {t(PageText.Contact.travelGuarantee.agreement.delayedRefundText)}
