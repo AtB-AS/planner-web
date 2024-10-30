@@ -65,7 +65,7 @@ export default function GroupTravelContent() {
       </SectionCard>
 
       {travelType === 'bus' && (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className={style.form}>
           <SectionCard
             title={t(PageText.Contact.groupTravel.travelTypeBus.radioLabel)}
           >

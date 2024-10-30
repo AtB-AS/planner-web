@@ -34,7 +34,7 @@ const TicketControlPageContent = () => {
   };
 
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={onSubmit} className={style.form}>
       <SectionCard title={t(PageText.Contact.ticketControl.title)}>
         <ul className={style.form_options__list}>
           {Object.values(FormType).map((formType) => (
