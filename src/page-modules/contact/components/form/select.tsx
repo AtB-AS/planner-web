@@ -1,8 +1,16 @@
 import { useId } from 'react';
 import ErrorMessage from './error-message';
-import { Typo } from '@atb/components/typography';
-
+import { MonoIcon } from '@atb/components/icon';
 import style from './form.module.css';
+import {
+  Button,
+  Key,
+  Label,
+  ListBox,
+  ListBoxItem,
+  Popover,
+  Select,
+} from 'react-aria-components';
 
 export type SelectProps<T> = {
   label?: string;
@@ -16,7 +24,7 @@ export type SelectProps<T> = {
   disabled?: boolean;
 };
 
-export default function Select<T>({
+export default function CustomeSelect<T>({
   label,
   onChange,
   error,
@@ -30,38 +38,72 @@ export default function Select<T>({
   const id = useId();
   const showError = !!error;
 
-  const findItemFromOptions = (id: string) =>
-    options.find((opt) => valueToId(opt) == id);
+  const findItemFromOptions = (key: string) =>
+    options.find((option) => valueToId(option) === key.toLowerCase());
 
-  const onChangeInternal = (val: string) => {
-    onChange(findItemFromOptions(val));
+  const onChangeInternal = (key: Key | null) => {
+    if (key === null) return;
+    onChange(findItemFromOptions(key.toString()));
   };
 
   return (
-    <div className={style.select}>
-      {label && (
-        <label>
-          <Typo.span textType="body__primary">{label}</Typo.span>
-        </label>
-      )}
-      <select
+    <div className={style.select__select_container}>
+      <Label>{label}</Label>
+      <Select
         id={`select-${id}`}
-        onChange={(e) => onChangeInternal(e.target.value)}
-        value={value ? valueToId(value) : placeholder}
-        className={style.select__select}
-        disabled={disabled}
+        onSelectionChange={onChangeInternal}
+        isDisabled={disabled}
       >
-        {placeholder && (
-          <option value={placeholder} disabled>
-            {placeholder}
-          </option>
-        )}
-        {options.map((option) => (
-          <option key={valueToId(option)} value={valueToId(option)}>
-            {valueToText(option)}
-          </option>
-        ))}
-      </select>
+        <Button className={style.select__button}>
+          {value ? (
+            <span>{valueToText(value)}</span>
+          ) : (
+            <span className={style.select__placholder}>{placeholder}</span>
+          )}
+          <MonoIcon icon={'navigation/ExpandMore'} />
+        </Button>
+        <Popover className={style.select__popover}>
+          <ListBox className={style.select__listBox}>
+            <ListBoxItem
+              isDisabled
+              textValue={placeholder}
+              className={style.select__listBoxItem}
+            >
+              <div className={style.select__item}>
+                <span>
+                  {!value ? <MonoIcon icon={'actions/Confirm'} /> : '\u00A0'}
+                </span>
+                <span>{placeholder}</span>
+              </div>
+            </ListBoxItem>
+            {options.map((option) => (
+              <ListBoxItem
+                id={`${valueToId(option)}`}
+                key={`key-option-${valueToId(option)}`}
+                textValue={valueToText(option)}
+                className={style.select__listBoxItem}
+              >
+                {({ isSelected, isFocused }) => (
+                  <div
+                    className={`${style.select__item} ${
+                      isFocused ? style.select__highlight : ''
+                    }`}
+                  >
+                    <span>
+                      {value && isSelected ? (
+                        <MonoIcon icon={'actions/Confirm'} />
+                      ) : (
+                        '\u00A0'
+                      )}
+                    </span>
+                    <span>{valueToText(option)}</span>
+                  </div>
+                )}
+              </ListBoxItem>
+            ))}
+          </ListBox>
+        </Popover>
+      </Select>
       {showError && <ErrorMessage message={error} />}
     </div>
   );

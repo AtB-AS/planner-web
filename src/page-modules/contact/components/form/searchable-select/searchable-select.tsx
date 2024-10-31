@@ -113,7 +113,7 @@ export default function SearchableSelect<T>({
             className={style.searchable_select__listBoxItem}
           >
             <div className={style.searchable_select__item}>
-              <span className={style.searchable_select__checkmark}>
+              <span>
                 {!value ? <MonoIcon icon={'actions/Confirm'} /> : '\u00A0'}
               </span>
               <span className={style.searchable_select__truncate}>
@@ -132,9 +132,9 @@ export default function SearchableSelect<T>({
                 <div
                   className={`${style.searchable_select__item} ${
                     isFocused ? style.searchable_select__highlight : ''
-                  } ${isSelected ? style.searchable_select__selected : ''}`}
+                  }`}
                 >
-                  <span className={style.searchable_select__checkmark}>
+                  <span>
                     {value && isSelected ? (
                       <MonoIcon icon={'actions/Confirm'} />
                     ) : (
