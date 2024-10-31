@@ -47,64 +47,61 @@ export default function CustomeSelect<T>({
   };
 
   return (
-    <div className={style.select__select_container}>
+    <Select
+      id={`select-${id}`}
+      onSelectionChange={onChangeInternal}
+      isDisabled={disabled}
+      className={style.select__select_container}
+    >
       <Label>{label}</Label>
-      <Select
-        id={`select-${id}`}
-        onSelectionChange={onChangeInternal}
-        isDisabled={disabled}
-      >
-        <Button className={style.select__button}>
-          {value ? (
-            <span>{valueToText(value)}</span>
-          ) : (
-            <span className={style.select__placholder}>{placeholder}</span>
-          )}
-          <MonoIcon icon={'navigation/ExpandMore'} />
-        </Button>
-        <Popover className={style.select__popover}>
-          <ListBox className={style.select__listBox}>
+      <Button className={style.select__button}>
+        {value ? (
+          <span>{valueToText(value)}</span>
+        ) : (
+          <span className={style.select__placholder}>{placeholder}</span>
+        )}
+        <MonoIcon icon={'navigation/ExpandMore'} />
+      </Button>
+      <Popover className={style.select__popover}>
+        <ListBox className={style.select__listBox}>
+          <ListBoxItem
+            isDisabled
+            textValue={placeholder}
+            className={style.select__listBoxItem}
+          >
+            <div className={style.select__item}>
+              <span className={style.select__placholder}>{placeholder}</span>
+              {!value && <MonoIcon icon={'actions/Confirm'} />}
+            </div>
+          </ListBoxItem>
+          {options.map((option) => (
             <ListBoxItem
-              isDisabled
-              textValue={placeholder}
+              id={`${valueToId(option)}`}
+              key={`key-option-${valueToId(option)}`}
+              textValue={valueToText(option)}
               className={style.select__listBoxItem}
             >
-              <div className={style.select__item}>
-                <span>
-                  {!value ? <MonoIcon icon={'actions/Confirm'} /> : '\u00A0'}
-                </span>
-                <span>{placeholder}</span>
-              </div>
+              {({ isSelected, isFocused }) => (
+                <div
+                  className={`${style.select__item} ${
+                    isFocused ? style.select__highlight : ''
+                  }`}
+                >
+                  <span>{valueToText(option)}</span>
+                  <span>
+                    {value && isSelected ? (
+                      <MonoIcon icon={'actions/Confirm'} />
+                    ) : (
+                      '\u00A0'
+                    )}
+                  </span>
+                </div>
+              )}
             </ListBoxItem>
-            {options.map((option) => (
-              <ListBoxItem
-                id={`${valueToId(option)}`}
-                key={`key-option-${valueToId(option)}`}
-                textValue={valueToText(option)}
-                className={style.select__listBoxItem}
-              >
-                {({ isSelected, isFocused }) => (
-                  <div
-                    className={`${style.select__item} ${
-                      isFocused ? style.select__highlight : ''
-                    }`}
-                  >
-                    <span>
-                      {value && isSelected ? (
-                        <MonoIcon icon={'actions/Confirm'} />
-                      ) : (
-                        '\u00A0'
-                      )}
-                    </span>
-                    <span>{valueToText(option)}</span>
-                  </div>
-                )}
-              </ListBoxItem>
-            ))}
-          </ListBox>
-        </Popover>
-      </Select>
+          ))}
+        </ListBox>
+      </Popover>
       {showError && <ErrorMessage message={error} />}
-    </div>
+    </Select>
   );
 }
