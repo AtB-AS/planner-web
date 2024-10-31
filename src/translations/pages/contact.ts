@@ -4,16 +4,20 @@ import { ReasonForTransportFailure } from '@atb/page-modules/contact/travel-guar
 import { translation as _ } from '@atb/translations/commons';
 
 export const Contact = {
-  title: _(
-    'Hva kan vi hjelpe deg med?',
-    'What can we help you with?',
-    'Kva kan vi hjelpe deg med?',
-  ),
-  homeLink: _(
-    'Tilbake til reisesøk',
-    'Back to travel search',
-    'Tilbake til reisesøk',
-  ),
+  contactPageLayout: {
+    title: _(
+      'Hva kan vi hjelpe deg med?',
+      'What can we help you with?',
+      'Kva kan vi hjelpe deg med?',
+    ),
+    homeLink: _(
+      'Tilbake til reisesøk',
+      'Back to travel search',
+      'Tilbake til reisesøk',
+    ),
+    placeholder: _('Velg et skjema', 'Select a form', 'Vel eit skjema'),
+  },
+
   ticketControl: {
     title: _(
       'Billettkontroll og gebyr',
