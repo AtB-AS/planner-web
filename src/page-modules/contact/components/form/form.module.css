@@ -439,17 +439,33 @@
 .searchable_select__item {
   width: 100%;
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
   gap: var(--spacings-small);
   padding: var(--spacings-small);
+}
+
+.select__item:active,
+.searchable_select__item:active {
+  background-color: var(--interactive-interactive_3-active-background);
+  color: var(--interactive-interactive_3-active-text);
+  z-index: 2;
 }
 
 .select__highlight,
 .searchable_select__highlight {
   position: relative;
   border-radius: var(--border-radius-small);
-  background-color: var(--interactive-interactive_2-hover-background);
+  background-color: var(--interactive-interactive_2-active-background);
+  color: var(--interactive-interactive_2-active-text);
+  z-index: 2;
+}
+
+.searchable_select__selected {
+  position: relative;
+  border-radius: var(--border-radius-small);
+  background-color: var(--interactive-interactive_2-active-background);
+  color: var(--interactive-interactive_2-active-text);
   z-index: 2;
 }
 
@@ -480,16 +496,13 @@
 .select__placholder {
   font-style: italic;
   opacity: 0.7;
+  padding-right: var(--spacings-small);
 }
-
 @media (max-width: 600px) {
-  .select,
-  .select__label,
-  .select__placholder,
   .select__listBoxItem,
+  .select__select_container,
   .searchable_select__comboBox,
-  .searchable_select__listBoxItem,
-  .searchable_select__input:not(:focus):placeholder-shown {
+  .searchable_select__listBoxItem {
     font-size: 1.25rem;
   }
   .select__popover,
