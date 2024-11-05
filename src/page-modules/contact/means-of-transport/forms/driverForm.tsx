@@ -5,6 +5,7 @@ import { Typo } from '@atb/components/typography';
 import { TransportModeType } from '../../types';
 import { Line } from '../..';
 import { meansOfTransportFormEvents } from '../events';
+import { format, subDays } from 'date-fns';
 import {
   SectionCard,
   Select,
@@ -14,6 +15,7 @@ import {
   SearchableSelect,
   getLineOptions,
   getStopOptions,
+  DateSelector,
 } from '../../components';
 
 type DriverFormProps = {
@@ -24,6 +26,7 @@ type DriverFormProps = {
 export const DriverForm = ({ state, send }: DriverFormProps) => {
   const { t } = useTranslation();
   const { getLinesByMode, getQuaysByLine } = useLines();
+  const yesterday = format(subDays(new Date(), 1), 'yyyy-MM-dd');
 
   return (
     <div>
@@ -150,17 +153,15 @@ export const DriverForm = ({ state, send }: DriverFormProps) => {
           }
         />
 
-        <Input
+        <DateSelector
           label={PageText.Contact.input.date.label}
-          type="date"
-          name="date"
+          min={yesterday}
           value={state.context.date}
-          errorMessage={state.context?.errorMessages['date']?.[0]}
-          onChange={(e) =>
+          onChange={(date) =>
             send({
               type: 'ON_INPUT_CHANGE',
               inputName: 'date',
-              value: e.target.value,
+              value: date,
             })
           }
         />

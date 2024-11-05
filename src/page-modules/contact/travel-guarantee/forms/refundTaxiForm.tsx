@@ -5,6 +5,7 @@ import { Line } from '../..';
 import { TravelGuaranteeFormEvents } from '../events';
 import { ContextProps } from '../travelGuaranteeFormMachine';
 import { Typo } from '@atb/components/typography';
+import { format, subDays } from 'date-fns';
 import {
   SectionCard,
   Input,
@@ -15,6 +16,7 @@ import {
   SearchableSelect,
   getLineOptions,
   getStopOptions,
+  DateSelector,
 } from '../../components';
 
 type RefundTaxiFormProps = {
@@ -25,6 +27,7 @@ type RefundTaxiFormProps = {
 export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
   const { t } = useTranslation();
   const { getLinesByMode, getQuaysByLine } = useLines();
+  const yesterday = format(subDays(new Date(), 1), 'yyyy-MM-dd');
 
   return (
     <div>
@@ -156,20 +159,19 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
           }
         />
 
-        <Input
+        <DateSelector
           label={PageText.Contact.input.date.label}
-          type="date"
-          name="date"
+          min={yesterday}
           value={state.context.date}
-          errorMessage={state.context?.errorMessages['date']?.[0]}
-          onChange={(e) =>
+          onChange={(date) =>
             send({
               type: 'ON_INPUT_CHANGE',
               inputName: 'date',
-              value: e.target.value,
+              value: date,
             })
           }
         />
+
         <Input
           label={PageText.Contact.input.plannedDepartureTime.label}
           type="time"
