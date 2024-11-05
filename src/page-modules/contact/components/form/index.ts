@@ -7,6 +7,7 @@ export { default as Radio } from './radio';
 export { default as Select } from './select';
 export { default as Textarea } from './textarea';
 export { default as DateSelector } from './date-selector';
+export { default as TimeSelector } from './time-selector';
 export {
   SearchableSelect,
   getLineOptions,
