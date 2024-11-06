@@ -10,7 +10,7 @@ import { Button } from '@atb/components/button';
 
 type InputProps = {
   label: TranslatedString;
-  description?: string;
+  description?: string | TranslatedString[];
   errorMessage?: TranslatedString;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 } & JSX.IntrinsicElements['input'];

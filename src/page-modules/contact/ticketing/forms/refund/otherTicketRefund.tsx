@@ -1,4 +1,4 @@
-import { PageText, useTranslation } from '@atb/translations';
+import { PageText, TranslatedString, useTranslation } from '@atb/translations';
 import { ticketingFormEvents } from '../../events';
 import { TicketingContextType } from '../../ticketingStateMachine';
 import { Typo } from '@atb/components/typography';
@@ -80,7 +80,11 @@ const RefundSection = ({ state, send }: RefundSectionProps) => {
         label={PageText.Contact.input.orderId.label(false)}
         type="text"
         name="orderId"
-        description={t(PageText.Contact.input.orderId.description(false))}
+        description={
+          PageText.Contact.input.orderId.description(
+            false,
+          ) as TranslatedString[]
+        }
         value={state.context.orderId || ''}
         errorMessage={state.context?.errorMessages['orderId']?.[0]}
         onChange={(e) =>

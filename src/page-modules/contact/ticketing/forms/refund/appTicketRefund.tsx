@@ -1,7 +1,6 @@
-import { PageText, useTranslation } from '@atb/translations';
+import { PageText, TranslatedString, useTranslation } from '@atb/translations';
 import { ticketingFormEvents } from '../../events';
 import { TicketingContextType } from '../../ticketingStateMachine';
-import { Typo } from '@atb/components/typography';
 import { SectionCard, Input } from '../../../components';
 
 type AppTicketRefundProps = {
@@ -36,7 +35,11 @@ export const AppTicketRefund = ({ state, send }: AppTicketRefundProps) => {
         label={PageText.Contact.input.orderId.label(true)}
         type="text"
         name="orderId"
-        description={t(PageText.Contact.input.orderId.description(true))}
+        description={
+          PageText.Contact.input.orderId.description(
+            false,
+          ) as TranslatedString[]
+        }
         value={state.context.orderId || ''}
         errorMessage={state.context?.errorMessages['orderId']?.[0]}
         onChange={(e) =>
