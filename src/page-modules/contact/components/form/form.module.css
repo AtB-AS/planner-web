@@ -589,6 +589,7 @@
   padding: var(--spacings-xSmall) var(--spacings-medium);
   cursor: pointer;
   text-align: center;
+  border-radius: var(--border-radius-small);
 }
 
 .calendarGrid__cell[data-disabled] {
@@ -613,7 +614,6 @@
   display: flex;
   border: var(--border-width-slim) solid var(--text-colors-primary);
   width: 100%;
-  border-radius: var(--border-radius-small);
 
   border: var(--border-width-slim) solid var(--text-colors-primary);
   align-items: center;
