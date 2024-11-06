@@ -1554,9 +1554,9 @@ export const Contact = {
         expectsSingleOrderId
           ? [
               _(
-              'Ordre-id finner du på billetten i appen eller på kvitteringen din. Du finner ordre-id også på utgåtte billetter.',
-              'The order ID can be found on the ticket in the app or on your receipt. You can also find the order ID on expired tickets.',
-              'Ordre-id finn du på billetten i appen eller på kvitteringa di. Du finn ordre-id også på utgåtte billettar.',
+                'Ordre-id finner du på billetten i appen eller på kvitteringen din. Du finner ordre-id også på utgåtte billetter.',
+                'The order ID can be found on the ticket in the app or on your receipt. You can also find the order ID on expired tickets.',
+                'Ordre-id finn du på billetten i appen eller på kvitteringa di. Du finn ordre-id også på utgåtte billettar.',
               ),
             ]
           : [
@@ -1569,7 +1569,7 @@ export const Contact = {
                 `Ved flere ordre-id-er, skill med komma (',').`,
                 `For multiple order IDs, separate with commas (',').`,
                 `Ved flere ordre-id-er, skill med komma (',').`,
-            ),
+              ),
             ],
 
       errorMessages: {
@@ -1597,9 +1597,9 @@ export const Contact = {
         {
           id: 'periodTicket',
           name: _(
-            'Periodebillet (sonebasert)',
+            'Periodebillett (sonebasert)',
             'Period ticket (zone-based)',
-            'Periodebillet (sonebasert)',
+            'Periodebillett (sonebasert)',
           ),
         },
         {
@@ -1637,9 +1637,9 @@ export const Contact = {
         {
           id: 'periodTicket',
           name: _(
-            'Periodebillet (sonebasert)',
+            'Periodebillett (sonebasert)',
             'Period ticket (zone-based)',
-            'Periodebillet (sonebasert)',
+            'Periodebillett (sonebasert)',
           ),
         },
         {
