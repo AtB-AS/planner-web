@@ -1,5 +1,5 @@
 import { assign, fromPromise, setup } from 'xstate';
-import { ticketingFormEvents } from './events';
+import { RefundReason, ticketingFormEvents, TicketType } from './events';
 import { commonInputValidator, InputErrorMessages } from '../validation';
 import { convertFilesToBase64 } from '../utils';
 
@@ -25,6 +25,11 @@ export enum WebshopForm {
 export enum TravelCardForm {
   OrderTravelCard = 'orderTravelCard',
   TravelCardQuestion = 'travelCardQuestion',
+}
+
+export enum RefundForm {
+  AppTicketRefund = 'appTicketRefund',
+  OtherTicketRefund = 'otherTicketRefund',
 }
 
 enum FormType {
@@ -57,6 +62,7 @@ type SubmitInput = {
   orderId?: string;
   customerNumber?: string;
   travelCardNumber?: string;
+  ticketType?: TicketType;
   refundReason?: string;
   amount?: string;
 };
@@ -79,8 +85,10 @@ export type TicketingContextType = {
   orderId?: string;
   customerNumber?: string;
   travelCardNumber?: string;
+  ticketType?: TicketType;
   refundReason?: string;
   amount?: string;
+  isInitialAgreementChecked?: boolean;
   errorMessages: InputErrorMessages;
 };
 
@@ -103,6 +111,7 @@ const setInputsToValidate = (context: TicketingContextType) => {
     orderId,
     customerNumber,
     travelCardNumber,
+    ticketType,
     refundReason,
     amount,
   } = context;
@@ -182,6 +191,7 @@ const setInputsToValidate = (context: TicketingContextType) => {
     case FormType.OtherTicketRefund:
       return {
         formType,
+        ticketType,
         travelCardNumber,
         refundReason,
         amount,
@@ -237,6 +247,14 @@ export const ticketingStateMachine = setup({
 
         context.errorMessages[inputName] = [];
 
+        if (inputName === 'isInitialAgreementChecked' && !value) {
+          return {
+            ...context,
+            isInitialAgreementChecked: false,
+            formType: undefined,
+          };
+        }
+
         return {
           ...context,
           [inputName]: value,
@@ -272,6 +290,7 @@ export const ticketingStateMachine = setup({
   initial: 'editing',
   context: {
     hasInternationalBankAccount: false,
+    isInitialAgreementChecked: false,
     errorMessages: {},
   },
   on: {
@@ -293,6 +312,10 @@ export const ticketingStateMachine = setup({
 
     SELECT_TRAVELCARD_FORM: {
       target: '#travelCardFormHandler',
+    },
+
+    SELECT_REFUND_FORM: {
+      target: '#refundFormHandler',
     },
 
     SUBMIT: { target: '#validating' },
@@ -392,6 +415,23 @@ export const ticketingStateMachine = setup({
         },
       ],
     },
+    refundFormHandler: {
+      id: 'refundFormHandler',
+      always: [
+        {
+          guard: ({ event }) =>
+            event.type === 'SELECT_REFUND_FORM' &&
+            event.refundForm === RefundForm.AppTicketRefund,
+          target: `#${RefundForm.AppTicketRefund}`,
+        },
+        {
+          guard: ({ event }) =>
+            event.type === 'SELECT_REFUND_FORM' &&
+            event.refundForm === RefundForm.OtherTicketRefund,
+          target: `#${RefundForm.OtherTicketRefund}`,
+        },
+      ],
+    },
 
     editing: {
       initial: 'selectFormCategory',
@@ -478,8 +518,24 @@ export const ticketingStateMachine = setup({
         },
         refund: {
           id: 'refund',
+          initial: 'selectRefundForm',
           entry: 'setFormTypeToUndefined',
           exit: 'clearValidationErrors',
+          states: {
+            selectRefundForm: {},
+            appTicketRefund: {
+              id: 'appTicketRefund',
+              entry: assign({
+                formType: () => FormType.AppTicketRefund,
+              }),
+            },
+            otherTicketRefund: {
+              id: 'otherTicketRefund',
+              entry: assign({
+                formType: () => FormType.OtherTicketRefund,
+              }),
+            },
+          },
         },
         history: {
           type: 'history',
@@ -522,6 +578,7 @@ export const ticketingStateMachine = setup({
           orderId: context.orderId,
           customerNumber: context.customerNumber,
           travelCardNumber: context.travelCardNumber,
+          ticketType: context.ticketType,
           refundReason: context.refundReason,
           amount: context.amount,
         }),

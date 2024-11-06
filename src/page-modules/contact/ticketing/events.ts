@@ -5,15 +5,26 @@ import {
   FormCategory,
   WebshopForm,
   TravelCardForm,
+  RefundForm,
 } from './ticketingStateMachine';
 
 export type RefundReason = { id: string; name: TranslatedString };
+export type TicketType = { id: string; name: TranslatedString };
 
 const ticketingSpecificFormEvents = {} as
   | {
       type: 'ON_INPUT_CHANGE';
-      inputName: 'question' | 'orderId' | 'customerNumber' | 'travelCardNumber';
-      value: string;
+      inputName:
+        | 'question'
+        | 'orderId'
+        | 'customerNumber'
+        | 'travelCardNumber'
+        | 'refundReason'
+        | 'ticketType'
+        | 'amount'
+        | 'isInitialAgreementChecked'
+        | 'hasInternationalBankAccount';
+      value: string | boolean | TicketType;
     }
   | {
       type: 'ON_SET_STATE';
@@ -34,6 +45,10 @@ const ticketingSpecificFormEvents = {} as
   | {
       type: 'SELECT_TRAVELCARD_FORM';
       travelCardForm: TravelCardForm;
+    }
+  | {
+      type: 'SELECT_REFUND_FORM';
+      refundForm: RefundForm;
     }
   | {
       type: 'SUBMIT';
