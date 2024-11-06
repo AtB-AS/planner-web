@@ -4,7 +4,6 @@ import { TransportModeType } from '../../types';
 import { Line } from '../..';
 import { TravelGuaranteeFormEvents } from '../events';
 import { ContextProps } from '../travelGuaranteeFormMachine';
-import { format, subDays } from 'date-fns';
 import {
   SectionCard,
   Input,
@@ -26,7 +25,6 @@ type RefundCarFormProps = {
 export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
   const { t } = useTranslation();
   const { getLinesByMode, getQuaysByLine } = useLines();
-  const yesterday = format(subDays(new Date(), 1), 'yyyy-MM-dd');
 
   return (
     <div>
@@ -175,7 +173,6 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
 
         <DateSelector
           label={PageText.Contact.input.date.label}
-          min={yesterday}
           value={state.context.date}
           onChange={(date) =>
             send({

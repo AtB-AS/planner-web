@@ -5,7 +5,6 @@ import { Typo } from '@atb/components/typography';
 import { TransportModeType } from '../../types';
 import { Line } from '../..';
 import { meansOfTransportFormEvents } from '../events';
-import { format, subDays } from 'date-fns';
 import {
   SectionCard,
   Select,
@@ -26,7 +25,6 @@ type StopFormProps = {
 export const StopForm = ({ state, send }: StopFormProps) => {
   const { t } = useTranslation();
   const { getLinesByMode, getQuaysByLine } = useLines();
-  const yesterday = format(subDays(new Date(), 1), 'yyyy-MM-dd');
 
   return (
     <div>
@@ -109,7 +107,6 @@ export const StopForm = ({ state, send }: StopFormProps) => {
 
         <DateSelector
           label={PageText.Contact.input.date.label}
-          min={yesterday}
           value={state.context.date}
           onChange={(date) =>
             send({

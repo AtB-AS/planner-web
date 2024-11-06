@@ -5,7 +5,6 @@ import { Typo } from '@atb/components/typography';
 import { TransportModeType } from '../../types';
 import { Line } from '../..';
 import { meansOfTransportFormEvents } from '../events';
-import { format, subDays } from 'date-fns';
 import {
   SectionCard,
   Select,
@@ -26,7 +25,6 @@ type InjuryFormProps = {
 export const InjuryForm = ({ state, send }: InjuryFormProps) => {
   const { t } = useTranslation();
   const { getLinesByMode, getQuaysByLine } = useLines();
-  const yesterday = format(subDays(new Date(), 1), 'yyyy-MM-dd');
 
   return (
     <div>
@@ -154,7 +152,6 @@ export const InjuryForm = ({ state, send }: InjuryFormProps) => {
 
         <DateSelector
           label={PageText.Contact.input.date.label}
-          min={yesterday}
           value={state.context.date}
           onChange={(date) =>
             send({

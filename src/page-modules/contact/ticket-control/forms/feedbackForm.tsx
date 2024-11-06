@@ -5,7 +5,6 @@ import { ticketControlFormEvents } from '../events';
 import { ContextProps } from '../ticket-control-form-machine';
 import { TransportModeType } from '../../types';
 import { useLines } from '../../lines/use-lines';
-import { format, subDays } from 'date-fns';
 import {
   SectionCard,
   Input,
@@ -26,7 +25,6 @@ type FeedbackFormProps = {
 export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
   const { t } = useTranslation();
   const { getLinesByMode, getQuaysByLine } = useLines();
-  const yesterday = format(subDays(new Date(), 1), 'yyyy-MM-dd');
 
   return (
     <div>
@@ -123,7 +121,6 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
 
         <DateSelector
           label={PageText.Contact.input.date.label}
-          min={yesterday}
           value={state.context.date}
           onChange={(date) =>
             send({

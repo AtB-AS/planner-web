@@ -20,7 +20,6 @@ import {
 export type DateSelectorProps = {
   label: TranslatedString;
   value?: string;
-  min: string;
   onChange: (value: string) => void;
 };
 
@@ -28,7 +27,6 @@ export default function DateSelector({
   label,
   value,
   onChange,
-  min,
 }: DateSelectorProps) {
   const { t } = useTranslation();
 
@@ -39,7 +37,6 @@ export default function DateSelector({
         granularity="day"
         value={fromDate(new Date(value || ''), 'Europe/Oslo')}
         onChange={(e) => onChange(e.toString().slice(0, 10))}
-        minValue={parseDate(min)}
         className={style.dateSelector}
         shouldForceLeadingZeros
       >
