@@ -15,6 +15,7 @@ import {
   SearchableSelect,
   getLineOptions,
   getStopOptions,
+  DateSelector,
 } from '../../components';
 
 type RefundTaxiFormProps = {
@@ -156,20 +157,18 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
           }
         />
 
-        <Input
+        <DateSelector
           label={PageText.Contact.input.date.label}
-          type="date"
-          name="date"
           value={state.context.date}
-          errorMessage={state.context?.errorMessages['date']?.[0]}
-          onChange={(e) =>
+          onChange={(date) =>
             send({
               type: 'ON_INPUT_CHANGE',
               inputName: 'date',
-              value: e.target.value,
+              value: date,
             })
           }
         />
+
         <Input
           label={PageText.Contact.input.plannedDepartureTime.label}
           type="time"
