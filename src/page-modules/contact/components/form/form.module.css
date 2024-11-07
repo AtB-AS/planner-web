@@ -606,17 +606,14 @@
 
 .dateSelectorInput,
 .timeSelectorInput {
+  width: 100%;
   height: var(--height);
+  display: flex;
+  align-items: center;
   padding: var(--spacings-medium);
   color: var(--static-background-background_0-text);
-  border-top-right-radius: 0.75rem;
-  border-bottom-right-radius: 0.75rem;
-  display: flex;
+  border-radius: var(--border-radius-small);
   border: var(--border-width-slim) solid var(--text-colors-primary);
-  width: 100%;
-
-  border: var(--border-width-slim) solid var(--text-colors-primary);
-  align-items: center;
 }
 
 .dateSelector input[type='date']:focus,
