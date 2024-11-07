@@ -22,7 +22,7 @@ export default function TimeSelector({
   const parsedValue = parseTime(value);
 
   return (
-    <div className={style.time_field_container}>
+    <div className={style.timeSelectorContainer}>
       <Label>{t(label)}</Label>
       <TimeField
         value={parsedValue}

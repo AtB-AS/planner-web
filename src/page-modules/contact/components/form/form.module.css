@@ -500,18 +500,18 @@
 }
 
 /* Time and date selector */
-.dateSelectorContainer {
+.dateSelectorContainer,
+.timeSelectorContainer {
   display: flex;
   flex-direction: column;
   gap: var(--spacings-small);
-  font-size: 1rem !important;
 }
 
 .dateSelector,
 .timeSelector {
   --height: 2.75rem;
-  border-radius: var(--border-radius-small);
   overflow: hidden;
+  border-radius: var(--border-radius-small);
 }
 
 .dateSelector input[type='date'],
