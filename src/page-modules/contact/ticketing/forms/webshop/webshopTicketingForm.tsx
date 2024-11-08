@@ -1,4 +1,4 @@
-import { PageText, TranslatedString, useTranslation } from '@atb/translations';
+import { PageText, useTranslation } from '@atb/translations';
 import { ticketingFormEvents } from '../../events';
 import { TicketingContextType } from '../../ticketingStateMachine';
 import { Typo } from '@atb/components/typography';
@@ -20,14 +20,9 @@ export const WebshopTicketingForm = ({
       <SectionCard
         title={t(PageText.Contact.ticketing.webshop.webshopTicketing.title)}
       >
-        {PageText.Contact.input.orderId
-          .description(false)
-          .map((desc, index) => (
-            <Typo.p textType="body__primary" key={index}>
-              {t(desc)}
-            </Typo.p>
-          ))}
-
+        <Typo.p textType="body__primary">
+          {t(PageText.Contact.input.orderId.description(false))}
+        </Typo.p>
         <Input
           label={PageText.Contact.input.orderId.label(false)}
           type="text"

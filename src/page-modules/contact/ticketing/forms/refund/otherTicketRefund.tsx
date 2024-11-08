@@ -1,4 +1,4 @@
-import { PageText, TranslatedString, useTranslation } from '@atb/translations';
+import { PageText, useTranslation } from '@atb/translations';
 import { ticketingFormEvents } from '../../events';
 import { TicketingContextType } from '../../ticketingStateMachine';
 import { Typo } from '@atb/components/typography';
@@ -9,6 +9,7 @@ import {
   Select,
   Textarea,
   FileInput,
+  Radio,
 } from '../../../components';
 
 type OtherTicketRefundProps = {
@@ -45,46 +46,73 @@ const RefundSection = ({ state, send }: RefundSectionProps) => {
             : undefined
         }
       />
-      <Input
-        label={PageText.Contact.input.travelCardNumber.label}
-        type="number"
-        name="travelCardNumber"
-        value={state.context.travelCardNumber || ''}
-        errorMessage={state.context.errorMessages['travelCardNumber']?.[0]}
-        onChange={(e) =>
+
+      <Radio
+        label={t(PageText.Contact.input.travelCardNumber.labelRadioButton)}
+        name="showInputTravelCardNumber"
+        checked={state.context.showInputTravelCardNumber}
+        onChange={() =>
           send({
             type: 'ON_INPUT_CHANGE',
-            inputName: 'travelCardNumber',
-            value: e.target.value,
+            inputName: 'showInputTravelCardNumber',
+            value: !state.context.showInputTravelCardNumber,
           })
         }
       />
 
-      <Input
-        label={PageText.Contact.input.customerNumber.label}
-        type="text"
-        name="customerNumber"
-        description={t(PageText.Contact.input.customerNumber.description)}
-        value={state.context.customerNumber || ''}
-        errorMessage={state.context?.errorMessages['customerNumber']?.[0]}
-        onChange={(e) =>
+      <Radio
+        label={t(PageText.Contact.input.customerNumber.label)}
+        name="isAppTicketStorageMode"
+        checked={!state.context.showInputTravelCardNumber}
+        onChange={() =>
           send({
             type: 'ON_INPUT_CHANGE',
-            inputName: 'customerNumber',
-            value: e.target.value,
+            inputName: 'showInputTravelCardNumber',
+            value: !state.context.showInputTravelCardNumber,
           })
         }
       />
+
+      {state.context.showInputTravelCardNumber && (
+        <Input
+          label={PageText.Contact.input.travelCardNumber.label}
+          type="number"
+          name="travelCardNumber"
+          value={state.context.travelCardNumber || ''}
+          errorMessage={state.context.errorMessages['travelCardNumber']?.[0]}
+          onChange={(e) =>
+            send({
+              type: 'ON_INPUT_CHANGE',
+              inputName: 'travelCardNumber',
+              value: e.target.value,
+            })
+          }
+        />
+      )}
+
+      {!state.context.showInputTravelCardNumber && (
+        <Input
+          label={PageText.Contact.input.customerNumber.label}
+          type="text"
+          name="customerNumber"
+          description={t(PageText.Contact.input.customerNumber.description)}
+          value={state.context.customerNumber || ''}
+          errorMessage={state.context?.errorMessages['customerNumber']?.[0]}
+          onChange={(e) =>
+            send({
+              type: 'ON_INPUT_CHANGE',
+              inputName: 'customerNumber',
+              value: e.target.value,
+            })
+          }
+        />
+      )}
 
       <Input
         label={PageText.Contact.input.orderId.label(false)}
         type="text"
         name="orderId"
-        description={
-          PageText.Contact.input.orderId.description(
-            false,
-          ) as TranslatedString[]
-        }
+        description={t(PageText.Contact.input.orderId.description(false))}
         value={state.context.orderId || ''}
         errorMessage={state.context?.errorMessages['orderId']?.[0]}
         onChange={(e) =>

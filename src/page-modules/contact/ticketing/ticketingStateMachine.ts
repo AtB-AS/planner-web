@@ -1,5 +1,5 @@
 import { assign, fromPromise, setup } from 'xstate';
-import { RefundReason, ticketingFormEvents, TicketType } from './events';
+import { ticketingFormEvents, TicketType } from './events';
 import { commonInputValidator, InputErrorMessages } from '../validation';
 import { convertFilesToBase64 } from '../utils';
 
@@ -89,6 +89,7 @@ export type TicketingContextType = {
   refundReason?: string;
   amount?: string;
   isInitialAgreementChecked?: boolean;
+  showInputTravelCardNumber?: boolean;
   errorMessages: InputErrorMessages;
 };
 
@@ -114,6 +115,7 @@ const setInputsToValidate = (context: TicketingContextType) => {
     ticketType,
     refundReason,
     amount,
+    showInputTravelCardNumber,
   } = context;
 
   const commonAppFields = {
@@ -192,7 +194,9 @@ const setInputsToValidate = (context: TicketingContextType) => {
       return {
         formType,
         ticketType,
-        travelCardNumber,
+        ...(showInputTravelCardNumber
+          ? { travelCardNumber }
+          : { customerNumber }),
         refundReason,
         amount,
         firstName,
@@ -291,6 +295,7 @@ export const ticketingStateMachine = setup({
   context: {
     hasInternationalBankAccount: false,
     isInitialAgreementChecked: false,
+    showInputTravelCardNumber: true,
     errorMessages: {},
   },
   on: {

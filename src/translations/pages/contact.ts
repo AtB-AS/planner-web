@@ -1002,9 +1002,9 @@ export const Contact = {
       ),
       errorMessages: {
         empty: _(
-          'Vennligst fyll ut informasjon om deg',
-          'Please provide your information',
-          'Vennligst fyll ut din informasjon',
+          'Vennligst fyll ut fornavnet ditt',
+          'Please enter your firstname',
+          'Vennligst fyll ut fornamnet ditt',
         ),
       },
     },
@@ -1018,9 +1018,9 @@ export const Contact = {
       ),
       errorMessages: {
         empty: _(
-          'Vennligst fyll ut informasjon om deg',
-          'Please provide your information',
-          'Vennligst fyll ut din informasjon',
+          'Vennligst fyll ut etternavnet ditt',
+          'Please enter your lastname',
+          'Vennligst fyll ut etternamnet ditt',
         ),
       },
     },
@@ -1047,9 +1047,9 @@ export const Contact = {
       },
       errorMessages: {
         empty: _(
-          'Vennligst fyll ut informasjon om deg',
-          'Please provide your information',
-          'Vennligst fyll ut din informasjon',
+          'Vennligst fyll ut e-post adressen din',
+          'Please enter your email address',
+          'Vennligst fyll ut e-post adressa di',
         ),
       },
     },
@@ -1058,9 +1058,9 @@ export const Contact = {
       label: _('Adresse', 'Address', 'Adresse'),
       errorMessages: {
         empty: _(
-          'Vennligst fyll ut informasjon om deg',
-          'Please provide your information',
-          'Vennligst fyll ut din informasjon',
+          'Vennligst fyll ut boligadressen din',
+          'Please enter your residential address',
+          'Vennligst fyll ut bostedsadressa di',
         ),
       },
     },
@@ -1069,9 +1069,9 @@ export const Contact = {
       label: _('Postnummer', 'Postal code', 'Postnummer'),
       errorMessages: {
         empty: _(
-          'Vennligst fyll ut informasjon om deg',
-          'Please provide your information',
-          'Vennligst fyll ut din informasjon',
+          'Vennligst fyll ut postnummer',
+          'Please enter your postal code',
+          'Vennligst fyll ut postnummer',
         ),
       },
     },
@@ -1080,15 +1080,15 @@ export const Contact = {
       label: _('Bosted', 'City', 'Bustad'),
       errorMessages: {
         empty: _(
-          'Vennligst fyll ut informasjon om deg',
-          'Please provide your information',
-          'Vennligst fyll ut din informasjon',
+          'Vennligst fyll ut ditt bosted',
+          'Please enter your residiential city',
+          'Vennligst fyll ut bostaden di',
         ),
       },
     },
 
     phoneNumber: {
-      label: _('Telefonnummer', 'Phonenumber', 'Telefonnummer'),
+      label: _('Telefonnummer', 'Phone number', 'Telefonnummer'),
       labelOptional: _(
         'Telefonnummer (valgfritt)',
         'Phone number (optional)',
@@ -1096,9 +1096,9 @@ export const Contact = {
       ),
       errorMessages: {
         empty: _(
-          'Vennligst fyll ut informasjon om deg',
-          'Please provide your information',
-          'Vennligst fyll ut din informasjon',
+          'Vennligst fyll ut ditt telefonummer',
+          'Please enter your phone number',
+          'Vennligst fyll ut ditt telefonummer',
         ),
       },
     },
@@ -1503,7 +1503,8 @@ export const Contact = {
     },
 
     travelCardNumber: {
-      label: _('Reisekort', 'Travelcard', 'Reisekort'),
+      labelRadioButton: _('Reisekort', 'Travelcard', 'Reisekort'),
+      label: _('Reisekortnummer', 'Travelcard number', 'Reisekortnummer'),
       info: _(
         'Legg inn reisekortnummeret her hvis du allerede har et reisekort. Reisekortnummeret finner du på baksiden av reisekortet ditt',
         'Enter the travel card number here if you already have a travel card. The travel card number can be found on the back of your travel card',
@@ -1511,9 +1512,9 @@ export const Contact = {
       ),
       errorMessages: {
         empty: _(
-          'Legg til reisekort',
+          'Legg til reisekortnummer',
           'Enter travelcard number',
-          'Legg til reisekort',
+          'Legg til reisekortnummer',
         ),
       },
     },
@@ -1552,25 +1553,16 @@ export const Contact = {
           : _('Ordre-id(er)', 'Order ID(s)', 'Ordre-id(er)'),
       description: (expectsSingleOrderId: boolean) =>
         expectsSingleOrderId
-          ? [
-              _(
-                'Ordre-id finner du på billetten i appen eller på kvitteringen din. Du finner ordre-id også på utgåtte billetter.',
-                'The order ID can be found on the ticket in the app or on your receipt. You can also find the order ID on expired tickets.',
-                'Ordre-id finn du på billetten i appen eller på kvitteringa di. Du finn ordre-id også på utgåtte billettar.',
-              ),
-            ]
-          : [
-              _(
-                'Hvis du vil ha hjelp med en billett du allerede har kjøpt, trenger vi å vite ordre-id. Den finner du på billetten i appen, eller på kvitteringen din. Du finner ordre-id også på utgåtte billetter. Gjelder forespørslen din flere billetter, må du huske å sende med ordre-id for alle billettene.',
-                'If you want help with a ticket you have already bought, we need to know the order ID. You can find it on the ticket in the app, or on your receipt. You can also find the order ID on expired tickets. If your request concerns several tickets, you must remember to send with the order ID for all the tickets.',
-                'Viss du vil ha hjelp med ein billett du allereie har kjøpt, treng vi å vite ordre-id. Den finn du på billetten i appen, eller på kvitteringa di. Du finn ordre-id også på utgåtte billettar. Gjeld førespurnaden din fleire billettar, må du hugse å sende med ordre-id for alle billettane.',
-              ),
-              _(
-                `Ved flere ordre-id-er, skill med komma (',').`,
-                `For multiple order IDs, separate with commas (',').`,
-                `Ved flere ordre-id-er, skill med komma (',').`,
-              ),
-            ],
+          ? _(
+              'Ordre-id finner du på billetten i appen eller på kvitteringen din. Du finner ordre-id også på utgåtte billetter.',
+              'The order ID can be found on the ticket in the app or on your receipt. You can also find the order ID on expired tickets.',
+              'Ordre-id finn du på billetten i appen eller på kvitteringa di. Du finn ordre-id også på utgåtte billettar.',
+            )
+          : _(
+              "Hvis du vil ha hjelp med en billett du allrede har kjøpt, trenger vi å vite ordre-id. Den finner du på billetten i appen, eller på kvitteringen din. Du finner ordre-id også på utgåtte billetter. Gjelder forespørslen din flere billetter, må du huske å sende med ordre-id for alle billettene. Ved flere ordre-id-er, skill med komma (',').",
+              "If you want help with a ticket you have already bought, we need to know the order ID. You can find it on the ticket in the app, or on your receipt. You can also find the order ID on expired tickets. If your request concerns several tickets, you must remember to send with the order ID for all the tickets. For multiple order IDs, separate with commas (',').",
+              "Viss du vil ha hjelp med ein billett du allereie har kjøpt, treng vi å vite ordre-id. Den finn du på billetten i appen, eller på kvitteringa di. Du finn ordre-id også på utgåtte billettar. Gjeld førespurnaden din fleire billettar, må du hugse å sende med ordre-id for alle billettane. Ved flere ordre-id-er, skill med komma (',').",
+            ),
 
       errorMessages: {
         empty: _('Ordre-id mangler', 'Order-id is missing', 'Ordre-id manglar'),

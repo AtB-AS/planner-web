@@ -5,11 +5,11 @@ import { FocusScope } from '@react-aria/focus';
 import { MonoIcon } from '@atb/components/icon';
 import { useEffect, useRef } from 'react';
 import { Button } from '@atb/components/button';
-import { PageText, TranslatedString, useTranslation } from '@atb/translations';
+import { PageText, useTranslation } from '@atb/translations';
 
 type DescriptionModalProps = {
   title: string;
-  description: string | TranslatedString[];
+  description: string;
   isModalOpen: boolean;
   closeModal: () => void;
 };
@@ -36,7 +36,6 @@ const DescriptionModal = ({
   };
 
   useEffect(() => {
-    console.log(description);
     document.addEventListener('keydown', handleEscapeOrClickOutside);
     document.addEventListener('mousedown', handleEscapeOrClickOutside);
 
@@ -85,15 +84,7 @@ const DescriptionModal = ({
                 }}
               />
             </div>
-            {Array.isArray(description) ? (
-              description.map((desc, index) => (
-                <Typo.p textType="body__primary" key={index}>
-                  {t(desc)}
-                </Typo.p>
-              ))
-            ) : (
-              <Typo.p textType="body__primary">{description}</Typo.p>
-            )}
+            <Typo.p textType="body__primary">{description}</Typo.p>
           </dialog>
         </motion.div>
       </FocusScope>

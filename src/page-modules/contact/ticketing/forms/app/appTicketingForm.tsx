@@ -1,4 +1,4 @@
-import { PageText, TranslatedString, useTranslation } from '@atb/translations';
+import { PageText, useTranslation } from '@atb/translations';
 import { ticketingFormEvents } from '../../events';
 import { TicketingContextType } from '../../ticketingStateMachine';
 import { Typo } from '@atb/components/typography';
@@ -19,11 +19,7 @@ export const AppTicketingForm = ({ state, send }: AppTicketingFormProps) => {
           label={PageText.Contact.input.orderId.label(false)}
           type="text"
           name="orderId"
-          description={
-            PageText.Contact.input.orderId.description(
-              false,
-            ) as TranslatedString[]
-          }
+          description={t(PageText.Contact.input.orderId.description(false))}
           value={state.context.orderId || ''}
           errorMessage={state.context?.errorMessages['orderId']?.[0]}
           onChange={(e) =>
