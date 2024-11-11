@@ -1,7 +1,6 @@
 import { PageText, useTranslation } from '@atb/translations';
 import { ticketingFormEvents } from '../../events';
 import { TicketingContextType } from '../../ticketingStateMachine';
-import { Typo } from '@atb/components/typography';
 import { SectionCard, Input } from '../../../components';
 
 type AppTicketRefundProps = {
