@@ -116,7 +116,7 @@ const FormContent = ({ state, send }: FormProps) => {
           type="text"
           name="feeNumber"
           value={state.context.feeNumber || ''}
-          description={t(PageText.Contact.input.feeNumber.description)}
+          modalDescription={t(PageText.Contact.input.feeNumber.description)}
           errorMessage={state.context?.errorMessages['feeNumber']?.[0]}
           onChange={(e) =>
             send({

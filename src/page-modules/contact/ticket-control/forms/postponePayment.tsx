@@ -29,7 +29,7 @@ export const PostponePaymentForm = ({
           type="text"
           name="feeNumber"
           value={state.context.feeNumber || ''}
-          description={t(PageText.Contact.input.feeNumber.description)}
+          modalDescription={t(PageText.Contact.input.feeNumber.description)}
           errorMessage={state.context?.errorMessages['feeNumber']?.[0]}
           onChange={(e) =>
             send({
@@ -45,7 +45,7 @@ export const PostponePaymentForm = ({
           type="text"
           name="invoiceNumber"
           value={state.context.invoiceNumber || ''}
-          description={t(PageText.Contact.input.invoiceNumber.description)}
+          modalDescription={t(PageText.Contact.input.invoiceNumber.description)}
           errorMessage={state.context?.errorMessages['invoiceNumber']?.[0]}
           onChange={(e) =>
             send({

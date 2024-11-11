@@ -20,7 +20,7 @@ export const AppTicketRefund = ({ state, send }: AppTicketRefundProps) => {
         label={PageText.Contact.input.customerNumber.label}
         type="text"
         name="customerNumber"
-        description={t(PageText.Contact.input.customerNumber.description)}
+        modalDescription={t(PageText.Contact.input.customerNumber.description)}
         value={state.context.customerNumber || ''}
         errorMessage={state.context?.errorMessages['customerNumber']?.[0]}
         onChange={(e) =>
@@ -36,7 +36,8 @@ export const AppTicketRefund = ({ state, send }: AppTicketRefundProps) => {
         label={PageText.Contact.input.orderId.label(true)}
         type="text"
         name="orderId"
-        description={t(PageText.Contact.input.orderId.description(true))}
+        modalDescription={t(PageText.Contact.input.orderId.description)}
+        modalBulletPoints={
         value={state.context.orderId || ''}
         errorMessage={state.context?.errorMessages['orderId']?.[0]}
         onChange={(e) =>

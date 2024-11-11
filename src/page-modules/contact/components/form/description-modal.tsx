@@ -9,14 +9,16 @@ import { PageText, useTranslation } from '@atb/translations';
 
 type DescriptionModalProps = {
   title: string;
-  description: string;
+  modalDescription?: string;
+  modalInstruction?: string;
   isModalOpen: boolean;
   closeModal: () => void;
 };
 
 const DescriptionModal = ({
   title,
-  description,
+  modalDescription,
+  modalInstruction,
   isModalOpen,
   closeModal,
 }: DescriptionModalProps) => {
@@ -84,7 +86,9 @@ const DescriptionModal = ({
                 }}
               />
             </div>
-            <Typo.p textType="body__primary">{description}</Typo.p>
+            {modalDescription && (
+              <Typo.p textType="body__primary">{modalDescription}</Typo.p>
+            )}
           </dialog>
         </motion.div>
       </FocusScope>

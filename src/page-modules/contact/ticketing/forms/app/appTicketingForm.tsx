@@ -19,7 +19,8 @@ export const AppTicketingForm = ({ state, send }: AppTicketingFormProps) => {
           label={PageText.Contact.input.orderId.label(false)}
           type="text"
           name="orderId"
-          description={t(PageText.Contact.input.orderId.description(false))}
+          modalDescription={t(PageText.Contact.input.orderId.description)}
+          modalBulletPoints={
           value={state.context.orderId || ''}
           errorMessage={state.context?.errorMessages['orderId']?.[0]}
           onChange={(e) =>
@@ -67,7 +68,9 @@ export const AppTicketingForm = ({ state, send }: AppTicketingFormProps) => {
           label={PageText.Contact.input.customerNumber.labelOptional}
           type="text"
           name="customerNumber"
-          description={t(PageText.Contact.input.customerNumber.description)}
+          modalDescription={t(
+            PageText.Contact.input.customerNumber.description,
+          )}
           value={state.context.customerNumber || ''}
           onChange={(e) =>
             send({

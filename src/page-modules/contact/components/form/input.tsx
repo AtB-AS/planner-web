@@ -10,7 +10,8 @@ import { Button } from '@atb/components/button';
 
 type InputProps = {
   label: TranslatedString;
-  description?: string;
+  modalDescription?: string;
+  modalInstruction?: string;
   errorMessage?: TranslatedString;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 } & JSX.IntrinsicElements['input'];
@@ -22,12 +23,13 @@ export const Input = ({
   name,
   checked,
   value,
-  description,
+  modalDescription,
+  modalInstruction,
   onChange,
 }: InputProps) => {
   const { t } = useTranslation();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const displayDescriptionModal = description && isModalOpen; // Condition to avoid rendering of useEffect inside DescriptionModal before opened.
+    modalDescription || modalBulletPoints || modalInstruction;
 
   const toggleModalState = () => {
     setIsModalOpen(!isModalOpen);
@@ -74,7 +76,8 @@ export const Input = ({
       {displayDescriptionModal && (
         <DescriptionModal
           title={t(label)}
-          description={description}
+          modalDescription={modalDescription}
+          modalBulletPoints={modalBulletPoints}
           isModalOpen={isModalOpen}
           closeModal={toggleModalState}
         />
