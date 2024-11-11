@@ -50,7 +50,7 @@ export const WebshopAccountForm = ({
       </SectionCard>
       <SectionCard title={t(PageText.Contact.aboutYouInfo.title)}>
         <Input
-          label={PageText.Contact.input.customerNumber.labelOptional}
+          label={t(PageText.Contact.input.customerNumber.labelOptional)}
           type="text"
           name="customerNumber"
           value={state.context.customerNumber || ''}
@@ -64,7 +64,7 @@ export const WebshopAccountForm = ({
           }
         />
         <Input
-          label={PageText.Contact.input.firstName.labelOptional}
+          label={t(PageText.Contact.input.firstName.labelOptional)}
           type="text"
           autoComplete="given-name additional-name"
           name="firstName"
@@ -79,7 +79,7 @@ export const WebshopAccountForm = ({
         />
 
         <Input
-          label={PageText.Contact.input.lastName.labelOptional}
+          label={t(PageText.Contact.input.lastName.labelOptional)}
           type="text"
           autoComplete="family-name"
           name="lastName"
@@ -93,9 +93,10 @@ export const WebshopAccountForm = ({
           }
         />
         <Input
-          label={
-            PageText.Contact.input.email.labelOptionalIfCustomerNumberIsProvided
-          }
+          label={t(
+            PageText.Contact.input.email
+              .labelOptionalIfCustomerNumberIsProvided,
+          )}
           type="email"
           autoComplete="email"
           name="email"
@@ -114,7 +115,7 @@ export const WebshopAccountForm = ({
           }
         />
         <Input
-          label={PageText.Contact.input.phoneNumber.labelOptional}
+          label={t(PageText.Contact.input.phoneNumber.labelOptional)}
           type="phoneNumber"
           autoComplete="tel"
           name="phoneNumber"

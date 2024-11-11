@@ -26,7 +26,7 @@ export const TravelCardQuestionForm = ({
           {t(PageText.Contact.input.travelCardNumber.info)}
         </Typo.p>
         <Input
-          label={PageText.Contact.input.travelCardNumber.label}
+          label={t(PageText.Contact.input.travelCardNumber.label)}
           type="text"
           name="travelCardNumber"
           value={state.context.travelCardNumber || ''}
@@ -73,7 +73,7 @@ export const TravelCardQuestionForm = ({
       </SectionCard>
       <SectionCard title={t(PageText.Contact.aboutYouInfo.title)}>
         <Input
-          label={PageText.Contact.input.firstName.label}
+          label={t(PageText.Contact.input.firstName.label)}
           type="text"
           autoComplete="given-name additional-name"
           name="firstName"
@@ -89,7 +89,7 @@ export const TravelCardQuestionForm = ({
         />
 
         <Input
-          label={PageText.Contact.input.lastName.label}
+          label={t(PageText.Contact.input.lastName.label)}
           type="text"
           autoComplete="family-name"
           name="lastName"
@@ -104,7 +104,7 @@ export const TravelCardQuestionForm = ({
           }
         />
         <Input
-          label={PageText.Contact.input.email.label}
+          label={t(PageText.Contact.input.email.label)}
           type="email"
           autoComplete="email"
           name="email"
@@ -119,7 +119,7 @@ export const TravelCardQuestionForm = ({
           }
         />
         <Input
-          label={PageText.Contact.input.phoneNumber.label}
+          label={t(PageText.Contact.input.phoneNumber.label)}
           type="tel"
           name="phoneNumber"
           value={state.context.phoneNumber || ''}

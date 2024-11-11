@@ -175,7 +175,7 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
 
       <SectionCard title={t(PageText.Contact.aboutYouInfo.title)}>
         <Input
-          label={PageText.Contact.input.firstName.label}
+          label={t(PageText.Contact.input.firstName.label)}
           type="text"
           autoComplete="given-name additonal-name"
           name="firstName"
@@ -192,7 +192,7 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
           }
         />
         <Input
-          label={PageText.Contact.input.lastName.label}
+          label={t(PageText.Contact.input.lastName.label)}
           type="text"
           autoComplete="family-name"
           name="lastName"
@@ -209,7 +209,7 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
           }
         />
         <Input
-          label={PageText.Contact.input.email.label}
+          label={t(PageText.Contact.input.email.label)}
           type="email"
           name="email"
           value={state.context.email || ''}

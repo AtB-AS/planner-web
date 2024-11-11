@@ -151,7 +151,7 @@ export const StopForm = ({ state, send }: StopFormProps) => {
       </SectionCard>
       <SectionCard title={t(PageText.Contact.aboutYouInfo.optionalTitle)}>
         <Input
-          label={PageText.Contact.input.firstName.label}
+          label={t(PageText.Contact.input.firstName.label)}
           type="text"
           name="firstName"
           value={state.context.firstName || ''}
@@ -165,7 +165,7 @@ export const StopForm = ({ state, send }: StopFormProps) => {
         />
 
         <Input
-          label={PageText.Contact.input.lastName.label}
+          label={t(PageText.Contact.input.lastName.label)}
           type="text"
           name="lastName"
           value={state.context.lastName || ''}
@@ -179,7 +179,7 @@ export const StopForm = ({ state, send }: StopFormProps) => {
         />
 
         <Input
-          label={PageText.Contact.input.email.label}
+          label={t(PageText.Contact.input.email.label)}
           type="email"
           name="email"
           value={state.context.email || ''}

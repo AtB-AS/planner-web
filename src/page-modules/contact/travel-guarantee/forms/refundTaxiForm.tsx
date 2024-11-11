@@ -50,7 +50,7 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
           errorMessage={state.context?.errorMessages['attachments']?.[0]}
         />
         <Input
-          label={PageText.Contact.input.amount.label}
+          label={t(PageText.Contact.input.amount.label)}
           type="text"
           name="amount"
           value={state.context.amount || ''}
@@ -240,7 +240,7 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
       </SectionCard>
       <SectionCard title={t(PageText.Contact.aboutYouInfo.title)}>
         <Input
-          label={PageText.Contact.input.firstName.label}
+          label={t(PageText.Contact.input.firstName.label)}
           type="text"
           autoComplete="given-name additional-name"
           name="firstName"
@@ -256,7 +256,7 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
         />
 
         <Input
-          label={PageText.Contact.input.lastName.label}
+          label={t(PageText.Contact.input.lastName.label)}
           type="text"
           autoComplete="family-name"
           name="lastName"
@@ -271,7 +271,7 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
           }
         />
         <Input
-          label={PageText.Contact.input.address.label}
+          label={t(PageText.Contact.input.address.label)}
           type="text"
           autoComplete="street-address"
           name="address"
@@ -286,7 +286,7 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
           }
         />
         <Input
-          label={PageText.Contact.input.postalCode.label}
+          label={t(PageText.Contact.input.postalCode.label)}
           type="number"
           autoComplete="postal-code"
           name="postalCode"
@@ -301,7 +301,7 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
           }
         />
         <Input
-          label={PageText.Contact.input.city.label}
+          label={t(PageText.Contact.input.city.label)}
           type="text"
           name="city"
           value={state.context.city || ''}
@@ -315,7 +315,7 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
           }
         />
         <Input
-          label={PageText.Contact.input.email.label}
+          label={t(PageText.Contact.input.email.label)}
           type="email"
           autoComplete="email"
           name="email"
@@ -330,7 +330,7 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
           }
         />
         <Input
-          label={PageText.Contact.input.phoneNumber.label}
+          label={t(PageText.Contact.input.phoneNumber.label)}
           type="tel"
           name="phoneNumber"
           value={state.context.phoneNumber || ''}
@@ -358,9 +358,9 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
 
         {!state.context.hasInternationalBankAccount && (
           <Input
-            label={
-              PageText.Contact.input.bankInformation.bankAccountNumber.label
-            }
+            label={t(
+              PageText.Contact.input.bankInformation.bankAccountNumber.label,
+            )}
             type="number"
             name="bankAccountNumber"
             value={state.context.bankAccountNumber || ''}
@@ -380,7 +380,7 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
         {state.context.hasInternationalBankAccount && (
           <div>
             <Input
-              label={PageText.Contact.input.bankInformation.IBAN.label}
+              label={t(PageText.Contact.input.bankInformation.IBAN.label)}
               type="string"
               name="IBAN"
               value={state.context.IBAN || ''}
@@ -395,7 +395,7 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
             />
 
             <Input
-              label={PageText.Contact.input.bankInformation.SWIFT.label}
+              label={t(PageText.Contact.input.bankInformation.SWIFT.label)}
               type="string"
               name="SWIFT"
               value={state.context.SWIFT || ''}

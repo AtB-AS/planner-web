@@ -148,7 +148,7 @@ export const ServiceOfferingForm = ({
       </SectionCard>
       <SectionCard title={t(PageText.Contact.aboutYouInfo.optionalTitle)}>
         <Input
-          label={PageText.Contact.input.firstName.label}
+          label={t(PageText.Contact.input.firstName.label)}
           type="text"
           name="firstName"
           value={state.context.firstName || ''}
@@ -162,7 +162,7 @@ export const ServiceOfferingForm = ({
         />
 
         <Input
-          label={PageText.Contact.input.lastName.label}
+          label={t(PageText.Contact.input.lastName.label)}
           type="text"
           name="lastName"
           value={state.context.lastName || ''}
