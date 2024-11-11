@@ -37,6 +37,8 @@ export const AppTicketRefund = ({ state, send }: AppTicketRefundProps) => {
         name="orderId"
         modalDescription={t(PageText.Contact.input.orderId.description)}
         modalBulletPoints={
+          PageText.Contact.input.orderId.descriptionBulletPoints
+        }
         value={state.context.orderId || ''}
         errorMessage={state.context?.errorMessages['orderId']?.[0]}
         onChange={(e) =>

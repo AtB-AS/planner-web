@@ -82,6 +82,9 @@ const RefundSection = ({ state, send }: RefundSectionProps) => {
         name="orderId"
         modalDescription={t(PageText.Contact.input.orderId.description)}
         modalBulletPoints={
+          PageText.Contact.input.orderId.descriptionBulletPoints
+        }
+        modalInstruction={t(PageText.Contact.input.orderId.instruction)}
         value={state.context.orderId || ''}
         errorMessage={state.context?.errorMessages['orderId']?.[0]}
         onChange={(e) =>

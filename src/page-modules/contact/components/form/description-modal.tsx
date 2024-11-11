@@ -5,12 +5,13 @@ import { FocusScope } from '@react-aria/focus';
 import { MonoIcon } from '@atb/components/icon';
 import { useEffect, useRef } from 'react';
 import { Button } from '@atb/components/button';
-import { PageText, useTranslation } from '@atb/translations';
+import { PageText, TranslatedString, useTranslation } from '@atb/translations';
 
 type DescriptionModalProps = {
   title: string;
   modalDescription?: string;
   modalInstruction?: string;
+  modalBulletPoints?: TranslatedString[];
   isModalOpen: boolean;
   closeModal: () => void;
 };
@@ -19,6 +20,7 @@ const DescriptionModal = ({
   title,
   modalDescription,
   modalInstruction,
+  modalBulletPoints,
   isModalOpen,
   closeModal,
 }: DescriptionModalProps) => {
@@ -86,8 +88,25 @@ const DescriptionModal = ({
                 }}
               />
             </div>
+
             {modalDescription && (
               <Typo.p textType="body__primary">{modalDescription}</Typo.p>
+            )}
+
+            {modalBulletPoints && (
+              <ul className={style.modal__rules_list}>
+                {modalBulletPoints.map((desc, index) => (
+                  <li key={index}>
+                    <Typo.p textType="body__primary" key={index}>
+                      {t(desc)}
+                    </Typo.p>
+                  </li>
+                ))}
+              </ul>
+            )}
+
+            {modalInstruction && (
+              <Typo.p textType="body__primary--bold">{modalInstruction}</Typo.p>
             )}
           </dialog>
         </motion.div>

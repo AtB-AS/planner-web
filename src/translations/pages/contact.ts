@@ -1550,21 +1550,34 @@ export const Contact = {
         expectsSingleOrderId
           ? _('Ordre-id', 'Order ID', 'Ordre-id')
           : _('Ordre-id(er)', 'Order ID(s)', 'Ordre-id(er)'),
-      description: (expectsSingleOrderId: boolean) =>
-        expectsSingleOrderId
-          ? _(
-              'Ordre-id finner du på billetten i appen eller på kvitteringen din. Du finner ordre-id også på utgåtte billetter.',
-              'The order ID can be found on the ticket in the app or on your receipt. You can also find the order ID on expired tickets.',
-              'Ordre-id finn du på billetten i appen eller på kvitteringa di. Du finn ordre-id også på utgåtte billettar.',
-            )
-          : _(
-              "Hvis du vil ha hjelp med en billett du allrede har kjøpt, trenger vi å vite ordre-id. Den finner du på billetten i appen, eller på kvitteringen din. Du finner ordre-id også på utgåtte billetter. Gjelder forespørslen din flere billetter, må du huske å sende med ordre-id for alle billettene.<br><br>Ved flere ordre-id-er, skill med komma (',').",
-              "If you want help with a ticket you have already bought, we need to know the order ID. You can find it on the ticket in the app, or on your receipt. You can also find the order ID on expired tickets. If your request concerns several tickets, you must remember to send with the order ID for all the tickets.<br><br>For multiple order IDs, separate with commas (',').",
-              "Viss du vil ha hjelp med ein billett du allereie har kjøpt, treng vi å vite ordre-id. Den finn du på billetten i appen, eller på kvitteringa di. Du finn ordre-id også på utgåtte billettar. Gjeld førespurnaden din fleire billettar, må du hugse å sende med ordre-id for alle billettane.<br><br>Ved flere ordre-id-er, skill med komma (',').",
-            ),
 
+      description: _(
+        'Hvis du vil ha hjelp med en billett du allerede har kjøpt, trenger vi å vite ordre-id. Ordre-id finner du følgende steder: ',
+        'Hvis du vil ha hjelp med en billett du allerede har kjøpt, trenger vi å vite ordre-id. Ordre-id finner du følgende steder: ',
+        'Hvis du vil ha hjelp med en billett du allerede har kjøpt, trenger vi å vite ordre-id. Ordre-id finner du følgende steder:',
+      ),
+
+      descriptionBulletPoints: [
+        _(
+          'På billetten i appen',
+          'På billetten i appen',
+          'På billetten i appen',
+        ),
+
+        _('På kvitteringen', 'På kvitteringen', 'På kvitteringen'),
+        _(
+          'Du finner ordre-id også på utgåtte billetter',
+          'Du finner ordre-id også på utgåtte billetter',
+          'Du finner ordre-id også på utgåtte billetter',
+        ),
+      ],
+      instruction: _(
+        `Gjelder forespørslen flere billetter, sende ordre-id for alle billettene, separert med komma (' , ').`,
+        `Gjelder forespørslen flere billetter, send ordre-id for alle billettene, separert med komma (' , ').`,
+        `Gjelder forespørslen flere billetter, sende ordre-id for alle billettene, separert med komma (' , ').`,
+      ),
       errorMessages: {
-        empty: _('Ordre-id mangler', 'Order-id is missing', 'Ordre-id mangler'),
+        empty: _('Ordre-id mangler', 'Order-id is missing', 'Ordre-id manglar'),
       },
     },
 

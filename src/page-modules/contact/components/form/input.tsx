@@ -4,14 +4,15 @@ import { PageText, TranslatedString, useTranslation } from '@atb/translations';
 import { andIf } from '@atb/utils/css';
 import { Typo } from '@atb/components/typography';
 import ErrorMessage from './error-message';
-import DescriptionModal from './description-modal';
 import { MonoIcon } from '@atb/components/icon';
 import { Button } from '@atb/components/button';
+import { DescriptionModal } from '.';
 
 type InputProps = {
   label: TranslatedString;
   modalDescription?: string;
   modalInstruction?: string;
+  modalBulletPoints?: TranslatedString[];
   errorMessage?: TranslatedString;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 } & JSX.IntrinsicElements['input'];
@@ -25,11 +26,15 @@ export const Input = ({
   value,
   modalDescription,
   modalInstruction,
+  modalBulletPoints,
   onChange,
 }: InputProps) => {
   const { t } = useTranslation();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const displayDescriptionModalIconButton =
     modalDescription || modalBulletPoints || modalInstruction;
+  const displayDescriptionModal =
+    displayDescriptionModalIconButton && isModalOpen; // Condition to avoid rendering of useEffect inside DescriptionModal before opened.
 
   const toggleModalState = () => {
     setIsModalOpen(!isModalOpen);
@@ -47,7 +52,7 @@ export const Input = ({
           <Typo.span textType="body__primary">{t(label)}</Typo.span>
         </label>
 
-        {description && (
+        {displayDescriptionModalIconButton && (
           <Button
             className={style.iconButton}
             onClick={toggleModalState}
@@ -78,6 +83,7 @@ export const Input = ({
           title={t(label)}
           modalDescription={modalDescription}
           modalBulletPoints={modalBulletPoints}
+          modalInstruction={modalInstruction}
           isModalOpen={isModalOpen}
           closeModal={toggleModalState}
         />
