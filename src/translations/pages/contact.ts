@@ -1552,29 +1552,29 @@ export const Contact = {
           : _('Ordre-id(er)', 'Order ID(s)', 'Ordre-id(er)'),
 
       description: _(
-        'Hvis du vil ha hjelp med en billett du allerede har kjøpt, trenger vi å vite ordre-id. Ordre-id finner du følgende steder: ',
-        'Hvis du vil ha hjelp med en billett du allerede har kjøpt, trenger vi å vite ordre-id. Ordre-id finner du følgende steder: ',
         'Hvis du vil ha hjelp med en billett du allerede har kjøpt, trenger vi å vite ordre-id. Ordre-id finner du følgende steder:',
+        'If you want help with a ticket you have already bought, we need to know the order ID. You can find the order ID in the following places:',
+        'Viss du vil ha hjelp med ein billett du allereie har kjøpt, treng vi å vite ordre-id. Ordre-id finn du følgende steder:',
       ),
 
       descriptionBulletPoints: [
         _(
           'På billetten i appen',
-          'På billetten i appen',
+          'On the ticket in the app',
           'På billetten i appen',
         ),
 
-        _('På kvitteringen', 'På kvitteringen', 'På kvitteringen'),
+        _('På kvitteringen din', 'On your receipt ', 'På kvitteringa di'),
         _(
-          'Du finner ordre-id også på utgåtte billetter',
-          'Du finner ordre-id også på utgåtte billetter',
-          'Du finner ordre-id også på utgåtte billetter',
+          'Du finner også ordre-id på utgåtte billetter',
+          'You can also find the order ID on expired tickets',
+          'Du finn også ordre-id på utgåtte billettar',
         ),
       ],
       instruction: _(
-        `Gjelder forespørslen flere billetter, sende ordre-id for alle billettene, separert med komma (' , ').`,
         `Gjelder forespørslen flere billetter, send ordre-id for alle billettene, separert med komma (' , ').`,
-        `Gjelder forespørslen flere billetter, sende ordre-id for alle billettene, separert med komma (' , ').`,
+        `If the request applies to several tickets, send the order ID for all the tickets, separated by commas (' , ').`,
+        `Gjeld forespørslen flere billettar, send ordre-id for alle billettane, separert med komma (' , ').`,
       ),
       errorMessages: {
         empty: _('Ordre-id mangler', 'Order-id is missing', 'Ordre-id manglar'),
