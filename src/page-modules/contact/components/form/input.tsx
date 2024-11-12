@@ -31,8 +31,8 @@ export const Input = ({
 }: InputProps) => {
   const { t } = useTranslation();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const displayDescriptionModal = modalContent && isModalOpen; // Condition to avoid rendering of useEffect inside DescriptionModal before opened.
-
+  const isModalContentProvided = hasModalContent(modalContent);
+  const displayDescriptionModal = isModalOpen && isModalContentProvided;
   const toggleModalState = () => {
     setIsModalOpen(!isModalOpen);
   };
@@ -49,7 +49,7 @@ export const Input = ({
           <Typo.span textType="body__primary">{t(label)}</Typo.span>
         </label>
 
-        {modalContent && (
+        {isModalContentProvided && (
           <Button
             className={style.iconButton}
             onClick={toggleModalState}
@@ -78,7 +78,7 @@ export const Input = ({
       {displayDescriptionModal && (
         <DescriptionModal
           title={t(label)}
-          modalContent={modalContent}
+          modalContent={modalContent || {}}
           isModalOpen={isModalOpen}
           closeModal={toggleModalState}
         />
@@ -88,3 +88,16 @@ export const Input = ({
 };
 
 export default Input;
+
+function hasModalContent(content?: {
+  description?: string;
+  instruction?: string;
+  bulletPoints?: string[];
+}): boolean {
+  return !!(
+    content &&
+    (content.description ||
+      content.instruction ||
+      (content.bulletPoints && content.bulletPoints?.length > 0))
+  );
+}
