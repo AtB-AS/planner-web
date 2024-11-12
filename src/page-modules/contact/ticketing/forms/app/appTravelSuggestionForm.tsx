@@ -50,7 +50,7 @@ export const AppTravelSuggestionForm = ({
       </SectionCard>
       <SectionCard title={t(PageText.Contact.aboutYouInfo.title)}>
         <Input
-          label={PageText.Contact.input.firstName.label}
+          label={t(PageText.Contact.input.firstName.label)}
           type="text"
           autoComplete="given-name additional-name"
           name="firstName"
@@ -66,7 +66,7 @@ export const AppTravelSuggestionForm = ({
         />
 
         <Input
-          label={PageText.Contact.input.lastName.label}
+          label={t(PageText.Contact.input.lastName.label)}
           type="text"
           autoComplete="family-name"
           name="lastName"
@@ -81,7 +81,7 @@ export const AppTravelSuggestionForm = ({
           }
         />
         <Input
-          label={PageText.Contact.input.email.label}
+          label={t(PageText.Contact.input.email.label)}
           type="email"
           autoComplete="email"
           name="email"

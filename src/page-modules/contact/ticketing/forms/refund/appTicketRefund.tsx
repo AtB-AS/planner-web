@@ -16,7 +16,7 @@ export const AppTicketRefund = ({ state, send }: AppTicketRefundProps) => {
       title={t(PageText.Contact.ticketing.refund.appTicketRefund.label)}
     >
       <Input
-        label={PageText.Contact.input.customerNumber.label}
+        label={t(PageText.Contact.input.customerNumber.label)}
         type="text"
         name="customerNumber"
         value={state.context.customerNumber || ''}
@@ -34,7 +34,7 @@ export const AppTicketRefund = ({ state, send }: AppTicketRefundProps) => {
       />
 
       <Input
-        label={PageText.Contact.input.orderId.label(true)}
+        label={t(PageText.Contact.input.orderId.label(true))}
         type="text"
         name="orderId"
         value={state.context.orderId || ''}

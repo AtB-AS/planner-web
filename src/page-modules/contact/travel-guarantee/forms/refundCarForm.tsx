@@ -15,6 +15,7 @@ import {
   getLineOptions,
   getStopOptions,
   DateSelector,
+  TimeSelector,
 } from '../../components';
 
 type RefundCarFormProps = {
@@ -32,7 +33,7 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
         title={t(PageText.Contact.travelGuarantee.refundTaxi.carTrip.title)}
       >
         <Input
-          label={PageText.Contact.input.kilometersDriven.label}
+          label={t(PageText.Contact.input.kilometersDriven.label)}
           type="text"
           name="km"
           value={state.context.kilometersDriven || ''}
@@ -48,7 +49,7 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
           }
         />
         <Input
-          label={PageText.Contact.input.fromAddress.label}
+          label={t(PageText.Contact.input.fromAddress.label)}
           type="text"
           name="fromAddress"
           value={state.context.fromAddress || ''}
@@ -64,7 +65,7 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
           }
         />
         <Input
-          label={PageText.Contact.input.toAddress.label}
+          label={t(PageText.Contact.input.toAddress.label)}
           type="toAddress"
           name="km"
           value={state.context.toAddress || ''}
@@ -182,20 +183,14 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
             })
           }
         />
-
-        <Input
+        <TimeSelector
           label={PageText.Contact.input.plannedDepartureTime.label}
-          type="time"
-          name="time"
-          value={state.context.plannedDepartureTime}
-          errorMessage={
-            state.context?.errorMessages['plannedDepartureTime']?.[0]
-          }
-          onChange={(e) =>
+          value={state.context.plannedDepartureTime || ''}
+          onChange={(time: string) =>
             send({
               type: 'ON_INPUT_CHANGE',
               inputName: 'plannedDepartureTime',
-              value: e.target.value,
+              value: time,
             })
           }
         />
@@ -259,7 +254,7 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
       </SectionCard>
       <SectionCard title={t(PageText.Contact.aboutYouInfo.title)}>
         <Input
-          label={PageText.Contact.input.firstName.label}
+          label={t(PageText.Contact.input.firstName.label)}
           type="text"
           autoComplete="given-name additional-name"
           name="firstName"
@@ -275,7 +270,7 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
         />
 
         <Input
-          label={PageText.Contact.input.lastName.label}
+          label={t(PageText.Contact.input.lastName.label)}
           type="text"
           autoComplete="family-name"
           name="lastName"
@@ -290,7 +285,7 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
           }
         />
         <Input
-          label={PageText.Contact.input.address.label}
+          label={t(PageText.Contact.input.address.label)}
           type="text"
           autoComplete="street-address"
           name="address"
@@ -305,7 +300,7 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
           }
         />
         <Input
-          label={PageText.Contact.input.postalCode.label}
+          label={t(PageText.Contact.input.postalCode.label)}
           type="number"
           autoComplete="postal-code"
           name="postalCode"
@@ -320,7 +315,7 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
           }
         />
         <Input
-          label={PageText.Contact.input.city.label}
+          label={t(PageText.Contact.input.city.label)}
           type="text"
           name="city"
           value={state.context.city || ''}
@@ -334,7 +329,7 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
           }
         />
         <Input
-          label={PageText.Contact.input.email.label}
+          label={t(PageText.Contact.input.email.label)}
           type="email"
           autoComplete="email"
           name="email"
@@ -349,7 +344,7 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
           }
         />
         <Input
-          label={PageText.Contact.input.phoneNumber.label}
+          label={t(PageText.Contact.input.phoneNumber.label)}
           type="tel"
           name="phoneNumber"
           value={state.context.phoneNumber || ''}
@@ -377,9 +372,9 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
 
         {!state.context.hasInternationalBankAccount && (
           <Input
-            label={
-              PageText.Contact.input.bankInformation.bankAccountNumber.label
-            }
+            label={t(
+              PageText.Contact.input.bankInformation.bankAccountNumber.label,
+            )}
             type="number"
             name="bankAccountNumber"
             value={state.context.bankAccountNumber || ''}
@@ -399,7 +394,7 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
         {state.context.hasInternationalBankAccount && (
           <div>
             <Input
-              label={PageText.Contact.input.bankInformation.IBAN.label}
+              label={t(PageText.Contact.input.bankInformation.IBAN.label)}
               type="string"
               name="IBAN"
               value={state.context.IBAN || ''}
@@ -414,7 +409,7 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
             />
 
             <Input
-              label={PageText.Contact.input.bankInformation.SWIFT.label}
+              label={t(PageText.Contact.input.bankInformation.SWIFT.label)}
               type="string"
               name="SWIFT"
               value={state.context.SWIFT || ''}

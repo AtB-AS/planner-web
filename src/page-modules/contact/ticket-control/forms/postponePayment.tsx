@@ -25,7 +25,7 @@ export const PostponePaymentForm = ({
         </Typo.p>
 
         <Input
-          label={PageText.Contact.input.feeNumber.label}
+          label={t(PageText.Contact.input.feeNumber.label)}
           type="text"
           name="feeNumber"
           value={state.context.feeNumber || ''}
@@ -43,7 +43,7 @@ export const PostponePaymentForm = ({
         />
 
         <Input
-          label={PageText.Contact.input.invoiceNumber.label}
+          label={t(PageText.Contact.input.invoiceNumber.label)}
           type="text"
           name="invoiceNumber"
           value={state.context.invoiceNumber || ''}
@@ -62,7 +62,7 @@ export const PostponePaymentForm = ({
       </SectionCard>
       <SectionCard title={t(PageText.Contact.aboutYouInfo.title)}>
         <Input
-          label={PageText.Contact.input.firstName.label}
+          label={t(PageText.Contact.input.firstName.label)}
           type="text"
           autoComplete="given-name additional-name"
           name="firstName"
@@ -77,7 +77,7 @@ export const PostponePaymentForm = ({
           }
         />
         <Input
-          label={PageText.Contact.input.lastName.label}
+          label={t(PageText.Contact.input.lastName.label)}
           type="text"
           autoComplete="family-name"
           name="lastName"
@@ -92,7 +92,7 @@ export const PostponePaymentForm = ({
           }
         />
         <Input
-          label={PageText.Contact.input.email.label}
+          label={t(PageText.Contact.input.email.label)}
           type="email"
           name="email"
           value={state.context.email || ''}

@@ -47,7 +47,7 @@ export const AppAccountForm = ({ state, send }: AppAccountFormProps) => {
       </SectionCard>
       <SectionCard title={t(PageText.Contact.aboutYouInfo.title)}>
         <Input
-          label={PageText.Contact.input.customerNumber.label}
+          label={t(PageText.Contact.input.customerNumber.label)}
           type="text"
           name="customerNumber"
           value={state.context.customerNumber || ''}
@@ -64,7 +64,7 @@ export const AppAccountForm = ({ state, send }: AppAccountFormProps) => {
           }}
         />
         <Input
-          label={PageText.Contact.input.firstName.label}
+          label={t(PageText.Contact.input.firstName.label)}
           type="text"
           autoComplete="given-name additional-name"
           name="firstName"
@@ -80,7 +80,7 @@ export const AppAccountForm = ({ state, send }: AppAccountFormProps) => {
         />
 
         <Input
-          label={PageText.Contact.input.lastName.label}
+          label={t(PageText.Contact.input.lastName.label)}
           type="text"
           autoComplete="family-name"
           name="lastName"
@@ -95,7 +95,7 @@ export const AppAccountForm = ({ state, send }: AppAccountFormProps) => {
           }
         />
         <Input
-          label={PageText.Contact.input.email.label}
+          label={t(PageText.Contact.input.email.label)}
           type="email"
           autoComplete="email"
           name="email"
@@ -110,7 +110,7 @@ export const AppAccountForm = ({ state, send }: AppAccountFormProps) => {
           }
         />
         <Input
-          label={PageText.Contact.input.phoneNumber.label}
+          label={t(PageText.Contact.input.phoneNumber.label)}
           type="tel"
           name="phoneNumber"
           value={state.context.phoneNumber || ''}

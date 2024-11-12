@@ -16,7 +16,7 @@ export const AppTicketingForm = ({ state, send }: AppTicketingFormProps) => {
     <div>
       <SectionCard title={t(PageText.Contact.ticketing.app.appTicketing.title)}>
         <Input
-          label={PageText.Contact.input.orderId.label(false)}
+          label={t(PageText.Contact.input.orderId.label(false))}
           type="text"
           name="orderId"
           value={state.context.orderId || ''}
@@ -71,7 +71,7 @@ export const AppTicketingForm = ({ state, send }: AppTicketingFormProps) => {
       </SectionCard>
       <SectionCard title={t(PageText.Contact.aboutYouInfo.title)}>
         <Input
-          label={PageText.Contact.input.customerNumber.labelOptional}
+          label={t(PageText.Contact.input.customerNumber.labelOptional)}
           type="text"
           name="customerNumber"
           value={state.context.customerNumber || ''}
@@ -87,7 +87,7 @@ export const AppTicketingForm = ({ state, send }: AppTicketingFormProps) => {
           }}
         />
         <Input
-          label={PageText.Contact.input.firstName.label}
+          label={t(PageText.Contact.input.firstName.label)}
           type="text"
           autoComplete="given-name additional-name"
           name="firstName"
@@ -103,7 +103,7 @@ export const AppTicketingForm = ({ state, send }: AppTicketingFormProps) => {
         />
 
         <Input
-          label={PageText.Contact.input.lastName.label}
+          label={t(PageText.Contact.input.lastName.label)}
           type="text"
           autoComplete="family-name"
           name="lastName"
@@ -118,7 +118,7 @@ export const AppTicketingForm = ({ state, send }: AppTicketingFormProps) => {
           }
         />
         <Input
-          label={PageText.Contact.input.email.label}
+          label={t(PageText.Contact.input.email.label)}
           type="email"
           autoComplete="email"
           name="email"
@@ -133,7 +133,7 @@ export const AppTicketingForm = ({ state, send }: AppTicketingFormProps) => {
           }
         />
         <Input
-          label={PageText.Contact.input.phoneNumber.label}
+          label={t(PageText.Contact.input.phoneNumber.label)}
           type="tel"
           name="phoneNumber"
           value={state.context.phoneNumber || ''}
