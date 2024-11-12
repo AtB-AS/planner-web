@@ -75,7 +75,7 @@ const RefundSection = ({ state, send }: RefundSectionProps) => {
 
       {state.context.showInputTravelCardNumber && (
         <Input
-          label={PageText.Contact.input.travelCardNumber.label}
+          label={t(PageText.Contact.input.travelCardNumber.label)}
           type="number"
           name="travelCardNumber"
           value={state.context.travelCardNumber || ''}
@@ -92,7 +92,7 @@ const RefundSection = ({ state, send }: RefundSectionProps) => {
 
       {!state.context.showInputTravelCardNumber && (
         <Input
-          label={PageText.Contact.input.customerNumber.label}
+          label={t(PageText.Contact.input.customerNumber.label)}
           type="text"
           name="customerNumber"
           description={t(PageText.Contact.input.customerNumber.description)}
