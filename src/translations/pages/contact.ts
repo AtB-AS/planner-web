@@ -1098,7 +1098,7 @@ export const Contact = {
         empty: _(
           'Vennligst fyll ut ditt telefonnummer',
           'Please enter your phone number',
-          'Vennligst fyll ut ditt telefonummer',
+          'Vennligst fyll ut ditt telefonnummer',
         ),
       },
     },
