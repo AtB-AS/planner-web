@@ -1060,7 +1060,7 @@ export const Contact = {
         empty: _(
           'Vennligst fyll ut boligadressen din',
           'Please enter your residential address',
-          'Vennligst fyll ut bostedsadressa di',
+          'Vennligst fyll ut bustedsadressa di',
         ),
       },
     },
