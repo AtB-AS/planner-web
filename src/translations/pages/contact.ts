@@ -1572,7 +1572,7 @@ export const Contact = {
         ),
       ],
       instruction: _(
-        `Gjelder forespørslen flere billetter, send ordre-id for alle billettene, separert med komma (' , ').`,
+        `Gjelder forespørselen flere billetter, send ordre-id for alle billettene, separert med komma (' , ').`,
         `If the request applies to several tickets, send the order ID for all the tickets, separated by commas (' , ').`,
         `Gjeld forespørslen flere billettar, send ordre-id for alle billettane, separert med komma (' , ').`,
       ),
