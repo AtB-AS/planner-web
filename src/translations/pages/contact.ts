@@ -1049,7 +1049,7 @@ export const Contact = {
         empty: _(
           'Vennligst fyll ut e-post adressen din',
           'Please enter your email address',
-          'Vennligst fyll ut e-post adressa di',
+          'Vennligst fyll ut e-postadressa di',
         ),
       },
     },
