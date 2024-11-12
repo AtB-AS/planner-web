@@ -1019,7 +1019,7 @@ export const Contact = {
       errorMessages: {
         empty: _(
           'Vennligst fyll ut etternavnet ditt',
-          'Please enter your lastname',
+          'Please enter your last name',
           'Vennligst fyll ut etternamnet ditt',
         ),
       },
