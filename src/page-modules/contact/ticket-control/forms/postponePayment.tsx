@@ -29,7 +29,6 @@ export const PostponePaymentForm = ({
           type="text"
           name="feeNumber"
           value={state.context.feeNumber || ''}
-          modalDescription={t(PageText.Contact.input.feeNumber.description)}
           errorMessage={state.context?.errorMessages['feeNumber']?.[0]}
           onChange={(e) =>
             send({
@@ -38,6 +37,9 @@ export const PostponePaymentForm = ({
               value: e.target.value,
             })
           }
+          modalContent={{
+            description: t(PageText.Contact.input.feeNumber.description),
+          }}
         />
 
         <Input
@@ -45,7 +47,6 @@ export const PostponePaymentForm = ({
           type="text"
           name="invoiceNumber"
           value={state.context.invoiceNumber || ''}
-          modalDescription={t(PageText.Contact.input.invoiceNumber.description)}
           errorMessage={state.context?.errorMessages['invoiceNumber']?.[0]}
           onChange={(e) =>
             send({
@@ -54,6 +55,9 @@ export const PostponePaymentForm = ({
               value: e.target.value,
             })
           }
+          modalContent={{
+            description: t(PageText.Contact.input.invoiceNumber.description),
+          }}
         />
       </SectionCard>
       <SectionCard title={t(PageText.Contact.aboutYouInfo.title)}>

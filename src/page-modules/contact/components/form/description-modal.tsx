@@ -9,23 +9,24 @@ import { PageText, TranslatedString, useTranslation } from '@atb/translations';
 
 type DescriptionModalProps = {
   title: string;
-  modalDescription?: string;
-  modalInstruction?: string;
-  modalBulletPoints?: TranslatedString[];
+  modalContent: {
+    description?: string;
+    instruction?: string;
+    bulletPoints?: TranslatedString[];
+  };
   isModalOpen: boolean;
   closeModal: () => void;
 };
 
 const DescriptionModal = ({
   title,
-  modalDescription,
-  modalInstruction,
-  modalBulletPoints,
+  modalContent,
   isModalOpen,
   closeModal,
 }: DescriptionModalProps) => {
   const { t } = useTranslation();
   const modalRef = useRef<HTMLDivElement | null>(null);
+  const { description, instruction, bulletPoints } = modalContent;
 
   const handleEscapeOrClickOutside = (event: KeyboardEvent | MouseEvent) => {
     if (event instanceof KeyboardEvent && event.key === 'Escape') {
@@ -89,13 +90,13 @@ const DescriptionModal = ({
               />
             </div>
 
-            {modalDescription && (
-              <Typo.p textType="body__primary">{modalDescription}</Typo.p>
+            {description && (
+              <Typo.p textType="body__primary">{description}</Typo.p>
             )}
 
-            {modalBulletPoints && (
+            {bulletPoints && (
               <ul className={style.modal__rules_list}>
-                {modalBulletPoints.map((desc, index) => (
+                {bulletPoints.map((desc, index) => (
                   <li key={index}>
                     <Typo.p textType="body__primary" key={index}>
                       {t(desc)}
@@ -105,8 +106,8 @@ const DescriptionModal = ({
               </ul>
             )}
 
-            {modalInstruction && (
-              <Typo.p textType="body__primary--bold">{modalInstruction}</Typo.p>
+            {instruction && (
+              <Typo.p textType="body__primary--bold">{instruction}</Typo.p>
             )}
           </dialog>
         </motion.div>

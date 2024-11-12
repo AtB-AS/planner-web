@@ -10,9 +10,11 @@ import { DescriptionModal } from '.';
 
 type InputProps = {
   label: TranslatedString;
-  modalDescription?: string;
-  modalInstruction?: string;
-  modalBulletPoints?: TranslatedString[];
+  modalContent?: {
+    description?: string;
+    instruction?: string;
+    bulletPoints?: TranslatedString[];
+  };
   errorMessage?: TranslatedString;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 } & JSX.IntrinsicElements['input'];
@@ -24,17 +26,12 @@ export const Input = ({
   name,
   checked,
   value,
-  modalDescription,
-  modalInstruction,
-  modalBulletPoints,
+  modalContent,
   onChange,
 }: InputProps) => {
   const { t } = useTranslation();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const displayDescriptionModalIconButton =
-    modalDescription || modalBulletPoints || modalInstruction;
-  const displayDescriptionModal =
-    displayDescriptionModalIconButton && isModalOpen; // Condition to avoid rendering of useEffect inside DescriptionModal before opened.
+  const displayDescriptionModal = modalContent && isModalOpen; // Condition to avoid rendering of useEffect inside DescriptionModal before opened.
 
   const toggleModalState = () => {
     setIsModalOpen(!isModalOpen);
@@ -52,7 +49,7 @@ export const Input = ({
           <Typo.span textType="body__primary">{t(label)}</Typo.span>
         </label>
 
-        {displayDescriptionModalIconButton && (
+        {modalContent && (
           <Button
             className={style.iconButton}
             onClick={toggleModalState}
@@ -81,9 +78,7 @@ export const Input = ({
       {displayDescriptionModal && (
         <DescriptionModal
           title={t(label)}
-          modalDescription={modalDescription}
-          modalBulletPoints={modalBulletPoints}
-          modalInstruction={modalInstruction}
+          modalContent={modalContent}
           isModalOpen={isModalOpen}
           closeModal={toggleModalState}
         />
