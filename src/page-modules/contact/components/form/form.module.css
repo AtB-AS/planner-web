@@ -326,7 +326,8 @@
 .modal_content > * + * {
   margin-top: var(--spacings-small);
 }
-* .modal_header {
+
+.modal_header {
   display: flex;
   justify-content: space-between;
 }
