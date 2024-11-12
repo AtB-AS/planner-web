@@ -1082,7 +1082,7 @@ export const Contact = {
         empty: _(
           'Vennligst fyll ut ditt bosted',
           'Please enter your residiential city',
-          'Vennligst fyll ut bostaden di',
+          'Vennligst fyll ut bustaden di',
         ),
       },
     },
