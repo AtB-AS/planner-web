@@ -14,6 +14,7 @@ import {
   SearchableSelect,
   getLineOptions,
   getStopOptions,
+  DateSelector,
 } from '../../components';
 
 type StopFormProps = {
@@ -104,17 +105,14 @@ export const StopForm = ({ state, send }: StopFormProps) => {
           }
         />
 
-        <Input
+        <DateSelector
           label={PageText.Contact.input.date.label}
-          type="date"
-          name="date"
           value={state.context.date}
-          errorMessage={state.context?.errorMessages['date']?.[0]}
-          onChange={(e) =>
+          onChange={(date) =>
             send({
               type: 'ON_INPUT_CHANGE',
               inputName: 'date',
-              value: e.target.value,
+              value: date,
             })
           }
         />
@@ -153,7 +151,7 @@ export const StopForm = ({ state, send }: StopFormProps) => {
       </SectionCard>
       <SectionCard title={t(PageText.Contact.aboutYouInfo.optionalTitle)}>
         <Input
-          label={PageText.Contact.input.firstName.label}
+          label={t(PageText.Contact.input.firstName.label)}
           type="text"
           name="firstName"
           value={state.context.firstName || ''}
@@ -167,7 +165,7 @@ export const StopForm = ({ state, send }: StopFormProps) => {
         />
 
         <Input
-          label={PageText.Contact.input.lastName.label}
+          label={t(PageText.Contact.input.lastName.label)}
           type="text"
           name="lastName"
           value={state.context.lastName || ''}
@@ -181,7 +179,7 @@ export const StopForm = ({ state, send }: StopFormProps) => {
         />
 
         <Input
-          label={PageText.Contact.input.email.label}
+          label={t(PageText.Contact.input.email.label)}
           type="email"
           name="email"
           value={state.context.email || ''}

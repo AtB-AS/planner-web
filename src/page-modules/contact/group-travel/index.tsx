@@ -108,10 +108,10 @@ export default function GroupTravelContent() {
             )}
           >
             <Input
-              label={
+              label={t(
                 PageText.Contact.groupTravel.travelTypeBus.form
-                  .travelInformation.dateOfTravel.title
-              }
+                  .travelInformation.dateOfTravel.title,
+              )}
               type="date"
               name="date"
               value={formData.dateOfTravel}
@@ -164,10 +164,10 @@ export default function GroupTravelContent() {
               }
             />
             <Input
-              label={
+              label={t(
                 PageText.Contact.groupTravel.travelTypeBus.form
-                  .travelInformation.departureTime.title
-              }
+                  .travelInformation.departureTime.title,
+              )}
               type="time"
               name="time"
               value={formData.departureTime}
@@ -238,10 +238,10 @@ export default function GroupTravelContent() {
               placeholder={t(PageText.Contact.input.fromStop.optionLabel)}
             />
             <Input
-              label={
+              label={t(
                 PageText.Contact.groupTravel.travelTypeBus.form.travelReturn
-                  .departureTime.title
-              }
+                  .departureTime.title,
+              )}
               type="time"
               name="time"
               value={formData.returnDepartureTime}
@@ -273,10 +273,10 @@ export default function GroupTravelContent() {
             )}
           >
             <Input
-              label={
+              label={t(
                 PageText.Contact.groupTravel.travelTypeBus.form.groupInformation
-                  .groupSize.title
-              }
+                  .groupSize.title,
+              )}
               type="number"
               name="groupSize"
               value={formData.groupSize}
@@ -307,10 +307,10 @@ export default function GroupTravelContent() {
               }
             />
             <Input
-              label={
+              label={t(
                 PageText.Contact.groupTravel.travelTypeBus.form.groupInformation
-                  .firstName.title
-              }
+                  .firstName.title,
+              )}
               type="text"
               name="firstName"
               value={formData.firstName}
@@ -323,10 +323,10 @@ export default function GroupTravelContent() {
               }
             />
             <Input
-              label={
+              label={t(
                 PageText.Contact.groupTravel.travelTypeBus.form.groupInformation
-                  .lastName.title
-              }
+                  .lastName.title,
+              )}
               type="text"
               name="lastName"
               value={formData.lastName}
@@ -339,10 +339,10 @@ export default function GroupTravelContent() {
               }
             />
             <Input
-              label={
+              label={t(
                 PageText.Contact.groupTravel.travelTypeBus.form.groupInformation
-                  .responsiblePersonPhone.title
-              }
+                  .responsiblePersonPhone.title,
+              )}
               type="tel"
               name="responsiblePersonPhone"
               value={formData.phoneNumber}
@@ -355,10 +355,10 @@ export default function GroupTravelContent() {
               }
             />
             <Input
-              label={
+              label={t(
                 PageText.Contact.groupTravel.travelTypeBus.form.groupInformation
-                  .responsiblePersonEmail.title
-              }
+                  .responsiblePersonEmail.title,
+              )}
               type="email"
               name="responsiblePersonEmail"
               value={formData.email}

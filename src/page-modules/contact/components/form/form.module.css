@@ -498,16 +498,124 @@
   opacity: 0.7;
   padding-right: var(--spacings-small);
 }
-@media (max-width: 600px) {
-  .select__listBoxItem,
-  .select__select_container,
-  .searchable_select__comboBox,
-  .searchable_select__listBoxItem {
-    font-size: 1.25rem;
-  }
-  .select__popover,
-  .searchable_select__popover {
-    overflow-y: auto;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
-  }
+
+/* Time and date selector */
+.dateSelectorContainer,
+.timeSelectorContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacings-small);
+}
+
+.dateSelector,
+.timeSelector {
+  --height: 2.75rem;
+  overflow: hidden;
+  border-radius: var(--border-radius-small);
+}
+
+.dateSelector input[type='date'],
+.timeSelector input[type='time'] {
+  height: var(--height);
+  padding: var(--spacings-medium);
+  border: none;
+  background-color: transparent;
+  color: var(--static-background-background_0-text);
+  flex: 1;
+}
+
+.calendarSelectorGroup {
+  display: flex;
+  position: relative;
+  width: 100%;
+}
+
+.calendarButton {
+  position: absolute;
+  right: 0;
+  border: none;
+  cursor: pointer;
+  background: none;
+  margin: var(--spacings-medium);
+  border-radius: var(--border-radius-small);
+}
+
+.calendarDialog {
+  padding: var(--spacings-xSmall);
+  background: var(--static-background-background_0-background);
+  box-shadow: 0.2rem 0.2rem 0.3rem rgba(0, 0, 0, 0.15);
+}
+
+.calendarDialog__header {
+  display: flex;
+  gap: var(--spacings-medium);
+  justify-content: center;
+  align-items: center;
+  padding: var(--spacings-small);
+}
+
+.calendarDialog__title {
+  composes: typo-heading__component from '@atb/theme/typography.module.css';
+}
+
+.calendarDialog__headerButtons {
+  background: none;
+  border: none;
+  padding: var(--spacings-xSmall) var(--spacings-medium);
+  cursor: pointer;
+}
+
+.calendarGrid {
+  width: 100%;
+}
+
+.calendarGrid__cell {
+  padding: var(--spacings-xSmall) var(--spacings-medium);
+  cursor: pointer;
+  text-align: center;
+  border-radius: var(--border-radius-small);
+}
+
+.calendarGrid__cell[data-disabled] {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.calendarGrid__cell[data-selected] {
+  background-color: var(--interactive-interactive_2-active-background);
+  color: var(--interactive-interactive_2-active-text);
+  font-weight: bold;
+  border-radius: var(--border-radius-small);
+}
+
+.dateSelectorInput,
+.timeSelectorInput {
+  width: 100%;
+  height: var(--height);
+  display: flex;
+  align-items: center;
+  padding: var(--spacings-medium);
+  color: var(--static-background-background_0-text);
+  border-radius: var(--border-radius-small);
+  border: var(--border-width-slim) solid var(--text-colors-primary);
+}
+
+.dateSelector input[type='date']:focus,
+.timeSelector input[type='time']:focus {
+  outline: 0;
+}
+
+.dateSelector:focus-within,
+.timeSelector:focus-within {
+  box-shadow: inset 0 0 0 var(--border-width-medium)
+    var(--interactive-interactive_2-outline-background);
+}
+
+:global(.dark)
+  .dateSelector
+  input[type='date']::-webkit-calendar-picker-indicator,
+:global(.dark)
+  .timeSelector
+  input[type='time']::-webkit-calendar-picker-indicator {
+  filter: invert(1);
 }

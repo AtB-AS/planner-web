@@ -14,6 +14,8 @@ import {
   SearchableSelect,
   getLineOptions,
   getStopOptions,
+  DateSelector,
+  TimeSelector,
 } from '../../components';
 
 type FeedbackFormProps = {
@@ -118,33 +120,26 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
           }
         />
 
-        <Input
+        <DateSelector
           label={PageText.Contact.input.date.label}
-          type="date"
-          name="date"
           value={state.context.date}
-          errorMessage={state.context?.errorMessages['date']?.[0]}
-          onChange={(e) =>
+          onChange={(date) =>
             send({
               type: 'ON_INPUT_CHANGE',
               inputName: 'date',
-              value: e.target.value,
+              value: date,
             })
           }
         />
-        <Input
+
+        <TimeSelector
           label={PageText.Contact.input.plannedDepartureTime.label}
-          type="time"
-          name="time"
-          value={state.context.plannedDepartureTime}
-          errorMessage={
-            state.context?.errorMessages['plannedDepartureTime']?.[0]
-          }
-          onChange={(e) =>
+          value={state.context.plannedDepartureTime || ''}
+          onChange={(time: string) =>
             send({
               type: 'ON_INPUT_CHANGE',
               inputName: 'plannedDepartureTime',
-              value: e.target.value,
+              value: time,
             })
           }
         />
@@ -180,7 +175,7 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
 
       <SectionCard title={t(PageText.Contact.aboutYouInfo.title)}>
         <Input
-          label={PageText.Contact.input.firstName.label}
+          label={t(PageText.Contact.input.firstName.label)}
           type="text"
           autoComplete="given-name additonal-name"
           name="firstName"
@@ -197,7 +192,7 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
           }
         />
         <Input
-          label={PageText.Contact.input.lastName.label}
+          label={t(PageText.Contact.input.lastName.label)}
           type="text"
           autoComplete="family-name"
           name="lastName"
@@ -214,7 +209,7 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
           }
         />
         <Input
-          label={PageText.Contact.input.email.label}
+          label={t(PageText.Contact.input.email.label)}
           type="email"
           name="email"
           value={state.context.email || ''}

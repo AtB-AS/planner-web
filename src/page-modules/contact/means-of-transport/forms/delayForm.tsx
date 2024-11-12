@@ -14,6 +14,8 @@ import {
   SearchableSelect,
   getLineOptions,
   getStopOptions,
+  DateSelector,
+  TimeSelector,
 } from '../../components';
 
 type DelayFormProps = {
@@ -128,34 +130,26 @@ export const DelayForm = ({ state, send }: DelayFormProps) => {
           }
         />
 
-        <Input
+        <DateSelector
           label={PageText.Contact.input.date.label}
-          type="date"
-          name="date"
           value={state.context.date}
-          errorMessage={state.context?.errorMessages['date']?.[0]}
-          onChange={(e) =>
+          onChange={(date) =>
             send({
               type: 'ON_INPUT_CHANGE',
               inputName: 'date',
-              value: e.target.value,
+              value: date,
             })
           }
         />
 
-        <Input
+        <TimeSelector
           label={PageText.Contact.input.plannedDepartureTime.label}
-          type="time"
-          name="time"
-          value={state.context.plannedDepartureTime}
-          errorMessage={
-            state.context?.errorMessages['plannedDepartureTime']?.[0]
-          }
-          onChange={(e) =>
+          value={state.context.plannedDepartureTime || ''}
+          onChange={(time: string) =>
             send({
               type: 'ON_INPUT_CHANGE',
               inputName: 'plannedDepartureTime',
-              value: e.target.value,
+              value: time,
             })
           }
         />
@@ -194,7 +188,7 @@ export const DelayForm = ({ state, send }: DelayFormProps) => {
       </SectionCard>
       <SectionCard title={t(PageText.Contact.aboutYouInfo.optionalTitle)}>
         <Input
-          label={PageText.Contact.input.firstName.label}
+          label={t(PageText.Contact.input.firstName.label)}
           type="text"
           name="firstName"
           value={state.context.firstName || ''}
@@ -208,7 +202,7 @@ export const DelayForm = ({ state, send }: DelayFormProps) => {
         />
 
         <Input
-          label={PageText.Contact.input.lastName.label}
+          label={t(PageText.Contact.input.lastName.label)}
           type="text"
           name="lastName"
           value={state.context.lastName || ''}
@@ -222,7 +216,7 @@ export const DelayForm = ({ state, send }: DelayFormProps) => {
         />
 
         <Input
-          label={PageText.Contact.input.email.label}
+          label={t(PageText.Contact.input.email.label)}
           type="email"
           name="email"
           value={state.context.email || ''}

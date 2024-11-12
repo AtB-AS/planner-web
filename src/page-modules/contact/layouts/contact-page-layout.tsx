@@ -32,13 +32,11 @@ export const contactPages: ContactPage[] = [
     href: '/contact/means-of-transport',
     icon: 'transportation/Bus',
   },
-  /*
   {
-    title: PageText.Contact.ticketsApp.title,
-    href: '/contact/tickets-app',
+    title: PageText.Contact.ticketing.title,
+    href: '/contact/ticketing',
     icon: 'devices/Phone',
   },
-  */
   {
     title: PageText.Contact.lostProperty.title,
     href: '/contact/lost-property',

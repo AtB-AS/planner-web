@@ -33,7 +33,7 @@ export const OrderTravelCardForm = ({
       </SectionCard>
       <SectionCard title={t(PageText.Contact.aboutYouInfo.title)}>
         <Input
-          label={PageText.Contact.input.firstName.label}
+          label={t(PageText.Contact.input.firstName.label)}
           type="text"
           autoComplete="given-name additional-name"
           name="firstName"
@@ -49,7 +49,7 @@ export const OrderTravelCardForm = ({
         />
 
         <Input
-          label={PageText.Contact.input.lastName.label}
+          label={t(PageText.Contact.input.lastName.label)}
           type="text"
           autoComplete="family-name"
           name="lastName"
@@ -64,7 +64,7 @@ export const OrderTravelCardForm = ({
           }
         />
         <Input
-          label={PageText.Contact.input.address.label}
+          label={t(PageText.Contact.input.address.label)}
           type="text"
           autoComplete="street-address"
           name="address"
@@ -79,7 +79,7 @@ export const OrderTravelCardForm = ({
           }
         />
         <Input
-          label={PageText.Contact.input.postalCode.label}
+          label={t(PageText.Contact.input.postalCode.label)}
           type="number"
           autoComplete="postal-code"
           name="postalCode"
@@ -94,7 +94,7 @@ export const OrderTravelCardForm = ({
           }
         />
         <Input
-          label={PageText.Contact.input.city.label}
+          label={t(PageText.Contact.input.city.label)}
           type="text"
           name="city"
           value={state.context.city || ''}
@@ -108,7 +108,7 @@ export const OrderTravelCardForm = ({
           }
         />
         <Input
-          label={PageText.Contact.input.email.label}
+          label={t(PageText.Contact.input.email.label)}
           type="email"
           autoComplete="email"
           name="email"
