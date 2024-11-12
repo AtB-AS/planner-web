@@ -1,6 +1,5 @@
 export {
   Checkbox,
-  DescriptionModal,
   ErrorMessage,
   FileInput,
   Input,

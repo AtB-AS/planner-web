@@ -6,7 +6,7 @@ import { Typo } from '@atb/components/typography';
 import ErrorMessage from './error-message';
 import { MonoIcon } from '@atb/components/icon';
 import { Button } from '@atb/components/button';
-import { DescriptionModal } from '.';
+import DescriptionModal from './description-modal';
 
 type InputProps = {
   label: TranslatedString;
