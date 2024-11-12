@@ -48,7 +48,10 @@ export const AppTicketRefund = ({ state, send }: AppTicketRefundProps) => {
         }
         modalContent={{
           description: t(PageText.Contact.input.orderId.description),
-          bulletPoints: PageText.Contact.input.orderId.descriptionBulletPoints,
+          bulletPoints:
+            PageText.Contact.input.orderId.descriptionBulletPoints.map(
+              (bulletPoint) => t(bulletPoint),
+            ),
         }}
       />
     </SectionCard>

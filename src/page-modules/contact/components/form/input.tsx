@@ -13,7 +13,7 @@ type InputProps = {
   modalContent?: {
     description?: string;
     instruction?: string;
-    bulletPoints?: TranslatedString[];
+    bulletPoints?: string[];
   };
   errorMessage?: TranslatedString;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;

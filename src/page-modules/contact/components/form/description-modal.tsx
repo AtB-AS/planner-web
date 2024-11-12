@@ -5,14 +5,14 @@ import { FocusScope } from '@react-aria/focus';
 import { MonoIcon } from '@atb/components/icon';
 import { useEffect, useRef } from 'react';
 import { Button } from '@atb/components/button';
-import { PageText, TranslatedString, useTranslation } from '@atb/translations';
+import { PageText, useTranslation } from '@atb/translations';
 
 type DescriptionModalProps = {
   title: string;
   modalContent: {
     description?: string;
     instruction?: string;
-    bulletPoints?: TranslatedString[];
+    bulletPoints?: string[];
   };
   isModalOpen: boolean;
   closeModal: () => void;
@@ -99,7 +99,7 @@ const DescriptionModal = ({
                 {bulletPoints.map((desc, index) => (
                   <li key={index}>
                     <Typo.p textType="body__primary" key={index}>
-                      {t(desc)}
+                      {desc}
                     </Typo.p>
                   </li>
                 ))}

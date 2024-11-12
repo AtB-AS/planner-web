@@ -32,7 +32,9 @@ export const AppTicketingForm = ({ state, send }: AppTicketingFormProps) => {
             description: t(PageText.Contact.input.orderId.description),
             instruction: t(PageText.Contact.input.orderId.instruction),
             bulletPoints:
-              PageText.Contact.input.orderId.descriptionBulletPoints,
+              PageText.Contact.input.orderId.descriptionBulletPoints.map(
+                (bulletpoint) => t(bulletpoint),
+              ),
           }}
         />
       </SectionCard>

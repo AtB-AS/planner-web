@@ -94,7 +94,10 @@ const RefundSection = ({ state, send }: RefundSectionProps) => {
         modalContent={{
           description: t(PageText.Contact.input.orderId.description),
           instruction: t(PageText.Contact.input.orderId.instruction),
-          bulletPoints: PageText.Contact.input.orderId.descriptionBulletPoints,
+          bulletPoints:
+            PageText.Contact.input.orderId.descriptionBulletPoints.map(
+              (bulletPoint) => t(bulletPoint),
+            ),
         }}
       />
 
