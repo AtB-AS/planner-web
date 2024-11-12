@@ -1574,7 +1574,7 @@ export const Contact = {
       instruction: _(
         `Gjelder forespørselen flere billetter, send ordre-id for alle billettene, separert med komma (' , ').`,
         `If the request applies to several tickets, send the order ID for all the tickets, separated by commas (' , ').`,
-        `Gjeld forespørslen flere billettar, send ordre-id for alle billettane, separert med komma (' , ').`,
+        `Gjeld førespurnaden flere billettar, send ordre-id for alle billettane, separert med komma (' , ').`,
       ),
       errorMessages: {
         empty: _('Ordre-id mangler', 'Order-id is missing', 'Ordre-id manglar'),
