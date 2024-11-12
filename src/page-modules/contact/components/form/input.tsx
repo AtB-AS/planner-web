@@ -9,7 +9,7 @@ import { MonoIcon } from '@atb/components/icon';
 import { Button } from '@atb/components/button';
 
 type InputProps = {
-  label: TranslatedString;
+  label: string;
   description?: string;
   errorMessage?: TranslatedString;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
@@ -42,7 +42,7 @@ export const Input = ({
     >
       <div className={style.label_container}>
         <label>
-          <Typo.span textType="body__primary">{t(label)}</Typo.span>
+          <Typo.span textType="body__primary">{label}</Typo.span>
         </label>
 
         {description && (
@@ -52,7 +52,7 @@ export const Input = ({
             icon={{ right: <MonoIcon icon={'status/Info'} /> }}
             buttonProps={{
               'aria-label': t(
-                PageText.Contact.components.modal.moreInformation(t(label)),
+                PageText.Contact.components.modal.moreInformation(label),
               ),
             }}
           />
@@ -73,7 +73,7 @@ export const Input = ({
 
       {displayDescriptionModal && (
         <DescriptionModal
-          title={t(label)}
+          title={label}
           description={description}
           isModalOpen={isModalOpen}
           closeModal={toggleModalState}
