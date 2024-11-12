@@ -15,6 +15,7 @@ import {
   getLineOptions,
   getStopOptions,
   DateSelector,
+  TimeSelector,
 } from '../../components';
 
 type RefundCarFormProps = {
@@ -182,20 +183,14 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
             })
           }
         />
-
-        <Input
+        <TimeSelector
           label={PageText.Contact.input.plannedDepartureTime.label}
-          type="time"
-          name="time"
-          value={state.context.plannedDepartureTime}
-          errorMessage={
-            state.context?.errorMessages['plannedDepartureTime']?.[0]
-          }
-          onChange={(e) =>
+          value={state.context.plannedDepartureTime || ''}
+          onChange={(time: string) =>
             send({
               type: 'ON_INPUT_CHANGE',
               inputName: 'plannedDepartureTime',
-              value: e.target.value,
+              value: time,
             })
           }
         />

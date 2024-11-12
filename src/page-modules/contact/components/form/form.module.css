@@ -499,35 +499,19 @@
   padding-right: var(--spacings-small);
 }
 
-@media (max-width: 600px) {
-  .select,
-  .select__placholder,
-  .select__listBoxItem,
-  .searchable_select__comboBox,
-  .searchable_select__listBoxItem,
-  .searchable_select__input:not(:focus):placeholder-shown {
-    font-size: 1.25rem;
-  }
-  .select__popover,
-  .searchable_select__popover {
-    overflow-y: auto;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
-  }
-}
-
 /* Time and date selector */
-.dateSelectorContainer {
+.dateSelectorContainer,
+.timeSelectorContainer {
   display: flex;
   flex-direction: column;
   gap: var(--spacings-small);
-  font-size: 1rem !important;
 }
 
 .dateSelector,
 .timeSelector {
   --height: 2.75rem;
-  border-radius: var(--border-radius-small);
   overflow: hidden;
+  border-radius: var(--border-radius-small);
 }
 
 .dateSelector input[type='date'],
@@ -606,17 +590,14 @@
 
 .dateSelectorInput,
 .timeSelectorInput {
+  width: 100%;
   height: var(--height);
+  display: flex;
+  align-items: center;
   padding: var(--spacings-medium);
   color: var(--static-background-background_0-text);
-  border-top-right-radius: 0.75rem;
-  border-bottom-right-radius: 0.75rem;
-  display: flex;
+  border-radius: var(--border-radius-small);
   border: var(--border-width-slim) solid var(--text-colors-primary);
-  width: 100%;
-
-  border: var(--border-width-slim) solid var(--text-colors-primary);
-  align-items: center;
 }
 
 .dateSelector input[type='date']:focus,
