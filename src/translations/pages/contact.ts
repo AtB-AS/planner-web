@@ -1047,7 +1047,7 @@ export const Contact = {
       },
       errorMessages: {
         empty: _(
-          'Vennligst fyll ut e-post adressen din',
+          'Vennligst fyll ut e-postadressen din',
           'Please enter your email address',
           'Vennligst fyll ut e-postadressa di',
         ),
