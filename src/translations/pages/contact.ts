@@ -1003,7 +1003,7 @@ export const Contact = {
       errorMessages: {
         empty: _(
           'Vennligst fyll ut fornavnet ditt',
-          'Please enter your firstname',
+          'Please enter your first name',
           'Vennligst fyll ut fornamnet ditt',
         ),
       },
