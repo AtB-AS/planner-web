@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { MonoIcon } from '@atb/components/icon';
 import ErrorMessage from '../error-message';
 import style from '../form.module.css';
+import { andIf } from '@atb/utils/css';
 import {
   Key,
   Button,
@@ -91,11 +92,14 @@ export default function SearchableSelect<T>({
       onSelectionChange={handleSelectionChange}
       className={style.searchable_select__comboBox}
     >
-      <Label>{label}</Label>
+      <Label className={isDisabled ? style.label_disabled : ''}>{label}</Label>
       <Group className={style.searchable_select__group}>
         <Input
           placeholder={placeholder}
-          className={style.searchable_select__input}
+          className={andIf({
+            [style.searchable_select__input]: true,
+            [style.searchable_select__input_disabled]: !!isDisabled,
+          })}
           value={inputValue}
           onChange={(e) => handleInputChange(e.target.value)}
           onFocus={handleFocus}
