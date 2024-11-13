@@ -18,6 +18,10 @@
   gap: var(--spacings-small);
 }
 
+.label_disabled {
+  color: var(--text-colors-disabled);
+}
+
 .input {
   background: transparent;
   color: var(--text-colors-primary);
@@ -36,6 +40,10 @@
 .input::placeholder {
   color: var(--text-colors-secondary);
   opacity: 1;
+}
+
+.input:disabled {
+  cursor: not-allowed;
 }
 
 .input:focus-within {

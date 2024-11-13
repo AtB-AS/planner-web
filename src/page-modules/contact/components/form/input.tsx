@@ -27,6 +27,7 @@ export const Input = ({
   checked,
   value,
   modalContent,
+  disabled,
   onChange,
 }: InputProps) => {
   const { t } = useTranslation();
@@ -46,7 +47,12 @@ export const Input = ({
     >
       <div className={style.label_container}>
         <label>
-          <Typo.span textType="body__primary">{label}</Typo.span>
+          <Typo.span
+            textType="body__primary"
+            className={disabled ? style.label_disabled : ''}
+          >
+            {label}
+          </Typo.span>
         </label>
 
         {isModalContentProvided && (
@@ -71,6 +77,7 @@ export const Input = ({
         })}
         checked={checked}
         value={value}
+        disabled={disabled}
         onChange={onChange}
       />
       {errorMessage && <ErrorMessage message={t(errorMessage)} />}

@@ -297,6 +297,24 @@ const AboutYouSection = ({ state, send }: AboutYouSectionProps) => {
         }
       />
 
+      <Input
+        label={t(
+          PageText.Contact.input.bankInformation.bankAccountNumber.label,
+        )}
+        type="number"
+        name="bankAccountNumber"
+        value={state.context.bankAccountNumber || ''}
+        disabled={state.context.hasInternationalBankAccount}
+        errorMessage={state.context?.errorMessages['bankAccountNumber']?.[0]}
+        onChange={(e) =>
+          send({
+            type: 'ON_INPUT_CHANGE',
+            inputName: 'bankAccountNumber',
+            value: e.target.value,
+          })
+        }
+      />
+
       <Checkbox
         label={t(PageText.Contact.input.bankInformation.checkbox)}
         checked={state.context.hasInternationalBankAccount}
@@ -308,25 +326,6 @@ const AboutYouSection = ({ state, send }: AboutYouSectionProps) => {
           })
         }
       />
-
-      {!state.context.hasInternationalBankAccount && (
-        <Input
-          label={t(
-            PageText.Contact.input.bankInformation.bankAccountNumber.label,
-          )}
-          type="number"
-          name="bankAccountNumber"
-          value={state.context.bankAccountNumber || ''}
-          errorMessage={state.context?.errorMessages['bankAccountNumber']?.[0]}
-          onChange={(e) =>
-            send({
-              type: 'ON_INPUT_CHANGE',
-              inputName: 'bankAccountNumber',
-              value: e.target.value,
-            })
-          }
-        />
-      )}
 
       {state.context.hasInternationalBankAccount && (
         <div>
