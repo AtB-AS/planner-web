@@ -345,6 +345,21 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
         />
 
         <Input
+          label={t(PageText.Contact.input.phoneNumber.label)}
+          type="tel"
+          name="phoneNumber"
+          value={state.context.phoneNumber || ''}
+          errorMessage={state.context?.errorMessages['phoneNumber']?.[0]}
+          onChange={(e) =>
+            send({
+              type: 'ON_INPUT_CHANGE',
+              inputName: 'phoneNumber',
+              value: e.target.value,
+            })
+          }
+        />
+
+        <Input
           label={t(
             PageText.Contact.input.bankInformation.bankAccountNumber.label,
           )}
