@@ -53,12 +53,16 @@ export default function CustomeSelect<T>({
       isDisabled={disabled}
       className={style.select__select_container}
     >
-      <Label>{label}</Label>
+      <Label className={disabled ? style.label_disabled : ''}>{label}</Label>
       <Button className={style.select__button}>
         {value ? (
           <span>{valueToText(value)}</span>
         ) : (
-          <span className={style.select__placholder}>{placeholder}</span>
+          <span
+            className={`${style.select__placeholder} ${disabled ? style.label_disabled : ''}`}
+          >
+            {placeholder}
+          </span>
         )}
         <MonoIcon icon={'navigation/ExpandMore'} />
       </Button>
