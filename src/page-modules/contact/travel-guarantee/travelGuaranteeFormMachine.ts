@@ -7,6 +7,7 @@ import {
   convertFilesToBase64,
   getCurrentDateString,
   getCurrentTimeString,
+  setBankAccountInternationalStatus,
   setLineAndResetStops,
   setTransportModeAndResetLineAndStops,
 } from '../utils';
@@ -189,6 +190,10 @@ export const fetchMachine = setup({
 
         if (inputName === 'isIntialAgreementChecked')
           return setInitialAgreementAndFormType(context, value);
+
+        if (inputName === 'hasInternationalBankAccount') {
+          return setBankAccountInternationalStatus(context, value as boolean);
+        }
 
         context.errorMessages[inputName] = [];
         return {

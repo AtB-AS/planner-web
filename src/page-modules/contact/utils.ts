@@ -74,3 +74,16 @@ export const setLineAndResetStops = (context: any, line: Line | undefined) => {
     },
   };
 };
+
+export const setBankAccountInternationalStatus = (
+  context: any,
+  hasInternationalBankAccount: boolean,
+) => {
+  return {
+    ...context,
+    hasInternationalBankAccount: hasInternationalBankAccount,
+    bankAccountNumber: undefined,
+    IBAN: undefined,
+    SWIFT: undefined,
+  };
+};

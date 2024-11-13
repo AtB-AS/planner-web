@@ -1,7 +1,10 @@
 import { assign, fromPromise, setup } from 'xstate';
 import { ticketingFormEvents, TicketType } from './events';
 import { commonInputValidator, InputErrorMessages } from '../validation';
-import { convertFilesToBase64 } from '../utils';
+import {
+  convertFilesToBase64,
+  setBankAccountInternationalStatus,
+} from '../utils';
 
 export enum FormCategory {
   PriceAndTicketTypes = 'priceAndTicketTypes',
@@ -257,6 +260,10 @@ export const ticketingStateMachine = setup({
             isInitialAgreementChecked: false,
             formType: undefined,
           };
+        }
+
+        if (inputName === 'hasInternationalBankAccount') {
+          return setBankAccountInternationalStatus(context, value as boolean);
         }
 
         return {
