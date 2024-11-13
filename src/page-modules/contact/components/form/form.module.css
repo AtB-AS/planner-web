@@ -489,6 +489,10 @@
   border: var(--border-width-slim) solid var(--text-colors-primary);
 }
 
+.select__button:disabled {
+  cursor: not-allowed;
+}
+
 .select__button:focus-within {
   outline: 0;
   box-shadow: inset 0 0 0 var(--border-width-slim)
