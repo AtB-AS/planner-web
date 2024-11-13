@@ -1555,7 +1555,7 @@ export const Contact = {
       description: _(
         'Hvis du vil ha hjelp med en billett du allerede har kjøpt, trenger vi å vite ordre-id. Ordre-id finner du følgende steder:',
         'If you want help with a ticket you have already bought, we need to know the order ID. You can find the order ID in the following places:',
-        'Viss du vil ha hjelp med ein billett du allereie har kjøpt, treng vi å vite ordre-id. Ordre-id finn du følgende steder:',
+        'Viss du vil ha hjelp med ein billett du allereie har kjøpt, treng vi å vite ordre-id. Ordre-id finn du følgende stadar:',
       ),
 
       descriptionBulletPoints: [
