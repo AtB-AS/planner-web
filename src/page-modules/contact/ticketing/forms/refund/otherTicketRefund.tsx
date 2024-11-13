@@ -61,7 +61,7 @@ const RefundSection = ({ state, send }: RefundSectionProps) => {
       />
 
       <Radio
-        label={t(PageText.Contact.input.customerNumber.label)}  
+        label={t(PageText.Contact.input.customerNumber.label)}
         name="isAppTicketStorageMode"
         checked={!state.context.showInputTravelCardNumber}
         onChange={() =>
@@ -71,9 +71,6 @@ const RefundSection = ({ state, send }: RefundSectionProps) => {
             value: !state.context.showInputTravelCardNumber,
           })
         }
-        modalContent={{
-          description: t(PageText.Contact.input.customerNumber.description),
-        }}
       />
 
       {state.context.showInputTravelCardNumber && (
@@ -98,7 +95,6 @@ const RefundSection = ({ state, send }: RefundSectionProps) => {
           label={t(PageText.Contact.input.customerNumber.label)}
           type="text"
           name="customerNumber"
-          description={t(PageText.Contact.input.customerNumber.description)}
           value={state.context.customerNumber || ''}
           errorMessage={state.context?.errorMessages['customerNumber']?.[0]}
           onChange={(e) =>
@@ -108,6 +104,9 @@ const RefundSection = ({ state, send }: RefundSectionProps) => {
               value: e.target.value,
             })
           }
+          modalContent={{
+            description: t(PageText.Contact.input.customerNumber.description),
+          }}
         />
       )}
 
