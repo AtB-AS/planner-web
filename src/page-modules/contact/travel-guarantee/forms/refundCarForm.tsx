@@ -343,16 +343,20 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
             })
           }
         />
+
         <Input
-          label={t(PageText.Contact.input.phoneNumber.label)}
-          type="tel"
-          name="phoneNumber"
-          value={state.context.phoneNumber || ''}
-          errorMessage={state.context?.errorMessages['phoneNumber']?.[0]}
+          label={t(
+            PageText.Contact.input.bankInformation.bankAccountNumber.label,
+          )}
+          type="number"
+          name="bankAccountNumber"
+          value={state.context.bankAccountNumber || ''}
+          disabled={state.context.hasInternationalBankAccount}
+          errorMessage={state.context?.errorMessages['bankAccountNumber']?.[0]}
           onChange={(e) =>
             send({
               type: 'ON_INPUT_CHANGE',
-              inputName: 'phoneNumber',
+              inputName: 'bankAccountNumber',
               value: e.target.value,
             })
           }
@@ -369,27 +373,6 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
             })
           }
         />
-
-        {!state.context.hasInternationalBankAccount && (
-          <Input
-            label={t(
-              PageText.Contact.input.bankInformation.bankAccountNumber.label,
-            )}
-            type="number"
-            name="bankAccountNumber"
-            value={state.context.bankAccountNumber || ''}
-            errorMessage={
-              state.context?.errorMessages['bankAccountNumber']?.[0]
-            }
-            onChange={(e) =>
-              send({
-                type: 'ON_INPUT_CHANGE',
-                inputName: 'bankAccountNumber',
-                value: e.target.value,
-              })
-            }
-          />
-        )}
 
         {state.context.hasInternationalBankAccount && (
           <div>
