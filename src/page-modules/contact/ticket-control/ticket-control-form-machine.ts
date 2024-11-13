@@ -4,6 +4,7 @@ import {
   convertFilesToBase64,
   getCurrentDateString,
   getCurrentTimeString,
+  setBankAccountStatusAndResetBankInformation,
   setLineAndResetStops,
   setTransportModeAndResetLineAndStops,
 } from '../utils';
@@ -219,6 +220,13 @@ export const ticketControlFormMachine = setup({
         // Set both agreements to false if agreesFirstAgreement is set to false.
         if (inputName === 'agreesFirstAgreement' && !value)
           return disagreeAgreements(context);
+
+        if (inputName === 'hasInternationalBankAccount') {
+          return setBankAccountStatusAndResetBankInformation(
+            context,
+            value as boolean,
+          );
+        }
 
         context.errorMessages[inputName] = [];
         return {
