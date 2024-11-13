@@ -12,6 +12,7 @@ type InputProps = {
   label: string;
   description?: string;
   errorMessage?: TranslatedString;
+  disabled?: boolean;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 } & JSX.IntrinsicElements['input'];
 
@@ -24,6 +25,7 @@ export const Input = ({
   value,
   description,
   onChange,
+  disabled,
 }: InputProps) => {
   const { t } = useTranslation();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -42,7 +44,11 @@ export const Input = ({
     >
       <div className={style.label_container}>
         <label>
-          <Typo.span textType="body__primary">{label}</Typo.span>
+          <Typo.span
+            textType={disabled ? 'body__primary--strike' : 'body__primary'}
+          >
+            {label}
+          </Typo.span>
         </label>
 
         {description && (
@@ -68,6 +74,7 @@ export const Input = ({
         checked={checked}
         value={value}
         onChange={onChange}
+        disabled={disabled}
       />
       {errorMessage && <ErrorMessage message={t(errorMessage)} />}
 

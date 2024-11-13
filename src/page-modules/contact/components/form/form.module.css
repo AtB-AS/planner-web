@@ -38,6 +38,15 @@
   opacity: 1;
 }
 
+.input:disabled {
+  background-color: var(--static-background-background_2-background);
+  cursor: not-allowed;
+}
+
+.input__label_disabled {
+  color: var(--static-background-background_2-text);
+}
+
 .input:focus-within {
   outline: 0;
   box-shadow: inset 0 0 0 var(--border-width-slim)
