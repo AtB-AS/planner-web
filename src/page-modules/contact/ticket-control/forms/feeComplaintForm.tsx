@@ -150,7 +150,7 @@ const FormContent = ({ state, send }: FormProps) => {
           }
         />
         <Radio
-          label={t(PageText.Contact.input.travelCardNumber.label)}
+          label={t(PageText.Contact.input.travelCardNumber.labelRadioButton)}
           name="isAppTicketStorageMode"
           checked={!state.context.isAppTicketStorageMode}
           onChange={() =>

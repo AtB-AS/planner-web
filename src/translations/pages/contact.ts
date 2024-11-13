@@ -37,7 +37,7 @@ export const Contact = {
       description: _(
         'Jeg har fått gebyr og ønsker å klage',
         'I have received a fee and would like to file a complaint',
-        'Eg har fått gebyr og ønskjer å klage',
+        'Eg har fått gebyr og ønsker å klage',
       ),
       info: _(
         'Hvis du har fått gebyr på feil grunnlag, kan du sende oss en skriftlig klage.',
@@ -154,7 +154,7 @@ export const Contact = {
       description: _(
         'Jeg har fått gebyr og ønsker å utsette betalingen',
         'I have received a fee and would like to postpone the payment',
-        'Eg har fått gebyr og ønskjer å utsetje betalinga',
+        'Eg har fått gebyr og ønsker å utsette betalinga',
       ),
       info: _(
         'Ved å sende inn skjemaet, blir betalingsfristen utsatt med 30 dager fra opprinnelig forfallsdato, dvs. totalt 60 dagers betalingsfrist. Du velger selv om du vil dele opp betalingen og gjøre flere innbetalinger i løpet av denne perioden eller betale hele beløpet på en gang',
@@ -574,7 +574,7 @@ export const Contact = {
         label: _(
           'Andre spørsmål om reisekort',
           'Other questions regarding travel card',
-          'Andre førespurnader om reisekort',
+          'Andre spørsmål om reisekort',
         ),
       },
     },
@@ -1002,9 +1002,9 @@ export const Contact = {
       ),
       errorMessages: {
         empty: _(
-          'Vennligst fyll ut informasjon om deg',
-          'Please provide your information',
-          'Vennligst fyll ut din informasjon',
+          'Vennligst fyll ut fornavnet ditt',
+          'Please enter your first name',
+          'Vennligst fyll ut fornamnet ditt',
         ),
       },
     },
@@ -1018,9 +1018,9 @@ export const Contact = {
       ),
       errorMessages: {
         empty: _(
-          'Vennligst fyll ut informasjon om deg',
-          'Please provide your information',
-          'Vennligst fyll ut din informasjon',
+          'Vennligst fyll ut etternavnet ditt',
+          'Please enter your last name',
+          'Vennligst fyll ut etternamnet ditt',
         ),
       },
     },
@@ -1047,9 +1047,9 @@ export const Contact = {
       },
       errorMessages: {
         empty: _(
-          'Vennligst fyll ut informasjon om deg',
-          'Please provide your information',
-          'Vennligst fyll ut din informasjon',
+          'Vennligst fyll ut e-postadressen din',
+          'Please enter your email address',
+          'Vennligst fyll ut e-postadressa di',
         ),
       },
     },
@@ -1058,9 +1058,9 @@ export const Contact = {
       label: _('Adresse', 'Address', 'Adresse'),
       errorMessages: {
         empty: _(
-          'Vennligst fyll ut informasjon om deg',
-          'Please provide your information',
-          'Vennligst fyll ut din informasjon',
+          'Vennligst fyll ut boligadressen din',
+          'Please enter your residential address',
+          'Vennligst fyll ut bustadadressa di',
         ),
       },
     },
@@ -1069,9 +1069,9 @@ export const Contact = {
       label: _('Postnummer', 'Postal code', 'Postnummer'),
       errorMessages: {
         empty: _(
-          'Vennligst fyll ut informasjon om deg',
-          'Please provide your information',
-          'Vennligst fyll ut din informasjon',
+          'Vennligst fyll ut postnummer',
+          'Please enter your postal code',
+          'Vennligst fyll ut postnummer',
         ),
       },
     },
@@ -1080,15 +1080,15 @@ export const Contact = {
       label: _('Bosted', 'City', 'Bustad'),
       errorMessages: {
         empty: _(
-          'Vennligst fyll ut informasjon om deg',
-          'Please provide your information',
-          'Vennligst fyll ut din informasjon',
+          'Vennligst fyll ut ditt bosted',
+          'Please enter your residiential city',
+          'Vennligst fyll ut bustaden di',
         ),
       },
     },
 
     phoneNumber: {
-      label: _('Telefonnummer', 'Phonenumber', 'Telefonnummer'),
+      label: _('Telefonnummer', 'Phone number', 'Telefonnummer'),
       labelOptional: _(
         'Telefonnummer (valgfritt)',
         'Phone number (optional)',
@@ -1096,9 +1096,9 @@ export const Contact = {
       ),
       errorMessages: {
         empty: _(
-          'Vennligst fyll ut informasjon om deg',
-          'Please provide your information',
-          'Vennligst fyll ut din informasjon',
+          'Vennligst fyll ut ditt telefonnummer',
+          'Please enter your phone number',
+          'Vennligst fyll ut ditt telefonnummer',
         ),
       },
     },
@@ -1362,9 +1362,9 @@ export const Contact = {
 
     feedback: {
       title: _(
-        'Hva ønsker du å fortelle oss?',
+        'Hva vil du å fortelle oss?',
         'What do you want to tell us?',
-        'Kva ønskjer du å fortelje oss?',
+        'Kva vil du å fortelje oss?',
       ),
 
       optionalTitle: _(
@@ -1388,7 +1388,7 @@ export const Contact = {
         empty: _(
           'Tilbakemelding mangler',
           'Feedback is missing',
-          'Tilbakemelding mangler',
+          'Tilbakemelding manglar',
         ),
       },
     },
@@ -1462,7 +1462,7 @@ export const Contact = {
         },
       ] as Area[],
       errorMessages: {
-        empty: _('Område mangler', 'Area is missing', 'Område mangler'),
+        empty: _('Område mangler', 'Area is missing', 'Område manglar'),
       },
     },
 
@@ -1503,7 +1503,8 @@ export const Contact = {
     },
 
     travelCardNumber: {
-      label: _('Reisekort', 'Travelcard', 'Reisekort'),
+      labelRadioButton: _('Reisekort', 'Travelcard', 'Reisekort'),
+      label: _('Reisekortnummer', 'Travelcard number', 'Reisekortnummer'),
       info: _(
         'Legg inn reisekortnummeret her hvis du allerede har et reisekort. Reisekortnummeret finner du på baksiden av reisekortet ditt',
         'Enter the travel card number here if you already have a travel card. The travel card number can be found on the back of your travel card',
@@ -1511,18 +1512,18 @@ export const Contact = {
       ),
       errorMessages: {
         empty: _(
-          'Legg til reisekort',
+          'Legg til reisekortnummer',
           'Enter travelcard number',
-          'Legg til reisekort',
+          'Legg til reisekortnummer',
         ),
       },
     },
 
     question: {
       title: _(
-        'Hva ønsker du å spørre om?',
+        'Hva vil du spørre om?',
         'What do you want to ask about?',
-        'Kva ønskjer du å spørje om?',
+        'Kva vil du spørje om?',
       ),
 
       info: _(
@@ -1540,7 +1541,7 @@ export const Contact = {
         empty: _(
           'Spørsmålet mangler',
           'The question is missing',
-          'Smørsmålet mangler',
+          'Spørsmålet manglar',
         ),
       },
     },
@@ -1601,9 +1602,9 @@ export const Contact = {
         {
           id: 'periodTicket',
           name: _(
-            'Periodebillet (sonebasert)',
+            'Periodebillett (sonebasert)',
             'Period ticket (zone-based)',
-            'Periodebillet (sonebasert)',
+            'Periodebillett (sonebasert)',
           ),
         },
         {
@@ -1627,7 +1628,7 @@ export const Contact = {
         empty: _(
           'Grunn for refusjon mangler',
           'Reason for refund is missing',
-          'Grunn for refusjon mangler',
+          'Grunn for refusjon manglar',
         ),
       },
     },
@@ -1641,9 +1642,9 @@ export const Contact = {
         {
           id: 'periodTicket',
           name: _(
-            'Periodebillet (sonebasert)',
+            'Periodebillett (sonebasert)',
             'Period ticket (zone-based)',
-            'Periodebillet (sonebasert)',
+            'Periodebillett (sonebasert)',
           ),
         },
         {
@@ -1680,7 +1681,7 @@ export const Contact = {
         'Skriv inn beløpet du ønsker utbetalt i norske kroner. ',
       ),
       errorMessages: {
-        empty: _('Beløp mangler', 'Amount is missing', 'Beløp mangler'),
+        empty: _('Beløp mangler', 'Amount is missing', 'Beløp manglar'),
       },
     },
   },
@@ -1721,7 +1722,7 @@ export const Contact = {
   components: {
     fileinput: {
       errorMessages: {
-        empty: _('Vedlegg mangler', 'Attachment is missing', 'Vedlegg mangler'),
+        empty: _('Vedlegg mangler', 'Attachment is missing', 'Vedlegg manglar'),
         tooLarge: (fileName: string) =>
           _(
             `Filen "${fileName}" er for stor. Maks 5 MB`,

@@ -23,7 +23,8 @@ const ticketingSpecificFormEvents = {} as
         | 'ticketType'
         | 'amount'
         | 'isInitialAgreementChecked'
-        | 'hasInternationalBankAccount';
+        | 'hasInternationalBankAccount'
+        | 'showInputTravelCardNumber';
       value: string | boolean | TicketType;
     }
   | {
