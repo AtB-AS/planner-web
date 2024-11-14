@@ -180,6 +180,9 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
               value: time,
             })
           }
+          errorMessage={
+            state.context?.errorMessages['plannedDepartureTime']?.[0]
+          }
         />
 
         <Select

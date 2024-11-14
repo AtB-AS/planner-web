@@ -174,6 +174,9 @@ export const DriverForm = ({ state, send }: DriverFormProps) => {
               value: time,
             })
           }
+          errorMessage={
+            state.context?.errorMessages['plannedDepartureTime']?.[0]
+          }
         />
       </SectionCard>
 

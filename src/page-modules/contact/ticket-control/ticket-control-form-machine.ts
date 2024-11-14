@@ -3,7 +3,6 @@ import { ticketControlFormEvents } from './events';
 import {
   convertFilesToBase64,
   getCurrentDateString,
-  getCurrentTimeString,
   setBankAccountStatusAndResetBankInformation,
   setLineAndResetStops,
   setTransportModeAndResetLineAndStops,
@@ -327,7 +326,6 @@ export const ticketControlFormMachine = setup({
   initial: 'editing',
   context: {
     date: getCurrentDateString(),
-    plannedDepartureTime: getCurrentTimeString(),
     agreesFirstAgreement: false,
     agreesSecondAgreement: false,
     hasInternationalBankAccount: false,

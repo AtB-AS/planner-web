@@ -142,6 +142,9 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
               value: time,
             })
           }
+          errorMessage={
+            state.context?.errorMessages['plannedDepartureTime']?.[0]
+          }
         />
       </SectionCard>
       <SectionCard title={t(PageText.Contact.input.feedback.title)}>

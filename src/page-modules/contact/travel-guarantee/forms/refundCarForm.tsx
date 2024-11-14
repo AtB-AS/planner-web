@@ -193,6 +193,9 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
               value: time,
             })
           }
+          errorMessage={
+            state.context?.errorMessages['plannedDepartureTime']?.[0]
+          }
         />
 
         <Select
