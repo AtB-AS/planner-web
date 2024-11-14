@@ -1,4 +1,3 @@
-import { Area } from '@atb/page-modules/contact/means-of-transport/events';
 import {
   RefundReason,
   TicketType,
@@ -1390,79 +1389,6 @@ export const Contact = {
           'Feedback is missing',
           'Tilbakemelding manglar',
         ),
-      },
-    },
-    area: {
-      label: _('Område', 'Area', 'Område'),
-      optionLabel: _('Velg område', 'Select area', 'Vel område'),
-      options: [
-        {
-          id: 'rp1',
-          name: _(
-            'Ålesund, Giske, Sula (RP1)',
-            'Ålesund, Giske, Sula (RP1)',
-            'Ålesund, Giske, Sula (RP1)',
-          ),
-        },
-        {
-          id: 'rp2',
-          name: _(
-            'Kristiansund, Averøy, Aure, Smøla (RP2)',
-            'Kristiansund, Averøy, Aure, Smøla (RP2)',
-            'Kristiansund, Averøy, Aure, Smøla (RP2)',
-          ),
-        },
-        {
-          id: 'rp3',
-          name: _(
-            'Molde (unntatt Skåla), Gjemnes (RP3)',
-            'Molde (except Skåla), Gjemnes (RP3)',
-            'Molde (unntatt Skåla), Gjemnes (RP3)',
-          ),
-        },
-        {
-          id: 'rp4',
-          name: _(
-            'Sunnmøre nord (RP4)',
-            'Sunnmøre nord (RP4)',
-            'Sunnmøre nord (RP4)',
-          ),
-        },
-        {
-          id: 'rp5',
-          name: _(
-            'Sunnmøre sør (RP5)',
-            'Sunnmøre sør (RP5)',
-            'Sunnmøre sør (RP5)',
-          ),
-        },
-        {
-          id: 'rp6',
-          name: _(
-            'Sunndalsøra, Surnadal, Trondheim, Oppdal (RP6)',
-            'Sunndalsøra, Surnadal, Trondheim, Oppdal (RP6)',
-            'Sunndalsøra, Surnadal, Trondheim, Oppdal (RP6)',
-          ),
-        },
-        {
-          id: 'rp7',
-          name: _(
-            'Rauma, Vestnes, Skåla (RP7)',
-            'Rauma, Vestnes, Skåla (RP7)',
-            'Rauma, Vestnes, Skåla (RP7)',
-          ),
-        },
-        {
-          id: 'rp8',
-          name: _(
-            'Hustadvika, Midsund, Aukra (RP8)',
-            'Hustadvika, Midsund, Aukra (RP8)',
-            'Hustadvika, Midsund, Aukra (RP8)',
-          ),
-        },
-      ] as Area[],
-      errorMessages: {
-        empty: _('Område mangler', 'Area is missing', 'Område manglar'),
       },
     },
 

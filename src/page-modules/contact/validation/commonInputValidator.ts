@@ -60,11 +60,6 @@ export const commonInputValidator = (context: any) => {
         PageText.Contact.input.bankInformation.SWIFT.errorMessages.empty,
     },
     {
-      inputName: 'area',
-      validCondition: context.area,
-      errorMessage: PageText.Contact.input.area.errorMessages.empty,
-    },
-    {
       inputName: 'transportMode',
       validCondition: context.transportMode,
       errorMessage: PageText.Contact.input.transportMode.errorMessages.empty,
