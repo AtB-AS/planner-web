@@ -387,6 +387,10 @@
   color: var(--static-background-background_2-text);
 }
 
+.searchable_select__input_disabled {
+  cursor: not-allowed;
+}
+
 .searchable_select__input::placeholder {
   color: var(--text-colors-secondary);
   opacity: 1;
@@ -403,6 +407,10 @@
   border: none;
   padding: var(--spacings-small);
   background-color: transparent;
+}
+
+.searchable_select__button:disabled {
+  cursor: not-allowed;
 }
 
 .select__popover,
