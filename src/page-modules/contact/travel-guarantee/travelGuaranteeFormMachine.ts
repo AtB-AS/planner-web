@@ -5,7 +5,6 @@ import { ReasonForTransportFailure } from './events';
 import { commonInputValidator, InputErrorMessages } from '../validation';
 import {
   convertFilesToBase64,
-  getCurrentDateString,
   setBankAccountStatusAndResetBankInformation,
   setLineAndResetStops,
   setTransportModeAndResetLineAndStops,
@@ -61,7 +60,7 @@ export type ContextProps = {
   line?: Line | undefined;
   fromStop?: Line['quays'][0] | undefined;
   toStop?: Line['quays'][0] | undefined;
-  date: string;
+  date?: string;
   plannedDepartureTime?: string;
   kilometersDriven?: string;
   fromAddress?: string;
@@ -293,7 +292,6 @@ export const fetchMachine = setup({
   context: {
     isIntialAgreementChecked: false,
     hasInternationalBankAccount: false,
-    date: getCurrentDateString(),
     errorMessages: {},
   },
   states: {

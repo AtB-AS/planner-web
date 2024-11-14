@@ -182,6 +182,7 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
               value: date,
             })
           }
+          errorMessage={state.context?.errorMessages['date']?.[0]}
         />
         <TimeSelector
           label={PageText.Contact.input.plannedDepartureTime.label}

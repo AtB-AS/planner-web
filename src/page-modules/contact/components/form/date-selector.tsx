@@ -1,7 +1,7 @@
 import style from './form.module.css';
 import { MonoIcon } from '@atb/components/icon';
 import { TranslatedString, useTranslation } from '@atb/translations';
-import { fromDate, parseDate } from '@internationalized/date';
+import { fromDate } from '@internationalized/date';
 import {
   Button,
   Calendar,
@@ -16,26 +16,32 @@ import {
   Label,
   Popover,
 } from 'react-aria-components';
+import ErrorMessage from './error-message';
 
 export type DateSelectorProps = {
   label: TranslatedString;
   value?: string;
+  errorMessage?: TranslatedString;
   onChange: (value: string) => void;
 };
 
 export default function DateSelector({
   label,
   value,
+  errorMessage,
   onChange,
 }: DateSelectorProps) {
   const { t } = useTranslation();
+  const zonedDateTime = value
+    ? fromDate(new Date(value || ''), 'Europe/Oslo')
+    : undefined;
 
   return (
     <div className={style.dateSelectorContainer}>
       <Label>{t(label)}</Label>
       <DatePicker
         granularity="day"
-        value={fromDate(new Date(value || ''), 'Europe/Oslo')}
+        value={zonedDateTime}
         onChange={(e) => onChange(e.toString().slice(0, 10))}
         className={style.dateSelector}
         shouldForceLeadingZeros
@@ -78,6 +84,7 @@ export default function DateSelector({
           </Dialog>
         </Popover>
       </DatePicker>
+      {errorMessage && <ErrorMessage message={t(errorMessage)} />}
     </div>
   );
 }

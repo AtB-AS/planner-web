@@ -34,9 +34,6 @@ export const convertFilesToBase64 = (
   return Promise.all(filePromises);
 };
 
-export const getCurrentDateString = (): string =>
-  new Date().toISOString().split('T')[0];
-
 export const setTransportModeAndResetLineAndStops = (
   context: any,
   transporMode: TransportModeType,

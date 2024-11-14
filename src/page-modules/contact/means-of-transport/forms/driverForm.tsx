@@ -162,6 +162,7 @@ export const DriverForm = ({ state, send }: DriverFormProps) => {
               value: date,
             })
           }
+          errorMessage={state.context?.errorMessages['date']?.[0]}
         />
 
         <TimeSelector

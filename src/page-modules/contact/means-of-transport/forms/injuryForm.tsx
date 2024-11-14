@@ -161,6 +161,7 @@ export const InjuryForm = ({ state, send }: InjuryFormProps) => {
               value: date,
             })
           }
+          errorMessage={state.context?.errorMessages['date']?.[0]}
         />
 
         <TimeSelector

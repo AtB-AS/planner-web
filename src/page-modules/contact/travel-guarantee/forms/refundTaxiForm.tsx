@@ -168,6 +168,7 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
               value: date,
             })
           }
+          errorMessage={state.context?.errorMessages['date']?.[0]}
         />
 
         <TimeSelector

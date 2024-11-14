@@ -1,6 +1,5 @@
 import { assign, fromPromise, setup } from 'xstate';
 import { Line } from '../server/journey-planner/validators';
-import { getCurrentDateString } from '../utils';
 
 export type GroupTravelContextType = {
   travelType: 'bus' | 'boat' | null;
@@ -137,9 +136,6 @@ export const groupTravelStateMachine = setup({
   initial: 'selectTravelType',
   context: {
     travelType: null,
-    formData: {
-      dateOfTravel: getCurrentDateString(),
-    },
     errors: defaultErrors,
   } as GroupTravelContextType,
   on: {
