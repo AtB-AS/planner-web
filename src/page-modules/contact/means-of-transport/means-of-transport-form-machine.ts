@@ -5,7 +5,6 @@ import { commonInputValidator, InputErrorMessages } from '../validation';
 import {
   convertFilesToBase64,
   getCurrentDateString,
-  getCurrentTimeString,
   setLineAndResetStops,
   setTransportModeAndResetLineAndStops,
 } from '../utils';
@@ -250,7 +249,6 @@ export const meansOfTransportFormMachine = setup({
   initial: 'editing',
   context: {
     date: getCurrentDateString(),
-    plannedDepartureTime: getCurrentTimeString(),
     isResponseWanted: false,
     errorMessages: {},
   },

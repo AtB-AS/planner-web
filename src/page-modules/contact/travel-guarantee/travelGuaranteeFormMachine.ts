@@ -6,7 +6,6 @@ import { commonInputValidator, InputErrorMessages } from '../validation';
 import {
   convertFilesToBase64,
   getCurrentDateString,
-  getCurrentTimeString,
   setBankAccountStatusAndResetBankInformation,
   setLineAndResetStops,
   setTransportModeAndResetLineAndStops,
@@ -63,7 +62,7 @@ export type ContextProps = {
   fromStop?: Line['quays'][0] | undefined;
   toStop?: Line['quays'][0] | undefined;
   date: string;
-  plannedDepartureTime: string;
+  plannedDepartureTime?: string;
   kilometersDriven?: string;
   fromAddress?: string;
   toAddress?: string;
@@ -295,7 +294,6 @@ export const fetchMachine = setup({
     isIntialAgreementChecked: false,
     hasInternationalBankAccount: false,
     date: getCurrentDateString(),
-    plannedDepartureTime: getCurrentTimeString(),
     errorMessages: {},
   },
   states: {

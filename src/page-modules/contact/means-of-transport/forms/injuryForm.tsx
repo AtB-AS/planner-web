@@ -173,6 +173,10 @@ export const InjuryForm = ({ state, send }: InjuryFormProps) => {
               value: time,
             })
           }
+          errorMessage={
+            state.context?.errorMessages['plannedDepartureTime']?.[0] ||
+            undefined
+          }
         />
       </SectionCard>
 

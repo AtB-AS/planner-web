@@ -156,6 +156,10 @@ export const TransportationForm = ({
               value: time,
             })
           }
+          errorMessage={
+            state.context?.errorMessages['plannedDepartureTime']?.[0] ||
+            undefined
+          }
         />
       </SectionCard>
 

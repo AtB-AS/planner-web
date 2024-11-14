@@ -152,6 +152,10 @@ export const DelayForm = ({ state, send }: DelayFormProps) => {
               value: time,
             })
           }
+          errorMessage={
+            state.context?.errorMessages['plannedDepartureTime']?.[0] ||
+            undefined
+          }
         />
       </SectionCard>
 

@@ -1,6 +1,7 @@
 import style from './form.module.css';
 import { TranslatedString, useTranslation } from '@atb/translations';
 import { parseTime } from '@internationalized/date';
+import ErrorMessage from './error-message';
 import {
   DateInput,
   DateSegment,
@@ -10,16 +11,18 @@ import {
 
 export type TimeSelectorProps = {
   label: TranslatedString;
-  value: string;
+  value?: string;
+  errorMessage?: TranslatedString;
   onChange: (value: string) => void;
 };
 export default function TimeSelector({
   label,
   value,
+  errorMessage,
   onChange,
 }: TimeSelectorProps) {
   const { t } = useTranslation();
-  const parsedValue = parseTime(value);
+  const parsedValue = value ? parseTime(value) : undefined;
 
   return (
     <div className={style.timeSelectorContainer}>
@@ -42,6 +45,7 @@ export default function TimeSelector({
           )}
         </DateInput>
       </TimeField>
+      {errorMessage && <ErrorMessage message={t(errorMessage)} />}
     </div>
   );
 }
