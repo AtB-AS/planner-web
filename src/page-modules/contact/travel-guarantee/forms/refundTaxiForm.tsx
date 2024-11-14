@@ -181,8 +181,7 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
             })
           }
           errorMessage={
-            state.context?.errorMessages['plannedDepartureTime']?.[0] ||
-            undefined
+            state.context?.errorMessages['plannedDepartureTime']?.[0]
           }
         />
 
