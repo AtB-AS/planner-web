@@ -4,13 +4,17 @@ import { PageText, TranslatedString, useTranslation } from '@atb/translations';
 import { andIf } from '@atb/utils/css';
 import { Typo } from '@atb/components/typography';
 import ErrorMessage from './error-message';
-import DescriptionModal from './description-modal';
 import { MonoIcon } from '@atb/components/icon';
 import { Button } from '@atb/components/button';
+import DescriptionModal from './description-modal';
 
 type InputProps = {
   label: string;
-  description?: string;
+  modalContent?: {
+    description?: string;
+    instruction?: string;
+    bulletPoints?: string[];
+  };
   errorMessage?: TranslatedString;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 } & JSX.IntrinsicElements['input'];
@@ -22,14 +26,14 @@ export const Input = ({
   name,
   checked,
   value,
-  description,
+  modalContent,
   disabled,
   onChange,
 }: InputProps) => {
   const { t } = useTranslation();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const displayDescriptionModal = description && isModalOpen; // Condition to avoid rendering of useEffect inside DescriptionModal before opened.
-
+  const isModalContentProvided = hasModalContent(modalContent);
+  const displayDescriptionModal = isModalOpen && isModalContentProvided;
   const toggleModalState = () => {
     setIsModalOpen(!isModalOpen);
   };
@@ -51,7 +55,7 @@ export const Input = ({
           </Typo.span>
         </label>
 
-        {description && (
+        {isModalContentProvided && (
           <Button
             className={style.iconButton}
             onClick={toggleModalState}
@@ -81,7 +85,7 @@ export const Input = ({
       {displayDescriptionModal && (
         <DescriptionModal
           title={label}
-          description={description}
+          modalContent={modalContent || {}}
           isModalOpen={isModalOpen}
           closeModal={toggleModalState}
         />
@@ -91,3 +95,16 @@ export const Input = ({
 };
 
 export default Input;
+
+function hasModalContent(content?: {
+  description?: string;
+  instruction?: string;
+  bulletPoints?: string[];
+}): boolean {
+  return !!(
+    content &&
+    (content.description ||
+      content.instruction ||
+      (content.bulletPoints && content.bulletPoints?.length > 0))
+  );
+}

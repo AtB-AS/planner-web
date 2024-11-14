@@ -317,9 +317,10 @@
 }
 
 .modal_content {
+  position: relative;
   display: flex;
   flex-direction: column;
-  max-width: 22.5rem;
+  max-width: 32rem;
   padding: var(--spacings-large);
   border: var(--border-width-medium) solid
     var(--interactive-interactive_2-outline-background); /* Use border property */
@@ -328,16 +329,24 @@
   color: var(--static-background-background_0-text);
   background-color: var(--static-background-background_0-background);
   border-radius: var(--border-radius-regular);
-  position: relative;
 }
 
 .modal_content > * + * {
-  margin-top: var(--spacings-large);
+  margin-top: var(--spacings-small);
 }
 
 .modal_header {
   display: flex;
   justify-content: space-between;
+}
+
+.modal__rules_list {
+  padding: var(--spacings-medium);
+  padding-left: var(--spacings-xLarge);
+}
+
+.modal__rules_list > li {
+  padding: var(--spacings-xSmall) 0;
 }
 
 /* select and searchable-select*/

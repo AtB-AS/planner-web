@@ -116,7 +116,6 @@ const FormContent = ({ state, send }: FormProps) => {
           type="text"
           name="feeNumber"
           value={state.context.feeNumber || ''}
-          description={t(PageText.Contact.input.feeNumber.description)}
           errorMessage={state.context?.errorMessages['feeNumber']?.[0]}
           onChange={(e) =>
             send({
@@ -125,6 +124,9 @@ const FormContent = ({ state, send }: FormProps) => {
               value: e.target.value,
             })
           }
+          modalContent={{
+            description: t(PageText.Contact.input.feeNumber.description),
+          }}
         />
 
         <Typo.h3 textType="heading__component">

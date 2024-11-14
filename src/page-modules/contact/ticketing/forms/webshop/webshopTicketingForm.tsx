@@ -20,9 +20,14 @@ export const WebshopTicketingForm = ({
       <SectionCard
         title={t(PageText.Contact.ticketing.webshop.webshopTicketing.title)}
       >
-        <Typo.p textType="body__primary">
-          {t(PageText.Contact.input.orderId.description(false))}
-        </Typo.p>
+        {PageText.Contact.input.orderId.descriptionBulletPoints.map(
+          (desc, index) => (
+            <Typo.p textType="body__primary" key={index}>
+              {t(desc)}
+            </Typo.p>
+          ),
+        )}
+
         <Input
           label={t(PageText.Contact.input.orderId.label(false))}
           type="text"

@@ -50,7 +50,6 @@ export const AppAccountForm = ({ state, send }: AppAccountFormProps) => {
           label={t(PageText.Contact.input.customerNumber.label)}
           type="text"
           name="customerNumber"
-          description={t(PageText.Contact.input.customerNumber.description)}
           value={state.context.customerNumber || ''}
           errorMessage={state.context?.errorMessages['customerNumber']?.[0]}
           onChange={(e) =>
@@ -60,6 +59,9 @@ export const AppAccountForm = ({ state, send }: AppAccountFormProps) => {
               value: e.target.value,
             })
           }
+          modalContent={{
+            description: t(PageText.Contact.input.customerNumber.description),
+          }}
         />
         <Input
           label={t(PageText.Contact.input.firstName.label)}

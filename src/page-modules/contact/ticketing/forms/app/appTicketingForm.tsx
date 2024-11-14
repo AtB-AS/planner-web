@@ -19,7 +19,6 @@ export const AppTicketingForm = ({ state, send }: AppTicketingFormProps) => {
           label={t(PageText.Contact.input.orderId.label(false))}
           type="text"
           name="orderId"
-          description={t(PageText.Contact.input.orderId.description(false))}
           value={state.context.orderId || ''}
           errorMessage={state.context?.errorMessages['orderId']?.[0]}
           onChange={(e) =>
@@ -29,6 +28,14 @@ export const AppTicketingForm = ({ state, send }: AppTicketingFormProps) => {
               value: e.target.value,
             })
           }
+          modalContent={{
+            description: t(PageText.Contact.input.orderId.description),
+            instruction: t(PageText.Contact.input.orderId.instruction),
+            bulletPoints:
+              PageText.Contact.input.orderId.descriptionBulletPoints.map(
+                (bulletpoint) => t(bulletpoint),
+              ),
+          }}
         />
       </SectionCard>
       <SectionCard title={t(PageText.Contact.input.question.title)}>
@@ -67,7 +74,6 @@ export const AppTicketingForm = ({ state, send }: AppTicketingFormProps) => {
           label={t(PageText.Contact.input.customerNumber.labelOptional)}
           type="text"
           name="customerNumber"
-          description={t(PageText.Contact.input.customerNumber.description)}
           value={state.context.customerNumber || ''}
           onChange={(e) =>
             send({
@@ -76,6 +82,9 @@ export const AppTicketingForm = ({ state, send }: AppTicketingFormProps) => {
               value: e.target.value,
             })
           }
+          modalContent={{
+            description: t(PageText.Contact.input.customerNumber.description),
+          }}
         />
         <Input
           label={t(PageText.Contact.input.firstName.label)}

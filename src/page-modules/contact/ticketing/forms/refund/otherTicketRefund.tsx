@@ -95,7 +95,6 @@ const RefundSection = ({ state, send }: RefundSectionProps) => {
           label={t(PageText.Contact.input.customerNumber.label)}
           type="text"
           name="customerNumber"
-          description={t(PageText.Contact.input.customerNumber.description)}
           value={state.context.customerNumber || ''}
           errorMessage={state.context?.errorMessages['customerNumber']?.[0]}
           onChange={(e) =>
@@ -105,6 +104,9 @@ const RefundSection = ({ state, send }: RefundSectionProps) => {
               value: e.target.value,
             })
           }
+          modalContent={{
+            description: t(PageText.Contact.input.customerNumber.description),
+          }}
         />
       )}
 
@@ -112,7 +114,6 @@ const RefundSection = ({ state, send }: RefundSectionProps) => {
         label={t(PageText.Contact.input.orderId.label(false))}
         type="text"
         name="orderId"
-        description={t(PageText.Contact.input.orderId.description(false))}
         value={state.context.orderId || ''}
         errorMessage={state.context?.errorMessages['orderId']?.[0]}
         onChange={(e) =>
@@ -122,6 +123,14 @@ const RefundSection = ({ state, send }: RefundSectionProps) => {
             value: e.target.value,
           })
         }
+        modalContent={{
+          description: t(PageText.Contact.input.orderId.description),
+          instruction: t(PageText.Contact.input.orderId.instruction),
+          bulletPoints:
+            PageText.Contact.input.orderId.descriptionBulletPoints.map(
+              (bulletPoint) => t(bulletPoint),
+            ),
+        }}
       />
 
       <Typo.p textType="body__primary">

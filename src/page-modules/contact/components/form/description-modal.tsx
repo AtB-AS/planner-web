@@ -9,19 +9,24 @@ import { PageText, useTranslation } from '@atb/translations';
 
 type DescriptionModalProps = {
   title: string;
-  description: string;
+  modalContent: {
+    description?: string;
+    instruction?: string;
+    bulletPoints?: string[];
+  };
   isModalOpen: boolean;
   closeModal: () => void;
 };
 
 const DescriptionModal = ({
   title,
-  description,
+  modalContent,
   isModalOpen,
   closeModal,
 }: DescriptionModalProps) => {
   const { t } = useTranslation();
   const modalRef = useRef<HTMLDivElement | null>(null);
+  const { description, instruction, bulletPoints } = modalContent;
 
   const handleEscapeOrClickOutside = (event: KeyboardEvent | MouseEvent) => {
     if (event instanceof KeyboardEvent && event.key === 'Escape') {
@@ -84,7 +89,26 @@ const DescriptionModal = ({
                 }}
               />
             </div>
-            <Typo.p textType="body__primary">{description}</Typo.p>
+
+            {description && (
+              <Typo.p textType="body__primary">{description}</Typo.p>
+            )}
+
+            {bulletPoints && (
+              <ul className={style.modal__rules_list}>
+                {bulletPoints.map((desc, index) => (
+                  <li key={index}>
+                    <Typo.p textType="body__primary" key={index}>
+                      {desc}
+                    </Typo.p>
+                  </li>
+                ))}
+              </ul>
+            )}
+
+            {instruction && (
+              <Typo.p textType="body__primary--bold">{instruction}</Typo.p>
+            )}
           </dialog>
         </motion.div>
       </FocusScope>
