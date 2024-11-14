@@ -7,7 +7,7 @@ import {
   setLineAndResetStops,
   setTransportModeAndResetLineAndStops,
 } from '../utils';
-import { Area, meansOfTransportFormEvents } from './events';
+import { meansOfTransportFormEvents } from './events';
 
 export enum FormType {
   Driver = 'driver',
@@ -20,7 +20,6 @@ export enum FormType {
 
 type submitInput = {
   formType?: string;
-  areaName?: string;
   transportMode?: string;
   lineName?: string;
   fromStopName?: string;
@@ -38,7 +37,6 @@ type submitInput = {
 
 export type ContextProps = {
   formType?: FormType;
-  area?: Area;
   transportMode?: TransportModeType;
   line?: Line;
   fromStop?: Line['quays'][0];
@@ -58,7 +56,6 @@ export type ContextProps = {
 const setInputToValidate = (context: ContextProps) => {
   const {
     formType,
-    area,
     transportMode,
     line,
     fromStop,
@@ -74,7 +71,6 @@ const setInputToValidate = (context: ContextProps) => {
   switch (formType) {
     case FormType.Driver:
       return {
-        area,
         transportMode,
         line,
         fromStop,
@@ -119,7 +115,6 @@ const setInputToValidate = (context: ContextProps) => {
 
     case FormType.ServiceOffering:
       return {
-        area,
         transportMode,
         line,
         feedback,
@@ -127,7 +122,6 @@ const setInputToValidate = (context: ContextProps) => {
 
     case FormType.Injury:
       return {
-        area,
         transportMode,
         line,
         fromStop,
@@ -194,7 +188,6 @@ export const meansOfTransportFormMachine = setup({
       async ({
         input: {
           formType,
-          areaName,
           transportMode,
           lineName,
           fromStopName,
@@ -220,7 +213,6 @@ export const meansOfTransportFormMachine = setup({
           method: 'POST',
           body: JSON.stringify({
             formType: formType,
-            area: areaName,
             transportMode: transportMode,
             line: lineName,
             fromStop: fromStopName,
@@ -288,7 +280,6 @@ export const meansOfTransportFormMachine = setup({
         input: ({ context }: { context: ContextProps }) => {
           return {
             formType: context.formType,
-            areaName: context.area?.name.no,
             transportMode: context.transportMode,
             lineName: context.line?.name,
             fromStopName: context.fromStop?.name,

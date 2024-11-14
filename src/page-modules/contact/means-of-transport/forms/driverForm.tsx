@@ -45,28 +45,6 @@ export const DriverForm = ({ state, send }: DriverFormProps) => {
         </Typo.p>
 
         <Select
-          label={t(PageText.Contact.input.area.label).toString()}
-          value={state.context.area}
-          valueToId={(option) => option.id}
-          valueToText={(option) => t(option.name)}
-          onChange={(value) => {
-            if (!value) return;
-            send({
-              type: 'ON_INPUT_CHANGE',
-              inputName: 'area',
-              value: value,
-            });
-          }}
-          placeholder={t(PageText.Contact.input.area.optionLabel)}
-          options={PageText.Contact.input.area.options}
-          error={
-            state.context?.errorMessages['area']?.[0]
-              ? t(state.context?.errorMessages['area']?.[0])
-              : undefined
-          }
-        />
-
-        <Select
           label={t(PageText.Contact.input.transportMode.label)}
           value={state.context.transportMode || ''}
           onChange={(value) =>
