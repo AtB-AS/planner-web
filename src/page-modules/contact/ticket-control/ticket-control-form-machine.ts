@@ -2,7 +2,6 @@ import { assign, fromPromise, setup } from 'xstate';
 import { ticketControlFormEvents } from './events';
 import {
   convertFilesToBase64,
-  getCurrentDateString,
   setBankAccountStatusAndResetBankInformation,
   setLineAndResetStops,
   setTransportModeAndResetLineAndStops,
@@ -325,7 +324,6 @@ export const ticketControlFormMachine = setup({
   id: 'ticketControlForm',
   initial: 'editing',
   context: {
-    date: getCurrentDateString(),
     agreesFirstAgreement: false,
     agreesSecondAgreement: false,
     hasInternationalBankAccount: false,

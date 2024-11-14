@@ -130,6 +130,7 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
               value: date,
             })
           }
+          errorMessage={state.context?.errorMessages['date']?.[0]}
         />
 
         <TimeSelector

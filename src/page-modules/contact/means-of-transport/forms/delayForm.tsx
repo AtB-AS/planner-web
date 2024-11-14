@@ -140,6 +140,7 @@ export const DelayForm = ({ state, send }: DelayFormProps) => {
               value: date,
             })
           }
+          errorMessage={state.context?.errorMessages['date']?.[0]}
         />
 
         <TimeSelector
