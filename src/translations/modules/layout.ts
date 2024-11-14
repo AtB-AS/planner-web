@@ -109,6 +109,13 @@ export const Layout = orgSpecificTranslations(LayoutInternal, {
             header: _('Kontakt', 'Contact', 'Kontakt'),
             contactLink: _('Kontakt FRAM', 'Contact FRAM', 'Kontakt FRAM'),
           },
+          general: {
+            supportPageLink: _(
+              'Kontaktskjema',
+              'Contact form',
+              'Kontaktskjema',
+            ),
+          },
         },
       },
     },
