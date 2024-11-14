@@ -23,8 +23,8 @@
     },
 
     "supportUrl": {
-      "default": "https://frammr.no/kontakt-oss",
-      "en-US": "https://en.frammr.no/contact-us"
+      "default": "https://reise.frammr.no/contact",
+      "en-US": "https://reise.frammr.no/contact"
     },
     "homePageUrl": {
       "name": "frammr.no",
