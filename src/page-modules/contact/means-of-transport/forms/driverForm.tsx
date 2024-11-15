@@ -145,7 +145,7 @@ export const DriverForm = ({ state, send }: DriverFormProps) => {
 
         <TimeSelector
           label={PageText.Contact.input.plannedDepartureTime.label}
-          value={state.context.plannedDepartureTime || ''}
+          value={state.context.plannedDepartureTime}
           onChange={(time: string) =>
             send({
               type: 'ON_INPUT_CHANGE',

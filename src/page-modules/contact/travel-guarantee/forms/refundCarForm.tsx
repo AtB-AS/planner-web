@@ -186,7 +186,7 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
         />
         <TimeSelector
           label={PageText.Contact.input.plannedDepartureTime.label}
-          value={state.context.plannedDepartureTime || ''}
+          value={state.context.plannedDepartureTime}
           onChange={(time: string) =>
             send({
               type: 'ON_INPUT_CHANGE',

@@ -173,7 +173,7 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
 
         <TimeSelector
           label={PageText.Contact.input.plannedDepartureTime.label}
-          value={state.context.plannedDepartureTime || ''}
+          value={state.context.plannedDepartureTime}
           onChange={(time: string) =>
             send({
               type: 'ON_INPUT_CHANGE',
