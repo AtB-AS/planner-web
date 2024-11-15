@@ -14,6 +14,8 @@ import {
   SearchableSelect,
   getLineOptions,
   getStopOptions,
+  DateSelector,
+  TimeSelector,
 } from '../components';
 
 export default function GroupTravelContent() {
@@ -107,17 +109,13 @@ export default function GroupTravelContent() {
                 .title,
             )}
           >
-            <Input
-              label={t(
+            <DateSelector
+              label={
                 PageText.Contact.groupTravel.travelTypeBus.form
-                  .travelInformation.dateOfTravel.title,
-              )}
-              type="date"
-              name="date"
-              value={formData.dateOfTravel}
-              onChange={(e) =>
-                handleInputChange('dateOfTravel', e.target.value)
+                  .travelInformation.dateOfTravel.title
               }
+              value={formData?.dateOfTravel}
+              onChange={(date) => handleInputChange('dateOfTravel', date)}
               errorMessage={
                 errors.dateOfTravel
                   ? PageText.Contact.input.date.errorMessages.empty
@@ -130,7 +128,7 @@ export default function GroupTravelContent() {
                 PageText.Contact.groupTravel.travelTypeBus.form
                   .travelInformation.line.title,
               )}
-              value={formData.line}
+              value={formData?.line}
               onChange={(value: Line | undefined) => {
                 if (!value) return;
                 handleInputChange('line', value);
@@ -149,13 +147,13 @@ export default function GroupTravelContent() {
                 PageText.Contact.groupTravel.travelTypeBus.form
                   .travelInformation.fromStop.title,
               )}
-              value={formData.fromStop}
-              isDisabled={!formData.line}
+              value={formData?.fromStop}
+              isDisabled={!formData?.line}
               onChange={(value) => {
                 if (!value) return;
                 handleInputChange('fromStop', value);
               }}
-              options={getStopOptions(getQuaysByLine(formData.line?.id ?? ''))}
+              options={getStopOptions(getQuaysByLine(formData?.line?.id ?? ''))}
               placeholder={t(PageText.Contact.input.fromStop.optionLabel)}
               error={
                 errors.fromStop
@@ -163,17 +161,14 @@ export default function GroupTravelContent() {
                   : undefined
               }
             />
-            <Input
-              label={t(
+
+            <TimeSelector
+              label={
                 PageText.Contact.groupTravel.travelTypeBus.form
-                  .travelInformation.departureTime.title,
-              )}
-              type="time"
-              name="time"
-              value={formData.departureTime}
-              onChange={(e) =>
-                handleInputChange('departureTime', e.target.value)
+                  .travelInformation.departureTime.title
               }
+              value={formData?.departureTime}
+              onChange={(time) => handleInputChange('departureTime', time)}
               errorMessage={
                 errors.departureTime
                   ? PageText.Contact.input.plannedDepartureTime.errorMessages
@@ -187,14 +182,14 @@ export default function GroupTravelContent() {
                 PageText.Contact.groupTravel.travelTypeBus.form
                   .travelInformation.toStop.title,
               )}
-              value={formData.toStop}
-              isDisabled={!formData.line}
+              value={formData?.toStop}
+              isDisabled={!formData?.line}
               onChange={(value) => {
                 if (!value) return;
                 handleInputChange('toStop', value);
               }}
               placeholder={t(PageText.Contact.input.toStop.optionLabel)}
-              options={getStopOptions(getQuaysByLine(formData.line?.id ?? ''))}
+              options={getStopOptions(getQuaysByLine(formData?.line?.id ?? ''))}
               error={
                 errors.toStop
                   ? t(PageText.Contact.input.toStop.errorMessages.empty)
@@ -214,7 +209,7 @@ export default function GroupTravelContent() {
                 PageText.Contact.groupTravel.travelTypeBus.form.travelReturn
                   .line.title,
               )}
-              value={formData.returnLine}
+              value={formData?.returnLine}
               onChange={(value: Line | undefined) => {
                 if (!value) return;
                 handleInputChange('returnLine', value);
@@ -228,25 +223,24 @@ export default function GroupTravelContent() {
                 PageText.Contact.groupTravel.travelTypeBus.form.travelReturn
                   .fromStop.title,
               )}
-              value={formData.returnFromStop}
-              isDisabled={!formData.returnLine}
+              value={formData?.returnFromStop}
+              isDisabled={!formData?.returnLine}
               onChange={(value) => {
                 if (!value) return;
                 handleInputChange('returnFromStop', value);
               }}
-              options={getStopOptions(getQuaysByLine(formData.line?.id ?? ''))}
+              options={getStopOptions(getQuaysByLine(formData?.line?.id ?? ''))}
               placeholder={t(PageText.Contact.input.fromStop.optionLabel)}
             />
-            <Input
-              label={t(
+
+            <TimeSelector
+              label={
                 PageText.Contact.groupTravel.travelTypeBus.form.travelReturn
-                  .departureTime.title,
-              )}
-              type="time"
-              name="time"
-              value={formData.returnDepartureTime}
-              onChange={(e) =>
-                handleInputChange('returnDepartureTime', e.target.value)
+                  .departureTime.title
+              }
+              value={formData?.returnDepartureTime}
+              onChange={(time) =>
+                handleInputChange('returnDepartureTime', time)
               }
             />
 
@@ -255,14 +249,14 @@ export default function GroupTravelContent() {
                 PageText.Contact.groupTravel.travelTypeBus.form.travelReturn
                   .toStop.title,
               )}
-              value={formData.returnToStop}
-              isDisabled={!formData.returnLine}
+              value={formData?.returnToStop}
+              isDisabled={!formData?.returnLine}
               onChange={(value) => {
                 if (!value) return;
                 handleInputChange('returnToStop', value);
               }}
               placeholder={t(PageText.Contact.input.toStop.optionLabel)}
-              options={getStopOptions(getQuaysByLine(formData.line?.id ?? ''))}
+              options={getStopOptions(getQuaysByLine(formData?.line?.id ?? ''))}
             />
           </SectionCard>
 
@@ -279,7 +273,7 @@ export default function GroupTravelContent() {
               )}
               type="number"
               name="groupSize"
-              value={formData.groupSize}
+              value={formData?.groupSize}
               onChange={(e) => handleInputChange('groupSize', e.target.value)}
               errorMessage={
                 errors.groupSize
@@ -295,7 +289,7 @@ export default function GroupTravelContent() {
               )}
             </Typo.p>
             <Textarea
-              value={formData.groupInfo}
+              value={formData?.groupInfo}
               onChange={(e) => handleInputChange('groupInfo', e.target.value)}
               error={
                 errors.groupInfo
@@ -313,7 +307,7 @@ export default function GroupTravelContent() {
               )}
               type="text"
               name="firstName"
-              value={formData.firstName}
+              value={formData?.firstName}
               onChange={(e) => handleInputChange('firstName', e.target.value)}
               errorMessage={
                 errors.firstName
@@ -329,7 +323,7 @@ export default function GroupTravelContent() {
               )}
               type="text"
               name="lastName"
-              value={formData.lastName}
+              value={formData?.lastName}
               onChange={(e) => handleInputChange('lastName', e.target.value)}
               errorMessage={
                 errors.lastName
@@ -345,7 +339,7 @@ export default function GroupTravelContent() {
               )}
               type="tel"
               name="responsiblePersonPhone"
-              value={formData.phoneNumber}
+              value={formData?.phoneNumber}
               onChange={(e) => handleInputChange('phoneNumber', e.target.value)}
               errorMessage={
                 errors.phoneNumber
@@ -361,7 +355,7 @@ export default function GroupTravelContent() {
               )}
               type="email"
               name="responsiblePersonEmail"
-              value={formData.email}
+              value={formData?.email}
               onChange={(e) => handleInputChange('email', e.target.value)}
               errorMessage={
                 errors.email
