@@ -4,10 +4,10 @@ import { Line } from '../server/journey-planner/validators';
 export type GroupTravelContextType = {
   travelType: 'bus' | 'boat' | null;
   formData: {
-    dateOfTravel: string;
+    dateOfTravel?: string;
     line: Line;
     fromStop: Line['quays'][0];
-    departureTime: string;
+    departureTime?: string;
     toStop: Line['quays'][0];
 
     returnLine?: Line;
@@ -57,6 +57,12 @@ type GroupTravelEvents =
   | { type: 'SUBMIT' };
 
 const getFormDataErrors = (formData: GroupTravelContextType['formData']) => {
+  if (!formData) {
+    return Object.fromEntries(
+      Object.keys(defaultErrors).map((key) => [key, true]),
+    ) as GroupTravelContextType['errors'];
+  }
+
   const errors: GroupTravelContextType['errors'] = defaultErrors;
 
   Object.keys(errors).forEach((key) => {
