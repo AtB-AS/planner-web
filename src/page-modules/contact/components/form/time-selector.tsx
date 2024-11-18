@@ -29,7 +29,10 @@ export default function TimeSelector({
       <Label>{t(label)}</Label>
       <TimeField
         value={parsedValue}
-        onChange={(change) => onChange(change.toString())}
+        onChange={(change) => {
+          if (change === null) return;
+          onChange(change.toString());
+        }}
         hourCycle={24}
         shouldForceLeadingZeros
         className={style.timeSelector}
