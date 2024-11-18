@@ -1223,14 +1223,14 @@ export const Contact = {
 
       ticketControl: {
         label: _(
-          'Dato billettkontroll ble gjennomført',
-          'Date ticket control was carried out',
-          'Dato billettkontroll blei gjennomført',
+          'Dato for billettkontrollen',
+          'Date for the ticket control',
+          'Dato for billettkontrollen',
         ),
         errorMessages: {
           empty: _(
             'Oppgi dato for når billettkontrollen ble gjennomført',
-            'Please provide the date when the ticket control was carried out.',
+            'Please provide the date for when the ticket control was carried out.',
             'Oppgi dato for når billettkontrollen blei gjennomført',
           ),
         },
@@ -1254,14 +1254,14 @@ export const Contact = {
     time: {
       ticketControl: {
         label: _(
-          'Tidspunkt billettkontroll ble gjennomført',
-          'Time ticket control was carried out',
-          'Tidspunkt billettkontroll blei gjennomført',
+          'Tidspunktet for billettkontrollen',
+          'The time of the ticket control',
+          'Tidspunktet for billettkontroll',
         ),
         errorMessages: {
           empty: _(
             'Oppgi tidspunkt for når billettkontrollen ble gjennomført',
-            'Please provide the time when the ticket control was carried out.',
+            'Please provide the time for when the ticket control was carried out.',
             'Oppgi tidspunktet for når billettkontrollen blei gjennomført',
           ),
         },
