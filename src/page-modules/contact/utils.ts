@@ -79,5 +79,9 @@ export const setBankAccountStatusAndResetBankInformation = (
     bankAccountNumber: undefined,
     IBAN: undefined,
     SWIFT: undefined,
+    errorMessages: {
+      ...context.errorMessages,
+      bankAccountNumber: [],
+    },
   };
 };
