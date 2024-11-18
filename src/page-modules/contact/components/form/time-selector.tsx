@@ -30,7 +30,7 @@ export default function TimeSelector({
       <TimeField
         value={parsedValue}
         onChange={(change) => {
-          if (change === null) return;
+          if (!change) return;
           onChange(change.toString());
         }}
         hourCycle={24}
