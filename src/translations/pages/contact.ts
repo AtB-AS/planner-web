@@ -1224,7 +1224,7 @@ export const Contact = {
       ticketControl: {
         label: _(
           'Dato for billettkontrollen',
-          'Date for the ticket control',
+          'The date of the ticket control',
           'Dato for billettkontrollen',
         ),
         errorMessages: {
