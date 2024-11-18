@@ -85,10 +85,22 @@ export const commonInputValidator = (context: any) => {
       errorMessage: PageText.Contact.input.date.errorMessages.empty,
     },
     {
+      inputName: 'dateOfTicketControl',
+      validCondition: context.dateOfTicketControl,
+      errorMessage:
+        PageText.Contact.input.date.ticketControl.errorMessages.empty,
+    },
+    {
       inputName: 'plannedDepartureTime',
       validCondition: context.plannedDepartureTime,
       errorMessage:
         PageText.Contact.input.plannedDepartureTime.errorMessages.empty,
+    },
+    {
+      inputName: 'timeOfTicketControl',
+      validCondition: context.timeOfTicketControl,
+      errorMessage:
+        PageText.Contact.input.time.ticketControl.errorMessages.empty,
     },
     {
       inputName: 'reasonForTransportFailure',

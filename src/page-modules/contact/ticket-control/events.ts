@@ -12,7 +12,9 @@ const ticketControlSpecificFormEvents = {} as {
     | 'isAppTicketStorageMode'
     | 'agreesFirstAgreement'
     | 'agreesSecondAgreement'
-    | 'hasInternationalBankAccount';
+    | 'hasInternationalBankAccount'
+    | 'dateOfTicketControl'
+    | 'timeOfTicketControl';
   value: string | boolean;
 };
 

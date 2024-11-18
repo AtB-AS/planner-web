@@ -121,30 +121,32 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
         />
 
         <DateSelector
-          label={PageText.Contact.input.date.label}
-          value={state.context.date}
-          onChange={(date) =>
+          label={PageText.Contact.input.date.ticketControl.label}
+          value={state.context.dateOfTicketControl}
+          onChange={(dateOfTicketControl: string) =>
             send({
               type: 'ON_INPUT_CHANGE',
-              inputName: 'date',
-              value: date,
-            })
-          }
-          errorMessage={state.context?.errorMessages['date']?.[0]}
-        />
-
-        <TimeSelector
-          label={PageText.Contact.input.plannedDepartureTime.label}
-          value={state.context.plannedDepartureTime || ''}
-          onChange={(time: string) =>
-            send({
-              type: 'ON_INPUT_CHANGE',
-              inputName: 'plannedDepartureTime',
-              value: time,
+              inputName: 'dateOfTicketControl',
+              value: dateOfTicketControl,
             })
           }
           errorMessage={
-            state.context?.errorMessages['plannedDepartureTime']?.[0]
+            state.context?.errorMessages['dateOfTicketControl']?.[0]
+          }
+        />
+
+        <TimeSelector
+          label={PageText.Contact.input.time.ticketControl.label}
+          value={state.context.timeOfTicketControl || ''}
+          onChange={(timeOfTicketControl: string) =>
+            send({
+              type: 'ON_INPUT_CHANGE',
+              inputName: 'timeOfTicketControl',
+              value: timeOfTicketControl,
+            })
+          }
+          errorMessage={
+            state.context?.errorMessages['timeOfTicketControl']?.[0]
           }
         />
       </SectionCard>
