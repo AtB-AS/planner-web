@@ -1220,6 +1220,21 @@ export const Contact = {
       errorMessages: {
         empty: _('Velg dato', 'Select date', 'Vel dato'),
       },
+
+      ticketControl: {
+        label: _(
+          'Dato for billettkontrollen',
+          'The date of the ticket control',
+          'Dato for billettkontrollen',
+        ),
+        errorMessages: {
+          empty: _(
+            'Oppgi dato for når billettkontrollen ble gjennomført',
+            'Please provide the date for when the ticket control was carried out.',
+            'Oppgi dato for når billettkontrollen blei gjennomført',
+          ),
+        },
+      },
     },
     plannedDepartureTime: {
       label: _(
@@ -1235,6 +1250,24 @@ export const Contact = {
         ),
       },
     },
+
+    time: {
+      ticketControl: {
+        label: _(
+          'Tidspunktet for billettkontrollen',
+          'The time of the ticket control',
+          'Tidspunktet for billettkontroll',
+        ),
+        errorMessages: {
+          empty: _(
+            'Oppgi tidspunkt for når billettkontrollen ble gjennomført',
+            'Please provide the time for when the ticket control was carried out.',
+            'Oppgi tidspunktet for når billettkontrollen blei gjennomført',
+          ),
+        },
+      },
+    },
+
     reasonForTransportFailure: {
       label: _('Mulige valg', 'Options', 'Moglege val'),
       optionLabel: _('Velg årsak', 'Select reason', 'Vel åtsak'),

@@ -42,8 +42,8 @@ type submitInput = {
   lineName?: string;
   fromStopName?: string;
   toStopName?: string;
-  date?: string;
-  plannedDepartureTime?: string;
+  dateOfTicketControl?: string;
+  timeOfTicketControl?: string;
 
   // PostponePayment
   invoiceNumber?: string;
@@ -81,8 +81,8 @@ export type ContextProps = {
   line?: Line | undefined;
   fromStop?: Line['quays'][0] | undefined;
   toStop?: Line['quays'][0] | undefined;
-  date?: string;
-  plannedDepartureTime?: string;
+  dateOfTicketControl?: string;
+  timeOfTicketControl?: string;
 
   // PostponePayment
   invoiceNumber?: string;
@@ -137,8 +137,8 @@ const setInputToValidate = (context: ContextProps) => {
     line,
     fromStop,
     toStop,
-    date,
-    plannedDepartureTime,
+    dateOfTicketControl,
+    timeOfTicketControl,
   } = context;
 
   switch (formType) {
@@ -167,8 +167,8 @@ const setInputToValidate = (context: ContextProps) => {
         line,
         fromStop,
         toStop,
-        date,
-        plannedDepartureTime,
+        dateOfTicketControl,
+        timeOfTicketControl,
         feedback,
         firstName,
         lastName,
@@ -270,8 +270,8 @@ export const ticketControlFormMachine = setup({
           lineName,
           fromStopName,
           toStopName,
-          date,
-          plannedDepartureTime,
+          dateOfTicketControl,
+          timeOfTicketControl,
           invoiceNumber,
         },
       }: {
@@ -304,8 +304,8 @@ export const ticketControlFormMachine = setup({
             line: lineName,
             fromStop: fromStopName,
             toStop: toStopName,
-            date: date,
-            plannedDepartureTime: plannedDepartureTime,
+            dateOfTicketControl: dateOfTicketControl,
+            timeOfTicketControl: timeOfTicketControl,
             invoiceNumber: invoiceNumber,
           }),
         })
@@ -386,8 +386,8 @@ export const ticketControlFormMachine = setup({
           lineName: context.line?.name,
           fromStopName: context.fromStop?.name,
           toStopName: context.toStop?.name,
-          date: context.date,
-          plannedDepartureTime: context.plannedDepartureTime,
+          dateOfTicketControl: context.dateOfTicketControl,
+          timeOfTicketControl: context.timeOfTicketControl,
           invoiceNumber: context.invoiceNumber,
         }),
 
