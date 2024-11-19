@@ -63,7 +63,7 @@ export const Contact = {
           'Har du fått gebyr etter billettkontroll?',
         ),
         question: _(
-          'Vi har full forståelse for at det kan være en ubehagelig opplevlese å få gebyr ved billettkontroll, og vi vet at de aller fleste ønsker å reise med gyldig billett.',
+          'Vi har full forståelse for at det kan være en ubehagelig opplevelse å få gebyr ved billettkontroll, og vi vet at de aller fleste ønsker å reise med gyldig billett.',
           'We fully understand that receiving a fine during a ticket inspection can be an unpleasant experience, and we know that the majority of people want to travel with a valid ticket.',
           'Vi har full forståing for at det kan vere ei ubehageleg oppleving å få gebyr ved billettkontroll, og vi veit at dei fleste ønsker å reise med gyldig billett.',
         ),
@@ -117,7 +117,7 @@ export const Contact = {
           _(
             'Kunden bruker et skjermbilde av billett eller en forfalsket billett.',
             'The customer uses a screenshot of a ticket or a counterfeit ticket.',
-            'Kunden brukar eit skjermbilete av billett eller ein forfalska billett.',
+            'Kunden brukar eit skjermbilde av billett eller ein forfalska billett.',
           ),
           _(
             'Kunden kjøper billett til seg selv eller andre for seint, for eksempel etter ombordstiging.',
@@ -309,7 +309,7 @@ export const Contact = {
         'Eg ønsker refusjon for bruk av en bil',
       ),
       info: _(
-        'Hvis du ikke kommer frem med et annet rutetilbud, refunderer vi dokumenterte utgifter for bruk av bil. Vi betaler kilometergodtgjørelse etter statens satser. Refusjonen dekker ikke bompenger, parkering eller andre utgifter knyttet til leiebil/delbil.',
+        'Hvis du ikke kommer frem med et annet rutetilbud, refunderer vi dokumenterte utgifter for bruk av bil. Vi betaler kilometergodtgjørelse etter statens satser. Refusjonen dekker ikke bompenger, parkering eller andre utgifter knyttet til leiebil/delebil.',
         'If you are unable to reach your destination by an alternative service, we will refund documented expenses for the use of a car. We pay compensation per kilometer according to government rates. The refund does not cover tolls, parking, or other expenses related to rental cars/sharing cars',
         'Viss du ikkje kjem fram med eit anna rutetilbod, refunderer vi dokumenterte utlegg for bruk av bil. Vi betalar kilometergodtgjersle etter statens satsar. Refusjonen dekker ikkje bompengar, parkering eller andre utgifter knytt til leigebil/delebil.',
       ),
@@ -319,7 +319,7 @@ export const Contact = {
       },
       aboutThePlanedTrip: {
         title: _(
-          'Om den planlagde reisen di',
+          'Om den planlagte reisen din',
           'About your planed trip',
           'Om den planagde reisa di',
         ),
@@ -384,12 +384,12 @@ export const Contact = {
     },
     delay: {
       description: _(
-        'Forinkelse, kjørt for tidlig eller innstilt',
+        'Forsinkelse, kjørt for tidlig eller innstilt',
         'Delay, driven too early or cancelled',
         'Forseinking, køyrd for tidleg eller innstilt',
       ),
       info: _(
-        'Hvis transportmiddelet ditt er forsinket, for tidlig ute, ikke stoppet, manglet plass eller hvis du ikke fikk tilstrekkelig informasjon om planlakte avvik, kan du gi tilbakemelding her.',
+        'Hvis transportmiddelet ditt er forsinket, for tidlig ute, ikke stoppet, manglet plass eller hvis du ikke fikk tilstrekkelig informasjon om planlagte avvik, kan du gi tilbakemelding her.',
         'If your means of transport is delayed, left too early, did not stop, lacked space or if you did not receive sufficient information about planned deviations, you can give feedback here.',
         'Viss transportmiddelet ditt er forseinka, for tidleg ute, ikkje stoppa, mangla plass eller viss du ikkje fekk tilstrekkeleg informasjon om planlagde avvik, kan du gi tilbakemelding her. ',
       ),
@@ -409,7 +409,7 @@ export const Contact = {
         'Tilbakemelding på haldeplass/kai',
       ),
       info: _(
-        'Har du opplevd en feil eller manglende stopp? Eksempler kan være skade på leseskur, søppel, feil med sanntidsskilt eller lignende.',
+        'Har du opplevd en feil eller manglende stopp? Eksempler kan være skade på leskur, søppel, feil med sanntidsskilt eller lignende.',
         'Have you experienced an error or lack of a stop? Examples could be damage to reading sheds, litter, errors with real-time signs, or the like.',
         'Har du opplevd ein feil eller mangel på stoppestaden? Eksempel kan vere skader på leskur, søppel, feil med sanntidsskilt, eller liknande.',
       ),
