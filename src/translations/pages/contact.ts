@@ -99,7 +99,7 @@ export const Contact = {
             'Vi kan krevje gebyr sjølv om du er under 15 år.',
           ),
         ],
-        checkbox: _('Jeg forsår', 'I understand', 'Eg forstår'),
+        checkbox: _('Jeg forstår', 'I understand', 'Eg forstår'),
       },
 
       secondAgreement: {
@@ -640,7 +640,7 @@ export const Contact = {
             ),
             link: _('reisegaranti.', 'travel guarantee.', 'reisegaranti.'),
           },
-          checkbox: _('Jeg forsår', 'I understand', 'Eg forstår'),
+          checkbox: _('Jeg forstår', 'I understand', 'Eg forstår'),
         },
       },
       appTicketRefund: {
