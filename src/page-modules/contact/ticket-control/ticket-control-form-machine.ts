@@ -40,8 +40,6 @@ type submitInput = {
   // Feedback
   transportMode?: string;
   lineName?: string;
-  fromStopName?: string;
-  toStopName?: string;
   dateOfTicketControl?: string;
   timeOfTicketControl?: string;
 
@@ -79,8 +77,6 @@ export type ContextProps = {
   //Feedback
   transportMode?: TransportModeType | undefined;
   line?: Line | undefined;
-  fromStop?: Line['quays'][0] | undefined;
-  toStop?: Line['quays'][0] | undefined;
   dateOfTicketControl?: string;
   timeOfTicketControl?: string;
 
@@ -135,8 +131,6 @@ const setInputToValidate = (context: ContextProps) => {
     SWIFT,
     transportMode,
     line,
-    fromStop,
-    toStop,
     dateOfTicketControl,
     timeOfTicketControl,
   } = context;
@@ -165,8 +159,6 @@ const setInputToValidate = (context: ContextProps) => {
       return {
         transportMode,
         line,
-        fromStop,
-        toStop,
         dateOfTicketControl,
         timeOfTicketControl,
         feedback,
@@ -268,8 +260,6 @@ export const ticketControlFormMachine = setup({
           SWIFT,
           transportMode,
           lineName,
-          fromStopName,
-          toStopName,
           dateOfTicketControl,
           timeOfTicketControl,
           invoiceNumber,
@@ -302,8 +292,6 @@ export const ticketControlFormMachine = setup({
             attachments: base64EncodedAttachments,
             transportMode: transportMode,
             line: lineName,
-            fromStop: fromStopName,
-            toStop: toStopName,
             dateOfTicketControl: dateOfTicketControl,
             timeOfTicketControl: timeOfTicketControl,
             invoiceNumber: invoiceNumber,
@@ -384,8 +372,6 @@ export const ticketControlFormMachine = setup({
           SWIFT: context.SWIFT,
           transportMode: context.transportMode,
           lineName: context.line?.name,
-          fromStopName: context.fromStop?.name,
-          toStopName: context.toStop?.name,
           dateOfTicketControl: context.dateOfTicketControl,
           timeOfTicketControl: context.timeOfTicketControl,
           invoiceNumber: context.invoiceNumber,

@@ -13,7 +13,6 @@ import {
   Select,
   SearchableSelect,
   getLineOptions,
-  getStopOptions,
   DateSelector,
   TimeSelector,
 } from '../../components';
@@ -77,46 +76,6 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
           error={
             state.context?.errorMessages['line']?.[0] &&
             t(state.context?.errorMessages['line']?.[0])
-          }
-        />
-
-        <SearchableSelect
-          label={t(PageText.Contact.input.fromStop.label)}
-          value={state.context.fromStop}
-          placeholder={t(PageText.Contact.input.fromStop.optionLabel)}
-          isDisabled={!state.context.line}
-          options={getStopOptions(getQuaysByLine(state.context.line?.id ?? ''))}
-          onChange={(value) => {
-            send({
-              type: 'ON_INPUT_CHANGE',
-              inputName: 'fromStop',
-              value: value,
-            });
-          }}
-          error={
-            state.context?.errorMessages['fromStop']?.[0]
-              ? t(state.context?.errorMessages['fromStop']?.[0])
-              : undefined
-          }
-        />
-
-        <SearchableSelect
-          label={t(PageText.Contact.input.toStop.label)}
-          value={state.context.toStop}
-          placeholder={t(PageText.Contact.input.toStop.optionLabel)}
-          isDisabled={!state.context.line}
-          options={getStopOptions(getQuaysByLine(state.context.line?.id ?? ''))}
-          onChange={(value) => {
-            send({
-              type: 'ON_INPUT_CHANGE',
-              inputName: 'toStop',
-              value: value,
-            });
-          }}
-          error={
-            state.context?.errorMessages['toStop']?.[0]
-              ? t(state.context?.errorMessages['toStop']?.[0])
-              : undefined
           }
         />
 
