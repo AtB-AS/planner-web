@@ -27,6 +27,7 @@ import { useState } from 'react';
 import { nextDepartures } from '../client';
 import style from './stop-place.module.css';
 import { formatDestinationDisplay } from '../utils';
+import { isSituationWithinValidityPeriod } from './utils';
 
 export type StopPlaceProps = {
   departures: DepartureData;
@@ -152,14 +153,20 @@ export function EstimatedCallList({ quay }: EstimatedCallListProps) {
       {!isCollapsed && (
         <ul>
           {quay.situations.length > 0 &&
-            quay.situations.map((situation) => (
-              <li key={situation.id}>
-                <SituationMessageBox
-                  situation={situation}
-                  borderRadius={false}
-                />
-              </li>
-            ))}
+            quay.situations
+              .filter(
+                (situation) =>
+                  situation.validityPeriod &&
+                  isSituationWithinValidityPeriod(situation.validityPeriod),
+              )
+              .map((situation) => (
+                <li key={situation.id}>
+                  <SituationMessageBox
+                    situation={situation}
+                    borderRadius={false}
+                  />
+                </li>
+              ))}
           {departures.length > 0 ? (
             <>
               {departures.map((departure) => (
