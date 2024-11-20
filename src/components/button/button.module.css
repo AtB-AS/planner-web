@@ -10,7 +10,7 @@
   display: flex;
 
   flex-wrap: nowrap;
-  gap: var(--spacings-small);
+  gap: token('spacing.small');
 
   background: transparent;
   color: currentColor;
@@ -37,11 +37,11 @@
 .button--transparent:visited {
 }
 .button--transparent:hover {
-  color: var(--text-colors-secondary);
+  color: token('color.foreground.dynamic.secondary');
 }
 .button--transparent:active {
-  background-color: var(--interactive-interactive_0-active-background);
-  color: var(--interactive-interactive_0-active-text);
+  background-color: token('color.interactive.0.active.background');
+  color: token('color.interactive.0.active.foreground.primary');
 }
 .button--transparent:disabled,
 .button--transparent.button--disabled {
@@ -49,8 +49,7 @@
 }
 .button--transparent:focus {
   outline: 0;
-  box-shadow: inset 0 0 0 var(--border-width-medium)
-    var(--interactive-interactive_1-outline-background);
+  box-shadow: inset 0 0 0 token('border.width.medium') token('color.interactive.1.outline.background');
 }
 
 .button--transparent--underline,
@@ -58,11 +57,11 @@
   text-decoration: underline;
 }
 .button--transparent--underline:hover {
-  color: var(--text-colors-secondary);
+  color: token('color.foreground.dynamic.secondary');
 }
 .button--transparent--underline:active {
-  background-color: var(--interactive-interactive_0-active-background);
-  color: var(--interactive-interactive_0-active-text);
+  background-color: token('color.interactive.0.active.background');
+  color: token('color.interactive.0.active.foreground.primary');
 }
 .button--transparent--underline:disabled,
 .button--transparent--underline.button--disabled {
@@ -70,198 +69,197 @@
 }
 .button--transparent--underline:focus {
   outline: 0;
-  box-shadow: inset 0 0 0 var(--border-width-medium)
-    var(--interactive-interactive_1-outline-background);
+  box-shadow: inset 0 0 0 token('border.width.medium') token('color.interactive.1.outline.background');
 }
 
 /* Interactive button 0 */
 .button--interactive_0,
 .button--interactive_0:visited {
-  background-color: var(--interactive-interactive_0-default-background);
-  color: var(--interactive-interactive_0-default-text);
+  background-color: token('color.interactive.0.default.background');
+  color: token('color.interactive.0.default.foreground.primary');
 }
 .button--interactive_0:hover {
-  background-color: var(--interactive-interactive_0-hover-background);
-  color: var(--interactive-interactive_0-hover-text);
+  background-color: token('color.interactive.0.hover.background');
+  color: token('color.interactive.0.hover.foreground.primary');
 }
 .button--interactive_0:active {
-  background-color: var(--interactive-interactive_0-active-background);
-  color: var(--interactive-interactive_0-active-text);
+  background-color: token('color.interactive.0.active.background');
+  color: token('color.interactive.0.active.foreground.primary');
 }
 .button--interactive_0:disabled,
 .button--interactive_0.button--disabled {
-  background-color: var(--interactive-interactive_0-disabled-background);
-  color: var(--interactive-interactive_0-disabled-text);
+  background-color: token('color.interactive.0.disabled.background');
+  color: token('color.interactive.0.disabled.foreground.primary');
 }
 .button--interactive_0:focus {
   outline: 0;
-  box-shadow: inset 0 0 0 var(--border-width-medium)
-    var(--interactive-interactive_0-outline-background);
+  box-shadow: inset 0 0 0 token('border.width.medium')
+    token('color.interactive.0.outline.background');
 }
 
 /* Interactive button 0 bordered */
 .button--interactive_0--bordered,
 .button--interactive_0--bordered:visited {
-  background-color: var(--interactive-interactive_0-default-background);
-  color: var(--interactive-interactive_0-default-text);
-  box-shadow: inset 0 0 0 var(--border-width-slim)
-    var(--interactive-interactive_0-default-text);
+  background-color: token('color.interactive.0.default.background');
+  color: token('color.interactive.0.default.foreground.primary');
+  box-shadow: inset 0 0 0 token('border.width.slim')
+    token('color.interactive.0.default.foreground.primary');
 }
 
 .button--interactive_0--bordered:hover {
-  background-color: var(--interactive-interactive_0-hover-background);
-  color: var(--interactive-interactive_0-hover-text);
+  background-color: token('color.interactive.0.hover.background');
+  color: token('color.interactive.0.hover.foreground.primary');
 }
 
 .button--interactive_0--bordered:active {
-  background-color: var(--interactive-interactive_0-active-background);
-  color: var(--interactive-interactive_0-active-text);
+  background-color: token('color.interactive.0.active.background');
+  color: token('color.interactive.0.active.foreground.primary');
 }
 
 .button--interactive_0--bordered:disabled,
 .button--interactive_0--bordered.button--disabled {
-  background-color: var(--interactive-interactive_0-disabled-background);
-  color: var(--interactive-interactive_0-disabled-text);
+  background-color: token('color.interactive.0.disabled.background');
+  color: token('color.interactive.0.disabled.foreground.primary');
 }
 
 .button--interactive_0--bordered:focus {
   outline: 0;
-  box-shadow: inset 0 0 0 var(--border-width-medium)
-    var(--interactive-interactive_0-outline-background);
+  box-shadow: inset 0 0 0 token('border.width.medium')
+    token('color.interactive.0.outline.background');
 }
 
 .button--interactive_0--bordered-light-outline,
 .button--interactive_0--bordered-light-outline:visited {
-  background-color: var(--interactive-interactive_0-default-background);
-  color: var(--interactive-interactive_0-default-text);
-  box-shadow: inset 0 0 0 var(--border-width-slim)
-    var(--interactive-interactive_0-default-text);
+  background-color: token('color.interactive.0.default.background');
+  color: token('color.interactive.0.default.foreground.primary');
+  box-shadow: inset 0 0 0 token('border.width.slim')
+    token('color.interactive.0.default.foreground.primary');
 }
 
 .button--interactive_0--bordered-light-outline:hover {
-  background-color: var(--interactive-interactive_0-hover-background);
-  color: var(--interactive-interactive_0-hover-text);
+  background-color: token('color.interactive.0.hover.background');
+  color: token('color.interactive.0.hover.foreground.primary');
 }
 
 .button--interactive_0--bordered-light-outline:active {
-  background-color: var(--interactive-interactive_1-hover-background);
-  color: var(--interactive-interactive_1-active-text);
+  background-color: token('color.interactive.1.hover.background');
+  color: token('color.interactive.1.active.foreground.primary');
 }
 
 .button--interactive_0--bordered-light-outline:disabled,
 .button--interactive_0--bordered-light-outline.button--disabled {
-  background-color: var(--interactive-interactive_0-disabled-background);
-  color: var(--interactive-interactive_0-disabled-text);
+  background-color: token('color.interactive.0.disabled.background');
+  color: token('color.interactive.0.disabled.foreground.primary');
 }
 
 .button--interactive_0--bordered-light-outline:focus {
   outline: 0;
-  box-shadow: inset 0 0 0 var(--border-width-medium)
-    var(--interactive-interactive_0-active-background);
+  box-shadow: inset 0 0 0 token('border.width.medium')
+    token('color.interactive.0.active.background');
 }
 
 /* Interactive button 1 */
 
 .button--interactive_1,
 .button--interactive_1:visited {
-  background-color: var(--interactive-interactive_1-default-background);
-  color: var(--interactive-interactive_1-default-text);
+  background-color: token('color.interactive.1.default.background');
+  color: token('color.interactive.1.default.foreground.primary');
 }
 .button--interactive_1:hover {
-  background-color: var(--interactive-interactive_1-hover-background);
-  color: var(--interactive-interactive_1-hover-text);
+  background-color: token('color.interactive.1.hover.background');
+  color: token('color.interactive.1.hover.foreground.primary');
 }
 .button--interactive_1:active {
-  background-color: var(--interactive-interactive_1-active-background);
-  color: var(--interactive-interactive_1-active-text);
+  background-color: token('color.interactive.1.active.background');
+  color: token('color.interactive.1.active.foreground.primary');
 }
 .button--interactive_1:disabled,
 .button--interactive_1.button--disabled {
-  background-color: var(--interactive-interactive_1-disabled-background);
-  color: var(--interactive-interactive_1-disabled-text);
+  background-color: token('color.interactive.1.disabled.background');
+  color: token('color.interactive.1.disabled.foreground.primary');
 }
 .button--interactive_1:focus {
   outline: 0;
-  box-shadow: inset 0 0 0 var(--border-width-medium)
-    var(--interactive-interactive_1-outline-background);
+  box-shadow: inset 0 0 0 token('border.width.medium')
+    token('color.interactive.1.outline.background');
 }
 
 /* Interactive button 2 */
 
 .button--interactive_2,
 .button--interactive_2:visited {
-  background-color: var(--interactive-interactive_2-default-background);
-  color: var(--interactive-interactive_2-default-text);
+  background-color: token('color.interactive.2.default.background');
+  color: token('color.interactive.2.default.foreground.primary');
 }
 .button--interactive_2:hover {
-  background-color: var(--interactive-interactive_2-hover-background);
-  color: var(--interactive-interactive_2-hover-text);
+  background-color: token('color.interactive.2.hover.background');
+  color: token('color.interactive.2.hover.foreground.primary');
 }
 .button--interactive_2:active {
-  background-color: var(--interactive-interactive_2-active-background);
-  color: var(--interactive-interactive_2-active-text);
+  background-color: token('color.interactive.2.active.background');
+  color: token('color.interactive.2.active.foreground.primary');
 }
 .button--interactive_2:disabled,
 .button--interactive_2.button--disabled {
-  background-color: var(--interactive-interactive_2-disabled-background);
-  color: var(--interactive-interactive_2-disabled-text);
+  background-color: token('color.interactive.2.disabled.background');
+  color: token('color.interactive.2.disabled.foreground.primary');
 }
 .button--interactive_2:focus {
   outline: 0;
-  box-shadow: inset 0 0 0 var(--border-width-medium)
-    var(--interactive-interactive_2-outline-background);
+  box-shadow: inset 0 0 0 token('border.width.medium')
+    token('color.interactive.2.outline.background');
 }
 
 /* Interactive button 2 alternative */
 
 .button--interactive_2--light-outline,
 .button--interactive_2--light-outline:visited {
-  background-color: var(--interactive-interactive_2-default-background);
-  color: var(--interactive-interactive_2-default-text);
+  background-color: token('color.interactive.2.default.background');
+  color: token('color.interactive.2.default.foreground.primary');
 }
 .button--interactive_2--light-outline:hover {
-  background-color: var(--interactive-interactive_2-hover-background);
-  color: var(--interactive-interactive_2-hover-text);
+  background-color: token('color.interactive.2.hover.background');
+  color: token('color.interactive.2.hover.foreground.primary');
 }
 .button--interactive_2--light-outline:active {
-  background-color: var(--interactive-interactive_2-active-background);
-  color: var(--interactive-interactive_2-active-text);
+  background-color: token('color.interactive.2.active.background');
+  color: token('color.interactive.2.active.foreground.primary');
 }
 .button--interactive_2--light-outline:disabled,
 .button--interactive_2--light-outline.button--disabled {
-  background-color: var(--interactive-interactive_2-disabled-background);
-  color: var(--interactive-interactive_2-disabled-text);
+  background-color: token('color.interactive.2.disabled.background');
+  color: token('color.interactive.2.disabled.foreground.primary');
 }
 .button--interactive_2--light-outline:focus {
   outline: 0;
-  box-shadow: inset 0 0 0 var(--border-width-medium)
-    var(--interactive-interactive_1-active-background);
+  box-shadow: inset 0 0 0 token('border.width.medium')
+    token('color.interactive.1.active.background');
 }
 
 /* Interactive button 3 */
 
 .button--interactive_3,
 .button--interactive_3:visited {
-  background-color: var(--interactive-interactive_3-default-background);
-  color: var(--interactive-interactive_3-default-text);
+  background-color: token('color.interactive.3.default.background');
+  color: token('color.interactive.3.default.foreground.primary');
 }
 .button--interactive_3:hover {
-  background-color: var(--interactive-interactive_3-hover-background);
-  color: var(--interactive-interactive_3-hover-text);
+  background-color: token('color.interactive.3.hover.background');
+  color: token('color.interactive.3.hover.foreground.primary');
 }
 .button--interactive_3:active {
-  background-color: var(--interactive-interactive_3-active-background);
-  color: var(--interactive-interactive_3-active-text);
+  background-color: token('color.interactive.3.active.background');
+  color: token('color.interactive.3.active.foreground.primary');
 }
 .button--interactive_3:disabled,
 .button--interactive_3.button--disabled {
-  background-color: var(--interactive-interactive_3-disabled-background);
-  color: var(--interactive-interactive_3-disabled-text);
+  background-color: token('color.interactive.3.disabled.background');
+  color: token('color.interactive.3.disabled.foreground.primary');
 }
 .button--interactive_3:focus {
   outline: 0;
-  box-shadow: inset 0 0 0 var(--border-width-medium)
-    var(--interactive-interactive_3-outline-background);
+  box-shadow: inset 0 0 0 token('border.width.medium')
+    token('color.interactive.3.outline.background');
 }
 
 /* Interactive button, destructive */
@@ -271,63 +269,59 @@
   background-color: var(
     --interactive-interactive_destructive-default-background
   );
-  color: var(--interactive-interactive_destructive-default-text);
+  color: token('color.interactive.destructive.default.foreground.primary');
 }
 .button--destructive:hover {
-  background-color: var(--interactive-interactive_destructive-hover-background);
-  color: var(--interactive-interactive_destructive-hover-text);
+  background-color: token('color.interactive.destructive.hover.background');
+  color: token('color.interactive.destructive.hover.foreground.primary');
 }
 .button--destructive:active {
-  background-color: var(
-    --interactive-interactive_destructive-active-background
-  );
-  color: var(--interactive-interactive_destructive-active-text);
+  background-color: token('color.interactive.destructive.active.background');
+  color: token('color.interactive.destructive.active.foreground.primary');
 }
 .button--destructive:disabled,
 .button--destructive.button--disabled {
-  background-color: var(
-    --interactive-interactive_destructive-disabled-background
-  );
-  color: var(--interactive-interactive_destructive-disabled-text);
+  background-color: token('color.interactive.destructive.disabled.background');
+  color: token('color.interactive.destructive.disabled.foreground.primary');
 }
 .button--destructive:focus {
   outline: 0;
-  box-shadow: inset 0 0 0 var(--border-width-medium)
-    var(--interactive-interactive_destructive-outline-background);
+  box-shadow: inset 0 0 0 token('border.width.medium')
+    token('color.interactive.destructive.outline.background');
 }
 
 .button--size_medium {
-  padding: var(--spacings-xLarge);
+  padding: token('spacing.xLarge');
 }
 .button--size_small {
-  padding: var(--spacings-medium);
+  padding: token('spacing.medium');
 }
 .button--size_compact {
   padding: 0;
 }
 .button--size_pill {
-  padding: var(--spacings-xSmall) var(--spacings-medium);
+  padding: token('spacing.xSmall') token('spacing.medium');
 }
 
 .button--radius_top-bottom {
-  border-radius: var(--border-radius-regular);
+  border-radius: token('border.radius.regular');
 }
 .button--radius_top {
-  border-top-left-radius: var(--border-radius-regular);
-  border-top-right-radius: var(--border-radius-regular);
+  border-top-left-radius: token('border.radius.regular');
+  border-top-right-radius: token('border.radius.regular');
 }
 .button--radius_bottom {
-  border-bottom-left-radius: var(--border-radius-regular);
-  border-bottom-right-radius: var(--border-radius-regular);
+  border-bottom-left-radius: token('border.radius.regular');
+  border-bottom-right-radius: token('border.radius.regular');
 }
 .button--radius_top-bottom.button--radiusSize_circular {
-  border-radius: var(--border-radius-circle);
+  border-radius: token('border.radius.circle');
 }
 .button--radius_top.button--radiusSize_circular {
-  border-top-left-radius: var(--border-radius-circle);
-  border-top-right-radius: var(--border-radius-circle);
+  border-top-left-radius: token('border.radius.circle');
+  border-top-right-radius: token('border.radius.circle');
 }
 .button--radius_bottom.button--radiusSize_circular {
-  border-bottom-left-radius: var(--border-radius-circle);
-  border-bottom-right-radius: var(--border-radius-circle);
+  border-bottom-left-radius: token('border.radius.circle');
+  border-bottom-right-radius: token('border.radius.circle');
 }

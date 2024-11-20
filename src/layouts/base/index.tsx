@@ -40,7 +40,7 @@ export function BaseLayout({ children, title }: BaseLayoutProps) {
           <link rel="icon" href="/assets/colors/icons/favicon.svg" />
           <meta
             name="theme-color"
-            content={theme.static.background.background_accent_0.background}
+            content={theme.color.background.accent[0].background}
           />
         </Head>
 

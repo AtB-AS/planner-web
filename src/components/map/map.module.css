@@ -7,23 +7,23 @@
 .header {
   display: flex;
   align-items: center;
-  gap: var(--spacings-medium);
-  background: var(--static-background-background_0-background);
-  color: var(--static-background-background_0-text);
-  border-radius: var(--border-radius-regular) var(--border-radius-regular) 0 0;
-  padding: var(--spacings-medium);
+  gap: token('spacing.medium');
+  background: token('color.background.neutral.0.background');
+  color: token('color.background.neutral.0.foreground.primary');
+  border-radius: token('border.radius.regular') token('border.radius.regular') 0 0;
+  padding: token('spacing.medium');
 }
 
 .header__icons {
   display: flex;
-  gap: var(--spacings-medium);
+  gap: token('spacing.medium');
 }
 
 .header__icons div {
-  background-color: var(--static-background-background_accent_0-background);
-  color: var(--static-background-background_accent_0-text);
-  padding: var(--spacings-small);
-  border-radius: var(--border-radius-regular);
+  background-color: token('color.background.accent.0.background');
+  color: token('color.background.accent.0.foreground.primary');
+  padding: token('spacing.small');
+  border-radius: token('border.radius.regular');
   display: flex;
   justify-content: center;
   align-items: center;
@@ -36,12 +36,12 @@
 }
 
 .header__info__secondary {
-  color: var(--text-colors-secondary);
+  color: token('color.foreground.dynamic.secondary');
 }
 
 .header__buttons {
   display: flex;
-  gap: var(--spacings-medium);
+  gap: token('spacing.medium');
   margin-left: auto;
 }
 
@@ -49,13 +49,13 @@
   position: relative;
   height: 100%;
   width: 100%;
-  border-radius: 0 0 var(--border-radius-regular) var(--border-radius-regular);
+  border-radius: 0 0 token('border.radius.regular') token('border.radius.regular');
   overflow: hidden;
-  background-color: var(--static-background-background_0-background);
+  background-color: token('color.background.neutral.0.background');
 }
 
 .mapContainer__borderRadius {
-  border-radius: var(--border-radius-regular);
+  border-radius: token('border.radius.regular');
 }
 @media (max-width: 650px) {
   .mapContainer {
@@ -65,7 +65,7 @@
 
 .header__leftContainer {
   display: flex;
-  gap: var(--spacings-medium);
+  gap: token('spacing.medium');
 }
 
 .map {
@@ -88,8 +88,8 @@
 .closeButton {
   z-index: 250;
   position: absolute;
-  top: var(--spacings-xLarge);
-  left: var(--spacings-xLarge);
+  top: token('spacing.xLarge');
+  left: token('spacing.xLarge');
   display: none;
 }
 
@@ -99,13 +99,13 @@
 
 .buttonsContainer {
   position: absolute;
-  right: var(--spacings-xLarge);
+  right: token('spacing.xLarge');
   bottom: 3rem;
   z-index: 250;
 }
 
 .pinSvg__fill {
-  fill: var(--interactive-interactive_0-default-background);
+  fill: token('color.interactive.0.default.background');
 }
 
 @media only screen and (max-width: 650px) {
@@ -113,7 +113,7 @@
     flex-direction: column;
     background: inherit;
     color: inherit;
-    padding: var(--spacings-medium) 0;
+    padding: token('spacing.medium') 0;
   }
 
   .header__buttons {
@@ -156,7 +156,7 @@
   align-items: center;
   justify-content: center;
   min-height: 10rem;
-  background-color: var(--static-background-background_0-background);
+  background-color: token('color.background.neutral.0.background');
 
-  border-radius: 0 0 var(--border-radius-regular) var(--border-radius-regular);
+  border-radius: 0 0 token('border.radius.regular') token('border.radius.regular');
 }

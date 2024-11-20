@@ -2,7 +2,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: var(--spacings-medium);
+  gap: token('spacing.medium');
 }
 
 .loading__icon {

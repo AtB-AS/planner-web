@@ -14,7 +14,7 @@
 
 .timeContainer {
   display: flex;
-  gap: var(--spacings-xSmall);
+  gap: token('spacing.xSmall');
   align-items: center;
   white-space: nowrap;
 }

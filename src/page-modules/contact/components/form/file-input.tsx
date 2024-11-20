@@ -23,7 +23,7 @@ export default function FileInput({
 }: FileInputProps) {
   const { t } = useTranslation();
   const id = useId();
-  const { static: staticColors } = useTheme();
+  const { color: {background} } = useTheme();
   const [files, setFiles] = useState<File[]>([]);
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -102,7 +102,7 @@ export default function FileInput({
           }
         }}
       >
-        <FileIcon color={staticColors.background.background_0.text} />
+        <FileIcon color={background.neutral[0].foreground.primary} />
         <Typo.span textType="body__primary">{label}</Typo.span>
       </label>
 

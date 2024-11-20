@@ -7,7 +7,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  left: calc(var(--spacings-large) / 2 + var(--labelWidth));
+  left: calc(token('spacing.large') / 2 + var(--labelWidth));
   transform: translateX(-50%);
 }
 
@@ -23,7 +23,7 @@
 }
 .decorationMarker__center {
   position: absolute;
-  top: calc(var(--spacings-large) + var(--spacings-small));
+  top: calc(token('spacing.large') + token('spacing.small'));
 }
 .decorationMarker__end {
   position: absolute;

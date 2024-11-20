@@ -1,14 +1,14 @@
 .container {
   margin: 0 auto;
   max-width: var(--maxPageWidth);
-  padding: var(--spacings-xLarge);
+  padding: token('spacing.xLarge');
 
   display: grid;
   grid-template-columns: 2fr 3fr;
   grid-template-areas:
     'header header'
     'serviceJourney map';
-  gap: var(--spacings-large);
+  gap: token('spacing.large');
 }
 @media (max-width: 650px) {
   .container {
@@ -23,7 +23,7 @@
   grid-area: header;
   display: flex;
   flex-direction: column;
-  gap: var(--spacings-large);
+  gap: token('spacing.large');
 }
 .mapContainer {
   grid-area: map;
@@ -35,31 +35,31 @@
   grid-area: serviceJourney;
   display: flex;
   flex-direction: column;
-  gap: var(--spacings-medium);
+  gap: token('spacing.medium');
 }
 
 .header {
   display: flex;
   align-items: center;
-  gap: var(--spacings-large);
+  gap: token('spacing.large');
 }
 
 .realtimeText {
   display: flex;
   align-items: center;
-  gap: var(--spacings-small);
+  gap: token('spacing.small');
   font-size: 0.875rem;
-  color: var(--text-colors-secondary);
+  color: token('color.foreground.dynamic.secondary');
 }
 
 .callRows {
-  margin-top: var(--spacings-large);
+  margin-top: token('spacing.large');
 }
 .callRows__container {
-  padding: var(--spacings-medium);
+  padding: token('spacing.medium');
 }
 .callRows__container:nth-of-type(odd) {
-  padding-bottom: var(--spacings-large);
+  padding-bottom: token('spacing.large');
 }
 .callRows__container:nth-of-type(even) {
   padding-top: 0;
@@ -73,22 +73,22 @@
   --decorationLineEndWidth: 0.75rem;
 }
 .boardingInfo {
-  color: var(--text-colors-secondary);
+  color: token('color.foreground.dynamic.secondary');
 }
 .collapseButton {
-  padding: var(--spacings-xSmall);
-  margin-bottom: var(--spacings-medium);
+  padding: token('spacing.xSmall');
+  margin-bottom: token('spacing.medium');
   margin-left: calc(
-    var(--labelWidth) + var(--decorationContainerWidth) - var(--spacings-xSmall)
+    var(--labelWidth) + var(--decorationContainerWidth) - token('spacing.xSmall')
   );
-  color: var(--text-colors-secondary);
+  color: token('color.foreground.dynamic.secondary');
 }
 .row {
   display: flex;
   flex: 1;
   flex-direction: row;
   justify-content: center;
-  padding: var(--spacings-small) 0;
+  padding: token('spacing.small') 0;
   text-decoration: none;
   color: inherit;
 }
@@ -104,5 +104,5 @@
   flex: 1;
 }
 .decorationPlaceholder {
-  width: var(--spacings-large);
+  width: token('spacing.large');
 }

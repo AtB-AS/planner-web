@@ -5,6 +5,9 @@
   --ws-icon-size-xLarge: 2.5rem;
 
   --ws-colors-header-border-bottom: #ffffff;
+
+  --maxPageWidth: 1024px;
+  --contentPadding: token('spacing.xLarge');
 }
 
 @media (max-width: 400px) {
@@ -34,8 +37,8 @@ html {
   display: flex;
   height: -webkit-fill-available;
 
-  color: var(--static-background-background_1-text);
-  background-color: var(--static-background-background_1-background);
+  color: token('color.background.neutral.1.foreground.primary');
+  background-color: token('color.background.neutral.1.background');
   transition:
     background-color 150ms ease-in,
     color 150ms ease-in;
@@ -94,17 +97,11 @@ textarea {
   font-size: 16px;
 }
 
-.light,
-.dark {
-  --maxPageWidth: 1024px;
-  --contentPadding: var(--spacings-xLarge);
-}
-
 a {
   transition: color 100ms ease-in;
-  color: var(--text-colors-primary);
+  color: token('color.foreground.dynamic.primary');
 }
 
 a:hover {
-  color: var(--text-colors-secondary);
+  color: token('color.foreground.dynamic.secondary');
 }

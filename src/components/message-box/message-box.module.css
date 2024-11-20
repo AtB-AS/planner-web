@@ -1,10 +1,10 @@
 .container {
   display: flex;
-  padding: var(--spacings-medium);
-  border: var(--border-width-medium) solid;
+  padding: token('spacing.medium');
+  border: token('border.width.medium') solid;
 }
 .borderRadius {
-  border-radius: var(--border-radius-regular);
+  border-radius: token('border.radius.regular');
 }
 .content {
   display: flex;
@@ -12,15 +12,15 @@
   justify-content: space-between;
 }
 .title {
-  margin-bottom: var(--spacings-small);
-  padding: var(--spacings-small);
+  margin-bottom: token('spacing.small');
+  padding: token('spacing.small');
 }
 .body {
-  padding: var(--spacings-small);
+  padding: token('spacing.small');
 }
 .messageBox__button {
-  padding: var(--spacings-small);
+  padding: token('spacing.small');
 }
 .icon {
-  margin-top: var(--spacings-small);
+  margin-top: token('spacing.small');
 }

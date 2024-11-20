@@ -7,13 +7,13 @@
   --container-height: 2.75rem;
   --option-height: 2.25rem;
   --container-border-radius: 0.75rem;
-  --option-border-radius: var(--border-radius-regular);
+  --option-border-radius: token('border.radius.regular');
   --number-of-options: 3;
 
   display: grid;
   grid-template-columns: repeat(var(--number-of-options), minmax(0, 1fr));
-  padding: var(--spacings-xSmall);
-  background: var(--static-background-background_0-background);
+  padding: token('spacing.xSmall');
+  background: token('color.background.neutral.0.background');
   width: fit-content;
   border-radius: var(--container-border-radius);
   height: var(--container-height);
@@ -21,10 +21,10 @@
 }
 
 .options:focus-within {
-  border-radius: var(--border-radius-regular);
+  border-radius: token('border.radius.regular');
   outline: 0;
-  box-shadow: inset 0 0 0 var(--border-width-medium)
-    var(--interactive-interactive_2-outline-background);
+  box-shadow: inset 0 0 0 token('border.width.medium')
+    token('color.interactive.2.outline.background');
 }
 
 .option__text {
@@ -37,7 +37,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  padding: var(--spacings-small) var(--spacings-medium);
+  padding: token('spacing.small') token('spacing.medium');
   border-radius: var(--option-border-radius);
   height: var(--option-height);
 }
@@ -54,7 +54,7 @@
 }
 
 .option__input:checked + .option__label {
-  color: var(--interactive-interactive_0-default-text);
+  color: token('color.interactive.0.default.foreground.primary');
 }
 
 .option {
@@ -62,11 +62,11 @@
 }
 
 .option__selected {
-  background: var(--interactive-interactive_0-default-background);
+  background: token('color.interactive.0.default.background');
   width: 95%;
   height: 95%;
   position: absolute;
-  border-radius: var(--border-radius-regular);
+  border-radius: token('border.radius.regular');
   top: 2.5%;
   left: 2.5%;
 }
@@ -77,7 +77,7 @@
 
 .dateAndTimeSelectors {
   display: flex;
-  gap: var(--spacings-medium);
+  gap: token('spacing.medium');
   overflow: hidden;
   /* TODO: Spacing not in variables. Use variable instead? */
   margin-top: 0.375rem;
@@ -86,9 +86,9 @@
 .dateSelector,
 .timeSelector {
   --height: 2.75rem;
-  border-radius: var(--border-radius-regular);
+  border-radius: token('border.radius.regular');
   overflow: hidden;
-  background-color: var(--static-background-background_0-background);
+  background-color: token('color.background.neutral.0.background');
   display: flex;
   justify-content: space-between;
 }
@@ -96,7 +96,7 @@
 .dateSelector label,
 .timeSelector label,
 .timeSelectorLabel {
-  padding: var(--spacings-medium);
+  padding: token('spacing.medium');
   padding-right: 0;
   height: var(--height);
   min-width: 3rem;
@@ -105,10 +105,10 @@
 .dateSelector input[type='date'],
 .timeSelector input[type='time'] {
   height: var(--height);
-  padding: var(--spacings-medium);
+  padding: token('spacing.medium');
   border: none;
   background-color: transparent;
-  color: var(--static-background-background_0-text);
+  color: token('color.background.neutral.0.foreground.primary');
   flex: 1;
   border-top-right-radius: 0.75rem;
   border-bottom-right-radius: 0.75rem;
@@ -119,22 +119,22 @@
 }
 .timeSelectorInput {
   height: var(--height);
-  padding: var(--spacings-medium);
-  color: var(--static-background-background_0-text);
+  padding: token('spacing.medium');
+  color: token('color.background.neutral.0.foreground.primary');
   border-top-right-radius: 0.75rem;
   border-bottom-right-radius: 0.75rem;
   display: flex;
 }
 .timeSelectorSegment:focus {
-  background: var(--static-background-background_2-background);
+  background: token('color.background.neutral.2.background');
 }
 
 .calendarButton {
-  background: var(--static-background-background_0-background);
+  background: token('color.background.neutral.0.background');
   border: none;
   border-top-right-radius: 0.75rem;
   border-bottom-right-radius: 0.75rem;
-  padding: var(--spacings-xSmall) var(--spacings-medium);
+  padding: token('spacing.xSmall') token('spacing.medium');
   cursor: pointer;
   margin: 2px 0;
 }
@@ -146,21 +146,21 @@
 
 .dateSelector:focus-within,
 .timeSelector:focus-within {
-  box-shadow: inset 0 0 0 var(--border-width-medium)
-    var(--interactive-interactive_2-outline-background);
+  box-shadow: inset 0 0 0 token('border.width.medium')
+    token('color.interactive.2.outline.background');
 }
 
 .calendarDialog {
-  padding: var(--spacings-xSmall);
-  background: var(--static-background-background_0-background);
+  padding: token('spacing.xSmall');
+  background: token('color.background.neutral.0.background');
   box-shadow: 0.2rem 0.2rem 0.3rem rgba(0, 0, 0, 0.15);
 }
 .calendarDialog__header {
   display: flex;
-  gap: var(--spacings-medium);
+  gap: token('spacing.medium');
   justify-content: center;
   align-items: center;
-  padding: var(--spacings-small);
+  padding: token('spacing.small');
 }
 .calendarDialog__title {
   composes: typo-heading__component from '@atb/theme/typography.module.css';
@@ -168,7 +168,7 @@
 .calendarDialog__headerButtons {
   background: none;
   border: none;
-  padding: var(--spacings-xSmall) var(--spacings-medium);
+  padding: token('spacing.xSmall') token('spacing.medium');
   cursor: pointer;
 }
 
@@ -177,7 +177,7 @@
 }
 
 .calendarGrid__cell {
-  padding: var(--spacings-xSmall) var(--spacings-medium);
+  padding: token('spacing.xSmall') token('spacing.medium');
   cursor: pointer;
   text-align: center;
 }
@@ -186,10 +186,10 @@
   cursor: default;
 }
 .calendarGrid__cell[data-selected] {
-  background-color: var(--interactive-interactive_2-active-background);
-  color: var(--interactive-interactive_2-active-text);
+  background-color: token('color.interactive.2.active.background');
+  color: token('color.interactive.2.active.foreground.primary');
   font-weight: bold;
-  border-radius: var(--border-radius-small);
+  border-radius: token('border.radius.small');
 }
 
 :global(.dark)

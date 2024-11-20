@@ -1,7 +1,6 @@
-import { TransportModeGroup, TransportSubmodeType } from '../types';
-import { ContrastColor, Theme } from '@atb-as/theme';
+import { TransportModeGroup } from '../types';
 import MonoIcon, { MonoIconProps } from '@atb/components/icon/mono-icon';
-import { useTheme } from '@atb/modules/theme';
+import { TransportColors, useTheme, ContrastColor } from '@atb/modules/theme';
 import { useTranslation } from '@atb/translations';
 import { isSubModeBoat, transportModeToTranslatedString } from '../utils';
 import { colorToOverrideMode } from '@atb/utils/color';
@@ -79,16 +78,16 @@ export function TransportIconWithLabel({
   isFlexible,
 }: TransportIconWithLabelProps) {
   const { t } = useTranslation();
-  const { static: staticColors } = useTheme();
+  const { color: {background} } = useTheme();
   let colors = useTransportationThemeColor(mode, isFlexible);
 
   // Walking legs should have a lighter background color in the trip pattern view.
   if (mode.transportMode === 'foot') {
     colors = {
-      backgroundColor: staticColors.background.background_2.background,
-      textColor: staticColors.background.background_2.text,
+      backgroundColor: background.neutral[2].background,
+      textColor: background.neutral[2].foreground.primary,
       overrideMode: colorToOverrideMode(
-        staticColors.background.background_2.text,
+        background.neutral[2].foreground.primary,
       ),
     };
   }
@@ -129,55 +128,55 @@ export function useTransportationThemeColor(
   mode: TransportModeGroup,
   isFlexible?: boolean,
 ) {
-  const { transport } = useTheme();
+  const {color: {transport}} = useTheme()
   let color = transportModeToColor(mode, transport, isFlexible);
   return {
     backgroundColor: color.background,
-    textColor: color.text,
-    overrideMode: colorToOverrideMode(color.text),
+    textColor: color.foreground.primary,
+    overrideMode: colorToOverrideMode(color.foreground.primary),
   };
 }
 
 export function transportModeToColor(
   mode: TransportModeGroup,
-  transport: Theme['transport'],
+  transport: TransportColors,
   isFlexible?: boolean,
 ): ContrastColor {
-  if (isFlexible) return transport.transport_flexible.primary;
+  if (isFlexible) return transport.flexible.primary;
   switch (mode.transportMode) {
     case 'bus':
     case 'coach':
       if (mode.transportSubModes?.includes('localBus')) {
-        return transport.transport_city.primary;
+        return transport.city.primary;
       }
       if (mode.transportSubModes?.includes('airportLinkBus')) {
-        return transport.transport_airport_express.primary;
+        return transport.airportExpress.primary;
       }
-      return transport.transport_region.primary;
+      return transport.region.primary;
 
     case 'rail':
       if (mode.transportSubModes?.includes('airportLinkRail')) {
-        return transport.transport_airport_express.primary;
+        return transport.airportExpress.primary;
       }
-      return transport.transport_train.primary;
+      return transport.train.primary;
 
     case 'tram':
-      return transport.transport_city.primary;
+      return transport.city.primary;
 
     case 'bicycle':
-      return transport.transport_bike.primary;
+      return transport.bike.primary;
 
     case 'water':
-      return transport.transport_boat.primary;
+      return transport.boat.primary;
 
     case 'air':
-      return transport.transport_other.primary;
+      return transport.other.primary;
 
     case 'metro':
-      return transport.transport_train.primary;
+      return transport.train.primary;
 
     default:
-      return transport.transport_other.primary;
+      return transport.other.primary;
   }
 }
 
