@@ -10,6 +10,7 @@ import {
 import ScreenReaderOnly from '@atb/components/screen-reader-only';
 import { Typo } from '@atb/components/typography';
 import {
+  isSituationValidAtDate,
   SituationMessageBox,
   SituationOrNoticeIcon,
 } from '@atb/modules/situations';
@@ -152,14 +153,16 @@ export function EstimatedCallList({ quay }: EstimatedCallListProps) {
       {!isCollapsed && (
         <ul>
           {quay.situations.length > 0 &&
-            quay.situations.map((situation) => (
-              <li key={situation.id}>
-                <SituationMessageBox
-                  situation={situation}
-                  borderRadius={false}
-                />
-              </li>
-            ))}
+            quay.situations
+              .filter(isSituationValidAtDate(new Date()))
+              .map((situation) => (
+                <li key={situation.id}>
+                  <SituationMessageBox
+                    situation={situation}
+                    borderRadius={false}
+                  />
+                </li>
+              ))}
           {departures.length > 0 ? (
             <>
               {departures.map((departure) => (
