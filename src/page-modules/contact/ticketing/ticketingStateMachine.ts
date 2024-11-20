@@ -99,7 +99,6 @@ export type TicketingContextType = {
 const setInputsToValidate = (context: TicketingContextType) => {
   const {
     formType,
-    attachments,
     firstName,
     lastName,
     email,
@@ -124,7 +123,6 @@ const setInputsToValidate = (context: TicketingContextType) => {
   const commonAppFields = {
     formType,
     question,
-    attachments,
     firstName,
     lastName,
     email,
