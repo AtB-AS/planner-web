@@ -3,8 +3,9 @@ import { Statuses } from '@atb-as/theme';
 import { ColorIcons, MonoIcons } from '@atb/components/icon';
 import { Language } from '@atb/translations';
 import { getTextForLanguage } from '@atb/translations/utils';
-import { daysBetween } from '@atb/utils/date';
+import { daysBetween, isBetween } from '@atb/utils/date';
 import { onlyUniquesBasedOnField } from '@atb/utils/only-uniques';
+import { isAfter, isBefore } from 'date-fns';
 
 export const getMessageTypeForSituation = (situation: Situation) =>
   situation.reportType === 'incident' ? 'warning' : 'info';
@@ -97,3 +98,25 @@ export const getSituationSummary = (
  */
 export const validateEndTime = (endTime?: string) =>
   endTime && daysBetween(new Date(), endTime) <= 365 ? endTime : undefined;
+
+/**
+ * Check if a situation is valid at a specific date by comparing it to the
+ * validity period of the situation. If the situation has neither start time nor
+ * end time it will be considered valid at all times.
+ *
+ * This function uses currying of the date to enable inline use in filter
+ * functions.
+ */
+export const isSituationValidAtDate =
+  (date: string | Date = new Date()) =>
+  (situation: Situation) => {
+    const { startTime, endTime } = situation.validityPeriod || {};
+    if (startTime && endTime) {
+      return isBetween(date, startTime, endTime);
+    } else if (startTime) {
+      return isAfter(date, startTime);
+    } else if (endTime) {
+      return isBefore(date, endTime);
+    }
+    return true;
+  };

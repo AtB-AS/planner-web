@@ -10,6 +10,7 @@ import {
 import ScreenReaderOnly from '@atb/components/screen-reader-only';
 import { Typo } from '@atb/components/typography';
 import {
+  isSituationValidAtDate,
   SituationMessageBox,
   SituationOrNoticeIcon,
 } from '@atb/modules/situations';
@@ -27,7 +28,6 @@ import { useState } from 'react';
 import { nextDepartures } from '../client';
 import style from './stop-place.module.css';
 import { formatDestinationDisplay } from '../utils';
-import { isSituationWithinValidityPeriod } from './utils';
 
 export type StopPlaceProps = {
   departures: DepartureData;
@@ -154,11 +154,7 @@ export function EstimatedCallList({ quay }: EstimatedCallListProps) {
         <ul>
           {quay.situations.length > 0 &&
             quay.situations
-              .filter(
-                (situation) =>
-                  situation.validityPeriod &&
-                  isSituationWithinValidityPeriod(situation.validityPeriod),
-              )
+              .filter(isSituationValidAtDate(new Date()))
               .map((situation) => (
                 <li key={situation.id}>
                   <SituationMessageBox
