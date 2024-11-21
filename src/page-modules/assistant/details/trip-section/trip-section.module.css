@@ -3,7 +3,7 @@
 .container {
   display: flex;
   flex-direction: column;
-  gap: var(--spacings-medium);
+  gap: token('spacing.medium');
 }
 .rowContainer {
   position: relative;
@@ -18,15 +18,15 @@
 .waitTime,
 .textColor__secondary {
   composes: typo-body__secondary;
-  color: var(--text-colors-secondary);
+  color: token('color.foreground.dynamic.secondary');
 }
 .realtimeSection {
   display: flex;
   align-items: center;
-  gap: var(--spacings-small);
+  gap: token('spacing.small');
 }
 .onDemandTransportLabel {
   composes: typo-body__secondary;
-  color: var(--text-colors-secondary);
-  padding-top: var(--spacings-small);
+  color: token('color.foreground.dynamic.secondary');
+  padding-top: token('spacing.small');
 }

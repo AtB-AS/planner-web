@@ -1,14 +1,14 @@
 .container {
   display: flex;
   flex-direction: column;
-  padding: var(--spacings-xLarge);
-  margin: var(--spacings-large);
+  padding: token('spacing.xLarge');
+  margin: token('spacing.large');
   margin-top: 0px;
-  border-radius: var(--border-radius-regular);
-  color: var(--static-background-background_0-text);
-  background-color: var(--static-background-background_0-background);
+  border-radius: token('border.radius.regular');
+  color: token('color.background.neutral.0.foreground.primary');
+  background-color: token('color.background.neutral.0.background');
 }
 
 .container > * + * {
-  margin-top: var(--spacings-medium);
+  margin-top: token('spacing.medium');
 }

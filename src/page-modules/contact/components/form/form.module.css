@@ -6,30 +6,30 @@
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  gap: var(--spacings-small);
-  color: var(--static-background-background_0-text);
-  background-color: var(--static-background-background_0-background);
-  margin-bottom: var(--spacings-medium);
+  gap: token('spacing.small');
+  color: token('color.background.neutral.0.foreground.primary');
+  background-color: token('color.background.neutral.0.background');
+  margin-bottom: token('spacing.medium');
 }
 
 .rowDisplay {
   flex-direction: row-reverse;
   justify-content: start;
-  gap: var(--spacings-small);
+  gap: token('spacing.small');
 }
 
 .label_disabled {
-  color: var(--text-colors-disabled);
+  color: token('color.foreground.dynamic.disabled');
 }
 
 .input {
   background: transparent;
-  color: var(--text-colors-primary);
+  color: token('color.foreground.dynamic.primary');
 
-  padding: var(--spacings-small);
+  padding: token('spacing.small');
 
-  border: var(--border-width-slim) solid var(--text-colors-primary);
-  border-radius: var(--border-radius-small);
+  border: token('border.width.slim') solid token('color.foreground.dynamic.primary');
+  border-radius: token('border.radius.small');
   width: 100%;
 }
 
@@ -38,7 +38,7 @@
 }
 
 .input::placeholder {
-  color: var(--text-colors-secondary);
+  color: token('color.foreground.dynamic.secondary');
   opacity: 1;
 }
 
@@ -48,12 +48,12 @@
 
 .input:focus-within {
   outline: 0;
-  box-shadow: inset 0 0 0 var(--border-width-slim)
-    var(--interactive-interactive_2-outline-background);
+  box-shadow: inset 0 0 0 token('border.width.slim')
+    token('color.interactive.2.outline.background');
 }
 
 .input__error {
-  border-color: var(--status-error-primary-background);
+  border-color: token('color.status.error.primary.background');
 }
 /* radio */
 .input__radio {
@@ -67,13 +67,13 @@
   display: block;
 }
 .input__radio:focus + .label__radio .label__radioBox {
-  outline: 2px solid var(--interactive-interactive_2-outline-background);
+  outline: 2px solid token('color.interactive.2.outline.background');
   outline-offset: 2px;
 }
 
 .label__radioBox:hover {
-  background-color: var(--interactive-interactive_2-hover-background);
-  color: var(--interactive-interactive_2-hover-text);
+  background-color: token('color.interactive.2.hover.background');
+  color: token('color.interactive.2.hover.foreground.primary');
 }
 
 .label__radioBox {
@@ -82,17 +82,17 @@
   height: 1.25rem;
   width: 1.25rem;
   --padding: 2px;
-  border: var(--border-width-slim) solid var(--text-colors-primary);
+  border: token('border.width.slim') solid token('color.foreground.dynamic.primary');
   padding: var(--padding);
-  margin-right: var(--spacings-medium);
+  margin-right: token('spacing.medium');
 }
 .label__radioBox::after {
   content: '';
   display: block;
-  height: calc(1rem - 2 * var(--border-width-slim));
-  width: calc(1rem - 2 * var(--border-width-slim));
+  height: calc(1rem - 2 * token('border.width.slim'));
+  width: calc(1rem - 2 * token('border.width.slim'));
   border-radius: 50%;
-  background: var(--text-colors-primary);
+  background: token('color.foreground.dynamic.primary');
 
   transition: transform 100ms ease-in;
   transform: scale(0);
@@ -104,24 +104,24 @@
   display: flex;
   cursor: pointer;
 
-  background: var(--static-background-background_0-background);
-  color: var(--static-background-background_0-text);
+  background: token('color.background.neutral.0.background');
+  color: token('color.background.neutral.0.foreground.primary');
 
-  border-radius: var(--border-radius-regular);
+  border-radius: token('border.radius.regular');
 
-  border: var(--border-width-slim) solid transparent;
+  border: token('border.width.slim') solid transparent;
 
-  padding: var(--spacings-small) 0;
+  padding: token('spacing.small') 0;
 }
 
 .label__info {
   display: flex;
   align-items: center;
-  gap: var(--spacings-medium);
-  margin: var(--spacings-small);
-  margin-left: var(--spacings-large);
-  padding: var(--spacings-small);
-  background: var(--static-background-background_1-background);
+  gap: token('spacing.medium');
+  margin: token('spacing.small');
+  margin-left: token('spacing.large');
+  padding: token('spacing.small');
+  background: token('color.background.neutral.1.background');
 }
 
 .label_container {
@@ -141,13 +141,13 @@
 }
 
 .iconButton:focus {
-  outline: 2px solid var(--interactive-interactive_2-outline-background);
+  outline: 2px solid token('color.interactive.2.outline.background');
   outline-offset: 2px;
 }
 
 .iconButton:hover {
-  background-color: var(--interactive-interactive_2-hover-background);
-  color: var(--interactive-interactive_2-hover-text);
+  background-color: token('color.interactive.2.hover.background');
+  color: token('color.interactive.2.hover.foreground.primary');
 }
 
 /* Checkbox */
@@ -157,29 +157,29 @@
     border 150ms ease-in-out,
     background-color 100ms ease;
   cursor: pointer;
-  padding: var(--spacings-xSmall);
-  border-radius: var(--border-radius-small);
+  padding: token('spacing.xSmall');
+  border-radius: token('border.radius.small');
 }
 .checkbox:not(.checkbox--readonly) {
-  background-color: var(--interactive-interactive_2-default-background);
-  color: var(--interactive-interactive_2-default-text);
+  background-color: token('color.interactive.2.default.background');
+  color: token('color.interactive.2.default.foreground.primary');
 }
 .checkbox:not(.checkbox--readonly):hover {
-  background-color: var(--interactive-interactive_2-hover-background);
-  color: var(--interactive-interactive_2-hover-text);
+  background-color: token('color.interactive.2.hover.background');
+  color: token('color.interactive.2.hover.foreground.primary');
 }
 .checkbox:not(.checkbox--readonly):active {
-  background-color: var(--interactive-interactive_2-active-background);
-  color: var(--interactive-interactive_2-active-text);
+  background-color: token('color.interactive.2.active.background');
+  color: token('color.interactive.2.active.foreground.primary');
 }
 .checkbox:not(.checkbox--readonly):disabled {
-  background-color: var(--interactive-interactive_2-disabled-background);
-  color: var(--interactive-interactive_2-disabled-text);
+  background-color: token('color.interactive.2.disabled.background');
+  color: token('color.interactive.2.disabled.foreground.primary');
 }
 .checkbox:not(.checkbox--readonly):focus-within {
   outline: 0;
-  box-shadow: inset 0 0 0 var(--border-width-slim)
-    var(--interactive-interactive_2-outline-background);
+  box-shadow: inset 0 0 0 token('border.width.slim')
+    token('color.interactive.2.outline.background');
 }
 
 .checkbox--disabled {
@@ -189,7 +189,7 @@
   opacity: 0.2;
 }
 .checkbox--error {
-  border-color: var(--static-status-error-background);
+  border-color: token('color.status.error.primary.background');
 }
 .checkbox__checkbox {
   position: absolute;
@@ -201,7 +201,7 @@
   outline: 0;
 }
 .checkbox__checkbox[readonly] {
-  color: var(--text-colors-secondary);
+  color: token('color.foreground.dynamic.secondary');
 }
 :global(.dark) .checkbox__checkbox::-webkit-calendar-picker-indicator {
   filter: invert(1);
@@ -209,7 +209,7 @@
 
 .checkbox__content {
   display: flex;
-  gap: var(--spacings-medium);
+  gap: token('spacing.medium');
 }
 .checkbox__label {
   flex: 1;
@@ -217,20 +217,20 @@
 .checkbox__description {
   flex: 1;
   opacity: 0.6;
-  margin-top: var(--spacings-small);
+  margin-top: token('spacing.small');
   composes: typo-body__secondary from '@atb/theme/typography.module.css';
 }
 .checkbox__checkbox:not(:checked) + .checkbox__icon {
-  border: var(--border-width-slim) solid var(--text-colors-primary);
-  border-radius: var(--border-radius-small);
+  border: token('border.width.slim') solid token('color.foreground.dynamic.primary');
+  border-radius: token('border.radius.small');
 }
 
 /* textare */
 .textarea {
-  border: var(--border-width-slim) solid var(--text-colors-primary);
-  border-radius: var(--border-radius-small);
+  border: token('border.width.slim') solid token('color.foreground.dynamic.primary');
+  border-radius: token('border.radius.small');
 
-  padding: var(--spacings-small);
+  padding: token('spacing.small');
 
   width: 100%;
   min-height: 6rem;
@@ -248,14 +248,14 @@
 
 .errorMessage {
   display: flex;
-  gap: var(--spacings-small);
+  gap: token('spacing.small');
 }
 
 /** file input */
 .file_input__container {
   display: flex;
   flex-direction: column;
-  gap: var(--spacings-small);
+  gap: token('spacing.small');
 }
 
 .input__file {
@@ -268,37 +268,37 @@
 
 .label__file {
   display: flex;
-  gap: var(--spacings-small);
+  gap: token('spacing.small');
   align-items: center;
-  background-color: var(--interactive-background-background_1);
-  color: var(--text-colors-primary);
-  padding: var(--spacings-small);
-  border: var(--border-width-slim) solid var(--text-colors-primary);
-  border-radius: var(--border-radius-small);
+  background-color: token('color.background.neutral.1.background');
+  color: token('color.foreground.dynamic.primary');
+  padding: token('spacing.small');
+  border: token('border.width.slim') solid token('color.foreground.dynamic.primary');
+  border-radius: token('border.radius.small');
   cursor: pointer;
 }
 
 .label__file:focus {
   outline: 0;
-  box-shadow: inset 0 0 0 var(--border-width-slim)
-    var(--interactive-interactive_2-outline-background);
+  box-shadow: inset 0 0 0 token('border.width.slim')
+    token('color.interactive.2.outline.background');
 }
 
 .label__file:hover {
-  background-color: var(--interactive-interactive_2-hover-background);
-  color: var(--interactive-interactive_2-hover-text);
+  background-color: token('color.interactive.2.hover.background');
+  color: token('color.interactive.2.hover.foreground.primary');
 }
 
 .fileList {
   display: flex;
   flex-direction: column;
-  gap: var(--spacings-small);
-  padding: var(--spacings-small) 0;
+  gap: token('spacing.small');
+  padding: token('spacing.small') 0;
 }
 .fileItem {
   display: flex;
   align-items: center;
-  gap: var(--spacings-small);
+  gap: token('spacing.small');
 }
 
 /* modal */
@@ -321,18 +321,18 @@
   display: flex;
   flex-direction: column;
   max-width: 32rem;
-  padding: var(--spacings-large);
-  border: var(--border-width-medium) solid
-    var(--interactive-interactive_2-outline-background); /* Use border property */
-  box-shadow: inset 0 0 0 var(--border-width-medium)
-    var(--interactive-interactive_2-outline-background);
-  color: var(--static-background-background_0-text);
-  background-color: var(--static-background-background_0-background);
-  border-radius: var(--border-radius-regular);
+  padding: token('spacing.large');
+  border: token('border.width.medium') solid
+    token('color.interactive.2.outline.background'); /* Use border property */
+  box-shadow: inset 0 0 0 token('border.width.medium')
+    token('color.interactive.2.outline.background');
+  color: token('color.background.neutral.0.foreground.primary');
+  background-color: token('color.background.neutral.0.background');
+  border-radius: token('border.radius.regular');
 }
 
 .modal_content > * + * {
-  margin-top: var(--spacings-small);
+  margin-top: token('spacing.small');
 }
 
 .modal_header {
@@ -341,12 +341,12 @@
 }
 
 .modal__rules_list {
-  padding: var(--spacings-medium);
-  padding-left: var(--spacings-xLarge);
+  padding: token('spacing.medium');
+  padding-left: token('spacing.xLarge');
 }
 
 .modal__rules_list > li {
-  padding: var(--spacings-xSmall) 0;
+  padding: token('spacing.xSmall') 0;
 }
 
 /* select and searchable-select*/
@@ -354,7 +354,7 @@
 .searchable_select__comboBox {
   display: flex;
   flex-direction: column;
-  gap: var(--spacings-small);
+  gap: token('spacing.small');
 }
 
 .searchable_select__input_container {
@@ -368,23 +368,23 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  border: var(--border-width-slim) solid var(--text-colors-primary);
-  border-radius: var(--border-radius-small);
+  border: token('border.width.slim') solid token('color.foreground.dynamic.primary');
+  border-radius: token('border.radius.small');
 }
 
 .searchable_select__group:focus-within {
   outline: 0;
-  box-shadow: inset 0 0 0 var(--border-width-slim)
-    var(--interactive-interactive_2-outline-background);
+  box-shadow: inset 0 0 0 token('border.width.slim')
+    token('color.interactive.2.outline.background');
 }
 
 .searchable_select__input {
   flex-grow: 2;
   border: none;
   outline: none;
-  padding: var(--spacings-small);
+  padding: token('spacing.small');
   background-color: transparent;
-  color: var(--static-background-background_2-text);
+  color: token('color.background.neutral.2.foreground.primary');
 }
 
 .searchable_select__input_disabled {
@@ -392,12 +392,12 @@
 }
 
 .searchable_select__input::placeholder {
-  color: var(--text-colors-secondary);
+  color: token('color.foreground.dynamic.secondary');
   opacity: 1;
 }
 
 .searchable_select__input:not(:focus):placeholder-shown {
-  color: var(--text-colors-secondary);
+  color: token('color.foreground.dynamic.secondary');
   font-style: italic;
   opacity: 0.7;
 }
@@ -405,7 +405,7 @@
 .searchable_select__button {
   display: flex;
   border: none;
-  padding: var(--spacings-small);
+  padding: token('spacing.small');
   background-color: transparent;
 }
 
@@ -418,13 +418,13 @@
   overflow: auto;
   max-height: 16rem;
   width: var(--trigger-width);
-  border: var(--border-width-slim) solid var(--text-colors-primary);
-  border-radius: var(--border-radius-small);
-  color: var(--static-background-background_0-text);
-  background: var(--static-background-background_0-background);
+  border: token('border.width.slim') solid token('color.foreground.dynamic.primary');
+  border-radius: token('border.radius.small');
+  color: token('color.background.neutral.0.foreground.primary');
+  background: token('color.background.neutral.0.background');
   animation: fadeIn 0.2s;
-  padding: var(--spacings-small);
-  margin-bottom: var(--spacings-small);
+  padding: token('spacing.small');
+  margin-bottom: token('spacing.small');
 }
 
 @keyframes fadeIn {
@@ -454,9 +454,9 @@
   display: flex;
   align-items: center;
   cursor: default;
-  color: var(--static-background-background_0-text);
-  border-radius: var(--border-radius-small);
-  border-bottom: 1px solid var(--static-background-background_2-background);
+  color: token('color.background.neutral.0.foreground.primary');
+  border-radius: token('border.radius.small');
+  border-bottom: 1px solid token('color.background.neutral.2.background');
   z-index: 1;
 }
 
@@ -466,31 +466,31 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: var(--spacings-small);
-  padding: var(--spacings-small);
+  gap: token('spacing.small');
+  padding: token('spacing.small');
 }
 
 .select__item:active,
 .searchable_select__item:active {
-  background-color: var(--interactive-interactive_3-active-background);
-  color: var(--interactive-interactive_3-active-text);
+  background-color: token('color.interactive.3.active.background');
+  color: token('color.interactive.3.active.foreground.primary');
   z-index: 2;
 }
 
 .select__highlight,
 .searchable_select__highlight {
   position: relative;
-  border-radius: var(--border-radius-small);
-  background-color: var(--interactive-interactive_2-active-background);
-  color: var(--interactive-interactive_2-active-text);
+  border-radius: token('border.radius.small');
+  background-color: token('color.interactive.2.active.background');
+  color: token('color.interactive.2.active.foreground.primary');
   z-index: 2;
 }
 
 .searchable_select__selected {
   position: relative;
-  border-radius: var(--border-radius-small);
-  background-color: var(--interactive-interactive_2-active-background);
-  color: var(--interactive-interactive_2-active-text);
+  border-radius: token('border.radius.small');
+  background-color: token('color.interactive.2.active.background');
+  color: token('color.interactive.2.active.foreground.primary');
   z-index: 2;
 }
 
@@ -499,11 +499,11 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--spacings-small);
-  color: var(--text-colors-primary);
+  padding: token('spacing.small');
+  color: token('color.foreground.dynamic.primary');
   background-color: transparent;
-  border-radius: var(--border-radius-small);
-  border: var(--border-width-slim) solid var(--text-colors-primary);
+  border-radius: token('border.radius.small');
+  border: token('border.width.slim') solid token('color.foreground.dynamic.primary');
 }
 
 .select__button:disabled {
@@ -512,20 +512,20 @@
 
 .select__button:focus-within {
   outline: 0;
-  box-shadow: inset 0 0 0 var(--border-width-slim)
-    var(--interactive-interactive_2-outline-background);
+  box-shadow: inset 0 0 0 token('border.width.slim')
+    token('color.interactive.2.outline.background');
 }
 
 .select__item:focus,
 .select__listBoxItem:focus {
   outline: 0;
-  border-radius: var(--border-radius-small);
+  border-radius: token('border.radius.small');
 }
 
 .select__placholder {
   font-style: italic;
   opacity: 0.7;
-  padding-right: var(--spacings-small);
+  padding-right: token('spacing.small');
 }
 
 /* Time and date selector */
@@ -533,23 +533,23 @@
 .timeSelectorContainer {
   display: flex;
   flex-direction: column;
-  gap: var(--spacings-small);
+  gap: token('spacing.small');
 }
 
 .dateSelector,
 .timeSelector {
   --height: 2.75rem;
   overflow: hidden;
-  border-radius: var(--border-radius-small);
+  border-radius: token('border.radius.small');
 }
 
 .dateSelector input[type='date'],
 .timeSelector input[type='time'] {
   height: var(--height);
-  padding: var(--spacings-medium);
+  padding: token('spacing.medium');
   border: none;
   background-color: transparent;
-  color: var(--static-background-background_0-text);
+  color: token('color.background.neutral.0.foreground.primary');
   flex: 1;
 }
 
@@ -565,22 +565,22 @@
   border: none;
   cursor: pointer;
   background: none;
-  margin: var(--spacings-medium);
-  border-radius: var(--border-radius-small);
+  margin: token('spacing.medium');
+  border-radius: token('border.radius.small');
 }
 
 .calendarDialog {
-  padding: var(--spacings-xSmall);
-  background: var(--static-background-background_0-background);
+  padding: token('spacing.xSmall');
+  background: token('color.background.neutral.0.background');
   box-shadow: 0.2rem 0.2rem 0.3rem rgba(0, 0, 0, 0.15);
 }
 
 .calendarDialog__header {
   display: flex;
-  gap: var(--spacings-medium);
+  gap: token('spacing.medium');
   justify-content: center;
   align-items: center;
-  padding: var(--spacings-small);
+  padding: token('spacing.small');
 }
 
 .calendarDialog__title {
@@ -590,7 +590,7 @@
 .calendarDialog__headerButtons {
   background: none;
   border: none;
-  padding: var(--spacings-xSmall) var(--spacings-medium);
+  padding: token('spacing.xSmall') token('spacing.medium');
   cursor: pointer;
 }
 
@@ -599,10 +599,10 @@
 }
 
 .calendarGrid__cell {
-  padding: var(--spacings-xSmall) var(--spacings-medium);
+  padding: token('spacing.xSmall') token('spacing.medium');
   cursor: pointer;
   text-align: center;
-  border-radius: var(--border-radius-small);
+  border-radius: token('border.radius.small');
 }
 
 .calendarGrid__cell[data-disabled] {
@@ -611,10 +611,10 @@
 }
 
 .calendarGrid__cell[data-selected] {
-  background-color: var(--interactive-interactive_2-active-background);
-  color: var(--interactive-interactive_2-active-text);
+  background-color: token('color.interactive.2.active.background');
+  color: token('color.interactive.2.active.foreground.primary');
   font-weight: bold;
-  border-radius: var(--border-radius-small);
+  border-radius: token('border.radius.small');
 }
 
 .dateSelectorInput,
@@ -623,10 +623,10 @@
   height: var(--height);
   display: flex;
   align-items: center;
-  padding: var(--spacings-medium);
-  color: var(--static-background-background_0-text);
-  border-radius: var(--border-radius-small);
-  border: var(--border-width-slim) solid var(--text-colors-primary);
+  padding: token('spacing.medium');
+  color: token('color.background.neutral.0.foreground.primary');
+  border-radius: token('border.radius.small');
+  border: token('border.width.slim') solid token('color.foreground.dynamic.primary');
 }
 
 .dateSelector input[type='date']:focus,
@@ -636,8 +636,8 @@
 
 .dateSelector:focus-within,
 .timeSelector:focus-within {
-  box-shadow: inset 0 0 0 var(--border-width-medium)
-    var(--interactive-interactive_2-outline-background);
+  box-shadow: inset 0 0 0 token('border.width.medium')
+    token('color.interactive.2.outline.background');
 }
 
 :global(.dark)

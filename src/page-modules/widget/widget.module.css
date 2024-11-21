@@ -2,7 +2,7 @@
   display: grid;
   width: 100%;
   max-width: var(--maxPageWidth);
-  padding: var(--spacings-xLarge);
+  padding: token('spacing.xLarge');
   margin: 0 auto;
 }
 
@@ -12,12 +12,12 @@
 }
 
 .main p + p {
-  margin-bottom: var(--spacings-medium);
+  margin-bottom: token('spacing.medium');
 }
 
 .main details summary {
   cursor: pointer;
-  margin: var(--spacings-medium) 0;
+  margin: token('spacing.medium') 0;
 }
 
 .main details summary > * {
@@ -29,8 +29,8 @@
   /* Matching code block style */
   border-radius: 0.3em;
   padding: 1rem;
-  background-color: var(--static-background-background_0-background);
-  color: var(--static-background-background_0-text);
+  background-color: token('color.background.neutral.0.background');
+  color: token('color.background.neutral.0.foreground.primary');
 }
 
 .copyContainerDetails pre {

@@ -28,12 +28,14 @@ import { useState } from 'react';
 import { nextDepartures } from '../client';
 import style from './stop-place.module.css';
 import { formatDestinationDisplay } from '../utils';
+import { useTheme } from '@atb/modules/theme';
 
 export type StopPlaceProps = {
   departures: DepartureData;
 };
 export function StopPlace({ departures }: StopPlaceProps) {
   const { t } = useTranslation();
+  const { color: {interactive}} = useTheme();
   const router = useRouter();
   const [isHoveringRefreshButton, setIsHoveringRefreshButton] = useState(false);
 
@@ -66,7 +68,7 @@ export function StopPlace({ departures }: StopPlaceProps) {
           </Typo.span>
           <MonoIcon
             icon={'actions/ArrowsCounterClockwise'}
-            interactiveColor="interactive_1"
+            interactiveColor={interactive[1]}
             interactiveState={isHoveringRefreshButton ? 'hover' : undefined}
           />
         </button>

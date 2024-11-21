@@ -1,11 +1,9 @@
-@value interactive-interactive_2 from "@atb/theme/theme.module.css";
-
 .nearestContainer {
   display: grid;
   grid-template-columns: 2fr 3fr;
   grid-auto-rows: minmax(37.5rem, auto) auto;
   grid-template-areas: 'stop-places map';
-  gap: var(--spacings-small);
+  gap: token('spacing.small');
 }
 .mapContainer {
   grid-area: map;
@@ -15,22 +13,36 @@
   grid-area: stop-places;
   display: flex;
   flex-direction: column;
-  gap: var(--spacings-small);
+  gap: token('spacing.small');
   list-style: none;
 }
 .stopPlaceItem {
-  composes: interactive-interactive_2;
   display: flex;
   text-decoration: none;
-  gap: var(--spacings-xSmall);
+  gap: token('spacing.xSmall');
   align-items: center;
 
-  padding: var(--spacings-medium);
-  border-radius: var(--border-radius-regular);
+  padding: token('spacing.medium');
+  border-radius: token('border.radius.regular');
+
+  color: token('color.interactive.2.default.foreground.primary');
+  background-color: token('color.interactive.2.default.background');
+}
+.stopPlaceItem:hover {
+  color: token('color.interactive.2.hover.foreground.primary');
+  background-color: token('color.interactive.2.hover.background');
+}
+.stopPlaceItem:active {
+  color: token('color.interactive.2.active.foreground.primary');
+  background-color: token('color.interactive.2.active.background');
+}
+.stopPlaceItem:disabled {
+  color: token('color.interactive.2.disabled.foreground.primary');
+  background-color: token('color.interactive.2.disabled.background');
 }
 .stopPlaceItem__text {
   display: flex;
-  gap: var(--spacings-xSmall);
+  gap: token('spacing.xSmall');
 
   flex-direction: column;
 }
@@ -38,11 +50,11 @@
   margin-left: auto;
   display: flex;
   align-items: center;
-  gap: var(--spacings-small);
+  gap: token('spacing.small');
 }
 
 .secondaryText {
-  color: var(--text-colors-secondary);
+  color: token('color.foreground.dynamic.secondary');
 }
 
 @media only screen and (max-width: 650px) {

@@ -26,10 +26,10 @@ class MyDocument extends Document<Props> {
   }
 
   render() {
-    const className = this.props.darkmode ? 'dark' : 'light override-light';
+    const theme = this.props.darkmode ? 'dark' : 'light';
     const language = this.props.language || DEFAULT_LANGUAGE;
     return (
-      <Html lang={language} className={className}>
+      <Html lang={language} data-theme={theme}>
         <Head>
           <link
             rel="preconnect"

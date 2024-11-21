@@ -6,15 +6,15 @@
 .transportIcon,
 .transportIconWithLabel {
   display: inline-block;
-  border-radius: var(--border-radius-small);
-  padding: var(--spacings-xSmall);
+  border-radius: token('border.radius.small');
+  padding: token('spacing.xSmall');
 }
 
 .transportIconWithLabel {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: var(--spacings-small) var(--spacings-medium);
+  padding: token('spacing.small') token('spacing.medium');
 }
 
 .transportIcon img,
@@ -23,7 +23,7 @@
 }
 
 .transportIconWithLabel__label {
-  margin-left: var(--spacings-xSmall);
+  margin-left: token('spacing.xSmall');
 }
 
 .transportIconWithLabel__duration {

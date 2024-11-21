@@ -1,9 +1,9 @@
 .homeLink__container {
   width: 100%;
   max-width: var(--maxPageWidth);
-  padding: 0 var(--spacings-medium);
+  padding: 0 token('spacing.medium');
   margin: 0 auto;
 }
 .homeLink__container > :last-child:not(:only-child) {
-  margin-bottom: var(--spacings-medium);
+  margin-bottom: token('spacing.medium');
 }

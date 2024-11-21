@@ -1,6 +1,6 @@
 .footer {
-  background-color: var(--static-background-background_accent_5-background);
-  color: var(--static-background-background_accent_5-text);
+  background-color: token('color.background.accent.5.background');
+  color: token('color.background.accent.5.foreground.primary');
 }
 .footer__content {
   margin: var(--contentPadding) auto;
@@ -9,29 +9,29 @@
 }
 .footer__top {
   display: grid;
-  gap: var(--spacings-xLarge);
+  gap: token('spacing.xLarge');
   grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
 }
 
 .footer__content hr {
   border: 0;
-  border-bottom: var(--border-width-slim) solid var(--border-primary);
-  margin: var(--spacings-xLarge);
+  border-bottom: token('border.width.slim') solid token('color.border.primary.background');
+  margin: token('spacing.xLarge');
 }
 
 .footer__title {
   composes: typo-heading__paragraph from '@atb/theme/typography.module.css';
-  margin-bottom: var(--spacings-xLarge);
+  margin-bottom: token('spacing.xLarge');
 }
 
 .footer__section {
-  padding: var(--spacings-xLarge);
+  padding: token('spacing.xLarge');
 }
 .footer__linkList {
   list-style-type: none;
 }
 .footer__linkList li {
-  margin-bottom: var(--spacings-xLarge);
+  margin-bottom: token('spacing.xLarge');
 }
 .footer a {
   text-decoration: none;
@@ -39,7 +39,7 @@
 .footer a,
 .footer a:visited {
   transition: color 100ms ease-in;
-  color: var(--static-background-background_accent_5-text);
+  color: token('color.background.accent.5.foreground.primary');
 }
 .footer a:hover {
   opacity: 0.75;
@@ -51,7 +51,7 @@
   justify-content: space-between;
   align-items: center;
 
-  gap: var(--spacings-medium);
+  gap: token('spacing.medium');
   flex-wrap: wrap;
 }
 .footer__bottomLinks > div:only-child {
@@ -63,16 +63,16 @@
 .footer__bottomLinks__mid {
   text-align: center;
   display: flex;
-  gap: var(--spacings-medium);
+  gap: token('spacing.medium');
 }
 
 .footer__some {
   display: flex;
-  gap: var(--spacings-xSmall);
+  gap: token('spacing.xSmall');
 }
 
 .footer__cookieWarning {
-  margin-top: var(--spacings-medium);
+  margin-top: token('spacing.medium');
   composes: typo-body__tertiary from '@atb/theme/typography.module.css';
   opacity: 0.75;
 }
@@ -83,12 +83,12 @@
     align-items: center;
 
     flex-direction: column;
-    gap: var(--spacings-xLarge);
+    gap: token('spacing.xLarge');
   }
 }
 
 .buttonLink {
-  color: var(--static-background-background_accent_5-text);
+  color: token('color.background.accent.5.foreground.primary');
   font-size: 1rem;
   background-color: transparent;
   border: 0;

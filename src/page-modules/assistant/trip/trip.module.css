@@ -7,25 +7,25 @@
 .tripResults {
   display: flex;
   flex-direction: column;
-  gap: var(--spacings-large);
+  gap: token('spacing.large');
 }
 
 .nonTransitResult {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--spacings-medium);
+  gap: token('spacing.medium');
 }
 
 .dayLabel {
-  padding-bottom: var(--spacings-medium);
+  padding-bottom: token('spacing.medium');
 }
 
 .fetchButton {
   align-self: center;
-  margin-top: var(--spacings-xLarge);
+  margin-top: token('spacing.xLarge');
 }
 
 .disabledFetchTextContainer {
   align-self: center;
-  margin-top: var(--spacings-xLarge);
+  margin-top: token('spacing.xLarge');
 }

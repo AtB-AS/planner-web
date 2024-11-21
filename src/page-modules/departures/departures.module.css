@@ -1,5 +1,5 @@
 .container {
-  background-color: var(--static-background-background_accent_0-background);
+  background-color: token('color.background.accent.0.background');
   height: 100%;
   position: relative;
   display: grid;
@@ -10,10 +10,10 @@
   grid-area: main;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-gap: var(--spacings-xLarge);
+  grid-gap: token('spacing.xLarge');
   width: 100%;
   max-width: var(--maxPageWidth);
-  padding: var(--spacings-xLarge);
+  padding: token('spacing.xLarge');
   padding-bottom: 5.75rem;
   margin: 0 auto;
 }
@@ -23,15 +23,15 @@
 }
 
 .heading {
-  color: var(--static-background-background_accent_0-text);
-  margin-bottom: var(--spacings-medium);
+  color: token('color.background.accent.0.foreground.primary');
+  margin-bottom: token('spacing.medium');
 }
 
 .geolocationButton {
   height: var(--height);
   border: none;
   background: none;
-  padding: var(--spacings-small);
+  padding: token('spacing.small');
   border-bottom-right-radius: 0.75rem;
   border-top-right-radius: 0.75rem;
   cursor: pointer;
@@ -47,12 +47,12 @@
   align-self: end;
   display: flex;
   justify-content: flex-end;
-  gap: var(--spacings-medium);
+  gap: token('spacing.medium');
   width: 100%;
   max-width: var(--maxPageWidth);
   margin: 0 auto;
-  padding: 0 var(--spacings-xLarge) var(--spacings-xLarge)
-    var(--spacings-xLarge);
+  padding: 0 token('spacing.xLarge') token('spacing.xLarge')
+    token('spacing.xLarge');
   z-index: 10;
   position: absolute;
   left: 0;
@@ -69,7 +69,7 @@
   .main {
     display: flex;
     flex-direction: column;
-    padding-bottom: var(--spacings-xLarge) !important;
+    padding-bottom: token('spacing.xLarge') !important;
   }
 
   .buttons {
@@ -81,5 +81,5 @@
 .contentContainer {
   margin: 0 auto;
   max-width: var(--maxPageWidth);
-  padding: var(--spacings-xLarge);
+  padding: token('spacing.xLarge');
 }

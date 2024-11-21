@@ -30,7 +30,7 @@
   "dependencies": {
     "@apollo/client": "^3.11.2",
     "@atb-as/config-specs": "^3.27.0",
-    "@atb-as/theme": "^11.0.0",
+    "@atb-as/theme": "^11.1.1",
     "@github/combobox-nav": "^3.0.1",
     "@internationalized/date": "^3.5.5",
     "@isaacs/ttlcache": "^1.4.1",
@@ -71,7 +71,8 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@atb-as/generate-assets": "^13.2.0",
+    "@atb-as/generate-assets": "^13.2.3",
+    "@atb-as/token": "^0.0.2",
     "@graphql-codegen/cli": "^5.0.2",
     "@graphql-codegen/near-operation-file-preset": "^3.0.0",
     "@graphql-codegen/typescript": "^4.0.9",
@@ -102,6 +103,9 @@
     "happy-dom": "^14.12.3",
     "next-router-mock": "^0.9.13",
     "patch-package": "^8.0.0",
+    "postcss": "^8.4.49",
+    "postcss-flexbugs-fixes": "^5.0.2",
+    "postcss-preset-env": "^10.1.1",
     "postinstall-postinstall": "^2.1.0",
     "prettier": "^3.3.3",
     "rimraf": "^6.0.1",

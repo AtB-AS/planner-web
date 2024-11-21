@@ -1,21 +1,21 @@
 .container {
   display: flex;
   flex-direction: column;
-  gap: var(--spacings-xLarge);
+  gap: token('spacing.xLarge');
 }
 .headerContainer {
   display: flex;
   align-items: center;
-  gap: var(--spacings-small);
+  gap: token('spacing.small');
 }
 .tripDetails {
   display: flex;
   flex-direction: column;
-  gap: var(--spacings-small);
+  gap: token('spacing.small');
 }
 .date,
 .duration {
   display: flex;
-  gap: var(--spacings-small);
-  color: var(--text-colors-secondary);
+  gap: token('spacing.small');
+  color: token('color.foreground.dynamic.secondary');
 }

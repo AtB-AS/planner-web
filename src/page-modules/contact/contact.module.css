@@ -10,18 +10,18 @@
 }
 
 .rules__list {
-  padding: var(--spacings-medium);
-  padding-left: var(--spacings-xLarge);
+  padding: token('spacing.medium');
+  padding-left: token('spacing.xLarge');
 }
 
 .rules__list > li {
-  padding: var(--spacings-xSmall) 0;
+  padding: token('spacing.xSmall') 0;
 }
 
 .feedback {
   composes: typo-body__secondary;
-  padding: var(--spacings-small);
-  color: var(--static-background-background_0-text);
+  padding: token('spacing.small');
+  color: token('color.background.neutral.0.foreground.primary');
   outline: 0;
   background: none;
   border-radius: 0.75rem;
@@ -29,29 +29,29 @@
 }
 
 .feedback::placeholder {
-  color: var(--text-colors-secondary);
+  color: token('color.foreground.dynamic.secondary');
   opacity: 1;
 }
 
 .feedback:focus-within {
   outline: 0;
-  box-shadow: inset 0 0 0 var(--border-width-medium)
-    var(--interactive-interactive_2-outline-background);
+  box-shadow: inset 0 0 0 token('border.width.medium')
+    token('color.interactive.2.outline.background');
 }
 
 .feedback__error {
-  border-color: var(--status-error-primary-background);
+  border-color: token('color.status.error.primary.background');
 }
 
 .feedback_label__error {
-  background-color: var(--status-error-primary-background);
+  background-color: token('color.status.error.primary.background');
   outline: 0;
-  padding: var(--spacings-small);
-  color: var(--status-error-primary-text);
+  padding: token('spacing.small');
+  color: token('color.status.error.primary.foreground.primary');
 }
 
 .submitButton {
-  margin: var(--spacings-large);
+  margin: token('spacing.large');
   margin-top: 0px;
   max-width: 6rem;
   text-align: center;

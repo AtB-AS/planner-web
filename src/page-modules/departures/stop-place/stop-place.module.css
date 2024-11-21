@@ -1,12 +1,9 @@
-@value interactive-interactive_2 from "@atb/theme/theme.module.css";
-@value interactive-interactive_1 from "@atb/theme/theme.module.css";
-
 .stopPlaceContainer {
   display: grid;
   grid-template-columns: 2fr 3fr;
   grid-auto-rows: minmax(37.5rem, auto) auto;
   grid-template-areas: 'quays map';
-  gap: var(--spacings-small);
+  gap: token('spacing.small');
 }
 
 .mapContainer {
@@ -18,7 +15,7 @@
   grid-area: quays;
   display: flex;
   flex-direction: column;
-  gap: var(--spacings-small);
+  gap: token('spacing.small');
 }
 .quaysContainer li {
   list-style: none;
@@ -26,14 +23,29 @@
 .refreshButton {
   align-self: flex-end;
   display: flex;
-  gap: var(--spacings-small);
+  gap: token('spacing.small');
   align-items: center;
-  padding: var(--spacings-medium);
-  border-radius: var(--border-radius-regular);
+  padding: token('spacing.medium');
+  border-radius: token('border.radius.regular');
   text-decoration: none;
-  composes: interactive-interactive_1;
   transition: none;
   border: none;
+
+  color: token('color.interactive.1.default.foreground.primary');
+  background-color: token('color.interactive.1.default.background');
+}
+.refreshButton:hover {
+  color: token('color.interactive.1.hover.foreground.primary');
+  background-color: token('color.interactive.1.hover.background');
+}
+
+.refreshButton:active {
+  color: token('color.interactive.1.active.foreground.primary');
+  background-color: token('color.interactive.1.active.background');
+}
+.refreshButton:disabled {
+  color: token('color.interactive.1.disabled.foreground.primary');
+  background-color: token('color.interactive.1.disabled.background');
 }
 
 .listHeader {
@@ -41,33 +53,47 @@
   width: 100%;
   display: flex;
   align-items: center;
-  gap: var(--spacings-xSmall);
+  gap: token('spacing.xSmall');
   justify-content: space-between;
-  background-color: var(--static-background-background_0-background);
-  color: var(--static-background-background_0-text);
-  border-radius: var(--border-radius-regular) var(--border-radius-regular) 0 0;
-  border-bottom: 1px solid var(--static-background-background_2-background);
-  padding: var(--spacings-small) var(--spacings-medium);
+  border-radius: token('border.radius.regular') token('border.radius.regular') 0 0;
+  border-bottom: 1px solid token('color.background.neutral.2.background');
+  padding: token('spacing.small') token('spacing.medium');
   cursor: pointer;
-  composes: interactive-interactive_2;
+
+  color: token('color.interactive.2.default.foreground.primary');
+  background-color: token('color.interactive.2.default.background');
+}
+
+.listHeader:hover {
+  color: token('color.interactive.2.hover.foreground.primary');
+  background-color: token('color.interactive.2.hover.background');
+}
+
+.listHeader:active {
+  color: token('color.interactive.2.active.foreground.primary');
+  background-color: token('color.interactive.2.active.background');
+}
+.listHeader:disabled {
+  color: token('color.interactive.2.disabled.foreground.primary');
+  background-color: token('color.interactive.2.disabled.background');
 }
 
 .listHeader--collapsed {
-  border-radius: var(--border-radius-regular);
+  border-radius: token('border.radius.regular');
   border-bottom: none;
 }
 .listItem__last {
-  border-radius: 0 0 var(--border-radius-regular) var(--border-radius-regular);
+  border-radius: 0 0 token('border.radius.regular') token('border.radius.regular');
 }
 
 .textColor__secondary {
-  color: var(--text-colors-secondary);
+  color: token('color.foreground.dynamic.secondary');
 }
 
 .flex__row {
   display: flex;
   align-items: center;
-  gap: var(--spacings-xSmall);
+  gap: token('spacing.xSmall');
   flex-wrap: wrap;
 }
 
@@ -77,25 +103,36 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: var(--interactive-interactive_2-default-background);
-  color: var(--interactive-interactive_2-default-text);
-  border-bottom: 1px solid var(--static-background-background_2-background);
-  padding: var(--spacings-medium);
+  background-color: token('color.interactive.2.default.background');
+  color: token('color.interactive.2.default.foreground.primary');
+  border-bottom: 1px solid token('color.background.neutral.2.background');
+  padding: token('spacing.medium');
   text-decoration: none;
   cursor: pointer;
-  composes: interactive-interactive_2;
+}
+.listItem:hover {
+  color: token('color.interactive.2.hover.foreground.primary');
+  background-color: token('color.interactive.2.hover.background');
+}
+.listItem:active {
+  color: token('color.interactive.2.active.foreground.primary');
+  background-color: token('color.interactive.2.active.background');
+}
+.listItem:disabled {
+  color: token('color.interactive.2.disabled.foreground.primary');
+  background-color: token('color.interactive.2.disabled.background');
 }
 
 .transportInfo {
   display: flex;
-  gap: var(--spacings-medium);
+  gap: token('spacing.medium');
   align-items: center;
   position: relative;
 }
 .situationIcon {
   position: absolute;
-  top: calc(var(--spacings-small) * -1);
-  left: calc(var(--spacings-small) * -1);
+  top: calc(token('spacing.small') * -1);
+  left: calc(token('spacing.small') * -1);
 }
 
 @media only screen and (max-width: 650px) {

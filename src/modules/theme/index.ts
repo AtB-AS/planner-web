@@ -1,9 +1,34 @@
-import { createThemesFor, Theme, ThemeVariant } from '@atb-as/theme';
+import { ContrastColorFs, createThemesFor, ThemeFs, ThemeVariant, InteractiveColor as _InteractiveColor, TransportColor as _TransportColor, StatusColor as _StatusColor } from '@atb-as/theme';
 import { useDarkmodeCookie } from '@atb/modules/cookies';
 import { currentOrg, WEBSHOP_ORGS } from '@atb/modules/org-data';
 import { useEffect } from 'react';
 
-export const theme = createThemesFor(getThemeVariant(currentOrg));
+export type Theme = ThemeFs
+export type ContrastColor = ContrastColorFs
+
+export type TextColorName = keyof Theme['color']['foreground']
+
+export type InteractiveColor = _InteractiveColor<ContrastColor>
+export type InteractiveColorName = keyof Theme['color']['interactive']
+export type InteractiveColors = Theme['color']['interactive']
+export type InteractiveState = keyof InteractiveColor
+
+export type TransportColor = _TransportColor<ContrastColor>
+export type TransportColorName = keyof Theme['color']['transport']
+export type TransportColors = Theme['color']['transport']
+export type TransportColorState = keyof Theme['color']['transport']['city']
+
+export type BackgroundColors = Theme['color']['background']
+export type BackgroundColorName = keyof Theme['color']['background']
+export type BackgroundColorState<T extends BackgroundColorName> = keyof Theme['color']['background'][T]
+
+export type StatusColor = _StatusColor<ContrastColor>
+export type StatusColorName = keyof Theme['color']['status']
+export type StatusColors = Theme['color']['status']
+
+export const theme = createThemesFor(getThemeVariant(currentOrg), {
+  useFigmaStructure: true
+});
 
 function getThemeVariant(orgId: WEBSHOP_ORGS): ThemeVariant {
   switch (orgId) {
@@ -46,13 +71,10 @@ export function useHtmlDarkMode() {
   useEffect(
     function () {
       if (typeof window === 'undefined') return;
-      document.documentElement.classList.toggle('dark', isDarkMode);
-      document.documentElement.classList.toggle('override-dark', isDarkMode);
-      document.documentElement.classList.toggle('light', !isDarkMode);
-      document.documentElement.classList.toggle('override-light', !isDarkMode);
+
+      const theme = isDarkMode? 'dark' : 'light'
+      document.documentElement.setAttribute('data-theme', theme);
     },
     [isDarkMode],
   );
 }
-
-export type TransportColor = keyof Theme['transport'];

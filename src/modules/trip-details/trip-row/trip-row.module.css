@@ -3,7 +3,7 @@
   flex: 1;
   flex-direction: row;
   justify-content: center;
-  padding: var(--spacings-small) 0;
+  padding: token('spacing.small') 0;
   text-decoration: none;
   color: inherit;
 }
@@ -19,5 +19,5 @@
   flex: 1;
 }
 .decorationPlaceholder {
-  width: var(--spacings-large);
+  width: token('spacing.large');
 }

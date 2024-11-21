@@ -724,9 +724,9 @@ function createOutput(
 
   const output = html`
     <div
+      data-theme="light"
       class="${andIf({
         [style.wrapper]: true,
-        [style.lightWrapper]: true,
         [style.inheritFont]: outputOverrideOptions.inheritFont ?? false,
         [style.singleColumnLayout]:
           outputOverrideOptions.singleColumnLayout ?? false,

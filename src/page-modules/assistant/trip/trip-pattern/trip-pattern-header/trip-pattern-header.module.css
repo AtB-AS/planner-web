@@ -1,7 +1,7 @@
 .header {
   display: flex;
-  gap: var(--spacings-small);
-  padding: var(--spacings-small) var(--spacings-medium);
+  gap: token('spacing.small');
+  padding: token('spacing.small') token('spacing.medium');
 }
 
 @media (max-width: 650px) {
@@ -11,7 +11,7 @@
 }
 
 .header__duration {
-  color: var(--text-colors-secondary);
+  color: token('color.foreground.dynamic.secondary');
   margin-left: auto;
 }
 

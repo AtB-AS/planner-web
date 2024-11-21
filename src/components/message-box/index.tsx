@@ -1,6 +1,5 @@
 import { useTranslation } from '@atb/translations';
-import { Theme } from '@atb-as/theme';
-import { useTheme } from '@atb/modules/theme';
+import { StatusColorName, useTheme } from '@atb/modules/theme';
 import { andIf } from '@atb/utils/css';
 import { MonoIcon, MonoIconProps } from '@atb/components/icon';
 import { messageTypeToMonoIcon } from '@atb/modules/situations';
@@ -13,7 +12,7 @@ import { colorToOverrideMode } from '@atb/utils/color';
 import { screenReaderPause } from '@atb/components/typography/utils';
 import { HTMLAttributes } from 'react';
 
-export type MessageMode = keyof Theme['status'];
+export type MessageMode = StatusColorName;
 
 export type MessageBoxProps = {
   type: MessageMode;
@@ -34,12 +33,12 @@ export const MessageBox = ({
   onClick,
   borderRadius = true,
 }: MessageBoxProps) => {
-  const { status } = useTheme();
+  const { color: {status} } = useTheme();
   const { t } = useTranslation();
   const backgroundColorStyle: HTMLAttributes<HTMLDivElement>['style'] = {
     borderColor: status[type].primary.background,
     backgroundColor: status[type].secondary.background,
-    color: status[type].secondary.text,
+    color: status[type].secondary.foreground.primary,
   };
   const overrideMode = useStatusThemeColor(type);
   const aria = modeToAria(type);
@@ -95,22 +94,22 @@ export const MessageBox = ({
 };
 
 function useStatusThemeColor(mode: MessageMode): MonoIconProps['overrideMode'] {
-  const { status } = useTheme();
+  const { color: {status} } = useTheme();
 
   let overrideColor: MonoIconProps['overrideMode'] = undefined;
 
   switch (mode) {
     case 'error':
-      overrideColor = colorToOverrideMode(status.error.secondary.text);
+      overrideColor = colorToOverrideMode(status.error.secondary.foreground.primary);
       break;
     case 'valid':
-      overrideColor = colorToOverrideMode(status.valid.secondary.text);
+      overrideColor = colorToOverrideMode(status.valid.secondary.foreground.primary);
       break;
     case 'warning':
-      overrideColor = colorToOverrideMode(status.warning.secondary.text);
+      overrideColor = colorToOverrideMode(status.warning.secondary.foreground.primary);
       break;
     case 'info':
-      overrideColor = colorToOverrideMode(status.info.secondary.text);
+      overrideColor = colorToOverrideMode(status.info.secondary.foreground.primary);
       break;
   }
 

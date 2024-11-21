@@ -3,9 +3,9 @@
   align-items: center;
   justify-content: space-between;
 
-  gap: var(--spacings-xSmall);
-  padding: var(--spacings-small);
-  border-radius: var(--spacings-small);
+  gap: token('spacing.xSmall');
+  padding: token('spacing.small');
+  border-radius: token('spacing.small');
 }
 .publicCode {
   text-align: right;

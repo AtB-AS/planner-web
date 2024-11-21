@@ -1,14 +1,14 @@
 .linkText {
-  margin-top: var(--spacings-medium);
+  margin-top: token('spacing.medium');
 }
 
 .dialog {
-  padding: var(--spacings-large);
+  padding: token('spacing.large');
   margin: auto;
   border: none;
-  border-radius: var(--border-radius-circle);
-  background-color: var(--static-background-background_1-background);
-  color: var(--static-background-background_1-text);
+  border-radius: token('border.radius.circle');
+  background-color: token('color.background.neutral.1.background');
+  color: token('color.background.neutral.1.foreground.primary');
 }
 
 .dialog::backdrop {
@@ -18,16 +18,16 @@
 .dialog__wrapper {
   display: flex;
   flex-direction: column;
-  gap: var(--spacings-medium);
+  gap: token('spacing.medium');
 }
 .dialog__content {
   display: flex;
   flex-direction: column;
-  gap: var(--spacings-medium);
-  padding: var(--spacings-large);
-  background-color: var(--static-background-background_0-background);
-  color: var(--static-background-background_0-text);
-  border-radius: var(--border-radius-regular);
+  gap: token('spacing.medium');
+  padding: token('spacing.large');
+  background-color: token('color.background.neutral.0.background');
+  color: token('color.background.neutral.0.foreground.primary');
+  border-radius: token('border.radius.regular');
 }
 .dialog__button {
   text-align: center;
@@ -35,13 +35,13 @@
 .dialog__title {
   display: flex;
   align-items: center;
-  gap: var(--spacings-small);
+  gap: token('spacing.small');
 }
 .dialog__validity {
   display: flex;
   align-items: center;
-  gap: var(--spacings-small);
+  gap: token('spacing.small');
 }
 .secondaryTextColor {
-  color: var(--text-colors-secondary);
+  color: token('color.foreground.dynamic.secondary');
 }

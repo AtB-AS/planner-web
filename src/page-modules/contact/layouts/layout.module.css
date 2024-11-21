@@ -1,5 +1,3 @@
-@value interactive-interactive_2 from "@atb/theme/theme.module.css";
-
 .layout {
   display: flex;
   flex-direction: column;
@@ -9,52 +7,62 @@
 }
 @media (max-width: 650px) {
   .layout {
-    padding: 0 var(--spacings-medium);
+    padding: 0 token('spacing.medium');
   }
 }
 .homeLink__container {
-  padding: 0 var(--spacings-medium);
+  padding: 0 token('spacing.medium');
 }
 
 .layout__container {
-  padding: var(--spacings-large);
+  padding: token('spacing.large');
 
   display: flex;
   flex-direction: column;
-  gap: var(--spacings-xLarge);
+  gap: token('spacing.xLarge');
 }
 
 .contact_page_navigator__container {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: var(--spacings-medium);
+  gap: token('spacing.medium');
 }
 
 .contact_page_navigator__link {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--spacings-small);
+  gap: token('spacing.small');
   width: 12rem;
   height: 7.5rem;
 
-  composes: interactive-interactive_2;
+  color: token('color.interactive.2.default.foreground.primary');
+  background-color: token('color.interactive.2.default.background');
   text-align: center;
   text-decoration: none;
 
-  padding: var(--spacings-large);
-  border-radius: var(--border-radius-regular);
+  padding: token('spacing.large');
+  border-radius: token('border.radius.regular');
 }
 
 .contact_page_navigator__link:hover {
-  color: var(--interactive-interactive_2-hover-text);
-  background-color: var(--interactive-interactive_2-hover-background);
+  color: token('color.interactive.2.hover.foreground.primary');
+  background-color: token('color.interactive.2.hover.background');
+}
+
+.contact_page_navigator__link:active {
+  color: token('color.interactive.2.active.foreground.primary');
+  background-color: token('color.interactive.2.active.background');
+}
+.contact_page_navigator__link:disabled {
+  color: token('color.interactive.2.disabled.foreground.primary');
+  background-color: token('color.interactive.2.disabled.background');
 }
 
 .contact_page_navigator__activePage {
-  border: var(--border-width-medium) solid
-    var(--interactive-interactive_2-outline-background);
+  border: token('border.width.medium') solid
+    token('color.interactive.2.outline.background');
 }
 
 .contact_page_navigator__dropdown {

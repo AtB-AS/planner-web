@@ -1,8 +1,7 @@
-import type { ContrastColor } from '@atb-as/theme';
 import { transportModeToColor } from '@atb/modules/transport-mode';
 import { type MutableRefObject, useCallback, useEffect } from 'react';
 import hexToRgba from 'hex-to-rgba';
-import { useTheme } from '@atb/modules/theme';
+import { ContrastColor, useTheme } from '@atb/modules/theme';
 import { ComponentText, useTranslation } from '@atb/translations';
 import type { MapLegType } from './types';
 import type { Map, AnySourceData, AnyLayer } from 'mapbox-gl';
@@ -13,7 +12,7 @@ export const useMapLegs = (
   mapLegs?: MapLegType[],
 ) => {
   const { t, language } = useTranslation();
-  const { transport, static: staticColors } = useTheme();
+  const { color: {transport, background} } = useTheme();
 
   const addToMap = useCallback(
     (map: Map, mapLeg: MapLegType, id: number) => {
@@ -59,13 +58,13 @@ export const useMapLegs = (
       const startTextLayer = createStartEndTextLayer(
         startTextSourceId,
         t(ComponentText.Map.map.startPoint),
-        staticColors.background.background_accent_0,
+        background.accent[0],
       );
       const endTextPoint = createStartEndTextPoint(endMapLeg.points[0]);
       const endTextLayer = createStartEndTextLayer(
         endTextSourceId,
         t(ComponentText.Map.map.endPoint),
-        staticColors.background.background_accent_0,
+        background.accent[0],
       );
 
       addSourceIfNotExists(map, startTextSourceId, startTextPoint);
@@ -74,7 +73,7 @@ export const useMapLegs = (
       addLayerIfNotExists(map, startTextLayer);
       addLayerIfNotExists(map, endTextLayer);
     },
-    [staticColors, t],
+    [background, t],
   );
 
   /**
@@ -217,7 +216,7 @@ const createStartEndTextLayer = (
     'text-offset': [0, -1],
   },
   paint: {
-    'text-color': contrastColor.text,
+    'text-color': contrastColor.foreground.primary,
     'text-halo-color': contrastColor.background,
     'text-halo-width': 2,
   },

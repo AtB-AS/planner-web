@@ -1,5 +1,5 @@
 .pageHeader {
-  background-color: var(--static-background-background_accent_0-background);
+  background-color: token('color.background.accent.0.background');
 }
 
 .pageHeader__content {
@@ -14,14 +14,14 @@
 
 .pageHeader__inner {
   display: flex;
-  background-color: var(--static-background-background_accent_0-background);
-  color: var(--static-background-background_accent_0-text);
+  background-color: token('color.background.accent.0.background');
+  color: token('color.background.accent.0.foreground.primary');
   position: relative;
   z-index: 150;
 }
 
 .pageHeader__logo {
-  margin-right: var(--spacings-medium);
+  margin-right: token('spacing.medium');
 }
 
 @media (max-width: 800px) {
@@ -44,15 +44,15 @@
 
 .pageHeader__logoLink,
 .pageHeader__logoLink:visited {
-  color: var(--static-background-background_accent_0-text);
+  color: token('color.background.accent.0.foreground.primary');
   text-decoration: none;
 
   display: flex;
   align-items: center;
 
   white-space: nowrap;
-  padding: var(--spacings-medium);
-  gap: var(--spacings-medium);
+  padding: token('spacing.medium');
+  gap: token('spacing.medium');
   padding-left: 0;
 }
 .pageHeader__logoLink:active {
@@ -68,21 +68,21 @@
 }
 .pageHeader__link,
 .pageHeader__link:visited {
-  padding: var(--spacings-medium);
+  padding: token('spacing.medium');
   text-decoration: none;
-  color: var(--static-background-background_accent_0-text);
+  color: token('color.background.accent.0.foreground.primary');
 }
 .pageHeader__link:hover {
-  background-color: var(--static-background-background_accent_1-background);
-  color: var(--static-background-background_accent_1-text);
+  background-color: token('color.background.accent.1.background');
+  color: token('color.background.accent.1.foreground.primary');
 }
 .pageHeader__link:active {
   opacity: 0.8;
 }
 
 .pageHeader__link--active {
-  padding-bottom: calc(var(--spacings-medium) - var(--border-width-medium));
-  border-bottom: var(--border-width-medium) solid
+  padding-bottom: calc(token('spacing.medium') - token('border.width.medium'));
+  border-bottom: token('border.width.medium') solid
     var(--ws-colors-header-border-bottom);
 }
 .pageHeader__nav--modal .pageHeader__link--active {
