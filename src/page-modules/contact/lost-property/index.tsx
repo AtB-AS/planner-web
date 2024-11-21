@@ -9,7 +9,7 @@ export default function LostPropertyContent() {
       <SectionCard title={t(PageText.Contact.lostProperty.title)}>
         <Typo.p textType="body__primary">
           <span>
-            {t(PageText.Contact.lostProperty.description.info)},&nbsp;
+            {t(PageText.Contact.lostProperty.description.info)}&nbsp;
             <a
               href={t(PageText.Contact.lostProperty.description.url)}
               target="_blank"
