@@ -475,7 +475,7 @@ export const Contact = {
       info: _(
         'FRAM har dessverre ikke oversikt over hittegods. Dette er det bussoperatørene som kjører rutene som er ansvarlige for. Du finner informasjon om hvilken operatør som har kjørt din rute og hvem du kan kontakte',
         'FRAM unfortunately does not manage lost property. Responsibility for this lies with the bus operators running the routes. You can find information about the operator for your route and how to contact them',
-        'FRAM har dessverre ikkje oversikt over hittegods. Dette er det bussoperatørane som køyrer rutane som er ansvarlege for. Du finn informasjon om kva operatør som har kjøyrt ruta di og kven du kan kontakte',
+        'FRAM har dessverre ikkje oversikt over hittegods. Dette er det bussoperatørane som køyrer rutane som er ansvarlege for. Du finn informasjon om kva operatør som har køyrt ruta di og kven du kan kontakte',
       ),
       externalLink: _('HER.', 'HERE.', 'HER.'),
       url: _(
