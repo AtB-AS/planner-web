@@ -103,6 +103,13 @@
     normalize-path "^3.0.0"
     stream-editor "^1.11.0"
 
+"@atb-as/theme@./../../design-system/packages/theme":
+  version "11.1.2"
+  dependencies:
+    "@tfk-samf/figma-to-dtcg" "0.4.0"
+    hex-to-rgba "^2.0.1"
+    ts-deepmerge "^4.0.0"
+
 "@atb-as/theme@^11.1.1":
   version "11.1.1"
   resolved "https://registry.yarnpkg.com/@atb-as/theme/-/theme-11.1.1.tgz#5fabede8c0fcb47af8d0f19ab99af1f96c27a910"

@@ -1,6 +1,6 @@
 import { MonoIcons, icons } from './generated-icons';
 import { SizeProps, useSize } from './utils';
-import { InteractiveColor, InteractiveState, TextColorName, useDarkMode } from '@atb/modules/theme';
+import { InteractiveColor, InteractiveState, TextColorType, useDarkMode } from '@atb/modules/theme';
 import { colorToOverrideMode } from '@atb/utils/color';
 
 export type { SizeProps };
@@ -58,13 +58,13 @@ export function MonoIcon({
 
 export default MonoIcon;
 
-function insertMode(relative: string, mode: TextColorName) {
+function insertMode(relative: string, mode: TextColorType) {
   return relative.replace('mono/', `mono/${mode}/`);
 }
 
 function colorToMode(
   color: MonoIconProps['overrideMode'],
-): TextColorName | undefined {
+): TextColorType | undefined {
   if (color == 'none') return undefined;
   return color == 'dark' ? 'dark' : 'light';
 }
