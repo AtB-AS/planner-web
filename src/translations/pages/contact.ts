@@ -547,23 +547,31 @@ export const Contact = {
 
       orderTravelCard: {
         label: _('Bestill reisekort', 'Order travel card', 'Bestill reisekort'),
-        info: [
+        detailsList: [
           _(
             'Et reisekort er et fysisk plastkort. På reisekortet kan du legge periodebilletter.',
             'A travel card is a physical plastic card. You can add period tickets to the travel card',
             'Eit reisekort er eit fysisk plastkort. På reisekortet kan du legge periodebillettar.',
           ),
           _(
-            'Fyll ut dette skjemaet hvis du vil bestille et reisekort og få det tilsendt. Merk at vi bare sender reisekort til adresser i Norge.',
-            'Fill in this form if you want to order a travel card and have it sent to you. Note that we only send travel cards to addresses in Norway.',
-            'Fyll ut dette skjemaet viss du vil bestille eit reisekort og få det tilsendt. Merk at vi berre sender reisekort til adresser i Noreg.',
-          ),
-          _(
-            'Du kan også få reisekort på bussen, hurtigbåten eller på en av trafikkterminalane. På de samme stedene og i nettbutikken kan du fylle på kortet med nye billetter.',
-            'You can also get a travel card on the bus, express boat or at one of the traffic terminals. At the same places and in the online shop, you can top up the card with new tickets.',
-            'Du kan også få reisekort på bussen, hurtigbåten eller på ein av trafikkterminalane. På dei same stadane og i nettbutikken kan du fylle på kortet med nye billettar.',
+            'Reisekort får du tak i hos sjåføren om bord i bussen, eller matrosen om bord i hurtigbåten. Det er også tilgjengeleg på salskontoret i Molde og Ålesund. De har tomme kort som er gratis ved utlevering.',
+            'Travel cards can be provided by the bus driver, or the sailor on board the express boat. They can also be obtained at sales offices in Molde and Ålesund. Blank cards are provided free of charge upon delivery.',
+            'Reisekort får du tak i hos sjåføren om bord i bussen, eller matrosen om bord i hurtigbåten. Det er også tilgjengeleg på salskontoret i Molde og Ålesund. Dei har tomme kort som er gratis ved utlevering.',
           ),
         ],
+        detailWithUrl: {
+          detail: _(
+            'Du trenger ikke kjøpe produktet hos sjåfør. Du kan ta med deg et kort og fylle på det produktet du vil i',
+            'You dont have to purchase the product from the driver. You can take a card with you and top up the prdouct you want in the',
+            'Du treng ikkje kjøpe produktet hos sjåfør. Du kan ta med deg eit kort og fylle på det produktet du vil i',
+          ),
+          linkText: _('nettbutikken', 'webshop', 'nettbutikken'),
+          href: _(
+            'https://nettbutikk.frammr.no/',
+            'https://nettbutikk.frammr.no/',
+            'https://nettbutikk.frammr.no/',
+          ),
+        },
       },
       travelCardQuestion: {
         label: _(

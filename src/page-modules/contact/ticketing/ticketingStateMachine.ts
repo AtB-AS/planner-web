@@ -167,17 +167,6 @@ const setInputsToValidate = (context: TicketingContextType) => {
         phoneNumber,
       };
 
-    case FormType.OrderTravelCard:
-      return {
-        formType,
-        firstName,
-        lastName,
-        address,
-        postalCode,
-        city,
-        email,
-      };
-
     case FormType.WebshopTicketing:
       return { formType, orderId, question, ...(!customerNumber && { email }) };
 

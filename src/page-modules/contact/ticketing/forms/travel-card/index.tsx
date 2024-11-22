@@ -8,14 +8,14 @@ import {
 import { ticketingFormEvents } from '../../events';
 import { SectionCard, Radio } from '../../../components';
 import TravelCardQuestionForm from './travelCardQuestionForm';
-import OrderTravelCardForm from './orderTravelCardForm';
+import OrderTravelCard from './orderTravelCard';
 
-type TravelcardFormsProps = {
+type TravelCardFormsProps = {
   state: StateFrom<typeof ticketingStateMachine>;
   send: (event: typeof ticketingFormEvents) => void;
 };
 
-export const TravelCardForms = ({ state, send }: TravelcardFormsProps) => {
+export const TravelCardForms = ({ state, send }: TravelCardFormsProps) => {
   const { t } = useTranslation();
 
   return (
@@ -44,7 +44,7 @@ export const TravelCardForms = ({ state, send }: TravelcardFormsProps) => {
       </SectionCard>
 
       {state.matches({ editing: { travelCard: 'orderTravelCard' } }) && (
-        <OrderTravelCardForm state={state} send={send} />
+        <OrderTravelCard />
       )}
       {state.matches({ editing: { travelCard: 'travelCardQuestion' } }) && (
         <TravelCardQuestionForm state={state} send={send} />
