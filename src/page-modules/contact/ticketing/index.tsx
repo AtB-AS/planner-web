@@ -14,6 +14,8 @@ import RefundForms from './forms/refund';
 const TicketingContent = () => {
   const { t } = useTranslation();
   const [state, send] = useMachine(ticketingStateMachine);
+  const displaySubmitButton =
+    state.context.formType && state.context.formType !== 'orderTravelCard';
 
   const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
@@ -61,7 +63,7 @@ const TicketingContent = () => {
         <RefundForms state={state} send={send} />
       )}
 
-      {state.context.formType && (
+      {displaySubmitButton && (
         <Button
           title={t(PageText.Contact.submit)}
           mode={'interactive_0--bordered'}
