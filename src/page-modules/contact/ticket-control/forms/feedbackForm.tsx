@@ -13,6 +13,7 @@ import {
   Select,
   SearchableSelect,
   getLineOptions,
+  getStopOptions,
   DateSelector,
   TimeSelector,
 } from '../../components';
@@ -77,6 +78,36 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
             state.context?.errorMessages['line']?.[0] &&
             t(state.context?.errorMessages['line']?.[0])
           }
+        />
+
+        <SearchableSelect
+          label={t(PageText.Contact.input.fromStop.optionalLabel)}
+          value={state.context.fromStop}
+          placeholder={t(PageText.Contact.input.fromStop.optionLabel)}
+          isDisabled={!state.context.line}
+          options={getStopOptions(getQuaysByLine(state.context.line?.id ?? ''))}
+          onChange={(value) => {
+            send({
+              type: 'ON_INPUT_CHANGE',
+              inputName: 'fromStop',
+              value: value,
+            });
+          }}
+        />
+
+        <SearchableSelect
+          label={t(PageText.Contact.input.toStop.optionalLabel)}
+          value={state.context.toStop}
+          placeholder={t(PageText.Contact.input.toStop.optionLabel)}
+          isDisabled={!state.context.line}
+          options={getStopOptions(getQuaysByLine(state.context.line?.id ?? ''))}
+          onChange={(value) => {
+            send({
+              type: 'ON_INPUT_CHANGE',
+              inputName: 'toStop',
+              value: value,
+            });
+          }}
         />
 
         <DateSelector

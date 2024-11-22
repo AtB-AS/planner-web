@@ -879,6 +879,11 @@ export const Contact = {
 
     fromStop: {
       label: _('Fra holdeplass/kai', 'From stop/harbor', 'Frå haldeplass/kai'),
+      optionalLabel: _(
+        'Velg holdeplass/kai (valgfritt)',
+        'Select stop/harbor (optinal)',
+        'Vel haldeplass/kai (valfritt)',
+      ),
       optionLabel: _(
         'Velg holdeplass/kai',
         'Select stop/harbor',
@@ -895,6 +900,11 @@ export const Contact = {
 
     toStop: {
       label: _('Til holdeplass/kai', 'To stop/harbor', 'Til haldeplass/kai'),
+      optionalLabel: _(
+        'Velg holdeplass/kai (valgfritt)',
+        'Select stop/harbor (optinal)',
+        'Vel haldeplass/kai (valfritt)',
+      ),
       optionLabel: _(
         'Velg holdeplass/kai',
         'Select stop/harbor',
