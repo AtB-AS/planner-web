@@ -3,6 +3,7 @@ import { ticketingFormEvents } from '../../events';
 import { TicketingContextType } from '../../ticketingStateMachine';
 import { Typo } from '@atb/components/typography';
 import { SectionCard, Textarea, FileInput, Input } from '../../../components';
+import style from '../../../contact.module.css';
 
 type WebshopTicketingFormProps = {
   state: { context: TicketingContextType };
@@ -20,13 +21,15 @@ export const WebshopTicketingForm = ({
       <SectionCard
         title={t(PageText.Contact.ticketing.webshop.webshopTicketing.title)}
       >
-        {PageText.Contact.input.orderId.descriptionBulletPoints.map(
-          (desc, index) => (
-            <Typo.p textType="body__primary" key={index}>
-              {t(desc)}
-            </Typo.p>
-          ),
-        )}
+        <ul className={style.rules__list}>
+          {PageText.Contact.input.orderId.descriptionBulletPoints.map(
+            (desc, index) => (
+              <li key={index}>
+                <Typo.p textType="body__primary">{t(desc)}</Typo.p>
+              </li>
+            ),
+          )}
+        </ul>
 
         <Input
           label={t(PageText.Contact.input.orderId.label(false))}

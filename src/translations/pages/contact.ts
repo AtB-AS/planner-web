@@ -1235,16 +1235,16 @@ export const Contact = {
 
       descriptionBulletPoints: [
         _(
-          'På billetten i appen',
-          'On the ticket in the app',
-          'På billetten i appen',
+          'På billetten i appen.',
+          'On the ticket in the app.',
+          'På billetten i appen.',
         ),
 
-        _('På kvitteringen din', 'On your receipt ', 'På kvitteringa di'),
+        _('På kvitteringen din.', 'On your receipt.', 'På kvitteringa di.'),
         _(
-          'Du finner også ordre-id på utgåtte billetter',
-          'You can also find the order ID on expired tickets',
-          'Du finn også ordre-id på utgåtte billettar',
+          'Du finner også ordre-id på utgåtte billetter.',
+          'You can also find the order ID on expired tickets.',
+          'Du finn også ordre-id på utgåtte billettar.',
         ),
       ],
       instruction: _(
