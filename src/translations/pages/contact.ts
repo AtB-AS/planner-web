@@ -554,7 +554,7 @@ export const Contact = {
             'Eit reisekort er eit fysisk plastkort. På reisekortet kan du legge periodebillettar.',
           ),
           _(
-            'Reisekort får du tak i hos sjåføren om bord i bussen, eller matrosen om bord i hurtigbåten. Det er også tilgjengeleg på salskontoret i Molde og Ålesund. De har tomme kort som er gratis ved utlevering.',
+            'Reisekort får du tak i hos sjåføren om bord i bussen, eller matrosen om bord i hurtigbåten. Det er også tilgjengelig på salgskontoret i Molde og Ålesund. De har tomme kort som er gratis ved utlevering.',
             'Travel cards can be provided by the bus driver, or the sailor on board the express boat. They can also be obtained at sales offices in Molde and Ålesund. Blank cards are provided free of charge upon delivery.',
             'Reisekort får du tak i hos sjåføren om bord i bussen, eller matrosen om bord i hurtigbåten. Det er også tilgjengeleg på salskontoret i Molde og Ålesund. Dei har tomme kort som er gratis ved utlevering.',
           ),
@@ -562,7 +562,7 @@ export const Contact = {
         detailWithUrl: {
           detail: _(
             'Du trenger ikke kjøpe produktet hos sjåfør. Du kan ta med deg et kort og fylle på det produktet du vil i',
-            'You dont have to purchase the product from the driver. You can take a card with you and top up the prdouct you want in the',
+            'You don’t need to purchase the product from the driver. You can take a card with you and top up the desired product later in the',
             'Du treng ikkje kjøpe produktet hos sjåfør. Du kan ta med deg eit kort og fylle på det produktet du vil i',
           ),
           linkText: _('nettbutikken', 'webshop', 'nettbutikken'),
