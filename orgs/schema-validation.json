@@ -90,6 +90,9 @@
                   "type": "string"
                 }
               }
+            },
+            "travelConditions": {
+              "$ref": "#/definitions/TranslatableUrl"
             }
           },
           "required": [

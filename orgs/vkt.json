@@ -14,30 +14,35 @@
 
   "urls": {
     "privacyDeclarationUrl": {
-      "default": "https://vkt.no"
+      "default": "https://www.vkt.no/vilkaar-og-personvern/personvern/"
     },
 
     "accessibilityStatementUrl": {
-      "default": "https://vkt.no"
+      "default": "https://www.vkt.no/om-oss/tilgjengelighetserklaering/"
     },
 
     "supportUrl": {
-      "default": "https://vkt.no",
-      "en-US": "https://vkt.no"
+      "default": "https://www.vkt.no/om-oss/kontakt-oss/",
+      "en-US": "https://www.vkt.no/om-oss/kontakt-oss/"
     },
     "homePageUrl": {
       "name": "vkt.no",
       "href": "https://vkt.no"
     },
     "ticketsUrl": {
-      "en-US": "https://vkt.no",
-      "nn": "https://vkt.no",
-      "default": "https://vkt.no"
+      "en-US": "https://www.vkt.no/reise/billetter-og-priser/",
+      "nn": "https://www.vkt.no/reise/billetter-og-priser/",
+      "default": "https://www.vkt.no/reise/billetter-og-priser/"
     },
     "sitemapUrls": {
       "dev": "http://localhost:3000",
       "staging": "https://vkt-staging.planner-web.mittatb.no/",
       "prod": "https://reise.vkt.no/"
+    },
+    "travelConditionsUrl": {
+      "en-US": "https://www.vkt.no/vilkar/",
+      "nn": "https://www.vkt.no/vilkar/",
+      "default": "https://www.vkt.no/vilkar/"
     }
   },
   "journeyApiConfigurations": {
