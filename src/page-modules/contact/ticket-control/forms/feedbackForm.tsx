@@ -81,7 +81,7 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
         />
 
         <SearchableSelect
-          label={t(PageText.Contact.input.fromStop.label)}
+          label={t(PageText.Contact.input.fromStop.optionalLabel)}
           value={state.context.fromStop}
           placeholder={t(PageText.Contact.input.fromStop.optionLabel)}
           isDisabled={!state.context.line}
@@ -93,15 +93,10 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
               value: value,
             });
           }}
-          error={
-            state.context?.errorMessages['fromStop']?.[0]
-              ? t(state.context?.errorMessages['fromStop']?.[0])
-              : undefined
-          }
         />
 
         <SearchableSelect
-          label={t(PageText.Contact.input.toStop.label)}
+          label={t(PageText.Contact.input.toStop.optionalLabel)}
           value={state.context.toStop}
           placeholder={t(PageText.Contact.input.toStop.optionLabel)}
           isDisabled={!state.context.line}
@@ -113,11 +108,6 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
               value: value,
             });
           }}
-          error={
-            state.context?.errorMessages['toStop']?.[0]
-              ? t(state.context?.errorMessages['toStop']?.[0])
-              : undefined
-          }
         />
 
         <DateSelector

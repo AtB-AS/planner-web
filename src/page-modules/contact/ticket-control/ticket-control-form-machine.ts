@@ -135,8 +135,6 @@ const setInputToValidate = (context: ContextProps) => {
     SWIFT,
     transportMode,
     line,
-    fromStop,
-    toStop,
     dateOfTicketControl,
     timeOfTicketControl,
   } = context;
@@ -165,8 +163,6 @@ const setInputToValidate = (context: ContextProps) => {
       return {
         transportMode,
         line,
-        fromStop,
-        toStop,
         dateOfTicketControl,
         timeOfTicketControl,
         feedback,
