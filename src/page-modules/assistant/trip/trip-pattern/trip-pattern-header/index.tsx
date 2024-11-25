@@ -6,7 +6,10 @@ import { formatTripDuration } from '@atb/utils/date';
 import { flatMap } from 'lodash';
 import { getNoticesForLeg } from './utils';
 import { RailReplacementBusMessage } from './rail-replacement-bus';
-import { SituationOrNoticeIcon } from '@atb/modules/situations';
+import {
+  isSituationValidAtDate,
+  SituationOrNoticeIcon,
+} from '@atb/modules/situations';
 import { isSubModeBoat } from '@atb/modules/transport-mode';
 import { ColorIcon } from '@atb/components/icon';
 
@@ -28,6 +31,9 @@ export function TripPatternHeader({
   );
 
   const startModeAndPlaceText = getStartModeAndPlaceText(tripPattern, t);
+  const situations = flatMap(tripPattern.legs, (leg) => leg.situations).filter(
+    isSituationValidAtDate(new Date()),
+  );
 
   return (
     <header className={style.header}>
@@ -52,7 +58,7 @@ export function TripPatternHeader({
       <RailReplacementBusMessage tripPattern={tripPattern} />
 
       <SituationOrNoticeIcon
-        situations={flatMap(tripPattern.legs, (leg) => leg.situations)}
+        situations={situations}
         notices={flatMap(tripPattern.legs, getNoticesForLeg)}
         accessibilityLabel={startModeAndPlaceText}
         cancellation={isCancelled}
