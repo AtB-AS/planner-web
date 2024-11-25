@@ -17,7 +17,7 @@ type SomeLink = {
   title: string;
 };
 
-const { urls, fylkeskommune } = getOrgData();
+const { orgId, urls, fylkeskommune } = getOrgData();
 
 export default function Footer({ withoutSettings = false }: FooterProps) {
   const { isDarkMode, toggleDarkmode } = useTheme();
@@ -92,7 +92,7 @@ export default function Footer({ withoutSettings = false }: FooterProps) {
                 <li>
                   <a
                     href={getConfigUrl(urls.supportUrl, language)}
-                    target="_blank"
+                    target={orgId === 'fram' ? undefined : '_blank'}
                     rel="noreferrer"
                   >
                     {t(
