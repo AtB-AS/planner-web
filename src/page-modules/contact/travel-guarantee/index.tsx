@@ -45,24 +45,22 @@ const TravelGuaranteeContent = () => {
           )}
         </Typo.p>
 
-        <Typo.p textType="body__primary">
-          {t(
-            PageText.Contact.travelGuarantee.agreement.travelGuaranteeExceptions
-              .minimumTimeToNextDeparture,
-          )}
-        </Typo.p>
-
-        <Typo.p textType="body__primary">
-          {t(
-            PageText.Contact.travelGuarantee.agreement.travelGuaranteeExceptions
-              .externalFactors,
-          )}
-        </Typo.p>
         <ul className={style.rules__list}>
-          {PageText.Contact.travelGuarantee.agreement.travelGuaranteeExceptions.examples.map(
-            (example: TranslatedString, index: number) => (
+          {PageText.Contact.travelGuarantee.agreement.travelGuaranteeExceptions.exceptions.map(
+            (exception, index) => (
               <li key={index}>
-                <Typo.p textType="body__primary">{t(example)}</Typo.p>
+                <Typo.p textType="body__primary">{t(exception.text)}</Typo.p>
+                {exception.examples.length > 0 && (
+                  <ul className={style.rules__list}>
+                    {exception.examples.map(
+                      (example: TranslatedString, exampleIndex: number) => (
+                        <li key={exampleIndex}>
+                          <Typo.p textType="body__primary">{t(example)}</Typo.p>
+                        </li>
+                      ),
+                    )}
+                  </ul>
+                )}
               </li>
             ),
           )}
