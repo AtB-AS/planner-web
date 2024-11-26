@@ -17,7 +17,7 @@ type SomeLink = {
   title: string;
 };
 
-const { orgId, urls, fylkeskommune } = getOrgData();
+const { urls, fylkeskommune } = getOrgData();
 
 export default function Footer({ withoutSettings = false }: FooterProps) {
   const { isDarkMode, toggleDarkmode } = useTheme();
@@ -92,7 +92,11 @@ export default function Footer({ withoutSettings = false }: FooterProps) {
                 <li>
                   <a
                     href={getConfigUrl(urls.supportUrl, language)}
-                    target={orgId === 'fram' ? undefined : '_blank'}
+                    target={
+                      isExternalUrl(getConfigUrl(urls.supportUrl, language))
+                        ? '_blank'
+                        : undefined
+                    }
                     rel="noreferrer"
                   >
                     {t(
@@ -246,4 +250,14 @@ function LanguageSelections() {
       )}
     </>
   );
+}
+
+function isExternalUrl(url: string) {
+  try {
+    const currentHostname = window.location.hostname;
+    const urlHostname = new URL(url).hostname;
+    return urlHostname !== currentHostname;
+  } catch {
+    return false;
+  }
 }
