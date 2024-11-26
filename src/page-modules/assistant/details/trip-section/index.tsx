@@ -14,7 +14,6 @@ import WalkSection from './walk-section';
 import { ColorIcon } from '@atb/components/icon';
 import { MessageBox } from '@atb/components/message-box';
 import {
-  isSituationValidAtDate,
   SituationMessageBox,
   SituationOrNoticeIcon,
 } from '@atb/modules/situations';
@@ -147,16 +146,14 @@ export default function TripSection({
           </TripRow>
         )}
 
-        {leg.situations
-          .filter(isSituationValidAtDate(new Date()))
-          .map((situation) => (
-            <TripRow
-              key={situation.id}
-              rowLabel={<SituationOrNoticeIcon situation={situation} />}
-            >
-              <SituationMessageBox noStatusIcon situation={situation} />
-            </TripRow>
-          ))}
+        {leg.situations.map((situation) => (
+          <TripRow
+            key={situation.id}
+            rowLabel={<SituationOrNoticeIcon situation={situation} />}
+          >
+            <SituationMessageBox noStatusIcon situation={situation} />
+          </TripRow>
+        ))}
 
         {leg.notices.map(
           (notice) =>
