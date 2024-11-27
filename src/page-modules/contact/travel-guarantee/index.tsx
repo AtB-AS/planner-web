@@ -38,33 +38,37 @@ const TravelGuaranteeContent = () => {
           {t(PageText.Contact.travelGuarantee.agreement.ticketRefundText)}
         </Typo.p>
 
-        <Typo.p textType="heading__component">
-          {t(
-            PageText.Contact.travelGuarantee.agreement.travelGuaranteeExceptions
-              .label,
-          )}
-        </Typo.p>
+        <div>
+          <Typo.p textType="heading__component">
+            {t(
+              PageText.Contact.travelGuarantee.agreement
+                .travelGuaranteeExceptions.label,
+            )}
+          </Typo.p>
 
-        <ul className={style.rules__list}>
-          {PageText.Contact.travelGuarantee.agreement.travelGuaranteeExceptions.exceptions.map(
-            (exception, index) => (
-              <li key={index}>
-                <Typo.p textType="body__primary">{t(exception.text)}</Typo.p>
-                {exception.examples.length > 0 && (
-                  <ul className={style.rules__list}>
-                    {exception.examples.map(
-                      (example: TranslatedString, exampleIndex: number) => (
-                        <li key={exampleIndex}>
-                          <Typo.p textType="body__primary">{t(example)}</Typo.p>
-                        </li>
-                      ),
-                    )}
-                  </ul>
-                )}
-              </li>
-            ),
-          )}
-        </ul>
+          <ul className={style.rules__list}>
+            {PageText.Contact.travelGuarantee.agreement.travelGuaranteeExceptions.exceptions.map(
+              (exception, index) => (
+                <li key={index}>
+                  <Typo.p textType="body__primary">{t(exception.text)}</Typo.p>
+                  {exception.examples.length > 0 && (
+                    <ul className={style.rules__list}>
+                      {exception.examples.map(
+                        (example: TranslatedString, exampleIndex: number) => (
+                          <li key={exampleIndex}>
+                            <Typo.p textType="body__primary">
+                              {t(example)}
+                            </Typo.p>
+                          </li>
+                        ),
+                      )}
+                    </ul>
+                  )}
+                </li>
+              ),
+            )}
+          </ul>
+        </div>
 
         <Typo.p textType="body__primary">
           {t(
