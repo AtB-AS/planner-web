@@ -202,47 +202,61 @@ export const Contact = {
           'I kva tilfelle gjeld ikkje reisegarantien?',
         ),
 
-        minimumTimeToNextDeparture: _(
-          'Reisegarantien gjelder ikke dersom det er 20 minutter eller mindre til neste avgang i henhold til rutetabellen.',
-          'The travel guarantee does not apply if there are 20 minutes or less until the next departure according to the timetable.',
-          'Reisegarantien gjeld ikkje dersom det er 20 minutt eller mindre til neste avgang i følgje rutetabellen.',
-        ),
-
-        externalFactors: _(
-          'Reisegarantien gjelder heller ikke hvis forsinkelsen eller innstillingen skyldes forhold utenfor kontrollen til FRAM eller operatøren. Dette inkluderer situasjoner som (for eksempel):',
-          'The travel guarantee also does not apply if the delay or cancellation is due to circumstances beyond the control of FRAM or the operator. These are cases such as (for example):',
-          'Reisegarantien gjeld heller ikkje dersom forseinkinga eller innstillinga skjer på grunn av forhold utanfor kontrollen til FRAM eller operatøren. Dette er tilfelle som (for eksempel):',
-        ),
-
-        examples: [
-          _(
-            'offentlige påbud og forbud',
-            'public orders and prohibitions',
-            'offentlege påbod og forbod',
-          ),
-          _(
-            'streik og lignende',
-            'strikes and similar situations',
-            'streik og liknande',
-          ),
-          _('naturkatastrofer', 'natural disasters', 'naturkatastrofar'),
-          _(
-            'ekstraordinære værforhold',
-            'extraordinary weather conditions',
-            'ekstraordinære verforhold',
-          ),
-          _(
-            'vegarbeid eller uforutsette problemer med kjøreveien',
-            'roadworks or unforeseen issues with the road',
-            'vegarbeid eller uførutsette problem med køyrevegen',
-          ),
-          _(
-            'større arrangementer eller andre trafikale forhold som i stor grad rammer kollektivtrafikken',
-            'major events or other traffic conditions that significantly affect public transportation',
-            'større arrangement eller andre trafikale forhold som i stor grad rammar kollektivtrafikken',
-          ),
-          _('pandemi', 'pandemic', 'pandemi'),
+        exceptions: [
+          {
+            text: _(
+              'Reisegarantien gjelder ikke for fergene. Reisegarantien gjelder heller ikke for flybussen i Ålesund eller andre kommersielle busslinjer.',
+              'The travel guarantee does not apply to the ferries. The travel guarantee also does not apply to the airport bus in Ålesund or other commercial bus lines.',
+              'Reisegarantien gjeld ikkje for ferjene. Reisegarantien gjeld heller ikkje for flybussen i Ålesund eller andre kommersielle busslinjer.',
+            ),
+            examples: [],
+          },
+          {
+            text: _(
+              'Reisegarantien gjelder ikke dersom det er 20 minutter eller mindre til neste avgang i henhold til rutetabellen.',
+              'The travel guarantee does not apply if there are 20 minutes or less until the next departure according to the timetable.',
+              'Reisegarantien gjeld ikkje dersom det er 20 minutt eller mindre til neste avgang i følgje rutetabellen.',
+            ),
+            examples: [],
+          },
+          {
+            text: _(
+              'Reisegarantien gjelder heller ikke hvis forsinkelsen eller innstillingen skyldes forhold utenfor kontrollen til FRAM eller operatøren. Dette inkluderer situasjoner som (for eksempel):',
+              'The travel guarantee also does not apply if the delay or cancellation is due to circumstances beyond the control of FRAM or the operator. These are cases such as (for example):',
+              'Reisegarantien gjeld heller ikkje dersom forseinkinga eller innstillinga skjer på grunn av forhold utanfor kontrollen til FRAM eller operatøren. Dette er tilfelle som (for eksempel):',
+            ),
+            examples: [
+              _(
+                'offentlige påbud og forbud',
+                'public orders and prohibitions',
+                'offentlege påbod og forbod',
+              ),
+              _(
+                'streik og lignende',
+                'strikes and similar situations',
+                'streik og liknande',
+              ),
+              _('naturkatastrofer', 'natural disasters', 'naturkatastrofar'),
+              _(
+                'ekstraordinære værforhold',
+                'extraordinary weather conditions',
+                'ekstraordinære verforhold',
+              ),
+              _(
+                'vegarbeid eller uforutsette problemer med kjøreveien',
+                'roadworks or unforeseen issues with the road',
+                'vegarbeid eller uførutsette problem med køyrevegen',
+              ),
+              _(
+                'større arrangementer eller andre trafikale forhold som i stor grad rammer kollektivtrafikken',
+                'major events or other traffic conditions that significantly affect public transportation',
+                'større arrangement eller andre trafikale forhold som i stor grad rammar kollektivtrafikken',
+              ),
+              _('pandemi', 'pandemic', 'pandemi'),
+            ],
+          },
         ],
+
         exclusion: _(
           'Reisegarantien omfatter heller ikke tap som følge av forsinkelsen, som for eksempel mistet tannlegetime, jobbavtale, togavgang, fergeavgang eller flyavgang.',
           'The travel guarantee does not cover losses resulting from the delay, such as missed dental appointments, job agreements, train departures, ferry departures or flight departures.',
