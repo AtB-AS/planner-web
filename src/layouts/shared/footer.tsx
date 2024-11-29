@@ -92,7 +92,11 @@ export default function Footer({ withoutSettings = false }: FooterProps) {
                 <li>
                   <a
                     href={getConfigUrl(urls.supportUrl, language)}
-                    target="_blank"
+                    target={
+                      isExternalUrl(getConfigUrl(urls.supportUrl, language))
+                        ? '_blank'
+                        : undefined
+                    }
                     rel="noreferrer"
                   >
                     {t(
@@ -246,4 +250,14 @@ function LanguageSelections() {
       )}
     </>
   );
+}
+
+function isExternalUrl(url: string) {
+  try {
+    const currentHostname = window.location.hostname;
+    const urlHostname = new URL(url).hostname;
+    return urlHostname !== currentHostname;
+  } catch {
+    return false;
+  }
 }
