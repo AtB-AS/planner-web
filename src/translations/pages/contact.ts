@@ -4,8 +4,9 @@ import {
 } from '@atb/page-modules/contact/ticketing/events';
 import { ReasonForTransportFailure } from '@atb/page-modules/contact/travel-guarantee/events';
 import { translation as _ } from '@atb/translations/commons';
+import { orgSpecificTranslations } from '../utils';
 
-export const Contact = {
+const ContactInternal = {
   contactPageLayout: {
     title: _(
       'Hva kan vi hjelpe deg med?',
@@ -52,7 +53,7 @@ export const Contact = {
         ),
 
         app: {
-          title: _('App', 'App', 'App'),
+          title: _('Mobilapp', 'Mobile App', 'Mobilapp'),
         },
       },
 
@@ -1433,3 +1434,21 @@ export const Contact = {
     },
   },
 };
+
+export const Contact = orgSpecificTranslations(ContactInternal, {
+  fram: {
+    ticketControl: {
+      feeComplaint: {
+        ticketStorage: {
+          app: {
+            title: _(
+              'Mobilapp (f.eks. FRAM, Entur)',
+              'Mobile App (e.g., FRAM, Entur)',
+              'Mobilapp (f.eks. FRAM, Entur)',
+            ),
+          },
+        },
+      },
+    },
+  },
+});

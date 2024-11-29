@@ -1,5 +1,5 @@
 import { PageText, useTranslation } from '@atb/translations';
-import { ticketingFormEvents } from '../../events';
+import { ticketingFormEvents, TicketType } from '../../events';
 import { TicketingContextType } from '../../ticketingStateMachine';
 import { Typo } from '@atb/components/typography';
 import {
@@ -28,8 +28,8 @@ const RefundSection = ({ state, send }: RefundSectionProps) => {
       <Select
         label={t(PageText.Contact.input.refundReason.label)}
         value={state.context.ticketType}
-        valueToId={(option) => option.id}
-        valueToText={(option) => t(option.name)}
+        valueToId={(option: TicketType) => option.id}
+        valueToText={(option: TicketType) => t(option.name)}
         onChange={(value) => {
           if (!value) return;
           send({
