@@ -10,7 +10,6 @@
 }
 
 .rules__list {
-  padding: token('spacing.medium');
   padding-left: token('spacing.xLarge');
 }
 
