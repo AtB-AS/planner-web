@@ -14,25 +14,24 @@
 
   "urls": {
     "privacyDeclarationUrl": {
-      "default": "https://www.farte.no/"
+      "default": "https://www.farte.no/vilkaar-og-personvern/"
     },
 
     "accessibilityStatementUrl": {
-      "default": "https://www.farte.no/"
+      "default": "https://www.farte.no/om-farte/tilgjengelighetserklaering/"
     },
 
     "supportUrl": {
-      "default": "https://www.farte.no/",
-      "en-US": "https://www.farte.no/"
+      "default": "https://www.farte.no/kundeservice/",
+      "en-US": "https://www.farte.no/english/"
     },
     "homePageUrl": {
       "name": "farte.no",
       "href": "https://www.farte.no/"
     },
     "ticketsUrl": {
-      "en-US": "https://www.farte.no/",
-      "nn": "https://www.farte.no/",
-      "default": "https://www.farte.no/"
+      "nn": "https://www.farte.no/kundeservice/billetter-og-priser/",
+      "default": "https://www.farte.no/kundeservice/billetter-og-priser/"
     },
     "sitemapUrls": {
       "dev": "http://localhost:3000",
