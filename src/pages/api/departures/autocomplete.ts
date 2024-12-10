@@ -50,5 +50,9 @@ export default handlerWithDepartureClient<AutocompleteApiReturnType>(
     /\.reisnordland.com$/,
     'https://svipper.no',
     /\.svipper.no$/,
+    'https://vkt.no',
+    /\.vkt.no$/,
+    'https://farte.no',
+    /\.farte.no$/,
   ],
 );
