@@ -53,7 +53,7 @@ const ContactInternal = {
         ),
 
         app: {
-          title: _('Mobilapp', 'Mobile App', 'Mobilapp'),
+          title: _('Mobilapp', 'Mobile app', 'Mobilapp'),
         },
       },
 
@@ -1443,7 +1443,7 @@ export const Contact = orgSpecificTranslations(ContactInternal, {
           app: {
             title: _(
               'Mobilapp (f.eks. FRAM, Entur)',
-              'Mobile App (e.g., FRAM, Entur)',
+              'Mobile app (e.g. FRAM, Entur)',
               'Mobilapp (f.eks. FRAM, Entur)',
             ),
           },
