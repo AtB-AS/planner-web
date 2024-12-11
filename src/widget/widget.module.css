@@ -1,3 +1,4 @@
+@import '@atb/theme/theme.css';
 @value assistant: "../page-modules/assistant/assistant.module.css";
 @value departures: "../page-modules/departures/departures.module.css";
 @value search: "../components/search/search.module.css";
