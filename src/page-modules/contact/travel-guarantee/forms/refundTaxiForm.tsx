@@ -2,7 +2,10 @@ import { PageText, useTranslation } from '@atb/translations';
 import { useLines } from '../../lines/use-lines';
 import { TransportModeType } from '../../types';
 import { Line } from '../..';
-import { TravelGuaranteeFormEvents } from '../events';
+import {
+  ReasonForTransportFailure,
+  TravelGuaranteeFormEvents,
+} from '../events';
 import { ContextProps } from '../travelGuaranteeFormMachine';
 import { Typo } from '@atb/components/typography';
 import {
@@ -195,7 +198,7 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
             send({
               type: 'ON_INPUT_CHANGE',
               inputName: 'reasonForTransportFailure',
-              value: value,
+              value: value as ReasonForTransportFailure,
             });
           }}
           placeholder={t(
@@ -211,8 +214,8 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
                 )
               : undefined
           }
-          valueToId={(option) => option.id}
-          valueToText={(option) => t(option.name)}
+          valueToId={(option: ReasonForTransportFailure) => option.id}
+          valueToText={(option: ReasonForTransportFailure) => t(option.name)}
         />
       </SectionCard>
       <SectionCard title={t(PageText.Contact.input.feedback.optionalTitle)}>
