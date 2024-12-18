@@ -11,12 +11,28 @@ import {
 } from '../utils';
 import { TravelGuaranteeFormEvents } from './events';
 
-export enum FormType {
+export enum FormCategory {
+  RefundOfTicket = 'refundOfTicket',
+  RefundAndTravelGuarantee = 'refundAndTravelGuarantee',
+}
+
+export enum RefundTicketForm {
+  AppTicketRefund = 'appTicketRefund',
+  OtherTicketRefund = 'otherTicketRefund',
+}
+
+export enum RefundAndTravelGuarantee {
   RefundTaxi = 'refundTaxi',
   RefundCar = 'refundCar',
 }
+export enum FormType {
+  RefundTaxi = 'refundTaxi',
+  RefundCar = 'refundCar',
+  AppTicketRefund = 'appTicketRefund',
+  OtherTicketRefund = 'otherTicketRefund',
+}
 
-type submitInput = {
+type SubmitInput = {
   firstName?: string;
   lastName?: string;
   email?: string;
@@ -30,19 +46,19 @@ type submitInput = {
   feedback?: string;
   attachments?: File[];
   transportMode?: string;
-  lineName?: string;
-  fromStopName?: string;
-  toStopName?: string;
+  line?: string;
+  fromStop?: string;
+  toStop?: string;
   date?: string;
   plannedDepartureTime?: string;
   kilometersDriven?: string;
   fromAddress?: string;
   toAddress?: string;
-  reasonForTransportFailureName?: string;
+  reasonForTransportFailure?: string;
   amount?: string;
 };
 
-export type ContextProps = {
+export type TravelGuaranteeContextProps = {
   formType?: FormType;
   firstName?: string;
   lastName?: string;
@@ -68,13 +84,13 @@ export type ContextProps = {
   reasonForTransportFailure?: ReasonForTransportFailure;
   amount?: string;
 
-  isIntialAgreementChecked: boolean;
+  isInitialAgreementChecked: boolean;
   hasInternationalBankAccount: boolean;
   errorMessages: InputErrorMessages;
 };
 
 const setFormTypeAndInitialContext = (
-  context: ContextProps,
+  context: TravelGuaranteeContextProps,
   formType: FormType,
 ) => {
   return {
@@ -84,18 +100,18 @@ const setFormTypeAndInitialContext = (
   };
 };
 const setInitialAgreementAndFormType = (
-  context: ContextProps,
+  context: TravelGuaranteeContextProps,
   isChecked: boolean,
 ) => {
   return {
     ...context,
-    isIntialAgreementChecked: isChecked,
+    isInitialAgreementChecked: isChecked,
     formType: undefined,
     errorMessages: {},
   };
 };
 
-const setInputToValidate = (context: ContextProps) => {
+const setInputToValidate = (context: TravelGuaranteeContextProps) => {
   const {
     formType,
     firstName,
@@ -159,16 +175,16 @@ const setInputToValidate = (context: ContextProps) => {
   }
 };
 
-export const fetchMachine = setup({
+export const travelGuaranteeStateMachine = setup({
   types: {
-    context: {} as ContextProps,
+    context: {} as TravelGuaranteeContextProps,
     events: TravelGuaranteeFormEvents,
   },
   guards: {
-    validateInputs: ({ context }) => {
-      const inputToValidate = setInputToValidate(context);
-      context.errorMessages = commonInputValidator(inputToValidate);
-      return Object.keys(context.errorMessages).length > 0 ? false : true;
+    isFormValid: ({ context }) => {
+      const inputsToValidate = setInputToValidate(context);
+      const errors = commonInputValidator(inputsToValidate);
+      return Object.keys(errors).length === 0;
     },
   },
   actions: {
@@ -179,6 +195,18 @@ export const fetchMachine = setup({
       window.location.href = '/contact/success';
     },
 
+    setFormTypeToUndefined: assign({
+      formType: () => undefined,
+    }),
+
+    clearValidationErrors: assign({ errorMessages: {} }),
+
+    setValidationErrors: assign(({ context }) => {
+      const inputsToValidate = setInputToValidate(context);
+      const errors = commonInputValidator(inputsToValidate);
+      return { errorMessages: { ...errors } };
+    }),
+
     onInputChange: assign(({ context, event }) => {
       if (event.type === 'ON_INPUT_CHANGE') {
         let { inputName, value } = event;
@@ -186,7 +214,9 @@ export const fetchMachine = setup({
         if (inputName === 'formType')
           return setFormTypeAndInitialContext(context, value as FormType);
 
-        if (inputName === 'isIntialAgreementChecked')
+        console.log('inputName: ', inputName);
+
+        if (inputName === 'isInitialAgreementChecked')
           return setInitialAgreementAndFormType(context, value);
 
         if (inputName === 'hasInternationalBankAccount') {
@@ -218,129 +248,213 @@ export const fetchMachine = setup({
     }),
   },
   actors: {
-    submit: fromPromise(
-      async ({
-        input: {
-          transportMode,
-          lineName,
-          fromStopName,
-          toStopName,
-          date,
-          plannedDepartureTime,
-          kilometersDriven,
-          fromAddress,
-          toAddress,
-          reasonForTransportFailureName,
-          feedback,
-          attachments,
-          firstName,
-          lastName,
-          address,
-          postalCode,
-          city,
-          email,
-          phoneNumber,
-          bankAccountNumber,
-          IBAN,
-          SWIFT,
-          amount,
-        },
-      }: {
-        input: submitInput;
-      }) => {
-        const base64EncodedAttachments = await convertFilesToBase64(
-          attachments || [],
-        );
-        return await fetch('/api/contact/travel-guarantee', {
-          method: 'POST',
-          body: JSON.stringify({
-            attachments: base64EncodedAttachments,
-            transportMode: transportMode,
-            line: lineName,
-            fromStop: fromStopName,
-            toStop: toStopName,
-            date: date,
-            plannedDepartureTime: plannedDepartureTime,
-            reasonForTransportFailure: reasonForTransportFailureName,
-            additionalInfo: feedback,
-            firstName: firstName,
-            lastName: lastName,
-            address: address,
-            postalCode: postalCode,
-            city: city,
-            email: email,
-            phoneNumber: phoneNumber,
-            bankAccountNumber: bankAccountNumber,
-            IBAN: IBAN,
-            SWIFT: SWIFT,
-            kilometersDriven: kilometersDriven,
-            fromAddress: fromAddress,
-            toAddress: toAddress,
-            amount: amount,
-          }),
-        }).then((response) => {
-          // throw an error to force onError
+    submit: fromPromise(async ({ input }: { input: SubmitInput }) => {
+      const base64EncodedAttachments = await convertFilesToBase64(
+        input.attachments || [],
+      );
+      return await fetch('/api/contact/travel-guarantee', {
+        method: 'POST',
+        body: JSON.stringify({
+          ...input,
+          attachments: base64EncodedAttachments,
+        }),
+      })
+        .then((response) => {
           if (!response.ok) throw new Error('Failed to call API');
           return response.ok;
+        })
+        .catch((error) => {
+          throw error;
         });
-      },
-    ),
+    }),
   },
 }).createMachine({
-  /** @xstate-layout N4IgpgJg5mDOIC5QAoC2BDAxgCwJYDswBKAOlwgBswBiAZQFUAhAWQEkAVAbQAYBdRUAAcA9rFwAXXMPwCQAD0QBGAGzcSAZgCsATnXLlAJi2rN6gDQgAnkoDsmktxsAObstN7FN5eoC+Pi2hYeISk5FTU7ADyAOLRADIAojz8SCAiYpLSsgoIACyKJNpFxSUlFtYIRvZO6rUqBg3c3Fp+ARg4BMRklDTsAIIAGqzJsukSUjKpOSpqWrr6VSbmVojqueoaBk6K3AbOqjYGyq0ggR0hJJDj+FB0TGxcfKOi41lTiJqaBdyKmoaKTmcTkB2nKtnsjhcblqyk83hOZ2CXSukhudAS7AA+uwAEp9ABytAACpEcVjmJEACJJJ6pMaZSagHJ2NSKXKudnqGw7TSAsGVdTaEhOYpOTQ2ZqmZS5BHtJGkCjCdAQAi3CDSMBkfAAN2EAGtNYjOgqlSqbggCLrMOgGckRnSXgzsh8vg5fv9AcCQfztiRcsVnHpuO4bLKgsaSIrlarqGAAE5x4RxkiCCg2gBmSdQJCNFyjZqgFp1wmttr49qEjomzoQn2+7oMAKB3pWlQM9nF20cn20nj8-hA+GEEDgslzxGeGWr7wQAFplA4mkvl8ubPz52Hzl0wmBJ69GfIPkLcgZtMpudovmze6DW7UbH7FGzT9wnA12TKB+PSCjVXunTO2wPq47anmK3DaGKuT8msBS5M4EFit4Ng2OoBifm04Z5qaf4OlObxMqsmi5H6TjrGRhwoV4wb8r8BgOAh5FNCo56bvKJCwAArpgmBwPAeH7jWQEOIYmhgZoiHEbRzQkKY2jBl83C5GKnihv2QA */
+  id: 'travelGuaranteeStateMachine',
   initial: 'editing',
   context: {
-    isIntialAgreementChecked: false,
+    isInitialAgreementChecked: false,
     hasInternationalBankAccount: false,
     errorMessages: {},
   },
+  on: {
+    ON_INPUT_CHANGE: {
+      actions: 'onInputChange',
+    },
+
+    ON_TRANSPORTMODE_CHANGE: {
+      actions: 'onTransportModeChange',
+    },
+
+    ON_LINE_CHANGE: {
+      actions: 'onLineChange',
+    },
+
+    SELECT_FORM_CATEGORY: {
+      target: '#formCategoryHandler',
+    },
+
+    SELECT_REFUND_TICKET_FORM: {
+      target: '#refundTicketFormHandler',
+    },
+
+    SELECT_REFUND_AND_TRAVEL_GUARANTEE_FORM: {
+      target: '#refundAndTravelGuaranteeFormHandler',
+    },
+
+    SUBMIT: { target: '#validating' },
+  },
   states: {
+    formCategoryHandler: {
+      id: 'formCategoryHandler',
+      always: [
+        {
+          guard: ({ event }) =>
+            event.type === 'SELECT_FORM_CATEGORY' &&
+            event.formCategory === FormCategory.RefundOfTicket,
+          target: `#${FormCategory.RefundOfTicket}`,
+        },
+        {
+          guard: ({ event }) =>
+            event.type === 'SELECT_FORM_CATEGORY' &&
+            event.formCategory === FormCategory.RefundAndTravelGuarantee,
+          target: `#${FormCategory.RefundAndTravelGuarantee}`,
+        },
+      ],
+    },
+    refundTicketFormHandler: {
+      id: 'refundTicketFormHandler',
+      always: [
+        {
+          guard: ({ event }) =>
+            event.type === 'SELECT_REFUND_TICKET_FORM' &&
+            event.refundTicketForm === RefundTicketForm.AppTicketRefund,
+          target: `#${RefundTicketForm.AppTicketRefund}`,
+        },
+        {
+          guard: ({ event }) =>
+            event.type === 'SELECT_REFUND_TICKET_FORM' &&
+            event.refundTicketForm === RefundTicketForm.OtherTicketRefund,
+          target: `#${RefundTicketForm.OtherTicketRefund}`,
+        },
+      ],
+    },
+
+    refundAndTravelGuaranteeFormHandler: {
+      id: 'refundAndTravelGuaranteeFormHandler',
+      always: [
+        {
+          guard: ({ event }) =>
+            event.type === 'SELECT_REFUND_AND_TRAVEL_GUARANTEE_FORM' &&
+            event.refundAndTravelGuarantee ===
+              RefundAndTravelGuarantee.RefundCar,
+          target: `#${RefundAndTravelGuarantee.RefundCar}`,
+        },
+        {
+          guard: ({ event }) =>
+            event.type === 'SELECT_REFUND_AND_TRAVEL_GUARANTEE_FORM' &&
+            event.refundAndTravelGuarantee ===
+              RefundAndTravelGuarantee.RefundTaxi,
+          target: `#${RefundAndTravelGuarantee.RefundTaxi}`,
+        },
+      ],
+    },
+
     editing: {
-      initial: 'idle',
-      on: {
-        ON_INPUT_CHANGE: {
-          actions: 'onInputChange',
-        },
-        ON_TRANSPORTMODE_CHANGE: {
-          actions: 'onTransportModeChange',
-        },
-        ON_LINE_CHANGE: {
-          actions: 'onLineChange',
-        },
-        VALIDATE: {
-          guard: 'validateInputs',
-          target: 'editing.readyForSubmit',
-        },
-      },
-
+      initial: 'selectFormCategory',
       states: {
-        idle: {},
-        readyForSubmit: {
-          type: 'final',
+        selectFormCategory: {},
+        refundOfTicket: {
+          id: 'refundOfTicket',
+          initial: 'selectRefundOfTicketForm',
+          entry: 'setFormTypeToUndefined',
+          exit: 'clearValidationErrors',
+          states: {
+            selectRefundOfTicketForm: {},
+            appTicketRefund: {
+              id: 'appTicketRefund',
+              entry: assign({
+                formType: () => FormType.AppTicketRefund,
+              }),
+              exit: 'clearValidationErrors',
+            },
+            otherTicketRefund: {
+              id: 'otherTicketRefund',
+              entry: assign({
+                formType: () => FormType.OtherTicketRefund,
+              }),
+              exit: 'clearValidationErrors',
+            },
+          },
+        },
+        refundAndTravelGuarantee: {
+          id: 'refundAndTravelGuarantee',
+          initial: 'selectRefundAndTravelGuaranteeForm',
+          entry: 'setFormTypeToUndefined',
+          exit: 'clearValidationErrors',
+          states: {
+            selectRefundAndTravelGuaranteeForm: {},
+            refundCar: {
+              id: 'refundCar',
+              entry: assign({
+                formType: () => FormType.RefundCar,
+              }),
+              exit: 'clearValidationErrors',
+            },
+            refundTaxi: {
+              id: 'refundTaxi',
+              entry: assign({
+                formType: () => FormType.RefundTaxi,
+              }),
+              exit: 'clearValidationErrors',
+            },
+          },
+        },
+
+        //readyForSubmit: {
+        //  type: 'final',
+        //},
+        history: {
+          type: 'history',
+          history: 'deep',
         },
       },
 
-      onDone: {
-        target: 'submitting',
-      },
+      //onDone: {
+      //  target: 'submitting',
+      //},
+    },
+
+    validating: {
+      id: 'validating',
+      always: [
+        {
+          guard: 'isFormValid',
+          target: '#submitting',
+        },
+        {
+          actions: 'setValidationErrors',
+          target: 'editing.history',
+        },
+      ],
     },
 
     submitting: {
+      id: 'submitting',
       invoke: {
         src: 'submit',
-        input: ({ context }: { context: ContextProps }) => ({
+        input: ({ context }: { context: TravelGuaranteeContextProps }) => ({
           transportMode: context?.transportMode,
-          lineName: context.line?.name,
-          fromStopName: context.fromStop?.name,
-          toStopName: context.toStop?.name,
+          line: context.line?.name,
+          fromStop: context.fromStop?.name,
+          toStop: context.toStop?.name,
           date: context?.date,
           plannedDepartureTime: context?.plannedDepartureTime,
           kilometersDriven: context?.kilometersDriven,
           fromAddress: context?.fromAddress,
           toAddress: context?.toAddress,
-          reasonForTransportFailureName:
+          reasonForTransportFailure:
             context?.reasonForTransportFailure?.name.no,
-          feedback: context?.feedback,
+          additionalInfo: context?.feedback,
           attachments: context.attachments,
           firstName: context?.firstName,
           lastName: context?.lastName,

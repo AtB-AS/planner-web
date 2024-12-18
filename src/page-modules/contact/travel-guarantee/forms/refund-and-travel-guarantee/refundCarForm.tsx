@@ -1,13 +1,12 @@
 import { PageText, useTranslation } from '@atb/translations';
-import { useLines } from '../../lines/use-lines';
-import { TransportModeType } from '../../types';
-import { Line } from '../..';
+import { useLines } from '../../../lines/use-lines';
+import { TransportModeType } from '../../../types';
+import { Line } from '../../..';
 import {
   ReasonForTransportFailure,
   TravelGuaranteeFormEvents,
-} from '../events';
-import { ContextProps } from '../travelGuaranteeFormMachine';
-import { Typo } from '@atb/components/typography';
+} from '../../events';
+import { TravelGuaranteeContextProps } from '../../travelGuaranteeFormMachine';
 import {
   SectionCard,
   Input,
@@ -20,55 +19,70 @@ import {
   getStopOptions,
   DateSelector,
   TimeSelector,
-} from '../../components';
+} from '../../../components';
 
-type RefundTaxiFormProps = {
-  state: { context: ContextProps };
+type RefundCarFormProps = {
+  state: { context: TravelGuaranteeContextProps };
   send: (event: typeof TravelGuaranteeFormEvents) => void;
 };
 
-export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
+export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
   const { t } = useTranslation();
   const { getLinesByMode, getQuaysByLine } = useLines();
 
   return (
     <div>
       <SectionCard
-        title={t(PageText.Contact.travelGuarantee.refundTaxi.taxiReceipt.title)}
+        title={t(PageText.Contact.travelGuarantee.refundTaxi.carTrip.title)}
       >
-        <Typo.p textType="body__primary">
-          {t(PageText.Contact.travelGuarantee.refundTaxi.taxiReceipt.info)}
-        </Typo.p>
-
-        <FileInput
-          label={t(PageText.Contact.input.feedback.attachment)}
-          name="attachments"
-          onChange={(files) => {
-            send({
-              type: 'ON_INPUT_CHANGE',
-              inputName: 'attachments',
-              value: files,
-            });
-          }}
-          errorMessage={state.context?.errorMessages['attachments']?.[0]}
-        />
         <Input
-          label={t(PageText.Contact.input.amount.label)}
+          label={t(PageText.Contact.input.kilometersDriven.label)}
           type="text"
-          name="amount"
-          value={state.context.amount || ''}
-          errorMessage={state.context?.errorMessages['amount']?.[0]}
+          name="km"
+          value={state.context.kilometersDriven || ''}
+          errorMessage={
+            state.context?.errorMessages['kilometersDriven']?.[0] || undefined
+          }
           onChange={(e) =>
             send({
               type: 'ON_INPUT_CHANGE',
-              inputName: 'amount',
+              inputName: 'kilometersDriven',
               value: e.target.value,
             })
           }
         />
-        <Typo.p textType="body__primary">
-          {t(PageText.Contact.input.amount.info)}
-        </Typo.p>
+        <Input
+          label={t(PageText.Contact.input.fromAddress.label)}
+          type="text"
+          name="fromAddress"
+          value={state.context.fromAddress || ''}
+          errorMessage={
+            state.context?.errorMessages['fromAddress']?.[0] || undefined
+          }
+          onChange={(e) =>
+            send({
+              type: 'ON_INPUT_CHANGE',
+              inputName: 'fromAddress',
+              value: e.target.value,
+            })
+          }
+        />
+        <Input
+          label={t(PageText.Contact.input.toAddress.label)}
+          type="toAddress"
+          name="km"
+          value={state.context.toAddress || ''}
+          errorMessage={
+            state.context?.errorMessages['toAddress']?.[0] || undefined
+          }
+          onChange={(e) =>
+            send({
+              type: 'ON_INPUT_CHANGE',
+              inputName: 'toAddress',
+              value: e.target.value,
+            })
+          }
+        />
       </SectionCard>
       <SectionCard
         title={t(
@@ -173,7 +187,6 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
           }
           errorMessage={state.context?.errorMessages['date']?.[0]}
         />
-
         <TimeSelector
           label={PageText.Contact.input.plannedDepartureTime.label}
           value={state.context.plannedDepartureTime}
@@ -218,6 +231,7 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
           valueToText={(option: ReasonForTransportFailure) => t(option.name)}
         />
       </SectionCard>
+
       <SectionCard title={t(PageText.Contact.input.feedback.optionalTitle)}>
         <Textarea
           value={state.context.feedback || ''}
@@ -336,6 +350,7 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
             })
           }
         />
+
         <Input
           label={t(PageText.Contact.input.phoneNumber.label)}
           type="tel"
@@ -419,4 +434,4 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
   );
 };
 
-export default RefundTaxiForm;
+export default RefundCarForm;
