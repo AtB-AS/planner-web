@@ -2,7 +2,7 @@ import {
   RefundReason,
   TicketType,
 } from '@atb/page-modules/contact/ticketing/events';
-import { ReasonForTransportFailure } from '@atb/page-modules/contact/travel-guarantee/events';
+import { ReasonForTransportFailure } from '@atb/page-modules/contact/refund/events';
 import { translation as _ } from '@atb/translations/commons';
 import { orgSpecificTranslations } from '../utils';
 
@@ -182,8 +182,8 @@ const ContactInternal = {
     },
   },
 
-  travelGuarantee: {
-    title: _('Reisegaranti', 'Travel guarantee', 'Reisegaranti'),
+  refund: {
+    title: _('Refusjon', 'Refund', 'Refusjon'),
     refundOfTicket: {
       description: _(
         'Refusjon av billett',

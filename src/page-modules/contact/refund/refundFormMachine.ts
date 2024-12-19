@@ -9,7 +9,7 @@ import {
   setLineAndResetStops,
   setTransportModeAndResetLineAndStops,
 } from '../utils';
-import { TravelGuaranteeFormEvents } from './events';
+import { RefundFormEvents } from './events';
 
 export enum FormCategory {
   RefundOfTicket = 'refundOfTicket',
@@ -58,7 +58,7 @@ type SubmitInput = {
   amount?: string;
 };
 
-export type TravelGuaranteeContextProps = {
+export type RefundContextProps = {
   formType?: FormType;
   firstName?: string;
   lastName?: string;
@@ -90,7 +90,7 @@ export type TravelGuaranteeContextProps = {
 };
 
 const setFormTypeAndInitialContext = (
-  context: TravelGuaranteeContextProps,
+  context: RefundContextProps,
   formType: FormType,
 ) => {
   return {
@@ -100,7 +100,7 @@ const setFormTypeAndInitialContext = (
   };
 };
 const setInitialAgreementAndFormType = (
-  context: TravelGuaranteeContextProps,
+  context: RefundContextProps,
   isChecked: boolean,
 ) => {
   return {
@@ -111,7 +111,7 @@ const setInitialAgreementAndFormType = (
   };
 };
 
-const setInputToValidate = (context: TravelGuaranteeContextProps) => {
+const setInputToValidate = (context: RefundContextProps) => {
   const {
     formType,
     firstName,
@@ -175,10 +175,10 @@ const setInputToValidate = (context: TravelGuaranteeContextProps) => {
   }
 };
 
-export const travelGuaranteeStateMachine = setup({
+export const refundStateMachine = setup({
   types: {
-    context: {} as TravelGuaranteeContextProps,
-    events: TravelGuaranteeFormEvents,
+    context: {} as RefundContextProps,
+    events: RefundFormEvents,
   },
   guards: {
     isFormValid: ({ context }) => {
@@ -252,7 +252,7 @@ export const travelGuaranteeStateMachine = setup({
       const base64EncodedAttachments = await convertFilesToBase64(
         input.attachments || [],
       );
-      return await fetch('/api/contact/travel-guarantee', {
+      return await fetch('/api/contact/refund', {
         method: 'POST',
         body: JSON.stringify({
           ...input,
@@ -269,7 +269,7 @@ export const travelGuaranteeStateMachine = setup({
     }),
   },
 }).createMachine({
-  id: 'travelGuaranteeStateMachine',
+  id: 'refundStateMachine',
   initial: 'editing',
   context: {
     isInitialAgreementChecked: false,
@@ -409,19 +409,11 @@ export const travelGuaranteeStateMachine = setup({
             },
           },
         },
-
-        //readyForSubmit: {
-        //  type: 'final',
-        //},
         history: {
           type: 'history',
           history: 'deep',
         },
       },
-
-      //onDone: {
-      //  target: 'submitting',
-      //},
     },
 
     validating: {
@@ -442,7 +434,7 @@ export const travelGuaranteeStateMachine = setup({
       id: 'submitting',
       invoke: {
         src: 'submit',
-        input: ({ context }: { context: TravelGuaranteeContextProps }) => ({
+        input: ({ context }: { context: RefundContextProps }) => ({
           transportMode: context?.transportMode,
           line: context.line?.name,
           fromStop: context.fromStop?.name,

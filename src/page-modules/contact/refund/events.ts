@@ -4,11 +4,11 @@ import {
   FormCategory,
   RefundAndTravelGuarantee,
   RefundTicketForm,
-} from './travelGuaranteeFormMachine';
+} from './refundFormMachine';
 
 export type ReasonForTransportFailure = { id: string; name: TranslatedString };
 
-const TravelGuaranteeSpecificFormEvents = {} as
+const RefundSpecificFormEvents = {} as
   | {
       type: 'ON_INPUT_CHANGE';
       inputName:
@@ -39,6 +39,6 @@ const TravelGuaranteeSpecificFormEvents = {} as
       type: 'SUBMIT';
     };
 
-export const TravelGuaranteeFormEvents = {} as
-  | typeof TravelGuaranteeSpecificFormEvents
+export const RefundFormEvents = {} as
+  | typeof RefundSpecificFormEvents
   | typeof commonEvents;

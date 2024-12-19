@@ -1,18 +1,15 @@
 import { PageText, useTranslation } from '@atb/translations';
 import { useMachine } from '@xstate/react';
-import {
-  FormCategory,
-  travelGuaranteeStateMachine,
-} from './travelGuaranteeFormMachine';
+import { FormCategory, refundStateMachine } from './refundFormMachine';
 import { FormEventHandler } from 'react';
 import { Button } from '@atb/components/button';
 import style from '../contact.module.css';
 import { SectionCard, Radio } from '../components';
 import RefundAndTravelGuaranteeForms from './forms/refund-and-travel-guarantee';
 
-const TravelGuaranteeContent = () => {
+const RefundContent = () => {
   const { t } = useTranslation();
-  const [state, send] = useMachine(travelGuaranteeStateMachine);
+  const [state, send] = useMachine(refundStateMachine);
 
   const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
@@ -21,14 +18,12 @@ const TravelGuaranteeContent = () => {
 
   return (
     <form onSubmit={onSubmit} className={style.form}>
-      <SectionCard title={t(PageText.Contact.travelGuarantee.title)}>
+      <SectionCard title={t(PageText.Contact.refund.title)}>
         <ul className={style.form_options__list}>
           {Object.values(FormCategory).map((formCategory) => (
             <li key={formCategory}>
               <Radio
-                label={t(
-                  PageText.Contact.travelGuarantee[formCategory].description,
-                )}
+                label={t(PageText.Contact.refund[formCategory].description)}
                 checked={state.matches({ editing: formCategory })}
                 onChange={() =>
                   send({
@@ -59,4 +54,4 @@ const TravelGuaranteeContent = () => {
   );
 };
 
-export default TravelGuaranteeContent;
+export default RefundContent;

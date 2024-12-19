@@ -3,9 +3,9 @@ import { StateFrom } from 'xstate';
 import { PageText, TranslatedString, useTranslation } from '@atb/translations';
 import {
   RefundAndTravelGuarantee,
-  travelGuaranteeStateMachine,
-} from '../../travelGuaranteeFormMachine';
-import { TravelGuaranteeFormEvents } from '../../events';
+  refundStateMachine,
+} from '../../refundFormMachine';
+import { RefundFormEvents } from '../../events';
 import {
   Checkbox,
   SectionCard,
@@ -17,8 +17,8 @@ import RefundTaxiForm from './refundTaxiForm';
 import RefundCarForm from './refundCarForm';
 
 type RefundAndTravelGuaranteeFormsProps = {
-  state: StateFrom<typeof travelGuaranteeStateMachine>;
-  send: (event: typeof TravelGuaranteeFormEvents) => void;
+  state: StateFrom<typeof refundStateMachine>;
+  send: (event: typeof RefundFormEvents) => void;
 };
 
 export const RefundAndTravelGuaranteeForms = ({
@@ -29,25 +29,24 @@ export const RefundAndTravelGuaranteeForms = ({
 
   return (
     <div>
-      <SectionCard title={t(PageText.Contact.travelGuarantee.agreement.title)}>
+      <SectionCard title={t(PageText.Contact.refund.agreement.title)}>
         <Typo.p textType="body__primary">
-          {t(PageText.Contact.travelGuarantee.agreement.delayedRefundText)}
+          {t(PageText.Contact.refund.agreement.delayedRefundText)}
         </Typo.p>
 
         <Typo.p textType="body__primary">
-          {t(PageText.Contact.travelGuarantee.agreement.ticketRefundText)}
+          {t(PageText.Contact.refund.agreement.ticketRefundText)}
         </Typo.p>
 
         <div>
           <Typo.p textType="heading__component">
             {t(
-              PageText.Contact.travelGuarantee.agreement
-                .travelGuaranteeExceptions.label,
+              PageText.Contact.refund.agreement.travelGuaranteeExceptions.label,
             )}
           </Typo.p>
 
           <ul className={style.rules__list}>
-            {PageText.Contact.travelGuarantee.agreement.travelGuaranteeExceptions.exceptions.map(
+            {PageText.Contact.refund.agreement.travelGuaranteeExceptions.exceptions.map(
               (exception, index) => (
                 <li key={index}>
                   <Typo.p textType="body__primary">{t(exception.text)}</Typo.p>
@@ -72,18 +71,18 @@ export const RefundAndTravelGuaranteeForms = ({
 
         <Typo.p textType="body__primary">
           {t(
-            PageText.Contact.travelGuarantee.agreement.travelGuaranteeExceptions
+            PageText.Contact.refund.agreement.travelGuaranteeExceptions
               .exclusion,
           )}{' '}
           <Link
             href={t(
-              PageText.Contact.travelGuarantee.agreement
-                .travelGuaranteeExceptions.link.href,
+              PageText.Contact.refund.agreement.travelGuaranteeExceptions.link
+                .href,
             )}
           >
             {t(
-              PageText.Contact.travelGuarantee.agreement
-                .travelGuaranteeExceptions.link.text,
+              PageText.Contact.refund.agreement.travelGuaranteeExceptions.link
+                .text,
             )}
           </Link>
         </Typo.p>
@@ -104,17 +103,14 @@ export const RefundAndTravelGuaranteeForms = ({
       </SectionCard>
 
       {state.context.isInitialAgreementChecked && (
-        <SectionCard
-          title={t(PageText.Contact.travelGuarantee.agreement.title)}
-        >
+        <SectionCard title={t(PageText.Contact.refund.agreement.title)}>
           <ul className={style.form_options__list}>
             {Object.values(RefundAndTravelGuarantee).map((refundForm) => (
               <li key={refundForm}>
                 <Radio
                   label={t(
-                    PageText.Contact.travelGuarantee.refundAndTravelGuarantee[
-                      refundForm
-                    ].label,
+                    PageText.Contact.refund.refundAndTravelGuarantee[refundForm]
+                      .label,
                   )}
                   checked={state.matches({
                     editing: { refundAndTravelGuarantee: refundForm },

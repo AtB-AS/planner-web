@@ -4,21 +4,21 @@ import { NextPage } from 'next';
 import {
   ContactPageLayout,
   ContactPageLayoutProps,
-  TravelGuaranteeContent,
+  RefundContent,
 } from '@atb/page-modules/contact';
 
-export type TravelGuaranteePageProps = WithGlobalData<ContactPageLayoutProps>;
+export type RefundPagePageProps = WithGlobalData<ContactPageLayoutProps>;
 
-const TravelGuaranteePage: NextPage<TravelGuaranteePageProps> = (props) => {
+const RefundPage: NextPage<RefundPagePageProps> = (props) => {
   return (
     <DefaultLayout {...props}>
       <ContactPageLayout {...props}>
-        <TravelGuaranteeContent />
+        <RefundContent />
       </ContactPageLayout>
     </DefaultLayout>
   );
 };
 
-export default TravelGuaranteePage;
+export default RefundPage;
 
 export const getServerSideProps = withGlobalData();
