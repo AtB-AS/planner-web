@@ -23,8 +23,8 @@ export const contactPages: ContactPage[] = [
     icon: 'ticketing/TicketInvalid',
   },
   {
-    title: PageText.Contact.travelGuarantee.title,
-    href: '/contact/travel-guarantee',
+    title: PageText.Contact.refund.title,
+    href: '/contact/refund',
     icon: 'transportation-entur/Taxi',
   },
   {

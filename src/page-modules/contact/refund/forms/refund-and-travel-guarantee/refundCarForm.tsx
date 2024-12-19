@@ -1,12 +1,9 @@
 import { PageText, useTranslation } from '@atb/translations';
-import { useLines } from '../../lines/use-lines';
-import { TransportModeType } from '../../types';
-import { Line } from '../..';
-import {
-  ReasonForTransportFailure,
-  TravelGuaranteeFormEvents,
-} from '../events';
-import { ContextProps } from '../travelGuaranteeFormMachine';
+import { useLines } from '../../../lines/use-lines';
+import { TransportModeType } from '../../../types';
+import { Line } from '../../..';
+import { ReasonForTransportFailure, RefundFormEvents } from '../../events';
+import { RefundContextProps } from '../../refundFormMachine';
 import {
   SectionCard,
   Input,
@@ -19,11 +16,11 @@ import {
   getStopOptions,
   DateSelector,
   TimeSelector,
-} from '../../components';
+} from '../../../components';
 
 type RefundCarFormProps = {
-  state: { context: ContextProps };
-  send: (event: typeof TravelGuaranteeFormEvents) => void;
+  state: { context: RefundContextProps };
+  send: (event: typeof RefundFormEvents) => void;
 };
 
 export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
@@ -32,9 +29,7 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
 
   return (
     <div>
-      <SectionCard
-        title={t(PageText.Contact.travelGuarantee.refundTaxi.carTrip.title)}
-      >
+      <SectionCard title={t(PageText.Contact.refund.refundTaxi.carTrip.title)}>
         <Input
           label={t(PageText.Contact.input.kilometersDriven.label)}
           type="text"
@@ -85,9 +80,7 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
         />
       </SectionCard>
       <SectionCard
-        title={t(
-          PageText.Contact.travelGuarantee.refundTaxi.aboutYourTrip.title,
-        )}
+        title={t(PageText.Contact.refund.refundTaxi.aboutYourTrip.title)}
       >
         <Select
           label={t(PageText.Contact.input.transportMode.label)}

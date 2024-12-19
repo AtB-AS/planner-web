@@ -1,12 +1,9 @@
 import { PageText, useTranslation } from '@atb/translations';
-import { useLines } from '../../lines/use-lines';
-import { TransportModeType } from '../../types';
-import { Line } from '../..';
-import {
-  ReasonForTransportFailure,
-  TravelGuaranteeFormEvents,
-} from '../events';
-import { ContextProps } from '../travelGuaranteeFormMachine';
+import { useLines } from '../../../lines/use-lines';
+import { TransportModeType } from '../../../types';
+import { Line } from '../../..';
+import { ReasonForTransportFailure, RefundFormEvents } from '../../events';
+import { RefundContextProps } from '../../refundFormMachine';
 import { Typo } from '@atb/components/typography';
 import {
   SectionCard,
@@ -20,11 +17,11 @@ import {
   getStopOptions,
   DateSelector,
   TimeSelector,
-} from '../../components';
+} from '../../../components';
 
 type RefundTaxiFormProps = {
-  state: { context: ContextProps };
-  send: (event: typeof TravelGuaranteeFormEvents) => void;
+  state: { context: RefundContextProps };
+  send: (event: typeof RefundFormEvents) => void;
 };
 
 export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
@@ -34,10 +31,10 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
   return (
     <div>
       <SectionCard
-        title={t(PageText.Contact.travelGuarantee.refundTaxi.taxiReceipt.title)}
+        title={t(PageText.Contact.refund.refundTaxi.taxiReceipt.title)}
       >
         <Typo.p textType="body__primary">
-          {t(PageText.Contact.travelGuarantee.refundTaxi.taxiReceipt.info)}
+          {t(PageText.Contact.refund.refundTaxi.taxiReceipt.info)}
         </Typo.p>
 
         <FileInput
@@ -71,9 +68,7 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
         </Typo.p>
       </SectionCard>
       <SectionCard
-        title={t(
-          PageText.Contact.travelGuarantee.refundTaxi.aboutYourTrip.title,
-        )}
+        title={t(PageText.Contact.refund.refundTaxi.aboutYourTrip.title)}
       >
         <Select
           label={t(PageText.Contact.input.transportMode.label)}
