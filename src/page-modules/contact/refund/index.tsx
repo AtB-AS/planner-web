@@ -6,6 +6,7 @@ import { Button } from '@atb/components/button';
 import style from '../contact.module.css';
 import { SectionCard, Radio } from '../components';
 import RefundAndTravelGuaranteeForms from './forms/refund-and-travel-guarantee';
+import RefundTicketForms from './forms/refund-ticket';
 
 const RefundContent = () => {
   const { t } = useTranslation();
@@ -36,6 +37,10 @@ const RefundContent = () => {
           ))}
         </ul>
       </SectionCard>
+
+      {state.matches({ editing: 'refundOfTicket' }) && (
+        <RefundTicketForms state={state} send={send} />
+      )}
 
       {state.matches({ editing: 'refundAndTravelGuarantee' }) && (
         <RefundAndTravelGuaranteeForms state={state} send={send} />

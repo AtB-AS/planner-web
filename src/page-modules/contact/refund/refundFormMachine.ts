@@ -1,7 +1,7 @@
 import { TransportModeType } from '../types';
 import { assign, fromPromise, setup } from 'xstate';
 import { Line } from '../server/journey-planner/validators';
-import { ReasonForTransportFailure } from './events';
+import { ReasonForTransportFailure, TicketType } from './events';
 import { commonInputValidator, InputErrorMessages } from '../validation';
 import {
   convertFilesToBase64,
@@ -58,6 +58,9 @@ type SubmitInput = {
   amount?: string;
   customerNumber?: string;
   orderId?: string;
+  ticketType?: TicketType;
+  travelCardNumber?: string;
+  refundReason?: string;
 };
 
 export type RefundContextProps = {
@@ -87,9 +90,13 @@ export type RefundContextProps = {
   amount?: string;
   customerNumber?: string;
   orderId?: string;
+  ticketType?: TicketType;
+  travelCardNumber?: string;
+  refundReason?: string;
 
   isInitialAgreementChecked: boolean;
   hasInternationalBankAccount: boolean;
+  showInputTravelCardNumber: boolean;
   errorMessages: InputErrorMessages;
 };
 
@@ -143,6 +150,10 @@ const setInputToValidate = (context: RefundContextProps) => {
     attachments,
     customerNumber,
     orderId,
+    ticketType,
+    travelCardNumber,
+    refundReason,
+    showInputTravelCardNumber,
   } = context;
 
   const commonFields = {
@@ -185,6 +196,27 @@ const setInputToValidate = (context: RefundContextProps) => {
         customerNumber,
         orderId,
       };
+
+    case FormType.OtherTicketRefund:
+      return {
+        formType,
+        ticketType,
+        ...(showInputTravelCardNumber
+          ? { travelCardNumber }
+          : { customerNumber }),
+        refundReason,
+        amount,
+        firstName,
+        lastName,
+        address,
+        postalCode,
+        city,
+        email,
+        phoneNumber,
+        ...(hasInternationalBankAccount
+          ? { IBAN, SWIFT }
+          : { bankAccountNumber }),
+      };
   }
 };
 
@@ -212,6 +244,10 @@ export const refundStateMachine = setup({
       formType: () => undefined,
     }),
 
+    setInitialAgreementAndFormType: assign(({ context }) => {
+      return setInitialAgreementAndFormType(context, false);
+    }),
+
     clearValidationErrors: assign({ errorMessages: {} }),
 
     setValidationErrors: assign(({ context }) => {
@@ -226,8 +262,6 @@ export const refundStateMachine = setup({
 
         if (inputName === 'formType')
           return setFormTypeAndInitialContext(context, value as FormType);
-
-        console.log('inputName: ', inputName);
 
         if (inputName === 'isInitialAgreementChecked')
           return setInitialAgreementAndFormType(context, value);
@@ -287,6 +321,7 @@ export const refundStateMachine = setup({
   context: {
     isInitialAgreementChecked: false,
     hasInternationalBankAccount: false,
+    showInputTravelCardNumber: true,
     errorMessages: {},
   },
   on: {
@@ -319,6 +354,7 @@ export const refundStateMachine = setup({
   states: {
     formCategoryHandler: {
       id: 'formCategoryHandler',
+      entry: 'setInitialAgreementAndFormType',
       always: [
         {
           guard: ({ event }) =>
@@ -474,6 +510,9 @@ export const refundStateMachine = setup({
           amount: context?.amount,
           customerNumber: context?.customerNumber,
           orderId: context?.orderId,
+          ticketType: context?.ticketType,
+          travelCardNumber: context?.travelCardNumber,
+          refundReason: context?.refundReason,
         }),
 
         onDone: {
