@@ -56,6 +56,8 @@ type SubmitInput = {
   toAddress?: string;
   reasonForTransportFailure?: string;
   amount?: string;
+  customerNumber?: string;
+  orderId?: string;
 };
 
 export type RefundContextProps = {
@@ -83,6 +85,8 @@ export type RefundContextProps = {
   toAddress?: string;
   reasonForTransportFailure?: ReasonForTransportFailure;
   amount?: string;
+  customerNumber?: string;
+  orderId?: string;
 
   isInitialAgreementChecked: boolean;
   hasInternationalBankAccount: boolean;
@@ -137,6 +141,8 @@ const setInputToValidate = (context: RefundContextProps) => {
     reasonForTransportFailure,
     amount,
     attachments,
+    customerNumber,
+    orderId,
   } = context;
 
   const commonFields = {
@@ -171,6 +177,13 @@ const setInputToValidate = (context: RefundContextProps) => {
         kilometersDriven,
         fromAddress,
         toAddress,
+      };
+
+    case FormType.AppTicketRefund:
+      return {
+        formType,
+        customerNumber,
+        orderId,
       };
   }
 };
@@ -459,6 +472,8 @@ export const refundStateMachine = setup({
           IBAN: context?.IBAN,
           SWIFT: context?.SWIFT,
           amount: context?.amount,
+          customerNumber: context?.customerNumber,
+          orderId: context?.orderId,
         }),
 
         onDone: {
