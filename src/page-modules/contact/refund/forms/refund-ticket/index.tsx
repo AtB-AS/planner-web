@@ -7,15 +7,15 @@ import AppTicketRefund from './appTicketRefund';
 import Link from 'next/link';
 import { refundStateMachine, RefundTicketForm } from '../../refundFormMachine';
 import { RefundFormEvents } from '../../events';
+import OtherTicketRefund from './otherTicketRefund';
 
-type RefundFormsProps = {
+type RefundTicketFormsProps = {
   state: StateFrom<typeof refundStateMachine>;
   send: (event: typeof RefundFormEvents) => void;
 };
 
-export const RefundForms = ({ state, send }: RefundFormsProps) => {
+export const RefundTicketForms = ({ state, send }: RefundTicketFormsProps) => {
   const { t } = useTranslation();
-
   return (
     <div>
       <SectionCard
@@ -105,8 +105,12 @@ export const RefundForms = ({ state, send }: RefundFormsProps) => {
       {state.matches({ editing: { refundOfTicket: 'appTicketRefund' } }) && (
         <AppTicketRefund state={state} send={send} />
       )}
+
+      {state.matches({ editing: { refundOfTicket: 'otherTicketRefund' } }) && (
+        <OtherTicketRefund state={state} send={send} />
+      )}
     </div>
   );
 };
 
-export default RefundForms;
+export default RefundTicketForms;
