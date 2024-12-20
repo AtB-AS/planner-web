@@ -3,7 +3,7 @@ import { ContactApiReturnType } from '../types';
 
 export type ContactApi = {
   submitTicketControlForm(formData: any): Promise<ContactApiReturnType>;
-  submitTravelGuaranteeForm(formData: any): Promise<ContactApiReturnType>;
+  submitRefundForm(formData: any): Promise<ContactApiReturnType>;
   submitMeansOfTransportForm(formData: any): Promise<ContactApiReturnType>;
   submitTicketingForm(formData: any): Promise<ContactApiReturnType>;
 };
@@ -21,8 +21,8 @@ export function createContactApi(
       return data;
     },
 
-    async submitTravelGuaranteeForm(formData) {
-      const response = await request('/travel-guarantee', {
+    async submitRefundForm(formData) {
+      const response = await request('/refund', {
         method: 'POST',
         body: formData,
       });

@@ -2,7 +2,7 @@ import {
   RefundReason,
   TicketType,
 } from '@atb/page-modules/contact/ticketing/events';
-import { ReasonForTransportFailure } from '@atb/page-modules/contact/travel-guarantee/events';
+import { ReasonForTransportFailure } from '@atb/page-modules/contact/refund/events';
 import { translation as _ } from '@atb/translations/commons';
 import { orgSpecificTranslations } from '../utils';
 
@@ -182,10 +182,44 @@ const ContactInternal = {
     },
   },
 
-  travelGuarantee: {
-    title: _('Reisegaranti', 'Travel guarantee', 'Reisegaranti'),
+  refund: {
+    title: _('Refusjon', 'Refund', 'Refusjon'),
+    refundOfTicket: {
+      description: _(
+        'Refusjon av billett',
+        'Refund of ticket',
+        'Refusjon av billett',
+      ),
+    },
+    refundAndTravelGuarantee: {
+      description: _(
+        'Refusjon og reisegaranti',
+        'Refund and travel guarantee',
+        'Refusjon og reisegaranti',
+      ),
+
+      refundTaxi: {
+        label: _(
+          'Jeg ønsker refusjon for drosje',
+          'I would like refund for taxi',
+          'Eg ønsker refusjon for drosje',
+        ),
+      },
+      refundCar: {
+        label: _(
+          'Jeg ønsker refusjon for bil',
+          'I would like refund for car',
+          'Eg ønsker refusjon for bil',
+        ),
+      },
+    },
 
     agreement: {
+      title: _(
+        'Refusjon og reisegaranti',
+        'Refund and travel guarantee',
+        'Refusjon og reisegaranti',
+      ),
       delayedRefundText: _(
         'Ble du forsinket fordi vi ikke var i rute? Du kan ha krav på å få refundert utgifter til alternativ transport som for eksempel drosje, bil og annen kollektivtransport.',
         'Were you delayed because we were not on schedule? You may be entitled to reimbursement for expenses related to alternative transportation such as taxi, car, and other public transportation.',
