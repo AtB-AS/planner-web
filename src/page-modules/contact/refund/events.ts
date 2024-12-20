@@ -18,6 +18,8 @@ const RefundSpecificFormEvents = {} as
         | 'toAddress'
         | 'amount'
         | 'reasonForTransportFailure'
+        | 'orderId'
+        | 'customerNumber'
         | 'isInitialAgreementChecked'
         | 'hasInternationalBankAccount';
       value: string | boolean | ReasonForTransportFailure;
