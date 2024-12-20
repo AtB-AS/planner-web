@@ -16,6 +16,13 @@ type RefundTicketFormsProps = {
 
 export const RefundTicketForms = ({ state, send }: RefundTicketFormsProps) => {
   const { t } = useTranslation();
+  const displayAppTicketRefund =
+    state.context.isInitialAgreementChecked &&
+    state.context.formType === 'appTicketRefund';
+  const displayOtherTicketRefund =
+    state.context.isInitialAgreementChecked &&
+    state.context.formType === 'otherTicketRefund';
+
   return (
     <div>
       <SectionCard
@@ -86,10 +93,10 @@ export const RefundTicketForms = ({ state, send }: RefundTicketFormsProps) => {
                   label={t(
                     PageText.Contact.ticketing.refund[refundTicketForm].label,
                   )}
-                  checked={state.matches({
-                    editing: { refundOfTicket: refundTicketForm },
-                  })}
-                  onChange={(e) =>
+                  checked={
+                    state.context.formType === (refundTicketForm as unknown)
+                  }
+                  onChange={() =>
                     send({
                       type: 'SELECT_REFUND_TICKET_FORM',
                       refundTicketForm: refundTicketForm,
@@ -102,11 +109,9 @@ export const RefundTicketForms = ({ state, send }: RefundTicketFormsProps) => {
         </SectionCard>
       )}
 
-      {state.matches({ editing: { refundOfTicket: 'appTicketRefund' } }) && (
-        <AppTicketRefund state={state} send={send} />
-      )}
+      {displayAppTicketRefund && <AppTicketRefund state={state} send={send} />}
 
-      {state.matches({ editing: { refundOfTicket: 'otherTicketRefund' } }) && (
+      {displayOtherTicketRefund && (
         <OtherTicketRefund state={state} send={send} />
       )}
     </div>

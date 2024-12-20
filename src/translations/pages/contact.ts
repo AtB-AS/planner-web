@@ -1,8 +1,8 @@
+import { RefundReason } from '@atb/page-modules/contact/ticketing/events';
 import {
-  RefundReason,
+  ReasonForTransportFailure,
   TicketType,
-} from '@atb/page-modules/contact/ticketing/events';
-import { ReasonForTransportFailure } from '@atb/page-modules/contact/refund/events';
+} from '@atb/page-modules/contact/refund/events';
 import { translation as _ } from '@atb/translations/commons';
 import { orgSpecificTranslations } from '../utils';
 
