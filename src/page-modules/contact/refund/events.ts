@@ -7,6 +7,7 @@ import {
 } from './refundFormMachine';
 
 export type ReasonForTransportFailure = { id: string; name: TranslatedString };
+export type TicketType = { id: string; name: TranslatedString };
 
 const RefundSpecificFormEvents = {} as
   | {
@@ -18,9 +19,15 @@ const RefundSpecificFormEvents = {} as
         | 'toAddress'
         | 'amount'
         | 'reasonForTransportFailure'
+        | 'orderId'
+        | 'customerNumber'
+        | 'ticketType'
+        | 'travelCardNumber'
+        | 'refundReason'
         | 'isInitialAgreementChecked'
-        | 'hasInternationalBankAccount';
-      value: string | boolean | ReasonForTransportFailure;
+        | 'hasInternationalBankAccount'
+        | 'showInputTravelCardNumber';
+      value: string | boolean | ReasonForTransportFailure | TicketType;
     }
   | { type: 'SET_STATE_SUBMITTED'; stateSubmitted: string | undefined }
   | {

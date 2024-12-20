@@ -1,6 +1,5 @@
 import { PageText, useTranslation } from '@atb/translations';
-import { ticketingFormEvents, TicketType } from '../../events';
-import { TicketingContextType } from '../../ticketingStateMachine';
+import { RefundFormEvents, TicketType } from '../../events';
 import { Typo } from '@atb/components/typography';
 import {
   SectionCard,
@@ -11,10 +10,11 @@ import {
   FileInput,
   Radio,
 } from '../../../components';
+import { RefundContextProps } from '../../refundFormMachine';
 
 type OtherTicketRefundProps = {
-  state: { context: TicketingContextType };
-  send: (event: typeof ticketingFormEvents) => void;
+  state: { context: RefundContextProps };
+  send: (event: typeof RefundFormEvents) => void;
 };
 
 type RefundSectionProps = Pick<OtherTicketRefundProps, 'state' | 'send'>;
@@ -142,7 +142,7 @@ const RefundSection = ({ state, send }: RefundSectionProps) => {
         onChange={(e) =>
           send({
             type: 'ON_INPUT_CHANGE',
-            inputName: 'question',
+            inputName: 'refundReason',
             value: e.target.value,
           })
         }
