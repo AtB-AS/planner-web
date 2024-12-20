@@ -9,7 +9,6 @@ import PriceAndTicketTypesForm from './forms/priceAndTicketTypesForm';
 import AppForms from './forms/app';
 import WebshopForms from './forms/webshop';
 import TravelCardForms from './forms/travel-card';
-import RefundForms from './forms/refund';
 
 const TicketingContent = () => {
   const { t } = useTranslation();
@@ -57,10 +56,6 @@ const TicketingContent = () => {
 
       {state.matches({ editing: 'travelCard' }) && (
         <TravelCardForms state={state} send={send} />
-      )}
-
-      {state.matches({ editing: 'refund' }) && (
-        <RefundForms state={state} send={send} />
       )}
 
       {displaySubmitButton && (
