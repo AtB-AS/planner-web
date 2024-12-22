@@ -16,6 +16,7 @@ type SearchProps = {
   initialFeature?: GeocoderFeature;
   selectedItem?: GeocoderFeature;
   autocompleteFocusPoint?: GeocoderFeature;
+  testID?: string;
 };
 
 export default function Search({
@@ -26,25 +27,30 @@ export default function Search({
   initialFeature,
   selectedItem,
   autocompleteFocusPoint,
+  testID,
 }: SearchProps) {
   const [query, setQuery] = useState('');
   const { data } = useAutocomplete(query, autocompleteFocusPoint);
   const { t } = useTranslation();
 
-  function getA11yStatusMessage({ isOpen, resultCount, previousResultCount }: A11yStatusMessageOptions<GeocoderFeature>) {
+  function getA11yStatusMessage({
+    isOpen,
+    resultCount,
+    previousResultCount,
+  }: A11yStatusMessageOptions<GeocoderFeature>) {
     if (!isOpen) {
-      return ''
+      return '';
     }
 
     if (!resultCount) {
-      return t(ComponentText.SearchInput.noResults)
+      return t(ComponentText.SearchInput.noResults);
     }
 
     if (resultCount !== previousResultCount) {
-      return t(ComponentText.SearchInput.results(resultCount))
+      return t(ComponentText.SearchInput.results(resultCount));
     }
 
-    return ''
+    return '';
   }
 
   return (
@@ -82,6 +88,7 @@ export default function Search({
               className={style.input}
               placeholder={placeholder}
               {...getInputProps()}
+              data-testid={testID}
             />
           </div>
 

@@ -156,6 +156,7 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
               placeholder={t(PageText.Assistant.search.input.placeholder)}
               onChange={onFromSelected}
               selectedItem={tripQuery.from ?? undefined}
+              testID="searchFrom"
               button={
                 <GeolocationButton
                   className={style.searchInputButton}
@@ -169,6 +170,7 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
               placeholder={t(PageText.Assistant.search.input.placeholder)}
               onChange={onToSelected}
               selectedItem={tripQuery.to ?? undefined}
+              testID="searchTo"
               button={
                 <SwapButton
                   className={style.searchInputButton}
@@ -231,6 +233,7 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
                       onChange={onViaSelected}
                       selectedItem={tripQuery.via ?? undefined}
                       autocompleteFocusPoint={tripQuery.via ?? undefined}
+                      testID="searchVia"
                       button={
                         tripQuery.via && (
                           <ClearButton

@@ -88,7 +88,10 @@ export default function Trip({ tripQuery, fallback }: TripProps) {
 
   return (
     <>
-      <ScreenReaderOnly text={t(PageText.Assistant.trip.resultsFound)} role='status' />
+      <ScreenReaderOnly
+        text={t(PageText.Assistant.trip.resultsFound)}
+        role="status"
+      />
       <div className={style.tripResults}>
         {nonTransitTrips && nonTransits.length > 0 && (
           <div className={style.nonTransitResult}>
@@ -136,6 +139,7 @@ export default function Trip({ tripQuery, fallback }: TripProps) {
           onClick={() => loadMore()}
           title={t(PageText.Assistant.trip.fetchMore)}
           state={isLoadingMore ? 'loading' : undefined}
+          testID="loadMoreButton"
         />
       )}
     </>
