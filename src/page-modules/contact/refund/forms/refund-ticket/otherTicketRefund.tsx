@@ -26,7 +26,7 @@ const RefundSection = ({ state, send }: RefundSectionProps) => {
       title={t(PageText.Contact.ticketing.refund.otherTicketRefund.label)}
     >
       <Select
-        label={t(PageText.Contact.input.refundReason.label)}
+        label={t(PageText.Contact.input.ticketType.labelRefund)}
         value={state.context.ticketType}
         valueToId={(option: TicketType) => option.id}
         valueToText={(option: TicketType) => t(option.name)}
@@ -38,8 +38,8 @@ const RefundSection = ({ state, send }: RefundSectionProps) => {
             value: value,
           });
         }}
-        placeholder={t(PageText.Contact.input.refundReason.optionLabel)}
-        options={PageText.Contact.input.ticketType.tickets}
+        placeholder={t(PageText.Contact.input.ticketType.optionLabelRefund)}
+        options={PageText.Contact.input.ticketType.options}
         error={
           state.context?.errorMessages['ticketType']?.[0]
             ? t(state.context?.errorMessages['ticketType'][0])

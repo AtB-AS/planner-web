@@ -1,4 +1,3 @@
-import { TranslatedString } from '@atb/translations';
 import { commonEvents } from '../commoneEvents';
 import {
   AppForm,
@@ -6,8 +5,6 @@ import {
   WebshopForm,
   TravelCardForm,
 } from './ticketingStateMachine';
-
-export type RefundReason = { id: string; name: TranslatedString };
 
 const ticketingSpecificFormEvents = {} as
   | {
