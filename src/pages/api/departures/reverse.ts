@@ -31,5 +31,18 @@ export default handlerWithDepartureClient<ReverseApiReturnType>(
     },
   },
   // @TODO FIX THIS!
-  ['https://frammr.no', /\.frammr.no$/],
+  [
+    'https://frammr.no',
+    /\.frammr.no$/,
+    'https://reisnordland.no',
+    /\.reisnordland.no$/,
+    'https://reisnordland.com',
+    /\.reisnordland.com$/,
+    'https://svipper.no',
+    /\.svipper.no$/,
+    'https://vkt.no',
+    /\.vkt.no$/,
+    'https://farte.no',
+    /\.farte.no$/,
+  ],
 );
