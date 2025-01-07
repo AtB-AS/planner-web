@@ -26,6 +26,12 @@ export const RefundAndTravelGuaranteeForms = ({
   send,
 }: RefundAndTravelGuaranteeFormsProps) => {
   const { t } = useTranslation();
+  const displayRefundTaxiForm =
+    state.context.isInitialAgreementChecked &&
+    state.context.formType === 'refundTaxi';
+  const displayRefundCarForm =
+    state.context.isInitialAgreementChecked &&
+    state.context.formType === 'refundCar';
 
   return (
     <div>
@@ -112,10 +118,8 @@ export const RefundAndTravelGuaranteeForms = ({
                     PageText.Contact.refund.refundAndTravelGuarantee[refundForm]
                       .label,
                   )}
-                  checked={state.matches({
-                    editing: { refundAndTravelGuarantee: refundForm },
-                  })}
-                  onChange={(e) =>
+                  checked={state.context.formType === (refundForm as unknown)}
+                  onChange={() =>
                     send({
                       type: 'SELECT_REFUND_AND_TRAVEL_GUARANTEE_FORM',
                       refundAndTravelGuarantee: refundForm,
@@ -128,12 +132,8 @@ export const RefundAndTravelGuaranteeForms = ({
         </SectionCard>
       )}
 
-      {state.context.formType === 'refundTaxi' && (
-        <RefundTaxiForm state={state} send={send} />
-      )}
-      {state.context.formType === 'refundCar' && (
-        <RefundCarForm state={state} send={send} />
-      )}
+      {displayRefundTaxiForm && <RefundTaxiForm state={state} send={send} />}
+      {displayRefundCarForm && <RefundCarForm state={state} send={send} />}
     </div>
   );
 };

@@ -1,11 +1,11 @@
 import { PageText, useTranslation } from '@atb/translations';
-import { ticketingFormEvents } from '../../events';
-import { TicketingContextType } from '../../ticketingStateMachine';
 import { SectionCard, Input } from '../../../components';
+import { RefundContextProps } from '../../refundFormMachine';
+import { RefundFormEvents } from '../../events';
 
 type AppTicketRefundProps = {
-  state: { context: TicketingContextType };
-  send: (event: typeof ticketingFormEvents) => void;
+  state: { context: RefundContextProps };
+  send: (event: typeof RefundFormEvents) => void;
 };
 
 export const AppTicketRefund = ({ state, send }: AppTicketRefundProps) => {

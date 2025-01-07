@@ -1,8 +1,7 @@
 import {
-  RefundReason,
+  ReasonForTransportFailure,
   TicketType,
-} from '@atb/page-modules/contact/ticketing/events';
-import { ReasonForTransportFailure } from '@atb/page-modules/contact/refund/events';
+} from '@atb/page-modules/contact/refund/events';
 import { translation as _ } from '@atb/translations/commons';
 import { orgSpecificTranslations } from '../utils';
 
@@ -1323,41 +1322,6 @@ const ContactInternal = {
         'What is the reason you want a refund?',
         'Kva er grunnen til at du ønsker refusjon?',
       ),
-      optionLabel: _(
-        'Velg grunnen for refusjonen',
-        'Select reason for the refund',
-        'Vel grunn for refusjon',
-      ),
-      options: [
-        {
-          id: 'singleTicket',
-          name: _('Enkeltbillett', 'Single ticket', 'Enkeltbillett'),
-        },
-        {
-          id: 'periodTicket',
-          name: _(
-            'Periodebillett (sonebasert)',
-            'Period ticket (zone-based)',
-            'Periodebillett (sonebasert)',
-          ),
-        },
-        {
-          id: 'framYoung',
-          name: _('FRAM Ung', 'FRAM Ung', 'FRAM Ung'),
-        },
-        {
-          id: 'framStudent',
-          name: _('FRAM Student', 'FRAM Student', 'FRAM Student'),
-        },
-        {
-          id: 'framAdult',
-          name: _('FRAM Vaksen', 'FRAM Vaksen', 'FRAM Vaksen'),
-        },
-        {
-          id: 'framSenior',
-          name: _('FRAM Honnør', 'FRAM Honnør', 'FRAM Honnør'),
-        },
-      ] as RefundReason[],
       errorMessages: {
         empty: _(
           'Grunn for refusjon mangler',
@@ -1368,7 +1332,17 @@ const ContactInternal = {
     },
 
     ticketType: {
-      tickets: [
+      labelRefund: _(
+        'Refusjonen for billett',
+        'Refund for the ticket',
+        'Refusjonen for billett',
+      ),
+      optionLabelRefund: _(
+        'Velg billett for refusjonen',
+        'Select ticket for the refund',
+        'Vel billett for refusjon',
+      ),
+      options: [
         {
           id: 'singleTicket',
           name: _('Enkeltbillett', 'Single ticket', 'Enkeltbillett'),
@@ -1400,9 +1374,9 @@ const ContactInternal = {
       ] as TicketType[],
       errorMessages: {
         empty: _(
-          'Grunn for refusjon mangler',
-          'Reason for refund is missing',
-          'Grunn for refusjon mangler',
+          'Billett for refusjon mangler',
+          'Ticket for refund is missing',
+          'Billett for refusjon mangler',
         ),
       },
     },

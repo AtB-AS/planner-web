@@ -1,6 +1,5 @@
 import { PageText, useTranslation } from '@atb/translations';
-import { ticketingFormEvents, TicketType } from '../../events';
-import { TicketingContextType } from '../../ticketingStateMachine';
+import { RefundFormEvents, TicketType } from '../../events';
 import { Typo } from '@atb/components/typography';
 import {
   SectionCard,
@@ -11,10 +10,11 @@ import {
   FileInput,
   Radio,
 } from '../../../components';
+import { RefundContextProps } from '../../refundFormMachine';
 
 type OtherTicketRefundProps = {
-  state: { context: TicketingContextType };
-  send: (event: typeof ticketingFormEvents) => void;
+  state: { context: RefundContextProps };
+  send: (event: typeof RefundFormEvents) => void;
 };
 
 type RefundSectionProps = Pick<OtherTicketRefundProps, 'state' | 'send'>;
@@ -26,7 +26,7 @@ const RefundSection = ({ state, send }: RefundSectionProps) => {
       title={t(PageText.Contact.ticketing.refund.otherTicketRefund.label)}
     >
       <Select
-        label={t(PageText.Contact.input.refundReason.label)}
+        label={t(PageText.Contact.input.ticketType.labelRefund)}
         value={state.context.ticketType}
         valueToId={(option: TicketType) => option.id}
         valueToText={(option: TicketType) => t(option.name)}
@@ -38,8 +38,8 @@ const RefundSection = ({ state, send }: RefundSectionProps) => {
             value: value,
           });
         }}
-        placeholder={t(PageText.Contact.input.refundReason.optionLabel)}
-        options={PageText.Contact.input.ticketType.tickets}
+        placeholder={t(PageText.Contact.input.ticketType.optionLabelRefund)}
+        options={PageText.Contact.input.ticketType.options}
         error={
           state.context?.errorMessages['ticketType']?.[0]
             ? t(state.context?.errorMessages['ticketType'][0])
@@ -142,13 +142,13 @@ const RefundSection = ({ state, send }: RefundSectionProps) => {
         onChange={(e) =>
           send({
             type: 'ON_INPUT_CHANGE',
-            inputName: 'question',
+            inputName: 'refundReason',
             value: e.target.value,
           })
         }
         error={
-          state.context.errorMessages['question']?.[0]
-            ? t(state.context.errorMessages['question']?.[0]).toString()
+          state.context.errorMessages['refundReason']?.[0]
+            ? t(state.context.errorMessages['refundReason']?.[0]).toString()
             : undefined
         }
       />
