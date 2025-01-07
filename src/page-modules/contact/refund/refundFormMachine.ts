@@ -58,7 +58,7 @@ type SubmitInput = {
   amount?: string;
   customerNumber?: string;
   orderId?: string;
-  ticketType?: TicketType;
+  ticketType?: string;
   travelCardNumber?: string;
   refundReason?: string;
 };
@@ -228,7 +228,6 @@ export const refundStateMachine = setup({
   },
   guards: {
     isFormValid: ({ context }) => {
-      console.log('Hello from is isFormValid');
       const inputsToValidate = setInputToValidate(context);
       const errors = commonInputValidator(inputsToValidate);
       return Object.keys(errors).length === 0;
@@ -512,7 +511,7 @@ export const refundStateMachine = setup({
           amount: context?.amount,
           customerNumber: context?.customerNumber,
           orderId: context?.orderId,
-          ticketType: context?.ticketType,
+          ticketType: context?.ticketType?.name.no,
           travelCardNumber: context?.travelCardNumber,
           refundReason: context?.refundReason,
         }),
