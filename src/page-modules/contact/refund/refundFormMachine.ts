@@ -157,6 +157,7 @@ const setInputToValidate = (context: RefundContextProps) => {
   } = context;
 
   const commonFields = {
+    formType,
     transportMode,
     line,
     fromStop,
@@ -227,6 +228,7 @@ export const refundStateMachine = setup({
   },
   guards: {
     isFormValid: ({ context }) => {
+      console.log('Hello from is isFormValid');
       const inputsToValidate = setInputToValidate(context);
       const errors = commonInputValidator(inputsToValidate);
       return Object.keys(errors).length === 0;
