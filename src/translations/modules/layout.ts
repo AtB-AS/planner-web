@@ -65,6 +65,11 @@ export const LayoutInternal = {
             '* Overriding language and appearance requires cookies.',
             '* Overstyring av språk og utsjånad krev bruk av cookies.',
           ),
+          languageCookiesWarning: _(
+            '* Overstyring av språk krever bruk av cookies.',
+            '* Overriding language requires cookies.',
+            '* Overstyring av språk krev bruk av cookies.',
+          ),
         },
       },
       bottomLinks: {

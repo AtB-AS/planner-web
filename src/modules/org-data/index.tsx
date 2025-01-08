@@ -28,6 +28,7 @@ export type OrgData = {
     logoSrc: string;
     logoSrcDark: string;
     replaceTitleWithLogoInHeader?: boolean;
+    forceTheme?: 'light' | 'dark';
   };
 
   urls: {
