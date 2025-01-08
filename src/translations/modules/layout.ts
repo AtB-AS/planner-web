@@ -62,7 +62,7 @@ export const LayoutInternal = {
           ),
           cookiesWarning: _(
             '* Overstyring av språk og utseende krever bruk av cookies.',
-            '* Overriding language and appearance require cookies.',
+            '* Overriding language and appearance requires cookies.',
             '* Overstyring av språk og utsjånad krev bruk av cookies.',
           ),
         },
