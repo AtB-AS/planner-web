@@ -9,7 +9,8 @@
   "fylkeskommune": {
     "logoSrc": "/telemark_fylkeskommune.svg",
     "logoSrcDark": "/telemark_fylkeskommune.svg",
-    "name": "Telemark fylkeskommune"
+    "name": "Telemark fylkeskommune",
+    "forceTheme": "light"
   },
 
   "urls": {
