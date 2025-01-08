@@ -196,6 +196,7 @@ const setInputToValidate = (context: RefundContextProps) => {
         formType,
         customerNumber,
         orderId,
+        refundReason,
       };
 
     case FormType.OtherTicketRefund:
