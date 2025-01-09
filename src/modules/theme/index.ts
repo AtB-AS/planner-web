@@ -1,6 +1,6 @@
 import { createThemesFor, ThemeVariant } from '@atb-as/theme';
 import { useDarkmodeCookie } from '@atb/modules/cookies';
-import { currentOrg, WEBSHOP_ORGS } from '@atb/modules/org-data';
+import { currentOrg, getOrgData, WEBSHOP_ORGS } from '@atb/modules/org-data';
 import { useEffect } from 'react';
 
 export type {
@@ -42,6 +42,10 @@ export function useTheme() {
 
 export function useDarkMode(): [boolean, (value: boolean) => void] {
   const [enabledState, setEnabledState] = useDarkmodeCookie();
+  const forceTheme = getOrgData().fylkeskommune?.forceTheme;
+  if (forceTheme) {
+    return [forceTheme == 'dark', () => {}];
+  }
   // If enabledState is defined use it, otherwise fallback to prefersDarkMode.
   // This allows user to override OS level setting on our website.
   const enabled = enabledState ?? false;

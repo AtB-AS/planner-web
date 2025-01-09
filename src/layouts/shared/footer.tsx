@@ -41,6 +41,8 @@ export default function Footer({ withoutSettings = false }: FooterProps) {
     },
   ].filter(Boolean) as SomeLink[];
 
+  const isForcingTheme = fylkeskommune?.forceTheme !== undefined;
+
   return (
     <footer className={style.footer}>
       <div className={style.footer__content}>
@@ -117,28 +119,33 @@ export default function Footer({ withoutSettings = false }: FooterProps) {
 
               <ul className={style.footer__linkList}>
                 <LanguageSelections />
-                <li>
-                  <button
-                    className={style.buttonLink}
-                    onClick={() => toggleDarkmode(!isDarkMode)}
-                  >
-                    {isDarkMode
-                      ? t(
-                          ModuleText.Layout.base.footer.sections.settings
-                            .toggleLightMode,
-                        )
-                      : t(
-                          ModuleText.Layout.base.footer.sections.settings
-                            .toggleDarkMode,
-                        )}
-                  </button>
-                </li>
+                {!isForcingTheme && (
+                  <li>
+                    <button
+                      className={style.buttonLink}
+                      onClick={() => toggleDarkmode(!isDarkMode)}
+                    >
+                      {isDarkMode
+                        ? t(
+                            ModuleText.Layout.base.footer.sections.settings
+                              .toggleLightMode,
+                          )
+                        : t(
+                            ModuleText.Layout.base.footer.sections.settings
+                              .toggleDarkMode,
+                          )}
+                    </button>
+                  </li>
+                )}
               </ul>
 
               <p className={style.footer__cookieWarning}>
                 {t(
-                  ModuleText.Layout.base.footer.sections.settings
-                    .cookiesWarning,
+                  !isForcingTheme
+                    ? ModuleText.Layout.base.footer.sections.settings
+                        .cookiesWarning
+                    : ModuleText.Layout.base.footer.sections.settings
+                        .languageCookiesWarning,
                 )}
               </p>
             </section>
