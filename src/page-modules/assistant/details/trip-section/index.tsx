@@ -100,6 +100,7 @@ export default function TripSection({
           >
             <Typo.p textType="body__primary">
               {getPlaceName(
+                t,
                 leg.fromPlace.name,
                 leg.fromPlace.quay?.name,
                 leg.fromPlace.quay?.publicCode,
@@ -213,6 +214,7 @@ export default function TripSection({
           >
             <Typo.p textType="body__primary">
               {getPlaceName(
+                t,
                 leg.toPlace.name,
                 leg.toPlace.quay?.name,
                 leg.toPlace.quay?.publicCode,

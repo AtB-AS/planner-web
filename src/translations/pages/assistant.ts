@@ -106,6 +106,7 @@ const AssistantInternal = {
           _(`Fra ${place}`, `From ${place}`, `Frå ${place}`),
         unknownPlace: _('ukjent', 'unknown', 'ukjend'),
       },
+      quayPublicCodePrefix: _('', '', ''),
       details: _('Detaljer', 'Details', 'Detaljar'),
       hasSituationsTip: _(
         'Denne reisen har driftsmeldinger. Se detaljer for mer info',
@@ -353,6 +354,7 @@ const AssistantInternal = {
           `${duration} reisetid`,
         ),
     },
+    quayPublicCodePrefix: _('', '', ''),
     mapSection: {
       travelTime: (time: string) =>
         _(
@@ -527,4 +529,14 @@ export const Assistant = orgSpecificTranslations(AssistantInternal, {
       },
     },
   },
+  vkt: {
+    details: {
+      quayPublicCodePrefix: _(' - Spor ', ' - Track ', ' - Spor '),
+    },
+    trip: {
+      tripPattern: {
+        quayPublicCodePrefix: _(' - Spor ', ' - Track ', ' - Spor '),
+      }
+    }
+  }
 });

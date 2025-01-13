@@ -57,7 +57,7 @@ const dictionary = {
   readMore: _('Les mer', 'Read more', `Les meir`),
   close: _('Lukk', 'Close', 'Lukk'),
   listConcatWord: _('og', 'and', 'og'),
-  via: _('via', 'via', 'via'),
+  via: _('via', 'via', 'via')
 };
 
 export default orgSpecificTranslations(dictionary, {

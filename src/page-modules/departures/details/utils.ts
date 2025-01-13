@@ -1,5 +1,7 @@
 import { ServiceJourneyData } from '../server/journey-planner/validators';
 import { EstimatedCallMetadata, EstimatedCallWithMetadata } from '../types';
+import { TranslateFunction } from '@atb/translations';
+import { Departures } from '@atb/translations/pages';
 
 export function addMetadataToEstimatedCalls(
   estimatedCalls: ServiceJourneyData['estimatedCalls'][0][],
@@ -58,8 +60,13 @@ export function getSituationsToShowForCall(
   );
 }
 
-export function formatQuayName(quayName?: string, publicCode?: string | null) {
+export function formatQuayName(
+  t: TranslateFunction,
+  quayName?: string,
+  publicCode?: string | null,
+) {
   if (!quayName) return;
   if (!publicCode) return quayName;
-  return `${quayName} ${publicCode}`;
+  const prefix = t(Departures.details.quayPublicCodePrefix);
+  return `${quayName}${prefix ? prefix : ' '}${publicCode}`;
 }

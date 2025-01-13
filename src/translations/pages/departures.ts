@@ -1,6 +1,7 @@
 import { translation as _ } from '@atb/translations/commons';
+import { orgSpecificTranslations } from '@atb/translations/utils';
 
-export const Departures = {
+const DeparturesInternal = {
   title: _('Finn avganger', 'Find departures', 'Finn avgangar'),
   titleAddress: (place: string) =>
     _(`Stopp nært ${place}`, `Stops near ${place}`, `Stopp nær ${place}`),
@@ -117,6 +118,7 @@ export const Departures = {
       'Back to travel suggestion',
       'Tilbake til reiseforslag',
     ),
+    quayPublicCodePrefix: _('', '', ''),
     lastPassedStop: (stopPlaceName: string, time: string) =>
       _(
         `Passerte ${stopPlaceName} kl. ${time}`,
@@ -156,3 +158,11 @@ export const Departures = {
     },
   },
 };
+
+export const Departures = orgSpecificTranslations(DeparturesInternal, {
+  vkt: {
+    details: {
+      quayPublicCodePrefix: _(' - Spor ', ' - Track ', ' - Spor '),
+    },
+  },
+});
