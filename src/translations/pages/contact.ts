@@ -213,6 +213,46 @@ const ContactInternal = {
       },
     },
 
+    residualValueOnTravelCard: {
+      description: _(
+        'Resteverdi på reiekort (reisepenger)',
+        'Residual value on travel card (travel allowance)',
+        'Restverdi på reisekort (reisepengar)',
+      ),
+
+      title: _(
+        'Søk refusjon av restverdien på et reisekort',
+        'Apply for a refund of the residual value on a travel card',
+        'Søk refusjon av restverdien på eit reisekort',
+      ),
+
+      link: {
+        text: _(
+          'Skjema for refusjon av restverdien på et resiekort',
+          'Form for refund of residual value on a travel card',
+          'Skjema for refusjon av restverdien på eit resiekort',
+        ),
+        href: _(
+          'https://forms.office.com/Pages/ResponsePage.aspx?id=5-wyud-clE20wRUlbkPH6qGF2mFbrapOg9lnALAiJk9UMkROS0dORUdaTTZURzJHNFNSSVhVTzE4Ti4u',
+          'https://forms.office.com/Pages/ResponsePage.aspx?id=5-wyud-clE20wRUlbkPH6qGF2mFbrapOg9lnALAiJk9UMkROS0dORUdaTTZURzJHNFNSSVhVTzE4Ti4u',
+          'https://forms.office.com/Pages/ResponsePage.aspx?id=5-wyud-clE20wRUlbkPH6qGF2mFbrapOg9lnALAiJk9UMkROS0dORUdaTTZURzJHNFNSSVhVTzE4Ti4u',
+        ),
+      },
+      monthlyPayoutDetails: _(
+        'Restverdien blir betalt ut i slutten av hver måned (med forbehold). Viss du har flere reisekort du vil ha refundert, må du sende inn ett skjema per reisekort.',
+        'The residual value is paid out at the end of each month (with reservations). If you have multiple travel cards that you want refunded, you must submit one form per travel card.',
+        'Restverdien blir betalt ut i slutten av kvar månad (med atterhald). Viss du har fleire reisekort du vil ha refundert, må du sende inn eitt skjema per reisekort.',
+      ),
+      automatedProcessNotice: {
+        note: _('Merk!', 'Note!', 'Merk!'),
+        text: _(
+          'Dette skjemaet gjelder bare for refusjon av restverdi på reisekort. Det er en automatisert prosess som bare fungerer for denne typen refusjon.',
+          'This form only applies to refunds of residual value on travel cards. It is an automated process that only works for this type of refund.',
+          'Dette skjemaet gjeld berre for refusjon av restverdi på reisekort. Det er ein automatisert prosess som berre fungerar for denne typen refusjon.',
+        ),
+      },
+    },
+
     agreement: {
       title: _(
         'Refusjon og reisegaranti',
@@ -1369,7 +1409,7 @@ const ContactInternal = {
         },
         {
           id: 'framSenior',
-          name: _('FRAM HONNØR', 'FRAM HONNØR', 'FRAM HONNØR'),
+          name: _('FRAM Honnør', 'FRAM Honnør', 'FRAM Honnør'),
         },
       ] as TicketType[],
       errorMessages: {
