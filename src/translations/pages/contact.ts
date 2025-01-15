@@ -215,7 +215,7 @@ const ContactInternal = {
 
     residualValueOnTravelCard: {
       description: _(
-        'Resteverdi på reiekort (reisepenger)',
+        'Restverdi på reisekort (reisepenger)',
         'Residual value on travel card (travel allowance)',
         'Restverdi på reisekort (reisepengar)',
       ),
