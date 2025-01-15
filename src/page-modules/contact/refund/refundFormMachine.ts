@@ -14,6 +14,7 @@ import { RefundFormEvents } from './events';
 export enum FormCategory {
   RefundOfTicket = 'refundOfTicket',
   RefundAndTravelGuarantee = 'refundAndTravelGuarantee',
+  ResidualValueOnTravelCard = 'residualValueOnTravelCard',
 }
 
 export enum RefundTicketForm {
@@ -30,6 +31,7 @@ export enum FormType {
   RefundCar = 'refundCar',
   AppTicketRefund = 'appTicketRefund',
   OtherTicketRefund = 'otherTicketRefund',
+  ResidualValueOnTravelCard = 'residualValueOnTravelCard',
 }
 
 type SubmitInput = {
@@ -370,6 +372,12 @@ export const refundStateMachine = setup({
             event.formCategory === FormCategory.RefundAndTravelGuarantee,
           target: `#${FormCategory.RefundAndTravelGuarantee}`,
         },
+        {
+          guard: ({ event }) =>
+            event.type === 'SELECT_FORM_CATEGORY' &&
+            event.formCategory === FormCategory.ResidualValueOnTravelCard,
+          target: `#${FormCategory.ResidualValueOnTravelCard}`,
+        },
       ],
     },
     refundTicketFormHandler: {
@@ -459,6 +467,12 @@ export const refundStateMachine = setup({
               exit: 'clearValidationErrors',
             },
           },
+        },
+        residualValueOnTravelCard: {
+          id: 'residualValueOnTravelCard',
+          entry: assign({
+            formType: () => FormType.ResidualValueOnTravelCard,
+          }),
         },
         history: {
           type: 'history',
