@@ -239,7 +239,7 @@ const ContactInternal = {
         ),
       },
       monthlyPayoutDetails: _(
-        'Restverdien blir betalt ut i slutten av hver måned (med forbehold). Viss du har flere reisekort du vil ha refundert, må du sende inn ett skjema per reisekort.',
+        'Restverdien blir betalt ut i slutten av hver måned (med forbehold). Hvis du har flere reisekort du vil ha refundert, må du sende inn ett skjema per reisekort.',
         'The residual value is paid out at the end of each month (with reservations). If you have multiple travel cards that you want refunded, you must submit one form per travel card.',
         'Restverdien blir betalt ut i slutten av kvar månad (med atterhald). Viss du har fleire reisekort du vil ha refundert, må du sende inn eitt skjema per reisekort.',
       ),
