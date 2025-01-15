@@ -228,7 +228,7 @@ const ContactInternal = {
 
       link: {
         text: _(
-          'Skjema for refusjon av restverdien på et resiekort',
+          'Skjema for refusjon av restverdien på et reisekort',
           'Form for refund of residual value on a travel card',
           'Skjema for refusjon av restverdien på eit resiekort',
         ),
