@@ -230,7 +230,7 @@ const ContactInternal = {
         text: _(
           'Skjema for refusjon av restverdien på et reisekort',
           'Form for refund of residual value on a travel card',
-          'Skjema for refusjon av restverdien på eit resiekort',
+          'Skjema for refusjon av restverdien på eit reisekort',
         ),
         href: _(
           'https://forms.office.com/Pages/ResponsePage.aspx?id=5-wyud-clE20wRUlbkPH6qGF2mFbrapOg9lnALAiJk9UMkROS0dORUdaTTZURzJHNFNSSVhVTzE4Ti4u',
