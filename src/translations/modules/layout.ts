@@ -8,7 +8,7 @@ export const LayoutInternal = {
         general: {
           header: _('Reiseplanlegger', 'Travel Planner', 'Reiseplanleggar'),
           supportPageLink: _(
-            'Help og kontakt',
+            'Hjelp og kontakt',
             'Help and contact',
             'Hjelp og kontakt',
           ),
@@ -33,6 +33,7 @@ export const LayoutInternal = {
             'Language and appearance',
             'Språk og utsjånad',
           ),
+          forcedThemeHeader: _('Språk', 'Language', 'Språk'),
           setLanguage: {
             norsk: _(
               'Endre til norsk (bokmål)',

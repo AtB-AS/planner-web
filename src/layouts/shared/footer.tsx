@@ -114,7 +114,12 @@ export default function Footer({ withoutSettings = false }: FooterProps) {
           {!withoutSettings && (
             <section className={style.footer__section}>
               <h3 className={style.footer__title}>
-                {t(ModuleText.Layout.base.footer.sections.settings.header)}
+                {t(
+                  !isForcingTheme
+                    ? ModuleText.Layout.base.footer.sections.settings.header
+                    : ModuleText.Layout.base.footer.sections.settings
+                        .forcedThemeHeader,
+                )}
               </h3>
 
               <ul className={style.footer__linkList}>
