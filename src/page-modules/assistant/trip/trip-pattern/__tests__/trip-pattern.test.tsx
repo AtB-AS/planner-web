@@ -178,7 +178,7 @@ describe('trip pattern', function () {
       );
 
       const expected =
-        `Reiseresultat 1.\nBuss frå From 1.\nBussnummer 1.\nKlokka ${startTime}.\nIngen bytter.\nTotalt 0 meter å gå.` +
+        `Reiseresultat 1.\nBuss frå From 1.\nBussnummer 1.\nKlokka ${startTime}.\nIngen byte.\nTotalt 0 meter å gå.` +
         `\nStart klokka ${startTime}, framkomst klokka ${endTime}. Total reisetid 1 time.`;
 
       expect(ariaLabel).toBe(expected);
