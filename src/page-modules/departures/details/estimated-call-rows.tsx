@@ -133,6 +133,7 @@ type EstimatedCallRowProps = {
   collapseButton: JSX.Element | null;
   situations: Situation[];
 };
+
 function EstimatedCallRow({
   call,
   mode,
@@ -171,7 +172,7 @@ function EstimatedCallRow({
         href={`/departures/${call.quay.stopPlace.id}`}
       >
         <Typo.p textType="body__primary">
-          {formatQuayName(call.quay.name, call.quay.publicCode)}
+          {formatQuayName(t, call.quay.name, call.quay.publicCode)}
         </Typo.p>
         {!call.forAlighting && !call.metadata.isStartOfServiceJourney && (
           <Typo.p textType="body__secondary" className={style.boardingInfo}>

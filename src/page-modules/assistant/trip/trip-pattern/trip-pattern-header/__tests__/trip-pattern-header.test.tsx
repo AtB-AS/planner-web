@@ -73,31 +73,70 @@ describe('trip pattern header', function () {
   });
 
   it('should get quay name from quay', () => {
-    const quayName = getQuayName({
-      publicCode: '',
-      name: 'Quay',
-      id: 'NSR:Quay:1',
-      situations: [],
+    const Test = function () {
+      const { t } = useTranslation();
+      const quayName = getQuayName({
+        publicCode: '',
+        name: 'Quay',
+        id: 'NSR:Quay:1',
+        situations: [],
+      }, t);
+      return <div>{quayName}</div>;
+    };
+
+    customRender(<Test />, {
+      providerProps: {
+        initialCookies: {
+          darkmode: false,
+          language: 'no',
+        },
+      },
     });
 
-    expect(quayName).toBe('Quay');
+    expect(screen.getByText('Quay')).toBeInTheDocument();
   });
 
   it('should get quay name with public code from quay', () => {
-    const quayName = getQuayName({
-      publicCode: '1',
-      name: 'Quay',
-      id: 'NSR:Quay:1',
-      situations: [],
+    const Test = function () {
+      const { t } = useTranslation();
+      const quayName = getQuayName({
+        publicCode: '1',
+        name: 'Quay',
+        id: 'NSR:Quay:1',
+        situations: [],
+      }, t);
+      return <div>{quayName}</div>;
+    };
+
+    customRender(<Test />, {
+      providerProps: {
+        initialCookies: {
+          darkmode: false,
+          language: 'no',
+        },
+      },
     });
 
-    expect(quayName).toBe('Quay 1');
+    expect(screen.getByText('Quay 1')).toBeInTheDocument();
   });
 
   it('should get quay name from trip', () => {
-    const quayName = getQuayName(tripPatternFixture.legs[0].fromPlace.quay);
+    const Test = function () {
+      const { t } = useTranslation();
+      const quayName = getQuayName(tripPatternFixture.legs[0].fromPlace.quay, t);
+      return <div>{quayName}</div>;
+    };
 
-    expect(quayName).toBe('From 1');
+    customRender(<Test />, {
+      providerProps: {
+        initialCookies: {
+          darkmode: false,
+          language: 'no',
+        },
+      },
+    });
+
+    expect(screen.getByText('From 1')).toBeInTheDocument();
   });
 
   it('should get start mode and start place from trip', () => {

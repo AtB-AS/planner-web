@@ -95,6 +95,7 @@ export function AssistantDetails({ tripPattern }: AssistantDetailsProps) {
             interchangeDetails={getInterchangeDetails(
               tripPattern.legs,
               leg.interchangeTo?.toServiceJourney.id,
+              t
             )}
             legWaitDetails={getLegWaitDetails(leg, tripPattern.legs[index + 1])}
           />

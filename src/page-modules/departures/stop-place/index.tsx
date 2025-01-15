@@ -29,13 +29,17 @@ import { nextDepartures } from '../client';
 import style from './stop-place.module.css';
 import { formatDestinationDisplay } from '../utils';
 import { useTheme } from '@atb/modules/theme';
+import { formatQuayName } from '@atb/page-modules/departures/details/utils';
 
 export type StopPlaceProps = {
   departures: DepartureData;
 };
+
 export function StopPlace({ departures }: StopPlaceProps) {
   const { t } = useTranslation();
-  const { color: {interactive}} = useTheme();
+  const {
+    color: { interactive },
+  } = useTheme();
   const router = useRouter();
   const [isHoveringRefreshButton, setIsHoveringRefreshButton] = useState(false);
 
@@ -135,9 +139,7 @@ export function EstimatedCallList({ quay }: EstimatedCallListProps) {
             className={style.textColor__secondary}
             textType="body__secondary--bold"
           >
-            {quay.publicCode
-              ? [quay.name, quay.publicCode].join(' ')
-              : quay.name}
+            {formatQuayName(t, quay.name, quay.publicCode)}
           </Typo.h3>
           {quay.description && (
             <Typo.span

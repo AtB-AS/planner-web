@@ -30,7 +30,7 @@ export const tripSummary = (
   let startText = '';
 
   if (tripPattern.legs[0]?.mode === 'foot' && tripPattern.legs[1]) {
-    const quayName = getQuayName(tripPattern.legs[1]?.fromPlace.quay);
+    const quayName = getQuayName(tripPattern.legs[1]?.fromPlace.quay, t);
 
     {
       quayName
@@ -43,7 +43,7 @@ export const tripSummary = (
         : undefined;
     }
   } else {
-    const quayName = getQuayName(tripPattern.legs[0]?.fromPlace.quay);
+    const quayName = getQuayName(tripPattern.legs[0]?.fromPlace.quay, t);
     if (quayName) {
       startText = t(
         PageText.Assistant.trip.tripSummary.header.title(
