@@ -529,9 +529,57 @@ export const Assistant = orgSpecificTranslations(AssistantInternal, {
       },
     },
   },
+  farte: {
+    search: {
+      lineFilter: {
+        error: _(
+          'Linje må være kombinasjon av bokstav og tall, eller en liste av disse (f.eks. R1, P5, 601)',
+          'Line must be a combination of letters and numbers, or a list of these (e.g. R1, P5, 601)',
+          'Linje må vera kombinasjon av bokstav og tal, eller ei liste av desse (t.d. R1, P5, 601)',
+        ),
+
+        example: _(
+          'Eksempel: R1, P5, 601',
+          'Example: R1, P5, 601',
+          'Eksempel: R1, P5, 601',
+        ),
+      },
+    },
+    details: {
+      ticketBooking: {
+        globalMessage: _(
+          'Reisen krever billett som ikke er tilgjengelig i denne appen, eller som må kjøpes fra et annet selskap enn Farte.',
+          'This journey requires a ticket that is not available from this app, or must be purchased from a provider other than Farte.',
+          'Reisa krev billett som ikkje er tilgjengeleg i denne appen, eller som må kjøpast frå eit anna selskap enn Farte.',
+        ),
+      },
+    },
+  },
   vkt: {
+    search: {
+      lineFilter: {
+        error: _(
+          'Linje må være kombinasjon av bokstav og tall, eller en liste av disse (f.eks. 03, 100, 113B)',
+          'Line must be a combination of letters and numbers, or a list of these (e.g. 03, 100, 113B)',
+          'Linje må vera kombinasjon av bokstav og tal, eller ei liste av desse (t.d. 03, 100, 113B)',
+        ),
+
+        example: _(
+          'Eksempel: 03, 100, 113B',
+          'Example: 03, 100, 113B',
+          'Eksempel: 03, 100, 113B',
+        ),
+      },
+    },
     details: {
       quayPublicCodePrefix: _(' - Spor ', ' - Track ', ' - Spor '),
+      ticketBooking: {
+        globalMessage: _(
+          'Billett til denne reisen kan ikke kjøpes hos VKT. Billett må kjøpes på nettside/app til aktuelt transportselskap.',
+          'Tickets for this journey cannot be purchased from VKT. Tickets must be purchased through the website/app of the relevant transport company.',
+          'Billett til denne reisa kan ikkje kjøpast hos VKT. Billett må kjøpast på nettside/app til aktuelt transportselskap.',
+        ),
+      },
     },
     trip: {
       tripPattern: {
