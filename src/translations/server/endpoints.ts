@@ -227,6 +227,76 @@ export const Endpoints = orgSpecificTranslations(EndpointsInternal, {
       ),
     },
   },
+  farte: {
+    serverErrors: {
+      travelCardExists: _(
+        'Reisekortet er registert hos noen andre.',
+        'Travelcard is already registered to another account.',
+        'Reisekortet er registrert hos nokon andre.',
+      ),
+    },
+    behalfOfOthers: {
+      serverErrors: {
+        travelCardExists: _(
+          'Reisekortet er registert hos noen andre.',
+          'Travelcard is already registered to another account.',
+          'Reisekortet er registrert hos nokon andre.',
+        ),
+      },
+    },
+    travelCard: {
+      missingId: _(
+        'Mangler reisekort nummer.',
+        'Missing travelcard number.',
+        'Manglar reisekortnummer.',
+      ),
+      successAdd: _(
+        'Lagt til reisekort.',
+        'Travelcard added.',
+        'Reisekort lagt til.',
+      ),
+      successRemove: _(
+        'Fjernet reisekort.',
+        'Travelcard successfully removed.',
+        'Fjerna reisekort.',
+      ),
+    },
+  },
+  vkt: {
+    serverErrors: {
+      travelCardExists: _(
+        'Reisekortet er registert hos noen andre.',
+        'Travelcard is already registered to another account.',
+        'Reisekortet er registrert hos nokon andre.',
+      ),
+    },
+    behalfOfOthers: {
+      serverErrors: {
+        travelCardExists: _(
+          'Reisekortet er registert hos noen andre.',
+          'Travelcard is already registered to another account.',
+          'Reisekortet er registrert hos nokon andre.',
+        ),
+      },
+    },
+    travelCard: {
+      missingId: _(
+        'Mangler reisekort nummer.',
+        'Missing travelcard number.',
+        'Manglar reisekortnummer.',
+      ),
+      successAdd: _(
+        'Lagt til reisekort.',
+        'Travelcard added.',
+        'Reisekort lagt til.',
+      ),
+      successRemove: _(
+        'Fjernet reisekort.',
+        'Travelcard successfully removed.',
+        'Fjerna reisekort.',
+      ),
+    },
+  },
   fram: {
     serverErrors: {
       travelCardExists: _(
