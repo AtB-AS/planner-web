@@ -22,6 +22,7 @@ export type MessageBoxProps = {
   noStatusIcon?: boolean;
   onClick?: () => void;
   borderRadius?: boolean;
+  subtle?: boolean;
 };
 
 export const MessageBox = ({
@@ -32,12 +33,13 @@ export const MessageBox = ({
   title,
   onClick,
   borderRadius = true,
+  subtle = false
 }: MessageBoxProps) => {
   const { color: {status} } = useTheme();
   const { t } = useTranslation();
   const backgroundColorStyle: HTMLAttributes<HTMLDivElement>['style'] = {
-    borderColor: status[type].primary.background,
-    backgroundColor: status[type].secondary.background,
+    borderColor: subtle ? undefined : status[type].primary.background,
+    backgroundColor: subtle ? undefined : status[type].secondary.background,
     color: status[type].secondary.foreground.primary,
   };
   const overrideMode = useStatusThemeColor(type);
@@ -50,6 +52,7 @@ export const MessageBox = ({
       className={andIf({
         [style.container]: true,
         [style.borderRadius]: borderRadius,
+        [style.subtle]: subtle
       })}
       style={backgroundColorStyle}
     >

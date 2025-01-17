@@ -2,7 +2,7 @@ import { MessageBox } from '@atb/components/message-box';
 import { getTextForLanguage, useTranslation } from '@atb/translations';
 import { and } from '@atb/utils/css';
 import { useActiveGlobalMessages } from './context';
-import { GlobalMessageContextEnum } from './types';
+import { GlobalMessageContextEnum, GlobalMessageType } from './types';
 import style from './global-messages.module.css';
 import { motion } from 'framer-motion';
 
@@ -46,6 +46,7 @@ export function GlobalMessages({ context, className }: GlobalMessagesProps) {
               type={message.type}
               title={getTextForLanguage(message.title, language)}
               message={getTextForLanguage(message.body, language) ?? ''}
+              subtle={message.subtle}
             />
           </motion.div>
         ))}

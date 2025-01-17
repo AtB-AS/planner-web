@@ -6,6 +6,10 @@
 .borderRadius {
   border-radius: token('border.radius.regular');
 }
+.subtle {
+  background-color: token('color.background.neutral.0.background') !important;
+  border: none;
+}
 .content {
   display: flex;
   flex-direction: column;
