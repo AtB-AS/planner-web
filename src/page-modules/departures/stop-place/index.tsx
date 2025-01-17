@@ -30,6 +30,7 @@ import style from './stop-place.module.css';
 import { formatDestinationDisplay } from '../utils';
 import { useTheme } from '@atb/modules/theme';
 import { formatQuayName } from '@atb/page-modules/departures/details/utils';
+import { GlobalMessageContextEnum, GlobalMessages } from '@atb/modules/global-messages';
 
 export type StopPlaceProps = {
   departures: DepartureData;
@@ -60,6 +61,7 @@ export function StopPlace({ departures }: StopPlaceProps) {
         role="status"
       />
 
+      <GlobalMessages className={style.stopPlaceMessages} context={GlobalMessageContextEnum.plannerWebDepartures} />
       <div className={style.quaysContainer}>
         <button
           onClick={() => router.reload()}
