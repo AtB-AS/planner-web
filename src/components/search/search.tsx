@@ -107,6 +107,7 @@ export default function Search({
                     index,
                     item,
                   })}
+                  data-testid={`list-item-${index}`}
                 >
                   <div className={style.itemIcon} aria-hidden>
                     <VenueIcon categories={item.category} />

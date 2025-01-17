@@ -35,7 +35,9 @@ export type StopPlaceProps = {
 };
 export function StopPlace({ departures }: StopPlaceProps) {
   const { t } = useTranslation();
-  const { color: {interactive}} = useTheme();
+  const {
+    color: { interactive },
+  } = useTheme();
   const router = useRouter();
   const [isHoveringRefreshButton, setIsHoveringRefreshButton] = useState(false);
 
@@ -167,11 +169,12 @@ export function EstimatedCallList({ quay }: EstimatedCallListProps) {
               ))}
           {departures.length > 0 ? (
             <>
-              {departures.map((departure) => (
+              {departures.map((departure, index) => (
                 <EstimatedCallItem
                   key={departure.id}
                   departure={departure}
                   quayId={quay.id}
+                  testID={`departure-${quay.publicCode}-${index}`}
                 />
               ))}
             </>
@@ -204,11 +207,13 @@ export function EstimatedCallList({ quay }: EstimatedCallListProps) {
 type EstimatedCallItemProps = {
   quayId: string;
   departure: Departure;
+  testID?: string;
 };
 
 export function EstimatedCallItem({
   quayId,
   departure,
+  testID,
 }: EstimatedCallItemProps) {
   const { t } = useTranslation();
   const lineName = formatDestinationDisplay(t, departure.destinationDisplay);
@@ -217,6 +222,7 @@ export function EstimatedCallItem({
       <Link
         className={style.listItem}
         href={`details/${departure.id}?date=${departure.date}&fromQuayId=${quayId}`}
+        data-testid={testID}
       >
         <div className={style.transportInfo}>
           {(departure.transportMode || departure.publicCode) && (
