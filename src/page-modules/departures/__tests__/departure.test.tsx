@@ -13,6 +13,7 @@ import { NearestStopPlaces } from '..';
 import { GeocoderApi } from '@atb/page-modules/departures/server/geocoder';
 import Search from '@atb/components/search/search';
 import { sortQuays } from '../server/journey-planner/utils';
+import { GlobalMessageContextProvider } from '@atb/modules/global-messages';
 
 afterEach(function () {
   cleanup();
@@ -21,6 +22,12 @@ afterEach(function () {
 vi.mock('next/router', () => require('next-router-mock'));
 
 mockRouter.useParser(createDynamicRouteParser(['/departures/[id]']));
+
+const customRender = (ui: React.ReactNode) => {
+  return render(
+    <GlobalMessageContextProvider>{ui}</GlobalMessageContextProvider>,
+  );
+};
 
 describe('departure page', function () {
   it('Should return props from getServerSideProps', async () => {
@@ -99,7 +106,7 @@ describe('departure page', function () {
   });
 
   it('should render quays', () => {
-    const output = render(<StopPlace departures={departureDataFixture} />);
+    const output = customRender(<StopPlace departures={departureDataFixture} />);
 
     departureDataFixture.quays.forEach((q) =>
       expect(output.getByText(q.name)).toBeInTheDocument(),
@@ -107,7 +114,7 @@ describe('departure page', function () {
   });
 
   it('should render estimated calls', () => {
-    const output = render(<StopPlace departures={departureDataFixture} />);
+    const output = customRender(<StopPlace departures={departureDataFixture} />);
     const lists = output.getAllByRole('list');
     const { getAllByRole } = within(lists[0]);
     const items = getAllByRole('listitem');
@@ -117,7 +124,7 @@ describe('departure page', function () {
   });
 
   it('Should collapse estimated calls list', async () => {
-    const output = render(<StopPlace departures={departureDataFixture} />);
+    const output = customRender(<StopPlace departures={departureDataFixture} />);
     const button = screen.getAllByRole('button', {
       name: 'Aktiver for å minimere',
     });

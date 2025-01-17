@@ -12,6 +12,7 @@ import style from './details.module.css';
 import { EstimatedCallRows } from './estimated-call-rows';
 import { addMetadataToEstimatedCalls } from './utils';
 import { formatDestinationDisplay } from '../utils';
+import { GlobalMessageContextEnum, GlobalMessages } from '@atb/modules/global-messages';
 
 export type DeparturesDetailsProps = {
   fromQuayId?: string;
@@ -80,6 +81,7 @@ export function DeparturesDetails({
           />
           <Typo.h2 textType="heading--big">{title}</Typo.h2>
         </div>
+        <GlobalMessages context={GlobalMessageContextEnum.plannerWebDeparturesDetails} />
         {realtimeText && !focusedCall.cancellation && (
           <div className={style.realtimeText}>
             <ColorIcon icon="status/Realtime" size="xSmall" />

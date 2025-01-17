@@ -54,9 +54,11 @@ function subscribeToActiveGlobalMessagesFromFirestore(
   const q = query(
     collection(db, 'globalMessagesV2'),
     where('active', '==', true),
-    where('context', 'array-contains-any', [
-      GlobalMessageContextEnum.plannerWeb,
-    ]),
+    where(
+      'context',
+      'array-contains-any',
+      Object.values(GlobalMessageContextEnum),
+    ),
   ).withConverter<GlobalMessageType | undefined>(globalMessageConverter);
 
   return onSnapshot(q, (querySnapshot) => {

@@ -17,6 +17,7 @@ import TripPattern from './trip-pattern';
 import EmptySearch from '@atb/components/loading-empty-results';
 import { LoadingIcon } from '@atb/components/loading';
 import ScreenReaderOnly from '@atb/components/screen-reader-only';
+import { GlobalMessageContextEnum, GlobalMessages } from '@atb/modules/global-messages';
 
 export type TripProps = {
   tripQuery: FromToTripQuery;
@@ -89,6 +90,8 @@ export default function Trip({ tripQuery, fallback }: TripProps) {
   return (
     <>
       <ScreenReaderOnly text={t(PageText.Assistant.trip.resultsFound)} role='status' />
+
+      <GlobalMessages context={GlobalMessageContextEnum.plannerWebTrip} />
       <div className={style.tripResults}>
         {nonTransitTrips && nonTransits.length > 0 && (
           <div className={style.nonTransitResult}>
