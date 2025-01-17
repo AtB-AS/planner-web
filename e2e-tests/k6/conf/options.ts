@@ -22,8 +22,8 @@ export const perfOptions: Options = {
   scenarios: {
     ui: {
       executor: 'shared-iterations',
-      vus: 3,
-      iterations: 10,
+      vus: 10,
+      iterations: 100,
       options: {
         browser: {
           type: 'chromium',

@@ -3,8 +3,8 @@ import Conf from '../conf/conf.ts';
 /* @ts-ignore */
 import file from 'k6/x/file';
 
-const logFile = 'screenshots/sample-output.txt';
-const errorLogFile = 'screenshots/sample-output-error.txt';
+const logFile = 'logs/log.txt';
+const errorLogFile = 'logs/log-error.txt';
 
 export const screenshot = async (page: Page, label: string) => {
   if (!Conf.isPerformanceTest) {

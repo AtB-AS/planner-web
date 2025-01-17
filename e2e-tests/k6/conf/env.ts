@@ -6,10 +6,10 @@ export const env: EnvType = {
       host: 'http://localhost:3000',
     },
     staging: {
-      host: 'https://atb-staging.api.mittatb.no',
+      host: 'https://atb-staging.planner-web.mittatb.no',
     },
     prod: {
-      host: 'https://atb-prod.api.mittatb.no',
+      host: 'https://atb.planner-web.mittatb.no',
     },
   },
 };
