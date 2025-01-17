@@ -314,7 +314,7 @@ const ContactInternal = {
               _(
                 'ekstraordinære værforhold',
                 'extraordinary weather conditions',
-                'ekstraordinære verforhold',
+                'ekstraordinære vêrforhold',
               ),
               _(
                 'vegarbeid eller uforutsette problemer med kjøreveien',
@@ -1416,7 +1416,7 @@ const ContactInternal = {
         empty: _(
           'Billett for refusjon mangler',
           'Ticket for refund is missing',
-          'Billett for refusjon mangler',
+          'Billett for refusjon manglar',
         ),
       },
     },
@@ -1484,7 +1484,7 @@ const ContactInternal = {
         _(
           `Mer informasjon om ${inputName}`,
           `More information about ${inputName}`,
-          `Mer informasjon om ${inputName}`,
+          `Meir informasjon om ${inputName}`,
         ),
 
       close: (inputName: string) =>

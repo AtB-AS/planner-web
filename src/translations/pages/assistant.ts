@@ -245,13 +245,13 @@ const AssistantInternal = {
             'Foot legs only',
             'Heile reisa til fots',
           ),
-          noSwitching: _('Ingen bytter', 'No transfers', 'Ingen bytter'),
-          oneSwitch: _('Ett bytte', 'One transfer', 'Eitt bytte'),
+          noSwitching: _('Ingen bytter', 'No transfers', 'Ingen byte'),
+          oneSwitch: _('Ett bytte', 'One transfer', 'Eitt byte'),
           someSwitches: (switchCount: number) =>
             _(
               `${switchCount} bytter`,
               `${switchCount} transfers`,
-              `${switchCount} bytte`,
+              `${switchCount} byte`,
             ),
         },
         prefixedLineNumber: (number: string) =>
@@ -412,7 +412,7 @@ const AssistantInternal = {
       wait: {
         label: (time: string) =>
           _(`Vent i ${time}`, `Wait for ${time}`, `Vent i ${time}`),
-        shortTime: _('Kort byttetid', 'Short changeover time', 'Kort byttetid'),
+        shortTime: _('Kort byttetid', 'Short changeover time', 'Kort bytetid'),
       },
       intermediateStops: (count: number) =>
         _(
@@ -439,18 +439,18 @@ const AssistantInternal = {
           _(
             `Denne reisen krever reservasjon innen ${formattedTimeForBooking}.`,
             `This trip requires booking before ${formattedTimeForBooking}.`,
-            `Denne reisa krever reservasjon innen ${formattedTimeForBooking}.`,
+            `Denne reisa krev reservasjon innen ${formattedTimeForBooking}.`,
           ),
         needsBookingButIsTooEarly: (formattedTimeForBooking: string) =>
           _(
             `Denne reisen krever reservasjon og kan tidligst reserveres ${formattedTimeForBooking}.`,
             `This trip requires booking and can be booked no earlier than ${formattedTimeForBooking}.`,
-            `Denne reisa krever reservasjon og kan tidlegast reserverast ${formattedTimeForBooking}.`,
+            `Denne reisa krev reservasjon og kan tidlegast reserverast ${formattedTimeForBooking}.`,
           ),
         needsBookingButIsTooLate: _(
           `Denne reisen krever reservasjon. Frist for reservasjon har utløpt.`,
           `This trip requires booking. The booking deadline has expired.`,
-          `Denne reisa krever reservasjon. Frist for reservasjon har utgått.`,
+          `Denne reisa krev reservasjon. Frist for reservasjon har utgått.`,
         ),
         needsBookingWhatIsThis: (publicCode: string) =>
           _(
