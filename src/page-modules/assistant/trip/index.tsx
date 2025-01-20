@@ -139,6 +139,7 @@ export default function Trip({ tripQuery, fallback }: TripProps) {
           onClick={() => loadMore()}
           title={t(PageText.Assistant.trip.fetchMore)}
           state={isLoadingMore ? 'loading' : undefined}
+          testID="loadMoreButton"
         />
       )}
     </>
