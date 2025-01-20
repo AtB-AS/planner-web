@@ -8,7 +8,7 @@ export const LayoutInternal = {
         general: {
           header: _('Reiseplanlegger', 'Travel Planner', 'Reiseplanleggar'),
           supportPageLink: _(
-            'Help og kontakt',
+            'Hjelp og kontakt',
             'Help and contact',
             'Hjelp og kontakt',
           ),
@@ -33,6 +33,7 @@ export const LayoutInternal = {
             'Language and appearance',
             'Språk og utsjånad',
           ),
+          forcedThemeHeader: _('Språk', 'Language', 'Språk'),
           setLanguage: {
             norsk: _(
               'Endre til norsk (bokmål)',
@@ -62,8 +63,13 @@ export const LayoutInternal = {
           ),
           cookiesWarning: _(
             '* Overstyring av språk og utseende krever bruk av cookies.',
-            '* Overriding language and appearance require cookies.',
+            '* Overriding language and appearance requires cookies.',
             '* Overstyring av språk og utsjånad krev bruk av cookies.',
+          ),
+          languageCookiesWarning: _(
+            '* Overstyring av språk krever bruk av cookies.',
+            '* Overriding language requires cookies.',
+            '* Overstyring av språk krev bruk av cookies.',
           ),
         },
       },

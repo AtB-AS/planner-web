@@ -4,7 +4,7 @@ import { MonoIcon } from '@atb/components/icon';
 import { MessageBox } from '@atb/components/message-box';
 import { TripPatternWithDetails } from '../../server/journey-planner/validators';
 import { getPlaceName } from '../utils';
-import { PageText, useTranslation } from '@atb/translations';
+import { PageText, TranslateFunction, useTranslation } from '@atb/translations';
 
 import style from './trip-section.module.css';
 import { secondsToDuration } from '@atb/utils/date';
@@ -96,6 +96,7 @@ function useInterchangeTextTranslation({
 export function getInterchangeDetails(
   legs: TripPatternWithDetails['legs'],
   id: string | undefined,
+  t: TranslateFunction,
 ): InterchangeDetails | undefined {
   if (!id) return undefined;
   const interchangeLeg = legs.find(
@@ -106,6 +107,7 @@ export function getInterchangeDetails(
     return {
       publicCode: interchangeLeg.line.publicCode,
       fromPlace: getPlaceName(
+        t,
         interchangeLeg.fromPlace.name,
         interchangeLeg.fromPlace.quay?.name,
         interchangeLeg.fromPlace.quay?.publicCode,

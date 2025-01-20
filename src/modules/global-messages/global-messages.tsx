@@ -46,6 +46,7 @@ export function GlobalMessages({ context, className }: GlobalMessagesProps) {
               type={message.type}
               title={getTextForLanguage(message.title, language)}
               message={getTextForLanguage(message.body, language) ?? ''}
+              subtle={message.subtle}
             />
           </motion.div>
         ))}

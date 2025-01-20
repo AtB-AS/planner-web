@@ -1,11 +1,12 @@
 import { PageText, useTranslation } from '@atb/translations';
-import { ticketingFormEvents } from '../../events';
-import { TicketingContextType } from '../../ticketingStateMachine';
-import { SectionCard, Input } from '../../../components';
+import { SectionCard, Input, Textarea, FileInput } from '../../../components';
+import { RefundContextProps } from '../../refundFormMachine';
+import { RefundFormEvents } from '../../events';
+import { Typo } from '@atb/components/typography';
 
 type AppTicketRefundProps = {
-  state: { context: TicketingContextType };
-  send: (event: typeof ticketingFormEvents) => void;
+  state: { context: RefundContextProps };
+  send: (event: typeof RefundFormEvents) => void;
 };
 
 export const AppTicketRefund = ({ state, send }: AppTicketRefundProps) => {
@@ -53,6 +54,36 @@ export const AppTicketRefund = ({ state, send }: AppTicketRefundProps) => {
               (bulletPoint) => t(bulletPoint),
             ),
         }}
+      />
+
+      <Typo.p textType="body__primary">
+        {t(PageText.Contact.input.refundReason.question)}
+      </Typo.p>
+
+      <Textarea
+        value={state.context.refundReason || ''}
+        onChange={(e) =>
+          send({
+            type: 'ON_INPUT_CHANGE',
+            inputName: 'refundReason',
+            value: e.target.value,
+          })
+        }
+        error={
+          state.context.errorMessages['refundReason']?.[0] &&
+          t(state.context.errorMessages['refundReason']?.[0]).toString()
+        }
+      />
+      <FileInput
+        name="attachments"
+        onChange={(files) => {
+          send({
+            type: 'ON_INPUT_CHANGE',
+            inputName: 'attachments',
+            value: files,
+          });
+        }}
+        label={t(PageText.Contact.input.feedback.attachment)}
       />
     </SectionCard>
   );

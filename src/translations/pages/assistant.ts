@@ -106,6 +106,7 @@ const AssistantInternal = {
           _(`Fra ${place}`, `From ${place}`, `Frå ${place}`),
         unknownPlace: _('ukjent', 'unknown', 'ukjend'),
       },
+      quayPublicCodePrefix: _('', '', ''),
       details: _('Detaljer', 'Details', 'Detaljar'),
       hasSituationsTip: _(
         'Denne reisen har driftsmeldinger. Se detaljer for mer info',
@@ -244,13 +245,13 @@ const AssistantInternal = {
             'Foot legs only',
             'Heile reisa til fots',
           ),
-          noSwitching: _('Ingen bytter', 'No transfers', 'Ingen bytter'),
-          oneSwitch: _('Ett bytte', 'One transfer', 'Eitt bytte'),
+          noSwitching: _('Ingen bytter', 'No transfers', 'Ingen byte'),
+          oneSwitch: _('Ett bytte', 'One transfer', 'Eitt byte'),
           someSwitches: (switchCount: number) =>
             _(
               `${switchCount} bytter`,
               `${switchCount} transfers`,
-              `${switchCount} bytte`,
+              `${switchCount} byte`,
             ),
         },
         prefixedLineNumber: (number: string) =>
@@ -353,6 +354,7 @@ const AssistantInternal = {
           `${duration} reisetid`,
         ),
     },
+    quayPublicCodePrefix: _('', '', ''),
     mapSection: {
       travelTime: (time: string) =>
         _(
@@ -410,7 +412,7 @@ const AssistantInternal = {
       wait: {
         label: (time: string) =>
           _(`Vent i ${time}`, `Wait for ${time}`, `Vent i ${time}`),
-        shortTime: _('Kort byttetid', 'Short changeover time', 'Kort byttetid'),
+        shortTime: _('Kort byttetid', 'Short changeover time', 'Kort bytetid'),
       },
       intermediateStops: (count: number) =>
         _(
@@ -437,18 +439,18 @@ const AssistantInternal = {
           _(
             `Denne reisen krever reservasjon innen ${formattedTimeForBooking}.`,
             `This trip requires booking before ${formattedTimeForBooking}.`,
-            `Denne reisa krever reservasjon innen ${formattedTimeForBooking}.`,
+            `Denne reisa krev reservasjon innen ${formattedTimeForBooking}.`,
           ),
         needsBookingButIsTooEarly: (formattedTimeForBooking: string) =>
           _(
             `Denne reisen krever reservasjon og kan tidligst reserveres ${formattedTimeForBooking}.`,
             `This trip requires booking and can be booked no earlier than ${formattedTimeForBooking}.`,
-            `Denne reisa krever reservasjon og kan tidlegast reserverast ${formattedTimeForBooking}.`,
+            `Denne reisa krev reservasjon og kan tidlegast reserverast ${formattedTimeForBooking}.`,
           ),
         needsBookingButIsTooLate: _(
           `Denne reisen krever reservasjon. Frist for reservasjon har utløpt.`,
           `This trip requires booking. The booking deadline has expired.`,
-          `Denne reisa krever reservasjon. Frist for reservasjon har utgått.`,
+          `Denne reisa krev reservasjon. Frist for reservasjon har utgått.`,
         ),
         needsBookingWhatIsThis: (publicCode: string) =>
           _(
@@ -527,4 +529,62 @@ export const Assistant = orgSpecificTranslations(AssistantInternal, {
       },
     },
   },
+  farte: {
+    search: {
+      lineFilter: {
+        error: _(
+          'Linje må være kombinasjon av bokstav og tall, eller en liste av disse (f.eks. R1, P5, 601)',
+          'Line must be a combination of letters and numbers, or a list of these (e.g. R1, P5, 601)',
+          'Linje må vera kombinasjon av bokstav og tal, eller ei liste av desse (t.d. R1, P5, 601)',
+        ),
+
+        example: _(
+          'Eksempel: R1, P5, 601',
+          'Example: R1, P5, 601',
+          'Eksempel: R1, P5, 601',
+        ),
+      },
+    },
+    details: {
+      ticketBooking: {
+        globalMessage: _(
+          'Reisen krever billett som ikke er tilgjengelig i denne appen, eller som må kjøpes fra et annet selskap enn Farte.',
+          'This journey requires a ticket that is not available from this app, or must be purchased from a provider other than Farte.',
+          'Reisa krev billett som ikkje er tilgjengeleg i denne appen, eller som må kjøpast frå eit anna selskap enn Farte.',
+        ),
+      },
+    },
+  },
+  vkt: {
+    search: {
+      lineFilter: {
+        error: _(
+          'Linje må være kombinasjon av bokstav og tall, eller en liste av disse (f.eks. 03, 100, 113B)',
+          'Line must be a combination of letters and numbers, or a list of these (e.g. 03, 100, 113B)',
+          'Linje må vera kombinasjon av bokstav og tal, eller ei liste av desse (t.d. 03, 100, 113B)',
+        ),
+
+        example: _(
+          'Eksempel: 03, 100, 113B',
+          'Example: 03, 100, 113B',
+          'Eksempel: 03, 100, 113B',
+        ),
+      },
+    },
+    details: {
+      quayPublicCodePrefix: _(' - Spor ', ' - Track ', ' - Spor '),
+      ticketBooking: {
+        globalMessage: _(
+          'Billett til denne reisen kan ikke kjøpes hos VKT. Billett må kjøpes på nettside/app til aktuelt transportselskap.',
+          'Tickets for this journey cannot be purchased from VKT. Tickets must be purchased through the website/app of the relevant transport company.',
+          'Billett til denne reisa kan ikkje kjøpast hos VKT. Billett må kjøpast på nettside/app til aktuelt transportselskap.',
+        ),
+      },
+    },
+    trip: {
+      tripPattern: {
+        quayPublicCodePrefix: _(' - Spor ', ' - Track ', ' - Spor '),
+      }
+    }
+  }
 });

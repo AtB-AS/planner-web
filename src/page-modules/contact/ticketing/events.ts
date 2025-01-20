@@ -1,15 +1,10 @@
-import { TranslatedString } from '@atb/translations';
 import { commonEvents } from '../commoneEvents';
 import {
   AppForm,
   FormCategory,
   WebshopForm,
   TravelCardForm,
-  RefundForm,
 } from './ticketingStateMachine';
-
-export type RefundReason = { id: string; name: TranslatedString };
-export type TicketType = { id: string; name: TranslatedString };
 
 const ticketingSpecificFormEvents = {} as
   | {
@@ -20,12 +15,11 @@ const ticketingSpecificFormEvents = {} as
         | 'customerNumber'
         | 'travelCardNumber'
         | 'refundReason'
-        | 'ticketType'
         | 'amount'
         | 'isInitialAgreementChecked'
         | 'hasInternationalBankAccount'
         | 'showInputTravelCardNumber';
-      value: string | boolean | TicketType;
+      value: string | boolean;
     }
   | {
       type: 'ON_SET_STATE';
@@ -46,10 +40,6 @@ const ticketingSpecificFormEvents = {} as
   | {
       type: 'SELECT_TRAVELCARD_FORM';
       travelCardForm: TravelCardForm;
-    }
-  | {
-      type: 'SELECT_REFUND_FORM';
-      refundForm: RefundForm;
     }
   | {
       type: 'SUBMIT';

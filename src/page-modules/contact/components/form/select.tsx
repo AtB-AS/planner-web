@@ -39,7 +39,9 @@ export default function CustomeSelect<T>({
   const showError = !!error;
 
   const findItemFromOptions = (key: string) =>
-    options.find((option) => valueToId(option) === key.toLowerCase());
+    options.find(
+      (option) => valueToId(option).toLowerCase() === key.toLowerCase(),
+    );
 
   const onChangeInternal = (key: Key | null) => {
     if (key === null) return;

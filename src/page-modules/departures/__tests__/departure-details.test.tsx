@@ -4,6 +4,7 @@ import { afterEach, describe, expect, it } from 'vitest';
 import userEvent from '@testing-library/user-event';
 import { DeparturesDetails } from '../details';
 import { formatDestinationDisplay } from '../utils';
+import { GlobalMessageContextProvider } from '@atb/modules/global-messages';
 
 afterEach(function () {
   cleanup();
@@ -13,9 +14,15 @@ const serviceJourneyId = 'ATB:ServiceJourney:22_230306097862461_113';
 const date = '2023-11-10';
 const fromQuayId = 'NSR:Quay:74990';
 
+const customRender = (ui: React.ReactNode) => {
+  return render(
+    <GlobalMessageContextProvider>{ui}</GlobalMessageContextProvider>,
+  );
+};
+
 describe('departure details page', function () {
   it('should render correct header', () => {
-    const output = render(
+    const output = customRender(
       <DeparturesDetails
         fromQuayId={fromQuayId}
         serviceJourney={serviceJourneyFixture}
@@ -29,7 +36,7 @@ describe('departure details page', function () {
   });
 
   it('should not render passed quays', () => {
-    const output = render(
+    const output = customRender(
       <DeparturesDetails
         fromQuayId={fromQuayId}
         serviceJourney={serviceJourneyFixture}
@@ -56,7 +63,7 @@ describe('departure details page', function () {
   });
 
   it('should render passed departures when collapse button is clicked', async () => {
-    const output = render(
+    const output = customRender(
       <DeparturesDetails
         fromQuayId={fromQuayId}
         serviceJourney={serviceJourneyFixture}
@@ -91,7 +98,7 @@ describe('departure details page', function () {
       fromQuayIndex,
       serviceJourneyFixture.estimatedCalls.length,
     );
-    const output = render(
+    const output = customRender(
       <DeparturesDetails
         fromQuayId={fromQuayId}
         serviceJourney={serviceJourneyFixture}

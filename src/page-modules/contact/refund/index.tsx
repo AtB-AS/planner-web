@@ -6,10 +6,15 @@ import { Button } from '@atb/components/button';
 import style from '../contact.module.css';
 import { SectionCard, Radio } from '../components';
 import RefundAndTravelGuaranteeForms from './forms/refund-and-travel-guarantee';
+import RefundTicketForms from './forms/refund-ticket';
+import { ResidualValueOnTravelCard } from './forms/residualValueOnTravelCard';
 
 const RefundContent = () => {
   const { t } = useTranslation();
   const [state, send] = useMachine(refundStateMachine);
+  const displaySubmitButton =
+    state.context.formType &&
+    state.context.formType !== 'residualValueOnTravelCard';
 
   const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
@@ -37,11 +42,19 @@ const RefundContent = () => {
         </ul>
       </SectionCard>
 
+      {state.matches({ editing: 'refundOfTicket' }) && (
+        <RefundTicketForms state={state} send={send} />
+      )}
+
       {state.matches({ editing: 'refundAndTravelGuarantee' }) && (
         <RefundAndTravelGuaranteeForms state={state} send={send} />
       )}
 
-      {state.context.formType && (
+      {state.matches({ editing: 'residualValueOnTravelCard' }) && (
+        <ResidualValueOnTravelCard />
+      )}
+
+      {displaySubmitButton && (
         <Button
           title={t(PageText.Contact.submit)}
           mode={'interactive_0--bordered'}

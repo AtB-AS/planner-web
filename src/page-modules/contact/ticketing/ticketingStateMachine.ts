@@ -1,17 +1,17 @@
 import { assign, fromPromise, setup } from 'xstate';
-import { ticketingFormEvents, TicketType } from './events';
+import { ticketingFormEvents } from './events';
 import { commonInputValidator, InputErrorMessages } from '../validation';
 import {
   convertFilesToBase64,
   setBankAccountStatusAndResetBankInformation,
 } from '../utils';
+import { TicketType } from '../refund/events';
 
 export enum FormCategory {
   PriceAndTicketTypes = 'priceAndTicketTypes',
   App = 'app',
   Webshop = 'webshop',
   TravelCard = 'travelCard',
-  Refund = 'refund',
 }
 
 export enum AppForm {
@@ -30,11 +30,6 @@ export enum TravelCardForm {
   TravelCardQuestion = 'travelCardQuestion',
 }
 
-export enum RefundForm {
-  AppTicketRefund = 'appTicketRefund',
-  OtherTicketRefund = 'otherTicketRefund',
-}
-
 enum FormType {
   PriceAndTicketTypes = 'priceAndTicketTypes',
   AppTicketing = 'appTicketing',
@@ -44,8 +39,6 @@ enum FormType {
   WebshopAccount = 'webshopAccount',
   TravelCardQuestion = 'travelCardQuestion',
   OrderTravelCard = 'orderTravelCard',
-  AppTicketRefund = 'appTicketRefund',
-  OtherTicketRefund = 'otherTicketRefund',
 }
 
 type SubmitInput = {
@@ -56,18 +49,11 @@ type SubmitInput = {
   email?: string;
   phoneNumber?: string;
   address?: string;
-  postalCode?: string;
-  city?: string;
-  bankAccountNumber?: string;
-  IBAN?: string;
-  SWIFT?: string;
   question?: string;
   orderId?: string;
   customerNumber?: string;
   travelCardNumber?: string;
   ticketType?: TicketType;
-  refundReason?: string;
-  amount?: string;
 };
 
 export type TicketingContextType = {
@@ -78,21 +64,12 @@ export type TicketingContextType = {
   email?: string;
   phoneNumber?: string;
   address?: string;
-  postalCode?: string;
-  city?: string;
-  hasInternationalBankAccount: boolean;
-  bankAccountNumber?: string;
-  IBAN?: string;
-  SWIFT?: string;
   question?: string;
   orderId?: string;
   customerNumber?: string;
   travelCardNumber?: string;
   ticketType?: TicketType;
-  refundReason?: string;
-  amount?: string;
   isInitialAgreementChecked?: boolean;
-  showInputTravelCardNumber?: boolean;
   errorMessages: InputErrorMessages;
 };
 
@@ -103,21 +80,10 @@ const setInputsToValidate = (context: TicketingContextType) => {
     lastName,
     email,
     phoneNumber,
-    address,
-    postalCode,
-    city,
-    hasInternationalBankAccount,
-    bankAccountNumber,
-    IBAN,
-    SWIFT,
     question,
     orderId,
     customerNumber,
     travelCardNumber,
-    ticketType,
-    refundReason,
-    amount,
-    showInputTravelCardNumber,
   } = context;
 
   const commonAppFields = {
@@ -160,6 +126,7 @@ const setInputsToValidate = (context: TicketingContextType) => {
     case FormType.TravelCardQuestion:
       return {
         formType,
+        travelCardNumber,
         question,
         firstName,
         lastName,
@@ -172,34 +139,6 @@ const setInputsToValidate = (context: TicketingContextType) => {
 
     case FormType.WebshopAccount:
       return { formType, question, ...(!customerNumber && { email }) };
-
-    case FormType.AppTicketRefund:
-      return {
-        formType,
-        customerNumber,
-        orderId,
-      };
-
-    case FormType.OtherTicketRefund:
-      return {
-        formType,
-        ticketType,
-        ...(showInputTravelCardNumber
-          ? { travelCardNumber }
-          : { customerNumber }),
-        refundReason,
-        amount,
-        firstName,
-        lastName,
-        address,
-        postalCode,
-        city,
-        email,
-        phoneNumber,
-        ...(hasInternationalBankAccount
-          ? { IBAN, SWIFT }
-          : { bankAccountNumber }),
-      };
   }
 };
 
@@ -316,10 +255,6 @@ export const ticketingStateMachine = setup({
       target: '#travelCardFormHandler',
     },
 
-    SELECT_REFUND_FORM: {
-      target: '#refundFormHandler',
-    },
-
     SUBMIT: { target: '#validating' },
   },
   states: {
@@ -349,12 +284,6 @@ export const ticketingStateMachine = setup({
             event.type === 'SELECT_FORM_CATEGORY' &&
             event.formCategory === FormCategory.Webshop,
           target: `#${FormCategory.Webshop}`,
-        },
-        {
-          guard: ({ event }) =>
-            event.type === 'SELECT_FORM_CATEGORY' &&
-            event.formCategory === FormCategory.Refund,
-          target: `#${FormCategory.Refund}`,
         },
       ],
     },
@@ -414,23 +343,6 @@ export const ticketingStateMachine = setup({
             event.type === 'SELECT_TRAVELCARD_FORM' &&
             event.travelCardForm === TravelCardForm.OrderTravelCard,
           target: `#${TravelCardForm.OrderTravelCard}`,
-        },
-      ],
-    },
-    refundFormHandler: {
-      id: 'refundFormHandler',
-      always: [
-        {
-          guard: ({ event }) =>
-            event.type === 'SELECT_REFUND_FORM' &&
-            event.refundForm === RefundForm.AppTicketRefund,
-          target: `#${RefundForm.AppTicketRefund}`,
-        },
-        {
-          guard: ({ event }) =>
-            event.type === 'SELECT_REFUND_FORM' &&
-            event.refundForm === RefundForm.OtherTicketRefund,
-          target: `#${RefundForm.OtherTicketRefund}`,
         },
       ],
     },
@@ -518,27 +430,6 @@ export const ticketingStateMachine = setup({
             },
           },
         },
-        refund: {
-          id: 'refund',
-          initial: 'selectRefundForm',
-          entry: 'setFormTypeToUndefined',
-          exit: 'clearValidationErrors',
-          states: {
-            selectRefundForm: {},
-            appTicketRefund: {
-              id: 'appTicketRefund',
-              entry: assign({
-                formType: () => FormType.AppTicketRefund,
-              }),
-            },
-            otherTicketRefund: {
-              id: 'otherTicketRefund',
-              entry: assign({
-                formType: () => FormType.OtherTicketRefund,
-              }),
-            },
-          },
-        },
         history: {
           type: 'history',
           history: 'deep',
@@ -571,18 +462,11 @@ export const ticketingStateMachine = setup({
           email: context.email,
           phoneNumber: context.phoneNumber,
           address: context.address,
-          postalCode: context.postalCode,
-          city: context.city,
-          bankAccountNumber: context.bankAccountNumber,
-          IBAN: context.IBAN,
-          SWIFT: context.SWIFT,
           question: context.question,
           orderId: context.orderId,
           customerNumber: context.customerNumber,
           travelCardNumber: context.travelCardNumber,
           ticketType: context.ticketType,
-          refundReason: context.refundReason,
-          amount: context.amount,
         }),
 
         onDone: {

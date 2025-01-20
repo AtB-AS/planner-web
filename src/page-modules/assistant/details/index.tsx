@@ -14,6 +14,7 @@ import { useRouter } from 'next/router';
 import { tripQueryStringToQueryParams } from './utils';
 import { MessageBox } from '@atb/components/message-box';
 import { getBookingStatus } from '@atb/modules/flexible/utils';
+import { GlobalMessageContextEnum, GlobalMessages } from '@atb/modules/global-messages';
 
 export type AssistantDetailsProps = {
   tripPattern: TripPatternWithDetails;
@@ -79,6 +80,7 @@ export function AssistantDetails({ tripPattern }: AssistantDetailsProps) {
           </div>
         </div>
       </div>
+      <GlobalMessages className={style.tripMessages} context={GlobalMessageContextEnum.plannerWebDetails} />
       <div className={style.tripContainer}>
         {requireTicketBooking && (
           <MessageBox
@@ -95,6 +97,7 @@ export function AssistantDetails({ tripPattern }: AssistantDetailsProps) {
             interchangeDetails={getInterchangeDetails(
               tripPattern.legs,
               leg.interchangeTo?.toServiceJourney.id,
+              t
             )}
             legWaitDetails={getLegWaitDetails(leg, tripPattern.legs[index + 1])}
           />

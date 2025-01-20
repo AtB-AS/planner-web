@@ -1,8 +1,7 @@
 import {
-  RefundReason,
+  ReasonForTransportFailure,
   TicketType,
-} from '@atb/page-modules/contact/ticketing/events';
-import { ReasonForTransportFailure } from '@atb/page-modules/contact/refund/events';
+} from '@atb/page-modules/contact/refund/events';
 import { translation as _ } from '@atb/translations/commons';
 import { orgSpecificTranslations } from '../utils';
 
@@ -214,6 +213,46 @@ const ContactInternal = {
       },
     },
 
+    residualValueOnTravelCard: {
+      description: _(
+        'Restverdi på reisekort (reisepenger)',
+        'Residual value on travel card (travel allowance)',
+        'Restverdi på reisekort (reisepengar)',
+      ),
+
+      title: _(
+        'Søk refusjon av restverdien på et reisekort',
+        'Apply for a refund of the residual value on a travel card',
+        'Søk refusjon av restverdien på eit reisekort',
+      ),
+
+      link: {
+        text: _(
+          'Skjema for refusjon av restverdien på et reisekort',
+          'Form for refund of residual value on a travel card',
+          'Skjema for refusjon av restverdien på eit reisekort',
+        ),
+        href: _(
+          'https://forms.office.com/Pages/ResponsePage.aspx?id=5-wyud-clE20wRUlbkPH6qGF2mFbrapOg9lnALAiJk9UMkROS0dORUdaTTZURzJHNFNSSVhVTzE4Ti4u',
+          'https://forms.office.com/Pages/ResponsePage.aspx?id=5-wyud-clE20wRUlbkPH6qGF2mFbrapOg9lnALAiJk9UMkROS0dORUdaTTZURzJHNFNSSVhVTzE4Ti4u',
+          'https://forms.office.com/Pages/ResponsePage.aspx?id=5-wyud-clE20wRUlbkPH6qGF2mFbrapOg9lnALAiJk9UMkROS0dORUdaTTZURzJHNFNSSVhVTzE4Ti4u',
+        ),
+      },
+      monthlyPayoutDetails: _(
+        'Restverdien blir betalt ut i slutten av hver måned (med forbehold). Hvis du har flere reisekort du vil ha refundert, må du sende inn ett skjema per reisekort.',
+        'The residual value is paid out at the end of each month (with reservations). If you have multiple travel cards that you want refunded, you must submit one form per travel card.',
+        'Restverdien blir betalt ut i slutten av kvar månad (med atterhald). Viss du har fleire reisekort du vil ha refundert, må du sende inn eitt skjema per reisekort.',
+      ),
+      automatedProcessNotice: {
+        note: _('Merk!', 'Note!', 'Merk!'),
+        text: _(
+          'Dette skjemaet gjelder bare for refusjon av restverdi på reisekort. Det er en automatisert prosess som bare fungerer for denne typen refusjon.',
+          'This form only applies to refunds of residual value on travel cards. It is an automated process that only works for this type of refund.',
+          'Dette skjemaet gjeld berre for refusjon av restverdi på reisekort. Det er ein automatisert prosess som berre fungerar for denne typen refusjon.',
+        ),
+      },
+    },
+
     agreement: {
       title: _(
         'Refusjon og reisegaranti',
@@ -275,7 +314,7 @@ const ContactInternal = {
               _(
                 'ekstraordinære værforhold',
                 'extraordinary weather conditions',
-                'ekstraordinære verforhold',
+                'ekstraordinære vêrforhold',
               ),
               _(
                 'vegarbeid eller uforutsette problemer med kjøreveien',
@@ -1323,10 +1362,25 @@ const ContactInternal = {
         'What is the reason you want a refund?',
         'Kva er grunnen til at du ønsker refusjon?',
       ),
-      optionLabel: _(
-        'Velg grunnen for refusjonen',
-        'Select reason for the refund',
-        'Vel grunn for refusjon',
+      errorMessages: {
+        empty: _(
+          'Grunn for refusjon mangler',
+          'Reason for refund is missing',
+          'Grunn for refusjon manglar',
+        ),
+      },
+    },
+
+    ticketType: {
+      labelRefund: _(
+        'Refusjonen for billett',
+        'Refund for the ticket',
+        'Refusjonen for billett',
+      ),
+      optionLabelRefund: _(
+        'Velg billett for refusjonen',
+        'Select ticket for the refund',
+        'Vel billett for refusjon',
       ),
       options: [
         {
@@ -1357,52 +1411,12 @@ const ContactInternal = {
           id: 'framSenior',
           name: _('FRAM Honnør', 'FRAM Honnør', 'FRAM Honnør'),
         },
-      ] as RefundReason[],
-      errorMessages: {
-        empty: _(
-          'Grunn for refusjon mangler',
-          'Reason for refund is missing',
-          'Grunn for refusjon manglar',
-        ),
-      },
-    },
-
-    ticketType: {
-      tickets: [
-        {
-          id: 'singleTicket',
-          name: _('Enkeltbillett', 'Single ticket', 'Enkeltbillett'),
-        },
-        {
-          id: 'periodTicket',
-          name: _(
-            'Periodebillett (sonebasert)',
-            'Period ticket (zone-based)',
-            'Periodebillett (sonebasert)',
-          ),
-        },
-        {
-          id: 'framYoung',
-          name: _('FRAM Ung', 'FRAM Ung', 'FRAM Ung'),
-        },
-        {
-          id: 'framStudent',
-          name: _('FRAM Student', 'FRAM Student', 'FRAM Student'),
-        },
-        {
-          id: 'framAdult',
-          name: _('FRAM Vaksen', 'FRAM Vaksen', 'FRAM Vaksen'),
-        },
-        {
-          id: 'framSenior',
-          name: _('FRAM HONNØR', 'FRAM HONNØR', 'FRAM HONNØR'),
-        },
       ] as TicketType[],
       errorMessages: {
         empty: _(
-          'Grunn for refusjon mangler',
-          'Reason for refund is missing',
-          'Grunn for refusjon mangler',
+          'Billett for refusjon mangler',
+          'Ticket for refund is missing',
+          'Billett for refusjon manglar',
         ),
       },
     },
@@ -1470,7 +1484,7 @@ const ContactInternal = {
         _(
           `Mer informasjon om ${inputName}`,
           `More information about ${inputName}`,
-          `Mer informasjon om ${inputName}`,
+          `Meir informasjon om ${inputName}`,
         ),
 
       close: (inputName: string) =>

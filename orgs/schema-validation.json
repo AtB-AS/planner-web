@@ -19,6 +19,10 @@
             },
             "replaceTitleWithLogoInHeader": {
               "type": "boolean"
+            },
+            "forceTheme": {
+              "type": "string",
+              "enum": ["light", "dark"]
             }
           },
           "required": ["name", "logoSrc", "logoSrcDark"],

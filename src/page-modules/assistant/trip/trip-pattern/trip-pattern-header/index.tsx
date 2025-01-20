@@ -9,6 +9,7 @@ import { RailReplacementBusMessage } from './rail-replacement-bus';
 import { SituationOrNoticeIcon } from '@atb/modules/situations';
 import { isSubModeBoat } from '@atb/modules/transport-mode';
 import { ColorIcon } from '@atb/components/icon';
+import { Assistant } from '@atb/translations/pages';
 
 type TripPatternHeaderProps = {
   tripPattern: TripPattern;
@@ -70,9 +71,9 @@ export function getStartModeAndPlaceText(
 
   if (tripPattern.legs[0].mode === 'foot' && tripPattern.legs[1]) {
     startLeg = tripPattern.legs[1];
-    tmpStartName = getQuayName(startLeg.fromPlace.quay);
+    tmpStartName = getQuayName(startLeg.fromPlace.quay, t);
   } else if (tripPattern.legs[0].mode !== 'foot') {
-    tmpStartName = getQuayName(startLeg.fromPlace.quay);
+    tmpStartName = getQuayName(startLeg.fromPlace.quay, t);
   }
 
   const startName: string =
@@ -117,8 +118,12 @@ export function getStartModeAndPlaceText(
   }
 }
 
-export function getQuayName(quay: Quay | null): string | null {
+export function getQuayName(
+  quay: Quay | null,
+  t: TranslateFunction,
+): string | null {
   if (!quay) return null;
   if (!quay.publicCode) return quay.name;
-  return `${quay.name} ${quay.publicCode}`;
+  const prefix = t(Assistant.trip.tripPattern.quayPublicCodePrefix);
+  return `${quay.name}${prefix ? prefix : ' '}${quay.publicCode}`;
 }
