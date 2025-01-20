@@ -1,0 +1,8 @@
+{
+  "name": "planner-web-perf-test",
+  "version": "0.0.1",
+  "license": "EUPL-1.2",
+  "devDependencies": {
+    "@types/k6": "0.54.2"
+  }
+}

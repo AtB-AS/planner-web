@@ -63,6 +63,7 @@ function DeparturesLayout({ children, fromQuery }: DeparturesLayoutProps) {
               placeholder={t(PageText.Departures.search.input.placeholder)}
               selectedItem={fromQuery.from ?? undefined}
               onChange={onSelectFeature}
+              testID="searchFrom"
               button={
                 <GeolocationButton
                   className={style.geolocationButton}
