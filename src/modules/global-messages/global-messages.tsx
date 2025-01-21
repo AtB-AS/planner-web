@@ -13,7 +13,7 @@ export type GlobalMessagesProps = {
 
 export function GlobalMessages({ context, className }: GlobalMessagesProps) {
   const { language } = useTranslation();
-  const { activeGlobalMessages } = useActiveGlobalMessages();
+  const { activeGlobalMessages, dismissGlobalMessage } = useActiveGlobalMessages();
 
   if (!activeGlobalMessages.length) return null;
 
@@ -47,6 +47,7 @@ export function GlobalMessages({ context, className }: GlobalMessagesProps) {
               title={getTextForLanguage(message.title, language)}
               message={getTextForLanguage(message.body, language) ?? ''}
               subtle={message.subtle}
+              onDismiss={message.isDismissable ? () => dismissGlobalMessage(message) : undefined }
             />
           </motion.div>
         ))}
