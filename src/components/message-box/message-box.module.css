@@ -1,7 +1,9 @@
 .container {
   display: flex;
-  padding: token('spacing.medium');
+  padding: token('spacing.large');
+  gap: token('spacing.medium');
   border: token('border.width.medium') solid;
+  align-items: flex-start;
 }
 .borderRadius {
   border-radius: token('border.radius.regular');
@@ -14,17 +16,18 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  flex-grow: 1;
+  gap: token('spacing.small');
 }
-.title {
-  margin-bottom: token('spacing.small');
-  padding: token('spacing.small');
+
+.message__close {
+  border: 0;
+  background: 0;
+  display: block;
+  padding: 0 token('spacing.medium');
+  cursor: pointer;
 }
-.body {
-  padding: token('spacing.small');
-}
-.messageBox__button {
-  padding: token('spacing.small');
-}
-.icon {
-  margin-top: token('spacing.small');
+
+.message__close img {
+  display: block;
 }

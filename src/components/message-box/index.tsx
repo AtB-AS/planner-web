@@ -21,6 +21,7 @@ export type MessageBoxProps = {
   message: string;
   noStatusIcon?: boolean;
   onClick?: () => void;
+  onDismiss?: () => void;
   borderRadius?: boolean;
   subtle?: boolean;
 };
@@ -32,6 +33,7 @@ export const MessageBox = ({
   textId,
   title,
   onClick,
+  onDismiss,
   borderRadius = true,
   subtle = false
 }: MessageBoxProps) => {
@@ -58,23 +60,13 @@ export const MessageBox = ({
     >
       {!noStatusIcon && (
         <MonoIcon
-          className={style.icon}
           icon={messageTypeToMonoIcon(type)}
           overrideMode={overrideMode}
         />
       )}
       <div className={style.content}>
-        {title && (
-          <Typo.h2 className={style.title} textType="body__primary--bold">
-            {title}
-          </Typo.h2>
-        )}
-        <Typo.p
-          className={style.body}
-          textType="body__primary"
-          id={textId}
-          {...aria}
-        >
+        {title && <Typo.h2 textType="body__primary--bold">{title}</Typo.h2>}
+        <Typo.p textType="body__primary" id={textId} {...aria}>
           {message}
         </Typo.p>
         {onClick && (
@@ -82,7 +74,6 @@ export const MessageBox = ({
             mode="transparent--underline"
             onClick={() => onClick()}
             title={t(dictionary.readMore)}
-            className={style.messageBox__button}
             size="compact"
             buttonProps={{
               'aria-label': `${message}${screenReaderPause}${t(
@@ -92,6 +83,19 @@ export const MessageBox = ({
           />
         )}
       </div>
+      {onDismiss && (
+        <button
+          type="button"
+          onClick={onDismiss}
+          className={style.message__close}
+        >
+          <MonoIcon
+            icon="actions/Close"
+            aria-label={t(dictionary.close)}
+            overrideMode={overrideMode}
+          />
+        </button>
+      )}
     </div>
   );
 };
