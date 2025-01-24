@@ -21,8 +21,11 @@ module.exports = {
   generateIndexSitemap: false,
   sitemapSize: 7000,
   generateRobotsTxt: true,
-  robosTxtOptions: {
-    policies: [{ userAgent: '*', allow: '/' }],
+  robotsTxtOptions: {
+    policies:
+      environment === 'production'
+        ? [{ userAgent: '*', allow: '/' }]
+        : [{ userAgent: '*', disallow: '/' }],
   },
 
   // Adds path as it doesn't support dynamic routes.
