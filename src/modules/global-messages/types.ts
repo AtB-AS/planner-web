@@ -8,6 +8,13 @@ const messageModeSchema = z.union([
   z.literal('error'),
 ]);
 
+/**
+ * Defines **valid** and **relevant** values for the context field
+ *
+ * There are other possible values for this enum, but only the relevant values
+ * for the planner-web are listed here. Others are filtered out in the
+ * globalMessageTypeSchema.context below.
+ */
 export enum GlobalMessageContextEnum {
   plannerWeb = 'planner-web',
   plannerWebDepartures = 'planner-web-departures',
@@ -23,7 +30,15 @@ export const globalMessageTypeSchema = z.object({
   body: z.array(languageAndTextSchema),
   type: messageModeSchema,
   subtle: z.boolean().default(false),
-  context: z.array(z.nativeEnum(GlobalMessageContextEnum)),
+  context: z
+    .array(z.string())
+    .transform((arr) =>
+      arr.filter((val): val is GlobalMessageContextEnum =>
+        Object.values(GlobalMessageContextEnum).includes(
+          val as GlobalMessageContextEnum,
+        ),
+      ),
+    ),
   isDismissable: z.boolean().default(false),
   startDate: z.date().optional(),
   endDate: z.date().optional(),
