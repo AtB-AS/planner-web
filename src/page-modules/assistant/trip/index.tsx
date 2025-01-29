@@ -1,4 +1,5 @@
 import {
+  daysBetween,
   formatToSimpleDate,
   formatToWeekday,
   parseIfNeeded,
@@ -17,7 +18,11 @@ import TripPattern from './trip-pattern';
 import EmptySearch from '@atb/components/loading-empty-results';
 import { LoadingIcon } from '@atb/components/loading';
 import ScreenReaderOnly from '@atb/components/screen-reader-only';
-import { GlobalMessageContextEnum, GlobalMessages } from '@atb/modules/global-messages';
+import {
+  GlobalMessageContextEnum,
+  GlobalMessages,
+} from '@atb/modules/global-messages';
+import dictionary from '@atb/translations/dictionary.ts';
 
 export type TripProps = {
   tripQuery: FromToTripQuery;
@@ -89,7 +94,10 @@ export default function Trip({ tripQuery, fallback }: TripProps) {
 
   return (
     <>
-      <ScreenReaderOnly text={t(PageText.Assistant.trip.resultsFound)} role='status' />
+      <ScreenReaderOnly
+        text={t(PageText.Assistant.trip.resultsFound)}
+        role="status"
+      />
 
       <GlobalMessages context={GlobalMessageContextEnum.plannerWebTrip} />
       <div className={style.tripResults}>
@@ -151,20 +159,26 @@ type DayLabelProps = {
   previousDepartureTime?: string;
 };
 function DayLabel({ departureTime, previousDepartureTime }: DayLabelProps) {
-  const { language } = useTranslation();
+  const { t, language } = useTranslation();
   const isFirst = !previousDepartureTime;
   const departureDate = parseIfNeeded(departureTime);
   const prevDate = !previousDepartureTime
     ? new Date()
     : parseIfNeeded(previousDepartureTime);
+  const daysDifference = daysBetween(new Date(), departureDate);
 
   const weekDay = capitalize(formatToWeekday(departureDate, language, 'eeee'));
   const simpleDate = formatToSimpleDate(departureDate, language);
 
+  const dayLabel =
+    daysDifference < 3
+      ? capitalize(t(dictionary.date.relativeDayNames(daysDifference)))
+      : `${weekDay} ${simpleDate}`;
+
   if (isFirst || !isSameDay(prevDate, departureDate)) {
     return (
       <Typo.p textType="heading--medium" className={style.dayLabel}>
-        {`${weekDay} ${simpleDate}`}
+        {dayLabel}
       </Typo.p>
     );
   }

@@ -53,7 +53,6 @@ function DeparturesLayout({ children, fromQuery }: DeparturesLayoutProps) {
       <form className={style.container} onSubmit={onSubmitHandler}>
         <div className={style.main}>
           <TabLink activePath="/departures" />
-
           <div className={style.input}>
             <Typo.h2 textType="body__primary--bold" className={style.heading}>
               {t(PageText.Departures.search.input.label)}
