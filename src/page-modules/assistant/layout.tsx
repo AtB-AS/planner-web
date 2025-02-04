@@ -33,7 +33,6 @@ import useSWRImmutable from 'swr/immutable';
 import { debounce } from 'lodash';
 import LineFilter from './line-filter';
 import { useTheme } from '@atb/modules/theme';
-import { HomeLinkWithGlobalMessageLayout } from '@atb/layouts/shared/home-link-with-global-message-layout';
 
 export type AssistantLayoutProps = PropsWithChildren<{
   tripQuery: FromToTripQuery;
@@ -137,7 +136,7 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
   ]);
 
   return (
-    <HomeLinkWithGlobalMessageLayout>
+    <div>
       <form className={style.container} onSubmit={onSubmitHandler}>
         <motion.div
           animate={{ paddingBottom: showAlternatives ? '1.5rem' : '5.75rem' }}
@@ -295,7 +294,7 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
           {children}
         </EmptySearch>
       </section>
-    </HomeLinkWithGlobalMessageLayout>
+    </div>
   );
 }
 export default AssistantLayout;

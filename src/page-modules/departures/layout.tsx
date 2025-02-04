@@ -49,7 +49,7 @@ function DeparturesLayout({ children, fromQuery }: DeparturesLayoutProps) {
   const { orgId } = getOrgData();
 
   return (
-    <HomeLinkWithGlobalMessageLayout>
+    <div>
       <form className={style.container} onSubmit={onSubmitHandler}>
         <div className={style.main}>
           <TabLink activePath="/departures" />
@@ -116,7 +116,7 @@ function DeparturesLayout({ children, fromQuery }: DeparturesLayoutProps) {
           {children}
         </LoadingEmptySearch>
       </section>
-    </HomeLinkWithGlobalMessageLayout>
+    </div>
   );
 }
 

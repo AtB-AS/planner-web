@@ -6,7 +6,7 @@
 
   --ws-colors-header-border-bottom: #ffffff;
 
-  --maxPageWidth: 1024px;
+  --maxPageWidth: 976px;
   --contentPadding: token('spacing.xLarge');
 }
 

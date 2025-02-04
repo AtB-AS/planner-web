@@ -1,12 +1,12 @@
 import DefaultLayout from '@atb/layouts/default';
 import { withGlobalData, type WithGlobalData } from '@atb/layouts/global-data';
 import {
-  DeparturesLayout,
-  NearestStopPlaces,
-  StopPlace,
   type DepartureData,
+  DeparturesLayout,
   type DeparturesLayoutProps,
+  NearestStopPlaces,
   type NearestStopPlacesProps,
+  StopPlace,
 } from '@atb/page-modules/departures';
 import { fetchFromDepartureQuery } from '@atb/page-modules/departures/fetch-departure-query';
 import { withDepartureClient } from '@atb/page-modules/departures/server';
@@ -14,6 +14,10 @@ import { FromDepartureQuery } from '@atb/page-modules/departures/types';
 import { PageText, TranslatedString } from '@atb/translations';
 import type { NextPage } from 'next';
 import { encode } from 'querystring';
+import {
+  GlobalMessageContextEnum,
+  GlobalMessages,
+} from '@atb/modules/global-messages';
 
 type DeparturesStopPlaceProps = {
   stopPlace: true;
@@ -50,6 +54,7 @@ const DeparturesPage: NextPage<DeparturesPageProps> = (props) => {
   return (
     <DefaultLayout {...props} title={getDepartureTitle(props)}>
       <DeparturesLayout {...props}>
+        <GlobalMessages context={GlobalMessageContextEnum.plannerWeb} />
         <DeparturesRouting {...props} />
       </DeparturesLayout>
     </DefaultLayout>
