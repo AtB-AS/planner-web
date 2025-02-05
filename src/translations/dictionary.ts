@@ -30,7 +30,7 @@ const dictionary = {
         case 1:
           return _('i morgen', 'tomorrow', 'i morgon');
         case 2:
-          return _('i overmorgen', 'the day after tomorrow', 'i overmorgon');
+          return _('i overmorgen', 'day after tomorrow', 'i overmorgon');
         default:
           if (daysDifference < 0) {
             return _(
@@ -57,7 +57,7 @@ const dictionary = {
   readMore: _('Les mer', 'Read more', `Les meir`),
   close: _('Lukk', 'Close', 'Lukk'),
   listConcatWord: _('og', 'and', 'og'),
-  via: _('via', 'via', 'via')
+  via: _('via', 'via', 'via'),
 };
 
 export default orgSpecificTranslations(dictionary, {

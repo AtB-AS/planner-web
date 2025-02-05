@@ -1,7 +1,6 @@
 import {
   daysBetween,
   formatToSimpleDate,
-  formatToWeekday,
   parseIfNeeded,
 } from '@atb/utils/date';
 import style from './trip.module.css';
@@ -167,13 +166,14 @@ function DayLabel({ departureTime, previousDepartureTime }: DayLabelProps) {
     : parseIfNeeded(previousDepartureTime);
   const daysDifference = daysBetween(new Date(), departureDate);
 
-  const weekDay = capitalize(formatToWeekday(departureDate, language, 'eeee'));
   const simpleDate = formatToSimpleDate(departureDate, language);
 
-  const dayLabel =
-    daysDifference < 3
-      ? capitalize(t(dictionary.date.relativeDayNames(daysDifference)))
-      : `${weekDay} ${simpleDate}`;
+  let dayLabel = simpleDate;
+  if (daysDifference === 0) {
+    dayLabel = capitalize(t(dictionary.date.relativeDayNames(daysDifference)));
+  } else if (daysDifference < 3) {
+    dayLabel = `${capitalize(t(dictionary.date.relativeDayNames(daysDifference)))} ${simpleDate}`;
+  }
 
   if (isFirst || !isSameDay(prevDate, departureDate)) {
     return (
