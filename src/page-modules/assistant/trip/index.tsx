@@ -172,7 +172,7 @@ function DayLabel({ departureTime, previousDepartureTime }: DayLabelProps) {
   if (daysDifference === 0) {
     dayLabel = capitalize(t(dictionary.date.relativeDayNames(daysDifference)));
   } else if (daysDifference < 3) {
-    dayLabel = `${capitalize(t(dictionary.date.relativeDayNames(daysDifference)))} ${simpleDate}`;
+    dayLabel = `${capitalize(t(dictionary.date.relativeDayNames(daysDifference)))} - ${simpleDate}`;
   }
 
   if (isFirst || !isSameDay(prevDate, departureDate)) {
