@@ -34,7 +34,6 @@ const AssistantPage: NextPage<AssistantPageProps> = (props) => {
   return (
     <DefaultLayout {...props}>
       <AssistantLayout {...props}>
-        <GlobalMessages context={GlobalMessageContextEnum.plannerWeb} />
         <AssistantContent {...props} />
       </AssistantLayout>
     </DefaultLayout>

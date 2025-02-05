@@ -54,7 +54,6 @@ const DeparturesPage: NextPage<DeparturesPageProps> = (props) => {
   return (
     <DefaultLayout {...props} title={getDepartureTitle(props)}>
       <DeparturesLayout {...props}>
-        <GlobalMessages context={GlobalMessageContextEnum.plannerWeb} />
         <DeparturesRouting {...props} />
       </DeparturesLayout>
     </DefaultLayout>

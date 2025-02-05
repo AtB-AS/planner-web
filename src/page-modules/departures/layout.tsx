@@ -15,6 +15,10 @@ import { createFromQuery } from './utils';
 import { TabLink } from '@atb/components/tab-link';
 import { logSpecificEvent } from '@atb/modules/firebase/analytics';
 import { getOrgData } from '@atb/modules/org-data';
+import {
+  GlobalMessageContextEnum,
+  GlobalMessages,
+} from '@atb/modules/global-messages';
 
 export type DeparturesLayoutProps = PropsWithChildren<{
   fromQuery: FromDepartureQuery;
@@ -107,6 +111,7 @@ function DeparturesLayout({ children, fromQuery }: DeparturesLayoutProps) {
       </form>
 
       <section className={style.contentContainer}>
+        <GlobalMessages context={GlobalMessageContextEnum.plannerWeb} />
         <LoadingEmptySearch
           isSearching={isSearching}
           isGeolocationError={geolocationError !== null}

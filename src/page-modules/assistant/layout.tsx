@@ -33,6 +33,10 @@ import useSWRImmutable from 'swr/immutable';
 import { debounce } from 'lodash';
 import LineFilter from './line-filter';
 import { useTheme } from '@atb/modules/theme';
+import {
+  GlobalMessageContextEnum,
+  GlobalMessages,
+} from '@atb/modules/global-messages';
 
 export type AssistantLayoutProps = PropsWithChildren<{
   tripQuery: FromToTripQuery;
@@ -286,6 +290,7 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
       </form>
 
       <section className={style.contentContainer}>
+        <GlobalMessages context={GlobalMessageContextEnum.plannerWeb} />
         <EmptySearch
           isSearching={false}
           isGeolocationError={geolocationError !== null}
