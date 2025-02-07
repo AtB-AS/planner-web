@@ -31,54 +31,24 @@ export default function TripPattern({
   testId,
 }: TripPatternProps) {
   const { t, language } = useTranslation();
-
-  const filteredLegs = getFilteredLegsByWalkOrWaitTime(tripPattern);
   const router = useRouter();
 
-  const [numberOfExpandedLegs, setNumberOfExpandedLegs] = useState(
-    filteredLegs.length,
-  );
-
-  const expandedLegs = filteredLegs.slice(0, numberOfExpandedLegs);
-  const collapsedLegs = filteredLegs.slice(
-    numberOfExpandedLegs,
-    filteredLegs.length,
-  );
-
-  const [legsParentWidth, legsParentRef] = useClientWidth<HTMLDivElement>();
-  const [legsContentWidth, legsContentRef] = useClientWidth<HTMLDivElement>();
-
-  // Dynamically collapse legs to fit horizontally
-  useEffect(() => {
-    if (legsParentWidth && legsContentWidth) {
-      if (legsContentWidth >= legsParentWidth - LAST_LEG_PADDING) {
-        setNumberOfExpandedLegs((val) => Math.max(val - 1, 1));
-      }
-      // TODO: Increase expanded legs if there is space?
-    }
-  }, [legsParentWidth, legsContentWidth]);
-
-  const tripIsInPast = isInPast(tripPattern.legs[0].expectedStartTime);
+  const {
+    collapsedLegs,
+    expandedLegs,
+    isCancelled,
+    isNotLastLeg,
+    legsParentRef,
+    legsContentRef,
+    staySeated,
+    tripIsInPast,
+  } = useTripPatternController({ tripPattern });
 
   const maxOpacity = tripIsInPast ? 0.7 : 1;
-
-  const isCancelled = tripPattern.legs.some(
-    (leg) => leg.fromEstimatedCall?.cancellation,
-  );
-
   const className = andIf({
     [style.tripPattern]: true,
     [style['tripPattern--old']]: tripIsInPast,
   });
-
-  const staySeated = (idx: number) => {
-    const leg = expandedLegs[idx];
-    return leg && leg.interchangeTo?.staySeated === true;
-  };
-
-  const isNotLastLeg = (i: number) => {
-    return i < expandedLegs.length - 1 || collapsedLegs.length > 0;
-  };
 
   return (
     <motion.a
@@ -214,4 +184,62 @@ export default function TripPattern({
       </footer>
     </motion.a>
   );
+}
+
+function useTripPatternController({
+  tripPattern,
+}: {
+  tripPattern: TripPatternType;
+}) {
+  const filteredLegs = getFilteredLegsByWalkOrWaitTime(tripPattern);
+  const router = useRouter();
+
+  const [numberOfExpandedLegs, setNumberOfExpandedLegs] = useState(
+    filteredLegs.length,
+  );
+
+  const expandedLegs = filteredLegs.slice(0, numberOfExpandedLegs);
+  const collapsedLegs = filteredLegs.slice(
+    numberOfExpandedLegs,
+    filteredLegs.length,
+  );
+
+  const [legsParentWidth, legsParentRef] = useClientWidth<HTMLDivElement>();
+  const [legsContentWidth, legsContentRef] = useClientWidth<HTMLDivElement>();
+
+  // Dynamically collapse legs to fit horizontally
+  useEffect(() => {
+    if (legsParentWidth && legsContentWidth) {
+      if (legsContentWidth >= legsParentWidth - LAST_LEG_PADDING) {
+        setNumberOfExpandedLegs((val) => Math.max(val - 1, 1));
+      }
+      // TODO: Increase expanded legs if there is space?
+    }
+  }, [legsParentWidth, legsContentWidth]);
+
+  const tripIsInPast = isInPast(tripPattern.legs[0].expectedStartTime);
+
+  const isCancelled = tripPattern.legs.some(
+    (leg) => leg.fromEstimatedCall?.cancellation,
+  );
+
+  const staySeated = (idx: number) => {
+    const leg = expandedLegs[idx];
+    return leg && leg.interchangeTo?.staySeated === true;
+  };
+
+  const isNotLastLeg = (i: number) => {
+    return i < expandedLegs.length - 1 || collapsedLegs.length > 0;
+  };
+
+  return {
+    collapsedLegs,
+    expandedLegs,
+    isCancelled,
+    isNotLastLeg,
+    legsParentRef,
+    legsContentRef,
+    staySeated,
+    tripIsInPast,
+  };
 }
