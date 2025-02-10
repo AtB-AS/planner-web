@@ -69,7 +69,9 @@ export type TicketingContextType = {
   customerNumber?: string;
   travelCardNumber?: string;
   ticketType?: TicketType;
-  isInitialAgreementChecked?: boolean;
+  hasInternationalBankAccount: boolean;
+  isInitialAgreementChecked: boolean;
+  showInputTravelCardNumber: boolean;
   errorMessages: InputErrorMessages;
 };
 
@@ -153,6 +155,38 @@ export const ticketingStateMachine = setup({
       const errors = commonInputValidator(inputsToValidate);
       return Object.keys(errors).length === 0;
     },
+    isPriceAndTicketTypes: ({ event }) =>
+      event.type === 'SELECT_FORM_CATEGORY' &&
+      event.formCategory === FormCategory.PriceAndTicketTypes,
+    isApp: ({ event }) =>
+      event.type === 'SELECT_FORM_CATEGORY' &&
+      event.formCategory === FormCategory.App,
+    isTravelCard: ({ event }) =>
+      event.type === 'SELECT_FORM_CATEGORY' &&
+      event.formCategory === FormCategory.TravelCard,
+    isWebshop: ({ event }) =>
+      event.type === 'SELECT_FORM_CATEGORY' &&
+      event.formCategory === FormCategory.Webshop,
+    isAppAccount: ({ event }) =>
+      event.type === 'SELECT_APP_FORM' && event.appForm === AppForm.AppAccount,
+    isAppTicketing: ({ event }) =>
+      event.type === 'SELECT_APP_FORM' &&
+      event.appForm === AppForm.AppTicketing,
+    isAppTravelSuggestion: ({ event }) =>
+      event.type === 'SELECT_APP_FORM' &&
+      event.appForm === AppForm.AppTravelSuggestion,
+    isWebshopTicketing: ({ event }) =>
+      event.type === 'SELECT_WEBSHOP_FORM' &&
+      event.webshopForm === WebshopForm.WebshopTicketing,
+    isWebshopAccount: ({ event }) =>
+      event.type === 'SELECT_WEBSHOP_FORM' &&
+      event.webshopForm === WebshopForm.WebshopAccount,
+    isTravelCardQuestion: ({ event }) =>
+      event.type === 'SELECT_TRAVELCARD_FORM' &&
+      event.travelCardForm === TravelCardForm.TravelCardQuestion,
+    isOrderTravelCard: ({ event }) =>
+      event.type === 'SELECT_TRAVELCARD_FORM' &&
+      event.travelCardForm === TravelCardForm.OrderTravelCard,
   },
   actions: {
     navigateToErrorPage: () => {
@@ -262,27 +296,19 @@ export const ticketingStateMachine = setup({
       id: 'formCategoryHandler',
       always: [
         {
-          guard: ({ event }) =>
-            event.type === 'SELECT_FORM_CATEGORY' &&
-            event.formCategory === FormCategory.PriceAndTicketTypes,
+          guard: 'isPriceAndTicketTypes',
           target: `#${FormCategory.PriceAndTicketTypes}`,
         },
         {
-          guard: ({ event }) =>
-            event.type === 'SELECT_FORM_CATEGORY' &&
-            event.formCategory === FormCategory.App,
+          guard: 'isApp',
           target: `#${FormCategory.App}`,
         },
         {
-          guard: ({ event }) =>
-            event.type === 'SELECT_FORM_CATEGORY' &&
-            event.formCategory === FormCategory.TravelCard,
+          guard: 'isTravelCard',
           target: `#${FormCategory.TravelCard}`,
         },
         {
-          guard: ({ event }) =>
-            event.type === 'SELECT_FORM_CATEGORY' &&
-            event.formCategory === FormCategory.Webshop,
+          guard: 'isWebshop',
           target: `#${FormCategory.Webshop}`,
         },
       ],
@@ -292,38 +318,29 @@ export const ticketingStateMachine = setup({
       id: 'appFormHandler',
       always: [
         {
-          guard: ({ event }) =>
-            event.type === 'SELECT_APP_FORM' &&
-            event.appForm === AppForm.AppAccount,
+          guard: 'isAppAccount',
           target: `#${AppForm.AppAccount}`,
         },
         {
-          guard: ({ event }) =>
-            event.type === 'SELECT_APP_FORM' &&
-            event.appForm === AppForm.AppTicketing,
+          guard: 'isAppTicketing',
           target: `#${AppForm.AppTicketing}`,
         },
         {
-          guard: ({ event }) =>
-            event.type === 'SELECT_APP_FORM' &&
-            event.appForm === AppForm.AppTravelSuggestion,
+          guard: 'isAppTravelSuggestion',
           target: `#${AppForm.AppTravelSuggestion}`,
         },
       ],
     },
+
     webshopFormHandler: {
       id: 'webshopFormHandler',
       always: [
         {
-          guard: ({ event }) =>
-            event.type === 'SELECT_WEBSHOP_FORM' &&
-            event.webshopForm === WebshopForm.WebshopTicketing,
+          guard: 'isWebshopTicketing',
           target: `#${WebshopForm.WebshopTicketing}`,
         },
         {
-          guard: ({ event }) =>
-            event.type === 'SELECT_WEBSHOP_FORM' &&
-            event.webshopForm === WebshopForm.WebshopAccount,
+          guard: 'isWebshopAccount',
           target: `#${WebshopForm.WebshopAccount}`,
         },
       ],
@@ -333,15 +350,11 @@ export const ticketingStateMachine = setup({
       id: 'travelCardFormHandler',
       always: [
         {
-          guard: ({ event }) =>
-            event.type === 'SELECT_TRAVELCARD_FORM' &&
-            event.travelCardForm === TravelCardForm.TravelCardQuestion,
+          guard: 'isTravelCardQuestion',
           target: `#${TravelCardForm.TravelCardQuestion}`,
         },
         {
-          guard: ({ event }) =>
-            event.type === 'SELECT_TRAVELCARD_FORM' &&
-            event.travelCardForm === TravelCardForm.OrderTravelCard,
+          guard: 'isOrderTravelCard',
           target: `#${TravelCardForm.OrderTravelCard}`,
         },
       ],

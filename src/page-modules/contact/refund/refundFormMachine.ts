@@ -235,6 +235,27 @@ export const refundStateMachine = setup({
       const errors = commonInputValidator(inputsToValidate);
       return Object.keys(errors).length === 0;
     },
+    isRefundOfTicket: ({ event }) =>
+      event.type === 'SELECT_FORM_CATEGORY' &&
+      event.formCategory === FormCategory.RefundOfTicket,
+    isRefundAndTravelGuarantee: ({ event }) =>
+      event.type === 'SELECT_FORM_CATEGORY' &&
+      event.formCategory === FormCategory.RefundAndTravelGuarantee,
+    isResidualValueOnTravelCard: ({ event }) =>
+      event.type === 'SELECT_FORM_CATEGORY' &&
+      event.formCategory === FormCategory.ResidualValueOnTravelCard,
+    isAppTicketRefund: ({ event }) =>
+      event.type === 'SELECT_REFUND_TICKET_FORM' &&
+      event.refundTicketForm === RefundTicketForm.AppTicketRefund,
+    isOtherTicketRefund: ({ event }) =>
+      event.type === 'SELECT_REFUND_TICKET_FORM' &&
+      event.refundTicketForm === RefundTicketForm.OtherTicketRefund,
+    isRefundCar: ({ event }) =>
+      event.type === 'SELECT_REFUND_AND_TRAVEL_GUARANTEE_FORM' &&
+      event.refundAndTravelGuarantee === RefundAndTravelGuarantee.RefundCar,
+    isRefundTaxi: ({ event }) =>
+      event.type === 'SELECT_REFUND_AND_TRAVEL_GUARANTEE_FORM' &&
+      event.refundAndTravelGuarantee === RefundAndTravelGuarantee.RefundTaxi,
   },
   actions: {
     navigateToErrorPage: () => {
@@ -361,38 +382,29 @@ export const refundStateMachine = setup({
       entry: 'setInitialAgreementAndFormType',
       always: [
         {
-          guard: ({ event }) =>
-            event.type === 'SELECT_FORM_CATEGORY' &&
-            event.formCategory === FormCategory.RefundOfTicket,
+          guard: 'isRefundOfTicket',
           target: `#${FormCategory.RefundOfTicket}`,
         },
         {
-          guard: ({ event }) =>
-            event.type === 'SELECT_FORM_CATEGORY' &&
-            event.formCategory === FormCategory.RefundAndTravelGuarantee,
+          guard: 'isRefundAndTravelGuarantee',
           target: `#${FormCategory.RefundAndTravelGuarantee}`,
         },
         {
-          guard: ({ event }) =>
-            event.type === 'SELECT_FORM_CATEGORY' &&
-            event.formCategory === FormCategory.ResidualValueOnTravelCard,
+          guard: 'isResidualValueOnTravelCard',
           target: `#${FormCategory.ResidualValueOnTravelCard}`,
         },
       ],
     },
+
     refundTicketFormHandler: {
       id: 'refundTicketFormHandler',
       always: [
         {
-          guard: ({ event }) =>
-            event.type === 'SELECT_REFUND_TICKET_FORM' &&
-            event.refundTicketForm === RefundTicketForm.AppTicketRefund,
+          guard: 'isAppTicketRefund',
           target: `#${RefundTicketForm.AppTicketRefund}`,
         },
         {
-          guard: ({ event }) =>
-            event.type === 'SELECT_REFUND_TICKET_FORM' &&
-            event.refundTicketForm === RefundTicketForm.OtherTicketRefund,
+          guard: 'isOtherTicketRefund',
           target: `#${RefundTicketForm.OtherTicketRefund}`,
         },
       ],
@@ -402,17 +414,11 @@ export const refundStateMachine = setup({
       id: 'refundAndTravelGuaranteeFormHandler',
       always: [
         {
-          guard: ({ event }) =>
-            event.type === 'SELECT_REFUND_AND_TRAVEL_GUARANTEE_FORM' &&
-            event.refundAndTravelGuarantee ===
-              RefundAndTravelGuarantee.RefundCar,
+          guard: 'isRefundCar',
           target: `#${RefundAndTravelGuarantee.RefundCar}`,
         },
         {
-          guard: ({ event }) =>
-            event.type === 'SELECT_REFUND_AND_TRAVEL_GUARANTEE_FORM' &&
-            event.refundAndTravelGuarantee ===
-              RefundAndTravelGuarantee.RefundTaxi,
+          guard: 'isRefundTaxi',
           target: `#${RefundAndTravelGuarantee.RefundTaxi}`,
         },
       ],
