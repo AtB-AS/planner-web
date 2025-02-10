@@ -1,11 +1,11 @@
 import { Input, SectionCard } from '../../components';
 import { PageText, useTranslation } from '@atb/translations';
 import { ticketControlFormEvents } from '../events';
-import { ContextProps } from '../ticket-control-form-machine';
+import { TicketControlContextProps } from '../ticket-control-form-machine';
 import { Typo } from '@atb/components/typography';
 
 type PostponePaymentFormProps = {
-  state: { context: ContextProps };
+  state: { context: TicketControlContextProps };
   send: (event: typeof ticketControlFormEvents) => void;
 };
 

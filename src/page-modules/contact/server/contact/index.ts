@@ -13,6 +13,7 @@ export function createContactApi(
 ): ContactApi {
   return {
     async submitTicketControlForm(formData) {
+      console.log('formData: ', { formData });
       const response = await request('/ticket-control', {
         method: 'POST',
         body: formData,

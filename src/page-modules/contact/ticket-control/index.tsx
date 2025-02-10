@@ -1,6 +1,6 @@
 import { PageText, useTranslation } from '@atb/translations';
 import { useMachine } from '@xstate/react';
-import { FormEventHandler, useState } from 'react';
+import { FormEventHandler } from 'react';
 import {
   FormType,
   ticketControlFormMachine,
@@ -20,17 +20,9 @@ const TicketControlPageContent = () => {
       state.context.agreesSecondAgreement) ||
     (state.context.formType && state.context.formType !== 'feeComplaint');
 
-  // Local state to force re-render to display errors.
-  const [forceRerender, setForceRerender] = useState(false);
-
   const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    send({ type: 'VALIDATE' });
-
-    // Force a re-render with dummy state.
-    if (Object.keys(state.context.errorMessages).length > 0) {
-      setForceRerender(!forceRerender);
-    }
+    send({ type: 'SUBMIT' });
   };
 
   return (
@@ -41,13 +33,11 @@ const TicketControlPageContent = () => {
             <li key={formType}>
               <Radio
                 label={t(PageText.Contact.ticketControl[formType].description)}
-                value={formType}
-                checked={state.context.formType === formType}
-                onChange={(e) => {
+                checked={state.matches({ editing: formType })}
+                onChange={() => {
                   send({
-                    type: 'ON_INPUT_CHANGE',
-                    inputName: 'formType',
-                    value: e.target.value,
+                    type: 'SELECT_FORM_TYPE',
+                    formType: formType,
                   });
                 }}
               />
@@ -55,13 +45,13 @@ const TicketControlPageContent = () => {
           ))}
         </ul>
       </SectionCard>
-      {state.context.formType === 'feeComplaint' && (
+      {state.matches({ editing: 'feeComplaint' }) && (
         <FeeComplaintForm state={state} send={send} />
       )}
-      {state.context.formType === 'feedback' && (
+      {state.matches({ editing: 'feedback' }) && (
         <FeedbackForm state={state} send={send} />
       )}
-      {state.context.formType === 'postponePayment' && (
+      {state.matches({ editing: 'postponePayment' }) && (
         <PostponePaymentForm state={state} send={send} />
       )}
       {displaySubmitButton && (

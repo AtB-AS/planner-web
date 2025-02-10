@@ -16,95 +16,66 @@ export enum FormType {
   PostponePayment = 'postponePayment',
 }
 
-type submitInput = {
-  // Common
+type SubmitInput = {
+  feeNumber?: string;
+  appPhoneNumber?: string;
+  customerNumber?: string;
+  travelCardNumber?: string;
   firstName?: string;
   lastName?: string;
-  email?: string;
-  feedback?: string;
-  attachments?: File[];
-  feeNumber?: string;
-
-  // Complaint
   address?: string;
   postalCode?: string;
   city?: string;
+  email?: string;
   phoneNumber?: string;
   bankAccountNumber?: string;
   IBAN?: string;
   SWIFT?: string;
-  appPhoneNumber?: string;
-  customerNumber?: string;
-  travelCardNumber?: string;
-
-  // Feedback
+  attachments?: File[];
   transportMode?: string;
   lineName?: string;
-  fromStopName?: string;
-  toStopName?: string;
+  fromStop?: string;
+  toStop?: string;
   dateOfTicketControl?: string;
   timeOfTicketControl?: string;
-
-  // PostponePayment
+  feedback?: string;
   invoiceNumber?: string;
 };
 
-export type ContextProps = {
-  // Common
-  formType?: FormType;
-  firstName?: string;
-  lastName?: string;
-  email?: string;
-  feedback?: string;
-  attachments?: File[];
+export type TicketControlContextProps = {
   feeNumber?: string;
-
-  // Complaint
   appPhoneNumber?: string;
   customerNumber?: string;
   travelCardNumber?: string;
+  firstName?: string;
+  lastName?: string;
   address?: string;
   postalCode?: string;
   city?: string;
+  email?: string;
   phoneNumber?: string;
   bankAccountNumber?: string;
   IBAN?: string;
   SWIFT?: string;
-  agreesFirstAgreement: boolean;
-  agreesSecondAgreement: boolean;
-  isAppTicketStorageMode: boolean;
-  hasInternationalBankAccount: boolean;
-  errorMessages: InputErrorMessages;
-
-  //Feedback
+  attachments?: File[];
   transportMode?: TransportModeType | undefined;
   line?: Line | undefined;
   fromStop?: Line['quays'][0] | undefined;
   toStop?: Line['quays'][0] | undefined;
   dateOfTicketControl?: string;
   timeOfTicketControl?: string;
-
-  // PostponePayment
+  feedback?: string;
   invoiceNumber?: string;
+
+  formType?: FormType;
+  agreesFirstAgreement: boolean;
+  agreesSecondAgreement: boolean;
+  isAppTicketStorageMode: boolean;
+  hasInternationalBankAccount: boolean;
+  errorMessages: InputErrorMessages;
 };
 
-// Function to reset the agreement fields and error messages
-const setFormTypeAndInitialContext = (
-  context: ContextProps,
-  formType: FormType,
-) => {
-  return {
-    ...context,
-    formType: formType,
-    agreesFirstAgreement: false,
-    agreesSecondAgreement: false,
-    isAppTicketStorageMode: true,
-    hasInternationalBankAccount: false,
-    errorMessages: {},
-  };
-};
-
-const disagreeAgreements = (context: ContextProps) => {
+const disagreeAgreements = (context: TicketControlContextProps) => {
   return {
     ...context,
     agreesFirstAgreement: false,
@@ -112,7 +83,7 @@ const disagreeAgreements = (context: ContextProps) => {
   };
 };
 
-const setInputToValidate = (context: ContextProps) => {
+const setInputsToValidate = (context: TicketControlContextProps) => {
   // Destructure the needed fields from context
   const {
     formType,
@@ -184,32 +155,50 @@ const setInputToValidate = (context: ContextProps) => {
 
 export const ticketControlFormMachine = setup({
   types: {
-    context: {} as ContextProps,
+    context: {} as TicketControlContextProps,
     events: ticketControlFormEvents,
   },
   guards: {
-    validateInputs: ({ context }) => {
-      const inputToValidate = setInputToValidate(context);
-      context.errorMessages = commonInputValidator(inputToValidate);
-      return Object.keys(context.errorMessages).length > 0 ? false : true;
+    isFormValid: ({ context }) => {
+      const inputsToValidate = setInputsToValidate(context);
+      const errors = commonInputValidator(inputsToValidate);
+      return Object.keys(errors).length === 0;
     },
+    isFeeComplaintForm: ({ event }) =>
+      event.type === 'SELECT_FORM_TYPE' &&
+      event.formType === FormType.FeeComplaint,
+    isFeedbackForm: ({ event }) =>
+      event.type === 'SELECT_FORM_TYPE' && event.formType === FormType.Feedback,
+    isPostponePaymentForm: ({ event }) =>
+      event.type === 'SELECT_FORM_TYPE' &&
+      event.formType === FormType.PostponePayment,
   },
   actions: {
     cleanErrorMessages: assign({
       errorMessages: () => ({}),
     }),
+
     navigateToErrorPage: () => {
       window.location.href = '/contact/error';
     },
+
     navigateToSuccessPage: () => {
       window.location.href = '/contact/success';
     },
+
+    clearValidationErrors: assign({ errorMessages: {} }),
+
+    setValidationErrors: assign(({ context }) => {
+      const inputsToValidate = setInputsToValidate(context);
+      const errors = commonInputValidator(inputsToValidate);
+      return { errorMessages: { ...errors } };
+    }),
+
     onInputChange: assign(({ context, event }) => {
       if (event.type === 'ON_INPUT_CHANGE') {
         const { inputName, value } = event;
 
-        if (inputName === 'formType')
-          return setFormTypeAndInitialContext(context, value as FormType);
+        context.errorMessages[inputName] = [];
 
         // Set both agreements to false if agreesFirstAgreement is set to false.
         if (inputName === 'agreesFirstAgreement' && !value)
@@ -222,7 +211,6 @@ export const ticketControlFormMachine = setup({
           );
         }
 
-        context.errorMessages[inputName] = [];
         return {
           ...context,
           [inputName]: value,
@@ -230,6 +218,7 @@ export const ticketControlFormMachine = setup({
       }
       return context;
     }),
+
     onTransportModeChange: assign(({ context, event }) => {
       if (event.type === 'ON_TRANSPORTMODE_CHANGE')
         return setTransportModeAndResetLineAndStops(context, event.value);
@@ -243,78 +232,26 @@ export const ticketControlFormMachine = setup({
     }),
   },
   actors: {
-    submit: fromPromise(
-      async ({
-        input: {
-          firstName,
-          lastName,
-          email,
-          feedback,
-          attachments,
-          feeNumber,
-          appPhoneNumber,
-          customerNumber,
-          travelCardNumber,
-          address,
-          postalCode,
-          city,
-          phoneNumber,
-          bankAccountNumber,
-          IBAN,
-          SWIFT,
-          transportMode,
-          lineName,
-          fromStopName,
-          toStopName,
-          dateOfTicketControl,
-          timeOfTicketControl,
-          invoiceNumber,
-        },
-      }: {
-        input: submitInput;
-      }) => {
-        const base64EncodedAttachments = await convertFilesToBase64(
-          attachments || [],
-        );
-        return await fetch('/api/contact/ticket-control', {
-          method: 'POST',
-          body: JSON.stringify({
-            feeNumber: feeNumber,
-            appPhoneNumber: appPhoneNumber,
-            customerNumber: customerNumber,
-            travelCardNumber: travelCardNumber,
-            additionalInfo: feedback,
-            feedback: feedback,
-            firstName: firstName,
-            lastName: lastName,
-            address: address,
-            postalCode: postalCode,
-            city: city,
-            email: email,
-            phoneNumber: phoneNumber,
-            bankAccountNumber: bankAccountNumber,
-            IBAN: IBAN,
-            SWIFT: SWIFT,
-            attachments: base64EncodedAttachments,
-            transportMode: transportMode,
-            line: lineName,
-            fromStop: fromStopName,
-            toStop: toStopName,
-            dateOfTicketControl: dateOfTicketControl,
-            timeOfTicketControl: timeOfTicketControl,
-            invoiceNumber: invoiceNumber,
-          }),
+    submit: fromPromise(async ({ input }: { input: SubmitInput }) => {
+      const base64EncodedAttachments = await convertFilesToBase64(
+        input.attachments || [],
+      );
+      return await fetch('/api/contact/ticket-control', {
+        method: 'POST',
+        body: JSON.stringify({
+          ...input,
+          attachments: base64EncodedAttachments,
+        }),
+      })
+        .then((response) => {
+          // throw an error to force onError
+          if (!response.ok) throw new Error('Failed to call API');
+          return response.ok;
         })
-          .then((response) => {
-            // throw an error to force onError
-            if (!response.ok) throw new Error('Failed to call API');
-            return response.ok;
-          })
-          .catch((error) => {
-            throw error;
-          });
-      },
-    ),
+        .catch((error) => {
+          throw error;
+        });
+    }),
   },
 }).createMachine({
   id: 'ticketControlForm',
@@ -326,9 +263,37 @@ export const ticketControlFormMachine = setup({
     isAppTicketStorageMode: true,
     errorMessages: {},
   },
+  on: {
+    ON_INPUT_CHANGE: {
+      actions: 'onInputChange',
+    },
+
+    SELECT_FORM_TYPE: {
+      target: '#formTypeHandler',
+    },
+
+    SUBMIT: { target: '#validating' },
+  },
   states: {
+    formHandler: {
+      id: 'formTypeHandler',
+      always: [
+        {
+          guard: 'isFeeComplaintForm',
+          target: `#${FormType.FeeComplaint}`,
+        },
+        {
+          guard: 'isFeedbackForm',
+          target: `#${FormType.Feedback}`,
+        },
+        {
+          guard: 'isPostponePaymentForm',
+          target: `#${FormType.PostponePayment}`,
+        },
+      ],
+    },
     editing: {
-      initial: 'idle',
+      initial: 'selectFormType',
       on: {
         ON_INPUT_CHANGE: {
           actions: 'onInputChange',
@@ -339,52 +304,80 @@ export const ticketControlFormMachine = setup({
         ON_LINE_CHANGE: {
           actions: 'onLineChange',
         },
-
-        VALIDATE: {
-          guard: 'validateInputs',
-          target: 'editing.readyForSubmit',
-        },
       },
 
       states: {
-        idle: {},
-        readyForSubmit: {
-          type: 'final',
+        selectFormType: {},
+        feeComplaint: {
+          id: 'feeComplaint',
+          entry: assign({
+            formType: () => FormType.FeeComplaint,
+          }),
+          exit: 'cleanErrorMessages',
         },
-      },
-
-      onDone: {
-        target: 'submitting',
+        feedback: {
+          id: 'feedback',
+          entry: assign({
+            formType: () => FormType.Feedback,
+          }),
+          exit: 'clearValidationErrors',
+        },
+        postponePayment: {
+          id: 'postponePayment',
+          entry: assign({
+            formType: () => FormType.PostponePayment,
+          }),
+          exit: 'clearValidationErrors',
+        },
+        history: {
+          type: 'history',
+          history: 'deep',
+        },
       },
     },
 
+    validating: {
+      id: 'validating',
+      always: [
+        {
+          guard: 'isFormValid',
+          target: '#submitting',
+        },
+        {
+          actions: 'setValidationErrors',
+          target: 'editing.history',
+        },
+      ],
+    },
+
     submitting: {
+      id: 'submitting',
       invoke: {
         src: 'submit',
-        input: ({ context }: { context: ContextProps }) => ({
-          firstName: context.firstName,
-          lastName: context.lastName,
-          email: context.email,
-          feedback: context.feedback,
-          attachments: context.attachments,
+        input: ({ context }: { context: TicketControlContextProps }) => ({
           feeNumber: context.feeNumber,
           appPhoneNumber: context.appPhoneNumber,
           customerNumber: context.customerNumber,
           travelCardNumber: context.travelCardNumber,
+          firstName: context.firstName,
+          lastName: context.lastName,
           address: context.address,
           postalCode: context.postalCode,
           city: context.city,
+          email: context.email,
           phoneNumber: context.phoneNumber,
           bankAccountNumber: context.bankAccountNumber,
           IBAN: context.IBAN,
           SWIFT: context.SWIFT,
+          feedback: context.feedback,
           transportMode: context.transportMode,
           lineName: context.line?.name,
-          fromStopName: context.fromStop?.name,
-          toStopName: context.toStop?.name,
+          fromStop: context.fromStop?.name,
+          toStop: context.toStop?.name,
           dateOfTicketControl: context.dateOfTicketControl,
           timeOfTicketControl: context.timeOfTicketControl,
           invoiceNumber: context.invoiceNumber,
+          attachments: context.attachments,
         }),
 
         onDone: {

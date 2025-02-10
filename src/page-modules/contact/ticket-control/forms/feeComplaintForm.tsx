@@ -1,7 +1,7 @@
 import style from '../../contact.module.css';
 import { PageText, TranslatedString, useTranslation } from '@atb/translations';
 import { Typo } from '@atb/components/typography';
-import { ContextProps } from '../ticket-control-form-machine';
+import { TicketControlContextProps } from '../ticket-control-form-machine';
 import { ticketControlFormEvents } from '../events';
 import {
   Input,
@@ -13,7 +13,7 @@ import {
 } from '../../components';
 
 type FeeComplaintFormProps = {
-  state: { context: ContextProps };
+  state: { context: TicketControlContextProps };
   send: (event: typeof ticketControlFormEvents) => void;
 };
 

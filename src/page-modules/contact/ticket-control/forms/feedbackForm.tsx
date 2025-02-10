@@ -2,7 +2,7 @@ import { PageText, useTranslation } from '@atb/translations';
 import { Line } from '../..';
 import { Typo } from '@atb/components/typography';
 import { ticketControlFormEvents } from '../events';
-import { ContextProps } from '../ticket-control-form-machine';
+import { TicketControlContextProps } from '../ticket-control-form-machine';
 import { TransportModeType } from '../../types';
 import { useLines } from '../../lines/use-lines';
 import {
@@ -19,7 +19,7 @@ import {
 } from '../../components';
 
 type FeedbackFormProps = {
-  state: { context: ContextProps };
+  state: { context: TicketControlContextProps };
   send: (event: typeof ticketControlFormEvents) => void;
 };
 
