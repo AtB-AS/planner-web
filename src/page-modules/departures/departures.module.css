@@ -82,4 +82,7 @@
   margin: 0 auto;
   max-width: var(--maxPageWidth);
   padding: token('spacing.xLarge');
+  display: flex;
+  flex-direction: column;
+  gap: token('spacing.medium');
 }

@@ -3,7 +3,7 @@ import { orgSpecificTranslations } from '@atb/translations/utils';
 
 const LayoutInternal = {
   homeLink: (name: string) =>
-    _(`Tilbake til ${name}`, `Back to ${name}`, `Tilbake til ${name}`),
+    _(`Gå til ${name}`, `Gå to ${name}`, `Gå til ${name}`),
 
   contactLink: _('Kontaktskjema', 'Contact form', 'Kontaktskjema'),
 

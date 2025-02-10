@@ -8,6 +8,7 @@ import { MonoIcon } from '@atb/components/icon';
 import { andIf } from '@atb/utils/css';
 import { useRouter } from 'next/router';
 import { shouldShowContactPage } from '@atb/page-modules/contact';
+import { ButtonLink } from '@atb/components/button';
 
 export default function PageHeader() {
   const { t } = useTranslation();
@@ -55,6 +56,12 @@ export default function PageHeader() {
             </Link>
           </h1>
         </div>
+        <ButtonLink
+          href={urls.homePageUrl.href}
+          title={t(CommonText.Layout.homeLink(urls.homePageUrl.name))}
+          icon={{ right: <MonoIcon icon="navigation/ExternalLink" /> }}
+          size="pill"
+        />
         {/*
         {hasContactFormUrl && (
           <nav>

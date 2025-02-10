@@ -15,7 +15,10 @@ import { createFromQuery } from './utils';
 import { TabLink } from '@atb/components/tab-link';
 import { logSpecificEvent } from '@atb/modules/firebase/analytics';
 import { getOrgData } from '@atb/modules/org-data';
-import { HomeLinkWithGlobalMessageLayout } from '@atb/layouts/shared/home-link-with-global-message-layout';
+import {
+  GlobalMessageContextEnum,
+  GlobalMessages,
+} from '@atb/modules/global-messages';
 
 export type DeparturesLayoutProps = PropsWithChildren<{
   fromQuery: FromDepartureQuery;
@@ -49,7 +52,7 @@ function DeparturesLayout({ children, fromQuery }: DeparturesLayoutProps) {
   const { orgId } = getOrgData();
 
   return (
-    <HomeLinkWithGlobalMessageLayout>
+    <div>
       <form className={style.container} onSubmit={onSubmitHandler}>
         <div className={style.main}>
           <TabLink activePath="/departures" />
@@ -108,6 +111,7 @@ function DeparturesLayout({ children, fromQuery }: DeparturesLayoutProps) {
       </form>
 
       <section className={style.contentContainer}>
+        <GlobalMessages context={GlobalMessageContextEnum.plannerWeb} />
         <LoadingEmptySearch
           isSearching={isSearching}
           isGeolocationError={geolocationError !== null}
@@ -116,7 +120,7 @@ function DeparturesLayout({ children, fromQuery }: DeparturesLayoutProps) {
           {children}
         </LoadingEmptySearch>
       </section>
-    </HomeLinkWithGlobalMessageLayout>
+    </div>
   );
 }
 
