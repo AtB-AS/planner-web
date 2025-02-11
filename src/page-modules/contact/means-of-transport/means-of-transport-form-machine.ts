@@ -285,36 +285,42 @@ export const meansOfTransportFormMachine = setup({
           entry: assign({
             formType: () => FormType.Driver,
           }),
+          exit: 'clearValidationErrors',
         },
         transportation: {
           id: 'transportation',
           entry: assign({
             formType: () => FormType.Transportation,
           }),
+          exit: 'clearValidationErrors',
         },
         delay: {
           id: 'delay',
           entry: assign({
             formType: () => FormType.Delay,
           }),
+          exit: 'clearValidationErrors',
         },
         stop: {
           id: 'stop',
           entry: assign({
             formType: () => FormType.Stop,
           }),
+          exit: 'clearValidationErrors',
         },
         serviceOffering: {
           id: 'serviceOffering',
           entry: assign({
             formType: () => FormType.ServiceOffering,
           }),
+          exit: 'clearValidationErrors',
         },
         injury: {
           id: 'injury',
           entry: assign({
             formType: () => FormType.Injury,
           }),
+          exit: 'clearValidationErrors',
         },
         history: {
           type: 'history',
