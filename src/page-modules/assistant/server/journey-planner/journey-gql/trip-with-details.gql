@@ -63,6 +63,7 @@ query TripsWithDetails(
           quay {
             id
             name
+            description
             publicCode
           }
         }
@@ -72,6 +73,7 @@ query TripsWithDetails(
           longitude
           quay {
             name
+            description
             publicCode
           }
         }
@@ -116,6 +118,7 @@ query TripsWithDetails(
           cancellation
           quay {
             name
+            description
           }
           realtime
         }

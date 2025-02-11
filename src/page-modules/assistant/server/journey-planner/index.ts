@@ -366,6 +366,7 @@ export function createJourneyApi(
               ? {
                   id: leg.fromPlace.quay.id,
                   name: leg.fromPlace.quay.name,
+                  description: leg.fromPlace.quay.description ?? null,
                   publicCode: leg.fromPlace.quay.publicCode ?? '',
                 }
               : null,
@@ -375,6 +376,7 @@ export function createJourneyApi(
             quay: leg.toPlace.quay
               ? {
                   name: leg.toPlace.quay.name,
+                  description: leg.toPlace.quay.description ?? null,
                   publicCode: leg.toPlace.quay.publicCode ?? '',
                 }
               : null,
@@ -425,6 +427,7 @@ export function createJourneyApi(
                 actualDepartureTime: estimatedCall.actualDepartureTime ?? null,
                 quay: {
                   name: estimatedCall.quay.name,
+                  description: estimatedCall.quay.description ?? null,
                 },
                 realtime: estimatedCall.realtime,
                 cancellation: estimatedCall.cancellation,
@@ -548,6 +551,7 @@ function mapResultToTrips(
               ? {
                   publicCode: leg.fromPlace.quay.publicCode ?? null,
                   name: leg.fromPlace.quay.name,
+                  description: leg.fromPlace.quay.description ?? null,
                   id: leg.fromPlace.quay.id,
                   situations: mapSituations(leg.fromPlace.quay.situations),
                 }

@@ -29,6 +29,7 @@ export const tripPatternFixture: TripPattern = {
         quay: {
           publicCode: '1',
           name: 'From',
+          description: null,
           id: 'NSR:Quay:1',
           situations: [],
         },
