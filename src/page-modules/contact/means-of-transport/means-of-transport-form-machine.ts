@@ -18,15 +18,15 @@ export enum FormType {
   Injury = 'injury',
 }
 
-type submitInput = {
+type SubmitInput = {
   formType?: string;
   transportMode?: string;
-  lineName?: string;
-  fromStopName?: string;
-  toStopName?: string;
-  stopName?: string;
+  line?: string;
+  fromStop?: string;
+  toStop?: string;
+  stop?: string;
   date?: string;
-  plannedDepartureTime?: string;
+  departureTime?: string;
   feedback?: string;
   attachments?: File[];
   firstName?: string;
@@ -35,7 +35,7 @@ type submitInput = {
   email?: string;
 };
 
-export type ContextProps = {
+export type MeansOfTransportContextProps = {
   formType?: FormType;
   transportMode?: TransportModeType;
   line?: Line;
@@ -53,7 +53,7 @@ export type ContextProps = {
   errorMessages: InputErrorMessages;
 };
 
-const setInputToValidate = (context: ContextProps) => {
+const setInputsToValidate = (context: MeansOfTransportContextProps) => {
   const {
     formType,
     transportMode,
@@ -135,26 +135,44 @@ const setInputToValidate = (context: ContextProps) => {
 
 export const meansOfTransportFormMachine = setup({
   types: {
-    context: {} as ContextProps,
+    context: {} as MeansOfTransportContextProps,
     events: meansOfTransportFormEvents,
   },
   guards: {
-    validateInputs: ({ context }) => {
-      const inputToValidate = setInputToValidate(context);
-      context.errorMessages = commonInputValidator(inputToValidate);
-      return Object.keys(context.errorMessages).length > 0 ? false : true;
+    isFormValid: ({ context }) => {
+      const inputsToValidate = setInputsToValidate(context);
+      const errors = commonInputValidator(inputsToValidate);
+      return Object.keys(errors).length === 0;
     },
+    isDriverForm: ({ event }) =>
+      event.type === 'SELECT_FORM_TYPE' && event.formType === FormType.Driver,
+    isTransportationForm: ({ event }) =>
+      event.type === 'SELECT_FORM_TYPE' &&
+      event.formType === FormType.Transportation,
+    isDelayForm: ({ event }) =>
+      event.type === 'SELECT_FORM_TYPE' && event.formType === FormType.Delay,
+    isStopForm: ({ event }) =>
+      event.type === 'SELECT_FORM_TYPE' && event.formType === FormType.Stop,
+    isServiceOfferingForm: ({ event }) =>
+      event.type === 'SELECT_FORM_TYPE' &&
+      event.formType === FormType.ServiceOffering,
+    isInjuryForm: ({ event }) =>
+      event.type === 'SELECT_FORM_TYPE' && event.formType === FormType.Injury,
   },
   actions: {
+    clearValidationErrors: assign({ errorMessages: {} }),
+
+    setValidationErrors: assign(({ context }) => {
+      const inputsToValidate = setInputsToValidate(context);
+      const errors = commonInputValidator(inputsToValidate);
+      return { errorMessages: { ...errors } };
+    }),
+
     onInputChange: assign(({ context, event }) => {
       if (event.type === 'ON_INPUT_CHANGE') {
         const { inputName, value } = event;
 
-        if (inputName === 'formType') {
-          context.errorMessages = {};
-        } else {
-          context.errorMessages[inputName] = [];
-        }
+        context.errorMessages[inputName] = [];
 
         return {
           ...context,
@@ -184,56 +202,23 @@ export const meansOfTransportFormMachine = setup({
     },
   },
   actors: {
-    submit: fromPromise(
-      async ({
-        input: {
-          formType,
-          transportMode,
-          lineName,
-          fromStopName,
-          toStopName,
-          stopName,
-          date,
-          plannedDepartureTime,
-          feedback,
-          attachments,
-          firstName,
-          lastName,
-          email,
-          isResponseWanted,
-        },
-      }: {
-        input: submitInput;
-      }) => {
-        const base64EncodedAttachments = await convertFilesToBase64(
-          attachments || [],
-        );
+    submit: fromPromise(async ({ input }: { input: SubmitInput }) => {
+      const base64EncodedAttachments = await convertFilesToBase64(
+        input.attachments || [],
+      );
 
-        return await fetch('/api/contact/means-of-transport', {
-          method: 'POST',
-          body: JSON.stringify({
-            formType: formType,
-            transportMode: transportMode,
-            line: lineName,
-            fromStop: fromStopName,
-            toStop: toStopName,
-            stop: stopName,
-            date: date,
-            departureTime: plannedDepartureTime,
-            feedback: feedback,
-            attachments: base64EncodedAttachments,
-            firstName: firstName,
-            lastName: lastName,
-            email: email,
-            isResponseWanted: isResponseWanted,
-          }),
-        }).then((response) => {
-          // throw an error to force onError
-          if (!response.ok) throw new Error('Failed to call API');
-          return response.ok;
-        });
-      },
-    ),
+      return await fetch('/api/contact/means-of-transport', {
+        method: 'POST',
+        body: JSON.stringify({
+          ...input,
+          attachments: base64EncodedAttachments,
+        }),
+      }).then((response) => {
+        // throw an error to force onError
+        if (!response.ok) throw new Error('Failed to call API');
+        return response.ok;
+      });
+    }),
   },
 }).createMachine({
   /** @xstate-layout N4IgpgJg5mDOIC5QAoC2BDAxgCwJYDswBKAOlwgBswBiAZQFUAhAWQEkAVAbQAYBdRUAAcA9rFwAXXMPwCQAD0QBGAGzcSAZgCsATnXLlAJi2rN6gDQgAnkoDsmktxsAObstN7FN5eoC+Pi2hYeISk5FTU7ADyAOLRADIAojz8SCAiYpLSsgoIACyKJNpFxSUlFtYIRvZO6rUqBg3c3Fp+ARg4BMRklDTsAIIAGqzJsukSUjKpOSpqWrr6VSbmVojqueoaBk6K3AbOqjYGyq0ggR0hJJDj+FB0TGxcfKOi41lTiJqaBdyKmoaKTmcTkB2nKtnsjhcblqyk83hOZ2CXSukhudAS7AA+uwAEp9ABytAACpEcVjmJEACJJJ6pMaZSagHJ2NSKXKudnqGw7TSAsGVdTaEhOYpOTQ2ZqmZS5BHtJGkCjCdAQAi3CDSMBkfAAN2EAGtNYjOgqlSqbggCLrMOgGckRnSXgzsh8vg5fv9AcCQfztiRcsVnHpuO4bLKgsaSIrlarqGAAE5x4RxkiCCg2gBmSdQJCNFyjZqgFp1wmttr49qEjomzoQn2+7oMAKB3pWlQM9nF20cn20nj8-hA+GEEDgslzxGeGWr7wQAFplA4mkvl8ubPz52Hzl0wmBJ69GfIPkLcgZtMpudovmze6DW7UbH7FGzT9wnA12TKB+PSCjVXunTO2wPq47anmK3DaGKuT8msBS5M4EFit4Ng2OoBifm04Z5qaf4OlObxMqsmi5H6TjrGRhwoV4wb8r8BgOAh5FNCo56bvKJCwAArpgmBwPAeH7jWQEOIYmhgZoiHEbRzQkKY2jBl83C5GKnihv2QA */
@@ -242,51 +227,136 @@ export const meansOfTransportFormMachine = setup({
     isResponseWanted: false,
     errorMessages: {},
   },
+  on: {
+    ON_INPUT_CHANGE: {
+      actions: 'onInputChange',
+    },
+
+    SELECT_FORM_TYPE: {
+      target: '#formTypeHandler',
+    },
+
+    ON_TRANSPORTMODE_CHANGE: {
+      actions: 'onTransportModeChange',
+    },
+
+    ON_LINE_CHANGE: {
+      actions: 'onLineChange',
+    },
+
+    SUBMIT: { target: '#validating' },
+  },
   states: {
+    formTypeHandler: {
+      id: 'formTypeHandler',
+      always: [
+        {
+          guard: 'isDriverForm',
+          target: `#${FormType.Driver}`,
+        },
+        {
+          guard: 'isTransportationForm',
+          target: `#${FormType.Transportation}`,
+        },
+        {
+          guard: 'isDelayForm',
+          target: `#${FormType.Delay}`,
+        },
+        {
+          guard: 'isStopForm',
+          target: `#${FormType.Stop}`,
+        },
+        {
+          guard: 'isServiceOfferingForm',
+          target: `#${FormType.ServiceOffering}`,
+        },
+        {
+          guard: 'isInjuryForm',
+          target: `#${FormType.Injury}`,
+        },
+      ],
+    },
     editing: {
-      initial: 'idle',
-      on: {
-        ON_INPUT_CHANGE: {
-          actions: 'onInputChange',
-        },
-        ON_TRANSPORTMODE_CHANGE: {
-          actions: 'onTransportModeChange',
-        },
-        ON_LINE_CHANGE: {
-          actions: 'onLineChange',
-        },
-
-        VALIDATE: {
-          guard: 'validateInputs',
-          target: 'editing.readyForSubmit',
-        },
-      },
-
+      initial: 'selectFormType',
       states: {
-        idle: {},
-        readyForSubmit: {
-          type: 'final',
+        selectFormType: {},
+        driver: {
+          id: 'driver',
+          entry: assign({
+            formType: () => FormType.Driver,
+          }),
+          exit: 'clearValidationErrors',
         },
-      },
-
-      onDone: {
-        target: 'submitting',
+        transportation: {
+          id: 'transportation',
+          entry: assign({
+            formType: () => FormType.Transportation,
+          }),
+          exit: 'clearValidationErrors',
+        },
+        delay: {
+          id: 'delay',
+          entry: assign({
+            formType: () => FormType.Delay,
+          }),
+          exit: 'clearValidationErrors',
+        },
+        stop: {
+          id: 'stop',
+          entry: assign({
+            formType: () => FormType.Stop,
+          }),
+          exit: 'clearValidationErrors',
+        },
+        serviceOffering: {
+          id: 'serviceOffering',
+          entry: assign({
+            formType: () => FormType.ServiceOffering,
+          }),
+          exit: 'clearValidationErrors',
+        },
+        injury: {
+          id: 'injury',
+          entry: assign({
+            formType: () => FormType.Injury,
+          }),
+          exit: 'clearValidationErrors',
+        },
+        history: {
+          type: 'history',
+          history: 'deep',
+        },
       },
     },
 
+    validating: {
+      id: 'validating',
+      always: [
+        {
+          guard: 'isFormValid',
+          target: '#submitting',
+        },
+        {
+          actions: 'setValidationErrors',
+          target: 'editing.history',
+        },
+      ],
+    },
+
     submitting: {
+      id: 'submitting',
       invoke: {
         src: 'submit',
-        input: ({ context }: { context: ContextProps }) => {
+        input: ({ context }: { context: MeansOfTransportContextProps }) => {
           return {
             formType: context.formType,
             transportMode: context.transportMode,
-            lineName: context.line?.name,
-            fromStopName: context.fromStop?.name,
-            toStopName: context.toStop?.name,
-            stopName: context.stop?.name,
+            line: context.line?.name,
+            fromStop: context.fromStop?.name,
+            toStop: context.toStop?.name,
+            stop: context.stop?.name,
             date: context.date,
-            plannedDepartureTime: context.plannedDepartureTime,
+            departureTime: context.plannedDepartureTime,
             feedback: context.feedback,
             firstName: context.firstName,
             lastName: context.lastName,
