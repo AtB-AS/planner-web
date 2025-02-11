@@ -13,25 +13,18 @@ import {
 } from './forms';
 import { Button } from '@atb/components/button';
 import { PageText, useTranslation } from '@atb/translations';
-import { FormEventHandler, useState } from 'react';
+import { FormEventHandler } from 'react';
 import { Radio, SectionCard } from '../components';
 import style from '../contact.module.css';
 
 const MeansOfTransportContent = () => {
   const { t } = useTranslation();
   const [state, send] = useMachine(meansOfTransportFormMachine);
-
-  // Local state to force re-render to display errors.
-  const [forceRerender, setForceRerender] = useState(false);
+  const displaySubmitButton = state.context.formType;
 
   const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    send({ type: 'VALIDATE' });
-
-    // Force a re-render with dummy state.
-    if (Object.keys(state.context.errorMessages).length > 0) {
-      setForceRerender(!forceRerender);
-    }
+    send({ type: 'SUBMIT' });
   };
 
   return (
@@ -44,13 +37,11 @@ const MeansOfTransportContent = () => {
                 label={t(
                   PageText.Contact.modeOfTransport[formType].description,
                 )}
-                value={formType}
-                checked={state.context.formType === formType}
-                onChange={(e) =>
+                checked={state.matches({ editing: formType })}
+                onChange={() =>
                   send({
-                    type: 'ON_INPUT_CHANGE',
-                    inputName: 'formType',
-                    value: e.target.value,
+                    type: 'SELECT_FORM_TYPE',
+                    formType: formType,
                   })
                 }
               />
@@ -59,25 +50,25 @@ const MeansOfTransportContent = () => {
         </ul>
       </SectionCard>
 
-      {state.context.formType === 'driver' && (
+      {state.matches({ editing: 'driver' }) && (
         <DriverForm state={state} send={send} />
       )}
-      {state.context.formType === 'transportation' && (
+      {state.matches({ editing: 'transportation' }) && (
         <TransportationForm state={state} send={send} />
       )}
-      {state.context.formType === 'delay' && (
+      {state.matches({ editing: 'delay' }) && (
         <DelayForm state={state} send={send} />
       )}
-      {state.context.formType === 'stop' && (
+      {state.matches({ editing: 'stop' }) && (
         <StopForm state={state} send={send} />
       )}
-      {state.context.formType === 'serviceOffering' && (
+      {state.matches({ editing: 'serviceOffering' }) && (
         <ServiceOfferingForm state={state} send={send} />
       )}
-      {state.context.formType === 'injury' && (
+      {state.matches({ editing: 'injury' }) && (
         <InjuryForm state={state} send={send} />
       )}
-      {state.context.formType && (
+      {displaySubmitButton && (
         <Button
           title={t(PageText.Contact.submit)}
           mode={'interactive_0--bordered'}

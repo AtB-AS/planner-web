@@ -1,5 +1,5 @@
 import { PageText, useTranslation } from '@atb/translations';
-import { ContextProps } from '../means-of-transport-form-machine';
+import { MeansOfTransportContextProps } from '../means-of-transport-form-machine';
 import { useLines } from '../../lines/use-lines';
 import { Typo } from '@atb/components/typography';
 import { TransportModeType } from '../../types';
@@ -20,7 +20,7 @@ import {
 } from '../../components';
 
 type TransportationFormProps = {
-  state: { context: ContextProps };
+  state: { context: MeansOfTransportContextProps };
   send: (event: typeof meansOfTransportFormEvents) => void;
 };
 

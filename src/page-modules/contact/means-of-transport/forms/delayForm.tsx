@@ -3,7 +3,7 @@ import { useLines } from '../../lines/use-lines';
 import { Typo } from '@atb/components/typography';
 import { TransportModeType } from '../../types';
 import { Line } from '../..';
-import { ContextProps } from '../means-of-transport-form-machine';
+import { MeansOfTransportContextProps } from '../means-of-transport-form-machine';
 import { meansOfTransportFormEvents } from '../events';
 import {
   SectionCard,
@@ -19,7 +19,7 @@ import {
 } from '../../components';
 
 type DelayFormProps = {
-  state: { context: ContextProps };
+  state: { context: MeansOfTransportContextProps };
   send: (event: typeof meansOfTransportFormEvents) => void;
 };
 
