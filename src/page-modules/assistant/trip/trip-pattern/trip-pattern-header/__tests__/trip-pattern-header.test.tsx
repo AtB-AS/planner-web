@@ -78,6 +78,7 @@ describe('trip pattern header', function () {
       const quayName = getQuayName({
         publicCode: '',
         name: 'Quay',
+        description: null,
         id: 'NSR:Quay:1',
         situations: [],
       }, t);
@@ -102,6 +103,7 @@ describe('trip pattern header', function () {
       const quayName = getQuayName({
         publicCode: '1',
         name: 'Quay',
+        description: null,
         id: 'NSR:Quay:1',
         situations: [],
       }, t);

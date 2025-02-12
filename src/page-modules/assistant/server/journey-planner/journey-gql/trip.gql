@@ -131,6 +131,7 @@ fragment tripPattern on TripPattern {
       quay {
         publicCode
         name
+        description
         id
         situations {
           ...situation

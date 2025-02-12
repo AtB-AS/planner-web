@@ -28,7 +28,7 @@ And populate the `.env.local` file with settings for your org.
 
 ```bash
 
-# Generate assests and icons specific for org
+# Generate assets and icons specific for org
 NEXT_PUBLIC_PLANNER_ORG_ID=<orgID> yarn setup
 
 # Run development build

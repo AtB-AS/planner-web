@@ -24,6 +24,7 @@ export const tariffZoneSchema = z.object({
 export const quaySchema = z.object({
   publicCode: z.string().nullable(),
   name: z.string(),
+  description: z.string().nullable(),
   id: z.string(),
   situations: z.array(situationSchema),
 });
@@ -117,6 +118,7 @@ export const tripPatternWithDetailsSchema = z.object({
           .object({
             id: z.string(),
             name: z.string(),
+            description: z.string().nullable(),
             publicCode: z.string().nullable(),
           })
           .nullable(), // quay is null when fromPlace is a POI (e.g. address)
@@ -126,6 +128,7 @@ export const tripPatternWithDetailsSchema = z.object({
         quay: z
           .object({
             name: z.string(),
+            description: z.string().nullable(),
             publicCode: z.string().nullable(),
           })
           .nullable(), // quay is null when toPlace is a POI (e.g. address)
@@ -159,6 +162,7 @@ export const tripPatternWithDetailsSchema = z.object({
           actualDepartureTime: z.string().nullable(),
           quay: z.object({
             name: z.string(),
+            description: z.string().nullable(),
           }),
           realtime: z.boolean(),
           cancellation: z.boolean(),

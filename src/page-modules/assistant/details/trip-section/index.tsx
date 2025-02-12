@@ -106,6 +106,14 @@ export default function TripSection({
                 leg.fromPlace.quay?.publicCode,
               )}
             </Typo.p>
+            {leg.fromPlace.quay?.description && (
+              <Typo.span
+                className={style.textColor__secondary}
+                textType="body__tertiary"
+              >
+                {leg.fromPlace.quay.description}
+              </Typo.span>
+            )}
           </TripRow>
         )}
 

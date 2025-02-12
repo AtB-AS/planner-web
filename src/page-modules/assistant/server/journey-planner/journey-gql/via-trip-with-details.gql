@@ -47,6 +47,7 @@ query ViaTripsWithDetails(
             quay {
               id
               name
+              description
               publicCode
             }
             longitude
@@ -58,6 +59,7 @@ query ViaTripsWithDetails(
             name
             quay {
               name
+              description
               publicCode
             }
           }
@@ -127,6 +129,7 @@ query ViaTripsWithDetails(
             cancellation
             quay {
               name
+              description
             }
             realtime
           }
