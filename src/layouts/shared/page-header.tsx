@@ -23,7 +23,7 @@ export default function PageHeader() {
         <div className={style.pageHeader__inner}>
           <h1 className={style.pageHeader__logo}>
             <Link
-              href={urls.homePageUrl.href}
+              href={'/'}
               className={style.pageHeader__logoLink}
               title={t(CommonText.Layout.homeLink(urls.homePageUrl.name))}
               data-testid="homeButton"
@@ -61,6 +61,9 @@ export default function PageHeader() {
           title={t(CommonText.Layout.homeLink(urls.homePageUrl.name))}
           icon={{ right: <MonoIcon icon="navigation/ExternalLink" /> }}
           size="pill"
+          aProps={{
+            target: '_blank',
+          }}
         />
         {/*
         {hasContactFormUrl && (
