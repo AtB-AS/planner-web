@@ -14,4 +14,9 @@ export const SearchInput = {
       } available, use up and down arrow keys to navigate. Press Enter key to select.`,
       `${resultCount} treff, bruk pil opp og pil ned for navigering. Trykk Enter for å velje.`,
     ),
+  recentSearches: _(
+    'Sist brukte steder',
+    'Recently used places',
+    'Siste brukte steder',
+  ),
 };

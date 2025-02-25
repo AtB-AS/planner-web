@@ -7,11 +7,13 @@ import { andIf } from '@atb/utils/css';
 import { GeocoderFeature } from '@atb/page-modules/departures';
 import { logSpecificEvent } from '@atb/modules/firebase';
 import { ComponentText, useTranslation } from '@atb/translations';
+import useLocalStorage from '@atb/utils/use-localstorage';
+import { Typo } from '../typography';
 
 type SearchProps = {
   label: string;
   placeholder: string;
-  onChange: (selection: any) => void;
+  onChange: (selection: GeocoderFeature) => void;
   button?: ReactNode;
   initialFeature?: GeocoderFeature;
   selectedItem?: GeocoderFeature;
@@ -30,8 +32,12 @@ export default function Search({
   testID,
 }: SearchProps) {
   const [query, setQuery] = useState('');
+  const [focus, setFocus] = useState(false);
   const { data } = useAutocomplete(query, autocompleteFocusPoint);
   const { t } = useTranslation();
+  const [recentFeatureSearches, setRecentFeatureSearches] = useLocalStorage<
+    GeocoderFeature[]
+  >('recentFeatureSearches', []);
 
   function getA11yStatusMessage({
     isOpen,
@@ -53,13 +59,23 @@ export default function Search({
     return '';
   }
 
+  const handleOnChange = (feature: GeocoderFeature | null) => {
+    if (!feature) return;
+    // Add to recent searches, or move to top of list if already in list
+    setRecentFeatureSearches([
+      feature,
+      ...recentFeatureSearches.filter((f) => f.id !== feature.id).splice(0, 4),
+    ]);
+    onChange(feature);
+  };
+
   return (
     <Downshift<GeocoderFeature>
       onInputValueChange={(inputValue) => {
         logSpecificEvent('select_search');
         return setQuery(inputValue || '');
       }}
-      onChange={onChange}
+      onChange={handleOnChange}
       itemToString={geocoderFeatureToString}
       selectedItem={selectedItem || initialFeature || null}
       getA11yStatusMessage={getA11yStatusMessage}
@@ -89,6 +105,8 @@ export default function Search({
               placeholder={placeholder}
               {...getInputProps()}
               data-testid={testID}
+              onFocus={() => setFocus(true)}
+              onBlur={() => setFocus(false)}
             />
           </div>
 
@@ -96,6 +114,7 @@ export default function Search({
 
           <ul className={style.menu} {...getMenuProps()}>
             {isOpen &&
+              inputValue !== '' &&
               data?.map((item, index) => (
                 <li
                   className={andIf({
@@ -116,6 +135,40 @@ export default function Search({
                   <span className={style.itemLocality}>{item.locality}</span>
                 </li>
               ))}
+            {focus && inputValue === '' && (
+              <>
+                {recentFeatureSearches.length > 0 && (
+                  <li className={style.item}>
+                    <Typo.span
+                      textType="body__secondary"
+                      className={style.menuHeading}
+                    >
+                      {t(ComponentText.SearchInput.recentSearches)}
+                    </Typo.span>
+                  </li>
+                )}
+                {recentFeatureSearches.map((item, index) => (
+                  <li
+                    className={andIf({
+                      [style.item]: true,
+                      [style.itemHighlighted]: highlightedIndex === index,
+                    })}
+                    key={item.id}
+                    {...getItemProps({
+                      index,
+                      item,
+                    })}
+                    data-testid={`list-item-${index}`}
+                  >
+                    <div className={style.itemIcon} aria-hidden>
+                      <VenueIcon categories={item.category} />
+                    </div>
+                    <span className={style.itemName}>{item.name}</span>
+                    <span className={style.itemLocality}>{item.locality}</span>
+                  </li>
+                ))}
+              </>
+            )}
           </ul>
         </div>
       )}
