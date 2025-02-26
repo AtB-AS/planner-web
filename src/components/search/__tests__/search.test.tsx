@@ -20,7 +20,6 @@ import userEvent from '@testing-library/user-event';
 import { SWRConfig } from 'swr';
 import React from 'react';
 import SwapButton from '../swap-button';
-import GeolocationButton from '../geolocation-button';
 
 const result = [
   {
@@ -209,25 +208,6 @@ describe('search box', () => {
       expect(input).toHaveValue('1, 1');
       expect(fn).toHaveBeenCalled();
     });
-  });
-
-  it('should call getCurrentPosition when geolocating', async () => {
-    customRender(
-      <Search
-        label="Test"
-        placeholder="Test"
-        onChange={() => {}}
-        button={<GeolocationButton onGeolocate={() => {}} />}
-      />,
-    );
-
-    const geolocationButton = screen.getByRole('button', {
-      name: 'Finn min posisjon',
-    });
-
-    await userEvent.click(geolocationButton);
-
-    expect(mockGeolocation.getCurrentPosition).toHaveBeenCalled();
   });
 
   it('should render Search component with expected placeholder text', () => {

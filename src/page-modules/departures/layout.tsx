@@ -1,8 +1,7 @@
-import { Button, ButtonLink } from '@atb/components/button';
+import { Button } from '@atb/components/button';
 import LoadingEmptySearch from '@atb/components/loading-empty-results';
 import { MessageBox } from '@atb/components/message-box';
 import Search from '@atb/components/search';
-import GeolocationButton from '@atb/components/search/geolocation-button';
 import { Typo } from '@atb/components/typography';
 import { SearchTime, SearchTimeSelector } from '@atb/modules/search-time';
 import type { GeocoderFeature } from '@atb/page-modules/departures';
@@ -66,13 +65,7 @@ function DeparturesLayout({ children, fromQuery }: DeparturesLayoutProps) {
               selectedItem={fromQuery.from ?? undefined}
               onChange={onSelectFeature}
               testID="searchFrom"
-              button={
-                <GeolocationButton
-                  className={style.geolocationButton}
-                  onGeolocate={onSelectFeature}
-                  onError={setGeolocationError}
-                />
-              }
+              onGeolocationError={setGeolocationError}
             />
           </div>
 

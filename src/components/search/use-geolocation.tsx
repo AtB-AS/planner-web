@@ -1,5 +1,4 @@
-import { Component, useEffect, useState } from 'react';
-import { LoadingIcon } from '@atb/components/loading';
+import { useEffect, useState } from 'react';
 import { reverse } from '@atb/page-modules/departures/client';
 import { GeocoderFeature } from '@atb/page-modules/departures';
 import {
@@ -7,46 +6,10 @@ import {
   TranslateFunction,
   useTranslation,
 } from '@atb/translations';
-import { MonoIcon } from '@atb/components/icon';
 
-type GeolocationButtonProps = {
-  onGeolocate: (feature: GeocoderFeature) => void;
-  onError?: (error: string | null) => void;
-  className?: string;
-};
-function GeolocationButton({
-  onGeolocate,
-  onError,
-  className,
-}: GeolocationButtonProps) {
-  const { t } = useTranslation();
-  const { getPosition, isLoading, isUnavailable } = useGeolocation(
-    onGeolocate,
-    onError,
-  );
-
-  if (isUnavailable) return null;
-
-  return isLoading ? (
-    <div className={className}>
-      <LoadingIcon a11yText={t(ComponentText.GeolocationButton.loading)} />
-    </div>
-  ) : (
-    <button
-      className={className}
-      onClick={getPosition}
-      title={t(ComponentText.GeolocationButton.alt)}
-      aria-label={t(ComponentText.GeolocationButton.alt)}
-      type="button"
-    >
-      <MonoIcon icon="places/Location" />
-    </button>
-  );
-}
-
-function useGeolocation(
+export function useGeolocation(
   onSuccess: (feature: GeocoderFeature) => void,
-  onError: (error: string | null) => void = () => { },
+  onError: (error: string | null) => void = () => {},
 ) {
   const { t } = useTranslation();
   const [error, setError] = useState<GeolocationPositionError | null>(null);
@@ -82,11 +45,10 @@ function useGeolocation(
     getPosition,
     error,
     isLoading,
+    isError: !!error,
     isUnavailable,
   };
 }
-
-export default GeolocationButton;
 
 function getErrorMessage(code: number, t: TranslateFunction) {
   switch (code) {

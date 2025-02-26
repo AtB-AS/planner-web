@@ -2,11 +2,7 @@ import { Button, ButtonLink } from '@atb/components/button';
 import { MonoIcon } from '@atb/components/icon';
 import EmptySearch from '@atb/components/loading-empty-results';
 import { MessageBox } from '@atb/components/message-box';
-import Search, {
-  ClearButton,
-  GeolocationButton,
-  SwapButton,
-} from '@atb/components/search';
+import Search, { ClearButton, SwapButton } from '@atb/components/search';
 import { Typo } from '@atb/components/typography';
 import type { SearchTime } from '@atb/modules/search-time';
 import SearchTimeSelector from '@atb/modules/search-time/selector';
@@ -160,13 +156,7 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
               onChange={onFromSelected}
               selectedItem={tripQuery.from ?? undefined}
               testID="searchFrom"
-              button={
-                <GeolocationButton
-                  className={style.searchInputButton}
-                  onGeolocate={onFromSelected}
-                  onError={setGeolocationError}
-                />
-              }
+              onGeolocationError={setGeolocationError}
             />
             <Search
               label={t(PageText.Assistant.search.input.to)}
@@ -182,6 +172,7 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
                 />
               }
               autocompleteFocusPoint={tripQuery.from ?? undefined}
+              onGeolocationError={setGeolocationError}
             />
           </div>
           <div className={style.date}>
@@ -245,6 +236,7 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
                           />
                         )
                       }
+                      onGeolocationError={setGeolocationError}
                     />
                   </div>
 
