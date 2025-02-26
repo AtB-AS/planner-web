@@ -49,6 +49,9 @@ query ViaTripsWithDetails(
               name
               description
               publicCode
+              situations {
+                ...situation
+              }
             }
             longitude
             latitude

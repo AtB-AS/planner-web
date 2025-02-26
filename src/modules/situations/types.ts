@@ -3,28 +3,28 @@ import { z } from 'zod';
 
 export const infoLinkSchema = z.object({
   uri: z.string(),
-  label: z.string().nullable(),
+  label: z.string().optional(),
 });
 
 export const situationSchema = z.object({
   id: z.string(),
-  situationNumber: z.string().nullable(),
-  reportType: z.enum(['general', 'incident']).nullable(),
+  situationNumber: z.string().optional(),
+  reportType: z.enum(['general', 'incident']).optional(),
   summary: z.array(languageAndTextSchema),
   description: z.array(languageAndTextSchema),
   advice: z.array(languageAndTextSchema),
-  infoLinks: z.array(infoLinkSchema).nullable(),
+  infoLinks: z.array(infoLinkSchema).optional(),
   validityPeriod: z
     .object({
-      startTime: z.string().nullable(),
-      endTime: z.string().nullable(),
+      startTime: z.string().optional(),
+      endTime: z.string().optional(),
     })
-    .nullable(),
+    .optional(),
 });
 
 export const noticeSchema = z.object({
   id: z.string(),
-  text: z.string().nullable(),
+  text: z.string().optional(),
 });
 
 export type Notice = z.infer<typeof noticeSchema>;

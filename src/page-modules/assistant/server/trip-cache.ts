@@ -1,9 +1,10 @@
 import TTLCache from '@isaacs/ttlcache';
 import { FromToTripQuery, TripData } from '../types';
+import { TripsWithDetailsData } from '@atb/page-modules/assistant/server/journey-planner/validators.ts';
 
-let tripCache: TTLCache<string, TripData> | null = null;
+let tripCache: TTLCache<string, TripsWithDetailsData> | null = null;
 
-function getTripCacheInstance(): TTLCache<string, TripData> {
+function getTripCacheInstance(): TTLCache<string, TripsWithDetailsData> {
   if (!tripCache) {
     tripCache = new TTLCache({ ttl: 20000 });
   }
@@ -13,7 +14,7 @@ function getTripCacheInstance(): TTLCache<string, TripData> {
 
 export function getAssistantTripIfCached(
   query: FromToTripQuery,
-): TripData | undefined {
+): TripsWithDetailsData | undefined {
   const cacheKey = createCacheKey(query);
   if (tripCache?.has(cacheKey)) {
     return tripCache.get(cacheKey);
@@ -22,7 +23,7 @@ export function getAssistantTripIfCached(
 
 export function addAssistantTripToCache(
   query: FromToTripQuery,
-  tripData: TripData,
+  tripData: TripsWithDetailsData,
 ) {
   getTripCacheInstance().set(createCacheKey(query), tripData);
 }

@@ -3,7 +3,10 @@ import { motion } from 'framer-motion';
 import { Fragment, useEffect, useState } from 'react';
 import { getFilteredLegsByWalkOrWaitTime, tripSummary } from './utils';
 import { PageText, useTranslation } from '@atb/translations';
-import { type TripPattern as TripPatternType } from '../../server/journey-planner/validators';
+import {
+  type TripPattern as TripPatternType,
+  TripPatternWithDetails,
+} from '../../server/journey-planner/validators';
 import style from './trip-pattern.module.css';
 import { formatToClock, isInPast, secondsBetween } from '@atb/utils/date';
 import { TripPatternHeader } from './trip-pattern-header';
@@ -13,12 +16,13 @@ import { TransportIconWithLabel } from '@atb/modules/transport-mode';
 import { andIf } from '@atb/utils/css';
 import { useRouter } from 'next/router';
 import { isLineFlexibleTransport } from '@atb/modules/flexible';
+import { AssistantDetails } from '@atb/page-modules/assistant/details';
 
 const LAST_LEG_PADDING = 20;
 const DEFAULT_THRESHOLD_AIMED_EXPECTED_IN_SECONDS = 60;
 
 type TripPatternProps = {
-  tripPattern: TripPatternType;
+  tripPattern: TripPatternWithDetails;
   delay: number;
   index: number;
   testId?: string;
@@ -32,6 +36,7 @@ export default function TripPattern({
 }: TripPatternProps) {
   const { t, language } = useTranslation();
   const router = useRouter();
+  const [isOpen, setIsOpen] = useState(false);
 
   const {
     collapsedLegs,
@@ -52,7 +57,8 @@ export default function TripPattern({
 
   return (
     <motion.a
-      href={`/assistant/${tripPattern.compressedQuery}?filter=${router.query.filter}`}
+      //href={`/assistant/${tripPattern.compressedQuery}?filter=${router.query.filter}`}
+      onClick={() => setIsOpen((prevState) => !prevState)}
       className={className}
       data-testid={testId}
       initial={{ opacity: 0, x: -10 }}
@@ -182,6 +188,8 @@ export default function TripPattern({
           <MonoIcon icon="navigation/ArrowRight" />
         </Typo.span>
       </footer>
+
+      {isOpen && <AssistantDetails tripPattern={tripPattern} />}
     </motion.a>
   );
 }
@@ -189,7 +197,7 @@ export default function TripPattern({
 function useTripPatternController({
   tripPattern,
 }: {
-  tripPattern: TripPatternType;
+  tripPattern: TripPatternWithDetails;
 }) {
   const filteredLegs = getFilteredLegsByWalkOrWaitTime(tripPattern);
   const router = useRouter();

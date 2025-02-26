@@ -25,7 +25,6 @@ export function useMapInteractions(
 
     const handleStopPlaceClick = (e: mapboxgl.MapMouseEvent) => {
       if (!map) return;
-
       const features = map.queryRenderedFeatures(e.point);
       if (
         features.length &&

@@ -14,7 +14,7 @@ export const serviceJourneySchema = z.object({
     .object({
       notices: z.array(noticeSchema),
     })
-    .nullable(),
+    .optional(),
 });
 export const tariffZoneSchema = z.object({
   id: z.string(),
@@ -30,7 +30,7 @@ export const quaySchema = z.object({
 });
 
 export const placeSchema = z.object({
-  name: z.string().nullable(),
+  name: z.string().optional(),
   quay: quaySchema.nullable(),
 });
 
@@ -58,10 +58,10 @@ export const legSchema = z.object({
   fromEstimatedCall: fromEstimatedCallSchema.nullable(),
   situations: z.array(situationSchema),
   fromPlace: placeSchema,
-  serviceJourney: serviceJourneySchema.nullable(),
+  serviceJourney: serviceJourneySchema.optional(),
   interchangeTo: z
     .object({
-      staySeated: z.boolean().nullable(),
+      staySeated: z.boolean().optional(),
     })
     .nullable()
     .optional(),
@@ -95,23 +95,25 @@ export const tripPatternWithDetailsSchema = z.object({
   legs: z.array(
     z.object({
       mode: transportModeSchema,
-      transportSubmode: transportSubmodeSchema,
+      transportSubmode: transportSubmodeSchema.optional(),
       aimedStartTime: z.string(),
       aimedEndTime: z.string(),
       expectedStartTime: z.string(),
       expectedEndTime: z.string(),
       realtime: z.boolean(),
       duration: z.number(),
+      distance: z.number(),
       mapLegs: z.array(mapLegSchema),
       line: z
         .object({
-          name: z.string(),
+          name: z.string().optional(),
           publicCode: z.string().nullable(),
           flexibleLineType: z.string().nullable(),
+          notices: z.array(noticeSchema),
         })
         .nullable(), // line is null for legs with transportMode = foot
       fromPlace: z.object({
-        name: z.string(),
+        name: z.string().optional(),
         latitude: z.number(),
         longitude: z.number(),
         quay: z
@@ -120,6 +122,7 @@ export const tripPatternWithDetailsSchema = z.object({
             name: z.string(),
             description: z.string().nullable(),
             publicCode: z.string().nullable(),
+            situations: z.array(situationSchema),
           })
           .nullable(), // quay is null when fromPlace is a POI (e.g. address)
       }),
@@ -136,8 +139,12 @@ export const tripPatternWithDetailsSchema = z.object({
       serviceJourney: z
         .object({
           id: z.string(),
+          notices: z.array(noticeSchema),
+          journeyPattern: z
+            .object({ notices: z.array(noticeSchema) })
+            .optional(),
         })
-        .nullable(),
+        .optional(),
       fromEstimatedCall: z
         .object({
           destinationDisplay: z.object({ frontText: z.string() }).optional(),
@@ -151,7 +158,7 @@ export const tripPatternWithDetailsSchema = z.object({
           staySeated: z.boolean().optional(),
           toServiceJourney: z.object({ id: z.string() }),
         })
-        .nullable(),
+        .optional(),
       numberOfIntermediateEstimatedCalls: z.number(),
       notices: z.array(noticeSchema),
       situations: z.array(situationSchema),
@@ -173,9 +180,16 @@ export const tripPatternWithDetailsSchema = z.object({
   ),
 });
 
+export const tripsWithDetailsSchema = z.object({
+  nextPageCursor: z.string().nullable(),
+  previousPageCursor: z.string().nullable(),
+  tripPatterns: z.array(tripPatternWithDetailsSchema),
+});
+
 export const linesSchema = z.record(z.array(z.string()));
 
 export type TripData = z.infer<typeof tripSchema>;
+export type TripsWithDetailsData = z.infer<typeof tripsWithDetailsSchema>;
 export type NonTransitData = z.infer<typeof nonTransitSchema>;
 export type TripPattern = z.infer<typeof tripPatternSchema>;
 export type Leg = z.infer<typeof legSchema>;

@@ -31,113 +31,123 @@ query TripsWithDetails(
     includePlannedCancellations: true
     whiteListed: { lines: $lineFilter }
   ) {
+    nextPageCursor
+    previousPageCursor
+    metadata {
+      searchWindowUsed
+    }
     tripPatterns {
-      expectedStartTime
-      expectedEndTime
-      streetDistance
-      legs {
-        mode
-        transportSubmode
-        aimedStartTime
-        aimedEndTime
         expectedStartTime
         expectedEndTime
-        realtime
-        duration
-        pointsOnLink {
-          points
-          length
-        }
-        line {
-          name
-          publicCode
-          notices {
-            ...notice
+        streetDistance
+        legs {
+          mode
+          transportSubmode
+          aimedStartTime
+          aimedEndTime
+          expectedStartTime
+          expectedEndTime
+          realtime
+          distance
+          duration
+          pointsOnLink {
+            points
+            length
           }
-          flexibleLineType
-        }
-        fromPlace {
-          name
-          latitude
-          longitude
-          quay {
-            id
+          line {
             name
-            description
             publicCode
-          }
-        }
-        toPlace {
-          name
-          latitude
-          longitude
-          quay {
-            name
-            description
-            publicCode
-          }
-        }
-        serviceJourney {
-          id
-          notices {
-            ...notice
-          }
-          journeyPattern {
             notices {
               ...notice
             }
+            flexibleLineType
           }
-        }
-        fromEstimatedCall {
-          notices {
-            ...notice
-          }
-          destinationDisplay {
-            frontText
-          }
-          cancellation
-        }
-        interchangeTo {
-          guaranteed
-          maximumWaitTime
-          staySeated
-          toServiceJourney {
-            id
-          }
-        }
-        intermediateEstimatedCalls {
-          aimedDepartureTime
-        }
-        situations {
-          ...situation
-        }
-        serviceJourneyEstimatedCalls {
-          aimedDepartureTime
-          expectedDepartureTime
-          actualDepartureTime
-          cancellation
-          quay {
+          fromPlace {
             name
-            description
+            latitude
+            longitude
+            quay {
+              id
+              name
+              description
+              publicCode
+              situations {
+                ...situation
+              }
+            }
           }
-          realtime
-        }
-        bookingArrangements {
-          bookingMethods
-          latestBookingTime
-          bookingNote
-          bookWhen
-          latestBookingTime
-          minimumBookingPeriod
-          bookingContact {
-            contactPerson
-            email
-            url
-            phone
-            furtherDetails
+          toPlace {
+            name
+            latitude
+            longitude
+            quay {
+              name
+              description
+              publicCode
+            }
+          }
+          serviceJourney {
+            id
+            notices {
+              ...notice
+            }
+            journeyPattern {
+              notices {
+                ...notice
+              }
+            }
+          }
+          fromEstimatedCall {
+            notices {
+              ...notice
+            }
+            destinationDisplay {
+              frontText
+            }
+            cancellation
+          }
+          interchangeTo {
+            guaranteed
+            maximumWaitTime
+            staySeated
+            toServiceJourney {
+              id
+            }
+          }
+          intermediateEstimatedCalls {
+            aimedDepartureTime
+          }
+          situations {
+            ...situation
+          }
+          serviceJourneyEstimatedCalls {
+            aimedDepartureTime
+            expectedDepartureTime
+            actualDepartureTime
+            cancellation
+            quay {
+              name
+              description
+            }
+            realtime
+          }
+          bookingArrangements {
+            bookingMethods
+            latestBookingTime
+            bookingNote
+            bookWhen
+            latestBookingTime
+            minimumBookingPeriod
+            bookingContact {
+              contactPerson
+              email
+              url
+              phone
+              furtherDetails
+            }
           }
         }
       }
-    }
+
   }
 }

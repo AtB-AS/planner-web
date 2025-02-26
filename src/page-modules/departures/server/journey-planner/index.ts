@@ -129,10 +129,7 @@ export function createJourneyApi(
           id: q.id,
           publicCode: q.publicCode,
           description: q.description,
-          situations:
-            q.situations?.map((situation) =>
-              mapGraphQlSituationToSituation(situation as GraphQlSituation),
-            ) ?? [],
+          situations: q.situations,
           departures: q.estimatedCalls.map((e) => ({
             id: e.serviceJourney.id,
             destinationDisplay: {
@@ -153,9 +150,7 @@ export function createJourneyApi(
             transportSubmode: e.serviceJourney.line.transportSubmode,
             publicCode: e.serviceJourney.line.publicCode,
             notices: [],
-            situations: e.situations.map((situation) =>
-              mapGraphQlSituationToSituation(situation as GraphQlSituation),
-            ),
+            situations: e.situations,
           })),
         })),
       };
@@ -245,9 +240,7 @@ export function createJourneyApi(
                 lat: edge.node?.place.latitude,
                 lon: edge.node?.place.longitude,
               },
-              situations: mapAndFilterDuplicateGraphQlSituations(
-                situations as GraphQlSituation[],
-              ),
+              situations: filterDuplicateSituations(situations),
               transportMode: filterGraphQlTransportModes(
                 edge.node?.place.transportMode,
               ),
@@ -309,9 +302,7 @@ export function createJourneyApi(
               id: notice.id,
               text: notice.text,
             })) ?? [],
-          situations: e.situations.map((situation) =>
-            mapGraphQlSituationToSituation(situation as GraphQlSituation),
-          ),
+          situations: e.situations,
         })),
       };
       const validated = estimatedCallsSchema.safeParse(data);
@@ -405,10 +396,7 @@ export function createJourneyApi(
                 id: notice.id,
                 text: notice.text,
               })) ?? [],
-            situations:
-              estimatedCall.situations?.map((situation) =>
-                mapGraphQlSituationToSituation(situation as GraphQlSituation),
-              ) ?? [],
+            situations: estimatedCall.situations,
           }),
         ),
       };
@@ -433,52 +421,9 @@ type RecursivePartial<T> = {
       : T[P];
 };
 
-const mapAndFilterDuplicateGraphQlSituations = (
-  gqlSituations: GraphQlSituation[],
-) => {
-  const situations = gqlSituations.map((situation) =>
-    mapGraphQlSituationToSituation(situation),
-  );
+const filterDuplicateSituations = (situations: Situation[]) => {
   const filteredSituations = situations.sort((n1, n2) =>
     n1.id.localeCompare(n2.id),
   );
   return filteredSituations;
 };
-
-const mapGraphQlSituationToSituation = (
-  situation: GraphQlSituation,
-): Situation => ({
-  id: situation.id,
-  situationNumber: situation.situationNumber ?? null,
-  reportType: situation.reportType ?? null,
-  summary: situation.summary
-    .map((summary) => ({
-      ...(summary.language ? { language: summary.language } : {}),
-      value: summary.value ?? undefined,
-    }))
-    .filter((summary) => Boolean(summary.value)),
-  description: situation.description
-    .map((description) => ({
-      ...(description.language ? { language: description.language } : {}),
-      value: description.value ?? undefined,
-    }))
-    .filter((description) => Boolean(description.value)),
-  advice: situation.advice
-    .map((advice) => ({
-      ...(advice.language ? { language: advice.language } : {}),
-      value: advice.value ?? undefined,
-    }))
-    .filter((advice) => Boolean(advice.value)),
-  infoLinks: situation.infoLinks
-    ? situation.infoLinks.map((infoLink) => ({
-        uri: infoLink.uri,
-        label: infoLink.label ?? null,
-      }))
-    : null,
-  validityPeriod: situation.validityPeriod
-    ? {
-        startTime: situation.validityPeriod.startTime ?? null,
-        endTime: situation.validityPeriod.endTime ?? null,
-      }
-    : null,
-});

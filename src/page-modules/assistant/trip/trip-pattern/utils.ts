@@ -3,7 +3,11 @@ import {
   formatTripDuration,
   secondsBetween,
 } from '@atb/utils/date';
-import { Leg, TripPattern } from '../../server/journey-planner/validators';
+import {
+  Leg,
+  TripPattern,
+  TripPatternWithDetails,
+} from '../../server/journey-planner/validators';
 import { getQuayName } from './trip-pattern-header';
 import { Language, TranslateFunction, PageText } from '@atb/translations';
 import dictionary from '@atb/translations/dictionary';
@@ -12,7 +16,7 @@ import { transportModeToTranslatedString } from '@atb/modules/transport-mode';
 import { getTimeRepresentationType } from '@atb/modules/time-representation';
 
 export const tripSummary = (
-  tripPattern: TripPattern,
+  tripPattern: TripPatternWithDetails,
   t: TranslateFunction,
   language: Language,
   isInPast: boolean,
@@ -192,7 +196,9 @@ function getLegRequiresBooking(leg: Leg): boolean {
   return isLegFlexibleTransport(leg);
 }
 
-function getTripPatternBookingsRequiredCount(tripPattern: TripPattern): number {
+function getTripPatternBookingsRequiredCount(
+  tripPattern: TripPatternWithDetails,
+): number {
   return tripPattern?.legs?.filter((leg) => getLegRequiresBooking(leg)).length;
 }
 
@@ -231,7 +237,9 @@ function isSignificantFootLegWalkOrWaitTime(leg: Leg, nextLeg?: Leg) {
   return mustWait || mustWalk;
 }
 
-export function getFilteredLegsByWalkOrWaitTime(tripPattern: TripPattern) {
+export function getFilteredLegsByWalkOrWaitTime(
+  tripPattern: TripPatternWithDetails,
+) {
   if (!!tripPattern?.legs?.length) {
     return tripPattern.legs.filter((leg, i) =>
       isSignificantFootLegWalkOrWaitTime(leg, tripPattern.legs[i + 1]),

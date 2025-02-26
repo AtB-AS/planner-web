@@ -1,11 +1,14 @@
-import { TripPattern } from '../../../server/journey-planner/validators';
+import {
+  TripPattern,
+  TripPatternWithDetails,
+} from '../../../server/journey-planner/validators';
 import { useTranslation, PageText } from '@atb/translations';
 import { ColorIcon } from '@atb/components/icon';
 
 export const RailReplacementBusMessage = ({
   tripPattern,
 }: {
-  tripPattern: TripPattern;
+  tripPattern: TripPatternWithDetails;
 }) => {
   const { t } = useTranslation();
 

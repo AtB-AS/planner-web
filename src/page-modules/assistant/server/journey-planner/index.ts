@@ -14,11 +14,11 @@ import {
 } from './journey-gql/trip.generated';
 import {
   LineData,
-  TripData,
   TripPatternWithDetails,
   nonTransitSchema,
   tripPatternWithDetailsSchema,
-  tripSchema,
+  TripsWithDetailsData,
+  tripsWithDetailsSchema,
 } from './validators';
 import type {
   FromToTripQuery,
@@ -68,6 +68,7 @@ import {
   LinesQueryVariables,
 } from './journey-gql/lines.generated';
 import { isLineFlexibleTransport } from '@atb/modules/flexible';
+import { z } from 'zod';
 
 const DEFAULT_JOURNEY_CONFIG = {
   numTripPatterns: 8, // The maximum number of trip patterns to return.
@@ -79,7 +80,7 @@ const DEFAULT_JOURNEY_CONFIG = {
 };
 
 export type JourneyPlannerApi = {
-  trip(input: TripInput): Promise<TripData>;
+  trip(input: TripInput): Promise<TripsWithDetailsData>;
   nonTransitTrips(input: NonTransitTripInput): Promise<NonTransitTripData>;
   singleTrip(input: string): Promise<TripPatternWithDetails | undefined>;
   lines(input: LineInput): Promise<LineData>;
@@ -179,7 +180,7 @@ export function createJourneyApi(
 
       return createLinesRecord(result.data.lines);
     },
-    async trip(input) {
+    async trip(input): Promise<TripsWithDetailsData> {
       const journeyModes = {
         accessMode: StreetMode.Foot,
         // Show specific non-transit suggestions through separate API call
@@ -189,7 +190,6 @@ export function createJourneyApi(
       };
 
       const potential = getAssistantTripIfCached(input as FromToTripQuery);
-
       if (potential) return potential;
 
       if (input.via)
@@ -216,8 +216,11 @@ export function createJourneyApi(
         ...DEFAULT_JOURNEY_CONFIG,
       };
 
-      const result = await client.query<TripsQuery, TripsQueryVariables>({
-        query: TripsDocument,
+      const result = await client.query<
+        TripsWithDetailsQuery,
+        TripsWithDetailsQueryVariables
+      >({
+        query: TripsWithDetailsDocument,
         variables: queryVariables,
       });
 
@@ -225,16 +228,16 @@ export function createJourneyApi(
         throw result.error || result.errors;
       }
 
-      const data: RecursivePartial<TripData> = mapResultToTrips(
+      const data: RecursivePartial<TripsWithDetailsData> = mapResultToTrips(
         result.data.trip,
         queryVariables,
       );
 
-      const validated = tripSchema.safeParse(data);
+      const validated = tripsWithDetailsSchema.safeParse(data);
       if (!validated.success) {
+        console.log('There was an error');
         throw validated.error;
       }
-
       addAssistantTripToCache(input as FromToTripQuery, validated.data);
 
       return validated.data;
@@ -356,6 +359,7 @@ export function createJourneyApi(
                   name: leg.line.name,
                   publicCode: leg.line.publicCode ?? '',
                   flexibleLineType: leg.line.flexibleLineType ?? null,
+                  notices: leg.line.notices,
                 }
               : null,
           fromPlace: {
@@ -368,6 +372,7 @@ export function createJourneyApi(
                   name: leg.fromPlace.quay.name,
                   description: leg.fromPlace.quay.description ?? null,
                   publicCode: leg.fromPlace.quay.publicCode ?? '',
+                  situations: leg.fromPlace.quay.situations,
                 }
               : null,
           },
@@ -384,8 +389,10 @@ export function createJourneyApi(
           serviceJourney: leg.serviceJourney
             ? {
                 id: leg.serviceJourney.id,
+                notices: leg.serviceJourney.notices,
+                journeyPattern: leg.serviceJourney.journeyPattern,
               }
-            : null,
+            : undefined,
           fromEstimatedCall: leg.fromEstimatedCall
             ? {
                 cancellation: leg.fromEstimatedCall.cancellation,
@@ -400,16 +407,14 @@ export function createJourneyApi(
               }
             : null,
 
-          interchangeTo: leg.interchangeTo?.toServiceJourney?.id
-            ? {
-                guaranteed: leg.interchangeTo.guaranteed ?? false,
-                maximumWaitTime: leg.interchangeTo.maximumWaitTime ?? 0,
-                staySeated: leg.interchangeTo.staySeated,
-                toServiceJourney: {
-                  id: leg.interchangeTo.toServiceJourney.id,
-                },
-              }
-            : null,
+          interchangeTo: {
+            guaranteed: leg.interchangeTo?.guaranteed ?? false,
+            maximumWaitTime: leg.interchangeTo?.maximumWaitTime ?? 0,
+            staySeated: leg.interchangeTo?.staySeated,
+            toServiceJourney: {
+              id: leg.interchangeTo?.toServiceJourney?.id,
+            },
+          },
           numberOfIntermediateEstimatedCalls:
             leg.intermediateEstimatedCalls.length,
           notices: mapAndFilterNotices([
@@ -509,90 +514,181 @@ function inputToViaLocation(input: TripInput) {
 }
 
 function mapResultToTrips(
-  trip: TripsQuery['trip'],
-  queryVariables: TripsQueryVariables | ViaTripsQueryVariables,
-): RecursivePartial<TripData> {
+  trip: TripsWithDetailsQuery['trip'],
+  queryVariables:
+    | TripsWithDetailsQueryVariables
+    | ViaTripsWithDetailsQueryVariables,
+): RecursivePartial<TripsWithDetailsData> {
   return {
     nextPageCursor: trip.nextPageCursor ?? null,
     previousPageCursor: trip.previousPageCursor ?? null,
     tripPatterns: trip.tripPatterns.map((tripPattern) => ({
-      expectedStartTime: tripPattern.expectedStartTime,
+      compressedQuery: generateSingleTripQueryString(
+        extractServiceJourneyIds(tripPattern),
+        tripPattern.legs[0].aimedStartTime,
+        queryVariables,
+      ),
       expectedEndTime: tripPattern.expectedEndTime,
-      walkDistance: tripPattern.streetDistance || 0,
+      expectedStartTime: tripPattern.expectedStartTime,
       legs: tripPattern.legs.map((leg) => {
         return {
-          mode: isTransportModeType(leg.mode) ? leg.mode : null,
-          distance: leg.distance,
-          duration: leg.duration,
+          aimedEndTime: leg.aimedEndTime,
           aimedStartTime: leg.aimedStartTime,
-          expectedEndTime: leg.expectedEndTime,
-          expectedStartTime: leg.expectedStartTime,
-          realtime: leg.realtime,
-          transportSubmode: isTransportSubmodeType(leg.transportSubmode)
-            ? leg.transportSubmode
-            : null,
-          line: leg.line
+          bookingArrangements: leg.bookingArrangements
             ? {
-                publicCode: leg.line.publicCode ?? null,
-                flexibleLineType: leg.line.flexibleLineType ?? null,
-                notices: mapNotices(leg.line.notices),
+                bookingContact: leg.bookingArrangements.bookingContact
+                  ? {
+                      contactPerson:
+                        leg.bookingArrangements.bookingContact.contactPerson ??
+                        null,
+                      email:
+                        leg.bookingArrangements.bookingContact.email ?? null,
+                      furtherDetails:
+                        leg.bookingArrangements.bookingContact.furtherDetails ??
+                        null,
+                      phone:
+                        leg.bookingArrangements.bookingContact.phone ?? null,
+                      url: leg.bookingArrangements.bookingContact.url ?? null,
+                    }
+                  : null,
+                bookingMethods: leg.bookingArrangements.bookingMethods ?? null,
+                bookingNote: leg.bookingArrangements.bookingNote ?? null,
+                bookWhen: leg.bookingArrangements.bookWhen ?? null,
+                latestBookingTime: leg.bookingArrangements.latestBookingTime,
+                minimumBookingPeriod:
+                  leg.bookingArrangements.minimumBookingPeriod ?? null,
               }
             : null,
+          distance: leg.distance,
+          duration: leg.duration,
+          expectedEndTime: leg.expectedEndTime,
+          expectedStartTime: leg.expectedStartTime,
           fromEstimatedCall: leg.fromEstimatedCall
             ? {
                 cancellation: leg.fromEstimatedCall.cancellation,
                 notices: mapNotices(leg.fromEstimatedCall.notices),
               }
             : null,
-          situations: mapSituations(leg.situations),
           fromPlace: {
-            name: leg.fromPlace.name ?? null,
+            latitude: leg.fromPlace.latitude,
+            longitude: leg.fromPlace.longitude,
+            name: leg.fromPlace.name,
             quay: leg.fromPlace.quay
               ? {
-                  publicCode: leg.fromPlace.quay.publicCode ?? null,
-                  name: leg.fromPlace.quay.name,
                   description: leg.fromPlace.quay.description ?? null,
                   id: leg.fromPlace.quay.id,
+                  name: leg.fromPlace.quay.name,
+                  publicCode: leg.fromPlace.quay.publicCode ?? null,
                   situations: mapSituations(leg.fromPlace.quay.situations),
                 }
               : null,
           },
+          interchangeTo: leg.interchangeTo
+            ? {
+                guaranteed: leg.interchangeTo.guaranteed,
+                maximumWaitTime: leg.interchangeTo.maximumWaitTime,
+                staySeated: leg.interchangeTo.staySeated,
+                toServiceJourney: {
+                  id: leg.interchangeTo?.toServiceJourney?.id,
+                },
+              }
+            : undefined,
+          line: leg.line
+            ? {
+                flexibleLineType: leg.line.flexibleLineType ?? null,
+                name: leg.line.name,
+                notices: mapNotices(leg.line.notices),
+                publicCode: leg.line.publicCode ?? null,
+              }
+            : null,
+          mapLegs: leg.pointsOnLink?.points
+            ? mapToMapLegs(
+                leg.pointsOnLink,
+                isTransportModeType(leg.mode) ? leg.mode : 'unknown',
+                isTransportSubmodeType(leg.transportSubmode)
+                  ? leg.transportSubmode
+                  : 'unknown',
+                leg.fromPlace
+                  ? {
+                      latitude: leg.fromPlace.latitude,
+                      longitude: leg.fromPlace.longitude,
+                    }
+                  : undefined,
+                leg.toPlace
+                  ? {
+                      latitude: leg.toPlace.latitude,
+                      longitude: leg.toPlace.longitude,
+                    }
+                  : undefined,
+                isLineFlexibleTransport(
+                  leg.line as TripPatternWithDetails['legs'][0]['line'],
+                ),
+              )
+            : [],
+          mode: isTransportModeType(leg.mode) ? leg.mode : undefined,
+          notices: mapAndFilterNotices([
+            ...(leg.line?.notices || []),
+            ...(leg.serviceJourney?.notices || []),
+            ...(leg.serviceJourney?.journeyPattern?.notices || []),
+            ...(leg.fromEstimatedCall?.notices || []),
+          ]),
+          numberOfIntermediateEstimatedCalls:
+            leg.intermediateEstimatedCalls.length,
+          realtime: leg.realtime,
           serviceJourney: leg.serviceJourney
             ? {
                 id: leg.serviceJourney.id,
-                notices: mapNotices(leg.serviceJourney.notices),
-                journeyPattern: leg.serviceJourney.journeyPattern
-                  ? {
-                      notices: mapNotices(
-                        leg.serviceJourney.journeyPattern.notices,
-                      ),
-                    }
-                  : null,
+                journeyPattern: {
+                  notices: mapNotices(
+                    leg.serviceJourney?.journeyPattern?.notices ?? [],
+                  ),
+                },
+                notices: mapNotices(leg.serviceJourney?.notices ?? []),
               }
-            : null,
-          interchangeTo: leg.interchangeTo?.staySeated
-            ? {
-                staySeated: leg.interchangeTo.staySeated,
-              }
-            : null,
+            : undefined,
+          serviceJourneyEstimatedCalls: leg.serviceJourneyEstimatedCalls.map(
+            (estimatedCall) => {
+              return {
+                actualDepartureTime: estimatedCall.actualDepartureTime ?? null,
+                aimedDepartureTime: estimatedCall.aimedDepartureTime,
+                cancellation: estimatedCall.cancellation,
+                expectedDepartureTime: estimatedCall.expectedDepartureTime,
+                quay: {
+                  description: estimatedCall.quay.description ?? null,
+                  name: estimatedCall.quay.name,
+                },
+                realtime: estimatedCall.realtime,
+              };
+            },
+          ),
+          situations: mapSituations(leg.situations),
+          toPlace: {
+            name: leg.toPlace.name,
+            quay: leg.toPlace.quay
+              ? {
+                  description: leg.toPlace.quay.description ?? null,
+                  name: leg.toPlace.quay.name,
+                  publicCode: leg.toPlace.quay.publicCode ?? '',
+                }
+              : null,
+          },
+          transportSubmode: isTransportSubmodeType(leg.transportSubmode)
+            ? leg.transportSubmode
+            : undefined,
         };
       }),
-      compressedQuery: generateSingleTripQueryString(
-        extractServiceJourneyIds(tripPattern),
-        tripPattern.legs[0].aimedStartTime,
-        queryVariables,
-      ),
+      walkDistance: tripPattern.streetDistance || 0,
     })),
   };
 }
 
 function mapSituations(
-  situations: TripsQuery['trip']['tripPatterns'][0]['legs'][0]['situations'][0][],
+  situations: TripsWithDetailsQuery['trip']['tripPatterns'][0]['legs'][0]['situations'][0][],
 ): Situation[] {
   return situations.map((situation) => ({
     id: situation.id,
-    situationNumber: situation.situationNumber ?? null,
-    reportType: situation.reportType ?? null,
+    situationNumber: situation.situationNumber,
+    reportType: situation.reportType,
     summary: situation.summary
       .map((summary) => ({
         ...(summary.language ? { language: summary.language } : {}),
@@ -611,18 +707,14 @@ function mapSituations(
         value: advice.value,
       }))
       .filter((advice) => Boolean(advice.value)),
-    infoLinks: situation.infoLinks
-      ? situation.infoLinks.map((infoLink) => ({
-          uri: infoLink.uri,
-          label: infoLink.label ?? null,
-        }))
-      : null,
-    validityPeriod: situation.validityPeriod
-      ? {
-          startTime: situation.validityPeriod.startTime ?? null,
-          endTime: situation.validityPeriod.endTime ?? null,
-        }
-      : null,
+    infoLinks: situation.infoLinks?.map((infoLink) => ({
+      uri: infoLink.uri,
+      label: infoLink.label,
+    })),
+    validityPeriod: {
+      startTime: situation.validityPeriod?.startTime ?? null,
+      endTime: situation.validityPeriod?.endTime ?? null,
+    },
   }));
 }
 
@@ -634,7 +726,7 @@ function mapNotices(
 ): Notice[] {
   return notices.map((notice) => ({
     id: notice.id,
-    text: notice.text ?? null,
+    text: notice.text,
   }));
 }
 
@@ -792,7 +884,7 @@ async function getSortedViaTrips(
   client: GraphQlRequester<'graphql-journeyPlanner3'>,
   input: TripInput,
   transportModes: GraphQlTransportModes[],
-): Promise<TripData> {
+): Promise<TripsWithDetailsData> {
   const from = inputToLocation(input, 'from');
   const to = inputToLocation(input, 'to');
   const via = inputToViaLocation(input);
@@ -812,8 +904,11 @@ async function getSortedViaTrips(
     ...DEFAULT_JOURNEY_CONFIG,
   };
 
-  const result = await client.query<ViaTripsQuery, ViaTripsQueryVariables>({
-    query: ViaTripsDocument,
+  const result = await client.query<
+    ViaTripsWithDetailsQuery,
+    ViaTripsWithDetailsQueryVariables
+  >({
+    query: ViaTripsWithDetailsDocument,
     variables: queryVariables,
   });
 
@@ -830,13 +925,13 @@ async function getSortedViaTrips(
   const tripPatternsFromVia = tripPatternsPerSegment[0].tripPatterns;
   const tripPatternsViaTo = tripPatternsPerSegment[1].tripPatterns;
 
-  const tripPatternsFromViaTo = findTripPatternsFromViaTo(
+  const tripPatternsFromViaTo = findTripPatternsFromViaToWithDetails(
     tripPatternCombinationList,
     tripPatternsFromVia,
     tripPatternsViaTo,
   );
 
-  const data: RecursivePartial<TripData> = mapResultToTrips(
+  const data: RecursivePartial<TripsWithDetailsData> = mapResultToTrips(
     {
       nextPageCursor: undefined,
       previousPageCursor: undefined,
@@ -846,7 +941,7 @@ async function getSortedViaTrips(
     queryVariables,
   );
 
-  const validated = tripSchema.safeParse(data);
+  const validated = tripsWithDetailsSchema.safeParse(data);
 
   if (!validated.success) {
     throw validated.error;

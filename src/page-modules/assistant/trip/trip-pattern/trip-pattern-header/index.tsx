@@ -1,4 +1,8 @@
-import { TripPattern, Quay } from '../../../server/journey-planner/validators';
+import {
+  TripPattern,
+  Quay,
+  TripPatternWithDetails,
+} from '../../../server/journey-planner/validators';
 import style from './trip-pattern-header.module.css';
 import { Typo } from '@atb/components/typography';
 import { useTranslation, PageText, TranslateFunction } from '@atb/translations';
@@ -6,13 +10,13 @@ import { formatTripDuration } from '@atb/utils/date';
 import { flatMap } from 'lodash';
 import { getNoticesForLeg } from './utils';
 import { RailReplacementBusMessage } from './rail-replacement-bus';
-import { SituationOrNoticeIcon } from '@atb/modules/situations';
+import { Notice, SituationOrNoticeIcon } from '@atb/modules/situations';
 import { isSubModeBoat } from '@atb/modules/transport-mode';
 import { ColorIcon } from '@atb/components/icon';
 import { Assistant } from '@atb/translations/pages';
 
 type TripPatternHeaderProps = {
-  tripPattern: TripPattern;
+  tripPattern: TripPatternWithDetails;
   isCancelled?: boolean;
 };
 
@@ -54,7 +58,7 @@ export function TripPatternHeader({
 
       <SituationOrNoticeIcon
         situations={flatMap(tripPattern.legs, (leg) => leg.situations)}
-        notices={flatMap(tripPattern.legs, getNoticesForLeg)}
+        notices={tripPattern.legs.map(getNoticesForLeg).flat()}
         accessibilityLabel={startModeAndPlaceText}
         cancellation={isCancelled}
       />
@@ -63,7 +67,7 @@ export function TripPatternHeader({
 }
 
 export function getStartModeAndPlaceText(
-  tripPattern: TripPattern,
+  tripPattern: TripPatternWithDetails,
   t: TranslateFunction,
 ): string {
   let startLeg = tripPattern.legs[0];
@@ -121,8 +125,8 @@ export function getStartModeAndPlaceText(
 export function getQuayName(
   quay: Quay | null,
   t: TranslateFunction,
-): string | null {
-  if (!quay) return null;
+): string | undefined {
+  if (!quay) return undefined;
   if (!quay.publicCode) return quay.name;
   const prefix = t(Assistant.trip.tripPattern.quayPublicCodePrefix);
   return `${quay.name}${prefix ? prefix : ' '}${quay.publicCode}`;

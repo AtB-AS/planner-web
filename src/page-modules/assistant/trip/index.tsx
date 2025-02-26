@@ -22,10 +22,13 @@ import {
   GlobalMessages,
 } from '@atb/modules/global-messages';
 import dictionary from '@atb/translations/dictionary.ts';
+import { AssistantDetails } from '@atb/page-modules/assistant/details';
+import { TripsWithDetailsData } from '@atb/page-modules/assistant/server/journey-planner/validators.ts';
+import { useState } from 'react';
 
 export type TripProps = {
   tripQuery: FromToTripQuery;
-  fallback?: TripData;
+  fallback?: TripsWithDetailsData;
 };
 
 export default function Trip({ tripQuery, fallback }: TripProps) {
