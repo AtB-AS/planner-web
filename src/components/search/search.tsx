@@ -9,11 +9,15 @@ import { logSpecificEvent } from '@atb/modules/firebase';
 import { ComponentText, useTranslation } from '@atb/translations';
 import useLocalStorage from '@atb/utils/use-localstorage';
 import { Typo } from '../typography';
+import { useGeolocation } from './use-geolocation';
+import { MonoIcon } from '../icon';
+import { LoadingIcon } from '../loading';
 
 type SearchProps = {
   label: string;
   placeholder: string;
   onChange: (selection: GeocoderFeature) => void;
+  onGeolocationError?: (error: string | null) => void;
   button?: ReactNode;
   initialFeature?: GeocoderFeature;
   selectedItem?: GeocoderFeature;
@@ -25,6 +29,7 @@ export default function Search({
   label,
   placeholder,
   onChange,
+  onGeolocationError,
   button,
   initialFeature,
   selectedItem,
@@ -38,12 +43,27 @@ export default function Search({
   const [recentFeatureSearches, setRecentFeatureSearches] = useLocalStorage<
     GeocoderFeature[]
   >('recentFeatureSearches', []);
+  const {
+    getPosition,
+    isLoading: isGeolocationLoading,
+    isUnavailable: isGeolocationUnavailable,
+    isError: isGeolocationError,
+  } = useGeolocation(onChange, onGeolocationError);
 
   function getA11yStatusMessage({
     isOpen,
     resultCount,
     previousResultCount,
-  }: A11yStatusMessageOptions<GeocoderFeature>) {
+    inputValue,
+  }: A11yStatusMessageOptions<GeocoderFeature | 'location'>) {
+    if (focus && inputValue === '') {
+      return t(
+        ComponentText.SearchInput.previousResultA11yLabel(
+          recentFeatureSearches.length,
+        ),
+      );
+    }
+
     if (!isOpen) {
       return '';
     }
@@ -59,8 +79,12 @@ export default function Search({
     return '';
   }
 
-  const handleOnChange = (feature: GeocoderFeature | null) => {
+  const handleOnChange = (feature: GeocoderFeature | 'location' | null) => {
     if (!feature) return;
+    if (feature === 'location') {
+      getPosition();
+      return;
+    }
     // Add to recent searches, or move to top of list if already in list
     setRecentFeatureSearches([
       feature,
@@ -70,7 +94,7 @@ export default function Search({
   };
 
   return (
-    <Downshift<GeocoderFeature>
+    <Downshift<GeocoderFeature | 'location'>
       onInputValueChange={(inputValue) => {
         logSpecificEvent('select_search');
         return setQuery(inputValue || '');
@@ -137,6 +161,30 @@ export default function Search({
               ))}
             {focus && inputValue === '' && (
               <>
+                <li
+                  className={andIf({
+                    [style.item]: true,
+                    [style.itemHighlighted]: highlightedIndex === 0,
+                  })}
+                  {...getItemProps({
+                    index: 0,
+                    item: 'location',
+                  })}
+                  data-testid={`list-item-0`}
+                >
+                  <div className={style.itemIcon} aria-hidden>
+                    {isGeolocationLoading ? (
+                      <LoadingIcon />
+                    ) : (
+                      <MonoIcon icon="places/Location" />
+                    )}
+                  </div>
+                  <span className={style.itemName}>
+                    {isGeolocationUnavailable || isGeolocationError
+                      ? t(ComponentText.SearchInput.positionNotAvailable)
+                      : t(ComponentText.SearchInput.myPosition)}
+                  </span>
+                </li>
                 {recentFeatureSearches.length > 0 && (
                   <li className={style.item}>
                     <Typo.span
@@ -151,14 +199,14 @@ export default function Search({
                   <li
                     className={andIf({
                       [style.item]: true,
-                      [style.itemHighlighted]: highlightedIndex === index,
+                      [style.itemHighlighted]: highlightedIndex === index + 1,
                     })}
                     key={item.id}
                     {...getItemProps({
-                      index,
+                      index: index + 1,
                       item,
                     })}
-                    data-testid={`list-item-${index}`}
+                    data-testid={`list-item-${index + 1}`}
                   >
                     <div className={style.itemIcon} aria-hidden>
                       <VenueIcon categories={item.category} />
@@ -177,8 +225,12 @@ export default function Search({
 }
 
 function geocoderFeatureToString(
-  feature: GeocoderFeature | null | undefined,
+  feature: GeocoderFeature | 'location' | null | undefined,
 ): string {
+  if (feature === 'location') {
+    // Location has been selected, but it hasn't been resolved to a feature yet
+    return '';
+  }
   return feature
     ? `${feature.name}${feature.locality ? ', ' + feature.locality : ''}`
     : '';
