@@ -8,7 +8,6 @@ import { GeocoderFeature } from '@atb/page-modules/departures';
 import { logSpecificEvent } from '@atb/modules/firebase';
 import { ComponentText, useTranslation } from '@atb/translations';
 import useLocalStorage from '@atb/utils/use-localstorage';
-import { Typo } from '../typography';
 import { useGeolocation } from './use-geolocation';
 import { MonoIcon } from '../icon';
 import { LoadingIcon } from '../loading';
@@ -88,7 +87,7 @@ export default function Search({
     // Add to recent searches, or move to top of list if already in list
     setRecentFeatureSearches([
       feature,
-      ...recentFeatureSearches.filter((f) => f.id !== feature.id).splice(0, 4),
+      ...recentFeatureSearches.filter((f) => f.id !== feature.id).splice(0, 2),
     ]);
     onChange(feature);
   };
@@ -155,8 +154,10 @@ export default function Search({
                   <div className={style.itemIcon} aria-hidden>
                     <VenueIcon categories={item.category} />
                   </div>
-                  <span className={style.itemName}>{item.name}</span>
-                  <span className={style.itemLocality}>{item.locality}</span>
+                  <div className={style.itemInfo}>
+                    <span className={style.itemName}>{item.name}</span>
+                    <span className={style.itemLocality}>{item.locality}</span>
+                  </div>
                 </li>
               ))}
             {focus && inputValue === '' && (
@@ -179,20 +180,19 @@ export default function Search({
                       <MonoIcon icon="places/Location" />
                     )}
                   </div>
-                  <span className={style.itemName}>
-                    {isGeolocationUnavailable || isGeolocationError
-                      ? t(ComponentText.SearchInput.positionNotAvailable)
-                      : t(ComponentText.SearchInput.myPosition)}
-                  </span>
+                  <div className={style.itemInfo}>
+                    <span className={style.itemName}>
+                      {isGeolocationUnavailable || isGeolocationError
+                        ? t(ComponentText.SearchInput.positionNotAvailable)
+                        : t(ComponentText.SearchInput.myPosition)}
+                    </span>
+                  </div>
                 </li>
                 {recentFeatureSearches.length > 0 && (
                   <li className={style.item}>
-                    <Typo.span
-                      textType="body__secondary"
-                      className={style.menuHeading}
-                    >
+                    <span className={style.menuHeading}>
                       {t(ComponentText.SearchInput.recentSearches)}
-                    </Typo.span>
+                    </span>
                   </li>
                 )}
                 {recentFeatureSearches.map((item, index) => (
@@ -211,8 +211,12 @@ export default function Search({
                     <div className={style.itemIcon} aria-hidden>
                       <VenueIcon categories={item.category} />
                     </div>
-                    <span className={style.itemName}>{item.name}</span>
-                    <span className={style.itemLocality}>{item.locality}</span>
+                    <div className={style.itemInfo}>
+                      <span className={style.itemName}>{item.name}</span>
+                      <span className={style.itemLocality}>
+                        {item.locality}
+                      </span>
+                    </div>
                   </li>
                 ))}
               </>
