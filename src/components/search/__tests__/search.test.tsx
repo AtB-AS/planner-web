@@ -210,6 +210,24 @@ describe('search box', () => {
     });
   });
 
+  it('should call getCurrentPosition when geolocating', async () => {
+    const fn = vi.fn();
+    customRender(<Search label="Test" placeholder="Test" onChange={fn} />);
+
+    // Set focus to open the dropdown
+    const input = screen.getByRole('textbox', {
+      name: /test/i,
+    });
+    await userEvent.click(input);
+
+    const geolocationOption = screen.getByRole('option', {
+      name: 'Min posisjon',
+    });
+    await userEvent.click(geolocationOption);
+
+    expect(mockGeolocation.getCurrentPosition).toHaveBeenCalled();
+  });
+
   it('should render Search component with expected placeholder text', () => {
     const testPlaceholder = 'Søk fra adresse, kai eller holdeplass';
     customRender(
