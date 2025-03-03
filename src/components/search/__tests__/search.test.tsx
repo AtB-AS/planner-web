@@ -20,7 +20,6 @@ import userEvent from '@testing-library/user-event';
 import { SWRConfig } from 'swr';
 import React from 'react';
 import SwapButton from '../swap-button';
-import GeolocationButton from '../geolocation-button';
 
 const result = [
   {
@@ -212,20 +211,19 @@ describe('search box', () => {
   });
 
   it('should call getCurrentPosition when geolocating', async () => {
-    customRender(
-      <Search
-        label="Test"
-        placeholder="Test"
-        onChange={() => {}}
-        button={<GeolocationButton onGeolocate={() => {}} />}
-      />,
-    );
+    const fn = vi.fn();
+    customRender(<Search label="Test" placeholder="Test" onChange={fn} />);
 
-    const geolocationButton = screen.getByRole('button', {
-      name: 'Finn min posisjon',
+    // Set focus to open the dropdown
+    const input = screen.getByRole('textbox', {
+      name: /test/i,
     });
+    await userEvent.click(input);
 
-    await userEvent.click(geolocationButton);
+    const geolocationOption = screen.getByRole('option', {
+      name: 'Min posisjon',
+    });
+    await userEvent.click(geolocationOption);
 
     expect(mockGeolocation.getCurrentPosition).toHaveBeenCalled();
   });

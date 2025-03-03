@@ -59,6 +59,9 @@
   overflow-y: auto;
   z-index: 100;
 }
+.menuHeading {
+  padding-left: token('spacing.small');
+}
 
 .item {
   padding: token('spacing.small');
