@@ -30,7 +30,10 @@ export default handlerWithDepartureClient<ReverseApiReturnType>(
       });
     },
   },
-  // @TODO FIX THIS!
+  /*
+   CORS Access-Control-Allow-Origin
+   @TODO FIX THIS!
+  */
   [
     'https://frammr.no',
     /\.frammr.no$/,
@@ -44,5 +47,6 @@ export default handlerWithDepartureClient<ReverseApiReturnType>(
     /\.vkt.no$/,
     'https://farte.no',
     /\.farte.no$/,
+    'https://atbeta.stagecustom22.coretrek.no',
   ],
 );
