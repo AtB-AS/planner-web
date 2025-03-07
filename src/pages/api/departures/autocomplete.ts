@@ -40,7 +40,10 @@ export default handlerWithDepartureClient<AutocompleteApiReturnType>(
       });
     },
   },
-  // @TODO FIX THIS!
+  /*
+   CORS Access-Control-Allow-Origin
+   @TODO FIX THIS!
+  */
   [
     'https://frammr.no',
     /\.frammr.no$/,
@@ -54,5 +57,6 @@ export default handlerWithDepartureClient<AutocompleteApiReturnType>(
     /\.vkt.no$/,
     'https://farte.no',
     /\.farte.no$/,
+    'https://atbeta.stagecustom22.coretrek.no',
   ],
 );
