@@ -27,8 +27,8 @@
   flex-direction: column;
 }
 
-.input > :last-child {
-  margin-top: 0.375rem;
+.inputGroup {
+  position: relative;
 }
 
 .button {
@@ -80,13 +80,19 @@
 .searchInputButton {
   height: var(--height);
   border: none;
-  background: none;
+  background-color: token('color.background.neutral.0.background');
+  border: token('border.width.slim') solid
+    token('color.foreground.dynamic.disabled');
   padding: token('spacing.small');
-  border-bottom-right-radius: 0.75rem;
-  border-top-right-radius: 0.75rem;
+  border-radius: 50%;
   cursor: pointer;
   display: flex;
   align-items: center;
+  position: absolute;
+  top: 50%;
+  right: token('spacing.medium');
+  transform: translate(0, -50%);
+  z-index: 100;
 }
 
 @media (max-width: 650px) {

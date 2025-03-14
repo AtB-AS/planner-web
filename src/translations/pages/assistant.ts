@@ -24,9 +24,9 @@ const AssistantInternal = {
         description: _('Via', 'Via', 'Via'),
       },
       placeholder: _(
-        'adresse, kai eller holdeplass',
-        'address, quay or bus stop',
-        'adresse, kai eller haldeplass',
+        'Sted eller adresse',
+        'Location or address',
+        'Stad eller adresse',
       ),
     },
     date: {
