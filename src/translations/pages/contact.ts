@@ -561,11 +561,15 @@ const ContactInternal = {
     title: _('Hittegods', 'Lost property', 'Hittegods'),
     description: {
       info: _(
-        'FRAM har dessverre ikke oversikt over hittegods. Dette er det bussoperatørene som kjører rutene som er ansvarlige for. Du finner informasjon om hvilken operatør som har kjørt din rute og hvem du kan kontakte',
-        'FRAM unfortunately does not manage lost property. Responsibility for this lies with the bus operators running the routes. You can find information about the operator for your route and how to contact them',
-        'FRAM har dessverre ikkje oversikt over hittegods. Dette er det bussoperatørane som køyrer rutane som er ansvarlege for. Du finn informasjon om kva operatør som har køyrt ruta di og kven du kan kontakte',
+        'Har du glemt igjen noe på en av bussene, hurtigbåtene, eller fergene, ',
+        `If you've left something behind on a bus, express boat, or ferry,`,
+        'Har du gløymt igjen noko i ein av bussane, hurtigbåtane eller ferjene, ',
       ),
-      externalLink: _('HER.', 'HERE.', 'HER.'),
+      externalLink: _(
+        'finner du informasjon om hvem du kan ta kontakt med her.',
+        'you can find information about whom to contact here.',
+        'finn du informasjon om kven du kan ta kontakt med her.',
+      ),
       url: _(
         'https://frammr.no/hjelp-og-kontakt/hittegods/',
         'https://frammr.no/hjelp-og-kontakt/hittegods/?sprak=3',
