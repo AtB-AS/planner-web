@@ -5,17 +5,12 @@ import { useDarkMode } from '@atb/modules/theme';
 import Image from 'next/image';
 import { getOrgData } from '@atb/modules/org-data';
 import { MonoIcon } from '@atb/components/icon';
-import { andIf } from '@atb/utils/css';
-import { useRouter } from 'next/router';
-import { shouldShowContactPage } from '@atb/page-modules/contact';
 import { ButtonLink } from '@atb/components/button';
 
 export default function PageHeader() {
   const { t } = useTranslation();
-  const router = useRouter();
   const [isDarkMode] = useDarkMode();
   const { fylkeskommune, urls } = getOrgData();
-  const hasContactFormUrl = shouldShowContactPage();
 
   return (
     <header className={style.pageHeader}>
@@ -65,23 +60,6 @@ export default function PageHeader() {
             target: '_blank',
           }}
         />
-        {/*
-        {hasContactFormUrl && (
-          <nav>
-            <Link
-              className={andIf({
-                [style.pageHeader__link]: true,
-                [style['pageHeader__link--active']]:
-                  router.pathname.startsWith('/contact'),
-              })}
-              href={'/contact'}
-              title={t(CommonText.Layout.contactLink)}
-            >
-              {t(CommonText.Layout.contactLink)}
-            </Link>
-          </nav>
-        )}
-      */}
       </div>
     </header>
   );
