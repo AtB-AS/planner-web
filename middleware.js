@@ -4,6 +4,7 @@ const allowedOrigins = [
   'http://localhost:3000',
   'https://frammr.no',
   'https://reise.frammr.no',
+  'https://atbeta.stagecustom22.coretrek.no',
 ];
 
 export function middleware(req) {
