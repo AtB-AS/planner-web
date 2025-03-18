@@ -76,14 +76,14 @@
 .button--secondary,
 .button--secondary:visited {
   color: token('color.foreground.dynamic.primary');
-  border: 1px solid token('color.foreground.dynamic.primary');
+  border: 2px solid token('color.foreground.dynamic.primary');
 }
 
 .button--secondary:hover,
 .button--secondary:active,
 .button--secondary.button--state_active {
   background-color: token('color.interactive.0.active.background');
-  border: 1px solid token('color.interactive.0.outline.background');
+  border: 2px solid token('color.interactive.0.outline.background');
 }
 
 .button--secondary:disabled,

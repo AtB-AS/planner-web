@@ -268,8 +268,10 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
             mode={
               orgId === 'fram' && !isDarkMode
                 ? 'interactive_2--light-outline'
-                : 'interactive_2'
+                : 'secondary'
             }
+            state={showAlternatives ? 'active' : 'none'}
+            radiusSize="circular"
             onClick={() => setShowAlternatives(!showAlternatives)}
             icon={{ right: <MonoIcon icon="actions/Adjust" /> }}
           />
@@ -302,4 +304,5 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
     </div>
   );
 }
+
 export default AssistantLayout;
