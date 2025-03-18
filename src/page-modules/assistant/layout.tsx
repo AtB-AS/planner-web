@@ -281,8 +281,9 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
             mode={
               orgId === 'fram'
                 ? 'interactive_0--bordered-light-outline'
-                : 'interactive_0--bordered'
+                : 'primary'
             }
+            radiusSize="circular"
             disabled={
               !tripQuery.from || !tripQuery.to || isPerformingSearchNavigation
             }
