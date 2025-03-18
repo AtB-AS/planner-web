@@ -60,6 +60,8 @@ export default function PageHeader() {
           href={urls.homePageUrl.href}
           title={t(CommonText.Layout.homeLink(urls.homePageUrl.name))}
           icon={{ right: <MonoIcon icon="navigation/ExternalLink" /> }}
+          mode="secondary"
+          radiusSize="circular"
           size="pill"
         />
         {/*
