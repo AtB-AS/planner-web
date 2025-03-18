@@ -247,17 +247,19 @@ export function createJourneyApi(
       const tripQuery = parseTripQueryString(input);
       if (!tripQuery) return;
 
+      const queryVariables = {
+        ...tripQuery.query,
+        ...DEFAULT_JOURNEY_CONFIG,
+      };
+
       let formattedResult;
-      if ('via' in tripQuery.query) {
+      if ('via' in queryVariables) {
         const result = await client.query<
           ViaTripsWithDetailsQuery,
           ViaTripsWithDetailsQueryVariables
         >({
           query: ViaTripsWithDetailsDocument,
-          variables: {
-            ...tripQuery.query,
-            ...DEFAULT_JOURNEY_CONFIG,
-          },
+          variables: queryVariables,
         });
 
         if (result.error || result.errors) {
@@ -290,9 +292,8 @@ export function createJourneyApi(
         >({
           query: TripsWithDetailsDocument,
           variables: {
-            ...tripQuery.query,
+            ...queryVariables,
             arriveBy: false,
-            ...DEFAULT_JOURNEY_CONFIG,
           },
         });
 
@@ -314,164 +315,23 @@ export function createJourneyApi(
 
       if (!singleTripPattern) return;
 
-      const data: RecursivePartial<TripPatternWithDetails> = {
-        expectedStartTime: singleTripPattern?.expectedStartTime,
-        expectedEndTime: singleTripPattern?.expectedEndTime,
-        walkDistance: singleTripPattern?.streetDistance ?? 0,
-        legs: singleTripPattern?.legs.map((leg) => ({
-          mode: isTransportModeType(leg.mode) ? leg.mode : 'unknown',
-          transportSubmode: isTransportSubmodeType(leg.transportSubmode)
-            ? leg.transportSubmode
-            : 'unknown',
-          aimedStartTime: leg.aimedStartTime,
-          aimedEndTime: leg.aimedEndTime,
-          expectedStartTime: leg.expectedStartTime,
-          expectedEndTime: leg.expectedEndTime,
-          realtime: leg.realtime,
-          duration: leg.duration,
-          mapLegs: leg.pointsOnLink?.points
-            ? mapToMapLegs(
-                leg.pointsOnLink,
-                isTransportModeType(leg.mode) ? leg.mode : 'unknown',
-                isTransportSubmodeType(leg.transportSubmode)
-                  ? leg.transportSubmode
-                  : 'unknown',
-                leg.fromPlace
-                  ? {
-                      latitude: leg.fromPlace.latitude,
-                      longitude: leg.fromPlace.longitude,
-                    }
-                  : undefined,
-                leg.toPlace
-                  ? {
-                      latitude: leg.toPlace.latitude,
-                      longitude: leg.toPlace.longitude,
-                    }
-                  : undefined,
-                isLineFlexibleTransport(
-                  leg.line as TripPatternWithDetails['legs'][0]['line'],
-                ),
-              )
-            : [],
-          line:
-            leg.line && leg.line.name
-              ? {
-                  name: leg.line.name,
-                  publicCode: leg.line.publicCode ?? '',
-                  flexibleLineType: leg.line.flexibleLineType ?? null,
-                  notices: leg.line.notices,
-                }
-              : null,
-          fromPlace: {
-            name: leg.fromPlace.name,
-            latitude: leg.fromPlace.latitude,
-            longitude: leg.fromPlace.longitude,
-            quay: leg.fromPlace.quay
-              ? {
-                  id: leg.fromPlace.quay.id,
-                  name: leg.fromPlace.quay.name,
-                  description: leg.fromPlace.quay.description ?? null,
-                  publicCode: leg.fromPlace.quay.publicCode ?? '',
-                  situations: leg.fromPlace.quay.situations,
-                }
-              : null,
-          },
-          toPlace: {
-            name: leg.toPlace.name,
-            quay: leg.toPlace.quay
-              ? {
-                  name: leg.toPlace.quay.name,
-                  description: leg.toPlace.quay.description ?? null,
-                  publicCode: leg.toPlace.quay.publicCode ?? '',
-                }
-              : null,
-          },
-          serviceJourney: leg.serviceJourney
-            ? {
-                id: leg.serviceJourney.id,
-                notices: leg.serviceJourney.notices,
-                journeyPattern: leg.serviceJourney.journeyPattern,
-              }
-            : undefined,
-          fromEstimatedCall: leg.fromEstimatedCall
-            ? {
-                cancellation: leg.fromEstimatedCall.cancellation,
-                ...(leg.fromEstimatedCall.destinationDisplay?.frontText
-                  ? {
-                      destinationDisplay: {
-                        frontText:
-                          leg.fromEstimatedCall.destinationDisplay.frontText,
-                      },
-                    }
-                  : {}),
-              }
-            : null,
+      const data: RecursivePartial<TripsWithDetailsData> = mapResultToTrips(
+        { tripPatterns: [singleTripPattern] },
+        queryVariables,
+      );
 
-          interchangeTo: {
-            guaranteed: leg.interchangeTo?.guaranteed ?? false,
-            maximumWaitTime: leg.interchangeTo?.maximumWaitTime ?? 0,
-            staySeated: leg.interchangeTo?.staySeated,
-            toServiceJourney: {
-              id: leg.interchangeTo?.toServiceJourney?.id,
-            },
-          },
-          numberOfIntermediateEstimatedCalls:
-            leg.intermediateEstimatedCalls.length,
-          notices: mapAndFilterNotices([
-            ...(leg.line?.notices || []),
-            ...(leg.serviceJourney?.notices || []),
-            ...(leg.serviceJourney?.journeyPattern?.notices || []),
-            ...(leg.fromEstimatedCall?.notices || []),
-          ]),
-          situations: mapSituations(leg.situations),
-          serviceJourneyEstimatedCalls: leg.serviceJourneyEstimatedCalls.map(
-            (estimatedCall) => {
-              return {
-                aimedDepartureTime: estimatedCall.aimedDepartureTime,
-                expectedDepartureTime: estimatedCall.expectedDepartureTime,
-                actualDepartureTime: estimatedCall.actualDepartureTime ?? null,
-                quay: {
-                  name: estimatedCall.quay.name,
-                  description: estimatedCall.quay.description ?? null,
-                },
-                realtime: estimatedCall.realtime,
-                cancellation: estimatedCall.cancellation,
-              };
-            },
-          ),
-          bookingArrangements: leg.bookingArrangements
-            ? {
-                bookingMethods: leg.bookingArrangements.bookingMethods ?? null,
-                latestBookingTime: leg.bookingArrangements.latestBookingTime,
-                bookingNote: leg.bookingArrangements.bookingNote ?? null,
-                bookWhen: leg.bookingArrangements.bookWhen ?? null,
-                minimumBookingPeriod:
-                  leg.bookingArrangements.minimumBookingPeriod ?? null,
-                bookingContact: leg.bookingArrangements.bookingContact
-                  ? {
-                      contactPerson:
-                        leg.bookingArrangements.bookingContact.contactPerson ??
-                        null,
-                      email:
-                        leg.bookingArrangements.bookingContact.email ?? null,
-                      url: leg.bookingArrangements.bookingContact.url ?? null,
-                      phone:
-                        leg.bookingArrangements.bookingContact.phone ?? null,
-                      furtherDetails:
-                        leg.bookingArrangements.bookingContact.furtherDetails ??
-                        null,
-                    }
-                  : null,
-              }
-            : null,
-        })),
-      };
-      const validated = tripPatternWithDetailsSchema.safeParse(data);
+      const tp = data.tripPatterns;
+
+      /*
+      const validated = tripPatternWithDetailsSchema.safeParse(
+        data.tripPatterns,
+      );
       if (!validated.success) {
         throw validated.error;
       }
-
-      return validated.data;
+      */
+      if (!firstTripPattern) throw Error('No tripPattern found');
+      return firstTripPattern;
     },
   };
 
@@ -592,7 +452,7 @@ function mapResultToTrips(
                   id: leg.interchangeTo?.toServiceJourney?.id,
                 },
               }
-            : undefined,
+            : null,
           line: leg.line
             ? {
                 flexibleLineType: leg.line.flexibleLineType ?? null,
@@ -645,7 +505,7 @@ function mapResultToTrips(
                 },
                 notices: mapNotices(leg.serviceJourney?.notices ?? []),
               }
-            : undefined,
+            : null,
           serviceJourneyEstimatedCalls: leg.serviceJourneyEstimatedCalls.map(
             (estimatedCall) => {
               return {
@@ -674,7 +534,7 @@ function mapResultToTrips(
           },
           transportSubmode: isTransportSubmodeType(leg.transportSubmode)
             ? leg.transportSubmode
-            : undefined,
+            : null,
         };
       }),
       walkDistance: tripPattern.streetDistance || 0,
@@ -933,9 +793,6 @@ async function getSortedViaTrips(
 
   const data: RecursivePartial<TripsWithDetailsData> = mapResultToTrips(
     {
-      nextPageCursor: undefined,
-      previousPageCursor: undefined,
-      metadata: undefined,
       tripPatterns: tripPatternsFromViaTo,
     },
     queryVariables,

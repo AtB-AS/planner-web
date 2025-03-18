@@ -92,6 +92,7 @@ export const tripPatternWithDetailsSchema = z.object({
   expectedStartTime: z.string(),
   expectedEndTime: z.string(),
   walkDistance: z.number(),
+  compressedQuery: z.string(),
   legs: z.array(
     z.object({
       mode: transportModeSchema,

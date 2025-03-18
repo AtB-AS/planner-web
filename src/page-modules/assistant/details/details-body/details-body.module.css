@@ -1,0 +1,45 @@
+.mapContainer {
+    grid-area: map;
+    min-height: 37.5rem;
+    max-height: 37.5rem;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: token('spacing.large');
+}
+
+.tripDetails {
+    display: flex;
+    flex-direction: column;
+    gap: token('spacing.small');
+}
+
+.duration,
+.walkDistance {
+    display: flex;
+    gap: token('spacing.xSmall');
+    color: token('color.foreground.dynamic.secondary');
+}
+
+.tripMessages {
+    grid-area: messages;
+}
+.tripContainer {
+    grid-area: trip;
+    display: flex;
+    flex-direction: column;
+    gap: token('spacing.medium');
+}
+
+@media (max-width: 650px) {
+    .mapContainer {
+        min-height: auto;
+    }
+}
+
+@media (max-width: 650px) {
+    .duration {
+        display: none;
+    }
+}

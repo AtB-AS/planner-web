@@ -17,6 +17,7 @@ import { andIf } from '@atb/utils/css';
 import { useRouter } from 'next/router';
 import { isLineFlexibleTransport } from '@atb/modules/flexible';
 import { AssistantDetails } from '@atb/page-modules/assistant/details';
+import { AssistantDetailsBody } from '@atb/page-modules/assistant/details/details-body';
 
 const LAST_LEG_PADDING = 20;
 const DEFAULT_THRESHOLD_AIMED_EXPECTED_IN_SECONDS = 60;
@@ -57,8 +58,8 @@ export default function TripPattern({
 
   return (
     <motion.a
-      //href={`/assistant/${tripPattern.compressedQuery}?filter=${router.query.filter}`}
-      onClick={() => setIsOpen((prevState) => !prevState)}
+      href={`/assistant/${tripPattern.compressedQuery}?filter=${router.query.filter}`}
+      //onClick={() => setIsOpen((prevState) => !prevState)}
       className={className}
       data-testid={testId}
       initial={{ opacity: 0, x: -10 }}
@@ -189,7 +190,7 @@ export default function TripPattern({
         </Typo.span>
       </footer>
 
-      {isOpen && <AssistantDetails tripPattern={tripPattern} />}
+      {isOpen && <AssistantDetailsBody tripPattern={tripPattern} />}
     </motion.a>
   );
 }

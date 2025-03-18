@@ -13,7 +13,9 @@ import style from './details-header.module.css';
 export type DetailsHeaderProps = {
   tripPattern: TripPatternWithDetails;
 };
-export default function DetailsHeader({ tripPattern }: DetailsHeaderProps) {
+export default function AssistantDetailsHeader({
+  tripPattern,
+}: DetailsHeaderProps) {
   const { t, language } = useTranslation();
   const fromName = tripPattern.legs[0].fromPlace.name;
   const toName = tripPattern.legs[tripPattern.legs.length - 1].toPlace.name;
