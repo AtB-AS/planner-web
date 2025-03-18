@@ -13,6 +13,7 @@ export type ButtonModes =
   | 'interactive_3'
   | 'destructive'
   | 'transparent'
+  | 'primary'
   | 'secondary'
   | 'transparent--underline';
 
