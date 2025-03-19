@@ -277,6 +277,7 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
               !tripQuery.from || !tripQuery.to || isPerformingSearchNavigation
             }
             buttonProps={{ type: 'submit' }}
+            testID="findTravelsButton"
           />
         </div>
       </form>

@@ -81,7 +81,7 @@ export function AssistantDetails({ tripPattern }: AssistantDetailsProps) {
         </div>
       </div>
       <GlobalMessages className={style.tripMessages} context={GlobalMessageContextEnum.plannerWebDetails} />
-      <div className={style.tripContainer}>
+      <div className={style.tripContainer} data-testid="tripDetails">
         {requireTicketBooking && (
           <MessageBox
             type="info"

@@ -99,6 +99,7 @@ function DeparturesLayout({ children, fromQuery }: DeparturesLayoutProps) {
             disabled={!fromQuery.from}
             buttonProps={{ type: 'submit' }}
             state={isSearching ? 'loading' : undefined}
+            testID="findDeparturesButton"
           />
         </div>
       </form>
