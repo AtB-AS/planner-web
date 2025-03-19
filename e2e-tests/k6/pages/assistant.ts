@@ -1,4 +1,5 @@
 import { Locator, Page } from 'k6/browser';
+import { sleep } from 'k6';
 
 export class Assistant {
   private page: Page;
@@ -7,26 +8,27 @@ export class Assistant {
   private searchOptionField: Locator;
   private firstTrip: Locator;
   private loadMoreButton: Locator;
-
-  private verificationMessage: Locator;
+  private searchForTravelsButton: Locator;
+  private swapButton: Locator;
+  private tripDetails: Locator;
 
   constructor(page: Page) {
     this.page = page;
     this.searchFromField = page.locator('[data-testid="searchFrom"]');
     this.searchToField = page.locator('[data-testid="searchTo"]');
     this.searchOptionField = page.locator('[data-testid="list-item-0"]');
-    //NOTE: If results are not found in first search the locator could be e.g. "tripPattern-1-0" or "tripPattern-2-0"
     this.firstTrip = page.locator('[data-testid="tripPattern-0-0"]');
     this.loadMoreButton = page.locator('[data-testid="loadMoreButton"]');
-
-    this.verificationMessage = page.locator('.row.contact h2');
+    this.searchForTravelsButton = page.locator('[data-testid="findTravelsButton"]');
+    this.swapButton = page.locator('[data-testid="swapButton"]');
+    this.tripDetails = page.locator('[data-testid="tripDetails"]');
   }
 
   async searchFrom(location: string) {
     await this.searchFromField.click();
     await this.searchFromField.type(location);
     await Promise.all([
-      this.page.waitForLoadState(),
+      this.page.waitForLoadState('domcontentloaded'),
       this.page.waitForNavigation(),
       this.searchOptionField.click(),
     ]);
@@ -53,7 +55,22 @@ export class Assistant {
     return this.loadMoreButton;
   }
 
-  async getVerificationMessage() {
-    return this.verificationMessage.innerText();
+  getTripDetails(){
+    return this.tripDetails;
+  }
+
+  // Fallback. Sometimes the search isn't started after to-location is entered.
+  // Try to swap to/from locations.
+  async swapLocationsIfDisabled() {
+    let counter = 0
+    // Wait 1 sec and check every 100 ms
+    while (!await this.searchForTravelsButton.isEnabled() && counter < 10){
+      sleep(0.1)
+      counter++
+    }
+    // Swap if disabled after 1 sec
+    if (!await this.searchForTravelsButton.isEnabled()) {
+      await this.swapButton.click();
+    }
   }
 }

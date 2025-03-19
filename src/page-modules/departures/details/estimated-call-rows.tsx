@@ -98,7 +98,10 @@ export function EstimatedCallRows({
         </div>
       )}
 
-      <div className={style.callRows__container}>
+      <div
+        className={style.callRows__container}
+        data-testid="estimatedCallRows"
+      >
         {estimatedCallsToShow.map((call, i) => (
           <motion.div
             key={`${call.quay.id}-${call.aimedDepartureTime}`}
