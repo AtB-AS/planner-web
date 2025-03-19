@@ -14,12 +14,13 @@ export async function departures(page: Page, metrics: Metrics) {
     const departures = new Departures(page);
 
     const fromLocation: FromLocationType = getFromLocation();
-    const departure = departures.getFirstDeparture(fromLocation.quay);
+    const firstDeparture = departures.getFirstDeparture(fromLocation.quay);
+    const estimatedCallsList = departures.getEstimatedCallRows();
 
+    // Search
     await departures.searchFrom(fromLocation.name);
     await measures.mark('search');
-    await page.waitForNavigation();
-    await departure.waitFor({
+    await firstDeparture.waitFor({
       state: 'visible',
     });
     await measures.mark('search-firstResult');
@@ -28,9 +29,11 @@ export async function departures(page: Page, metrics: Metrics) {
     );
 
     // Open departure details
-    await departure.click();
+    await firstDeparture.click();
     await measures.mark('departures-details-open');
-    await page.waitForNavigation();
+    await estimatedCallsList.waitFor({
+      state: 'visible',
+    });
     await measures.mark('departures-details-opened');
     const openDepDetails = await measures.measure(
       'measure-departures-details-open',
