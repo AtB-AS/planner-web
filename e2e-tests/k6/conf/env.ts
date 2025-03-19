@@ -9,7 +9,7 @@ export const env: EnvType = {
       host: 'https://atb-staging.planner-web.mittatb.no',
     },
     prod: {
-      host: 'https://reise.frammr.no',
+      host: 'https://atb.planner-web.mittatb.no',
     },
   },
 };
