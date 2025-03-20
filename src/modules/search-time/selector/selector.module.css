@@ -91,7 +91,8 @@
   --height: 2.75rem;
   border-radius: token('border.radius.regular');
   overflow: hidden;
-  background-color: token('color.background.neutral.0.background');
+  background-color: token('color.background.neutral.2.background');
+  border: 1px solid token('color.foreground.dynamic.disabled');
   display: flex;
   justify-content: space-between;
 }
@@ -133,7 +134,7 @@
 }
 
 .calendarButton {
-  background: token('color.background.neutral.0.background');
+  background-color: token('color.background.neutral.2.background');
   border: none;
   border-top-right-radius: 0.75rem;
   border-bottom-right-radius: 0.75rem;
