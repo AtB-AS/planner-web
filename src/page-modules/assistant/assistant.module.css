@@ -45,7 +45,7 @@
 .alternativesWrapper {
   grid-area: alternatives;
   width: 100%;
-  background-color: token('color.background.neutral.0.background');
+  background-color: token('color.background.neutral.1.background');
 }
 
 .alternatives {
