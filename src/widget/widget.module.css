@@ -68,6 +68,8 @@ a.tabSelected {
 
 .main {
   composes: main from assistant;
+  margin-top: 0;
+  padding-top: token('spacing.large');
   padding-left: 0;
   padding-right: 0;
   padding-bottom: 2.75rem;
