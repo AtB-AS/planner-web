@@ -3,16 +3,22 @@ import {
   formatTripDuration,
   secondsBetween,
 } from '@atb/utils/date';
-import { Leg, TripPattern } from '../../server/journey-planner/validators';
 import { getQuayName } from './trip-pattern-header';
 import { Language, TranslateFunction, PageText } from '@atb/translations';
 import dictionary from '@atb/translations/dictionary';
 import { screenReaderPause } from '@atb/components/typography/utils';
 import { transportModeToTranslatedString } from '@atb/modules/transport-mode';
 import { getTimeRepresentationType } from '@atb/modules/time-representation';
+import {
+  ExtendedLegType,
+  ExtendedTripPatternType,
+  ExtendedTripPatternWithDetailsType,
+} from '@atb/page-modules/assistant';
+import { LegWithDetailsFragment } from '@atb/page-modules/assistant/server/journey-planner/journey-gql/trip-with-details.generated.ts';
+import { LegFragment } from '@atb/page-modules/assistant/server/journey-planner/journey-gql/trip.generated.ts';
 
 export const tripSummary = (
-  tripPattern: TripPattern,
+  tripPattern: ExtendedTripPatternType,
   t: TranslateFunction,
   language: Language,
   isInPast: boolean,
@@ -30,7 +36,7 @@ export const tripSummary = (
   let startText = '';
 
   if (tripPattern.legs[0]?.mode === 'foot' && tripPattern.legs[1]) {
-    const quayName = getQuayName(tripPattern.legs[1]?.fromPlace.quay, t);
+    const quayName = getQuayName(t, tripPattern.legs[1]?.fromPlace.quay);
 
     {
       quayName
@@ -43,7 +49,7 @@ export const tripSummary = (
         : undefined;
     }
   } else {
-    const quayName = getQuayName(tripPattern.legs[0]?.fromPlace.quay, t);
+    const quayName = getQuayName(t, tripPattern.legs[0]?.fromPlace.quay);
     if (quayName) {
       startText = t(
         PageText.Assistant.trip.tripSummary.header.title(
@@ -188,15 +194,17 @@ export const tripSummary = (
   return texts.join(screenReaderPause);
 };
 
-function getLegRequiresBooking(leg: Leg): boolean {
+function getLegRequiresBooking(leg: LegFragment): boolean {
   return isLegFlexibleTransport(leg);
 }
 
-function getTripPatternBookingsRequiredCount(tripPattern: TripPattern): number {
+function getTripPatternBookingsRequiredCount(
+  tripPattern: ExtendedTripPatternType,
+): number {
   return tripPattern?.legs?.filter((leg) => getLegRequiresBooking(leg)).length;
 }
 
-function isSignificantDifference(leg: Leg) {
+function isSignificantDifference(leg: LegFragment) {
   return (
     getTimeRepresentationType({
       missingRealTime: !leg.realtime,
@@ -218,7 +226,10 @@ function significantWaitTime(seconds: number) {
   return seconds > MIN_SIGNIFICANT_WAIT_IN_SECONDS;
 }
 
-function isSignificantFootLegWalkOrWaitTime(leg: Leg, nextLeg?: Leg) {
+function isSignificantFootLegWalkOrWaitTime(
+  leg: LegFragment,
+  nextLeg?: LegFragment,
+) {
   if (leg.mode !== 'foot') return true;
 
   const showWaitTime = !!nextLeg;
@@ -231,7 +242,9 @@ function isSignificantFootLegWalkOrWaitTime(leg: Leg, nextLeg?: Leg) {
   return mustWait || mustWalk;
 }
 
-export function getFilteredLegsByWalkOrWaitTime(tripPattern: TripPattern) {
+export function getFilteredLegsByWalkOrWaitTime(
+  tripPattern: ExtendedTripPatternType,
+) {
   if (!!tripPattern?.legs?.length) {
     return tripPattern.legs.filter((leg, i) =>
       isSignificantFootLegWalkOrWaitTime(leg, tripPattern.legs[i + 1]),
@@ -241,6 +254,6 @@ export function getFilteredLegsByWalkOrWaitTime(tripPattern: TripPattern) {
   }
 }
 
-function isLegFlexibleTransport(leg: Leg): boolean {
+function isLegFlexibleTransport(leg: LegFragment): boolean {
   return !!leg.line?.flexibleLineType;
 }

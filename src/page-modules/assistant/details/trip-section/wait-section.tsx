@@ -6,7 +6,7 @@ import { secondsBetween, secondsToDuration } from '@atb/utils/date';
 import style from './trip-section.module.css';
 import { ColorIcon, MonoIcon } from '@atb/components/icon';
 import { MessageBox } from '@atb/components/message-box';
-import { TripPatternWithDetails } from '../../server/journey-planner/validators';
+import { ExtendedLegType } from '@atb/page-modules/assistant';
 
 // Set number of seconds required before showing waiting indicator
 const SHOW_WAIT_TIME_THRESHOLD_IN_SECONDS = 30;
@@ -66,8 +66,8 @@ export type LegWaitDetails = {
   mustWaitForNextLeg: boolean;
 };
 export function getLegWaitDetails(
-  leg: TripPatternWithDetails['legs'][0],
-  nextLeg: TripPatternWithDetails['legs'][0],
+  leg: ExtendedLegType,
+  nextLeg: ExtendedLegType,
 ): LegWaitDetails | undefined {
   if (!nextLeg) return undefined;
   const waitTime = secondsBetween(

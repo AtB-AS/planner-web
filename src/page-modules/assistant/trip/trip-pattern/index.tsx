@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import { Fragment, useEffect, useState } from 'react';
 import { getFilteredLegsByWalkOrWaitTime, tripSummary } from './utils';
 import { PageText, useTranslation } from '@atb/translations';
-import { type TripPattern as TripPatternType } from '../../server/journey-planner/validators';
 import style from './trip-pattern.module.css';
 import { formatToClock, isInPast, secondsBetween } from '@atb/utils/date';
 import { TripPatternHeader } from './trip-pattern-header';
@@ -13,12 +12,13 @@ import { TransportIconWithLabel } from '@atb/modules/transport-mode';
 import { andIf } from '@atb/utils/css';
 import { useRouter } from 'next/router';
 import { isLineFlexibleTransport } from '@atb/modules/flexible';
+import { ExtendedTripPatternType } from '@atb/page-modules/assistant';
 
 const LAST_LEG_PADDING = 20;
 const DEFAULT_THRESHOLD_AIMED_EXPECTED_IN_SECONDS = 60;
 
 type TripPatternProps = {
-  tripPattern: TripPatternType;
+  tripPattern: ExtendedTripPatternType;
   delay: number;
   index: number;
   testId?: string;

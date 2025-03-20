@@ -39,7 +39,6 @@ export default function Trip({ tripQuery, fallback }: TripProps) {
   if (isLoadingFirstTrip) {
     return <EmptySearch isSearching={isLoadingFirstTrip} type="trip" />;
   }
-
   if (
     (!trips ||
       trips?.length === 0 ||
@@ -119,7 +118,7 @@ export default function Trip({ tripQuery, fallback }: TripProps) {
                 previousDepartureTime={getPreviousDepartureTime(tripIndex, i)}
               />
               <TripPattern
-                tripPattern={tripPattern}
+                tripPattern={trip.tripPatterns[i]}
                 delay={i * 0.1}
                 index={i}
                 testId={`tripPattern-${tripIndex}-${i}`}

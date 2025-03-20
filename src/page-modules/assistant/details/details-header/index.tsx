@@ -9,9 +9,10 @@ import { ColorIcon, MonoIcon } from '@atb/components/icon';
 import { Typo } from '@atb/components/typography';
 
 import style from './details-header.module.css';
+import { TripPatternWithDetailsFragment } from '@atb/page-modules/assistant/server/journey-planner/journey-gql/trip-with-details.generated.ts';
 
 export type DetailsHeaderProps = {
-  tripPattern: TripPatternWithDetails;
+  tripPattern: TripPatternWithDetailsFragment;
 };
 export default function DetailsHeader({ tripPattern }: DetailsHeaderProps) {
   const { t, language } = useTranslation();

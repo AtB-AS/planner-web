@@ -4,6 +4,7 @@ import {
   TripQuery,
   TripData,
   FromToTripQuery,
+  TripsType,
 } from '../../types';
 import { swrFetcher } from '@atb/modules/api-browser';
 import useSWRInfinite from 'swr/infinite';
@@ -15,7 +16,7 @@ import { LineData } from '../../server/journey-planner/validators';
 const MAX_NUMBER_OF_INITIAL_SEARCH_ATTEMPTS = 3;
 const INITIAL_NUMBER_OF_WANTED_TRIP_PATTERNS = 6;
 
-export type TripApiReturnType = TripData;
+export type TripApiReturnType = TripsType['trip'];
 export type NonTransitTripApiReturnType = NonTransitTripData;
 export type LinesApiReturnType = LineData;
 
@@ -56,7 +57,9 @@ export function useTripPatterns(
       createKeyGetterOfQuery(query),
       swrFetcher,
       {
-        fallbackData: fallback ? ([fallback] as TripData[]) : undefined,
+        fallbackData: fallback
+          ? ([fallback] as TripsType['trip'][])
+          : undefined,
       },
     );
 
