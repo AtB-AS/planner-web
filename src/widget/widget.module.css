@@ -184,6 +184,7 @@ a.tabSelected {
 .buttonGroup {
   display: flex;
   justify-content: end;
+  background-color: token('color.background.neutral.0.background');
 }
 
 .button,
