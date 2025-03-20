@@ -43,7 +43,6 @@ export default function PageHeader() {
                     alt=""
                     role="none"
                     size="normal"
-                    overrideMode="dark"
                   />
                   <span>{t(CommonText.Titles.siteTitle)}</span>
                 </>
