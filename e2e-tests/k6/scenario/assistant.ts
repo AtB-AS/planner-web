@@ -22,17 +22,18 @@ export async function assistant(
     const fromLocation = getFromLocationName();
     const toLocation = region ? getToLocationRegionName() : getToLocationName();
 
+    // Search
     await assistant.searchFrom(fromLocation);
     await assistant.searchTo(toLocation);
+    await assistant.swapLocationsIfDisabled();
     await measures.mark('search');
-    await page.waitForNavigation();
-
     const trip = assistant.getFirstTrip();
     await trip.waitFor({
       state: 'visible',
     });
     await measures.mark('search-firstResult');
 
+    // All results are loaded when "load more" button is visible
     const loadMore = assistant.getLoadMoreButton();
     await loadMore.waitFor({
       state: 'visible',
@@ -48,7 +49,10 @@ export async function assistant(
     // Open trip details
     await trip.click();
     await measures.mark('assistant-details-open');
-    await page.waitForNavigation();
+    const tripDetails = assistant.getTripDetails();
+    await tripDetails.waitFor({
+      state: 'visible',
+    });
     await measures.mark('assistant-details-opened');
     const openTripDetails = await measures.measure(
       'measure-assistant-details-open',

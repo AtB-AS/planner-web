@@ -25,6 +25,7 @@ export default function SwapButton({
       title={t(ComponentText.SwapButton.alt)}
       aria-label={t(ComponentText.SwapButton.alt)}
       type="button"
+      data-testid="swapButton"
     >
       <MonoIcon icon="actions/Swap" />
     </button>
