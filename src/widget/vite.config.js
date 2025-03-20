@@ -23,7 +23,10 @@ export default defineConfig({
   },
   plugins: [
     dts({
-      include: [resolve(__dirname, 'widget.ts')],
+      include: [
+        resolve(__dirname, 'widget.ts'),
+        resolve(__dirname, '../types/additional.d.ts'),
+      ],
       rollupTypes: true,
     }),
   ],

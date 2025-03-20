@@ -1,17 +1,26 @@
 {
   "latest": {
-    "version": "2.36.0",
-    "created": "2024-11-05T13:39:08.511Z",
+    "version": "2.36.1",
+    "created": "2025-02-12T13:46:51.192Z",
     "urls": {
-      "umd": "/widget/G4awLkA/2.36.0/planner-web.umd.js",
-      "esm": "/widget/G4awLkA/2.36.0/planner-web.mjs",
-      "css": "/widget/G4awLkA/2.36.0/planner-web.css"
+      "umd": "/widget/G4awLkA/2.36.1/planner-web.umd.js",
+      "esm": "/widget/G4awLkA/2.36.1/planner-web.mjs",
+      "css": "/widget/G4awLkA/2.36.1/planner-web.css"
     }
   },
   "all": [
     {
+      "version": "2.36.1",
+      "created": "2025-02-12T13:46:51.192Z",
+      "urls": {
+        "umd": "/widget/G4awLkA/2.36.1/planner-web.umd.js",
+        "esm": "/widget/G4awLkA/2.36.1/planner-web.mjs",
+        "css": "/widget/G4awLkA/2.36.1/planner-web.css"
+      }
+    },
+    {
       "version": "2.36.0",
-      "created": "2024-11-05T13:39:08.511Z",
+      "created": "2025-02-12T13:46:51.192Z",
       "urls": {
         "umd": "/widget/G4awLkA/2.36.0/planner-web.umd.js",
         "esm": "/widget/G4awLkA/2.36.0/planner-web.mjs",
@@ -20,7 +29,7 @@
     },
     {
       "version": "2.27.0",
-      "created": "2024-11-05T13:39:08.511Z",
+      "created": "2025-02-12T13:46:51.192Z",
       "urls": {
         "umd": "/widget/G4awLkA/2.27.0/planner-web.umd.js",
         "esm": "/widget/G4awLkA/2.27.0/planner-web.mjs",
