@@ -6,6 +6,17 @@ import type {
 } from './server/journey-planner/validators';
 import { searchModeSchema, type SearchTime } from '@atb/modules/search-time';
 import type { TransportModeGroup } from '@atb/modules/transport-mode';
+import {
+  NoticeFragment,
+  TripPatternFragment,
+  TripsQuery,
+} from '@atb/page-modules/assistant/server/journey-planner/journey-gql/trip.generated.ts';
+import {
+  LegWithDetailsFragment,
+  TripPatternWithDetailsFragment,
+  TripsWithDetailsQuery,
+} from '@atb/page-modules/assistant/server/journey-planner/journey-gql/trip-with-details.generated.ts';
+import { MapLegType } from '@atb/components/map';
 
 export type TripInput = {
   from: GeocoderFeature;
@@ -89,3 +100,30 @@ export type NonTransitTripData = {
 export type LineInput = {
   authorities: string[];
 };
+
+// Extend GraphQL-types with convencience properties
+export type ExtendedTripPatternType = TripPatternFragment & {
+  compressedQuery: string;
+};
+export type TripsType = TripsQuery & {
+  trip: {
+    tripPatterns: ExtendedTripPatternType[];
+  };
+};
+
+export type ExtendedLegType = LegWithDetailsFragment & {
+  mapLegs: MapLegType[];
+  notices: NoticeFragment[];
+};
+export type ExtendedTripPatternWithDetailsType =
+  TripPatternWithDetailsFragment & {
+    legs: ExtendedLegType[];
+  };
+export type TripWithDetailsType = TripsWithDetailsQuery & {
+  trip: {
+    tripPatterns: ExtendedTripPatternWithDetailsType[];
+  };
+};
+
+export type BookingArrangementType =
+  TripWithDetailsType['trip']['tripPatterns'][number]['legs'][number]['bookingArrangements'];

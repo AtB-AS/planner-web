@@ -31,7 +31,7 @@ function AssistantDetailsRouting(props: AssistantDetailsRoutingProps) {
 }
 
 function isAssistantDetailsProps(a: any): a is AssistantDetailsProps {
-  return a && a.tripPattern;
+  return a && a.tripPatterns;
 }
 
 export type AssistantDetailsPageProps =
@@ -58,16 +58,16 @@ export const getServerSideProps = withGlobalData(
     }
 
     const id = params.id.toString();
-    const tripPattern = await client.singleTrip(id);
+    const result = await client.singleTrip(id);
 
-    if (!tripPattern) {
+    if (!result) {
       return {
         props: { empty: true },
       };
     }
 
     return {
-      props: { tripPattern },
+      props: { tripPatterns: result.trip.tripPatterns },
     };
   }),
 );

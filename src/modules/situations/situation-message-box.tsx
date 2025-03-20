@@ -16,9 +16,10 @@ import { Situation as SituationTexts } from '@atb/translations/modules';
 import { formatToLongDateTime } from '@atb/utils/date';
 import { MessageBox, MessageBoxProps } from '@atb/components/message-box';
 import Link from 'next/link';
+import { SituationFragment } from '@atb/page-modules/assistant/server/journey-planner/journey-gql/trip.generated.ts';
 
 export type Props = {
-  situation: Situation;
+  situation: SituationFragment;
   noStatusIcon?: MessageBoxProps['noStatusIcon'];
   borderRadius?: boolean;
 };
@@ -99,7 +100,9 @@ export const SituationMessageBox = ({
   );
 };
 
-export const useValidityPeriodText = (period?: Situation['validityPeriod']) => {
+export const useValidityPeriodText = (
+  period?: SituationFragment['validityPeriod'],
+) => {
   const { t, language } = useTranslation();
 
   const endTime = period?.endTime && validateEndTime(period.endTime);

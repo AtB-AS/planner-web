@@ -19,6 +19,7 @@ import {
 import { formatQuayName, getSituationsToShowForCall } from './utils';
 import { DecorationLine, TripRow } from '@atb/modules/trip-details';
 import { DepartureTime } from '@atb/components/departure-time';
+import { SituationFragment } from '@atb/page-modules/assistant/server/journey-planner/journey-gql/trip.generated.ts';
 
 export type EstimatedCallRowsProps = {
   calls: EstimatedCallWithMetadata[];
@@ -134,7 +135,7 @@ type EstimatedCallRowProps = {
   mode: TransportModeType;
   subMode?: TransportSubmodeType;
   collapseButton: JSX.Element | null;
-  situations: Situation[];
+  situations: SituationFragment[];
 };
 
 function EstimatedCallRow({

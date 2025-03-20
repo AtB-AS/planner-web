@@ -3,7 +3,6 @@ import {
   TripRow,
   useRealtimeText,
 } from '@atb/modules/trip-details';
-import { TripPatternWithDetails } from '../../server/journey-planner/validators';
 import style from './trip-section.module.css';
 import {
   TransportIcon,
@@ -24,16 +23,14 @@ import WaitSection, { type LegWaitDetails } from './wait-section';
 import { EstimatedCallsSection } from './estimated-calls-section';
 import { DepartureTime } from '@atb/components/departure-time';
 import { RealtimeSection } from './realtime-section';
-import {
-  getBookingStatus,
-  isLineFlexibleTransport,
-} from '@atb/modules/flexible';
+import { getBookingStatus } from '@atb/modules/flexible';
 import { BookingSection } from './booking-section';
+import { ExtendedLegType } from '@atb/page-modules/assistant';
 
 export type TripSectionProps = {
   isFirst: boolean;
   isLast: boolean;
-  leg: TripPatternWithDetails['legs'][0];
+  leg: ExtendedLegType;
   interchangeDetails?: InterchangeDetails;
   legWaitDetails?: LegWaitDetails;
 };
@@ -46,7 +43,7 @@ export default function TripSection({
 }: TripSectionProps) {
   const { t } = useTranslation();
   const isWalkSection = leg.mode === 'foot';
-  const isFlexible = isLineFlexibleTransport(leg.line);
+  const isFlexible = !!leg.line?.flexibleLineType;
   const legColor = useTransportationThemeColor(
     {
       transportMode: leg.mode,
@@ -201,7 +198,7 @@ export default function TripSection({
 
         <EstimatedCallsSection
           numberOfIntermediateEstimatedCalls={
-            leg.numberOfIntermediateEstimatedCalls
+            leg.intermediateEstimatedCalls.length
           }
           duration={leg.duration}
           serviceJourneyId={leg.serviceJourney?.id ?? null}

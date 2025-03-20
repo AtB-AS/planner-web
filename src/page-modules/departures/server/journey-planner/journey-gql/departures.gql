@@ -3,6 +3,7 @@ query stopPlaceQuayDepartures(
   $numberOfDepartures: Int
   $startTime: DateTime
 ) {
+
   stopPlace(id: $id) {
     id
     name
@@ -34,22 +35,7 @@ query stopPlaceQuayDepartures(
           via
         }
         serviceJourney {
-          id
-          line {
-            id
-            description
-            publicCode
-            transportMode
-            transportSubmode
-          }
-          journeyPattern {
-            notices {
-              ...notice
-            }
-          }
-          notices {
-            ...notice
-          }
+          ...departureServiceJourney
         }
         situations {
           ...situation
@@ -62,5 +48,24 @@ query stopPlaceQuayDepartures(
         ...situation
       }
     }
+  }
+}
+
+fragment departureServiceJourney on ServiceJourney {
+  id
+  line {
+    id
+    description
+    publicCode
+    transportMode
+    transportSubmode
+  }
+  journeyPattern {
+    notices {
+      ...notice
+    }
+  }
+  notices {
+    ...notice
   }
 }

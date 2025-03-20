@@ -2,13 +2,17 @@ import React from 'react';
 import { getIconForMostCriticalSituationOrNotice } from './utils';
 import { Notice, Situation } from './types';
 import { ColorIcon } from '@atb/components/icon';
+import {
+  NoticeFragment,
+  SituationFragment,
+} from '@atb/page-modules/assistant/server/journey-planner/journey-gql/trip.generated.ts';
 
 type SituationOrNoticeIconProps = {
   accessibilityLabel?: string;
-  notices?: Notice[];
+  notices?: NoticeFragment[];
   cancellation?: boolean;
   className?: string;
-} & ({ situations: Situation[] } | { situation: Situation });
+} & ({ situations: SituationFragment[] } | { situation: SituationFragment });
 
 export const SituationOrNoticeIcon = ({
   accessibilityLabel,

@@ -12,15 +12,16 @@ import {
   iso8601DurationToSeconds,
   secondsBetween,
 } from '@atb/utils/date';
+import { BookingArrangementType } from '@atb/page-modules/assistant';
+import { TripWithDetailsLineFragment } from '@atb/page-modules/assistant/server/journey-planner/journey-gql/trip-with-details.generated.ts';
+import { TripLineFragment } from '@atb/page-modules/assistant/server/journey-planner/journey-gql/trip.generated.ts';
 
 export const isLineFlexibleTransport = (
-  line?:
-    | TripPatternWithDetails['legs'][0]['line']
-    | TripPattern['legs'][0]['line'],
+  line?: TripWithDetailsLineFragment | TripLineFragment,
 ) => !!line?.flexibleLineType;
 
 export const getBookingStatus = (
-  bookingArrangements: BookingArrangement | null,
+  bookingArrangements: BookingArrangementType | null,
   aimedStartTime: string,
   flexBookingNumberOfDaysAvailable?: number,
 ): BookingStatus => {
@@ -47,65 +48,16 @@ export const getBookingStatus = (
   return 'bookable';
 };
 
-export function getTripPatternBookingStatus(
-  tripPattern: TripPatternWithDetails,
-  now?: number,
-): TripPatternBookingStatus {
-  return tripPattern?.legs?.reduce<TripPatternBookingStatus>((status, leg) => {
-    if (status === 'late') return status;
-
-    const currentLegStatus = getBookingStatus(
-      leg.bookingArrangements,
-      leg.aimedStartTime,
-      now,
-    );
-
-    switch (currentLegStatus) {
-      case 'none':
-        return status;
-      case 'late':
-        return 'late';
-      case 'early':
-      case 'bookable':
-        return 'bookable';
-    }
-  }, 'none');
-}
-
-export const bookingStatusToMsgType = (
-  bookingStatus: BookingStatus,
-): 'warning' | 'error' | undefined => {
-  switch (bookingStatus) {
-    case 'none':
-      return undefined;
-    case 'early':
-    case 'bookable':
-      return 'warning';
-    case 'late':
-      return 'error';
-  }
-};
-
-export function getIsTooLateToBookFlexLine(
-  tripPattern: TripPatternWithDetails,
-): boolean {
-  return tripPattern?.legs?.some(
-    (leg) =>
-      leg.line?.flexibleLineType &&
-      getBookingStatus(leg.bookingArrangements, leg.aimedStartTime) === 'late',
-  );
-}
-
 export function getLatestBookingDate(
-  bookingArrangements: BookingArrangement,
+  bookingArrangements: BookingArrangementType,
   aimedStartTime: string,
 ): Date {
-  const latestBookingTime = bookingArrangements.latestBookingTime; // e.g. '15:16:00'
+  const latestBookingTime = bookingArrangements?.latestBookingTime; // e.g. '15:16:00'
 
   const aimedStartDate = new Date(aimedStartTime);
   let latestBookingDate = new Date(aimedStartTime);
 
-  const bookWhen = bookingArrangements.bookWhen;
+  const bookWhen = bookingArrangements?.bookWhen;
   if (bookWhen === 'timeOfTravelOnly') {
     return latestBookingDate; // note: 'timeOfTravelOnly' is deprecated
   } else if (
@@ -130,7 +82,7 @@ export function getLatestBookingDate(
       }
     }
   } else if (bookWhen === undefined || bookWhen === null) {
-    const minimumBookingPeriod = bookingArrangements.minimumBookingPeriod;
+    const minimumBookingPeriod = bookingArrangements?.minimumBookingPeriod;
     if (minimumBookingPeriod) {
       latestBookingDate.setSeconds(
         latestBookingDate.getSeconds() -
@@ -143,7 +95,7 @@ export function getLatestBookingDate(
 }
 
 export function getEarliestBookingDate(
-  bookingArrangements: BookingArrangement,
+  bookingArrangements: BookingArrangementType,
   aimedStartTime: string,
   flexBookingNumberOfDaysAvailable: number,
 ): Date {
@@ -161,7 +113,7 @@ export function getEarliestBookingDate(
 }
 
 export function getSecondsRemainingToBookingDeadline(
-  bookingArrangements: BookingArrangement,
+  bookingArrangements: BookingArrangementType,
   aimedStartTime: string,
   now: number,
 ): number {

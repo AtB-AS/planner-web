@@ -8,6 +8,7 @@ import { PageText, TranslateFunction, useTranslation } from '@atb/translations';
 
 import style from './trip-section.module.css';
 import { secondsToDuration } from '@atb/utils/date';
+import { LegWithDetailsFragment } from '@atb/page-modules/assistant/server/journey-planner/journey-gql/trip-with-details.generated.ts';
 
 export type InterchangeDetails = {
   publicCode: string;
@@ -94,7 +95,7 @@ function useInterchangeTextTranslation({
 }
 
 export function getInterchangeDetails(
-  legs: TripPatternWithDetails['legs'],
+  legs: LegWithDetailsFragment[],
   id: string | undefined,
   t: TranslateFunction,
 ): InterchangeDetails | undefined {

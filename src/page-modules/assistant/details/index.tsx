@@ -1,11 +1,10 @@
-import { TripPatternWithDetails } from '../server/journey-planner/validators';
 import { PageText, useTranslation } from '@atb/translations';
 import { MonoIcon } from '@atb/components/icon';
 import TripSection from './trip-section';
 import style from './details.module.css';
 import DetailsHeader from './details-header';
 import { ButtonLink } from '@atb/components/button';
-import { Map } from '@atb/components/map';
+import { Map, MapLegType } from '@atb/components/map';
 import { formatTripDuration } from '@atb/utils/date';
 import { Typo } from '@atb/components/typography';
 import { getInterchangeDetails } from './trip-section/interchange-section';
@@ -14,16 +13,27 @@ import { useRouter } from 'next/router';
 import { tripQueryStringToQueryParams } from './utils';
 import { MessageBox } from '@atb/components/message-box';
 import { getBookingStatus } from '@atb/modules/flexible/utils';
-import { GlobalMessageContextEnum, GlobalMessages } from '@atb/modules/global-messages';
+import {
+  GlobalMessageContextEnum,
+  GlobalMessages,
+} from '@atb/modules/global-messages';
+import {
+  ExtendedLegType,
+  ExtendedTripPatternWithDetailsType,
+} from '@atb/page-modules/assistant';
 
 export type AssistantDetailsProps = {
-  tripPattern: TripPatternWithDetails;
+  tripPatterns: ExtendedTripPatternWithDetailsType[];
 };
 
-export function AssistantDetails({ tripPattern }: AssistantDetailsProps) {
+export function AssistantDetails({ tripPatterns }: AssistantDetailsProps) {
   const { t, language } = useTranslation();
   const router = useRouter();
-  const mapLegs = tripPattern.legs.map((leg) => leg.mapLegs).flat();
+  if (!tripPatterns.length) return null;
+  const tripPattern = tripPatterns[0];
+  console.log('TripPattern:');
+  console.log(JSON.stringify(tripPattern.legs, null, 2));
+  const mapLegs = [] as MapLegType[]; //tripPattern.legs.map((leg) => leg.mapLegs).flat();
   const { duration } = formatTripDuration(
     tripPattern.expectedStartTime,
     tripPattern.expectedEndTime,
@@ -38,11 +48,13 @@ export function AssistantDetails({ tripPattern }: AssistantDetailsProps) {
     tripSearchParams.append('filter', router.query.filter as string);
   }
 
-  const requireTicketBooking = tripPattern.legs.some(
-    (leg) =>
+  const requireTicketBooking = tripPattern.legs.some((leg: ExtendedLegType) => {
+    if (!leg.bookingArrangements) return false;
+    return (
       getBookingStatus(leg.bookingArrangements, leg.aimedStartTime, 7) !==
-      'none',
-  );
+      'none'
+    );
+  });
 
   return (
     <div className={style.container}>
@@ -73,14 +85,17 @@ export function AssistantDetails({ tripPattern }: AssistantDetailsProps) {
             <Typo.p textType="body__primary">
               {t(
                 PageText.Assistant.details.mapSection.walkDistance(
-                  tripPattern.walkDistance.toFixed(),
+                  (tripPattern.streetDistance ?? 0).toFixed(),
                 ),
               )}
             </Typo.p>
           </div>
         </div>
       </div>
-      <GlobalMessages className={style.tripMessages} context={GlobalMessageContextEnum.plannerWebDetails} />
+      <GlobalMessages
+        className={style.tripMessages}
+        context={GlobalMessageContextEnum.plannerWebDetails}
+      />
       <div className={style.tripContainer} data-testid="tripDetails">
         {requireTicketBooking && (
           <MessageBox
@@ -88,18 +103,21 @@ export function AssistantDetails({ tripPattern }: AssistantDetailsProps) {
             message={t(PageText.Assistant.details.ticketBooking.globalMessage)}
           />
         )}
-        {tripPattern.legs.map((leg, index) => (
+        {tripPattern.legs.map((leg: ExtendedLegType, index: number) => (
           <TripSection
             key={index}
             isFirst={index === 0}
             isLast={index === tripPattern.legs.length - 1}
-            leg={leg}
+            leg={leg as ExtendedLegType}
             interchangeDetails={getInterchangeDetails(
               tripPattern.legs,
-              leg.interchangeTo?.toServiceJourney.id,
-              t
+              leg.interchangeTo?.toServiceJourney?.id,
+              t,
             )}
-            legWaitDetails={getLegWaitDetails(leg, tripPattern.legs[index + 1])}
+            legWaitDetails={getLegWaitDetails(
+              leg as ExtendedLegType,
+              tripPattern.legs[index + 1],
+            )}
           />
         ))}
       </div>

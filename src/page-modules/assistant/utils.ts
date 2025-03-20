@@ -1,8 +1,16 @@
 import type { SearchMode } from '@atb/modules/search-time';
 import { searchTimeToQueryString } from '@atb/modules/search-time';
 import { GeocoderFeature } from '@atb/page-modules/departures';
-import { FromToTripQuery, TripData, TripQuery, TripQuerySchema } from './types';
+import {
+  ExtendedLegType,
+  FromToTripQuery,
+  TripData,
+  TripQuery,
+  TripQuerySchema,
+} from './types';
 import { TravelSearchFiltersType } from '@atb-as/config-specs';
+import { filterNotices } from '@atb/modules/situations';
+import { LegFragment } from '@atb/page-modules/assistant/server/journey-planner/journey-gql/trip.generated.ts';
 
 export function filterOutDuplicates(
   arrayToFilter: TripData['tripPatterns'],
@@ -136,3 +144,12 @@ export function setTransportModeFilters(
       .map((filter) => filter.id) ?? null
   );
 }
+
+export const getNoticesForLeg = (leg: LegFragment) =>
+  filterNotices([
+    ...(leg.line?.notices || []),
+    ...(leg.serviceJourney?.notices || []),
+    ...(leg.serviceJourney?.journeyPattern?.notices || []),
+    ...(leg.fromEstimatedCall?.notices || []),
+    ...(leg.toEstimatedCall?.notices || []),
+  ]);

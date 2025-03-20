@@ -32,112 +32,120 @@ query TripsWithDetails(
     whiteListed: { lines: $lineFilter }
   ) {
     tripPatterns {
-      expectedStartTime
-      expectedEndTime
-      streetDistance
-      legs {
-        mode
-        transportSubmode
-        aimedStartTime
-        aimedEndTime
-        expectedStartTime
-        expectedEndTime
-        realtime
-        duration
-        pointsOnLink {
-          points
-          length
-        }
-        line {
-          name
-          publicCode
-          notices {
-            ...notice
-          }
-          flexibleLineType
-        }
-        fromPlace {
-          name
-          latitude
-          longitude
-          quay {
-            id
-            name
-            description
-            publicCode
-          }
-        }
-        toPlace {
-          name
-          latitude
-          longitude
-          quay {
-            name
-            description
-            publicCode
-          }
-        }
-        serviceJourney {
-          id
-          notices {
-            ...notice
-          }
-          journeyPattern {
-            notices {
-              ...notice
-            }
-          }
-        }
-        fromEstimatedCall {
-          notices {
-            ...notice
-          }
-          destinationDisplay {
-            frontText
-          }
-          cancellation
-        }
-        interchangeTo {
-          guaranteed
-          maximumWaitTime
-          staySeated
-          toServiceJourney {
-            id
-          }
-        }
-        intermediateEstimatedCalls {
-          aimedDepartureTime
-        }
-        situations {
-          ...situation
-        }
-        serviceJourneyEstimatedCalls {
-          aimedDepartureTime
-          expectedDepartureTime
-          actualDepartureTime
-          cancellation
-          quay {
-            name
-            description
-          }
-          realtime
-        }
-        bookingArrangements {
-          bookingMethods
-          latestBookingTime
-          bookingNote
-          bookWhen
-          latestBookingTime
-          minimumBookingPeriod
-          bookingContact {
-            contactPerson
-            email
-            url
-            phone
-            furtherDetails
-          }
-        }
+      ...tripPatternWithDetails
+    }
+  }
+}
+
+fragment tripPatternWithDetails on TripPattern {
+  expectedStartTime
+  expectedEndTime
+  streetDistance
+  legs {
+    ...legWithDetails
+  }
+}
+
+fragment tripWithDetailsLine on Line {
+  name
+  publicCode
+  notices {
+    ...notice
+  }
+  flexibleLineType
+}
+
+fragment legWithDetails on Leg {
+  mode
+  distance
+  transportSubmode
+  aimedStartTime
+  aimedEndTime
+  expectedStartTime
+  expectedEndTime
+  realtime
+  duration
+  pointsOnLink {
+    points
+    length
+  }
+  line {
+    ...tripWithDetailsLine
+  }
+  fromPlace {
+    name
+    latitude
+    longitude
+    quay {
+      ...quay
+    }
+  }
+  toPlace {
+    name
+    latitude
+    longitude
+    quay {
+      ...quay
+    }
+  }
+  serviceJourney {
+    id
+    notices {
+      ...notice
+    }
+    journeyPattern {
+      notices {
+        ...notice
       }
+    }
+  }
+  fromEstimatedCall {
+    notices {
+      ...notice
+    }
+    destinationDisplay {
+      frontText
+    }
+    cancellation
+  }
+  interchangeTo {
+    guaranteed
+    maximumWaitTime
+    staySeated
+    toServiceJourney {
+      id
+    }
+  }
+  intermediateEstimatedCalls {
+    aimedDepartureTime
+  }
+  situations {
+    ...situation
+  }
+  serviceJourneyEstimatedCalls {
+    aimedDepartureTime
+    expectedDepartureTime
+    actualDepartureTime
+    cancellation
+    quay {
+      name
+      description
+    }
+    realtime
+  }
+  bookingArrangements {
+    bookingMethods
+    latestBookingTime
+    bookingNote
+    bookWhen
+    latestBookingTime
+    minimumBookingPeriod
+    bookingContact {
+      contactPerson
+      email
+      url
+      phone
+      furtherDetails
     }
   }
 }
