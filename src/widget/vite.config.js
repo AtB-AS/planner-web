@@ -15,7 +15,7 @@ const compressedOrgId = compressToEncodedURIComponent(orgId);
 export default defineConfig({
   resolve: {
     alias: {
-      '@atb/theme/theme.css': `@atb-as/theme/lib/generated/themes-fs/${orgId}-theme/theme.css`,
+      '@atb/theme/theme.css': `@atb-as/theme/lib/generated/themes/${orgId}-theme/theme.css`,
       '@atb/theme/typography.css': '@atb-as/theme/lib/generated/typography.css',
       '@atb/theme/typography.module.css':
         '@atb-as/theme/lib/generated/typography.module.css',
@@ -23,7 +23,10 @@ export default defineConfig({
   },
   plugins: [
     dts({
-      include: [resolve(__dirname, 'widget.ts')],
+      include: [
+        resolve(__dirname, 'widget.ts'),
+        resolve(__dirname, '../types/additional.d.ts'),
+      ],
       rollupTypes: true,
     }),
   ],
