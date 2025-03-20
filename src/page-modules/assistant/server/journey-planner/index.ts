@@ -13,9 +13,17 @@ import {
   TripsNonTransitQueryVariables,
   TripsQuery,
   TripsQueryVariables,
-} from '@atb/page-modules/assistant/journey-gql/trip.generated';
-import { LineData } from './validators';
+} from './journey-gql/trip.generated';
+import {
+  LineData,
+  TripData,
+  TripPatternWithDetails,
+  nonTransitSchema,
+  tripPatternWithDetailsSchema,
+  tripSchema,
+} from './validators';
 import type {
+  ExtendedTripPatternType,
   FromToTripQuery,
   LineInput,
   NonTransitTripData,
@@ -46,7 +54,9 @@ import {
   ViaTripsDocument,
   ViaTripsQuery,
   ViaTripsQueryVariables,
-} from '@atb/page-modules/assistant/journey-gql/via-trip.generated';
+} from './journey-gql/via-trip.generated';
+
+const { journeyApiConfigurations } = getOrgData();
 import {
   addAssistantTripToCache,
   getAssistantTripIfCached,
@@ -56,9 +66,8 @@ import {
   LinesDocument,
   LinesQuery,
   LinesQueryVariables,
-} from '@atb/page-modules/assistant/journey-gql/lines.generated';
-
-const { journeyApiConfigurations } = getOrgData();
+} from './journey-gql/lines.generated';
+import { isLineFlexibleTransport } from '@atb/modules/flexible';
 
 const DEFAULT_JOURNEY_CONFIG = {
   numTripPatterns: 8, // The maximum number of trip patterns to return.

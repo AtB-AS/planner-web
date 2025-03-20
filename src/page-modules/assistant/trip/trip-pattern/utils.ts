@@ -8,12 +8,12 @@ import dictionary from '@atb/translations/dictionary';
 import { screenReaderPause } from '@atb/components/typography/utils';
 import { transportModeToTranslatedString } from '@atb/modules/transport-mode';
 import { getTimeRepresentationType } from '@atb/modules/time-representation';
-import { LegFragment } from '@atb/page-modules/assistant/journey-gql/trip.generated.ts';
 import {
   ExtendedLegType,
   ExtendedTripPatternType,
 } from '@atb/page-modules/assistant';
 import { getQuayOrPlaceName } from '@atb/page-modules/assistant/trip/trip-pattern/trip-pattern-header';
+import { LegFragment } from '@atb/page-modules/assistant/journey-gql/trip.generated.ts';
 
 export const tripSummary = (
   tripPattern: ExtendedTripPatternType,
@@ -70,7 +70,8 @@ export const tripSummary = (
     }
   }
 
-  const nonFootLegs = tripPattern.legs.filter((l) => l.mode !== 'foot') ?? [];
+  const nonFootLegs =
+    tripPattern.legs.filter((l: ExtendedLegType) => l.mode !== 'foot') ?? [];
   const firstLeg = nonFootLegs.length > 0 ? nonFootLegs[0] : undefined;
 
   const resultNumberText = t(

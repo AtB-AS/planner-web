@@ -17,12 +17,8 @@ import {
 import { formatQuayName, getSituationsToShowForCall } from './utils';
 import { DecorationLine, TripRow } from '@atb/modules/trip-details';
 import { DepartureTime } from '@atb/components/departure-time';
+import { TransportSubmode } from '@atb/modules/graphql-types';
 import { SituationFragment } from '@atb/page-modules/assistant/journey-gql/trip.generated.ts';
-import {
-  Mode,
-  TransportMode,
-  TransportSubmode,
-} from '@atb/modules/graphql-types/journeyplanner-types_v3.generated.ts';
 
 export type EstimatedCallRowsProps = {
   calls: EstimatedCallWithMetadata[];
