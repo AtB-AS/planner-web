@@ -29,6 +29,15 @@
 
 .inputGroup {
   position: relative;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  background-color: token('color.foreground.dynamic.disabled');
+  border-radius: token('border.radius.regular');
+}
+
+.inputGroup > div {
+  margin: 0 calc(-1 * token('border.width.slim'))
+    calc(-1 * token('border.width.slim')) 0;
 }
 
 .button {
@@ -93,6 +102,10 @@
   right: token('spacing.medium');
   transform: translate(0, -50%);
   z-index: 100;
+}
+
+.container:focus-within .searchInputButton {
+  border-color: token('color.interactive.2.outline.background');
 }
 
 @media (max-width: 650px) {
