@@ -144,6 +144,8 @@ export default function Trip({ tripQuery, fallback }: TripProps) {
         <Button
           className={style.fetchButton}
           onClick={() => loadMore()}
+          mode="secondary"
+          radiusSize="circular"
           title={t(PageText.Assistant.trip.fetchMore)}
           state={isLoadingMore ? 'loading' : undefined}
           testID="loadMoreButton"
