@@ -16,25 +16,12 @@ export default function LineFilter({ filterState, onChange }: LineFilterProps) {
 
   const { authorityId } = getOrgData();
 
-  const { data, error, isLoading } = useSWR(
-    `api/assistant/lines/${authorityId}`,
-    swrFetcher,
-  );
-  const [validationError, setValidationError] =
-    useState<LabeledInputProps['validationError']>();
+  const { data } = useSWR(`api/assistant/lines/${authorityId}`, swrFetcher);
   const [localFilterState, setLocalFilterState] = useState('');
-  const [publicCodeLineMap, setPublicCodeLineMap] =
-    useState<Map<string, string[]>>();
 
   const onChangeWrapper = (event: ChangeEvent<HTMLInputElement>) => {
     const input = event.target.value;
     setLocalFilterState(input);
-    setValidationError(undefined);
-
-    if (!isValidFilter(input)) {
-      setValidationError(t(PageText.Assistant.search.lineFilter.error));
-      return;
-    }
 
     if (!input) {
       onChange(null);
@@ -78,10 +65,8 @@ export default function LineFilter({ filterState, onChange }: LineFilterProps) {
           PageText.Assistant.search.lineFilter.lineSearch.placeholder,
         )}
         type="text"
-        pattern="[0-9, ]*"
         value={localFilterState}
         onChange={onChangeWrapper}
-        validationError={validationError}
       />
 
       <Typo.p textType="body__tertiary" className={style.infoText}>
@@ -89,10 +74,4 @@ export default function LineFilter({ filterState, onChange }: LineFilterProps) {
       </Typo.p>
     </div>
   );
-}
-
-function isValidFilter(filter: string): boolean {
-  return filter.split(',').every((line) => {
-    return !isNaN(Number(line.trim()));
-  });
 }

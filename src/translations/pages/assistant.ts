@@ -49,11 +49,6 @@ const AssistantInternal = {
         'I travel with line',
         'Eg reiser med linje',
       ),
-      error: _(
-        'Linje må være tall eller liste av tall (f.eks. 2, 10)',
-        'Line must be a number or list of numbers (e.g. 2, 10)',
-        'Linje må vere tal eller liste av tal (t.d. 2, 10)',
-      ),
       lineSearch: {
         label: _('Linje', 'Line', 'Linje'),
         placeholder: _('linjenummer', 'line number', 'linjenummer'),
@@ -480,12 +475,6 @@ export const Assistant = orgSpecificTranslations(AssistantInternal, {
   nfk: {
     search: {
       lineFilter: {
-        error: _(
-          'Linje må være tall eller liste av tall (f.eks. 100, 200)',
-          'Line must be a number or list of numbers (e.g. 100, 200)',
-          'Linje må vere tal eller liste av tal (t.d. 100, 200)',
-        ),
-
         example: _(
           'Eksempel: 100, 200, 300',
           'Example: 100, 200, 300',
@@ -506,12 +495,6 @@ export const Assistant = orgSpecificTranslations(AssistantInternal, {
   fram: {
     search: {
       lineFilter: {
-        error: _(
-          'Linje må være tall eller liste av tall (f.eks. 905, 902)',
-          'Line must be a number or list of numbers (e.g. 905, 902)',
-          'Linje må vere tal eller liste av tal (t.d. 905, 902)',
-        ),
-
         example: _(
           'Eksempel: 905, 902, 901',
           'Example: 905, 902, 901',
@@ -532,12 +515,6 @@ export const Assistant = orgSpecificTranslations(AssistantInternal, {
   farte: {
     search: {
       lineFilter: {
-        error: _(
-          'Linje må være kombinasjon av bokstav og tall, eller en liste av disse (f.eks. R1, P5, 601)',
-          'Line must be a combination of letters and numbers, or a list of these (e.g. R1, P5, 601)',
-          'Linje må vera kombinasjon av bokstav og tal, eller ei liste av desse (t.d. R1, P5, 601)',
-        ),
-
         example: _(
           'Eksempel: R1, P5, 601',
           'Example: R1, P5, 601',
@@ -558,12 +535,6 @@ export const Assistant = orgSpecificTranslations(AssistantInternal, {
   vkt: {
     search: {
       lineFilter: {
-        error: _(
-          'Linje må være kombinasjon av bokstav og tall, eller en liste av disse (f.eks. 03, 100, 113B)',
-          'Line must be a combination of letters and numbers, or a list of these (e.g. 03, 100, 113B)',
-          'Linje må vera kombinasjon av bokstav og tal, eller ei liste av desse (t.d. 03, 100, 113B)',
-        ),
-
         example: _(
           'Eksempel: 03, 100, 113B',
           'Example: 03, 100, 113B',
@@ -584,7 +555,7 @@ export const Assistant = orgSpecificTranslations(AssistantInternal, {
     trip: {
       tripPattern: {
         quayPublicCodePrefix: _(' - Spor ', ' - Track ', ' - Spor '),
-      }
-    }
-  }
+      },
+    },
+  },
 });
