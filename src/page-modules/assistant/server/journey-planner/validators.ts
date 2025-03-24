@@ -34,7 +34,7 @@ export const placeSchema = z.object({
   quay: quaySchema.nullable(),
 });
 
-export const fromEstimatedCallSchema = z.object({
+export const estimatedCallSchema = z.object({
   cancellation: z.boolean(),
   notices: z.array(noticeSchema).optional(),
 });
@@ -55,7 +55,8 @@ export const legSchema = z.object({
   realtime: z.boolean(),
   transportSubmode: transportSubmodeSchema.nullable().optional(),
   line: lineSchema.nullable(),
-  fromEstimatedCall: fromEstimatedCallSchema.nullable(),
+  fromEstimatedCall: estimatedCallSchema.nullable(),
+  toEstimatedCall: estimatedCallSchema.nullable(),
   situations: z.array(situationSchema),
   fromPlace: placeSchema,
   serviceJourney: serviceJourneySchema.nullable(),
