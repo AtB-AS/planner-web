@@ -4,7 +4,7 @@ import {
   secondsBetween,
 } from '@atb/utils/date';
 import { Leg, TripPattern } from '../../server/journey-planner/validators';
-import { getQuayName } from './trip-pattern-header';
+import { getQuayOrPlaceName } from './trip-pattern-header';
 import { Language, TranslateFunction, PageText } from '@atb/translations';
 import dictionary from '@atb/translations/dictionary';
 import { screenReaderPause } from '@atb/components/typography/utils';
@@ -30,7 +30,11 @@ export const tripSummary = (
   let startText = '';
 
   if (tripPattern.legs[0]?.mode === 'foot' && tripPattern.legs[1]) {
-    const quayName = getQuayName(tripPattern.legs[1]?.fromPlace.quay, t);
+    const quayName = getQuayOrPlaceName(
+      tripPattern.legs[1]?.fromPlace.quay,
+      tripPattern.legs[1]?.fromPlace.name,
+      t,
+    );
 
     {
       quayName
@@ -43,7 +47,11 @@ export const tripSummary = (
         : undefined;
     }
   } else {
-    const quayName = getQuayName(tripPattern.legs[0]?.fromPlace.quay, t);
+    const quayName = getQuayOrPlaceName(
+      tripPattern.legs[0]?.fromPlace.quay,
+      tripPattern.legs[0]?.fromPlace.name,
+      t,
+    );
     if (quayName) {
       startText = t(
         PageText.Assistant.trip.tripSummary.header.title(

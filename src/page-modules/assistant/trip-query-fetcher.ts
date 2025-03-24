@@ -25,23 +25,43 @@ export async function fetchFromToTripQuery(
   let viaP: Promise<GeocoderFeature | undefined> | undefined = undefined;
 
   if (!fromP && hasFromLatLon(tripQuery)) {
-    fromP = client.reverse(
-      tripQuery.fromLat,
-      tripQuery.fromLon,
-      tripQuery.fromLayer,
-    );
+    fromP = client
+      .autocomplete(tripQuery.fromName, {
+        lat: tripQuery.fromLat,
+        lon: tripQuery.fromLon,
+      })
+      .catch((err) => {
+        console.log(err);
+        throw err;
+      })
+      .then((result) => {
+        console.log('fromP', JSON.stringify(result[0]));
+        return result[0];
+      });
   }
 
   if (hasToLatLon(tripQuery)) {
-    toP = client.reverse(tripQuery.toLat, tripQuery.toLon, tripQuery.toLayer);
+    toP = client
+      .autocomplete(tripQuery.toName, {
+        lat: tripQuery.toLat,
+        lon: tripQuery.toLon,
+      })
+      .then((result) => {
+        console.log('toP', JSON.stringify(result[0]));
+        return result[0];
+      });
   }
 
   if (hasVia(tripQuery)) {
-    viaP = client.reverse(
-      tripQuery.viaLat,
-      tripQuery.viaLon,
-      tripQuery.viaLayer,
-    );
+    viaP = client
+      .autocomplete(tripQuery.viaName, {
+        lat: tripQuery.viaLat,
+        lon: tripQuery.viaLon,
+      })
+      .then((result) => {
+        console.log('viaP', JSON.stringify(result[0]));
+        return result[0];
+      });
   }
 
   const [from, to, via] = await Promise.all([fromP, toP, viaP]);
@@ -59,8 +79,11 @@ export async function fetchFromToTripQuery(
 
 function hasFromLatLon(
   query: TripQuery | undefined,
-): query is Required<Pick<TripQuery, 'fromLat' | 'fromLayer' | 'fromLon'>> {
+): query is Required<
+  Pick<TripQuery, 'fromLat' | 'fromLayer' | 'fromLon' | 'fromName'>
+> {
   return (
+    query?.fromName !== undefined &&
     query?.fromLon !== undefined &&
     query?.fromLat !== undefined &&
     query?.fromLayer !== undefined
@@ -68,8 +91,11 @@ function hasFromLatLon(
 }
 function hasToLatLon(
   query: TripQuery | undefined,
-): query is Required<Pick<TripQuery, 'toLat' | 'toLayer' | 'toLon'>> {
+): query is Required<
+  Pick<TripQuery, 'toLat' | 'toLayer' | 'toLon' | 'toName'>
+> {
   return (
+    query?.toName !== undefined &&
     query?.toLon !== undefined &&
     query?.toLat !== undefined &&
     query?.toLayer !== undefined
@@ -78,8 +104,11 @@ function hasToLatLon(
 
 function hasVia(
   query: TripQuery | undefined,
-): query is Required<Pick<TripQuery, 'viaLat' | 'viaLayer' | 'viaLon'>> {
+): query is Required<
+  Pick<TripQuery, 'viaLat' | 'viaLayer' | 'viaLon' | 'viaName'>
+> {
   return (
+    query?.viaName !== undefined &&
     query?.viaLon !== undefined &&
     query?.viaLat !== undefined &&
     query?.viaLayer !== undefined

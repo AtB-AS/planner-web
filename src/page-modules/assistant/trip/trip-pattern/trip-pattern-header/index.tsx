@@ -71,9 +71,17 @@ export function getStartModeAndPlaceText(
 
   if (tripPattern.legs[0].mode === 'foot' && tripPattern.legs[1]) {
     startLeg = tripPattern.legs[1];
-    tmpStartName = getQuayName(startLeg.fromPlace.quay, t);
+    tmpStartName = getQuayOrPlaceName(
+      startLeg.fromPlace.quay,
+      startLeg.fromPlace.name,
+      t,
+    );
   } else if (tripPattern.legs[0].mode !== 'foot') {
-    tmpStartName = getQuayName(startLeg.fromPlace.quay, t);
+    tmpStartName = getQuayOrPlaceName(
+      startLeg.fromPlace.quay,
+      startLeg.fromPlace.name,
+      t,
+    );
   }
 
   const startName: string =
@@ -118,11 +126,12 @@ export function getStartModeAndPlaceText(
   }
 }
 
-export function getQuayName(
+export function getQuayOrPlaceName(
   quay: Quay | null,
+  name: string | null,
   t: TranslateFunction,
 ): string | null {
-  if (!quay) return null;
+  if (!quay) return name;
   if (!quay.publicCode) return quay.name;
   const prefix = t(Assistant.trip.tripPattern.quayPublicCodePrefix);
   return `${quay.name}${prefix ? prefix : ' '}${quay.publicCode}`;
