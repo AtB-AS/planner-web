@@ -30,14 +30,7 @@ export async function fetchFromToTripQuery(
         lat: tripQuery.fromLat,
         lon: tripQuery.fromLon,
       })
-      .catch((err) => {
-        console.log(err);
-        throw err;
-      })
-      .then((result) => {
-        console.log('fromP', JSON.stringify(result[0]));
-        return result[0];
-      });
+      .then((result) => result[0]);
   }
 
   if (hasToLatLon(tripQuery)) {
@@ -46,10 +39,7 @@ export async function fetchFromToTripQuery(
         lat: tripQuery.toLat,
         lon: tripQuery.toLon,
       })
-      .then((result) => {
-        console.log('toP', JSON.stringify(result[0]));
-        return result[0];
-      });
+      .then((result) => result[0]);
   }
 
   if (hasVia(tripQuery)) {
@@ -58,10 +48,7 @@ export async function fetchFromToTripQuery(
         lat: tripQuery.viaLat,
         lon: tripQuery.viaLon,
       })
-      .then((result) => {
-        console.log('viaP', JSON.stringify(result[0]));
-        return result[0];
-      });
+      .then((result) => result[0]);
   }
 
   const [from, to, via] = await Promise.all([fromP, toP, viaP]);
