@@ -56,7 +56,7 @@ export const legSchema = z.object({
   transportSubmode: transportSubmodeSchema.nullable().optional(),
   line: lineSchema.nullable(),
   fromEstimatedCall: estimatedCallSchema.nullable(),
-  toEstimatedCall: estimatedCallSchema.nullable(),
+  toEstimatedCall: estimatedCallSchema.nullable().optional(),
   situations: z.array(situationSchema),
   fromPlace: placeSchema,
   serviceJourney: serviceJourneySchema.nullable(),
