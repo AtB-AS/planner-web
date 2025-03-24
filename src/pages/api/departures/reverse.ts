@@ -47,6 +47,8 @@ export default handlerWithDepartureClient<ReverseApiReturnType>(
     /\.vkt.no$/,
     'https://farte.no',
     /\.farte.no$/,
+    'https://atb.no',
+    /\.atb.no$/,
     'https://atbeta.stagecustom22.coretrek.no',
   ],
 );

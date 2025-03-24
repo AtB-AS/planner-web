@@ -762,10 +762,10 @@ function createOutput(
 }
 
 function tabBar() {
-  document
-    .querySelector<HTMLUListElement>('.js-tablist')
-    ?.addEventListener('click', function (e) {
+  document.querySelectorAll<HTMLUListElement>('.js-tablist a').forEach((link) =>
+    link.addEventListener('click', function (e) {
       e.preventDefault();
+      e.stopPropagation();
 
       const tab = (e.target as HTMLElement)?.closest('a');
       if (!tab) return;
@@ -805,7 +805,8 @@ function tabBar() {
           bubbles: true,
         }),
       );
-    });
+    }),
+  );
 }
 
 function debounce(func: Function, wait: number) {
