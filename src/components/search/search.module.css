@@ -19,7 +19,6 @@
 
 .label {
   composes: typo-body__secondary;
-  color: token('color.foreground.dynamic.secondary');
   height: var(--height);
   min-width: 3rem;
   display: flex;
@@ -27,6 +26,7 @@
   padding: token('spacing.small');
   border-bottom-left-radius: 0.75rem;
   border-top-left-radius: 0.75rem;
+  color: token('color.foreground.dynamic.primary');
 }
 
 .inputContainer {
@@ -45,7 +45,7 @@
 }
 
 .input::placeholder {
-  color: token('color.foreground.dynamic.secondary');
+  color: token('color.foreground.dynamic.disabled');
   opacity: 1;
 }
 

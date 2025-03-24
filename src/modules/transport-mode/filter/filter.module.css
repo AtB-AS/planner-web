@@ -30,7 +30,8 @@
     token('spacing.medium');
   border-radius: token('border.radius.circle');
   background-color: token('color.interactive.2.default.background');
-  color: token('color.interactive.2.default.foreground.primary');
+  color: token('color.foreground.dynamic.primary');
+  border: 1px solid token('color.interactive.2.default.background');
   transition:
     border-color 150ms,
     background-color 150ms;
@@ -61,7 +62,7 @@
 .checkboxBackground {
   width: 1rem;
   height: 1rem;
-  background-color: token('color.background.neutral.2.background');
+  background-color: token('color.background.neutral.3.background');
   border-radius: 50%;
   display: grid;
   place-content: center;
@@ -80,7 +81,12 @@
 }
 
 .transportMode input:hover ~ label {
-  background-color: token('color.background.neutral.2.background');
+  background-color: token('color.interactive.2.active.background');
+  border: 1px solid token('color.interactive.2.outline.background');
+}
+.transportMode input[type="checkbox"]:checked ~ label {
+  background-color: token('color.interactive.2.active.background');
+  border: 1px solid token('color.interactive.2.outline.background');
 }
 .transportMode input:hover ~ label .checkboxBackground {
   background-color: token('color.background.neutral.3.background');
