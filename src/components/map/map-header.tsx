@@ -64,13 +64,13 @@ export function MapHeader({
         <div className={style.header__buttons}>
           <ButtonLink
             mode="interactive_0"
-            href={`/assistant?fromLat=${position.lat}&fromLon=${position.lon}&fromLayer=${layer}`}
+            href={`/assistant?fromName=${name}&fromLat=${position.lat}&fromLon=${position.lon}&fromLayer=${layer}`}
             title={t(ComponentText.Map.button.travelFrom)}
             className={style.header__button}
           />
           <ButtonLink
             mode="interactive_0"
-            href={`/assistant?toLat=${position.lat}&toLon=${position.lon}&toLayer=${layer}`}
+            href={`/assistant?toName=${name}&toLat=${position.lat}&toLon=${position.lon}&toLayer=${layer}`}
             title={t(ComponentText.Map.button.travelTo)}
             className={style.header__button}
           />
