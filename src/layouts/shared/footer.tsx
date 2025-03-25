@@ -165,7 +165,7 @@ export default function Footer({ withoutSettings = false }: FooterProps) {
               {someLinks.map((link) => (
                 <ButtonLink
                   key={link.href}
-                  mode={isDarkMode ? 'interactive_2' : 'secondary'}
+                  mode={isDarkMode ? 'interactive_2' : 'interactive_1'}
                   radius="top-bottom"
                   display="inline"
                   radiusSize="circular"

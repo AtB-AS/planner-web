@@ -30,7 +30,7 @@
   gap: token('spacing.small');
   align-items: center;
   padding: token('spacing.medium');
-  border-radius: token('border.radius.circle');
+  border-radius: token('border.radius.regular');
   text-decoration: none;
   transition: none;
   border: none;
