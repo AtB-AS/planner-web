@@ -25,7 +25,7 @@ export const tripPatternFixture: TripPattern = {
       },
       situations: [],
       fromPlace: {
-        name: 'From',
+        name: 'FromPlaceName',
         quay: {
           publicCode: '1',
           name: 'From',

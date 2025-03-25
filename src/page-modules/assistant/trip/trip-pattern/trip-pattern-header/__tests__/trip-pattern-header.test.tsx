@@ -2,7 +2,11 @@ import { cleanup, render, screen } from '@testing-library/react';
 import mockRouter from 'next-router-mock';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { createDynamicRouteParser } from 'next-router-mock/dynamic-routes';
-import { getQuayName, getStartModeAndPlaceText, TripPatternHeader } from '..';
+import {
+  getQuayOrPlaceName,
+  getStartModeAndPlaceText,
+  TripPatternHeader,
+} from '..';
 import { tripPatternFixture } from './trip-pattern.fixture';
 import {
   AppCookiesProvider,
@@ -75,13 +79,17 @@ describe('trip pattern header', function () {
   it('should get quay name from quay', () => {
     const Test = function () {
       const { t } = useTranslation();
-      const quayName = getQuayName({
-        publicCode: '',
-        name: 'Quay',
-        description: null,
-        id: 'NSR:Quay:1',
-        situations: [],
-      }, t);
+      const quayName = getQuayOrPlaceName(
+        {
+          publicCode: '',
+          name: 'Quay',
+          description: null,
+          id: 'NSR:Quay:1',
+          situations: [],
+        },
+        'PlaceName',
+        t,
+      );
       return <div>{quayName}</div>;
     };
 
@@ -100,13 +108,17 @@ describe('trip pattern header', function () {
   it('should get quay name with public code from quay', () => {
     const Test = function () {
       const { t } = useTranslation();
-      const quayName = getQuayName({
-        publicCode: '1',
-        name: 'Quay',
-        description: null,
-        id: 'NSR:Quay:1',
-        situations: [],
-      }, t);
+      const quayName = getQuayOrPlaceName(
+        {
+          publicCode: '1',
+          name: 'Quay',
+          description: null,
+          id: 'NSR:Quay:1',
+          situations: [],
+        },
+        'PlaceName',
+        t,
+      );
       return <div>{quayName}</div>;
     };
 
@@ -125,7 +137,11 @@ describe('trip pattern header', function () {
   it('should get quay name from trip', () => {
     const Test = function () {
       const { t } = useTranslation();
-      const quayName = getQuayName(tripPatternFixture.legs[0].fromPlace.quay, t);
+      const quayName = getQuayOrPlaceName(
+        tripPatternFixture.legs[0].fromPlace.quay,
+        tripPatternFixture.legs[0].fromPlace.name,
+        t,
+      );
       return <div>{quayName}</div>;
     };
 
@@ -139,6 +155,29 @@ describe('trip pattern header', function () {
     });
 
     expect(screen.getByText('From 1')).toBeInTheDocument();
+  });
+
+  it('should use place name if quay is not available from trip', () => {
+    const Test = function () {
+      const { t } = useTranslation();
+      const quayName = getQuayOrPlaceName(
+        null,
+        tripPatternFixture.legs[0].fromPlace.name,
+        t,
+      );
+      return <div>{quayName}</div>;
+    };
+
+    customRender(<Test />, {
+      providerProps: {
+        initialCookies: {
+          darkmode: false,
+          language: 'no',
+        },
+      },
+    });
+
+    expect(screen.getByText('FromPlaceName')).toBeInTheDocument();
   });
 
   it('should get start mode and start place from trip', () => {
