@@ -53,7 +53,7 @@
 }
 
 .infoText {
-  color: token('color.foreground.dynamic.disabled');
+  color: token('color.background.accent.1.foreground.primary');
   opacity: 0.75;
   max-width: 10rem;
 }

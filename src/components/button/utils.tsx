@@ -13,8 +13,6 @@ export type ButtonModes =
   | 'interactive_3'
   | 'destructive'
   | 'transparent'
-  | 'primary'
-  | 'secondary'
   | 'transparent--underline';
 
 export type RadiusMode = 'top' | 'bottom' | 'top-bottom' | 'none';
