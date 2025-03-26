@@ -8,6 +8,7 @@
   border-radius: 0.75rem;
   color: token('color.background.neutral.0.foreground.primary');
   background-color: token('color.background.neutral.0.background');
+  border: 1px solid token('color.foreground.dynamic.disabled');
   flex-wrap: wrap;
   overflow: hidden;
   justify-content: stretch;
@@ -39,7 +40,7 @@
 }
 
 .input::placeholder {
-  color: token('color.foreground.dynamic.secondary');
+  color: token('color.foreground.dynamic.disabled');
   opacity: 1;
 }
 
@@ -59,4 +60,5 @@
   padding: token('spacing.small');
   border-bottom-left-radius: 0.75rem;
   border-top-left-radius: 0.75rem;
+  color: token('color.foreground.dynamic.primary');
 }
