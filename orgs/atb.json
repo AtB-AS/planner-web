@@ -13,7 +13,7 @@
 
   "urls": {
     "privacyDeclarationUrl": {
-      "default": "https://beta.atb.no/private-policy"
+      "default": "https://www.atb.no/vilkar/personvernerklaering-for-kundetjenester/"
     },
 
     "accessibilityStatementUrl": {
