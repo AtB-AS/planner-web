@@ -54,6 +54,12 @@ const AssistantInternal = {
         placeholder: _('linjenummer', 'line number', 'linjenummer'),
       },
       example: _('Eksempel: 2, 10', 'Example: 2, 10', 'Eksempel: 2, 10'),
+      unknownLines: (lines: string[]) =>
+        _(
+          `Vi finner ikke linje ${lines.join(', ')}`,
+          `We couldn't find line ${lines.join(', ')}`,
+          `Vi finn ikkje linje ${lines.join(', ')}`,
+        ),
     },
     buttons: {
       find: {
