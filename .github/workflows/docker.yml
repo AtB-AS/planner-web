@@ -10,7 +10,7 @@ jobs:
   build:
     uses: atb-as/workflows/.github/workflows/cluster-docker-build-tag-push.yaml@v2
     with:
-      image: gcr.io/atb-mobility-platform/planner-web
+      image: europe-west1-docker.pkg.dev/amp-artifacts/amp/planner-web
       build_args: |
         ATB_NEXT_PUBLIC_MAPBOX_DEFAULT_LAT=63.43457
         ATB_NEXT_PUBLIC_MAPBOX_DEFAULT_LNG=10.39844
