@@ -2,8 +2,8 @@ import { FromDepartureQuery } from './types';
 import { searchTimeToQueryString } from '@atb/modules/search-time';
 import { TranslateFunction } from '@atb/translations';
 import { ParsedUrlQueryInput } from 'querystring';
-import { Departure } from './server/journey-planner';
 import dictionary from '@atb/translations/dictionary';
+import { DestinationDisplayFragment } from '@atb/page-modules/departures/server/journey-planner/journey-gql/service-journey-with-estimated-calls.generated.ts';
 
 export function createFromQuery(tripQuery: FromDepartureQuery): {
   pathname: string;
@@ -43,10 +43,14 @@ export function createFromQuery(tripQuery: FromDepartureQuery): {
 
 export function formatDestinationDisplay(
   t: TranslateFunction,
-  destinationDisplay: Departure['destinationDisplay'],
+  destinationDisplay?: DestinationDisplayFragment,
 ): string | undefined {
+  if (!destinationDisplay) return undefined;
+
   const frontText = destinationDisplay.frontText;
   const via = destinationDisplay.via;
+
+  if (!via) return frontText;
 
   if (via.length < 1) {
     return frontText;

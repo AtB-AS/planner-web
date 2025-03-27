@@ -13,34 +13,43 @@ query quayEstimatedCalls(
       startTime: $startTime
       includeCancelledTrips: true
     ) {
-      aimedDepartureTime
-      date
-      expectedDepartureTime
-      realtime
-      cancellation
-      quay {
-        id
-      }
-      destinationDisplay {
-        frontText
-        via
-      }
-      serviceJourney {
-        id
-        line {
-          id
-          description
-          publicCode
-          transportMode
-          transportSubmode
-        }
-      }
+      ...estimatedCall
+    }
+  }
+}
+
+fragment estimatedCall on EstimatedCall {
+  aimedDepartureTime
+  date
+  expectedDepartureTime
+  realtime
+  cancellation
+  quay {
+    id
+  }
+  destinationDisplay {
+    frontText
+    via
+  }
+  serviceJourney {
+    id
+    line {
+      id
+      description
+      publicCode
+      transportMode
+      transportSubmode
+    }
+    journeyPattern {
       notices {
         ...notice
       }
-      situations {
-        ...situation
-      }
     }
+  }
+  notices {
+    ...notice
+  }
+  situations {
+    ...situation
   }
 }

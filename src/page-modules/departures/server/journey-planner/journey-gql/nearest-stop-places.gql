@@ -23,30 +23,32 @@ query nearestStopPlaces(
       node {
         distance
         place {
-          ... on StopPlace {
-            name
-            description
-            quays(filterByInUse: true) {
-              id
-              description
-              name
-              publicCode
-              stopPlace {
-                id
-                transportMode
-              }
-              situations {
-                ...situation
-              }
-            }
-            transportMode
-            description
-            id
-            latitude
-            longitude
-          }
+          ...stopPlace
         }
       }
     }
   }
+}
+
+fragment stopPlace on StopPlace {
+  name
+  description
+  quays(filterByInUse: true) {
+    id
+    description
+    name
+    publicCode
+    stopPlace {
+      id
+      transportMode
+    }
+    situations {
+      ...situation
+    }
+  }
+  transportMode
+  description
+  id
+  latitude
+  longitude
 }

@@ -1,6 +1,5 @@
 export type { GeocoderFeature } from './types';
 export type {
-  DepartureData,
   StopPlaceInfo,
   NearestStopPlacesData,
   StopPlaceWithDistance,

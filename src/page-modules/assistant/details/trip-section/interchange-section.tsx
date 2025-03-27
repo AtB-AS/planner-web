@@ -2,7 +2,6 @@ import { useTransportationThemeColor } from '@atb/modules/transport-mode';
 import { DecorationLine, TripRow } from '@atb/modules/trip-details';
 import { MonoIcon } from '@atb/components/icon';
 import { MessageBox } from '@atb/components/message-box';
-import { TripPatternWithDetails } from '../../server/journey-planner/validators';
 import { getPlaceName } from '../utils';
 import { PageText, TranslateFunction, useTranslation } from '@atb/translations';
 
@@ -23,7 +22,6 @@ export type InterchangeSectionProps = {
 };
 
 export function InterchangeSection(props: InterchangeSectionProps) {
-  const { t } = useTranslation();
   const unknownTransportationColor = useTransportationThemeColor({
     transportMode: 'unknown',
     transportSubModes: undefined,

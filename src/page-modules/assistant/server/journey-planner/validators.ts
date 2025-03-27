@@ -16,10 +16,6 @@ export const serviceJourneySchema = z.object({
     })
     .nullable(),
 });
-export const tariffZoneSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-});
 
 export const quaySchema = z.object({
   publicCode: z.string().nullable(),
@@ -89,99 +85,10 @@ export const nonTransitSchema = z.object({
   compressedQuery: z.string(),
 });
 
-export const tripPatternWithDetailsSchema = z.object({
-  expectedStartTime: z.string(),
-  expectedEndTime: z.string(),
-  walkDistance: z.number(),
-  legs: z.array(
-    z.object({
-      mode: transportModeSchema,
-      transportSubmode: transportSubmodeSchema,
-      aimedStartTime: z.string(),
-      aimedEndTime: z.string(),
-      expectedStartTime: z.string(),
-      expectedEndTime: z.string(),
-      realtime: z.boolean(),
-      duration: z.number(),
-      mapLegs: z.array(mapLegSchema),
-      line: z
-        .object({
-          name: z.string(),
-          publicCode: z.string().nullable(),
-          flexibleLineType: z.string().nullable(),
-        })
-        .nullable(), // line is null for legs with transportMode = foot
-      fromPlace: z.object({
-        name: z.string(),
-        latitude: z.number(),
-        longitude: z.number(),
-        quay: z
-          .object({
-            id: z.string(),
-            name: z.string(),
-            description: z.string().nullable(),
-            publicCode: z.string().nullable(),
-          })
-          .nullable(), // quay is null when fromPlace is a POI (e.g. address)
-      }),
-      toPlace: z.object({
-        name: z.string(),
-        quay: z
-          .object({
-            name: z.string(),
-            description: z.string().nullable(),
-            publicCode: z.string().nullable(),
-          })
-          .nullable(), // quay is null when toPlace is a POI (e.g. address)
-      }),
-      serviceJourney: z
-        .object({
-          id: z.string(),
-        })
-        .nullable(),
-      fromEstimatedCall: z
-        .object({
-          destinationDisplay: z.object({ frontText: z.string() }).optional(),
-          cancellation: z.boolean(),
-        })
-        .nullable(),
-      interchangeTo: z
-        .object({
-          guaranteed: z.boolean(),
-          maximumWaitTime: z.number(),
-          staySeated: z.boolean().optional(),
-          toServiceJourney: z.object({ id: z.string() }),
-        })
-        .nullable(),
-      numberOfIntermediateEstimatedCalls: z.number(),
-      notices: z.array(noticeSchema),
-      situations: z.array(situationSchema),
-      serviceJourneyEstimatedCalls: z.array(
-        z.object({
-          aimedDepartureTime: z.string(),
-          expectedDepartureTime: z.string(),
-          actualDepartureTime: z.string().nullable(),
-          quay: z.object({
-            name: z.string(),
-            description: z.string().nullable(),
-          }),
-          realtime: z.boolean(),
-          cancellation: z.boolean(),
-        }),
-      ),
-      bookingArrangements: bookingArrangementSchema.nullable(),
-    }),
-  ),
-});
-
 export const linesSchema = z.record(z.array(z.string()));
 
 export type TripData = z.infer<typeof tripSchema>;
 export type NonTransitData = z.infer<typeof nonTransitSchema>;
 export type TripPattern = z.infer<typeof tripPatternSchema>;
-export type Leg = z.infer<typeof legSchema>;
 export type Quay = z.infer<typeof quaySchema>;
-export type TripPatternWithDetails = z.infer<
-  typeof tripPatternWithDetailsSchema
->;
 export type LineData = z.infer<typeof linesSchema>;

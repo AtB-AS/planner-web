@@ -17,10 +17,11 @@ import {
   OpenGraphDescription,
   OpenGraphImage,
 } from '@atb/components/open-graph';
+import { NearestStopPlaceType } from '@atb/page-modules/departures/types';
 
 export type NearestStopPlacesProps = {
   fromQuery: FromDepartureQuery;
-  nearestStopPlaces: NearestStopPlacesData;
+  nearestStopPlaces: NearestStopPlaceType[];
 };
 
 export function NearestStopPlaces({
@@ -96,10 +97,12 @@ export function NearestStopPlaces({
 }
 
 export type StopPlaceItemProps = {
-  item: StopPlaceWithDistance;
+  item: NearestStopPlaceType;
 };
 export default function StopPlaceItem({ item }: StopPlaceItemProps) {
   const { t } = useTranslation();
+
+  if (!item.distance) return null;
 
   return (
     <Link
@@ -127,7 +130,7 @@ export default function StopPlaceItem({ item }: StopPlaceItemProps) {
         {item.stopPlace.situations.length > 0 && (
           <SituationOrNoticeIcon situations={item.stopPlace.situations} />
         )}
-        {item.stopPlace.transportMode?.map((mode) => (
+        {item.stopPlace.transportMode?.map((mode: string) => (
           <VenueIcon key={item.stopPlace.id} categories={[mode]} size="large" />
         ))}
       </div>

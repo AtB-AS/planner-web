@@ -1,6 +1,6 @@
 import { FeatureCategory } from '@atb/components/venue-icon';
 import { GeocoderFeature } from '@atb/page-modules/departures';
-import { NonTransitTripData, TripData } from '..';
+import { NonTransitTripData, TripData, TripsType } from '..';
 import { ViaTripsQuery } from '../server/journey-planner/journey-gql/via-trip.generated';
 import {
   Mode,
@@ -37,10 +37,12 @@ export const viaFeature: GeocoderFeature = {
   geometry: { coordinates: [10.394852, 63.422568] },
 };
 
-export const tripResult: TripData = {
-  nextPageCursor: 'aaa',
-  previousPageCursor: 'bbb',
-  tripPatterns: [],
+export const tripResult: TripsType = {
+  trip: {
+    nextPageCursor: 'aaa',
+    previousPageCursor: 'bbb',
+    tripPatterns: [],
+  },
 };
 
 export const nonTransitTripResult: NonTransitTripData = {

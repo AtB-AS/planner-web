@@ -154,5 +154,5 @@ export function hasInitialPosition(
 }
 
 export function hasMapLegs(a: any): a is { mapLegs: MapLegType[] } {
-  return a.mapLegs;
+  return a.mapLegs?.length > 0;
 }

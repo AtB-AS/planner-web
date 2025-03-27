@@ -1,5 +1,4 @@
 import { PageText, useTranslation } from '@atb/translations';
-import { TripPatternWithDetails } from '../../server/journey-planner/validators';
 import {
   formatToSimpleDate,
   formatToWeekday,

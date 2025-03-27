@@ -4,7 +4,7 @@ import TripSection from './trip-section';
 import style from './details.module.css';
 import DetailsHeader from './details-header';
 import { ButtonLink } from '@atb/components/button';
-import { Map, MapLegType } from '@atb/components/map';
+import { Map } from '@atb/components/map';
 import { formatTripDuration } from '@atb/utils/date';
 import { Typo } from '@atb/components/typography';
 import { getInterchangeDetails } from './trip-section/interchange-section';
@@ -31,9 +31,9 @@ export function AssistantDetails({ tripPatterns }: AssistantDetailsProps) {
   const router = useRouter();
   if (!tripPatterns.length) return null;
   const tripPattern = tripPatterns[0];
-  console.log('TripPattern:');
-  console.log(JSON.stringify(tripPattern.legs, null, 2));
-  const mapLegs = [] as MapLegType[]; //tripPattern.legs.map((leg) => leg.mapLegs).flat();
+  const mapLegs = tripPattern.legs
+    .map((leg: ExtendedLegType) => leg.mapLegs)
+    .flat();
   const { duration } = formatTripDuration(
     tripPattern.expectedStartTime,
     tripPattern.expectedEndTime,

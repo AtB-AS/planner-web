@@ -1,6 +1,5 @@
 import React from 'react';
 import { getIconForMostCriticalSituationOrNotice } from './utils';
-import { Notice, Situation } from './types';
 import { ColorIcon } from '@atb/components/icon';
 import {
   NoticeFragment,

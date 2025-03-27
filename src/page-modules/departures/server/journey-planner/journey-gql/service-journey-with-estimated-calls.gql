@@ -17,37 +17,45 @@ query serviceJourneyWithEstimatedCalls($id: String!, $date: Date) {
       points
     }
     estimatedCalls(date: $date) {
-      actualArrivalTime
-      actualDepartureTime
-      aimedArrivalTime
-      aimedDepartureTime
-      cancellation
-      date
-      destinationDisplay {
-        frontText
-        via
-      }
-      expectedDepartureTime
-      expectedArrivalTime
-      forAlighting
-      forBoarding
-      realtime
-      quay {
-        id
-        name
-        publicCode
-        stopPlace {
-          id
-          latitude
-          longitude
-        }
-      }
-      notices {
-        ...notice
-      }
-      situations {
-        ...situation
-      }
+      ...serviceJourneyEstimatedCall
     }
   }
+}
+
+fragment serviceJourneyEstimatedCall on EstimatedCall {
+  actualArrivalTime
+  actualDepartureTime
+  aimedArrivalTime
+  aimedDepartureTime
+  cancellation
+  date
+  destinationDisplay {
+    ...destinationDisplay
+  }
+  expectedDepartureTime
+  expectedArrivalTime
+  forAlighting
+  forBoarding
+  realtime
+  quay {
+    id
+    name
+    publicCode
+    stopPlace {
+      id
+      latitude
+      longitude
+    }
+  }
+  notices {
+    ...notice
+  }
+  situations {
+    ...situation
+  }
+}
+
+fragment destinationDisplay on DestinationDisplay {
+  frontText
+  via
 }

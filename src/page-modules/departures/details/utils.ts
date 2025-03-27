@@ -1,10 +1,13 @@
-import { ServiceJourneyData } from '../server/journey-planner/validators';
-import { EstimatedCallMetadata, EstimatedCallWithMetadata } from '../types';
+import {
+  EstimatedCallMetadata,
+  EstimatedCallWithMetadata,
+  ServiceJourneyType,
+} from '../types';
 import { TranslateFunction } from '@atb/translations';
 import { Departures } from '@atb/translations/pages';
 
 export function addMetadataToEstimatedCalls(
-  estimatedCalls: ServiceJourneyData['estimatedCalls'][0][],
+  estimatedCalls: ServiceJourneyType['estimatedCalls'],
   fromQuayId?: string,
   toQuayId?: string,
 ): EstimatedCallWithMetadata[] {

@@ -6,7 +6,6 @@ import {
 } from './utils';
 import { ColorIcon, MonoIcon } from '@atb/components/icon';
 import { Typo } from '@atb/components/typography';
-import { Situation } from './types';
 import { useTranslation, getTextForLanguage } from '@atb/translations';
 import style from './situation.module.css';
 import { Button } from '@atb/components/button';

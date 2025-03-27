@@ -16,7 +16,6 @@ import {
 } from './journey-gql/trip.generated';
 import { LineData, nonTransitSchema } from './validators';
 import type {
-  ExtendedTripPatternType,
   FromToTripQuery,
   LineInput,
   NonTransitData,

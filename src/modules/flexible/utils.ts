@@ -1,12 +1,4 @@
-import {
-  TripPattern,
-  TripPatternWithDetails,
-} from '@atb/page-modules/assistant/server/journey-planner/validators';
-import {
-  BookingArrangement,
-  BookingStatus,
-  TripPatternBookingStatus,
-} from './types';
+import { BookingStatus } from './types';
 import {
   dateWithReplacedTime,
   iso8601DurationToSeconds,

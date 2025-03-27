@@ -1,9 +1,8 @@
 import { ComponentText, useTranslation } from '@atb/translations';
 import { MonoIcon, MonoIconProps } from '@atb/components/icon';
-import { TransportModeType } from '@atb/modules/transport-mode';
 
 export type VenueIconProps = {
-  categories: FeatureCategory[] | TransportModeType[];
+  categories: FeatureCategory[] | string[];
   multiple?: boolean;
 } & Omit<MonoIconProps, 'icon'>;
 

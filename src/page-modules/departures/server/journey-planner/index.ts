@@ -8,6 +8,7 @@ import {
   NearestStopPlacesDocument,
   NearestStopPlacesQuery,
   NearestStopPlacesQueryVariables,
+  StopPlaceFragment,
 } from './journey-gql/nearest-stop-places.generated';
 import {
   GetStopPlaceDocument,
@@ -15,30 +16,19 @@ import {
   GetStopPlaceQueryVariables,
 } from './journey-gql/stop-place.generated';
 import {
+  EstimatedCallFragment,
   QuayEstimatedCallsDocument,
   QuayEstimatedCallsQuery,
   QuayEstimatedCallsQueryVariables,
 } from './journey-gql/estimated-calls.generated';
 import {
-  DepartureData,
-  EstimatedCallsData,
   NearestStopPlacesData,
   StopPlaceInfo,
-  StopPlaceWithDistance,
-  departureDataSchema,
-  estimatedCallsSchema,
-  nearestStopPlaces,
   stopPlaceSchema,
-  Quay,
-  Departure,
-  ServiceJourneyData,
-  serviceJourneySchema,
+  StopPlaceWithDistance,
 } from './validators';
 import { PtSituationElement as GraphQlSituation } from '@atb/modules/graphql-types';
-import {
-  isTransportModeType,
-  filterGraphQlTransportModes,
-} from '@atb/modules/transport-mode';
+import { isTransportModeType } from '@atb/modules/transport-mode';
 import {
   ServiceJourneyWithEstimatedCallsDocument,
   ServiceJourneyWithEstimatedCallsQuery,
@@ -48,12 +38,17 @@ import { formatISO } from 'date-fns';
 import { Situation } from '@atb/modules/situations';
 import { mapToMapLegs } from '@atb/components/map';
 import { sortQuays } from './utils';
+import {
+  DeparturesType,
+  NearestStopPlaceType,
+  ServiceJourneyType,
+} from '@atb/page-modules/departures/types.ts';
+import { SituationFragment } from '@atb/page-modules/assistant/server/journey-planner/journey-gql/trip.generated.ts';
 
 export type DepartureInput = {
   id: string;
   date: number | null;
 };
-export type { DepartureData, Quay, Departure };
 
 export type StopPlaceInput = {
   id: string;
@@ -78,13 +73,13 @@ export type ServiceJourneyInput = {
 export type { StopPlaceInfo, NearestStopPlacesData, StopPlaceWithDistance };
 
 export type JourneyPlannerApi = {
-  departures(input: DepartureInput): Promise<DepartureData>;
+  departures(input: DepartureInput): Promise<DeparturesType>;
   stopPlace(input: StopPlaceInput): Promise<StopPlaceInfo>;
   nearestStopPlaces(
     input: NearestStopPlacesInput,
-  ): Promise<NearestStopPlacesData>;
-  estimatedCalls(input: EstimatedCallsInput): Promise<EstimatedCallsData>;
-  serviceJourney(input: ServiceJourneyInput): Promise<ServiceJourneyData>;
+  ): Promise<NearestStopPlaceType[]>;
+  estimatedCalls(input: EstimatedCallsInput): Promise<EstimatedCallFragment[]>;
+  serviceJourney(input: ServiceJourneyInput): Promise<ServiceJourneyType>;
 };
 
 export function createJourneyApi(
@@ -109,65 +104,27 @@ export function createJourneyApi(
       if (result.error || result.errors) {
         throw result.error || result.errors;
       }
-
-      const data: RecursivePartial<DepartureData> = {
+      const data = result.data as DeparturesType;
+      data.stopPlace?.quays?.sort(sortQuays);
+      return {
         stopPlace: {
-          id: result.data.stopPlace?.id,
-          name: result.data.stopPlace?.name,
-          position: {
-            lat: result.data.stopPlace?.latitude,
-            lon: result.data.stopPlace?.longitude,
-          },
-          transportMode: filterGraphQlTransportModes(
-            result.data.stopPlace?.transportMode,
-          ),
-          transportSubmode: result.data.stopPlace?.transportSubmode,
-          description: result.data.stopPlace?.description,
-        },
-        quays: result.data.stopPlace?.quays?.map((q) => ({
-          name: q.name,
-          id: q.id,
-          publicCode: q.publicCode,
-          description: q.description,
-          situations:
-            q.situations?.map((situation) =>
-              mapGraphQlSituationToSituation(situation as GraphQlSituation),
-            ) ?? [],
-          departures: q.estimatedCalls.map((e) => ({
-            id: e.serviceJourney.id,
-            destinationDisplay: {
-              frontText: e.destinationDisplay?.frontText,
-              via: e.destinationDisplay?.via ?? [],
-            },
-            name: e.destinationDisplay?.frontText,
-            date: e.date,
-            expectedDepartureTime: e.expectedDepartureTime,
-            aimedDepartureTime: e.aimedDepartureTime,
-            cancelled: e.cancellation,
-            realtime: e.realtime,
-            transportMode: isTransportModeType(
-              e.serviceJourney.line.transportMode,
-            )
-              ? e.serviceJourney.line.transportMode
-              : undefined,
-            transportSubmode: e.serviceJourney.line.transportSubmode,
-            publicCode: e.serviceJourney.line.publicCode,
-            notices: [],
-            situations: e.situations.map((situation) =>
-              mapGraphQlSituationToSituation(situation as GraphQlSituation),
-            ),
+          ...data.stopPlace,
+          quays: data.stopPlace?.quays?.map((q) => ({
+            ...q,
+            estimatedCalls: q.estimatedCalls.map((departure) => ({
+              ...departure,
+              id: departure.serviceJourney.id,
+            })),
           })),
-        })),
+          position:
+            data.stopPlace.latitude && data.stopPlace.longitude
+              ? {
+                  lat: data.stopPlace.latitude,
+                  lon: data.stopPlace.longitude,
+                }
+              : undefined,
+        },
       };
-
-      const validated = departureDataSchema.safeParse(data);
-      if (!validated.success) {
-        throw validated.error;
-      }
-
-      validated.data.quays.sort(sortQuays);
-
-      return validated.data;
     },
 
     async stopPlace(input) {
@@ -223,46 +180,32 @@ export function createJourneyApi(
         throw result.error || result.errors;
       }
 
-      const data: RecursivePartial<NearestStopPlacesData> =
-        result.data.nearest?.edges?.reduce(function (acc, edge) {
-          if (!edge.node?.place || !('id' in edge.node?.place)) {
+      return (
+        result.data.nearest?.edges?.reduce<NearestStopPlaceType[]>(function (
+          acc,
+          edge,
+        ) {
+          if (!edge.node?.place || !('id' in edge.node.place)) {
             return acc;
           }
-
+          const stopPlace = edge.node?.place;
           const situations =
-            edge.node.place.quays
-              ?.map((q) => q?.situations ?? ([] as GraphQlSituation[]))
+            stopPlace.quays
+              ?.map((q) => q?.situations ?? ([] as SituationFragment[]))
               ?.flat() ?? [];
 
-          return acc.concat({
-            stopPlace: {
-              id: edge.node?.place.id,
-              name: edge.node?.place.name,
-              description: edge.node?.place?.description
-                ? edge.node?.place?.description
-                : null,
-              position: {
-                lat: edge.node?.place.latitude,
-                lon: edge.node?.place.longitude,
+          return [
+            ...acc,
+            {
+              stopPlace: {
+                ...stopPlace,
+                situations,
               },
-              situations: mapAndFilterDuplicateGraphQlSituations(
-                situations as GraphQlSituation[],
-              ),
-              transportMode: filterGraphQlTransportModes(
-                edge.node?.place.transportMode,
-              ),
+              distance: edge.node?.distance,
             },
-            distance: edge.node.distance,
-          });
-        }, [] as RecursivePartial<NearestStopPlacesData>) ?? [];
-
-      const validated = nearestStopPlaces.safeParse(data);
-
-      if (!validated.success) {
-        throw validated.error;
-      }
-
-      return validated.data;
+          ];
+        }, []) ?? []
+      );
     },
 
     async estimatedCalls(input) {
@@ -282,44 +225,33 @@ export function createJourneyApi(
         throw result.error || result.errors;
       }
 
-      const data: RecursivePartial<EstimatedCallsData> = {
-        quay: {
-          id: result.data.quay?.id,
-        },
-        departures: result.data.quay?.estimatedCalls?.map((e) => ({
-          id: e.serviceJourney.id,
-          destinationDisplay: {
-            frontText: e.destinationDisplay?.frontText,
-            via: e.destinationDisplay?.via ?? [],
-          },
-          publicCode: e.serviceJourney.line.publicCode,
-          date: e.date,
-          aimedDepartureTime: e.aimedDepartureTime,
-          expectedDepartureTime: e.expectedDepartureTime,
-          cancelled: e.cancellation,
-          realtime: e.realtime,
-          transportMode: isTransportModeType(
-            e.serviceJourney.line.transportMode,
-          )
-            ? e.serviceJourney.line.transportMode
-            : 'unknown',
-          transportSubmode: e.serviceJourney.line.transportSubmode,
-          notices:
-            e.notices?.map((notice) => ({
-              id: notice.id,
-              text: notice.text,
-            })) ?? [],
-          situations: e.situations.map((situation) =>
-            mapGraphQlSituationToSituation(situation as GraphQlSituation),
-          ),
-        })),
-      };
-      const validated = estimatedCallsSchema.safeParse(data);
-      if (!validated.success) {
-        throw validated.error;
-      }
+      /**
+       *
+       stopPlace: {
+       ...data.stopPlace,
+       quays: data.stopPlace?.quays?.map((q) => ({
+       ...q,
+       estimatedCalls: q.estimatedCalls.map((departure) => ({
+       ...departure,
+       id: departure.serviceJourney.id,
+       })),
+       })),
+       position:
+       data.stopPlace.latitude && data.stopPlace.longitude
+       ? {
+       lat: data.stopPlace.latitude,
+       lon: data.stopPlace.longitude,
+       }
+       : undefined,
+       },
+       */
 
-      return validated.data;
+      return (
+        result.data.quay?.estimatedCalls.map((departure) => ({
+          ...departure,
+          id: departure.serviceJourney.id,
+        })) ?? []
+      );
     },
     async serviceJourney(input) {
       const result = await client.query<
@@ -333,7 +265,7 @@ export function createJourneyApi(
         },
       });
 
-      if (result.error || result.errors) {
+      if (result.error || result.errors || !result.data.serviceJourney) {
         throw result.error || result.errors;
       }
 
@@ -350,75 +282,15 @@ export function createJourneyApi(
         (call) => call.quay.id === input.fromQuayId,
       )?.quay?.stopPlace;
 
-      const data: RecursivePartial<ServiceJourneyData> = {
-        id: serviceJourney?.id,
-        transportMode,
-        transportSubmode,
-        line: {
-          publicCode: serviceJourney?.line.publicCode,
-          notices:
-            serviceJourney?.notices?.map((notice) => ({
-              id: notice.id,
-              text: notice.text,
-            })) ?? [],
-        },
+      return {
+        ...serviceJourney,
         mapLegs: mapToMapLegs(
           serviceJourney?.pointsOnLink,
           transportMode,
           transportSubmode,
           fromStopPlace,
         ),
-        notices:
-          serviceJourney?.notices?.map((notice) => ({
-            id: notice.id,
-            text: notice.text,
-          })) ?? [],
-        estimatedCalls: serviceJourney?.estimatedCalls?.map(
-          (estimatedCall) => ({
-            actualArrivalTime: estimatedCall.actualArrivalTime || null,
-            actualDepartureTime: estimatedCall.actualDepartureTime || null,
-            aimedArrivalTime: estimatedCall.aimedArrivalTime,
-            aimedDepartureTime: estimatedCall.aimedDepartureTime,
-            cancellation: estimatedCall.cancellation,
-            date: estimatedCall.date,
-            destinationDisplay: {
-              frontText: estimatedCall.destinationDisplay?.frontText,
-              via: estimatedCall.destinationDisplay?.via ?? [],
-            },
-            expectedDepartureTime: estimatedCall.expectedDepartureTime,
-            expectedArrivalTime: estimatedCall.expectedArrivalTime,
-            forAlighting: estimatedCall.forAlighting,
-            forBoarding: estimatedCall.forBoarding,
-            realtime: estimatedCall.realtime,
-            quay: {
-              id: estimatedCall.quay.id,
-              publicCode: estimatedCall.quay.publicCode,
-              name: estimatedCall.quay.name,
-              stopPlace: {
-                id: estimatedCall.quay.stopPlace?.id,
-                longitude: estimatedCall.quay.stopPlace?.longitude,
-                latitude: estimatedCall.quay.stopPlace?.latitude,
-              },
-            },
-            notices:
-              estimatedCall.notices?.map((notice) => ({
-                id: notice.id,
-                text: notice.text,
-              })) ?? [],
-            situations:
-              estimatedCall.situations?.map((situation) =>
-                mapGraphQlSituationToSituation(situation as GraphQlSituation),
-              ) ?? [],
-          }),
-        ),
       };
-
-      const validated = serviceJourneySchema.safeParse(data);
-      if (!validated.success) {
-        throw validated.error;
-      }
-
-      return validated.data;
     },
   };
 

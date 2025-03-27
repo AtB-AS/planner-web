@@ -2,7 +2,6 @@ import useSWR from 'swr';
 import {
   NonTransitTripData,
   TripQuery,
-  TripData,
   FromToTripQuery,
   TripsType,
 } from '../../types';
@@ -38,7 +37,7 @@ function createKeyGetterOfQuery(query: TripQuery) {
 
 export function useTripPatterns(
   tripQuery: FromToTripQuery,
-  fallback?: TripData,
+  fallback?: TripApiReturnType,
 ) {
   const [numberOfTripPatterns, setNumberOfTripPatterns] = useState(0);
   const query = createTripQuery(
@@ -57,9 +56,7 @@ export function useTripPatterns(
       createKeyGetterOfQuery(query),
       swrFetcher,
       {
-        fallbackData: fallback
-          ? ([fallback] as TripsType['trip'][])
-          : undefined,
+        fallbackData: fallback ? [fallback] : undefined,
       },
     );
 

@@ -23,8 +23,8 @@ import { SituationFragment } from '@atb/page-modules/assistant/server/journey-pl
 
 export type EstimatedCallRowsProps = {
   calls: EstimatedCallWithMetadata[];
-  mode: TransportModeType;
-  subMode?: TransportSubmodeType;
+  mode: string;
+  subMode?: string;
   alreadyShownSituationNumbers: string[];
 };
 
@@ -132,8 +132,8 @@ export function EstimatedCallRows({
 
 type EstimatedCallRowProps = {
   call: EstimatedCallWithMetadata;
-  mode: TransportModeType;
-  subMode?: TransportSubmodeType;
+  mode: string;
+  subMode?: string;
   collapseButton: JSX.Element | null;
   situations: SituationFragment[];
 };
@@ -150,7 +150,7 @@ function EstimatedCallRow({
   const isBetween = !isStartOfGroup && !isEndOfGroup;
   const iconColor = useTransportationThemeColor({
     transportMode: group === 'trip' ? mode : 'unknown',
-    transportSubModes: subMode && [subMode],
+    transportSubModes: subMode ? [subMode] : undefined,
   });
 
   return (
@@ -173,7 +173,7 @@ function EstimatedCallRow({
           isStartOfGroup ? 'flex-start' : isEndOfGroup ? 'flex-end' : 'center'
         }
         isBetween={isBetween}
-        href={`/departures/${call.quay.stopPlace.id}`}
+        href={`/departures/${call.quay.stopPlace?.id}`}
       >
         <Typo.p textType="body__primary">
           {formatQuayName(t, call.quay.name, call.quay.publicCode)}

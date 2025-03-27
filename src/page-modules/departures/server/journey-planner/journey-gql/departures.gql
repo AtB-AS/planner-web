@@ -13,40 +13,7 @@ query stopPlaceQuayDepartures(
     transportSubmode
     description
     quays(filterByInUse: true) {
-      id
-      name
-      publicCode
-      description
-      estimatedCalls(
-        numberOfDepartures: $numberOfDepartures
-        startTime: $startTime
-        includeCancelledTrips: true
-      ) {
-        date
-        expectedDepartureTime
-        aimedDepartureTime
-        realtime
-        cancellation
-        quay {
-          id
-        }
-        destinationDisplay {
-          frontText
-          via
-        }
-        serviceJourney {
-          ...departureServiceJourney
-        }
-        situations {
-          ...situation
-        }
-        notices {
-          ...notice
-        }
-      }
-      situations {
-        ...situation
-      }
+      ...departureQuay
     }
   }
 }
@@ -67,5 +34,22 @@ fragment departureServiceJourney on ServiceJourney {
   }
   notices {
     ...notice
+  }
+}
+
+fragment departureQuay on Quay {
+  id
+  name
+  publicCode
+  description
+  estimatedCalls(
+    numberOfDepartures: $numberOfDepartures
+    startTime: $startTime
+    includeCancelledTrips: true
+  ) {
+    ...estimatedCall
+  }
+  situations {
+    ...situation
   }
 }

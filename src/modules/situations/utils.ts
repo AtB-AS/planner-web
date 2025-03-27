@@ -1,4 +1,3 @@
-import { Notice, Situation } from './types';
 import { ColorIcons, MonoIcons } from '@atb/components/icon';
 import { Language } from '@atb/translations';
 import { getTextForLanguage } from '@atb/translations/utils';

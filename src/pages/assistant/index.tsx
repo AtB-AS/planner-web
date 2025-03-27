@@ -62,7 +62,7 @@ export const getServerSideProps = withGlobalData(
         return {
           props: {
             tripQuery,
-            fallback: potential,
+            fallback: potential.trip,
           },
         };
       }

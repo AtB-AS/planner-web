@@ -107,12 +107,8 @@ export const serviceJourneySchema = z.object({
   ),
 });
 
-export type DepartureData = z.infer<typeof departureDataSchema>;
 export type StopPlaceInfo = z.infer<typeof stopPlaceSchema>;
 export const nearestStopPlaces = z.array(stopPlaceWithDistance);
 export type StopPlaceWithDistance = z.infer<typeof stopPlaceWithDistance>;
 export type NearestStopPlacesData = z.infer<typeof nearestStopPlaces>;
-export type EstimatedCallsData = z.infer<typeof estimatedCallsSchema>;
-export type Departure = z.infer<typeof departureSchema>;
-export type Quay = z.infer<typeof quaySchema>;
 export type ServiceJourneyData = z.infer<typeof serviceJourneySchema>;
