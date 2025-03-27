@@ -145,6 +145,6 @@ export const transportSubmodeSchema = z.union([
 export type TransportSubmodeType = z.infer<typeof transportSubmodeSchema>;
 
 export type TransportModeGroup = {
-  transportMode: TransportModeType;
-  transportSubModes?: TransportSubmodeType[];
+  transportMode: string;
+  transportSubModes?: string[];
 };

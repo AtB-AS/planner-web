@@ -23,7 +23,6 @@ import {
   tripSchema,
 } from './validators';
 import type {
-  ExtendedTripPatternType,
   FromToTripQuery,
   LineInput,
   NonTransitTripData,
