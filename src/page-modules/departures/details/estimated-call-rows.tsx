@@ -7,10 +7,12 @@ import { Typo } from '@atb/components/typography';
 import { MonoIcon } from '@atb/components/icon';
 import { Button } from '@atb/components/button';
 import {
-  TransportModeType,
+  type TransportModeType,
   useTransportationThemeColor,
+  type TransportSubmodeType,
 } from '@atb/modules/transport-mode';
 import {
+  Situation,
   SituationMessageBox,
   SituationOrNoticeIcon,
 } from '@atb/modules/situations';

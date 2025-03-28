@@ -1,14 +1,4 @@
 import { GraphQlRequester } from '@atb/modules/api-server';
-import {
-  StopPlaceQuayDeparturesDocument,
-  StopPlaceQuayDeparturesQuery,
-  StopPlaceQuayDeparturesQueryVariables,
-} from '@atb/page-modules/departures/journey-gql/departures.generated';
-import {
-  GetStopPlaceDocument,
-  GetStopPlaceQuery,
-  GetStopPlaceQueryVariables,
-} from '@atb/page-modules/departures/journey-gql/stop-place.generated';
 import { isTransportModeType } from '@atb/modules/transport-mode';
 import {
   ServiceJourneyWithEstimatedCallsDocument,
@@ -30,6 +20,16 @@ import {
   QuayEstimatedCallsQuery,
   QuayEstimatedCallsQueryVariables,
 } from '@atb/page-modules/departures/journey-gql/estimated-calls.generated.ts';
+import {
+  StopPlaceQuayDeparturesDocument,
+  StopPlaceQuayDeparturesQuery,
+  StopPlaceQuayDeparturesQueryVariables,
+} from '@atb/page-modules/departures/journey-gql/departures.generated.ts';
+import {
+  GetStopPlaceDocument,
+  GetStopPlaceQuery,
+  GetStopPlaceQueryVariables,
+} from '@atb/page-modules/departures/journey-gql/stop-place.generated.ts';
 import {
   NearestStopPlacesDocument,
   NearestStopPlacesQuery,

@@ -1,5 +1,8 @@
+import {
+  TransportMode,
+  TransportSubmode,
+} from '@atb/modules/graphql-types/journeyplanner-types_v3.generated.ts';
 import { ExtendedDeparturesType } from '@atb/page-modules/departures/types.ts';
-import { TransportMode, TransportSubmode } from '@atb/modules/graphql-types';
 
 export const departureDataFixture: ExtendedDeparturesType = {
   stopPlace: {

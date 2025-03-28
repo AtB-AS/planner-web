@@ -4,24 +4,7 @@ import {
   StreetMode,
   TransportModes as GraphQlTransportModes,
 } from '@atb/modules/graphql-types';
-import {
-  NoticeFragment,
-  TripPatternFragment,
-  TripsDocument,
-  TripsNonTransitDocument,
-  TripsNonTransitQuery,
-  TripsNonTransitQueryVariables,
-  TripsQuery,
-  TripsQueryVariables,
-} from './journey-gql/trip.generated';
-import {
-  LineData,
-  TripData,
-  TripPatternWithDetails,
-  nonTransitSchema,
-  tripPatternWithDetailsSchema,
-  tripSchema,
-} from './validators';
+import { LineData } from './validators';
 import type {
   FromToTripQuery,
   LineInput,
@@ -50,23 +33,32 @@ import {
   ViaTripsWithDetailsQueryVariables,
 } from '@atb/page-modules/assistant/journey-gql/via-trip-with-details.generated';
 import {
-  ViaTripsDocument,
-  ViaTripsQuery,
-  ViaTripsQueryVariables,
-} from './journey-gql/via-trip.generated';
-
-const { journeyApiConfigurations } = getOrgData();
-import {
   addAssistantTripToCache,
   getAssistantTripIfCached,
 } from '../trip-cache';
+import {
+  NoticeFragment,
+  TripPatternFragment,
+  TripsDocument,
+  TripsNonTransitDocument,
+  TripsNonTransitQuery,
+  TripsNonTransitQueryVariables,
+  TripsQuery,
+  TripsQueryVariables,
+} from '@atb/page-modules/assistant/journey-gql/trip.generated.ts';
 import {
   LineFragment,
   LinesDocument,
   LinesQuery,
   LinesQueryVariables,
-} from './journey-gql/lines.generated';
-import { isLineFlexibleTransport } from '@atb/modules/flexible';
+} from '@atb/page-modules/assistant/journey-gql/lines.generated.ts';
+import {
+  ViaTripsDocument,
+  ViaTripsQuery,
+  ViaTripsQueryVariables,
+} from '@atb/page-modules/assistant/journey-gql/via-trip.generated.ts';
+
+const { journeyApiConfigurations } = getOrgData();
 
 const DEFAULT_JOURNEY_CONFIG = {
   numTripPatterns: 8, // The maximum number of trip patterns to return.
