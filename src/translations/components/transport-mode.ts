@@ -1,6 +1,6 @@
-import { translation as _ } from '@atb/translations/commons';
+import { TranslatedString, translation as _ } from '@atb/translations/commons';
 
-export const TransportMode = {
+export const TransportMode: Record<string, Record<string, TranslatedString>> = {
   modes: {
     bus: _('Buss', 'Bus', 'Buss'),
     coach: _('Buss', 'Bus', 'Buss'),

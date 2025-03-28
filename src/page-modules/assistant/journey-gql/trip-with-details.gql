@@ -1,0 +1,151 @@
+query TripsWithDetails(
+  $from: Location!
+  $to: Location!
+  $arriveBy: Boolean!
+  $when: DateTime
+  $cursor: String
+  $transferPenalty: Int
+  $transferSlack: Int
+  $waitReluctance: Float
+  $walkReluctance: Float
+  $walkSpeed: Float
+  $modes: Modes
+  $numTripPatterns: Int
+  $lineFilter: [ID]
+) {
+  trip(
+    from: $from
+    to: $to
+    dateTime: $when
+    arriveBy: $arriveBy
+    pageCursor: $cursor
+    transferPenalty: $transferPenalty
+    transferSlack: $transferSlack
+    waitReluctance: $waitReluctance
+    walkReluctance: $walkReluctance
+    walkSpeed: $walkSpeed
+    modes: $modes
+    numTripPatterns: $numTripPatterns
+    searchWindow: 60 # 1 hour
+    includeRealtimeCancellations: true
+    includePlannedCancellations: true
+    whiteListed: { lines: $lineFilter }
+  ) {
+    tripPatterns {
+      ...tripPatternWithDetails
+    }
+  }
+}
+
+fragment tripPatternWithDetails on TripPattern {
+  expectedStartTime
+  expectedEndTime
+  streetDistance
+  legs {
+    ...legWithDetails
+  }
+}
+
+fragment tripWithDetailsLine on Line {
+  name
+  publicCode
+  notices {
+    ...notice
+  }
+  flexibleLineType
+}
+
+fragment legWithDetails on Leg {
+  mode
+  distance
+  transportSubmode
+  aimedStartTime
+  aimedEndTime
+  expectedStartTime
+  expectedEndTime
+  realtime
+  duration
+  pointsOnLink {
+    points
+    length
+  }
+  line {
+    ...tripWithDetailsLine
+  }
+  fromPlace {
+    name
+    latitude
+    longitude
+    quay {
+      ...quay
+    }
+  }
+  toPlace {
+    name
+    latitude
+    longitude
+    quay {
+      ...quay
+    }
+  }
+  serviceJourney {
+    id
+    notices {
+      ...notice
+    }
+    journeyPattern {
+      notices {
+        ...notice
+      }
+    }
+  }
+  fromEstimatedCall {
+    notices {
+      ...notice
+    }
+    destinationDisplay {
+      frontText
+    }
+    cancellation
+  }
+  interchangeTo {
+    guaranteed
+    maximumWaitTime
+    staySeated
+    toServiceJourney {
+      id
+    }
+  }
+  intermediateEstimatedCalls {
+    aimedDepartureTime
+  }
+  situations {
+    ...situation
+  }
+  serviceJourneyEstimatedCalls {
+    aimedDepartureTime
+    expectedDepartureTime
+    actualDepartureTime
+    cancellation
+    quay {
+      name
+      description
+    }
+    realtime
+  }
+  bookingArrangements {
+    bookingMethods
+    latestBookingTime
+    bookingNote
+    bookWhen
+    latestBookingTime
+    minimumBookingPeriod
+    bookingContact {
+      contactPerson
+      email
+      url
+      phone
+      furtherDetails
+    }
+  }
+}

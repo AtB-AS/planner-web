@@ -1,6 +1,6 @@
-import { EstimatedCallsData } from '@atb/page-modules/departures/server/journey-planner/validators';
+import { EstimatedCallFragment } from '@atb/page-modules/departures/journey-gql/estimated-calls.generated.ts';
 
-export type EstimatedCallsApiReturnType = EstimatedCallsData;
+export type EstimatedCallsApiReturnType = EstimatedCallFragment[];
 export async function nextDepartures(
   quayId: string,
   startTime: string,

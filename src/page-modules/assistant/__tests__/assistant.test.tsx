@@ -356,7 +356,7 @@ describe('assistant page', function () {
 
     (await expectProps(result)).toMatchObject<AssistantContentProps>({
       tripQuery: cachedFromToTripQuery,
-      fallback: tripResult,
+      fallback: tripResult.trip,
     });
   });
 });

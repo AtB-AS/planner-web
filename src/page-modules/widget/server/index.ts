@@ -1,8 +1,5 @@
 import { currentOrg } from '@atb/modules/org-data';
-import { compareVersions } from 'compare-versions';
-import { readdir, stat } from 'fs/promises';
 import { compressToEncodedURIComponent } from 'lz-string';
-import { join, resolve } from 'path';
 
 export type PlannerWidgetData = {
   latest: PlannerModule;

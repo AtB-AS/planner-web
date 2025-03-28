@@ -1,5 +1,5 @@
 import { GlobalMessageType, globalMessageTypeSchema } from './types';
-import { QueryDocumentSnapshot, Timestamp } from 'firebase/firestore';
+import { QueryDocumentSnapshot } from 'firebase/firestore';
 
 export const globalMessageConverter = {
   toFirestore(_any: any) {

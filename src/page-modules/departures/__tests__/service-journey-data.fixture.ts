@@ -1,13 +1,10 @@
-import { ServiceJourneyData } from '../server/journey-planner/validators';
-import type {
-  TransportModeType,
-  TransportSubmodeType,
-} from '@atb/modules/transport-mode';
+import { ServiceJourneyType } from '@atb/page-modules/departures/types.ts';
+import { TransportMode, TransportSubmode } from '@atb/modules/graphql-types';
 
-export const serviceJourneyFixture: ServiceJourneyData = {
+export const serviceJourneyFixture: ServiceJourneyType = {
   id: 'ATB:ServiceJourney:22_230306097862461_113',
-  transportMode: 'bus' as TransportModeType,
-  transportSubmode: 'localBus' as TransportSubmodeType,
+  transportMode: TransportMode.Bus,
+  transportSubmode: TransportSubmode.LocalBus,
   mapLegs: [],
   line: { publicCode: '22', notices: [] },
   notices: [],

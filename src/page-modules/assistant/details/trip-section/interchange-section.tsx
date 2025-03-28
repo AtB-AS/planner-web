@@ -2,12 +2,12 @@ import { useTransportationThemeColor } from '@atb/modules/transport-mode';
 import { DecorationLine, TripRow } from '@atb/modules/trip-details';
 import { MonoIcon } from '@atb/components/icon';
 import { MessageBox } from '@atb/components/message-box';
-import { TripPatternWithDetails } from '../../server/journey-planner/validators';
 import { getPlaceName } from '../utils';
 import { PageText, TranslateFunction, useTranslation } from '@atb/translations';
 
 import style from './trip-section.module.css';
 import { secondsToDuration } from '@atb/utils/date';
+import { LegWithDetailsFragment } from '@atb/page-modules/assistant/journey-gql/trip-with-details.generated.ts';
 
 export type InterchangeDetails = {
   publicCode: string;
@@ -22,7 +22,6 @@ export type InterchangeSectionProps = {
 };
 
 export function InterchangeSection(props: InterchangeSectionProps) {
-  const { t } = useTranslation();
   const unknownTransportationColor = useTransportationThemeColor({
     transportMode: 'unknown',
     transportSubModes: undefined,
@@ -94,7 +93,7 @@ function useInterchangeTextTranslation({
 }
 
 export function getInterchangeDetails(
-  legs: TripPatternWithDetails['legs'],
+  legs: LegWithDetailsFragment[],
   id: string | undefined,
   t: TranslateFunction,
 ): InterchangeDetails | undefined {

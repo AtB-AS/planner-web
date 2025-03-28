@@ -1,9 +1,9 @@
 import TTLCache from '@isaacs/ttlcache';
-import { FromToTripQuery, TripData } from '../types';
+import { FromToTripQuery, TripsType } from '../types';
 
-let tripCache: TTLCache<string, TripData> | null = null;
+let tripCache: TTLCache<string, TripsType> | null = null;
 
-function getTripCacheInstance(): TTLCache<string, TripData> {
+function getTripCacheInstance(): TTLCache<string, TripsType> {
   if (!tripCache) {
     tripCache = new TTLCache({ ttl: 20000 });
   }
@@ -13,7 +13,7 @@ function getTripCacheInstance(): TTLCache<string, TripData> {
 
 export function getAssistantTripIfCached(
   query: FromToTripQuery,
-): TripData | undefined {
+): TripsType | undefined {
   const cacheKey = createCacheKey(query);
   if (tripCache?.has(cacheKey)) {
     return tripCache.get(cacheKey);
@@ -22,7 +22,7 @@ export function getAssistantTripIfCached(
 
 export function addAssistantTripToCache(
   query: FromToTripQuery,
-  tripData: TripData,
+  tripData: TripsType,
 ) {
   getTripCacheInstance().set(createCacheKey(query), tripData);
 }

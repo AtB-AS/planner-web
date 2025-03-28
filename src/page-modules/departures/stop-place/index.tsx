@@ -14,11 +14,6 @@ import {
   SituationMessageBox,
   SituationOrNoticeIcon,
 } from '@atb/modules/situations';
-import {
-  Departure,
-  DepartureData,
-  Quay,
-} from '@atb/page-modules/departures/server/journey-planner';
 import { PageText, useTranslation } from '@atb/translations';
 import { Departures } from '@atb/translations/pages';
 import { and, andIf } from '@atb/utils/css';
@@ -30,10 +25,18 @@ import style from './stop-place.module.css';
 import { formatDestinationDisplay } from '../utils';
 import { useTheme } from '@atb/modules/theme';
 import { formatQuayName } from '@atb/page-modules/departures/details/utils';
-import { GlobalMessageContextEnum, GlobalMessages } from '@atb/modules/global-messages';
+import {
+  GlobalMessageContextEnum,
+  GlobalMessages,
+} from '@atb/modules/global-messages';
+import {
+  ExtendedDeparturesType,
+  ExtendedDepartureQuayType,
+  ExtendedDepartureType,
+} from '@atb/page-modules/departures/types.ts';
 
 export type StopPlaceProps = {
-  departures: DepartureData;
+  departures: ExtendedDeparturesType;
 };
 
 export function StopPlace({ departures }: StopPlaceProps) {
@@ -61,7 +64,10 @@ export function StopPlace({ departures }: StopPlaceProps) {
         role="status"
       />
 
-      <GlobalMessages className={style.stopPlaceMessages} context={GlobalMessageContextEnum.plannerWebDepartures} />
+      <GlobalMessages
+        className={style.stopPlaceMessages}
+        context={GlobalMessageContextEnum.plannerWebDepartures}
+      />
       <div className={style.quaysContainer}>
         <button
           onClick={() => router.reload()}
@@ -78,7 +84,7 @@ export function StopPlace({ departures }: StopPlaceProps) {
             interactiveState={isHoveringRefreshButton ? 'hover' : undefined}
           />
         </button>
-        {departures.quays.map((quay) => (
+        {departures.stopPlace.quays.map((quay) => (
           <EstimatedCallList key={quay.id} quay={quay} />
         ))}
       </div>
@@ -96,15 +102,16 @@ export function StopPlace({ departures }: StopPlaceProps) {
 }
 
 type EstimatedCallListProps = {
-  quay: Quay;
+  quay: ExtendedDepartureQuayType;
 };
 
 export function EstimatedCallList({ quay }: EstimatedCallListProps) {
   const { t } = useTranslation();
   const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
-  const [departures, setDepartures] = useState<Departure[]>(quay.departures);
-  const [isFetchingDepartures, setIsFetchingDepartures] =
-    useState<boolean>(false);
+  const [departures, setDepartures] = useState<ExtendedDepartureType[]>(
+    quay.estimatedCalls,
+  );
+  const [isFetchingDepartures, setIsFetchingDepartures] = useState(false);
 
   const getMoreDepartures = async () => {
     setIsFetchingDepartures(true);
@@ -113,10 +120,8 @@ export function EstimatedCallList({ quay }: EstimatedCallListProps) {
     const date = new Date(latestDeparture.aimedDepartureTime);
     const data = await nextDepartures(quay.id, date.toISOString());
 
-    const set = new Set(departures.map((departure) => departure.id));
-    const filteredDepartures = data.departures.filter(
-      (departure) => !set.has(departure.id),
-    );
+    const set = new Set(departures.map((departure) => departure));
+    const filteredDepartures = data.filter((departure) => !set.has(departure));
 
     setDepartures([...departures, ...filteredDepartures]);
     setIsFetchingDepartures(false);
@@ -208,7 +213,7 @@ export function EstimatedCallList({ quay }: EstimatedCallListProps) {
 
 type EstimatedCallItemProps = {
   quayId: string;
-  departure: Departure;
+  departure: ExtendedDepartureType;
   testID?: string;
 };
 
@@ -227,9 +232,10 @@ export function EstimatedCallItem({
         data-testid={testID}
       >
         <div className={style.transportInfo}>
-          {(departure.transportMode || departure.publicCode) && (
+          {(departure.serviceJourney.line.transportMode ||
+            departure.serviceJourney.line.publicCode) && (
             <>
-              {departure.cancelled ? (
+              {departure.cancellation ? (
                 <ColorIcon
                   icon="status/Error"
                   className={style.situationIcon}
@@ -243,17 +249,21 @@ export function EstimatedCallItem({
               )}
 
               <LineChip
-                transportMode={departure.transportMode || 'unknown'}
-                publicCode={departure.publicCode}
-                transportSubmode={departure.transportSubmode}
+                transportMode={
+                  departure.serviceJourney.line.transportMode || 'unknown'
+                }
+                publicCode={departure.serviceJourney.line.publicCode}
+                transportSubmode={
+                  departure.serviceJourney.line.transportSubmode
+                }
               />
             </>
           )}
 
           <Typo.p
-            className={departure.cancelled ? style.textColor__secondary : ''}
+            className={departure.cancellation ? style.textColor__secondary : ''}
             textType={
-              departure.cancelled ? 'body__primary--strike' : 'body__primary'
+              departure.cancellation ? 'body__primary--strike' : 'body__primary'
             }
           >
             {lineName}
@@ -261,7 +271,7 @@ export function EstimatedCallItem({
         </div>
 
         <DepartureTime
-          cancelled={departure.cancelled}
+          cancelled={departure.cancellation}
           expectedDepartureTime={departure.expectedDepartureTime}
           aimedDepartureTime={departure.aimedDepartureTime}
           relativeTime

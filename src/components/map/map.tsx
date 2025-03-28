@@ -29,7 +29,7 @@ export type MapProps = {
   onSelectStopPlace?: (id: string) => void;
 } & (
   | {
-      position: Position;
+      position?: Position;
       initialZoom?: number;
     }
   | {

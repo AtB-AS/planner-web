@@ -15,17 +15,18 @@ export async function fetchFromDepartureQuery(
 
   if (id) {
     const stopPlace = await client.stopPlace({ id });
-    const from = await client.reverse(
-      stopPlace.position.lat,
-      stopPlace.position.lon,
-      'venue',
-    );
-
-    return {
-      isAddress: false,
-      searchTime,
-      from: from ?? null,
-    };
+    if (stopPlace.position.lat && stopPlace.position.lon) {
+      const from = await client.reverse(
+        stopPlace.position.lat,
+        stopPlace.position.lon,
+        'venue',
+      );
+      return {
+        isAddress: false,
+        searchTime,
+        from: from ?? null,
+      };
+    }
   } else if (query.lat && query.lon) {
     const position = {
       lat: parseFloat(query.lat.toString()),

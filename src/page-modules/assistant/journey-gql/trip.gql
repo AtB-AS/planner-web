@@ -97,62 +97,80 @@ fragment trip on Trip {
   }
 }
 
+fragment tripLine on Line {
+  publicCode
+  flexibleLineType
+  notices {
+    ...notice
+  }
+  flexibleLineType
+}
+
+fragment leg on Leg {
+  mode
+  distance
+  duration
+  aimedStartTime
+  expectedEndTime
+  expectedStartTime
+  realtime
+  line {
+    ...tripLine
+  }
+  fromEstimatedCall {
+    cancellation
+    notices {
+      ...notice
+    }
+  }
+  toEstimatedCall {
+    cancellation
+    notices {
+      ...notice
+    }
+  }
+  situations {
+    ...situation
+  }
+  fromPlace {
+    name
+    quay {
+      ...quay
+    }
+  }
+  serviceJourney {
+    id
+    notices {
+      ...notice
+    }
+    journeyPattern {
+      notices {
+        ...notice
+      }
+    }
+  }
+  transportSubmode
+  interchangeTo {
+    staySeated
+  }
+}
+
 fragment tripPattern on TripPattern {
   expectedStartTime
   expectedEndTime
   streetDistance
   legs {
-    mode
-    distance
-    duration
-    aimedStartTime
-    expectedEndTime
-    expectedStartTime
-    realtime
-    line {
-      publicCode
-      flexibleLineType
-      notices {
-        ...notice
-      }
-      flexibleLineType
-    }
-    fromEstimatedCall {
-      cancellation
-      notices {
-        ...notice
-      }
-    }
-    situations {
-      ...situation
-    }
-    fromPlace {
-      name
-      quay {
-        publicCode
-        name
-        description
-        id
-        situations {
-          ...situation
-        }
-      }
-    }
-    serviceJourney {
-      id
-      notices {
-        ...notice
-      }
-      journeyPattern {
-        notices {
-          ...notice
-        }
-      }
-    }
-    transportSubmode
-    interchangeTo {
-      staySeated
-    }
+    ...leg
+  }
+}
+
+fragment quay on Quay {
+  publicCode
+  name
+  description
+  id
+  situations {
+    ...situation
   }
 }
 

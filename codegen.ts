@@ -28,6 +28,10 @@ const config: CodegenConfig = {
         // Looks like almost all types in the GraphQL server is optional but actually are set. The Maybe combinator
         // is a pain to work with when traversing the types.
         maybeValue: 'T',
+        scalars: {
+          DateTime: 'string',
+          Long: 'number',
+        },
       },
       plugins: ['typescript-operations', 'typescript-generic-sdk'],
     },

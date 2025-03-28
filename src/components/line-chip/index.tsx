@@ -2,15 +2,13 @@ import { Typo } from '@atb/components/typography';
 import style from './line-chip.module.css';
 import {
   TransportIcon,
-  TransportModeType,
-  TransportSubmodeType,
   useTransportationThemeColor,
 } from '@atb/modules/transport-mode';
 
 export type LineChipProps = {
-  transportMode: TransportModeType;
-  transportSubmode?: TransportSubmodeType;
-  publicCode: string | null;
+  transportMode: string;
+  transportSubmode?: string;
+  publicCode?: string;
 };
 
 export default function LineChip({
@@ -20,7 +18,7 @@ export default function LineChip({
 }: LineChipProps) {
   const transportationColor = useTransportationThemeColor({
     transportMode: transportMode,
-    transportSubModes: transportSubmode && [transportSubmode],
+    transportSubModes: transportSubmode ? [transportSubmode] : [],
   });
 
   return (
@@ -34,7 +32,7 @@ export default function LineChip({
       <TransportIcon
         mode={{
           transportMode: transportMode,
-          transportSubModes: transportSubmode && [transportSubmode],
+          transportSubModes: transportSubmode ? [transportSubmode] : [],
         }}
       />
       {publicCode && (

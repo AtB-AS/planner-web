@@ -1,7 +1,6 @@
 import { ComponentText, useTranslation } from '@atb/translations';
 import style from './loading.module.css';
 import { ColorIcon, ColorIconProps } from '@atb/components/icon';
-import ScreenReaderOnly from '../screen-reader-only';
 
 export type LoadingProps = {
   /**
@@ -17,7 +16,7 @@ export function Loading({ text, testID }: LoadingProps) {
   return (
     <div
       className={style.loading}
-      role='status'
+      role="status"
       aria-live="assertive"
       data-testid={testID}
     >
@@ -31,14 +30,20 @@ export function Loading({ text, testID }: LoadingProps) {
   );
 }
 
-export function LoadingIcon({ size, a11yText }: { size?: ColorIconProps['size'], a11yText?: string }) {
+export function LoadingIcon({
+  size,
+  a11yText,
+}: {
+  size?: ColorIconProps['size'];
+  a11yText?: string;
+}) {
   const { t } = useTranslation();
 
   return (
     <ColorIcon
       icon="status/Spinner"
       size={size}
-      role='status'
+      role="status"
       className={style.loading__icon}
       alt={a11yText ?? t(ComponentText.Loading.alt)}
     />

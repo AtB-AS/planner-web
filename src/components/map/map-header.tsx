@@ -13,7 +13,7 @@ export type MapHeaderProps = {
   name: string; // StopPlace name or address
   layer: 'address' | 'venue';
   transportModes?: TransportModeType[];
-  position: { lat: number; lon: number };
+  position?: { lat: number; lon: number };
 };
 
 export function MapHeader({
@@ -60,7 +60,7 @@ export function MapHeader({
         </div>
       </div>
 
-      {layer === 'venue' && (
+      {layer === 'venue' && position && (
         <div className={style.header__buttons}>
           <ButtonLink
             mode="interactive_0"

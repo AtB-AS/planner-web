@@ -8,7 +8,11 @@ query getStopPlace($id: String!) {
     longitude
 
     quays {
-      id
+      ...stopPlaceQuay
     }
   }
+}
+
+fragment stopPlaceQuay on Quay {
+  id
 }

@@ -7,7 +7,7 @@ import {
   getLatestBookingDate,
   isLineFlexibleTransport,
 } from '../utils';
-import { BookingArrangement } from '..';
+import { PurchaseWhen } from '@atb/modules/graphql-types/journeyplanner-types_v3.generated.ts';
 
 afterEach(function () {
   cleanup();
@@ -20,12 +20,13 @@ describe('is line flexible transport', function () {
         name: 'Rundtur',
         publicCode: 'O',
         flexibleLineType: 'flex',
+        notices: [],
       }),
     ).toBe(true);
   });
 
   it('should not be flexible transport line', () => {
-    expect(isLineFlexibleTransport(null)).toBe(false);
+    expect(isLineFlexibleTransport(undefined)).toBe(false);
   });
 });
 
@@ -57,12 +58,12 @@ describe('booking status', function () {
     const latestBookingTimeStr = `${hours}:${minutes}:${seconds}`;
 
     const bookingArrangements = {
-      bookingMethods: null,
+      bookingMethods: undefined,
       latestBookingTime: latestBookingTimeStr,
-      bookingNote: null,
-      bookWhen: null,
-      minimumBookingPeriod: null,
-      bookingContact: null,
+      bookingNote: undefined,
+      bookWhen: undefined,
+      minimumBookingPeriod: undefined,
+      bookingContact: undefined,
     };
 
     const flexBookingNumberOfDaysAvailable = 7;
@@ -89,12 +90,12 @@ describe('booking status', function () {
     const latestBookingTimeStr = `${hours}:${minutes}:${seconds}`;
 
     const bookingArrangements = {
-      bookingMethods: null,
+      bookingMethods: undefined,
       latestBookingTime: latestBookingTimeStr,
-      bookingNote: null,
-      bookWhen: null,
-      minimumBookingPeriod: null,
-      bookingContact: null,
+      bookingNote: undefined,
+      bookWhen: undefined,
+      minimumBookingPeriod: undefined,
+      bookingContact: undefined,
     };
 
     const flexBookingNumberOfDaysAvailable = 7;
@@ -121,12 +122,12 @@ describe('booking status', function () {
     const latestBookingTimeStr = `${hours}:${minutes}:${seconds}`;
 
     const bookingArrangements = {
-      bookingMethods: null,
+      bookingMethods: undefined,
       latestBookingTime: latestBookingTimeStr,
-      bookingNote: null,
-      bookWhen: null,
-      minimumBookingPeriod: null,
-      bookingContact: null,
+      bookingNote: undefined,
+      bookWhen: undefined,
+      minimumBookingPeriod: undefined,
+      bookingContact: undefined,
     };
 
     const flexBookingNumberOfDaysAvailable = 7;
@@ -153,12 +154,12 @@ describe('booking status', function () {
     const latestBookingTimeStr = `${hours}:${minutes}:${seconds}`;
 
     const bookingArrangements = {
-      bookingMethods: null,
+      bookingMethods: undefined,
       latestBookingTime: latestBookingTimeStr,
-      bookingNote: null,
-      bookWhen: null,
-      minimumBookingPeriod: null,
-      bookingContact: null,
+      bookingNote: undefined,
+      bookWhen: undefined,
+      minimumBookingPeriod: undefined,
+      bookingContact: undefined,
     };
 
     const flexBookingNumberOfDaysAvailable = 2;
@@ -178,12 +179,12 @@ describe('booking status', function () {
     const latestBookingTimeStr = '00:00:00';
 
     const bookingArrangements = {
-      bookingMethods: null,
+      bookingMethods: undefined,
       latestBookingTime: latestBookingTimeStr,
-      bookingNote: null,
-      bookWhen: null,
-      minimumBookingPeriod: null,
-      bookingContact: null,
+      bookingNote: undefined,
+      bookWhen: undefined,
+      minimumBookingPeriod: undefined,
+      bookingContact: undefined,
     };
 
     const flexBookingNumberOfDaysAvailable = 8;
@@ -202,12 +203,12 @@ describe('booking status', function () {
       const latestBookingTime = '15:00:00';
 
       const bookingArrangements = {
-        bookingMethods: null,
+        bookingMethods: undefined,
         latestBookingTime: latestBookingTime,
-        bookingNote: null,
-        bookWhen: null,
-        minimumBookingPeriod: null,
-        bookingContact: null,
+        bookingNote: undefined,
+        bookWhen: undefined,
+        minimumBookingPeriod: undefined,
+        bookingContact: undefined,
       };
 
       const flexBookingNumberOfDaysAvailable = 7;
@@ -224,12 +225,12 @@ describe('booking status', function () {
       const aimedStartTime = new Date('2024-01-25T00:00:00');
 
       const bookingArrangements = {
-        bookingMethods: null,
-        latestBookingTime: null,
-        bookingNote: null,
-        bookWhen: null,
-        minimumBookingPeriod: null,
-        bookingContact: null,
+        bookingMethods: undefined,
+        latestBookingTime: undefined,
+        bookingNote: undefined,
+        bookWhen: undefined,
+        minimumBookingPeriod: undefined,
+        bookingContact: undefined,
       };
 
       const flexBookingNumberOfDaysAvailable = 5;
@@ -249,12 +250,12 @@ describe('booking status', function () {
       const latestBookingTime = '13:00:00';
 
       const bookingArrangements = {
-        bookingMethods: null,
+        bookingMethods: undefined,
         latestBookingTime: latestBookingTime,
-        bookingNote: null,
-        bookWhen: 'dayOfTravelOnly' as BookingArrangement['bookWhen'],
-        minimumBookingPeriod: null,
-        bookingContact: null,
+        bookingNote: undefined,
+        bookWhen: PurchaseWhen.DayOfTravelOnly,
+        minimumBookingPeriod: undefined,
+        bookingContact: undefined,
       };
 
       expect(getLatestBookingDate(bookingArrangements, aimedStartTime)).toEqual(
@@ -266,12 +267,12 @@ describe('booking status', function () {
       const aimedStartTime = new Date('2024-01-25T00:00:00Z');
 
       const bookingArrangements = {
-        bookingMethods: null,
-        latestBookingTime: null,
-        bookingNote: null,
-        bookWhen: null,
-        minimumBookingPeriod: null,
-        bookingContact: null,
+        bookingMethods: undefined,
+        latestBookingTime: undefined,
+        bookingNote: undefined,
+        bookWhen: undefined,
+        minimumBookingPeriod: undefined,
+        bookingContact: undefined,
       };
 
       expect(
@@ -284,12 +285,12 @@ describe('booking status', function () {
       const latestBookingTime = '13:00:00';
 
       const bookingArrangements = {
-        bookingMethods: null,
+        bookingMethods: undefined,
         latestBookingTime: latestBookingTime,
-        bookingNote: null,
-        bookWhen: 'untilPreviousDay' as BookingArrangement['bookWhen'],
-        minimumBookingPeriod: null,
-        bookingContact: null,
+        bookingNote: undefined,
+        bookWhen: PurchaseWhen.UntilPreviousDay,
+        minimumBookingPeriod: undefined,
+        bookingContact: undefined,
       };
 
       expect(getLatestBookingDate(bookingArrangements, aimedStartTime)).toEqual(
@@ -302,12 +303,12 @@ describe('booking status', function () {
       const latestBookingTime = '13:00:00';
 
       const bookingArrangements = {
-        bookingMethods: null,
+        bookingMethods: undefined,
         latestBookingTime: latestBookingTime,
-        bookingNote: null,
-        bookWhen: 'untilPreviousDay' as BookingArrangement['bookWhen'],
-        minimumBookingPeriod: null,
-        bookingContact: null,
+        bookingNote: undefined,
+        bookWhen: PurchaseWhen.UntilPreviousDay,
+        minimumBookingPeriod: undefined,
+        bookingContact: undefined,
       };
 
       expect(getLatestBookingDate(bookingArrangements, aimedStartTime)).toEqual(

@@ -1,112 +1,161 @@
-import { DepartureData } from '../server/journey-planner';
+import { ExtendedDeparturesType } from '@atb/page-modules/departures/types.ts';
+import {
+  TransportMode,
+  TransportSubmode,
+} from '@atb/modules/graphql-types/journeyplanner-types_v3.generated.ts';
 
-export const departureDataFixture: DepartureData = {
+export const departureDataFixture: ExtendedDeparturesType = {
   stopPlace: {
     id: 'NSR:StopPlace:41613',
     name: 'Prinsens gate',
-    position: { lat: 63.431034, lon: 10.392007 },
-    transportMode: ['bus'],
-    transportSubmode: ['unknown'],
-    description: '',
+    latitude: 63.431034,
+    longitude: 10.392007,
+    transportMode: [TransportMode.Bus],
+    transportSubmode: [TransportSubmode.Unknown],
+    description: undefined,
+    quays: [
+      {
+        id: 'NSR:Quay:71184',
+        name: 'Prinsens gate',
+        publicCode: 'P1',
+        description: 'ved Bunnpris',
+        estimatedCalls: [
+          {
+            aimedDepartureTime: '2025-04-04T13:55:00+02:00',
+            date: '2025-04-04',
+            expectedDepartureTime: '2025-04-04T13:55:00+02:00',
+            realtime: false,
+            cancellation: false,
+            quay: {
+              id: 'NSR:Quay:71184',
+            },
+            destinationDisplay: {
+              frontText: 'Romolslia via St. Olavs hospital',
+              via: [],
+            },
+            serviceJourney: {
+              id: 'ATB:ServiceJourney:20_240906066218677_42',
+              line: {
+                id: 'ATB:Line:2_20',
+                description: undefined,
+                publicCode: '20',
+                transportMode: TransportMode.Bus,
+                transportSubmode: TransportSubmode.LocalBus,
+              },
+              journeyPattern: {
+                notices: [],
+              },
+            },
+            notices: [],
+            situations: [],
+          },
+          {
+            aimedDepartureTime: '2025-04-04T13:57:00+02:00',
+            date: '2025-04-04',
+            expectedDepartureTime: '2025-04-04T13:57:00+02:00',
+            realtime: false,
+            cancellation: false,
+            quay: {
+              id: 'NSR:Quay:71184',
+            },
+            destinationDisplay: {
+              frontText: 'Kattem via Tiller-Heimdal',
+              via: [],
+            },
+            serviceJourney: {
+              id: 'ATB:ServiceJourney:1_240516085577730_116',
+              line: {
+                id: 'ATB:Line:2_1',
+                description: undefined,
+                publicCode: '1',
+                transportMode: TransportMode.Bus,
+                transportSubmode: TransportSubmode.LocalBus,
+              },
+              journeyPattern: {
+                notices: [],
+              },
+            },
+            notices: [],
+            situations: [],
+          },
+        ],
+        situations: [],
+      },
+      {
+        id: 'NSR:Quay:71181',
+        name: 'Prinsens gate',
+        publicCode: 'P2',
+        description: 'ved AtB Kundesenter',
+        estimatedCalls: [
+          {
+            aimedDepartureTime: '2025-04-04T13:53:00+02:00',
+            date: '2025-04-04',
+            expectedDepartureTime: '2025-04-04T13:53:00+02:00',
+            realtime: false,
+            cancellation: false,
+            quay: {
+              id: 'NSR:Quay:71181',
+            },
+            destinationDisplay: {
+              frontText: 'Pirbadet via Ila-sentrum',
+              via: [],
+            },
+            serviceJourney: {
+              id: 'ATB:ServiceJourney:21_241010131300098_37',
+              line: {
+                id: 'ATB:Line:2_21',
+                description: undefined,
+                publicCode: '21',
+                transportMode: TransportMode.Bus,
+                transportSubmode: TransportSubmode.LocalBus,
+              },
+              journeyPattern: {
+                notices: [],
+              },
+            },
+            notices: [],
+            situations: [],
+          },
+          {
+            aimedDepartureTime: '2025-04-04T13:54:00+02:00',
+            date: '2025-04-04',
+            expectedDepartureTime: '2025-04-04T13:54:00+02:00',
+            realtime: false,
+            cancellation: false,
+            quay: {
+              id: 'NSR:Quay:71181',
+            },
+            destinationDisplay: {
+              frontText: 'Ranheim via Strindheim',
+              via: [],
+            },
+            serviceJourney: {
+              id: 'ATB:ServiceJourney:1_240516085577583_115',
+              line: {
+                id: 'ATB:Line:2_1',
+                description: undefined,
+                publicCode: '1',
+                transportMode: TransportMode.Bus,
+                transportSubmode: TransportSubmode.LocalBus,
+              },
+              journeyPattern: {
+                notices: [],
+              },
+            },
+            notices: [],
+            situations: [],
+          },
+        ],
+        situations: [],
+      },
+      {
+        id: 'NSR:Quay:107493',
+        name: 'Prinsens gate',
+        publicCode: 'P3',
+        description: undefined,
+        estimatedCalls: [],
+        situations: [],
+      },
+    ],
   },
-  quays: [
-    {
-      name: 'Prinsens gate',
-      id: 'NSR:Quay:71184',
-      publicCode: 'P1',
-      description: 'ved Bunnpris',
-      situations: [],
-      departures: [
-        {
-          id: 'ATB:ServiceJourney:71_230306097870252_7024',
-          destinationDisplay: {
-            frontText: 'Dora',
-            via: [],
-          },
-          date: '2023-10-08',
-          expectedDepartureTime: '2023-10-08T20:53:15+02:00',
-          aimedDepartureTime: '2023-10-08T20:50:00+02:00',
-          transportMode: 'bus',
-          publicCode: '71',
-          cancelled: false,
-          realtime: true,
-          notices: [],
-          situations: [],
-        },
-        {
-          id: 'ATB:ServiceJourney:25_230306097862768_7070',
-          destinationDisplay: {
-            frontText: 'Hurtigbåtterminalen',
-            via: [],
-          },
-          date: '2023-10-08',
-          expectedDepartureTime: '2023-10-08T20:53:19+02:00',
-          aimedDepartureTime: '2023-10-08T20:47:00+02:00',
-          transportMode: 'bus',
-          publicCode: '25',
-          cancelled: false,
-          realtime: true,
-          notices: [],
-          situations: [],
-        },
-      ],
-    },
-    {
-      name: 'Prinsens gate',
-      id: 'NSR:Quay:71181',
-      publicCode: 'P2',
-      description: 'ved AtB Kundesenter',
-      situations: [],
-      departures: [
-        {
-          id: 'ATB:ServiceJourney:10_230905147222030_7096',
-          destinationDisplay: {
-            frontText: 'Sjetnemarka',
-            via: ['Klæbuveien'],
-          },
-          date: '2023-10-08',
-          expectedDepartureTime: '2023-10-08T20:55:28+02:00',
-          aimedDepartureTime: '2023-10-08T20:54:00+02:00',
-          transportMode: 'bus',
-          publicCode: '10',
-          cancelled: false,
-          realtime: true,
-          notices: [],
-          situations: [],
-        },
-        {
-          id: 'ATB:ServiceJourney:20_230306097869036_7048',
-          destinationDisplay: {
-            frontText: 'Romolslia',
-            via: ['St. Olavs hospital'],
-          },
-          date: '2023-10-08',
-          expectedDepartureTime: '2023-10-08T20:55:32+02:00',
-          aimedDepartureTime: '2023-10-08T20:54:00+02:00',
-          transportMode: 'bus',
-          publicCode: '20',
-          cancelled: false,
-          realtime: true,
-          notices: [],
-          situations: [],
-        },
-        {
-          id: 'ATB:ServiceJourney:12_230306097866716_7048',
-          destinationDisplay: {
-            frontText: 'Marienborg',
-            via: [],
-          },
-          date: '2023-10-08',
-          expectedDepartureTime: '2023-10-08T20:57:11+02:00',
-          aimedDepartureTime: '2023-10-08T20:56:00+02:00',
-          transportMode: 'bus',
-          publicCode: '12',
-          cancelled: false,
-          realtime: true,
-          notices: [],
-          situations: [],
-        },
-      ],
-    },
-  ],
 };

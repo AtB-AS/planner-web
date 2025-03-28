@@ -7,7 +7,7 @@ import style from './trip.module.css';
 import { PageText, useTranslation } from '@atb/translations';
 import { Typo } from '@atb/components/typography';
 import { useNonTransitTrip, useTripPatterns } from '../client';
-import { FromToTripQuery, TripData } from '../types';
+import { FromToTripQuery, TripsType } from '../types';
 import { Button } from '@atb/components/button';
 import { NonTransitTrip } from '../non-transit-pill';
 import { isSameDay } from 'date-fns';
@@ -25,7 +25,7 @@ import dictionary from '@atb/translations/dictionary.ts';
 
 export type TripProps = {
   tripQuery: FromToTripQuery;
-  fallback?: TripData;
+  fallback?: TripsType['trip'];
 };
 
 export default function Trip({ tripQuery, fallback }: TripProps) {
@@ -39,7 +39,6 @@ export default function Trip({ tripQuery, fallback }: TripProps) {
   if (isLoadingFirstTrip) {
     return <EmptySearch isSearching={isLoadingFirstTrip} type="trip" />;
   }
-
   if (
     (!trips ||
       trips?.length === 0 ||
@@ -119,7 +118,7 @@ export default function Trip({ tripQuery, fallback }: TripProps) {
                 previousDepartureTime={getPreviousDepartureTime(tripIndex, i)}
               />
               <TripPattern
-                tripPattern={tripPattern}
+                tripPattern={trip.tripPatterns[i]}
                 delay={i * 0.1}
                 index={i}
                 testId={`tripPattern-${tripIndex}-${i}`}
