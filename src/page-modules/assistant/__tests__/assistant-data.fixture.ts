@@ -1,12 +1,12 @@
 import { FeatureCategory } from '@atb/components/venue-icon';
 import { GeocoderFeature } from '@atb/page-modules/departures';
 import { NonTransitTripData, TripsType } from '..';
+import { ViaTripsQuery } from '@atb/page-modules/assistant/journey-gql/via-trip.generated';
 import {
   Mode,
   TransportSubmode,
 } from '@atb/modules/graphql-types/journeyplanner-types_v3.generated';
 import { ReportType } from '@atb/modules/graphql-types';
-import { ViaTripsQuery } from '@atb/page-modules/assistant/journey-gql/via-trip.generated.ts';
 
 export const fromFeature: GeocoderFeature = {
   id: '638651',
