@@ -123,6 +123,12 @@ fragment leg on Leg {
       ...notice
     }
   }
+  toEstimatedCall {
+    cancellation
+    notices {
+      ...notice
+    }
+  }
   situations {
     ...situation
   }
