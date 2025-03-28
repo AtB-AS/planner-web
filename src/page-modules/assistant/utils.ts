@@ -1,34 +1,9 @@
-import type { SearchMode } from '@atb/modules/search-time';
 import { searchTimeToQueryString } from '@atb/modules/search-time';
 import { GeocoderFeature } from '@atb/page-modules/departures';
-import {
-  ExtendedLegType,
-  FromToTripQuery,
-  TripData,
-  TripQuery,
-  TripQuerySchema,
-} from './types';
+import { FromToTripQuery, TripQuery, TripQuerySchema } from './types';
 import { TravelSearchFiltersType } from '@atb-as/config-specs';
 import { filterNotices } from '@atb/modules/situations';
-import { LegFragment } from '@atb/page-modules/assistant/server/journey-planner/journey-gql/trip.generated.ts';
-
-export function filterOutDuplicates(
-  arrayToFilter: TripData['tripPatterns'],
-  referenceArray: TripData['tripPatterns'],
-): TripData['tripPatterns'] {
-  const existing = new Set<string>(
-    referenceArray.map((tp) => tp.expectedStartTime),
-  );
-  return arrayToFilter.filter((tp) => !existing.has(tp.expectedStartTime));
-}
-
-export function getCursorBySearchMode(trip: TripData, searchMode: SearchMode) {
-  if (searchMode === 'arriveBy') {
-    return trip.previousPageCursor;
-  } else {
-    return trip.nextPageCursor;
-  }
-}
+import { LegFragment } from '@atb/page-modules/assistant/journey-gql/trip.generated.ts';
 
 function featuresToFromToQuery(
   from: GeocoderFeature | null,

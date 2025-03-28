@@ -1,21 +1,18 @@
 import { GeocoderFeature } from '@atb/page-modules/departures';
 import { z } from 'zod';
-import type {
-  NonTransitData,
-  TripData,
-} from './server/journey-planner/validators';
+import type { NonTransitData } from './server/journey-planner/validators';
 import { searchModeSchema, type SearchTime } from '@atb/modules/search-time';
 import type { TransportModeGroup } from '@atb/modules/transport-mode';
 import {
   NoticeFragment,
   TripPatternFragment,
   TripsQuery,
-} from '@atb/page-modules/assistant/server/journey-planner/journey-gql/trip.generated.ts';
+} from '@atb/page-modules/assistant/journey-gql/trip.generated.ts';
 import {
   LegWithDetailsFragment,
   TripPatternWithDetailsFragment,
   TripsWithDetailsQuery,
-} from '@atb/page-modules/assistant/server/journey-planner/journey-gql/trip-with-details.generated.ts';
+} from '@atb/page-modules/assistant/journey-gql/trip-with-details.generated.ts';
 import { MapLegType } from '@atb/components/map';
 
 export type TripInput = {
@@ -90,7 +87,7 @@ export type NonTransitTripInput = {
   directModes: StreetMode[];
 };
 
-export type { TripData, NonTransitData };
+export type { NonTransitData };
 export type NonTransitTripData = {
   cycleTrip?: NonTransitData;
   footTrip?: NonTransitData;

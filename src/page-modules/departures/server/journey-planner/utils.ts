@@ -1,4 +1,4 @@
-import { DepartureQuayFragment } from '@atb/page-modules/departures/server/journey-planner/journey-gql/departures.generated.ts';
+import { DepartureQuayFragment } from '@atb/page-modules/departures/journey-gql/departures.generated.ts';
 
 export function sortQuays(a: DepartureQuayFragment, b: DepartureQuayFragment) {
   // Place quays with no departures at the end

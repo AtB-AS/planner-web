@@ -1,9 +1,4 @@
 export type { GeocoderFeature } from './types';
-export type {
-  StopPlaceInfo,
-  NearestStopPlacesData,
-  StopPlaceWithDistance,
-} from './server/journey-planner';
 
 export * from './nearest-stop-places';
 export { StopPlace } from './stop-place';

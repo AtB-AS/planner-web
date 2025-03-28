@@ -11,10 +11,6 @@ import {
 import { withAssistantClient } from '@atb/page-modules/assistant/server';
 import { getAssistantTripIfCached } from '@atb/page-modules/assistant/server/trip-cache';
 import type { NextPage } from 'next';
-import {
-  GlobalMessageContextEnum,
-  GlobalMessages,
-} from '@atb/modules/global-messages';
 
 export type AssistantContentProps =
   | { tripQuery: FromToTripQuery; empty: true }

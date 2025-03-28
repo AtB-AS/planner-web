@@ -6,20 +6,15 @@ import { motion } from 'framer-motion';
 import { Typo } from '@atb/components/typography';
 import { MonoIcon } from '@atb/components/icon';
 import { Button } from '@atb/components/button';
+import { useTransportationThemeColor } from '@atb/modules/transport-mode';
 import {
-  type TransportModeType,
-  useTransportationThemeColor,
-  type TransportSubmodeType,
-} from '@atb/modules/transport-mode';
-import {
-  Situation,
   SituationMessageBox,
   SituationOrNoticeIcon,
 } from '@atb/modules/situations';
 import { formatQuayName, getSituationsToShowForCall } from './utils';
 import { DecorationLine, TripRow } from '@atb/modules/trip-details';
 import { DepartureTime } from '@atb/components/departure-time';
-import { SituationFragment } from '@atb/page-modules/assistant/server/journey-planner/journey-gql/trip.generated.ts';
+import { SituationFragment } from '@atb/page-modules/assistant/journey-gql/trip.generated.ts';
 
 export type EstimatedCallRowsProps = {
   calls: EstimatedCallWithMetadata[];

@@ -4,7 +4,7 @@ import { ColorIcon } from '@atb/components/icon';
 import {
   NoticeFragment,
   SituationFragment,
-} from '@atb/page-modules/assistant/server/journey-planner/journey-gql/trip.generated.ts';
+} from '@atb/page-modules/assistant/journey-gql/trip.generated.ts';
 
 type SituationOrNoticeIconProps = {
   accessibilityLabel?: string;

@@ -1,10 +1,10 @@
-import { DeparturesType } from '@atb/page-modules/departures/types.ts';
+import { ExtendedDeparturesType } from '@atb/page-modules/departures/types.ts';
 import {
   TransportMode,
   TransportSubmode,
 } from '@atb/modules/graphql-types/journeyplanner-types_v3.generated.ts';
 
-export const departureDataFixture: DeparturesType = {
+export const departureDataFixture: ExtendedDeparturesType = {
   stopPlace: {
     id: 'NSR:StopPlace:41613',
     name: 'Prinsens gate',

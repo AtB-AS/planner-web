@@ -1,14 +1,10 @@
 import { MapWithHeader } from '@atb/components/map';
-import { FromDepartureQuery, GeocoderFeature } from '../types';
-import {
-  NearestStopPlacesData,
-  StopPlaceWithDistance,
-} from '../server/journey-planner';
+import { FromDepartureQuery } from '../types';
 import Link from 'next/link';
 import style from './nearest-stop-places.module.css';
 import { Typo } from '@atb/components/typography';
 import { useRouter } from 'next/router';
-import VenueIcon, { FeatureCategory } from '@atb/components/venue-icon';
+import VenueIcon from '@atb/components/venue-icon';
 import { PageText, useTranslation } from '@atb/translations';
 import EmptyMessage from '@atb/components/empty-message';
 import { SituationOrNoticeIcon } from '@atb/modules/situations';

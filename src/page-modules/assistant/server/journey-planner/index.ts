@@ -13,7 +13,7 @@ import {
   TripsNonTransitQueryVariables,
   TripsQuery,
   TripsQueryVariables,
-} from './journey-gql/trip.generated';
+} from '@atb/page-modules/assistant/journey-gql/trip.generated';
 import { LineData, nonTransitSchema } from './validators';
 import type {
   FromToTripQuery,
@@ -35,19 +35,19 @@ import {
   TripsWithDetailsDocument,
   TripsWithDetailsQuery,
   TripsWithDetailsQueryVariables,
-} from './journey-gql/trip-with-details.generated';
+} from '@atb/page-modules/assistant/journey-gql/trip-with-details.generated';
 import { mapToMapLegs } from '@atb/components/map';
 import { getOrgData } from '@atb/modules/org-data';
 import {
   ViaTripsWithDetailsDocument,
   ViaTripsWithDetailsQuery,
   ViaTripsWithDetailsQueryVariables,
-} from './journey-gql/via-trip-with-details.generated';
+} from '@atb/page-modules/assistant/journey-gql/via-trip-with-details.generated';
 import {
   ViaTripsDocument,
   ViaTripsQuery,
   ViaTripsQueryVariables,
-} from './journey-gql/via-trip.generated';
+} from '@atb/page-modules/assistant/journey-gql/via-trip.generated';
 import {
   addAssistantTripToCache,
   getAssistantTripIfCached,
@@ -57,7 +57,7 @@ import {
   LinesDocument,
   LinesQuery,
   LinesQueryVariables,
-} from './journey-gql/lines.generated';
+} from '@atb/page-modules/assistant/journey-gql/lines.generated';
 
 const { journeyApiConfigurations } = getOrgData();
 

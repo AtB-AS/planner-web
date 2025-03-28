@@ -13,7 +13,7 @@ export type StaticMapProps = {
   size: { width: number; height: number };
 } & (
   | {
-      position: Position;
+      position: Partial<Position>;
       initialZoom?: number;
     }
   | {

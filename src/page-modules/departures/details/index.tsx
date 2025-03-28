@@ -7,7 +7,6 @@ import { Typo } from '@atb/components/typography';
 import { SituationMessageBox, filterNotices } from '@atb/modules/situations';
 import { useRealtimeText } from '@atb/modules/trip-details';
 import { PageText, useTranslation } from '@atb/translations';
-import { ServiceJourneyData } from '../server/journey-planner/validators';
 import style from './details.module.css';
 import { EstimatedCallRows } from './estimated-call-rows';
 import { addMetadataToEstimatedCalls } from './utils';

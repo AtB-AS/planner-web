@@ -8,11 +8,11 @@ import dictionary from '@atb/translations/dictionary';
 import { screenReaderPause } from '@atb/components/typography/utils';
 import { transportModeToTranslatedString } from '@atb/modules/transport-mode';
 import { getTimeRepresentationType } from '@atb/modules/time-representation';
+import { LegFragment } from '@atb/page-modules/assistant/journey-gql/trip.generated.ts';
 import {
   ExtendedLegType,
   ExtendedTripPatternType,
 } from '@atb/page-modules/assistant';
-import { LegFragment } from '@atb/page-modules/assistant/server/journey-planner/journey-gql/trip.generated.ts';
 import { getQuayOrPlaceName } from '@atb/page-modules/assistant/trip/trip-pattern/trip-pattern-header';
 
 export const tripSummary = (

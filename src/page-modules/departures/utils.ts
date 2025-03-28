@@ -3,7 +3,7 @@ import { searchTimeToQueryString } from '@atb/modules/search-time';
 import { TranslateFunction } from '@atb/translations';
 import { ParsedUrlQueryInput } from 'querystring';
 import dictionary from '@atb/translations/dictionary';
-import { DestinationDisplayFragment } from '@atb/page-modules/departures/server/journey-planner/journey-gql/service-journey-with-estimated-calls.generated.ts';
+import { DestinationDisplayFragment } from '@atb/page-modules/departures/journey-gql/service-journey-with-estimated-calls.generated.ts';
 
 export function createFromQuery(tripQuery: FromDepartureQuery): {
   pathname: string;

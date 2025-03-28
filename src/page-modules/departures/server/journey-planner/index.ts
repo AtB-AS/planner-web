@@ -3,47 +3,39 @@ import {
   StopPlaceQuayDeparturesDocument,
   StopPlaceQuayDeparturesQuery,
   StopPlaceQuayDeparturesQueryVariables,
-} from './journey-gql/departures.generated';
+} from '@atb/page-modules/departures/journey-gql/departures.generated';
 import {
   NearestStopPlacesDocument,
   NearestStopPlacesQuery,
   NearestStopPlacesQueryVariables,
-  StopPlaceFragment,
-} from './journey-gql/nearest-stop-places.generated';
+} from '@atb/page-modules/departures/journey-gql/nearest-stop-places.generated';
 import {
   GetStopPlaceDocument,
   GetStopPlaceQuery,
   GetStopPlaceQueryVariables,
-} from './journey-gql/stop-place.generated';
+} from '@atb/page-modules/departures/journey-gql/stop-place.generated';
 import {
   EstimatedCallFragment,
   QuayEstimatedCallsDocument,
   QuayEstimatedCallsQuery,
   QuayEstimatedCallsQueryVariables,
-} from './journey-gql/estimated-calls.generated';
-import {
-  NearestStopPlacesData,
-  StopPlaceInfo,
-  stopPlaceSchema,
-  StopPlaceWithDistance,
-} from './validators';
-import { PtSituationElement as GraphQlSituation } from '@atb/modules/graphql-types';
+} from '@atb/page-modules/departures/journey-gql/estimated-calls.generated';
 import { isTransportModeType } from '@atb/modules/transport-mode';
 import {
   ServiceJourneyWithEstimatedCallsDocument,
   ServiceJourneyWithEstimatedCallsQuery,
   ServiceJourneyWithEstimatedCallsQueryVariables,
-} from './journey-gql/service-journey-with-estimated-calls.generated';
+} from '@atb/page-modules/departures/journey-gql/service-journey-with-estimated-calls.generated';
 import { formatISO } from 'date-fns';
-import { Situation } from '@atb/modules/situations';
 import { mapToMapLegs } from '@atb/components/map';
 import { sortQuays } from './utils';
 import {
-  DeparturesType,
+  ExtendedDeparturesType,
   NearestStopPlaceType,
   ServiceJourneyType,
+  StopPlaceType,
 } from '@atb/page-modules/departures/types.ts';
-import { SituationFragment } from '@atb/page-modules/assistant/server/journey-planner/journey-gql/trip.generated.ts';
+import { SituationFragment } from '@atb/page-modules/assistant/journey-gql/trip.generated.ts';
 
 export type DepartureInput = {
   id: string;
@@ -70,11 +62,9 @@ export type ServiceJourneyInput = {
   fromQuayId: string;
 };
 
-export type { StopPlaceInfo, NearestStopPlacesData, StopPlaceWithDistance };
-
 export type JourneyPlannerApi = {
-  departures(input: DepartureInput): Promise<DeparturesType>;
-  stopPlace(input: StopPlaceInput): Promise<StopPlaceInfo>;
+  departures(input: DepartureInput): Promise<ExtendedDeparturesType>;
+  stopPlace(input: StopPlaceInput): Promise<StopPlaceType>;
   nearestStopPlaces(
     input: NearestStopPlacesInput,
   ): Promise<NearestStopPlaceType[]>;
@@ -104,7 +94,7 @@ export function createJourneyApi(
       if (result.error || result.errors) {
         throw result.error || result.errors;
       }
-      const data = result.data as DeparturesType;
+      const data = result.data as ExtendedDeparturesType;
       data.stopPlace?.quays?.sort(sortQuays);
       return {
         stopPlace: {
@@ -142,23 +132,15 @@ export function createJourneyApi(
         throw result.error || result.errors;
       }
 
-      const data: RecursivePartial<StopPlaceInfo> = {
-        id: result.data.stopPlace?.id,
-        name: result.data.stopPlace?.name,
-        description: result.data.stopPlace?.description,
-
+      return {
+        ...result.data.stopPlace,
+        id: result.data.stopPlace?.id ?? 'unknown_id',
+        name: result.data.stopPlace?.name ?? 'unknown_name',
         position: {
           lat: result.data.stopPlace?.latitude,
           lon: result.data.stopPlace?.longitude,
         },
       };
-
-      const validated = stopPlaceSchema.safeParse(data);
-      if (!validated.success) {
-        throw validated.error;
-      }
-
-      return validated.data;
     },
 
     async nearestStopPlaces(input) {
@@ -225,27 +207,6 @@ export function createJourneyApi(
         throw result.error || result.errors;
       }
 
-      /**
-       *
-       stopPlace: {
-       ...data.stopPlace,
-       quays: data.stopPlace?.quays?.map((q) => ({
-       ...q,
-       estimatedCalls: q.estimatedCalls.map((departure) => ({
-       ...departure,
-       id: departure.serviceJourney.id,
-       })),
-       })),
-       position:
-       data.stopPlace.latitude && data.stopPlace.longitude
-       ? {
-       lat: data.stopPlace.latitude,
-       lon: data.stopPlace.longitude,
-       }
-       : undefined,
-       },
-       */
-
       return (
         result.data.quay?.estimatedCalls.map((departure) => ({
           ...departure,
@@ -296,61 +257,3 @@ export function createJourneyApi(
 
   return api;
 }
-
-type RecursivePartial<T> = {
-  [P in keyof T]?: T[P] extends (infer U)[]
-    ? RecursivePartial<U>[]
-    : T[P] extends object | undefined
-      ? RecursivePartial<T[P]>
-      : T[P];
-};
-
-const mapAndFilterDuplicateGraphQlSituations = (
-  gqlSituations: GraphQlSituation[],
-) => {
-  const situations = gqlSituations.map((situation) =>
-    mapGraphQlSituationToSituation(situation),
-  );
-  const filteredSituations = situations.sort((n1, n2) =>
-    n1.id.localeCompare(n2.id),
-  );
-  return filteredSituations;
-};
-
-const mapGraphQlSituationToSituation = (
-  situation: GraphQlSituation,
-): Situation => ({
-  id: situation.id,
-  situationNumber: situation.situationNumber ?? null,
-  reportType: situation.reportType ?? null,
-  summary: situation.summary
-    .map((summary) => ({
-      ...(summary.language ? { language: summary.language } : {}),
-      value: summary.value ?? undefined,
-    }))
-    .filter((summary) => Boolean(summary.value)),
-  description: situation.description
-    .map((description) => ({
-      ...(description.language ? { language: description.language } : {}),
-      value: description.value ?? undefined,
-    }))
-    .filter((description) => Boolean(description.value)),
-  advice: situation.advice
-    .map((advice) => ({
-      ...(advice.language ? { language: advice.language } : {}),
-      value: advice.value ?? undefined,
-    }))
-    .filter((advice) => Boolean(advice.value)),
-  infoLinks: situation.infoLinks
-    ? situation.infoLinks.map((infoLink) => ({
-        uri: infoLink.uri,
-        label: infoLink.label ?? null,
-      }))
-    : null,
-  validityPeriod: situation.validityPeriod
-    ? {
-        startTime: situation.validityPeriod.startTime ?? null,
-        endTime: situation.validityPeriod.endTime ?? null,
-      }
-    : null,
-});

@@ -1,4 +1,4 @@
-import { EstimatedCallFragment } from '@atb/page-modules/departures/server/journey-planner/journey-gql/estimated-calls.generated.ts';
+import { EstimatedCallFragment } from '@atb/page-modules/departures/journey-gql/estimated-calls.generated.ts';
 
 export type EstimatedCallsApiReturnType = EstimatedCallFragment[];
 export async function nextDepartures(

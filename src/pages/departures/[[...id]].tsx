@@ -10,7 +10,7 @@ import {
 import { fetchFromDepartureQuery } from '@atb/page-modules/departures/fetch-departure-query';
 import { withDepartureClient } from '@atb/page-modules/departures/server';
 import {
-  DeparturesType,
+  ExtendedDeparturesType,
   FromDepartureQuery,
 } from '@atb/page-modules/departures/types';
 import { PageText, TranslatedString } from '@atb/translations';
@@ -20,7 +20,7 @@ import { encode } from 'querystring';
 type DeparturesStopPlaceProps = {
   stopPlace: true;
   fromQuery: FromDepartureQuery;
-  departures?: DeparturesType;
+  departures?: ExtendedDeparturesType;
 };
 
 type DeparturesContentProps =

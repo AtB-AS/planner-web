@@ -1,8 +1,3 @@
-import { ServiceJourneyData } from '../server/journey-planner/validators';
-import type {
-  TransportModeType,
-  TransportSubmodeType,
-} from '@atb/modules/transport-mode';
 import { ServiceJourneyType } from '@atb/page-modules/departures/types.ts';
 import { TransportMode, TransportSubmode } from '@atb/modules/graphql-types';
 

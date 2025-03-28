@@ -84,7 +84,7 @@ describe('trip pattern header', function () {
         {
           publicCode: '',
           name: 'Quay',
-          description: null,
+          description: undefined,
           id: 'NSR:Quay:1',
           situations: [],
         },
@@ -113,7 +113,7 @@ describe('trip pattern header', function () {
         {
           publicCode: '1',
           name: 'Quay',
-          description: null,
+          description: undefined,
           id: 'NSR:Quay:1',
           situations: [],
         },

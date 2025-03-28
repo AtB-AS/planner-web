@@ -8,7 +8,7 @@ import { ColorIcon, MonoIcon } from '@atb/components/icon';
 import { Typo } from '@atb/components/typography';
 
 import style from './details-header.module.css';
-import { TripPatternWithDetailsFragment } from '@atb/page-modules/assistant/server/journey-planner/journey-gql/trip-with-details.generated.ts';
+import { TripPatternWithDetailsFragment } from '@atb/page-modules/assistant/journey-gql/trip-with-details.generated.ts';
 
 export type DetailsHeaderProps = {
   tripPattern: TripPatternWithDetailsFragment;

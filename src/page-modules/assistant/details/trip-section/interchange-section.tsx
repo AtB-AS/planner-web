@@ -7,7 +7,7 @@ import { PageText, TranslateFunction, useTranslation } from '@atb/translations';
 
 import style from './trip-section.module.css';
 import { secondsToDuration } from '@atb/utils/date';
-import { LegWithDetailsFragment } from '@atb/page-modules/assistant/server/journey-planner/journey-gql/trip-with-details.generated.ts';
+import { LegWithDetailsFragment } from '@atb/page-modules/assistant/journey-gql/trip-with-details.generated.ts';
 
 export type InterchangeDetails = {
   publicCode: string;

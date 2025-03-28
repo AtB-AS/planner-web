@@ -30,13 +30,13 @@ import {
   GlobalMessages,
 } from '@atb/modules/global-messages';
 import {
-  DeparturesType,
-  EnhancedDepartureQuayType,
-  EnhancedDepartureType,
+  ExtendedDeparturesType,
+  ExtendedDepartureQuayType,
+  ExtendedDepartureType,
 } from '@atb/page-modules/departures/types.ts';
 
 export type StopPlaceProps = {
-  departures: DeparturesType;
+  departures: ExtendedDeparturesType;
 };
 
 export function StopPlace({ departures }: StopPlaceProps) {
@@ -102,13 +102,13 @@ export function StopPlace({ departures }: StopPlaceProps) {
 }
 
 type EstimatedCallListProps = {
-  quay: EnhancedDepartureQuayType;
+  quay: ExtendedDepartureQuayType;
 };
 
 export function EstimatedCallList({ quay }: EstimatedCallListProps) {
   const { t } = useTranslation();
   const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
-  const [departures, setDepartures] = useState<EnhancedDepartureType[]>(
+  const [departures, setDepartures] = useState<ExtendedDepartureType[]>(
     quay.estimatedCalls,
   );
   const [isFetchingDepartures, setIsFetchingDepartures] = useState(false);
@@ -213,7 +213,7 @@ export function EstimatedCallList({ quay }: EstimatedCallListProps) {
 
 type EstimatedCallItemProps = {
   quayId: string;
-  departure: EnhancedDepartureType;
+  departure: ExtendedDepartureType;
   testID?: string;
 };
 

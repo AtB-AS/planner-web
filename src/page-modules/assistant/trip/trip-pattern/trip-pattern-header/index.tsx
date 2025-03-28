@@ -8,12 +8,9 @@ import { SituationOrNoticeIcon } from '@atb/modules/situations';
 import { isSubModeBoat } from '@atb/modules/transport-mode';
 import { ColorIcon } from '@atb/components/icon';
 import { Assistant } from '@atb/translations/pages';
-import { QuayFragment } from '@atb/page-modules/assistant/server/journey-planner/journey-gql/trip.generated.ts';
+import { QuayFragment } from '@atb/page-modules/assistant/journey-gql/trip.generated.ts';
 import { getNoticesForLeg } from '@atb/page-modules/assistant/utils.ts';
-import {
-  ExtendedTripPatternType,
-  ExtendedTripPatternWithDetailsType,
-} from '@atb/page-modules/assistant';
+import { ExtendedTripPatternType } from '@atb/page-modules/assistant';
 
 type TripPatternHeaderProps = {
   tripPattern: ExtendedTripPatternType;
