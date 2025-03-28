@@ -34,14 +34,29 @@ describe('departure page', function () {
   it('Should return props from getServerSideProps', async () => {
     await mockRouter.push('/departures/NSR:StopPlace:123');
 
-    const expectedDeparturesResult = departureDataFixture;
+    const expectedDeparturesResult = {
+      empty: true,
+      fromQuery: {
+        from: null,
+        isAddress: false,
+        searchTime: {
+          mode: 'now',
+        },
+      },
+      headersAcceptLanguage: '',
+      initialCookies: {
+        darkmode: null,
+        language: null,
+      },
+      referer: '',
+    };
 
     const gqlClient: ExternalClient<
       'graphql-journeyPlanner3' | 'http-entur',
       GeocoderApi & JourneyPlannerApi
     > = {
       async departures() {
-        return expectedDeparturesResult;
+        return departureDataFixture;
       },
       nearestStopPlaces() {
         return {} as any;
@@ -81,9 +96,7 @@ describe('departure page', function () {
       ...context,
     } as any);
 
-    (await expectProps(result)).toMatchObject({
-      departures: expectedDeparturesResult,
-    });
+    (await expectProps(result)).toMatchObject(expectedDeparturesResult);
   });
 
   it('should render quays', () => {
