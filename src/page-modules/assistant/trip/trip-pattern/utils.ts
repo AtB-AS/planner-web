@@ -12,12 +12,13 @@ import { LegFragment } from '@atb/page-modules/assistant/journey-gql/trip.genera
 import {
   ExtendedLegType,
   ExtendedTripPatternType,
+  ExtendedTripPatternWithDetailsType,
 } from '@atb/page-modules/assistant';
 import { getQuayOrPlaceName } from '@atb/page-modules/assistant/trip/trip-pattern/trip-pattern-header';
 import { LegFragment } from '@atb/page-modules/assistant/journey-gql/trip.generated.ts';
 
 export const tripSummary = (
-  tripPattern: ExtendedTripPatternType,
+  tripPattern: ExtendedTripPatternWithDetailsType,
   t: TranslateFunction,
   language: Language,
   isInPast: boolean,
@@ -206,7 +207,7 @@ function getLegRequiresBooking(leg: LegFragment): boolean {
 }
 
 function getTripPatternBookingsRequiredCount(
-  tripPattern: ExtendedTripPatternType,
+  tripPattern: ExtendedTripPatternWithDetailsType,
 ): number {
   return tripPattern?.legs?.filter((leg) => getLegRequiresBooking(leg)).length;
 }
@@ -250,7 +251,7 @@ function isSignificantFootLegWalkOrWaitTime(
 }
 
 export function getFilteredLegsByWalkOrWaitTime(
-  tripPattern: ExtendedTripPatternType,
+  tripPattern: ExtendedTripPatternWithDetailsType,
 ) {
   if (!!tripPattern?.legs?.length) {
     return tripPattern.legs.filter((leg, i) =>

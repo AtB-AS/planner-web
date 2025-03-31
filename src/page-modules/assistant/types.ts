@@ -14,6 +14,7 @@ import {
   TripsWithDetailsQuery,
 } from '@atb/page-modules/assistant/journey-gql/trip-with-details.generated.ts';
 import { MapLegType } from '@atb/components/map';
+import { Mode } from '@atb/modules/graphql-types/journeyplanner-types_v3.generated.ts';
 
 /**
  * IMPORTANT! READ THIS
@@ -125,7 +126,7 @@ export type LineInput = {
 };
 
 export type NonTransitTripType = {
-  mode: TransportModeType;
+  mode: Mode;
   rentedBike: boolean;
   duration: number;
   compressedQuery: string;
@@ -137,7 +138,7 @@ export type ExtendedTripPatternType = TripPatternFragment & {
 };
 export type TripsType = TripsQuery & {
   trip: {
-    tripPatterns: ExtendedTripPatternType[];
+    tripPatterns: ExtendedTripPatternWithDetailsType[];
   };
 };
 
@@ -147,6 +148,7 @@ export type ExtendedLegType = LegWithDetailsFragment & {
 };
 export type ExtendedTripPatternWithDetailsType =
   TripPatternWithDetailsFragment & {
+    compressedQuery: string;
     legs: ExtendedLegType[];
   };
 export type TripWithDetailsType = TripsWithDetailsQuery & {

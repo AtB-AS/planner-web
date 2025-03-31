@@ -9,11 +9,11 @@ import { isSubModeBoat } from '@atb/modules/transport-mode';
 import { ColorIcon } from '@atb/components/icon';
 import { Assistant } from '@atb/translations/pages';
 import { getNoticesForLeg } from '@atb/page-modules/assistant/utils.ts';
-import { ExtendedTripPatternType } from '@atb/page-modules/assistant';
+import { ExtendedTripPatternWithDetailsType } from '@atb/page-modules/assistant';
 import { QuayFragment } from '@atb/page-modules/assistant/journey-gql/trip.generated.ts';
 
 type TripPatternHeaderProps = {
-  tripPattern: ExtendedTripPatternType;
+  tripPattern: ExtendedTripPatternWithDetailsType;
   isCancelled?: boolean;
 };
 
@@ -55,7 +55,7 @@ export function TripPatternHeader({
 
       <SituationOrNoticeIcon
         situations={flatMap(tripPattern.legs, (leg) => leg.situations)}
-        notices={flatMap(tripPattern.legs, getNoticesForLeg)}
+        notices={tripPattern.legs.flatMap(getNoticesForLeg)}
         accessibilityLabel={startModeAndPlaceText}
         cancellation={isCancelled}
       />
@@ -64,7 +64,7 @@ export function TripPatternHeader({
 }
 
 export function getStartModeAndPlaceText(
-  tripPattern: ExtendedTripPatternType,
+  tripPattern: ExtendedTripPatternWithDetailsType,
   t: TranslateFunction,
 ): string {
   let startLeg = tripPattern.legs[0];

@@ -12,13 +12,14 @@ import { TransportIconWithLabel } from '@atb/modules/transport-mode';
 import { andIf } from '@atb/utils/css';
 import { useRouter } from 'next/router';
 import { isLineFlexibleTransport } from '@atb/modules/flexible';
-import { ExtendedTripPatternType } from '@atb/page-modules/assistant';
+import { ExtendedTripPatternWithDetailsType } from '@atb/page-modules/assistant';
+import { AssistantDetailsBody } from '@atb/page-modules/assistant/details/details-body';
 
 const LAST_LEG_PADDING = 20;
 const DEFAULT_THRESHOLD_AIMED_EXPECTED_IN_SECONDS = 60;
 
 type TripPatternProps = {
-  tripPattern: ExtendedTripPatternType;
+  tripPattern: ExtendedTripPatternWithDetailsType;
   delay: number;
   index: number;
   testId?: string;
@@ -33,11 +34,12 @@ export default function TripPattern({
   const { t, language } = useTranslation();
 
   const filteredLegs = getFilteredLegsByWalkOrWaitTime(tripPattern);
-  const router = useRouter();
 
   const [numberOfExpandedLegs, setNumberOfExpandedLegs] = useState(
     filteredLegs.length,
   );
+  const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
 
   const expandedLegs = filteredLegs.slice(0, numberOfExpandedLegs);
   const collapsedLegs = filteredLegs.slice(
@@ -82,7 +84,8 @@ export default function TripPattern({
 
   return (
     <motion.a
-      href={`/assistant/${tripPattern.compressedQuery}?filter=${router.query.filter}`}
+      //href={`/assistant/${tripPattern.compressedQuery}?filter=${router.query.filter}`}
+      onClick={() => setIsOpen(!isOpen)}
       className={className}
       data-testid={testId}
       initial={{ opacity: 0, x: -10 }}
@@ -212,6 +215,16 @@ export default function TripPattern({
           <MonoIcon icon="navigation/ArrowRight" />
         </Typo.span>
       </footer>
+      {isOpen && (
+        <>
+          <AssistantDetailsBody tripPattern={tripPattern} />
+          <a
+            href={`/assistant/${tripPattern.compressedQuery}?filter=${router.query.filter}`}
+          >
+            Vis detaljer
+          </a>
+        </>
+      )}
     </motion.a>
   );
 }
