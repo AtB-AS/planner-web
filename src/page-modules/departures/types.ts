@@ -13,6 +13,10 @@ import {
 } from '@atb/page-modules/departures/journey-gql/departures.generated.ts';
 import { EstimatedCallFragment } from '@atb/page-modules/departures/journey-gql/estimated-calls.generated.ts';
 import { GetStopPlaceQuery } from '@atb/page-modules/departures/journey-gql/stop-place.generated.ts';
+import {
+  Mode,
+  TransportMode,
+} from '@atb/modules/graphql-types/journeyplanner-types_v3.generated.ts';
 
 /**
  * IMPORTANT! READ THIS

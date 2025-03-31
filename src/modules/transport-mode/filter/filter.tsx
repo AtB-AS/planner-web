@@ -135,7 +135,7 @@ function FilterCheckbox({ option, checked, onChange }: FilterCheckboxProps) {
       <label htmlFor={option.id} aria-hidden>
         <MonoIcon
           icon={getTransportModeIcon({
-            transportMode: option.icon?.transportMode,
+            transportMode: option.icon.transportMode,
             transportSubModes: option.icon?.transportSubMode
               ? [option.icon.transportSubMode]
               : undefined,
@@ -152,7 +152,7 @@ function FilterCheckbox({ option, checked, onChange }: FilterCheckboxProps) {
 }
 
 function Check({ className }: { className: string }) {
-  const { color } = useTheme()
+  const { color } = useTheme();
   return (
     <svg
       width="12"

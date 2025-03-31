@@ -1,8 +1,10 @@
 import { GeocoderFeature } from '@atb/page-modules/departures';
 import { z } from 'zod';
-import type { NonTransitData } from './server/journey-planner/validators';
 import { searchModeSchema, type SearchTime } from '@atb/modules/search-time';
-import type { TransportModeGroup } from '@atb/modules/transport-mode';
+import type {
+  TransportModeGroup,
+  TransportModeType,
+} from '@atb/modules/transport-mode';
 import {
   NoticeFragment,
   TripPatternFragment,
@@ -14,6 +16,7 @@ import {
   TripsWithDetailsQuery,
 } from '@atb/page-modules/assistant/journey-gql/trip-with-details.generated.ts';
 import { MapLegType } from '@atb/components/map';
+import { Mode } from '@atb/modules/graphql-types/journeyplanner-types_v3.generated.ts';
 
 /**
  * IMPORTANT! READ THIS
@@ -114,15 +117,21 @@ export type NonTransitTripInput = {
   directModes: StreetMode[];
 };
 
-export type { NonTransitData };
 export type NonTransitTripData = {
-  cycleTrip?: NonTransitData;
-  footTrip?: NonTransitData;
-  bikeRentalTrip?: NonTransitData;
+  cycleTrip?: NonTransitTripType;
+  footTrip?: NonTransitTripType;
+  bikeRentalTrip?: NonTransitTripType;
 };
 
 export type LineInput = {
   authorities: string[];
+};
+
+export type NonTransitTripType = {
+  mode: TransportModeType;
+  rentedBike: boolean;
+  duration: number;
+  compressedQuery: string;
 };
 
 // Extend GraphQL-types with convencience properties

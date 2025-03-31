@@ -35,7 +35,7 @@ export function DeparturesDetails({
   const title = `${serviceJourney.line.publicCode} ${formatDestinationDisplay(t, focusedCall.destinationDisplay)}`;
   const realtimeText = useRealtimeText(
     serviceJourney.estimatedCalls.map((c) => ({
-      actualDepartureTime: c.actualDepartureTime ?? undefined,
+      actualDepartureTime: c.actualDepartureTime,
       expectedDepartureTime: c.expectedDepartureTime,
       aimedDepartureTime: c.aimedDepartureTime,
       quayName: c.quay.name,

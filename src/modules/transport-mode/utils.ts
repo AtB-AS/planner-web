@@ -7,8 +7,10 @@ import {
   TransportSubmodeType,
 } from './types';
 import { TransportMode as GraphQlTransportMode } from '@atb/modules/graphql-types';
+import { TransportSubmode } from '@atb/modules/graphql-types/journeyplanner-types_v3.generated.ts';
 
 export function transportModeToTranslatedString(mode: TransportModeGroup) {
+  if (!mode.transportMode) return ComponentText.TransportMode.modes.unknown;
   if (!ComponentText.TransportMode.modes[mode.transportMode]) {
     return ComponentText.TransportMode.modes.unknown;
   }
@@ -18,8 +20,8 @@ export function severalTransportModesToTranslatedStrings(
   modes: TransportModeGroup[],
 ) {
   return modes
-    .map((mode) => ComponentText.TransportMode.modes[mode.transportMode])
-    .filter(Boolean);
+    .filter((mode) => !!mode.transportMode) // Remove the ! from mode.transportMode! below if this line is removed
+    .map((mode) => ComponentText.TransportMode.modes[mode.transportMode!]);
 }
 
 export function isTransportModeType(a: any): a is TransportModeType {
@@ -42,7 +44,7 @@ export function filterGraphQlTransportModes(
   return transportModes;
 }
 
-const TRANSPORT_SUB_MODES_BOAT: string[] = [
+const TRANSPORT_SUB_MODES_BOAT: TransportSubmodeType[] = [
   'highSpeedPassengerService',
   'highSpeedVehicleService',
   'nationalPassengerFerry',
@@ -50,7 +52,7 @@ const TRANSPORT_SUB_MODES_BOAT: string[] = [
   'sightseeingService',
 ];
 
-export function isSubModeBoat(subModes?: string[]) {
+export function isSubModeBoat(subModes?: TransportSubmodeType[]) {
   if (!subModes) return false;
   return subModes.some((subMode) => TRANSPORT_SUB_MODES_BOAT.includes(subMode));
 }

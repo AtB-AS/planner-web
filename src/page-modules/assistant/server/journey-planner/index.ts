@@ -14,13 +14,13 @@ import {
   TripsQuery,
   TripsQueryVariables,
 } from '@atb/page-modules/assistant/journey-gql/trip.generated';
-import { LineData, nonTransitSchema } from './validators';
+import { LineData } from './validators';
 import type {
   FromToTripQuery,
   LineInput,
-  NonTransitData,
   NonTransitTripData,
   NonTransitTripInput,
+  NonTransitTripType,
   TripInput,
   TripsType,
   TripWithDetailsType,
@@ -137,9 +137,13 @@ export function createJourneyApi(
             break;
         }
 
-        const data: Partial<NonTransitData> = {
+        if (!tripPattern.duration) {
+          throw Error('Trip pattern duration is required, but missing');
+        }
+
+        nonTransits[legType as keyof NonTransitTripData] = {
           duration: tripPattern.duration,
-          mode: tripPattern.legs[0]?.mode as any,
+          mode: tripPattern.legs[0]?.mode,
           rentedBike: tripPattern.legs?.some((leg) => leg.rentedBike) ?? false,
           compressedQuery: generateSingleTripQueryString(
             [],
@@ -147,12 +151,6 @@ export function createJourneyApi(
             { ...queryVariables, modes },
           ),
         };
-
-        const validated = nonTransitSchema.safeParse(data);
-        if (!validated.success) {
-          throw validated.error;
-        }
-        nonTransits[legType as keyof NonTransitTripData] = validated.data;
       }
 
       return nonTransits;

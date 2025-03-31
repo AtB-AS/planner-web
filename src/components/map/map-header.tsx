@@ -4,9 +4,9 @@ import { ComponentText, useTranslation } from '@atb/translations';
 import { and } from '@atb/utils/css';
 import { MonoIcon } from '@atb/components/icon';
 import {
-  type TransportModeType,
   transportModeToTranslatedString,
   getTransportModeIcon,
+  TransportModeType,
 } from '@atb/modules/transport-mode';
 
 export type MapHeaderProps = {

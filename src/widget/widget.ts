@@ -762,9 +762,8 @@ function createOutput(
 }
 
 function tabBar() {
-  document.querySelector<HTMLUListElement>('.js-tablist')?.addEventListener(
-    'click',
-    function (e) {
+  document.querySelectorAll<HTMLUListElement>('.js-tablist a').forEach((link) =>
+    link.addEventListener('click', function (e) {
       e.preventDefault();
       e.stopPropagation();
 
@@ -806,7 +805,8 @@ function tabBar() {
           bubbles: true,
         }),
       );
-    });
+    }),
+  );
 }
 
 function debounce(func: Function, wait: number) {

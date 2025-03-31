@@ -6,7 +6,10 @@ import { motion } from 'framer-motion';
 import { Typo } from '@atb/components/typography';
 import { MonoIcon } from '@atb/components/icon';
 import { Button } from '@atb/components/button';
-import { useTransportationThemeColor } from '@atb/modules/transport-mode';
+import {
+  TransportModeType,
+  useTransportationThemeColor,
+} from '@atb/modules/transport-mode';
 import {
   SituationMessageBox,
   SituationOrNoticeIcon,
@@ -15,11 +18,16 @@ import { formatQuayName, getSituationsToShowForCall } from './utils';
 import { DecorationLine, TripRow } from '@atb/modules/trip-details';
 import { DepartureTime } from '@atb/components/departure-time';
 import { SituationFragment } from '@atb/page-modules/assistant/journey-gql/trip.generated.ts';
+import {
+  Mode,
+  TransportMode,
+  TransportSubmode,
+} from '@atb/modules/graphql-types/journeyplanner-types_v3.generated.ts';
 
 export type EstimatedCallRowsProps = {
   calls: EstimatedCallWithMetadata[];
-  mode: string;
-  subMode?: string;
+  mode: TransportModeType;
+  subMode?: TransportSubmode;
   alreadyShownSituationNumbers: string[];
 };
 
@@ -127,8 +135,8 @@ export function EstimatedCallRows({
 
 type EstimatedCallRowProps = {
   call: EstimatedCallWithMetadata;
-  mode: string;
-  subMode?: string;
+  mode: TransportModeType;
+  subMode?: TransportSubmode;
   collapseButton: JSX.Element | null;
   situations: SituationFragment[];
 };
