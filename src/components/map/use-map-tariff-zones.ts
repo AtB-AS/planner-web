@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Language, useTranslation } from '@atb/translations';
-import { /*mapboxgl,*/ AnyLayer } from 'mapbox-gl';
+import { AnyLayer } from 'mapbox-gl';
 import { getReferenceDataName } from '@atb/utils/reference-data';
 import { centroid } from '@turf/centroid';
 import { type TariffZone, getTariffZones } from '@atb/modules/firebase';
