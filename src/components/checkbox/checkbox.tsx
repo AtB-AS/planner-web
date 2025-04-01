@@ -1,8 +1,8 @@
 import { andIf } from '@atb/utils/css';
-import style from './form.module.css';
+import style from './checkbox.module.css';
 import { useId } from 'react';
 import { ColorIcon } from '@atb/components/icon';
-import ErrorMessage from './error-message';
+import { ErrorMessage } from '../error-message';
 
 export type CheckboxProps = {
   onChange: (checked: boolean) => void;
