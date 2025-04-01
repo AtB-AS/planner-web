@@ -21,6 +21,7 @@ type SearchProps = {
   initialFeature?: GeocoderFeature;
   selectedItem?: GeocoderFeature;
   autocompleteFocusPoint?: GeocoderFeature;
+  onlyStopPlaces?: boolean;
   testID?: string;
 };
 
@@ -33,11 +34,16 @@ export default function Search({
   initialFeature,
   selectedItem,
   autocompleteFocusPoint,
+  onlyStopPlaces,
   testID,
 }: SearchProps) {
   const [query, setQuery] = useState('');
   const [focus, setFocus] = useState(false);
-  const { data } = useAutocomplete(query, autocompleteFocusPoint);
+  const { data } = useAutocomplete(
+    query,
+    autocompleteFocusPoint,
+    onlyStopPlaces,
+  );
   const { t } = useTranslation();
   const [recentFeatureSearches, setRecentFeatureSearches] = useLocalStorage<
     GeocoderFeature[]

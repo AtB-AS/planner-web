@@ -157,6 +157,7 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
               placeholder={t(PageText.Assistant.search.input.placeholder)}
               onChange={onFromSelected}
               selectedItem={tripQuery.from ?? undefined}
+              onlyStopPlaces={onlyStopPlaces}
               testID="searchFrom"
               onGeolocationError={setGeolocationError}
             />
@@ -174,6 +175,7 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
                 />
               }
               autocompleteFocusPoint={tripQuery.from ?? undefined}
+              onlyStopPlaces={onlyStopPlaces}
               onGeolocationError={setGeolocationError}
             />
           </div>
