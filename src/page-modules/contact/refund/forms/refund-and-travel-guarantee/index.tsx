@@ -6,15 +6,12 @@ import {
   refundStateMachine,
 } from '../../refundFormMachine';
 import { RefundFormEvents } from '../../events';
-import {
-  Checkbox,
-  SectionCard,
-  Radio,
-} from '@atb/page-modules/contact/components';
+import { SectionCard, Radio } from '@atb/page-modules/contact/components';
 import { Typo } from '@atb/components/typography';
 import Link from 'next/link';
 import RefundTaxiForm from './refundTaxiForm';
 import RefundCarForm from './refundCarForm';
+import { Checkbox } from '@atb/components/checkbox';
 
 type RefundAndTravelGuaranteeFormsProps = {
   state: StateFrom<typeof refundStateMachine>;

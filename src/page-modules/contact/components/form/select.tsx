@@ -1,5 +1,4 @@
 import { useId } from 'react';
-import ErrorMessage from './error-message';
 import { MonoIcon } from '@atb/components/icon';
 import style from './form.module.css';
 import {
@@ -11,6 +10,7 @@ import {
   Popover,
   Select,
 } from 'react-aria-components';
+import { ErrorMessage } from '@atb/components/error-message';
 
 export type SelectProps<T> = {
   label?: string;
