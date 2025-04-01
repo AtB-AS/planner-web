@@ -33,6 +33,7 @@ import {
   GlobalMessageContextEnum,
   GlobalMessages,
 } from '@atb/modules/global-messages';
+import { Checkbox } from '@atb/components/checkbox';
 
 export type AssistantLayoutProps = PropsWithChildren<{
   tripQuery: FromToTripQuery;
@@ -50,6 +51,7 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
   const [isPerformingSearchNavigation, setIsPerformingSearchNavigation] =
     useState(false);
   const [geolocationError, setGeolocationError] = useState<string | null>(null);
+  const [onlyStopPlaces, setOnlyStopPlaces] = useState<boolean>(true);
 
   // Loading the transport mode filter data here instead of in the component
   // avoids the data loading when the filter is mounted which causes the
@@ -189,6 +191,14 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
               <MessageBox type="warning" message={geolocationError} />
             </div>
           )}
+          <Checkbox
+            label={t(PageText.Assistant.search.onlyStopPlacesCheckbox)}
+            checked={onlyStopPlaces}
+            onChange={(checked) => {
+              setOnlyStopPlaces(checked);
+            }}
+            transparent={true}
+          />
         </motion.div>
         <AnimatePresence initial={false}>
           {showAlternatives && (
