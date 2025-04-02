@@ -34,7 +34,7 @@ export default function Search({
   initialFeature,
   selectedItem,
   autocompleteFocusPoint,
-  onlyStopPlaces,
+  onlyStopPlaces = false,
   testID,
 }: SearchProps) {
   const [query, setQuery] = useState('');
