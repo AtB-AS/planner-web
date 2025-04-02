@@ -283,7 +283,7 @@ export const refundStateMachine = setup({
 
     onInputChange: assign(({ context, event }) => {
       if (event.type === 'ON_INPUT_CHANGE') {
-        let { inputName, value } = event;
+        const { inputName, value } = event;
 
         if (inputName === 'formType')
           return setFormTypeAndInitialContext(context, value as FormType);

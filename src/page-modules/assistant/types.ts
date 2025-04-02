@@ -16,7 +16,6 @@ import {
   TripsWithDetailsQuery,
 } from '@atb/page-modules/assistant/journey-gql/trip-with-details.generated.ts';
 import { MapLegType } from '@atb/components/map';
-import { Mode } from '@atb/modules/graphql-types/journeyplanner-types_v3.generated.ts';
 
 /**
  * IMPORTANT! READ THIS

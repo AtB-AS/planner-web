@@ -42,7 +42,7 @@ describe('getCETOffset', () => {
   timezones.forEach((timezone) => {
     it(`should return the offset from Europe/Oslo to ${timezone.name}.`, () => {
       const winterTime = new Date(2024, 0, 2);
-      let hoursDifference = getHoursDifferenceFromCET(
+      const hoursDifference = getHoursDifferenceFromCET(
         winterTime.getTime(),
         timezone.name,
       );
@@ -51,7 +51,7 @@ describe('getCETOffset', () => {
 
     it(`should return the offset from Europe/Oslo to ${timezone.name} when DST in Norway.`, () => {
       const summerTime = new Date(2024, 6, 2);
-      let hoursDifference = getHoursDifferenceFromCET(
+      const hoursDifference = getHoursDifferenceFromCET(
         summerTime.getTime(),
         timezone.name,
       );

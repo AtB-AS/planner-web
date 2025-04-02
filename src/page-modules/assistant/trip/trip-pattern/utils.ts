@@ -10,7 +10,6 @@ import { transportModeToTranslatedString } from '@atb/modules/transport-mode';
 import { getTimeRepresentationType } from '@atb/modules/time-representation';
 import { LegFragment } from '@atb/page-modules/assistant/journey-gql/trip.generated.ts';
 import {
-  ExtendedLegType,
   ExtendedTripPatternType,
 } from '@atb/page-modules/assistant';
 import { getQuayOrPlaceName } from '@atb/page-modules/assistant/trip/trip-pattern/trip-pattern-header';

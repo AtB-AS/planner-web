@@ -20,7 +20,7 @@ export default function useInterval(
     }
 
     if (milliseconds !== null && !disabled) {
-      let id = setInterval(tick, milliseconds);
+      const id = setInterval(tick, milliseconds);
       return () => clearInterval(id);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

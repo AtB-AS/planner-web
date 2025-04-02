@@ -1,9 +1,6 @@
 import { z } from 'zod';
-import {
-  Mode,
-  TransportMode,
-  TransportSubmode,
-} from '@atb/modules/graphql-types/journeyplanner-types_v3.generated.ts';
+
+
 
 export const transportModeSchema = z.union([
   z.literal('air'),

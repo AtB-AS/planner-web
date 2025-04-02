@@ -63,7 +63,7 @@ export default function LineFilter({ filterState, onChange }: LineFilterProps) {
     if (!data || !filterState) return '';
     return filterState
       .map((line) => {
-        for (let id in data) {
+        for (const id in data) {
           if (data[id].includes(line)) {
             return id;
           }

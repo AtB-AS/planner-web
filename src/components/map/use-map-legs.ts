@@ -6,7 +6,6 @@ import { ComponentText, useTranslation } from '@atb/translations';
 import type { MapLegType, Position } from './types';
 import type { Map, AnySourceData, AnyLayer } from 'mapbox-gl';
 import { addLayerIfNotExists, addSourceIfNotExists } from '.';
-import { Mode } from '@atb/modules/graphql-types/journeyplanner-types_v3.generated.ts';
 
 export const useMapLegs = (
   mapRef: MutableRefObject<Map | undefined>,

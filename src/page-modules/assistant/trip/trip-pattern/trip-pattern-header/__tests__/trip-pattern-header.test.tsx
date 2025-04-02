@@ -15,7 +15,6 @@ import {
 import React from 'react';
 import {
   AppLanguageProvider,
-  Language,
   useTranslation,
 } from '@atb/translations';
 

@@ -20,7 +20,6 @@ import type {
   LineInput,
   NonTransitTripData,
   NonTransitTripInput,
-  NonTransitTripType,
   TripInput,
   TripsType,
   TripWithDetailsType,
@@ -113,9 +112,9 @@ export function createJourneyApi(
         throw result.error || result.errors;
       }
 
-      let nonTransits: NonTransitTripData = {};
+      const nonTransits: NonTransitTripData = {};
 
-      for (let [legType, nonTransitTrip] of Object.entries(result.data)) {
+      for (const [legType, nonTransitTrip] of Object.entries(result.data)) {
         const tripPattern = nonTransitTrip.tripPatterns[0];
 
         if (!tripPattern) {

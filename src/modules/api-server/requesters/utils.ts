@@ -84,13 +84,13 @@ export function passOnHeadersFromRequest(
   req: ReqWithHeaders | undefined,
   defaults: Partial<Record<RepassableHeaders, string>>,
 ) {
-  let headers: HeadersInit = {};
+  const headers: HeadersInit = {};
 
   if (!req) {
     return defaults;
   }
 
-  for (let headerName of Object.values(repassableHeaders)) {
+  for (const headerName of Object.values(repassableHeaders)) {
     const headerNameTyped = headerName as RepassableHeaders;
     headers[headerName] =
       req.headers[headerName]?.toString() ?? defaults[headerNameTyped] ?? '';

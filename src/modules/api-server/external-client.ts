@@ -41,14 +41,14 @@ export function createExternalClient<U extends AllEndpoints, T>(
 ): ExternalClientFactory<U, T> {
   return function (req?: IncomingMessage) {
     if (isGraphQlEndpoint(baseUrlType)) {
-      let client = createGraphQlRequester(baseUrlType, req);
+      const client = createGraphQlRequester(baseUrlType, req);
 
       return {
         ...apiFn(client as ConditionalRequester<U>),
         client: client as ConditionalRequester<U>,
       };
     } else {
-      let client = createRequester(baseUrlType, req);
+      const client = createRequester(baseUrlType, req);
 
       return {
         ...apiFn(client as ConditionalRequester<U>),

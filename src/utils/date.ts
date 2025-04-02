@@ -429,7 +429,7 @@ export function getLastSundayOfMonthAndSetTime(
   month: number,
   hour: number,
 ) {
-  let daysInMonth = new Date(year, month + 1, 0).getDate();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
   const date = new Date(year, month, daysInMonth);
   date.setDate(date.getDate() - ((date.getDay() + 7) % 7)); // Last sunday in month
   date.setHours(hour); // Set time.

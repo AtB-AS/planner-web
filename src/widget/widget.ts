@@ -334,7 +334,7 @@ function createOutput(
 
     setItems(list: GeocoderFeature[]) {
       this.dataList = {};
-      for (let item of list) {
+      for (const item of list) {
         this.dataList[item.id] = item;
       }
     }
@@ -352,7 +352,7 @@ function createOutput(
         '#' + this.getAttribute('for')!,
       )!;
 
-      let combobox = new Combobox(input, list, {
+      const combobox = new Combobox(input, list, {
         tabInsertsSuggestions: true,
         scrollIntoViewOptions: false,
       });
@@ -389,7 +389,7 @@ function createOutput(
 
           self.setItems(data);
           list.innerHTML = '';
-          for (let item of data) {
+          for (const item of data) {
             const li = searchItem(item);
             list.appendChild(li);
           }
@@ -831,8 +831,8 @@ function el<K extends keyof HTMLElementTagNameMap>(
 ) {
   const item = document.createElement(tag);
   if (Array.isArray(children)) {
-    for (let childP of children) {
-      let child =
+    for (const childP of children) {
+      const child =
         typeof childP === 'string' ? document.createTextNode(childP) : childP;
       item.appendChild(child);
     }

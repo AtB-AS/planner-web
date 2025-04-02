@@ -134,7 +134,7 @@ export function useTransportationThemeColor(
   const {
     color: { transport },
   } = useTheme();
-  let color = transportModeToColor(mode, transport, isFlexible);
+  const color = transportModeToColor(mode, transport, isFlexible);
   return {
     backgroundColor: color.background,
     textColor: color.foreground.primary,

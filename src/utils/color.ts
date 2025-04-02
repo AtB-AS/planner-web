@@ -23,7 +23,7 @@ function hexColorToRgb(hexColor: string): RGB | null {
   hexColor = hexColor.replace(shorthandRegex, function (m, r, g, b) {
     return r + r + g + g + b + b;
   });
-  let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hexColor);
+  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hexColor);
   return result
     ? {
         r: parseInt(result[1], 16),
