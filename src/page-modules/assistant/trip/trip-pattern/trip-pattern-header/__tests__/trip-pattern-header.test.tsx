@@ -16,11 +16,7 @@ import {
   AppCookiesProviderProps,
 } from '@atb/modules/cookies/cookies-context';
 import React from 'react';
-import {
-  AppLanguageProvider,
-  Language,
-  useTranslation,
-} from '@atb/translations';
+import { AppLanguageProvider, useTranslation } from '@atb/translations';
 
 afterEach(function () {
   cleanup();

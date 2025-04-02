@@ -1,5 +1,5 @@
 import { useClientWidth } from '@atb/utils/use-client-width';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { Fragment, useEffect, useState } from 'react';
 import { getFilteredLegsByWalkOrWaitTime, tripSummary } from './utils';
 import { PageText, useTranslation } from '@atb/translations';
@@ -88,7 +88,6 @@ export default function TripPattern({
   return (
     <div className={style.tripPatternContainer}>
       <motion.div
-        //href={`/assistant/${tripPattern.compressedQuery}?filter=${router.query.filter}`}
         role={'button'}
         onClick={() => setIsOpen(!isOpen)}
         className={className}
@@ -225,9 +224,10 @@ export default function TripPattern({
             </Typo.span>
           </div>
         </div>
-
-        {isOpen && <AssistantDetailsBody tripPattern={tripPattern} />}
       </motion.div>
+      <AnimatePresence>
+        {isOpen && <AssistantDetailsBody tripPattern={tripPattern} />}
+      </AnimatePresence>
       <footer className={style.footer}>
         {isOpen && (
           <ButtonLink

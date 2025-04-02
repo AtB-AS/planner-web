@@ -19,6 +19,7 @@ import {
 } from '@atb/page-modules/assistant';
 import { tripQueryStringToQueryParams } from '@atb/page-modules/assistant/details/utils.ts';
 import { useRouter } from 'next/router';
+import { motion } from 'framer-motion';
 
 type DetailsBodyProps = {
   tripPattern: ExtendedTripPatternWithDetailsType;
@@ -53,7 +54,12 @@ export function AssistantDetailsBody({ tripPattern }: DetailsBodyProps) {
   });
 
   return (
-    <div className={style.bodyContainer}>
+    <motion.div
+      className={style.bodyContainer}
+      initial={{ height: 0, originY: 0 }}
+      animate={{ height: 'auto' }}
+      exit={{ height: 0 }}
+    >
       <div className={style.mapContainer}>
         <Map mapLegs={mapLegs} />
         <div className={style.tripDetails}>
@@ -104,6 +110,6 @@ export function AssistantDetailsBody({ tripPattern }: DetailsBodyProps) {
           />
         ))}
       </div>
-    </div>
+    </motion.div>
   );
 }
