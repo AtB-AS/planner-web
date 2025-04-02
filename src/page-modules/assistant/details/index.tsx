@@ -28,18 +28,10 @@ export type AssistantDetailsProps = {
 };
 
 export function AssistantDetails({ tripPatterns }: AssistantDetailsProps) {
-  const { t, language } = useTranslation();
+  const { t } = useTranslation();
   const router = useRouter();
   if (!tripPatterns.length) return null;
   const tripPattern = tripPatterns[0];
-  const mapLegs = tripPattern.legs
-    .map((leg: ExtendedLegType) => leg.mapLegs)
-    .flat();
-  const { duration } = formatTripDuration(
-    tripPattern.expectedStartTime,
-    tripPattern.expectedEndTime,
-    language,
-  );
 
   const tripSearchParams = router.query.id
     ? tripQueryStringToQueryParams(String(router.query.id))
@@ -48,14 +40,6 @@ export function AssistantDetails({ tripPatterns }: AssistantDetailsProps) {
   if (tripSearchParams && router.query.filter) {
     tripSearchParams.append('filter', router.query.filter as string);
   }
-
-  const requireTicketBooking = tripPattern.legs.some((leg: ExtendedLegType) => {
-    if (!leg.bookingArrangements) return false;
-    return (
-      getBookingStatus(leg.bookingArrangements, leg.aimedStartTime, 7) !==
-      'none'
-    );
-  });
 
   return (
     <div className={style.container}>

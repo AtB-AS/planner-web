@@ -15,6 +15,7 @@ import {
 } from '@atb/translations';
 import { tripSummary } from '../utils';
 import { formatToClock } from '@atb/utils/date';
+import { tripPatternWithDetailsFixture } from '@atb/page-modules/assistant/trip/trip-pattern/trip-pattern-header/__tests__/trip-pattern.fixture.ts';
 
 afterEach(function () {
   cleanup();
@@ -52,7 +53,7 @@ describe('trip pattern', function () {
         const { t, language } = useTranslation();
 
         const summary = tripSummary(
-          tripPatternFixture,
+          tripPatternWithDetailsFixture,
           t,
           language,
           false,
@@ -93,7 +94,7 @@ describe('trip pattern', function () {
         const { t, language } = useTranslation();
 
         const summary = tripSummary(
-          tripPatternFixture,
+          tripPatternWithDetailsFixture,
           t,
           language,
           false,
@@ -141,7 +142,7 @@ describe('trip pattern', function () {
         const { t, language } = useTranslation();
 
         const summary = tripSummary(
-          tripPatternFixture,
+          tripPatternWithDetailsFixture,
           t,
           language,
           false,
@@ -189,7 +190,7 @@ describe('trip pattern', function () {
         const { t, language } = useTranslation();
 
         const summary = tripSummary(
-          tripPatternFixture,
+          tripPatternWithDetailsFixture,
           t,
           language,
           true,
@@ -219,7 +220,7 @@ describe('trip pattern', function () {
         const { t, language } = useTranslation();
 
         const summary = tripSummary(
-          tripPatternFixture,
+          tripPatternWithDetailsFixture,
           t,
           language,
           true,
@@ -249,7 +250,7 @@ describe('trip pattern', function () {
         const { t, language } = useTranslation();
 
         const summary = tripSummary(
-          tripPatternFixture,
+          tripPatternWithDetailsFixture,
           t,
           language,
           true,

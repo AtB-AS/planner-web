@@ -56,16 +56,14 @@ export default function Map({ layer, onSelectStopPlace, ...props }: MapProps) {
     // If browsers doesn't support WebGL, don't initialize map
     if (!mapboxgl.supported()) return;
     logSpecificEvent('initialize_map');
-    const mapArgs = {
+    map.current = new mapboxgl.Map({
       container: mapContainer.current,
       accessToken: mapboxData.accessToken,
       style: mapboxData.style,
       center: position,
       zoom: initialZoom,
       bounds, // If bounds is specified, it overrides center and zoom constructor options.
-    };
-    console.log('Map args: ', mapArgs);
-    map.current = new mapboxgl.Map(mapArgs);
+    });
   }, [position, initialZoom, bounds]);
 
   useEffect(() => {
@@ -129,6 +127,7 @@ export default function Map({ layer, onSelectStopPlace, ...props }: MapProps) {
             }}
           />
           <div
+            onClick={(e) => e.stopPropagation()}
             ref={mapContainer}
             className={and(
               style.mapContainer,

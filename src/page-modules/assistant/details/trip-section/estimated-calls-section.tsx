@@ -33,7 +33,11 @@ export function EstimatedCallsSection({
   return (
     <TripRow>
       {shouldShowLinkToServiceJourney ? (
-        <Link className={style.textColor__secondary} href={serviceJourneyHref}>
+        <Link
+          className={style.textColor__secondary}
+          href={serviceJourneyHref}
+          onClick={(e) => e.stopPropagation()}
+        >
           {t(
             PageText.Assistant.details.tripSection.intermediateStops(
               numberOfIntermediateEstimatedCalls,
