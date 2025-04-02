@@ -3,14 +3,14 @@ import style from './line-chip.module.css';
 import {
   TransportIcon,
   TransportModeType,
-  TransportSubmodeType,
   useTransportationThemeColor,
 } from '@atb/modules/transport-mode';
+import { TransportSubmode } from '@atb/modules/graphql-types/journeyplanner-types_v3.generated.ts';
 
 export type LineChipProps = {
   transportMode: TransportModeType;
-  transportSubmode?: TransportSubmodeType;
-  publicCode: string | null;
+  transportSubmode?: TransportSubmode;
+  publicCode?: string;
 };
 
 export default function LineChip({
@@ -20,7 +20,7 @@ export default function LineChip({
 }: LineChipProps) {
   const transportationColor = useTransportationThemeColor({
     transportMode: transportMode,
-    transportSubModes: transportSubmode && [transportSubmode],
+    transportSubModes: transportSubmode ? [transportSubmode] : [],
   });
 
   return (
@@ -34,7 +34,7 @@ export default function LineChip({
       <TransportIcon
         mode={{
           transportMode: transportMode,
-          transportSubModes: transportSubmode && [transportSubmode],
+          transportSubModes: transportSubmode ? [transportSubmode] : [],
         }}
       />
       {publicCode && (

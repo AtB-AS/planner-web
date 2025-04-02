@@ -1,24 +1,24 @@
 import { describe, it, expect } from 'vitest';
-import { isSituationValidAtDate } from '../utils'; // Adjust the path if needed
-import { Situation } from '../types'; // Adjust the path if needed
+import { isSituationValidAtDate } from '../utils';
+import { SituationFragment } from '@atb/page-modules/assistant/journey-gql/trip.generated.ts';
 
-const dummySituation: Situation = {
+const dummySituation: SituationFragment = {
   id: '1',
   situationNumber: '12345',
-  reportType: null,
+  reportType: undefined,
   summary: [
-    { lang: 'en', value: 'Summary text in English' },
+    { language: 'en', value: 'Summary text in English' },
     { language: 'es', value: 'Texto de resumen en español' },
   ],
   description: [
-    { lang: 'en', value: 'Description text in English' },
+    { language: 'en', value: 'Description text in English' },
     { language: 'fr', value: 'Texte de description en français' },
   ],
   advice: [
-    { lang: 'en', value: 'Advice text in English' },
+    { language: 'en', value: 'Advice text in English' },
     { language: 'de', value: 'Ratentext auf Deutsch' },
   ],
-  infoLinks: null,
+  infoLinks: undefined,
   validityPeriod: {
     startTime: '2024-11-21T00:00:00+01:00',
     endTime: '2024-11-23T23:59:59+01:00',
@@ -45,26 +45,24 @@ describe('isSituationValidAtDate', () => {
   });
 
   it('returns true if only startTime exists and date is after startTime', () => {
-    const situationWithStartOnly = {
+    const situationWithStartOnly: SituationFragment = {
       ...dummySituation,
       validityPeriod: {
         startTime: '2024-11-21T00:00:00+01:00',
-        endTime: null,
+        endTime: undefined,
       },
     };
 
     const date = '2024-11-22T12:00:00+01:00';
-    const result = isSituationValidAtDate(date)(
-      situationWithStartOnly as Situation,
-    );
+    const result = isSituationValidAtDate(date)(situationWithStartOnly);
     expect(result).toBe(true);
   });
 
   it('returns true if only endTime exists and date is before endTime', () => {
-    const situationWithEndOnly = {
+    const situationWithEndOnly: SituationFragment = {
       ...dummySituation,
       validityPeriod: {
-        startTime: null,
+        startTime: undefined,
         endTime: '2024-11-23T23:59:59+01:00',
       },
     };
@@ -74,11 +72,11 @@ describe('isSituationValidAtDate', () => {
   });
 
   it('returns true if both startTime and endTime are null', () => {
-    const situationWithNoValidityPeriod = {
+    const situationWithNoValidityPeriod: SituationFragment = {
       ...dummySituation,
       validityPeriod: {
-        startTime: null,
-        endTime: null,
+        startTime: undefined,
+        endTime: undefined,
       },
     };
     const date = '2024-11-22T12:00:00+01:00';
@@ -87,9 +85,9 @@ describe('isSituationValidAtDate', () => {
   });
 
   it('returns true if no validityPeriod is provided', () => {
-    const situationWithoutValidityPeriod = {
+    const situationWithoutValidityPeriod: SituationFragment = {
       ...dummySituation,
-      validityPeriod: null,
+      validityPeriod: undefined,
     };
 
     const date = '2024-11-22T12:00:00+01:00';

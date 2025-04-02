@@ -80,15 +80,15 @@ describe('trip pattern header', function () {
     const Test = function () {
       const { t } = useTranslation();
       const quayName = getQuayOrPlaceName(
+        t,
         {
           publicCode: '',
           name: 'Quay',
-          description: null,
+          description: undefined,
           id: 'NSR:Quay:1',
           situations: [],
         },
         'PlaceName',
-        t,
       );
       return <div>{quayName}</div>;
     };
@@ -109,15 +109,15 @@ describe('trip pattern header', function () {
     const Test = function () {
       const { t } = useTranslation();
       const quayName = getQuayOrPlaceName(
+        t,
         {
           publicCode: '1',
           name: 'Quay',
-          description: null,
+          description: undefined,
           id: 'NSR:Quay:1',
           situations: [],
         },
         'PlaceName',
-        t,
       );
       return <div>{quayName}</div>;
     };
@@ -138,9 +138,9 @@ describe('trip pattern header', function () {
     const Test = function () {
       const { t } = useTranslation();
       const quayName = getQuayOrPlaceName(
+        t,
         tripPatternFixture.legs[0].fromPlace.quay,
         tripPatternFixture.legs[0].fromPlace.name,
-        t,
       );
       return <div>{quayName}</div>;
     };
@@ -161,9 +161,9 @@ describe('trip pattern header', function () {
     const Test = function () {
       const { t } = useTranslation();
       const quayName = getQuayOrPlaceName(
-        null,
-        tripPatternFixture.legs[0].fromPlace.name,
         t,
+        undefined,
+        tripPatternFixture.legs[0].fromPlace.name,
       );
       return <div>{quayName}</div>;
     };

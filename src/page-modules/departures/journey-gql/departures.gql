@@ -1,0 +1,55 @@
+query stopPlaceQuayDepartures(
+  $id: String!
+  $numberOfDepartures: Int
+  $startTime: DateTime
+) {
+
+  stopPlace(id: $id) {
+    id
+    name
+    latitude
+    longitude
+    transportMode
+    transportSubmode
+    description
+    quays(filterByInUse: true) {
+      ...departureQuay
+    }
+  }
+}
+
+fragment departureServiceJourney on ServiceJourney {
+  id
+  line {
+    id
+    description
+    publicCode
+    transportMode
+    transportSubmode
+  }
+  journeyPattern {
+    notices {
+      ...notice
+    }
+  }
+  notices {
+    ...notice
+  }
+}
+
+fragment departureQuay on Quay {
+  id
+  name
+  publicCode
+  description
+  estimatedCalls(
+    numberOfDepartures: $numberOfDepartures
+    startTime: $startTime
+    includeCancelledTrips: true
+  ) {
+    ...estimatedCall
+  }
+  situations {
+    ...situation
+  }
+}

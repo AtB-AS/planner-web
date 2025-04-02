@@ -1,38 +1,31 @@
 import { GraphQlRequester } from '@atb/modules/api-server';
 import {
+  Notice as GraphQlNotice,
   StreetMode,
   TransportModes as GraphQlTransportModes,
-  Notice as GraphQlNotice,
 } from '@atb/modules/graphql-types';
 import {
+  NoticeFragment,
+  TripPatternFragment,
   TripsDocument,
   TripsNonTransitDocument,
   TripsNonTransitQuery,
   TripsNonTransitQueryVariables,
   TripsQuery,
   TripsQueryVariables,
-} from './journey-gql/trip.generated';
-import {
-  LineData,
-  TripData,
-  TripPatternWithDetails,
-  nonTransitSchema,
-  tripPatternWithDetailsSchema,
-  tripSchema,
-} from './validators';
+} from '@atb/page-modules/assistant/journey-gql/trip.generated';
+import { LineData } from './validators';
 import type {
   FromToTripQuery,
   LineInput,
-  NonTransitData,
   NonTransitTripData,
   NonTransitTripInput,
+  NonTransitTripType,
   TripInput,
+  TripsType,
+  TripWithDetailsType,
 } from '../../types';
-import {
-  isTransportModeType,
-  isTransportSubmodeType,
-} from '@atb/modules/transport-mode';
-import { Notice, Situation, filterNotices } from '@atb/modules/situations';
+import { filterNotices } from '@atb/modules/situations';
 import {
   compressToEncodedURIComponent,
   decompressFromEncodedURIComponent,
@@ -42,21 +35,19 @@ import {
   TripsWithDetailsDocument,
   TripsWithDetailsQuery,
   TripsWithDetailsQueryVariables,
-} from './journey-gql/trip-with-details.generated';
+} from '@atb/page-modules/assistant/journey-gql/trip-with-details.generated';
 import { mapToMapLegs } from '@atb/components/map';
 import { getOrgData } from '@atb/modules/org-data';
 import {
-  ViaTripsWithDetailsQuery,
   ViaTripsWithDetailsDocument,
+  ViaTripsWithDetailsQuery,
   ViaTripsWithDetailsQueryVariables,
-} from './journey-gql/via-trip-with-details.generated';
+} from '@atb/page-modules/assistant/journey-gql/via-trip-with-details.generated';
 import {
-  ViaTripsQuery,
   ViaTripsDocument,
+  ViaTripsQuery,
   ViaTripsQueryVariables,
-} from './journey-gql/via-trip.generated';
-
-const { journeyApiConfigurations } = getOrgData();
+} from '@atb/page-modules/assistant/journey-gql/via-trip.generated';
 import {
   addAssistantTripToCache,
   getAssistantTripIfCached,
@@ -66,8 +57,9 @@ import {
   LinesDocument,
   LinesQuery,
   LinesQueryVariables,
-} from './journey-gql/lines.generated';
-import { isLineFlexibleTransport } from '@atb/modules/flexible';
+} from '@atb/page-modules/assistant/journey-gql/lines.generated';
+
+const { journeyApiConfigurations } = getOrgData();
 
 const DEFAULT_JOURNEY_CONFIG = {
   numTripPatterns: 8, // The maximum number of trip patterns to return.
@@ -79,9 +71,9 @@ const DEFAULT_JOURNEY_CONFIG = {
 };
 
 export type JourneyPlannerApi = {
-  trip(input: TripInput): Promise<TripData>;
+  trip(input: TripInput): Promise<TripsType>;
   nonTransitTrips(input: NonTransitTripInput): Promise<NonTransitTripData>;
-  singleTrip(input: string): Promise<TripPatternWithDetails | undefined>;
+  singleTrip(input: string): Promise<TripWithDetailsType | undefined>;
   lines(input: LineInput): Promise<LineData>;
 };
 
@@ -145,9 +137,13 @@ export function createJourneyApi(
             break;
         }
 
-        const data: Partial<NonTransitData> = {
+        if (!tripPattern.duration) {
+          throw Error('Trip pattern duration is required, but missing');
+        }
+
+        nonTransits[legType as keyof NonTransitTripData] = {
           duration: tripPattern.duration,
-          mode: tripPattern.legs[0]?.mode as any,
+          mode: tripPattern.legs[0]?.mode,
           rentedBike: tripPattern.legs?.some((leg) => leg.rentedBike) ?? false,
           compressedQuery: generateSingleTripQueryString(
             [],
@@ -155,12 +151,6 @@ export function createJourneyApi(
             { ...queryVariables, modes },
           ),
         };
-
-        const validated = nonTransitSchema.safeParse(data);
-        if (!validated.success) {
-          throw validated.error;
-        }
-        nonTransits[legType as keyof NonTransitTripData] = validated.data;
       }
 
       return nonTransits;
@@ -225,19 +215,13 @@ export function createJourneyApi(
         throw result.error || result.errors;
       }
 
-      const data: RecursivePartial<TripData> = mapResultToTrips(
-        result.data.trip,
+      const trips = addCompressedQueryToTrips(
+        result.data.trip.tripPatterns,
         queryVariables,
       );
+      addAssistantTripToCache(input as FromToTripQuery, trips);
 
-      const validated = tripSchema.safeParse(data);
-      if (!validated.success) {
-        throw validated.error;
-      }
-
-      addAssistantTripToCache(input as FromToTripQuery, validated.data);
-
-      return validated.data;
+      return trips;
     },
 
     async singleTrip(input) {
@@ -299,7 +283,6 @@ export function createJourneyApi(
 
         formattedResult = { trip: result.data.trip.tripPatterns };
       }
-
       // Find the trip pattern that matches the journey IDs in the query
       const singleTripPattern = formattedResult.trip.find((pattern) => {
         const journeyIds = extractServiceJourneyIds(pattern);
@@ -311,175 +294,40 @@ export function createJourneyApi(
 
       if (!singleTripPattern) return;
 
-      const data: RecursivePartial<TripPatternWithDetails> = {
-        expectedStartTime: singleTripPattern?.expectedStartTime,
-        expectedEndTime: singleTripPattern?.expectedEndTime,
-        walkDistance: singleTripPattern?.streetDistance ?? 0,
-        legs: singleTripPattern?.legs.map((leg) => ({
-          mode: isTransportModeType(leg.mode) ? leg.mode : 'unknown',
-          transportSubmode: isTransportSubmodeType(leg.transportSubmode)
-            ? leg.transportSubmode
-            : 'unknown',
-          aimedStartTime: leg.aimedStartTime,
-          aimedEndTime: leg.aimedEndTime,
-          expectedStartTime: leg.expectedStartTime,
-          expectedEndTime: leg.expectedEndTime,
-          realtime: leg.realtime,
-          duration: leg.duration,
-          mapLegs: leg.pointsOnLink?.points
-            ? mapToMapLegs(
-                leg.pointsOnLink,
-                isTransportModeType(leg.mode) ? leg.mode : 'unknown',
-                isTransportSubmodeType(leg.transportSubmode)
-                  ? leg.transportSubmode
-                  : 'unknown',
-                leg.fromPlace
-                  ? {
-                      latitude: leg.fromPlace.latitude,
-                      longitude: leg.fromPlace.longitude,
-                    }
-                  : undefined,
-                leg.toPlace
-                  ? {
-                      latitude: leg.toPlace.latitude,
-                      longitude: leg.toPlace.longitude,
-                    }
-                  : undefined,
-                isLineFlexibleTransport(
-                  leg.line as TripPatternWithDetails['legs'][0]['line'],
-                ),
-              )
-            : [],
-          line:
-            leg.line && leg.line.name
-              ? {
-                  name: leg.line.name,
-                  publicCode: leg.line.publicCode ?? '',
-                  flexibleLineType: leg.line.flexibleLineType ?? null,
-                }
-              : null,
-          fromPlace: {
-            name: leg.fromPlace.name,
-            latitude: leg.fromPlace.latitude,
-            longitude: leg.fromPlace.longitude,
-            quay: leg.fromPlace.quay
-              ? {
-                  id: leg.fromPlace.quay.id,
-                  name: leg.fromPlace.quay.name,
-                  description: leg.fromPlace.quay.description ?? null,
-                  publicCode: leg.fromPlace.quay.publicCode ?? '',
-                }
-              : null,
-          },
-          toPlace: {
-            name: leg.toPlace.name,
-            quay: leg.toPlace.quay
-              ? {
-                  name: leg.toPlace.quay.name,
-                  description: leg.toPlace.quay.description ?? null,
-                  publicCode: leg.toPlace.quay.publicCode ?? '',
-                }
-              : null,
-          },
-          serviceJourney: leg.serviceJourney
-            ? {
-                id: leg.serviceJourney.id,
-              }
-            : null,
-          fromEstimatedCall: leg.fromEstimatedCall
-            ? {
-                cancellation: leg.fromEstimatedCall.cancellation,
-                ...(leg.fromEstimatedCall.destinationDisplay?.frontText
-                  ? {
-                      destinationDisplay: {
-                        frontText:
-                          leg.fromEstimatedCall.destinationDisplay.frontText,
-                      },
-                    }
-                  : {}),
-              }
-            : null,
-
-          interchangeTo: leg.interchangeTo?.toServiceJourney?.id
-            ? {
-                guaranteed: leg.interchangeTo.guaranteed ?? false,
-                maximumWaitTime: leg.interchangeTo.maximumWaitTime ?? 0,
-                staySeated: leg.interchangeTo.staySeated,
-                toServiceJourney: {
-                  id: leg.interchangeTo.toServiceJourney.id,
-                },
-              }
-            : null,
-          numberOfIntermediateEstimatedCalls:
-            leg.intermediateEstimatedCalls.length,
-          notices: mapAndFilterNotices([
-            ...(leg.line?.notices || []),
-            ...(leg.serviceJourney?.notices || []),
-            ...(leg.serviceJourney?.journeyPattern?.notices || []),
-            ...(leg.fromEstimatedCall?.notices || []),
-          ]),
-          situations: mapSituations(leg.situations),
-          serviceJourneyEstimatedCalls: leg.serviceJourneyEstimatedCalls.map(
-            (estimatedCall) => {
-              return {
-                aimedDepartureTime: estimatedCall.aimedDepartureTime,
-                expectedDepartureTime: estimatedCall.expectedDepartureTime,
-                actualDepartureTime: estimatedCall.actualDepartureTime ?? null,
-                quay: {
-                  name: estimatedCall.quay.name,
-                  description: estimatedCall.quay.description ?? null,
-                },
-                realtime: estimatedCall.realtime,
-                cancellation: estimatedCall.cancellation,
-              };
+      // Extend GraphQL-type with mapLegs for easy map rendering
+      return {
+        trip: {
+          tripPatterns: [
+            {
+              ...singleTripPattern,
+              legs: singleTripPattern.legs.map((leg) => ({
+                ...leg,
+                mapLegs: leg.pointsOnLink?.points
+                  ? mapToMapLegs(
+                      leg.pointsOnLink,
+                      leg.mode,
+                      leg.transportSubmode,
+                      leg.fromPlace,
+                      leg.toPlace,
+                      !!leg.line?.flexibleLineType,
+                    )
+                  : [],
+                notices: mapAndFilterNotices([
+                  ...(leg.line?.notices ?? []),
+                  ...(leg.serviceJourney?.notices ?? []),
+                  ...(leg.serviceJourney?.journeyPattern?.notices ?? []),
+                  ...(leg.fromEstimatedCall?.notices ?? []),
+                ]),
+              })),
             },
-          ),
-          bookingArrangements: leg.bookingArrangements
-            ? {
-                bookingMethods: leg.bookingArrangements.bookingMethods ?? null,
-                latestBookingTime: leg.bookingArrangements.latestBookingTime,
-                bookingNote: leg.bookingArrangements.bookingNote ?? null,
-                bookWhen: leg.bookingArrangements.bookWhen ?? null,
-                minimumBookingPeriod:
-                  leg.bookingArrangements.minimumBookingPeriod ?? null,
-                bookingContact: leg.bookingArrangements.bookingContact
-                  ? {
-                      contactPerson:
-                        leg.bookingArrangements.bookingContact.contactPerson ??
-                        null,
-                      email:
-                        leg.bookingArrangements.bookingContact.email ?? null,
-                      url: leg.bookingArrangements.bookingContact.url ?? null,
-                      phone:
-                        leg.bookingArrangements.bookingContact.phone ?? null,
-                      furtherDetails:
-                        leg.bookingArrangements.bookingContact.furtherDetails ??
-                        null,
-                    }
-                  : null,
-              }
-            : null,
-        })),
+          ],
+        },
       };
-      const validated = tripPatternWithDetailsSchema.safeParse(data);
-      if (!validated.success) {
-        throw validated.error;
-      }
-
-      return validated.data;
     },
   };
 
   return api;
 }
-
-type RecursivePartial<T> = {
-  [P in keyof T]?: T[P] extends (infer U)[]
-    ? RecursivePartial<U>[]
-    : T[P] extends object | undefined
-      ? RecursivePartial<T[P]>
-      : T[P];
-};
 
 function inputToLocation(
   input: NonTransitTripInput | TripInput,
@@ -508,134 +356,22 @@ function inputToViaLocation(input: TripInput) {
   };
 }
 
-function mapResultToTrips(
-  trip: TripsQuery['trip'],
+function addCompressedQueryToTrips(
+  tripPatterns: TripsQuery['trip']['tripPatterns'],
   queryVariables: TripsQueryVariables | ViaTripsQueryVariables,
-): RecursivePartial<TripData> {
+): TripsType {
   return {
-    nextPageCursor: trip.nextPageCursor ?? null,
-    previousPageCursor: trip.previousPageCursor ?? null,
-    tripPatterns: trip.tripPatterns.map((tripPattern) => ({
-      expectedStartTime: tripPattern.expectedStartTime,
-      expectedEndTime: tripPattern.expectedEndTime,
-      walkDistance: tripPattern.streetDistance || 0,
-      legs: tripPattern.legs.map((leg) => {
-        return {
-          mode: isTransportModeType(leg.mode) ? leg.mode : null,
-          distance: leg.distance,
-          duration: leg.duration,
-          aimedStartTime: leg.aimedStartTime,
-          expectedEndTime: leg.expectedEndTime,
-          expectedStartTime: leg.expectedStartTime,
-          realtime: leg.realtime,
-          transportSubmode: isTransportSubmodeType(leg.transportSubmode)
-            ? leg.transportSubmode
-            : null,
-          line: leg.line
-            ? {
-                publicCode: leg.line.publicCode ?? null,
-                flexibleLineType: leg.line.flexibleLineType ?? null,
-                notices: mapNotices(leg.line.notices),
-              }
-            : null,
-          fromEstimatedCall: leg.fromEstimatedCall
-            ? {
-                cancellation: leg.fromEstimatedCall.cancellation,
-                notices: mapNotices(leg.fromEstimatedCall.notices),
-              }
-            : null,
-          situations: mapSituations(leg.situations),
-          fromPlace: {
-            name: leg.fromPlace.name ?? null,
-            quay: leg.fromPlace.quay
-              ? {
-                  publicCode: leg.fromPlace.quay.publicCode ?? null,
-                  name: leg.fromPlace.quay.name,
-                  description: leg.fromPlace.quay.description ?? null,
-                  id: leg.fromPlace.quay.id,
-                  situations: mapSituations(leg.fromPlace.quay.situations),
-                }
-              : null,
-          },
-          serviceJourney: leg.serviceJourney
-            ? {
-                id: leg.serviceJourney.id,
-                notices: mapNotices(leg.serviceJourney.notices),
-                journeyPattern: leg.serviceJourney.journeyPattern
-                  ? {
-                      notices: mapNotices(
-                        leg.serviceJourney.journeyPattern.notices,
-                      ),
-                    }
-                  : null,
-              }
-            : null,
-          interchangeTo: leg.interchangeTo?.staySeated
-            ? {
-                staySeated: leg.interchangeTo.staySeated,
-              }
-            : null,
-        };
-      }),
-      compressedQuery: generateSingleTripQueryString(
-        extractServiceJourneyIds(tripPattern),
-        tripPattern.legs[0].aimedStartTime,
-        queryVariables,
-      ),
-    })),
+    trip: {
+      tripPatterns: tripPatterns.map((tp) => ({
+        ...tp,
+        compressedQuery: generateSingleTripQueryString(
+          extractServiceJourneyIds(tp),
+          tp.legs[0].aimedStartTime,
+          queryVariables,
+        ),
+      })),
+    },
   };
-}
-
-function mapSituations(
-  situations: TripsQuery['trip']['tripPatterns'][0]['legs'][0]['situations'][0][],
-): Situation[] {
-  return situations.map((situation) => ({
-    id: situation.id,
-    situationNumber: situation.situationNumber ?? null,
-    reportType: situation.reportType ?? null,
-    summary: situation.summary
-      .map((summary) => ({
-        ...(summary.language ? { language: summary.language } : {}),
-        value: summary.value,
-      }))
-      .filter((summary) => Boolean(summary.value)),
-    description: situation.description
-      .map((description) => ({
-        ...(description.language ? { language: description.language } : {}),
-        value: description.value,
-      }))
-      .filter((description) => Boolean(description.value)),
-    advice: situation.advice
-      .map((advice) => ({
-        ...(advice.language ? { language: advice.language } : {}),
-        value: advice.value,
-      }))
-      .filter((advice) => Boolean(advice.value)),
-    infoLinks: situation.infoLinks
-      ? situation.infoLinks.map((infoLink) => ({
-          uri: infoLink.uri,
-          label: infoLink.label ?? null,
-        }))
-      : null,
-    validityPeriod: situation.validityPeriod
-      ? {
-          startTime: situation.validityPeriod.startTime ?? null,
-          endTime: situation.validityPeriod.endTime ?? null,
-        }
-      : null,
-  }));
-}
-
-function mapNotices(
-  notices: {
-    id: string;
-    text?: string;
-  }[],
-): Notice[] {
-  return notices.map((notice) => ({
-    id: notice.id,
-    text: notice.text ?? null,
-  }));
 }
 
 function generateSingleTripQueryString(
@@ -693,12 +429,7 @@ function getPaddedStartTime(time: string): string {
  * Extracts an array of ServiceJourney IDs from a TripPattern.
  * used as an attempt to identify a single Trip
  */
-export function extractServiceJourneyIds(
-  tripPattern:
-    | TripPatternWithDetails
-    | TripsQuery['trip']['tripPatterns'][0]
-    | TripsWithDetailsQuery['trip']['tripPatterns'][0],
-) {
+export function extractServiceJourneyIds(tripPattern: TripPatternFragment) {
   return tripPattern.legs
     .map((leg) => {
       return leg.serviceJourney?.id ?? null;
@@ -708,16 +439,16 @@ export function extractServiceJourneyIds(
     });
 }
 
-function mapAndFilterNotices(notices: GraphQlNotice[]): Notice[] {
+function mapAndFilterNotices(notices: GraphQlNotice[]): NoticeFragment[] {
   const mappedNotices = notices
     .map((notice) => {
       if (!notice) return;
       return {
         id: notice.id,
-        text: notice.text ?? null,
+        text: notice.text,
       };
     })
-    .filter((n) => n) as Notice[];
+    .filter((n) => n) as NoticeFragment[];
 
   return filterNotices(mappedNotices);
 }
@@ -792,7 +523,7 @@ async function getSortedViaTrips(
   client: GraphQlRequester<'graphql-journeyPlanner3'>,
   input: TripInput,
   transportModes: GraphQlTransportModes[],
-): Promise<TripData> {
+): Promise<TripsType> {
   const from = inputToLocation(input, 'from');
   const to = inputToLocation(input, 'to');
   const via = inputToViaLocation(input);
@@ -836,34 +567,16 @@ async function getSortedViaTrips(
     tripPatternsViaTo,
   );
 
-  const data: RecursivePartial<TripData> = mapResultToTrips(
-    {
-      nextPageCursor: undefined,
-      previousPageCursor: undefined,
-      metadata: undefined,
-      tripPatterns: tripPatternsFromViaTo,
-    },
+  const tripPatternsSortedByExpectedEndTime = tripPatternsFromViaTo.sort(
+    (a, b) =>
+      new Date(a.expectedEndTime!).getTime() -
+      new Date(b.expectedEndTime!).getTime(),
+  );
+
+  return addCompressedQueryToTrips(
+    tripPatternsSortedByExpectedEndTime,
     queryVariables,
   );
-
-  const validated = tripSchema.safeParse(data);
-
-  if (!validated.success) {
-    throw validated.error;
-  }
-
-  const { tripPatterns, ...restData } = validated.data;
-  const tripPatternsSortedByExpectedEndTime = [...tripPatterns].sort(
-    (a, b) =>
-      new Date(a.expectedEndTime).getTime() -
-      new Date(b.expectedEndTime).getTime(),
-  );
-
-  const sortedData = {
-    ...restData,
-    tripPatterns: tripPatternsSortedByExpectedEndTime,
-  };
-  return sortedData;
 }
 
 function createLinesRecord(lines: LineFragment[]) {

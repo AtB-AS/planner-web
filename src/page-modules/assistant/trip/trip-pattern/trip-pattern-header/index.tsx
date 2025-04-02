@@ -1,18 +1,19 @@
-import { TripPattern, Quay } from '../../../server/journey-planner/validators';
 import style from './trip-pattern-header.module.css';
 import { Typo } from '@atb/components/typography';
 import { useTranslation, PageText, TranslateFunction } from '@atb/translations';
 import { formatTripDuration } from '@atb/utils/date';
 import { flatMap } from 'lodash';
-import { getNoticesForLeg } from './utils';
 import { RailReplacementBusMessage } from './rail-replacement-bus';
 import { SituationOrNoticeIcon } from '@atb/modules/situations';
 import { isSubModeBoat } from '@atb/modules/transport-mode';
 import { ColorIcon } from '@atb/components/icon';
 import { Assistant } from '@atb/translations/pages';
+import { QuayFragment } from '@atb/page-modules/assistant/journey-gql/trip.generated.ts';
+import { getNoticesForLeg } from '@atb/page-modules/assistant/utils.ts';
+import { ExtendedTripPatternType } from '@atb/page-modules/assistant';
 
 type TripPatternHeaderProps = {
-  tripPattern: TripPattern;
+  tripPattern: ExtendedTripPatternType;
   isCancelled?: boolean;
 };
 
@@ -63,7 +64,7 @@ export function TripPatternHeader({
 }
 
 export function getStartModeAndPlaceText(
-  tripPattern: TripPattern,
+  tripPattern: ExtendedTripPatternType,
   t: TranslateFunction,
 ): string {
   let startLeg = tripPattern.legs[0];
@@ -72,15 +73,15 @@ export function getStartModeAndPlaceText(
   if (tripPattern.legs[0].mode === 'foot' && tripPattern.legs[1]) {
     startLeg = tripPattern.legs[1];
     tmpStartName = getQuayOrPlaceName(
+      t,
       startLeg.fromPlace.quay,
       startLeg.fromPlace.name,
-      t,
     );
   } else if (tripPattern.legs[0].mode !== 'foot') {
     tmpStartName = getQuayOrPlaceName(
+      t,
       startLeg.fromPlace.quay,
       startLeg.fromPlace.name,
-      t,
     );
   }
 
@@ -127,10 +128,10 @@ export function getStartModeAndPlaceText(
 }
 
 export function getQuayOrPlaceName(
-  quay: Quay | null,
-  name: string | null,
   t: TranslateFunction,
-): string | null {
+  quay?: QuayFragment,
+  name?: string,
+): string | undefined {
   if (!quay) return name;
   if (!quay.publicCode) return quay.name;
   const prefix = t(Assistant.trip.tripPattern.quayPublicCodePrefix);

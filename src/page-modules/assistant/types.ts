@@ -1,11 +1,49 @@
 import { GeocoderFeature } from '@atb/page-modules/departures';
 import { z } from 'zod';
-import type {
-  NonTransitData,
-  TripData,
-} from './server/journey-planner/validators';
 import { searchModeSchema, type SearchTime } from '@atb/modules/search-time';
-import type { TransportModeGroup } from '@atb/modules/transport-mode';
+import type {
+  TransportModeGroup,
+  TransportModeType,
+} from '@atb/modules/transport-mode';
+import {
+  NoticeFragment,
+  TripPatternFragment,
+  TripsQuery,
+} from '@atb/page-modules/assistant/journey-gql/trip.generated.ts';
+import {
+  LegWithDetailsFragment,
+  TripPatternWithDetailsFragment,
+  TripsWithDetailsQuery,
+} from '@atb/page-modules/assistant/journey-gql/trip-with-details.generated.ts';
+import { MapLegType } from '@atb/components/map';
+import { Mode } from '@atb/modules/graphql-types/journeyplanner-types_v3.generated.ts';
+
+/**
+ * IMPORTANT! READ THIS
+ *
+ * We use the GraphQL-generated types directly in the code as much as possible, since these
+ * have proven to be reliable return types and further validation adds development
+ * complexity without adding much safety.
+ *
+ * The GraphQL types are found in /page-modules/<module-name>/journey-gql/<query>.generated.ts
+ *
+ * Sometimes it is useful to modify or extend the GraphQL-types. That can be done in this file.
+ *
+ * It is recommended to start with the Query-type (which describes the shape of the GraphQL
+ * response), or a GraphQL fragment. Here are two examples of these two:
+ *
+ *
+ * export type TripsType = TripsQuery & {
+ *    trip: {
+ *       tripPatterns: ExtendedTripPatternType[];
+ *    };
+ * };
+ *
+ * export type ExtendedLegType = LegWithDetailsFragment & {
+ *    mapLegs: MapLegType[];
+ *       notices: NoticeFragment[];
+ *    };
+ */
 
 export type TripInput = {
   from: GeocoderFeature;
@@ -79,13 +117,46 @@ export type NonTransitTripInput = {
   directModes: StreetMode[];
 };
 
-export type { TripData, NonTransitData };
 export type NonTransitTripData = {
-  cycleTrip?: NonTransitData;
-  footTrip?: NonTransitData;
-  bikeRentalTrip?: NonTransitData;
+  cycleTrip?: NonTransitTripType;
+  footTrip?: NonTransitTripType;
+  bikeRentalTrip?: NonTransitTripType;
 };
 
 export type LineInput = {
   authorities: string[];
 };
+
+export type NonTransitTripType = {
+  mode: TransportModeType;
+  rentedBike: boolean;
+  duration: number;
+  compressedQuery: string;
+};
+
+// Extend GraphQL-types with convencience properties
+export type ExtendedTripPatternType = TripPatternFragment & {
+  compressedQuery: string;
+};
+export type TripsType = TripsQuery & {
+  trip: {
+    tripPatterns: ExtendedTripPatternType[];
+  };
+};
+
+export type ExtendedLegType = LegWithDetailsFragment & {
+  mapLegs: MapLegType[];
+  notices: NoticeFragment[];
+};
+export type ExtendedTripPatternWithDetailsType =
+  TripPatternWithDetailsFragment & {
+    legs: ExtendedLegType[];
+  };
+export type TripWithDetailsType = TripsWithDetailsQuery & {
+  trip: {
+    tripPatterns: ExtendedTripPatternWithDetailsType[];
+  };
+};
+
+export type BookingArrangementType =
+  TripWithDetailsType['trip']['tripPatterns'][number]['legs'][number]['bookingArrangements'];

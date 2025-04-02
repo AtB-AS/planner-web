@@ -45,10 +45,7 @@ query ViaTripsWithDetails(
           fromPlace {
             name
             quay {
-              id
-              name
-              description
-              publicCode
+              ...quay
             }
             longitude
             latitude
@@ -58,9 +55,7 @@ query ViaTripsWithDetails(
             latitude
             name
             quay {
-              name
-              description
-              publicCode
+              ...quay
             }
           }
           serviceJourney {

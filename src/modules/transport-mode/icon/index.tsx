@@ -1,6 +1,6 @@
 import { TransportModeGroup } from '../types';
 import MonoIcon, { MonoIconProps } from '@atb/components/icon/mono-icon';
-import { TransportColors, useTheme, ContrastColor } from '@atb/modules/theme';
+import { ContrastColor, TransportColors, useTheme } from '@atb/modules/theme';
 import { useTranslation } from '@atb/translations';
 import { isSubModeBoat, transportModeToTranslatedString } from '../utils';
 import { colorToOverrideMode } from '@atb/utils/color';
@@ -8,6 +8,7 @@ import { Typo } from '@atb/components/typography';
 import { secondsToMinutes } from 'date-fns';
 
 import style from './icon.module.css';
+import { TransportSubmode } from '@atb/modules/graphql-types/journeyplanner-types_v3.generated.ts';
 
 export type TransportIconsProps = {
   modes: TransportModeGroup[];
@@ -17,7 +18,7 @@ export function TransportIcons({ modes }: TransportIconsProps) {
     <div className={style.transportIcons}>
       {modes.map((mode) => (
         <TransportIcon
-          key={mode.transportMode + mode.transportSubModes}
+          key={mode.transportMode ?? '' + mode.transportSubModes}
           mode={mode}
         />
       ))}
@@ -78,7 +79,9 @@ export function TransportIconWithLabel({
   isFlexible,
 }: TransportIconWithLabelProps) {
   const { t } = useTranslation();
-  const { color: {background} } = useTheme();
+  const {
+    color: { background },
+  } = useTheme();
   let colors = useTransportationThemeColor(mode, isFlexible);
 
   // Walking legs should have a lighter background color in the trip pattern view.
@@ -128,7 +131,9 @@ export function useTransportationThemeColor(
   mode: TransportModeGroup,
   isFlexible?: boolean,
 ) {
-  const {color: {transport}} = useTheme()
+  const {
+    color: { transport },
+  } = useTheme();
   let color = transportModeToColor(mode, transport, isFlexible);
   return {
     backgroundColor: color.background,
@@ -146,16 +151,16 @@ export function transportModeToColor(
   switch (mode.transportMode) {
     case 'bus':
     case 'coach':
-      if (mode.transportSubModes?.includes('localBus')) {
+      if (mode.transportSubModes?.includes(TransportSubmode.LocalBus)) {
         return transport.city.primary;
       }
-      if (mode.transportSubModes?.includes('airportLinkBus')) {
+      if (mode.transportSubModes?.includes(TransportSubmode.AirportLinkBus)) {
         return transport.airportExpress.primary;
       }
       return transport.region.primary;
 
     case 'rail':
-      if (mode.transportSubModes?.includes('airportLinkRail')) {
+      if (mode.transportSubModes?.includes(TransportSubmode.AirportLinkRail)) {
         return transport.airportExpress.primary;
       }
       return transport.train.primary;

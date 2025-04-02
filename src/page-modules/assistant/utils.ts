@@ -1,26 +1,9 @@
-import type { SearchMode } from '@atb/modules/search-time';
 import { searchTimeToQueryString } from '@atb/modules/search-time';
 import { GeocoderFeature } from '@atb/page-modules/departures';
-import { FromToTripQuery, TripData, TripQuery, TripQuerySchema } from './types';
+import { FromToTripQuery, TripQuery, TripQuerySchema } from './types';
 import { TravelSearchFiltersType } from '@atb-as/config-specs';
-
-export function filterOutDuplicates(
-  arrayToFilter: TripData['tripPatterns'],
-  referenceArray: TripData['tripPatterns'],
-): TripData['tripPatterns'] {
-  const existing = new Set<string>(
-    referenceArray.map((tp) => tp.expectedStartTime),
-  );
-  return arrayToFilter.filter((tp) => !existing.has(tp.expectedStartTime));
-}
-
-export function getCursorBySearchMode(trip: TripData, searchMode: SearchMode) {
-  if (searchMode === 'arriveBy') {
-    return trip.previousPageCursor;
-  } else {
-    return trip.nextPageCursor;
-  }
-}
+import { filterNotices } from '@atb/modules/situations';
+import { LegFragment } from '@atb/page-modules/assistant/journey-gql/trip.generated.ts';
 
 function featuresToFromToQuery(
   from: GeocoderFeature | null,
@@ -136,3 +119,12 @@ export function setTransportModeFilters(
       .map((filter) => filter.id) ?? null
   );
 }
+
+export const getNoticesForLeg = (leg: LegFragment) =>
+  filterNotices([
+    ...(leg.line?.notices || []),
+    ...(leg.serviceJourney?.notices || []),
+    ...(leg.serviceJourney?.journeyPattern?.notices || []),
+    ...(leg.fromEstimatedCall?.notices || []),
+    ...(leg.toEstimatedCall?.notices || []),
+  ]);
