@@ -4,16 +4,16 @@ import { ComponentText, useTranslation } from '@atb/translations';
 import { and } from '@atb/utils/css';
 import { MonoIcon } from '@atb/components/icon';
 import {
-  type TransportModeType,
   transportModeToTranslatedString,
   getTransportModeIcon,
+  TransportModeType,
 } from '@atb/modules/transport-mode';
 
 export type MapHeaderProps = {
   name: string; // StopPlace name or address
   layer: 'address' | 'venue';
   transportModes?: TransportModeType[];
-  position: { lat: number; lon: number };
+  position?: { lat: number; lon: number };
 };
 
 export function MapHeader({
@@ -60,19 +60,19 @@ export function MapHeader({
         </div>
       </div>
 
-      {layer === 'venue' && (
+      {layer === 'venue' && position && (
         <div className={style.header__buttons}>
           <ButtonLink
+            href={`/assistant?fromName=${name}&fromLat=${position.lat}&fromLon=${position.lon}&fromLayer=${layer}`}
             mode="primary"
             radiusSize="circular"
-            href={`/assistant?fromLat=${position.lat}&fromLon=${position.lon}&fromLayer=${layer}`}
             title={t(ComponentText.Map.button.travelFrom)}
             className={style.header__button}
           />
           <ButtonLink
+            href={`/assistant?toName=${name}&toLat=${position.lat}&toLon=${position.lon}&toLayer=${layer}`}
             mode="primary"
             radiusSize="circular"
-            href={`/assistant?toLat=${position.lat}&toLon=${position.lon}&toLayer=${layer}`}
             title={t(ComponentText.Map.button.travelTo)}
             className={style.header__button}
           />

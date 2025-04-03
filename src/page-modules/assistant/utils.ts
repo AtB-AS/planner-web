@@ -1,26 +1,9 @@
-import type { SearchMode } from '@atb/modules/search-time';
 import { searchTimeToQueryString } from '@atb/modules/search-time';
 import { GeocoderFeature } from '@atb/page-modules/departures';
-import { FromToTripQuery, TripData, TripQuery, TripQuerySchema } from './types';
+import { FromToTripQuery, TripQuery, TripQuerySchema } from './types';
 import { TravelSearchFiltersType } from '@atb-as/config-specs';
-
-export function filterOutDuplicates(
-  arrayToFilter: TripData['tripPatterns'],
-  referenceArray: TripData['tripPatterns'],
-): TripData['tripPatterns'] {
-  const existing = new Set<string>(
-    referenceArray.map((tp) => tp.expectedStartTime),
-  );
-  return arrayToFilter.filter((tp) => !existing.has(tp.expectedStartTime));
-}
-
-export function getCursorBySearchMode(trip: TripData, searchMode: SearchMode) {
-  if (searchMode === 'arriveBy') {
-    return trip.previousPageCursor;
-  } else {
-    return trip.nextPageCursor;
-  }
-}
+import { filterNotices } from '@atb/modules/situations';
+import { LegFragment } from '@atb/page-modules/assistant/journey-gql/trip.generated.ts';
 
 function featuresToFromToQuery(
   from: GeocoderFeature | null,
@@ -31,6 +14,7 @@ function featuresToFromToQuery(
   if (from) {
     ret = {
       fromId: from.id,
+      fromName: from.name,
       fromLon: from.geometry.coordinates[0],
       fromLat: from.geometry.coordinates[1],
       fromLayer: from.layer,
@@ -41,6 +25,7 @@ function featuresToFromToQuery(
     ret = {
       ...ret,
       toId: to.id,
+      toName: to.name,
       toLon: to.geometry.coordinates[0],
       toLat: to.geometry.coordinates[1],
       toLayer: to.layer,
@@ -51,6 +36,7 @@ function featuresToFromToQuery(
     ret = {
       ...ret,
       viaId: via.id,
+      viaName: via.name,
       viaLon: via.geometry.coordinates[0],
       viaLat: via.geometry.coordinates[1],
       viaLayer: via.layer,
@@ -133,3 +119,12 @@ export function setTransportModeFilters(
       .map((filter) => filter.id) ?? null
   );
 }
+
+export const getNoticesForLeg = (leg: LegFragment) =>
+  filterNotices([
+    ...(leg.line?.notices || []),
+    ...(leg.serviceJourney?.notices || []),
+    ...(leg.serviceJourney?.journeyPattern?.notices || []),
+    ...(leg.fromEstimatedCall?.notices || []),
+    ...(leg.toEstimatedCall?.notices || []),
+  ]);

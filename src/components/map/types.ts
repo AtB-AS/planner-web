@@ -1,20 +1,15 @@
-import { z } from 'zod';
-import {
-  transportModeSchema,
-  transportSubmodeSchema,
-} from '@atb/modules/transport-mode';
+import { TransportSubmode } from '@atb/modules/graphql-types/journeyplanner-types_v3.generated.ts';
+import { TransportModeType } from '@atb/modules/transport-mode';
 
 export type Position = {
   lon: number;
   lat: number;
 };
 
-export const mapLegSchema = z.object({
-  transportMode: transportModeSchema,
-  transportSubmode: transportSubmodeSchema.optional(),
-  faded: z.boolean(),
-  points: z.array(z.array(z.number(), z.number())),
-  isFlexibleLine: z.boolean(),
-});
-
-export type MapLegType = z.infer<typeof mapLegSchema>;
+export type MapLegType = {
+  transportMode: TransportModeType;
+  transportSubmode?: TransportSubmode;
+  faded: boolean;
+  points: Position[];
+  isFlexibleLine: boolean;
+};

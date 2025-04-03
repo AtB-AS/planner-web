@@ -1,9 +1,9 @@
-import { Quay } from './validators';
+import { DepartureQuayFragment } from '@atb/page-modules/departures/journey-gql/departures.generated.ts';
 
-export function sortQuays(a: Quay, b: Quay) {
+export function sortQuays(a: DepartureQuayFragment, b: DepartureQuayFragment) {
   // Place quays with no departures at the end
-  if (a.departures.length === 0) return 1;
-  if (b.departures.length === 0) return -1;
+  if (a.estimatedCalls.length === 0) return 1;
+  if (b.estimatedCalls.length === 0) return -1;
 
   // Sort by public code
   if (!a.publicCode) return 1;

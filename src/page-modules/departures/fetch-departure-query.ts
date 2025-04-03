@@ -15,24 +15,32 @@ export async function fetchFromDepartureQuery(
 
   if (id) {
     const stopPlace = await client.stopPlace({ id });
-    const from = await client.reverse(
-      stopPlace.position.lat,
-      stopPlace.position.lon,
-      'venue',
-    );
-
-    return {
-      isAddress: false,
-      searchTime,
-      from: from ?? null,
-    };
+    if (stopPlace.position.lat && stopPlace.position.lon) {
+      const from = await client.reverse(
+        stopPlace.position.lat,
+        stopPlace.position.lon,
+        'venue',
+      );
+      return {
+        isAddress: false,
+        searchTime,
+        from: from ?? null,
+      };
+    }
   } else if (query.lat && query.lon) {
     const position = {
       lat: parseFloat(query.lat.toString()),
       lon: parseFloat(query.lon.toString()),
     };
 
-    const from = await client.reverse(position.lat, position.lon, 'address');
+    const from = await client
+      .autocomplete(query.name, {
+        lat: position.lat,
+        lon: position.lon,
+      })
+      .then((result) => {
+        return result[0];
+      });
 
     return {
       isAddress: true,

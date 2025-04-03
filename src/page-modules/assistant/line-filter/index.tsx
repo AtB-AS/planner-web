@@ -1,11 +1,13 @@
-import LabeledInput, { LabeledInputProps } from '@atb/components/labled-input';
+import LabeledInput from '@atb/components/labled-input';
 import { Typo } from '@atb/components/typography';
 import { getOrgData } from '@atb/modules/org-data';
 import { PageText, useTranslation } from '@atb/translations';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, FocusEvent, useEffect, useState } from 'react';
 import style from './line-filter.module.css';
 import useSWR from 'swr';
 import { swrFetcher } from '@atb/modules/api-browser';
+import { LinesApiReturnType } from '../client';
+import { isDefined, isTruthy } from '@atb/utils/presence';
 type LineFilterProps = {
   filterState: string[] | null;
   onChange: (lineFilter: string[] | null) => void;
@@ -16,35 +18,45 @@ export default function LineFilter({ filterState, onChange }: LineFilterProps) {
 
   const { authorityId } = getOrgData();
 
-  const { data, error, isLoading } = useSWR(
+  const { data } = useSWR<LinesApiReturnType>(
     `api/assistant/lines/${authorityId}`,
     swrFetcher,
   );
-  const [validationError, setValidationError] =
-    useState<LabeledInputProps['validationError']>();
   const [localFilterState, setLocalFilterState] = useState('');
-  const [publicCodeLineMap, setPublicCodeLineMap] =
-    useState<Map<string, string[]>>();
+  const [unknownPublicCodes, setUnknownPublicCodes] = useState<string[]>([]);
+
+  const sanitizeInput = (input: string) => {
+    // Replace commas and spaces with a single space
+    return input.replaceAll(/[, ]+/g, ' ').trim();
+  };
 
   const onChangeWrapper = (event: ChangeEvent<HTMLInputElement>) => {
     const input = event.target.value;
     setLocalFilterState(input);
-    setValidationError(undefined);
-
-    if (!isValidFilter(input)) {
-      setValidationError(t(PageText.Assistant.search.lineFilter.error));
-      return;
-    }
 
     if (!input) {
       onChange(null);
     } else {
-      const lines = input
-        .split(',')
-        .flatMap((line) => data[line.trim()])
-        .filter(Boolean);
+      const sanitizedInput = sanitizeInput(input);
+      const lines = sanitizedInput
+        .split(' ')
+        .flatMap((line) => data?.[line])
+        .filter(isDefined);
       onChange(lines);
     }
+  };
+
+  const onBlurWrapper = (event: FocusEvent<HTMLInputElement>) => {
+    const input = event.target.value;
+    const sanitizedInput = sanitizeInput(input);
+    const lines = sanitizedInput
+      .split(' ')
+      .flatMap((line) => {
+        const lineCode = data?.[line];
+        return !lineCode ? line : null;
+      })
+      .filter(isTruthy);
+    setUnknownPublicCodes(lines);
   };
 
   const mapFilterStateToLineCodes = () => {
@@ -78,10 +90,18 @@ export default function LineFilter({ filterState, onChange }: LineFilterProps) {
           PageText.Assistant.search.lineFilter.lineSearch.placeholder,
         )}
         type="text"
-        pattern="[0-9, ]*"
         value={localFilterState}
         onChange={onChangeWrapper}
-        validationError={validationError}
+        onBlur={onBlurWrapper}
+        validationError={
+          unknownPublicCodes.length > 0
+            ? t(
+                PageText.Assistant.search.lineFilter.unknownLines(
+                  unknownPublicCodes,
+                ),
+              )
+            : undefined
+        }
       />
 
       <Typo.p textType="body__tertiary" className={style.infoText}>
@@ -89,10 +109,4 @@ export default function LineFilter({ filterState, onChange }: LineFilterProps) {
       </Typo.p>
     </div>
   );
-}
-
-function isValidFilter(filter: string): boolean {
-  return filter.split(',').every((line) => {
-    return !isNaN(Number(line.trim()));
-  });
 }

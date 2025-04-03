@@ -10,6 +10,7 @@ import { handlerWithDepartureClient } from '@atb/page-modules/departures/server'
 import { join } from 'path';
 import { theme } from '@atb/modules/theme';
 import { getOrgData } from '@atb/modules/org-data';
+import { StopPlaceType } from '@atb/page-modules/departures/types.ts';
 
 export default handlerWithDepartureClient<{}>({
   async GET(req, res, { client }) {
@@ -19,7 +20,7 @@ export default handlerWithDepartureClient<{}>({
       return notfound(res);
     }
 
-    const stopPlace = await client.stopPlace({ id });
+    const stopPlace: StopPlaceType = await client.stopPlace({ id });
 
     if (!stopPlace) {
       notfound(res);

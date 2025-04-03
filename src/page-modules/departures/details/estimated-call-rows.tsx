@@ -7,23 +7,27 @@ import { Typo } from '@atb/components/typography';
 import { MonoIcon } from '@atb/components/icon';
 import { Button } from '@atb/components/button';
 import {
-  type TransportModeType,
+  TransportModeType,
   useTransportationThemeColor,
-  type TransportSubmodeType,
 } from '@atb/modules/transport-mode';
 import {
-  Situation,
   SituationMessageBox,
   SituationOrNoticeIcon,
 } from '@atb/modules/situations';
 import { formatQuayName, getSituationsToShowForCall } from './utils';
 import { DecorationLine, TripRow } from '@atb/modules/trip-details';
 import { DepartureTime } from '@atb/components/departure-time';
+import { SituationFragment } from '@atb/page-modules/assistant/journey-gql/trip.generated.ts';
+import {
+  Mode,
+  TransportMode,
+  TransportSubmode,
+} from '@atb/modules/graphql-types/journeyplanner-types_v3.generated.ts';
 
 export type EstimatedCallRowsProps = {
   calls: EstimatedCallWithMetadata[];
   mode: TransportModeType;
-  subMode?: TransportSubmodeType;
+  subMode?: TransportSubmode;
   alreadyShownSituationNumbers: string[];
 };
 
@@ -132,9 +136,9 @@ export function EstimatedCallRows({
 type EstimatedCallRowProps = {
   call: EstimatedCallWithMetadata;
   mode: TransportModeType;
-  subMode?: TransportSubmodeType;
+  subMode?: TransportSubmode;
   collapseButton: JSX.Element | null;
-  situations: Situation[];
+  situations: SituationFragment[];
 };
 
 function EstimatedCallRow({
@@ -149,7 +153,7 @@ function EstimatedCallRow({
   const isBetween = !isStartOfGroup && !isEndOfGroup;
   const iconColor = useTransportationThemeColor({
     transportMode: group === 'trip' ? mode : 'unknown',
-    transportSubModes: subMode && [subMode],
+    transportSubModes: subMode ? [subMode] : undefined,
   });
 
   return (
@@ -172,7 +176,7 @@ function EstimatedCallRow({
           isStartOfGroup ? 'flex-start' : isEndOfGroup ? 'flex-end' : 'center'
         }
         isBetween={isBetween}
-        href={`/departures/${call.quay.stopPlace.id}`}
+        href={`/departures/${call.quay.stopPlace?.id}`}
       >
         <Typo.p textType="body__primary">
           {formatQuayName(t, call.quay.name, call.quay.publicCode)}

@@ -7,16 +7,19 @@ import { Typo } from '@atb/components/typography';
 import { SituationMessageBox, filterNotices } from '@atb/modules/situations';
 import { useRealtimeText } from '@atb/modules/trip-details';
 import { PageText, useTranslation } from '@atb/translations';
-import { ServiceJourneyData } from '../server/journey-planner/validators';
 import style from './details.module.css';
 import { EstimatedCallRows } from './estimated-call-rows';
 import { addMetadataToEstimatedCalls } from './utils';
 import { formatDestinationDisplay } from '../utils';
-import { GlobalMessageContextEnum, GlobalMessages } from '@atb/modules/global-messages';
+import {
+  GlobalMessageContextEnum,
+  GlobalMessages,
+} from '@atb/modules/global-messages';
+import { ServiceJourneyType } from '@atb/page-modules/departures/types.ts';
 
 export type DeparturesDetailsProps = {
   fromQuayId?: string;
-  serviceJourney: ServiceJourneyData;
+  serviceJourney: ServiceJourneyType;
   referer?: string;
 };
 
@@ -32,7 +35,7 @@ export function DeparturesDetails({
   const title = `${serviceJourney.line.publicCode} ${formatDestinationDisplay(t, focusedCall.destinationDisplay)}`;
   const realtimeText = useRealtimeText(
     serviceJourney.estimatedCalls.map((c) => ({
-      actualDepartureTime: c.actualDepartureTime ?? undefined,
+      actualDepartureTime: c.actualDepartureTime,
       expectedDepartureTime: c.expectedDepartureTime,
       aimedDepartureTime: c.aimedDepartureTime,
       quayName: c.quay.name,
@@ -57,11 +60,10 @@ export function DeparturesDetails({
 
   const backLink = referer?.includes('assistant/')
     ? referer
-    : `/departures/${focusedCall.quay.stopPlace.id}`;
+    : `/departures/${focusedCall.quay.stopPlace?.id}`;
 
   return (
     <section className={style.container}>
-
       <div className={style.headerContainer}>
         <ButtonLink
           mode="transparent"
@@ -75,13 +77,15 @@ export function DeparturesDetails({
         />
         <div className={style.header}>
           <LineChip
-            transportMode={serviceJourney.transportMode}
+            transportMode={serviceJourney.transportMode ?? 'unknown'}
             transportSubmode={serviceJourney.transportSubmode}
             publicCode={serviceJourney.line.publicCode}
           />
           <Typo.h2 textType="heading--big">{title}</Typo.h2>
         </div>
-        <GlobalMessages context={GlobalMessageContextEnum.plannerWebDeparturesDetails} />
+        <GlobalMessages
+          context={GlobalMessageContextEnum.plannerWebDeparturesDetails}
+        />
         {realtimeText && !focusedCall.cancellation && (
           <div className={style.realtimeText}>
             <ColorIcon icon="status/Realtime" size="xSmall" />
@@ -92,10 +96,15 @@ export function DeparturesDetails({
 
       <div className={style.mapContainer}>
         <Map
-          position={{
-            lon: focusedCall.quay.stopPlace.longitude,
-            lat: focusedCall.quay.stopPlace.latitude,
-          }}
+          position={
+            focusedCall.quay.stopPlace?.longitude &&
+            focusedCall.quay.stopPlace?.latitude
+              ? {
+                  lon: focusedCall.quay.stopPlace.longitude,
+                  lat: focusedCall.quay.stopPlace.latitude,
+                }
+              : undefined
+          }
           mapLegs={serviceJourney.mapLegs}
           initialZoom={13.5}
         />
@@ -120,7 +129,7 @@ export function DeparturesDetails({
         )}
         <EstimatedCallRows
           calls={estimatedCallsWithMetadata}
-          mode={serviceJourney.transportMode}
+          mode={serviceJourney.transportMode ?? 'unknown'}
           subMode={serviceJourney.transportSubmode}
           alreadyShownSituationNumbers={alreadyShownSituationNumbers}
         />
@@ -130,7 +139,7 @@ export function DeparturesDetails({
 }
 
 export const getNoticesForServiceJourney = (
-  serviceJourney: ServiceJourneyData,
+  serviceJourney: ServiceJourneyType,
   fromQuayId?: string,
 ) => {
   const focusedEstimatedCall =

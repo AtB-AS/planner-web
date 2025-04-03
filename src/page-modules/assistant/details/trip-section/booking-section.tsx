@@ -2,7 +2,6 @@ import { ButtonLink } from '@atb/components/button';
 import { ColorIcon, MonoIcon } from '@atb/components/icon';
 import { MessageBox } from '@atb/components/message-box';
 import {
-  BookingArrangement,
   BookingStatus,
   getBookingStatus,
   getEarliestBookingDate,
@@ -11,10 +10,11 @@ import {
 import { TripRow } from '@atb/modules/trip-details';
 import { PageText, useTranslation } from '@atb/translations';
 import { formatToShortDateTimeWithRelativeDayNames } from '@atb/utils/date';
+import { BookingArrangementType } from '@atb/page-modules/assistant';
 
 type BookingSectionProps = {
   bookingStatus: BookingStatus;
-  bookingArrangements: BookingArrangement;
+  bookingArrangements: BookingArrangementType;
   aimedStartTime: string;
 };
 
@@ -25,10 +25,10 @@ export function BookingSection({
 }: BookingSectionProps) {
   const { t } = useTranslation();
   const bookingMessage = useBookingMessage(bookingArrangements, aimedStartTime);
-  const bookingPhone = bookingArrangements.bookingContact?.phone;
-  const bookingUrl = bookingArrangements.bookingContact?.url;
+  const bookingPhone = bookingArrangements?.bookingContact?.phone;
+  const bookingUrl = bookingArrangements?.bookingContact?.url;
 
-  const bookingMethods = bookingArrangements.bookingMethods;
+  const bookingMethods = bookingArrangements?.bookingMethods;
 
   const showBookOnlineOption =
     bookingUrl &&
@@ -89,7 +89,7 @@ export function BookingSection({
 }
 
 const useBookingMessage = (
-  bookingArrangements: BookingArrangement | undefined,
+  bookingArrangements: BookingArrangementType | undefined,
   aimedStartTime: string,
 ): string | undefined => {
   const { t, language } = useTranslation();
