@@ -19,7 +19,7 @@ import { useFullscreenMap } from './use-fullscreen-map';
 import { useMapPin } from './use-map-pin';
 import { useMapLegs } from './use-map-legs';
 import { and } from '@atb/utils/css';
-import { MapLegType, Position } from './types';
+import { MapLegType, PositionType } from './types';
 import { useMapTariffZones } from './use-map-tariff-zones';
 import useMediaQuery from '@atb/utils/user-media-query';
 import { logSpecificEvent } from '@atb/modules/firebase';
@@ -29,7 +29,7 @@ export type MapProps = {
   onSelectStopPlace?: (id: string) => void;
 } & (
   | {
-      position?: Position;
+      position?: PositionType;
       initialZoom?: number;
     }
   | {
