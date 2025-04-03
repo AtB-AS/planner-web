@@ -31,13 +31,11 @@
   position: relative;
   display: grid;
   grid-template-rows: 1fr 1fr;
-  background-color: token('color.foreground.dynamic.disabled');
-  border-radius: token('border.radius.regular');
 }
 
 .inputGroup > div {
-  margin: 0 calc(-1 * token('border.width.slim'))
-    calc(-1 * token('border.width.slim')) 0;
+  box-shadow: 0 0 0 token('border.width.slim')
+    token('color.interactive.2.outline.background');
 }
 
 .button {

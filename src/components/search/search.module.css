@@ -8,12 +8,13 @@
   position: relative;
   border-radius: token('border.radius.regular');
   background-color: token('color.background.neutral.0.background');
-  border: token('border.width.slim') solid
+  box-shadow: 0 0 0 token('border.width.slim')
     token('color.foreground.dynamic.disabled');
 }
 .container:focus-within {
   outline: 0;
-  border-color: token('color.interactive.2.outline.background');
+  box-shadow: 0 0 0 token('border.width.slim')
+    token('color.interactive.2.outline.background');
 }
 
 .container:not(:only-child):first-child {
