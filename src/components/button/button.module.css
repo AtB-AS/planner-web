@@ -72,6 +72,44 @@
   box-shadow: inset 0 0 0 token('border.width.medium') token('color.interactive.1.outline.background');
 }
 
+/* Primary */
+.button--primary,
+.button--primary:visited {
+  color: token('color.foreground.inverse.primary');
+  background-color: token('color.interactive.0.default.background');
+}
+
+.button--primary:not(:disabled):hover,
+.button--primary:not(:disabled):active,
+.button--primary.button--state_active {
+  color: token('color.foreground.dynamic.primary');
+  background-color: token('color.interactive.0.active.background');
+}
+
+.button--primary:disabled,
+.button--primary.button--disabled {
+  opacity: 0.2;
+}
+
+/* Secondary */
+.button--secondary,
+.button--secondary:visited {
+  color: token('color.foreground.dynamic.primary');
+  border: 2px solid token('color.foreground.dynamic.primary');
+}
+
+.button--secondary:not(:disabled):hover,
+.button--secondary:not(:disabled):active,
+.button--secondary.button--state_active {
+  background-color: token('color.interactive.0.active.background');
+  border: 2px solid token('color.interactive.0.outline.background');
+}
+
+.button--secondary:disabled,
+.button--secondary.button--disabled {
+  opacity: 0.2;
+}
+
 /* Interactive button 0 */
 .button--interactive_0,
 .button--interactive_0:visited {

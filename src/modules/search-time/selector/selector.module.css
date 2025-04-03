@@ -14,6 +14,7 @@
   grid-template-columns: repeat(var(--number-of-options), minmax(0, 1fr));
   padding: token('spacing.xSmall');
   background: token('color.background.neutral.0.background');
+  border: 1px solid token('color.foreground.dynamic.disabled');
   width: fit-content;
   border-radius: var(--container-border-radius);
   height: var(--container-height);
@@ -30,6 +31,7 @@
 .option__text {
   z-index: 2;
   line-height: 1;
+  color: token('color.foreground.dynamic.primary');
 }
 
 .option__label {
@@ -62,11 +64,12 @@
 }
 
 .option__selected {
-  background: token('color.interactive.0.default.background');
+  background: token('color.interactive.2.active.background');
   width: 95%;
   height: 95%;
   position: absolute;
   border-radius: token('border.radius.regular');
+  border: 1px solid token('color.interactive.2.outline.background');
   top: 2.5%;
   left: 2.5%;
 }
@@ -89,6 +92,7 @@
   border-radius: token('border.radius.regular');
   overflow: hidden;
   background-color: token('color.background.neutral.0.background');
+  border: 1px solid token('color.foreground.dynamic.disabled');
   display: flex;
   justify-content: space-between;
 }
@@ -130,7 +134,7 @@
 }
 
 .calendarButton {
-  background: token('color.background.neutral.0.background');
+  background-color: token('color.background.neutral.0.background');
   border: none;
   border-top-right-radius: 0.75rem;
   border-bottom-right-radius: 0.75rem;
