@@ -214,10 +214,7 @@ export function createJourneyApi(
         throw result.error || result.errors;
       }
 
-      const trips = addCompressedQueryToTrips(
-        result.data.trip.tripPatterns,
-        queryVariables,
-      );
+      const trips = addCompressedQueryToTrips(result.data, queryVariables);
       addAssistantTripToCache(input as FromToTripQuery, trips);
 
       return trips;
@@ -356,12 +353,13 @@ function inputToViaLocation(input: TripInput) {
 }
 
 function addCompressedQueryToTrips(
-  tripPatterns: TripsQuery['trip']['tripPatterns'],
+  tripsQuery: TripsQuery,
   queryVariables: TripsQueryVariables | ViaTripsQueryVariables,
 ): TripsType {
   return {
     trip: {
-      tripPatterns: tripPatterns.map((tp) => ({
+      ...tripsQuery.trip,
+      tripPatterns: tripsQuery.trip.tripPatterns.map((tp) => ({
         ...tp,
         compressedQuery: generateSingleTripQueryString(
           extractServiceJourneyIds(tp),
@@ -572,10 +570,13 @@ async function getSortedViaTrips(
       new Date(b.expectedEndTime!).getTime(),
   );
 
-  return addCompressedQueryToTrips(
-    tripPatternsSortedByExpectedEndTime,
-    queryVariables,
-  );
+  const tripsQuery: TripsQuery = {
+    trip: {
+      tripPatterns: tripPatternsSortedByExpectedEndTime,
+    },
+  };
+
+  return addCompressedQueryToTrips(tripsQuery, queryVariables);
 }
 
 function createLinesRecord(lines: LineFragment[]) {
