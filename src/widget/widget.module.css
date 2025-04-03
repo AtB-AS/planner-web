@@ -22,7 +22,7 @@
 }
 
 .wrapper {
-  background-color: token('color.background.accent.0.background');
+  background-color: token('color.background.neutral.0.background');
   box-sizing: border-box;
 }
 .wrapper * {
@@ -44,7 +44,6 @@
   margin: 0;
   gap: token('spacing.xLarge');
   color: token('color.background.accent.0.foreground.primary');
-  border-bottom: 1px solid token('color.background.accent.0.foreground.primary');
 }
 
 .tabs a {
@@ -52,11 +51,12 @@
   display: block;
   padding-bottom: token('spacing.medium');
   color: token('color.background.accent.0.foreground.primary');
+  border-bottom: 1px solid token('color.foreground.dynamic.secondary');
   box-sizing: border-box;
 }
-.tabSelected {
+a.tabSelected {
   text-decoration: none;
-  border-bottom: 3px solid token('color.background.accent.0.foreground.primary');
+  border-bottom: 2px solid token('color.foreground.dynamic.primary');
   font-weight: var(--baseTypo-body__primary--bold-fontWeight, 500);
 }
 .tabs a:hover {
@@ -68,6 +68,8 @@
 
 .main {
   composes: main from assistant;
+  margin-top: 0;
+  padding-top: token('spacing.large');
   padding-left: 0;
   padding-right: 0;
   padding-bottom: 2.75rem;
@@ -93,6 +95,8 @@
 
 .search_container {
   composes: container from search;
+  background-color: token("color.background.neutral.0.background");
+  border: 1px solid token("color.foreground.dynamic.disabled");
 }
 .search_inputContainer {
   composes: inputContainer from search;
@@ -130,6 +134,7 @@
 
 .selector_options {
   composes: options from selector;
+  border: 1px solid token('color.foreground.dynamic.disabled');
 }
 .selector_options__small {
   composes: options from selector;
@@ -154,9 +159,10 @@
   composes: option__input from selector;
 }
 .selector_option__input:checked + .selector_option__label {
-  color: token('color.interactive.0.default.foreground.primary');
-  background: token('color.interactive.0.default.background');
+  color: token('color.foreground.dynamic.primary');
+  background: token('color.interactive.0.active.background');
   border-radius: token('border.radius.regular');
+  border: 1px solid token('color.interactive.2.outline.background');
 }
 
 .selector_dateAndTimeSelectorsWrapper {
@@ -180,6 +186,7 @@
 .buttonGroup {
   display: flex;
   justify-content: end;
+  background-color: token('color.background.neutral.0.background');
 }
 
 .button,
@@ -204,7 +211,7 @@
 
   transition: all 100ms ease-in;
   padding: token('spacing.medium');
-  border-radius: token('border.radius.regular');
+  border-radius: token('border.radius.circle');
 }
 .button span,
 .buttonLightOutline span {
@@ -212,16 +219,20 @@
   flex: 1;
 }
 
-.button,
-.button:visited {
+.button {
+  color: token('color.foreground.inverse.primary');
   background-color: token('color.interactive.0.default.background');
-  color: token('color.interactive.0.default.foreground.primary');
+}
+
+.button:visited {
+  color: token('color.foreground.dynamic.primary');
+  background-color: token('color.interactive.0.active.background');
   box-shadow: inset 0 0 0 token('border.width.slim')
     token('color.interactive.0.default.foreground.primary');
 }
 .button:hover {
-  background-color: token('color.interactive.0.hover.background');
-  color: token('color.interactive.0.hover.foreground.primary');
+  color: token('color.foreground.dynamic.primary');
+  background-color: token('color.interactive.0.active.background');
 }
 .button:active {
   background-color: token('color.interactive.0.active.background');
@@ -304,6 +315,7 @@
   list-style-position: inside;
   padding: 0;
   margin: 0;
+  background-color: token('color.background.neutral.0.background');
 }
 
 .messageBox {
