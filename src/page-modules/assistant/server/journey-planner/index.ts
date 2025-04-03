@@ -317,6 +317,7 @@ export function createJourneyApi(
                   ...(leg.serviceJourney?.notices ?? []),
                   ...(leg.serviceJourney?.journeyPattern?.notices ?? []),
                   ...(leg.fromEstimatedCall?.notices ?? []),
+                  ...(leg.toEstimatedCall?.notices ?? []),
                 ]),
               })),
             },
