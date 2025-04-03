@@ -108,6 +108,15 @@ fragment legWithDetails on Leg {
     }
     cancellation
   }
+  toEstimatedCall {
+    notices {
+      ...notice
+    }
+    destinationDisplay {
+      frontText
+    }
+    cancellation
+  }
   interchangeTo {
     guaranteed
     maximumWaitTime
