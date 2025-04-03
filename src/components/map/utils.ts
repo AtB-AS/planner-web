@@ -58,9 +58,10 @@ export const mapToMapLegs = (
     lon: fromStopPlace?.longitude ?? defaultPosition.lon,
   };
 
-  const toCoordinates: PositionType | undefined = toStopPlace
-    ? { lat: toStopPlace?.latitude ?? 0, lon: toStopPlace?.longitude ?? 0 }
-    : undefined;
+  const toCoordinates: PositionType | undefined =
+    toStopPlace?.latitude && toStopPlace?.longitude
+      ? { lat: toStopPlace.latitude, lon: toStopPlace.longitude }
+      : undefined;
   const mainStartIndex = findIndex(points, fromCoordinates);
   const mainEndIndex = toCoordinates
     ? findIndex(points, toCoordinates)

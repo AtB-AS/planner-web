@@ -116,14 +116,14 @@ export const useMapLegs = (
   }, [mapRef, mapLegs, addToMap, addStartEndText]);
 };
 
-const createRouteFeature = (points: PositionType[]): AnySourceData => ({
+const createRouteFeature = (positions: PositionType[]): AnySourceData => ({
   type: 'geojson',
   data: {
     type: 'Feature',
     properties: {},
     geometry: {
       type: 'LineString',
-      coordinates: points.map((pos) => [pos.lon, pos.lat]), // Reversed for some reason?
+      coordinates: positions.map((pos) => [pos.lon, pos.lat]), // [longitude, latitude] because GeoJSON
     },
   },
 });
@@ -161,8 +161,8 @@ const createRouteLayer = (
 };
 
 const createStartEndCircle = (
-  startPoint: PositionType,
-  endPoint: PositionType,
+  startPosition: PositionType,
+  endPosition: PositionType,
 ): AnySourceData => ({
   type: 'geojson',
   data: {
@@ -170,11 +170,11 @@ const createStartEndCircle = (
     geometries: [
       {
         type: 'Point',
-        coordinates: [startPoint.lon, startPoint.lat],
+        coordinates: [startPosition.lon, startPosition.lat], // [longitude, latitude] because GeoJSON
       },
       {
         type: 'Point',
-        coordinates: [endPoint.lon, endPoint.lat],
+        coordinates: [endPosition.lon, endPosition.lat], // [longitude, latitude] because GeoJSON
       },
     ],
   },
@@ -190,14 +190,14 @@ const createStartEndLayer = (id: number | string, color: string): AnyLayer => ({
   },
 });
 
-const createStartEndTextPoint = (point: PositionType): AnySourceData => ({
+const createStartEndTextPoint = (position: PositionType): AnySourceData => ({
   type: 'geojson',
   data: {
     type: 'Feature',
     properties: {},
     geometry: {
       type: 'Point',
-      coordinates: [point.lon, point.lat],
+      coordinates: [position.lon, position.lat], // [longitude, latitude] because GeoJSON
     },
   },
 });
