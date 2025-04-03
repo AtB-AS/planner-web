@@ -3,10 +3,9 @@ import { type MutableRefObject, useCallback, useEffect } from 'react';
 import hexToRgba from 'hex-to-rgba';
 import { ContrastColor, useTheme } from '@atb/modules/theme';
 import { ComponentText, useTranslation } from '@atb/translations';
-import type { MapLegType, Position } from './types';
+import type { MapLegType, PositionType } from './types';
 import type { Map, AnySourceData, AnyLayer } from 'mapbox-gl';
 import { addLayerIfNotExists, addSourceIfNotExists } from '.';
-import { Mode } from '@atb/modules/graphql-types/journeyplanner-types_v3.generated.ts';
 
 export const useMapLegs = (
   mapRef: MutableRefObject<Map | undefined>,
@@ -117,7 +116,7 @@ export const useMapLegs = (
   }, [mapRef, mapLegs, addToMap, addStartEndText]);
 };
 
-const createRouteFeature = (points: Position[]): AnySourceData => ({
+const createRouteFeature = (points: PositionType[]): AnySourceData => ({
   type: 'geojson',
   data: {
     type: 'Feature',
@@ -162,8 +161,8 @@ const createRouteLayer = (
 };
 
 const createStartEndCircle = (
-  startPoint: Position,
-  endPoint: Position,
+  startPoint: PositionType,
+  endPoint: PositionType,
 ): AnySourceData => ({
   type: 'geojson',
   data: {
@@ -191,14 +190,14 @@ const createStartEndLayer = (id: number | string, color: string): AnyLayer => ({
   },
 });
 
-const createStartEndTextPoint = (point: Position): AnySourceData => ({
+const createStartEndTextPoint = (point: PositionType): AnySourceData => ({
   type: 'geojson',
   data: {
     type: 'Feature',
     properties: {},
     geometry: {
       type: 'Point',
-      coordinates: [point.lat, point.lon],
+      coordinates: [point.lon, point.lat],
     },
   },
 });

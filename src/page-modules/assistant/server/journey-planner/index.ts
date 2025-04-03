@@ -20,7 +20,6 @@ import type {
   LineInput,
   NonTransitTripData,
   NonTransitTripInput,
-  NonTransitTripType,
   TripInput,
   TripsType,
   TripWithDetailsType,
