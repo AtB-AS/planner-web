@@ -14,6 +14,7 @@ export type GeocoderApi = {
       lat: number;
       lon: number;
     },
+    onlyStopPlaces?: boolean,
   ): Promise<GeocoderFeature[]>;
   reverse(
     lat: number,
@@ -26,10 +27,11 @@ export function createGeocoderApi(
   request: HttpRequester<'http-entur'>,
 ): GeocoderApi {
   return {
-    async autocomplete(query, focus) {
+    async autocomplete(query, focus, onlyStopPlaces) {
       const focusQuery = await createFocusQuery(focus);
+      const venueQuery = onlyStopPlaces ? ['venue'] : ['venue', 'address'];
       const result = await request(
-        `/geocoder/v1/autocomplete?text=${query}&${focusQuery}&size=10&lang=no&multiModal=child`,
+        `/geocoder/v1/autocomplete?text=${query}&${focusQuery}&size=10&lang=no&multiModal=child&layers=${venueQuery}`,
       );
 
       const parsed = geocoderRootSchema.safeParse(await result.json());

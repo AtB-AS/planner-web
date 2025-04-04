@@ -2,12 +2,13 @@ import style from '../../..//contact.module.css';
 import { StateFrom } from 'xstate';
 import { PageText, TranslatedString, useTranslation } from '@atb/translations';
 import { Typo } from '@atb/components/typography';
-import { SectionCard, Radio, Checkbox } from '../../../components';
+import { SectionCard, Radio } from '../../../components';
 import AppTicketRefund from './appTicketRefund';
 import Link from 'next/link';
 import { refundStateMachine, RefundTicketForm } from '../../refundFormMachine';
 import { RefundFormEvents } from '../../events';
 import OtherTicketRefund from './otherTicketRefund';
+import { Checkbox } from '@atb/components/checkbox';
 
 type RefundTicketFormsProps = {
   state: StateFrom<typeof refundStateMachine>;

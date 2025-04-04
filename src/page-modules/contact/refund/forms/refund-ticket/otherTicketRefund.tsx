@@ -4,13 +4,13 @@ import { Typo } from '@atb/components/typography';
 import {
   SectionCard,
   Input,
-  Checkbox,
   Select,
   Textarea,
   FileInput,
   Radio,
 } from '../../../components';
 import { RefundContextProps } from '../../refundFormMachine';
+import { Checkbox } from '@atb/components/checkbox';
 
 type OtherTicketRefundProps = {
   state: { context: RefundContextProps };

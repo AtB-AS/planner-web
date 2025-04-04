@@ -11,13 +11,13 @@ import {
   Input,
   FileInput,
   Textarea,
-  Checkbox,
   SearchableSelect,
   getLineOptions,
   getStopOptions,
   DateSelector,
   TimeSelector,
 } from '../../components';
+import { Checkbox } from '@atb/components/checkbox';
 
 type TransportationFormProps = {
   state: { context: MeansOfTransportContextProps };
