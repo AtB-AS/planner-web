@@ -136,7 +136,7 @@ export type NonTransitTripType = {
 export type ExtendedTripPatternType = TripPatternFragment & {
   compressedQuery: string;
 };
-export type TripsType = TripsQuery & {
+export type TripsType = TripsWithDetailsQuery & {
   trip: {
     tripPatterns: ExtendedTripPatternWithDetailsType[];
   };

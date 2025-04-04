@@ -11,7 +11,6 @@ import { getTimeRepresentationType } from '@atb/modules/time-representation';
 import { LegFragment } from '@atb/page-modules/assistant/journey-gql/trip.generated.ts';
 import { ExtendedTripPatternWithDetailsType } from '@atb/page-modules/assistant';
 import { getQuayOrPlaceName } from '@atb/page-modules/assistant/trip/trip-pattern/trip-pattern-header';
-import { LegFragment } from '@atb/page-modules/assistant/journey-gql/trip.generated.ts';
 
 export const tripSummary = (
   tripPattern: ExtendedTripPatternWithDetailsType,

@@ -48,7 +48,7 @@ export const tripResult: TripsType = {
 export const nonTransitTripResult: NonTransitTripData = {
   footTrip: {
     duration: 0,
-    mode: 'bus',
+    mode: Mode.Bus,
     rentedBike: false,
     compressedQuery: '',
   },
