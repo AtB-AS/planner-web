@@ -5,7 +5,7 @@ import {
   isFeaturePoint,
   isStopPlace,
 } from './utils';
-import { Position } from './types';
+import { PositionType } from '@atb/components/map/types.ts';
 
 export function useMapInteractions(
   mapRef: React.MutableRefObject<mapboxgl.Map | undefined>,
@@ -45,7 +45,7 @@ export function useMapInteractions(
     }
   }, [mapRef, onSelectStopPlace]);
 
-  const centerMap = (position: Position) => {
+  const centerMap = (position: PositionType) => {
     if (!mapRef || !mapRef.current) return;
     mapRef.current.flyTo({ center: position, zoom: ZOOM_LEVEL, speed: 2 });
   };
