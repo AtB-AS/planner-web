@@ -9,14 +9,11 @@ import { screenReaderPause } from '@atb/components/typography/utils';
 import { transportModeToTranslatedString } from '@atb/modules/transport-mode';
 import { getTimeRepresentationType } from '@atb/modules/time-representation';
 import { LegFragment } from '@atb/page-modules/assistant/journey-gql/trip.generated.ts';
-import {
-  ExtendedLegType,
-  ExtendedTripPatternType,
-} from '@atb/page-modules/assistant';
+import { ExtendedTripPatternWithDetailsType } from '@atb/page-modules/assistant';
 import { getQuayOrPlaceName } from '@atb/page-modules/assistant/trip/trip-pattern/trip-pattern-header';
 
 export const tripSummary = (
-  tripPattern: ExtendedTripPatternType,
+  tripPattern: ExtendedTripPatternWithDetailsType,
   t: TranslateFunction,
   language: Language,
   isInPast: boolean,
@@ -205,7 +202,7 @@ function getLegRequiresBooking(leg: LegFragment): boolean {
 }
 
 function getTripPatternBookingsRequiredCount(
-  tripPattern: ExtendedTripPatternType,
+  tripPattern: ExtendedTripPatternWithDetailsType,
 ): number {
   return tripPattern?.legs?.filter((leg) => getLegRequiresBooking(leg)).length;
 }
@@ -249,7 +246,7 @@ function isSignificantFootLegWalkOrWaitTime(
 }
 
 export function getFilteredLegsByWalkOrWaitTime(
-  tripPattern: ExtendedTripPatternType,
+  tripPattern: ExtendedTripPatternWithDetailsType,
 ) {
   if (!!tripPattern?.legs?.length) {
     return tripPattern.legs.filter((leg, i) =>

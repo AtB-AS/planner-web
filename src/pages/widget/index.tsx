@@ -45,7 +45,7 @@ const initializeCode = html`
         // By default it uses Roboto as the hosted planner web solution.
         inheritFont: false,
         // Use single column design of widget layout
-        singleColumnLayout: false,
+        singleColumnLayout: true,
       },
     });
 

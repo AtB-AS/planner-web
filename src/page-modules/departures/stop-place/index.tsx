@@ -30,8 +30,8 @@ import {
   GlobalMessages,
 } from '@atb/modules/global-messages';
 import {
-  ExtendedDeparturesType,
   ExtendedDepartureQuayType,
+  ExtendedDeparturesType,
   ExtendedDepartureType,
 } from '@atb/page-modules/departures/types.ts';
 

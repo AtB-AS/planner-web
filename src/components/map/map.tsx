@@ -127,6 +127,7 @@ export default function Map({ layer, onSelectStopPlace, ...props }: MapProps) {
             }}
           />
           <div
+            onClick={(e) => e.stopPropagation()}
             ref={mapContainer}
             className={and(
               style.mapContainer,

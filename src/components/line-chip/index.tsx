@@ -3,6 +3,7 @@ import style from './line-chip.module.css';
 import {
   TransportIcon,
   TransportModeType,
+  TransportSubmodeType,
   useTransportationThemeColor,
 } from '@atb/modules/transport-mode';
 import { TransportSubmode } from '@atb/modules/graphql-types/journeyplanner-types_v3.generated.ts';

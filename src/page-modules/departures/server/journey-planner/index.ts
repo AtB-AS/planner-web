@@ -1,25 +1,4 @@
 import { GraphQlRequester } from '@atb/modules/api-server';
-import {
-  StopPlaceQuayDeparturesDocument,
-  StopPlaceQuayDeparturesQuery,
-  StopPlaceQuayDeparturesQueryVariables,
-} from '@atb/page-modules/departures/journey-gql/departures.generated';
-import {
-  NearestStopPlacesDocument,
-  NearestStopPlacesQuery,
-  NearestStopPlacesQueryVariables,
-} from '@atb/page-modules/departures/journey-gql/nearest-stop-places.generated';
-import {
-  GetStopPlaceDocument,
-  GetStopPlaceQuery,
-  GetStopPlaceQueryVariables,
-} from '@atb/page-modules/departures/journey-gql/stop-place.generated';
-import {
-  EstimatedCallFragment,
-  QuayEstimatedCallsDocument,
-  QuayEstimatedCallsQuery,
-  QuayEstimatedCallsQueryVariables,
-} from '@atb/page-modules/departures/journey-gql/estimated-calls.generated';
 import { isTransportModeType } from '@atb/modules/transport-mode';
 import {
   ServiceJourneyWithEstimatedCallsDocument,
@@ -35,6 +14,27 @@ import {
   ServiceJourneyType,
   StopPlaceType,
 } from '@atb/page-modules/departures/types.ts';
+import {
+  EstimatedCallFragment,
+  QuayEstimatedCallsDocument,
+  QuayEstimatedCallsQuery,
+  QuayEstimatedCallsQueryVariables,
+} from '@atb/page-modules/departures/journey-gql/estimated-calls.generated.ts';
+import {
+  StopPlaceQuayDeparturesDocument,
+  StopPlaceQuayDeparturesQuery,
+  StopPlaceQuayDeparturesQueryVariables,
+} from '@atb/page-modules/departures/journey-gql/departures.generated.ts';
+import {
+  GetStopPlaceDocument,
+  GetStopPlaceQuery,
+  GetStopPlaceQueryVariables,
+} from '@atb/page-modules/departures/journey-gql/stop-place.generated.ts';
+import {
+  NearestStopPlacesDocument,
+  NearestStopPlacesQuery,
+  NearestStopPlacesQueryVariables,
+} from '@atb/page-modules/departures/journey-gql/nearest-stop-places.generated.ts';
 import { SituationFragment } from '@atb/page-modules/assistant/journey-gql/trip.generated.ts';
 
 export type DepartureInput = {

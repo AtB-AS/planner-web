@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { isSituationValidAtDate } from '../utils';
-import { SituationFragment } from '@atb/page-modules/assistant/journey-gql/trip.generated.ts';
+import { SituationFragment } from '@atb/page-modules/assistant/journey-gql/trip.generated.ts'; // Adjust the path if needed
 
 const dummySituation: SituationFragment = {
   id: '1',

@@ -108,7 +108,9 @@ const AssistantInternal = {
         unknownPlace: _('ukjent', 'unknown', 'ukjend'),
       },
       quayPublicCodePrefix: _('', '', ''),
-      details: _('Detaljer', 'Details', 'Detaljar'),
+      details: _('Se detaljer', 'See details', 'Sjå detaljar'),
+      seeMore: _('Se mer', 'See more', 'Sjå meir'),
+      seeLess: _('Se mindre', 'See less', 'Sjå mindre'),
       hasSituationsTip: _(
         'Denne reisen har driftsmeldinger. Se detaljer for mer info',
         'There are service messages affecting your journey. See details for more info ',

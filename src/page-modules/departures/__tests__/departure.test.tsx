@@ -14,7 +14,6 @@ import { GeocoderApi } from '@atb/page-modules/departures/server/geocoder';
 import Search from '@atb/components/search/search';
 import { sortQuays } from '../server/journey-planner/utils';
 import { GlobalMessageContextProvider } from '@atb/modules/global-messages';
-import { ExtendedDeparturesType } from '@atb/page-modules/departures/types.ts';
 
 afterEach(function () {
   cleanup();
