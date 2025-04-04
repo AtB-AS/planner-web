@@ -1,7 +1,5 @@
-import {
-  transportModeSchema,
-  transportSubmodeSchema,
-} from '@atb/modules/transport-mode';
+import { TransportSubmode } from '@atb/modules/graphql-types/journeyplanner-types_v3.generated.ts';
+import { TransportModeType } from '@atb/modules/transport-mode';
 import z from 'zod';
 
 export const positionSchema = z.object({
@@ -11,12 +9,10 @@ export const positionSchema = z.object({
 
 export type PositionType = z.infer<typeof positionSchema>;
 
-export const mapLegSchema = z.object({
-  transportMode: transportModeSchema,
-  transportSubmode: transportSubmodeSchema.optional(),
-  faded: z.boolean(),
-  points: z.array(positionSchema),
-  isFlexibleLine: z.boolean(),
-});
-
-export type MapLegType = z.infer<typeof mapLegSchema>;
+export type MapLegType = {
+  transportMode: TransportModeType;
+  transportSubmode?: TransportSubmode;
+  faded: boolean;
+  points: PositionType[];
+  isFlexibleLine: boolean;
+};

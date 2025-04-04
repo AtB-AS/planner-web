@@ -2,15 +2,20 @@ import {
   AnyLayer,
   AnySourceData,
   type Map,
+  AnyLayer,
+  AnySourceData,
+  type Map,
   MapboxGeoJSONFeature,
 } from 'mapbox-gl';
 import { mapboxData } from '@atb/modules/org-data';
+import { MapLegType, PositionType } from './types';
 import { MapLegType, PositionType } from './types';
 import haversineDistance from 'haversine-distance';
 import { PointsOnLink as GraphQlPointsOnLink } from '@atb/modules/graphql-types';
 import polyline from '@mapbox/polyline';
 import { TransportSubmode } from '@atb/modules/graphql-types/journeyplanner-types_v3.generated.ts';
 import { TransportModeType } from '@atb/modules/transport-mode';
+
 
 export const ZOOM_LEVEL = 16.5;
 export const INTERACTIVE_LAYERS = [
@@ -26,6 +31,7 @@ export const INTERACTIVE_LAYERS = [
   'tram.nsr.api',
 ];
 
+export const defaultPosition: PositionType = {
 export const defaultPosition: PositionType = {
   lon: mapboxData.defaultLng,
   lat: mapboxData.defaultLat,
@@ -50,7 +56,7 @@ export const mapToMapLegs = (
   if (!pointsOnLink || !pointsOnLink.points) {
     return [];
   }
-  const positions = polyline
+  const points = polyline
     .decode(pointsOnLink.points)
     .map((points) => ({ lat: points[0], lon: points[1] }));
   const fromCoordinates: PositionType = {
@@ -62,15 +68,15 @@ export const mapToMapLegs = (
     toStopPlace?.latitude && toStopPlace?.longitude
       ? { lat: toStopPlace.latitude, lon: toStopPlace.longitude }
       : undefined;
-  const mainStartIndex = findIndex(positions, fromCoordinates);
+  const mainStartIndex = findIndex(points, fromCoordinates);
   const mainEndIndex = toCoordinates
-    ? findIndex(positions, toCoordinates)
-    : positions.length - 1;
+    ? findIndex(points, toCoordinates)
+    : points.length - 1;
+  const beforeLegCoords = points.slice(0, mainStartIndex + 1);
+  const mainLegCoords = points.slice(mainStartIndex, mainEndIndex + 1);
+  const afterLegCoords = points.slice(mainEndIndex);
 
-  const beforeLegPositions = positions.slice(0, mainStartIndex + 1);
-  const mainLegPositions = positions.slice(mainStartIndex, mainEndIndex + 1);
-  const afterLegPositions = positions.slice(mainEndIndex);
-
+  const toMapLeg = (item: PositionType[], faded: boolean) => {
   const toMapLeg = (item: PositionType[], faded: boolean) => {
     return {
       transportMode,
@@ -93,9 +99,13 @@ export const mapToMapLegs = (
 const findIndex = (
   positions: PositionType[],
   quayPosition: PositionType,
+  positions: PositionType[],
+  quayPosition: PositionType,
 ): number => {
   return positions.reduce(
+  return positions.reduce(
     (closest, t, index) => {
+      const distance = haversineDistance(t, quayPosition);
       const distance = haversineDistance(t, quayPosition);
       return distance < closest.distance ? { index, distance } : closest;
     },
@@ -106,9 +116,6 @@ const findIndex = (
 export const getMapBounds = (
   mapLegs: MapLegType[],
 ): [[number, number], [number, number]] => {
-  const lineLatitudes = mapLegs
-    .map((leg) => leg.points.map((point) => point.lat))
-    .flat();
   const lineLongitudes = mapLegs
     .map((leg) => leg.points.map((point) => point.lon))
     .flat();
@@ -124,14 +131,18 @@ export const getMapBounds = (
   const latPadding = (westernMost - easternMost) / 3;
 
   const sw: PositionType = {
-    lon: southernMost - lonPadding,
-    lat: westernMost + latPadding,
+    lat: southernMost - latPadding,
+    lon: westernMost + lonPadding,
   };
   const ne: PositionType = {
-    lon: northernMost + lonPadding,
-    lat: easternMost - latPadding,
+    lat: northernMost + latPadding,
+    lon: easternMost - lonPadding,
   };
 
+  return [
+    [sw.lon, sw.lat],
+    [ne.lon, ne.lat],
+  ];
   return [
     [sw.lon, sw.lat],
     [ne.lon, ne.lat],
@@ -156,6 +167,7 @@ export function addLayerIfNotExists(map: Map, layer: AnyLayer) {
 
 export function hasInitialPosition(
   a: any,
+): a is { position: PositionType; initialZoom?: number } {
 ): a is { position: PositionType; initialZoom?: number } {
   return !!a.position;
 }
