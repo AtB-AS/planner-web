@@ -124,12 +124,12 @@ export const getMapBounds = (
   const latPadding = (westernMost - easternMost) / 3;
 
   const sw: PositionType = {
-    lat: southernMost - latPadding,
-    lon: westernMost + lonPadding,
+    lon: southernMost - lonPadding,
+    lat: westernMost + latPadding,
   };
   const ne: PositionType = {
-    lat: northernMost + latPadding,
-    lon: easternMost - lonPadding,
+    lon: northernMost + lonPadding,
+    lat: easternMost - latPadding,
   };
 
   return [
