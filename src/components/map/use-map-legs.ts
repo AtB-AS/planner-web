@@ -3,10 +3,9 @@ import { type MutableRefObject, useCallback, useEffect } from 'react';
 import hexToRgba from 'hex-to-rgba';
 import { ContrastColor, useTheme } from '@atb/modules/theme';
 import { ComponentText, useTranslation } from '@atb/translations';
-import type { MapLegType, Position } from './types';
+import type { MapLegType, PositionType } from './types';
 import type { Map, AnySourceData, AnyLayer } from 'mapbox-gl';
 import { addLayerIfNotExists, addSourceIfNotExists } from '.';
-import { Mode } from '@atb/modules/graphql-types/journeyplanner-types_v3.generated.ts';
 
 export const useMapLegs = (
   mapRef: MutableRefObject<Map | undefined>,
@@ -117,14 +116,14 @@ export const useMapLegs = (
   }, [mapRef, mapLegs, addToMap, addStartEndText]);
 };
 
-const createRouteFeature = (points: Position[]): AnySourceData => ({
+const createRouteFeature = (positions: PositionType[]): AnySourceData => ({
   type: 'geojson',
   data: {
     type: 'Feature',
     properties: {},
     geometry: {
       type: 'LineString',
-      coordinates: points.map((pos) => [pos.lon, pos.lat]), // Reversed for some reason?
+      coordinates: positions.map((pos) => [pos.lon, pos.lat]), // [longitude, latitude] because GeoJSON
     },
   },
 });
@@ -162,8 +161,8 @@ const createRouteLayer = (
 };
 
 const createStartEndCircle = (
-  startPoint: Position,
-  endPoint: Position,
+  startPosition: PositionType,
+  endPosition: PositionType,
 ): AnySourceData => ({
   type: 'geojson',
   data: {
@@ -171,11 +170,11 @@ const createStartEndCircle = (
     geometries: [
       {
         type: 'Point',
-        coordinates: [startPoint.lon, startPoint.lat],
+        coordinates: [startPosition.lon, startPosition.lat], // [longitude, latitude] because GeoJSON
       },
       {
         type: 'Point',
-        coordinates: [endPoint.lon, endPoint.lat],
+        coordinates: [endPosition.lon, endPosition.lat], // [longitude, latitude] because GeoJSON
       },
     ],
   },
@@ -191,14 +190,14 @@ const createStartEndLayer = (id: number | string, color: string): AnyLayer => ({
   },
 });
 
-const createStartEndTextPoint = (point: Position): AnySourceData => ({
+const createStartEndTextPoint = (position: PositionType): AnySourceData => ({
   type: 'geojson',
   data: {
     type: 'Feature',
     properties: {},
     geometry: {
       type: 'Point',
-      coordinates: [point.lat, point.lon],
+      coordinates: [position.lon, position.lat], // [longitude, latitude] because GeoJSON
     },
   },
 });
