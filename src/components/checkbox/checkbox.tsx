@@ -55,7 +55,9 @@ export default function Checkbox({
         <ColorIcon icon={icon} className={style.checkbox__icon} role="none" />
         <dl>
           <dt className={style.checkbox__label}>{label}</dt>
-          <dd className={style.checkbox__description}>{description}</dd>
+          {description && (
+            <dd className={style.checkbox__description}>{description}</dd>
+          )}
         </dl>
       </span>
       {!!error && <ErrorMessage message={error} />}
