@@ -38,7 +38,10 @@ export default function Search({
 }: SearchProps) {
   const [query, setQuery] = useState('');
   const [focus, setFocus] = useState(false);
-  const [onlyStopPlaces, setOnlyStopPlaces] = useState<boolean>(true);
+  const [onlyStopPlaces, setOnlyStopPlaces] = useLocalStorage<boolean>(
+    'onlyStopPlaces',
+    true,
+  );
   const { data } = useAutocomplete(
     query,
     autocompleteFocusPoint,
