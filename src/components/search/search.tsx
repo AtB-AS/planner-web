@@ -6,11 +6,12 @@ import VenueIcon from '@atb/components/venue-icon';
 import { andIf } from '@atb/utils/css';
 import { GeocoderFeature } from '@atb/page-modules/departures';
 import { logSpecificEvent } from '@atb/modules/firebase';
-import { ComponentText, useTranslation } from '@atb/translations';
+import { ComponentText, PageText, useTranslation } from '@atb/translations';
 import useLocalStorage from '@atb/utils/use-localstorage';
 import { useGeolocation } from './use-geolocation';
 import { MonoIcon } from '../icon';
 import { LoadingIcon } from '../loading';
+import { Checkbox } from '../checkbox';
 
 type SearchProps = {
   label: string;
@@ -21,7 +22,6 @@ type SearchProps = {
   initialFeature?: GeocoderFeature;
   selectedItem?: GeocoderFeature;
   autocompleteFocusPoint?: GeocoderFeature;
-  onlyStopPlaces?: boolean;
   testID?: string;
 };
 
@@ -34,11 +34,11 @@ export default function Search({
   initialFeature,
   selectedItem,
   autocompleteFocusPoint,
-  onlyStopPlaces = false,
   testID,
 }: SearchProps) {
   const [query, setQuery] = useState('');
   const [focus, setFocus] = useState(false);
+  const [onlyStopPlaces, setOnlyStopPlaces] = useState<boolean>(true);
   const { data } = useAutocomplete(
     query,
     autocompleteFocusPoint,
@@ -142,6 +142,18 @@ export default function Search({
           {button ?? null}
 
           <ul className={style.menu} {...getMenuProps()}>
+            {isOpen && inputValue !== '' && (
+              <li className={style.item}>
+                <Checkbox
+                  label={t(PageText.Assistant.search.onlyStopPlacesCheckbox)}
+                  checked={onlyStopPlaces}
+                  onChange={(checked) => {
+                    setOnlyStopPlaces(checked);
+                  }}
+                  expand={true}
+                />
+              </li>
+            )}
             {isOpen &&
               inputValue !== '' &&
               data?.map((item, index) => (

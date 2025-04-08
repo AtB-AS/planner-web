@@ -12,7 +12,7 @@ export type CheckboxProps = {
   label: string;
   description?: string;
   checked?: boolean;
-  transparent?: boolean;
+  expand?: boolean;
   onClick?: () => void;
 };
 
@@ -24,7 +24,7 @@ export default function Checkbox({
   label,
   description,
   checked = false,
-  transparent = false,
+  expand = false,
   onClick,
 }: CheckboxProps) {
   const id = useId();
@@ -34,7 +34,7 @@ export default function Checkbox({
     [style['checkbox--error']]: !!error,
     [style['checkbox--disabled']]: disabled,
     [style['checkbox--readonly']]: readonly,
-    [style['checkbox--transparent']]: transparent,
+    [style['checkbox--expand']]: expand,
   });
 
   const icon = checked ? 'input/CheckboxChecked' : 'input/CheckboxUnchecked';
