@@ -59,6 +59,7 @@ const customRender = (ui: React.ReactNode, renderOptions?: RenderOptions) => {
       value={{
         fallback: {
           '/api/departures/autocomplete?q=test&onlyStopPlaces=false': result,
+          '/api/departures/autocomplete?q=test&onlyStopPlaces=true': result,
         },
       }}
     >
