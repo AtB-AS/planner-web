@@ -22,6 +22,7 @@ import {
   GlobalMessages,
 } from '@atb/modules/global-messages';
 import dictionary from '@atb/translations/dictionary.ts';
+import { useTheme } from '@atb/modules/theme';
 
 export type TripProps = {
   tripQuery: FromToTripQuery;
@@ -30,6 +31,7 @@ export type TripProps = {
 
 export default function Trip({ tripQuery, fallback }: TripProps) {
   const { t } = useTranslation();
+  const { color } = useTheme();
   const { trips, isLoadingFirstTrip, loadMore, isLoadingMore } =
     useTripPatterns(tripQuery, fallback);
   const { nonTransitTrips } = useNonTransitTrip(tripQuery);
@@ -144,6 +146,7 @@ export default function Trip({ tripQuery, fallback }: TripProps) {
           className={style.fetchButton}
           onClick={() => loadMore()}
           mode="secondary"
+          backgroundColor={color.background.accent['0']}
           radiusSize="circular"
           title={t(PageText.Assistant.trip.fetchMore)}
           state={isLoadingMore ? 'loading' : undefined}
@@ -158,6 +161,7 @@ type DayLabelProps = {
   departureTime: string;
   previousDepartureTime?: string;
 };
+
 function DayLabel({ departureTime, previousDepartureTime }: DayLabelProps) {
   const { t, language } = useTranslation();
   const isFirst = !previousDepartureTime;

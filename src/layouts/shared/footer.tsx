@@ -6,6 +6,7 @@ import { Language, ModuleText, useTranslation } from '@atb/translations';
 import { useLanguageSettings } from '@atb/translations/language-context';
 
 import style from './footer.module.css';
+import { getButtonStyleForColor } from '@atb/components/button/utils.tsx';
 
 export type FooterProps = {
   withoutSettings?: boolean;
@@ -22,6 +23,8 @@ const { urls, fylkeskommune } = getOrgData();
 export default function Footer({ withoutSettings = false }: FooterProps) {
   const { isDarkMode, toggleDarkmode } = useTheme();
   const { t, language } = useTranslation();
+  const { color } = useTheme();
+  const buttonStyle = getButtonStyleForColor(color.background.accent['4']);
 
   const someLinks: SomeLink[] = [
     urls.facebookLink && {
@@ -128,6 +131,7 @@ export default function Footer({ withoutSettings = false }: FooterProps) {
                   <li>
                     <button
                       className={style.buttonLink}
+                      style={buttonStyle}
                       onClick={() => toggleDarkmode(!isDarkMode)}
                     >
                       {isDarkMode
@@ -165,7 +169,8 @@ export default function Footer({ withoutSettings = false }: FooterProps) {
               {someLinks.map((link) => (
                 <ButtonLink
                   key={link.href}
-                  mode={isDarkMode ? 'interactive_2' : 'secondary'}
+                  mode="secondary"
+                  backgroundColor={color.background.accent['4']}
                   radius="top-bottom"
                   display="inline"
                   radiusSize="circular"
@@ -219,6 +224,9 @@ export default function Footer({ withoutSettings = false }: FooterProps) {
 function LanguageSelections() {
   const { language, setLanguage } = useLanguageSettings();
   const { t } = useTranslation();
+  const { color } = useTheme();
+  const buttonStyle = getButtonStyleForColor(color.background.accent['4']);
+
   return (
     <>
       {language !== Language.Norwegian && (
@@ -226,6 +234,7 @@ function LanguageSelections() {
           <button
             className={style.buttonLink}
             onClick={() => setLanguage(Language.Norwegian)}
+            style={buttonStyle}
           >
             {t(
               ModuleText.Layout.base.footer.sections.settings.setLanguage.norsk,
@@ -238,6 +247,7 @@ function LanguageSelections() {
           <button
             className={style.buttonLink}
             onClick={() => setLanguage(Language.English)}
+            style={buttonStyle}
             data-testid="setLanguageToEnglish"
           >
             {t(
@@ -251,6 +261,7 @@ function LanguageSelections() {
         <li>
           <button
             className={style.buttonLink}
+            style={buttonStyle}
             onClick={() => setLanguage(Language.Nynorsk)}
           >
             {t(

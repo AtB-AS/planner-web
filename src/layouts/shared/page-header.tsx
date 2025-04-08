@@ -1,14 +1,16 @@
 import { CommonText, useTranslation } from '@atb/translations';
 import Link from 'next/link';
 import style from './page-header.module.css';
-import { useDarkMode } from '@atb/modules/theme';
+import { useDarkMode, useTheme } from '@atb/modules/theme';
 import Image from 'next/image';
 import { getOrgData } from '@atb/modules/org-data';
 import { MonoIcon } from '@atb/components/icon';
 import { ButtonLink } from '@atb/components/button';
+import { getButtonStyle } from '@atb/components/button/utils.tsx';
 
 export default function PageHeader() {
   const { t } = useTranslation();
+  const { color } = useTheme();
   const [isDarkMode] = useDarkMode();
   const { fylkeskommune, urls } = getOrgData();
 
@@ -38,12 +40,7 @@ export default function PageHeader() {
                 />
               ) : (
                 <>
-                  <MonoIcon
-                    icon="logo/logo"
-                    alt=""
-                    role="none"
-                    size="normal"
-                  />
+                  <MonoIcon icon="logo/logo" alt="" role="none" size="normal" />
                   <span>{t(CommonText.Titles.siteTitle)}</span>
                 </>
               )}
@@ -53,8 +50,13 @@ export default function PageHeader() {
         <ButtonLink
           href={urls.homePageUrl.href}
           title={t(CommonText.Layout.homeLink(urls.homePageUrl.name))}
-          icon={{ right: <MonoIcon icon="navigation/ExternalLink" /> }}
+          icon={{
+            right: (
+              <MonoIcon icon="navigation/ExternalLink" overrideMode={'dark'} />
+            ),
+          }}
           mode="secondary"
+          backgroundColor={color.background.accent['4']}
           radiusSize="circular"
           size="pill"
           aProps={{
