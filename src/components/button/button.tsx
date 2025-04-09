@@ -1,5 +1,10 @@
-import React, { MouseEventHandler } from 'react';
-import { ButtonBase, ButtonBaseProps, getBaseButtonClassName } from './utils';
+import React, { CSSProperties, MouseEventHandler } from 'react';
+import {
+  ButtonBase,
+  ButtonBaseProps,
+  getBaseButtonClassName,
+  getButtonStyle,
+} from './utils';
 
 export type ButtonProps = {
   /** Action when clicked */
@@ -17,6 +22,8 @@ export type ButtonProps = {
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   function Button({ onClick, testID, buttonProps, ...props }, ref) {
     const className = getBaseButtonClassName(props);
+    const buttonStyle = getButtonStyle(props);
+
     return (
       <button
         ref={ref}
@@ -26,6 +33,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={props.disabled || props.state === 'loading'}
         aria-disabled={props.disabled || props.state === 'loading'}
         data-testid={testID}
+        style={buttonStyle}
         {...buttonProps}
       >
         <ButtonBase {...props} />

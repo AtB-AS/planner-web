@@ -1,7 +1,14 @@
 import { MonoIcons, icons } from './generated-icons';
 import { SizeProps, useSize } from './utils';
-import { InteractiveColor, InteractiveState, TextColorType, useDarkMode } from '@atb/modules/theme';
+import {
+  InteractiveColor,
+  InteractiveState,
+  TextColorType,
+  useDarkMode,
+} from '@atb/modules/theme';
 import { colorToOverrideMode } from '@atb/utils/color';
+
+export type MonoIconOverrideMode = 'none' | 'dark' | 'light';
 
 export type { SizeProps };
 export type MonoIconProps = Omit<JSX.IntrinsicElements['img'], 'src'> & {
@@ -18,7 +25,7 @@ export type MonoIconProps = Omit<JSX.IntrinsicElements['img'], 'src'> & {
    * Whether or not to override darkmode/light mode
    * @default none
    */
-  overrideMode?: 'none' | 'dark' | 'light';
+  overrideMode?: MonoIconOverrideMode;
   /**
    * Used to override light- or dark mode icon color when MonoIcon is used with an interactive component
    */
@@ -73,11 +80,12 @@ function useInteractiveThemeColor(
   interactiveColor?: InteractiveColor,
   interactiveState?: InteractiveState,
 ): MonoIconProps['overrideMode'] {
-
   if (!interactiveColor) return 'none';
 
   if (!interactiveState)
     return colorToOverrideMode(interactiveColor.default.foreground.primary);
 
-  return colorToOverrideMode(interactiveColor[interactiveState].foreground.primary);
+  return colorToOverrideMode(
+    interactiveColor[interactiveState].foreground.primary,
+  );
 }

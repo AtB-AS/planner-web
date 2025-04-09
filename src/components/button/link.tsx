@@ -1,8 +1,13 @@
 import Link from 'next/link';
 import React from 'react';
-import {ButtonBase, ButtonBaseProps, getBaseButtonClassName} from './utils';
+import {
+  ButtonBase,
+  ButtonBaseProps,
+  getBaseButtonClassName,
+  getButtonStyle,
+} from './utils';
 
-import {UrlObject} from 'url';
+import { UrlObject } from 'url';
 
 export type ButtonLinkProps = {
   /**
@@ -41,6 +46,7 @@ export function ButtonLink({
           'aria-current': true,
         }
       : {};
+  const buttonStyle = getButtonStyle(props);
 
   if (props.disabled || props.state == 'loading') {
     return (
@@ -64,6 +70,7 @@ export function ButtonLink({
         onClick={onClick}
         {...extraProps}
         {...aProps}
+        style={buttonStyle}
         data-testid={testID}
       >
         <ButtonBase {...props} />

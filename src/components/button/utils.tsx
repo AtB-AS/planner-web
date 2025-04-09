@@ -1,7 +1,8 @@
-import React, { ReactNode } from 'react';
+import React, { CSSProperties, ReactNode } from 'react';
 import { and } from '@atb/utils/css';
 import style from './button.module.css';
 import { LoadingIcon } from '../loading';
+import { ContrastColor } from '@atb-as/theme';
 
 export type ButtonModes =
   | 'interactive_0'
@@ -13,9 +14,21 @@ export type ButtonModes =
   | 'interactive_3'
   | 'destructive'
   | 'transparent'
+  | 'primary'
+  | 'secondary'
   | 'transparent--underline';
 
 export type RadiusMode = 'top' | 'bottom' | 'top-bottom' | 'none';
+
+type ButtonModeAwareProps =
+  | {
+      mode?: Exclude<ButtonModes, 'secondary'>;
+      backgroundColor?: never;
+    }
+  | {
+      mode: 'secondary';
+      backgroundColor: ContrastColor;
+    };
 
 export type ButtonBaseProps = {
   /**
@@ -76,7 +89,19 @@ export type ButtonBaseProps = {
     left: ReactNode;
     right: ReactNode;
   }>;
-};
+} & ButtonModeAwareProps;
+
+export function getButtonStyle(props: ButtonBaseProps): CSSProperties {
+  const backgroundColor = props.mode === 'secondary' && props.backgroundColor;
+  return backgroundColor ? getButtonStyleForColor(backgroundColor) : {};
+}
+
+export function getButtonStyleForColor(color: ContrastColor): CSSProperties {
+  return {
+    borderColor: color.foreground.primary,
+    color: color.foreground.primary,
+  };
+}
 
 export function getBaseButtonClassName({
   mode = 'interactive_2',
@@ -88,7 +113,7 @@ export function getBaseButtonClassName({
   disabled = false,
   className = undefined,
 }: ButtonBaseProps) {
-  const innerClassName = and(
+  return and(
     style.button,
     style[`button--${mode}`],
     disabled && style[`button--disabled`],
@@ -100,7 +125,6 @@ export function getBaseButtonClassName({
     style[`button--radiusSize_${radiusSize}`],
     className,
   );
-  return innerClassName;
 }
 
 function ButtonBase({ title, icon, state }: ButtonBaseProps) {
