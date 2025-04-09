@@ -27,23 +27,23 @@ export default function Footer({ withoutSettings = false }: FooterProps) {
   const { color } = useTheme();
   const buttonStyle = getButtonStyleForColor(color.background.accent['4']);
 
-  const logoSrc = (name: string) =>
+  const iconSrc = (name: string) =>
     orgId === 'atb' ? `/${name}_dark.svg` : `/${name}.svg`;
 
   const someLinks: SomeLink[] = [
     urls.facebookLink && {
       href: urls.facebookLink,
-      iconSrc: logoSrc('fb'),
+      iconSrc: iconSrc('fb'),
       title: 'Facebook',
     },
     urls.instagramLink && {
       href: urls.instagramLink,
-      iconSrc: logoSrc('ig'),
+      iconSrc: iconSrc('ig'),
       title: 'Instagram',
     },
     urls.twitterLink && {
       href: urls.twitterLink,
-      iconSrc: logoSrc('twitter'),
+      iconSrc: iconSrc('twitter'),
       title: 'Twitter',
     },
   ].filter(Boolean) as SomeLink[];
