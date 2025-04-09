@@ -1,8 +1,15 @@
 .tripPatternContainer {
+.tripPatternContainer {
   border-radius: token('border.radius.regular');
   background-color: token('color.background.neutral.0.background');
   max-width: 100%;
   width: 100%;
+}
+
+.tripPattern {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
 }
 
 .tripPattern {
@@ -32,10 +39,7 @@
 
 
 .details {
-  display: flex;
-  flex-direction: column;
-  padding: token('spacing.medium');
-  align-items: flex-end;
+  padding: token('spacing.medium') 0;
 }
 
 .legs {
@@ -139,12 +143,21 @@
   justify-content: flex-end;
   padding: token('spacing.small') token('spacing.medium');
   gap: token('spacing.small')
+  gap: token('spacing.small')
 }
 
 .footer__details {
   display: flex;
   gap: token('spacing.small');
   align-items: center;
+  color: token('color.interactive.0.default.foreground.primary');
+}
+
+.footer__link {
+  text-decoration: none;
+  padding: token('spacing.xSmall') token('spacing.medium');
+  border-radius: token('border.radius.circle');
+  background-color: token('color.interactive.0.default.background');
   color: token('color.interactive.0.default.foreground.primary');
 }
 

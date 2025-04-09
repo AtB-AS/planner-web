@@ -216,7 +216,42 @@ export function createJourneyApi(
         throw result.error || result.errors;
       }
 
-      const trips = addCompressedQueryToTrips(result.data, queryVariables);
+
+      const trips: TripsType = {
+        trip: {
+          ...result.data.trip,
+          tripPatterns: result.data.trip.tripPatterns.map((tripPattern) => ({
+            ...tripPattern,
+            compressedQuery: generateSingleTripQueryString(
+              extractServiceJourneyIds(tripPattern),
+              tripPattern.legs[0].aimedStartTime,
+              queryVariables,
+            ),
+
+            legs: tripPattern.legs.map((leg) => ({
+              ...leg,
+              mapLegs: leg.pointsOnLink?.points
+                ? mapToMapLegs(
+                    leg.pointsOnLink,
+                    leg.mode,
+                    leg.transportSubmode,
+                    leg.fromPlace,
+                    leg.toPlace,
+                    !!leg.line?.flexibleLineType,
+                  )
+                : [],
+              notices: mapAndFilterNotices([
+                ...(leg.line?.notices ?? []),
+                ...(leg.serviceJourney?.notices ?? []),
+                ...(leg.serviceJourney?.journeyPattern?.notices ?? []),
+                ...(leg.fromEstimatedCall?.notices ?? []),
+                ...(leg.toEstimatedCall?.notices ?? []),
+              ]),
+            })),
+          })),
+        },
+      };
+
       addAssistantTripToCache(input as FromToTripQuery, trips);
 
       return trips;
@@ -357,25 +392,6 @@ function inputToViaLocation(input: TripInput) {
     name: input.via.name,
     minSlack: 'PT120S',
     maxSlack: 'PT9H',
-  };
-}
-
-function addCompressedQueryToTrips(
-  tripsQuery: TripsQuery,
-  queryVariables: TripsQueryVariables | ViaTripsQueryVariables,
-): TripsType {
-  return {
-    trip: {
-      ...tripsQuery.trip,
-      tripPatterns: tripsQuery.trip.tripPatterns.map((tp) => ({
-        ...tp,
-        compressedQuery: generateSingleTripQueryString(
-          extractServiceJourneyIds(tp),
-          tp.legs[0].aimedStartTime,
-          queryVariables,
-        ),
-      })),
-    },
   };
 }
 
@@ -579,13 +595,38 @@ async function getSortedViaTrips(
       new Date(b.expectedEndTime!).getTime(),
   );
 
-  const tripsQuery: TripsQuery = {
+  return {
     trip: {
-      tripPatterns: tripPatternsSortedByExpectedEndTime,
+      tripPatterns: tripPatternsSortedByExpectedEndTime.map((tripPattern) => ({
+        ...tripPattern,
+        compressedQuery: generateSingleTripQueryString(
+          extractServiceJourneyIds(tripPattern),
+          tripPattern.legs[0].aimedStartTime,
+          queryVariables,
+        ),
+        legs: tripPattern.legs.map((leg) => ({
+          ...leg,
+          mapLegs: leg.pointsOnLink?.points
+            ? mapToMapLegs(
+                leg.pointsOnLink,
+                leg.mode,
+                leg.transportSubmode,
+                leg.fromPlace,
+                leg.toPlace,
+                !!leg.line?.flexibleLineType,
+              )
+            : [],
+          notices: mapAndFilterNotices([
+            ...(leg.line?.notices ?? []),
+            ...(leg.serviceJourney?.notices ?? []),
+            ...(leg.serviceJourney?.journeyPattern?.notices ?? []),
+            ...(leg.fromEstimatedCall?.notices ?? []),
+            ...(leg.toEstimatedCall?.notices ?? []),
+          ]),
+        })),
+      })),
     },
   };
-
-  return addCompressedQueryToTrips(tripsQuery, queryVariables);
 }
 
 function createLinesRecord(lines: LineFragment[]) {
