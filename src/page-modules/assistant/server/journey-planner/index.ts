@@ -216,7 +216,6 @@ export function createJourneyApi(
         throw result.error || result.errors;
       }
 
-      console.log('Result: ' + JSON.stringify(result.data.trip));
 
       const trips: TripsType = {
         trip: {
