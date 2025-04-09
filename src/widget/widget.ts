@@ -762,9 +762,9 @@ function createOutput(
 }
 
 function tabBar() {
-  document.querySelector<HTMLUListElement>('.js-tablist')?.addEventListener(
-    'click',
-    function (e) {
+  document
+    .querySelector<HTMLUListElement>('.js-tablist')
+    ?.addEventListener('click', function (e) {
       e.preventDefault();
       e.stopPropagation();
 

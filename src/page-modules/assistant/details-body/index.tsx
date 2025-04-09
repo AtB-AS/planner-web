@@ -23,9 +23,13 @@ import { motion } from 'framer-motion';
 
 type DetailsBodyProps = {
   tripPattern: ExtendedTripPatternWithDetailsType;
+  animate?: true;
 };
 
-export function AssistantDetailsBody({ tripPattern }: DetailsBodyProps) {
+export function AssistantDetailsBody({
+  tripPattern,
+  animate,
+}: DetailsBodyProps) {
   const { t, language } = useTranslation();
   const router = useRouter();
   const mapLegs = tripPattern.legs
@@ -56,7 +60,7 @@ export function AssistantDetailsBody({ tripPattern }: DetailsBodyProps) {
   return (
     <motion.div
       className={style.bodyContainer}
-      initial={{ height: 0, originY: 0 }}
+      initial={animate ? { height: 0, originY: 0 } : false}
       animate={{ height: 'auto' }}
       exit={{ height: 0 }}
     >

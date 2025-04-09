@@ -13,9 +13,8 @@ import { andIf } from '@atb/utils/css';
 import { useRouter } from 'next/router';
 import { isLineFlexibleTransport } from '@atb/modules/flexible';
 import { ExtendedTripPatternWithDetailsType } from '@atb/page-modules/assistant';
-import { AssistantDetailsBody } from '@atb/page-modules/assistant/details/details-body';
 import { Button, ButtonLink } from '@atb/components/button';
-import { Iceberg } from 'next/dist/compiled/@next/font/dist/google';
+import { AssistantDetailsBody } from '@atb/page-modules/assistant/details-body';
 
 const LAST_LEG_PADDING = 20;
 const DEFAULT_THRESHOLD_AIMED_EXPECTED_IN_SECONDS = 60;
@@ -226,13 +225,24 @@ export default function TripPattern({
         </div>
       </motion.div>
       <AnimatePresence>
-        {isOpen && <AssistantDetailsBody tripPattern={tripPattern} />}
+        {isOpen && (
+          <div className={style.details}>
+            <AssistantDetailsBody tripPattern={tripPattern} animate={true} />
+          </div>
+        )}
       </AnimatePresence>
-      <footer className={style.footer}>
+      <footer
+        className={style.footer}
+        onClick={() => setIsOpen(!isOpen)}
+        role={'button'}
+      >
         {isOpen && (
           <ButtonLink
             href={`/assistant/${tripPattern.compressedQuery}?filter=${router.query.filter}`}
-            onClick={() => setIsDetailsButtonClicked(true)}
+            onClick={(e) => {
+              //e.stopPropagation();
+              setIsDetailsButtonClicked(true);
+            }}
             state={isDetailsButtonClicked ? 'loading' : undefined}
             mode="interactive_0"
             title={t(PageText.Assistant.trip.tripPattern.details)}

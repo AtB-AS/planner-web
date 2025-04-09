@@ -30,6 +30,11 @@
   color: token('color.foreground.dynamic.secondary');
 }
 
+
+.details {
+  padding: token('spacing.medium') 0;
+}
+
 .legs {
   display: flex;
   align-items: center;
