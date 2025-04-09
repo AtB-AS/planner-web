@@ -50,7 +50,7 @@ export const mapToMapLegs = (
   if (!pointsOnLink || !pointsOnLink.points) {
     return [];
   }
-  const points = polyline
+  const positions = polyline
     .decode(pointsOnLink.points)
     .map((points) => ({ lat: points[0], lon: points[1] }));
   const fromCoordinates: PositionType = {
@@ -62,13 +62,14 @@ export const mapToMapLegs = (
     toStopPlace?.latitude && toStopPlace?.longitude
       ? { lat: toStopPlace.latitude, lon: toStopPlace.longitude }
       : undefined;
-  const mainStartIndex = findIndex(points, fromCoordinates);
+  const mainStartIndex = findIndex(positions, fromCoordinates);
   const mainEndIndex = toCoordinates
-    ? findIndex(points, toCoordinates)
-    : points.length - 1;
-  const beforeLegCoords = points.slice(0, mainStartIndex + 1);
-  const mainLegCoords = points.slice(mainStartIndex, mainEndIndex + 1);
-  const afterLegCoords = points.slice(mainEndIndex);
+    ? findIndex(positions, toCoordinates)
+    : positions.length - 1;
+
+  const beforeLegPositions = positions.slice(0, mainStartIndex + 1);
+  const mainLegPositions = positions.slice(mainStartIndex, mainEndIndex + 1);
+  const afterLegPositions = positions.slice(mainEndIndex);
 
   const toMapLeg = (item: PositionType[], faded: boolean) => {
     return {
@@ -81,9 +82,9 @@ export const mapToMapLegs = (
   };
 
   const mapLegs: MapLegType[] = [
-    toMapLeg(beforeLegCoords, true),
-    toMapLeg(mainLegCoords, false),
-    toMapLeg(afterLegCoords, true),
+    toMapLeg(beforeLegPositions, true),
+    toMapLeg(mainLegPositions, false),
+    toMapLeg(afterLegPositions, true),
   ];
 
   return mapLegs;
@@ -105,30 +106,30 @@ const findIndex = (
 export const getMapBounds = (
   mapLegs: MapLegType[],
 ): [[number, number], [number, number]] => {
-  const lineLongitudes = mapLegs
-    .map((leg) => leg.points.map((point) => point.lon))
-    .flat();
   const lineLatitudes = mapLegs
     .map((leg) => leg.points.map((point) => point.lat))
     .flat();
+  const lineLongitudes = mapLegs
+    .map((leg) => leg.points.map((point) => point.lon))
+    .flat();
 
-  const westernMost = Math.min(...lineLongitudes);
-  const easternMost = Math.max(...lineLongitudes);
-  const northernMost = Math.max(...lineLatitudes);
-  const southernMost = Math.min(...lineLatitudes);
+  const westernMost = Math.min(...lineLatitudes);
+  const easternMost = Math.max(...lineLatitudes);
+  const northernMost = Math.max(...lineLongitudes);
+  const southernMost = Math.min(...lineLongitudes);
 
   // Dividing by 3 here is arbitrary, seems to work
   // like a fine value for "padding"
-  const latPadding = (northernMost - southernMost) / 3;
-  const lonPadding = (westernMost - easternMost) / 3;
+  const lonPadding = (northernMost - southernMost) / 3;
+  const latPadding = (westernMost - easternMost) / 3;
 
   const sw: PositionType = {
-    lat: southernMost - latPadding,
-    lon: westernMost + lonPadding,
+    lon: southernMost - lonPadding,
+    lat: westernMost + latPadding,
   };
   const ne: PositionType = {
-    lat: northernMost + latPadding,
-    lon: easternMost - lonPadding,
+    lon: northernMost + lonPadding,
+    lat: easternMost - latPadding,
   };
 
   return [

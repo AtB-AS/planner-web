@@ -7,17 +7,16 @@ import {
   getStartModeAndPlaceText,
   TripPatternHeader,
 } from '..';
-import { tripPatternFixture } from './trip-pattern.fixture';
+import {
+  tripPatternFixture,
+  tripPatternWithDetailsFixture,
+} from './trip-pattern.fixture';
 import {
   AppCookiesProvider,
   AppCookiesProviderProps,
 } from '@atb/modules/cookies/cookies-context';
 import React from 'react';
-import {
-  AppLanguageProvider,
-  Language,
-  useTranslation,
-} from '@atb/translations';
+import { AppLanguageProvider, useTranslation } from '@atb/translations';
 
 afterEach(function () {
   cleanup();
@@ -42,35 +41,41 @@ const customRender = (
 
 describe('trip pattern header', function () {
   it('should render trip pattern header', async () => {
-    render(<TripPatternHeader tripPattern={tripPatternFixture} />);
+    render(<TripPatternHeader tripPattern={tripPatternWithDetailsFixture} />);
 
     expect(screen.getByText('Buss fra From 1')).toBeInTheDocument();
     expect(screen.getByText('1 time')).toBeInTheDocument();
   });
 
   it('should render trip pattern header in english', async () => {
-    customRender(<TripPatternHeader tripPattern={tripPatternFixture} />, {
-      providerProps: {
-        initialCookies: {
-          darkmode: true,
-          language: 'en-US',
+    customRender(
+      <TripPatternHeader tripPattern={tripPatternWithDetailsFixture} />,
+      {
+        providerProps: {
+          initialCookies: {
+            darkmode: true,
+            language: 'en-US',
+          },
         },
       },
-    });
+    );
 
     expect(screen.getByText('Bus from From 1')).toBeInTheDocument();
     expect(screen.getByText('1 hour')).toBeInTheDocument();
   });
 
   it('should render trip pattern header in nynorsk', async () => {
-    customRender(<TripPatternHeader tripPattern={tripPatternFixture} />, {
-      providerProps: {
-        initialCookies: {
-          darkmode: true,
-          language: 'nn',
+    customRender(
+      <TripPatternHeader tripPattern={tripPatternWithDetailsFixture} />,
+      {
+        providerProps: {
+          initialCookies: {
+            darkmode: true,
+            language: 'nn',
+          },
         },
       },
-    });
+    );
 
     expect(screen.getByText('Buss frå From 1')).toBeInTheDocument();
     expect(screen.getByText('1 time')).toBeInTheDocument();
@@ -185,7 +190,7 @@ describe('trip pattern header', function () {
       const { t } = useTranslation();
 
       const startModeAndPlaceText = getStartModeAndPlaceText(
-        tripPatternFixture,
+        tripPatternWithDetailsFixture,
         t,
       );
       return <div>{startModeAndPlaceText}</div>;

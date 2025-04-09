@@ -4,9 +4,9 @@ import {
   iso8601DurationToSeconds,
   secondsBetween,
 } from '@atb/utils/date';
-import { BookingArrangementType } from '@atb/page-modules/assistant';
 import { TripWithDetailsLineFragment } from '@atb/page-modules/assistant/journey-gql/trip-with-details.generated.ts';
 import { TripLineFragment } from '@atb/page-modules/assistant/journey-gql/trip.generated.ts';
+import { BookingArrangementType } from '@atb/page-modules/assistant';
 
 export const isLineFlexibleTransport = (
   line?: TripWithDetailsLineFragment | TripLineFragment,

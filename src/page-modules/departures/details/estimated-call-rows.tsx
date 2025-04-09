@@ -7,22 +7,20 @@ import { Typo } from '@atb/components/typography';
 import { MonoIcon } from '@atb/components/icon';
 import { Button } from '@atb/components/button';
 import {
-  TransportModeType,
+  type TransportModeType,
   useTransportationThemeColor,
+  type TransportSubmodeType,
 } from '@atb/modules/transport-mode';
 import {
+  Situation,
   SituationMessageBox,
   SituationOrNoticeIcon,
 } from '@atb/modules/situations';
 import { formatQuayName, getSituationsToShowForCall } from './utils';
 import { DecorationLine, TripRow } from '@atb/modules/trip-details';
 import { DepartureTime } from '@atb/components/departure-time';
+import { TransportSubmode } from '@atb/modules/graphql-types';
 import { SituationFragment } from '@atb/page-modules/assistant/journey-gql/trip.generated.ts';
-import {
-  Mode,
-  TransportMode,
-  TransportSubmode,
-} from '@atb/modules/graphql-types/journeyplanner-types_v3.generated.ts';
 
 export type EstimatedCallRowsProps = {
   calls: EstimatedCallWithMetadata[];
