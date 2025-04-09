@@ -94,8 +94,9 @@ function DeparturesLayout({ children, fromQuery }: DeparturesLayoutProps) {
             mode={
               orgId === 'fram'
                 ? 'interactive_0--bordered-light-outline'
-                : 'interactive_0--bordered'
+                : 'primary'
             }
+            radiusSize="circular"
             disabled={!fromQuery.from}
             buttonProps={{ type: 'submit' }}
             state={isSearching ? 'loading' : undefined}

@@ -6,7 +6,7 @@
   padding: token('spacing.large');
   margin: auto;
   border: none;
-  border-radius: token('border.radius.circle');
+  border-radius: token('border.radius.regular');
   background-color: token('color.background.neutral.1.background');
   color: token('color.background.neutral.1.foreground.primary');
 }
