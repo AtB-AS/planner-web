@@ -146,7 +146,7 @@ export default function Search({
 
           <ul className={style.menu} {...getMenuProps()}>
             {isOpen && inputValue !== '' && (
-              <li className={style.item}>
+              <li className={style.stopPlaceCheckbox}>
                 <Checkbox
                   label={t(PageText.Assistant.search.onlyStopPlacesCheckbox)}
                   checked={onlyStopPlaces}
