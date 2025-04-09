@@ -1,11 +1,14 @@
+.tripPatternContainer {
+  border-radius: token('border.radius.regular');
+  background-color: token('color.background.neutral.0.background');
+  max-width: 100%;
+  width: 100%;
+}
+
 .tripPattern {
   display: flex;
   flex-direction: column;
-  border-radius: token('border.radius.regular');
-  background-color: token('color.background.neutral.0.background');
   text-decoration: none;
-  max-width: 100%;
-  width: 100%;
   transition: opacity 150ms ease-in-out;
 }
 .tripPattern:hover {
@@ -25,6 +28,11 @@
 
 .header__duration {
   color: token('color.foreground.dynamic.secondary');
+}
+
+
+.details {
+  padding: token('spacing.medium') 0;
 }
 
 .legs {
@@ -127,12 +135,21 @@
   display: flex;
   justify-content: flex-end;
   padding: token('spacing.small') token('spacing.medium');
+  gap: token('spacing.small')
 }
 
 .footer__details {
   display: flex;
   gap: token('spacing.small');
   align-items: center;
+  color: token('color.interactive.0.default.foreground.primary');
+}
+
+.footer__link {
+  text-decoration: none;
+  padding: token('spacing.xSmall') token('spacing.medium');
+  border-radius: token('border.radius.circle');
+  background-color: token('color.interactive.0.default.background');
 }
 
 .timeStartContainer {

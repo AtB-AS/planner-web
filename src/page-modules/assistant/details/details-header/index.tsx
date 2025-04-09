@@ -8,12 +8,12 @@ import { ColorIcon, MonoIcon } from '@atb/components/icon';
 import { Typo } from '@atb/components/typography';
 
 import style from './details-header.module.css';
-import { TripPatternWithDetailsFragment } from '@atb/page-modules/assistant/journey-gql/trip-with-details.generated.ts';
+import { ExtendedTripPatternWithDetailsType } from '@atb/page-modules/assistant';
 
 export type DetailsHeaderProps = {
-  tripPattern: TripPatternWithDetailsFragment;
+  tripPattern: ExtendedTripPatternWithDetailsType;
 };
-export default function DetailsHeader({ tripPattern }: DetailsHeaderProps) {
+export function AssistantDetailsHeader({ tripPattern }: DetailsHeaderProps) {
   const { t, language } = useTranslation();
   const fromName = tripPattern.legs[0].fromPlace.name;
   const toName = tripPattern.legs[tripPattern.legs.length - 1].toPlace.name;
