@@ -40,7 +40,7 @@ export default function PageHeader() {
                 />
               ) : (
                 <>
-                  <MonoIcon icon="logo/logo" alt="" role="none" size="normal" />
+                  <MonoIcon icon="logo/logo" alt="" role="none" size="normal" overrideMode={'dark'} />
                   <span>{t(CommonText.Titles.siteTitle)}</span>
                 </>
               )}
