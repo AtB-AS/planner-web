@@ -88,7 +88,7 @@
 }
 
 .buttonLink {
-  color: token('color.foreground.dynamic.primary');
+  color: token('color.background.accent.4.foreground.primary');
   font-size: 1rem;
   background-color: transparent;
   border: 0;

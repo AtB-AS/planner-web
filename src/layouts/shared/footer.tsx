@@ -7,6 +7,7 @@ import { useLanguageSettings } from '@atb/translations/language-context';
 
 import style from './footer.module.css';
 import { getButtonStyleForColor } from '@atb/components/button/utils.tsx';
+import { useOrgThemeDefinitions } from '@atb/utils/org-theme-definitions.ts';
 
 export type FooterProps = {
   withoutSettings?: boolean;
@@ -18,7 +19,7 @@ type SomeLink = {
   title: string;
 };
 
-const { urls, fylkeskommune } = getOrgData();
+const { urls, fylkeskommune, orgId } = getOrgData();
 
 export default function Footer({ withoutSettings = false }: FooterProps) {
   const { isDarkMode, toggleDarkmode } = useTheme();
@@ -45,6 +46,7 @@ export default function Footer({ withoutSettings = false }: FooterProps) {
   ].filter(Boolean) as SomeLink[];
 
   const isForcingTheme = fylkeskommune?.forceTheme !== undefined;
+  const { fylkeskommuneLogo } = useOrgThemeDefinitions();
 
   return (
     <footer className={style.footer}>
@@ -208,12 +210,7 @@ export default function Footer({ withoutSettings = false }: FooterProps) {
           </div>
 
           {fylkeskommune && (
-            <img
-              src={
-                isDarkMode ? fylkeskommune.logoSrcDark : fylkeskommune.logoSrc
-              }
-              alt={fylkeskommune.name}
-            />
+            <img src={fylkeskommuneLogo} alt={fylkeskommune.name} />
           )}
         </section>
       </div>

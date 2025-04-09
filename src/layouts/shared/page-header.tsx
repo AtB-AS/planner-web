@@ -1,18 +1,19 @@
 import { CommonText, useTranslation } from '@atb/translations';
 import Link from 'next/link';
 import style from './page-header.module.css';
-import { useDarkMode, useTheme } from '@atb/modules/theme';
+import { useTheme } from '@atb/modules/theme';
 import Image from 'next/image';
 import { getOrgData } from '@atb/modules/org-data';
 import { MonoIcon } from '@atb/components/icon';
 import { ButtonLink } from '@atb/components/button';
-import { getButtonStyle } from '@atb/components/button/utils.tsx';
+import { useOrgThemeDefinitions } from '@atb/utils/org-theme-definitions.ts';
 
 export default function PageHeader() {
   const { t } = useTranslation();
   const { color } = useTheme();
-  const [isDarkMode] = useDarkMode();
   const { fylkeskommune, urls } = getOrgData();
+
+  const { fylkeskommuneLogo, overrideMonoIconMode } = useOrgThemeDefinitions();
 
   return (
     <header className={style.pageHeader}>
@@ -25,22 +26,25 @@ export default function PageHeader() {
               title={t(CommonText.Layout.homeLink(urls.homePageUrl.name))}
               data-testid="homeButton"
             >
-              {fylkeskommune?.replaceTitleWithLogoInHeader ? (
+              {fylkeskommune?.replaceTitleWithLogoInHeader &&
+              fylkeskommuneLogo ? (
                 <Image
                   width={0}
                   height={0}
                   sizes="100vw"
                   style={{ width: '100%', height: 'auto' }}
-                  src={
-                    isDarkMode
-                      ? fylkeskommune.logoSrcDark
-                      : fylkeskommune.logoSrc
-                  }
+                  src={fylkeskommuneLogo}
                   alt={fylkeskommune.name}
                 />
               ) : (
                 <>
-                  <MonoIcon icon="logo/logo" alt="" role="none" size="normal" />
+                  <MonoIcon
+                    icon="logo/logo"
+                    alt=""
+                    role="none"
+                    size="normal"
+                    overrideMode={overrideMonoIconMode}
+                  />
                   <span>{t(CommonText.Titles.siteTitle)}</span>
                 </>
               )}
@@ -52,7 +56,10 @@ export default function PageHeader() {
           title={t(CommonText.Layout.homeLink(urls.homePageUrl.name))}
           icon={{
             right: (
-              <MonoIcon icon="navigation/ExternalLink" overrideMode={'dark'} />
+              <MonoIcon
+                icon="navigation/ExternalLink"
+                overrideMode={overrideMonoIconMode}
+              />
             ),
           }}
           mode="secondary"
