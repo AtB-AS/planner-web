@@ -63,7 +63,7 @@ export default function Search({
     resultCount,
     previousResultCount,
     inputValue,
-  }: A11yStatusMessageOptions<GeocoderFeature | 'location'>) {
+  }: A11yStatusMessageOptions<GeocoderFeature | 'location' | 'checkbox'>) {
     if (focus && inputValue === '') {
       return t(
         ComponentText.SearchInput.previousResultA11yLabel(
@@ -81,14 +81,17 @@ export default function Search({
     }
 
     if (resultCount !== previousResultCount) {
-      return t(ComponentText.SearchInput.results(resultCount));
+      // resultCount is subtracted by 1 to offset the checkbox
+      return t(ComponentText.SearchInput.results(resultCount - 1));
     }
 
     return '';
   }
 
-  const handleOnChange = (feature: GeocoderFeature | 'location' | null) => {
-    if (!feature) return;
+  const handleOnChange = (
+    feature: GeocoderFeature | 'location' | 'checkbox' | null,
+  ) => {
+    if (!feature || feature === 'checkbox') return;
     if (feature === 'location') {
       getPosition();
       return;
@@ -102,7 +105,7 @@ export default function Search({
   };
 
   return (
-    <Downshift<GeocoderFeature | 'location'>
+    <Downshift<GeocoderFeature | 'location' | 'checkbox'>
       onInputValueChange={(inputValue) => {
         logSpecificEvent('select_search');
         return setQuery(inputValue || '');
@@ -135,7 +138,24 @@ export default function Search({
               type="text"
               className={style.input}
               placeholder={placeholder}
-              {...getInputProps()}
+              {...getInputProps({
+                // We want the Enter key to work as a toggle for the checkbox
+                // so we need to override its default behavior here
+                onKeyDown: (event) => {
+                  if (
+                    event.key === 'Enter' &&
+                    inputValue !== '' &&
+                    highlightedIndex === 0
+                  ) {
+                    setOnlyStopPlaces(!onlyStopPlaces);
+                    event.preventDefault();
+                    event.stopPropagation();
+                    // Required type casting as mentioned here
+                    // https://github.com/downshift-js/downshift/issues/734#issuecomment-517649314
+                    (event.nativeEvent as any).preventDownshiftDefault = true;
+                  }
+                },
+              })}
               data-testid={testID}
               onFocus={() => setFocus(true)}
               onBlur={() => setFocus(false)}
@@ -146,41 +166,56 @@ export default function Search({
 
           <ul className={style.menu} {...getMenuProps()}>
             {isOpen && inputValue !== '' && (
-              <li className={style.stopPlaceCheckbox}>
-                <Checkbox
-                  label={t(PageText.Assistant.search.onlyStopPlacesCheckbox)}
-                  checked={onlyStopPlaces}
-                  onChange={(checked) => {
-                    setOnlyStopPlaces(checked);
-                  }}
-                  expand={true}
-                />
-              </li>
-            )}
-            {isOpen &&
-              inputValue !== '' &&
-              data?.map((item, index) => (
+              <>
                 <li
                   className={andIf({
-                    [style.item]: true,
-                    [style.itemHighlighted]: highlightedIndex === index,
+                    [style.stopPlaceCheckbox]: true,
+                    [style.itemHighlighted]: highlightedIndex === 0,
                   })}
-                  key={item.id}
                   {...getItemProps({
-                    index,
-                    item,
+                    index: 0,
+                    item: 'checkbox',
                   })}
-                  data-testid={`list-item-${index}`}
+                  role="checkbox"
+                  aria-checked={onlyStopPlaces}
+                  data-testid={`list-item-1`}
+                  onClick={(e) => e.stopPropagation()}
                 >
-                  <div className={style.itemIcon} aria-hidden>
-                    <VenueIcon categories={item.category} />
-                  </div>
-                  <div className={style.itemInfo}>
-                    <span className={style.itemName}>{item.name}</span>
-                    <span className={style.itemLocality}>{item.locality}</span>
-                  </div>
+                  <Checkbox
+                    label={t(PageText.Assistant.search.onlyStopPlacesCheckbox)}
+                    checked={onlyStopPlaces}
+                    onChange={(checked) => {
+                      setOnlyStopPlaces(checked);
+                    }}
+                    expand={true}
+                  />
                 </li>
-              ))}
+                {data?.map((item, index) => (
+                  <li
+                    className={andIf({
+                      [style.item]: true,
+                      [style.itemHighlighted]: highlightedIndex === index + 1,
+                    })}
+                    key={item.id}
+                    {...getItemProps({
+                      index: index + 1,
+                      item,
+                    })}
+                    data-testid={`list-item-${index}`}
+                  >
+                    <div className={style.itemIcon} aria-hidden>
+                      <VenueIcon categories={item.category} />
+                    </div>
+                    <div className={style.itemInfo}>
+                      <span className={style.itemName}>{item.name}</span>
+                      <span className={style.itemLocality}>
+                        {item.locality}
+                      </span>
+                    </div>
+                  </li>
+                ))}
+              </>
+            )}
             {focus && inputValue === '' && (
               <>
                 <li
@@ -250,8 +285,9 @@ export default function Search({
 }
 
 function geocoderFeatureToString(
-  feature: GeocoderFeature | 'location' | null | undefined,
+  feature: GeocoderFeature | 'location' | 'checkbox' | null | undefined,
 ): string {
+  if (feature === 'checkbox') return '';
   if (feature === 'location') {
     // Location has been selected, but it hasn't been resolved to a feature yet
     return '';
