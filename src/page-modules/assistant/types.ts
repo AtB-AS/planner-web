@@ -65,12 +65,10 @@ export type FromToTripQuery = {
 
 export const TripQuerySchema = z.object({
   fromId: z.string().optional(),
-  fromName: z.string().optional(),
   fromLon: z.number().optional(),
   fromLat: z.number().optional(),
   fromLayer: z.union([z.literal('address'), z.literal('venue')]).optional(),
   toId: z.string().optional(),
-  toName: z.string().optional(),
   toLon: z.number().optional(),
   toLat: z.number().optional(),
   toLayer: z.union([z.literal('address'), z.literal('venue')]).optional(),
@@ -79,7 +77,6 @@ export const TripQuerySchema = z.object({
   searchTime: z.number().optional(),
   cursor: z.string().optional(),
   viaId: z.string().optional(),
-  viaName: z.string().optional(),
   viaLon: z.number().optional(),
   viaLat: z.number().optional(),
   viaLayer: z.union([z.literal('address'), z.literal('venue')]).optional(),

@@ -23,14 +23,12 @@ export function createFromQuery(tripQuery: FromDepartureQuery): {
 
   if (tripQuery.from) {
     const [lon, lat] = tripQuery.from.geometry.coordinates;
-    const name = tripQuery.from.name;
     return {
       pathname: '/departures',
       query: {
         ...searchTimeQuery,
         lon,
         lat,
-        name,
       },
     };
   }
