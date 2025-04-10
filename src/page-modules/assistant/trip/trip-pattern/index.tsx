@@ -343,7 +343,7 @@ export default function TripPattern({
           <ButtonLink
             href={`/assistant/${tripPattern.compressedQuery}?filter=${router.query.filter}`}
             onClick={(e) => {
-              //e.stopPropagation();
+              e.stopPropagation();
               setIsDetailsButtonClicked(true);
             }}
             state={isDetailsButtonClicked ? 'loading' : undefined}
