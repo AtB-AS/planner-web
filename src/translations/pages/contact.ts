@@ -741,16 +741,16 @@ const ContactInternal = {
       },
       appTicketRefund: {
         label: _(
-          'Billett kjøpt i FRAM-appen (alle billettyper) ',
-          'Ticket purchased in the FRAM app (all ticket types)',
-          'Billett kjøpt i FRAM-appen (alle billettypar) ',
+          'Billett kjøpt i app eller nettbutikk',
+          'Ticket purchased in an app or webshop',
+          'Billett kjøpt i app eller nettbutikk',
         ),
       },
       otherTicketRefund: {
         label: _(
-          'Billett på reisekort eller kjøpt i nettbutikken, om bord eller på trafikkterminal',
-          'Ticket on travel card or purchased in the webshop, on board or at the terminal',
-          'Billett på reisekort eller kjøpt i nettbutikken, om bord eller på trafikkterminal',
+          'Billett kjøpt om bord eller på trafikkterminal',
+          'Ticket purchased onboard or at a terminal',
+          'Billett kjøpt om bord eller på trafikkterminal',
         ),
       },
     },
