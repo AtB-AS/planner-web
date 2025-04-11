@@ -1,11 +1,10 @@
 import { TranslatedString } from '@atb/translations';
-import { commonEvents } from '../commoneEvents';
 import {
   FormCategory,
   RefundAndTravelGuarantee,
   RefundTicketForm,
 } from './refundFormMachine';
-import { TransportModeType } from '../types';
+import { PurchasePlatformType, TransportModeType } from '../types';
 import { Line } from '..';
 
 export type ReasonForTransportFailure = { id: string; name: TranslatedString };
@@ -75,6 +74,9 @@ const RefundSpecificFormEvents = {} as
       value: Line | undefined;
     }
   | {
+      type: 'ON_PURCHASE_PLATFORM_CHANGE';
+      value: PurchasePlatformType | undefined;
+    }
   | {
       type: 'SUBMIT';
     };

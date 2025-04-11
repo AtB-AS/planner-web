@@ -191,6 +191,11 @@ export const commonInputValidator = (context: any) => {
       validCondition: context.ticketType,
       errorMessage: PageText.Contact.input.ticketType.errorMessages.empty,
     },
+    {
+      inputName: 'purchasePlatform',
+      validCondition: context.purchasePlatform,
+      errorMessage: PageText.Contact.input.ticketType.errorMessages.empty,
+    },
   ];
 
   // Iterate over each field and apply validation

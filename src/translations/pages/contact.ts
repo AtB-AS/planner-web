@@ -969,6 +969,28 @@ const ContactInternal = {
       },
     },
 
+    purchasePlatform: {
+      label: _('Kjøpsplattform', 'Purchase platform', 'Kjøpsplattform'),
+      optionLabel: _(
+        'Velg app eller nettbutikk billetten ble kjøpt i',
+        'Select the app or webshop where the ticket was purchased',
+        'Vel app eller nettbutikk der billetten vart kjøpt',
+      ),
+      platforms: {
+        enturApp: _('Entur-appen', 'Entur app', 'Entur-appen'),
+        framApp: _('FRAM-appen', 'FRAM app', 'FRAM-appen'),
+        enturWeb: _('Entur nettbutikk', 'Entur webshop', 'Entur nettbutikk'),
+        framWeb: _('FRAM nettbutikk', 'FRAM webshop', 'FRAM nettbutikk'),
+      },
+      errorMessages: {
+        empty: _(
+          'Velg app eller nettbutikk',
+          'Select app or webshop',
+          'Vel app eller nettbutikk',
+        ),
+      },
+    },
+
     line: {
       label: _('Linje', 'Line', 'Linje'),
       optionLabel: _('Velg linje', 'Choose line', 'Vel linje'),
