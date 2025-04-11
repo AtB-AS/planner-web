@@ -5,6 +5,8 @@ import {
   RefundAndTravelGuarantee,
   RefundTicketForm,
 } from './refundFormMachine';
+import { TransportModeType } from '../types';
+import { Line } from '..';
 
 export type ReasonForTransportFailure = { id: string; name: TranslatedString };
 export type TicketType = { id: string; name: TranslatedString };
@@ -24,12 +26,34 @@ const RefundSpecificFormEvents = {} as
         | 'ticketType'
         | 'travelCardNumber'
         | 'refundReason'
+        | 'firstName'
+        | 'lastName'
+        | 'address'
+        | 'postalCode'
+        | 'city'
+        | 'email'
+        | 'phoneNumber'
+        | 'bankAccountNumber'
+        | 'IBAN'
+        | 'SWIFT'
+        | 'fromStop'
+        | 'toStop'
+        | 'date'
+        | 'plannedDepartureTime'
+        | 'feedback'
+        | 'attachments'
         | 'isInitialAgreementChecked'
         | 'hasInternationalBankAccount'
         | 'showInputTravelCardNumber';
-      value: string | boolean | ReasonForTransportFailure | TicketType;
+      value:
+        | string
+        | boolean
+        | ReasonForTransportFailure
+        | TicketType
+        | Line['quays'][0]
+        | File[]
+        | undefined;
     }
-  | { type: 'SET_STATE_SUBMITTED'; stateSubmitted: string | undefined }
   | {
       type: 'SELECT_FORM_CATEGORY';
       formCategory: FormCategory;
@@ -43,9 +67,16 @@ const RefundSpecificFormEvents = {} as
       refundAndTravelGuarantee: RefundAndTravelGuarantee;
     }
   | {
+      type: 'ON_TRANSPORTMODE_CHANGE';
+      value: TransportModeType;
+    }
+  | {
+      type: 'ON_LINE_CHANGE';
+      value: Line | undefined;
+    }
+  | {
+  | {
       type: 'SUBMIT';
     };
 
-export const RefundFormEvents = {} as
-  | typeof RefundSpecificFormEvents
-  | typeof commonEvents;
+export const RefundFormEvents = {} as typeof RefundSpecificFormEvents;

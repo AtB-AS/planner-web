@@ -289,7 +289,7 @@ export const refundStateMachine = setup({
           return setFormTypeAndInitialContext(context, value as FormType);
 
         if (inputName === 'isInitialAgreementChecked')
-          return setInitialAgreementAndFormType(context, value);
+          return setInitialAgreementAndFormType(context, value as boolean);
 
         if (inputName === 'hasInternationalBankAccount') {
           return setBankAccountStatusAndResetBankInformation(
