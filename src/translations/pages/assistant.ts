@@ -70,6 +70,11 @@ const AssistantInternal = {
         less: _('Færre valg', 'Less choices', 'Færre val'),
       },
     },
+    onlyStopPlacesCheckbox: _(
+      'Vis kun holdeplasser',
+      'Show only stop places',
+      'Vis berre haldeplassar',
+    ),
   },
   trip: {
     resultsFound: _(

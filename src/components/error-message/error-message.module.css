@@ -1,0 +1,6 @@
+/* error message */
+
+.errorMessage {
+  display: flex;
+  gap: token('spacing.small');
+}

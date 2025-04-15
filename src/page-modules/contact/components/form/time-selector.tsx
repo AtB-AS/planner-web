@@ -1,7 +1,7 @@
+import { ErrorMessage } from '@atb/components/error-message';
 import style from './form.module.css';
 import { TranslatedString, useTranslation } from '@atb/translations';
 import { parseTime } from '@internationalized/date';
-import ErrorMessage from './error-message';
 import {
   DateInput,
   DateSegment,

@@ -1,3 +1,4 @@
+import { ErrorMessage } from '@atb/components/error-message';
 import style from './form.module.css';
 import { MonoIcon } from '@atb/components/icon';
 import { TranslatedString, useTranslation } from '@atb/translations';
@@ -16,7 +17,6 @@ import {
   Label,
   Popover,
 } from 'react-aria-components';
-import ErrorMessage from './error-message';
 
 export type DateSelectorProps = {
   label: TranslatedString;
