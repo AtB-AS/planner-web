@@ -552,9 +552,9 @@ export const Assistant = orgSpecificTranslations(AssistantInternal, {
       quayPublicCodePrefix: _(' - Spor ', ' - Track ', ' - Spor '),
       ticketBooking: {
         globalMessage: _(
-          'Billett til denne reisen kan ikke kjøpes hos VKT. Billett må kjøpes på nettside/app til aktuelt transportselskap.',
-          'Tickets for this journey cannot be purchased from VKT. Tickets must be purchased through the website/app of the relevant transport company.',
-          'Billett til denne reisa kan ikkje kjøpast hos VKT. Billett må kjøpast på nettside/app til aktuelt transportselskap.',
+          'Denne reisen inkluderer transport som ikke tilbys av VKT. VKT selger per i dag kun billetter til lokalbuss. Billett til annen transport må kjøpes via nettside/app til det aktuelle transportselskapet.',
+          'This trip includes transportation not provided by VKT. Currently, VKT only sells tickets for local buses. Tickets for other modes of transport must be purchased through the website or app of the respective transport provider.',
+          'Denne reisa inkluderer transport som ikkje vert tilbydd av VKT. VKT sel per i dag berre billettar til lokalbuss. Billett til annan transport må kjøpast via nettside/app til det aktuelle transportselskapet.',
         ),
       },
     },
