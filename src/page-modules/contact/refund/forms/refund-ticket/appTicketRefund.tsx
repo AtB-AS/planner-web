@@ -1,8 +1,15 @@
 import { PageText, useTranslation } from '@atb/translations';
-import { SectionCard, Input, Textarea, FileInput } from '../../../components';
 import { RefundContextProps } from '../../refundFormMachine';
 import { RefundFormEvents } from '../../events';
 import { Typo } from '@atb/components/typography';
+import { PurchasePlatformType, TransportModeType } from '../../../types';
+import {
+  SectionCard,
+  Input,
+  Textarea,
+  FileInput,
+  Select,
+} from '../../../components';
 
 type AppTicketRefundProps = {
   state: { context: RefundContextProps };
@@ -54,6 +61,32 @@ export const AppTicketRefund = ({ state, send }: AppTicketRefundProps) => {
               (bulletPoint) => t(bulletPoint),
             ),
         }}
+      />
+
+      <Select
+        label={t(PageText.Contact.input.purchasePlatform.label)}
+        value={state.context.purchasePlatform || ''}
+        onChange={(value) =>
+          send({
+            type: 'ON_PURCHASE_PLATFORM_CHANGE',
+            value: value as PurchasePlatformType,
+          })
+        }
+        error={
+          state.context?.errorMessages['purchasePlatform']?.[0]
+            ? t(state.context?.errorMessages['purchasePlatform']?.[0])
+            : undefined
+        }
+        valueToId={(val: string) => val}
+        valueToText={(val: string) =>
+          t(
+            PageText.Contact.input.purchasePlatform.platforms[
+              val as PurchasePlatformType
+            ],
+          )
+        }
+        options={['enturApp', 'enturWeb', 'framApp', 'framWeb']}
+        placeholder={t(PageText.Contact.input.purchasePlatform.optionLabel)}
       />
 
       <Typo.p textType="body__primary">

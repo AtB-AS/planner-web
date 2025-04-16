@@ -741,16 +741,16 @@ const ContactInternal = {
       },
       appTicketRefund: {
         label: _(
-          'Billett kjøpt i FRAM-appen (alle billettyper) ',
-          'Ticket purchased in the FRAM app (all ticket types)',
-          'Billett kjøpt i FRAM-appen (alle billettypar) ',
+          'Billett kjøpt i app eller nettbutikk',
+          'Ticket purchased in an app or webshop',
+          'Billett kjøpt i app eller nettbutikk',
         ),
       },
       otherTicketRefund: {
         label: _(
-          'Billett på reisekort eller kjøpt i nettbutikken, om bord eller på trafikkterminal',
-          'Ticket on travel card or purchased in the webshop, on board or at the terminal',
-          'Billett på reisekort eller kjøpt i nettbutikken, om bord eller på trafikkterminal',
+          'Billett kjøpt om bord eller på trafikkterminal',
+          'Ticket purchased onboard or at a terminal',
+          'Billett kjøpt om bord eller på trafikkterminal',
         ),
       },
     },
@@ -965,6 +965,28 @@ const ContactInternal = {
           'Velg transportmiddel',
           'Select transport mode',
           'Vel transportmiddel',
+        ),
+      },
+    },
+
+    purchasePlatform: {
+      label: _('Kjøpsplattform', 'Purchase platform', 'Kjøpsplattform'),
+      optionLabel: _(
+        'Velg app eller nettbutikk billetten ble kjøpt i',
+        'Select the app or webshop where the ticket was purchased',
+        'Vel app eller nettbutikk der billetten vart kjøpt',
+      ),
+      platforms: {
+        enturApp: _('Entur-appen', 'Entur app', 'Entur-appen'),
+        framApp: _('FRAM-appen', 'FRAM app', 'FRAM-appen'),
+        enturWeb: _('Entur nettbutikk', 'Entur webshop', 'Entur nettbutikk'),
+        framWeb: _('FRAM nettbutikk', 'FRAM webshop', 'FRAM nettbutikk'),
+      },
+      errorMessages: {
+        empty: _(
+          'Velg app eller nettbutikk',
+          'Select app or webshop',
+          'Vel app eller nettbutikk',
         ),
       },
     },
