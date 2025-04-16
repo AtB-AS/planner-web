@@ -1,6 +1,6 @@
 import { useClientWidth } from '@atb/utils/use-client-width';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect, useId, useState } from 'react';
 import { getFilteredLegsByWalkOrWaitTime, tripSummary } from './utils';
 import { PageText, useTranslation } from '@atb/translations';
 import style from './trip-pattern.module.css';
@@ -84,10 +84,13 @@ export default function TripPattern({
     return i < expandedLegs.length - 1 || collapsedLegs.length > 0;
   };
 
+  const id = useId();
+
   return (
     <div className={style.tripPatternContainer}>
       <motion.div
-        role={'button'}
+        id={`trip-pattern-${id}`}
+        role={'region'}
         onClick={() => setIsOpen(!isOpen)}
         className={className}
         data-testid={testId}
@@ -246,11 +249,15 @@ export default function TripPattern({
             state={isDetailsButtonClicked ? 'loading' : undefined}
             mode="interactive_0"
             title={t(PageText.Assistant.trip.tripPattern.details)}
-            size={'small'}
+            size={'pill'}
             radiusSize={'circular'}
           />
         )}
         <Button
+          buttonProps={{
+            'aria-controls': `trip-pattern-${id}`,
+            'aria-expanded': isOpen,
+          }}
           title={
             isOpen
               ? t(PageText.Assistant.trip.tripPattern.seeLess)
