@@ -31,6 +31,11 @@ query TripsWithDetails(
     includePlannedCancellations: true
     whiteListed: { lines: $lineFilter }
   ) {
+    nextPageCursor
+    previousPageCursor
+    metadata {
+      searchWindowUsed
+    }
     tripPatterns {
       ...tripPatternWithDetails
     }
@@ -100,6 +105,15 @@ fragment legWithDetails on Leg {
     }
   }
   fromEstimatedCall {
+    notices {
+      ...notice
+    }
+    destinationDisplay {
+      frontText
+    }
+    cancellation
+  }
+  toEstimatedCall {
     notices {
       ...notice
     }

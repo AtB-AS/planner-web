@@ -33,14 +33,7 @@ export async function fetchFromDepartureQuery(
       lon: parseFloat(query.lon.toString()),
     };
 
-    const from = await client
-      .autocomplete(query.name, {
-        lat: position.lat,
-        lon: position.lon,
-      })
-      .then((result) => {
-        return result[0];
-      });
+    const from = await client.reverse(position.lat, position.lon, 'address');
 
     return {
       isAddress: true,

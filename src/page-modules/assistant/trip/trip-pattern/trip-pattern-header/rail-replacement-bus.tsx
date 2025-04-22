@@ -1,11 +1,11 @@
 import { useTranslation, PageText } from '@atb/translations';
 import { ColorIcon } from '@atb/components/icon';
-import { ExtendedTripPatternType } from '@atb/page-modules/assistant';
+import { ExtendedTripPatternWithDetailsType } from '@atb/page-modules/assistant';
 
 export const RailReplacementBusMessage = ({
   tripPattern,
 }: {
-  tripPattern: ExtendedTripPatternType;
+  tripPattern: ExtendedTripPatternWithDetailsType;
 }) => {
   const { t } = useTranslation();
 

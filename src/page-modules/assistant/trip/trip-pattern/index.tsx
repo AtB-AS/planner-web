@@ -1,5 +1,5 @@
 import { useClientWidth } from '@atb/utils/use-client-width';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { Fragment, useEffect, useState } from 'react';
 import { getFilteredLegsByWalkOrWaitTime, tripSummary } from './utils';
 import { PageText, useTranslation } from '@atb/translations';
@@ -12,13 +12,15 @@ import { TransportIconWithLabel } from '@atb/modules/transport-mode';
 import { andIf } from '@atb/utils/css';
 import { useRouter } from 'next/router';
 import { isLineFlexibleTransport } from '@atb/modules/flexible';
-import { ExtendedTripPatternType } from '@atb/page-modules/assistant';
+import { ExtendedTripPatternWithDetailsType } from '@atb/page-modules/assistant';
+import { Button, ButtonLink } from '@atb/components/button';
+import { AssistantDetailsBody } from '@atb/page-modules/assistant/details-body';
 
 const LAST_LEG_PADDING = 20;
 const DEFAULT_THRESHOLD_AIMED_EXPECTED_IN_SECONDS = 60;
 
 type TripPatternProps = {
-  tripPattern: ExtendedTripPatternType;
+  tripPattern: ExtendedTripPatternWithDetailsType;
   delay: number;
   index: number;
   testId?: string;
@@ -33,11 +35,13 @@ export default function TripPattern({
   const { t, language } = useTranslation();
 
   const filteredLegs = getFilteredLegsByWalkOrWaitTime(tripPattern);
-  const router = useRouter();
 
   const [numberOfExpandedLegs, setNumberOfExpandedLegs] = useState(
     filteredLegs.length,
   );
+  const [isOpen, setIsOpen] = useState(false);
+  const [isDetailsButtonClicked, setIsDetailsButtonClicked] = useState(false);
+  const router = useRouter();
 
   const expandedLegs = filteredLegs.slice(0, numberOfExpandedLegs);
   const collapsedLegs = filteredLegs.slice(
@@ -81,73 +85,96 @@ export default function TripPattern({
   };
 
   return (
-    <motion.a
-      href={`/assistant/${tripPattern.compressedQuery}?filter=${router.query.filter}`}
-      className={className}
-      data-testid={testId}
-      initial={{ opacity: 0, x: -10 }}
-      animate={{ opacity: maxOpacity, x: 0 }}
-      exit={{ opacity: 0, x: -10 }}
-      transition={{
-        delay, // staggerChildren on parent only works first render
-      }}
-      aria-label={tripSummary(
-        tripPattern,
-        t,
-        language,
-        tripIsInPast,
-        index + 1,
-        isCancelled,
-      )}
-    >
-      <TripPatternHeader tripPattern={tripPattern} isCancelled={isCancelled} />
+    <div className={style.tripPatternContainer}>
+      <motion.div
+        role={'button'}
+        onClick={() => setIsOpen(!isOpen)}
+        className={className}
+        data-testid={testId}
+        initial={{ opacity: 0, x: -10 }}
+        animate={{ opacity: maxOpacity, x: 0 }}
+        exit={{ opacity: 0, x: -10 }}
+        transition={{
+          delay, // staggerChildren on parent only works first render
+        }}
+        aria-label={tripSummary(
+          tripPattern,
+          t,
+          language,
+          tripIsInPast,
+          index + 1,
+          isCancelled,
+        )}
+      >
+        <TripPatternHeader
+          tripPattern={tripPattern}
+          isCancelled={isCancelled}
+        />
 
-      <div className={style.legs}>
-        <div className={style.legs__expandedLegsContainer} ref={legsParentRef}>
-          <div className={style.legs__expandedLegs} ref={legsContentRef}>
-            {expandedLegs.map((leg, i) => (
-              <Fragment key={`leg-${leg.expectedStartTime}-${i}`}>
-                {staySeated(i - 1) ? null : (
-                  <div className={style.legs__leg}>
-                    {leg.mode ? (
-                      <TransportIconWithLabel
-                        mode={{
-                          transportMode: leg.mode,
-                          transportSubModes: leg.transportSubmode
-                            ? [leg.transportSubmode]
-                            : undefined,
-                        }}
-                        label={leg.line?.publicCode ?? undefined}
-                        duration={
-                          leg.mode === 'foot' ? leg.duration : undefined
-                        }
-                        isFlexible={isLineFlexibleTransport(leg.line)}
-                      />
-                    ) : (
-                      <div className={style.legs__leg__walkIcon}>
-                        <MonoIcon icon="transportation/Walk" />
-                      </div>
-                    )}
+        <div className={style.legs}>
+          <div
+            className={style.legs__expandedLegsContainer}
+            ref={legsParentRef}
+          >
+            <div className={style.legs__expandedLegs} ref={legsContentRef}>
+              {expandedLegs.map((leg, i) => (
+                <Fragment key={`leg-${leg.expectedStartTime}-${i}`}>
+                  {staySeated(i - 1) ? null : (
+                    <div className={style.legs__leg}>
+                      {leg.mode ? (
+                        <TransportIconWithLabel
+                          mode={{
+                            transportMode: leg.mode,
+                            transportSubModes: leg.transportSubmode
+                              ? [leg.transportSubmode]
+                              : undefined,
+                          }}
+                          label={leg.line?.publicCode ?? undefined}
+                          duration={
+                            leg.mode === 'foot' ? leg.duration : undefined
+                          }
+                          isFlexible={isLineFlexibleTransport(leg.line)}
+                        />
+                      ) : (
+                        <div className={style.legs__leg__walkIcon}>
+                          <MonoIcon icon="transportation/Walk" />
+                        </div>
+                      )}
 
-                    <div
-                      className={style.timeStartContainer}
-                      data-testid={`timeStartContainer-${i}`}
-                    >
-                      {secondsBetween(
-                        leg.aimedStartTime,
-                        leg.expectedStartTime,
-                      ) > DEFAULT_THRESHOLD_AIMED_EXPECTED_IN_SECONDS ? (
-                        <>
-                          <Typo.span textType="body__tertiary">
-                            {formatToClock(
-                              leg.expectedStartTime,
-                              language,
-                              'floor',
-                            )}
-                          </Typo.span>
+                      <div
+                        className={style.timeStartContainer}
+                        data-testid={`timeStartContainer-${i}`}
+                      >
+                        {secondsBetween(
+                          leg.aimedStartTime,
+                          leg.expectedStartTime,
+                        ) > DEFAULT_THRESHOLD_AIMED_EXPECTED_IN_SECONDS ? (
+                          <>
+                            <Typo.span textType="body__tertiary">
+                              {formatToClock(
+                                leg.expectedStartTime,
+                                language,
+                                'floor',
+                              )}
+                            </Typo.span>
+                            <Typo.span
+                              textType="body__tertiary--strike"
+                              className={style.outdatet}
+                            >
+                              {formatToClock(
+                                leg.aimedStartTime,
+                                language,
+                                'floor',
+                              )}
+                            </Typo.span>
+                          </>
+                        ) : (
                           <Typo.span
-                            textType="body__tertiary--strike"
-                            className={style.outdatet}
+                            textType={
+                              isCancelled
+                                ? 'body__tertiary--strike'
+                                : 'body__tertiary'
+                            }
                           >
                             {formatToClock(
                               leg.aimedStartTime,
@@ -155,63 +182,89 @@ export default function TripPattern({
                               'floor',
                             )}
                           </Typo.span>
-                        </>
-                      ) : (
-                        <Typo.span
-                          textType={
-                            isCancelled
-                              ? 'body__tertiary--strike'
-                              : 'body__tertiary'
-                          }
-                        >
-                          {formatToClock(leg.aimedStartTime, language, 'floor')}
-                        </Typo.span>
-                      )}
+                        )}
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
 
-                {isNotLastLeg(i) && !staySeated(i) && (
-                  <div className={style.legs__legLineContainer}>
-                    <div className={style.legs__legLine} />
-                    <div className={style.legs__legLine} />
-                  </div>
-                )}
-              </Fragment>
-            ))}
+                  {isNotLastLeg(i) && !staySeated(i) && (
+                    <div className={style.legs__legLineContainer}>
+                      <div className={style.legs__legLine} />
+                      <div className={style.legs__legLine} />
+                    </div>
+                  )}
+                </Fragment>
+              ))}
 
-            {collapsedLegs.length > 0 && (
-              <div className={style.legs__collapsedLegs}>
-                <Typo.span textType="body__primary--bold">
-                  +{collapsedLegs.length}
-                </Typo.span>
-              </div>
-            )}
+              {collapsedLegs.length > 0 && (
+                <div className={style.legs__collapsedLegs}>
+                  <Typo.span textType="body__primary--bold">
+                    +{collapsedLegs.length}
+                  </Typo.span>
+                </div>
+              )}
+            </div>
+
+            <div className={style.legs__lastLegLineContainer}>
+              <div className={style.legs__lastLegLine} />
+            </div>
           </div>
 
-          <div className={style.legs__lastLegLineContainer}>
-            <div className={style.legs__lastLegLine} />
+          <div className={style.legs__lastLeg}>
+            <div className={style.legs__lastLeg__icon}>
+              <MonoIcon icon="places/Destination" />
+            </div>
+            <Typo.span
+              textType={
+                isCancelled ? 'body__tertiary--strike' : 'body__tertiary'
+              }
+            >
+              {formatToClock(tripPattern.expectedEndTime, language, 'ceil')}
+            </Typo.span>
           </div>
         </div>
-
-        <div className={style.legs__lastLeg}>
-          <div className={style.legs__lastLeg__icon}>
-            <MonoIcon icon="places/Destination" />
+      </motion.div>
+      <AnimatePresence>
+        {isOpen && (
+          <div className={style.details}>
+            <AssistantDetailsBody tripPattern={tripPattern} animate={true} />
           </div>
-          <Typo.span
-            textType={isCancelled ? 'body__tertiary--strike' : 'body__tertiary'}
-          >
-            {formatToClock(tripPattern.expectedEndTime, language, 'ceil')}
-          </Typo.span>
-        </div>
-      </div>
-
-      <footer className={style.footer}>
-        <Typo.span textType="body__primary" className={style.footer__details}>
-          {t(PageText.Assistant.trip.tripPattern.details)}
-          <MonoIcon icon="navigation/ArrowRight" />
-        </Typo.span>
+        )}
+      </AnimatePresence>
+      <footer
+        className={style.footer}
+        onClick={() => setIsOpen(!isOpen)}
+        role={'button'}
+      >
+        {isOpen && (
+          <ButtonLink
+            href={`/assistant/${tripPattern.compressedQuery}?filter=${router.query.filter}`}
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsDetailsButtonClicked(true);
+            }}
+            state={isDetailsButtonClicked ? 'loading' : undefined}
+            mode="interactive_0"
+            title={t(PageText.Assistant.trip.tripPattern.details)}
+            size={'small'}
+            radiusSize={'circular'}
+          />
+        )}
+        <Button
+          title={
+            isOpen
+              ? t(PageText.Assistant.trip.tripPattern.seeLess)
+              : t(PageText.Assistant.trip.tripPattern.seeMore)
+          }
+          size={'pill'}
+          onClick={() => setIsOpen(!isOpen)}
+          icon={{
+            right: (
+              <MonoIcon icon={`navigation/Expand${isOpen ? 'Less' : 'More'}`} />
+            ),
+          }}
+        />
       </footer>
-    </motion.a>
+    </div>
   );
 }

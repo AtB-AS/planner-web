@@ -3,11 +3,7 @@ import { parseTripQueryString } from '../server/journey-planner';
 import { TranslateFunction } from '@atb/translations';
 import { Assistant } from '@atb/translations/pages';
 
-export function formatQuayName(
-  t: TranslateFunction,
-  quayName?: string,
-  publicCode?: string | null,
-) {
+export function formatQuayName(t: TranslateFunction, quayName?: string, publicCode?: string | null) {
   if (!quayName) return;
   if (!publicCode) return quayName;
   const prefix = t(Assistant.details.quayPublicCodePrefix);
@@ -21,9 +17,7 @@ export function getPlaceName(
   publicCode?: string | null,
 ): string {
   const fallback = placeName ?? '';
-  return quayName
-    ? (formatQuayName(t, quayName, publicCode) ?? fallback)
-    : fallback;
+  return quayName ? formatQuayName(t, quayName, publicCode) ?? fallback : fallback;
 }
 
 export function formatLineName(
@@ -51,8 +45,6 @@ export function tripQueryStringToQueryParams(
   if (
     !from ||
     !to ||
-    !from.name ||
-    !to.name ||
     !from.coordinates ||
     !to.coordinates ||
     !from.place ||
@@ -72,12 +64,10 @@ export function tripQueryStringToQueryParams(
     searchMode,
     searchTime,
     fromId: from.place,
-    fromName: from.name,
     fromLon: String(from.coordinates.longitude),
     fromLat: String(from.coordinates.latitude),
     fromLayer,
     toId: to.place,
-    toName: to.name,
     toLon: String(to.coordinates.longitude),
     toLat: String(to.coordinates.latitude),
     toLayer,

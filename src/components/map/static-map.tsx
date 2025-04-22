@@ -1,5 +1,5 @@
 import { mapboxData } from '@atb/modules/org-data';
-import { MapLegType, Position } from './types';
+import { MapLegType, PositionType } from './types';
 import {
   ZOOM_LEVEL,
   defaultPosition,
@@ -13,7 +13,7 @@ export type StaticMapProps = {
   size: { width: number; height: number };
 } & (
   | {
-      position: Partial<Position>;
+      position: Partial<PositionType>;
       initialZoom?: number;
     }
   | {
