@@ -36,7 +36,9 @@ export default handlerWithDepartureClient<AutocompleteApiReturnType>(
       }
 
       return tryResult(req, res, async () => {
-        return ok(await client.autocomplete(String(query.data), focus));
+        const result = await client.autocomplete(String(req.query.q), focus);
+        console.log('Result: ' + JSON.stringify(result));
+        return ok(result);
       });
     },
   },

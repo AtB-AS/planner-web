@@ -2,6 +2,9 @@ import { swrFetcher } from '@atb/modules/api-browser';
 import { GeocoderFeature } from '../../types';
 import useSWR from 'swr';
 import useDebounce from '@atb/utils/use-debounce';
+import { getDefaultPosition } from '@atb/modules/position/utils.ts';
+import { useEffect, useState } from 'react';
+import { PositionType } from '@atb/modules/position';
 
 export type AutocompleteApiReturnType = GeocoderFeature[];
 export type ReverseApiReturnType = GeocoderFeature | undefined;
@@ -12,16 +15,17 @@ export function useAutocomplete(
   q: string,
   autocompleteFocusPoint?: GeocoderFeature,
 ) {
+  const defaultPosition = getDefaultPosition();
   const debouncedQuery = useDebounce(q, DEBOUNCE_TIME_AUTOCOMPLETE_IN_MS);
+  const latFocusPoint =
+    autocompleteFocusPoint?.geometry.coordinates[0] ?? defaultPosition.lat;
+  const lonFocusPoint =
+    autocompleteFocusPoint?.geometry.coordinates[1] ?? defaultPosition.lon;
 
-  const focusQuery = autocompleteFocusPoint
-    ? `&lat=${autocompleteFocusPoint.geometry.coordinates[0]}&lon=${autocompleteFocusPoint.geometry.coordinates[1]}`
-    : '';
+  const query = `/api/departures/autocomplete?q=${debouncedQuery}&lat=${latFocusPoint}&lon=${lonFocusPoint}`;
 
   return useSWR<AutocompleteApiReturnType>(
-    debouncedQuery !== ''
-      ? `/api/departures/autocomplete?q=${debouncedQuery}${focusQuery}`
-      : null,
+    debouncedQuery !== '' ? query : null,
     swrFetcher,
     {
       revalidateOnFocus: false,

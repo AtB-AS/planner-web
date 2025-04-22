@@ -35,7 +35,6 @@ export async function fetchFromToTripQuery(
   if (hasToLatLon(tripQuery)) {
     toP = client.reverse(tripQuery.toLat, tripQuery.toLon, tripQuery.toLayer);
   }
-
   if (hasVia(tripQuery)) {
     viaP = client.reverse(
       tripQuery.viaLat,
@@ -45,6 +44,7 @@ export async function fetchFromToTripQuery(
   }
 
   const [from, to, via] = await Promise.all([fromP, toP, viaP]);
+  console.log('from: ' + JSON.stringify(from) + ', to: ' + JSON.stringify(to));
 
   return {
     from: from ?? null,

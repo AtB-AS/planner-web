@@ -5,12 +5,14 @@ import {
   MapboxGeoJSONFeature,
 } from 'mapbox-gl';
 import { mapboxData } from '@atb/modules/org-data';
-import { MapLegType, PositionType } from './types';
+import { MapLegType } from './types';
 import haversineDistance from 'haversine-distance';
 import { PointsOnLink as GraphQlPointsOnLink } from '@atb/modules/graphql-types';
 import polyline from '@mapbox/polyline';
 import { TransportSubmode } from '@atb/modules/graphql-types/journeyplanner-types_v3.generated.ts';
 import { TransportModeType } from '@atb/modules/transport-mode';
+import { getDefaultPosition } from '@atb/modules/position/utils.ts';
+import { PositionType } from '@atb/modules/position';
 
 export const ZOOM_LEVEL = 16.5;
 export const INTERACTIVE_LAYERS = [
@@ -25,11 +27,6 @@ export const INTERACTIVE_LAYERS = [
   'railway.nsr.api',
   'tram.nsr.api',
 ];
-
-export const defaultPosition: PositionType = {
-  lon: mapboxData.defaultLng,
-  lat: mapboxData.defaultLat,
-};
 
 export const isFeaturePoint = (
   f: MapboxGeoJSONFeature,
@@ -53,16 +50,21 @@ export const mapToMapLegs = (
   const positions = polyline
     .decode(pointsOnLink.points)
     .map((points) => ({ lat: points[0], lon: points[1] }));
-  const fromCoordinates: PositionType = {
-    lat: fromStopPlace?.latitude ?? defaultPosition.lat,
-    lon: fromStopPlace?.longitude ?? defaultPosition.lon,
-  };
+  const fromCoordinates =
+    fromStopPlace?.latitude && fromStopPlace.longitude
+      ? {
+          lat: fromStopPlace?.latitude,
+          lon: fromStopPlace?.longitude,
+        }
+      : undefined;
 
-  const toCoordinates: PositionType | undefined =
+  const toCoordinates =
     toStopPlace?.latitude && toStopPlace?.longitude
       ? { lat: toStopPlace.latitude, lon: toStopPlace.longitude }
       : undefined;
-  const mainStartIndex = findIndex(positions, fromCoordinates);
+  const mainStartIndex = fromCoordinates
+    ? findIndex(positions, fromCoordinates)
+    : 0;
   const mainEndIndex = toCoordinates
     ? findIndex(positions, toCoordinates)
     : positions.length - 1;

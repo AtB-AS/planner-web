@@ -68,6 +68,7 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
       ...override,
       searchTime,
     });
+    console.log('Query is now: ' + JSON.stringify(query));
 
     // Only show loading if we have both from and to selected.
     if ((tripQuery.from && query.toId) || (tripQuery.to && query.fromId)) {

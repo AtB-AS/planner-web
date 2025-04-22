@@ -37,7 +37,7 @@ export default handlerWithDepartureClient<{}>({
       },
     } = getOrgData();
 
-    const mapUrl = getStaticMapUrl({
+    const mapUrl = await getStaticMapUrl({
       layer: 'address',
       position,
       initialZoom: 15,

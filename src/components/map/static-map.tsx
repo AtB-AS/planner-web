@@ -1,12 +1,13 @@
 import { mapboxData } from '@atb/modules/org-data';
-import { MapLegType, PositionType } from './types';
+import { MapLegType } from './types';
 import {
   ZOOM_LEVEL,
-  defaultPosition,
   getMapBounds,
   hasInitialPosition,
   hasMapLegs,
 } from './utils';
+import { PositionType } from '@atb/modules/position';
+import { getDefaultPosition } from '@atb/modules/position/utils.ts';
 
 export type StaticMapProps = {
   layer?: 'address' | 'venue';
@@ -21,7 +22,8 @@ export type StaticMapProps = {
     }
 );
 
-export function getStaticMapUrl(props: StaticMapProps) {
+export async function getStaticMapUrl(props: StaticMapProps) {
+  const defaultPosition = await getDefaultPosition();
   const mapLegs = hasMapLegs(props) ? props.mapLegs : undefined;
   const { position, initialZoom = ZOOM_LEVEL } = hasInitialPosition(props)
     ? props

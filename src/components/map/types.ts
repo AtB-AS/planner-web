@@ -3,13 +3,7 @@ import {
   transportSubmodeSchema,
 } from '@atb/modules/transport-mode';
 import z from 'zod';
-
-export const positionSchema = z.object({
-  lat: z.number(),
-  lon: z.number(),
-});
-
-export type PositionType = z.infer<typeof positionSchema>;
+import { positionSchema } from '@atb/modules/position/types.ts';
 
 export const mapLegSchema = z.object({
   transportMode: transportModeSchema,

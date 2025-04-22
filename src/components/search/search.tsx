@@ -1,5 +1,5 @@
 import Downshift, { type A11yStatusMessageOptions } from 'downshift';
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { useAutocomplete } from '@atb/page-modules/departures/client';
 import style from './search.module.css';
 import VenueIcon from '@atb/components/venue-icon';
@@ -38,6 +38,10 @@ export default function Search({
   const [query, setQuery] = useState('');
   const [focus, setFocus] = useState(false);
   const { data } = useAutocomplete(query, autocompleteFocusPoint);
+
+  useEffect(() => {
+    console.log({ data });
+  }, [data]);
   const { t } = useTranslation();
   const [recentFeatureSearches, setRecentFeatureSearches] = useLocalStorage<
     GeocoderFeature[]
