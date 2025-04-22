@@ -1,10 +1,8 @@
 import { GeocoderFeature } from '@atb/page-modules/departures';
 import { z } from 'zod';
 import { searchModeSchema, type SearchTime } from '@atb/modules/search-time';
-import type {
-  TransportModeGroup,
-  TransportModeType,
-} from '@atb/modules/transport-mode';
+import type { TransportModeGroup } from '@atb/modules/transport-mode';
+import { TransportModeType } from '@atb-as/config-specs';
 import {
   NoticeFragment,
   TripPatternFragment,
@@ -67,12 +65,10 @@ export type FromToTripQuery = {
 
 export const TripQuerySchema = z.object({
   fromId: z.string().optional(),
-  fromName: z.string().optional(),
   fromLon: z.number().optional(),
   fromLat: z.number().optional(),
   fromLayer: z.union([z.literal('address'), z.literal('venue')]).optional(),
   toId: z.string().optional(),
-  toName: z.string().optional(),
   toLon: z.number().optional(),
   toLat: z.number().optional(),
   toLayer: z.union([z.literal('address'), z.literal('venue')]).optional(),
@@ -81,7 +77,6 @@ export const TripQuerySchema = z.object({
   searchTime: z.number().optional(),
   cursor: z.string().optional(),
   viaId: z.string().optional(),
-  viaName: z.string().optional(),
   viaLon: z.number().optional(),
   viaLat: z.number().optional(),
   viaLayer: z.union([z.literal('address'), z.literal('venue')]).optional(),
@@ -128,7 +123,7 @@ export type LineInput = {
 };
 
 export type NonTransitTripType = {
-  mode: TransportModeType;
+  mode: Mode;
   rentedBike: boolean;
   duration: number;
   compressedQuery: string;
@@ -138,9 +133,9 @@ export type NonTransitTripType = {
 export type ExtendedTripPatternType = TripPatternFragment & {
   compressedQuery: string;
 };
-export type TripsType = TripsQuery & {
+export type TripsType = TripsWithDetailsQuery & {
   trip: {
-    tripPatterns: ExtendedTripPatternType[];
+    tripPatterns: ExtendedTripPatternWithDetailsType[];
   };
 };
 
@@ -150,6 +145,7 @@ export type ExtendedLegType = LegWithDetailsFragment & {
 };
 export type ExtendedTripPatternWithDetailsType =
   TripPatternWithDetailsFragment & {
+    compressedQuery: string;
     legs: ExtendedLegType[];
   };
 export type TripWithDetailsType = TripsWithDetailsQuery & {
