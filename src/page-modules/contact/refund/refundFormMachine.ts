@@ -1,4 +1,4 @@
-import { TransportModeType } from '../types';
+import { PurchasePlatformType, TransportModeType } from '../types';
 import { assign, fromPromise, setup } from 'xstate';
 import { Line } from '../server/journey-planner/validators';
 import { ReasonForTransportFailure, TicketType } from './events';
@@ -63,6 +63,7 @@ type SubmitInput = {
   ticketType?: string;
   travelCardNumber?: string;
   refundReason?: string;
+  purchasePlatform?: string;
 };
 
 export type RefundContextProps = {
@@ -95,6 +96,7 @@ export type RefundContextProps = {
   ticketType?: TicketType;
   travelCardNumber?: string;
   refundReason?: string;
+  purchasePlatform?: PurchasePlatformType | undefined;
 
   isInitialAgreementChecked: boolean;
   hasInternationalBankAccount: boolean;
@@ -155,6 +157,7 @@ const setInputToValidate = (context: RefundContextProps) => {
     ticketType,
     travelCardNumber,
     refundReason,
+    purchasePlatform,
     showInputTravelCardNumber,
   } = context;
 
@@ -199,6 +202,7 @@ const setInputToValidate = (context: RefundContextProps) => {
         customerNumber,
         orderId,
         refundReason,
+        purchasePlatform,
       };
 
     case FormType.OtherTicketRefund:
@@ -289,7 +293,7 @@ export const refundStateMachine = setup({
           return setFormTypeAndInitialContext(context, value as FormType);
 
         if (inputName === 'isInitialAgreementChecked')
-          return setInitialAgreementAndFormType(context, value);
+          return setInitialAgreementAndFormType(context, value as boolean);
 
         if (inputName === 'hasInternationalBankAccount') {
           return setBankAccountStatusAndResetBankInformation(
@@ -318,7 +322,20 @@ export const refundStateMachine = setup({
         return setLineAndResetStops(context, event.value);
       return context;
     }),
+
+    onPurchasePlatformChange: assign(({ context, event }) => {
+      if (event.type === 'ON_PURCHASE_PLATFORM_CHANGE')
+        return {
+          ...context,
+          purchasePlatform: event.value,
+          errorMessages: {
+            ...context.errorMessages,
+          },
+        };
+      return context;
+    }),
   },
+
   actors: {
     submit: fromPromise(async ({ input }: { input: SubmitInput }) => {
       const base64EncodedAttachments = await convertFilesToBase64(
@@ -360,6 +377,10 @@ export const refundStateMachine = setup({
 
     ON_LINE_CHANGE: {
       actions: 'onLineChange',
+    },
+
+    ON_PURCHASE_PLATFORM_CHANGE: {
+      actions: 'onPurchasePlatformChange',
     },
 
     SELECT_FORM_CATEGORY: {
@@ -535,6 +556,7 @@ export const refundStateMachine = setup({
           ticketType: context?.ticketType?.name.no,
           travelCardNumber: context?.travelCardNumber,
           refundReason: context?.refundReason,
+          purchasePlatform: context?.purchasePlatform,
         }),
 
         onDone: {
