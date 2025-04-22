@@ -3,15 +3,12 @@ import { cleanup, render, screen } from '@testing-library/react';
 import { afterEach, describe, expect, it } from 'vitest';
 import userEvent from '@testing-library/user-event';
 import { DeparturesDetails } from '../details';
-import { formatDestinationDisplay } from '../utils';
 import { GlobalMessageContextProvider } from '@atb/modules/global-messages';
 
 afterEach(function () {
   cleanup();
 });
 
-const serviceJourneyId = 'ATB:ServiceJourney:22_230306097862461_113';
-const date = '2023-11-10';
 const fromQuayId = 'NSR:Quay:74990';
 
 const customRender = (ui: React.ReactNode) => {

@@ -63,14 +63,14 @@ export function MapHeader({
       {layer === 'venue' && position && (
         <div className={style.header__buttons}>
           <ButtonLink
-            href={`/assistant?fromName=${name}&fromLat=${position.lat}&fromLon=${position.lon}&fromLayer=${layer}`}
+            href={`/assistant?fromLat=${position.lat}&fromLon=${position.lon}&fromLayer=${layer}`}
             mode="primary"
             radiusSize="circular"
             title={t(ComponentText.Map.button.travelFrom)}
             className={style.header__button}
           />
           <ButtonLink
-            href={`/assistant?toName=${name}&toLat=${position.lat}&toLon=${position.lon}&toLayer=${layer}`}
+            href={`/assistant?toLat=${position.lat}&toLon=${position.lon}&toLayer=${layer}`}
             mode="primary"
             radiusSize="circular"
             title={t(ComponentText.Map.button.travelTo)}

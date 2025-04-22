@@ -34,12 +34,30 @@ fragment tripPatternsPerSegment on ViaTripPatternSegment {
     streetDistance
     legs {
       mode
+      intermediateEstimatedCalls {
+        aimedDepartureTime
+      }
+      serviceJourneyEstimatedCalls {
+        aimedDepartureTime
+        expectedDepartureTime
+        actualDepartureTime
+        cancellation
+        quay {
+          name
+          description
+        }
+        realtime
+      }
       distance
       duration
       aimedStartTime
       expectedEndTime
       expectedStartTime
       realtime
+      aimedEndTime
+      pointsOnLink {
+        points
+      }
       line {
         publicCode
         flexibleLineType
@@ -54,11 +72,33 @@ fragment tripPatternsPerSegment on ViaTripPatternSegment {
           ...notice
         }
       }
+      toEstimatedCall {
+        cancellation
+        notices {
+          ...notice
+        }
+      }
       situations {
         ...situation
       }
       fromPlace {
         name
+        longitude
+        latitude
+        quay {
+          publicCode
+          name
+          description
+          id
+          situations {
+            ...situation
+          }
+        }
+      }
+      toPlace {
+        name
+        longitude
+        latitude
         quay {
           publicCode
           name

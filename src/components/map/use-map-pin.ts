@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Position } from './types';
 import mapboxgl from 'mapbox-gl';
+import { PositionType } from '@atb/components/map/types.ts';
 
 export function useMapPin(
   mapRef: React.MutableRefObject<mapboxgl.Map | undefined>,
-  position: Position,
+  position: PositionType,
   layer?: string,
 ) {
   const [marker, setMarker] = useState<mapboxgl.Marker | undefined>();
@@ -16,7 +16,7 @@ export function useMapPin(
   }, []);
 
   const setMapPinPosition = useCallback(
-    (position: Position) => {
+    (position: PositionType) => {
       if (!mapRef || !mapRef.current) return;
       const map = mapRef.current;
       if (!marker) {

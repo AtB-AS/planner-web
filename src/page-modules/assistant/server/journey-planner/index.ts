@@ -4,23 +4,13 @@ import {
   StreetMode,
   TransportModes as GraphQlTransportModes,
 } from '@atb/modules/graphql-types';
-import {
-  NoticeFragment,
-  TripPatternFragment,
-  TripsDocument,
-  TripsNonTransitDocument,
-  TripsNonTransitQuery,
-  TripsNonTransitQueryVariables,
-  TripsQuery,
-  TripsQueryVariables,
-} from '@atb/page-modules/assistant/journey-gql/trip.generated';
 import { LineData } from './validators';
 import type {
+  ExtendedTripPatternWithDetailsType,
   FromToTripQuery,
   LineInput,
   NonTransitTripData,
   NonTransitTripInput,
-  NonTransitTripType,
   TripInput,
   TripsType,
   TripWithDetailsType,
@@ -44,20 +34,28 @@ import {
   ViaTripsWithDetailsQueryVariables,
 } from '@atb/page-modules/assistant/journey-gql/via-trip-with-details.generated';
 import {
-  ViaTripsDocument,
-  ViaTripsQuery,
-  ViaTripsQueryVariables,
-} from '@atb/page-modules/assistant/journey-gql/via-trip.generated';
-import {
   addAssistantTripToCache,
   getAssistantTripIfCached,
 } from '../trip-cache';
+import {
+  NoticeFragment,
+  TripPatternFragment,
+  TripsNonTransitDocument,
+  TripsNonTransitQuery,
+  TripsNonTransitQueryVariables,
+  TripsQueryVariables,
+} from '@atb/page-modules/assistant/journey-gql/trip.generated.ts';
 import {
   LineFragment,
   LinesDocument,
   LinesQuery,
   LinesQueryVariables,
 } from '@atb/page-modules/assistant/journey-gql/lines.generated';
+import {
+  ViaTripsDocument,
+  ViaTripsQuery,
+  ViaTripsQueryVariables,
+} from '@atb/page-modules/assistant/journey-gql/via-trip.generated.ts';
 
 const { journeyApiConfigurations } = getOrgData();
 
@@ -206,8 +204,11 @@ export function createJourneyApi(
         ...DEFAULT_JOURNEY_CONFIG,
       };
 
-      const result = await client.query<TripsQuery, TripsQueryVariables>({
-        query: TripsDocument,
+      const result = await client.query<
+        TripsWithDetailsQuery,
+        TripsQueryVariables
+      >({
+        query: TripsWithDetailsDocument,
         variables: queryVariables,
       });
 
@@ -215,10 +216,42 @@ export function createJourneyApi(
         throw result.error || result.errors;
       }
 
-      const trips = addCompressedQueryToTrips(
-        result.data.trip.tripPatterns,
-        queryVariables,
-      );
+
+      const trips: TripsType = {
+        trip: {
+          ...result.data.trip,
+          tripPatterns: result.data.trip.tripPatterns.map((tripPattern) => ({
+            ...tripPattern,
+            compressedQuery: generateSingleTripQueryString(
+              extractServiceJourneyIds(tripPattern),
+              tripPattern.legs[0].aimedStartTime,
+              queryVariables,
+            ),
+
+            legs: tripPattern.legs.map((leg) => ({
+              ...leg,
+              mapLegs: leg.pointsOnLink?.points
+                ? mapToMapLegs(
+                    leg.pointsOnLink,
+                    leg.mode,
+                    leg.transportSubmode,
+                    leg.fromPlace,
+                    leg.toPlace,
+                    !!leg.line?.flexibleLineType,
+                  )
+                : [],
+              notices: mapAndFilterNotices([
+                ...(leg.line?.notices ?? []),
+                ...(leg.serviceJourney?.notices ?? []),
+                ...(leg.serviceJourney?.journeyPattern?.notices ?? []),
+                ...(leg.fromEstimatedCall?.notices ?? []),
+                ...(leg.toEstimatedCall?.notices ?? []),
+              ]),
+            })),
+          })),
+        },
+      };
+
       addAssistantTripToCache(input as FromToTripQuery, trips);
 
       return trips;
@@ -300,6 +333,11 @@ export function createJourneyApi(
           tripPatterns: [
             {
               ...singleTripPattern,
+              compressedQuery: generateSingleTripQueryString(
+                extractServiceJourneyIds(singleTripPattern),
+                singleTripPattern.legs[0].aimedStartTime,
+                tripQuery.query,
+              ),
               legs: singleTripPattern.legs.map((leg) => ({
                 ...leg,
                 mapLegs: leg.pointsOnLink?.points
@@ -317,6 +355,7 @@ export function createJourneyApi(
                   ...(leg.serviceJourney?.notices ?? []),
                   ...(leg.serviceJourney?.journeyPattern?.notices ?? []),
                   ...(leg.fromEstimatedCall?.notices ?? []),
+                  ...(leg.toEstimatedCall?.notices ?? []),
                 ]),
               })),
             },
@@ -353,24 +392,6 @@ function inputToViaLocation(input: TripInput) {
     name: input.via.name,
     minSlack: 'PT120S',
     maxSlack: 'PT9H',
-  };
-}
-
-function addCompressedQueryToTrips(
-  tripPatterns: TripsQuery['trip']['tripPatterns'],
-  queryVariables: TripsQueryVariables | ViaTripsQueryVariables,
-): TripsType {
-  return {
-    trip: {
-      tripPatterns: tripPatterns.map((tp) => ({
-        ...tp,
-        compressedQuery: generateSingleTripQueryString(
-          extractServiceJourneyIds(tp),
-          tp.legs[0].aimedStartTime,
-          queryVariables,
-        ),
-      })),
-    },
   };
 }
 
@@ -480,6 +501,7 @@ export function findTripPatternsFromViaTo(
   tripPatternsFromVia: ViaTripsQuery['viaTrip']['tripPatternsPerSegment'][0]['tripPatterns'],
   tripPatternsViaTo: ViaTripsQuery['viaTrip']['tripPatternsPerSegment'][0]['tripPatterns'],
 ) {
+  console.log('Combination: ' + tripPatternCombinations);
   const tripPatterns: ViaTripsQuery['viaTrip']['tripPatternsPerSegment'][0]['tripPatterns'] =
     [];
   tripPatternCombinations.map((segment) => {
@@ -573,10 +595,38 @@ async function getSortedViaTrips(
       new Date(b.expectedEndTime!).getTime(),
   );
 
-  return addCompressedQueryToTrips(
-    tripPatternsSortedByExpectedEndTime,
-    queryVariables,
-  );
+  return {
+    trip: {
+      tripPatterns: tripPatternsSortedByExpectedEndTime.map((tripPattern) => ({
+        ...tripPattern,
+        compressedQuery: generateSingleTripQueryString(
+          extractServiceJourneyIds(tripPattern),
+          tripPattern.legs[0].aimedStartTime,
+          queryVariables,
+        ),
+        legs: tripPattern.legs.map((leg) => ({
+          ...leg,
+          mapLegs: leg.pointsOnLink?.points
+            ? mapToMapLegs(
+                leg.pointsOnLink,
+                leg.mode,
+                leg.transportSubmode,
+                leg.fromPlace,
+                leg.toPlace,
+                !!leg.line?.flexibleLineType,
+              )
+            : [],
+          notices: mapAndFilterNotices([
+            ...(leg.line?.notices ?? []),
+            ...(leg.serviceJourney?.notices ?? []),
+            ...(leg.serviceJourney?.journeyPattern?.notices ?? []),
+            ...(leg.fromEstimatedCall?.notices ?? []),
+            ...(leg.toEstimatedCall?.notices ?? []),
+          ]),
+        })),
+      })),
+    },
+  };
 }
 
 function createLinesRecord(lines: LineFragment[]) {

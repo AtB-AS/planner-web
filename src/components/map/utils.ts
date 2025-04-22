@@ -1,16 +1,17 @@
 import {
-  MapboxGeoJSONFeature,
-  type Map,
-  AnySourceData,
   AnyLayer,
+  AnySourceData,
+  type Map,
+  MapboxGeoJSONFeature,
 } from 'mapbox-gl';
 import { mapboxData } from '@atb/modules/org-data';
-import { MapLegType, Position } from './types';
+import { MapLegType, PositionType } from './types';
 import haversineDistance from 'haversine-distance';
 import { PointsOnLink as GraphQlPointsOnLink } from '@atb/modules/graphql-types';
 import polyline from '@mapbox/polyline';
 import { TransportSubmode } from '@atb/modules/graphql-types/journeyplanner-types_v3.generated.ts';
 import { TransportModeType } from '@atb/modules/transport-mode';
+
 export const ZOOM_LEVEL = 16.5;
 export const INTERACTIVE_LAYERS = [
   'airport.nsr.api',
@@ -25,7 +26,7 @@ export const INTERACTIVE_LAYERS = [
   'tram.nsr.api',
 ];
 
-export const defaultPosition: Position = {
+export const defaultPosition: PositionType = {
   lon: mapboxData.defaultLng,
   lat: mapboxData.defaultLat,
 };
@@ -46,28 +47,31 @@ export const mapToMapLegs = (
   toStopPlace?: { latitude?: number; longitude?: number },
   isFlexibleLine?: boolean,
 ) => {
-  if (!pointsOnLink || !pointsOnLink.points) return [];
-  const points = polyline
+  if (!pointsOnLink || !pointsOnLink.points) {
+    return [];
+  }
+  const positions = polyline
     .decode(pointsOnLink.points)
     .map((points) => ({ lat: points[0], lon: points[1] }));
-  const fromCoordinates: [number, number] = [
-    fromStopPlace?.latitude ?? 0,
-    fromStopPlace?.longitude ?? 0,
-  ];
-  const toCoordinates: [number, number] | undefined = toStopPlace
-    ? [toStopPlace?.latitude ?? 0, toStopPlace?.longitude ?? 0]
-    : undefined;
+  const fromCoordinates: PositionType = {
+    lat: fromStopPlace?.latitude ?? defaultPosition.lat,
+    lon: fromStopPlace?.longitude ?? defaultPosition.lon,
+  };
 
-  const mainStartIndex = findIndex(points, fromCoordinates);
+  const toCoordinates: PositionType | undefined =
+    toStopPlace?.latitude && toStopPlace?.longitude
+      ? { lat: toStopPlace.latitude, lon: toStopPlace.longitude }
+      : undefined;
+  const mainStartIndex = findIndex(positions, fromCoordinates);
   const mainEndIndex = toCoordinates
-    ? findIndex(points, toCoordinates)
-    : points.length - 1;
+    ? findIndex(positions, toCoordinates)
+    : positions.length - 1;
 
-  const beforeLegCoords = points.slice(0, mainStartIndex + 1);
-  const mainLegCoords = points.slice(mainStartIndex, mainEndIndex + 1);
-  const afterLegCoords = points.slice(mainEndIndex);
+  const beforeLegPositions = positions.slice(0, mainStartIndex + 1);
+  const mainLegPositions = positions.slice(mainStartIndex, mainEndIndex + 1);
+  const afterLegPositions = positions.slice(mainEndIndex);
 
-  const toMapLeg = (item: Position[], faded: boolean) => {
+  const toMapLeg = (item: PositionType[], faded: boolean) => {
     return {
       transportMode,
       transportSubmode,
@@ -78,55 +82,60 @@ export const mapToMapLegs = (
   };
 
   const mapLegs: MapLegType[] = [
-    toMapLeg(beforeLegCoords, true),
-    toMapLeg(mainLegCoords, false),
-    toMapLeg(afterLegCoords, true),
+    toMapLeg(beforeLegPositions, true),
+    toMapLeg(mainLegPositions, false),
+    toMapLeg(afterLegPositions, true),
   ];
 
   return mapLegs;
 };
 
 const findIndex = (
-  position: Position[],
-  quayCoords: [number, number],
+  positions: PositionType[],
+  quayPosition: PositionType,
 ): number => {
-  return position.reduce(
+  return positions.reduce(
     (closest, t, index) => {
-      const distance = haversineDistance(t, quayCoords);
+      const distance = haversineDistance(t, quayPosition);
       return distance < closest.distance ? { index, distance } : closest;
     },
     { index: -1, distance: 100 },
   ).index;
 };
 
-export const getMapBounds = (mapLegs: MapLegType[]): [Position, Position] => {
-  const lineLongitudes = mapLegs
-    .map((leg) => leg.points.map((point) => point.lon))
-    .flat();
+export const getMapBounds = (
+  mapLegs: MapLegType[],
+): [[number, number], [number, number]] => {
   const lineLatitudes = mapLegs
     .map((leg) => leg.points.map((point) => point.lat))
     .flat();
+  const lineLongitudes = mapLegs
+    .map((leg) => leg.points.map((point) => point.lon))
+    .flat();
 
-  const westernMost = Math.min(...lineLongitudes);
-  const easternMost = Math.max(...lineLongitudes);
-  const northernMost = Math.max(...lineLatitudes);
-  const southernMost = Math.min(...lineLatitudes);
+  const westernMost = Math.min(...lineLatitudes);
+  const easternMost = Math.max(...lineLatitudes);
+  const northernMost = Math.max(...lineLongitudes);
+  const southernMost = Math.min(...lineLongitudes);
 
   // Dividing by 3 here is arbitrary, seems to work
   // like a fine value for "padding"
-  const latPadding = (northernMost - southernMost) / 3;
-  const lonPadding = (westernMost - easternMost) / 3;
+  const lonPadding = (northernMost - southernMost) / 3;
+  const latPadding = (westernMost - easternMost) / 3;
 
-  const sw: Position = {
-    lat: southernMost - latPadding,
-    lon: westernMost + lonPadding,
+  const sw: PositionType = {
+    lon: southernMost - lonPadding,
+    lat: westernMost + latPadding,
   };
-  const ne: Position = {
-    lat: northernMost + latPadding,
-    lon: easternMost - lonPadding,
+  const ne: PositionType = {
+    lon: northernMost + lonPadding,
+    lat: easternMost - latPadding,
   };
 
-  return [sw, ne];
+  return [
+    [sw.lon, sw.lat],
+    [ne.lon, ne.lat],
+  ];
 };
 
 export function addSourceIfNotExists(
@@ -147,7 +156,7 @@ export function addLayerIfNotExists(map: Map, layer: AnyLayer) {
 
 export function hasInitialPosition(
   a: any,
-): a is { position: Position; initialZoom?: number } {
+): a is { position: PositionType; initialZoom?: number } {
   return !!a.position;
 }
 
