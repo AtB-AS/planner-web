@@ -18,6 +18,7 @@ import { AssistantDetailsBody } from '@atb/page-modules/assistant/details-body';
 
 const LAST_LEG_PADDING = 20;
 const DEFAULT_THRESHOLD_AIMED_EXPECTED_IN_SECONDS = 60;
+const ANIMATION_DURATION = 0.2;
 
 type TripPatternProps = {
   tripPattern: ExtendedTripPatternWithDetailsType;
@@ -87,7 +88,8 @@ export default function TripPattern({
   return (
     <div className={style.tripPatternContainer}>
       <motion.div
-        role={'button'}
+        id="assistant-details-accordion"
+        role={'region'}
         onClick={() => setIsOpen(!isOpen)}
         className={className}
         data-testid={testId}
@@ -223,48 +225,60 @@ export default function TripPattern({
             </Typo.span>
           </div>
         </div>
+        <footer className={style.footer} onClick={() => setIsOpen(!isOpen)}>
+          <Button
+            title={
+              isOpen
+                ? t(PageText.Assistant.trip.tripPattern.seeLess)
+                : t(PageText.Assistant.trip.tripPattern.seeMore)
+            }
+            buttonProps={{
+              'aria-controls': 'assistant-details-accordion',
+              'aria-expanded': isOpen,
+            }}
+            size={'pill'}
+            onClick={() => setIsOpen(!isOpen)}
+            icon={{
+              right: (
+                <MonoIcon
+                  icon={`navigation/ExpandMore`}
+                  className={andIf({
+                    [style.chevron]: true,
+                    [style.chevron__rotated]: isOpen,
+                  })}
+                />
+              ),
+            }}
+          />
+        </footer>
       </motion.div>
       <AnimatePresence>
         {isOpen && (
-          <div className={style.details}>
-            <AssistantDetailsBody tripPattern={tripPattern} animate={true} />
-          </div>
+          <motion.div
+            className={style.details}
+            initial={{ height: 0 }}
+            animate={{
+              height: 'auto',
+              transition: { duration: ANIMATION_DURATION },
+            }}
+            exit={{ height: 0, transition: { duration: ANIMATION_DURATION } }}
+          >
+            <AssistantDetailsBody tripPattern={tripPattern} />
+            <ButtonLink
+              href={`/assistant/${tripPattern.compressedQuery}?filter=${router.query.filter}`}
+              onClick={() => {
+                setIsDetailsButtonClicked(true);
+              }}
+              state={isDetailsButtonClicked ? 'loading' : undefined}
+              title={t(PageText.Assistant.trip.tripPattern.details)}
+              mode={'interactive_2'}
+              size={'pill'}
+              radiusSize={'circular'}
+              className={style.goToDetailsButton}
+            />
+          </motion.div>
         )}
       </AnimatePresence>
-      <footer
-        className={style.footer}
-        onClick={() => setIsOpen(!isOpen)}
-        role={'button'}
-      >
-        {isOpen && (
-          <ButtonLink
-            href={`/assistant/${tripPattern.compressedQuery}?filter=${router.query.filter}`}
-            onClick={(e) => {
-              e.stopPropagation();
-              setIsDetailsButtonClicked(true);
-            }}
-            state={isDetailsButtonClicked ? 'loading' : undefined}
-            mode="interactive_0"
-            title={t(PageText.Assistant.trip.tripPattern.details)}
-            size={'small'}
-            radiusSize={'circular'}
-          />
-        )}
-        <Button
-          title={
-            isOpen
-              ? t(PageText.Assistant.trip.tripPattern.seeLess)
-              : t(PageText.Assistant.trip.tripPattern.seeMore)
-          }
-          size={'pill'}
-          onClick={() => setIsOpen(!isOpen)}
-          icon={{
-            right: (
-              <MonoIcon icon={`navigation/Expand${isOpen ? 'Less' : 'More'}`} />
-            ),
-          }}
-        />
-      </footer>
     </div>
   );
 }
