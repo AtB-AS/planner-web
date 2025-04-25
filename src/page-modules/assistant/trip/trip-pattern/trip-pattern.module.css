@@ -39,7 +39,10 @@
 
 
 .details {
-  padding: token('spacing.medium') 0;
+  display: flex;
+  flex-direction: column;
+  padding: token('spacing.medium');
+  align-items: flex-end;
 }
 
 .legs {
