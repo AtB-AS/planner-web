@@ -22,6 +22,9 @@ const isValidBankAccount = (value: string): boolean => {
   return hasExpectedLength(11)(cleaned);
 };
 
+const containsAtLeastOneLetter = (value: string): boolean =>
+  /[a-zA-ZæøåÆØÅ]/.test(value);
+
 type ValidationRule = {
   validate: (value: any) => boolean;
   errorMessage: TranslatedString;
@@ -32,11 +35,19 @@ const rulesFirstName: ValidationRule[] = [
     validate: isNotEmptyOrUndefined,
     errorMessage: PageText.Contact.input.firstName.errorMessages.empty,
   },
+  {
+    validate: containsAtLeastOneLetter,
+    errorMessage: PageText.Contact.input.firstName.errorMessages.empty,
+  },
 ];
 
 const rulesLastName: ValidationRule[] = [
   {
     validate: isNotEmptyOrUndefined,
+    errorMessage: PageText.Contact.input.lastName.errorMessages.empty,
+  },
+  {
+    validate: containsAtLeastOneLetter,
     errorMessage: PageText.Contact.input.lastName.errorMessages.empty,
   },
 ];
@@ -53,6 +64,10 @@ const rulesAddress: ValidationRule[] = [
     validate: isNotEmptyOrUndefined,
     errorMessage: PageText.Contact.input.address.errorMessages.empty,
   },
+  {
+    validate: containsAtLeastOneLetter,
+    errorMessage: PageText.Contact.input.address.errorMessages.empty,
+  },
 ];
 
 const rulesPostalCode: ValidationRule[] = [
@@ -65,6 +80,10 @@ const rulesPostalCode: ValidationRule[] = [
 const rulesCity: ValidationRule[] = [
   {
     validate: isNotEmptyOrUndefined,
+    errorMessage: PageText.Contact.input.city.errorMessages.empty,
+  },
+  {
+    validate: containsAtLeastOneLetter,
     errorMessage: PageText.Contact.input.city.errorMessages.empty,
   },
 ];
