@@ -23,13 +23,9 @@ import { motion } from 'framer-motion';
 
 type DetailsBodyProps = {
   tripPattern: ExtendedTripPatternWithDetailsType;
-  animate?: true;
 };
 
-export function AssistantDetailsBody({
-  tripPattern,
-  animate,
-}: DetailsBodyProps) {
+export function AssistantDetailsBody({ tripPattern }: DetailsBodyProps) {
   const { t, language } = useTranslation();
   const router = useRouter();
   const mapLegs = tripPattern.legs
@@ -58,14 +54,9 @@ export function AssistantDetailsBody({
   });
 
   return (
-    <motion.div
-      className={style.bodyContainer}
-      initial={animate ? { height: 0, originY: 0 } : false}
-      animate={{ height: 'auto' }}
-      exit={{ height: 0 }}
-    >
-      <div className={style.mapContainer}>
-        <Map mapLegs={mapLegs} />
+    <div className={style.bodyContainer}>
+      <div className={style.mapContainer} tabIndex={-1}>
+        <Map mapLegs={mapLegs} aria-hidden />
         <div className={style.tripDetails}>
           <div className={style.duration}>
             <MonoIcon icon="time/Duration" />
@@ -114,6 +105,6 @@ export function AssistantDetailsBody({
           />
         ))}
       </div>
-    </motion.div>
+    </div>
   );
 }

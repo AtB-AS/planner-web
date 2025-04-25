@@ -32,7 +32,10 @@
 
 
 .details {
-  padding: token('spacing.medium') 0;
+  display: flex;
+  flex-direction: column;
+  padding: token('spacing.medium');
+  align-items: flex-end;
 }
 
 .legs {
@@ -160,4 +163,20 @@
 
 .outdatet {
   color: token('color.foreground.dynamic.secondary');
+}
+
+.chevron {
+  transition: transform 0.2s ease;
+}
+
+.chevron__rotated {
+  transform: rotate(180deg);
+}
+
+.goToDetailsButton {
+  border: 2px solid token('color.foreground.dynamic.primary');
+}
+
+.goToDetailsButton:active {
+  border: 2px solid token('color.interactive.0.outline.background');
 }
