@@ -912,6 +912,11 @@ const ContactInternal = {
           'Please enter your phone number',
           'Vennligst fyll ut ditt telefonnummer',
         ),
+        invalidFormat: _(
+          'Vennligst fyll ut telefonnummeret på et gyldig format.',
+          'Please enter your phone number in a valid format.',
+          'Vennligst fyll ut telefonnummeret på eit gyldig format.',
+        ),
       },
     },
 

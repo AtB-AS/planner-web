@@ -25,6 +25,10 @@ const isValidBankAccount = (value: string): boolean => {
 const containsAtLeastOneLetter = (value: string): boolean =>
   /[a-zA-ZæøåÆØÅ]/.test(value);
 
+// phone number can optionally start with [+] and must consist of [0-9]. Whitespaces are ignored.
+const isValidMobilNumber = (value: string): boolean =>
+  /^[+]?\d+$/.test(removeWhitespace(value));
+
 type ValidationRule = {
   validate: (value: any) => boolean;
   errorMessage: TranslatedString;
@@ -96,6 +100,11 @@ const rulesPhoneNumber: ValidationRule[] = [
   {
     validate: isNotEmptyOrUndefined,
     errorMessage: PageText.Contact.input.phoneNumber.errorMessages.empty,
+  },
+  {
+    validate: isValidMobilNumber,
+    errorMessage:
+      PageText.Contact.input.phoneNumber.errorMessages.invalidFormat,
   },
 ];
 
