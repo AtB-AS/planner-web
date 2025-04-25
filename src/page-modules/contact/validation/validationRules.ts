@@ -75,6 +75,10 @@ const rulesPostalCode: ValidationRule[] = [
     validate: isNotEmptyOrUndefined,
     errorMessage: PageText.Contact.input.postalCode.errorMessages.empty,
   },
+  {
+    validate: hasExpectedLength(4),
+    errorMessage: PageText.Contact.input.postalCode.errorMessages.invalidFormat,
+  },
 ];
 
 const rulesCity: ValidationRule[] = [
@@ -301,6 +305,17 @@ const rulesCustomerNumber: ValidationRule[] = [
   {
     validate: isNotEmptyOrUndefined,
     errorMessage: PageText.Contact.input.customerNumber.errorMessages.empty,
+  },
+  {
+    validate: isDigitsOnly,
+    errorMessage:
+      PageText.Contact.input.customerNumber.errorMessages.invalidFormat,
+  },
+
+  {
+    validate: hasExpectedLength(7),
+    errorMessage:
+      PageText.Contact.input.customerNumber.errorMessages.invalidFormat,
   },
 ];
 

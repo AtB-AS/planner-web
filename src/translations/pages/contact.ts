@@ -880,6 +880,11 @@ const ContactInternal = {
           'Please enter your postal code',
           'Vennligst fyll ut postnummer',
         ),
+        invalidFormat: _(
+          'Skriv inn et gyldig postnummer med fire sifre',
+          'Enter a valid postal code with four digits',
+          'Skriv inn eit gyldig postnummer med fire siffer',
+        ),
       },
     },
 
@@ -1303,6 +1308,11 @@ const ContactInternal = {
           'Fyll inn kundenummer',
           'Enter customer number',
           'Fyll inn kundenummer',
+        ),
+        invalidFormat: _(
+          'Ugyldig kundenummer. Skriv inn et gyldig nummer med 7 siffer.',
+          'Invalid customer number. Please enter a valid 7-digit number.',
+          'Ugyldig kundenummer. Skriv inn eit gyldig nummer med 7 siffer.',
         ),
       },
     },
