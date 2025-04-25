@@ -93,11 +93,6 @@ const ContactInternal = {
             'If you do not have a valid ticket for the trip, you will receive a fine during the ticket inspection.',
             'Har du ikkje gyldig billett for reisa, vil du få gebyr ved billettkontroll.',
           ),
-          _(
-            'Vi kan kreve gebyr selv om du er under 15 år.',
-            'We may charge a fee even if you are under 15 years old.',
-            'Vi kan krevje gebyr sjølv om du er under 15 år.',
-          ),
         ],
         checkbox: _('Jeg forstår', 'I understand', 'Eg forstår'),
       },
