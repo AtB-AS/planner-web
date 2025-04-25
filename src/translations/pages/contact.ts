@@ -1399,6 +1399,18 @@ const ContactInternal = {
       ),
       errorMessages: {
         empty: _('Ordre-id mangler', 'Order-id is missing', 'Ordre-id manglar'),
+        invalidFormat: {
+          singleId: _(
+            'Ordre-IDen er skrevet i ugyldig format',
+            'The order ID is written in an invalid format',
+            'Ordre-IDen er skriven i ugyldig format',
+          ),
+          multipleIds: _(
+            'Én eller flere ordre-IDer er skrevet i ugyldig format',
+            'One or more order IDs are written in an invalid format',
+            'Éin eller fleire ordre-IDar er skriven i ugyldig format',
+          ),
+        },
       },
     },
 

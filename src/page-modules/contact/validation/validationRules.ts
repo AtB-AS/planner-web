@@ -266,6 +266,23 @@ const rulesOrderId: ValidationRule[] = [
     validate: isNotEmptyOrUndefined,
     errorMessage: PageText.Contact.input.orderId.errorMessages.empty,
   },
+  {
+    validate: (_orderId: string) => {
+      if (_orderId.includes(',')) return true; // Possibly multiple orderIds. If so, skip to next rule.
+      const cleanedOrderId = removeWhitespace(_orderId);
+      return hasExpectedLength(8)(cleanedOrderId);
+    },
+    errorMessage:
+      PageText.Contact.input.orderId.errorMessages.invalidFormat.singleId,
+  },
+  {
+    validate: (_orderIdsString: string) => {
+      const orderIds = removeWhitespace(_orderIdsString).split(',');
+      return orderIds.every((orderId) => hasExpectedLength(8)(orderId));
+    },
+    errorMessage:
+      PageText.Contact.input.orderId.errorMessages.invalidFormat.multipleIds,
+  },
 ];
 
 const rulesRefundReason: ValidationRule[] = [
