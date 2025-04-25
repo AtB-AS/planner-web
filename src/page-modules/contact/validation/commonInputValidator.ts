@@ -12,11 +12,13 @@ export const commonInputValidator = (context: any): InputErrorMessages => {
     const rules = validationRules[inputName];
     if (!rules) return;
 
-    rules.forEach(({ validate, errorMessage }) => {
+    for (const { validate, errorMessage } of rules) {
       const isValid = validate(context[inputName]);
-      if (!isValid)
+      if (!isValid) {
         addErrorMessage(inputName, errorMessage, inputErrorMessages);
-    });
+        return; // Stop the loop after the first error is found
+      }
+    }
   });
 
   return inputErrorMessages;

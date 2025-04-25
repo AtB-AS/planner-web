@@ -1,9 +1,13 @@
 import { PageText, TranslatedString } from '@atb/translations';
 
-const isNotEmptyOrUndefined = (value: string | undefined) => !!value;
+const removeWhitespace = (value: string): string => value.replace(/\s+/g, '');
 
-const hasLength = (expectedLength: number) => (value: string | undefined) =>
-  isNotEmptyOrUndefined(value) && value?.length === expectedLength;
+const isNotEmptyOrUndefined = (value: string | undefined): boolean =>
+  value !== undefined && removeWhitespace(value) !== '';
+
+const hasExpectedLength =
+  (expectedLength: number) => (value: string | undefined) =>
+    value?.length === expectedLength;
 
 type ValidationRule = {
   validate: (value: any) => boolean;
@@ -155,7 +159,7 @@ const rulesFeeNumber: ValidationRule[] = [
     errorMessage: PageText.Contact.input.feeNumber.errorMessages.empty,
   },
   {
-    validate: hasLength(4),
+    validate: hasExpectedLength(4),
     errorMessage: PageText.Contact.input.feeNumber.errorMessages.notFourDigits,
   },
 ];
