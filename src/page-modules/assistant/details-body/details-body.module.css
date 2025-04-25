@@ -5,7 +5,6 @@
         "trip map";
     grid-template-columns: 2fr 3fr;
     gap: token('spacing.medium');
-    padding: 0 token('spacing.medium')
 }
 @media (max-width: 650px) {
     .bodyContainer {

@@ -34,8 +34,7 @@
 .details {
   display: flex;
   flex-direction: column;
-  padding: token('spacing.medium');
-  align-items: flex-end;
+  padding: 0 token('spacing.medium');
 }
 
 .legs {
@@ -155,6 +154,17 @@
   background-color: token('color.interactive.0.default.background');
 }
 
+.accordionBody {
+  padding: token('spacing.medium');
+}
+
+.accordionFooter {
+  display: flex;
+  justify-content: flex-end;
+  padding: token('spacing.small') token('spacing.medium');
+
+}
+
 .timeStartContainer {
   display: flex;
   direction: row;
@@ -175,6 +185,7 @@
 
 .goToDetailsButton {
   border: 2px solid token('color.foreground.dynamic.primary');
+  align-self: flex-end;
 }
 
 .goToDetailsButton:active {
