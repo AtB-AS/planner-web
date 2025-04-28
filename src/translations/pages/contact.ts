@@ -1210,7 +1210,7 @@ const ContactInternal = {
           'Fyll ut gebyrnummeret ditt',
         ),
         invalidFormat: _(
-          'Ugyldig format. Ggebyrnummeret består av fire siffer',
+          'Ugyldig format. Gebyrnummeret består av fire siffer',
           'Invalid format. The fee number consists of four digits',
           'Ugyldig format. Gebyrnummeret består av fire siffer',
         ),
