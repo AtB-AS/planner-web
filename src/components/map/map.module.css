@@ -130,7 +130,7 @@
   .fullscreenButton {
     display: flex;
     justify-content: center;
-    border: 2px solid #000000;
+    border: 2px solid token('color.foreground.dynamic.secondary');
   }
 
   .fullscreenButton span {
