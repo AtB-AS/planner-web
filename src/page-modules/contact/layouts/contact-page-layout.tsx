@@ -122,6 +122,13 @@ function ContactPageLayout({ children }: ContactPageLayoutProps) {
         </div>
       </div>
       {children}
+      {selectedContactPage && (
+        <div className={style.privacyAndTerms}>
+          <Typo.p textType="body__secondary--bold">
+            {t(PageText.Contact.contactPageLayout.privacyAndTerms)}
+          </Typo.p>
+        </div>
+      )}
     </div>
   );
 }

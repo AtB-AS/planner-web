@@ -8,7 +8,6 @@ import {
   SectionCard,
   Input,
   Select,
-  Checkbox,
   Textarea,
   FileInput,
   SearchableSelect,
@@ -17,6 +16,7 @@ import {
   DateSelector,
   TimeSelector,
 } from '../../../components';
+import { Checkbox } from '@atb/components/checkbox';
 
 type RefundCarFormProps = {
   state: { context: RefundContextProps };

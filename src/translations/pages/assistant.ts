@@ -70,6 +70,11 @@ const AssistantInternal = {
         less: _('Færre valg', 'Less choices', 'Færre val'),
       },
     },
+    onlyStopPlacesCheckbox: _(
+      'Vis kun holdeplasser',
+      'Show only stop places',
+      'Vis berre haldeplassar',
+    ),
   },
   trip: {
     resultsFound: _(
@@ -108,7 +113,7 @@ const AssistantInternal = {
         unknownPlace: _('ukjent', 'unknown', 'ukjend'),
       },
       quayPublicCodePrefix: _('', '', ''),
-      details: _('Se detaljer', 'See details', 'Sjå detaljar'),
+      details: _('Flere detaljer', 'More details', 'Fleire detaljar'),
       seeMore: _('Se mer', 'See more', 'Sjå meir'),
       seeLess: _('Se mindre', 'See less', 'Sjå mindre'),
       hasSituationsTip: _(
