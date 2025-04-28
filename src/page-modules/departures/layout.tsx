@@ -91,11 +91,7 @@ function DeparturesLayout({ children, fromQuery }: DeparturesLayoutProps) {
           <Button
             title={t(PageText.Departures.search.buttons.find.title)}
             className={style.button}
-            mode={
-              orgId === 'fram'
-                ? 'interactive_0--bordered-light-outline'
-                : 'primary'
-            }
+            mode="primary"
             radiusSize="circular"
             disabled={!fromQuery.from}
             buttonProps={{ type: 'submit' }}

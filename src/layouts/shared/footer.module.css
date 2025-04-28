@@ -1,6 +1,6 @@
 .footer {
-  background-color: token('color.background.neutral.1.background');
-  color: token('color.foreground.dynamic.primary');
+  background-color: token('color.background.accent.4.background');
+  color: token('color.background.accent.4.foreground.primary');
 }
 .footer__content {
   margin: var(--contentPadding) auto;
@@ -15,7 +15,7 @@
 
 .footer__content hr {
   border: 0;
-  border-bottom: token('border.width.slim') solid token('color.background.neutral.3.background');
+  border-bottom: token('border.width.slim') solid token('color.background.accent.4.foreground.primary');
   margin: token('spacing.xLarge');
 }
 
@@ -39,7 +39,7 @@
 .footer a,
 .footer a:visited {
   transition: color 100ms ease-in;
-  color: token('color.foreground.dynamic.primary');
+  color: token('color.background.accent.4.foreground.primary');
 }
 .footer a:hover {
   opacity: 0.75;
@@ -74,7 +74,7 @@
 .footer__cookieWarning {
   margin-top: token('spacing.medium');
   composes: typo-body__tertiary from '@atb/theme/typography.module.css';
-  color: token("color.foreground.dynamic.secondary");
+  color: token('color.background.accent.4.foreground.primary');
 }
 
 @media (max-width: 650px) {
@@ -88,7 +88,7 @@
 }
 
 .buttonLink {
-  color: token('color.foreground.dynamic.primary');
+  color: token('color.background.accent.4.foreground.primary');
   font-size: 1rem;
   background-color: transparent;
   border: 0;
