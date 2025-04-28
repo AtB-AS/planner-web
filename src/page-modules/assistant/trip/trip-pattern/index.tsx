@@ -1,7 +1,6 @@
 import { useClientWidth } from '@atb/utils/use-client-width';
 import { AnimatePresence, motion } from 'framer-motion';
-import { AnimatePresence, motion } from 'framer-motion';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect, useId, useState } from 'react';
 import { getFilteredLegsByWalkOrWaitTime, tripSummary } from './utils';
 import { PageText, useTranslation } from '@atb/translations';
 import style from './trip-pattern.module.css';
@@ -46,11 +45,8 @@ export default function TripPattern({
     filteredLegs.length,
   );
   const [isOpen, setIsOpen] = useState(false);
-  const [isDetailsButtonClicked, setIsDetailsButtonClicked] = useState(false);
   const router = useRouter();
-  const [isOpen, setIsOpen] = useState(false);
-  const [isDetailsButtonClicked, setIsDetailsButtonClicked] = useState(false);
-  const router = useRouter();
+  const id = useId();
 
   const expandedLegs = filteredLegs.slice(0, numberOfExpandedLegs);
   const collapsedLegs = filteredLegs.slice(
@@ -96,8 +92,8 @@ export default function TripPattern({
   return (
     <div className={style.tripPatternContainer}>
       <motion.div
-        id="assistant-details-accordion"
-        role={'region'}
+        id={`${id}-details-region`}
+        role="region"
         onClick={() => setIsOpen(!isOpen)}
         className={className}
         data-testid={testId}
@@ -335,7 +331,7 @@ export default function TripPattern({
                 : t(PageText.Assistant.trip.tripPattern.seeMore)
             }
             buttonProps={{
-              'aria-controls': 'assistant-details-accordion',
+              'aria-controls': `${id}-details-region`,
               'aria-expanded': isOpen,
             }}
             size={'pill'}
@@ -343,7 +339,7 @@ export default function TripPattern({
             icon={{
               right: (
                 <MonoIcon
-                  icon={`navigation/ExpandMore`}
+                  icon="navigation/ExpandMore"
                   className={andIf({
                     [style.chevron]: true,
                     [style.chevron__rotated]: isOpen,
@@ -365,19 +361,20 @@ export default function TripPattern({
             }}
             exit={{ height: 0, transition: { duration: ANIMATION_DURATION } }}
           >
-            <AssistantDetailsBody tripPattern={tripPattern} />
-            <ButtonLink
-              href={`/assistant/${tripPattern.compressedQuery}?filter=${router.query.filter}`}
-              onClick={() => {
-                setIsDetailsButtonClicked(true);
-              }}
-              state={isDetailsButtonClicked ? 'loading' : undefined}
-              title={t(PageText.Assistant.trip.tripPattern.details)}
-              mode={'interactive_2'}
-              size={'pill'}
-              radiusSize={'circular'}
-              className={style.goToDetailsButton}
-            />
+            <div className={style.accordionBody}>
+              <AssistantDetailsBody tripPattern={tripPattern} />
+            </div>
+            <div className={style.accordionFooter}>
+              <ButtonLink
+                href={`/assistant/${tripPattern.compressedQuery}?filter=${router.query.filter}`}
+                title={t(PageText.Assistant.trip.tripPattern.details)}
+                mode="interactive_2"
+                size="pill"
+                radiusSize="circular"
+                className={style.goToDetailsButton}
+                icon={{ right: <MonoIcon icon="navigation/ArrowRight" /> }}
+              />
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
