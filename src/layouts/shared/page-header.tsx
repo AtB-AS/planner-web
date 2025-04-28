@@ -1,16 +1,19 @@
 import { CommonText, useTranslation } from '@atb/translations';
 import Link from 'next/link';
 import style from './page-header.module.css';
-import { useDarkMode } from '@atb/modules/theme';
+import { useTheme } from '@atb/modules/theme';
 import Image from 'next/image';
 import { getOrgData } from '@atb/modules/org-data';
 import { MonoIcon } from '@atb/components/icon';
 import { ButtonLink } from '@atb/components/button';
+import { useOrgThemeDefinitions } from '@atb/utils/org-theme-definitions.ts';
 
 export default function PageHeader() {
   const { t } = useTranslation();
-  const [isDarkMode] = useDarkMode();
+  const { color } = useTheme();
   const { fylkeskommune, urls } = getOrgData();
+
+  const { fylkeskommuneLogo, overrideMonoIconMode } = useOrgThemeDefinitions();
 
   return (
     <header className={style.pageHeader}>
@@ -23,17 +26,14 @@ export default function PageHeader() {
               title={t(CommonText.Layout.homeLink(urls.homePageUrl.name))}
               data-testid="homeButton"
             >
-              {fylkeskommune?.replaceTitleWithLogoInHeader ? (
+              {fylkeskommune?.replaceTitleWithLogoInHeader &&
+              fylkeskommuneLogo ? (
                 <Image
                   width={0}
                   height={0}
                   sizes="100vw"
                   style={{ width: '100%', height: 'auto' }}
-                  src={
-                    isDarkMode
-                      ? fylkeskommune.logoSrcDark
-                      : fylkeskommune.logoSrc
-                  }
+                  src={fylkeskommuneLogo}
                   alt={fylkeskommune.name}
                 />
               ) : (
@@ -43,6 +43,7 @@ export default function PageHeader() {
                     alt=""
                     role="none"
                     size="normal"
+                    overrideMode={overrideMonoIconMode}
                   />
                   <span>{t(CommonText.Titles.siteTitle)}</span>
                 </>
@@ -53,8 +54,16 @@ export default function PageHeader() {
         <ButtonLink
           href={urls.homePageUrl.href}
           title={t(CommonText.Layout.homeLink(urls.homePageUrl.name))}
-          icon={{ right: <MonoIcon icon="navigation/ExternalLink" /> }}
+          icon={{
+            right: (
+              <MonoIcon
+                icon="navigation/ExternalLink"
+                overrideMode={overrideMonoIconMode}
+              />
+            ),
+          }}
           mode="secondary"
+          backgroundColor={color.background.accent['4']}
           radiusSize="circular"
           size="pill"
           aProps={{

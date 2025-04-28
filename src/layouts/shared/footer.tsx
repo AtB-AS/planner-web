@@ -6,6 +6,8 @@ import { Language, ModuleText, useTranslation } from '@atb/translations';
 import { useLanguageSettings } from '@atb/translations/language-context';
 
 import style from './footer.module.css';
+import { getButtonStyleForColor } from '@atb/components/button/utils.tsx';
+import { useOrgThemeDefinitions } from '@atb/utils/org-theme-definitions.ts';
 
 export type FooterProps = {
   withoutSettings?: boolean;
@@ -17,31 +19,37 @@ type SomeLink = {
   title: string;
 };
 
-const { urls, fylkeskommune } = getOrgData();
+const { urls, fylkeskommune, orgId } = getOrgData();
 
 export default function Footer({ withoutSettings = false }: FooterProps) {
   const { isDarkMode, toggleDarkmode } = useTheme();
   const { t, language } = useTranslation();
+  const { color } = useTheme();
+  const buttonStyle = getButtonStyleForColor(color.background.accent['4']);
+
+  const iconSrc = (name: string) =>
+    orgId === 'atb' ? `/${name}_dark.svg` : `/${name}.svg`;
 
   const someLinks: SomeLink[] = [
     urls.facebookLink && {
       href: urls.facebookLink,
-      iconSrc: '/fb.svg',
+      iconSrc: iconSrc('fb'),
       title: 'Facebook',
     },
     urls.instagramLink && {
       href: urls.instagramLink,
-      iconSrc: '/ig.svg',
+      iconSrc: iconSrc('ig'),
       title: 'Instagram',
     },
     urls.twitterLink && {
       href: urls.twitterLink,
-      iconSrc: '/twitter.svg',
+      iconSrc: iconSrc('twitter'),
       title: 'Twitter',
     },
   ].filter(Boolean) as SomeLink[];
 
   const isForcingTheme = fylkeskommune?.forceTheme !== undefined;
+  const { fylkeskommuneLogo } = useOrgThemeDefinitions();
 
   return (
     <footer className={style.footer}>
@@ -128,6 +136,7 @@ export default function Footer({ withoutSettings = false }: FooterProps) {
                   <li>
                     <button
                       className={style.buttonLink}
+                      style={buttonStyle}
                       onClick={() => toggleDarkmode(!isDarkMode)}
                     >
                       {isDarkMode
@@ -165,7 +174,8 @@ export default function Footer({ withoutSettings = false }: FooterProps) {
               {someLinks.map((link) => (
                 <ButtonLink
                   key={link.href}
-                  mode={isDarkMode ? 'interactive_2' : 'secondary'}
+                  mode="secondary"
+                  backgroundColor={color.background.accent['4']}
                   radius="top-bottom"
                   display="inline"
                   radiusSize="circular"
@@ -203,12 +213,7 @@ export default function Footer({ withoutSettings = false }: FooterProps) {
           </div>
 
           {fylkeskommune && (
-            <img
-              src={
-                isDarkMode ? fylkeskommune.logoSrcDark : fylkeskommune.logoSrc
-              }
-              alt={fylkeskommune.name}
-            />
+            <img src={fylkeskommuneLogo} alt={fylkeskommune.name} />
           )}
         </section>
       </div>
@@ -219,6 +224,9 @@ export default function Footer({ withoutSettings = false }: FooterProps) {
 function LanguageSelections() {
   const { language, setLanguage } = useLanguageSettings();
   const { t } = useTranslation();
+  const { color } = useTheme();
+  const buttonStyle = getButtonStyleForColor(color.background.accent['4']);
+
   return (
     <>
       {language !== Language.Norwegian && (
@@ -226,6 +234,7 @@ function LanguageSelections() {
           <button
             className={style.buttonLink}
             onClick={() => setLanguage(Language.Norwegian)}
+            style={buttonStyle}
           >
             {t(
               ModuleText.Layout.base.footer.sections.settings.setLanguage.norsk,
@@ -238,6 +247,7 @@ function LanguageSelections() {
           <button
             className={style.buttonLink}
             onClick={() => setLanguage(Language.English)}
+            style={buttonStyle}
             data-testid="setLanguageToEnglish"
           >
             {t(
@@ -251,6 +261,7 @@ function LanguageSelections() {
         <li>
           <button
             className={style.buttonLink}
+            style={buttonStyle}
             onClick={() => setLanguage(Language.Nynorsk)}
           >
             {t(

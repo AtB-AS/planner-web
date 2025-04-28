@@ -40,6 +40,7 @@ export type AssistantLayoutProps = PropsWithChildren<{
 
 function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
   const { t } = useTranslation();
+  const { color } = useTheme();
   const router = useRouter();
 
   const [showAlternatives, setShowAlternatives] = useState(false);
@@ -257,11 +258,8 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
                 : t(PageText.Assistant.search.buttons.alternatives.more)
             }
             className={style.button}
-            mode={
-              orgId === 'fram' && !isDarkMode
-                ? 'interactive_2--light-outline'
-                : 'secondary'
-            }
+            mode="secondary"
+            backgroundColor={color.background.accent['0']}
             state={showAlternatives ? 'active' : 'none'}
             radiusSize="circular"
             onClick={() => setShowAlternatives(!showAlternatives)}
@@ -270,11 +268,7 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
           <Button
             title={t(PageText.Assistant.search.buttons.find.title)}
             className={style.button}
-            mode={
-              orgId === 'fram'
-                ? 'interactive_0--bordered-light-outline'
-                : 'primary'
-            }
+            mode={'primary'}
             radiusSize="circular"
             disabled={
               !tripQuery.from || !tripQuery.to || isPerformingSearchNavigation
