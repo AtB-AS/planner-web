@@ -204,7 +204,7 @@
 }
 
 .goToDetailsButton {
-  border: 2px solid token('color.foreground.dynamic.primary');
+  border: 2px solid token('color.foreground.dynamic.secondary');
   align-self: flex-end;
 }
 
