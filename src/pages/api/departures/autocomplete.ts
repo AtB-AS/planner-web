@@ -12,8 +12,17 @@ export default handlerWithDepartureClient<AutocompleteApiReturnType>(
       const query = z.string().safeParse(req.query.q);
       const lat = z.string().optional().safeParse(req.query.lat);
       const lon = z.string().optional().safeParse(req.query.lon);
+      const onlyStopPlaces = z
+        .string()
+        .optional()
+        .safeParse(req.query.onlyStopPlaces);
 
-      if (!query.success || !lat.success || !lon.success) {
+      if (
+        !query.success ||
+        !lat.success ||
+        !lon.success ||
+        !onlyStopPlaces.success
+      ) {
         return errorResultAsJson(
           res,
           constants.HTTP_STATUS_BAD_REQUEST,
@@ -36,7 +45,13 @@ export default handlerWithDepartureClient<AutocompleteApiReturnType>(
       }
 
       return tryResult(req, res, async () => {
-        return ok(await client.autocomplete(String(query.data), focus));
+        return ok(
+          await client.autocomplete(
+            String(query.data),
+            focus,
+            onlyStopPlaces.data === 'true',
+          ),
+        );
       });
     },
   },

@@ -11,6 +11,7 @@ const DEBOUNCE_TIME_AUTOCOMPLETE_IN_MS = 300;
 export function useAutocomplete(
   q: string,
   autocompleteFocusPoint?: GeocoderFeature,
+  onlyStopPlaces?: boolean,
 ) {
   const debouncedQuery = useDebounce(q, DEBOUNCE_TIME_AUTOCOMPLETE_IN_MS);
 
@@ -18,9 +19,11 @@ export function useAutocomplete(
     ? `&lat=${autocompleteFocusPoint.geometry.coordinates[0]}&lon=${autocompleteFocusPoint.geometry.coordinates[1]}`
     : '';
 
+  const layerQuery = `&onlyStopPlaces=${onlyStopPlaces}`;
+
   return useSWR<AutocompleteApiReturnType>(
     debouncedQuery !== ''
-      ? `/api/departures/autocomplete?q=${debouncedQuery}${focusQuery}`
+      ? `/api/departures/autocomplete?q=${debouncedQuery}${focusQuery}${layerQuery}`
       : null,
     swrFetcher,
     {

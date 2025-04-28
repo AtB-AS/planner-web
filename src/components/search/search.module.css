@@ -51,7 +51,8 @@
   width: 100%;
   background-color: token('color.background.neutral.0.background');
   border-radius: 0.75rem;
-  border: token('border.width.slim') solid token('color.background.neutral.3.background');
+  border: token('border.width.slim') solid
+    token('color.background.neutral.3.background');
   position: absolute;
   top: calc(100% + token('spacing.xSmall'));
   overflow: hidden;
@@ -62,6 +63,13 @@
 }
 .menu:empty {
   display: none;
+}
+
+.stopPlaceCheckbox {
+  display: flex;
+  align-items: center;
+  padding: token('spacing.xSmall');
+  cursor: pointer;
 }
 
 .item {
@@ -83,7 +91,8 @@
 .itemHighlighted {
   color: token('color.interactive.2.hover.foreground.primary');
   background-color: token('color.interactive.2.hover.background');
-  outline: token('border.width.medium') solid token('color.interactive.2.outline.background');
+  outline: token('border.width.medium') solid
+    token('color.interactive.2.outline.background');
   border-radius: token('border.radius.small');
 }
 

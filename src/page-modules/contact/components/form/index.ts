@@ -1,5 +1,3 @@
-export { default as Checkbox } from './checkbox';
-export { default as ErrorMessage } from './error-message';
 export { default as FileInput } from './file-input';
 export { default as Input } from './input';
 export { default as Radio } from './radio';

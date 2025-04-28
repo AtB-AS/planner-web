@@ -5,7 +5,7 @@ import { Button } from '@atb/components/button';
 import { MonoIcon } from '@atb/components/icon';
 import { PageText, TranslatedString, useTranslation } from '@atb/translations';
 import { useTheme } from '@atb/modules/theme';
-import ErrorMessage from './error-message';
+import { ErrorMessage } from '@atb/components/error-message';
 
 export type FileInputProps = {
   label: string;
@@ -23,7 +23,9 @@ export default function FileInput({
 }: FileInputProps) {
   const { t } = useTranslation();
   const id = useId();
-  const { color: {background} } = useTheme();
+  const {
+    color: { background },
+  } = useTheme();
   const [files, setFiles] = useState<File[]>([]);
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
