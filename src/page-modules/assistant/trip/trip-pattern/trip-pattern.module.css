@@ -3,18 +3,19 @@
   background-color: token('color.background.neutral.0.background');
   max-width: 100%;
   width: 100%;
+  text-decoration: none;
+  transition: opacity 150ms ease-in-out;
+}
+
+.tripPatternContainer:hover {
+  background-color: token('color.background.neutral.0.background');
+  color: token('color.foreground.dynamic.primary');
+  opacity: 0.8 !important;
 }
 
 .tripPattern {
   display: flex;
   flex-direction: column;
-  text-decoration: none;
-  transition: opacity 150ms ease-in-out;
-}
-.tripPattern:hover {
-  background-color: token('color.background.neutral.0.background');
-  color: token('color.foreground.dynamic.primary');
-  opacity: 0.8 !important;
 }
 .tripPattern--old:hover {
   opacity: 0.5 !important;
