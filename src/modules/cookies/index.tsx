@@ -21,6 +21,7 @@ export function getGlobalCookies(req?: {
   cookies: NextApiRequestCookies;
   headers: IncomingHttpHeaders;
 }): GlobalCookiesData {
+  console.log('Referer is: ' + JSON.stringify(req?.headers.referer, null, 2));
   return {
     initialCookies: {
       darkmode:

@@ -16,6 +16,7 @@ import {
   GlobalMessages,
 } from '@atb/modules/global-messages';
 import { ServiceJourneyType } from '@atb/page-modules/departures/types.ts';
+import { useEffect } from 'react';
 
 export type DeparturesDetailsProps = {
   fromQuayId?: string;
@@ -58,20 +59,20 @@ export function DeparturesDetails({
     .map((s) => s.situationNumber)
     .filter((s): s is string => !!s);
 
-  const backLink = referer?.includes('assistant/')
-    ? referer
-    : `/departures/${focusedCall.quay.stopPlace?.id}`;
+  const backLink = referer?.includes('departures/')
+    ? `/departures/${focusedCall.quay.stopPlace?.id}`
+    : referer;
 
   return (
     <section className={style.container}>
       <div className={style.headerContainer}>
         <ButtonLink
           mode="transparent"
-          href={backLink}
+          href={backLink ?? '/'}
           title={
-            backLink.includes('assistant/')
-              ? t(PageText.Departures.details.backToAssistant)
-              : t(PageText.Departures.details.backToDepartures)
+            backLink?.includes('departures/')
+              ? t(PageText.Departures.details.backToDepartures)
+              : t(PageText.Departures.details.backToAssistant)
           }
           icon={{ left: <MonoIcon icon="navigation/ArrowLeft" /> }}
         />
