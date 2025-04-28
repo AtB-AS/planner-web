@@ -2,7 +2,6 @@
   display: flex;
   padding: token('spacing.large');
   gap: token('spacing.medium');
-  border: token('border.width.medium') solid;
   align-items: flex-start;
 }
 .borderRadius {

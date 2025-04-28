@@ -43,7 +43,6 @@ export default function PageHeader() {
                     alt=""
                     role="none"
                     size="normal"
-                    overrideMode="dark"
                   />
                   <span>{t(CommonText.Titles.siteTitle)}</span>
                 </>
@@ -55,6 +54,8 @@ export default function PageHeader() {
           href={urls.homePageUrl.href}
           title={t(CommonText.Layout.homeLink(urls.homePageUrl.name))}
           icon={{ right: <MonoIcon icon="navigation/ExternalLink" /> }}
+          mode="secondary"
+          radiusSize="circular"
           size="pill"
           aProps={{
             target: '_blank',

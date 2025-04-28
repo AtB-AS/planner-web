@@ -9,6 +9,7 @@
   position: relative;
   border-radius: 0.75rem;
   background-color: token('color.background.neutral.0.background');
+  border: 1px solid token('color.foreground.dynamic.disabled');
 }
 .container:focus-within {
   outline: 0;
@@ -25,6 +26,7 @@
   padding: token('spacing.small');
   border-bottom-left-radius: 0.75rem;
   border-top-left-radius: 0.75rem;
+  color: token('color.foreground.dynamic.primary');
 }
 
 .inputContainer {
@@ -43,7 +45,7 @@
 }
 
 .input::placeholder {
-  color: token('color.foreground.dynamic.secondary');
+  color: token('color.foreground.dynamic.disabled');
   opacity: 1;
 }
 
