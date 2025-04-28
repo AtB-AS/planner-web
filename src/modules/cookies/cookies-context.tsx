@@ -34,7 +34,7 @@ export type AppCookiesProviderProps = PropsWithChildren<{
 
 export function AppCookiesProvider({
   children,
-  initialCookies,
+  initialCookies = { darkmode: false, language: 'no' },
 }: AppCookiesProviderProps) {
   const language = useCookie<string>(
     LANGUAGE_COOKIE_NAME,

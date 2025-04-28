@@ -47,7 +47,8 @@ NEXT_PUBLIC_PLANNER_ORG_ID=atb yarn build:widget
 ```
 
 This will place asset inside `public/widget/<VERSION>` which will be reachable
-through `http://localhost:3000/widget/<VERSION>`.
+through `http://localhost:3000/widget/` or
+`http://localhost:3000/widget/fullscreen/<VERSION>`.
 
 During development you can watch for changes:
 
