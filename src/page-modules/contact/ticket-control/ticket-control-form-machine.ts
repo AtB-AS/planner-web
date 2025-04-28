@@ -108,15 +108,13 @@ const setInputsToValidate = (context: TicketControlContextProps) => {
     line,
     dateOfTicketControl,
     timeOfTicketControl,
+    isAppTicketStorageMode,
   } = context;
 
   switch (formType) {
     case FormType.FeeComplaint:
       return {
         feeNumber,
-        appPhoneNumber,
-        customerNumber,
-        travelCardNumber,
         feedback,
         firstName,
         lastName,
@@ -125,6 +123,9 @@ const setInputsToValidate = (context: TicketControlContextProps) => {
         postalCode,
         city,
         phoneNumber,
+        ...(isAppTicketStorageMode
+          ? { appPhoneNumber, customerNumber }
+          : { travelCardNumber }),
         ...(hasInternationalBankAccount
           ? { IBAN, SWIFT }
           : { bankAccountNumber }),
