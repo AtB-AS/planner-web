@@ -1,12 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
 import DefaultLayout from '@atb/layouts/default';
-import { type WithGlobalData } from '@atb/layouts/global-data';
+import { withGlobalData, type WithGlobalData } from '@atb/layouts/global-data';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import type { createWidget, PlannerWebOutput } from '@atb/widget/widget';
 import { compressToEncodedURIComponent } from 'lz-string';
 import { useTheme } from '@atb/modules/theme';
+import {
+  getWidgetData,
+  PlannerWidgetData,
+} from '@atb/page-modules/widget/server';
 
 const currentOrg = process.env.NEXT_PUBLIC_PLANNER_ORG_ID;
 
@@ -24,10 +28,24 @@ declare global {
   }
 }
 
-const WidgetPage: NextPage<WithGlobalData<{}>> = ({ ...props }) => {
-  const currentUrlBase = 'http://localhost:3000';
+type FullscreenWidgetPagePropsContent = {
+  data: PlannerWidgetData;
+};
+export type FullscreenWidgetPageProps =
+  WithGlobalData<FullscreenWidgetPagePropsContent>;
 
+const FullscreenWidgetPage: NextPage<
+  WithGlobalData<FullscreenWidgetPageProps>
+> = ({ data, ...props }) => {
   const router = useRouter();
+  const version = router.query.version?.[0] ?? data.latest.version;
+  console.log('version', version);
+
+  const currentUrlBase = 'http://localhost:3000';
+  const widgetPath = `${currentUrlBase}/widget/${compressedOrgId}/${version}`;
+  const scriptUrl = `${widgetPath}/planner-web.umd.js`;
+  const styleUrl = `${widgetPath}/planner-web.css`;
+
   const [isLoaded, setLoaded] = useState(false);
   const [html, setHtml] = useState('');
   const lib = useRef<PlannerWebOutput | null>(null);
@@ -35,46 +53,34 @@ const WidgetPage: NextPage<WithGlobalData<{}>> = ({ ...props }) => {
   const theme = useTheme();
 
   useEffect(() => {
-    if (!router.isReady) return; // Wait for the router to be ready
+    if (!router.isReady) return;
+    setLoaded(false);
 
-    const { version: versionParam } = router.query; // Access the id from the query
-    const version = Array.isArray(versionParam)
-      ? versionParam[0]
-      : versionParam; // Handle dynamic routes
+    const loadWidget = () => {
+      if (window.PlannerWeb?.createWidget) {
+        lib.current = window.PlannerWeb.createWidget({
+          urlBase: currentUrlBase,
+          language: 'nb',
+        });
 
-    if (version) {
-      setLoaded(false); // Reset the loading state
-      const scriptUrl = `${currentUrlBase}/widget/${compressedOrgId}/${version}/planner-web.umd.js`;
-
-      const loadWidget = () => {
-        if (window.PlannerWeb?.createWidget) {
-          lib.current = window.PlannerWeb.createWidget({
-            urlBase: currentUrlBase,
-            language: 'nb',
-          });
-
-          setHtml(lib.current.output);
-          setLoaded(true);
-        } else {
-          console.error('PlannerWeb.createWidget is not defined');
-        }
-      };
-
-      // Dynamically load the script if not already loaded
-      const existingScript = document.querySelector(
-        `script[src="${scriptUrl}"]`,
-      );
-      if (!existingScript) {
-        const script = document.createElement('script');
-        script.src = scriptUrl;
-        script.async = true;
-        script.onload = loadWidget;
-        document.body.appendChild(script);
+        setHtml(lib.current.output);
+        setLoaded(true);
       } else {
-        loadWidget();
+        console.error('PlannerWeb.createWidget is not defined');
       }
+    };
+
+    const existingScript = document.querySelector(`script[src="${scriptUrl}"]`);
+    if (!existingScript) {
+      const script = document.createElement('script');
+      script.src = scriptUrl;
+      script.async = true;
+      script.onload = loadWidget;
+      document.body.appendChild(script);
+    } else {
+      loadWidget();
     }
-  }, [router.isReady, router.query]);
+  }, [router.isReady, router.query, scriptUrl]);
 
   useEffect(() => {
     if (html) {
@@ -85,33 +91,50 @@ const WidgetPage: NextPage<WithGlobalData<{}>> = ({ ...props }) => {
   return (
     <DefaultLayout {...props}>
       <Head>
-        <link
-          rel="stylesheet"
-          href={`${currentUrlBase}/widget/${compressedOrgId}/${router.query.version?.[0]}/planner-web.css`}
-        />
+        <link rel="stylesheet" href={styleUrl} />
         <style>
           {`
           .wrapper {
             background: ${theme.color.background.accent[0].background};
-            display: flex;
-            justify-content: center;
-            padding: 20px 0;
+            height: 100%;
+            position: relative;
+            display: grid;
+            grid-template-areas:
+                'main'
+                'alternatives';
           }
           .widget {
-            max-width: 1140px;
+            grid-area: main;
+            display: grid;
+            grid-gap: var(--spacing-x-large);
+            width: 100%;
+            max-width: var(--maxPageWidth);
+            padding: var(--spacing-x-large);
             margin: 0 auto;
           }
         `}
         </style>
       </Head>
-      <div className="wrapper">
-        <div id="planner-widget" className="widget">
-          <div dangerouslySetInnerHTML={{ __html: html }} />
-        </div>
+      <div className="widgetWrapper">
+        <div
+          id="planner-widget"
+          className="widget"
+          dangerouslySetInnerHTML={{ __html: html }}
+        />
       </div>
       {!isLoaded && <p>Loading widget...</p>}
     </DefaultLayout>
   );
 };
 
-export default WidgetPage;
+export default FullscreenWidgetPage;
+
+export const getServerSideProps =
+  withGlobalData<FullscreenWidgetPagePropsContent>(async function () {
+    const data = await getWidgetData();
+    return {
+      props: {
+        data,
+      },
+    };
+  });
