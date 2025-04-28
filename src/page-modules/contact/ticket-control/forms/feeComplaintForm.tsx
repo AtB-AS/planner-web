@@ -6,11 +6,11 @@ import { ticketControlFormEvents } from '../events';
 import {
   Input,
   SectionCard,
-  Checkbox,
   Radio,
   Textarea,
   FileInput,
 } from '../../components';
+import { Checkbox } from '@atb/components/checkbox';
 
 type FeeComplaintFormProps = {
   state: { context: TicketControlContextProps };

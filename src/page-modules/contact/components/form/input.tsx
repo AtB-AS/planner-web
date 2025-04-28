@@ -3,10 +3,10 @@ import { ChangeEvent, useState } from 'react';
 import { PageText, TranslatedString, useTranslation } from '@atb/translations';
 import { andIf } from '@atb/utils/css';
 import { Typo } from '@atb/components/typography';
-import ErrorMessage from './error-message';
 import { MonoIcon } from '@atb/components/icon';
 import { Button } from '@atb/components/button';
 import DescriptionModal from './description-modal';
+import { ErrorMessage } from '@atb/components/error-message';
 
 type InputProps = {
   label: string;

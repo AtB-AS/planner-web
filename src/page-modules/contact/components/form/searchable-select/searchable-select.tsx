@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { MonoIcon } from '@atb/components/icon';
-import ErrorMessage from '../error-message';
 import style from '../form.module.css';
 import { andIf } from '@atb/utils/css';
 import {
@@ -14,6 +13,7 @@ import {
   Popover,
   Group,
 } from 'react-aria-components';
+import { ErrorMessage } from '@atb/components/error-message';
 
 export type Option<T> = { id: string; name: string; value: T };
 export type SearchableSelectProps<T> = {

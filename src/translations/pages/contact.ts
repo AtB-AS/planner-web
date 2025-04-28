@@ -18,6 +18,11 @@ const ContactInternal = {
       'Tilbake til reisesøk',
     ),
     placeholder: _('Velg et skjema', 'Select a form', 'Vel eit skjema'),
+    privacyAndTerms: _(
+      'Vi ber om de personopplysningene vi trenger for å behandle saken din. Du skal derfor ikke legge inn personopplysninger i fritekstfeltene. Personopplysninger er alle opplysninger som kan knytest til en fysisk person, eller bidra til å identifisere en fysisk person.',
+      'We ask for the personal information we need to process your case. You should therefore not enter personal information in the free text field. Personal information is all information that can be linked to a physical person, or help to identify a physical person.',
+      'Vi ber om dei personopplysningane vi treng for å behandle saka di. Du skal derfor ikkje legge inn personopplysningar i fritekstfelta. Personopplysningar er alle opplysningar som kan knytast til ein fysisk person, eller bidra til å identifisere ein fysisk person.',
+    ),
   },
 
   ticketControl: {
@@ -92,11 +97,6 @@ const ContactInternal = {
             'Har du ikke gyldig billett for reisen, vil du få gebyr ved billettkontroll.',
             'If you do not have a valid ticket for the trip, you will receive a fine during the ticket inspection.',
             'Har du ikkje gyldig billett for reisa, vil du få gebyr ved billettkontroll.',
-          ),
-          _(
-            'Vi kan kreve gebyr selv om du er under 15 år.',
-            'We may charge a fee even if you are under 15 years old.',
-            'Vi kan krevje gebyr sjølv om du er under 15 år.',
           ),
         ],
         checkbox: _('Jeg forstår', 'I understand', 'Eg forstår'),
@@ -741,16 +741,16 @@ const ContactInternal = {
       },
       appTicketRefund: {
         label: _(
-          'Billett kjøpt i FRAM-appen (alle billettyper) ',
-          'Ticket purchased in the FRAM app (all ticket types)',
-          'Billett kjøpt i FRAM-appen (alle billettypar) ',
+          'Billett kjøpt i app eller nettbutikk',
+          'Ticket purchased in an app or webshop',
+          'Billett kjøpt i app eller nettbutikk',
         ),
       },
       otherTicketRefund: {
         label: _(
-          'Billett på reisekort eller kjøpt i nettbutikken, om bord eller på trafikkterminal',
-          'Ticket on travel card or purchased in the webshop, on board or at the terminal',
-          'Billett på reisekort eller kjøpt i nettbutikken, om bord eller på trafikkterminal',
+          'Billett kjøpt om bord eller på trafikkterminal',
+          'Ticket purchased onboard or at a terminal',
+          'Billett kjøpt om bord eller på trafikkterminal',
         ),
       },
     },
@@ -965,6 +965,28 @@ const ContactInternal = {
           'Velg transportmiddel',
           'Select transport mode',
           'Vel transportmiddel',
+        ),
+      },
+    },
+
+    purchasePlatform: {
+      label: _('Kjøpsplattform', 'Purchase platform', 'Kjøpsplattform'),
+      optionLabel: _(
+        'Velg app eller nettbutikk billetten ble kjøpt i',
+        'Select the app or webshop where the ticket was purchased',
+        'Vel app eller nettbutikk der billetten vart kjøpt',
+      ),
+      platforms: {
+        enturApp: _('Entur-appen', 'Entur app', 'Entur-appen'),
+        framApp: _('FRAM-appen', 'FRAM app', 'FRAM-appen'),
+        enturWeb: _('Entur nettbutikk', 'Entur webshop', 'Entur nettbutikk'),
+        framWeb: _('FRAM nettbutikk', 'FRAM webshop', 'FRAM nettbutikk'),
+      },
+      errorMessages: {
+        empty: _(
+          'Velg app eller nettbutikk',
+          'Select app or webshop',
+          'Vel app eller nettbutikk',
         ),
       },
     },

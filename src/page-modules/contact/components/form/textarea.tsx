@@ -1,5 +1,5 @@
+import { ErrorMessage } from '@atb/components/error-message';
 import style from './form.module.css';
-import ErrorMessage from './error-message';
 
 export type CheckboxProps = {
   onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
