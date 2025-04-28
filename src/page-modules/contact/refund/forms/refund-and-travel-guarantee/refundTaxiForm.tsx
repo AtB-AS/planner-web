@@ -6,7 +6,7 @@ import { ReasonForTransportFailure, RefundFormEvents } from '../../events';
 import { RefundContextProps } from '../../refundFormMachine';
 import { Typo } from '@atb/components/typography';
 import {
-  SectionCard,
+  Fieldset,
   Input,
   Select,
   Textarea,
@@ -29,10 +29,8 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
   const { getLinesByMode, getQuaysByLine } = useLines();
 
   return (
-    <div>
-      <SectionCard
-        title={t(PageText.Contact.refund.refundTaxi.taxiReceipt.title)}
-      >
+    <>
+      <Fieldset title={t(PageText.Contact.refund.refundTaxi.taxiReceipt.title)}>
         <Typo.p textType="body__primary">
           {t(PageText.Contact.refund.refundTaxi.taxiReceipt.info)}
         </Typo.p>
@@ -66,8 +64,8 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
         <Typo.p textType="body__primary">
           {t(PageText.Contact.input.amount.info)}
         </Typo.p>
-      </SectionCard>
-      <SectionCard
+      </Fieldset>
+      <Fieldset
         title={t(PageText.Contact.refund.refundTaxi.aboutYourTrip.title)}
       >
         <Select
@@ -212,8 +210,8 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
           valueToId={(option: ReasonForTransportFailure) => option.id}
           valueToText={(option: ReasonForTransportFailure) => t(option.name)}
         />
-      </SectionCard>
-      <SectionCard title={t(PageText.Contact.input.feedback.optionalTitle)}>
+      </Fieldset>
+      <Fieldset title={t(PageText.Contact.input.feedback.optionalTitle)}>
         <Textarea
           value={state.context.feedback || ''}
           onChange={(e) =>
@@ -239,8 +237,8 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
           }}
           label={t(PageText.Contact.input.feedback.attachment)}
         />
-      </SectionCard>
-      <SectionCard title={t(PageText.Contact.aboutYouInfo.title)}>
+      </Fieldset>
+      <Fieldset title={t(PageText.Contact.aboutYouInfo.title)}>
         <Input
           label={t(PageText.Contact.input.firstName.label)}
           type="text"
@@ -409,8 +407,8 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
             />
           </div>
         )}
-      </SectionCard>
-    </div>
+      </Fieldset>
+    </>
   );
 };
 

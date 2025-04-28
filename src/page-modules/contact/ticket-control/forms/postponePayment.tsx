@@ -1,4 +1,4 @@
-import { Input, SectionCard } from '../../components';
+import { Input, Fieldset } from '../../components';
 import { PageText, useTranslation } from '@atb/translations';
 import { ticketControlFormEvents } from '../events';
 import { TicketControlContextProps } from '../ticket-control-form-machine';
@@ -16,10 +16,8 @@ export const PostponePaymentForm = ({
   const { t } = useTranslation();
 
   return (
-    <div>
-      <SectionCard
-        title={t(PageText.Contact.ticketControl.postponePayment.title)}
-      >
+    <>
+      <Fieldset title={t(PageText.Contact.ticketControl.postponePayment.title)}>
         <Typo.p textType="body__primary">
           {t(PageText.Contact.ticketControl.postponePayment.info)}
         </Typo.p>
@@ -59,8 +57,8 @@ export const PostponePaymentForm = ({
             description: t(PageText.Contact.input.invoiceNumber.description),
           }}
         />
-      </SectionCard>
-      <SectionCard title={t(PageText.Contact.aboutYouInfo.title)}>
+      </Fieldset>
+      <Fieldset title={t(PageText.Contact.aboutYouInfo.title)}>
         <Input
           label={t(PageText.Contact.input.firstName.label)}
           type="text"
@@ -105,8 +103,8 @@ export const PostponePaymentForm = ({
             })
           }
         />
-      </SectionCard>
-    </div>
+      </Fieldset>
+    </>
   );
 };
 

@@ -6,7 +6,7 @@ import {
   ticketingStateMachine,
 } from '../../ticketingStateMachine';
 import { ticketingFormEvents } from '../../events';
-import { SectionCard, Radio } from '../../../components';
+import { Fieldset, Radio } from '../../../components';
 import WebshopAccountForm from './webshopAccountForm';
 import WebshopTicketingForm from './webshopTicketingForm';
 
@@ -19,8 +19,8 @@ export const WebshopForms = ({ state, send }: AppFormsProps) => {
   const { t } = useTranslation();
 
   return (
-    <div>
-      <SectionCard title={t(PageText.Contact.ticketing.webshop.description)}>
+    <>
+      <Fieldset title={t(PageText.Contact.ticketing.webshop.description)}>
         <ul className={style.form_options__list}>
           {Object.values(WebshopForm).map((webshopForm) => (
             <li key={webshopForm}>
@@ -37,7 +37,7 @@ export const WebshopForms = ({ state, send }: AppFormsProps) => {
             </li>
           ))}
         </ul>
-      </SectionCard>
+      </Fieldset>
 
       {state.matches({ editing: { webshop: 'webshopTicketing' } }) && (
         <WebshopTicketingForm state={state} send={send} />
@@ -45,7 +45,7 @@ export const WebshopForms = ({ state, send }: AppFormsProps) => {
       {state.matches({ editing: { webshop: 'webshopAccount' } }) && (
         <WebshopAccountForm state={state} send={send} />
       )}
-    </div>
+    </>
   );
 };
 

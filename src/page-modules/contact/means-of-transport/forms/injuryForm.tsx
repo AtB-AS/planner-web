@@ -6,7 +6,7 @@ import { TransportModeType } from '../../types';
 import { Line } from '../..';
 import { meansOfTransportFormEvents } from '../events';
 import {
-  SectionCard,
+  Fieldset,
   Select,
   Input,
   FileInput,
@@ -28,17 +28,13 @@ export const InjuryForm = ({ state, send }: InjuryFormProps) => {
   const { getLinesByMode, getQuaysByLine } = useLines();
 
   return (
-    <div>
-      <SectionCard
-        title={t(PageText.Contact.modeOfTransport.injury.description)}
-      >
+    <>
+      <Fieldset title={t(PageText.Contact.modeOfTransport.injury.description)}>
         <Typo.p textType="body__primary">
           {t(PageText.Contact.modeOfTransport.injury.info)}
         </Typo.p>
-      </SectionCard>
-      <SectionCard
-        title={t(PageText.Contact.modeOfTransport.injury.about.title)}
-      >
+      </Fieldset>
+      <Fieldset title={t(PageText.Contact.modeOfTransport.injury.about.title)}>
         <Typo.p textType="body__primary">
           {t(PageText.Contact.modeOfTransport.injury.about.description)}
         </Typo.p>
@@ -156,9 +152,9 @@ export const InjuryForm = ({ state, send }: InjuryFormProps) => {
             state.context?.errorMessages['plannedDepartureTime']?.[0]
           }
         />
-      </SectionCard>
+      </Fieldset>
 
-      <SectionCard title={t(PageText.Contact.input.feedback.title)}>
+      <Fieldset title={t(PageText.Contact.input.feedback.title)}>
         <Typo.p textType="body__primary">
           {t(PageText.Contact.input.feedback.description)}
         </Typo.p>
@@ -188,8 +184,8 @@ export const InjuryForm = ({ state, send }: InjuryFormProps) => {
             });
           }}
         />
-      </SectionCard>
-      <SectionCard title={t(PageText.Contact.aboutYouInfo.optionalTitle)}>
+      </Fieldset>
+      <Fieldset title={t(PageText.Contact.aboutYouInfo.optionalTitle)}>
         <Input
           label={t(PageText.Contact.input.firstName.label)}
           type="text"
@@ -231,8 +227,8 @@ export const InjuryForm = ({ state, send }: InjuryFormProps) => {
             })
           }
         />
-      </SectionCard>
-    </div>
+      </Fieldset>
+    </>
   );
 };
 

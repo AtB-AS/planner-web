@@ -14,7 +14,7 @@ import {
 import { Button } from '@atb/components/button';
 import { PageText, useTranslation } from '@atb/translations';
 import { FormEventHandler } from 'react';
-import { Radio, SectionCard } from '../components';
+import { Radio, Fieldset } from '../components';
 import style from '../contact.module.css';
 
 const MeansOfTransportContent = () => {
@@ -29,7 +29,7 @@ const MeansOfTransportContent = () => {
 
   return (
     <form onSubmit={onSubmit} className={style.form}>
-      <SectionCard title={t(PageText.Contact.modeOfTransport.title)}>
+      <Fieldset title={t(PageText.Contact.modeOfTransport.title)}>
         <ul className={style.form_options__list}>
           {Object.values(FormType).map((formType) => (
             <li key={formType}>
@@ -48,7 +48,7 @@ const MeansOfTransportContent = () => {
             </li>
           ))}
         </ul>
-      </SectionCard>
+      </Fieldset>
 
       {state.matches({ editing: 'driver' }) && (
         <DriverForm state={state} send={send} />

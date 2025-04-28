@@ -2,7 +2,7 @@ import { PageText, useTranslation } from '@atb/translations';
 import { RefundFormEvents, TicketType } from '../../events';
 import { Typo } from '@atb/components/typography';
 import {
-  SectionCard,
+  Fieldset,
   Input,
   Select,
   Textarea,
@@ -22,7 +22,7 @@ type RefundSectionProps = Pick<OtherTicketRefundProps, 'state' | 'send'>;
 const RefundSection = ({ state, send }: RefundSectionProps) => {
   const { t } = useTranslation();
   return (
-    <SectionCard
+    <Fieldset
       title={t(PageText.Contact.ticketing.refund.otherTicketRefund.label)}
     >
       <Select
@@ -182,7 +182,7 @@ const RefundSection = ({ state, send }: RefundSectionProps) => {
           });
         }}
       />
-    </SectionCard>
+    </Fieldset>
   );
 };
 
@@ -191,7 +191,7 @@ type AboutYouSectionProps = Pick<OtherTicketRefundProps, 'state' | 'send'>;
 const AboutYouSection = ({ state, send }: AboutYouSectionProps) => {
   const { t } = useTranslation();
   return (
-    <SectionCard title={t(PageText.Contact.aboutYouInfo.title)}>
+    <Fieldset title={t(PageText.Contact.aboutYouInfo.title)}>
       <Input
         label={t(PageText.Contact.input.firstName.label)}
         type="text"
@@ -360,16 +360,16 @@ const AboutYouSection = ({ state, send }: AboutYouSectionProps) => {
           />
         </div>
       )}
-    </SectionCard>
+    </Fieldset>
   );
 };
 
 export const OtherTicketRefund = ({ state, send }: OtherTicketRefundProps) => {
   return (
-    <div>
+    <>
       <RefundSection state={state} send={send} />
       <AboutYouSection state={state} send={send} />
-    </div>
+    </>
   );
 };
 

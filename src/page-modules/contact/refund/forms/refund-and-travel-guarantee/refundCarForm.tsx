@@ -5,7 +5,7 @@ import { Line } from '../../..';
 import { ReasonForTransportFailure, RefundFormEvents } from '../../events';
 import { RefundContextProps } from '../../refundFormMachine';
 import {
-  SectionCard,
+  Fieldset,
   Input,
   Select,
   Textarea,
@@ -28,8 +28,8 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
   const { getLinesByMode, getQuaysByLine } = useLines();
 
   return (
-    <div>
-      <SectionCard title={t(PageText.Contact.refund.refundTaxi.carTrip.title)}>
+    <>
+      <Fieldset title={t(PageText.Contact.refund.refundTaxi.carTrip.title)}>
         <Input
           label={t(PageText.Contact.input.kilometersDriven.label)}
           type="text"
@@ -78,8 +78,8 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
             })
           }
         />
-      </SectionCard>
-      <SectionCard
+      </Fieldset>
+      <Fieldset
         title={t(PageText.Contact.refund.refundTaxi.aboutYourTrip.title)}
       >
         <Select
@@ -223,9 +223,9 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
           valueToId={(option: ReasonForTransportFailure) => option.id}
           valueToText={(option: ReasonForTransportFailure) => t(option.name)}
         />
-      </SectionCard>
+      </Fieldset>
 
-      <SectionCard title={t(PageText.Contact.input.feedback.optionalTitle)}>
+      <Fieldset title={t(PageText.Contact.input.feedback.optionalTitle)}>
         <Textarea
           value={state.context.feedback || ''}
           onChange={(e) =>
@@ -251,8 +251,8 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
           }}
           label={t(PageText.Contact.input.feedback.attachment)}
         />
-      </SectionCard>
-      <SectionCard title={t(PageText.Contact.aboutYouInfo.title)}>
+      </Fieldset>
+      <Fieldset title={t(PageText.Contact.aboutYouInfo.title)}>
         <Input
           label={t(PageText.Contact.input.firstName.label)}
           type="text"
@@ -422,8 +422,8 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
             />
           </div>
         )}
-      </SectionCard>
-    </div>
+      </Fieldset>
+    </>
   );
 };
 

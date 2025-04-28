@@ -2,7 +2,7 @@ import style from '../../..//contact.module.css';
 import { StateFrom } from 'xstate';
 import { PageText, TranslatedString, useTranslation } from '@atb/translations';
 import { Typo } from '@atb/components/typography';
-import { SectionCard, Radio } from '../../../components';
+import { Fieldset, Radio } from '../../../components';
 import AppTicketRefund from './appTicketRefund';
 import Link from 'next/link';
 import { refundStateMachine, RefundTicketForm } from '../../refundFormMachine';
@@ -25,8 +25,8 @@ export const RefundTicketForms = ({ state, send }: RefundTicketFormsProps) => {
     state.context.formType === 'otherTicketRefund';
 
   return (
-    <div>
-      <SectionCard
+    <>
+      <Fieldset
         title={t(
           PageText.Contact.ticketing.refund.initialAgreement
             .ticketRefundAvailability.title,
@@ -41,8 +41,8 @@ export const RefundTicketForms = ({ state, send }: RefundTicketFormsProps) => {
             ),
           )}
         </ul>
-      </SectionCard>
-      <SectionCard
+      </Fieldset>
+      <Fieldset
         title={t(
           PageText.Contact.ticketing.refund.initialAgreement
             .refundableTicketTypes.title,
@@ -83,10 +83,10 @@ export const RefundTicketForms = ({ state, send }: RefundTicketFormsProps) => {
             })
           }
         />
-      </SectionCard>
+      </Fieldset>
 
       {state.context.isInitialAgreementChecked && (
-        <SectionCard title={t(PageText.Contact.ticketing.refund.description)}>
+        <Fieldset title={t(PageText.Contact.ticketing.refund.description)}>
           <ul className={style.form_options__list}>
             {Object.values(RefundTicketForm).map((refundTicketForm) => (
               <li key={refundTicketForm}>
@@ -107,7 +107,7 @@ export const RefundTicketForms = ({ state, send }: RefundTicketFormsProps) => {
               </li>
             ))}
           </ul>
-        </SectionCard>
+        </Fieldset>
       )}
 
       {displayAppTicketRefund && <AppTicketRefund state={state} send={send} />}
@@ -115,7 +115,7 @@ export const RefundTicketForms = ({ state, send }: RefundTicketFormsProps) => {
       {displayOtherTicketRefund && (
         <OtherTicketRefund state={state} send={send} />
       )}
-    </div>
+    </>
   );
 };
 

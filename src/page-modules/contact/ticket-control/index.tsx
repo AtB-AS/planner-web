@@ -10,7 +10,7 @@ import { Button } from '@atb/components/button';
 import FeeComplaintForm from './forms/feeComplaintForm';
 import FeedbackForm from './forms/feedbackForm';
 import PostponePaymentForm from './forms/postponePayment';
-import { SectionCard, Radio } from '../components';
+import { Fieldset, Radio } from '../components';
 
 const TicketControlPageContent = () => {
   const { t } = useTranslation();
@@ -27,7 +27,7 @@ const TicketControlPageContent = () => {
 
   return (
     <form onSubmit={onSubmit} className={style.form}>
-      <SectionCard title={t(PageText.Contact.ticketControl.title)}>
+      <Fieldset title={t(PageText.Contact.ticketControl.title)}>
         <ul className={style.form_options__list}>
           {Object.values(FormType).map((formType) => (
             <li key={formType}>
@@ -44,7 +44,7 @@ const TicketControlPageContent = () => {
             </li>
           ))}
         </ul>
-      </SectionCard>
+      </Fieldset>
       {state.matches({ editing: 'feeComplaint' }) && (
         <FeeComplaintForm state={state} send={send} />
       )}

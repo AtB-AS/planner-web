@@ -1,15 +1,22 @@
-.container {
+.fieldset {
+  position: relative;
   display: flex;
   flex-direction: column;
   padding: token('spacing.xLarge');
   padding-bottom: token('spacing.medium');
   margin: token('spacing.large');
   margin-top: 0px;
+  border: none;
   border-radius: token('border.radius.regular');
   color: token('color.background.neutral.0.foreground.primary');
   background-color: token('color.background.neutral.0.background');
 }
 
-.container > * + * {
+.fieldset > * + * {
   margin-top: token('spacing.medium');
+}
+
+.legend {
+  position: absolute;
+  top: token('spacing.small');
 }

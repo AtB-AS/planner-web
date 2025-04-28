@@ -2,7 +2,7 @@ import { PageText, useTranslation } from '@atb/translations';
 import { ticketingFormEvents } from '../../events';
 import { TicketingContextType } from '../../ticketingStateMachine';
 import { Typo } from '@atb/components/typography';
-import { SectionCard, Textarea, FileInput, Input } from '../../../components';
+import { Fieldset, Textarea, FileInput, Input } from '../../../components';
 
 type WebshopAccountFormProps = {
   state: { context: TicketingContextType };
@@ -16,8 +16,8 @@ export const WebshopAccountForm = ({
   const { t } = useTranslation();
 
   return (
-    <div>
-      <SectionCard title={t(PageText.Contact.input.question.title)}>
+    <>
+      <Fieldset title={t(PageText.Contact.input.question.title)}>
         <Typo.p textType="body__primary">
           {t(PageText.Contact.input.question.info)}
         </Typo.p>
@@ -47,8 +47,8 @@ export const WebshopAccountForm = ({
             });
           }}
         />
-      </SectionCard>
-      <SectionCard title={t(PageText.Contact.aboutYouInfo.title)}>
+      </Fieldset>
+      <Fieldset title={t(PageText.Contact.aboutYouInfo.title)}>
         <Input
           label={t(PageText.Contact.input.customerNumber.labelOptional)}
           type="text"
@@ -129,8 +129,8 @@ export const WebshopAccountForm = ({
             })
           }
         />
-      </SectionCard>
-    </div>
+      </Fieldset>
+    </>
   );
 };
 
