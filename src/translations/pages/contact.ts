@@ -18,6 +18,11 @@ const ContactInternal = {
       'Tilbake til reisesøk',
     ),
     placeholder: _('Velg et skjema', 'Select a form', 'Vel eit skjema'),
+    privacyAndTerms: _(
+      'Vi ber om de personopplysningene vi trenger for å behandle saken din. Du skal derfor ikke legge inn personopplysninger i fritekstfeltene. Personopplysninger er alle opplysninger som kan knytest til en fysisk person, eller bidra til å identifisere en fysisk person.',
+      'We ask for the personal information we need to process your case. You should therefore not enter personal information in the free text field. Personal information is all information that can be linked to a physical person, or help to identify a physical person.',
+      'Vi ber om dei personopplysningane vi treng for å behandle saka di. Du skal derfor ikkje legge inn personopplysningar i fritekstfelta. Personopplysningar er alle opplysningar som kan knytast til ein fysisk person, eller bidra til å identifisere ein fysisk person.',
+    ),
   },
 
   ticketControl: {
