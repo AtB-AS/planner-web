@@ -163,7 +163,6 @@
   display: flex;
   justify-content: flex-end;
   padding: token('spacing.small') token('spacing.medium');
-
 }
 
 .timeStartContainer {
