@@ -41,7 +41,6 @@ export default function TripPattern({
     filteredLegs.length,
   );
   const [isOpen, setIsOpen] = useState(false);
-  const [isDetailsButtonClicked, setIsDetailsButtonClicked] = useState(false);
   const router = useRouter();
   const id = useId();
 
@@ -270,10 +269,6 @@ export default function TripPattern({
             <div className={style.accordionFooter}>
               <ButtonLink
                 href={`/assistant/${tripPattern.compressedQuery}?filter=${router.query.filter}`}
-                onClick={() => {
-                  setIsDetailsButtonClicked(true);
-                }}
-                state={isDetailsButtonClicked ? 'loading' : undefined}
                 title={t(PageText.Assistant.trip.tripPattern.details)}
                 mode="interactive_2"
                 size="pill"
