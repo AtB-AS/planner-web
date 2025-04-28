@@ -1,8 +1,8 @@
 import { andIf } from '@atb/utils/css';
-import style from './form.module.css';
+import style from './checkbox.module.css';
 import { useId } from 'react';
 import { ColorIcon } from '@atb/components/icon';
-import ErrorMessage from './error-message';
+import { ErrorMessage } from '../error-message';
 
 export type CheckboxProps = {
   onChange: (checked: boolean) => void;
@@ -12,6 +12,7 @@ export type CheckboxProps = {
   label: string;
   description?: string;
   checked?: boolean;
+  expand?: boolean;
   onClick?: () => void;
 };
 
@@ -23,6 +24,7 @@ export default function Checkbox({
   label,
   description,
   checked = false,
+  expand = false,
   onClick,
 }: CheckboxProps) {
   const id = useId();
@@ -32,6 +34,7 @@ export default function Checkbox({
     [style['checkbox--error']]: !!error,
     [style['checkbox--disabled']]: disabled,
     [style['checkbox--readonly']]: readonly,
+    [style['checkbox--expand']]: expand,
   });
 
   const icon = checked ? 'input/CheckboxChecked' : 'input/CheckboxUnchecked';
@@ -52,7 +55,9 @@ export default function Checkbox({
         <ColorIcon icon={icon} className={style.checkbox__icon} role="none" />
         <dl>
           <dt className={style.checkbox__label}>{label}</dt>
-          <dd className={style.checkbox__description}>{description}</dd>
+          {description && (
+            <dd className={style.checkbox__description}>{description}</dd>
+          )}
         </dl>
       </span>
       {!!error && <ErrorMessage message={error} />}
