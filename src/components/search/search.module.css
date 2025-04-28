@@ -64,7 +64,7 @@
 }
 
 .input::placeholder {
-  color: token('color.foreground.dynamic.secondary');
+  color: token('color.foreground.dynamic.disabled');
   opacity: 1;
 }
 

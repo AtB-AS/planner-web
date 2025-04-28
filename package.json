@@ -1,6 +1,6 @@
 {
   "name": "@atb-as/planner-web",
-  "version": "2.36.1",
+  "version": "2.37.0",
   "private": true,
   "license": "EUPL-1.2",
   "engines": {
@@ -30,7 +30,7 @@
   "dependencies": {
     "@apollo/client": "^3.11.2",
     "@atb-as/config-specs": "^3.27.0",
-    "@atb-as/theme": "^12.0.5",
+    "@atb-as/theme": "^13.1.4",
     "@github/combobox-nav": "^3.0.1",
     "@internationalized/date": "^3.5.5",
     "@isaacs/ttlcache": "^1.4.1",
@@ -114,5 +114,6 @@
     "vite": "^5.3.5",
     "vite-plugin-dts": "^4.0.0-beta.2",
     "vitest": "^2.0.5"
-  }
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }
