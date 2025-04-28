@@ -3,18 +3,19 @@
   background-color: token('color.background.neutral.0.background');
   max-width: 100%;
   width: 100%;
+  text-decoration: none;
+  transition: opacity 150ms ease-in-out;
+}
+
+.tripPatternContainer:hover {
+  background-color: token('color.background.neutral.0.background');
+  color: token('color.foreground.dynamic.primary');
+  opacity: 0.8 !important;
 }
 
 .tripPattern {
   display: flex;
   flex-direction: column;
-  text-decoration: none;
-  transition: opacity 150ms ease-in-out;
-}
-.tripPattern:hover {
-  background-color: token('color.background.neutral.0.background');
-  color: token('color.foreground.dynamic.primary');
-  opacity: 0.8 !important;
 }
 .tripPattern--old:hover {
   opacity: 0.5 !important;
@@ -34,8 +35,7 @@
 .details {
   display: flex;
   flex-direction: column;
-  padding: token('spacing.medium');
-  align-items: flex-end;
+  padding: 0 token('spacing.medium');
 }
 
 .legs {
@@ -155,6 +155,16 @@
   background-color: token('color.interactive.0.default.background');
 }
 
+.accordionBody {
+  padding: token('spacing.medium');
+}
+
+.accordionFooter {
+  display: flex;
+  justify-content: flex-end;
+  padding: token('spacing.small') token('spacing.medium');
+}
+
 .timeStartContainer {
   display: flex;
   direction: row;
@@ -175,6 +185,7 @@
 
 .goToDetailsButton {
   border: 2px solid token('color.foreground.dynamic.primary');
+  align-self: flex-end;
 }
 
 .goToDetailsButton:active {
