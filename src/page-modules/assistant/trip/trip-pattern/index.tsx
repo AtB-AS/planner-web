@@ -89,7 +89,7 @@ export default function TripPattern({
   return (
     <div className={style.tripPatternContainer}>
       <motion.div
-        id={id}
+        id={`${id}-details-region`}
         role="region"
         onClick={() => setIsOpen(!isOpen)}
         className={className}
@@ -234,7 +234,7 @@ export default function TripPattern({
                 : t(PageText.Assistant.trip.tripPattern.seeMore)
             }
             buttonProps={{
-              'aria-controls': 'assistant-details-accordion',
+              'aria-controls': `${id}-details-region`,
               'aria-expanded': isOpen,
             }}
             size={'pill'}
