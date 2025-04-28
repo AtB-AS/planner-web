@@ -1,11 +1,11 @@
 import { Typo } from '@atb/components/typography';
-import { Fieldset } from '../components';
+import { SectionCard } from '../components';
 import { PageText, useTranslation } from '@atb/translations';
 
 export default function LostPropertyContent() {
   const { t } = useTranslation();
   return (
-    <Fieldset title={t(PageText.Contact.lostProperty.title)}>
+    <SectionCard title={t(PageText.Contact.lostProperty.title)}>
       <Typo.p textType="body__primary">
         <span>
           {t(PageText.Contact.lostProperty.description.info)}&nbsp;
@@ -18,6 +18,6 @@ export default function LostPropertyContent() {
           </a>
         </span>
       </Typo.p>
-    </Fieldset>
+    </SectionCard>
   );
 }
