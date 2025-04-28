@@ -9,7 +9,6 @@
   position: relative;
   border-radius: 0.75rem;
   background-color: token('color.background.neutral.0.background');
-  border: 1px solid token('color.foreground.dynamic.disabled');
 }
 .container:focus-within {
   outline: 0;
