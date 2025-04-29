@@ -47,6 +47,10 @@
   cursor: not-allowed;
 }
 
+.input:disabled::placeholder {
+  color: token('color.foreground.dynamic.disabled');
+}
+
 .input:focus-within {
   outline: 0;
   box-shadow: inset 0 0 0 token('border.width.slim')
