@@ -913,11 +913,17 @@ const ContactInternal = {
     bankInformation: {
       bankAccountNumber: {
         label: _('Bankkontonummer', 'Bank account number', 'Bankkontonummer'),
+        placeholder: _('xxxx.xx.xxxxx', 'xxxx.xx.xxxxx', 'xxxx.xx.xxxxx'),
         errorMessages: {
           empty: _(
             'Vennligst fyll ut ditt bankkontonummer',
             'Please provide your bank account number',
             'Vennligst fyll ut ditt bankkontonummer',
+          ),
+          invalidFormat: _(
+            'Ugyldig bankkontonummer. Skriv inn et gyldig nummer med 11 siffer.',
+            'Invalid bank account number. Please enter a valid 11-digit number.',
+            'Ugyldig bankkontonummer. Skriv inn eit gyldig nummer med 11 siffer.',
           ),
         },
       },
@@ -1203,10 +1209,10 @@ const ContactInternal = {
           'Enter your fee number',
           'Fyll ut gebyrnummeret ditt',
         ),
-        notFourDigits: _(
-          'Gebyrnummeret består av fire siffer',
-          'The fee number consists of four digits',
-          'Gebyrnummeret består av fire siffer',
+        invalidFormat: _(
+          'Ugyldig format. Gebyrnummeret består av fire siffer',
+          'Invalid format. The fee number consists of four digits',
+          'Ugyldig format. Gebyrnummeret består av fire siffer',
         ),
       },
     },

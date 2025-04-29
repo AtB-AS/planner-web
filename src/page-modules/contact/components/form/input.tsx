@@ -29,6 +29,7 @@ export const Input = ({
   modalContent,
   disabled,
   onChange,
+  placeholder,
 }: InputProps) => {
   const { t } = useTranslation();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -79,6 +80,7 @@ export const Input = ({
         value={value}
         disabled={disabled}
         onChange={onChange}
+        placeholder={placeholder}
       />
       {errorMessage && <ErrorMessage message={t(errorMessage)} />}
 

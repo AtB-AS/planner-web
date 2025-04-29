@@ -5,9 +5,22 @@ const removeWhitespace = (value: string): string => value.replace(/\s+/g, '');
 const isNotEmptyOrUndefined = (value: string | undefined): boolean =>
   value !== undefined && removeWhitespace(value) !== '';
 
+const isDigitsOnly = (value: string): boolean => /^\d+$/.test(value);
+
 const hasExpectedLength =
   (expectedLength: number) => (value: string | undefined) =>
     value?.length === expectedLength;
+
+const isValidBankAccount = (value: string): boolean => {
+  if (value.includes('.')) {
+    if (value[4] !== '.' && value[8] !== '.') return false;
+  }
+
+  const cleaned = removeWhitespace(value.replace(/\./g, ''));
+
+  if (!isDigitsOnly(cleaned)) return false;
+  return hasExpectedLength(11)(cleaned);
+};
 
 type ValidationRule = {
   validate: (value: any) => boolean;
@@ -69,6 +82,12 @@ const rulesBankAccountNumber: ValidationRule[] = [
     errorMessage:
       PageText.Contact.input.bankInformation.bankAccountNumber.errorMessages
         .empty,
+  },
+  {
+    validate: isValidBankAccount,
+    errorMessage:
+      PageText.Contact.input.bankInformation.bankAccountNumber.errorMessages
+        .invalidFormat,
   },
 ];
 
@@ -160,7 +179,11 @@ const rulesFeeNumber: ValidationRule[] = [
   },
   {
     validate: hasExpectedLength(4),
-    errorMessage: PageText.Contact.input.feeNumber.errorMessages.notFourDigits,
+    errorMessage: PageText.Contact.input.feeNumber.errorMessages.invalidFormat,
+  },
+  {
+    validate: isDigitsOnly,
+    errorMessage: PageText.Contact.input.feeNumber.errorMessages.invalidFormat,
   },
 ];
 
