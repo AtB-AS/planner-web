@@ -363,7 +363,11 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
           label={t(
             PageText.Contact.input.bankInformation.bankAccountNumber.label,
           )}
-          type="number"
+          placeholder={t(
+            PageText.Contact.input.bankInformation.bankAccountNumber
+              .placeholder,
+          )}
+          type="text"
           name="bankAccountNumber"
           value={state.context.bankAccountNumber || ''}
           disabled={state.context.hasInternationalBankAccount}
