@@ -38,7 +38,6 @@ export default function DateSelector({
 
   return (
     <div className={style.dateSelectorContainer}>
-      <Label>{t(label)}</Label>
       <DatePicker
         granularity="day"
         value={zonedDateTime}
@@ -46,9 +45,15 @@ export default function DateSelector({
         className={style.dateSelector}
         shouldForceLeadingZeros
       >
+        <Label>{t(label)}</Label>
         <Group className={style.calendarSelectorGroup}>
           <DateInput className={style.dateSelectorInput}>
-            {(segment) => <DateSegment segment={segment} />}
+            {(segment) => (
+              <DateSegment
+                segment={segment}
+                className={style.dateSelectorSegment}
+              />
+            )}
           </DateInput>
           <Button className={style.calendarButton}>
             <MonoIcon icon="time/Date" />

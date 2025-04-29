@@ -26,7 +26,6 @@ export default function TimeSelector({
 
   return (
     <div className={style.timeSelectorContainer}>
-      <Label>{t(label)}</Label>
       <TimeField
         value={parsedValue}
         onChange={(change) => {
@@ -39,6 +38,7 @@ export default function TimeSelector({
         data-testid="searchTimeSelector-time"
         granularity="minute"
       >
+        <Label>{t(label)}</Label>
         <DateInput className={style.timeSelectorInput}>
           {(segment) => (
             <DateSegment
