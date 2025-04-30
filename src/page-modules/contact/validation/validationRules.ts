@@ -22,6 +22,13 @@ const isValidBankAccount = (value: string): boolean => {
   return hasExpectedLength(11)(cleaned);
 };
 
+const containsAtLeastOneLetter = (value: string): boolean =>
+  /[a-zA-ZæøåÆØÅ]/.test(value);
+
+// phone number can optionally start with [+] and must consist of [0-9]. Whitespaces are ignored.
+const isValidMobilNumber = (value: string): boolean =>
+  /^[+]?\d+$/.test(removeWhitespace(value));
+
 type ValidationRule = {
   validate: (value: any) => boolean;
   errorMessage: TranslatedString;
@@ -32,11 +39,19 @@ const rulesFirstName: ValidationRule[] = [
     validate: isNotEmptyOrUndefined,
     errorMessage: PageText.Contact.input.firstName.errorMessages.empty,
   },
+  {
+    validate: containsAtLeastOneLetter,
+    errorMessage: PageText.Contact.input.firstName.errorMessages.empty,
+  },
 ];
 
 const rulesLastName: ValidationRule[] = [
   {
     validate: isNotEmptyOrUndefined,
+    errorMessage: PageText.Contact.input.lastName.errorMessages.empty,
+  },
+  {
+    validate: containsAtLeastOneLetter,
     errorMessage: PageText.Contact.input.lastName.errorMessages.empty,
   },
 ];
@@ -53,12 +68,20 @@ const rulesAddress: ValidationRule[] = [
     validate: isNotEmptyOrUndefined,
     errorMessage: PageText.Contact.input.address.errorMessages.empty,
   },
+  {
+    validate: containsAtLeastOneLetter,
+    errorMessage: PageText.Contact.input.address.errorMessages.empty,
+  },
 ];
 
 const rulesPostalCode: ValidationRule[] = [
   {
     validate: isNotEmptyOrUndefined,
     errorMessage: PageText.Contact.input.postalCode.errorMessages.empty,
+  },
+  {
+    validate: hasExpectedLength(4),
+    errorMessage: PageText.Contact.input.postalCode.errorMessages.invalidFormat,
   },
 ];
 
@@ -67,12 +90,21 @@ const rulesCity: ValidationRule[] = [
     validate: isNotEmptyOrUndefined,
     errorMessage: PageText.Contact.input.city.errorMessages.empty,
   },
+  {
+    validate: containsAtLeastOneLetter,
+    errorMessage: PageText.Contact.input.city.errorMessages.empty,
+  },
 ];
 
 const rulesPhoneNumber: ValidationRule[] = [
   {
     validate: isNotEmptyOrUndefined,
     errorMessage: PageText.Contact.input.phoneNumber.errorMessages.empty,
+  },
+  {
+    validate: isValidMobilNumber,
+    errorMessage:
+      PageText.Contact.input.phoneNumber.errorMessages.invalidFormat,
   },
 ];
 
@@ -234,6 +266,23 @@ const rulesOrderId: ValidationRule[] = [
     validate: isNotEmptyOrUndefined,
     errorMessage: PageText.Contact.input.orderId.errorMessages.empty,
   },
+  {
+    validate: (_orderId: string) => {
+      if (_orderId.includes(',')) return true; // Possibly multiple orderIds. If so, skip to next rule.
+      const cleanedOrderId = removeWhitespace(_orderId);
+      return hasExpectedLength(8)(cleanedOrderId);
+    },
+    errorMessage:
+      PageText.Contact.input.orderId.errorMessages.invalidFormat.singleId,
+  },
+  {
+    validate: (_orderIdsString: string) => {
+      const orderIds = removeWhitespace(_orderIdsString).split(',');
+      return orderIds.every((orderId) => hasExpectedLength(8)(orderId));
+    },
+    errorMessage:
+      PageText.Contact.input.orderId.errorMessages.invalidFormat.multipleIds,
+  },
 ];
 
 const rulesRefundReason: ValidationRule[] = [
@@ -282,6 +331,17 @@ const rulesCustomerNumber: ValidationRule[] = [
   {
     validate: isNotEmptyOrUndefined,
     errorMessage: PageText.Contact.input.customerNumber.errorMessages.empty,
+  },
+  {
+    validate: isDigitsOnly,
+    errorMessage:
+      PageText.Contact.input.customerNumber.errorMessages.invalidFormat,
+  },
+
+  {
+    validate: hasExpectedLength(7),
+    errorMessage:
+      PageText.Contact.input.customerNumber.errorMessages.invalidFormat,
   },
 ];
 

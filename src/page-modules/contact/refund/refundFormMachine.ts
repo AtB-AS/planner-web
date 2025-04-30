@@ -209,9 +209,6 @@ const setInputToValidate = (context: RefundContextProps) => {
       return {
         formType,
         ticketType,
-        ...(showInputTravelCardNumber
-          ? { travelCardNumber }
-          : { customerNumber }),
         refundReason,
         amount,
         firstName,
@@ -221,6 +218,10 @@ const setInputToValidate = (context: RefundContextProps) => {
         city,
         email,
         phoneNumber,
+        orderId,
+        ...(showInputTravelCardNumber
+          ? { travelCardNumber }
+          : { customerNumber }),
         ...(hasInternationalBankAccount
           ? { IBAN, SWIFT }
           : { bankAccountNumber }),

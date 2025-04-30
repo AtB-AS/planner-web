@@ -880,6 +880,11 @@ const ContactInternal = {
           'Please enter your postal code',
           'Vennligst fyll ut postnummer',
         ),
+        invalidFormat: _(
+          'Skriv inn et gyldig postnummer med fire sifre',
+          'Enter a valid postal code with four digits',
+          'Skriv inn eit gyldig postnummer med fire siffer',
+        ),
       },
     },
 
@@ -906,6 +911,11 @@ const ContactInternal = {
           'Vennligst fyll ut ditt telefonnummer',
           'Please enter your phone number',
           'Vennligst fyll ut ditt telefonnummer',
+        ),
+        invalidFormat: _(
+          'Vennligst fyll ut telefonnummeret på et gyldig format.',
+          'Please enter your phone number in a valid format.',
+          'Vennligst fyll ut telefonnummeret på eit gyldig format.',
         ),
       },
     },
@@ -1304,6 +1314,11 @@ const ContactInternal = {
           'Enter customer number',
           'Fyll inn kundenummer',
         ),
+        invalidFormat: _(
+          'Ugyldig kundenummer. Skriv inn et gyldig nummer med 7 siffer.',
+          'Invalid customer number. Please enter a valid 7-digit number.',
+          'Ugyldig kundenummer. Skriv inn eit gyldig nummer med 7 siffer.',
+        ),
       },
     },
 
@@ -1384,6 +1399,18 @@ const ContactInternal = {
       ),
       errorMessages: {
         empty: _('Ordre-id mangler', 'Order-id is missing', 'Ordre-id manglar'),
+        invalidFormat: {
+          singleId: _(
+            'Ordre-IDen er skrevet i ugyldig format',
+            'The order ID is written in an invalid format',
+            'Ordre-IDen er skriven i ugyldig format',
+          ),
+          multipleIds: _(
+            'Én eller flere ordre-IDer er skrevet i ugyldig format',
+            'One or more order IDs are written in an invalid format',
+            'Éin eller fleire ordre-IDar er skriven i ugyldig format',
+          ),
+        },
       },
     },
 
