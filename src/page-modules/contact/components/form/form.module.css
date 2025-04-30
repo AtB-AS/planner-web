@@ -467,6 +467,7 @@
 
 .dateSelector,
 .timeSelector {
+  display: contents;
   --height: 2.75rem;
   overflow: hidden;
   border-radius: token('border.radius.small');
@@ -480,6 +481,30 @@
   background-color: transparent;
   color: token('color.background.neutral.0.foreground.primary');
   flex: 1;
+}
+
+.dateSelectorInput,
+.timeSelectorInput {
+  width: 100%;
+  height: var(--height);
+  display: flex;
+  align-items: center;
+  padding: token('spacing.medium');
+  color: token('color.background.neutral.0.foreground.primary');
+  border-radius: token('border.radius.small');
+  border: token('border.width.slim') solid
+    token('color.foreground.dynamic.primary');
+}
+
+.dateSelectorInput:focus-within,
+.timeSelectorInput:focus-within {
+  box-shadow: inset 0 0 0 token('border.width.slim')
+    token('color.interactive.2.outline.background');
+}
+
+.dateSelectorSegment:focus,
+.timeSelectorSegment:focus {
+  border-radius: token('border.radius.small');
 }
 
 .calendarSelectorGroup {
@@ -544,30 +569,6 @@
   color: token('color.interactive.2.active.foreground.primary');
   font-weight: bold;
   border-radius: token('border.radius.small');
-}
-
-.dateSelectorInput,
-.timeSelectorInput {
-  width: 100%;
-  height: var(--height);
-  display: flex;
-  align-items: center;
-  padding: token('spacing.medium');
-  color: token('color.background.neutral.0.foreground.primary');
-  border-radius: token('border.radius.small');
-  border: token('border.width.slim') solid
-    token('color.foreground.dynamic.primary');
-}
-
-.dateSelector input[type='date']:focus,
-.timeSelector input[type='time']:focus {
-  outline: 0;
-}
-
-.dateSelector:focus-within,
-.timeSelector:focus-within {
-  box-shadow: inset 0 0 0 token('border.width.medium')
-    token('color.interactive.2.outline.background');
 }
 
 :global(.dark)
