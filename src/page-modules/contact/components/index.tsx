@@ -1,5 +1,6 @@
 export {
   FileInput,
+  Fieldset,
   Input,
   Radio,
   Select,

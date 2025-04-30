@@ -2,7 +2,7 @@ import { PageText, useTranslation } from '@atb/translations';
 import { Typo } from '@atb/components/typography';
 import { TicketingContextType } from '../../ticketingStateMachine';
 import { ticketingFormEvents } from '../../events';
-import { SectionCard, Input, Textarea, FileInput } from '../../../components';
+import { Fieldset, Input, Textarea, FileInput } from '../../../components';
 
 type AppTravelSuggestionFormProps = {
   state: { context: TicketingContextType };
@@ -16,8 +16,8 @@ export const AppTravelSuggestionForm = ({
   const { t } = useTranslation();
 
   return (
-    <div>
-      <SectionCard title={t(PageText.Contact.input.question.title)}>
+    <>
+      <Fieldset title={t(PageText.Contact.input.question.title)}>
         <Typo.p textType="body__primary">
           {t(PageText.Contact.input.question.info)}
         </Typo.p>
@@ -47,8 +47,8 @@ export const AppTravelSuggestionForm = ({
             });
           }}
         />
-      </SectionCard>
-      <SectionCard title={t(PageText.Contact.aboutYouInfo.title)}>
+      </Fieldset>
+      <Fieldset title={t(PageText.Contact.aboutYouInfo.title)}>
         <Input
           label={t(PageText.Contact.input.firstName.label)}
           type="text"
@@ -95,8 +95,8 @@ export const AppTravelSuggestionForm = ({
             })
           }
         />
-      </SectionCard>
-    </div>
+      </Fieldset>
+    </>
   );
 };
 

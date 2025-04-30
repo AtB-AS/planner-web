@@ -1,12 +1,12 @@
 import Link from 'next/link';
 import { Typo } from '@atb/components/typography';
 import { PageText, useTranslation } from '@atb/translations';
-import { SectionCard } from '@atb/page-modules/contact/components';
+import { Fieldset } from '@atb/page-modules/contact/components';
 
 export const ResidualValueOnTravelCard = ({}) => {
   const { t } = useTranslation();
   return (
-    <SectionCard
+    <Fieldset
       title={t(PageText.Contact.refund.residualValueOnTravelCard.title)}
     >
       <Typo.p textType="body__primary">
@@ -38,6 +38,6 @@ export const ResidualValueOnTravelCard = ({}) => {
           )}
         </Typo.p>
       </div>
-    </SectionCard>
+    </Fieldset>
   );
 };

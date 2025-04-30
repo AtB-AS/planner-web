@@ -1,14 +1,14 @@
 import style from '../../../contact.module.css';
 import { PageText, TranslatedString, useTranslation } from '@atb/translations';
 import { Typo } from '@atb/components/typography';
-import { SectionCard } from '../../../components';
+import { Fieldset } from '../../../components';
 import Link from 'next/link';
 
 export const OrderTravelCardForm = () => {
   const { t } = useTranslation();
 
   return (
-    <SectionCard
+    <Fieldset
       title={t(PageText.Contact.ticketing.travelCard.orderTravelCard.label)}
     >
       <ul className={style.rules__list}>
@@ -38,7 +38,7 @@ export const OrderTravelCardForm = () => {
           .
         </li>
       </ul>
-    </SectionCard>
+    </Fieldset>
   );
 };
 

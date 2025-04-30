@@ -6,7 +6,7 @@ import {
   refundStateMachine,
 } from '../../refundFormMachine';
 import { RefundFormEvents } from '../../events';
-import { SectionCard, Radio } from '@atb/page-modules/contact/components';
+import { Fieldset, Radio } from '@atb/page-modules/contact/components';
 import { Typo } from '@atb/components/typography';
 import Link from 'next/link';
 import RefundTaxiForm from './refundTaxiForm';
@@ -31,8 +31,8 @@ export const RefundAndTravelGuaranteeForms = ({
     state.context.formType === 'refundCar';
 
   return (
-    <div>
-      <SectionCard title={t(PageText.Contact.refund.agreement.title)}>
+    <>
+      <Fieldset title={t(PageText.Contact.refund.agreement.title)}>
         <Typo.p textType="body__primary">
           {t(PageText.Contact.refund.agreement.delayedRefundText)}
         </Typo.p>
@@ -103,10 +103,10 @@ export const RefundAndTravelGuaranteeForms = ({
             })
           }
         />
-      </SectionCard>
+      </Fieldset>
 
       {state.context.isInitialAgreementChecked && (
-        <SectionCard title={t(PageText.Contact.refund.agreement.title)}>
+        <Fieldset title={t(PageText.Contact.refund.agreement.title)}>
           <ul className={style.form_options__list}>
             {Object.values(RefundAndTravelGuarantee).map((refundForm) => (
               <li key={refundForm}>
@@ -126,12 +126,12 @@ export const RefundAndTravelGuaranteeForms = ({
               </li>
             ))}
           </ul>
-        </SectionCard>
+        </Fieldset>
       )}
 
       {displayRefundTaxiForm && <RefundTaxiForm state={state} send={send} />}
       {displayRefundCarForm && <RefundCarForm state={state} send={send} />}
-    </div>
+    </>
   );
 };
 

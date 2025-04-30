@@ -6,7 +6,7 @@ import { TransportModeType } from '../../types';
 import { Line } from '../..';
 import { meansOfTransportFormEvents } from '../events';
 import {
-  SectionCard,
+  Fieldset,
   Select,
   Input,
   FileInput,
@@ -27,14 +27,14 @@ export const StopForm = ({ state, send }: StopFormProps) => {
   const { getLinesByMode, getQuaysByLine } = useLines();
 
   return (
-    <div>
-      <SectionCard title={t(PageText.Contact.modeOfTransport.stop.description)}>
+    <>
+      <Fieldset title={t(PageText.Contact.modeOfTransport.stop.description)}>
         <Typo.p textType="body__primary">
           {t(PageText.Contact.modeOfTransport.stop.info)}
         </Typo.p>
-      </SectionCard>
+      </Fieldset>
 
-      <SectionCard title={t(PageText.Contact.modeOfTransport.stop.about.title)}>
+      <Fieldset title={t(PageText.Contact.modeOfTransport.stop.about.title)}>
         <Typo.p textType="body__primary">
           {t(PageText.Contact.modeOfTransport.stop.about.description)}
         </Typo.p>
@@ -116,9 +116,9 @@ export const StopForm = ({ state, send }: StopFormProps) => {
             })
           }
         />
-      </SectionCard>
+      </Fieldset>
 
-      <SectionCard title={t(PageText.Contact.input.feedback.title)}>
+      <Fieldset title={t(PageText.Contact.input.feedback.title)}>
         <Typo.p textType="body__primary">
           {t(PageText.Contact.input.feedback.description)}
         </Typo.p>
@@ -148,8 +148,8 @@ export const StopForm = ({ state, send }: StopFormProps) => {
             });
           }}
         />
-      </SectionCard>
-      <SectionCard title={t(PageText.Contact.aboutYouInfo.optionalTitle)}>
+      </Fieldset>
+      <Fieldset title={t(PageText.Contact.aboutYouInfo.optionalTitle)}>
         <Input
           label={t(PageText.Contact.input.firstName.label)}
           type="text"
@@ -191,8 +191,8 @@ export const StopForm = ({ state, send }: StopFormProps) => {
             })
           }
         />
-      </SectionCard>
-    </div>
+      </Fieldset>
+    </>
   );
 };
 

@@ -6,7 +6,7 @@ import {
   ticketingStateMachine,
 } from '../../ticketingStateMachine';
 import { ticketingFormEvents } from '../../events';
-import { SectionCard, Radio } from '../../../components';
+import { Fieldset, Radio } from '../../../components';
 import TravelCardQuestionForm from './travelCardQuestionForm';
 import OrderTravelCard from './orderTravelCard';
 
@@ -19,8 +19,8 @@ export const TravelCardForms = ({ state, send }: TravelCardFormsProps) => {
   const { t } = useTranslation();
 
   return (
-    <div>
-      <SectionCard title={t(PageText.Contact.ticketing.travelCard.description)}>
+    <>
+      <Fieldset title={t(PageText.Contact.ticketing.travelCard.description)}>
         <ul className={style.form_options__list}>
           {Object.values(TravelCardForm).map((travelCardForm) => (
             <li key={travelCardForm}>
@@ -41,7 +41,7 @@ export const TravelCardForms = ({ state, send }: TravelCardFormsProps) => {
             </li>
           ))}
         </ul>
-      </SectionCard>
+      </Fieldset>
 
       {state.matches({ editing: { travelCard: 'orderTravelCard' } }) && (
         <OrderTravelCard />
@@ -49,7 +49,7 @@ export const TravelCardForms = ({ state, send }: TravelCardFormsProps) => {
       {state.matches({ editing: { travelCard: 'travelCardQuestion' } }) && (
         <TravelCardQuestionForm state={state} send={send} />
       )}
-    </div>
+    </>
   );
 };
 

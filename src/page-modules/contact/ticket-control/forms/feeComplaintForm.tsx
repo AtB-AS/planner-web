@@ -3,13 +3,7 @@ import { PageText, TranslatedString, useTranslation } from '@atb/translations';
 import { Typo } from '@atb/components/typography';
 import { TicketControlContextProps } from '../ticket-control-form-machine';
 import { ticketControlFormEvents } from '../events';
-import {
-  Input,
-  SectionCard,
-  Radio,
-  Textarea,
-  FileInput,
-} from '../../components';
+import { Input, Radio, Textarea, FileInput, Fieldset } from '../../components';
 import { Checkbox } from '@atb/components/checkbox';
 
 type FeeComplaintFormProps = {
@@ -22,7 +16,7 @@ type FirstAgreementProps = Pick<FeeComplaintFormProps, 'state' | 'send'>;
 const FirstAgreement = ({ state, send }: FirstAgreementProps) => {
   const { t } = useTranslation();
   return (
-    <SectionCard
+    <Fieldset
       title={t(
         PageText.Contact.ticketControl.feeComplaint.firstAgreement.title,
       )}
@@ -61,7 +55,7 @@ const FirstAgreement = ({ state, send }: FirstAgreementProps) => {
           })
         }
       />
-    </SectionCard>
+    </Fieldset>
   );
 };
 
@@ -70,7 +64,7 @@ type SecondAgreementProps = Pick<FeeComplaintFormProps, 'state' | 'send'>;
 const SecondAgreement = ({ state, send }: SecondAgreementProps) => {
   const { t } = useTranslation();
   return (
-    <SectionCard
+    <Fieldset
       title={t(
         PageText.Contact.ticketControl.feeComplaint.secondAgreement.title,
       )}
@@ -101,7 +95,7 @@ const SecondAgreement = ({ state, send }: SecondAgreementProps) => {
           })
         }
       />
-    </SectionCard>
+    </Fieldset>
   );
 };
 
@@ -109,8 +103,8 @@ type FormProps = Pick<FeeComplaintFormProps, 'state' | 'send'>;
 const FormContent = ({ state, send }: FormProps) => {
   const { t } = useTranslation();
   return (
-    <div>
-      <SectionCard title={t(PageText.Contact.ticketControl.feeComplaint.title)}>
+    <>
+      <Fieldset title={t(PageText.Contact.ticketControl.feeComplaint.title)}>
         <Input
           label={t(PageText.Contact.input.feeNumber.label)}
           type="text"
@@ -211,8 +205,8 @@ const FormContent = ({ state, send }: FormProps) => {
             }
           />
         )}
-      </SectionCard>
-      <SectionCard title={t(PageText.Contact.input.feedback.title)}>
+      </Fieldset>
+      <Fieldset title={t(PageText.Contact.input.feedback.title)}>
         <Textarea
           value={state.context.feedback || ''}
           onChange={(e) =>
@@ -239,9 +233,9 @@ const FormContent = ({ state, send }: FormProps) => {
           }}
           label={t(PageText.Contact.input.feedback.attachment)}
         />
-      </SectionCard>
+      </Fieldset>
 
-      <SectionCard title={t(PageText.Contact.aboutYouInfo.title)}>
+      <Fieldset title={t(PageText.Contact.aboutYouInfo.title)}>
         <Input
           label={t(PageText.Contact.input.firstName.label)}
           type="text"
@@ -414,14 +408,14 @@ const FormContent = ({ state, send }: FormProps) => {
             />
           </div>
         )}
-      </SectionCard>
-    </div>
+      </Fieldset>
+    </>
   );
 };
 
 export const FeeComplaintForm = ({ state, send }: FeeComplaintFormProps) => {
   return (
-    <div>
+    <>
       <FirstAgreement state={state} send={send} />
       {state.context.agreesFirstAgreement && (
         <SecondAgreement state={state} send={send} />
@@ -429,7 +423,7 @@ export const FeeComplaintForm = ({ state, send }: FeeComplaintFormProps) => {
       {state.context.agreesSecondAgreement && (
         <FormContent state={state} send={send} />
       )}
-    </div>
+    </>
   );
 };
 

@@ -4,7 +4,7 @@ import { FormCategory, refundStateMachine } from './refundFormMachine';
 import { FormEventHandler } from 'react';
 import { Button } from '@atb/components/button';
 import style from '../contact.module.css';
-import { SectionCard, Radio } from '../components';
+import { Fieldset, Radio } from '../components';
 import RefundAndTravelGuaranteeForms from './forms/refund-and-travel-guarantee';
 import RefundTicketForms from './forms/refund-ticket';
 import { ResidualValueOnTravelCard } from './forms/residualValueOnTravelCard';
@@ -23,7 +23,7 @@ const RefundContent = () => {
 
   return (
     <form onSubmit={onSubmit} className={style.form}>
-      <SectionCard title={t(PageText.Contact.refund.title)}>
+      <Fieldset title={t(PageText.Contact.refund.title)}>
         <ul className={style.form_options__list}>
           {Object.values(FormCategory).map((formCategory) => (
             <li key={formCategory}>
@@ -40,7 +40,7 @@ const RefundContent = () => {
             </li>
           ))}
         </ul>
-      </SectionCard>
+      </Fieldset>
 
       {state.matches({ editing: 'refundOfTicket' }) && (
         <RefundTicketForms state={state} send={send} />

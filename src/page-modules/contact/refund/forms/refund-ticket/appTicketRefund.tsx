@@ -4,7 +4,7 @@ import { RefundFormEvents } from '../../events';
 import { Typo } from '@atb/components/typography';
 import { PurchasePlatformType, TransportModeType } from '../../../types';
 import {
-  SectionCard,
+  Fieldset,
   Input,
   Textarea,
   FileInput,
@@ -20,7 +20,7 @@ export const AppTicketRefund = ({ state, send }: AppTicketRefundProps) => {
   const { t } = useTranslation();
 
   return (
-    <SectionCard
+    <Fieldset
       title={t(PageText.Contact.ticketing.refund.appTicketRefund.label)}
     >
       <Input
@@ -118,7 +118,7 @@ export const AppTicketRefund = ({ state, send }: AppTicketRefundProps) => {
         }}
         label={t(PageText.Contact.input.feedback.attachment)}
       />
-    </SectionCard>
+    </Fieldset>
   );
 };
 
