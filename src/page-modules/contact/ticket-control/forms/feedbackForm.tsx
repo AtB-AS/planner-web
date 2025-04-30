@@ -6,10 +6,10 @@ import { TicketControlContextProps } from '../ticket-control-form-machine';
 import { TransportModeType } from '../../types';
 import { useLines } from '../../lines/use-lines';
 import {
-  SectionCard,
   Input,
   Textarea,
   FileInput,
+  Fieldset,
   Select,
   SearchableSelect,
   getLineOptions,
@@ -28,8 +28,8 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
   const { getLinesByMode, getQuaysByLine } = useLines();
 
   return (
-    <div>
-      <SectionCard title={t(PageText.Contact.ticketControl.feedback.title)}>
+    <>
+      <Fieldset title={t(PageText.Contact.ticketControl.feedback.title)}>
         <Typo.p textType="body__primary">
           {t(PageText.Contact.ticketControl.feedback.info)}
         </Typo.p>
@@ -139,8 +139,8 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
             state.context?.errorMessages['timeOfTicketControl']?.[0]
           }
         />
-      </SectionCard>
-      <SectionCard title={t(PageText.Contact.input.feedback.title)}>
+      </Fieldset>
+      <Fieldset title={t(PageText.Contact.input.feedback.title)}>
         <Textarea
           value={state.context.feedback || ''}
           onChange={(e) =>
@@ -167,9 +167,9 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
           }}
           label={t(PageText.Contact.input.feedback.attachment)}
         />
-      </SectionCard>
+      </Fieldset>
 
-      <SectionCard title={t(PageText.Contact.aboutYouInfo.title)}>
+      <Fieldset title={t(PageText.Contact.aboutYouInfo.title)}>
         <Input
           label={t(PageText.Contact.input.firstName.label)}
           type="text"
@@ -218,8 +218,8 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
             })
           }
         />
-      </SectionCard>
-    </div>
+      </Fieldset>
+    </>
   );
 };
 

@@ -6,7 +6,7 @@ import AppAccountForm from './appAccountForm';
 import AppTicketingForm from './appTicketingForm';
 import AppTravelSuggestionForm from './appTravelSuggestionForm';
 import { ticketingFormEvents } from '../../events';
-import { SectionCard, Radio } from '../../../components';
+import { Fieldset, Radio } from '../../../components';
 
 type AppFormsProps = {
   state: StateFrom<typeof ticketingStateMachine>;
@@ -17,8 +17,8 @@ export const AppForms = ({ state, send }: AppFormsProps) => {
   const { t } = useTranslation();
 
   return (
-    <div>
-      <SectionCard title={t(PageText.Contact.ticketing.app.description)}>
+    <>
+      <Fieldset title={t(PageText.Contact.ticketing.app.description)}>
         <ul className={style.form_options__list}>
           {Object.values(AppForm).map((appForm) => (
             <li key={appForm}>
@@ -35,7 +35,7 @@ export const AppForms = ({ state, send }: AppFormsProps) => {
             </li>
           ))}
         </ul>
-      </SectionCard>
+      </Fieldset>
 
       {state.matches({ editing: { app: 'appTicketing' } }) && (
         <AppTicketingForm state={state} send={send} />
@@ -46,7 +46,7 @@ export const AppForms = ({ state, send }: AppFormsProps) => {
       {state.matches({ editing: { app: 'appAccount' } }) && (
         <AppAccountForm state={state} send={send} />
       )}
-    </div>
+    </>
   );
 };
 

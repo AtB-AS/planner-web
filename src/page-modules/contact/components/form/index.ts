@@ -1,4 +1,5 @@
 export { default as FileInput } from './file-input';
+export { default as Fieldset } from './fieldset';
 export { default as Input } from './input';
 export { default as Radio } from './radio';
 export { default as Select } from './select';
