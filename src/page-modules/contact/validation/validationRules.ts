@@ -1,9 +1,15 @@
 import { PageText, TranslatedString } from '@atb/translations';
+import { Line } from '..';
+import { TransportModeType } from '../types';
 
-const removeWhitespace = (value: string): string => value.replace(/\s+/g, '');
+const isDefined = <T>(value: T | undefined): value is T => value !== undefined;
 
-const isNotEmptyOrUndefined = (value: string | undefined): boolean =>
-  value !== undefined && removeWhitespace(value) !== '';
+const removeWhitespace = (value: string): string => {
+  return value.replace(/\s+/g, '');
+};
+
+const isNonEmptyString = (value: string): boolean =>
+  typeof value === 'string' && removeWhitespace(value) !== '';
 
 const isDigitsOnly = (value: string): boolean => /^\d+$/.test(value);
 
@@ -36,7 +42,7 @@ type ValidationRule = {
 
 const rulesFirstName: ValidationRule[] = [
   {
-    validate: isNotEmptyOrUndefined,
+    validate: isNonEmptyString,
     errorMessage: PageText.Contact.input.firstName.errorMessages.empty,
   },
   {
@@ -47,7 +53,7 @@ const rulesFirstName: ValidationRule[] = [
 
 const rulesLastName: ValidationRule[] = [
   {
-    validate: isNotEmptyOrUndefined,
+    validate: isNonEmptyString,
     errorMessage: PageText.Contact.input.lastName.errorMessages.empty,
   },
   {
@@ -58,14 +64,14 @@ const rulesLastName: ValidationRule[] = [
 
 const rulesEmail: ValidationRule[] = [
   {
-    validate: isNotEmptyOrUndefined,
+    validate: isNonEmptyString,
     errorMessage: PageText.Contact.input.email.errorMessages.empty,
   },
 ];
 
 const rulesAddress: ValidationRule[] = [
   {
-    validate: isNotEmptyOrUndefined,
+    validate: isNonEmptyString,
     errorMessage: PageText.Contact.input.address.errorMessages.empty,
   },
   {
@@ -76,7 +82,7 @@ const rulesAddress: ValidationRule[] = [
 
 const rulesPostalCode: ValidationRule[] = [
   {
-    validate: isNotEmptyOrUndefined,
+    validate: isNonEmptyString,
     errorMessage: PageText.Contact.input.postalCode.errorMessages.empty,
   },
   {
@@ -87,7 +93,7 @@ const rulesPostalCode: ValidationRule[] = [
 
 const rulesCity: ValidationRule[] = [
   {
-    validate: isNotEmptyOrUndefined,
+    validate: isNonEmptyString,
     errorMessage: PageText.Contact.input.city.errorMessages.empty,
   },
   {
@@ -98,7 +104,7 @@ const rulesCity: ValidationRule[] = [
 
 const rulesPhoneNumber: ValidationRule[] = [
   {
-    validate: isNotEmptyOrUndefined,
+    validate: isNonEmptyString,
     errorMessage: PageText.Contact.input.phoneNumber.errorMessages.empty,
   },
   {
@@ -110,7 +116,7 @@ const rulesPhoneNumber: ValidationRule[] = [
 
 const rulesBankAccountNumber: ValidationRule[] = [
   {
-    validate: isNotEmptyOrUndefined,
+    validate: isNonEmptyString,
     errorMessage:
       PageText.Contact.input.bankInformation.bankAccountNumber.errorMessages
         .empty,
@@ -125,7 +131,7 @@ const rulesBankAccountNumber: ValidationRule[] = [
 
 const rulesIBAN: ValidationRule[] = [
   {
-    validate: isNotEmptyOrUndefined,
+    validate: isNonEmptyString,
     errorMessage:
       PageText.Contact.input.bankInformation.IBAN.errorMessages.empty,
   },
@@ -133,7 +139,7 @@ const rulesIBAN: ValidationRule[] = [
 
 const rulesSWIFT: ValidationRule[] = [
   {
-    validate: isNotEmptyOrUndefined,
+    validate: isNonEmptyString,
     errorMessage:
       PageText.Contact.input.bankInformation.SWIFT.errorMessages.empty,
   },
@@ -141,56 +147,56 @@ const rulesSWIFT: ValidationRule[] = [
 
 const rulesTransportMode: ValidationRule[] = [
   {
-    validate: isNotEmptyOrUndefined,
+    validate: (_transportMode: TransportModeType) => isDefined(_transportMode),
     errorMessage: PageText.Contact.input.transportMode.errorMessages.empty,
   },
 ];
 
 const rulesLine: ValidationRule[] = [
   {
-    validate: isNotEmptyOrUndefined,
+    validate: (_line: Line) => isDefined(_line),
     errorMessage: PageText.Contact.input.line.errorMessages.empty,
   },
 ];
 
 const rulesFromStop: ValidationRule[] = [
   {
-    validate: isNotEmptyOrUndefined,
+    validate: (_fromStop: Line['quays'][0]) => isDefined(_fromStop),
     errorMessage: PageText.Contact.input.fromStop.errorMessages.empty,
   },
 ];
 
 const rulesToStop: ValidationRule[] = [
   {
-    validate: isNotEmptyOrUndefined,
+    validate: (_toStop: Line['quays'][0]) => isDefined(_toStop),
     errorMessage: PageText.Contact.input.toStop.errorMessages.empty,
   },
 ];
 
 const rulesDate: ValidationRule[] = [
   {
-    validate: isNotEmptyOrUndefined,
+    validate: isNonEmptyString,
     errorMessage: PageText.Contact.input.date.errorMessages.empty,
   },
 ];
 
 const rulesDateOfTicketControl: ValidationRule[] = [
   {
-    validate: isNotEmptyOrUndefined,
+    validate: isNonEmptyString,
     errorMessage: PageText.Contact.input.date.ticketControl.errorMessages.empty,
   },
 ];
 
 const rulesTimeOfTicketControl: ValidationRule[] = [
   {
-    validate: isNotEmptyOrUndefined,
+    validate: isNonEmptyString,
     errorMessage: PageText.Contact.input.time.ticketControl.errorMessages.empty,
   },
 ];
 
 const rulesPlannedDepartureTime: ValidationRule[] = [
   {
-    validate: isNotEmptyOrUndefined,
+    validate: isNonEmptyString,
     errorMessage:
       PageText.Contact.input.plannedDepartureTime.errorMessages.empty,
   },
@@ -198,7 +204,7 @@ const rulesPlannedDepartureTime: ValidationRule[] = [
 
 const rulesReasonForTransportFailure: ValidationRule[] = [
   {
-    validate: isNotEmptyOrUndefined,
+    validate: isNonEmptyString,
     errorMessage:
       PageText.Contact.input.reasonForTransportFailure.errorMessages.empty,
   },
@@ -206,7 +212,7 @@ const rulesReasonForTransportFailure: ValidationRule[] = [
 
 const rulesFeeNumber: ValidationRule[] = [
   {
-    validate: isNotEmptyOrUndefined,
+    validate: isNonEmptyString,
     errorMessage: PageText.Contact.input.feeNumber.errorMessages.empty,
   },
   {
@@ -221,49 +227,49 @@ const rulesFeeNumber: ValidationRule[] = [
 
 const rulesInvoiceNumber: ValidationRule[] = [
   {
-    validate: isNotEmptyOrUndefined,
+    validate: isNonEmptyString,
     errorMessage: PageText.Contact.input.invoiceNumber.errorMessages.empty,
   },
 ];
 
 const rulesFeedback: ValidationRule[] = [
   {
-    validate: isNotEmptyOrUndefined,
+    validate: isNonEmptyString,
     errorMessage: PageText.Contact.input.feedback.errorMessages.empty,
   },
 ];
 
 const rulesKilometersDriven: ValidationRule[] = [
   {
-    validate: isNotEmptyOrUndefined,
+    validate: isNonEmptyString,
     errorMessage: PageText.Contact.input.kilometersDriven.errorMessages.empty,
   },
 ];
 
 const rulesFromAddress: ValidationRule[] = [
   {
-    validate: isNotEmptyOrUndefined,
+    validate: isNonEmptyString,
     errorMessage: PageText.Contact.input.fromAddress.errorMessages.empty,
   },
 ];
 
 const rulesToAddress: ValidationRule[] = [
   {
-    validate: isNotEmptyOrUndefined,
+    validate: isNonEmptyString,
     errorMessage: PageText.Contact.input.toAddress.errorMessages.empty,
   },
 ];
 
 const rulesQuestion: ValidationRule[] = [
   {
-    validate: isNotEmptyOrUndefined,
+    validate: isNonEmptyString,
     errorMessage: PageText.Contact.input.question.errorMessages.empty,
   },
 ];
 
 const rulesOrderId: ValidationRule[] = [
   {
-    validate: isNotEmptyOrUndefined,
+    validate: isNonEmptyString,
     errorMessage: PageText.Contact.input.orderId.errorMessages.empty,
   },
   {
@@ -287,49 +293,49 @@ const rulesOrderId: ValidationRule[] = [
 
 const rulesRefundReason: ValidationRule[] = [
   {
-    validate: isNotEmptyOrUndefined,
+    validate: isNonEmptyString,
     errorMessage: PageText.Contact.input.refundReason.errorMessages.empty,
   },
 ];
 
 const rulesAmount: ValidationRule[] = [
   {
-    validate: isNotEmptyOrUndefined,
+    validate: isNonEmptyString,
     errorMessage: PageText.Contact.input.amount.errorMessages.empty,
   },
 ];
 
 const rulesTicketType: ValidationRule[] = [
   {
-    validate: isNotEmptyOrUndefined,
+    validate: isNonEmptyString,
     errorMessage: PageText.Contact.input.ticketType.errorMessages.empty,
   },
 ];
 
 const rulesAPurchasePlatform: ValidationRule[] = [
   {
-    validate: isNotEmptyOrUndefined,
+    validate: isNonEmptyString,
     errorMessage: PageText.Contact.input.purchasePlatform.errorMessages.empty,
   },
 ];
 
 const rulesAttachments: ValidationRule[] = [
   {
-    validate: isNotEmptyOrUndefined,
+    validate: (_fileInput: File[]) => isDefined(_fileInput),
     errorMessage: PageText.Contact.components.fileinput.errorMessages.empty,
   },
 ];
 
 const rulesAppPhoneNumber: ValidationRule[] = [
   {
-    validate: isNotEmptyOrUndefined,
+    validate: isNonEmptyString,
     errorMessage: PageText.Contact.input.appPhoneNumber.errorMessages.empty,
   },
 ];
 
 const rulesCustomerNumber: ValidationRule[] = [
   {
-    validate: isNotEmptyOrUndefined,
+    validate: isNonEmptyString,
     errorMessage: PageText.Contact.input.customerNumber.errorMessages.empty,
   },
   {
@@ -347,7 +353,7 @@ const rulesCustomerNumber: ValidationRule[] = [
 
 const rulesTravelCardNumber: ValidationRule[] = [
   {
-    validate: isNotEmptyOrUndefined,
+    validate: isNonEmptyString,
     errorMessage: PageText.Contact.input.travelCardNumber.errorMessages.empty,
   },
 ];
