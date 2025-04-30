@@ -6,7 +6,7 @@ import { TransportModeType } from '../../types';
 import { Line } from '../..';
 import { meansOfTransportFormEvents } from '../events';
 import {
-  SectionCard,
+  Fieldset,
   Select,
   Input,
   FileInput,
@@ -32,16 +32,16 @@ export const TransportationForm = ({
   const { getLinesByMode, getQuaysByLine } = useLines();
 
   return (
-    <div>
-      <SectionCard
+    <>
+      <Fieldset
         title={t(PageText.Contact.modeOfTransport.transportation.description)}
       >
         <Typo.p textType="body__primary">
           {t(PageText.Contact.modeOfTransport.transportation.info)}
         </Typo.p>
-      </SectionCard>
+      </Fieldset>
 
-      <SectionCard
+      <Fieldset
         title={t(PageText.Contact.modeOfTransport.transportation.about.title)}
       >
         <Typo.p textType="body__primary">
@@ -161,9 +161,9 @@ export const TransportationForm = ({
             state.context?.errorMessages['plannedDepartureTime']?.[0]
           }
         />
-      </SectionCard>
+      </Fieldset>
 
-      <SectionCard title={t(PageText.Contact.input.feedback.title)}>
+      <Fieldset title={t(PageText.Contact.input.feedback.title)}>
         <Typo.p textType="body__primary">
           {t(PageText.Contact.input.feedback.description)}
         </Typo.p>
@@ -193,8 +193,8 @@ export const TransportationForm = ({
             });
           }}
         />
-      </SectionCard>
-      <SectionCard title={t(PageText.Contact.aboutYouInfo.optionalTitle)}>
+      </Fieldset>
+      <Fieldset title={t(PageText.Contact.aboutYouInfo.optionalTitle)}>
         <Input
           label={t(PageText.Contact.input.firstName.label)}
           type="text"
@@ -249,8 +249,8 @@ export const TransportationForm = ({
             })
           }
         />
-      </SectionCard>
-    </div>
+      </Fieldset>
+    </>
   );
 };
 

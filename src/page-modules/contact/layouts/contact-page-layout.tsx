@@ -49,6 +49,11 @@ export const contactPages: ContactPage[] = [
   },
 ];
 
+const pagesWithoutPrivacyAndTerms = [
+  '/contact/lost-property',
+  '/contact/group-travel',
+];
+
 export type ContactPageLayoutProps = PropsWithChildren<{
   title: string;
 }>;
@@ -70,6 +75,11 @@ function ContactPageLayout({ children }: ContactPageLayoutProps) {
 
   const handleSelectChange = (contactPage?: ContactPage) => {
     if (contactPage) router.push(contactPage.href);
+  };
+
+  const displayPrivacyAndTerms = (contactPage?: ContactPage) => {
+    if (!contactPage) return false;
+    return !pagesWithoutPrivacyAndTerms.includes(contactPage.href);
   };
 
   return (
@@ -122,7 +132,7 @@ function ContactPageLayout({ children }: ContactPageLayoutProps) {
         </div>
       </div>
       {children}
-      {selectedContactPage && (
+      {displayPrivacyAndTerms(selectedContactPage) && (
         <div className={style.privacyAndTerms}>
           <Typo.p textType="body__secondary--bold">
             {t(PageText.Contact.contactPageLayout.privacyAndTerms)}

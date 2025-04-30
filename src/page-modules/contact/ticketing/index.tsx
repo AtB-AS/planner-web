@@ -4,7 +4,7 @@ import { useMachine } from '@xstate/react';
 import { FormEventHandler } from 'react';
 import { FormCategory, ticketingStateMachine } from './ticketingStateMachine';
 import { Button } from '@atb/components/button';
-import { SectionCard, Radio } from '../components';
+import { Fieldset, Radio } from '../components';
 import PriceAndTicketTypesForm from './forms/priceAndTicketTypesForm';
 import AppForms from './forms/app';
 import WebshopForms from './forms/webshop';
@@ -23,7 +23,7 @@ const TicketingContent = () => {
 
   return (
     <form onSubmit={onSubmit} className={style.form}>
-      <SectionCard title={t(PageText.Contact.ticketing.title)}>
+      <Fieldset title={t(PageText.Contact.ticketing.title)}>
         <ul className={style.form_options__list}>
           {Object.values(FormCategory).map((formCategory) => (
             <li key={formCategory}>
@@ -40,7 +40,7 @@ const TicketingContent = () => {
             </li>
           ))}
         </ul>
-      </SectionCard>
+      </Fieldset>
 
       {state.matches({ editing: 'priceAndTicketTypes' }) && (
         <PriceAndTicketTypesForm state={state} send={send} />

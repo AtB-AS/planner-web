@@ -6,7 +6,7 @@ import { TransportModeType } from '../../types';
 import { Line } from '../..';
 import { meansOfTransportFormEvents } from '../events';
 import {
-  SectionCard,
+  Fieldset,
   Select,
   Input,
   FileInput,
@@ -28,18 +28,14 @@ export const DriverForm = ({ state, send }: DriverFormProps) => {
   const { getLinesByMode, getQuaysByLine } = useLines();
 
   return (
-    <div>
-      <SectionCard
-        title={t(PageText.Contact.modeOfTransport.driver.description)}
-      >
+    <>
+      <Fieldset title={t(PageText.Contact.modeOfTransport.driver.description)}>
         <Typo.p textType="body__primary">
           {t(PageText.Contact.modeOfTransport.driver.info)}
         </Typo.p>
-      </SectionCard>
+      </Fieldset>
 
-      <SectionCard
-        title={t(PageText.Contact.modeOfTransport.driver.about.title)}
-      >
+      <Fieldset title={t(PageText.Contact.modeOfTransport.driver.about.title)}>
         <Typo.p textType="body__primary">
           {t(PageText.Contact.modeOfTransport.driver.about.description)}
         </Typo.p>
@@ -157,9 +153,9 @@ export const DriverForm = ({ state, send }: DriverFormProps) => {
             state.context?.errorMessages['plannedDepartureTime']?.[0]
           }
         />
-      </SectionCard>
+      </Fieldset>
 
-      <SectionCard title={t(PageText.Contact.input.feedback.title)}>
+      <Fieldset title={t(PageText.Contact.input.feedback.title)}>
         <Typo.p textType="body__primary">
           {t(PageText.Contact.input.feedback.description)}
         </Typo.p>
@@ -189,8 +185,8 @@ export const DriverForm = ({ state, send }: DriverFormProps) => {
             });
           }}
         />
-      </SectionCard>
-      <SectionCard title={t(PageText.Contact.aboutYouInfo.optionalTitle)}>
+      </Fieldset>
+      <Fieldset title={t(PageText.Contact.aboutYouInfo.optionalTitle)}>
         <Input
           label={t(PageText.Contact.input.firstName.label)}
           type="text"
@@ -232,8 +228,8 @@ export const DriverForm = ({ state, send }: DriverFormProps) => {
             })
           }
         />
-      </SectionCard>
-    </div>
+      </Fieldset>
+    </>
   );
 };
 

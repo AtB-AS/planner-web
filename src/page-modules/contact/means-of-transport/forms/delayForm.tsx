@@ -6,7 +6,7 @@ import { Line } from '../..';
 import { MeansOfTransportContextProps } from '../means-of-transport-form-machine';
 import { meansOfTransportFormEvents } from '../events';
 import {
-  SectionCard,
+  Fieldset,
   Select,
   Input,
   FileInput,
@@ -28,18 +28,14 @@ export const DelayForm = ({ state, send }: DelayFormProps) => {
   const { getLinesByMode, getQuaysByLine } = useLines();
 
   return (
-    <div>
-      <SectionCard
-        title={t(PageText.Contact.modeOfTransport.delay.description)}
-      >
+    <>
+      <Fieldset title={t(PageText.Contact.modeOfTransport.delay.description)}>
         <Typo.p textType="body__primary">
           {t(PageText.Contact.modeOfTransport.delay.info)}
         </Typo.p>
-      </SectionCard>
+      </Fieldset>
 
-      <SectionCard
-        title={t(PageText.Contact.modeOfTransport.delay.about.title)}
-      >
+      <Fieldset title={t(PageText.Contact.modeOfTransport.delay.about.title)}>
         <Typo.p textType="body__primary">
           {t(PageText.Contact.modeOfTransport.delay.about.description)}
         </Typo.p>
@@ -157,9 +153,9 @@ export const DelayForm = ({ state, send }: DelayFormProps) => {
             state.context?.errorMessages['plannedDepartureTime']?.[0]
           }
         />
-      </SectionCard>
+      </Fieldset>
 
-      <SectionCard title={t(PageText.Contact.input.feedback.title)}>
+      <Fieldset title={t(PageText.Contact.input.feedback.title)}>
         <Typo.p textType="body__primary">
           {t(PageText.Contact.input.feedback.description)}
         </Typo.p>
@@ -189,8 +185,8 @@ export const DelayForm = ({ state, send }: DelayFormProps) => {
             });
           }}
         />
-      </SectionCard>
-      <SectionCard title={t(PageText.Contact.aboutYouInfo.optionalTitle)}>
+      </Fieldset>
+      <Fieldset title={t(PageText.Contact.aboutYouInfo.optionalTitle)}>
         <Input
           label={t(PageText.Contact.input.firstName.label)}
           type="text"
@@ -232,8 +228,8 @@ export const DelayForm = ({ state, send }: DelayFormProps) => {
             })
           }
         />
-      </SectionCard>
-    </div>
+      </Fieldset>
+    </>
   );
 };
 

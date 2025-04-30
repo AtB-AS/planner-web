@@ -6,7 +6,7 @@ import { TransportModeType } from '../../types';
 import { Line } from '../..';
 import { meansOfTransportFormEvents } from '../events';
 import {
-  SectionCard,
+  Fieldset,
   Select,
   Input,
   FileInput,
@@ -28,16 +28,16 @@ export const ServiceOfferingForm = ({
   const { getLinesByMode } = useLines();
 
   return (
-    <div>
-      <SectionCard
+    <>
+      <Fieldset
         title={t(PageText.Contact.modeOfTransport.serviceOffering.description)}
       >
         <Typo.p textType="body__primary">
           {t(PageText.Contact.modeOfTransport.serviceOffering.info)}
         </Typo.p>
-      </SectionCard>
+      </Fieldset>
 
-      <SectionCard
+      <Fieldset
         title={t(PageText.Contact.modeOfTransport.serviceOffering.about.title)}
       >
         <Typo.p textType="body__primary">
@@ -91,9 +91,9 @@ export const ServiceOfferingForm = ({
             t(state.context?.errorMessages['line']?.[0])
           }
         />
-      </SectionCard>
+      </Fieldset>
 
-      <SectionCard title={t(PageText.Contact.input.feedback.title)}>
+      <Fieldset title={t(PageText.Contact.input.feedback.title)}>
         <Typo.p textType="body__primary">
           {t(PageText.Contact.input.feedback.description)}
         </Typo.p>
@@ -123,8 +123,8 @@ export const ServiceOfferingForm = ({
             });
           }}
         />
-      </SectionCard>
-      <SectionCard title={t(PageText.Contact.aboutYouInfo.optionalTitle)}>
+      </Fieldset>
+      <Fieldset title={t(PageText.Contact.aboutYouInfo.optionalTitle)}>
         <Input
           label={t(PageText.Contact.input.firstName.label)}
           type="text"
@@ -152,8 +152,8 @@ export const ServiceOfferingForm = ({
             })
           }
         />
-      </SectionCard>
-    </div>
+      </Fieldset>
+    </>
   );
 };
 

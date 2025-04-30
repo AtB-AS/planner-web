@@ -2,7 +2,7 @@ import { PageText, useTranslation } from '@atb/translations';
 import { ticketingFormEvents } from '../../events';
 import { TicketingContextType } from '../../ticketingStateMachine';
 import { Typo } from '@atb/components/typography';
-import { SectionCard, Textarea, FileInput, Input } from '../../../components';
+import { Fieldset, Textarea, FileInput, Input } from '../../../components';
 import style from '../../../contact.module.css';
 
 type WebshopTicketingFormProps = {
@@ -17,8 +17,8 @@ export const WebshopTicketingForm = ({
   const { t } = useTranslation();
 
   return (
-    <div>
-      <SectionCard
+    <>
+      <Fieldset
         title={t(PageText.Contact.ticketing.webshop.webshopTicketing.title)}
       >
         <ul className={style.rules__list}>
@@ -45,9 +45,9 @@ export const WebshopTicketingForm = ({
             })
           }
         />
-      </SectionCard>
+      </Fieldset>
 
-      <SectionCard title={t(PageText.Contact.input.question.title)}>
+      <Fieldset title={t(PageText.Contact.input.question.title)}>
         <Typo.p textType="body__primary">
           {t(PageText.Contact.input.question.info)}
         </Typo.p>
@@ -77,8 +77,8 @@ export const WebshopTicketingForm = ({
             });
           }}
         />
-      </SectionCard>
-      <SectionCard title={t(PageText.Contact.aboutYouInfo.title)}>
+      </Fieldset>
+      <Fieldset title={t(PageText.Contact.aboutYouInfo.title)}>
         <Input
           label={t(PageText.Contact.input.customerNumber.labelOptional)}
           type="text"
@@ -159,8 +159,8 @@ export const WebshopTicketingForm = ({
             })
           }
         />
-      </SectionCard>
-    </div>
+      </Fieldset>
+    </>
   );
 };
 
