@@ -391,7 +391,7 @@ function inputToViaLocation(input: TripInput) {
     },
     name: input.via.name,
     minSlack: 'PT120S',
-    maxSlack: 'PT9H',
+    maxSlack: 'PT2H',
   };
 }
 
