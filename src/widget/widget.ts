@@ -935,6 +935,7 @@ function featuresToFromToQuery(from?: GeocoderFeature, to?: GeocoderFeature) {
   const toFlattened = to
     ? {
         toId: to.id,
+        toName: to.name,
         toLon: to.geometry.coordinates[0].toString(),
         toLat: to.geometry.coordinates[1].toString(),
         toLayer: to.layer as string,
@@ -942,6 +943,7 @@ function featuresToFromToQuery(from?: GeocoderFeature, to?: GeocoderFeature) {
     : undefined;
   return {
     fromId: from.id,
+    fromName: from.name,
     fromLon: from.geometry.coordinates[0].toString(),
     fromLat: from.geometry.coordinates[1].toString(),
     fromLayer: from.layer as string,
@@ -991,6 +993,7 @@ function createTripQueryForDeparture(
 
   return {
     ...searchTimeQuery,
+    name: from.name,
     lon: from.geometry.coordinates[0].toString(),
     lat: from.geometry.coordinates[1].toString(),
   };
