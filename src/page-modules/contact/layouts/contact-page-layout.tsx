@@ -99,6 +99,7 @@ function ContactPageLayout({ children }: ContactPageLayoutProps) {
           </Typo.h2>
           <div className={style.contact_page_navigator__dropdown}>
             <Select
+              name="selectorContactPage"
               options={contactPages}
               value={selectedContactPage}
               placeholder={t(PageText.Contact.contactPageLayout.placeholder)}

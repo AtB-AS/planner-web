@@ -49,6 +49,7 @@ export const TransportationForm = ({
         </Typo.p>
 
         <Select
+          name="transportMode"
           label={t(PageText.Contact.input.transportMode.label)}
           value={state.context.transportMode || ''}
           onChange={(value) =>

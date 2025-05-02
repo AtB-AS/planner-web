@@ -13,6 +13,7 @@ import {
 import { ErrorMessage } from '@atb/components/error-message';
 
 export type SelectProps<T> = {
+  name: string;
   label?: string;
   onChange: (value?: T) => void;
   error?: string;
@@ -24,7 +25,8 @@ export type SelectProps<T> = {
   disabled?: boolean;
 };
 
-export default function CustomeSelect<T>({
+export default function CustomSelect<T>({
+  name,
   label,
   onChange,
   error,
@@ -51,6 +53,7 @@ export default function CustomeSelect<T>({
   return (
     <Select
       id={`select-${id}`}
+      name={name}
       onSelectionChange={onChangeInternal}
       isDisabled={disabled}
       className={style.select__select_container}

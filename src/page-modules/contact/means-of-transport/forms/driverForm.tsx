@@ -41,6 +41,7 @@ export const DriverForm = ({ state, send }: DriverFormProps) => {
         </Typo.p>
 
         <Select
+          name="transportMode"
           label={t(PageText.Contact.input.transportMode.label)}
           value={state.context.transportMode || ''}
           onChange={(value) =>

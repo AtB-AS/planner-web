@@ -35,6 +35,7 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
         </Typo.p>
 
         <Select
+          name="transportMode"
           label={t(PageText.Contact.input.transportMode.label)}
           value={state.context.transportMode || ''}
           onChange={(value) =>

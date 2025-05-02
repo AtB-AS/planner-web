@@ -66,6 +66,7 @@ export const AppTicketRefund = ({ state, send }: AppTicketRefundProps) => {
       />
 
       <Select
+        name="purchasePlatform"
         label={t(PageText.Contact.input.purchasePlatform.label)}
         value={state.context.purchasePlatform || ''}
         onChange={(value) =>
