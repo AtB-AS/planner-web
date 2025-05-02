@@ -4,6 +4,8 @@ import { Line } from '../server/journey-planner/validators';
 import { commonInputValidator, InputErrorMessages } from '../validation';
 import {
   convertFilesToBase64,
+  findFirstErrorMessage,
+  scrollToFirstErrorMessage,
   setLineAndResetStops,
   setTransportModeAndResetLineAndStops,
 } from '../utils';
@@ -51,6 +53,7 @@ export type MeansOfTransportContextProps = {
   email?: string;
   isResponseWanted: boolean;
   errorMessages: InputErrorMessages;
+  firstIncorrectErrorMessage?: string;
 };
 
 const setInputsToValidate = (context: MeansOfTransportContextProps) => {
@@ -162,10 +165,24 @@ export const meansOfTransportFormMachine = setup({
   actions: {
     clearValidationErrors: assign({ errorMessages: {} }),
 
-    setValidationErrors: assign(({ context }) => {
-      const inputsToValidate = setInputsToValidate(context);
-      const errors = commonInputValidator(inputsToValidate);
-      return { errorMessages: { ...errors } };
+    setValidationErrors: assign(({ context, event }) => {
+      if (event.type === 'SUBMIT') {
+        const inputsToValidate = setInputsToValidate(context);
+        const errors = commonInputValidator(inputsToValidate);
+        return {
+          firstIncorrectErrorMessage: findFirstErrorMessage(
+            event.orderedFormFieldNames,
+            errors,
+          ),
+          errorMessages: { ...errors },
+        };
+      }
+      return context;
+    }),
+
+    scrollToFirstErrorMessage: assign(({ context }) => {
+      scrollToFirstErrorMessage(context.firstIncorrectErrorMessage);
+      return context;
     }),
 
     onInputChange: assign(({ context, event }) => {

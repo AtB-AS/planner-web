@@ -16,6 +16,7 @@ import { PageText, useTranslation } from '@atb/translations';
 import { FormEventHandler } from 'react';
 import { Radio, Fieldset } from '../components';
 import style from '../contact.module.css';
+import { findOrderFormFields } from '../utils';
 
 const MeansOfTransportContent = () => {
   const { t } = useTranslation();
@@ -24,7 +25,7 @@ const MeansOfTransportContent = () => {
 
   const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    send({ type: 'SUBMIT' });
+    send({ type: 'SUBMIT', orderedFormFieldNames: findOrderFormFields(e) });
   };
 
   return (
