@@ -146,7 +146,7 @@ export const WebshopTicketingForm = ({
         />
         <Input
           label={t(PageText.Contact.input.phoneNumber.labelOptional)}
-          type="phoneNumber"
+          type="tel"
           autoComplete="tel"
           name="phoneNumber"
           value={state.context.phoneNumber || ''}

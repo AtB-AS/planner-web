@@ -175,10 +175,6 @@ export const ticketControlFormMachine = setup({
       event.formType === FormType.PostponePayment,
   },
   actions: {
-    cleanErrorMessages: assign({
-      errorMessages: () => ({}),
-    }),
-
     navigateToErrorPage: () => {
       window.location.href = '/contact/error';
     },
@@ -314,7 +310,7 @@ export const ticketControlFormMachine = setup({
           entry: assign({
             formType: () => FormType.FeeComplaint,
           }),
-          exit: 'cleanErrorMessages',
+          exit: 'clearValidationErrors',
         },
         feedback: {
           id: 'feedback',

@@ -103,8 +103,9 @@ export const AppTicketRefund = ({ state, send }: AppTicketRefundProps) => {
           })
         }
         error={
-          state.context.errorMessages['refundReason']?.[0] &&
-          t(state.context.errorMessages['refundReason']?.[0]).toString()
+          state.context.errorMessages['refundReason']?.[0]
+            ? t(state.context.errorMessages['refundReason']?.[0])
+            : undefined
         }
       />
       <FileInput

@@ -148,7 +148,7 @@ const RefundSection = ({ state, send }: RefundSectionProps) => {
         }
         error={
           state.context.errorMessages['refundReason']?.[0]
-            ? t(state.context.errorMessages['refundReason']?.[0]).toString()
+            ? t(state.context.errorMessages['refundReason']?.[0])
             : undefined
         }
       />
