@@ -25,6 +25,7 @@ const ticketControlSpecificFormEvents = {} as
     }
   | {
       type: 'SUBMIT';
+      orderedFormFieldNames: string[];
     };
 export const ticketControlFormEvents = {} as
   | typeof ticketControlSpecificFormEvents

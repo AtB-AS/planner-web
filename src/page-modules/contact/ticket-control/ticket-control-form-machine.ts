@@ -2,6 +2,8 @@ import { assign, fromPromise, setup } from 'xstate';
 import { ticketControlFormEvents } from './events';
 import {
   convertFilesToBase64,
+  findFirstErrorMessage,
+  scrollToFirstErrorMessage,
   setBankAccountStatusAndResetBankInformation,
   setLineAndResetStops,
   setTransportModeAndResetLineAndStops,
@@ -73,6 +75,7 @@ export type TicketControlContextProps = {
   isAppTicketStorageMode: boolean;
   hasInternationalBankAccount: boolean;
   errorMessages: InputErrorMessages;
+  firstErrorMessage?: string;
 };
 
 const disagreeAgreements = (context: TicketControlContextProps) => {
@@ -189,10 +192,24 @@ export const ticketControlFormMachine = setup({
 
     clearValidationErrors: assign({ errorMessages: {} }),
 
-    setValidationErrors: assign(({ context }) => {
-      const inputsToValidate = setInputsToValidate(context);
-      const errors = commonInputValidator(inputsToValidate);
-      return { errorMessages: { ...errors } };
+    setValidationErrors: assign(({ context, event }) => {
+      if (event.type === 'SUBMIT') {
+        const inputsToValidate = setInputsToValidate(context);
+        const errors = commonInputValidator(inputsToValidate);
+        return {
+          firstErrorMessage: findFirstErrorMessage(
+            event.orderedFormFieldNames,
+            errors,
+          ),
+          errorMessages: { ...errors },
+        };
+      }
+      return context;
+    }),
+
+    scrollToFirstErrorMessage: assign(({ context }) => {
+      scrollToFirstErrorMessage(context.firstErrorMessage);
+      return context;
     }),
 
     onInputChange: assign(({ context, event }) => {
@@ -345,7 +362,7 @@ export const ticketControlFormMachine = setup({
           target: '#submitting',
         },
         {
-          actions: 'setValidationErrors',
+          actions: ['setValidationErrors', 'scrollToFirstErrorMessage'],
           target: 'editing.history',
         },
       ],
