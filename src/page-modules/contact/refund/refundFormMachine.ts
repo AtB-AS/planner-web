@@ -5,6 +5,8 @@ import { ReasonForTransportFailure, TicketType } from './events';
 import { commonInputValidator, InputErrorMessages } from '../validation';
 import {
   convertFilesToBase64,
+  findFirstErrorMessage,
+  scrollToFirstErrorMessage,
   setBankAccountStatusAndResetBankInformation,
   setLineAndResetStops,
   setTransportModeAndResetLineAndStops,
@@ -102,6 +104,7 @@ export type RefundContextProps = {
   hasInternationalBankAccount: boolean;
   showInputTravelCardNumber: boolean;
   errorMessages: InputErrorMessages;
+  firstIncorrectErrorMessage?: string;
 };
 
 const setFormTypeAndInitialContext = (
@@ -280,10 +283,24 @@ export const refundStateMachine = setup({
 
     clearValidationErrors: assign({ errorMessages: {} }),
 
-    setValidationErrors: assign(({ context }) => {
-      const inputsToValidate = setInputToValidate(context);
-      const errors = commonInputValidator(inputsToValidate);
-      return { errorMessages: { ...errors } };
+    setValidationErrors: assign(({ context, event }) => {
+      if (event.type === 'SUBMIT') {
+        const inputsToValidate = setInputToValidate(context);
+        const errors = commonInputValidator(inputsToValidate);
+        return {
+          firstIncorrectErrorMessage: findFirstErrorMessage(
+            event.orderedFormFieldNames,
+            errors,
+          ),
+          errorMessages: { ...errors },
+        };
+      }
+      return context;
+    }),
+
+    scrollToFirstErrorMessage: assign(({ context }) => {
+      scrollToFirstErrorMessage(context.firstIncorrectErrorMessage);
+      return context;
     }),
 
     onInputChange: assign(({ context, event }) => {
@@ -517,7 +534,7 @@ export const refundStateMachine = setup({
           target: '#submitting',
         },
         {
-          actions: 'setValidationErrors',
+          actions: ['setValidationErrors', 'scrollToFirstErrorMessage'],
           target: 'editing.history',
         },
       ],
