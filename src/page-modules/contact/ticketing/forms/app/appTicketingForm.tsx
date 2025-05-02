@@ -44,6 +44,7 @@ export const AppTicketingForm = ({ state, send }: AppTicketingFormProps) => {
           {t(PageText.Contact.input.question.info)}
         </Typo.p>
         <Textarea
+          name="question"
           value={state.context.question || ''}
           onChange={(e) =>
             send({

@@ -230,6 +230,7 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
 
       <Fieldset title={t(PageText.Contact.input.feedback.optionalTitle)}>
         <Textarea
+          name="feedback"
           value={state.context.feedback || ''}
           onChange={(e) =>
             send({

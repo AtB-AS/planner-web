@@ -141,6 +141,7 @@ const RefundSection = ({ state, send }: RefundSectionProps) => {
       </Typo.p>
 
       <Textarea
+        name="refundReason"
         value={state.context.refundReason || ''}
         onChange={(e) =>
           send({

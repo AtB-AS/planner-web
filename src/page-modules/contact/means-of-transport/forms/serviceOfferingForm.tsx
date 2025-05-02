@@ -98,6 +98,7 @@ export const ServiceOfferingForm = ({
           {t(PageText.Contact.input.feedback.description)}
         </Typo.p>
         <Textarea
+          name="feedback"
           value={state.context.feedback || ''}
           onChange={(e) =>
             send({
