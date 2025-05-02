@@ -75,6 +75,7 @@ export const TransportationForm = ({
         />
 
         <SearchableSelect
+          name="line"
           label={t(PageText.Contact.input.line.label)}
           value={state.context.line}
           placeholder={t(PageText.Contact.input.line.optionLabel)}
@@ -95,6 +96,7 @@ export const TransportationForm = ({
         />
 
         <SearchableSelect
+          name="fromStop"
           label={t(PageText.Contact.input.fromStop.label)}
           value={state.context.fromStop}
           isDisabled={!state.context.line}
@@ -115,6 +117,7 @@ export const TransportationForm = ({
         />
 
         <SearchableSelect
+          name="toStop"
           label={t(PageText.Contact.input.toStop.label)}
           value={state.context.toStop}
           isDisabled={!state.context.line}

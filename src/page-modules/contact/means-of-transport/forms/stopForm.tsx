@@ -66,6 +66,7 @@ export const StopForm = ({ state, send }: StopFormProps) => {
         />
 
         <SearchableSelect
+          name="line"
           label={t(PageText.Contact.input.line.label)}
           value={state.context.line}
           placeholder={t(PageText.Contact.input.line.optionLabel)}
@@ -86,6 +87,7 @@ export const StopForm = ({ state, send }: StopFormProps) => {
         />
 
         <SearchableSelect
+          name="stop"
           label={t(PageText.Contact.input.stop.label)}
           value={state.context.stop}
           isDisabled={!state.context.line}
