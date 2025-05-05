@@ -66,12 +66,12 @@ describe('assistant page', function () {
       async nonTransitTrips() {
         return nonTransitTripResult;
       },
-      async autocomplete() {
-        return {} as any;
+      async autocomplete(query, focus) {
+        if (query === 'Strindheim') return [fromFeature];
+        else return [toFeature];
       },
-      async reverse(lat, lon, layers) {
-        if (layers === 'address') return fromFeature;
-        else return toFeature;
+      async reverse() {
+        return {} as any;
       },
       async singleTrip() {
         return {} as any;
@@ -86,10 +86,12 @@ describe('assistant page', function () {
       params: {},
       query: {
         fromId: '638651',
+        fromName: 'Strindheim',
         fromLon: 10.4560389,
         fromLat: 63.4266611,
         fromLayer: 'address',
         toId: 'NSR:StopPlace:43984',
+        toName: 'Byåsen skole',
         toLon: 10.358037,
         toLat: 63.398886,
         toLayer: 'venue',
@@ -103,6 +105,7 @@ describe('assistant page', function () {
       ...context,
     } as any);
 
+    console.log(result);
     (await expectProps(result)).toMatchObject<AssistantContentProps>({
       tripQuery: {
         from: fromFeature,
@@ -312,12 +315,12 @@ describe('assistant page', function () {
       async nonTransitTrips() {
         return nonTransitTripResult;
       },
-      async autocomplete() {
-        return {} as any;
+      async autocomplete(query, focus) {
+        if (query === 'Strindheim') return [fromFeature];
+        else return [toFeature];
       },
-      async reverse(lat, lon, layers) {
-        if (layers === 'address') return fromFeature;
-        else return toFeature;
+      async reverse() {
+        return {} as any;
       },
       async singleTrip() {
         return {} as any;
@@ -332,10 +335,12 @@ describe('assistant page', function () {
       params: {},
       query: {
         fromId: '638651',
+        fromName: 'Strindheim',
         fromLon: 10.4560389,
         fromLat: 63.4266611,
         fromLayer: 'address',
         toId: 'NSR:StopPlace:43984',
+        toName: 'Byåsen skole',
         toLon: 10.358037,
         toLat: 63.398886,
         toLayer: 'venue',

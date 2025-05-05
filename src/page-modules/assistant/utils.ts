@@ -15,6 +15,7 @@ function featuresToFromToQuery(
   if (from) {
     ret = {
       fromId: from.id,
+      fromName: from.name,
       fromLon: from.geometry.coordinates[0],
       fromLat: from.geometry.coordinates[1],
       fromLayer: from.layer,
@@ -25,6 +26,7 @@ function featuresToFromToQuery(
     ret = {
       ...ret,
       toId: to.id,
+      toName: to.name,
       toLon: to.geometry.coordinates[0],
       toLat: to.geometry.coordinates[1],
       toLayer: to.layer,
@@ -35,6 +37,7 @@ function featuresToFromToQuery(
     ret = {
       ...ret,
       viaId: via.id,
+      viaName: via.name,
       viaLon: via.geometry.coordinates[0],
       viaLat: via.geometry.coordinates[1],
       viaLayer: via.layer,
