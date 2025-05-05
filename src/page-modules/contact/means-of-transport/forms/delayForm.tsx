@@ -67,7 +67,7 @@ export const DelayForm = ({ state, send }: DelayFormProps) => {
         />
 
         <SearchableSelect
-          name="line"
+          id="line"
           label={t(PageText.Contact.input.line.label)}
           value={state.context.line}
           placeholder={t(PageText.Contact.input.line.optionLabel)}
@@ -88,7 +88,7 @@ export const DelayForm = ({ state, send }: DelayFormProps) => {
         />
 
         <SearchableSelect
-          name="fromStop"
+          id="fromStop"
           label={t(PageText.Contact.input.fromStop.label)}
           value={state.context.fromStop}
           isDisabled={!state.context.line}
@@ -109,7 +109,7 @@ export const DelayForm = ({ state, send }: DelayFormProps) => {
         />
 
         <SearchableSelect
-          name="toStop"
+          id="toStop"
           label={t(PageText.Contact.input.toStop.label)}
           value={state.context.toStop}
           isDisabled={!state.context.line}
