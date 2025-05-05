@@ -62,6 +62,7 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
         />
 
         <SearchableSelect
+          id="line"
           label={t(PageText.Contact.input.line.label)}
           value={state.context.line}
           placeholder={t(PageText.Contact.input.line.optionLabel)}
@@ -82,6 +83,7 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
         />
 
         <SearchableSelect
+          id="fromStop"
           label={t(PageText.Contact.input.fromStop.optionalLabel)}
           value={state.context.fromStop}
           placeholder={t(PageText.Contact.input.fromStop.optionLabel)}
@@ -97,6 +99,7 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
         />
 
         <SearchableSelect
+          id="toStop"
           label={t(PageText.Contact.input.toStop.optionalLabel)}
           value={state.context.toStop}
           placeholder={t(PageText.Contact.input.toStop.optionLabel)}

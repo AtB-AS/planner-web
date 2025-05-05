@@ -17,6 +17,7 @@ import { ErrorMessage } from '@atb/components/error-message';
 
 export type Option<T> = { id: string; name: string; value: T };
 export type SearchableSelectProps<T> = {
+  id: string;
   label: string;
   value?: T;
   placeholder: string;
@@ -27,6 +28,7 @@ export type SearchableSelectProps<T> = {
 };
 
 export default function SearchableSelect<T>({
+  id,
   label,
   value,
   placeholder,
@@ -95,6 +97,7 @@ export default function SearchableSelect<T>({
       <Label className={isDisabled ? style.label_disabled : ''}>{label}</Label>
       <Group className={style.searchable_select__group}>
         <Input
+          id={`searchable_select__${id}`}
           placeholder={placeholder}
           className={andIf({
             [style.searchable_select__input]: true,
