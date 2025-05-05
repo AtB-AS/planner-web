@@ -41,7 +41,7 @@ export const DelayForm = ({ state, send }: DelayFormProps) => {
         </Typo.p>
 
         <Select
-          name="transportMode"
+          id="transportMode"
           label={t(PageText.Contact.input.transportMode.label)}
           value={state.context.transportMode || ''}
           onChange={(value) =>

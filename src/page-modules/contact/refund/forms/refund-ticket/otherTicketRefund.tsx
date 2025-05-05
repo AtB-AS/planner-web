@@ -26,7 +26,7 @@ const RefundSection = ({ state, send }: RefundSectionProps) => {
       title={t(PageText.Contact.ticketing.refund.otherTicketRefund.label)}
     >
       <Select
-        name="ticketType"
+        id="ticketType"
         label={t(PageText.Contact.input.ticketType.labelRefund)}
         value={state.context.ticketType}
         valueToId={(option: TicketType) => option.id}
