@@ -24,6 +24,28 @@
   background-color: token('color.background.neutral.0.background');
 }
 
+.searchSection {
+  border-radius: 0.75rem;
+  border: 1px solid token('color.foreground.dynamic.disabled');
+  position: relative;
+}
+
+.searchSection > :first-child {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom: 1px solid token('color.foreground.dynamic.disabled');
+}
+
+.searchSection > .searchInputButtonContainer {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid token('color.foreground.dynamic.disabled');
+  top: 50%;
+  right: 0.75rem;
+  transform: translateY(-50%);
+  background-color: token('color.background.neutral.0.background');
+}
+
 .input {
   display: flex;
   flex-direction: column;
