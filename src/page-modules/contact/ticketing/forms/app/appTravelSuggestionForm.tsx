@@ -50,6 +50,7 @@ export const AppTravelSuggestionForm = ({
       </Fieldset>
       <Fieldset title={t(PageText.Contact.aboutYouInfo.title)}>
         <Input
+          id="firstName"
           label={t(PageText.Contact.input.firstName.label)}
           type="text"
           autoComplete="given-name additional-name"
@@ -66,6 +67,7 @@ export const AppTravelSuggestionForm = ({
         />
 
         <Input
+          id="lastName"
           label={t(PageText.Contact.input.lastName.label)}
           type="text"
           autoComplete="family-name"
@@ -81,6 +83,7 @@ export const AppTravelSuggestionForm = ({
           }
         />
         <Input
+          id="email"
           label={t(PageText.Contact.input.email.label)}
           type="email"
           autoComplete="email"

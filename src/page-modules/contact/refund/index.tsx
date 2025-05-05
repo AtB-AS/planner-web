@@ -8,6 +8,7 @@ import { Fieldset, Radio } from '../components';
 import RefundAndTravelGuaranteeForms from './forms/refund-and-travel-guarantee';
 import RefundTicketForms from './forms/refund-ticket';
 import { ResidualValueOnTravelCard } from './forms/residualValueOnTravelCard';
+import { findOrderFormFields } from '../utils';
 
 const RefundContent = () => {
   const { t } = useTranslation();
@@ -18,7 +19,7 @@ const RefundContent = () => {
 
   const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    send({ type: 'SUBMIT' });
+    send({ type: 'SUBMIT', orderedFormFieldNames: findOrderFormFields(e) });
   };
 
   return (

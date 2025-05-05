@@ -14,6 +14,7 @@ const meansOfTransportSpecificFormEvents = {} as
     }
   | {
       type: 'SUBMIT';
+      orderedFormFieldNames: string[];
     };
 
 export const meansOfTransportFormEvents = {} as

@@ -3,6 +3,8 @@ import { ticketingFormEvents } from './events';
 import { commonInputValidator, InputErrorMessages } from '../validation';
 import {
   convertFilesToBase64,
+  findFirstErrorMessage,
+  scrollToFirstErrorMessage,
   setBankAccountStatusAndResetBankInformation,
 } from '../utils';
 import { TicketType } from '../refund/events';
@@ -73,6 +75,7 @@ export type TicketingContextType = {
   isInitialAgreementChecked: boolean;
   showInputTravelCardNumber: boolean;
   errorMessages: InputErrorMessages;
+  firstIncorrectErrorMessage?: string;
 };
 
 const setInputsToValidate = (context: TicketingContextType) => {
@@ -202,10 +205,24 @@ export const ticketingStateMachine = setup({
 
     clearValidationErrors: assign({ errorMessages: {} }),
 
-    setValidationErrors: assign(({ context }) => {
-      const inputsToValidate = setInputsToValidate(context);
-      const errors = commonInputValidator(inputsToValidate);
-      return { errorMessages: { ...errors } };
+    setValidationErrors: assign(({ context, event }) => {
+      if (event.type === 'SUBMIT') {
+        const inputsToValidate = setInputsToValidate(context);
+        const errors = commonInputValidator(inputsToValidate);
+        return {
+          firstIncorrectErrorMessage: findFirstErrorMessage(
+            event.orderedFormFieldNames,
+            errors,
+          ),
+          errorMessages: { ...errors },
+        };
+      }
+      return context;
+    }),
+
+    scrollToFirstErrorMessage: assign(({ context }) => {
+      scrollToFirstErrorMessage(context.firstIncorrectErrorMessage);
+      return context;
     }),
 
     onInputChange: assign(({ context, event }) => {
@@ -457,7 +474,7 @@ export const ticketingStateMachine = setup({
           target: '#submitting',
         },
         {
-          actions: 'setValidationErrors',
+          actions: ['setValidationErrors', 'scrollToFirstErrorMessage'],
           target: 'editing.history',
         },
       ],

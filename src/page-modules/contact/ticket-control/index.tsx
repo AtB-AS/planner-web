@@ -11,6 +11,7 @@ import FeeComplaintForm from './forms/feeComplaintForm';
 import FeedbackForm from './forms/feedbackForm';
 import PostponePaymentForm from './forms/postponePayment';
 import { Fieldset, Radio } from '../components';
+import { findOrderFormFields } from '../utils';
 
 const TicketControlPageContent = () => {
   const { t } = useTranslation();
@@ -22,7 +23,7 @@ const TicketControlPageContent = () => {
 
   const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    send({ type: 'SUBMIT' });
+    send({ type: 'SUBMIT', orderedFormFieldNames: findOrderFormFields(e) });
   };
 
   return (

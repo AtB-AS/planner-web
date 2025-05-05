@@ -126,6 +126,7 @@ export const ServiceOfferingForm = ({
       </Fieldset>
       <Fieldset title={t(PageText.Contact.aboutYouInfo.optionalTitle)}>
         <Input
+          id="firstName"
           label={t(PageText.Contact.input.firstName.label)}
           type="text"
           name="firstName"
@@ -140,6 +141,7 @@ export const ServiceOfferingForm = ({
         />
 
         <Input
+          id="lastName"
           label={t(PageText.Contact.input.lastName.label)}
           type="text"
           name="lastName"
