@@ -5,13 +5,23 @@ export type CheckboxProps = {
   onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
   error?: string;
   value: string;
-};
+} & JSX.IntrinsicElements['textarea'];
 
-export default function Textarea({ onChange, error, value }: CheckboxProps) {
+export default function Textarea({
+  id,
+  onChange,
+  error,
+  value,
+}: CheckboxProps) {
   return (
-    <div>
-      <textarea className={style.textarea} value={value} onChange={onChange} />
+    <>
+      <textarea
+        id={`textarea__${id}`}
+        className={style.textarea}
+        value={value}
+        onChange={onChange}
+      />
       {error && <ErrorMessage message={error} />}
-    </div>
+    </>
   );
 }
