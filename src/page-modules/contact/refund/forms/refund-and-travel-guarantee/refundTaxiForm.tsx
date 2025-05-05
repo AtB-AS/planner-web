@@ -48,6 +48,7 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
           errorMessage={state.context?.errorMessages['attachments']?.[0]}
         />
         <Input
+          id="amount"
           label={t(PageText.Contact.input.amount.label)}
           type="text"
           name="amount"
@@ -240,6 +241,7 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
       </Fieldset>
       <Fieldset title={t(PageText.Contact.aboutYouInfo.title)}>
         <Input
+          id="firstName"
           label={t(PageText.Contact.input.firstName.label)}
           type="text"
           autoComplete="given-name additional-name"
@@ -256,6 +258,7 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
         />
 
         <Input
+          id="lastName"
           label={t(PageText.Contact.input.lastName.label)}
           type="text"
           autoComplete="family-name"
@@ -271,6 +274,7 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
           }
         />
         <Input
+          id="address"
           label={t(PageText.Contact.input.address.label)}
           type="text"
           autoComplete="street-address"
@@ -286,6 +290,7 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
           }
         />
         <Input
+          id="postalCode"
           label={t(PageText.Contact.input.postalCode.label)}
           type="number"
           autoComplete="postal-code"
@@ -301,6 +306,7 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
           }
         />
         <Input
+          id="city"
           label={t(PageText.Contact.input.city.label)}
           type="text"
           name="city"
@@ -315,6 +321,7 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
           }
         />
         <Input
+          id="email"
           label={t(PageText.Contact.input.email.label)}
           type="email"
           autoComplete="email"
@@ -330,6 +337,7 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
           }
         />
         <Input
+          id="phoneNumber"
           label={t(PageText.Contact.input.phoneNumber.label)}
           type="tel"
           name="phoneNumber"
@@ -345,6 +353,7 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
         />
 
         <Input
+          id="bankAccountNumber"
           label={t(
             PageText.Contact.input.bankInformation.bankAccountNumber.label,
           )}
@@ -381,6 +390,7 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
         {state.context.hasInternationalBankAccount && (
           <div>
             <Input
+              id="IBAN"
               label={t(PageText.Contact.input.bankInformation.IBAN.label)}
               type="string"
               name="IBAN"
@@ -396,6 +406,7 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
             />
 
             <Input
+              id="SWIFT"
               label={t(PageText.Contact.input.bankInformation.SWIFT.label)}
               type="string"
               name="SWIFT"

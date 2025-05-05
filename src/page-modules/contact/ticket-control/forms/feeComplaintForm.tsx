@@ -106,6 +106,7 @@ const FormContent = ({ state, send }: FormProps) => {
     <>
       <Fieldset title={t(PageText.Contact.ticketControl.feeComplaint.title)}>
         <Input
+          id="feeNumber"
           label={t(PageText.Contact.input.feeNumber.label)}
           type="text"
           name="feeNumber"
@@ -159,6 +160,7 @@ const FormContent = ({ state, send }: FormProps) => {
         {state.context.isAppTicketStorageMode && (
           <div>
             <Input
+              id="appPhoneNumber"
               label={t(PageText.Contact.input.appPhoneNumber.label)}
               type="tel"
               name="appPhoneNumber"
@@ -174,6 +176,7 @@ const FormContent = ({ state, send }: FormProps) => {
             />
 
             <Input
+              id="customerNumber"
               label={t(PageText.Contact.input.customerNumber.label)}
               type="number"
               name="customerNumber"
@@ -191,6 +194,7 @@ const FormContent = ({ state, send }: FormProps) => {
         )}
         {!state.context.isAppTicketStorageMode && (
           <Input
+            id="travelCardNumber"
             label={t(PageText.Contact.input.travelCardNumber.label)}
             type="number"
             name="travelCardNumber"
@@ -237,6 +241,7 @@ const FormContent = ({ state, send }: FormProps) => {
 
       <Fieldset title={t(PageText.Contact.aboutYouInfo.title)}>
         <Input
+          id="firstName"
           label={t(PageText.Contact.input.firstName.label)}
           type="text"
           autoComplete="given-name additional-name"
@@ -253,6 +258,7 @@ const FormContent = ({ state, send }: FormProps) => {
         />
 
         <Input
+          id="lastName"
           label={t(PageText.Contact.input.lastName.label)}
           type="text"
           autoComplete="family-name"
@@ -268,6 +274,7 @@ const FormContent = ({ state, send }: FormProps) => {
           }
         />
         <Input
+          id="address"
           label={t(PageText.Contact.input.address.label)}
           type="text"
           autoComplete="street-address"
@@ -283,6 +290,7 @@ const FormContent = ({ state, send }: FormProps) => {
           }
         />
         <Input
+          id="postalCode"
           label={t(PageText.Contact.input.postalCode.label)}
           type="number"
           autoComplete="postal-code"
@@ -298,6 +306,7 @@ const FormContent = ({ state, send }: FormProps) => {
           }
         />
         <Input
+          id="city"
           label={t(PageText.Contact.input.city.label)}
           type="text"
           name="city"
@@ -312,6 +321,7 @@ const FormContent = ({ state, send }: FormProps) => {
           }
         />
         <Input
+          id="email"
           label={t(PageText.Contact.input.email.label)}
           type="email"
           autoComplete="email"
@@ -327,6 +337,7 @@ const FormContent = ({ state, send }: FormProps) => {
           }
         />
         <Input
+          id="phoneNumber"
           label={t(PageText.Contact.input.phoneNumber.label)}
           type="tel"
           name="phoneNumber"
@@ -342,6 +353,7 @@ const FormContent = ({ state, send }: FormProps) => {
         />
 
         <Input
+          id="bankAccountNumber"
           label={t(
             PageText.Contact.input.bankInformation.bankAccountNumber.label,
           )}
@@ -378,6 +390,7 @@ const FormContent = ({ state, send }: FormProps) => {
         {state.context.hasInternationalBankAccount && (
           <div>
             <Input
+              id="IBAN"
               label={t(PageText.Contact.input.bankInformation.IBAN.label)}
               type="string"
               name="IBAN"
@@ -393,6 +406,7 @@ const FormContent = ({ state, send }: FormProps) => {
             />
 
             <Input
+              id="SWIFT"
               label={t(PageText.Contact.input.bankInformation.SWIFT.label)}
               type="string"
               name="SWIFT"

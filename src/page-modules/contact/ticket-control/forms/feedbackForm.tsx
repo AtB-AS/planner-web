@@ -171,6 +171,7 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
 
       <Fieldset title={t(PageText.Contact.aboutYouInfo.title)}>
         <Input
+          id="firstName"
           label={t(PageText.Contact.input.firstName.label)}
           type="text"
           autoComplete="given-name additonal-name"
@@ -188,6 +189,7 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
           }
         />
         <Input
+          id="lastName"
           label={t(PageText.Contact.input.lastName.label)}
           type="text"
           autoComplete="family-name"
@@ -205,6 +207,7 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
           }
         />
         <Input
+          id="email"
           label={t(PageText.Contact.input.email.label)}
           type="email"
           name="email"

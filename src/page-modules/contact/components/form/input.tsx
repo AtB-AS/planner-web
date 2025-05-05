@@ -9,6 +9,7 @@ import DescriptionModal from './description-modal';
 import { ErrorMessage } from '@atb/components/error-message';
 
 type InputProps = {
+  id: string;
   label: string;
   modalContent?: {
     description?: string;
@@ -20,6 +21,7 @@ type InputProps = {
 } & JSX.IntrinsicElements['input'];
 
 export const Input = ({
+  id,
   label,
   errorMessage,
   type,
@@ -70,6 +72,7 @@ export const Input = ({
         )}
       </div>
       <input
+        id={`input__${id}`}
         type={type}
         name={name}
         className={andIf({

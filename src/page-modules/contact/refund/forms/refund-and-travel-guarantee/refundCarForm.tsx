@@ -31,9 +31,10 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
     <>
       <Fieldset title={t(PageText.Contact.refund.refundTaxi.carTrip.title)}>
         <Input
+          id="kilometersDriven"
           label={t(PageText.Contact.input.kilometersDriven.label)}
           type="text"
-          name="km"
+          name="kilometersDriven"
           value={state.context.kilometersDriven || ''}
           errorMessage={
             state.context?.errorMessages['kilometersDriven']?.[0] || undefined
@@ -47,6 +48,7 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
           }
         />
         <Input
+          id="fromAddress"
           label={t(PageText.Contact.input.fromAddress.label)}
           type="text"
           name="fromAddress"
@@ -63,9 +65,10 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
           }
         />
         <Input
+          id="toAddress"
           label={t(PageText.Contact.input.toAddress.label)}
-          type="toAddress"
-          name="km"
+          type="text"
+          name="toAddress"
           value={state.context.toAddress || ''}
           errorMessage={
             state.context?.errorMessages['toAddress']?.[0] || undefined
@@ -254,6 +257,7 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
       </Fieldset>
       <Fieldset title={t(PageText.Contact.aboutYouInfo.title)}>
         <Input
+          id="firstName"
           label={t(PageText.Contact.input.firstName.label)}
           type="text"
           autoComplete="given-name additional-name"
@@ -270,6 +274,7 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
         />
 
         <Input
+          id="lastName"
           label={t(PageText.Contact.input.lastName.label)}
           type="text"
           autoComplete="family-name"
@@ -285,6 +290,7 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
           }
         />
         <Input
+          id="address"
           label={t(PageText.Contact.input.address.label)}
           type="text"
           autoComplete="street-address"
@@ -300,6 +306,7 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
           }
         />
         <Input
+          id="postalCode"
           label={t(PageText.Contact.input.postalCode.label)}
           type="number"
           autoComplete="postal-code"
@@ -315,6 +322,7 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
           }
         />
         <Input
+          id="city"
           label={t(PageText.Contact.input.city.label)}
           type="text"
           name="city"
@@ -329,6 +337,7 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
           }
         />
         <Input
+          id="email"
           label={t(PageText.Contact.input.email.label)}
           type="email"
           autoComplete="email"
@@ -345,6 +354,7 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
         />
 
         <Input
+          id="phoneNumber"
           label={t(PageText.Contact.input.phoneNumber.label)}
           type="tel"
           name="phoneNumber"
@@ -360,6 +370,7 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
         />
 
         <Input
+          id="bankAccountNumber"
           label={t(
             PageText.Contact.input.bankInformation.bankAccountNumber.label,
           )}
@@ -396,6 +407,7 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
         {state.context.hasInternationalBankAccount && (
           <div>
             <Input
+              id="IBAN"
               label={t(PageText.Contact.input.bankInformation.IBAN.label)}
               type="string"
               name="IBAN"
@@ -411,6 +423,7 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
             />
 
             <Input
+              id="SWIFT"
               label={t(PageText.Contact.input.bankInformation.SWIFT.label)}
               type="string"
               name="SWIFT"

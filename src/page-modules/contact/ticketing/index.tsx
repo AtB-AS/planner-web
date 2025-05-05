@@ -9,6 +9,7 @@ import PriceAndTicketTypesForm from './forms/priceAndTicketTypesForm';
 import AppForms from './forms/app';
 import WebshopForms from './forms/webshop';
 import TravelCardForms from './forms/travel-card';
+import { findOrderFormFields } from '../utils';
 
 const TicketingContent = () => {
   const { t } = useTranslation();
@@ -18,7 +19,7 @@ const TicketingContent = () => {
 
   const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    send({ type: 'SUBMIT' });
+    send({ type: 'SUBMIT', orderedFormFieldNames: findOrderFormFields(e) });
   };
 
   return (

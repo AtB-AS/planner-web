@@ -75,6 +75,7 @@ const RefundSection = ({ state, send }: RefundSectionProps) => {
 
       {state.context.showInputTravelCardNumber && (
         <Input
+          id="travelCardNumber"
           label={t(PageText.Contact.input.travelCardNumber.label)}
           type="number"
           name="travelCardNumber"
@@ -92,6 +93,7 @@ const RefundSection = ({ state, send }: RefundSectionProps) => {
 
       {!state.context.showInputTravelCardNumber && (
         <Input
+          id="customerNumber"
           label={t(PageText.Contact.input.customerNumber.label)}
           type="text"
           name="customerNumber"
@@ -111,6 +113,7 @@ const RefundSection = ({ state, send }: RefundSectionProps) => {
       )}
 
       <Input
+        id="orderId"
         label={t(PageText.Contact.input.orderId.label(false))}
         type="text"
         name="orderId"
@@ -154,6 +157,7 @@ const RefundSection = ({ state, send }: RefundSectionProps) => {
       />
 
       <Input
+        id="amount"
         label={t(PageText.Contact.input.amount.label)}
         type="text"
         name="amount"
@@ -193,6 +197,7 @@ const AboutYouSection = ({ state, send }: AboutYouSectionProps) => {
   return (
     <Fieldset title={t(PageText.Contact.aboutYouInfo.title)}>
       <Input
+        id="firstName"
         label={t(PageText.Contact.input.firstName.label)}
         type="text"
         autoComplete="given-name additional-name"
@@ -209,6 +214,7 @@ const AboutYouSection = ({ state, send }: AboutYouSectionProps) => {
       />
 
       <Input
+        id="lastName"
         label={t(PageText.Contact.input.lastName.label)}
         type="text"
         autoComplete="family-name"
@@ -224,6 +230,7 @@ const AboutYouSection = ({ state, send }: AboutYouSectionProps) => {
         }
       />
       <Input
+        id="address"
         label={t(PageText.Contact.input.address.label)}
         type="text"
         autoComplete="street-address"
@@ -239,6 +246,7 @@ const AboutYouSection = ({ state, send }: AboutYouSectionProps) => {
         }
       />
       <Input
+        id="postalCode"
         label={t(PageText.Contact.input.postalCode.label)}
         type="number"
         autoComplete="postal-code"
@@ -254,6 +262,7 @@ const AboutYouSection = ({ state, send }: AboutYouSectionProps) => {
         }
       />
       <Input
+        id="city"
         label={t(PageText.Contact.input.city.label)}
         type="text"
         name="city"
@@ -268,6 +277,7 @@ const AboutYouSection = ({ state, send }: AboutYouSectionProps) => {
         }
       />
       <Input
+        id="email"
         label={t(PageText.Contact.input.email.label)}
         type="email"
         autoComplete="email"
@@ -283,6 +293,7 @@ const AboutYouSection = ({ state, send }: AboutYouSectionProps) => {
         }
       />
       <Input
+        id="phoneNumber"
         label={t(PageText.Contact.input.phoneNumber.label)}
         type="tel"
         name="phoneNumber"
@@ -298,6 +309,7 @@ const AboutYouSection = ({ state, send }: AboutYouSectionProps) => {
       />
 
       <Input
+        id="bankAccountNumber"
         label={t(
           PageText.Contact.input.bankInformation.bankAccountNumber.label,
         )}
@@ -333,6 +345,7 @@ const AboutYouSection = ({ state, send }: AboutYouSectionProps) => {
       {state.context.hasInternationalBankAccount && (
         <div>
           <Input
+            id="IBAN"
             label={t(PageText.Contact.input.bankInformation.IBAN.label)}
             type="string"
             name="IBAN"
@@ -348,6 +361,7 @@ const AboutYouSection = ({ state, send }: AboutYouSectionProps) => {
           />
 
           <Input
+            id="SWIFT"
             label={t(PageText.Contact.input.bankInformation.SWIFT.label)}
             type="string"
             name="SWIFT"
