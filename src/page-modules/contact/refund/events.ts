@@ -79,6 +79,7 @@ const RefundSpecificFormEvents = {} as
     }
   | {
       type: 'SUBMIT';
+      orderedFormFieldNames: string[];
     };
 
 export const RefundFormEvents = {} as typeof RefundSpecificFormEvents;

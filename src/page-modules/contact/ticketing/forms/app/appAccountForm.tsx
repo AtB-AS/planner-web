@@ -47,6 +47,7 @@ export const AppAccountForm = ({ state, send }: AppAccountFormProps) => {
       </Fieldset>
       <Fieldset title={t(PageText.Contact.aboutYouInfo.title)}>
         <Input
+          id="customerNumber"
           label={t(PageText.Contact.input.customerNumber.label)}
           type="text"
           name="customerNumber"
@@ -64,6 +65,7 @@ export const AppAccountForm = ({ state, send }: AppAccountFormProps) => {
           }}
         />
         <Input
+          id="firstName"
           label={t(PageText.Contact.input.firstName.label)}
           type="text"
           autoComplete="given-name additional-name"
@@ -80,6 +82,7 @@ export const AppAccountForm = ({ state, send }: AppAccountFormProps) => {
         />
 
         <Input
+          id="lastName"
           label={t(PageText.Contact.input.lastName.label)}
           type="text"
           autoComplete="family-name"
@@ -95,6 +98,7 @@ export const AppAccountForm = ({ state, send }: AppAccountFormProps) => {
           }
         />
         <Input
+          id="email"
           label={t(PageText.Contact.input.email.label)}
           type="email"
           autoComplete="email"
@@ -110,6 +114,7 @@ export const AppAccountForm = ({ state, send }: AppAccountFormProps) => {
           }
         />
         <Input
+          id="phoneNumber"
           label={t(PageText.Contact.input.phoneNumber.label)}
           type="tel"
           name="phoneNumber"

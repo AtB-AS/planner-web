@@ -50,6 +50,7 @@ export const WebshopAccountForm = ({
       </Fieldset>
       <Fieldset title={t(PageText.Contact.aboutYouInfo.title)}>
         <Input
+          id="customerNumber"
           label={t(PageText.Contact.input.customerNumber.labelOptional)}
           type="text"
           name="customerNumber"
@@ -64,6 +65,7 @@ export const WebshopAccountForm = ({
           }
         />
         <Input
+          id="firstName"
           label={t(PageText.Contact.input.firstName.labelOptional)}
           type="text"
           autoComplete="given-name additional-name"
@@ -79,6 +81,7 @@ export const WebshopAccountForm = ({
         />
 
         <Input
+          id="lastName"
           label={t(PageText.Contact.input.lastName.labelOptional)}
           type="text"
           autoComplete="family-name"
@@ -93,6 +96,7 @@ export const WebshopAccountForm = ({
           }
         />
         <Input
+          id="email"
           label={t(
             PageText.Contact.input.email
               .labelOptionalIfCustomerNumberIsProvided,
@@ -115,6 +119,7 @@ export const WebshopAccountForm = ({
           }
         />
         <Input
+          id="phoneNumber"
           label={t(PageText.Contact.input.phoneNumber.labelOptional)}
           type="tel"
           autoComplete="tel"

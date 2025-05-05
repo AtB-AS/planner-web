@@ -1,5 +1,7 @@
 import { TransportModeType } from './types';
 import { Line } from '.';
+import { FormEvent } from 'react';
+import { InputErrorMessages } from './validation';
 
 export const shouldShowContactPage = (): boolean => {
   return process.env.NEXT_PUBLIC_CONTACT_API_URL ? true : false;
@@ -84,4 +86,41 @@ export const setBankAccountStatusAndResetBankInformation = (
       bankAccountNumber: [],
     },
   };
+};
+
+const formFieldsPrefixes = ['input__', 'select__', 'textarea__'];
+
+export const findOrderFormFields = (e: FormEvent<HTMLFormElement>): string[] =>
+  Array.from(e.currentTarget.elements)
+    .filter(
+      (el): el is HTMLElement =>
+        el instanceof HTMLElement &&
+        formFieldsPrefixes.some((prefix) => el.id.startsWith(prefix)),
+    )
+    .map((el) => el.id.split('__')[1]);
+
+export const scrollToFirstErrorMessage = (id: string | undefined): void => {
+  if (!id) return;
+
+  const element = formFieldsPrefixes
+    .map((prefix) => document.getElementById(`${prefix}${id}`))
+    .find((el): el is HTMLElement => el !== null);
+
+  if (element) {
+    element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    element.focus();
+  }
+};
+
+export const findFirstErrorMessage = (
+  formFields: string[] | undefined,
+  errors: InputErrorMessages,
+): string | undefined => {
+  if (!formFields) return undefined;
+
+  for (const field of formFields) {
+    if (errors[field]) {
+      return field;
+    }
+  }
 };

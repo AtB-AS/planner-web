@@ -43,6 +43,7 @@ const ticketingSpecificFormEvents = {} as
     }
   | {
       type: 'SUBMIT';
+      orderedFormFieldNames: string[];
     };
 
 export const ticketingFormEvents = {} as
