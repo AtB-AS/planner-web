@@ -151,30 +151,32 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
             <Typo.h2 textType="body__primary--bold" className={style.heading}>
               {t(PageText.Assistant.search.input.label)}
             </Typo.h2>
-            <Search
-              label={t(PageText.Assistant.search.input.from)}
-              placeholder={t(PageText.Assistant.search.input.placeholder)}
-              onChange={onFromSelected}
-              selectedItem={tripQuery.from ?? undefined}
-              testID="searchFrom"
-              onGeolocationError={setGeolocationError}
-            />
-            <Search
-              label={t(PageText.Assistant.search.input.to)}
-              placeholder={t(PageText.Assistant.search.input.placeholder)}
-              onChange={onToSelected}
-              selectedItem={tripQuery.to ?? undefined}
-              testID="searchTo"
-              button={
+            <div className={style.searchSection}>
+              <Search
+                label={t(PageText.Assistant.search.input.from)}
+                placeholder={t(PageText.Assistant.search.input.placeholder)}
+                onChange={onFromSelected}
+                selectedItem={tripQuery.from ?? undefined}
+                testID="searchFrom"
+                onGeolocationError={setGeolocationError}
+              />
+              <Search
+                label={t(PageText.Assistant.search.input.to)}
+                placeholder={t(PageText.Assistant.search.input.placeholder)}
+                onChange={onToSelected}
+                selectedItem={tripQuery.to ?? undefined}
+                testID="searchTo"
+                autocompleteFocusPoint={tripQuery.from ?? undefined}
+                onGeolocationError={setGeolocationError}
+              />
+              <div className={style.searchInputButtonContainer}>
                 <SwapButton
                   className={style.searchInputButton}
                   onSwap={onSwap}
                   isLoading={isSwapping}
                 />
-              }
-              autocompleteFocusPoint={tripQuery.from ?? undefined}
-              onGeolocationError={setGeolocationError}
-            />
+              </div>
+            </div>
           </div>
           <div className={style.date}>
             <Typo.h2 textType="body__primary--bold" className={style.heading}>
