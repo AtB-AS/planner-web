@@ -143,6 +143,7 @@ export const InjuryForm = ({ state, send }: InjuryFormProps) => {
         />
 
         <TimeSelector
+          id="plannedDepartureTime"
           label={PageText.Contact.input.plannedDepartureTime.label}
           value={state.context.plannedDepartureTime || ''}
           onChange={(time: string) =>

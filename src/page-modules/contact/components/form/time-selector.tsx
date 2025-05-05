@@ -10,12 +10,14 @@ import {
 } from 'react-aria-components';
 
 export type TimeSelectorProps = {
+  id: string;
   label: TranslatedString;
   value?: string;
   errorMessage?: TranslatedString;
   onChange: (value: string) => void;
 };
 export default function TimeSelector({
+  id,
   label,
   value,
   errorMessage,
@@ -27,6 +29,7 @@ export default function TimeSelector({
   return (
     <div className={style.timeSelectorContainer}>
       <TimeField
+        id={`time_selector__${id}`}
         value={parsedValue}
         onChange={(change) => {
           if (!change) return;
@@ -48,6 +51,7 @@ export default function TimeSelector({
           )}
         </DateInput>
       </TimeField>
+      <input id={`time_selector__${id}`} type="hidden" value={value ?? ''} />
       {errorMessage && <ErrorMessage message={t(errorMessage)} />}
     </div>
   );

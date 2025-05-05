@@ -93,6 +93,8 @@ const formFieldsPrefixes = [
   'textarea__',
   'select__',
   'searchable_select__',
+  'date_selector__',
+  'time_selector__',
 ];
 
 export const findOrderFormFields = (e: FormEvent<HTMLFormElement>): string[] =>
