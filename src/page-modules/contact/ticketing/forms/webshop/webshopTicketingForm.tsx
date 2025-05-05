@@ -53,7 +53,7 @@ export const WebshopTicketingForm = ({
           {t(PageText.Contact.input.question.info)}
         </Typo.p>
         <Textarea
-          name="question"
+          id="question"
           value={state.context.question || ''}
           onChange={(e) =>
             send({

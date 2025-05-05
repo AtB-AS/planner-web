@@ -212,7 +212,7 @@ const FormContent = ({ state, send }: FormProps) => {
       </Fieldset>
       <Fieldset title={t(PageText.Contact.input.feedback.title)}>
         <Textarea
-          name="feedback"
+          id="feedback"
           value={state.context.feedback || ''}
           onChange={(e) =>
             send({

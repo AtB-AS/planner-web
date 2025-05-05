@@ -96,7 +96,7 @@ export const AppTicketRefund = ({ state, send }: AppTicketRefundProps) => {
       </Typo.p>
 
       <Textarea
-        name="refundReason"
+        id="refundReason"
         value={state.context.refundReason || ''}
         onChange={(e) =>
           send({

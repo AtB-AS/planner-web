@@ -8,15 +8,15 @@ export type CheckboxProps = {
 } & JSX.IntrinsicElements['textarea'];
 
 export default function Textarea({
+  id,
   onChange,
   error,
   value,
-  name,
 }: CheckboxProps) {
   return (
     <>
       <textarea
-        name={name}
+        id={`textarea__${id}`}
         className={style.textarea}
         value={value}
         onChange={onChange}

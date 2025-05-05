@@ -159,7 +159,7 @@ export const InjuryForm = ({ state, send }: InjuryFormProps) => {
           {t(PageText.Contact.input.feedback.description)}
         </Typo.p>
         <Textarea
-          name="feedback"
+          id="feedback"
           value={state.context.feedback || ''}
           onChange={(e) =>
             send({
