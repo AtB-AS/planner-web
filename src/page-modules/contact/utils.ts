@@ -88,27 +88,23 @@ export const setBankAccountStatusAndResetBankInformation = (
   };
 };
 
+const formFieldsPrefixes = ['input__', 'select__', 'textarea__'];
+
 export const findOrderFormFields = (e: FormEvent<HTMLFormElement>): string[] =>
-  Array.from(e.currentTarget.elements).reduce<string[]>((fields, element) => {
-    if (
-      (element instanceof HTMLInputElement ||
-        element instanceof HTMLSelectElement ||
-        element instanceof HTMLTextAreaElement) &&
-      element.name
-    ) {
-      fields.push(element.name);
-    }
-    return fields;
-  }, []);
+  Array.from(e.currentTarget.elements)
+    .filter(
+      (el): el is HTMLElement =>
+        el instanceof HTMLElement &&
+        formFieldsPrefixes.some((prefix) => el.id.startsWith(prefix)),
+    )
+    .map((el) => el.id.split('__')[1]);
 
-export const scrollToFirstErrorMessage = (
-  fieldName: string | undefined,
-): void => {
-  if (!fieldName) return;
+export const scrollToFirstErrorMessage = (id: string | undefined): void => {
+  if (!id) return;
 
-  const element = document.querySelector<
-    HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-  >(`[name="${fieldName}"]`);
+  const element = formFieldsPrefixes
+    .map((prefix) => document.getElementById(`${prefix}${id}`))
+    .find((el): el is HTMLElement => el !== null);
 
   if (element) {
     element.scrollIntoView({ behavior: 'smooth', block: 'center' });
