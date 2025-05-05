@@ -151,6 +151,7 @@ export const StopForm = ({ state, send }: StopFormProps) => {
       </Fieldset>
       <Fieldset title={t(PageText.Contact.aboutYouInfo.optionalTitle)}>
         <Input
+          id="firstName"
           label={t(PageText.Contact.input.firstName.label)}
           type="text"
           name="firstName"
@@ -165,6 +166,7 @@ export const StopForm = ({ state, send }: StopFormProps) => {
         />
 
         <Input
+          id="lastName"
           label={t(PageText.Contact.input.lastName.label)}
           type="text"
           name="lastName"
@@ -179,6 +181,7 @@ export const StopForm = ({ state, send }: StopFormProps) => {
         />
 
         <Input
+          id="email"
           label={t(PageText.Contact.input.email.label)}
           type="email"
           name="email"

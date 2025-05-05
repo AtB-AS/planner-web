@@ -23,6 +23,7 @@ export const PostponePaymentForm = ({
         </Typo.p>
 
         <Input
+          id="feeNumber"
           label={t(PageText.Contact.input.feeNumber.label)}
           type="text"
           name="feeNumber"
@@ -41,6 +42,7 @@ export const PostponePaymentForm = ({
         />
 
         <Input
+          id="invoiceNumber"
           label={t(PageText.Contact.input.invoiceNumber.label)}
           type="text"
           name="invoiceNumber"
@@ -60,6 +62,7 @@ export const PostponePaymentForm = ({
       </Fieldset>
       <Fieldset title={t(PageText.Contact.aboutYouInfo.title)}>
         <Input
+          id="firstName"
           label={t(PageText.Contact.input.firstName.label)}
           type="text"
           autoComplete="given-name additional-name"
@@ -75,6 +78,7 @@ export const PostponePaymentForm = ({
           }
         />
         <Input
+          id="lastName"
           label={t(PageText.Contact.input.lastName.label)}
           type="text"
           autoComplete="family-name"
@@ -90,6 +94,7 @@ export const PostponePaymentForm = ({
           }
         />
         <Input
+          id="email"
           label={t(PageText.Contact.input.email.label)}
           type="email"
           name="email"

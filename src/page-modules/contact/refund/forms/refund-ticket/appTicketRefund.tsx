@@ -2,7 +2,7 @@ import { PageText, useTranslation } from '@atb/translations';
 import { RefundContextProps } from '../../refundFormMachine';
 import { RefundFormEvents } from '../../events';
 import { Typo } from '@atb/components/typography';
-import { PurchasePlatformType, TransportModeType } from '../../../types';
+import { PurchasePlatformType } from '../../../types';
 import {
   Fieldset,
   Input,
@@ -24,6 +24,7 @@ export const AppTicketRefund = ({ state, send }: AppTicketRefundProps) => {
       title={t(PageText.Contact.ticketing.refund.appTicketRefund.label)}
     >
       <Input
+        id="customerNumber"
         label={t(PageText.Contact.input.customerNumber.label)}
         type="text"
         name="customerNumber"
@@ -42,6 +43,7 @@ export const AppTicketRefund = ({ state, send }: AppTicketRefundProps) => {
       />
 
       <Input
+        id="orderId"
         label={t(PageText.Contact.input.orderId.label(true))}
         type="text"
         name="orderId"
