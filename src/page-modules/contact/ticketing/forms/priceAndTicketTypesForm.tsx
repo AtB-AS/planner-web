@@ -22,6 +22,7 @@ export const PriceAndTicketTypesForm = ({
           {t(PageText.Contact.input.question.info)}
         </Typo.p>
         <Textarea
+          id="question"
           value={state.context.question || ''}
           onChange={(e) =>
             send({

@@ -214,6 +214,7 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
       </Fieldset>
       <Fieldset title={t(PageText.Contact.input.feedback.optionalTitle)}>
         <Textarea
+          id="feedback"
           value={state.context.feedback || ''}
           onChange={(e) =>
             send({

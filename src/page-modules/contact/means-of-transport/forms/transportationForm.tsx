@@ -168,6 +168,7 @@ export const TransportationForm = ({
           {t(PageText.Contact.input.feedback.description)}
         </Typo.p>
         <Textarea
+          id="feedback"
           value={state.context.feedback || ''}
           onChange={(e) =>
             send({
