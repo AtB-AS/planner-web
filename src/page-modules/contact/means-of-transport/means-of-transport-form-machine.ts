@@ -53,7 +53,7 @@ export type MeansOfTransportContextProps = {
   email?: string;
   isResponseWanted: boolean;
   errorMessages: InputErrorMessages;
-  firstIncorrectErrorMessage?: string;
+  firstErrorMessage?: string;
 };
 
 const setInputsToValidate = (context: MeansOfTransportContextProps) => {
@@ -170,7 +170,7 @@ export const meansOfTransportFormMachine = setup({
         const inputsToValidate = setInputsToValidate(context);
         const errors = commonInputValidator(inputsToValidate);
         return {
-          firstIncorrectErrorMessage: findFirstErrorMessage(
+          firstErrorMessage: findFirstErrorMessage(
             event.orderedFormFieldNames,
             errors,
           ),
@@ -181,7 +181,7 @@ export const meansOfTransportFormMachine = setup({
     }),
 
     scrollToFirstErrorMessage: assign(({ context }) => {
-      scrollToFirstErrorMessage(context.firstIncorrectErrorMessage);
+      scrollToFirstErrorMessage(context.firstErrorMessage);
       return context;
     }),
 
@@ -354,7 +354,7 @@ export const meansOfTransportFormMachine = setup({
           target: '#submitting',
         },
         {
-          actions: 'setValidationErrors',
+          actions: ['setValidationErrors', 'scrollToFirstErrorMessage'],
           target: 'editing.history',
         },
       ],
