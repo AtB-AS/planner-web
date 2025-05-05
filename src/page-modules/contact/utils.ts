@@ -88,7 +88,12 @@ export const setBankAccountStatusAndResetBankInformation = (
   };
 };
 
-const formFieldsPrefixes = ['input__', 'select__', 'textarea__'];
+const formFieldsPrefixes = [
+  'input__',
+  'textarea__',
+  'select__',
+  'searchable_select__',
+];
 
 export const findOrderFormFields = (e: FormEvent<HTMLFormElement>): string[] =>
   Array.from(e.currentTarget.elements)

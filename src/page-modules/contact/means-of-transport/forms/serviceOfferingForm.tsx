@@ -74,6 +74,7 @@ export const ServiceOfferingForm = ({
         />
 
         <SearchableSelect
+          id="line"
           label={t(PageText.Contact.input.line.label)}
           value={state.context.line}
           placeholder={t(PageText.Contact.input.line.optionLabel)}
