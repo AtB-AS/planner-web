@@ -40,6 +40,7 @@ export const StopForm = ({ state, send }: StopFormProps) => {
         </Typo.p>
 
         <Select
+          id="transportMode"
           label={t(PageText.Contact.input.transportMode.label)}
           value={state.context.transportMode || ''}
           onChange={(value) =>

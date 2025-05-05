@@ -86,6 +86,7 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
         title={t(PageText.Contact.refund.refundTaxi.aboutYourTrip.title)}
       >
         <Select
+          id="transportMode"
           label={t(PageText.Contact.input.transportMode.label)}
           value={state.context.transportMode || ''}
           onChange={(value) =>
@@ -199,6 +200,7 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
         />
 
         <Select
+          id="reasonForTransportFailure"
           label={t(PageText.Contact.input.reasonForTransportFailure.label)}
           value={state.context.reasonForTransportFailure}
           disabled={!state.context.line}

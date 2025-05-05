@@ -1,4 +1,3 @@
-import { useId } from 'react';
 import { MonoIcon } from '@atb/components/icon';
 import style from './form.module.css';
 import {
@@ -13,6 +12,7 @@ import {
 import { ErrorMessage } from '@atb/components/error-message';
 
 export type SelectProps<T> = {
+  id: string;
   label?: string;
   onChange: (value?: T) => void;
   error?: string;
@@ -24,7 +24,8 @@ export type SelectProps<T> = {
   disabled?: boolean;
 };
 
-export default function CustomeSelect<T>({
+export default function CustomSelect<T>({
+  id,
   label,
   onChange,
   error,
@@ -35,7 +36,6 @@ export default function CustomeSelect<T>({
   placeholder,
   disabled,
 }: SelectProps<T>) {
-  const id = useId();
   const showError = !!error;
 
   const findItemFromOptions = (key: string) =>
@@ -50,7 +50,7 @@ export default function CustomeSelect<T>({
 
   return (
     <Select
-      id={`select-${id}`}
+      id={`select__${id}`}
       onSelectionChange={onChangeInternal}
       isDisabled={disabled}
       className={style.select__select_container}
