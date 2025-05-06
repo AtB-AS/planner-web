@@ -51,7 +51,12 @@ export const Input = ({
       })}
     >
       <div className={style.label_container}>
-        <Label label={label} disabled={disabled} isRequired={isRequired} />
+        <Label
+          label={label}
+          htmlFor={`input-${name}`}
+          disabled={disabled}
+          isRequired={isRequired}
+        />
         {isModalContentProvided && (
           <Button
             className={style.iconButton}

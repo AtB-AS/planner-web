@@ -56,9 +56,16 @@ export default function CustomSelect<T>({
       onSelectionChange={onChangeInternal}
       isDisabled={disabled}
       className={style.select__select_container}
+      aria-label={label}
+      aria-labelledby={`label-${id}`}
     >
       {label && (
-        <Label label={label} disabled={disabled} isRequired={isRequired} />
+        <Label
+          label={label}
+          htmlFor={`select-${id}`}
+          disabled={disabled}
+          isRequired={isRequired}
+        />
       )}
       <Button className={style.select__button}>
         {value ? (
