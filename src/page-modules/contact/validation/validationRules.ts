@@ -1,6 +1,10 @@
 import { PageText, TranslatedString } from '@atb/translations';
 import { Line } from '..';
-import { TransportModeType } from '../types';
+import {
+  ReasonForTransportFailure,
+  TicketType,
+  TransportModeType,
+} from '../types';
 
 const isDefined = <T>(value: T | undefined): value is T => value !== undefined;
 
@@ -204,7 +208,8 @@ const rulesPlannedDepartureTime: ValidationRule[] = [
 
 const rulesReasonForTransportFailure: ValidationRule[] = [
   {
-    validate: isNonEmptyString,
+    validate: (_reasonForTransportFailure: ReasonForTransportFailure) =>
+      isDefined(_reasonForTransportFailure),
     errorMessage:
       PageText.Contact.input.reasonForTransportFailure.errorMessages.empty,
   },
@@ -307,7 +312,7 @@ const rulesAmount: ValidationRule[] = [
 
 const rulesTicketType: ValidationRule[] = [
   {
-    validate: isNonEmptyString,
+    validate: (_ticketType: TicketType) => isDefined(_ticketType),
     errorMessage: PageText.Contact.input.ticketType.errorMessages.empty,
   },
 ];
