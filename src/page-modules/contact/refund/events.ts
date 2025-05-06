@@ -1,14 +1,15 @@
-import { TranslatedString } from '@atb/translations';
 import {
   FormCategory,
   RefundAndTravelGuarantee,
   RefundTicketForm,
 } from './refundFormMachine';
-import { PurchasePlatformType, TransportModeType } from '../types';
+import {
+  PurchasePlatformType,
+  ReasonForTransportFailure,
+  TicketType,
+  TransportModeType,
+} from '../types';
 import { Line } from '..';
-
-export type ReasonForTransportFailure = { id: string; name: TranslatedString };
-export type TicketType = { id: string; name: TranslatedString };
 
 const RefundSpecificFormEvents = {} as
   | {

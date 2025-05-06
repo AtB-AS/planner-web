@@ -1,5 +1,5 @@
 import { PageText, useTranslation } from '@atb/translations';
-import { RefundFormEvents, TicketType } from '../../events';
+import { RefundFormEvents } from '../../events';
 import { Typo } from '@atb/components/typography';
 import {
   Fieldset,
@@ -11,6 +11,7 @@ import {
 } from '../../../components';
 import { RefundContextProps } from '../../refundFormMachine';
 import { Checkbox } from '@atb/components/checkbox';
+import { TicketType } from '@atb/page-modules/contact/types';
 
 type OtherTicketRefundProps = {
   state: { context: RefundContextProps };

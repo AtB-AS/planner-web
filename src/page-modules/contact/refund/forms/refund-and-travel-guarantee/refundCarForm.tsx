@@ -1,8 +1,8 @@
 import { PageText, useTranslation } from '@atb/translations';
 import { useLines } from '../../../lines/use-lines';
-import { TransportModeType } from '../../../types';
+import { TransportModeType, ReasonForTransportFailure } from '../../../types';
 import { Line } from '../../..';
-import { ReasonForTransportFailure, RefundFormEvents } from '../../events';
+import { RefundFormEvents } from '../../events';
 import { RefundContextProps } from '../../refundFormMachine';
 import {
   Fieldset,
