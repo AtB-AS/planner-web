@@ -83,6 +83,7 @@ const RefundSection = ({ state, send }: RefundSectionProps) => {
           type="number"
           name="travelCardNumber"
           value={state.context.travelCardNumber || ''}
+          isRequired
           errorMessage={state.context.errorMessages['travelCardNumber']?.[0]}
           onChange={(e) =>
             send({
@@ -101,6 +102,7 @@ const RefundSection = ({ state, send }: RefundSectionProps) => {
           type="text"
           name="customerNumber"
           value={state.context.customerNumber || ''}
+          isRequired
           errorMessage={state.context?.errorMessages['customerNumber']?.[0]}
           onChange={(e) =>
             send({
@@ -121,6 +123,7 @@ const RefundSection = ({ state, send }: RefundSectionProps) => {
         type="text"
         name="orderId"
         value={state.context.orderId || ''}
+        isRequired
         errorMessage={state.context?.errorMessages['orderId']?.[0]}
         onChange={(e) =>
           send({
@@ -163,6 +166,7 @@ const RefundSection = ({ state, send }: RefundSectionProps) => {
         type="text"
         name="amount"
         value={state.context.amount || ''}
+        isRequired
         errorMessage={state.context?.errorMessages['amount']?.[0]}
         onChange={(e) =>
           send({
@@ -204,6 +208,7 @@ const AboutYouSection = ({ state, send }: AboutYouSectionProps) => {
         autoComplete="given-name additional-name"
         name="firstName"
         value={state.context.firstName || ''}
+        isRequired
         errorMessage={state.context?.errorMessages['firstName']?.[0]}
         onChange={(e) =>
           send({
@@ -221,6 +226,7 @@ const AboutYouSection = ({ state, send }: AboutYouSectionProps) => {
         autoComplete="family-name"
         name="lastName"
         value={state.context.lastName || ''}
+        isRequired
         errorMessage={state.context?.errorMessages['lastName']?.[0]}
         onChange={(e) =>
           send({
@@ -237,6 +243,7 @@ const AboutYouSection = ({ state, send }: AboutYouSectionProps) => {
         autoComplete="street-address"
         name="address"
         value={state.context.address || ''}
+        isRequired
         errorMessage={state.context?.errorMessages['address']?.[0]}
         onChange={(e) =>
           send({
@@ -253,6 +260,7 @@ const AboutYouSection = ({ state, send }: AboutYouSectionProps) => {
         autoComplete="postal-code"
         name="postalCode"
         value={state.context.postalCode || ''}
+        isRequired
         errorMessage={state.context?.errorMessages['postalCode']?.[0]}
         onChange={(e) =>
           send({
@@ -268,6 +276,7 @@ const AboutYouSection = ({ state, send }: AboutYouSectionProps) => {
         type="text"
         name="city"
         value={state.context.city || ''}
+        isRequired
         errorMessage={state.context?.errorMessages['city']?.[0]}
         onChange={(e) =>
           send({
@@ -284,6 +293,7 @@ const AboutYouSection = ({ state, send }: AboutYouSectionProps) => {
         autoComplete="email"
         name="email"
         value={state.context.email || ''}
+        isRequired
         errorMessage={state.context?.errorMessages['email']?.[0]}
         onChange={(e) =>
           send({
@@ -299,6 +309,7 @@ const AboutYouSection = ({ state, send }: AboutYouSectionProps) => {
         type="tel"
         name="phoneNumber"
         value={state.context.phoneNumber || ''}
+        isRequired
         errorMessage={state.context?.errorMessages['phoneNumber']?.[0]}
         onChange={(e) =>
           send({
@@ -321,6 +332,7 @@ const AboutYouSection = ({ state, send }: AboutYouSectionProps) => {
         name="bankAccountNumber"
         value={state.context.bankAccountNumber || ''}
         disabled={state.context.hasInternationalBankAccount}
+        isRequired
         errorMessage={state.context?.errorMessages['bankAccountNumber']?.[0]}
         onChange={(e) =>
           send({
@@ -351,6 +363,7 @@ const AboutYouSection = ({ state, send }: AboutYouSectionProps) => {
             type="string"
             name="IBAN"
             value={state.context.IBAN || ''}
+            isRequired
             errorMessage={state.context?.errorMessages['IBAN']?.[0]}
             onChange={(e) =>
               send({
@@ -367,6 +380,7 @@ const AboutYouSection = ({ state, send }: AboutYouSectionProps) => {
             type="string"
             name="SWIFT"
             value={state.context.SWIFT || ''}
+            isRequired
             errorMessage={state.context?.errorMessages['SWIFT']?.[0]}
             onChange={(e) =>
               send({

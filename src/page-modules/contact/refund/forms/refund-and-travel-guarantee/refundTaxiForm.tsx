@@ -53,6 +53,7 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
           type="text"
           name="amount"
           value={state.context.amount || ''}
+          isRequired
           errorMessage={state.context?.errorMessages['amount']?.[0]}
           onChange={(e) =>
             send({
@@ -251,6 +252,7 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
           autoComplete="given-name additional-name"
           name="firstName"
           value={state.context.firstName || ''}
+          isRequired
           errorMessage={state.context?.errorMessages['firstName']?.[0]}
           onChange={(e) =>
             send({
@@ -268,6 +270,7 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
           autoComplete="family-name"
           name="lastName"
           value={state.context.lastName || ''}
+          isRequired
           errorMessage={state.context?.errorMessages['lastName']?.[0]}
           onChange={(e) =>
             send({
@@ -284,6 +287,7 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
           autoComplete="street-address"
           name="address"
           value={state.context.address || ''}
+          isRequired
           errorMessage={state.context?.errorMessages['address']?.[0]}
           onChange={(e) =>
             send({
@@ -300,6 +304,7 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
           autoComplete="postal-code"
           name="postalCode"
           value={state.context.postalCode || ''}
+          isRequired
           errorMessage={state.context?.errorMessages['postalCode']?.[0]}
           onChange={(e) =>
             send({
@@ -315,6 +320,7 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
           type="text"
           name="city"
           value={state.context.city || ''}
+          isRequired
           errorMessage={state.context?.errorMessages['city']?.[0]}
           onChange={(e) =>
             send({
@@ -331,6 +337,7 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
           autoComplete="email"
           name="email"
           value={state.context.email || ''}
+          isRequired
           errorMessage={state.context?.errorMessages['email']?.[0]}
           onChange={(e) =>
             send({
@@ -346,6 +353,7 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
           type="tel"
           name="phoneNumber"
           value={state.context.phoneNumber || ''}
+          isRequired
           errorMessage={state.context?.errorMessages['phoneNumber']?.[0]}
           onChange={(e) =>
             send({
@@ -369,6 +377,7 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
           name="bankAccountNumber"
           value={state.context.bankAccountNumber || ''}
           disabled={state.context.hasInternationalBankAccount}
+          isRequired
           errorMessage={state.context?.errorMessages['bankAccountNumber']?.[0]}
           onChange={(e) =>
             send({
@@ -399,6 +408,7 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
               type="string"
               name="IBAN"
               value={state.context.IBAN || ''}
+              isRequired
               errorMessage={state.context?.errorMessages['IBAN']?.[0]}
               onChange={(e) =>
                 send({
@@ -415,6 +425,7 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
               type="string"
               name="SWIFT"
               value={state.context.SWIFT || ''}
+              isRequired
               errorMessage={state.context?.errorMessages['SWIFT']?.[0]}
               onChange={(e) =>
                 send({

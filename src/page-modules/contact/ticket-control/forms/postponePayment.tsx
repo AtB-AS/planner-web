@@ -28,6 +28,7 @@ export const PostponePaymentForm = ({
           type="text"
           name="feeNumber"
           value={state.context.feeNumber || ''}
+          isRequired
           errorMessage={state.context?.errorMessages['feeNumber']?.[0]}
           onChange={(e) =>
             send({
@@ -47,6 +48,7 @@ export const PostponePaymentForm = ({
           type="text"
           name="invoiceNumber"
           value={state.context.invoiceNumber || ''}
+          isRequired
           errorMessage={state.context?.errorMessages['invoiceNumber']?.[0]}
           onChange={(e) =>
             send({
@@ -68,6 +70,7 @@ export const PostponePaymentForm = ({
           autoComplete="given-name additional-name"
           name="firstName"
           value={state.context.firstName || ''}
+          isRequired
           errorMessage={state.context?.errorMessages['firstName']?.[0]}
           onChange={(e) =>
             send({
@@ -84,6 +87,7 @@ export const PostponePaymentForm = ({
           autoComplete="family-name"
           name="lastName"
           value={state.context.lastName || ''}
+          isRequired
           errorMessage={state.context?.errorMessages['lastName']?.[0]}
           onChange={(e) =>
             send({
@@ -99,6 +103,7 @@ export const PostponePaymentForm = ({
           type="email"
           name="email"
           value={state.context.email || ''}
+          isRequired
           errorMessage={state.context?.errorMessages['email']?.[0]}
           onChange={(e) =>
             send({

@@ -17,10 +17,6 @@
   gap: token('spacing.small');
 }
 
-.label_disabled {
-  color: token('color.foreground.dynamic.disabled');
-}
-
 .input {
   background: transparent;
   color: token('color.foreground.dynamic.primary');

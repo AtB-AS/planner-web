@@ -182,6 +182,7 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
           autoComplete="given-name additonal-name"
           name="firstName"
           value={state.context.firstName || ''}
+          isRequired
           errorMessage={
             state.context?.errorMessages['firstName']?.[0] || undefined
           }
@@ -200,6 +201,7 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
           autoComplete="family-name"
           name="lastName"
           value={state.context.lastName || ''}
+          isRequired
           errorMessage={
             state.context?.errorMessages['lastName']?.[0] || undefined
           }
@@ -217,6 +219,7 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
           type="email"
           name="email"
           value={state.context.email || ''}
+          isRequired
           errorMessage={state.context?.errorMessages['email']?.[0] || undefined}
           onChange={(e) =>
             send({
