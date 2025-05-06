@@ -3,7 +3,7 @@ import { PageText, TranslatedString, useTranslation } from '@atb/translations';
 import { Typo } from '@atb/components/typography';
 import { TicketControlContextProps } from '../ticket-control-form-machine';
 import { ticketControlFormEvents } from '../events';
-import { Input, Radio, Textarea, FileInput, Fieldset } from '../../components';
+import { Input, Radio, Textarea, Fieldset } from '../../components';
 import { Checkbox } from '@atb/components/checkbox';
 
 type FeeComplaintFormProps = {
@@ -223,20 +223,19 @@ const FormContent = ({ state, send }: FormProps) => {
           }
           error={
             state.context.errorMessages['feedback']?.[0] &&
-            t(state.context.errorMessages['feedback']?.[0]).toString()
+            t(state.context.errorMessages['feedback']?.[0])
           }
-        />
-
-        <FileInput
-          name="attachments"
-          onChange={(files) => {
-            send({
-              type: 'ON_INPUT_CHANGE',
-              inputName: 'attachments',
-              value: files,
-            });
+          fileInputProps={{
+            name: 'attachments',
+            label: t(PageText.Contact.input.feedback.attachment),
+            onChange: (files) => {
+              send({
+                type: 'ON_INPUT_CHANGE',
+                inputName: 'attachments',
+                value: files,
+              });
+            },
           }}
-          label={t(PageText.Contact.input.feedback.attachment)}
         />
       </Fieldset>
 

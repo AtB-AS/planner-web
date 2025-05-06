@@ -1,8 +1,7 @@
 import { PageText, useTranslation } from '@atb/translations';
-import { Typo } from '@atb/components/typography';
 import { TicketingContextType } from '../../ticketingStateMachine';
 import { ticketingFormEvents } from '../../events';
-import { Fieldset, Input, Textarea, FileInput } from '../../../components';
+import { Fieldset, Input, Textarea } from '../../../components';
 
 type AppTravelSuggestionFormProps = {
   state: { context: TicketingContextType };
@@ -18,11 +17,9 @@ export const AppTravelSuggestionForm = ({
   return (
     <>
       <Fieldset title={t(PageText.Contact.input.question.title)}>
-        <Typo.p textType="body__primary">
-          {t(PageText.Contact.input.question.info)}
-        </Typo.p>
         <Textarea
           id="question"
+          description={t(PageText.Contact.input.question.info)}
           value={state.context.question || ''}
           onChange={(e) =>
             send({
@@ -36,16 +33,16 @@ export const AppTravelSuggestionForm = ({
               ? t(state.context.errorMessages['question']?.[0])
               : undefined
           }
-        />
-        <FileInput
-          name="attachments"
-          label={t(PageText.Contact.input.question.attachment)}
-          onChange={(files) => {
-            send({
-              type: 'ON_INPUT_CHANGE',
-              inputName: 'attachments',
-              value: files,
-            });
+          fileInputProps={{
+            name: 'attachments',
+            label: t(PageText.Contact.input.question.attachment),
+            onChange: (files) => {
+              send({
+                type: 'ON_INPUT_CHANGE',
+                inputName: 'attachments',
+                value: files,
+              });
+            },
           }}
         />
       </Fieldset>

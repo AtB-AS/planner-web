@@ -228,21 +228,17 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
               value: e.target.value,
             })
           }
-          error={
-            state.context.errorMessages['feedback']?.[0] &&
-            t(state.context.errorMessages['feedback']?.[0]).toString()
-          }
-        />
-        <FileInput
-          name="attachments"
-          onChange={(files) => {
+          fileInputProps={{
+            label: t(PageText.Contact.input.feedback.attachment),
+            name: 'attachments',
+            onChange: (files) => {
             send({
               type: 'ON_INPUT_CHANGE',
               inputName: 'attachments',
               value: files,
             });
+            },
           }}
-          label={t(PageText.Contact.input.feedback.attachment)}
         />
       </Fieldset>
       <Fieldset title={t(PageText.Contact.aboutYouInfo.title)}>

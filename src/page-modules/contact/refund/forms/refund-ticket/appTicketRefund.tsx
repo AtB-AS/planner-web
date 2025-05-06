@@ -1,15 +1,8 @@
 import { PageText, useTranslation } from '@atb/translations';
 import { RefundContextProps } from '../../refundFormMachine';
 import { RefundFormEvents } from '../../events';
-import { Typo } from '@atb/components/typography';
 import { PurchasePlatformType } from '../../../types';
-import {
-  Fieldset,
-  Input,
-  Textarea,
-  FileInput,
-  Select,
-} from '../../../components';
+import { Fieldset, Input, Textarea, Select } from '../../../components';
 
 type AppTicketRefundProps = {
   state: { context: RefundContextProps };
@@ -92,12 +85,9 @@ export const AppTicketRefund = ({ state, send }: AppTicketRefundProps) => {
         placeholder={t(PageText.Contact.input.purchasePlatform.optionLabel)}
       />
 
-      <Typo.p textType="body__primary">
-        {t(PageText.Contact.input.refundReason.question)}
-      </Typo.p>
-
       <Textarea
         id="refundReason"
+        description={t(PageText.Contact.input.refundReason.question)}
         value={state.context.refundReason || ''}
         onChange={(e) =>
           send({
@@ -111,17 +101,17 @@ export const AppTicketRefund = ({ state, send }: AppTicketRefundProps) => {
             ? t(state.context.errorMessages['refundReason']?.[0])
             : undefined
         }
-      />
-      <FileInput
-        name="attachments"
-        onChange={(files) => {
-          send({
-            type: 'ON_INPUT_CHANGE',
-            inputName: 'attachments',
-            value: files,
-          });
+        fileInputProps={{
+          label: t(PageText.Contact.input.feedback.attachment),
+          name: 'attachments',
+          onChange: (files) => {
+            send({
+              type: 'ON_INPUT_CHANGE',
+              inputName: 'attachments',
+              value: files,
+            });
+          },
         }}
-        label={t(PageText.Contact.input.feedback.attachment)}
       />
     </Fieldset>
   );

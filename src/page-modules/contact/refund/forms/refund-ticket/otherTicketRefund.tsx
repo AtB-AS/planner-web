@@ -137,12 +137,9 @@ const RefundSection = ({ state, send }: RefundSectionProps) => {
         }}
       />
 
-      <Typo.p textType="body__primary">
-        {t(PageText.Contact.input.refundReason.question)}
-      </Typo.p>
-
       <Textarea
         id="refundReason"
+        description={t(PageText.Contact.input.refundReason.question)}
         value={state.context.refundReason || ''}
         onChange={(e) =>
           send({

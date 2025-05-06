@@ -9,7 +9,6 @@ import {
   Input,
   Select,
   Textarea,
-  FileInput,
   SearchableSelect,
   getLineOptions,
   getStopOptions,
@@ -246,19 +245,19 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
           }
           error={
             state.context.errorMessages['feedback']?.[0] &&
-            t(state.context.errorMessages['feedback']?.[0]).toString()
+            t(state.context.errorMessages['feedback']?.[0])
           }
-        />
-        <FileInput
-          name="attachments"
-          onChange={(files) => {
-            send({
-              type: 'ON_INPUT_CHANGE',
-              inputName: 'attachments',
-              value: files,
-            });
+          fileInputProps={{
+            name: 'attachments',
+            label: t(PageText.Contact.input.feedback.attachment),
+            onChange: (files) => {
+              send({
+                type: 'ON_INPUT_CHANGE',
+                inputName: 'attachments',
+                value: files,
+              });
+            },
           }}
-          label={t(PageText.Contact.input.feedback.attachment)}
         />
       </Fieldset>
       <Fieldset title={t(PageText.Contact.aboutYouInfo.title)}>
