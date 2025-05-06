@@ -177,6 +177,13 @@ const rulesToStop: ValidationRule[] = [
   },
 ];
 
+const rulesStop: ValidationRule[] = [
+  {
+    validate: (_stop: Line['quays'][0]) => isDefined(_stop),
+    errorMessage: PageText.Contact.input.stop.errorMessages.empty,
+  },
+];
+
 const rulesDate: ValidationRule[] = [
   {
     validate: isNonEmptyString,
@@ -382,6 +389,7 @@ export const validationRules: ValidationRulesMap = {
   line: rulesLine,
   fromStop: rulesFromStop,
   toStop: rulesToStop,
+  stop: rulesStop,
   date: rulesDate,
   dateOfTicketControl: rulesDateOfTicketControl,
   timeOfTicketControl: rulesTimeOfTicketControl,

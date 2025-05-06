@@ -104,8 +104,8 @@ export const StopForm = ({ state, send }: StopFormProps) => {
           placeholder={t(PageText.Contact.input.fromStop.optionLabel)}
           isRequired
           error={
-            state.context?.errorMessages['fromStop']?.[0]
-              ? t(state.context?.errorMessages['fromStop']?.[0])
+            state.context?.errorMessages['stop']?.[0]
+              ? t(state.context?.errorMessages['stop']?.[0])
               : undefined
           }
         />
