@@ -9,7 +9,6 @@
   gap: token('spacing.small');
   color: token('color.background.neutral.0.foreground.primary');
   background-color: token('color.background.neutral.0.background');
-  margin-bottom: token('spacing.medium');
 }
 
 .rowDisplay {

@@ -410,7 +410,7 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
         />
 
         {state.context.hasInternationalBankAccount && (
-          <div>
+          <>
             <Input
               id="IBAN"
               label={t(PageText.Contact.input.bankInformation.IBAN.label)}
@@ -442,7 +442,7 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
                 })
               }
             />
-          </div>
+          </>
         )}
       </Fieldset>
     </>

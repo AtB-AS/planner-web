@@ -232,11 +232,11 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
             label: t(PageText.Contact.input.feedback.attachment),
             name: 'attachments',
             onChange: (files) => {
-            send({
-              type: 'ON_INPUT_CHANGE',
-              inputName: 'attachments',
-              value: files,
-            });
+              send({
+                type: 'ON_INPUT_CHANGE',
+                inputName: 'attachments',
+                value: files,
+              });
             },
           }}
         />
@@ -390,7 +390,7 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
         />
 
         {state.context.hasInternationalBankAccount && (
-          <div>
+          <>
             <Input
               id="IBAN"
               label={t(PageText.Contact.input.bankInformation.IBAN.label)}
@@ -422,7 +422,7 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
                 })
               }
             />
-          </div>
+          </>
         )}
       </Fieldset>
     </>
