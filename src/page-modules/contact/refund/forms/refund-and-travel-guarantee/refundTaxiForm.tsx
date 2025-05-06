@@ -80,6 +80,7 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
               value: value as TransportModeType,
             })
           }
+          isRequired
           error={
             state.context?.errorMessages['transportMode']?.[0]
               ? t(state.context?.errorMessages['transportMode']?.[0])
@@ -207,6 +208,7 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
             PageText.Contact.input.reasonForTransportFailure.optionLabel,
           )}
           options={PageText.Contact.input.reasonForTransportFailure.options}
+          isRequired
           error={
             state.context?.errorMessages['reasonForTransportFailure']?.[0]
               ? t(

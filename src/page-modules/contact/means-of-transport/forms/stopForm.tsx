@@ -48,6 +48,7 @@ export const StopForm = ({ state, send }: StopFormProps) => {
               value: value as TransportModeType,
             })
           }
+          isRequired
           error={
             state.context?.errorMessages['transportMode']?.[0]
               ? t(state.context?.errorMessages['transportMode']?.[0])

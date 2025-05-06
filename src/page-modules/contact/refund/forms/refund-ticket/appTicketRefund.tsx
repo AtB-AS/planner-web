@@ -70,6 +70,7 @@ export const AppTicketRefund = ({ state, send }: AppTicketRefundProps) => {
             value: value as PurchasePlatformType,
           })
         }
+        isRequired
         error={
           state.context?.errorMessages['purchasePlatform']?.[0]
             ? t(state.context?.errorMessages['purchasePlatform']?.[0])

@@ -42,6 +42,7 @@ const RefundSection = ({ state, send }: RefundSectionProps) => {
         }}
         placeholder={t(PageText.Contact.input.ticketType.optionLabelRefund)}
         options={PageText.Contact.input.ticketType.options}
+        isRequired
         error={
           state.context?.errorMessages['ticketType']?.[0]
             ? t(state.context?.errorMessages['ticketType'][0])

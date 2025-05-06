@@ -57,6 +57,7 @@ export const TransportationForm = ({
               value: value as TransportModeType,
             })
           }
+          isRequired
           error={
             state.context?.errorMessages['transportMode']?.[0]
               ? t(state.context?.errorMessages['transportMode']?.[0])
