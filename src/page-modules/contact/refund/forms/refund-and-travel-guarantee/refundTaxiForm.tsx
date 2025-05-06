@@ -113,6 +113,7 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
               value: value,
             });
           }}
+          isRequired
           error={
             state.context?.errorMessages['line']?.[0] &&
             t(state.context?.errorMessages['line']?.[0])
@@ -133,6 +134,7 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
           }}
           options={getStopOptions(getQuaysByLine(state.context.line?.id ?? ''))}
           placeholder={t(PageText.Contact.input.fromStop.optionLabel)}
+          isRequired
           error={
             state.context?.errorMessages['fromStop']?.[0]
               ? t(state.context?.errorMessages['fromStop']?.[0])
@@ -154,6 +156,7 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
           }}
           placeholder={t(PageText.Contact.input.toStop.optionLabel)}
           options={getStopOptions(getQuaysByLine(state.context.line?.id ?? ''))}
+          isRequired
           error={
             state.context?.errorMessages['toStop']?.[0]
               ? t(state.context?.errorMessages['toStop']?.[0])

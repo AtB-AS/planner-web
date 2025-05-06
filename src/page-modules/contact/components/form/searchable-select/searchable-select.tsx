@@ -7,13 +7,13 @@ import {
   Button,
   ComboBox,
   Input,
-  Label,
   ListBox,
   ListBoxItem,
   Popover,
   Group,
 } from 'react-aria-components';
 import { ErrorMessage } from '@atb/components/error-message';
+import Label from '../label';
 
 export type Option<T> = { id: string; name: string; value: T };
 export type SearchableSelectProps<T> = {
@@ -22,6 +22,7 @@ export type SearchableSelectProps<T> = {
   value?: T;
   placeholder: string;
   isDisabled?: boolean;
+  isRequired?: boolean;
   options: Option<T>[];
   error?: string;
   onChange: (value?: T) => void;
@@ -33,6 +34,7 @@ export default function SearchableSelect<T>({
   value,
   placeholder,
   isDisabled,
+  isRequired,
   options,
   error,
   onChange,
@@ -93,8 +95,16 @@ export default function SearchableSelect<T>({
       isDisabled={isDisabled}
       onSelectionChange={handleSelectionChange}
       className={style.searchable_select__comboBox}
+      aria-label={label}
+      aria-labelledby={`label-${id}`}
     >
-      <Label className={isDisabled ? style.label_disabled : ''}>{label}</Label>
+      <Label
+        label={label}
+        htmlFor={`searchable-select-${id}`}
+        disabled={isDisabled}
+        isRequired={isRequired}
+      />
+
       <Group className={style.searchable_select__group}>
         <Input
           id={`searchable_select__${id}`}

@@ -81,6 +81,7 @@ export const StopForm = ({ state, send }: StopFormProps) => {
               value: value,
             });
           }}
+          isRequired
           error={
             state.context?.errorMessages['line']?.[0] &&
             t(state.context?.errorMessages['line']?.[0])
@@ -101,6 +102,7 @@ export const StopForm = ({ state, send }: StopFormProps) => {
           }}
           options={getStopOptions(getQuaysByLine(state.context.line?.id ?? ''))}
           placeholder={t(PageText.Contact.input.fromStop.optionLabel)}
+          isRequired
           error={
             state.context?.errorMessages['fromStop']?.[0]
               ? t(state.context?.errorMessages['fromStop']?.[0])

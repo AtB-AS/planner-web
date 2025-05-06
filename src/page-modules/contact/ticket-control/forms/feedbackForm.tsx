@@ -76,6 +76,7 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
               value: value,
             });
           }}
+          isRequired
           error={
             state.context?.errorMessages['line']?.[0] &&
             t(state.context?.errorMessages['line']?.[0])
