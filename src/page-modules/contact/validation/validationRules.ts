@@ -368,6 +368,16 @@ const rulesTravelCardNumber: ValidationRule[] = [
     validate: isNonEmptyString,
     errorMessage: PageText.Contact.input.travelCardNumber.errorMessages.empty,
   },
+  {
+    validate: hasExpectedLength(9),
+    errorMessage:
+      PageText.Contact.input.travelCardNumber.errorMessages.invalidFormat,
+  },
+  {
+    validate: isDigitsOnly,
+    errorMessage:
+      PageText.Contact.input.travelCardNumber.errorMessages.invalidFormat,
+  },
 ];
 
 type ValidationRulesMap = {

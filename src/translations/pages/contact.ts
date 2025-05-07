@@ -1336,6 +1336,11 @@ const ContactInternal = {
           'Enter travelcard number',
           'Legg til reisekortnummer',
         ),
+        invalidFormat: _(
+          'Ugyldig reisekortnummer. Skriv inn et gyldig 9-siffered nummer.',
+          'Invalid travel card number. Please enter a valid 9-digit number.',
+          'Ugyldig reisekortnummer. Skriv inn eit gyldig 9-siffered nummer.',
+        ),
       },
     },
 
