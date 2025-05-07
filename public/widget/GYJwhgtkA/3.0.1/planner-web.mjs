@@ -891,7 +891,7 @@ const ze = {
       to: "Til"
     },
     departure: {
-      link: "Se Avganger",
+      link: "Se avganger",
       title: "Hvor vil du reise fra?",
       from: "Fra"
     },
