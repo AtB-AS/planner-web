@@ -43,6 +43,7 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
               value: value as TransportModeType,
             })
           }
+          isRequired
           error={
             state.context?.errorMessages['transportMode']?.[0]
               ? t(state.context?.errorMessages['transportMode']?.[0])
@@ -75,6 +76,7 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
               value: value,
             });
           }}
+          isRequired
           error={
             state.context?.errorMessages['line']?.[0] &&
             t(state.context?.errorMessages['line']?.[0])
@@ -115,7 +117,8 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
 
         <DateSelector
           id="date"
-          label={PageText.Contact.input.date.ticketControl.label}
+          label={t(PageText.Contact.input.date.label)}
+          isRequired
           value={state.context.dateOfTicketControl}
           onChange={(dateOfTicketControl: string) =>
             send({
@@ -131,7 +134,8 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
 
         <TimeSelector
           id="plannedDepartureTime"
-          label={PageText.Contact.input.time.ticketControl.label}
+          isRequired
+          label={t(PageText.Contact.input.plannedDepartureTime.label)}
           value={state.context.timeOfTicketControl || ''}
           onChange={(timeOfTicketControl: string) =>
             send({
@@ -182,6 +186,7 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
           autoComplete="given-name additonal-name"
           name="firstName"
           value={state.context.firstName || ''}
+          isRequired
           errorMessage={
             state.context?.errorMessages['firstName']?.[0] || undefined
           }
@@ -200,6 +205,7 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
           autoComplete="family-name"
           name="lastName"
           value={state.context.lastName || ''}
+          isRequired
           errorMessage={
             state.context?.errorMessages['lastName']?.[0] || undefined
           }
@@ -217,6 +223,7 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
           type="email"
           name="email"
           value={state.context.email || ''}
+          isRequired
           errorMessage={state.context?.errorMessages['email']?.[0] || undefined}
           onChange={(e) =>
             send({

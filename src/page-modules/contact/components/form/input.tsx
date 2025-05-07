@@ -2,11 +2,11 @@ import style from './form.module.css';
 import { ChangeEvent, useState } from 'react';
 import { PageText, TranslatedString, useTranslation } from '@atb/translations';
 import { andIf } from '@atb/utils/css';
-import { Typo } from '@atb/components/typography';
 import { MonoIcon } from '@atb/components/icon';
 import { Button } from '@atb/components/button';
 import DescriptionModal from './description-modal';
 import { ErrorMessage } from '@atb/components/error-message';
+import FormComponentLabel from './form-component-label';
 
 type InputProps = {
   id: string;
@@ -16,6 +16,7 @@ type InputProps = {
     instruction?: string;
     bulletPoints?: string[];
   };
+  isRequired?: boolean;
   errorMessage?: TranslatedString;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 } & JSX.IntrinsicElements['input'];
@@ -32,6 +33,7 @@ export const Input = ({
   disabled,
   onChange,
   placeholder,
+  isRequired,
 }: InputProps) => {
   const { t } = useTranslation();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -49,15 +51,12 @@ export const Input = ({
       })}
     >
       <div className={style.label_container}>
-        <label>
-          <Typo.span
-            textType="body__primary"
-            className={disabled ? style.label_disabled : ''}
-          >
-            {label}
-          </Typo.span>
-        </label>
-
+        <FormComponentLabel
+          label={label}
+          htmlFor={`input-${name}`}
+          disabled={disabled}
+          isRequired={isRequired}
+        />
         {isModalContentProvided && (
           <Button
             className={style.iconButton}

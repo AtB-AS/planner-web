@@ -14,14 +14,15 @@ import {
   Dialog,
   Group,
   Heading,
-  Label,
   Popover,
 } from 'react-aria-components';
+import FormComponentLabel from './form-component-label';
 
 export type DateSelectorProps = {
   id: string;
-  label: TranslatedString;
+  label: string;
   value?: string;
+  isRequired?: boolean;
   errorMessage?: TranslatedString;
   onChange: (value: string) => void;
 };
@@ -30,6 +31,7 @@ export default function DateSelector({
   id,
   label,
   value,
+  isRequired,
   errorMessage,
   onChange,
 }: DateSelectorProps) {
@@ -47,8 +49,15 @@ export default function DateSelector({
         onChange={(e) => onChange(e.toString().slice(0, 10))}
         className={style.dateSelector}
         shouldForceLeadingZeros
+        aria-label={label}
+        aria-labelledby={`label-${id}`}
       >
-        <Label>{t(label)}</Label>
+        <FormComponentLabel
+          label={label}
+          htmlFor={`date-selector-${id}`}
+          isRequired={isRequired}
+        />
+
         <Group className={style.calendarSelectorGroup}>
           <DateInput className={style.dateSelectorInput}>
             {(segment) => (

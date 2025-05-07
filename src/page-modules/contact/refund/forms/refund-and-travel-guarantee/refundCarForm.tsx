@@ -35,6 +35,7 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
           type="text"
           name="kilometersDriven"
           value={state.context.kilometersDriven || ''}
+          isRequired
           errorMessage={
             state.context?.errorMessages['kilometersDriven']?.[0] || undefined
           }
@@ -52,6 +53,7 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
           type="text"
           name="fromAddress"
           value={state.context.fromAddress || ''}
+          isRequired
           errorMessage={
             state.context?.errorMessages['fromAddress']?.[0] || undefined
           }
@@ -69,6 +71,7 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
           type="text"
           name="toAddress"
           value={state.context.toAddress || ''}
+          isRequired
           errorMessage={
             state.context?.errorMessages['toAddress']?.[0] || undefined
           }
@@ -94,6 +97,7 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
               value: value as TransportModeType,
             })
           }
+          isRequired
           error={
             state.context?.errorMessages['transportMode']?.[0]
               ? t(state.context?.errorMessages['transportMode']?.[0])
@@ -126,6 +130,7 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
               value: value,
             });
           }}
+          isRequired
           error={
             state.context?.errorMessages['line']?.[0] &&
             t(state.context?.errorMessages['line']?.[0])
@@ -146,6 +151,7 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
           }}
           options={getStopOptions(getQuaysByLine(state.context.line?.id ?? ''))}
           placeholder={t(PageText.Contact.input.fromStop.optionLabel)}
+          isRequired
           error={
             state.context?.errorMessages['fromStop']?.[0]
               ? t(state.context?.errorMessages['fromStop']?.[0])
@@ -167,6 +173,7 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
           }}
           placeholder={t(PageText.Contact.input.toStop.optionLabel)}
           options={getStopOptions(getQuaysByLine(state.context.line?.id ?? ''))}
+          isRequired
           error={
             state.context?.errorMessages['toStop']?.[0]
               ? t(state.context?.errorMessages['toStop']?.[0])
@@ -176,7 +183,8 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
 
         <DateSelector
           id="date"
-          label={PageText.Contact.input.date.label}
+          label={t(PageText.Contact.input.date.label)}
+          isRequired
           value={state.context.date}
           onChange={(date) =>
             send({
@@ -189,7 +197,8 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
         />
         <TimeSelector
           id="plannedDepartureTime"
-          label={PageText.Contact.input.plannedDepartureTime.label}
+          isRequired
+          label={t(PageText.Contact.input.plannedDepartureTime.label)}
           value={state.context.plannedDepartureTime}
           onChange={(time: string) =>
             send({
@@ -220,6 +229,7 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
             PageText.Contact.input.reasonForTransportFailure.optionLabel,
           )}
           options={PageText.Contact.input.reasonForTransportFailure.options}
+          isRequired
           error={
             state.context?.errorMessages['reasonForTransportFailure']?.[0]
               ? t(
@@ -270,6 +280,7 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
           autoComplete="given-name additional-name"
           name="firstName"
           value={state.context.firstName || ''}
+          isRequired
           errorMessage={state.context?.errorMessages['firstName']?.[0]}
           onChange={(e) =>
             send({
@@ -287,6 +298,7 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
           autoComplete="family-name"
           name="lastName"
           value={state.context.lastName || ''}
+          isRequired
           errorMessage={state.context?.errorMessages['lastName']?.[0]}
           onChange={(e) =>
             send({
@@ -303,6 +315,7 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
           autoComplete="street-address"
           name="address"
           value={state.context.address || ''}
+          isRequired
           errorMessage={state.context?.errorMessages['address']?.[0]}
           onChange={(e) =>
             send({
@@ -319,6 +332,7 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
           autoComplete="postal-code"
           name="postalCode"
           value={state.context.postalCode || ''}
+          isRequired
           errorMessage={state.context?.errorMessages['postalCode']?.[0]}
           onChange={(e) =>
             send({
@@ -334,6 +348,7 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
           type="text"
           name="city"
           value={state.context.city || ''}
+          isRequired
           errorMessage={state.context?.errorMessages['city']?.[0]}
           onChange={(e) =>
             send({
@@ -350,6 +365,7 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
           autoComplete="email"
           name="email"
           value={state.context.email || ''}
+          isRequired
           errorMessage={state.context?.errorMessages['email']?.[0]}
           onChange={(e) =>
             send({
@@ -366,6 +382,7 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
           type="tel"
           name="phoneNumber"
           value={state.context.phoneNumber || ''}
+          isRequired
           errorMessage={state.context?.errorMessages['phoneNumber']?.[0]}
           onChange={(e) =>
             send({
@@ -389,6 +406,7 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
           name="bankAccountNumber"
           value={state.context.bankAccountNumber || ''}
           disabled={state.context.hasInternationalBankAccount}
+          isRequired
           errorMessage={state.context?.errorMessages['bankAccountNumber']?.[0]}
           onChange={(e) =>
             send({
@@ -419,6 +437,7 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
               type="string"
               name="IBAN"
               value={state.context.IBAN || ''}
+              isRequired
               errorMessage={state.context?.errorMessages['IBAN']?.[0]}
               onChange={(e) =>
                 send({
@@ -435,6 +454,7 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
               type="string"
               name="SWIFT"
               value={state.context.SWIFT || ''}
+              isRequired
               errorMessage={state.context?.errorMessages['SWIFT']?.[0]}
               onChange={(e) =>
                 send({

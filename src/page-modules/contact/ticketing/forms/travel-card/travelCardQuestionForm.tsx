@@ -31,6 +31,7 @@ export const TravelCardQuestionForm = ({
           type="text"
           name="travelCardNumber"
           value={state.context.travelCardNumber || ''}
+          isRequired
           errorMessage={state.context?.errorMessages['travelCardNumber']?.[0]}
           onChange={(e) =>
             send({
@@ -79,6 +80,7 @@ export const TravelCardQuestionForm = ({
           autoComplete="given-name additional-name"
           name="firstName"
           value={state.context.firstName || ''}
+          isRequired
           errorMessage={state.context?.errorMessages['firstName']?.[0]}
           onChange={(e) =>
             send({
@@ -96,6 +98,7 @@ export const TravelCardQuestionForm = ({
           autoComplete="family-name"
           name="lastName"
           value={state.context.lastName || ''}
+          isRequired
           errorMessage={state.context?.errorMessages['lastName']?.[0]}
           onChange={(e) =>
             send({
@@ -112,6 +115,7 @@ export const TravelCardQuestionForm = ({
           autoComplete="email"
           name="email"
           value={state.context.email || ''}
+          isRequired
           errorMessage={state.context?.errorMessages['email']?.[0]}
           onChange={(e) =>
             send({
@@ -127,6 +131,7 @@ export const TravelCardQuestionForm = ({
           type="tel"
           name="phoneNumber"
           value={state.context.phoneNumber || ''}
+          isRequired
           errorMessage={state.context?.errorMessages['phoneNumber']?.[0]}
           onChange={(e) =>
             send({
