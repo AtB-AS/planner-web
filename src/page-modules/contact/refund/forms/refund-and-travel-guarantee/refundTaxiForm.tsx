@@ -160,6 +160,7 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
         />
 
         <DateSelector
+          id="date"
           label={PageText.Contact.input.date.label}
           value={state.context.date}
           onChange={(date) =>

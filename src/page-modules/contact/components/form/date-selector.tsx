@@ -19,6 +19,7 @@ import {
 } from 'react-aria-components';
 
 export type DateSelectorProps = {
+  id: string;
   label: TranslatedString;
   value?: string;
   errorMessage?: TranslatedString;
@@ -26,6 +27,7 @@ export type DateSelectorProps = {
 };
 
 export default function DateSelector({
+  id,
   label,
   value,
   errorMessage,
@@ -39,6 +41,7 @@ export default function DateSelector({
   return (
     <div className={style.dateSelectorContainer}>
       <DatePicker
+        id={`date_selector__${id}`}
         granularity="day"
         value={zonedDateTime}
         onChange={(e) => onChange(e.toString().slice(0, 10))}
@@ -89,6 +92,7 @@ export default function DateSelector({
           </Dialog>
         </Popover>
       </DatePicker>
+      <input id={`date_selector__${id}`} type="hidden" value={value ?? ''} />
       {errorMessage && <ErrorMessage message={t(errorMessage)} />}
     </div>
   );

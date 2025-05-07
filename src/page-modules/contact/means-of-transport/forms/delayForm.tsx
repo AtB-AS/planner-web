@@ -130,6 +130,7 @@ export const DelayForm = ({ state, send }: DelayFormProps) => {
         />
 
         <DateSelector
+          id="date"
           label={PageText.Contact.input.date.label}
           value={state.context.date}
           onChange={(date) =>
