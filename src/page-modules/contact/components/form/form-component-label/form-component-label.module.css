@@ -1,0 +1,10 @@
+.required::after {
+  content: '*';
+  color: token('color.status.error.primary.background');
+  margin-left: token('spacing.small');
+}
+
+.disabled,
+.disabled::after {
+  color: token('color.foreground.dynamic.disabled');
+}

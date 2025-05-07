@@ -57,6 +57,7 @@ export const TransportationForm = ({
               value: value as TransportModeType,
             })
           }
+          isRequired
           error={
             state.context?.errorMessages['transportMode']?.[0]
               ? t(state.context?.errorMessages['transportMode']?.[0])
@@ -89,6 +90,7 @@ export const TransportationForm = ({
               value: value,
             });
           }}
+          isRequired
           error={
             state.context?.errorMessages['line']?.[0] &&
             t(state.context?.errorMessages['line']?.[0])
@@ -109,6 +111,7 @@ export const TransportationForm = ({
           }}
           options={getStopOptions(getQuaysByLine(state.context.line?.id ?? ''))}
           placeholder={t(PageText.Contact.input.fromStop.optionLabel)}
+          isRequired
           error={
             state.context?.errorMessages['fromStop']?.[0]
               ? t(state.context?.errorMessages['fromStop']?.[0])
@@ -130,6 +133,7 @@ export const TransportationForm = ({
           }}
           placeholder={t(PageText.Contact.input.toStop.optionLabel)}
           options={getStopOptions(getQuaysByLine(state.context.line?.id ?? ''))}
+          isRequired
           error={
             state.context?.errorMessages['toStop']?.[0]
               ? t(state.context?.errorMessages['toStop']?.[0])
@@ -139,7 +143,8 @@ export const TransportationForm = ({
 
         <DateSelector
           id="date"
-          label={PageText.Contact.input.date.label}
+          label={t(PageText.Contact.input.date.label)}
+          isRequired
           value={state.context.date}
           onChange={(date) =>
             send({
@@ -153,7 +158,8 @@ export const TransportationForm = ({
 
         <TimeSelector
           id="plannedDepartureTime"
-          label={PageText.Contact.input.plannedDepartureTime.label}
+          isRequired
+          label={t(PageText.Contact.input.plannedDepartureTime.label)}
           value={state.context.plannedDepartureTime}
           onChange={(time: string) =>
             send({

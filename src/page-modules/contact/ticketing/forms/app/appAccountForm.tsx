@@ -50,6 +50,7 @@ export const AppAccountForm = ({ state, send }: AppAccountFormProps) => {
           type="text"
           name="customerNumber"
           value={state.context.customerNumber || ''}
+          isRequired
           errorMessage={state.context?.errorMessages['customerNumber']?.[0]}
           onChange={(e) =>
             send({
@@ -69,6 +70,7 @@ export const AppAccountForm = ({ state, send }: AppAccountFormProps) => {
           autoComplete="given-name additional-name"
           name="firstName"
           value={state.context.firstName || ''}
+          isRequired
           errorMessage={state.context?.errorMessages['firstName']?.[0]}
           onChange={(e) =>
             send({
@@ -86,6 +88,7 @@ export const AppAccountForm = ({ state, send }: AppAccountFormProps) => {
           autoComplete="family-name"
           name="lastName"
           value={state.context.lastName || ''}
+          isRequired
           errorMessage={state.context?.errorMessages['lastName']?.[0]}
           onChange={(e) =>
             send({
@@ -102,6 +105,7 @@ export const AppAccountForm = ({ state, send }: AppAccountFormProps) => {
           autoComplete="email"
           name="email"
           value={state.context.email || ''}
+          isRequired
           errorMessage={state.context?.errorMessages['email']?.[0]}
           onChange={(e) =>
             send({
@@ -117,6 +121,7 @@ export const AppAccountForm = ({ state, send }: AppAccountFormProps) => {
           type="tel"
           name="phoneNumber"
           value={state.context.phoneNumber || ''}
+          isRequired
           errorMessage={state.context?.errorMessages['phoneNumber']?.[0]}
           onChange={(e) =>
             send({

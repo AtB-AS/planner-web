@@ -3,13 +3,13 @@ import style from './form.module.css';
 import {
   Button,
   Key,
-  Label,
   ListBox,
   ListBoxItem,
   Popover,
   Select,
 } from 'react-aria-components';
 import { ErrorMessage } from '@atb/components/error-message';
+import FormComponentLabel from './form-component-label';
 
 export type SelectProps<T> = {
   id: string;
@@ -22,6 +22,7 @@ export type SelectProps<T> = {
   valueToText: (val: T) => string;
   placeholder?: string;
   disabled?: boolean;
+  isRequired?: boolean;
 };
 
 export default function CustomSelect<T>({
@@ -35,6 +36,7 @@ export default function CustomSelect<T>({
   valueToText,
   placeholder,
   disabled,
+  isRequired,
 }: SelectProps<T>) {
   const showError = !!error;
 
@@ -54,8 +56,17 @@ export default function CustomSelect<T>({
       onSelectionChange={onChangeInternal}
       isDisabled={disabled}
       className={style.select__select_container}
+      aria-label={label}
+      aria-labelledby={`label-${id}`}
     >
-      <Label className={disabled ? style.label_disabled : ''}>{label}</Label>
+      {label && (
+        <FormComponentLabel
+          label={label}
+          htmlFor={`select-${id}`}
+          disabled={disabled}
+          isRequired={isRequired}
+        />
+      )}
       <Button className={style.select__button}>
         {value ? (
           <span>{valueToText(value)}</span>

@@ -20,6 +20,7 @@ export const AppTicketingForm = ({ state, send }: AppTicketingFormProps) => {
           type="text"
           name="orderId"
           value={state.context.orderId || ''}
+          isRequired
           errorMessage={state.context?.errorMessages['orderId']?.[0]}
           onChange={(e) =>
             send({
@@ -93,6 +94,7 @@ export const AppTicketingForm = ({ state, send }: AppTicketingFormProps) => {
           autoComplete="given-name additional-name"
           name="firstName"
           value={state.context.firstName || ''}
+          isRequired
           errorMessage={state.context?.errorMessages['firstName']?.[0]}
           onChange={(e) =>
             send({
@@ -110,6 +112,7 @@ export const AppTicketingForm = ({ state, send }: AppTicketingFormProps) => {
           autoComplete="family-name"
           name="lastName"
           value={state.context.lastName || ''}
+          isRequired
           errorMessage={state.context?.errorMessages['lastName']?.[0]}
           onChange={(e) =>
             send({
@@ -126,6 +129,7 @@ export const AppTicketingForm = ({ state, send }: AppTicketingFormProps) => {
           autoComplete="email"
           name="email"
           value={state.context.email || ''}
+          isRequired
           errorMessage={state.context?.errorMessages['email']?.[0]}
           onChange={(e) =>
             send({
@@ -141,6 +145,7 @@ export const AppTicketingForm = ({ state, send }: AppTicketingFormProps) => {
           type="tel"
           name="phoneNumber"
           value={state.context.phoneNumber || ''}
+          isRequired
           errorMessage={state.context?.errorMessages['phoneNumber']?.[0]}
           onChange={(e) =>
             send({
