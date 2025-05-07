@@ -1095,7 +1095,7 @@ const texts: Record<Languages, Texts> = {
       unavailable: 'Posisjonen din er ikke tilgjengelig.',
       timeout: 'Det tok for lang tid å hente posisjonen din. Prøv på nytt.',
     },
-    searchButton: 'Finn avganger',
+    searchButton: 'Finn reise',
     placeholder: 'adresse, kai eller holdeplass',
     assistant: {
       link: 'Planlegg reisen',
@@ -1126,7 +1126,7 @@ const texts: Record<Languages, Texts> = {
       unavailable: 'Posisjonen din er ikkje tilgjengeleg.',
       timeout: 'Det tok for lang tid å hente posisjonen din. Prøv på nytt.',
     },
-    searchButton: 'Finn avgangar',
+    searchButton: 'Finn reise',
     placeholder: 'adresse, kai eller haldeplass',
     assistant: {
       link: 'Planlegg reisa',
@@ -1157,7 +1157,7 @@ const texts: Record<Languages, Texts> = {
       unavailable: 'Your position is not available.',
       timeout: 'It took too long to retrieve your position. Try again.',
     },
-    searchButton: 'Find departures',
+    searchButton: 'Find journey',
     placeholder: 'address, quay, or stop',
     assistant: {
       link: 'Plan your journey',
