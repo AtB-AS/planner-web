@@ -2,17 +2,14 @@ import { ErrorMessage } from '@atb/components/error-message';
 import style from './form.module.css';
 import { TranslatedString, useTranslation } from '@atb/translations';
 import { parseTime } from '@internationalized/date';
-import {
-  DateInput,
-  DateSegment,
-  Label,
-  TimeField,
-} from 'react-aria-components';
+import { DateInput, DateSegment, TimeField } from 'react-aria-components';
+import Label from './label';
 
 export type TimeSelectorProps = {
   id: string;
-  label: TranslatedString;
+  label: string;
   value?: string;
+  isRequired?: boolean;
   errorMessage?: TranslatedString;
   onChange: (value: string) => void;
 };
@@ -20,6 +17,7 @@ export default function TimeSelector({
   id,
   label,
   value,
+  isRequired,
   errorMessage,
   onChange,
 }: TimeSelectorProps) {
@@ -41,7 +39,12 @@ export default function TimeSelector({
         data-testid="searchTimeSelector-time"
         granularity="minute"
       >
-        <Label>{t(label)}</Label>
+        <Label
+          label={label}
+          htmlFor={`time-selector-${id}`}
+          isRequired={isRequired}
+        />
+
         <DateInput className={style.timeSelectorInput}>
           {(segment) => (
             <DateSegment

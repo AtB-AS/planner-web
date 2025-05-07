@@ -133,7 +133,8 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
 
         <TimeSelector
           id="plannedDepartureTime"
-          label={PageText.Contact.input.time.ticketControl.label}
+          isRequired
+          label={t(PageText.Contact.input.plannedDepartureTime.label)}
           value={state.context.timeOfTicketControl || ''}
           onChange={(timeOfTicketControl: string) =>
             send({

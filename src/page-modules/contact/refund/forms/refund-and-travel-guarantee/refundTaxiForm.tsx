@@ -180,7 +180,8 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
 
         <TimeSelector
           id="plannedDepartureTime"
-          label={PageText.Contact.input.plannedDepartureTime.label}
+          isRequired
+          label={t(PageText.Contact.input.plannedDepartureTime.label)}
           value={state.context.plannedDepartureTime}
           onChange={(time: string) =>
             send({
