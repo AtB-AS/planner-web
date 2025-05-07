@@ -1,7 +1,11 @@
-import { PurchasePlatformType, TransportModeType } from '../types';
+import {
+  PurchasePlatformType,
+  TransportModeType,
+  ReasonForTransportFailure,
+  TicketType,
+} from '../types';
 import { assign, fromPromise, setup } from 'xstate';
 import { Line } from '../server/journey-planner/validators';
-import { ReasonForTransportFailure, TicketType } from './events';
 import { commonInputValidator, InputErrorMessages } from '../validation';
 import {
   convertFilesToBase64,
@@ -240,7 +244,9 @@ export const refundStateMachine = setup({
   guards: {
     isFormValid: ({ context }) => {
       const inputsToValidate = setInputToValidate(context);
+      console.log('inputsToValidate: ', inputsToValidate);
       const errors = commonInputValidator(inputsToValidate);
+      console.log('errors: ', errors);
       return Object.keys(errors).length === 0;
     },
     isRefundOfTicket: ({ event }) =>
@@ -321,6 +327,9 @@ export const refundStateMachine = setup({
         }
 
         context.errorMessages[inputName] = [];
+
+        console.log(value);
+
         return {
           ...context,
           [inputName]: value,

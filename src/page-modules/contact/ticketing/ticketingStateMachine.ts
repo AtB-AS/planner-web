@@ -7,7 +7,7 @@ import {
   scrollToFirstErrorMessage,
   setBankAccountStatusAndResetBankInformation,
 } from '../utils';
-import { TicketType } from '../refund/events';
+import { TicketType } from '../types';
 
 export enum FormCategory {
   PriceAndTicketTypes = 'priceAndTicketTypes',
