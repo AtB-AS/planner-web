@@ -22,6 +22,7 @@ export const AppTicketRefund = ({ state, send }: AppTicketRefundProps) => {
         type="text"
         name="customerNumber"
         value={state.context.customerNumber || ''}
+        isRequired
         errorMessage={state.context?.errorMessages['customerNumber']?.[0]}
         onChange={(e) =>
           send({
@@ -41,6 +42,7 @@ export const AppTicketRefund = ({ state, send }: AppTicketRefundProps) => {
         type="text"
         name="orderId"
         value={state.context.orderId || ''}
+        isRequired
         errorMessage={state.context?.errorMessages['orderId']?.[0]}
         onChange={(e) =>
           send({
@@ -68,6 +70,7 @@ export const AppTicketRefund = ({ state, send }: AppTicketRefundProps) => {
             value: value as PurchasePlatformType,
           })
         }
+        isRequired
         error={
           state.context?.errorMessages['purchasePlatform']?.[0]
             ? t(state.context?.errorMessages['purchasePlatform']?.[0])

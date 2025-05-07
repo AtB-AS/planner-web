@@ -111,6 +111,7 @@ const FormContent = ({ state, send }: FormProps) => {
           type="text"
           name="feeNumber"
           value={state.context.feeNumber || ''}
+          isRequired
           errorMessage={state.context?.errorMessages['feeNumber']?.[0]}
           onChange={(e) =>
             send({
@@ -168,6 +169,7 @@ const FormContent = ({ state, send }: FormProps) => {
               type="tel"
               name="appPhoneNumber"
               value={state.context.appPhoneNumber || ''}
+              isRequired
               errorMessage={state.context?.errorMessages['appPhoneNumber']?.[0]}
               onChange={(e) =>
                 send({
@@ -184,6 +186,7 @@ const FormContent = ({ state, send }: FormProps) => {
               type="number"
               name="customerNumber"
               value={state.context.customerNumber || ''}
+              isRequired
               errorMessage={state.context?.errorMessages['customerNumber']?.[0]}
               onChange={(e) =>
                 send({
@@ -203,6 +206,7 @@ const FormContent = ({ state, send }: FormProps) => {
             type="number"
             name="travelCardNumber"
             value={state.context.travelCardNumber || ''}
+            isRequired
             errorMessage={state.context.errorMessages['travelCardNumber']?.[0]}
             onChange={(e) =>
               send({
@@ -251,6 +255,7 @@ const FormContent = ({ state, send }: FormProps) => {
           autoComplete="given-name additional-name"
           name="firstName"
           value={state.context.firstName || ''}
+          isRequired
           errorMessage={state.context?.errorMessages['firstName']?.[0]}
           onChange={(e) =>
             send({
@@ -268,6 +273,7 @@ const FormContent = ({ state, send }: FormProps) => {
           autoComplete="family-name"
           name="lastName"
           value={state.context.lastName || ''}
+          isRequired
           errorMessage={state.context?.errorMessages['lastName']?.[0]}
           onChange={(e) =>
             send({
@@ -284,6 +290,7 @@ const FormContent = ({ state, send }: FormProps) => {
           autoComplete="street-address"
           name="address"
           value={state.context.address || ''}
+          isRequired
           errorMessage={state.context?.errorMessages['address']?.[0]}
           onChange={(e) =>
             send({
@@ -300,6 +307,7 @@ const FormContent = ({ state, send }: FormProps) => {
           autoComplete="postal-code"
           name="postalCode"
           value={state.context.postalCode || ''}
+          isRequired
           errorMessage={state.context?.errorMessages['postalCode']?.[0]}
           onChange={(e) =>
             send({
@@ -315,6 +323,7 @@ const FormContent = ({ state, send }: FormProps) => {
           type="text"
           name="city"
           value={state.context.city || ''}
+          isRequired
           errorMessage={state.context?.errorMessages['city']?.[0]}
           onChange={(e) =>
             send({
@@ -331,6 +340,7 @@ const FormContent = ({ state, send }: FormProps) => {
           autoComplete="email"
           name="email"
           value={state.context.email || ''}
+          isRequired
           errorMessage={state.context?.errorMessages['email']?.[0]}
           onChange={(e) =>
             send({
@@ -346,6 +356,7 @@ const FormContent = ({ state, send }: FormProps) => {
           type="tel"
           name="phoneNumber"
           value={state.context.phoneNumber || ''}
+          isRequired
           errorMessage={state.context?.errorMessages['phoneNumber']?.[0]}
           onChange={(e) =>
             send({
@@ -369,6 +380,7 @@ const FormContent = ({ state, send }: FormProps) => {
           name="bankAccountNumber"
           value={state.context.bankAccountNumber || ''}
           disabled={state.context.hasInternationalBankAccount}
+          isRequired
           errorMessage={state.context?.errorMessages['bankAccountNumber']?.[0]}
           onChange={(e) =>
             send({
@@ -399,6 +411,7 @@ const FormContent = ({ state, send }: FormProps) => {
               type="string"
               name="IBAN"
               value={state.context.IBAN || ''}
+              isRequired
               errorMessage={state.context?.errorMessages['IBAN']?.[0]}
               onChange={(e) =>
                 send({
@@ -415,6 +428,7 @@ const FormContent = ({ state, send }: FormProps) => {
               type="string"
               name="SWIFT"
               value={state.context.SWIFT || ''}
+              isRequired
               errorMessage={state.context?.errorMessages['SWIFT']?.[0]}
               onChange={(e) =>
                 send({

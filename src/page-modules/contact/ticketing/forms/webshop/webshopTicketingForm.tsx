@@ -37,6 +37,7 @@ export const WebshopTicketingForm = ({
           type="text"
           name="orderId"
           value={state.context.orderId || ''}
+          isRequired
           errorMessage={state.context?.errorMessages['orderId']?.[0]}
           onChange={(e) =>
             send({
