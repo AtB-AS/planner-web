@@ -40,6 +40,14 @@ export function TripPatternHeader({
           alt={t(PageText.Assistant.trip.tripPattern.isCancelled.label)}
         />
       )}
+      <SituationOrNoticeIcon
+        situations={flatMap(tripPattern.legs, (leg) => leg.situations)}
+        notices={tripPattern.legs.flatMap(getNoticesForLeg)}
+        accessibilityLabel={startModeAndPlaceText}
+        cancellation={isCancelled}
+        iconSize="large"
+      />
+      <RailReplacementBusMessage tripPattern={tripPattern} />
       <Typo.span textType="body__secondary--bold">
         {startModeAndPlaceText}
         {isCancelled &&
@@ -50,15 +58,6 @@ export function TripPatternHeader({
       <Typo.span textType="body__secondary" className={style.header__duration}>
         {duration}
       </Typo.span>
-
-      <RailReplacementBusMessage tripPattern={tripPattern} />
-
-      <SituationOrNoticeIcon
-        situations={flatMap(tripPattern.legs, (leg) => leg.situations)}
-        notices={tripPattern.legs.flatMap(getNoticesForLeg)}
-        accessibilityLabel={startModeAndPlaceText}
-        cancellation={isCancelled}
-      />
     </header>
   );
 }
