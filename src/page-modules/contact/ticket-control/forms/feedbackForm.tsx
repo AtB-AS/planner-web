@@ -117,7 +117,8 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
 
         <DateSelector
           id="date"
-          label={PageText.Contact.input.date.ticketControl.label}
+          label={t(PageText.Contact.input.date.label)}
+          isRequired
           value={state.context.dateOfTicketControl}
           onChange={(dateOfTicketControl: string) =>
             send({

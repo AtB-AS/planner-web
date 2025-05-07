@@ -112,7 +112,8 @@ export const StopForm = ({ state, send }: StopFormProps) => {
 
         <DateSelector
           id="date"
-          label={PageText.Contact.input.date.label}
+          label={t(PageText.Contact.input.date.label)}
+          isRequired
           value={state.context.date}
           onChange={(date) =>
             send({
