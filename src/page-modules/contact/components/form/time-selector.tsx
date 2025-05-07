@@ -38,6 +38,8 @@ export default function TimeSelector({
         className={style.timeSelector}
         data-testid="searchTimeSelector-time"
         granularity="minute"
+        aria-label={label}
+        aria-labelledby={`label-${id}`}
       >
         <FormComponentLabel
           label={label}

@@ -49,6 +49,8 @@ export default function DateSelector({
         onChange={(e) => onChange(e.toString().slice(0, 10))}
         className={style.dateSelector}
         shouldForceLeadingZeros
+        aria-label={label}
+        aria-labelledby={`label-${id}`}
       >
         <FormComponentLabel
           label={label}
