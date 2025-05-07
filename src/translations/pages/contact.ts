@@ -881,9 +881,9 @@ const ContactInternal = {
           'Vennligst fyll ut postnummer',
         ),
         invalidFormat: _(
-          'Skriv inn et gyldig postnummer med fire sifre',
-          'Enter a valid postal code with four digits',
-          'Skriv inn eit gyldig postnummer med fire siffer',
+          'Ugyldig postkode. Skriv inn et gyldig postnummer med 4 sifre',
+          'Invalid postal code. Enter a valid postal code with 4 digits',
+          'Ugyldig postkode. Skriv inn eit gyldig postnummer med 4 siffer',
         ),
       },
     },
@@ -913,9 +913,9 @@ const ContactInternal = {
           'Vennligst fyll ut ditt telefonnummer',
         ),
         invalidFormat: _(
-          'Vennligst fyll ut telefonnummeret på et gyldig format.',
-          'Please enter your phone number in a valid format.',
-          'Vennligst fyll ut telefonnummeret på eit gyldig format.',
+          'Ugyldig telefonnummer.Vennligst fyll ut telefonnummeret på et gyldig format.',
+          'Invalid phone number.Please enter your phone number in a valid format.',
+          'Ugyldig telefonnummer.Vennligst fyll ut telefonnummeret på eit gyldig format.',
         ),
       },
     },
@@ -1204,9 +1204,9 @@ const ContactInternal = {
     feeNumber: {
       label: _('Gebyrnummer', 'Fee number', 'Gebyrnummer'),
       description: _(
-        'Gebyrnummeret har fire siffer. Du finner det øverst i høyre hjørne på gebyret',
-        'The fee number has four digits. You can find it in the top right corner of the fee',
-        'Gebyrnummert har fire siffer. Du finn det øvst i høgre hjørne på gebyret',
+        'Gebyrnummeret har 4 siffer. Du finner det øverst i høyre hjørne på gebyret',
+        'The fee number has 4 digits. You can find it in the top right corner of the fee',
+        'Gebyrnummert har 4 siffer. Du finn det øvst i høgre hjørne på gebyret',
       ),
       instruction: _(
         'Fyll ut gebyrnummeret ditt',
@@ -1220,9 +1220,9 @@ const ContactInternal = {
           'Fyll ut gebyrnummeret ditt',
         ),
         invalidFormat: _(
-          'Ugyldig format. Gebyrnummeret består av fire siffer',
-          'Invalid format. The fee number consists of four digits',
-          'Ugyldig format. Gebyrnummeret består av fire siffer',
+          'Ugyldig gebyrnummer. Gebyrnummeret består av 4 siffer',
+          'Invalid fee number. The fee number consists of 4 digits',
+          'Ugyldig gebyrnummer. Gebyrnummeret består av 4 siffer',
         ),
       },
     },
@@ -1315,9 +1315,9 @@ const ContactInternal = {
           'Fyll inn kundenummer',
         ),
         invalidFormat: _(
-          'Ugyldig kundenummer. Skriv inn et gyldig nummer med 7 siffer.',
+          'Ugyldig kundenummer. Skriv inn et gyldig 7-siffered nummer.',
           'Invalid customer number. Please enter a valid 7-digit number.',
-          'Ugyldig kundenummer. Skriv inn eit gyldig nummer med 7 siffer.',
+          'Ugyldig kundenummer. Skriv inn eit gyldig 7-siffered nummer.',
         ),
       },
     },
@@ -1326,9 +1326,9 @@ const ContactInternal = {
       labelRadioButton: _('Reisekort', 'Travelcard', 'Reisekort'),
       label: _('Reisekortnummer', 'Travelcard number', 'Reisekortnummer'),
       info: _(
-        'Legg inn reisekortnummeret her hvis du allerede har et reisekort. Reisekortnummeret finner du på baksiden av reisekortet ditt',
-        'Enter the travel card number here if you already have a travel card. The travel card number can be found on the back of your travel card',
-        'Legg inn reisekortnummeret her viss du allereie har eit reisekort. Reisekortnummeret finn du bak på reisekortet ditt.',
+        'Legg inn reisekortnummeret her hvis du allerede har et reisekort. Reisekortnummeret består av 9 siffer og du finner det på baksiden av reisekortet ditt',
+        'Enter the travel card number here if you already have a travel card. The travel card number consists of 9 digits and can be found on the back of your travel card',
+        'Legg inn reisekortnummeret her viss du allereie har eit reisekort. Reisekortnummeret består av 9 siffer, og du finn det bak på reisekortet ditt.',
       ),
       errorMessages: {
         empty: _(
@@ -1411,9 +1411,9 @@ const ContactInternal = {
             'Ugyldig ordre-ID. Skriv inn ein gyldig ID på 8 teikn.',
           ),
           multipleIds: _(
-            'Én eller flere ordre-IDer ugyldige. En gyldig ID består av 8 tegn.',
+            'En eller flere ordre-IDer ugyldige. En gyldig ID består av 8 tegn.',
             'One or more order IDs are invalid. A vaild ID consists of 8 characters.',
-            'Éin eller fleire ordre-IDar er ugyldige. Ein gyldig ID består av 8 teikn.',
+            'Ein eller fleire ordre-IDar er ugyldige. Ein gyldig ID består av 8 teikn.',
           ),
         },
       },
