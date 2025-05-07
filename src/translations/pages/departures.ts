@@ -2,7 +2,7 @@ import { translation as _ } from '@atb/translations/commons';
 import { orgSpecificTranslations } from '@atb/translations/utils';
 
 const DeparturesInternal = {
-  title: _('Finn avganger', 'Find departures', 'Finn avgangar'),
+  title: _('Finn reise', 'Find journey', 'Finn reise'),
   titleAddress: (place: string) =>
     _(`Stopp nært ${place}`, `Stops near ${place}`, `Stopp nær ${place}`),
   titleStopp: (place: string) =>
@@ -37,7 +37,7 @@ const DeparturesInternal = {
     },
     buttons: {
       find: {
-        title: _('Finn avganger', 'Find departures', 'Finn avgangar'),
+        title: _('Finn reise', 'Find journey', 'Finn avgangar'),
       },
     },
   },

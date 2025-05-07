@@ -147,7 +147,7 @@ describe('assistant page', function () {
     ).toBeInTheDocument();
 
     const submitButton = screen.getByRole('button', {
-      name: 'Finn avganger',
+      name: 'Finn reise',
     });
 
     expect(submitButton).toBeInTheDocument();

@@ -26,7 +26,7 @@ test.describe('fram only', () => {
     });
     await page.getByRole('option', { name: 'Fylkeshusa Molde' }).click();
 
-    await page.getByRole('button', { name: 'More choices' }).click();
+    await page.getByRole('button', { name: 'Filter' }).click();
 
     await tripResponse;
 
@@ -68,7 +68,7 @@ test.describe('fram only', () => {
 
     await page.getByTestId('tripPattern-0-0').waitFor();
 
-    await page.getByRole('button', { name: 'More choices' }).click();
+    await page.getByRole('button', { name: 'Filter' }).click();
 
     const additionalRequest2 = page.waitForResponse((request) => {
       return (
