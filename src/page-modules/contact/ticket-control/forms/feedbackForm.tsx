@@ -8,7 +8,6 @@ import { useLines } from '../../lines/use-lines';
 import {
   Input,
   Textarea,
-  FileInput,
   Fieldset,
   Select,
   SearchableSelect,
@@ -157,20 +156,19 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
           }
           error={
             state.context.errorMessages['feedback']?.[0] &&
-            t(state.context.errorMessages['feedback']?.[0]).toString()
+            t(state.context.errorMessages['feedback']?.[0])
           }
-        />
-
-        <FileInput
-          name="attachments"
-          onChange={(files) => {
-            send({
-              type: 'ON_INPUT_CHANGE',
-              inputName: 'attachments',
-              value: files,
-            });
+          fileInputProps={{
+            name: 'attachments',
+            label: t(PageText.Contact.input.feedback.attachment),
+            onChange: (files) => {
+              send({
+                type: 'ON_INPUT_CHANGE',
+                inputName: 'attachments',
+                value: files,
+              });
+            },
           }}
-          label={t(PageText.Contact.input.feedback.attachment)}
         />
       </Fieldset>
 
