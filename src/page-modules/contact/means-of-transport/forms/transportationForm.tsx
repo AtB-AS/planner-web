@@ -9,7 +9,6 @@ import {
   Fieldset,
   Select,
   Input,
-  FileInput,
   Textarea,
   SearchableSelect,
   getLineOptions,
@@ -168,10 +167,8 @@ export const TransportationForm = ({
       </Fieldset>
 
       <Fieldset title={t(PageText.Contact.input.feedback.title)}>
-        <Typo.p textType="body__primary">
-          {t(PageText.Contact.input.feedback.description)}
-        </Typo.p>
         <Textarea
+          description={t(PageText.Contact.input.feedback.description)}
           id="feedback"
           value={state.context.feedback || ''}
           onChange={(e) =>
@@ -183,19 +180,19 @@ export const TransportationForm = ({
           }
           error={
             state.context.errorMessages['feedback']?.[0]
-              ? t(state.context.errorMessages['feedback']?.[0]).toString()
+              ? t(state.context.errorMessages['feedback']?.[0])
               : undefined
           }
-        />
-        <FileInput
-          name="attachments"
-          label={t(PageText.Contact.input.feedback.attachment)}
-          onChange={(files) => {
-            send({
-              type: 'ON_INPUT_CHANGE',
-              inputName: 'attachments',
-              value: files,
-            });
+          fileInputProps={{
+            name: 'attachments',
+            label: t(PageText.Contact.input.feedback.attachment),
+            onChange: (files) => {
+              send({
+                type: 'ON_INPUT_CHANGE',
+                inputName: 'attachments',
+                value: files,
+              });
+            },
           }}
         />
       </Fieldset>

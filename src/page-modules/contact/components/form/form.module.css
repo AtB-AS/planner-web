@@ -9,7 +9,6 @@
   gap: token('spacing.small');
   color: token('color.background.neutral.0.foreground.primary');
   background-color: token('color.background.neutral.0.background');
-  margin-bottom: token('spacing.medium');
 }
 
 .rowDisplay {
@@ -157,16 +156,19 @@
 }
 
 /* textare */
+.textarea_container {
+  display: flex;
+  flex-direction: column;
+  gap: token('spacing.small');
+}
+
 .textarea {
   border: token('border.width.slim') solid
     token('color.foreground.dynamic.primary');
   border-radius: token('border.radius.small');
-
   padding: token('spacing.small');
-
   width: 100%;
   min-height: 6rem;
-
   font-family: var(--font-main) !important;
   font-size: 1rem !important;
   line-height: var(--baseTypo-body__primary-lineHeight, 1.25rem) !important;

@@ -47,32 +47,33 @@ const RefundSection = ({ state, send }: RefundSectionProps) => {
             : undefined
         }
       />
+      <div>
+        <Radio
+          label={t(PageText.Contact.input.travelCardNumber.labelRadioButton)}
+          name="showInputTravelCardNumber"
+          checked={state.context.showInputTravelCardNumber}
+          onChange={() =>
+            send({
+              type: 'ON_INPUT_CHANGE',
+              inputName: 'showInputTravelCardNumber',
+              value: !state.context.showInputTravelCardNumber,
+            })
+          }
+        />
 
-      <Radio
-        label={t(PageText.Contact.input.travelCardNumber.labelRadioButton)}
-        name="showInputTravelCardNumber"
-        checked={state.context.showInputTravelCardNumber}
-        onChange={() =>
-          send({
-            type: 'ON_INPUT_CHANGE',
-            inputName: 'showInputTravelCardNumber',
-            value: !state.context.showInputTravelCardNumber,
-          })
-        }
-      />
-
-      <Radio
-        label={t(PageText.Contact.input.customerNumber.label)}
-        name="isAppTicketStorageMode"
-        checked={!state.context.showInputTravelCardNumber}
-        onChange={() =>
-          send({
-            type: 'ON_INPUT_CHANGE',
-            inputName: 'showInputTravelCardNumber',
-            value: !state.context.showInputTravelCardNumber,
-          })
-        }
-      />
+        <Radio
+          label={t(PageText.Contact.input.customerNumber.label)}
+          name="isAppTicketStorageMode"
+          checked={!state.context.showInputTravelCardNumber}
+          onChange={() =>
+            send({
+              type: 'ON_INPUT_CHANGE',
+              inputName: 'showInputTravelCardNumber',
+              value: !state.context.showInputTravelCardNumber,
+            })
+          }
+        />
+      </div>
 
       {state.context.showInputTravelCardNumber && (
         <Input
@@ -137,12 +138,9 @@ const RefundSection = ({ state, send }: RefundSectionProps) => {
         }}
       />
 
-      <Typo.p textType="body__primary">
-        {t(PageText.Contact.input.refundReason.question)}
-      </Typo.p>
-
       <Textarea
         id="refundReason"
+        description={t(PageText.Contact.input.refundReason.question)}
         value={state.context.refundReason || ''}
         onChange={(e) =>
           send({
@@ -345,7 +343,7 @@ const AboutYouSection = ({ state, send }: AboutYouSectionProps) => {
       />
 
       {state.context.hasInternationalBankAccount && (
-        <div>
+        <>
           <Input
             id="IBAN"
             label={t(PageText.Contact.input.bankInformation.IBAN.label)}
@@ -377,7 +375,7 @@ const AboutYouSection = ({ state, send }: AboutYouSectionProps) => {
               })
             }
           />
-        </div>
+        </>
       )}
     </Fieldset>
   );

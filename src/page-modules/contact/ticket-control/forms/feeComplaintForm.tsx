@@ -3,7 +3,7 @@ import { PageText, TranslatedString, useTranslation } from '@atb/translations';
 import { Typo } from '@atb/components/typography';
 import { TicketControlContextProps } from '../ticket-control-form-machine';
 import { ticketControlFormEvents } from '../events';
-import { Input, Radio, Textarea, FileInput, Fieldset } from '../../components';
+import { Input, Radio, Textarea, Fieldset } from '../../components';
 import { Checkbox } from '@atb/components/checkbox';
 
 type FeeComplaintFormProps = {
@@ -130,35 +130,38 @@ const FormContent = ({ state, send }: FormProps) => {
           )}
         </Typo.h3>
 
-        <Radio
-          label={t(
-            PageText.Contact.ticketControl.feeComplaint.ticketStorage.app.title,
-          )}
-          name="isAppTicketStorageMode"
-          checked={state.context.isAppTicketStorageMode}
-          onChange={() =>
-            send({
-              type: 'ON_INPUT_CHANGE',
-              inputName: 'isAppTicketStorageMode',
-              value: !state.context.isAppTicketStorageMode,
-            })
-          }
-        />
-        <Radio
-          label={t(PageText.Contact.input.travelCardNumber.labelRadioButton)}
-          name="isAppTicketStorageMode"
-          checked={!state.context.isAppTicketStorageMode}
-          onChange={() =>
-            send({
-              type: 'ON_INPUT_CHANGE',
-              inputName: 'isAppTicketStorageMode',
-              value: !state.context.isAppTicketStorageMode,
-            })
-          }
-        />
+        <div>
+          <Radio
+            label={t(
+              PageText.Contact.ticketControl.feeComplaint.ticketStorage.app
+                .title,
+            )}
+            name="isAppTicketStorageMode"
+            checked={state.context.isAppTicketStorageMode}
+            onChange={() =>
+              send({
+                type: 'ON_INPUT_CHANGE',
+                inputName: 'isAppTicketStorageMode',
+                value: !state.context.isAppTicketStorageMode,
+              })
+            }
+          />
+          <Radio
+            label={t(PageText.Contact.input.travelCardNumber.labelRadioButton)}
+            name="isAppTicketStorageMode"
+            checked={!state.context.isAppTicketStorageMode}
+            onChange={() =>
+              send({
+                type: 'ON_INPUT_CHANGE',
+                inputName: 'isAppTicketStorageMode',
+                value: !state.context.isAppTicketStorageMode,
+              })
+            }
+          />
+        </div>
 
         {state.context.isAppTicketStorageMode && (
-          <div>
+          <>
             <Input
               id="appPhoneNumber"
               label={t(PageText.Contact.input.appPhoneNumber.label)}
@@ -190,8 +193,9 @@ const FormContent = ({ state, send }: FormProps) => {
                 })
               }
             />
-          </div>
+          </>
         )}
+
         {!state.context.isAppTicketStorageMode && (
           <Input
             id="travelCardNumber"
@@ -223,20 +227,19 @@ const FormContent = ({ state, send }: FormProps) => {
           }
           error={
             state.context.errorMessages['feedback']?.[0] &&
-            t(state.context.errorMessages['feedback']?.[0]).toString()
+            t(state.context.errorMessages['feedback']?.[0])
           }
-        />
-
-        <FileInput
-          name="attachments"
-          onChange={(files) => {
-            send({
-              type: 'ON_INPUT_CHANGE',
-              inputName: 'attachments',
-              value: files,
-            });
+          fileInputProps={{
+            name: 'attachments',
+            label: t(PageText.Contact.input.feedback.attachment),
+            onChange: (files) => {
+              send({
+                type: 'ON_INPUT_CHANGE',
+                inputName: 'attachments',
+                value: files,
+              });
+            },
           }}
-          label={t(PageText.Contact.input.feedback.attachment)}
         />
       </Fieldset>
 
@@ -389,7 +392,7 @@ const FormContent = ({ state, send }: FormProps) => {
         />
 
         {state.context.hasInternationalBankAccount && (
-          <div>
+          <>
             <Input
               id="IBAN"
               label={t(PageText.Contact.input.bankInformation.IBAN.label)}
@@ -421,7 +424,7 @@ const FormContent = ({ state, send }: FormProps) => {
                 })
               }
             />
-          </div>
+          </>
         )}
       </Fieldset>
     </>
