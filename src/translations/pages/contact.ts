@@ -1401,14 +1401,14 @@ const ContactInternal = {
         empty: _('Ordre-id mangler', 'Order-id is missing', 'Ordre-id manglar'),
         invalidFormat: {
           singleId: _(
-            'Ordre-IDen er skrevet i ugyldig format',
-            'The order ID is written in an invalid format',
-            'Ordre-IDen er skriven i ugyldig format',
+            'Ugyldig ordre-ID. Skriv inn en gyldig ID på 8 tegn.',
+            'Invalid order ID. Please enter a valid ID of 8 characters.',
+            'Ugyldig ordre-ID. Skriv inn ein gyldig ID på 8 teikn.',
           ),
           multipleIds: _(
-            'Én eller flere ordre-IDer er skrevet i ugyldig format',
-            'One or more order IDs are written in an invalid format',
-            'Éin eller fleire ordre-IDar er skriven i ugyldig format',
+            'Én eller flere ordre-IDer ugyldige. En gyldig ID består av 8 tegn.',
+            'One or more order IDs are invalid. A vaild ID consists of 8 characters.',
+            'Éin eller fleire ordre-IDar er ugyldige. Ein gyldig ID består av 8 teikn.',
           ),
         },
       },
