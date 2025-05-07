@@ -1,9 +1,7 @@
 import { PageText, useTranslation } from '@atb/translations';
 import { ticketingFormEvents } from '../../events';
 import { TicketingContextType } from '../../ticketingStateMachine';
-import { Typo } from '@atb/components/typography';
 import { Fieldset, Textarea, Input } from '../../../components';
-import style from '../../../contact.module.css';
 
 type WebshopTicketingFormProps = {
   state: { context: TicketingContextType };
@@ -21,16 +19,6 @@ export const WebshopTicketingForm = ({
       <Fieldset
         title={t(PageText.Contact.ticketing.webshop.webshopTicketing.title)}
       >
-        <ul className={style.rules__list}>
-          {PageText.Contact.input.orderId.descriptionBulletPoints.map(
-            (desc, index) => (
-              <li key={index}>
-                <Typo.p textType="body__primary">{t(desc)}</Typo.p>
-              </li>
-            ),
-          )}
-        </ul>
-
         <Input
           id="orderId"
           label={t(PageText.Contact.input.orderId.label(false))}
@@ -38,6 +26,13 @@ export const WebshopTicketingForm = ({
           name="orderId"
           value={state.context.orderId || ''}
           isRequired
+          modalContent={{
+            description: t(PageText.Contact.input.orderId.description),
+            bulletPoints:
+              PageText.Contact.input.orderId.descriptionBulletPoints.map(
+                (bulletPoint) => t(bulletPoint),
+              ),
+          }}
           errorMessage={state.context?.errorMessages['orderId']?.[0]}
           onChange={(e) =>
             send({
