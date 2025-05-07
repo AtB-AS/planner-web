@@ -1,7 +1,7 @@
 import {
   ReasonForTransportFailure,
   TicketType,
-} from '@atb/page-modules/contact/refund/events';
+} from '@atb/page-modules/contact/types';
 import { translation as _ } from '@atb/translations/commons';
 import { orgSpecificTranslations } from '../utils';
 
