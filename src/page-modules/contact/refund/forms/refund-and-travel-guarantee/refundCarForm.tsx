@@ -187,6 +187,7 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
           errorMessage={state.context?.errorMessages['date']?.[0]}
         />
         <TimeSelector
+          id="plannedDepartureTime"
           label={PageText.Contact.input.plannedDepartureTime.label}
           value={state.context.plannedDepartureTime}
           onChange={(time: string) =>
