@@ -63,11 +63,11 @@ const AssistantInternal = {
     },
     buttons: {
       find: {
-        title: _('Finn avganger', 'Find departures', 'Finn avgangar'),
+        title: _('Finn reise', 'Find journey', 'Finn reise'),
       },
       alternatives: {
-        more: _('Flere valg', 'More choices', 'Fleire val'),
-        less: _('Færre valg', 'Less choices', 'Færre val'),
+        more: _('Filter', 'Filter', 'Filter'),
+        less: _('Filter', 'Filter', 'Filter'),
       },
     },
     onlyStopPlacesCheckbox: _(

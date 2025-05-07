@@ -46,6 +46,10 @@
   background-color: token('color.background.neutral.0.background');
 }
 
+.searchSection > div {
+  border: none;
+}
+
 .input {
   display: flex;
   flex-direction: column;
