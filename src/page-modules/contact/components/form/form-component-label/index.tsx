@@ -1,20 +1,20 @@
 import { Typo } from '@atb/components/typography';
-import style from './label.module.css';
+import style from './form-component-label.module.css';
 import { andIf } from '@atb/utils/css';
 
-type LabelProps = {
+type FormComponentLabelProps = {
   label: string;
   htmlFor: string;
   disabled?: boolean;
   isRequired?: boolean;
 };
 
-export const Label = ({
+export const FormComponentLabel = ({
   label,
   htmlFor,
   disabled = false,
   isRequired = false,
-}: LabelProps) => {
+}: FormComponentLabelProps) => {
   return (
     <label htmlFor={htmlFor}>
       <Typo.span
@@ -30,4 +30,4 @@ export const Label = ({
   );
 };
 
-export default Label;
+export default FormComponentLabel;

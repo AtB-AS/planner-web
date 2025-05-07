@@ -13,7 +13,7 @@ import {
   Group,
 } from 'react-aria-components';
 import { ErrorMessage } from '@atb/components/error-message';
-import Label from '../label';
+import Label from '../form-component-label';
 
 export type Option<T> = { id: string; name: string; value: T };
 export type SearchableSelectProps<T> = {

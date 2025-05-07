@@ -3,7 +3,7 @@ import style from './form.module.css';
 import { TranslatedString, useTranslation } from '@atb/translations';
 import { parseTime } from '@internationalized/date';
 import { DateInput, DateSegment, TimeField } from 'react-aria-components';
-import Label from './label';
+import FormComponentLabel from './form-component-label';
 
 export type TimeSelectorProps = {
   id: string;
@@ -39,7 +39,7 @@ export default function TimeSelector({
         data-testid="searchTimeSelector-time"
         granularity="minute"
       >
-        <Label
+        <FormComponentLabel
           label={label}
           htmlFor={`time-selector-${id}`}
           isRequired={isRequired}

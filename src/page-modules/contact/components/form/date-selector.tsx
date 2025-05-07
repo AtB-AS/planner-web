@@ -16,7 +16,7 @@ import {
   Heading,
   Popover,
 } from 'react-aria-components';
-import Label from './label';
+import FormComponentLabel from './form-component-label';
 
 export type DateSelectorProps = {
   id: string;
@@ -50,7 +50,7 @@ export default function DateSelector({
         className={style.dateSelector}
         shouldForceLeadingZeros
       >
-        <Label
+        <FormComponentLabel
           label={label}
           htmlFor={`date-selector-${id}`}
           isRequired={isRequired}

@@ -6,7 +6,7 @@ import { MonoIcon } from '@atb/components/icon';
 import { Button } from '@atb/components/button';
 import DescriptionModal from './description-modal';
 import { ErrorMessage } from '@atb/components/error-message';
-import Label from './label';
+import FormComponentLabel from './form-component-label';
 
 type InputProps = {
   id: string;
@@ -51,7 +51,7 @@ export const Input = ({
       })}
     >
       <div className={style.label_container}>
-        <Label
+        <FormComponentLabel
           label={label}
           htmlFor={`input-${name}`}
           disabled={disabled}

@@ -9,7 +9,7 @@ import {
   Select,
 } from 'react-aria-components';
 import { ErrorMessage } from '@atb/components/error-message';
-import Label from './label';
+import FormComponentLabel from './form-component-label';
 
 export type SelectProps<T> = {
   id: string;
@@ -60,7 +60,7 @@ export default function CustomSelect<T>({
       aria-labelledby={`label-${id}`}
     >
       {label && (
-        <Label
+        <FormComponentLabel
           label={label}
           htmlFor={`select-${id}`}
           disabled={disabled}
