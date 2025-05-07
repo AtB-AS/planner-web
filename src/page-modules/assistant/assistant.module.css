@@ -20,34 +20,6 @@
   max-width: var(--maxPageWidth);
   padding: token('spacing.xLarge');
   margin: 0 auto;
-  margin-top: token('spacing.large');
-  background-color: token('color.background.neutral.0.background');
-}
-
-.searchSection {
-  border-radius: 0.75rem;
-  border: 1px solid token('color.foreground.dynamic.disabled');
-  position: relative;
-}
-
-.searchSection > :first-child {
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-  border-bottom: 1px solid token('color.foreground.dynamic.disabled');
-}
-
-.searchSection > .searchInputButtonContainer {
-  position: absolute;
-  border-radius: 50%;
-  border: 1px solid token('color.foreground.dynamic.disabled');
-  top: 50%;
-  right: 0.75rem;
-  transform: translateY(-50%);
-  background-color: token('color.background.neutral.0.background');
-}
-
-.searchSection > div {
-  border: none;
 }
 
 .input {
@@ -55,8 +27,15 @@
   flex-direction: column;
 }
 
-.input > :last-child {
-  margin-top: 0.375rem;
+.searchSection {
+  position: relative;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+}
+
+.searchSection > div {
+  box-shadow: 0 0 0 token('border.width.slim')
+    token('color.interactive.2.outline.background');
 }
 
 .button {
@@ -98,25 +77,30 @@
   width: 100%;
   max-width: var(--maxPageWidth);
   margin: 0 auto;
-  padding: token('spacing.medium') token('spacing.xLarge') token('spacing.xLarge')
+  padding: 0 token('spacing.xLarge') token('spacing.xLarge')
     token('spacing.xLarge');
   z-index: 10;
   position: absolute;
   left: 0;
   right: 0;
-  background-color: token('color.background.neutral.0.background');
 }
 
 .searchInputButton {
   height: var(--height);
   border: none;
-  background: none;
+  background-color: token('color.background.neutral.0.background');
+  border: token('border.width.slim') solid
+    token('color.interactive.2.outline.background');
   padding: token('spacing.small');
-  border-bottom-right-radius: 0.75rem;
-  border-top-right-radius: 0.75rem;
+  border-radius: 50%;
   cursor: pointer;
   display: flex;
   align-items: center;
+  position: absolute;
+  top: 50%;
+  right: token('spacing.medium');
+  transform: translate(0, -50%);
+  z-index: 100;
 }
 
 @media (max-width: 650px) {
