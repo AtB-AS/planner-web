@@ -114,6 +114,7 @@ const setInputsToValidate = (context: TicketingContextType) => {
         ...commonAppFields,
         orderId,
         phoneNumber,
+        ...(customerNumber && { customerNumber }),
       };
 
     case FormType.AppTravelSuggestion:
