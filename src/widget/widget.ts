@@ -448,7 +448,7 @@ function createOutput(
 
   customElements.define('pw-autocomplete', AutocompleteBox);
 
-  const buttons = html`
+  const searchButton = (label: string) => html`
     <div class="${style.buttonGroup}">
       <button
         type="submit"
@@ -456,7 +456,7 @@ function createOutput(
           ? style.button
           : style.buttonLightOutline}"
       >
-        <span>${texts.searchButton}</span>
+        <span>${label}</span>
       </button>
     </div>
   `;
@@ -650,7 +650,7 @@ function createOutput(
         </fieldset>
         ${searchTime('pw-assistant')}
       </div>
-      ${buttons}
+      ${searchButton(texts.assistantSearchButton)}
     </form>
   `;
   const departures = html`
@@ -718,7 +718,7 @@ function createOutput(
         </fieldset>
         ${searchTime('pw-departures', false)}
       </div>
-      ${buttons}
+      ${searchButton(texts.departuresSearchButton)}
     </form>
   `;
 
@@ -1061,7 +1061,8 @@ type Texts = {
     unavailable: string;
     timeout: string;
   };
-  searchButton: string;
+  departuresSearchButton: string;
+  assistantSearchButton: string;
   placeholder: string;
   assistant: {
     link: string;
@@ -1095,16 +1096,17 @@ const texts: Record<Languages, Texts> = {
       unavailable: 'Posisjonen din er ikke tilgjengelig.',
       timeout: 'Det tok for lang tid å hente posisjonen din. Prøv på nytt.',
     },
-    searchButton: 'Finn reise',
+    assistantSearchButton: 'Finn reise',
+    departuresSearchButton: 'Finn avganger',
     placeholder: 'adresse, kai eller holdeplass',
     assistant: {
-      link: 'Planlegg reisen',
+      link: 'Finn reise',
       title: 'Hvor vil du reise?',
       from: 'Fra',
       to: 'Til',
     },
     departure: {
-      link: 'Avganger',
+      link: 'Se avganger',
       title: 'Hvor vil du reise fra?',
       from: 'Fra',
     },
@@ -1126,16 +1128,17 @@ const texts: Record<Languages, Texts> = {
       unavailable: 'Posisjonen din er ikkje tilgjengeleg.',
       timeout: 'Det tok for lang tid å hente posisjonen din. Prøv på nytt.',
     },
-    searchButton: 'Finn reise',
+    assistantSearchButton: 'Finn reise',
+    departuresSearchButton: 'Finn avganger',
     placeholder: 'adresse, kai eller haldeplass',
     assistant: {
-      link: 'Planlegg reisa',
+      link: 'Finn reise',
       title: 'Kor vil du reise?',
       from: 'Frå',
       to: 'Til',
     },
     departure: {
-      link: 'Avgangar',
+      link: 'Sjå avganger',
       title: 'Kor vil du reise frå?',
       from: 'Frå',
     },
@@ -1157,10 +1160,11 @@ const texts: Record<Languages, Texts> = {
       unavailable: 'Your position is not available.',
       timeout: 'It took too long to retrieve your position. Try again.',
     },
-    searchButton: 'Find journey',
+    assistantSearchButton: 'Find journey',
+    departuresSearchButton: 'Find departures',
     placeholder: 'address, quay, or stop',
     assistant: {
-      link: 'Plan your journey',
+      link: 'Find journey',
       title: 'Where do you want to travel?',
       from: 'From',
       to: 'To',
