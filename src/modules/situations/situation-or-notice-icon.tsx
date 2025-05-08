@@ -1,6 +1,6 @@
 import React from 'react';
 import { getIconForMostCriticalSituationOrNotice } from './utils';
-import { ColorIcon } from '@atb/components/icon';
+import { ColorIcon, SizeProps } from '@atb/components/icon';
 import {
   NoticeFragment,
   SituationFragment,
@@ -11,6 +11,7 @@ type SituationOrNoticeIconProps = {
   notices?: NoticeFragment[];
   cancellation?: boolean;
   className?: string;
+  iconSize?: SizeProps;
 } & ({ situations: SituationFragment[] } | { situation: SituationFragment });
 
 export const SituationOrNoticeIcon = ({
@@ -18,6 +19,7 @@ export const SituationOrNoticeIcon = ({
   notices,
   cancellation,
   className,
+  iconSize = 'normal',
   ...props
 }: SituationOrNoticeIconProps) => {
   const situations =
@@ -32,6 +34,11 @@ export const SituationOrNoticeIcon = ({
   if (!icon) return null;
 
   return (
-    <ColorIcon className={className} icon={icon} alt={accessibilityLabel} />
+    <ColorIcon
+      className={className}
+      size={iconSize}
+      icon={icon}
+      alt={accessibilityLabel}
+    />
   );
 };

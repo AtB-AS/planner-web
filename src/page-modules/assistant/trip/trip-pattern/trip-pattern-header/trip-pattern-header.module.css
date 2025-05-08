@@ -1,6 +1,7 @@
 .header {
   display: flex;
   gap: token('spacing.small');
+  align-items: center;
   padding: token('spacing.small') token('spacing.medium');
 }
 

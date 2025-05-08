@@ -19,6 +19,7 @@ export const RailReplacementBusMessage = ({
 
   return (
     <ColorIcon
+      size="large"
       icon="status/Warning"
       alt={t(
         PageText.Assistant.trip.tripPattern.tripIncludesRailReplacementBus,
