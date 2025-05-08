@@ -292,7 +292,5 @@ function geocoderFeatureToString(
     // Location has been selected, but it hasn't been resolved to a feature yet
     return '';
   }
-  return feature
-    ? `${feature.name}${feature.locality ? ', ' + feature.locality : ''}`
-    : '';
+  return feature ? `${feature.name}` : '';
 }

@@ -169,13 +169,12 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
                 autocompleteFocusPoint={tripQuery.from ?? undefined}
                 onGeolocationError={setGeolocationError}
               />
-              <div className={style.searchInputButtonContainer}>
-                <SwapButton
-                  className={style.searchInputButton}
-                  onSwap={onSwap}
-                  isLoading={isSwapping}
-                />
-              </div>
+
+              <SwapButton
+                className={style.searchInputButton}
+                onSwap={onSwap}
+                isLoading={isSwapping}
+              />
             </div>
           </div>
           <div className={style.date}>
