@@ -145,7 +145,7 @@ function je(t) {
     return n[1] ? e + " " + n[0] : e;
   }, "");
 }
-var B = { MODULE_VERSION: "3.0.0", COMPRESSED_ORG: "IYFwRkA", ORG_ID: "atb" };
+var B = { MODULE_VERSION: "3.0.1", COMPRESSED_ORG: "IYFwRkA", ORG_ID: "atb" };
 const He = 300, $ = String.raw, A = B.MODULE_VERSION, k = B.COMPRESSED_ORG;
 function qe(t) {
   if (!(t != null && t.startsWith("http")))

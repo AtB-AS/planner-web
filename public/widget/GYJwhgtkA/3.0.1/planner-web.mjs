@@ -145,7 +145,7 @@ function je(t) {
     return n[1] ? e + " " + n[0] : e;
   }, "");
 }
-var B = { MODULE_VERSION: "3.0.0", COMPRESSED_ORG: "IYFwRkA", ORG_ID: "atb" };
+var B = { MODULE_VERSION: "3.0.1", COMPRESSED_ORG: "GYJwhgtkA", ORG_ID: "fram" };
 const He = 300, $ = String.raw, A = B.MODULE_VERSION, k = B.COMPRESSED_ORG;
 function qe(t) {
   if (!(t != null && t.startsWith("http")))
@@ -169,11 +169,11 @@ function at({
   };
   return {
     output: We(s, i, a),
-    init: Fe,
+    init: Ne,
     urls: s
   };
 }
-function Fe() {
+function Ne() {
   var e, n;
   Ge(), D("pw-assistant"), D("pw-departures");
   let t = {
@@ -212,7 +212,7 @@ function Fe() {
   }), (n = document.querySelector("#pw-form-assistant")) == null || n.addEventListener("submit", (i) => {
     i.preventDefault();
     const s = i.currentTarget;
-    Ne(s, t.from, t.to);
+    Fe(s, t.from, t.to);
   });
 }
 function D(t) {
@@ -249,7 +249,7 @@ function x(t, e) {
     };
   }
 }
-function Ne(t, e, n) {
+function Fe(t, e, n) {
   const i = t.action, s = x(new FormData(t), "pw-assistant"), a = ze({ from: e, to: n }, s), c = new URLSearchParams(a);
   window.location.href = `${i}?${c.toString()}`;
 }
@@ -350,7 +350,7 @@ function We({ URL_BASE: t }, e, n) {
         const r = s(e.noResults);
         m.appendChild(r), w(!0);
       }
-      const F = Ve(async (r) => {
+      const N = Ve(async (r) => {
         try {
           if (!r.value) {
             m.innerHTML = "";
@@ -373,11 +373,11 @@ function We({ URL_BASE: t }, e, n) {
         r.key === "Escape" && w(!1);
       }), p.addEventListener(
         "input",
-        (r) => F(r.target)
+        (r) => N(r.target)
       ), p.addEventListener("focus", () => w(!0)), p.addEventListener("blur", () => w(!1)), document.addEventListener("click", (r) => {
         P(r.target, this) || w(!1);
       });
-      const N = async function() {
+      const F = async function() {
         var r;
         S.clearMessageBox();
         try {
@@ -403,7 +403,7 @@ function We({ URL_BASE: t }, e, n) {
         }
       };
       m.addEventListener("combobox-commit", function(r) {
-        r.target.classList.contains("itemLocation") && N();
+        r.target.classList.contains("itemLocation") && F();
         const d = r.target.getAttribute(
           "data-feature-id"
         ), g = d ? u.getItem(d) : void 0;
@@ -425,7 +425,7 @@ function We({ URL_BASE: t }, e, n) {
     <div class="${o.buttonGroup}">
       <button
         type="submit"
-        class="${o.button}"
+        class="${o.buttonLightOutline}"
       >
         <span>${e.searchButton}</span>
       </button>
