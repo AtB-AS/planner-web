@@ -93,6 +93,10 @@ const rulesPostalCode: ValidationRule[] = [
     validate: hasExpectedLength(4),
     errorMessage: PageText.Contact.input.postalCode.errorMessages.invalidFormat,
   },
+  {
+    validate: isDigitsOnly,
+    errorMessage: PageText.Contact.input.postalCode.errorMessages.invalidFormat,
+  },
 ];
 
 const rulesCity: ValidationRule[] = [
@@ -174,6 +178,13 @@ const rulesToStop: ValidationRule[] = [
   {
     validate: (_toStop: Line['quays'][0]) => isDefined(_toStop),
     errorMessage: PageText.Contact.input.toStop.errorMessages.empty,
+  },
+];
+
+const rulesStop: ValidationRule[] = [
+  {
+    validate: (_stop: Line['quays'][0]) => isDefined(_stop),
+    errorMessage: PageText.Contact.input.stop.errorMessages.empty,
   },
 ];
 
@@ -361,6 +372,16 @@ const rulesTravelCardNumber: ValidationRule[] = [
     validate: isNonEmptyString,
     errorMessage: PageText.Contact.input.travelCardNumber.errorMessages.empty,
   },
+  {
+    validate: hasExpectedLength(9),
+    errorMessage:
+      PageText.Contact.input.travelCardNumber.errorMessages.invalidFormat,
+  },
+  {
+    validate: isDigitsOnly,
+    errorMessage:
+      PageText.Contact.input.travelCardNumber.errorMessages.invalidFormat,
+  },
 ];
 
 type ValidationRulesMap = {
@@ -382,6 +403,7 @@ export const validationRules: ValidationRulesMap = {
   line: rulesLine,
   fromStop: rulesFromStop,
   toStop: rulesToStop,
+  stop: rulesStop,
   date: rulesDate,
   dateOfTicketControl: rulesDateOfTicketControl,
   timeOfTicketControl: rulesTimeOfTicketControl,

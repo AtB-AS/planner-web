@@ -31,6 +31,9 @@ export const TravelCardQuestionForm = ({
           type="text"
           name="travelCardNumber"
           value={state.context.travelCardNumber || ''}
+          modalContent={{
+            description: t(PageText.Contact.input.travelCardNumber.info),
+          }}
           isRequired
           errorMessage={state.context?.errorMessages['travelCardNumber']?.[0]}
           onChange={(e) =>
