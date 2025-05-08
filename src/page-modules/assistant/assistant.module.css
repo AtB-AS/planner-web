@@ -20,8 +20,6 @@
   max-width: var(--maxPageWidth);
   padding: token('spacing.xLarge');
   margin: 0 auto;
-  margin-top: token('spacing.large');
-  background-color: token('color.background.neutral.0.background');
 }
 
 .input {

@@ -110,14 +110,6 @@ function init() {
       });
   });
 
-  document.addEventListener('swap-selected', function () {
-    const originalFromValue = fromTo.from;
-    fromTo = {
-      from: fromTo.to,
-      to: originalFromValue,
-    };
-  });
-
   document
     .querySelectorAll('[name$=searchTimeSelector]')
     .forEach(function (el) {
@@ -255,10 +247,9 @@ function createOutput(
 ) {
   function searchItem(item: GeocoderFeature) {
     const img = venueIcon(item);
-    const title = el('span', [item.name], style.itemTitle);
+    const title = el('span', [item.name]);
     const locality = el('span', [item.locality ?? ''], style.itemLocality);
-    const itemText = el('div', [title, locality], style.itemText);
-    const li = el('li', [img, itemText], style.listItem);
+    const li = el('li', [img, title, locality], style.listItem);
     li.role = 'option';
     li.setAttribute('data-feature-id', item.id);
     return li;
@@ -283,28 +274,51 @@ function createOutput(
     return div;
   }
 
-  class SwapButton extends HTMLElement {
+  class GeoLocationButton extends HTMLElement {
     constructor() {
       super();
     }
 
     connectedCallback() {
+      const self = this;
       const button = this.querySelector('button')!;
 
       button.addEventListener('click', async () => {
         MessageBox.clearMessageBox();
-        const searchInputs = document.getElementsByClassName(
-          'widget-module__search_input',
-        );
-        const [input1, input2] = Array.from(searchInputs) as HTMLInputElement[];
-        [input1.value, input2.value] = [input2.value, input1.value];
 
-        document.dispatchEvent(new CustomEvent('swap-selected'));
+        try {
+          const item = await getGeolocation(URL_BASE, texts);
+          const input = self.parentElement?.querySelector('input');
+          if (input) {
+            input.value = item ? `${item.name}, ${item.locality}` : input.value;
+          }
+
+          document.dispatchEvent(
+            new CustomEvent('search-selected', {
+              bubbles: true,
+              detail: {
+                key: 'from',
+                item,
+              },
+            }),
+          );
+        } catch (e) {
+          if (e instanceof Error) {
+            document.dispatchEvent(
+              new CustomEvent<ErrorMessage>('pw-errorMessage', {
+                bubbles: true,
+                detail: {
+                  message: e.message,
+                },
+              }),
+            );
+          }
+        }
       });
     }
   }
+  customElements.define('pw-geobutton', GeoLocationButton);
 
-  customElements.define('pw-swapbutton', SwapButton);
   customElements.define('pw-messagebox', MessageBox);
 
   class AutocompleteBox extends HTMLElement {
@@ -343,30 +357,14 @@ function createOutput(
         scrollIntoViewOptions: false,
       });
 
-      const createLocationItem = function () {
-        const img = el('img');
-        img.src = `${URL_BASE}assets/mono/places/Location.svg`;
-        img.role = 'img';
-        const divImg = el('div', [img], style.itemIcon);
-        img.ariaHidden = 'true';
-        const title = el('span', [texts.geoButton], style.itemTitle);
-        const text = el('div', [title], style.itemText);
-        const li = el('li', [divImg, text], style.listItem);
-        li.classList.add('itemLocation');
-        li.role = 'option';
-        return li;
-      };
-
       function toggleList(show?: boolean) {
-        const locationLi = createLocationItem();
         if (!show) {
-          list.innerHTML = '';
           combobox.clearSelection();
           combobox.stop();
         } else {
-          list.appendChild(locationLi);
           combobox.start();
         }
+
         list.hidden = !show;
       }
 
@@ -417,42 +415,7 @@ function createOutput(
         }
       });
 
-      const setGeolocationPlace = async function () {
-        MessageBox.clearMessageBox();
-        try {
-          const item = await getGeolocation(URL_BASE, texts);
-
-          const input = self.parentElement?.querySelector('input');
-          if (input) {
-            input.value = item ? `${item.name}` : input.value;
-          }
-          document.dispatchEvent(
-            new CustomEvent('search-selected', {
-              bubbles: true,
-              detail: {
-                key: 'from',
-                item,
-              },
-            }),
-          );
-        } catch (e) {
-          if (e instanceof Error) {
-            document.dispatchEvent(
-              new CustomEvent<ErrorMessage>('pw-errorMessage', {
-                bubbles: true,
-                detail: {
-                  message: e.message,
-                },
-              }),
-            );
-          }
-        }
-      };
-
       list.addEventListener('combobox-commit', function (event) {
-        if ((event.target as HTMLElement).classList.contains('itemLocation')) {
-          setGeolocationPlace();
-        }
         const itemId = (event.target as HTMLElement).getAttribute(
           'data-feature-id',
         );
@@ -460,6 +423,10 @@ function createOutput(
         let newValue = input.value;
         if (item) {
           newValue = `${item.name}`;
+
+          if (item.locality) {
+            newValue += `, ${item.locality}`;
+          }
         }
         input.value = newValue;
         document.dispatchEvent(
@@ -595,93 +562,90 @@ function createOutput(
       <div class="${style.main}">
         <fieldset class="${style.inputBoxes}">
           <legend class="${style.heading}">${texts.assistant.title}</legend>
-          <div class="${style.searchSection}">
-            <div class="${style.search_container}">
-              <label
-                class="${style.search_label}"
-                for="pw-from-1-input"
-                id="pw-from-1-label"
-              >
-                ${texts.assistant.from}
-              </label>
-              <div
-                class="${style.search_inputContainer}"
-                aria-haspopup="listbox"
-                aria-labelledby="pw-from-1-label"
-              >
-                <pw-autocomplete for="from-popup-1">
-                  <input
-                    class="${style.search_input}"
-                    aria-expanded="false"
-                    aria-autocomplete="list"
-                    autocomplete="off"
-                    id="pw-from-1-input"
-                    name="from"
-                    value=""
-                    placeholder="${texts.placeholder}"
-                  />
-                  <ul
-                    id="from-popup-1"
-                    role="listbox"
-                    aria-labelledby="pw-from-1-label"
-                    class="${style.popupContainer}"
-                    hidden
-                  ></ul>
-                </pw-autocomplete>
-              </div>
+          <div class="${style.search_container}">
+            <label
+              class="${style.search_label}"
+              for="pw-from-1-input"
+              id="pw-from-1-label"
+            >
+              ${texts.assistant.from}
+            </label>
+            <div
+              class="${style.search_inputContainer}"
+              aria-haspopup="listbox"
+              aria-labelledby="pw-from-1-label"
+            >
+              <pw-autocomplete for="from-popup-1">
+                <input
+                  class="${style.search_input}"
+                  aria-expanded="false"
+                  aria-autocomplete="list"
+                  autocomplete="off"
+                  id="pw-from-1-input"
+                  name="from"
+                  value=""
+                  placeholder="${texts.placeholder}"
+                />
+                <ul
+                  id="from-popup-1"
+                  role="listbox"
+                  aria-labelledby="pw-from-1-label"
+                  class="${style.popupContainer}"
+                  hidden
+                ></ul>
+              </pw-autocomplete>
             </div>
-
-            <div class="${style.search_container}">
-              <label
-                class="${style.search_label}"
-                for="pw-to-1-input"
-                id="pw-to-1-label"
-              >
-                ${texts.assistant.to}
-              </label>
-              <div
-                class="${style.search_inputContainer}"
-                aria-haspopup="listbox"
-                aria-labelledby="pw-to-1-label"
-              >
-                <pw-autocomplete for="to-popup-1">
-                  <input
-                    class="${style.search_input} ${style.search_inputLast}"
-                    aria-expanded="false"
-                    aria-autocomplete="list"
-                    autocomplete="off"
-                    id="pw-to-1-input"
-                    name="to"
-                    value=""
-                    placeholder="${texts.placeholder}"
-                  />
-                  <ul
-                    id="to-popup-1"
-                    role="listbox"
-                    aria-labelledby="pw-to-1-label"
-                    class="${style.popupContainer}"
-                    hidden
-                  ></ul>
-                </pw-autocomplete>
-              </div>
-            </div>
-            <pw-swapbutton mode="assistant">
+            <pw-geobutton mode="assistant">
               <button
-                class="${style.button_swap}"
+                class="${style.button_geolocation}"
                 title="${texts.geoButton}"
                 aria-label="${texts.geoButton}"
                 type="button"
               >
                 <img
-                  src="${URL_BASE}/assets/mono/actions/Swap.svg"
+                  src="${URL_BASE}/assets/mono/light/places/Location.svg"
                   width="20"
                   height="20"
                   role="none"
                   alt=""
                 />
               </button>
-            </pw-swapbutton>
-            <pw-messagebox></pw-messagebox>
+            </pw-geobutton>
+          </div>
+          <pw-messagebox></pw-messagebox>
+          <div class="${style.search_container}">
+            <label
+              class="${style.search_label}"
+              for="pw-to-1-input"
+              id="pw-to-1-label"
+            >
+              ${texts.assistant.to}
+            </label>
+            <div
+              class="${style.search_inputContainer}"
+              aria-haspopup="listbox"
+              aria-labelledby="pw-to-1-label"
+            >
+              <pw-autocomplete for="to-popup-1">
+                <input
+                  class="${style.search_input} ${style.search_inputLast}"
+                  aria-expanded="false"
+                  aria-autocomplete="list"
+                  autocomplete="off"
+                  id="pw-to-1-input"
+                  name="to"
+                  value=""
+                  placeholder="${texts.placeholder}"
+                />
+                <ul
+                  id="to-popup-1"
+                  role="listbox"
+                  aria-labelledby="pw-to-1-label"
+                  class="${style.popupContainer}"
+                  hidden
+                ></ul>
+              </pw-autocomplete>
+            </div>
           </div>
         </fieldset>
         ${searchTime('pw-assistant')}
@@ -733,6 +697,22 @@ function createOutput(
                 ></ul>
               </pw-autocomplete>
             </div>
+            <pw-geobutton mode="departure">
+              <button
+                class="${style.button_geolocation}"
+                title="${texts.geoButton}"
+                aria-label="${texts.geoButton}"
+                type="button"
+              >
+                <img
+                  src="${URL_BASE}/assets/mono/light/places/Location.svg"
+                  width="20"
+                  height="20"
+                  role="none"
+                  alt=""
+                />
+              </button>
+            </pw-geobutton>
           </div>
           <pw-messagebox></pw-messagebox>
         </fieldset>
@@ -1108,17 +1088,17 @@ type Languages = 'nb' | 'nn' | 'en';
 const texts: Record<Languages, Texts> = {
   nb: {
     noResults: 'Ingen resultater',
-    geoButton: 'Min posisjon',
+    geoButton: 'Finn min posisjon',
     geoTexts: {
       denied:
         'Du må endre stedsinnstillinger i nettleseren din for å bruke din posisjon i reisesøket.',
       unavailable: 'Posisjonen din er ikke tilgjengelig.',
       timeout: 'Det tok for lang tid å hente posisjonen din. Prøv på nytt.',
     },
-    searchButton: 'Reisesøk',
-    placeholder: 'Sted eller adresse',
+    searchButton: 'Finn reise',
+    placeholder: 'adresse, kai eller holdeplass',
     assistant: {
-      link: 'Reisesøk',
+      link: 'Planlegg reisen',
       title: 'Hvor vil du reise?',
       from: 'Fra',
       to: 'Til',
@@ -1139,15 +1119,15 @@ const texts: Record<Languages, Texts> = {
   },
   nn: {
     noResults: 'Ingen resultat',
-    geoButton: 'Min posisjon',
+    geoButton: 'Finn min posisjon',
     geoTexts: {
       denied:
         'Du må endre posisjonsinnstillingane i nettlesaren din for å bruke din posisjon i reisesøket.',
       unavailable: 'Posisjonen din er ikkje tilgjengeleg.',
       timeout: 'Det tok for lang tid å hente posisjonen din. Prøv på nytt.',
     },
-    searchButton: 'Reisesøk',
-    placeholder: 'Stad eller adresse',
+    searchButton: 'Finn reise',
+    placeholder: 'adresse, kai eller haldeplass',
     assistant: {
       link: 'Planlegg reisa',
       title: 'Kor vil du reise?',
@@ -1170,15 +1150,15 @@ const texts: Record<Languages, Texts> = {
   },
   en: {
     noResults: 'No results',
-    geoButton: 'My location',
+    geoButton: 'Find my position',
     geoTexts: {
       denied:
         'You must change location settings in your browser to use your position in the travel search.',
       unavailable: 'Your position is not available.',
       timeout: 'It took too long to retrieve your position. Try again.',
     },
-    searchButton: 'Journey search',
-    placeholder: 'Location or address',
+    searchButton: 'Find journey',
+    placeholder: 'address, quay, or stop',
     assistant: {
       link: 'Plan your journey',
       title: 'Where do you want to travel?',

@@ -23,9 +23,9 @@ const DeparturesInternal = {
       ),
       from: _('Fra', 'From', 'Frå'),
       placeholder: _(
-        'Sted eller adresse',
-        'Place or address',
-        'Stad eller adresse',
+        'adresse, kai eller holdeplass',
+        'address, quay or bus stop',
+        'adresse, kai eller haldeplass',
       ),
     },
     date: {

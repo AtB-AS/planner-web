@@ -93,13 +93,10 @@ a.tabSelected {
   margin: 0;
 }
 
-.searchSection {
-  composes: searchSection from assistant;
-}
-
 .search_container {
   composes: container from search;
-  background-color: token('color.background.neutral.0.background');
+  background-color: token("color.background.neutral.0.background");
+  border: 1px solid token("color.foreground.dynamic.disabled");
 }
 .search_inputContainer {
   composes: inputContainer from search;
@@ -125,8 +122,8 @@ a.tabSelected {
   border-bottom-right-radius: 0.75rem;
 }
 
-.button_swap {
-  composes: searchInputButton from assistant;
+.button_geolocation {
+  composes: geolocationButton from departures;
 }
 
 /* Selector */
@@ -286,26 +283,22 @@ a.tabSelected {
 /* Autocomplete */
 
 .listItem {
-  composes: item from search;
+  padding: token('spacing.small');
+  display: flex;
+  align-items: center;
+  gap: token('spacing.small');
 }
 .listItem:not(:last-child) {
   border-bottom: 1px solid token('color.border.primary.background');
 }
 .listItem[aria-selected='true'],
 .listItem:hover {
-  color: token('color.interactive.2.hover.foreground.primary');
-  background-color: token('color.interactive.2.hover.background');
-  outline: token('border.width.medium') solid
-    token('color.interactive.2.outline.background');
-  border-radius: token('border.radius.small');
-}
-
-.itemTitle {
-  composes: itemName from search;
+  background-color: token('color.interactive.2.active.background');
+  font-weight: bold;
 }
 
 .itemIcon {
-  composes: itemTitle from search;
+  padding: token('spacing.small');
 }
 .itemIcon img {
   display: block;
@@ -313,15 +306,14 @@ a.tabSelected {
 }
 .itemLocality {
   composes: itemLocality from search;
-}
-.itemText {
-  composes: itemInfo from search;
+  margin-left: token('spacing.small');
 }
 
 .popupContainer {
   composes: menu from search;
   left: 0;
   list-style-position: inside;
+  padding: 0;
   margin: 0;
   background-color: token('color.background.neutral.0.background');
 }
