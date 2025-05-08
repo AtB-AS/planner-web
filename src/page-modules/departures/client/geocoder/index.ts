@@ -16,7 +16,7 @@ export function useAutocomplete(
   const debouncedQuery = useDebounce(q, DEBOUNCE_TIME_AUTOCOMPLETE_IN_MS);
 
   const focusQuery = autocompleteFocusPoint
-    ? `&lat=${autocompleteFocusPoint.geometry.coordinates[0]}&lon=${autocompleteFocusPoint.geometry.coordinates[1]}`
+    ? `&lon=${autocompleteFocusPoint.geometry.coordinates[0]}&lat=${autocompleteFocusPoint.geometry.coordinates[1]}`
     : '';
 
   const layerQuery = `&onlyStopPlaces=${onlyStopPlaces}`;
