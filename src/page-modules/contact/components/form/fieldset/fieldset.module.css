@@ -2,7 +2,8 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  padding: token('spacing.large');
+  padding: token('spacing.medium');
+  padding-top: token('spacing.large');
   margin: token('spacing.large');
   margin-top: 0px;
   border: none;
@@ -19,11 +20,4 @@
 .legend {
   position: absolute;
   top: token('spacing.medium');
-}
-
-@media (max-width: 600px) {
-  .fieldset {
-    padding: token('spacing.medium');
-    padding-top: token('spacing.large');
-  }
 }

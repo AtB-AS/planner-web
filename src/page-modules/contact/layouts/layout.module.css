@@ -36,12 +36,10 @@
   gap: token('spacing.small');
   width: 12rem;
   height: 7.5rem;
-
   color: token('color.interactive.2.default.foreground.primary');
   background-color: token('color.interactive.2.default.background');
   text-align: center;
   text-decoration: none;
-
   padding: token('spacing.large');
   border-radius: token('border.radius.regular');
 }
@@ -49,6 +47,8 @@
 .contact_page_navigator__link:hover {
   color: token('color.interactive.2.hover.foreground.primary');
   background-color: token('color.interactive.2.hover.background');
+  box-shadow: inset 0 0 0 token('border.width.slim')
+    token('color.interactive.3.outline.background');
 }
 
 .contact_page_navigator__link:active {
