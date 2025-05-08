@@ -114,6 +114,7 @@ const setInputsToValidate = (context: TicketingContextType) => {
         ...commonAppFields,
         orderId,
         phoneNumber,
+        ...(customerNumber && { customerNumber }),
       };
 
     case FormType.AppTravelSuggestion:
@@ -140,10 +141,19 @@ const setInputsToValidate = (context: TicketingContextType) => {
       };
 
     case FormType.WebshopTicketing:
-      return { formType, orderId, question, ...(!customerNumber && { email }) };
+      return {
+        formType,
+        orderId,
+        question,
+        ...(customerNumber ? { customerNumber } : { email }),
+      };
 
     case FormType.WebshopAccount:
-      return { formType, question, ...(!customerNumber && { email }) };
+      return {
+        formType,
+        question,
+        ...(customerNumber ? { customerNumber } : { email }),
+      };
   }
 };
 
