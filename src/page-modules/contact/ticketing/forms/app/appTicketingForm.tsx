@@ -76,6 +76,7 @@ export const AppTicketingForm = ({ state, send }: AppTicketingFormProps) => {
           type="text"
           name="customerNumber"
           value={state.context.customerNumber || ''}
+          errorMessage={state.context?.errorMessages['customerNumber']?.[0]}
           onChange={(e) =>
             send({
               type: 'ON_INPUT_CHANGE',

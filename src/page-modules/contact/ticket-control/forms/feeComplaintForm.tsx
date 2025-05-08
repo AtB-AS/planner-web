@@ -203,9 +203,12 @@ const FormContent = ({ state, send }: FormProps) => {
           <Input
             id="travelCardNumber"
             label={t(PageText.Contact.input.travelCardNumber.label)}
-            type="number"
+            type="text"
             name="travelCardNumber"
             value={state.context.travelCardNumber || ''}
+            modalContent={{
+              description: t(PageText.Contact.input.travelCardNumber.info),
+            }}
             isRequired
             errorMessage={state.context.errorMessages['travelCardNumber']?.[0]}
             onChange={(e) =>
@@ -303,7 +306,7 @@ const FormContent = ({ state, send }: FormProps) => {
         <Input
           id="postalCode"
           label={t(PageText.Contact.input.postalCode.label)}
-          type="number"
+          type="text"
           autoComplete="postal-code"
           name="postalCode"
           value={state.context.postalCode || ''}
