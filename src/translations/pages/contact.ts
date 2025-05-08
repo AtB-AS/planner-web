@@ -1315,9 +1315,9 @@ const ContactInternal = {
           'Fyll inn kundenummer',
         ),
         invalidFormat: _(
-          'Ugyldig kundenummer. Skriv inn et gyldig 7-siffered nummer.',
+          'Ugyldig kundenummer. Skriv inn et gyldig kundenummer med 7 siffer.',
           'Invalid customer number. Please enter a valid 7-digit number.',
-          'Ugyldig kundenummer. Skriv inn eit gyldig 7-siffered nummer.',
+          'Ugyldig kundenummer. Skriv inn eit gyldig kundenummer med 7 siffer.',
         ),
       },
     },
@@ -1337,9 +1337,9 @@ const ContactInternal = {
           'Legg til reisekortnummer',
         ),
         invalidFormat: _(
-          'Ugyldig reisekortnummer. Skriv inn et gyldig 9-siffered nummer.',
+          'Ugyldig reisekortnummer. Skriv inn et gyldig reisekortnummer med 9 siffer.',
           'Invalid travel card number. Please enter a valid 9-digit number.',
-          'Ugyldig reisekortnummer. Skriv inn eit gyldig 9-siffered nummer.',
+          'Ugyldig reisekortnummer. Skriv inn eit gyldig reisekortnummer med 9 siffer.',
         ),
       },
     },
