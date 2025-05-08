@@ -713,9 +713,9 @@ const ContactInternal = {
               'Periodebillett 30 dagar: Du får refusjon for antall resterande døgn.',
             ),
             _(
-              'Fylkesbillettene FRAM Ung, FRAM Student, FRAM Vaksen og FRAM Honnør: Du får refusjon for antall resterende døgn.',
-              'The county tickets FRAM Ung, FRAM Student, FRAM Vaksen and FRAM Honnør: You will receive a refund for numbers remaining on the day.',
-              'Fylkesbillettane FRAM Ung, FRAM Student, FRAM Vaksen og FRAM Honnør: Du får refusjon for antall resterande døgn. ',
+              'Periodebillettene for hele fylket: Du får refusjon for antall resterende døgn.',
+              'The period tickets for the entire county: You will receive a refund for numbers remaining on the day.',
+              'Periodebillettane for heile fylket: Du får refusjon for antall resterande døgn. ',
             ),
             _(
               'Reisekort: Du får tilbakebetalt verdien som gjenstår på reisekortet. ',
