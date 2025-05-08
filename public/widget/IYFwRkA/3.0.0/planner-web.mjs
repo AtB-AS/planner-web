@@ -1,6 +1,6 @@
-class R {
-  constructor(e, n, { tabInsertsSuggestions: i, firstOptionSelectionMode: s, scrollIntoViewOptions: a } = {}) {
-    this.input = e, this.list = n, this.tabInsertsSuggestions = i ?? !0, this.firstOptionSelectionMode = s ?? "none", this.scrollIntoViewOptions = a ?? { block: "nearest", inline: "nearest" }, this.isComposing = !1, n.id || (n.id = `combobox-${Math.random().toString().slice(2, 6)}`), this.ctrlBindings = !!navigator.userAgent.match(/Macintosh/), this.keyboardEventHandler = (c) => W(c, this), this.compositionEventHandler = (c) => V(c, this), this.inputHandler = this.clearSelection.bind(this), e.setAttribute("role", "combobox"), e.setAttribute("aria-controls", n.id), e.setAttribute("aria-expanded", "false"), e.setAttribute("aria-autocomplete", "list"), e.setAttribute("aria-haspopup", "listbox");
+class H {
+  constructor(e, o, { tabInsertsSuggestions: i, firstOptionSelectionMode: a, scrollIntoViewOptions: s } = {}) {
+    this.input = e, this.list = o, this.tabInsertsSuggestions = i ?? !0, this.firstOptionSelectionMode = a ?? "none", this.scrollIntoViewOptions = s ?? { block: "nearest", inline: "nearest" }, this.isComposing = !1, o.id || (o.id = `combobox-${Math.random().toString().slice(2, 6)}`), this.ctrlBindings = !!navigator.userAgent.match(/Macintosh/), this.keyboardEventHandler = (c) => N(c, this), this.compositionEventHandler = (c) => R(c, this), this.inputHandler = this.clearSelection.bind(this), e.setAttribute("role", "combobox"), e.setAttribute("aria-controls", o.id), e.setAttribute("aria-expanded", "false"), e.setAttribute("aria-autocomplete", "list"), e.setAttribute("aria-haspopup", "listbox");
   }
   destroy() {
     this.clearSelection(), this.stop(), this.input.removeAttribute("role"), this.input.removeAttribute("aria-controls"), this.input.removeAttribute("aria-expanded"), this.input.removeAttribute("aria-autocomplete"), this.input.removeAttribute("aria-haspopup");
@@ -13,23 +13,23 @@ class R {
   }
   indicateDefaultOption() {
     var e;
-    this.firstOptionSelectionMode === "active" ? (e = Array.from(this.list.querySelectorAll('[role="option"]:not([aria-disabled="true"])')).filter(L)[0]) === null || e === void 0 || e.setAttribute("data-combobox-option-default", "true") : this.firstOptionSelectionMode === "selected" && this.navigate(1);
+    this.firstOptionSelectionMode === "active" ? (e = Array.from(this.list.querySelectorAll('[role="option"]:not([aria-disabled="true"])')).filter(T)[0]) === null || e === void 0 || e.setAttribute("data-combobox-option-default", "true") : this.firstOptionSelectionMode === "selected" && this.navigate(1);
   }
   navigate(e = 1) {
-    const n = Array.from(this.list.querySelectorAll('[aria-selected="true"]')).filter(L)[0], i = Array.from(this.list.querySelectorAll('[role="option"]')).filter(L), s = i.indexOf(n);
-    if (s === i.length - 1 && e === 1 || s === 0 && e === -1) {
+    const o = Array.from(this.list.querySelectorAll('[aria-selected="true"]')).filter(T)[0], i = Array.from(this.list.querySelectorAll('[role="option"]')).filter(T), a = i.indexOf(o);
+    if (a === i.length - 1 && e === 1 || a === 0 && e === -1) {
       this.clearSelection(), this.input.focus();
       return;
     }
-    let a = e === 1 ? 0 : i.length - 1;
-    if (n && s >= 0) {
-      const _ = s + e;
-      _ >= 0 && _ < i.length && (a = _);
+    let s = e === 1 ? 0 : i.length - 1;
+    if (o && a >= 0) {
+      const m = a + e;
+      m >= 0 && m < i.length && (s = m);
     }
-    const c = i[a];
+    const c = i[s];
     if (c)
-      for (const _ of i)
-        _.removeAttribute("data-combobox-option-default"), c === _ ? (this.input.setAttribute("aria-activedescendant", c.id), c.setAttribute("aria-selected", "true"), G(c), c.scrollIntoView(this.scrollIntoViewOptions)) : _.removeAttribute("aria-selected");
+      for (const m of i)
+        m.removeAttribute("data-combobox-option-default"), c === m ? (this.input.setAttribute("aria-activedescendant", c.id), c.setAttribute("aria-selected", "true"), x(c), c.scrollIntoView(this.scrollIntoViewOptions)) : m.removeAttribute("aria-selected");
   }
   clearSelection() {
     this.input.removeAttribute("aria-activedescendant");
@@ -40,14 +40,14 @@ class R {
     this.clearSelection(), this.indicateDefaultOption();
   }
 }
-function W(t, e) {
+function N(t, e) {
   if (!(t.shiftKey || t.metaKey || t.altKey) && !(!e.ctrlBindings && t.ctrlKey) && !e.isComposing)
     switch (t.key) {
       case "Enter":
-        M(e.input, e.list) && t.preventDefault();
+        I(e.input, e.list) && t.preventDefault();
         break;
       case "Tab":
-        e.tabInsertsSuggestions && M(e.input, e.list) && t.preventDefault();
+        e.tabInsertsSuggestions && I(e.input, e.list) && t.preventDefault();
         break;
       case "Escape":
         e.clearSelection();
@@ -74,115 +74,112 @@ function C(t) {
   if (!(t.target instanceof Element))
     return;
   const e = t.target.closest('[role="option"]');
-  e && e.getAttribute("aria-disabled") !== "true" && O(e, { event: t });
+  e && e.getAttribute("aria-disabled") !== "true" && M(e, { event: t });
+}
+function I(t, e) {
+  const o = e.querySelector('[aria-selected="true"], [data-combobox-option-default="true"]');
+  return o ? (o.getAttribute("aria-disabled") === "true" || M(o), !0) : !1;
 }
 function M(t, e) {
-  const n = e.querySelector('[aria-selected="true"], [data-combobox-option-default="true"]');
-  return n ? (n.getAttribute("aria-disabled") === "true" || O(n), !0) : !1;
-}
-function O(t, e) {
   t.dispatchEvent(new CustomEvent("combobox-commit", { bubbles: !0, detail: e }));
 }
-function G(t) {
+function x(t) {
   t.dispatchEvent(new Event("combobox-select", { bubbles: !0 }));
 }
-function L(t) {
+function T(t) {
   return !t.hidden && !(t instanceof HTMLInputElement && t.type === "hidden") && (t.offsetWidth > 0 || t.offsetHeight > 0);
 }
-function V(t, e) {
+function R(t, e) {
   e.isComposing = t.type === "compositionstart", document.getElementById(e.input.getAttribute("aria-controls") || "") && e.clearSelection();
 }
-const K = '"../page-modules/assistant/assistant.module.css"', U = '"../page-modules/departures/departures.module.css"', Q = '"../components/search/search.module.css"', J = '"../modules/search-time/selector/selector.module.css"', Y = '"../components/button/button.module.css"', z = "widget-module__hidden", X = "widget-module__wrapper", Z = "widget-module__form assistant-module__container", ee = "widget-module__nav", te = "widget-module__tabs", oe = "widget-module__tabSelected", ne = "widget-module__main assistant-module__main", ie = "widget-module__heading assistant-module__heading", se = "widget-module__inputBoxes", ae = "widget-module__searchSection assistant-module__searchSection", re = "widget-module__search_container search-module__container", le = "widget-module__search_inputContainer search-module__inputContainer", ce = "widget-module__search_label search-module__label typography-module__typo-body__secondary", ue = "widget-module__search_input search-module__input", de = "widget-module__search_inputLast", pe = "widget-module__button_swap assistant-module__searchInputButton", me = "widget-module__selector_group selector-module__departureDateSelector", _e = "widget-module__selector_options selector-module__options", he = "widget-module__selector_options__small selector-module__options", fe = "widget-module__selector_option selector-module__option", ge = "widget-module__selector_option__text selector-module__option__text", be = "widget-module__selector_option__label selector-module__option__label", ve = "widget-module__selector_option__input selector-module__option__input", we = "widget-module__selector_dateAndTimeSelectorsWrapper selector-module__dateAndTimeSelectorsWrapper", ye = "widget-module__selector_dateAndTimeSelectorsWrapper__hidden", $e = "widget-module__selector_dateAndTimeSelectors selector-module__dateAndTimeSelectors", Se = "widget-module__selector_dateSelector selector-module__dateSelector", Ee = "widget-module__selector_timeSelector selector-module__timeSelector", Te = "widget-module__buttonGroup", Le = "widget-module__button", Ae = "widget-module__buttonLightOutline", ke = "widget-module__listItem search-module__item", Ie = "widget-module__itemTitle search-module__itemName", Ce = "widget-module__itemIcon undefined", Me = "widget-module__itemLocality search-module__itemLocality typography-module__typo-body__secondary", De = "widget-module__itemText search-module__itemInfo", Oe = "widget-module__popupContainer search-module__menu", Be = "widget-module__messageBox", xe = "widget-module__inheritFont", Pe = "widget-module__singleColumnLayout", o = {
-  assistant: K,
-  departures: U,
-  search: Q,
-  selector: J,
-  buttonComponent: Y,
-  hidden: z,
-  wrapper: X,
-  form: Z,
-  nav: ee,
-  tabs: te,
-  tabSelected: oe,
-  main: ne,
-  heading: ie,
-  inputBoxes: se,
-  searchSection: ae,
-  search_container: re,
-  search_inputContainer: le,
-  search_label: ce,
-  search_input: ue,
-  search_inputLast: de,
-  button_swap: pe,
-  selector_group: me,
-  selector_options: _e,
-  selector_options__small: he,
-  selector_option: fe,
-  selector_option__text: ge,
-  selector_option__label: be,
-  selector_option__input: ve,
-  selector_dateAndTimeSelectorsWrapper: we,
-  selector_dateAndTimeSelectorsWrapper__hidden: ye,
-  selector_dateAndTimeSelectors: $e,
-  selector_dateSelector: Se,
-  selector_timeSelector: Ee,
-  buttonGroup: Te,
-  button: Le,
-  buttonLightOutline: Ae,
+const W = '"../page-modules/assistant/assistant.module.css"', G = '"../page-modules/departures/departures.module.css"', K = '"../components/search/search.module.css"', U = '"../modules/search-time/selector/selector.module.css"', V = '"../components/button/button.module.css"', Q = "widget-module__hidden", Y = "widget-module__wrapper", J = "widget-module__form assistant-module__container", z = "widget-module__nav", X = "widget-module__tabs", Z = "widget-module__tabSelected", ee = "widget-module__main assistant-module__main", te = "widget-module__heading assistant-module__heading", oe = "widget-module__inputBoxes", ne = "widget-module__search_container search-module__container", ie = "widget-module__search_inputContainer search-module__inputContainer", ae = "widget-module__search_label search-module__label typography-module__typo-body__secondary", se = "widget-module__search_input search-module__input", re = "widget-module__search_inputLast", le = "widget-module__button_geolocation departures-module__geolocationButton", ce = "widget-module__selector_group selector-module__departureDateSelector", ue = "widget-module__selector_options selector-module__options", de = "widget-module__selector_options__small selector-module__options", pe = "widget-module__selector_option selector-module__option", me = "widget-module__selector_option__text selector-module__option__text", he = "widget-module__selector_option__label selector-module__option__label", _e = "widget-module__selector_option__input selector-module__option__input", ge = "widget-module__selector_dateAndTimeSelectorsWrapper selector-module__dateAndTimeSelectorsWrapper", fe = "widget-module__selector_dateAndTimeSelectorsWrapper__hidden", be = "widget-module__selector_dateAndTimeSelectors selector-module__dateAndTimeSelectors", ve = "widget-module__selector_dateSelector selector-module__dateSelector", we = "widget-module__selector_timeSelector selector-module__timeSelector", ye = "widget-module__buttonGroup", $e = "widget-module__button", Se = "widget-module__buttonLightOutline", Ee = "widget-module__listItem", Te = "widget-module__itemIcon", Le = "widget-module__itemLocality search-module__itemLocality typography-module__typo-body__secondary", Ae = "widget-module__popupContainer search-module__menu", ke = "widget-module__messageBox", Ce = "widget-module__inheritFont", Ie = "widget-module__singleColumnLayout", n = {
+  assistant: W,
+  departures: G,
+  search: K,
+  selector: U,
+  buttonComponent: V,
+  hidden: Q,
+  wrapper: Y,
+  form: J,
+  nav: z,
+  tabs: X,
+  tabSelected: Z,
+  main: ee,
+  heading: te,
+  inputBoxes: oe,
+  search_container: ne,
+  search_inputContainer: ie,
+  search_label: ae,
+  search_input: se,
+  search_inputLast: re,
+  button_geolocation: le,
+  selector_group: ce,
+  selector_options: ue,
+  selector_options__small: de,
+  selector_option: pe,
+  selector_option__text: me,
+  selector_option__label: he,
+  selector_option__input: _e,
+  selector_dateAndTimeSelectorsWrapper: ge,
+  selector_dateAndTimeSelectorsWrapper__hidden: fe,
+  selector_dateAndTimeSelectors: be,
+  selector_dateSelector: ve,
+  selector_timeSelector: we,
+  buttonGroup: ye,
+  button: $e,
+  buttonLightOutline: Se,
   "button--disabled": "widget-module__button--disabled",
-  listItem: ke,
-  itemTitle: Ie,
-  itemIcon: Ce,
-  itemLocality: Me,
-  itemText: De,
-  popupContainer: Oe,
-  messageBox: Be,
-  inheritFont: xe,
-  singleColumnLayout: Pe
+  listItem: Ee,
+  itemIcon: Te,
+  itemLocality: Le,
+  popupContainer: Ae,
+  messageBox: ke,
+  inheritFont: Ce,
+  singleColumnLayout: Ie
 };
-function je(t) {
-  return Object.entries(t).reduce(function(e, n) {
-    return n[1] ? e + " " + n[0] : e;
+function De(t) {
+  return Object.entries(t).reduce(function(e, o) {
+    return o[1] ? e + " " + o[0] : e;
   }, "");
 }
-var B = { MODULE_VERSION: "3.0.0", COMPRESSED_ORG: "IYFwRkA", ORG_ID: "atb" };
-const He = 300, $ = String.raw, A = B.MODULE_VERSION, k = B.COMPRESSED_ORG;
-function qe(t) {
+var O = { MODULE_VERSION: "3.0.0", COMPRESSED_ORG: "IYFwRkA", ORG_ID: "atb" };
+const Me = 300, y = String.raw, L = O.MODULE_VERSION, A = O.COMPRESSED_ORG;
+function Oe(t) {
   if (!(t != null && t.startsWith("http")))
     throw new Error("Missing urlBase in correct schema.");
   return t.endsWith("/") || (t += "/"), {
     URL_BASE: t,
-    URL_JS_UMD: `${t}widget/${k}/${A}/planner-web.umd.js`,
-    URL_JS_ESM: `${t}widget/${k}/${A}/planner-web.mjs`,
-    URL_CSS: `${t}widget/${k}/${A}/planner-web.css`
+    URL_JS_UMD: `${t}widget/${A}/${L}/planner-web.umd.js`,
+    URL_JS_ESM: `${t}widget/${A}/${L}/planner-web.mjs`,
+    URL_CSS: `${t}widget/${A}/${L}/planner-web.css`
   };
 }
-function at({
+function et({
   urlBase: t,
   language: e = "en",
-  outputOverrideOptions: n = {}
+  outputOverrideOptions: o = {}
 }) {
-  const i = it(e), s = qe(t), a = {
+  const i = Xe(e), a = Oe(t), s = {
     inheritFont: !1,
     singleColumnLayout: !1,
-    ...n
+    ...o
   };
   return {
-    output: We(s, i, a),
-    init: Fe,
-    urls: s
+    output: je(a, i, s),
+    init: Be,
+    urls: a
   };
 }
-function Fe() {
-  var e, n;
-  Ge(), D("pw-assistant"), D("pw-departures");
+function Be() {
+  var e, o;
+  qe(), D("pw-assistant"), D("pw-departures");
   let t = {
     from: void 0,
     to: void 0
   };
   document.addEventListener("search-selected", function(i) {
-    const s = i;
-    t[s.detail.key] = s.detail.item;
+    const a = i;
+    t[a.detail.key] = a.detail.item;
   }), document.addEventListener("reset-search", function() {
     t = {
       from: void 0,
@@ -192,56 +189,50 @@ function Fe() {
     ).forEach((i) => {
       i.value = "";
     });
-  }), document.addEventListener("swap-selected", function() {
-    const i = t.from;
-    t = {
-      from: t.to,
-      to: i
-    };
   }), document.querySelectorAll("[name$=searchTimeSelector]").forEach(function(i) {
-    i.addEventListener("change", function(s) {
-      const c = s.currentTarget.value === "now";
-      document.querySelectorAll(".js-search-date-details").forEach((_) => {
-        _.hidden = c;
+    i.addEventListener("change", function(a) {
+      const c = a.currentTarget.value === "now";
+      document.querySelectorAll(".js-search-date-details").forEach((m) => {
+        m.hidden = c;
       });
     });
   }), (e = document.querySelector("#pw-form-departures")) == null || e.addEventListener("submit", (i) => {
     i.preventDefault();
-    const s = i.currentTarget;
-    Re(s, t.from);
-  }), (n = document.querySelector("#pw-form-assistant")) == null || n.addEventListener("submit", (i) => {
+    const a = i.currentTarget;
+    Pe(a, t.from);
+  }), (o = document.querySelector("#pw-form-assistant")) == null || o.addEventListener("submit", (i) => {
     i.preventDefault();
-    const s = i.currentTarget;
-    Ne(s, t.from, t.to);
+    const a = i.currentTarget;
+    Fe(a, t.from, t.to);
   });
 }
 function D(t) {
   const e = document.querySelector(
     `#${t}-searchTimeSelector-date`
-  ), n = document.querySelector(
+  ), o = document.querySelector(
     `#${t}-searchTimeSelector-time`
   );
   try {
-    if (e && (e.valueAsDate = /* @__PURE__ */ new Date()), n) {
-      const i = /* @__PURE__ */ new Date(), s = String(i.getHours()).padStart(2, "0"), a = String(i.getMinutes()).padStart(2, "0");
-      n.value = `${s}:${a}`;
+    if (e && (e.valueAsDate = /* @__PURE__ */ new Date()), o) {
+      const i = /* @__PURE__ */ new Date(), a = String(i.getHours()).padStart(2, "0"), s = String(i.getMinutes()).padStart(2, "0");
+      o.value = `${a}:${s}`;
     }
   } catch {
   }
 }
-function x(t, e) {
-  const n = t.get(`${e}-searchTimeSelector`);
-  if (n === "now")
+function B(t, e) {
+  const o = t.get(`${e}-searchTimeSelector`);
+  if (o === "now")
     return {
       mode: "now"
     };
   {
-    const i = t.get("dateinput"), s = t.get("timeinput");
-    if (i && s) {
-      const a = /* @__PURE__ */ new Date(`${i}T${s}`);
+    const i = t.get("dateinput"), a = t.get("timeinput");
+    if (i && a) {
+      const s = /* @__PURE__ */ new Date(`${i}T${a}`);
       return {
-        mode: n == "arriveBy" ? "arriveBy" : "departBy",
-        dateTime: a.getTime()
+        mode: o == "arriveBy" ? "arriveBy" : "departBy",
+        dateTime: s.getTime()
       };
     }
     return {
@@ -249,27 +240,27 @@ function x(t, e) {
     };
   }
 }
-function Ne(t, e, n) {
-  const i = t.action, s = x(new FormData(t), "pw-assistant"), a = ze({ from: e, to: n }, s), c = new URLSearchParams(a);
+function Fe(t, e, o) {
+  const i = t.action, a = B(new FormData(t), "pw-assistant"), s = Ke({ from: e, to: o }, a), c = new URLSearchParams(s);
   window.location.href = `${i}?${c.toString()}`;
 }
-function Re(t, e) {
-  const n = t.action, i = x(new FormData(t), "pw-departures"), s = Xe(i, e), a = new URLSearchParams(s);
-  (e == null ? void 0 : e.layer) === "venue" ? window.location.href = `${n}/${e.id}?${a.toString()}` : window.location.href = `${n}?${a.toString()}`;
+function Pe(t, e) {
+  const o = t.action, i = B(new FormData(t), "pw-departures"), a = Ue(i, e), s = new URLSearchParams(a);
+  (e == null ? void 0 : e.layer) === "venue" ? window.location.href = `${o}/${e.id}?${s.toString()}` : window.location.href = `${o}?${s.toString()}`;
 }
-class S extends HTMLElement {
+class E extends HTMLElement {
   constructor() {
     super();
   }
   connectedCallback() {
     const e = this;
-    e.hidden = !0, e.classList.add(o.messageBox), document.addEventListener("pw-errorMessage", function(n) {
-      const i = n;
+    e.hidden = !0, e.classList.add(n.messageBox), document.addEventListener("pw-errorMessage", function(o) {
+      const i = o;
       e.textContent = i.detail.message, e.hidden = !1;
-    }), document.addEventListener("pw-errorMessage-clear", function(n) {
+    }), document.addEventListener("pw-errorMessage-clear", function(o) {
       e.hidden = !0;
     }), e.addEventListener("click", function() {
-      S.clearMessageBox();
+      E.clearMessageBox();
     });
   }
   static clearMessageBox() {
@@ -280,37 +271,56 @@ class S extends HTMLElement {
     );
   }
 }
-function We({ URL_BASE: t }, e, n) {
-  function i(l) {
-    const u = a(l), h = f("span", [l.name], o.itemTitle), p = f("span", [l.locality ?? ""], o.itemLocality), m = f("div", [h, p], o.itemText), v = f("li", [u, m], o.listItem);
-    return v.role = "option", v.setAttribute("data-feature-id", l.id), v;
+function je({ URL_BASE: t }, e, o) {
+  function i(r) {
+    const u = s(r), h = v("span", [r.name]), d = v("span", [r.locality ?? ""], n.itemLocality), l = v("li", [u, h, d], n.listItem);
+    return l.role = "option", l.setAttribute("data-feature-id", r.id), l;
   }
-  function s(l) {
-    const u = f("span", [l]);
-    return f("li", [u], o.listItem);
+  function a(r) {
+    const u = v("span", [r]);
+    return v("li", [u], n.listItem);
   }
-  function a(l) {
-    const u = Ue(l.category), h = f("img");
+  function s(r) {
+    const u = xe(r.category), h = v("img");
     h.src = `${t}assets/mono/light/${u.icon}.svg`, h.alt = u.alt, h.role = "img";
-    const p = f("div", [h], o.itemIcon);
-    return p.ariaHidden = "true", p;
+    const d = v("div", [h], n.itemIcon);
+    return d.ariaHidden = "true", d;
   }
   class c extends HTMLElement {
     constructor() {
       super();
     }
     connectedCallback() {
+      const u = this;
       this.querySelector("button").addEventListener("click", async () => {
-        S.clearMessageBox();
-        const h = document.getElementsByClassName(
-          "widget-module__search_input"
-        ), [p, m] = Array.from(h);
-        [p.value, m.value] = [m.value, p.value], document.dispatchEvent(new CustomEvent("swap-selected"));
+        var d;
+        E.clearMessageBox();
+        try {
+          const l = await Ye(t, e), g = (d = u.parentElement) == null ? void 0 : d.querySelector("input");
+          g && (g.value = l ? `${l.name}, ${l.locality}` : g.value), document.dispatchEvent(
+            new CustomEvent("search-selected", {
+              bubbles: !0,
+              detail: {
+                key: "from",
+                item: l
+              }
+            })
+          );
+        } catch (l) {
+          l instanceof Error && document.dispatchEvent(
+            new CustomEvent("pw-errorMessage", {
+              bubbles: !0,
+              detail: {
+                message: l.message
+              }
+            })
+          );
+        }
       });
     }
   }
-  customElements.define("pw-swapbutton", c), customElements.define("pw-messagebox", S);
-  class _ extends HTMLElement {
+  customElements.define("pw-geobutton", c), customElements.define("pw-messagebox", E);
+  class m extends HTMLElement {
     constructor() {
       super(), this.dataList = {};
     }
@@ -323,162 +333,126 @@ function We({ URL_BASE: t }, e, n) {
         this.dataList[h.id] = h;
     }
     connectedCallback() {
-      const u = this, h = Ke(
+      const u = this, h = Ne(
         this.getAttribute("data-debounce-ms"),
-        He
-      ), p = this.querySelector("input"), m = this.querySelector(
+        Me
+      ), d = this.querySelector("input"), l = this.querySelector(
         "#" + this.getAttribute("for")
       );
-      let v = new R(p, m, {
+      let g = new H(d, l, {
         tabInsertsSuggestions: !0,
         scrollIntoViewOptions: !1
       });
-      const q = function() {
-        const r = f("img");
-        r.src = `${t}assets/mono/places/Location.svg`, r.role = "img";
-        const d = f("div", [r], o.itemIcon);
-        r.ariaHidden = "true";
-        const g = f("span", [e.geoButton], o.itemTitle), y = f("div", [g], o.itemText), T = f("li", [d, y], o.listItem);
-        return T.classList.add("itemLocation"), T.role = "option", T;
-      };
-      function w(r) {
-        const d = q();
-        r ? (m.appendChild(d), v.start()) : (m.innerHTML = "", v.clearSelection(), v.stop()), m.hidden = !r;
+      function w(p) {
+        p ? g.start() : (g.clearSelection(), g.stop()), l.hidden = !p;
       }
-      function I() {
-        u.setItems([]), m.innerHTML = "";
-        const r = s(e.noResults);
-        m.appendChild(r), w(!0);
+      function k() {
+        u.setItems([]), l.innerHTML = "";
+        const p = a(e.noResults);
+        l.appendChild(p), w(!0);
       }
-      const F = Ve(async (r) => {
+      const q = He(async (p) => {
         try {
-          if (!r.value) {
-            m.innerHTML = "";
+          if (!p.value) {
+            l.innerHTML = "";
             return;
           }
-          const d = await Ze(t, r.value);
-          if (d.length === 0)
-            return I();
-          u.setItems(d), m.innerHTML = "";
-          for (let g of d) {
-            const y = i(g);
-            m.appendChild(y);
+          const f = await Ve(t, p.value);
+          if (f.length === 0)
+            return k();
+          u.setItems(f), l.innerHTML = "";
+          for (let b of f) {
+            const S = i(b);
+            l.appendChild(S);
           }
           w(!0);
         } catch {
-          I();
+          k();
         }
       }, h);
-      p.addEventListener("keydown", (r) => {
-        r.key === "Escape" && w(!1);
-      }), p.addEventListener(
+      d.addEventListener("keydown", (p) => {
+        p.key === "Escape" && w(!1);
+      }), d.addEventListener(
         "input",
-        (r) => F(r.target)
-      ), p.addEventListener("focus", () => w(!0)), p.addEventListener("blur", () => w(!1)), document.addEventListener("click", (r) => {
-        P(r.target, this) || w(!1);
-      });
-      const N = async function() {
-        var r;
-        S.clearMessageBox();
-        try {
-          const d = await tt(t, e), g = (r = u.parentElement) == null ? void 0 : r.querySelector("input");
-          g && (g.value = d ? `${d.name}` : g.value), document.dispatchEvent(
-            new CustomEvent("search-selected", {
-              bubbles: !0,
-              detail: {
-                key: "from",
-                item: d
-              }
-            })
-          );
-        } catch (d) {
-          d instanceof Error && document.dispatchEvent(
-            new CustomEvent("pw-errorMessage", {
-              bubbles: !0,
-              detail: {
-                message: d.message
-              }
-            })
-          );
-        }
-      };
-      m.addEventListener("combobox-commit", function(r) {
-        r.target.classList.contains("itemLocation") && N();
-        const d = r.target.getAttribute(
+        (p) => q(p.target)
+      ), d.addEventListener("focus", () => w(!0)), d.addEventListener("blur", () => w(!1)), document.addEventListener("click", (p) => {
+        F(p.target, this) || w(!1);
+      }), l.addEventListener("combobox-commit", function(p) {
+        const f = p.target.getAttribute(
           "data-feature-id"
-        ), g = d ? u.getItem(d) : void 0;
-        let y = p.value;
-        g && (y = `${g.name}`), p.value = y, document.dispatchEvent(
+        ), b = f ? u.getItem(f) : void 0;
+        let S = d.value;
+        b && (S = `${b.name}`, b.locality && (S += `, ${b.locality}`)), d.value = S, document.dispatchEvent(
           new CustomEvent("search-selected", {
             bubbles: !0,
             detail: {
-              key: p.name,
-              item: g
+              key: d.name,
+              item: b
             }
           })
-        ), m.hidden = !0, v.clearSelection(), v.stop();
+        ), l.hidden = !0, g.clearSelection(), g.stop();
       });
     }
   }
-  customElements.define("pw-autocomplete", _);
-  const E = $`
-    <div class="${o.buttonGroup}">
+  customElements.define("pw-autocomplete", m);
+  const $ = y`
+    <div class="${n.buttonGroup}">
       <button
         type="submit"
-        class="${o.button}"
+        class="${n.button}"
       >
         <span>${e.searchButton}</span>
       </button>
     </div>
-  `, b = (l, u = !0) => $`
-    <fieldset class="${o.inputBoxes}">
-      <legend class="${o.heading}">${e.searchTime.title}</legend>
+  `, _ = (r, u = !0) => y`
+    <fieldset class="${n.inputBoxes}">
+      <legend class="${n.heading}">${e.searchTime.title}</legend>
       <div>
         <div
-          class="${o.selector_options} ${u ? "" : o.selector_options__small}"
+          class="${n.selector_options} ${u ? "" : n.selector_options__small}"
         >
-          <label class="${o.selector_option}">
+          <label class="${n.selector_option}">
             <input
               type="radio"
-              name="${l}-searchTimeSelector"
-              class="${o.selector_option__input}"
+              name="${r}-searchTimeSelector"
+              class="${n.selector_option__input}"
               value="now"
               checked=""
             />
-            <span class="${o.selector_option__label}">
-              <span class="${o.selector_option__text}" id="${l}-now">
+            <span class="${n.selector_option__label}">
+              <span class="${n.selector_option__text}" id="${r}-now">
                 ${e.searchTime.now}
               </span>
             </span>
           </label>
-          <label class="${o.selector_option}">
+          <label class="${n.selector_option}">
             <input
               type="radio"
-              name="${l}-searchTimeSelector"
-              class="${o.selector_option__input}"
+              name="${r}-searchTimeSelector"
+              class="${n.selector_option__input}"
               value="departBy"
             />
-            <span class="${o.selector_option__label}">
+            <span class="${n.selector_option__label}">
               <span
-                class="${o.selector_option__text}"
-                id="${l}-depart"
+                class="${n.selector_option__text}"
+                id="${r}-depart"
               >
                 ${e.searchTime.depart}
               </span>
             </span>
           </label>
-          ${u ? $`
-                <label class="${o.selector_option}">
+          ${u ? y`
+                <label class="${n.selector_option}">
                   <input
                     type="radio"
-                    name="${l}-searchTimeSelector"
-                    class="${o.selector_option__input}"
+                    name="${r}-searchTimeSelector"
+                    class="${n.selector_option__input}"
                     value="arriveBy"
                   />
-                  <span class="${o.selector_option__label}">
+                  <span class="${n.selector_option__label}">
                     <span
-                      class="${o.selector_option__text}"
-                      id="${l}-arrival"
+                      class="${n.selector_option__text}"
+                      id="${r}-arrival"
                     >
                       ${e.searchTime.arrive}
                     </span>
@@ -487,165 +461,162 @@ function We({ URL_BASE: t }, e, n) {
               ` : ""}
         </div>
         <div
-          class="${o.selector_dateAndTimeSelectorsWrapper} js-search-date-details"
+          class="${n.selector_dateAndTimeSelectorsWrapper} js-search-date-details"
           hidden
         >
-          <div class="${o.selector_dateAndTimeSelectors}">
-            <div class="${o.selector_dateSelector}">
-              <label for="${`${l}-searchTimeSelector-date`}">
+          <div class="${n.selector_dateAndTimeSelectors}">
+            <div class="${n.selector_dateSelector}">
+              <label for="${`${r}-searchTimeSelector-date`}">
                 ${e.searchTime.date}
               </label>
               <input
                 type="date"
                 name="dateinput"
-                id="${`${l}-searchTimeSelector-date`}"
+                id="${`${r}-searchTimeSelector-date`}"
               />
             </div>
-            <div class="${o.selector_timeSelector}">
-              <label for="${`${l}-searchTimeSelector-time`}">
+            <div class="${n.selector_timeSelector}">
+              <label for="${`${r}-searchTimeSelector-time`}">
                 ${e.searchTime.time}
               </label>
               <input
                 type="time"
                 name="timeinput"
                 step="60"
-                id="${`${l}-searchTimeSelector-time`}"
+                id="${`${r}-searchTimeSelector-time`}"
               />
             </div>
           </div>
         </div>
       </div>
     </fieldset>
-  `, j = $`
+  `, P = y`
     <form
-      class="${o.form}"
+      class="${n.form}"
       action="${t}/assistant"
       id="pw-form-assistant"
       method="get"
     >
-      <div class="${o.main}">
-        <fieldset class="${o.inputBoxes}">
-          <legend class="${o.heading}">${e.assistant.title}</legend>
-          <div class="${o.searchSection}">
-            <div class="${o.search_container}">
-              <label
-                class="${o.search_label}"
-                for="pw-from-1-input"
-                id="pw-from-1-label"
-              >
-                ${e.assistant.from}
-              </label>
-              <div
-                class="${o.search_inputContainer}"
-                aria-haspopup="listbox"
-                aria-labelledby="pw-from-1-label"
-              >
-                <pw-autocomplete for="from-popup-1">
-                  <input
-                    class="${o.search_input}"
-                    aria-expanded="false"
-                    aria-autocomplete="list"
-                    autocomplete="off"
-                    id="pw-from-1-input"
-                    name="from"
-                    value=""
-                    placeholder="${e.placeholder}"
-                  />
-                  <ul
-                    id="from-popup-1"
-                    role="listbox"
-                    aria-labelledby="pw-from-1-label"
-                    class="${o.popupContainer}"
-                    hidden
-                  ></ul>
-                </pw-autocomplete>
-              </div>
+      <div class="${n.main}">
+        <fieldset class="${n.inputBoxes}">
+          <legend class="${n.heading}">${e.assistant.title}</legend>
+          <div class="${n.search_container}">
+            <label
+              class="${n.search_label}"
+              for="pw-from-1-input"
+              id="pw-from-1-label"
+            >
+              ${e.assistant.from}
+            </label>
+            <div
+              class="${n.search_inputContainer}"
+              aria-haspopup="listbox"
+              aria-labelledby="pw-from-1-label"
+            >
+              <pw-autocomplete for="from-popup-1">
+                <input
+                  class="${n.search_input}"
+                  aria-expanded="false"
+                  aria-autocomplete="list"
+                  autocomplete="off"
+                  id="pw-from-1-input"
+                  name="from"
+                  value=""
+                  placeholder="${e.placeholder}"
+                />
+                <ul
+                  id="from-popup-1"
+                  role="listbox"
+                  aria-labelledby="pw-from-1-label"
+                  class="${n.popupContainer}"
+                  hidden
+                ></ul>
+              </pw-autocomplete>
             </div>
-
-            <div class="${o.search_container}">
-              <label
-                class="${o.search_label}"
-                for="pw-to-1-input"
-                id="pw-to-1-label"
-              >
-                ${e.assistant.to}
-              </label>
-              <div
-                class="${o.search_inputContainer}"
-                aria-haspopup="listbox"
-                aria-labelledby="pw-to-1-label"
-              >
-                <pw-autocomplete for="to-popup-1">
-                  <input
-                    class="${o.search_input} ${o.search_inputLast}"
-                    aria-expanded="false"
-                    aria-autocomplete="list"
-                    autocomplete="off"
-                    id="pw-to-1-input"
-                    name="to"
-                    value=""
-                    placeholder="${e.placeholder}"
-                  />
-                  <ul
-                    id="to-popup-1"
-                    role="listbox"
-                    aria-labelledby="pw-to-1-label"
-                    class="${o.popupContainer}"
-                    hidden
-                  ></ul>
-                </pw-autocomplete>
-              </div>
-            </div>
-            <pw-swapbutton mode="assistant">
+            <pw-geobutton mode="assistant">
               <button
-                class="${o.button_swap}"
+                class="${n.button_geolocation}"
                 title="${e.geoButton}"
                 aria-label="${e.geoButton}"
                 type="button"
               >
                 <img
-                  src="${t}/assets/mono/actions/Swap.svg"
+                  src="${t}/assets/mono/light/places/Location.svg"
                   width="20"
                   height="20"
                   role="none"
                   alt=""
                 />
               </button>
-            </pw-swapbutton>
-            <pw-messagebox></pw-messagebox>
+            </pw-geobutton>
+          </div>
+          <pw-messagebox></pw-messagebox>
+          <div class="${n.search_container}">
+            <label
+              class="${n.search_label}"
+              for="pw-to-1-input"
+              id="pw-to-1-label"
+            >
+              ${e.assistant.to}
+            </label>
+            <div
+              class="${n.search_inputContainer}"
+              aria-haspopup="listbox"
+              aria-labelledby="pw-to-1-label"
+            >
+              <pw-autocomplete for="to-popup-1">
+                <input
+                  class="${n.search_input} ${n.search_inputLast}"
+                  aria-expanded="false"
+                  aria-autocomplete="list"
+                  autocomplete="off"
+                  id="pw-to-1-input"
+                  name="to"
+                  value=""
+                  placeholder="${e.placeholder}"
+                />
+                <ul
+                  id="to-popup-1"
+                  role="listbox"
+                  aria-labelledby="pw-to-1-label"
+                  class="${n.popupContainer}"
+                  hidden
+                ></ul>
+              </pw-autocomplete>
+            </div>
           </div>
         </fieldset>
-        ${b("pw-assistant")}
+        ${_("pw-assistant")}
       </div>
-      ${E}
+      ${$}
     </form>
-  `, H = $`
+  `, j = y`
     <form
-      class="${o.form}"
+      class="${n.form}"
       action="${t}/departures"
       id="pw-form-departures"
       method="get"
     >
-      <div class="${o.main}">
-        <fieldset class="${o.inputBoxes}">
-          <legend class="${o.heading}">${e.departure.title}</legend>
-          <div class="${o.search_container}">
+      <div class="${n.main}">
+        <fieldset class="${n.inputBoxes}">
+          <legend class="${n.heading}">${e.departure.title}</legend>
+          <div class="${n.search_container}">
             <label
-              class="${o.search_label}"
+              class="${n.search_label}"
               for="pw-from-2-input"
               id="pw-from-2-label"
             >
               ${e.departure.from}
             </label>
             <div
-              class="${o.search_inputContainer}"
+              class="${n.search_inputContainer}"
               aria-expanded="false"
               aria-haspopup="listbox"
               aria-labelledby="pw-from-2-label"
             >
               <pw-autocomplete for="to-popup-2">
                 <input
-                  class="${o.search_input}"
+                  class="${n.search_input}"
                   aria-autocomplete="list"
                   aria-labelledby="pw-from-2-label"
                   autocomplete="off"
@@ -658,34 +629,50 @@ function We({ URL_BASE: t }, e, n) {
                   id="to-popup-2"
                   role="listbox"
                   aria-labelledby="pw-from-2-label"
-                  class="${o.popupContainer}"
+                  class="${n.popupContainer}"
                   hidden
                 ></ul>
               </pw-autocomplete>
             </div>
+            <pw-geobutton mode="departure">
+              <button
+                class="${n.button_geolocation}"
+                title="${e.geoButton}"
+                aria-label="${e.geoButton}"
+                type="button"
+              >
+                <img
+                  src="${t}/assets/mono/light/places/Location.svg"
+                  width="20"
+                  height="20"
+                  role="none"
+                  alt=""
+                />
+              </button>
+            </pw-geobutton>
           </div>
           <pw-messagebox></pw-messagebox>
         </fieldset>
-        ${b("pw-departures", !1)}
+        ${_("pw-departures", !1)}
       </div>
-      ${E}
+      ${$}
     </form>
   `;
-  return $`
+  return y`
     <div
       data-theme="light"
-      class="${je({
-    [o.wrapper]: !0,
-    [o.inheritFont]: n.inheritFont ?? !1,
-    [o.singleColumnLayout]: n.singleColumnLayout ?? !1
+      class="${De({
+    [n.wrapper]: !0,
+    [n.inheritFont]: o.inheritFont ?? !1,
+    [n.singleColumnLayout]: o.singleColumnLayout ?? !1
   })}"
     >
-      <nav class="${o.nav}">
-        <ul class="${o.tabs} js-tablist">
+      <nav class="${n.nav}">
+        <ul class="${n.tabs} js-tablist">
           <li>
             <a
               href="/assistant"
-              class="${o.tabSelected}"
+              class="${n.tabSelected}"
               id="pw-assistant-tab"
               data-mode="assistant"
             >
@@ -699,36 +686,36 @@ function We({ URL_BASE: t }, e, n) {
           </li>
         </ul>
       </nav>
-      <div class="js-tabpanel" id="pw-assistant">${j}</div>
-      <div class="js-tabpanel ${o.hidden}" id="pw-departures">
-        ${H}
+      <div class="js-tabpanel" id="pw-assistant">${P}</div>
+      <div class="js-tabpanel ${n.hidden}" id="pw-departures">
+        ${j}
       </div>
     </div>
   `;
 }
-function Ge() {
+function qe() {
   var t;
   (t = document.querySelector(".js-tablist")) == null || t.addEventListener("click", function(e) {
-    var _, E;
+    var m, $;
     e.preventDefault(), e.stopPropagation();
-    const n = (_ = e.target) == null ? void 0 : _.closest("a");
-    if (!n) return;
-    const i = n.getAttribute("data-mode");
+    const o = (m = e.target) == null ? void 0 : m.closest("a");
+    if (!o) return;
+    const i = o.getAttribute("data-mode");
     if (!i) return;
-    const s = document.querySelector("#pw-" + i);
-    if (!s) return;
-    S.clearMessageBox(), document.querySelectorAll(".js-tabpanel").forEach((b) => {
-      b.classList.add(o.hidden);
-    }), document.querySelectorAll(".js-tablist a").forEach((b) => {
-      b.classList.remove(o.tabSelected);
-    }), s.classList.remove(o.hidden), n.classList.add(o.tabSelected);
-    const a = document.querySelectorAll(
+    const a = document.querySelector("#pw-" + i);
+    if (!a) return;
+    E.clearMessageBox(), document.querySelectorAll(".js-tabpanel").forEach((_) => {
+      _.classList.add(n.hidden);
+    }), document.querySelectorAll(".js-tablist a").forEach((_) => {
+      _.classList.remove(n.tabSelected);
+    }), a.classList.remove(n.hidden), o.classList.add(n.tabSelected);
+    const s = document.querySelectorAll(
       `input[type="radio"][name="pw-${i}-searchTimeSelector"]`
-    ), c = (E = Array.from(a).find(
-      (b) => b.checked
-    )) == null ? void 0 : E.value;
-    document.querySelectorAll(".js-search-date-details").forEach((b) => {
-      b.hidden = c === "now";
+    ), c = ($ = Array.from(s).find(
+      (_) => _.checked
+    )) == null ? void 0 : $.value;
+    document.querySelectorAll(".js-search-date-details").forEach((_) => {
+      _.hidden = c === "now";
     }), document.dispatchEvent(
       new CustomEvent("reset-search", {
         bubbles: !0
@@ -736,32 +723,32 @@ function Ge() {
     );
   });
 }
-function Ve(t, e) {
-  let n = null;
+function He(t, e) {
+  let o = null;
   return function(...i) {
-    clearTimeout(n), n = setTimeout(() => {
+    clearTimeout(o), o = setTimeout(() => {
       t(...i);
     }, e);
   };
 }
-function f(t, e = [], n = "") {
+function v(t, e = [], o = "") {
   const i = document.createElement(t);
   if (Array.isArray(e))
-    for (let s of e) {
-      let a = typeof s == "string" ? document.createTextNode(s) : s;
-      i.appendChild(a);
+    for (let a of e) {
+      let s = typeof a == "string" ? document.createTextNode(a) : a;
+      i.appendChild(s);
     }
-  return i.className = n, i;
+  return i.className = o, i;
 }
-function Ke(t, e) {
-  const n = parseInt(t, 10);
-  return Number.isNaN(n) ? e : n;
+function Ne(t, e) {
+  const o = parseInt(t, 10);
+  return Number.isNaN(o) ? e : o;
 }
-function P(t, e) {
-  return t === e ? !0 : !t || !t.parentElement ? !1 : P(t.parentElement, e);
+function F(t, e) {
+  return t === e ? !0 : !t || !t.parentElement ? !1 : F(t.parentElement, e);
 }
-function Ue(t) {
-  switch (Qe(t)[0]) {
+function xe(t) {
+  switch (Re(t)[0]) {
     case "bus":
       return { icon: "transportation-entur/Bus", alt: "bus" };
     case "tram":
@@ -777,10 +764,10 @@ function Ue(t) {
       return { icon: "map/Pin", alt: "unknown" };
   }
 }
-function Qe(t) {
-  return t.map(Je).filter((e, n, i) => i.indexOf(e) === n);
+function Re(t) {
+  return t.map(We).filter((e, o, i) => i.indexOf(e) === o);
 }
-function Je(t) {
+function We(t) {
   switch (t) {
     case "onstreetBus":
     case "busStation":
@@ -802,9 +789,9 @@ function Je(t) {
       return "unknown";
   }
 }
-function Ye(t, e) {
+function Ge(t, e) {
   if (!t) return {};
-  const n = e ? {
+  const o = e ? {
     toId: e.id,
     toName: e.name,
     toLon: e.geometry.coordinates[0].toString(),
@@ -817,64 +804,64 @@ function Ye(t, e) {
     fromLon: t.geometry.coordinates[0].toString(),
     fromLat: t.geometry.coordinates[1].toString(),
     fromLayer: t.layer,
-    ...n
+    ...o
   };
 }
-function ze(t, e) {
-  const n = e.mode !== "now" ? {
+function Ke(t, e) {
+  const o = e.mode !== "now" ? {
     searchMode: e.mode,
     searchTime: e.dateTime.toString()
-  } : { searchMode: e.mode }, i = Ye(
+  } : { searchMode: e.mode }, i = Ge(
     t.from,
     t.to
   );
   return {
-    ...n,
+    ...o,
     ...i
   };
 }
-function Xe(t, e) {
-  const n = t.mode !== "now" ? {
+function Ue(t, e) {
+  const o = t.mode !== "now" ? {
     searchMode: t.mode,
     searchTime: t.dateTime.toString()
   } : { searchMode: t.mode };
   return !e || e.layer == "venue" ? {
-    ...n
+    ...o
   } : {
-    ...n,
+    ...o,
     name: e.name,
     lon: e.geometry.coordinates[0].toString(),
     lat: e.geometry.coordinates[1].toString()
   };
 }
-async function Ze(t, e) {
-  const n = `${t}api/departures/autocomplete?q=${e}`, i = await fetch(n);
+async function Ve(t, e) {
+  const o = `${t}api/departures/autocomplete?q=${e}`, i = await fetch(o);
   if (!i.ok)
-    throw new Error(`Error fetching autocomplete data from ${n}`);
+    throw new Error(`Error fetching autocomplete data from ${o}`);
   return await i.json();
 }
-async function et(t, e) {
+async function Qe(t, e) {
   const i = await (await fetch(
     `${t}api/departures/reverse?lat=${e.latitude}&lon=${e.longitude}`
   )).json();
   if (i)
     return i;
 }
-async function tt(t, e) {
-  return new Promise(function(n, i) {
+async function Ye(t, e) {
+  return new Promise(function(o, i) {
     navigator.geolocation.getCurrentPosition(
-      async (s) => {
-        const a = await et(t, s.coords);
-        n(a);
+      async (a) => {
+        const s = await Qe(t, a.coords);
+        o(s);
       },
-      (s) => {
-        i(new Error(ot(s.code, e)));
+      (a) => {
+        i(new Error(Je(a.code, e)));
       },
       { enableHighAccuracy: !0, timeout: 1e4 }
     );
   });
 }
-function ot(t, e) {
+function Je(t, e) {
   switch (t) {
     case GeolocationPositionError.PERMISSION_DENIED:
       return e.geoTexts.denied;
@@ -885,19 +872,19 @@ function ot(t, e) {
       return e.geoTexts.unavailable;
   }
 }
-const nt = {
+const ze = {
   nb: {
     noResults: "Ingen resultater",
-    geoButton: "Min posisjon",
+    geoButton: "Finn min posisjon",
     geoTexts: {
       denied: "Du må endre stedsinnstillinger i nettleseren din for å bruke din posisjon i reisesøket.",
       unavailable: "Posisjonen din er ikke tilgjengelig.",
       timeout: "Det tok for lang tid å hente posisjonen din. Prøv på nytt."
     },
-    searchButton: "Reisesøk",
-    placeholder: "Sted eller adresse",
+    searchButton: "Finn avganger",
+    placeholder: "adresse, kai eller holdeplass",
     assistant: {
-      link: "Reisesøk",
+      link: "Planlegg reisen",
       title: "Hvor vil du reise?",
       from: "Fra",
       to: "Til"
@@ -918,14 +905,14 @@ const nt = {
   },
   nn: {
     noResults: "Ingen resultat",
-    geoButton: "Min posisjon",
+    geoButton: "Finn min posisjon",
     geoTexts: {
       denied: "Du må endre posisjonsinnstillingane i nettlesaren din for å bruke din posisjon i reisesøket.",
       unavailable: "Posisjonen din er ikkje tilgjengeleg.",
       timeout: "Det tok for lang tid å hente posisjonen din. Prøv på nytt."
     },
-    searchButton: "Reisesøk",
-    placeholder: "Stad eller adresse",
+    searchButton: "Finn avgangar",
+    placeholder: "adresse, kai eller haldeplass",
     assistant: {
       link: "Planlegg reisa",
       title: "Kor vil du reise?",
@@ -948,14 +935,14 @@ const nt = {
   },
   en: {
     noResults: "No results",
-    geoButton: "My location",
+    geoButton: "Find my position",
     geoTexts: {
       denied: "You must change location settings in your browser to use your position in the travel search.",
       unavailable: "Your position is not available.",
       timeout: "It took too long to retrieve your position. Try again."
     },
-    searchButton: "Journey search",
-    placeholder: "Location or address",
+    searchButton: "Find departures",
+    placeholder: "address, quay, or stop",
     assistant: {
       link: "Plan your journey",
       title: "Where do you want to travel?",
@@ -977,10 +964,10 @@ const nt = {
     }
   }
 };
-function it(t) {
-  return nt[t];
+function Xe(t) {
+  return ze[t];
 }
 export {
-  at as createWidget,
-  et as reverse
+  et as createWidget,
+  Qe as reverse
 };
