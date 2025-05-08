@@ -306,7 +306,7 @@ const FormContent = ({ state, send }: FormProps) => {
         <Input
           id="postalCode"
           label={t(PageText.Contact.input.postalCode.label)}
-          type="number"
+          type="text"
           autoComplete="postal-code"
           name="postalCode"
           value={state.context.postalCode || ''}

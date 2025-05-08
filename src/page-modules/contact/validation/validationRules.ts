@@ -93,6 +93,10 @@ const rulesPostalCode: ValidationRule[] = [
     validate: hasExpectedLength(4),
     errorMessage: PageText.Contact.input.postalCode.errorMessages.invalidFormat,
   },
+  {
+    validate: isDigitsOnly,
+    errorMessage: PageText.Contact.input.postalCode.errorMessages.invalidFormat,
+  },
 ];
 
 const rulesCity: ValidationRule[] = [
