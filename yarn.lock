@@ -112,6 +112,15 @@
     hex-to-rgba "^2.0.1"
     ts-deepmerge "^4.0.0"
 
+"@atb-as/theme@^14.0.0":
+  version "14.0.0"
+  resolved "https://registry.yarnpkg.com/@atb-as/theme/-/theme-14.0.0.tgz#5a76c62bd4743cc0786ac25525b0bc01781c7eae"
+  integrity sha512-FeBYXixUbNHjqRHCqtyVsRRNs1N8kIogISnbPlyqXSTOH67OOGqPA1W589HGJL4Qxuodfxh61TQBIkpekDCiqw==
+  dependencies:
+    "@tfk-samf/figma-to-dtcg" "0.4.0"
+    hex-to-rgba "^2.0.1"
+    ts-deepmerge "^4.0.0"
+
 "@atb-as/token@^0.0.3":
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/@atb-as/token/-/token-0.0.3.tgz#3a31b81c7b9fcd67f8931721722cb8d81f0f70b2"
