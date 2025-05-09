@@ -686,7 +686,7 @@ const ContactInternal = {
             _(
               'Når du ikke reiser med oss lenger. Hvis du for eksempel flytter, blir sjukemeldt, endrer reisemønster eller har en annen grunn til å søke om refusjon.',
               'When you no longer travel with us. If, for example, you move, are on sick leave, change your travel pattern or have another reason to apply for a refund.',
-              'Når du ikkje reiser med oss lenger. Viss du for eksempel flytter, blir sjukemeldt, endrar reisemønster eller har en anna grunn til å søke om refusjon.',
+              'Når du ikkje reiser med oss lenger. Viss du for eksempel flytter, blir sjukemeldt, endrar reisemønster eller har en annan grunn til å søke om refusjon.',
             ),
             _(
               'Ved kjøp av feil reisestrekning, passasjerkategori eller tidspunkt/dato. Vi vil refundere billetten som du har kjøpt feil dersom du kjøper ny, korrekt billett.',
