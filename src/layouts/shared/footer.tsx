@@ -8,6 +8,7 @@ import { useLanguageSettings } from '@atb/translations/language-context';
 import style from './footer.module.css';
 import { getButtonStyleForColor } from '@atb/components/button/utils.tsx';
 import { useOrgThemeDefinitions } from '@atb/utils/org-theme-definitions.ts';
+import { shouldShowContactPage } from '@atb/page-modules/contact';
 
 export type FooterProps = {
   withoutSettings?: boolean;
@@ -20,7 +21,6 @@ type SomeLink = {
 };
 
 const { urls, fylkeskommune, orgId } = getOrgData();
-const environment = process.env.NEXT_PUBLIC_ENVIRONMENT;
 
 export default function Footer({ withoutSettings = false }: FooterProps) {
   const { isDarkMode, toggleDarkmode } = useTheme();
@@ -103,7 +103,7 @@ export default function Footer({ withoutSettings = false }: FooterProps) {
                 <li>
                   <a
                     href={
-                      environment === 'staging'
+                      shouldShowContactPage()
                         ? '/contact'
                         : getConfigUrl(urls.supportUrl, language)
                     }
