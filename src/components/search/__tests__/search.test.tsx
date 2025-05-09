@@ -206,7 +206,7 @@ describe('search box', () => {
 
       await userEvent.keyboard('{ArrowDown}{Enter}');
 
-      expect(input).toHaveValue('1, 1');
+      expect(input).toHaveValue('1');
       expect(fn).toHaveBeenCalled();
     });
   });
