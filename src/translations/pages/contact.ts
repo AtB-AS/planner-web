@@ -1206,7 +1206,7 @@ const ContactInternal = {
       description: _(
         'Gebyrnummeret har 4 siffer. Du finner det øverst i høyre hjørne på gebyret',
         'The fee number has 4 digits. You can find it in the top right corner of the fee',
-        'Gebyrnummert har 4 siffer. Du finn det øverst i høgre hjørne på gebyret',
+        'Gebyrnummert har 4 siffer. Du finn det øvst i høgre hjørne på gebyret',
       ),
       instruction: _(
         'Fyll ut gebyrnummeret ditt',
@@ -1232,7 +1232,7 @@ const ContactInternal = {
       description: _(
         'Fakturanummeret finner du øverst i høyre hjørne på fakturaen.',
         'The invoice number is found in the top right corner of the invoice.',
-        'Fakturanummeret finn du øverst i høgre hjørne på fakturaen.',
+        'Fakturanummeret finn du øvst i høgre hjørne på fakturaen.',
       ),
       instruction: _(
         'Fyll ut fakturanummeret ditt',
