@@ -1304,9 +1304,9 @@ const ContactInternal = {
         'Kundenummer - (valfritt)',
       ),
       description: _(
-        'Kundenummeret finner du under Min bruker i FRAM-appen, eller i nettbutikken.',
-        'The customer number can be found under My user in the FRAM app, or in the webshop',
-        'Kundenummeret finn du under Min bruker i FRAM-appen, eller i nettbutikken.',
+        'Kundenummeret består av 7 siffer og du finner det under Min bruker i FRAM-appen, eller i nettbutikken.',
+        'The customer number consists of 7 digits and can be found under My user in the FRAM app, or in the webshop',
+        'Kundenummeret består av 7 siffer og du finn det under Min bruker i FRAM-appen, eller i nettbutikken.',
       ),
       errorMessages: {
         empty: _(
