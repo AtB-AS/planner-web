@@ -38,9 +38,9 @@ const AssistantInternal = {
     },
     filter: {
       label: _(
-        'Hva vil du reise med?',
-        'How do you want to travel?',
-        'Kva vil du reise med?',
+        'Alle transportmidler',
+        'All transport modes',
+        'Alle transportmiddel',
       ),
     },
     lineFilter: {
