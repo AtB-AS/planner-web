@@ -215,3 +215,10 @@
     width: 100%;
   }
 }
+
+.timePickerButton {
+  background-color: transparent;
+  border: none;
+  padding: token('spacing.xSmall') token('spacing.medium');
+  cursor: pointer;
+}

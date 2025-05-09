@@ -3,7 +3,10 @@ import {
   DateSegment,
   Label,
   TimeField,
+  Button,
 } from 'react-aria-components';
+
+import { MonoIcon } from '@atb/components/icon';
 
 import { ModuleText, useTranslation } from '@atb/translations';
 import { parseTime } from '@internationalized/date';
@@ -38,6 +41,15 @@ export default function TimeSelector({ value, onChange }: TimeSelectorProps) {
           />
         )}
       </DateInput>
+      <Button
+        slot="button"
+        onPress={() => {
+          console.log('Time picker button clicked');
+        }}
+        className={style.timePickerButton}
+      >
+        <MonoIcon icon="time/Time" />
+      </Button>
     </TimeField>
   );
 }
