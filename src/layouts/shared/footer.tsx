@@ -8,6 +8,7 @@ import { useLanguageSettings } from '@atb/translations/language-context';
 import style from './footer.module.css';
 import { getButtonStyleForColor } from '@atb/components/button/utils.tsx';
 import { useOrgThemeDefinitions } from '@atb/utils/org-theme-definitions.ts';
+import { shouldShowContactPage } from '@atb/page-modules/contact';
 
 export type FooterProps = {
   withoutSettings?: boolean;
@@ -101,7 +102,11 @@ export default function Footer({ withoutSettings = false }: FooterProps) {
               {urls.supportUrl ? (
                 <li>
                   <a
-                    href={getConfigUrl(urls.supportUrl, language)}
+                    href={
+                      shouldShowContactPage()
+                        ? '/contact'
+                        : getConfigUrl(urls.supportUrl, language)
+                    }
                     target={
                       isExternalUrl(getConfigUrl(urls.supportUrl, language))
                         ? '_blank'
