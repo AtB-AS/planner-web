@@ -20,6 +20,7 @@ type SomeLink = {
 };
 
 const { urls, fylkeskommune, orgId } = getOrgData();
+const environment = process.env.NEXT_PUBLIC_ENVIRONMENT;
 
 export default function Footer({ withoutSettings = false }: FooterProps) {
   const { isDarkMode, toggleDarkmode } = useTheme();
@@ -101,7 +102,11 @@ export default function Footer({ withoutSettings = false }: FooterProps) {
               {urls.supportUrl ? (
                 <li>
                   <a
-                    href={getConfigUrl(urls.supportUrl, language)}
+                    href={
+                      environment === 'staging'
+                        ? '/contact'
+                        : getConfigUrl(urls.supportUrl, language)
+                    }
                     target={
                       isExternalUrl(getConfigUrl(urls.supportUrl, language))
                         ? '_blank'
