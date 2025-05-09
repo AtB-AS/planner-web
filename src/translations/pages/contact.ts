@@ -384,7 +384,7 @@ const ContactInternal = {
       aboutYourTrip: {
         title: _(
           'Om den planlagte reisen din',
-          'About your planed trip',
+          'About your planned trip',
           'Om den planlagde reisa di',
         ),
       },
@@ -408,7 +408,7 @@ const ContactInternal = {
       aboutThePlanedTrip: {
         title: _(
           'Om den planlagte reisen din',
-          'About your planed trip',
+          'About your planned trip',
           'Om den planagde reisa di',
         ),
       },
@@ -686,7 +686,7 @@ const ContactInternal = {
             _(
               'Når du ikke reiser med oss lenger. Hvis du for eksempel flytter, blir sjukemeldt, endrer reisemønster eller har en annen grunn til å søke om refusjon.',
               'When you no longer travel with us. If, for example, you move, are on sick leave, change your travel pattern or have another reason to apply for a refund.',
-              'Når du ikkje reise med oss lenger. Viss du for eksempel flytter, blir sjukemeldt, endrar reisemønster eller har en anna grunn til å søke om refusjon.',
+              'Når du ikkje reiser med oss lenger. Viss du for eksempel flytter, blir sjukemeldt, endrar reisemønster eller har en anna grunn til å søke om refusjon.',
             ),
             _(
               'Ved kjøp av feil reisestrekning, passasjerkategori eller tidspunkt/dato. Vi vil refundere billetten som du har kjøpt feil dersom du kjøper ny, korrekt billett.',
@@ -1206,7 +1206,7 @@ const ContactInternal = {
       description: _(
         'Gebyrnummeret har 4 siffer. Du finner det øverst i høyre hjørne på gebyret',
         'The fee number has 4 digits. You can find it in the top right corner of the fee',
-        'Gebyrnummert har 4 siffer. Du finn det øvst i høgre hjørne på gebyret',
+        'Gebyrnummert har 4 siffer. Du finn det øverst i høgre hjørne på gebyret',
       ),
       instruction: _(
         'Fyll ut gebyrnummeret ditt',
@@ -1232,7 +1232,7 @@ const ContactInternal = {
       description: _(
         'Fakturanummeret finner du øverst i høyre hjørne på fakturaen.',
         'The invoice number is found in the top right corner of the invoice.',
-        'Fakturanummeret finn du øvst i høgre hjørne på fakturaen.',
+        'Fakturanummeret finn du øverst i høgre hjørne på fakturaen.',
       ),
       instruction: _(
         'Fyll ut fakturanummeret ditt',
@@ -1252,12 +1252,12 @@ const ContactInternal = {
       title: _(
         'Hva vil du å fortelle oss?',
         'What do you want to tell us?',
-        'Kva vil du å fortelje oss?',
+        'Kva vil du fortelje oss?',
       ),
 
       optionalTitle: _(
         'Ønsker du å fortelle oss noe mer? (valgfritt)',
-        'Do you whish to share anyting else with us? - (optional)',
+        'Do you wish to share anyting else with us? - (optional)',
         'Ønsker du å fortelje oss noko meir? (valfritt)',
       ),
 
@@ -1323,8 +1323,8 @@ const ContactInternal = {
     },
 
     travelCardNumber: {
-      labelRadioButton: _('Reisekort', 'Travelcard', 'Reisekort'),
-      label: _('Reisekortnummer', 'Travelcard number', 'Reisekortnummer'),
+      labelRadioButton: _('Reisekort', 'Travel card', 'Reisekort'),
+      label: _('Reisekortnummer', 'Travel card number', 'Reisekortnummer'),
       info: _(
         'Legg inn reisekortnummeret her hvis du allerede har et reisekort. Reisekortnummeret består av 9 siffer og du finner det på baksiden av reisekortet ditt',
         'Enter the travel card number here if you already have a travel card. The travel card number consists of 9 digits and can be found on the back of your travel card',
@@ -1333,7 +1333,7 @@ const ContactInternal = {
       errorMessages: {
         empty: _(
           'Legg til reisekortnummer',
-          'Enter travelcard number',
+          'Enter travel card number',
           'Legg til reisekortnummer',
         ),
         invalidFormat: _(
