@@ -61,6 +61,9 @@ export const WebshopAccountForm = ({
               value: e.target.value,
             })
           }
+          modalContent={{
+            description: t(PageText.Contact.input.customerNumber.description),
+          }}
         />
         <Input
           id="firstName"

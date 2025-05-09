@@ -195,6 +195,11 @@ const FormContent = ({ state, send }: FormProps) => {
                   value: e.target.value,
                 })
               }
+              modalContent={{
+                description: t(
+                  PageText.Contact.input.customerNumber.description,
+                ),
+              }}
             />
           </>
         )}

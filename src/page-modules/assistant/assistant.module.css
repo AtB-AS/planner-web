@@ -85,7 +85,6 @@
   position: absolute;
   left: 0;
   right: 0;
-  background-color: token('color.background.neutral.0.background');
 }
 
 .searchInputButton {
