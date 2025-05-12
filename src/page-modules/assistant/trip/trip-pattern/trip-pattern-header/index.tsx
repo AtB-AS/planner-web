@@ -43,7 +43,6 @@ export function TripPatternHeader({
       <SituationOrNoticeIcon
         situations={flatMap(tripPattern.legs, (leg) => leg.situations)}
         notices={tripPattern.legs.flatMap(getNoticesForLeg)}
-        accessibilityLabel={startModeAndPlaceText}
         cancellation={isCancelled}
         iconSize="large"
       />
