@@ -5,6 +5,7 @@ import {
   NoticeFragment,
   SituationFragment,
 } from '@atb/page-modules/assistant/journey-gql/trip.generated.ts';
+import { PageText, useTranslation } from '@atb/translations';
 
 type SituationOrNoticeIconProps = {
   accessibilityLabel?: string;
@@ -25,6 +26,8 @@ export const SituationOrNoticeIcon = ({
   const situations =
     'situation' in props ? [props.situation] : props.situations;
 
+  const { t } = useTranslation();
+
   // TODO: It might be needed to check if the transport is flexible and shows a yellow icon (warning)
   const icon = getIconForMostCriticalSituationOrNotice(
     situations,
@@ -38,7 +41,7 @@ export const SituationOrNoticeIcon = ({
       className={className}
       size={iconSize}
       icon={icon}
-      alt={accessibilityLabel}
+      alt={t(PageText.Assistant.trip.tripPattern.hasSituationsTip)}
     />
   );
 };
