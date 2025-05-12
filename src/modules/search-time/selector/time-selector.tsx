@@ -4,13 +4,14 @@ import {
   Label,
   TimeField,
   Button,
+  DialogTrigger,
 } from 'react-aria-components';
 
 import { MonoIcon } from '@atb/components/icon';
-
 import { ModuleText, useTranslation } from '@atb/translations';
 import { parseTime } from '@internationalized/date';
 import style from './selector.module.css';
+import TimeSelectorDropdown from './time-selector-dropdown';
 
 export type TimeSelectorProps = {
   value: string;
@@ -23,7 +24,7 @@ export default function TimeSelector({ value, onChange }: TimeSelectorProps) {
   return (
     <TimeField
       value={parsedValue}
-      onChange={(change) => onChange(change.toString())}
+      onChange={(change) => onChange((change || '00:00').toString())}
       hourCycle={24}
       shouldForceLeadingZeros
       className={style.timeSelector}
@@ -41,15 +42,17 @@ export default function TimeSelector({ value, onChange }: TimeSelectorProps) {
           />
         )}
       </DateInput>
-      <Button
-        slot="button"
-        onPress={() => {
-          console.log('Time picker button clicked');
-        }}
-        className={style.timePickerButton}
-      >
-        <MonoIcon icon="time/Time" />
-      </Button>
+
+      <DialogTrigger>
+        <Button
+          className={style.timePickerButton}
+          aria-label={t(ModuleText.SearchTime.time)}
+        >
+          <MonoIcon icon="time/Time" />
+        </Button>
+
+        <TimeSelectorDropdown value={value || '00:00'} onChange={onChange} />
+      </DialogTrigger>
     </TimeField>
   );
 }
