@@ -125,7 +125,6 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     position: relative;
-    background-color: token('color.background.neutral.0.background');
   }
 
   .alternatives {
