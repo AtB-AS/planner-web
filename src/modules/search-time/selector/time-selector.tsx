@@ -14,12 +14,15 @@ import style from './selector.module.css';
 import TimeSelectorDropdown from './time-selector-dropdown';
 
 export type TimeSelectorProps = {
-  value: string;
+  selectedTime: string;
   onChange: (value: string) => void;
 };
-export default function TimeSelector({ value, onChange }: TimeSelectorProps) {
+export default function TimeSelector({
+  selectedTime,
+  onChange,
+}: TimeSelectorProps) {
   const { t } = useTranslation();
-  const parsedValue = parseTime(value);
+  const parsedValue = parseTime(selectedTime);
 
   return (
     <TimeField
@@ -51,7 +54,10 @@ export default function TimeSelector({ value, onChange }: TimeSelectorProps) {
           <MonoIcon icon="time/Time" />
         </Button>
 
-        <TimeSelectorDropdown value={value || '00:00'} onChange={onChange} />
+        <TimeSelectorDropdown
+          selectedTime={selectedTime || '00:00'}
+          onChange={onChange}
+        />
       </DialogTrigger>
     </TimeField>
   );

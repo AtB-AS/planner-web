@@ -5,14 +5,21 @@
   box-shadow: 0.2rem 0.2rem 0.3rem rgba(0, 0, 0, 0.15);
 }
 
+@media (pointer: coarse) {
+  /* Larger dialog for touch devices */
+  .timeSelectorDialog {
+    transform: scale(1.5);
+    transform-origin: bottom right;
+  }
+}
+
 .scrollViews {
   display: flex;
-  max-height: 12rem;
   width: 100%;
 }
 
 .scrollView {
-  overflow-y: auto;
+  overflow-y: scroll;
   scrollbar-gutter: stable both-edges;
   scrollbar-width: none;
 }
@@ -22,7 +29,7 @@
 }
 
 .numberItem {
-  padding: token('spacing.small');
+  padding: token('spacing.small') token('spacing.medium');
   cursor: pointer;
 }
 

@@ -9,52 +9,55 @@ import { parseTime } from '@internationalized/date';
 import style from './time-selector-dropdown.module.css';
 import { and } from '@atb/utils/css';
 import { Typo } from '@atb/components/typography';
+import { useEffect, useRef } from 'react';
+import { useTheme } from '@atb/modules/theme';
 
-type NumberItem = {
-  id: string;
-  value: number;
-};
+const numberItemRowHeight = 32; // px
+const maxNumberOfTimeOptionsVisible = 5;
 
-type NumberType = 'hours' | 'minutes';
-
-const generateNumberItems = (numberOfItems: number): NumberItem[] =>
-  Array.from({ length: numberOfItems }, (_, h) => ({
-    id: h.toString(),
-    value: h,
-  }));
-const hours = generateNumberItems(24);
-const minutes = generateNumberItems(60);
+const getNumbers = (length: number) => Array.from({ length }, (_, i) => i);
+const hours = getNumbers(24);
+const minutes = getNumbers(60);
 
 export type TimeSelectorDropdownProps = {
   /** “HH:mm” (e.g. “08:30”). */
-  value: string;
-  onChange: (value: string) => void;
+  selectedTime: string;
+  onChange: (time: string) => void;
 };
 export default function TimeSelectorDropdown({
-  value,
+  selectedTime,
   onChange,
 }: TimeSelectorDropdownProps) {
-  const time = parseTime(value);
-  // const { t } = useTranslation();
-  const setTime = (part: NumberType, value: number) => {
-    const h = part === 'hours' ? value : time.hour;
-    const m = part === 'minutes' ? value : time.minute;
+  const theme = useTheme();
+
+  const time = parseTime(selectedTime);
+
+  const selectTime = (timeType: 'hour' | 'minute', timeValue: number) => {
+    const h = timeType === 'hour' ? timeValue : time.hour;
+    const m = timeType === 'minute' ? timeValue : time.minute;
     onChange(`${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`);
   };
 
   return (
     <Popover placement="bottom right">
       <Dialog className={style.timeSelectorDialog}>
-        <div className={style.scrollViews}>
-          <NumberScrollView
+        <div
+          className={style.scrollViews}
+          style={{
+            height:
+              numberItemRowHeight * (maxNumberOfTimeOptionsVisible + 2) + // +2 for container top and bottom
+              2 * theme.spacing.small,
+          }}
+        >
+          <NumbersScrollView
+            numbers={hours}
             selectedValue={time.hour}
-            onSelect={(value) => setTime('hours', value)}
-            items={hours}
+            onSelect={(hour) => selectTime('hour', hour)}
           />
-          <NumberScrollView
+          <NumbersScrollView
+            numbers={minutes}
             selectedValue={time.minute}
-            onSelect={(value) => setTime('minutes', value)}
-            items={minutes}
+            onSelect={(minute) => selectTime('minute', minute)}
           />
         </div>
       </Dialog>
@@ -62,35 +65,54 @@ export default function TimeSelectorDropdown({
   );
 }
 
-type NumberScrollViewProps = {
-  items: NumberItem[];
+type NumbersScrollViewProps = {
+  numbers: number[];
   selectedValue: number;
-  onSelect: (value: number) => void;
+  onSelect: (number: number) => void;
 };
 
-const NumberScrollView = ({
-  items,
+const NumbersScrollView = ({
+  numbers,
   selectedValue,
   onSelect,
-}: NumberScrollViewProps) => {
-  console.log('selectedValue', selectedValue);
+}: NumbersScrollViewProps) => {
+  const scrollContainerRef = useRef<HTMLDivElement | null>(null);
+  const theme = useTheme();
+  const initialSelectedValue = useRef(selectedValue);
+
+  useEffect(() => {
+    const initialNumberIndex = numbers.findIndex(
+      (number) => number === initialSelectedValue.current,
+    );
+    if (initialNumberIndex !== -1 && scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTo({
+        behavior: 'instant',
+        top:
+          initialNumberIndex * (numberItemRowHeight + theme.spacing.small / 2), // compensate for padding as well
+      });
+    }
+  }, [initialSelectedValue, numbers, theme.spacing.small]);
+
   return (
-    <div className={style.scrollView}>
-      <Virtualizer layout={ListLayout} layoutOptions={{ rowHeight: 32 }}>
-        {items.map((item) => {
-          const isSelected = selectedValue === item.value;
+    <div ref={scrollContainerRef} className={style.scrollView}>
+      <Virtualizer
+        layout={ListLayout}
+        layoutOptions={{ rowHeight: numberItemRowHeight }}
+      >
+        {numbers.map((number) => {
+          const isSelected = selectedValue === number;
           return (
-            <Typo.p
-              key={item.id}
+            <Typo.div
+              key={number}
               textType={isSelected ? 'body__primary--bold' : 'body__primary'}
               className={and(
                 style.numberItem,
                 isSelected && style.numberItemSelected,
               )}
-              onClick={() => onSelect(item.value)}
+              onClick={() => onSelect(number)}
             >
-              {item.value.toString().padStart(2, '0')}
-            </Typo.p>
+              {number.toString().padStart(2, '0')}
+            </Typo.div>
           );
         })}
       </Virtualizer>
