@@ -95,7 +95,7 @@ export default function FileInput({
       />
 
       <label
-        htmlFor={id}
+        htmlFor={`file_input__${id}`}
         className={style.label__file}
         tabIndex={0}
         onKeyDown={(e) => {

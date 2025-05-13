@@ -185,6 +185,7 @@ const RefundSection = ({ state, send }: RefundSectionProps) => {
       </Typo.p>
 
       <FileInput
+        id="attachments"
         name="attachments"
         label={t(PageText.Contact.input.question.attachment)}
         onChange={(files) => {

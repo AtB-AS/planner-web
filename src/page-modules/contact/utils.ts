@@ -110,13 +110,23 @@ export const findOrderFormFields = (e: FormEvent<HTMLFormElement>): string[] =>
 export const scrollToFirstErrorMessage = (id: string | undefined): void => {
   if (!id) return;
 
-  const element = formFieldsPrefixes
-    .map((prefix) => document.getElementById(`${prefix}${id}`))
-    .find((el): el is HTMLElement => el !== null);
+  const match = formFieldsPrefixes
+    .map((prefix) => ({
+      prefix,
+      element: document.getElementById(`${prefix}${id}`),
+    }))
+    .find(
+      (item): item is { prefix: string; element: HTMLElement } =>
+        item.element !== null,
+    );
 
-  // FilInput must be focused by label, as input have display none.
+  const element = match?.element;
+  const prefix = match?.prefix;
+
+  // The <input> for FileInput is hidden (display: none), so it can't receive focus.
+  // Instead, we need to focus the corresponding <label> using its `for` attribute.
   const labelElement = document.querySelector(
-    `label[for=${id}]`,
+    `label[for=${prefix}${id}]`,
   ) as HTMLElement | null;
 
   const scrollTarget = labelElement ?? element;
