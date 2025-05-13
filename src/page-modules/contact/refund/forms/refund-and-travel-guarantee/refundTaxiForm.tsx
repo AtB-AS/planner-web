@@ -36,6 +36,7 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
         </Typo.p>
 
         <FileInput
+          id="attachments"
           label={t(PageText.Contact.input.feedback.attachment)}
           name="attachments"
           onChange={(files) => {
@@ -239,6 +240,7 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
             })
           }
           fileInputProps={{
+            id: 'attachments',
             label: t(PageText.Contact.input.feedback.attachment),
             name: 'attachments',
             onChange: (files) => {

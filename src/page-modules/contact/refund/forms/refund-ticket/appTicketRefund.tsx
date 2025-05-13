@@ -105,6 +105,7 @@ export const AppTicketRefund = ({ state, send }: AppTicketRefundProps) => {
             : undefined
         }
         fileInputProps={{
+          id: 'attachments',
           label: t(PageText.Contact.input.feedback.attachment),
           name: 'attachments',
           onChange: (files) => {
