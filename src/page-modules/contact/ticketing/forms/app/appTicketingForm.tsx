@@ -57,6 +57,7 @@ export const AppTicketingForm = ({ state, send }: AppTicketingFormProps) => {
               : undefined
           }
           fileInputProps={{
+            id: 'attachments',
             name: 'attachments',
             label: t(PageText.Contact.input.question.attachment),
             onChange: (files) => {

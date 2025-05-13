@@ -165,6 +165,7 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
             t(state.context.errorMessages['feedback']?.[0])
           }
           fileInputProps={{
+            id: 'attachments',
             name: 'attachments',
             label: t(PageText.Contact.input.feedback.attachment),
             onChange: (files) => {

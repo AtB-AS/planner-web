@@ -184,6 +184,7 @@ export const DriverForm = ({ state, send }: DriverFormProps) => {
               : undefined
           }
           fileInputProps={{
+            id: 'attachments',
             name: 'attachments',
             label: t(PageText.Contact.input.feedback.attachment),
             onChange: (files) => {

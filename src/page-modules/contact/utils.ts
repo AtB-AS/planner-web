@@ -95,6 +95,7 @@ const formFieldsPrefixes = [
   'searchable_select__',
   'date_selector__',
   'time_selector__',
+  'file_input__',
 ];
 
 export const findOrderFormFields = (e: FormEvent<HTMLFormElement>): string[] =>
@@ -109,13 +110,30 @@ export const findOrderFormFields = (e: FormEvent<HTMLFormElement>): string[] =>
 export const scrollToFirstErrorMessage = (id: string | undefined): void => {
   if (!id) return;
 
-  const element = formFieldsPrefixes
-    .map((prefix) => document.getElementById(`${prefix}${id}`))
-    .find((el): el is HTMLElement => el !== null);
+  const match = formFieldsPrefixes
+    .map((prefix) => ({
+      prefix,
+      element: document.getElementById(`${prefix}${id}`),
+    }))
+    .find(
+      (item): item is { prefix: string; element: HTMLElement } =>
+        item.element !== null,
+    );
 
-  if (element) {
-    element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    element.focus();
+  const element = match?.element;
+  const prefix = match?.prefix;
+
+  // The <input> for FileInput is hidden (display: none), so it can't receive focus.
+  // Instead, we need to focus the corresponding <label> using its `for` attribute.
+  const labelElement = document.querySelector(
+    `label[for=${prefix}${id}]`,
+  ) as HTMLElement | null;
+
+  const scrollTarget = labelElement ?? element;
+
+  if (scrollTarget) {
+    scrollTarget.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    scrollTarget.focus();
   }
 };
 
