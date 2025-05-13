@@ -46,6 +46,29 @@
   border-radius: token('border.radius.regular');
 }
 
+@media (max-width: 600px) {
+  .contact_page_navigator__link {
+    width: 10rem;
+    height: 6rem;
+  }
+}
+
+.normalIcon {
+  display: none;
+}
+
+.largeIcon {
+}
+
+@media (max-width: 600px) {
+  .normalIcon {
+    display: block;
+  }
+  .largeIcon {
+    display: none;
+  }
+}
+
 .contact_page_navigator__link:hover {
   color: token('color.interactive.2.hover.foreground.primary');
   background-color: token('color.interactive.2.hover.background');
@@ -63,20 +86,6 @@
 .contact_page_navigator__activePage {
   border: token('border.width.medium') solid
     token('color.interactive.2.outline.background');
-}
-
-.contact_page_navigator__dropdown {
-  display: none;
-}
-
-@media (max-width: 600px) {
-  .contact_page_navigator__container {
-    display: none;
-  }
-
-  .contact_page_navigator__dropdown {
-    display: block;
-  }
 }
 
 .privacyAndTerms {

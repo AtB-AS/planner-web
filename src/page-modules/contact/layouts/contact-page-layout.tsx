@@ -2,13 +2,11 @@ import { PropsWithChildren, useEffect, useState } from 'react';
 import style from './layout.module.css';
 import { PageText, TranslatedString, useTranslation } from '@atb/translations';
 import { usePathname } from 'next/navigation';
-import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { andIf } from '@atb/utils/css';
 import { Typo } from '@atb/components/typography';
 import { MonoIcon, MonoIcons } from '@atb/components/icon';
 import { ButtonLink } from '@atb/components/button';
-import { Select } from '../components';
 
 export type ContactPage = {
   title: TranslatedString;
@@ -61,7 +59,6 @@ export type ContactPageLayoutProps = PropsWithChildren<{
 function ContactPageLayout({ children }: ContactPageLayoutProps) {
   const { t } = useTranslation();
   const pathname = usePathname();
-  const router = useRouter();
   const [selectedContactPage, setSelectedContactPage] = useState<
     ContactPage | undefined
   >(undefined);
@@ -72,10 +69,6 @@ function ContactPageLayout({ children }: ContactPageLayoutProps) {
     );
     setSelectedContactPage(activePage);
   }, [pathname]);
-
-  const handleSelectChange = (contactPage?: ContactPage) => {
-    if (contactPage) router.push(contactPage.href);
-  };
 
   const displayPrivacyAndTerms = (contactPage?: ContactPage) => {
     if (!contactPage) return false;
@@ -97,17 +90,7 @@ function ContactPageLayout({ children }: ContactPageLayoutProps) {
           <Typo.h2 textType="heading--jumbo">
             {t(PageText.Contact.contactPageLayout.title)}
           </Typo.h2>
-          <div className={style.contact_page_navigator__dropdown}>
-            <Select
-              id="contactPage"
-              options={contactPages}
-              value={selectedContactPage}
-              placeholder={t(PageText.Contact.contactPageLayout.placeholder)}
-              onChange={handleSelectChange}
-              valueToId={(contactPage) => contactPage.href}
-              valueToText={(contactPage) => t(contactPage.title)}
-            />
-          </div>
+
           <nav className={style.contact_page_navigator__container}>
             {contactPages.map((contactPage, index) => {
               const isActive = pathname.includes(contactPage.href);
@@ -122,7 +105,16 @@ function ContactPageLayout({ children }: ContactPageLayoutProps) {
                     [style.contact_page_navigator__activePage]: isActive,
                   })}
                 >
-                  <MonoIcon size="large" icon={contactPage.icon} />
+                  <MonoIcon
+                    className={style.normalIcon}
+                    size="normal"
+                    icon={contactPage.icon}
+                  />
+                  <MonoIcon
+                    className={style.largeIcon}
+                    size="large"
+                    icon={contactPage.icon}
+                  />
                   <Typo.p textType="body__primary">
                     {t(contactPage.title)}
                   </Typo.p>
