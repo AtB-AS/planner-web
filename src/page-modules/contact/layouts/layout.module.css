@@ -49,23 +49,7 @@
 @media (max-width: 600px) {
   .contact_page_navigator__link {
     width: 10rem;
-    height: 6rem;
-  }
-}
-
-.normalIcon {
-  display: none;
-}
-
-.largeIcon {
-}
-
-@media (max-width: 600px) {
-  .normalIcon {
-    display: block;
-  }
-  .largeIcon {
-    display: none;
+    height: 8rem;
   }
 }
 

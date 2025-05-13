@@ -105,16 +105,7 @@ function ContactPageLayout({ children }: ContactPageLayoutProps) {
                     [style.contact_page_navigator__activePage]: isActive,
                   })}
                 >
-                  <MonoIcon
-                    className={style.normalIcon}
-                    size="normal"
-                    icon={contactPage.icon}
-                  />
-                  <MonoIcon
-                    className={style.largeIcon}
-                    size="large"
-                    icon={contactPage.icon}
-                  />
+                  <MonoIcon size="large" icon={contactPage.icon} />
                   <Typo.p textType="body__primary">
                     {t(contactPage.title)}
                   </Typo.p>
