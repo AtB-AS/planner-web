@@ -34,6 +34,7 @@ export const AppTravelSuggestionForm = ({
               : undefined
           }
           fileInputProps={{
+            id: 'attachments',
             name: 'attachments',
             label: t(PageText.Contact.input.question.attachment),
             onChange: (files) => {

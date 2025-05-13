@@ -95,6 +95,7 @@ const formFieldsPrefixes = [
   'searchable_select__',
   'date_selector__',
   'time_selector__',
+  'file_input__',
 ];
 
 export const findOrderFormFields = (e: FormEvent<HTMLFormElement>): string[] =>
@@ -113,9 +114,16 @@ export const scrollToFirstErrorMessage = (id: string | undefined): void => {
     .map((prefix) => document.getElementById(`${prefix}${id}`))
     .find((el): el is HTMLElement => el !== null);
 
-  if (element) {
-    element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    element.focus();
+  // FilInput must be focused by label, as input have display none.
+  const labelElement = document.querySelector(
+    `label[for=${id}]`,
+  ) as HTMLElement | null;
+
+  const scrollTarget = labelElement ?? element;
+
+  if (scrollTarget) {
+    scrollTarget.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    scrollTarget.focus();
   }
 };
 

@@ -260,6 +260,7 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
             t(state.context.errorMessages['feedback']?.[0])
           }
           fileInputProps={{
+            id: 'attachments',
             name: 'attachments',
             label: t(PageText.Contact.input.feedback.attachment),
             onChange: (files) => {

@@ -8,6 +8,7 @@ import { useTheme } from '@atb/modules/theme';
 import { ErrorMessage } from '@atb/components/error-message';
 
 export type FileInputProps = {
+  id: string;
   label: string;
   errorMessage?: TranslatedString;
   onChange?: (files: File[]) => void;
@@ -16,13 +17,13 @@ export type FileInputProps = {
 const MAX_ALLOWED_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 
 export default function FileInput({
+  id,
   onChange,
   label,
   name,
   errorMessage,
 }: FileInputProps) {
   const { t } = useTranslation();
-  const id = useId();
   const {
     color: { background },
   } = useTheme();
@@ -84,7 +85,7 @@ export default function FileInput({
       className={style.file_input__container}
     >
       <input
-        id={id}
+        id={`file_input__${id}`}
         type="file"
         onChange={handleFileChange}
         name={name}

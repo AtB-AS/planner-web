@@ -192,6 +192,7 @@ export const TransportationForm = ({
               : undefined
           }
           fileInputProps={{
+            id: 'attachments',
             name: 'attachments',
             label: t(PageText.Contact.input.feedback.attachment),
             onChange: (files) => {
