@@ -11,8 +11,11 @@ export function useOrgThemeDefinitions() {
       ? fylkeskommune?.logoSrcDark
       : fylkeskommune?.logoSrc;
 
-  const overrideMonoIconMode: MonoIconOverrideMode =
-    orgId === 'atb' ? (isDarkMode ? 'dark' : 'light') : 'dark';
+  const overrideMonoIconMode: MonoIconOverrideMode = (() => {
+    if (orgId === 'vkt' || orgId === 'farte') return 'none';
+    else if (orgId === 'atb') return isDarkMode ? 'dark' : 'light';
+    return 'dark';
+  })();
 
   return { fylkeskommuneLogo, overrideMonoIconMode };
 }

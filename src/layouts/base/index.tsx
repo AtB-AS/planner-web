@@ -43,13 +43,9 @@ export function BaseLayout({ children, title }: BaseLayoutProps) {
             content={theme.color.background.accent[0].background}
           />
         </Head>
-
         <OpenGraphBase title={siteTitle} />
-
         <PageHeader />
-
         <main className={style.main}>{children}</main>
-
         <Footer />
       </div>
     </I18nProvider>
