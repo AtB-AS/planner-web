@@ -1,4 +1,4 @@
-class P {
+class H {
   constructor(e, o, { tabInsertsSuggestions: i, firstOptionSelectionMode: a, scrollIntoViewOptions: s } = {}) {
     this.input = e, this.list = o, this.tabInsertsSuggestions = i ?? !0, this.firstOptionSelectionMode = a ?? "none", this.scrollIntoViewOptions = s ?? { block: "nearest", inline: "nearest" }, this.isComposing = !1, o.id || (o.id = `combobox-${Math.random().toString().slice(2, 6)}`), this.ctrlBindings = !!navigator.userAgent.match(/Macintosh/), this.keyboardEventHandler = (c) => N(c, this), this.compositionEventHandler = (c) => W(c, this), this.inputHandler = this.clearSelection.bind(this), e.setAttribute("role", "combobox"), e.setAttribute("aria-controls", o.id), e.setAttribute("aria-expanded", "false"), e.setAttribute("aria-autocomplete", "list"), e.setAttribute("aria-haspopup", "listbox");
   }
@@ -92,7 +92,7 @@ function T(t) {
 function W(t, e) {
   e.isComposing = t.type === "compositionstart", document.getElementById(e.input.getAttribute("aria-controls") || "") && e.clearSelection();
 }
-const R = '"../page-modules/assistant/assistant.module.css"', G = '"../page-modules/departures/departures.module.css"', K = '"../components/search/search.module.css"', U = '"../modules/search-time/selector/selector.module.css"', V = '"../components/button/button.module.css"', Q = "widget-module__hidden", Y = "widget-module__wrapper", J = "widget-module__form assistant-module__container", z = "widget-module__nav", X = "widget-module__tabs", Z = "widget-module__tabSelected", ee = "widget-module__main assistant-module__main", te = "widget-module__heading assistant-module__heading", oe = "widget-module__inputBoxes", ne = "widget-module__search_container search-module__container", ie = "widget-module__search_inputContainer search-module__inputContainer", ae = "widget-module__search_label search-module__label typography-module__typo-body__secondary", se = "widget-module__search_input search-module__input", re = "widget-module__search_inputLast", le = "widget-module__button_geolocation departures-module__geolocationButton", ce = "widget-module__selector_group selector-module__departureDateSelector", ue = "widget-module__selector_options selector-module__options", de = "widget-module__selector_options__small selector-module__options", pe = "widget-module__selector_option selector-module__option", me = "widget-module__selector_option__text selector-module__option__text", he = "widget-module__selector_option__label selector-module__option__label", _e = "widget-module__selector_option__input selector-module__option__input", fe = "widget-module__selector_dateAndTimeSelectorsWrapper selector-module__dateAndTimeSelectorsWrapper", ge = "widget-module__selector_dateAndTimeSelectorsWrapper__hidden", be = "widget-module__selector_dateAndTimeSelectors selector-module__dateAndTimeSelectors", ve = "widget-module__selector_dateSelector selector-module__dateSelector", we = "widget-module__selector_timeSelector selector-module__timeSelector", ye = "widget-module__buttonGroup", $e = "widget-module__button", Se = "widget-module__buttonLightOutline", Ee = "widget-module__listItem", Te = "widget-module__itemIcon", Le = "widget-module__itemLocality search-module__itemLocality typography-module__typo-body__secondary", Ae = "widget-module__popupContainer search-module__menu", ke = "widget-module__messageBox", Ce = "widget-module__inheritFont", Ie = "widget-module__singleColumnLayout", n = {
+const R = '"../page-modules/assistant/assistant.module.css"', G = '"../page-modules/departures/departures.module.css"', K = '"../components/search/search.module.css"', U = '"../modules/search-time/selector/selector.module.css"', V = '"../components/button/button.module.css"', Q = "widget-module__hidden", Y = "widget-module__wrapper", J = "widget-module__form assistant-module__container", z = "widget-module__nav", X = "widget-module__tabs", Z = "widget-module__tabSelected", ee = "widget-module__main assistant-module__main", te = "widget-module__heading assistant-module__heading", oe = "widget-module__inputBoxes", ne = "widget-module__search_container search-module__container", ie = "widget-module__search_inputContainer search-module__inputContainer", ae = "widget-module__search_label search-module__label typography-module__typo-body__secondary", se = "widget-module__search_input search-module__input", re = "widget-module__search_inputLast", le = "widget-module__button_geolocation departures-module__geolocationButton", ce = "widget-module__selector_group selector-module__departureDateSelector", ue = "widget-module__selector_options selector-module__options", de = "widget-module__selector_options__small selector-module__options", pe = "widget-module__selector_option selector-module__option", me = "widget-module__selector_option__text selector-module__option__text", he = "widget-module__selector_option__label selector-module__option__label", _e = "widget-module__selector_option__input selector-module__option__input", ge = "widget-module__selector_dateAndTimeSelectorsWrapper selector-module__dateAndTimeSelectorsWrapper", fe = "widget-module__selector_dateAndTimeSelectorsWrapper__hidden", be = "widget-module__selector_dateAndTimeSelectors selector-module__dateAndTimeSelectors", ve = "widget-module__selector_dateSelector selector-module__dateSelector", we = "widget-module__selector_timeSelector selector-module__timeSelector", ye = "widget-module__buttonGroup", $e = "widget-module__button", Se = "widget-module__buttonLightOutline", Ee = "widget-module__listItem", Te = "widget-module__itemIcon", Le = "widget-module__itemLocality search-module__itemLocality typography-module__typo-body__secondary", Ae = "widget-module__popupContainer search-module__menu", ke = "widget-module__messageBox", Ce = "widget-module__inheritFont", Ie = "widget-module__singleColumnLayout", n = {
   assistant: R,
   departures: G,
   search: K,
@@ -120,8 +120,8 @@ const R = '"../page-modules/assistant/assistant.module.css"', G = '"../page-modu
   selector_option__text: me,
   selector_option__label: he,
   selector_option__input: _e,
-  selector_dateAndTimeSelectorsWrapper: fe,
-  selector_dateAndTimeSelectorsWrapper__hidden: ge,
+  selector_dateAndTimeSelectorsWrapper: ge,
+  selector_dateAndTimeSelectorsWrapper__hidden: fe,
   selector_dateAndTimeSelectors: be,
   selector_dateSelector: ve,
   selector_timeSelector: we,
@@ -142,9 +142,9 @@ function De(t) {
     return o[1] ? e + " " + o[0] : e;
   }, "");
 }
-var B = { MODULE_VERSION: "3.0.1", COMPRESSED_ORG: "HYMw1kA", ORG_ID: "nfk" };
-const Me = 300, y = String.raw, L = B.MODULE_VERSION, A = B.COMPRESSED_ORG;
-function Be(t) {
+var O = { MODULE_VERSION: "3.0.1", COMPRESSED_ORG: "HYMw1kA", ORG_ID: "nfk" };
+const Me = 300, y = String.raw, L = O.MODULE_VERSION, A = O.COMPRESSED_ORG;
+function Oe(t) {
   if (!(t != null && t.startsWith("http")))
     throw new Error("Missing urlBase in correct schema.");
   return t.endsWith("/") || (t += "/"), {
@@ -159,20 +159,20 @@ function et({
   language: e = "en",
   outputOverrideOptions: o = {}
 }) {
-  const i = Xe(e), a = Be(t), s = {
+  const i = Xe(e), a = Oe(t), s = {
     inheritFont: !1,
     singleColumnLayout: !1,
     ...o
   };
   return {
-    output: qe(a, i, s),
-    init: Fe,
+    output: Fe(a, i, s),
+    init: Be,
     urls: a
   };
 }
-function Fe() {
+function Be() {
   var e, o;
-  He(), D("pw-assistant"), D("pw-departures");
+  qe(), D("pw-assistant"), D("pw-departures");
   let t = {
     from: void 0,
     to: void 0
@@ -203,7 +203,7 @@ function Fe() {
   }), (o = document.querySelector("#pw-form-assistant")) == null || o.addEventListener("submit", (i) => {
     i.preventDefault();
     const a = i.currentTarget;
-    Oe(a, t.from, t.to);
+    Pe(a, t.from, t.to);
   });
 }
 function D(t) {
@@ -220,7 +220,7 @@ function D(t) {
   } catch {
   }
 }
-function F(t, e) {
+function B(t, e) {
   const o = t.get(`${e}-searchTimeSelector`);
   if (o === "now")
     return {
@@ -240,12 +240,12 @@ function F(t, e) {
     };
   }
 }
-function Oe(t, e, o) {
-  const i = t.action, a = F(new FormData(t), "pw-assistant"), s = Ke({ from: e, to: o }, a), c = new URLSearchParams(s);
+function Pe(t, e, o) {
+  const i = t.action, a = B(new FormData(t), "pw-assistant"), s = Ke({ from: e, to: o }, a), c = new URLSearchParams(s);
   window.location.href = `${i}?${c.toString()}`;
 }
 function je(t, e) {
-  const o = t.action, i = F(new FormData(t), "pw-departures"), a = Ue(i, e), s = new URLSearchParams(a);
+  const o = t.action, i = B(new FormData(t), "pw-departures"), a = Ue(i, e), s = new URLSearchParams(a);
   (e == null ? void 0 : e.layer) === "venue" ? window.location.href = `${o}/${e.id}?${s.toString()}` : window.location.href = `${o}?${s.toString()}`;
 }
 class E extends HTMLElement {
@@ -271,7 +271,7 @@ class E extends HTMLElement {
     );
   }
 }
-function qe({ URL_BASE: t }, e, o) {
+function Fe({ URL_BASE: t }, e, o) {
   function i(r) {
     const u = s(r), h = v("span", [r.name]), d = v("span", [r.locality ?? ""], n.itemLocality), l = v("li", [u, h, d], n.listItem);
     return l.role = "option", l.setAttribute("data-feature-id", r.id), l;
@@ -296,8 +296,8 @@ function qe({ URL_BASE: t }, e, o) {
         var d;
         E.clearMessageBox();
         try {
-          const l = await Ye(t, e), f = (d = u.parentElement) == null ? void 0 : d.querySelector("input");
-          f && (f.value = l ? `${l.name}, ${l.locality}` : f.value), document.dispatchEvent(
+          const l = await Ye(t, e), g = (d = u.parentElement) == null ? void 0 : d.querySelector("input");
+          g && (g.value = l ? `${l.name}, ${l.locality}` : g.value), document.dispatchEvent(
             new CustomEvent("search-selected", {
               bubbles: !0,
               detail: {
@@ -339,29 +339,29 @@ function qe({ URL_BASE: t }, e, o) {
       ), d = this.querySelector("input"), l = this.querySelector(
         "#" + this.getAttribute("for")
       );
-      let f = new P(d, l, {
+      let g = new H(d, l, {
         tabInsertsSuggestions: !0,
         scrollIntoViewOptions: !1
       });
       function w(p) {
-        p ? f.start() : (f.clearSelection(), f.stop()), l.hidden = !p;
+        p ? g.start() : (g.clearSelection(), g.stop()), l.hidden = !p;
       }
       function k() {
         u.setItems([]), l.innerHTML = "";
         const p = a(e.noResults);
         l.appendChild(p), w(!0);
       }
-      const H = Pe(async (p) => {
+      const q = He(async (p) => {
         try {
           if (!p.value) {
             l.innerHTML = "";
             return;
           }
-          const g = await Ve(t, p.value);
-          if (g.length === 0)
+          const f = await Ve(t, p.value);
+          if (f.length === 0)
             return k();
-          u.setItems(g), l.innerHTML = "";
-          for (let b of g) {
+          u.setItems(f), l.innerHTML = "";
+          for (let b of f) {
             const S = i(b);
             l.appendChild(S);
           }
@@ -374,13 +374,13 @@ function qe({ URL_BASE: t }, e, o) {
         p.key === "Escape" && w(!1);
       }), d.addEventListener(
         "input",
-        (p) => H(p.target)
+        (p) => q(p.target)
       ), d.addEventListener("focus", () => w(!0)), d.addEventListener("blur", () => w(!1)), document.addEventListener("click", (p) => {
-        O(p.target, this) || w(!1);
+        P(p.target, this) || w(!1);
       }), l.addEventListener("combobox-commit", function(p) {
-        const g = p.target.getAttribute(
+        const f = p.target.getAttribute(
           "data-feature-id"
-        ), b = g ? u.getItem(g) : void 0;
+        ), b = f ? u.getItem(f) : void 0;
         let S = d.value;
         b && (S = `${b.name}`, b.locality && (S += `, ${b.locality}`)), d.value = S, document.dispatchEvent(
           new CustomEvent("search-selected", {
@@ -390,18 +390,18 @@ function qe({ URL_BASE: t }, e, o) {
               item: b
             }
           })
-        ), l.hidden = !0, f.clearSelection(), f.stop();
+        ), l.hidden = !0, g.clearSelection(), g.stop();
       });
     }
   }
   customElements.define("pw-autocomplete", m);
-  const $ = (r) => y`
+  const $ = y`
     <div class="${n.buttonGroup}">
       <button
         type="submit"
         class="${n.button}"
       >
-        <span>${r}</span>
+        <span>${e.searchButton}</span>
       </button>
     </div>
   `, _ = (r, u = !0) => y`
@@ -588,9 +588,9 @@ function qe({ URL_BASE: t }, e, o) {
         </fieldset>
         ${_("pw-assistant")}
       </div>
-      ${$(e.assistantSearchButton)}
+      ${$}
     </form>
-  `, q = y`
+  `, F = y`
     <form
       class="${n.form}"
       action="${t}/departures"
@@ -655,7 +655,7 @@ function qe({ URL_BASE: t }, e, o) {
         </fieldset>
         ${_("pw-departures", !1)}
       </div>
-      ${$(e.departuresSearchButton)}
+      ${$}
     </form>
   `;
   return y`
@@ -688,12 +688,12 @@ function qe({ URL_BASE: t }, e, o) {
       </nav>
       <div class="js-tabpanel" id="pw-assistant">${j}</div>
       <div class="js-tabpanel ${n.hidden}" id="pw-departures">
-        ${q}
+        ${F}
       </div>
     </div>
   `;
 }
-function He() {
+function qe() {
   var t;
   (t = document.querySelector(".js-tablist")) == null || t.addEventListener("click", function(e) {
     var m, $;
@@ -723,7 +723,7 @@ function He() {
     );
   });
 }
-function Pe(t, e) {
+function He(t, e) {
   let o = null;
   return function(...i) {
     clearTimeout(o), o = setTimeout(() => {
@@ -744,8 +744,8 @@ function Ne(t, e) {
   const o = parseInt(t, 10);
   return Number.isNaN(o) ? e : o;
 }
-function O(t, e) {
-  return t === e ? !0 : !t || !t.parentElement ? !1 : O(t.parentElement, e);
+function P(t, e) {
+  return t === e ? !0 : !t || !t.parentElement ? !1 : P(t.parentElement, e);
 }
 function xe(t) {
   switch (We(t)[0]) {
@@ -881,17 +881,16 @@ const ze = {
       unavailable: "Posisjonen din er ikke tilgjengelig.",
       timeout: "Det tok for lang tid å hente posisjonen din. Prøv på nytt."
     },
-    assistantSearchButton: "Finn reise",
-    departuresSearchButton: "Finn avganger",
+    searchButton: "Finn avganger",
     placeholder: "adresse, kai eller holdeplass",
     assistant: {
-      link: "Finn reise",
+      link: "Planlegg reisen",
       title: "Hvor vil du reise?",
       from: "Fra",
       to: "Til"
     },
     departure: {
-      link: "Se avganger",
+      link: "Avganger",
       title: "Hvor vil du reise fra?",
       from: "Fra"
     },
@@ -912,17 +911,16 @@ const ze = {
       unavailable: "Posisjonen din er ikkje tilgjengeleg.",
       timeout: "Det tok for lang tid å hente posisjonen din. Prøv på nytt."
     },
-    assistantSearchButton: "Finn reise",
-    departuresSearchButton: "Finn avganger",
+    searchButton: "Finn avgangar",
     placeholder: "adresse, kai eller haldeplass",
     assistant: {
-      link: "Finn reise",
+      link: "Planlegg reisa",
       title: "Kor vil du reise?",
       from: "Frå",
       to: "Til"
     },
     departure: {
-      link: "Sjå avganger",
+      link: "Avgangar",
       title: "Kor vil du reise frå?",
       from: "Frå"
     },
@@ -943,11 +941,10 @@ const ze = {
       unavailable: "Your position is not available.",
       timeout: "It took too long to retrieve your position. Try again."
     },
-    assistantSearchButton: "Find journey",
-    departuresSearchButton: "Find departures",
+    searchButton: "Find departures",
     placeholder: "address, quay, or stop",
     assistant: {
-      link: "Find journey",
+      link: "Plan your journey",
       title: "Where do you want to travel?",
       from: "From",
       to: "To"
