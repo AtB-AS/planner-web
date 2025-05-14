@@ -726,6 +726,11 @@ const ContactInternal = {
               'Single tickets after incorrect purchase and when a new, correct ticket has been purchased.',
               'Enkeltbillettar etter feilkjøp og når ny, riktig billett er kjøpt. ',
             ),
+            _(
+              'Klippekort: Du får refusjon for antall gjenværende klipp.',
+              'Carnet: You will receive a refund for the number of remaining clips.',
+              'Klippekort: Du får refusjon for tal resterande klipp.',
+            ),
           ],
           info: {
             text: _(
