@@ -17,7 +17,6 @@ const ContactInternal = {
       'Back to travel search',
       'Tilbake til reisesøk',
     ),
-    placeholder: _('Velg et skjema', 'Select a form', 'Vel eit skjema'),
     privacyAndTerms: _(
       'Vi ber om de personopplysningene vi trenger for å behandle saken din. Du skal derfor ikke legge inn personopplysninger i fritekstfeltene. Personopplysninger er alle opplysninger som kan knytest til en fysisk person, eller bidra til å identifisere en fysisk person.',
       'We ask for the personal information we need to process your case. You should therefore not enter personal information in the free text field. Personal information is all information that can be linked to a physical person, or help to identify a physical person.',
@@ -726,6 +725,11 @@ const ContactInternal = {
               'Enkeltbilletter etter feilkjøp og når ny, riktig billett er kjøpt. ',
               'Single tickets after incorrect purchase and when a new, correct ticket has been purchased.',
               'Enkeltbillettar etter feilkjøp og når ny, riktig billett er kjøpt. ',
+            ),
+            _(
+              'Klippekort: Du får refusjon for antall gjenværende klipp.',
+              'Carnet: You will receive a refund for the number of remaining clips.',
+              'Klippekort: Du får refusjon for tal resterande klipp.',
             ),
           ],
           info: {

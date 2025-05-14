@@ -143,6 +143,7 @@ export const StopForm = ({ state, send }: StopFormProps) => {
               : undefined
           }
           fileInputProps={{
+            id: 'attachments',
             name: 'attachments',
             label: t(PageText.Contact.input.feedback.attachment),
             onChange: (files) => {

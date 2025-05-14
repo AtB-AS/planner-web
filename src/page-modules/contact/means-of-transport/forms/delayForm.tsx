@@ -184,6 +184,7 @@ export const DelayForm = ({ state, send }: DelayFormProps) => {
               : undefined
           }
           fileInputProps={{
+            id: 'attachments',
             name: 'attachments',
             label: t(PageText.Contact.input.feedback.attachment),
             onChange: (files) => {

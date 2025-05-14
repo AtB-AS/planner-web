@@ -244,9 +244,7 @@ export const refundStateMachine = setup({
   guards: {
     isFormValid: ({ context }) => {
       const inputsToValidate = setInputToValidate(context);
-      console.log('inputsToValidate: ', inputsToValidate);
       const errors = commonInputValidator(inputsToValidate);
-      console.log('errors: ', errors);
       return Object.keys(errors).length === 0;
     },
     isRefundOfTicket: ({ event }) =>
@@ -327,8 +325,6 @@ export const refundStateMachine = setup({
         }
 
         context.errorMessages[inputName] = [];
-
-        console.log(value);
 
         return {
           ...context,

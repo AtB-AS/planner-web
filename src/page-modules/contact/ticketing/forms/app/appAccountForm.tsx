@@ -31,6 +31,7 @@ export const AppAccountForm = ({ state, send }: AppAccountFormProps) => {
               : undefined
           }
           fileInputProps={{
+            id: 'attachments',
             name: 'attachments',
             label: t(PageText.Contact.input.question.attachment),
             onChange: (files) => {
