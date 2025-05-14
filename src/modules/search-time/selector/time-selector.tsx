@@ -27,7 +27,7 @@ export default function TimeSelector({
   return (
     <TimeField
       value={parsedValue}
-      onChange={(change) => onChange((change || '00:00').toString())}
+      onChange={(change) => onChange(change.toString())}
       hourCycle={24}
       shouldForceLeadingZeros
       className={style.timeSelector}
@@ -54,10 +54,7 @@ export default function TimeSelector({
           <MonoIcon icon="time/Time" />
         </Button>
 
-        <TimeSelectorDropdown
-          selectedTime={selectedTime || '00:00'}
-          onChange={onChange}
-        />
+        <TimeSelectorDropdown selectedTime={selectedTime} onChange={onChange} />
       </DialogTrigger>
     </TimeField>
   );
