@@ -41,13 +41,13 @@ export default function TimeSelectorDropdown({
             height: numberItemRowHeight * 7, // show 7 rows at the time
           }}
         >
-          <NumbersScrollView
-            numbers={hours}
+          <NumberSeriesScrollView
+            numberSeries={hours}
             selectedValue={time.hour}
             onSelect={(hour) => selectTime('hour', hour)}
           />
-          <NumbersScrollView
-            numbers={minutes}
+          <NumberSeriesScrollView
+            numberSeries={minutes}
             selectedValue={time.minute}
             onSelect={(minute) => selectTime('minute', minute)}
           />
@@ -57,38 +57,38 @@ export default function TimeSelectorDropdown({
   );
 }
 
-type NumbersScrollViewProps = {
-  numbers: number[];
+type NumberSeriesScrollViewProps = {
+  numberSeries: number[];
   selectedValue: number;
   onSelect: (number: number) => void;
 };
 
-const NumbersScrollView = ({
-  numbers,
+const NumberSeriesScrollView = ({
+  numberSeries,
   selectedValue,
   onSelect,
-}: NumbersScrollViewProps) => {
+}: NumberSeriesScrollViewProps) => {
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
   const theme = useTheme();
   const initialSelectedValue = useRef(selectedValue);
 
   useEffect(() => {
-    const initialNumberIndex = numbers.findIndex(
+    const initialNumberIndex = numberSeries.findIndex(
       (number) => number === initialSelectedValue.current,
     );
     if (initialNumberIndex !== -1 && scrollContainerRef.current) {
       scrollContainerRef.current.scrollTo({
         behavior: 'instant',
-        top: (initialNumberIndex + numbers.length) * numberItemRowHeight, // the numbers are repeated 3 times, this selects from the one in the middle
+        top: (initialNumberIndex + numberSeries.length) * numberItemRowHeight, // the numbers are repeated 3 times, this selects from the one in the middle
       });
     }
-  }, [initialSelectedValue, numbers, theme.spacing.small]);
+  }, [initialSelectedValue, numberSeries, theme.spacing.small]);
 
   // To ensure that the default value can always be selected and aligned on top, repeat the numbers 3 times and select a number in the middle.
   const numberItems = ['paddingBefore', 'default', 'paddingAfter'].flatMap(
     (_, i) =>
-      numbers.map((num, index) => ({
-        key: i * numbers.length + index,
+      numberSeries.map((num, index) => ({
+        key: i * numberSeries.length + index,
         value: num,
       })),
   );
