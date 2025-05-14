@@ -1,9 +1,4 @@
-import {
-  Dialog,
-  ListLayout,
-  Popover,
-  Virtualizer,
-} from 'react-aria-components';
+import { Dialog, Popover } from 'react-aria-components';
 
 import { parseTime } from '@internationalized/date';
 import style from './time-selector-dropdown.module.css';
@@ -13,7 +8,6 @@ import { useEffect, useRef } from 'react';
 import { useTheme } from '@atb/modules/theme';
 
 const numberItemRowHeight = 32; // px
-const maxNumberOfTimeOptionsVisible = 5;
 
 const getNumbers = (length: number) => Array.from({ length }, (_, i) => i);
 const hours = getNumbers(24);
@@ -44,9 +38,7 @@ export default function TimeSelectorDropdown({
         <div
           className={style.scrollViews}
           style={{
-            height:
-              numberItemRowHeight * (maxNumberOfTimeOptionsVisible + 2) + // +2 for container top and bottom
-              2 * theme.spacing.small,
+            height: numberItemRowHeight * 7, // show 7 rows at the time
           }}
         >
           <NumbersScrollView
@@ -87,35 +79,30 @@ const NumbersScrollView = ({
     if (initialNumberIndex !== -1 && scrollContainerRef.current) {
       scrollContainerRef.current.scrollTo({
         behavior: 'instant',
-        top:
-          initialNumberIndex * (numberItemRowHeight + theme.spacing.small / 2), // compensate for padding as well
+        top: initialNumberIndex * numberItemRowHeight,
       });
     }
   }, [initialSelectedValue, numbers, theme.spacing.small]);
 
   return (
     <div ref={scrollContainerRef} className={style.scrollView}>
-      <Virtualizer
-        layout={ListLayout}
-        layoutOptions={{ rowHeight: numberItemRowHeight }}
-      >
-        {numbers.map((number) => {
-          const isSelected = selectedValue === number;
-          return (
-            <Typo.div
-              key={number}
-              textType={isSelected ? 'body__primary--bold' : 'body__primary'}
-              className={and(
-                style.numberItem,
-                isSelected && style.numberItemSelected,
-              )}
-              onClick={() => onSelect(number)}
-            >
-              {number.toString().padStart(2, '0')}
-            </Typo.div>
-          );
-        })}
-      </Virtualizer>
+      {numbers.map((number) => {
+        const isSelected = selectedValue === number;
+        return (
+          <Typo.div
+            key={number}
+            textType={isSelected ? 'body__primary--bold' : 'body__primary'}
+            style={{ height: numberItemRowHeight + 'px' }}
+            className={and(
+              style.numberItem,
+              isSelected && style.numberItemSelected,
+            )}
+            onClick={() => onSelect(number)}
+          >
+            {number.toString().padStart(2, '0')}
+          </Typo.div>
+        );
+      })}
     </div>
   );
 };
