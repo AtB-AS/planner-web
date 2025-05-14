@@ -4,12 +4,9 @@
   width: 100%;
   max-width: var(--maxPageWidth);
   margin: 0 auto;
+  padding: 0 token('spacing.medium');
 }
-@media (max-width: 650px) {
-  .layout {
-    padding: 0 token('spacing.medium');
-  }
-}
+
 .homeLink__container {
   padding: 0 token('spacing.medium');
 }
