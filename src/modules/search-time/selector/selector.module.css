@@ -4,7 +4,6 @@
 }
 
 .options {
-  --container-height: 2.75rem;
   --option-height: 2.25rem;
   --container-border-radius: 0.75rem;
   --option-border-radius: token('border.radius.regular');
@@ -17,7 +16,6 @@
   border: 1px solid token('color.foreground.dynamic.disabled');
   width: fit-content;
   border-radius: var(--container-border-radius);
-  height: var(--container-height);
   align-items: center;
 }
 
