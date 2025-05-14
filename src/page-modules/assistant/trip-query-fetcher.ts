@@ -65,31 +65,42 @@ async function getLocationPromise(
   client: AssistantClient,
   locationType: LocationType,
 ): Promise<GeocoderFeature | null> {
-  if (hasName(tripQuery, locationType)) {
-    const nameKey = `${locationType}Name` as const;
-    const result = await client.autocomplete(tripQuery[nameKey]);
-
-    let feature: GeocoderFeature | undefined;
-
-    if (hasId(tripQuery, locationType)) {
-      const idKey = `${locationType}Id` as const;
-      feature = result.find((feature) => feature.id === tripQuery[idKey]);
-    } else if (hasCoordinates(tripQuery, locationType)) {
-      const latKey = `${locationType}Lat` as const;
-      const lonKey = `${locationType}Lon` as const;
-      feature = result.find(
-        (feature) =>
-          feature.geometry.coordinates[0] === tripQuery[lonKey] &&
-          feature.geometry.coordinates[1] === tripQuery[latKey],
-      );
-    } else if (result.length > 0) {
-      feature = result[0];
-    }
-
-    return feature || null;
+  // If no name exists for this location type, we can't search
+  if (!hasName(tripQuery, locationType)) {
+    return null;
   }
 
-  return Promise.resolve(null);
+  const nameKey = `${locationType}Name` as const;
+  const result = await client.autocomplete(tripQuery[nameKey]);
+
+  // If no results were found, return null early
+  if (result.length === 0) {
+    return null;
+  }
+
+  let feature: GeocoderFeature | undefined;
+
+  // First, try to find feature based on ID if available
+  if (hasId(tripQuery, locationType)) {
+    const idKey = `${locationType}Id` as const;
+    feature = result.find((feature) => feature.id === tripQuery[idKey]);
+    if (feature) return feature;
+  }
+
+  // If no match by ID, try to find by coordinates
+  if (hasCoordinates(tripQuery, locationType)) {
+    const latKey = `${locationType}Lat` as const;
+    const lonKey = `${locationType}Lon` as const;
+    feature = result.find(
+      (feature) =>
+        feature.geometry.coordinates[0] === tripQuery[lonKey] &&
+        feature.geometry.coordinates[1] === tripQuery[latKey],
+    );
+    if (feature) return feature;
+  }
+
+  // If no match by ID or coordinates, use the first result
+  return result[0];
 }
 
 async function getFromPromise(
