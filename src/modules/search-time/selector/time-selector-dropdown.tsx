@@ -79,27 +79,36 @@ const NumbersScrollView = ({
     if (initialNumberIndex !== -1 && scrollContainerRef.current) {
       scrollContainerRef.current.scrollTo({
         behavior: 'instant',
-        top: initialNumberIndex * numberItemRowHeight,
+        top: (initialNumberIndex + numbers.length) * numberItemRowHeight, // the numbers are repeated 3 times, this selects from the one in the middle
       });
     }
   }, [initialSelectedValue, numbers, theme.spacing.small]);
 
+  // To ensure that the default value can always be selected and aligned on top, repeat the numbers 3 times and select a number in the middle.
+  const numberItems = ['paddingBefore', 'default', 'paddingAfter'].flatMap(
+    (_, i) =>
+      numbers.map((num, index) => ({
+        key: i * numbers.length + index,
+        value: num,
+      })),
+  );
+
   return (
     <div ref={scrollContainerRef} className={style.scrollView}>
-      {numbers.map((number) => {
-        const isSelected = selectedValue === number;
+      {numberItems.map((numberItem) => {
+        const isSelected = selectedValue === numberItem.value;
         return (
           <Typo.div
-            key={number}
+            key={numberItem.key}
             textType={isSelected ? 'body__primary--bold' : 'body__primary'}
             style={{ height: numberItemRowHeight + 'px' }}
             className={and(
               style.numberItem,
               isSelected && style.numberItemSelected,
             )}
-            onClick={() => onSelect(number)}
+            onClick={() => onSelect(numberItem.value)}
           >
-            {number.toString().padStart(2, '0')}
+            {numberItem.value.toString().padStart(2, '0')}
           </Typo.div>
         );
       })}
