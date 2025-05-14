@@ -2,10 +2,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  padding: token('spacing.medium');
-  padding-top: token('spacing.large');
-  margin: token('spacing.large');
-  margin-top: 0px;
+  padding: token('spacing.large');
   border: none;
   border-radius: token('border.radius.regular');
   color: token('color.background.neutral.0.foreground.primary');

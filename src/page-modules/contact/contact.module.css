@@ -4,7 +4,9 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  gap: token('spacing.large');
 }
+
 .form_options__list {
   list-style-type: none;
 }
