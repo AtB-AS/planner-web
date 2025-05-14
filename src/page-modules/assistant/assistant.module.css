@@ -22,6 +22,7 @@
   margin: 0 auto;
   margin-top: token('spacing.large');
   background-color: token('color.background.neutral.0.background');
+  border-radius: token('border.radius.regular');
 }
 
 .input {
@@ -68,6 +69,8 @@
   flex-direction: column;
   gap: token('spacing.large');
   background-color: token('color.background.neutral.2.background');
+  border-radius: 0 0 token('border.radius.regular')
+    token('border.radius.regular');
 }
 
 .buttons {
@@ -79,13 +82,14 @@
   width: 100%;
   max-width: var(--maxPageWidth);
   margin: 0 auto;
-  padding: 0 token('spacing.xLarge') token('spacing.xLarge')
-    token('spacing.xLarge');
+  padding: token('spacing.medium') token('spacing.large') token('spacing.large')
+    token('spacing.large');
   z-index: 10;
   position: absolute;
   left: 0;
   right: 0;
   background-color: token('color.background.neutral.0.background');
+  border-radius: 0 0 token('border.radius.regular') token('border.radius.regular');
 }
 
 .searchInputButton {
