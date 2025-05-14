@@ -12,92 +12,135 @@ export async function fetchFromToTripQuery(
   client: AssistantClient,
 ): Promise<FromToTripQuery> {
   const tripQuery = parseTripQuery(query);
-  const cursor = tripQuery?.cursor;
-  const transportModeFilter = parseFilterQuery(tripQuery?.filter);
-  const lineFilter = parseFilterQuery(tripQuery?.lineFilter);
+
+  if (!tripQuery) {
+    return {
+      from: null,
+      to: null,
+      via: null,
+      transportModeFilter: [],
+      searchTime: { mode: 'now' },
+      cursor: null,
+      lineFilter: [],
+    };
+  }
+
+  const transportModeFilter = parseFilterQuery(tripQuery.filter);
+  const lineFilter = parseFilterQuery(tripQuery.lineFilter);
   const searchTime = parseSearchTimeQuery(
-    tripQuery?.searchMode,
-    tripQuery?.searchTime,
+    tripQuery.searchMode,
+    tripQuery.searchTime,
   );
 
-  let fromP: Promise<GeocoderFeature | undefined> | undefined = undefined;
-  let toP: Promise<GeocoderFeature | undefined> | undefined = undefined;
-  let viaP: Promise<GeocoderFeature | undefined> | undefined = undefined;
-
-  if (!fromP && hasFromLatLon(tripQuery)) {
-    fromP = client
-      .autocomplete(tripQuery.fromName, {
-        lat: tripQuery.fromLat,
-        lon: tripQuery.fromLon,
-      })
-      .then((result) => result[0]);
-  }
-
-  if (hasToLatLon(tripQuery)) {
-    toP = client
-      .autocomplete(tripQuery.toName, {
-        lat: tripQuery.toLat,
-        lon: tripQuery.toLon,
-      })
-      .then((result) => result[0]);
-  }
-
-  if (hasVia(tripQuery)) {
-    viaP = client
-      .autocomplete(tripQuery.viaName, {
-        lat: tripQuery.viaLat,
-        lon: tripQuery.viaLon,
-      })
-      .then((result) => result[0]);
-  }
-
-  const [from, to, via] = await Promise.all([fromP, toP, viaP]);
+  const [from, to, via] = await Promise.all([
+    getFromPromise(tripQuery, client),
+    getToPromise(tripQuery, client),
+    getViaPromise(tripQuery, client),
+  ]);
 
   return {
-    from: from ?? null,
-    to: to ?? null,
-    via: via ?? null,
+    from,
+    to,
+    via,
     transportModeFilter,
     searchTime,
-    cursor: cursor ?? null,
+    cursor: tripQuery?.cursor ?? null,
     lineFilter,
   };
 }
 
-function hasFromLatLon(
-  query: TripQuery | undefined,
-): query is Required<
-  Pick<TripQuery, 'fromLat' | 'fromLayer' | 'fromLon' | 'fromName'>
-> {
-  return (
-    query?.fromName !== undefined &&
-    query?.fromLon !== undefined &&
-    query?.fromLat !== undefined &&
-    query?.fromLayer !== undefined
-  );
-}
-function hasToLatLon(
-  query: TripQuery | undefined,
-): query is Required<
-  Pick<TripQuery, 'toLat' | 'toLayer' | 'toLon' | 'toName'>
-> {
-  return (
-    query?.toName !== undefined &&
-    query?.toLon !== undefined &&
-    query?.toLat !== undefined &&
-    query?.toLayer !== undefined
-  );
+type LocationType = 'from' | 'to' | 'via';
+/**
+ * Generic function to retrieve a GeocoderFeature for a location in a trip
+ * query.
+ *
+ * @param tripQuery - The trip query containing location information
+ * @param client - The AssistantClient used to make autocomplete requests
+ * @param locationType - The type of location ('from', 'to', or 'via')
+ * @returns A Promise that resolves to the matching GeocoderFeature, or null if
+ * none found
+ */
+async function getLocationPromise(
+  tripQuery: TripQuery,
+  client: AssistantClient,
+  locationType: LocationType,
+): Promise<GeocoderFeature | null> {
+  if (hasName(tripQuery, locationType)) {
+    const nameKey = `${locationType}Name` as const;
+    const result = await client.autocomplete(tripQuery[nameKey]);
+
+    let feature: GeocoderFeature | undefined;
+
+    if (hasId(tripQuery, locationType)) {
+      const idKey = `${locationType}Id` as const;
+      feature = result.find((feature) => feature.id === tripQuery[idKey]);
+    } else if (hasCoordinates(tripQuery, locationType)) {
+      const latKey = `${locationType}Lat` as const;
+      const lonKey = `${locationType}Lon` as const;
+      feature = result.find(
+        (feature) =>
+          feature.geometry.coordinates[0] === tripQuery[lonKey] &&
+          feature.geometry.coordinates[1] === tripQuery[latKey],
+      );
+    } else if (result.length > 0) {
+      feature = result[0];
+    }
+
+    return feature || null;
+  }
+
+  return Promise.resolve(null);
 }
 
-function hasVia(
-  query: TripQuery | undefined,
+async function getFromPromise(
+  tripQuery: TripQuery,
+  client: AssistantClient,
+): Promise<GeocoderFeature | null> {
+  return getLocationPromise(tripQuery, client, 'from');
+}
+
+async function getToPromise(
+  tripQuery: TripQuery,
+  client: AssistantClient,
+): Promise<GeocoderFeature | null> {
+  return getLocationPromise(tripQuery, client, 'to');
+}
+
+async function getViaPromise(
+  tripQuery: TripQuery,
+  client: AssistantClient,
+): Promise<GeocoderFeature | null> {
+  return getLocationPromise(tripQuery, client, 'via');
+}
+
+/**
+ * The functions below are type guards to check if the query has the needed
+ * properties.
+ */
+
+function hasName(
+  query: TripQuery,
+  locationType: LocationType,
+): query is Required<Pick<TripQuery, `${LocationType}Name`>> {
+  const key = `${locationType}Name` as const;
+  return query[key] !== undefined;
+}
+
+function hasId(
+  query: TripQuery,
+  locationType: LocationType,
+): query is Required<Pick<TripQuery, `${LocationType}Id`>> {
+  const key = `${locationType}Id` as const;
+  return query[key] !== undefined;
+}
+
+function hasCoordinates(
+  query: TripQuery,
+  locationType: LocationType,
 ): query is Required<
-  Pick<TripQuery, 'viaLat' | 'viaLayer' | 'viaLon' | 'viaName'>
+  Pick<TripQuery, `${LocationType}Lat` | `${LocationType}Lon`>
 > {
-  return (
-    query?.viaName !== undefined &&
-    query?.viaLon !== undefined &&
-    query?.viaLat !== undefined &&
-    query?.viaLayer !== undefined
-  );
+  const latKey = `${locationType}Lat` as const;
+  const lonKey = `${locationType}Lon` as const;
+  return query[latKey] !== undefined && query?.[lonKey] !== undefined;
 }
