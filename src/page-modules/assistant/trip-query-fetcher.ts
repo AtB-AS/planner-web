@@ -65,47 +65,38 @@ async function getLocationPromise(
   client: AssistantClient,
   locationType: LocationType,
 ): Promise<GeocoderFeature | null> {
-  // If no name exists for this location type, we can't search
-  if (!hasName(tripQuery, locationType)) {
+  // If the properties do not exist for this location type, we can't search.
+  if (!hasProperties(tripQuery, locationType)) {
     return null;
   }
 
-  const nameKey = `${locationType}Name` as const;
-  const result = await client.autocomplete(tripQuery[nameKey]);
+  const { name, id, lat, lon } = getProperties(tripQuery, locationType);
+
+  const result = await client.autocomplete(name, {
+    lat,
+    lon,
+  });
 
   // If no results were found, return null early
   if (result.length === 0) {
     return null;
   }
 
-  let feature: GeocoderFeature | undefined;
-
   // First, try to find feature based on ID if available
-  if (hasId(tripQuery, locationType)) {
-    const idKey = `${locationType}Id` as const;
-    feature = result.find((feature) => feature.id === tripQuery[idKey]);
-    if (feature) return feature;
-  }
+  let feature = result.find((feature) => feature.id === id);
+  if (feature) return feature;
 
-  // If no match by ID, try to find by coordinates
-  if (hasCoordinates(tripQuery, locationType)) {
-    const latKey = `${locationType}Lat` as const;
-    const lonKey = `${locationType}Lon` as const;
+  // If no match by ID, try to find by coordinates.
+  // Find the feature with the exact coordinates, or the closest one
+  // if no exact match is found.
+  feature =
+    result.find(
+      (feature) =>
+        feature.geometry.coordinates[0] === lon &&
+        feature.geometry.coordinates[1] === lat,
+    ) ?? findClosestFeatureByCoordinates(result, lon, lat);
 
-    const lat = tripQuery[latKey];
-    const lon = tripQuery[lonKey];
-
-    // Find the feature with the exact coordinates, or the closest one
-    // if no exact match is found.
-    feature =
-      result.find(
-        (feature) =>
-          feature.geometry.coordinates[0] === lon &&
-          feature.geometry.coordinates[1] === lat,
-      ) ?? findClosestFeatureByCoordinates(result, lon, lat);
-
-    if (feature) return feature;
-  }
+  if (feature) return feature;
 
   // If no match by ID or coordinates, use the first result
   return result[0];
@@ -137,31 +128,59 @@ async function getViaPromise(
  * properties.
  */
 
-function hasName(
-  query: TripQuery,
-  locationType: LocationType,
-): query is Required<Pick<TripQuery, `${LocationType}Name`>> {
-  const key = `${locationType}Name` as const;
-  return query[key] !== undefined;
-}
-
-function hasId(
-  query: TripQuery,
-  locationType: LocationType,
-): query is Required<Pick<TripQuery, `${LocationType}Id`>> {
-  const key = `${locationType}Id` as const;
-  return query[key] !== undefined;
-}
-
-function hasCoordinates(
+function hasProperties(
   query: TripQuery,
   locationType: LocationType,
 ): query is Required<
-  Pick<TripQuery, `${LocationType}Lat` | `${LocationType}Lon`>
+  Pick<
+    TripQuery,
+    | `${LocationType}Name`
+    | `${LocationType}Id`
+    | `${LocationType}Lat`
+    | `${LocationType}Lon`
+  >
 > {
+  const nameKey = `${locationType}Name` as const;
+  const idKey = `${locationType}Id` as const;
   const latKey = `${locationType}Lat` as const;
   const lonKey = `${locationType}Lon` as const;
-  return query[latKey] !== undefined && query?.[lonKey] !== undefined;
+  return (
+    query[nameKey] !== undefined ||
+    query[idKey] !== undefined ||
+    (query[latKey] !== undefined && query[lonKey] !== undefined)
+  );
+}
+
+/**
+ * Extracts location properties from a trip query.
+ * 
+ * @param query - Trip query object containing location-specific properties.
+ * @param locationType - Type of the location ('from', 'to', etc.).
+ * @returns An object containing name, id, latitude, and longitude properties.
+ */
+function getProperties(
+  query: Required<
+    Pick<
+      TripQuery,
+      | `${LocationType}Name`
+      | `${LocationType}Id`
+      | `${LocationType}Lat`
+      | `${LocationType}Lon`
+    >
+  >,
+  locationType: LocationType,
+) {
+  const nameKey = `${locationType}Name` as const;
+  const idKey = `${locationType}Id` as const;
+  const latKey = `${locationType}Lat` as const;
+  const lonKey = `${locationType}Lon` as const;
+
+  return {
+    name: query[nameKey],
+    id: query[idKey],
+    lat: query[latKey],
+    lon: query[lonKey],
+  };
 }
 
 /**
