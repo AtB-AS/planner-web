@@ -4,7 +4,7 @@ import {
   useTranslation,
 } from '@atb/translations';
 import { fromLocalTimeToCET, setTimezone } from '@atb/utils/date';
-import { format, subDays } from 'date-fns';
+import { format, isFuture, isToday, subDays } from 'date-fns';
 import { AnimatePresence, motion } from 'framer-motion';
 import { CSSProperties, useState } from 'react';
 import { SEARCH_MODES, SearchMode, SearchTime } from '../types';
@@ -83,11 +83,18 @@ export default function SearchTimeSelector({
       return;
     }
 
-    setSelectedDate(new Date(date));
+    const newDate = new Date(date);
+    // resets time to early morning when moving away from today
+    // does not reset time when the date is already in the future
+    const newTime =
+      isToday(selectedDate) && isFuture(newDate) ? '06:00' : selectedTime;
+
+    setSelectedDate(newDate);
+    setSelectedTime(newTime);
 
     onChange({
       mode: selectedMode.mode,
-      dateTime: new Date(date + 'T' + selectedTime).getTime(),
+      dateTime: new Date(date + 'T' + newTime).getTime(),
     });
   };
 
