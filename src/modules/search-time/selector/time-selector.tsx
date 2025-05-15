@@ -5,6 +5,7 @@ import {
   TimeField,
   Button,
   DialogTrigger,
+  Group,
 } from 'react-aria-components';
 
 import { MonoIcon } from '@atb/components/icon';
@@ -37,25 +38,30 @@ export default function TimeSelector({
       <Label className={style.timeSelectorLabel}>
         {t(ModuleText.SearchTime.time)}
       </Label>
-      <DateInput className={style.timeSelectorInput}>
-        {(segment) => (
-          <DateSegment
-            className={style.timeSelectorSegment}
-            segment={segment}
+      <Group className={style.timeSelectorGroup}>
+        <DateInput className={style.timeSelectorInput}>
+          {(segment) => (
+            <DateSegment
+              className={style.timeSelectorSegment}
+              segment={segment}
+            />
+          )}
+        </DateInput>
+
+        <DialogTrigger>
+          <Button
+            className={style.timePickerButton}
+            aria-label={t(ModuleText.SearchTime.time)}
+          >
+            <MonoIcon icon="time/Time" />
+          </Button>
+
+          <TimeSelectorDropdown
+            selectedTime={selectedTime}
+            onChange={onChange}
           />
-        )}
-      </DateInput>
-
-      <DialogTrigger>
-        <Button
-          className={style.timePickerButton}
-          aria-label={t(ModuleText.SearchTime.time)}
-        >
-          <MonoIcon icon="time/Time" />
-        </Button>
-
-        <TimeSelectorDropdown selectedTime={selectedTime} onChange={onChange} />
-      </DialogTrigger>
+        </DialogTrigger>
+      </Group>
     </TimeField>
   );
 }
