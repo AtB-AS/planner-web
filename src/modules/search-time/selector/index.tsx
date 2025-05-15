@@ -159,7 +159,7 @@ export default function SearchTimeSelector({
               />
 
               <TimeSelector
-                value={selectedTime}
+                selectedTime={selectedTime}
                 onChange={internalOnTimeChange}
               />
             </div>

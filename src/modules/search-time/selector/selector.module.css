@@ -116,9 +116,11 @@
   border-bottom-right-radius: 0.75rem;
 }
 
+.timeSelectorGroup,
 .calendarSelectorGroup {
   display: flex;
 }
+
 .timeSelectorInput {
   height: var(--height);
   padding: token('spacing.medium');
@@ -212,4 +214,11 @@
   .options {
     width: 100%;
   }
+}
+
+.timePickerButton {
+  background-color: transparent;
+  border: none;
+  padding: token('spacing.xSmall') token('spacing.medium');
+  cursor: pointer;
 }
