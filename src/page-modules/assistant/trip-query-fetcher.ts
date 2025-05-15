@@ -91,11 +91,19 @@ async function getLocationPromise(
   if (hasCoordinates(tripQuery, locationType)) {
     const latKey = `${locationType}Lat` as const;
     const lonKey = `${locationType}Lon` as const;
-    feature = result.find(
-      (feature) =>
-        feature.geometry.coordinates[0] === tripQuery[lonKey] &&
-        feature.geometry.coordinates[1] === tripQuery[latKey],
-    );
+
+    const lat = tripQuery[latKey];
+    const lon = tripQuery[lonKey];
+
+    // Find the feature with the exact coordinates, or the closest one
+    // if no exact match is found.
+    feature =
+      result.find(
+        (feature) =>
+          feature.geometry.coordinates[0] === lon &&
+          feature.geometry.coordinates[1] === lat,
+      ) ?? findClosestFeatureByCoordinates(result, lon, lat);
+
     if (feature) return feature;
   }
 
@@ -154,4 +162,58 @@ function hasCoordinates(
   const latKey = `${locationType}Lat` as const;
   const lonKey = `${locationType}Lon` as const;
   return query[latKey] !== undefined && query?.[lonKey] !== undefined;
+}
+
+/**
+ * Finds the closest GeocoderFeature to the given coordinates based on a simple
+ * distance calculation.
+ *
+ * @param result - An array of GeocoderFeature objects to search through
+ * @param lon - Longitude coordinate to compare against
+ * @param lat - Latitude coordinate to compare against
+ * @returns The GeocoderFeature closest to the given coordinates, or undefined
+ * if the array is empty
+ */
+function findClosestFeatureByCoordinates(
+  result: GeocoderFeature[],
+  lon: number,
+  lat: number,
+): GeocoderFeature | undefined {
+  return result.reduce((prev, curr) => {
+    const prevDistance = getDistance(
+      prev.geometry.coordinates[0],
+      prev.geometry.coordinates[1],
+      lon,
+      lat,
+    );
+    const currDistance = getDistance(
+      curr.geometry.coordinates[0],
+      curr.geometry.coordinates[1],
+      lon,
+      lat,
+    );
+    return currDistance < prevDistance ? curr : prev;
+  });
+}
+
+/**
+ * Calculate the Euclidean distance between two points
+ *
+ * @param lon1 - Longitude of the first point
+ * @param lat1 - Latitude of the first point
+ * @param lon2 - Longitude of the second point
+ * @param lat2 - Latitude of the second point
+ * @returns The distance between the points
+ */
+function getDistance(
+  lon1: number,
+  lat1: number,
+  lon2: number,
+  lat2: number,
+): number {
+  // Using the Pythagorean theorem for simplicity
+  // For more accurate geographic distance, consider using the Haversine formula
+  const dx = lon2 - lon1;
+  const dy = lat2 - lat1;
+  return Math.sqrt(dx * dx + dy * dy);
 }
