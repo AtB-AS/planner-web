@@ -49,10 +49,7 @@ export default function TimeSelector({
         </DateInput>
 
         <DialogTrigger>
-          <Button
-            className={style.timePickerButton}
-            aria-label={t(ModuleText.SearchTime.time)}
-          >
+          <Button excludeFromTabOrder className={style.timePickerButton}>
             <MonoIcon icon="time/Time" />
           </Button>
 
