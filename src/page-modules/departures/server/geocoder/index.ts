@@ -3,7 +3,7 @@ import type { GeocoderFeature } from '../../types';
 import { GeocoderRoot, geocoderRootSchema } from './encoders';
 import { FeatureCategory } from '@atb/components/venue-icon';
 import { first } from 'lodash';
-import { getDefaultFocusPoint } from '@atb/modules/firebase/default-focus-point';
+import { mapboxData } from '@atb/modules/org-data';
 
 const FOCUS_WEIGHT = 18;
 
@@ -28,7 +28,7 @@ export function createGeocoderApi(
 ): GeocoderApi {
   return {
     async autocomplete(query, focus, onlyStopPlaces) {
-      const focusQuery = await createFocusQuery(focus);
+      const focusQuery = createFocusQuery(focus);
       const venueQuery = onlyStopPlaces ? ['venue'] : ['venue', 'address'];
       const result = await request(
         `/geocoder/v1/autocomplete?text=${query}&${focusQuery}&size=10&lang=no&multiModal=child&layers=${venueQuery}`,
@@ -59,12 +59,14 @@ export function createGeocoderApi(
   };
 }
 
-async function createFocusQuery(focus?: {
-  lat: number;
-  lon: number;
-}): Promise<string> {
-  const defaultFocusPoint = await getDefaultFocusPoint();
-  const { lat, lon } = focus ?? defaultFocusPoint;
+function createFocusQuery(focus?: { lat: number; lon: number }): string {
+  const defaultCoordinates = {
+    lat: mapboxData.defaultLat,
+    lon: mapboxData.defaultLng,
+  };
+
+  const { lat, lon } = focus ?? defaultCoordinates;
+
   return `focus.point.lat=${lat}&focus.point.lon=${lon}&focus.weight=${FOCUS_WEIGHT}&focus.function=exp&focus.scale=200km`;
 }
 
