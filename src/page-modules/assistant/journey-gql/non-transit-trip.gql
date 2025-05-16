@@ -1,0 +1,59 @@
+query TripsNonTransit(
+  $from: Location!
+  $to: Location!
+  $arriveBy: Boolean!
+  $when: DateTime
+  $walkSpeed: Float
+  $includeFoot: Boolean!
+  $includeBicycle: Boolean!
+  $includeBikeRental: Boolean!
+) {
+  footTrip: trip(
+    from: $from
+    to: $to
+    dateTime: $when
+    arriveBy: $arriveBy
+    numTripPatterns: 1
+    walkSpeed: $walkSpeed
+    modes: { directMode: foot, transportModes: [] }
+  ) @include(if: $includeFoot) {
+    tripPatterns {
+      ...nonTransitTrip
+    }
+  }
+  bikeRentalTrip: trip(
+    from: $from
+    to: $to
+    dateTime: $when
+    arriveBy: $arriveBy
+    walkSpeed: $walkSpeed
+    numTripPatterns: 1
+    modes: { directMode: bike_rental, transportModes: [] }
+  ) @include(if: $includeBikeRental) {
+    tripPatterns {
+      ...nonTransitTrip
+    }
+  }
+  bicycleTrip: trip(
+    from: $from
+    to: $to
+    dateTime: $when
+    arriveBy: $arriveBy
+    numTripPatterns: 1
+    walkSpeed: $walkSpeed
+    modes: { directMode: bicycle, transportModes: [] }
+  ) @include(if: $includeBicycle) {
+    tripPatterns {
+      ...nonTransitTrip
+    }
+  }
+}
+
+fragment nonTransitTrip on TripPattern {
+  duration
+  legs {
+    mode
+    rentedBike
+    aimedStartTime
+  }
+}
