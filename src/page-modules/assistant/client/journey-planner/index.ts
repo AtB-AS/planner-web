@@ -39,7 +39,6 @@ export function useTripPatterns(
   tripQuery: FromToTripQuery,
   fallback?: TripApiReturnType,
 ) {
-  const [numberOfTripPatterns, setNumberOfTripPatterns] = useState(0);
   const query = createTripQuery(
     tripQuery.searchTime.mode === 'now'
       ? tripQuery
@@ -57,16 +56,13 @@ export function useTripPatterns(
       swrFetcher,
       {
         fallbackData: fallback ? [fallback] : undefined,
+        persistSize: false,
+        revalidateFirstPage: false,
       },
     );
 
-  useEffect(() => {
-    if (data) {
-      setNumberOfTripPatterns(
-        data.reduce((acc, curr) => acc + curr.tripPatterns.length, 0),
-      );
-    }
-  }, [data]);
+  const numberOfTripPatterns =
+    data?.reduce((acc, curr) => acc + curr.tripPatterns.length, 0) ?? 0;
 
   useEffect(() => {
     if (isLoading || isValidating) {
@@ -81,7 +77,9 @@ export function useTripPatterns(
     setSize(size + 1);
   }, [numberOfTripPatterns, size, setSize, isLoading, isValidating]);
 
-  const isLoadingFirstTrip = !data && isLoading;
+  const isLoadingFirstTrip =
+    isLoading ||
+    (isValidating && !data?.some((page) => page.tripPatterns.length > 0));
   const isLoadingMore = isValidating && size > 1;
 
   return {
