@@ -36,37 +36,39 @@ export default function TransportModeFilter({
 
   return (
     <div>
-      <Typo.h3 textType="body__primary--bold" className={style.heading}>
+      <Typo.h3 textType="body__primary" className={style.heading}>
         {t(ComponentText.TransportModeFilter.label)}
       </Typo.h3>
 
       <ul className={style.filter}>
-        <li className={style.transportMode}>
-          <input
-            type="checkbox"
-            id="all"
-            name="all"
-            value="all"
-            aria-label={t(ComponentText.TransportModeFilter.allA11y)}
-            checked={
-              !localFilterState || localFilterState.length === data.length
-            }
-            onChange={(event) => {
-              onChangeWrapper(
-                event.target.checked ? data?.map((option) => option.id) : [],
-              );
-            }}
-          />
+        <li className={[style.transportMode, style.all].join(' ')}>
+          <div>
+            <input
+              type="checkbox"
+              id="all"
+              name="all"
+              value="all"
+              aria-label={t(ComponentText.TransportModeFilter.allA11y)}
+              checked={
+                !localFilterState || localFilterState.length === data.length
+              }
+              onChange={(event) => {
+                onChangeWrapper(
+                  event.target.checked ? data?.map((option) => option.id) : [],
+                );
+              }}
+            />
 
-          <label htmlFor="all" aria-hidden>
-            {!localFilterState || localFilterState.length === data.length ? (
-              <ColorIcon icon="input/CheckboxChecked" />
-            ) : (
-              <ColorIcon icon="input/CheckboxUnchecked" />
-            )}
+            <label htmlFor="all" aria-hidden>
+              {!localFilterState || localFilterState.length === data.length ? (
+                <ColorIcon icon="input/CheckboxChecked" />
+              ) : (
+                <ColorIcon icon="input/CheckboxUnchecked" />
+              )}
 
-            <span>{t(ComponentText.TransportModeFilter.all)}</span>
-          </label>
+              <span>{t(ComponentText.TransportModeFilter.all)}</span>
+            </label>
+          </div>
         </li>
 
         {data.map((option) => {

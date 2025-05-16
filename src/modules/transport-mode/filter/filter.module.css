@@ -1,14 +1,14 @@
 .heading {
   color: token('color.background.accent.0.foreground.primary');
   margin-bottom: token('spacing.medium');
+  font-weight: 400;
 }
 
 .filter {
-  display: flex;
-  flex-wrap: wrap;
-  max-width: 30rem;
-  /* TODO: 6px in the design. */
+  display: grid;
+  grid-template-columns: repeat(3, minmax(12.5rem, 1fr));
   gap: token('spacing.small');
+  /* TODO: 6px in the design. */
 }
 
 .transportMode {
@@ -19,16 +19,30 @@
   gap: token('spacing.xSmall');
 }
 
+.all {
+  grid-column: 1 / -1;
+}
+
+.all label {
+  max-width: calc(33.333% - (2 * token('spacing.small') / 3));
+}
+
 @media (max-width: 650px) {
-  .transportMode {
-    flex-direction: row;
+  .filter {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .all label {
+    max-width: 100%;
   }
 }
 
+.transportMode div {
+  width: 100%;
+}
+
 .transportMode label {
-  padding: token('spacing.xSmall') token('spacing.small')
-    token('spacing.xSmall') token('spacing.medium');
-  border-radius: token('border.radius.circle');
+  padding: token('spacing.small') token('spacing.medium');
+  border-radius: token('border.radius.regular');
   background-color: token('color.interactive.2.default.background');
   color: token('color.foreground.dynamic.primary');
   transition:
@@ -38,7 +52,8 @@
   display: flex;
   gap: token('spacing.small');
   align-items: center;
-  height: 1.75rem;
+  height: 2.25rem;
+  border: 1px solid token('color.background.neutral.3.background');
 }
 
 .transportMode input {

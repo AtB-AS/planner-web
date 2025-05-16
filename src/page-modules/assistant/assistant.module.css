@@ -22,7 +22,6 @@
   margin: 0 auto;
   margin-top: token('spacing.large');
   background-color: token('color.background.neutral.0.background');
-  border-radius: token('border.radius.regular');
 }
 
 .input {
@@ -48,12 +47,16 @@
 .heading {
   color: token('color.background.accent.0.foreground.primary');
   margin-bottom: token('spacing.medium');
+  font-weight: 400;
 }
 
 .alternativesWrapper {
   grid-area: alternatives;
   width: 100%;
-  background-color: token('color.background.neutral.1.background');
+  background-color: token('color.background.neutral.0.background');
+  padding: token('spacing.xLarge');
+  max-width: var(--maxPageWidth);
+  margin: 0 auto;
 }
 
 .alternatives {
@@ -64,13 +67,12 @@
   width: 100%;
   max-width: var(--maxPageWidth);
   margin: 0 auto;
-  padding-bottom: 5.75rem;
+  margin-bottom: 5.75rem;
   display: flex;
   flex-direction: column;
   gap: token('spacing.large');
   background-color: token('color.background.neutral.2.background');
-  border-radius: 0 0 token('border.radius.regular')
-    token('border.radius.regular');
+  border-radius: token('border.radius.regular');
 }
 
 .buttons {
@@ -89,7 +91,8 @@
   left: 0;
   right: 0;
   background-color: token('color.background.neutral.0.background');
-  border-radius: 0 0 token('border.radius.regular') token('border.radius.regular');
+  border-radius: 0 0 token('border.radius.regular')
+    token('border.radius.regular');
 }
 
 .searchInputButton {
