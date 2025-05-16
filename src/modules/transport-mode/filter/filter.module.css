@@ -52,8 +52,8 @@
   display: flex;
   gap: token('spacing.small');
   align-items: center;
-  height: 2.25rem;
   border: 1px solid token('color.background.neutral.3.background');
+  height: 2.7rem;
 }
 
 .transportMode input {

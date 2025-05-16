@@ -9,6 +9,9 @@
   grid-template-areas:
     'main'
     'alternatives';
+  padding: token('spacing.large');
+  margin: 0 auto;
+  max-width: var(--maxPageWidth);
 }
 
 .main {
@@ -22,6 +25,7 @@
   margin: 0 auto;
   margin-top: token('spacing.large');
   background-color: token('color.background.neutral.0.background');
+  border-radius: token('border.radius.regular');
 }
 
 .input {
@@ -57,6 +61,8 @@
   padding: token('spacing.xLarge');
   max-width: var(--maxPageWidth);
   margin: 0 auto;
+  border-radius: 0 0 token('border.radius.regular')
+    token('border.radius.regular');
 }
 
 .alternatives {
@@ -125,6 +131,8 @@
     display: flex;
     flex-direction: column;
     padding-bottom: token('spacing.xLarge') !important;
+    border-radius: token('border.radius.regular') token('border.radius.regular')
+      0 0;
   }
 
   .buttons {
@@ -134,8 +142,16 @@
     position: relative;
   }
 
+  .alternativesWrapper {
+    padding: token('spacing.medium');
+  }
+
   .alternatives {
     padding-bottom: token('spacing.xLarge');
+  }
+
+  .removeAllBorderRadius {
+    border-radius: 0;
   }
 }
 
@@ -162,4 +178,9 @@
 
 .spanColumns {
   grid-column: 1 / -1;
+}
+
+.removeBorderRadiusBottom {
+  border-radius: token('border.radius.regular') token('border.radius.regular') 0
+    0;
 }
