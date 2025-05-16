@@ -35,7 +35,7 @@ import {
   NearestStopPlacesQuery,
   NearestStopPlacesQueryVariables,
 } from '@atb/page-modules/departures/journey-gql/nearest-stop-places.generated.ts';
-import { SituationFragment } from '@atb/page-modules/assistant/journey-gql/trip.generated.ts';
+import { SituationFragment } from '@atb/page-modules/assistant/journey-gql/trip-with-details.generated.ts';
 
 export type DepartureInput = {
   id: string;

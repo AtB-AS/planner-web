@@ -4,7 +4,7 @@ import { ColorIcon, SizeProps } from '@atb/components/icon';
 import {
   NoticeFragment,
   SituationFragment,
-} from '@atb/page-modules/assistant/journey-gql/trip.generated.ts';
+} from '@atb/page-modules/assistant/journey-gql/trip-with-details.generated.ts';
 import { PageText, useTranslation } from '@atb/translations';
 
 type SituationOrNoticeIconProps = {
