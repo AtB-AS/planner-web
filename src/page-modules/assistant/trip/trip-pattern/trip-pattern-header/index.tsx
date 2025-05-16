@@ -10,7 +10,7 @@ import { ColorIcon } from '@atb/components/icon';
 import { Assistant } from '@atb/translations/pages';
 import { getNoticesForLeg } from '@atb/page-modules/assistant/utils.ts';
 import { ExtendedTripPatternWithDetailsType } from '@atb/page-modules/assistant';
-import { QuayFragment } from '@atb/page-modules/assistant/journey-gql/trip.generated.ts';
+import { QuayFragment } from '@atb/page-modules/assistant/journey-gql/trip-with-details.generated.ts';
 
 type TripPatternHeaderProps = {
   tripPattern: ExtendedTripPatternWithDetailsType;

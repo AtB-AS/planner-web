@@ -120,9 +120,6 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
     750,
   );
 
-  const { orgId } = getOrgData();
-  const { isDarkMode } = useTheme();
-
   const isTripQueryTransportModeFilterNull =
     tripQuery.transportModeFilter === null;
 

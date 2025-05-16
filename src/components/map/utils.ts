@@ -1,8 +1,8 @@
-import {
-  AnyLayer,
-  AnySourceData,
-  type Map,
-  MapboxGeoJSONFeature,
+import type {
+  GeoJSONFeature,
+  LayerSpecification,
+  SourceSpecification,
+  Map,
 } from 'mapbox-gl';
 import { mapboxData } from '@atb/modules/org-data';
 import { MapLegType, PositionType } from './types';
@@ -31,13 +31,11 @@ export const defaultPosition: PositionType = {
   lat: mapboxData.defaultLat,
 };
 
-export const isFeaturePoint = (
-  f: MapboxGeoJSONFeature,
-): f is MapboxGeoJSONFeature => f.geometry.type === 'Point';
+export const isFeaturePoint = (f: GeoJSONFeature): f is GeoJSONFeature =>
+  f.geometry.type === 'Point';
 
-export const isStopPlace = (
-  f: MapboxGeoJSONFeature,
-): f is MapboxGeoJSONFeature => f.properties?.entityType == 'StopPlace';
+export const isStopPlace = (f: GeoJSONFeature): f is GeoJSONFeature =>
+  f.properties?.entityType == 'StopPlace';
 
 export const mapToMapLegs = (
   pointsOnLink: GraphQlPointsOnLink | undefined,
@@ -141,14 +139,14 @@ export const getMapBounds = (
 export function addSourceIfNotExists(
   map: Map,
   sourceId: string,
-  source: AnySourceData,
+  source: SourceSpecification,
 ) {
   if (!map.getSource(sourceId)) {
     map.addSource(sourceId, source);
   }
 }
 
-export function addLayerIfNotExists(map: Map, layer: AnyLayer) {
+export function addLayerIfNotExists(map: Map, layer: LayerSpecification) {
   if (!map.getLayer(layer.id)) {
     map.addLayer(layer);
   }

@@ -8,9 +8,9 @@ import dictionary from '@atb/translations/dictionary';
 import { screenReaderPause } from '@atb/components/typography/utils';
 import { transportModeToTranslatedString } from '@atb/modules/transport-mode';
 import { getTimeRepresentationType } from '@atb/modules/time-representation';
-import { LegFragment } from '@atb/page-modules/assistant/journey-gql/trip.generated.ts';
 import { ExtendedTripPatternWithDetailsType } from '@atb/page-modules/assistant';
 import { getQuayOrPlaceName } from '@atb/page-modules/assistant/trip/trip-pattern/trip-pattern-header';
+import { LegWithDetailsFragment } from '../../journey-gql/trip-with-details.generated';
 
 export const tripSummary = (
   tripPattern: ExtendedTripPatternWithDetailsType,
@@ -197,7 +197,7 @@ export const tripSummary = (
   return texts.join(screenReaderPause);
 };
 
-function getLegRequiresBooking(leg: LegFragment): boolean {
+function getLegRequiresBooking(leg: LegWithDetailsFragment): boolean {
   return isLegFlexibleTransport(leg);
 }
 
@@ -207,7 +207,7 @@ function getTripPatternBookingsRequiredCount(
   return tripPattern?.legs?.filter((leg) => getLegRequiresBooking(leg)).length;
 }
 
-function isSignificantDifference(leg: LegFragment) {
+function isSignificantDifference(leg: LegWithDetailsFragment) {
   return (
     getTimeRepresentationType({
       missingRealTime: !leg.realtime,
@@ -230,8 +230,8 @@ function significantWaitTime(seconds: number) {
 }
 
 function isSignificantFootLegWalkOrWaitTime(
-  leg: LegFragment,
-  nextLeg?: LegFragment,
+  leg: LegWithDetailsFragment,
+  nextLeg?: LegWithDetailsFragment,
 ) {
   if (leg.mode !== 'foot') return true;
 
@@ -257,6 +257,6 @@ export function getFilteredLegsByWalkOrWaitTime(
   }
 }
 
-function isLegFlexibleTransport(leg: LegFragment): boolean {
+function isLegFlexibleTransport(leg: LegWithDetailsFragment): boolean {
   return !!leg.line?.flexibleLineType;
 }

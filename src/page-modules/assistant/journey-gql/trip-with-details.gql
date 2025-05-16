@@ -163,3 +163,53 @@ fragment legWithDetails on Leg {
     }
   }
 }
+
+fragment notice on Notice {
+  id
+  text
+}
+
+fragment quay on Quay {
+  publicCode
+  name
+  description
+  id
+  situations {
+    ...situation
+  }
+}
+fragment situation on PtSituationElement {
+  id
+  situationNumber
+  summary {
+    ...multilingualString
+  }
+  description {
+    ...multilingualString
+  }
+  reportType
+  advice {
+    ...multilingualString
+  }
+  infoLinks {
+    ...infoLink
+  }
+  validityPeriod {
+    ...validityPeriod
+  }
+}
+
+fragment multilingualString on MultilingualString {
+  language
+  value
+}
+
+fragment infoLink on infoLink {
+  uri
+  label
+}
+
+fragment validityPeriod on ValidityPeriod {
+  startTime
+  endTime
+}

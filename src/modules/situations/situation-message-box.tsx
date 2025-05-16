@@ -15,7 +15,7 @@ import { Situation as SituationTexts } from '@atb/translations/modules';
 import { formatToLongDateTime } from '@atb/utils/date';
 import { MessageBox, MessageBoxProps } from '@atb/components/message-box';
 import Link from 'next/link';
-import { SituationFragment } from '@atb/page-modules/assistant/journey-gql/trip.generated.ts';
+import { SituationFragment } from '@atb/page-modules/assistant/journey-gql/trip-with-details.generated.ts';
 
 export type Props = {
   situation: SituationFragment;

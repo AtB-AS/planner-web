@@ -3,11 +3,7 @@ import { z } from 'zod';
 import { searchModeSchema, type SearchTime } from '@atb/modules/search-time';
 import type { TransportModeGroup } from '@atb/modules/transport-mode';
 import { TransportModeType } from '@atb-as/config-specs';
-import {
-  NoticeFragment,
-  TripPatternFragment,
-  TripsQuery,
-} from '@atb/page-modules/assistant/journey-gql/trip.generated.ts';
+import { NoticeFragment } from '@atb/page-modules/assistant/journey-gql/trip-with-details.generated.ts';
 import {
   LegWithDetailsFragment,
   TripPatternWithDetailsFragment,
@@ -133,7 +129,7 @@ export type NonTransitTripType = {
 };
 
 // Extend GraphQL-types with convencience properties
-export type ExtendedTripPatternType = TripPatternFragment & {
+export type ExtendedTripPatternType = TripPatternWithDetailsFragment & {
   compressedQuery: string;
 };
 export type TripsType = TripsWithDetailsQuery & {

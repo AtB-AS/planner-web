@@ -6,7 +6,6 @@ import {
 } from '@atb/modules/graphql-types';
 import { LineData } from './validators';
 import type {
-  ExtendedTripPatternWithDetailsType,
   FromToTripQuery,
   LineInput,
   NonTransitTripData,
@@ -22,6 +21,8 @@ import {
 } from 'lz-string';
 import { addSeconds, parseISO } from 'date-fns';
 import {
+  NoticeFragment,
+  TripPatternWithDetailsFragment,
   TripsWithDetailsDocument,
   TripsWithDetailsQuery,
   TripsWithDetailsQueryVariables,
@@ -38,24 +39,16 @@ import {
   getAssistantTripIfCached,
 } from '../trip-cache';
 import {
-  NoticeFragment,
-  TripPatternFragment,
-  TripsNonTransitDocument,
-  TripsNonTransitQuery,
-  TripsNonTransitQueryVariables,
-  TripsQueryVariables,
-} from '@atb/page-modules/assistant/journey-gql/trip.generated.ts';
-import {
   LineFragment,
   LinesDocument,
   LinesQuery,
   LinesQueryVariables,
 } from '@atb/page-modules/assistant/journey-gql/lines.generated';
 import {
-  ViaTripsDocument,
-  ViaTripsQuery,
-  ViaTripsQueryVariables,
-} from '@atb/page-modules/assistant/journey-gql/via-trip.generated.ts';
+  TripsNonTransitQuery,
+  TripsNonTransitQueryVariables,
+  TripsNonTransitDocument,
+} from '@atb/page-modules/assistant/journey-gql/non-transit-trip.generated';
 
 const { journeyApiConfigurations } = getOrgData();
 
@@ -206,7 +199,7 @@ export function createJourneyApi(
 
       const result = await client.query<
         TripsWithDetailsQuery,
-        TripsQueryVariables
+        TripsWithDetailsQueryVariables
       >({
         query: TripsWithDetailsDocument,
         variables: queryVariables,
@@ -215,7 +208,6 @@ export function createJourneyApi(
       if (result.error || result.errors) {
         throw result.error || result.errors;
       }
-
 
       const trips: TripsType = {
         trip: {
@@ -398,7 +390,9 @@ function inputToViaLocation(input: TripInput) {
 function generateSingleTripQueryString(
   journeyIds: string[],
   aimedStartTime: string,
-  queryVariables: TripsQueryVariables | ViaTripsQueryVariables,
+  queryVariables:
+    | TripsWithDetailsQueryVariables
+    | ViaTripsWithDetailsQueryVariables,
 ) {
   const when = getPaddedStartTime(aimedStartTime);
   const originalSearchTime = queryVariables.when;
@@ -418,7 +412,7 @@ function generateSingleTripQueryString(
 
 export function parseTripQueryString(compressedQueryString: string):
   | {
-      query: TripsQueryVariables | ViaTripsQueryVariables;
+      query: TripsWithDetailsQueryVariables | ViaTripsWithDetailsQueryVariables;
       journeyIds: string[];
       originalSearchTime: string;
     }
@@ -433,11 +427,11 @@ export function parseTripQueryString(compressedQueryString: string):
   return;
 }
 
-function isTripsQueryVariables(a: any): a is TripsQueryVariables {
+function isTripsQueryVariables(a: any): a is TripsWithDetailsQueryVariables {
   return a && 'from' in a && 'to' in a && 'when' in a && 'arriveBy' in a;
 }
 
-function isTripsViaQueryVariables(a: any): a is TripsQueryVariables {
+function isTripsViaQueryVariables(a: any): a is TripsWithDetailsQueryVariables {
   return a && 'from' in a && 'to' in a && 'when' in a && 'via' in a;
 }
 
@@ -450,7 +444,9 @@ function getPaddedStartTime(time: string): string {
  * Extracts an array of ServiceJourney IDs from a TripPattern.
  * used as an attempt to identify a single Trip
  */
-export function extractServiceJourneyIds(tripPattern: TripPatternFragment) {
+export function extractServiceJourneyIds(
+  tripPattern: TripPatternWithDetailsFragment,
+) {
   return tripPattern.legs
     .map((leg) => {
       return leg.serviceJourney?.id ?? null;
@@ -498,11 +494,11 @@ export function findTripPatternCombinationsList(
 
 export function findTripPatternsFromViaTo(
   tripPatternCombinations: { from: number; to: number }[][],
-  tripPatternsFromVia: ViaTripsQuery['viaTrip']['tripPatternsPerSegment'][0]['tripPatterns'],
-  tripPatternsViaTo: ViaTripsQuery['viaTrip']['tripPatternsPerSegment'][0]['tripPatterns'],
+  tripPatternsFromVia: ViaTripsWithDetailsQuery['viaTrip']['tripPatternsPerSegment'][0]['tripPatterns'],
+  tripPatternsViaTo: ViaTripsWithDetailsQuery['viaTrip']['tripPatternsPerSegment'][0]['tripPatterns'],
 ) {
   console.log('Combination: ' + tripPatternCombinations);
-  const tripPatterns: ViaTripsQuery['viaTrip']['tripPatternsPerSegment'][0]['tripPatterns'] =
+  const tripPatterns: ViaTripsWithDetailsQuery['viaTrip']['tripPatternsPerSegment'][0]['tripPatterns'] =
     [];
   tripPatternCombinations.map((segment) => {
     segment.map((combo) =>
@@ -565,8 +561,11 @@ async function getSortedViaTrips(
     ...DEFAULT_JOURNEY_CONFIG,
   };
 
-  const result = await client.query<ViaTripsQuery, ViaTripsQueryVariables>({
-    query: ViaTripsDocument,
+  const result = await client.query<
+    ViaTripsWithDetailsQuery,
+    ViaTripsWithDetailsQueryVariables
+  >({
+    query: ViaTripsWithDetailsDocument,
     variables: queryVariables,
   });
 
