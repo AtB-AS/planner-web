@@ -9,7 +9,7 @@ query ViaTripsWithDetails(
   viaTrip(
     from: $from
     to: $to
-    searchWindow: "PT1H"
+    searchWindow: "PT3H"
     dateTime: $when
     via: $via
     segments: $segments
