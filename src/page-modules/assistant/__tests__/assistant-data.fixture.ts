@@ -1,7 +1,7 @@
 import { FeatureCategory } from '@atb/components/venue-icon';
 import { GeocoderFeature } from '@atb/page-modules/departures';
 import { NonTransitTripData, TripsType } from '..';
-import { ViaTripsQuery } from '@atb/page-modules/assistant/journey-gql/via-trip.generated';
+import { ViaTripsWithDetailsQuery } from '@atb/page-modules/assistant/journey-gql/via-trip-with-details.generated';
 import {
   Mode,
   TransportSubmode,
@@ -58,7 +58,7 @@ export const tripPatternCombinations = [
   [{ from: 0, to: 0, __typename: 'ViaConnection' }],
 ];
 export const tripPatternCombinationList = [[{ from: 0, to: 0 }]];
-export const tripPatternsFromVia: ViaTripsQuery['viaTrip']['tripPatternsPerSegment'][0]['tripPatterns'] =
+export const tripPatternsFromVia: ViaTripsWithDetailsQuery['viaTrip']['tripPatternsPerSegment'][0]['tripPatterns'] =
   [
     {
       expectedStartTime: '2024-01-31T18:15:00+01:00',
@@ -254,7 +254,7 @@ export const tripPatternsFromVia: ViaTripsQuery['viaTrip']['tripPatternsPerSegme
     },
   ];
 
-export const tripPatternsViaTo: ViaTripsQuery['viaTrip']['tripPatternsPerSegment'][0]['tripPatterns'] =
+export const tripPatternsViaTo: ViaTripsWithDetailsQuery['viaTrip']['tripPatternsPerSegment'][0]['tripPatterns'] =
   [
     {
       expectedStartTime: '2024-01-31T19:10:09+01:00',
@@ -459,7 +459,7 @@ export const tripPatternsViaTo: ViaTripsQuery['viaTrip']['tripPatternsPerSegment
     },
   ];
 
-export const tripPatternsFromViaTo: ViaTripsQuery['viaTrip']['tripPatternsPerSegment'][0]['tripPatterns'] =
+export const tripPatternsFromViaTo: ViaTripsWithDetailsQuery['viaTrip']['tripPatternsPerSegment'][0]['tripPatterns'] =
   [
     {
       expectedStartTime: '2024-01-31T18:15:00+01:00',

@@ -3,13 +3,17 @@ query ViaTripsWithDetails(
   $to: Location!
   $when: DateTime
   $via: [ViaLocationInput!]!
+  $segments: [ViaSegmentInput!]
+  $numTripPatterns: Int
 ) {
   viaTrip(
     from: $from
     to: $to
-    searchWindow: "PT9H"
+    searchWindow: "PT3H"
     dateTime: $when
     via: $via
+    segments: $segments
+    numTripPatterns: $numTripPatterns
   ) {
     tripPatternsPerSegment {
       tripPatterns {

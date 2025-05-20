@@ -8,7 +8,7 @@ import { isAfter, isBefore } from 'date-fns';
 import {
   NoticeFragment,
   SituationFragment,
-} from '@atb/page-modules/assistant/journey-gql/trip.generated.ts';
+} from '@atb/page-modules/assistant/journey-gql/trip-with-details.generated.ts';
 
 export const getMessageTypeForSituation = (situation: SituationFragment) =>
   situation.reportType === 'incident' ? 'warning' : 'info';

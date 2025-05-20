@@ -4,7 +4,7 @@ import { GeocoderFeature } from '@atb/page-modules/departures';
 import { FromToTripQuery, TripQuery, TripQuerySchema } from './types';
 import { TravelSearchFiltersType } from '@atb-as/config-specs';
 import { filterNotices } from '@atb/modules/situations';
-import { LegFragment } from '@atb/page-modules/assistant/journey-gql/trip.generated.ts';
+import { LegWithDetailsFragment } from './journey-gql/trip-with-details.generated';
 
 function featuresToFromToQuery(
   from: GeocoderFeature | null,
@@ -121,7 +121,7 @@ export function setTransportModeFilters(
   );
 }
 
-export const getNoticesForLeg = (leg: LegFragment) =>
+export const getNoticesForLeg = (leg: LegWithDetailsFragment) =>
   filterNotices([
     ...(leg.line?.notices || []),
     ...(leg.serviceJourney?.notices || []),
