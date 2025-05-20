@@ -19,7 +19,6 @@ import { capitalize } from 'lodash';
 import EmptySearchResults from '@atb/components/empty-message';
 import TripPattern from './trip-pattern';
 import EmptySearch from '@atb/components/loading-empty-results';
-import { LoadingIcon } from '@atb/components/loading';
 import ScreenReaderOnly from '@atb/components/screen-reader-only';
 import {
   GlobalMessageContextEnum,
@@ -143,14 +142,10 @@ export default function Trip({ tripQuery, fallback }: TripProps) {
         >
           {t(PageText.Assistant.trip.disabledFetchMore)}
         </Typo.p>
-      ) : isLoadingMore ? (
-        <div className={style.fetchButton}>
-          <LoadingIcon />
-        </div>
       ) : (
         <Button
           className={style.fetchButton}
-          onClick={() => loadMore()}
+          onClick={loadMore}
           mode="secondary"
           backgroundColor={color.background.accent['0']}
           radiusSize="circular"
