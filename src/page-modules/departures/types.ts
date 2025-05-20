@@ -6,13 +6,13 @@ import {
 } from '@atb/page-modules/departures/journey-gql/service-journey-with-estimated-calls.generated.ts';
 import { MapLegType } from '@atb/components/map';
 import { StopPlaceFragment } from '@atb/page-modules/departures/journey-gql/nearest-stop-places.generated';
-import { SituationFragment } from '@atb/page-modules/assistant/journey-gql/trip.generated.ts';
 import {
   DepartureQuayFragment,
   StopPlaceQuayDeparturesQuery,
 } from '@atb/page-modules/departures/journey-gql/departures.generated.ts';
 import { EstimatedCallFragment } from '@atb/page-modules/departures/journey-gql/estimated-calls.generated.ts';
 import { GetStopPlaceQuery } from '@atb/page-modules/departures/journey-gql/stop-place.generated.ts';
+import { SituationFragment } from '../assistant/journey-gql/trip-with-details.generated';
 
 /**
  * IMPORTANT! READ THIS

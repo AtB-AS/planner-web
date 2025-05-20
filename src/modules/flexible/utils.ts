@@ -5,12 +5,10 @@ import {
   secondsBetween,
 } from '@atb/utils/date';
 import { TripWithDetailsLineFragment } from '@atb/page-modules/assistant/journey-gql/trip-with-details.generated.ts';
-import { TripLineFragment } from '@atb/page-modules/assistant/journey-gql/trip.generated.ts';
 import { BookingArrangementType } from '@atb/page-modules/assistant';
 
-export const isLineFlexibleTransport = (
-  line?: TripWithDetailsLineFragment | TripLineFragment,
-) => !!line?.flexibleLineType;
+export const isLineFlexibleTransport = (line?: TripWithDetailsLineFragment) =>
+  !!line?.flexibleLineType;
 
 export const getBookingStatus = (
   bookingArrangements: BookingArrangementType | null,
