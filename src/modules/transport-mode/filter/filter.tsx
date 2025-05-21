@@ -6,6 +6,7 @@ import { Typo } from '@atb/components/typography';
 import { TransportIcon } from '../icon';
 import { TransportModeFilterOptionType } from '@atb-as/config-specs';
 import { ChangeEventHandler, useState } from 'react';
+import { getOrgData } from '@atb/modules/org-data';
 
 type TransportModeFilterProps = {
   filterState: string[] | null;
@@ -19,6 +20,7 @@ export default function TransportModeFilter({
   data,
 }: TransportModeFilterProps) {
   const { t, language } = useTranslation();
+  const { orgId } = getOrgData();
 
   // Local filter state used for updating the checkbox states before the URL
   // state is updated to reflect the changed filters.
@@ -32,6 +34,7 @@ export default function TransportModeFilter({
   if (!data) {
     return null;
   }
+  const isFlexibleTransportEnabled = orgId === 'atb';
 
   return (
     <div>
@@ -70,43 +73,49 @@ export default function TransportModeFilter({
           </div>
         </li>
 
-        {data.map((option) => {
-          return (
-            <li key={option.id} className={style.transportMode}>
-              <FilterCheckbox
-                option={option}
-                checked={
-                  !localFilterState ||
-                  (localFilterState?.includes(option.id) ?? false)
-                }
-                onChange={(event) => {
-                  // No filter is applied when filterState is `null`, same
-                  // as "All" being checked.
-                  if (!localFilterState) {
-                    // Only set the clicked filter as filter.
-                    onChangeWrapper([option.id]);
-                  } else {
-                    if (event.target.checked) {
-                      // Add the checked filter to the filter state.
-                      onChangeWrapper([...localFilterState, option.id]);
-                    } else {
-                      // Remove the unchecked filter from the filter state.
-                      onChangeWrapper(
-                        localFilterState.filter((id) => id !== option.id),
-                      );
-                    }
+        {data
+          .filter((option) =>
+            isFlexibleTransportEnabled
+              ? true
+              : option.id !== 'flexibleTransport',
+          )
+          .map((option) => {
+            return (
+              <li key={option.id} className={style.transportMode}>
+                <FilterCheckbox
+                  option={option}
+                  checked={
+                    !localFilterState ||
+                    (localFilterState?.includes(option.id) ?? false)
                   }
-                }}
-              />
+                  onChange={(event) => {
+                    // No filter is applied when filterState is `null`, same
+                    // as "All" being checked.
+                    if (!localFilterState) {
+                      // Only set the clicked filter as filter.
+                      onChangeWrapper([option.id]);
+                    } else {
+                      if (event.target.checked) {
+                        // Add the checked filter to the filter state.
+                        onChangeWrapper([...localFilterState, option.id]);
+                      } else {
+                        // Remove the unchecked filter from the filter state.
+                        onChangeWrapper(
+                          localFilterState.filter((id) => id !== option.id),
+                        );
+                      }
+                    }
+                  }}
+                />
 
-              {option.description && (
-                <Typo.p textType="body__tertiary" className={style.infoText}>
-                  {getTextForLanguage(option.description, language) ?? ''}
-                </Typo.p>
-              )}
-            </li>
-          );
-        })}
+                {option.description && (
+                  <Typo.p textType="body__tertiary" className={style.infoText}>
+                    {getTextForLanguage(option.description, language) ?? ''}
+                  </Typo.p>
+                )}
+              </li>
+            );
+          })}
       </ul>
     </div>
   );
