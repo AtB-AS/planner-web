@@ -58,6 +58,9 @@ export function useTripPatterns(
         fallbackData: fallback ? [fallback] : undefined,
         persistSize: false,
         revalidateFirstPage: false,
+        revalidateOnFocus: false,
+        revalidateIfStale: false,
+        revalidateOnReconnect: false,
       },
     );
 
