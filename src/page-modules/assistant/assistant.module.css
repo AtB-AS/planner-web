@@ -97,8 +97,7 @@
   left: 0;
   right: 0;
   background-color: token('color.background.neutral.0.background');
-  border-radius: 0 0 token('border.radius.regular')
-    token('border.radius.regular');
+  border-radius: 0 0 token('border.radius.regular') token('border.radius.regular');
 }
 
 .searchInputButton {
