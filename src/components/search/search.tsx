@@ -1,6 +1,5 @@
 import Downshift, { type A11yStatusMessageOptions } from 'downshift';
 import { ReactNode, useState } from 'react';
-import { useAutocomplete } from '@atb/page-modules/departures/client';
 import style from './search.module.css';
 import VenueIcon from '@atb/components/venue-icon';
 import { andIf } from '@atb/utils/css';
@@ -12,6 +11,7 @@ import { useGeolocation } from './use-geolocation';
 import { MonoIcon } from '../icon';
 import { LoadingIcon } from '../loading';
 import { Checkbox } from '../checkbox';
+import { useAutocomplete } from '@atb/modules/geocoder';
 
 type SearchProps = {
   label: string;

@@ -1,11 +1,13 @@
 import { errorResultAsJson, tryResult } from '@atb/modules/api-server';
-import type { AutocompleteApiReturnType } from '@atb/page-modules/departures/client';
-import { handlerWithDepartureClient } from '@atb/page-modules/departures/server';
+import { handlerWithBffClient } from '@atb/page-modules/bff/server';
 import { ServerText } from '@atb/translations';
 import { constants } from 'http2';
 import { z } from 'zod';
+import qs from 'query-string';
+import { mapboxData } from '@atb/modules/org-data';
+import { AutocompleteApiReturnType } from '@atb/modules/geocoder/autocomplete';
 
-export default handlerWithDepartureClient<AutocompleteApiReturnType>(
+export default handlerWithBffClient<AutocompleteApiReturnType>(
   {
     async GET(req, res, { client, ok }) {
       // Validate input as string
@@ -35,22 +37,18 @@ export default handlerWithDepartureClient<AutocompleteApiReturnType>(
         return ok([]);
       }
 
-      let focus: { lat: number; lon: number } | undefined;
-
-      if (!!lat.data && !!lon.data) {
-        focus = {
-          lat: Number(lat.data),
-          lon: Number(lon.data),
-        };
-      }
+      const q = {
+        query: query.data,
+        lat: lat.data ?? mapboxData.defaultLat,
+        lon: lon.data ?? mapboxData.defaultLng,
+        layers: onlyStopPlaces.data ? ['venue'] : ['venue', 'address'],
+        limit: 10,
+        multiModal: 'parent', // TODO: child was used previously
+      };
 
       return tryResult(req, res, async () => {
         return ok(
-          await client.autocomplete(
-            String(query.data),
-            focus,
-            onlyStopPlaces.data === 'true',
-          ),
+          await client.autocomplete(qs.stringify(q, { skipNull: true })),
         );
       });
     },

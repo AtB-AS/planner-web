@@ -3,9 +3,11 @@ import { handlerWithDepartureClient } from '@atb/page-modules/departures/server'
 import { ServerText } from '@atb/translations';
 import { constants } from 'http2';
 import { z } from 'zod';
-import { type ReverseApiReturnType } from '@atb/page-modules/departures/client';
+import { type ReverseApiReturnType } from '@atb/modules/geocoder';
+import { handlerWithBffClient } from '@atb/page-modules/bff/server';
+import qs from 'query-string';
 
-export default handlerWithDepartureClient<ReverseApiReturnType>(
+export default handlerWithBffClient<ReverseApiReturnType>(
   {
     async GET(req, res, { client, ok }) {
       const lat = z.string().safeParse(req.query.lat);
@@ -19,14 +21,15 @@ export default handlerWithDepartureClient<ReverseApiReturnType>(
         );
       }
 
+      const query = {
+        lat: lat.data,
+        lon: lon.data,
+        layers: ['address'],
+        limit: 1,
+      };
+
       return tryResult(req, res, async () => {
-        return ok(
-          await client.reverse(
-            parseFloat(lat.data),
-            parseFloat(lon.data),
-            'address',
-          ),
-        );
+        return ok(await client.reverse(qs.stringify(query)));
       });
     },
   },
