@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
-import { reverse } from '@atb/page-modules/departures/client';
-import { GeocoderFeature } from '@atb/page-modules/departures';
 import {
   ComponentText,
   TranslateFunction,
   useTranslation,
 } from '@atb/translations';
+import { GeocoderFeature, reverse } from '@atb/modules/geocoder';
 
 export function useGeolocation(
   onSuccess: (feature: GeocoderFeature) => void,

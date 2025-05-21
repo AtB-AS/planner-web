@@ -1,4 +1,4 @@
-import type { AutocompleteApiReturnType } from '@atb/page-modules/departures/client';
+import type { AutocompleteApiReturnType } from '@atb/modules/geocoder';
 import type { GeocoderFeature } from '@atb/page-modules/departures';
 import type { SearchTime } from '@atb/modules/search-time/types';
 
@@ -1020,7 +1020,7 @@ function createTripQueryForDeparture(
 }
 
 async function autocomplete(urlBase: string, q: string) {
-  const url = `${urlBase}api/departures/autocomplete?q=${q}`;
+  const url = `${urlBase}api/bff/autocomplete?q=${q}`;
   const result = await fetch(url);
 
   if (!result.ok) {
@@ -1033,7 +1033,7 @@ async function autocomplete(urlBase: string, q: string) {
 
 export async function reverse(urlBase: string, coords: GeolocationCoordinates) {
   const result = await fetch(
-    `${urlBase}api/departures/reverse?lat=${coords.latitude}&lon=${coords.longitude}`,
+    `${urlBase}api/bff/reverse?lat=${coords.latitude}&lon=${coords.longitude}`,
   );
 
   const data = await result.json();
