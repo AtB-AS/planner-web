@@ -32,30 +32,27 @@ afterAll(() => {
 
 describe('requester client', () => {
   it('should pass request with correct base url', () => {
-    const clientCreator = createExternalClient(
-      'http-entur',
-      function (request) {
-        return {
-          api: async () => {
-            try {
-              await request('/foo');
-            } catch (e) {}
-          },
-        };
-      },
-    );
+    const clientCreator = createExternalClient('http-bff', function (request) {
+      return {
+        api: async () => {
+          try {
+            await request('/foo');
+          } catch (e) {}
+        },
+      };
+    });
 
     clientCreator().api();
 
     expect(mockFetch).toHaveBeenCalledWith(
-      'https://api.entur.io/foo',
+      'https://test.api.mittatb.no/bff/foo',
       expect.anything(),
     );
   });
 
   it('should return properly created API', () => {
     const mock = vi.fn();
-    const clientCreator = createExternalClient('http-entur', function () {
+    const clientCreator = createExternalClient('http-bff', function () {
       return {
         api: mock,
       };
@@ -81,7 +78,7 @@ describe('requester client', () => {
   });
 
   it('give type inference through apis', () => {
-    const clientCreator = createExternalClient('http-entur', function () {
+    const clientCreator = createExternalClient('http-bff', function () {
       return {
         api(n: number) {
           return n * 42;
@@ -112,14 +109,14 @@ describe('requester client', () => {
 
   it('should be able to compose clients', () => {
     const mock1 = vi.fn();
-    const clientCreator1 = createExternalClient('http-entur', function () {
+    const clientCreator1 = createExternalClient('http-bff', function () {
       return {
         api1: mock1,
       };
     });
 
     const mock2 = vi.fn();
-    const clientCreator2 = createExternalClient('http-entur', function () {
+    const clientCreator2 = createExternalClient('http-bff', function () {
       return {
         api2: mock2,
       };
@@ -139,13 +136,13 @@ describe('requester client', () => {
   });
 
   it('should be able to compose clients with proper type inference', () => {
-    const clientCreator1 = createExternalClient('http-entur', function () {
+    const clientCreator1 = createExternalClient('http-bff', function () {
       return {
         api1: (a: string) => a,
       };
     });
 
-    const clientCreator2 = createExternalClient('http-entur', function () {
+    const clientCreator2 = createExternalClient('http-bff', function () {
       return {
         api2: (a: number) => a,
         api3: (a: number) => a,
@@ -172,7 +169,7 @@ describe('requester client', () => {
   });
 
   it('should be able to compose clients with proper type inference with graphql and http', () => {
-    const clientCreator1 = createExternalClient('http-entur', function () {
+    const clientCreator1 = createExternalClient('http-bff', function () {
       return {
         api1: (a: string) => a,
       };
@@ -209,9 +206,9 @@ describe('requester client', () => {
 
   it('should work all from creating client to ssr decorator', () => {
     const myHttpApiCreator = createExternalClient(
-      'http-entur',
+      'http-bff',
       function (requester) {
-        assertType<HttpRequester<'http-entur'>>(requester);
+        assertType<HttpRequester<'http-bff'>>(requester);
 
         return {
           myFunction: async (a: string) => a,
@@ -307,7 +304,7 @@ describe('requester client', () => {
         };
       },
     );
-    const myHttp = createExternalClient('http-entur', function () {
+    const myHttp = createExternalClient('http-bff', function () {
       return {
         myFunction2: async (a: string) => a,
       };
