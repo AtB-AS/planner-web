@@ -12,8 +12,8 @@ import { fromLocalTimeToCET } from '@atb/utils/date';
 import { LineData } from '../../server/journey-planner/validators';
 import useSWRImmutable from 'swr/immutable';
 
-const MAX_NUMBER_OF_INITIAL_SEARCH_ATTEMPTS = 5;
-const INITIAL_NUMBER_OF_WANTED_TRIP_PATTERNS = 8;
+const MAX_NUMBER_OF_INITIAL_SEARCH_ATTEMPTS = 3;
+const INITIAL_NUMBER_OF_WANTED_TRIP_PATTERNS = 6;
 
 export type TripApiReturnType = TripsType['trip'];
 export type NonTransitTripApiReturnType = NonTransitTripData;
