@@ -16,7 +16,7 @@ This is to:
 ```ts
 // Create a HTTP API to use for getServerSideProps
 
-const myHttpApiCreator = createExternalClient('http-entur', function (request) {
+const myHttpApiCreator = createExternalClient('http-bff', function (request) {
   return {
     myFunction: (a: string) => request(`/geocoder?q=${a}`),
   };
@@ -67,7 +67,7 @@ export default graphQlApiHandler<string>(function (req, res, { client, ok }) {
 ```ts
 // Combining external resources
 
-const myHttpApiCreator = createExternalClient('http-entur', function (request) {
+const myHttpApiCreator = createExternalClient('http-bff', function (request) {
   return {
     myFunction: (a: string) => request(`/geocoder?q=${a}`),
   };
