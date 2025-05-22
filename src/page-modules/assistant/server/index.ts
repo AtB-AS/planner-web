@@ -5,11 +5,11 @@ import {
   createWithExternalClientDecoratorForHttpHandlers,
 } from '@atb/modules/api-server';
 import { createJourneyApi } from './journey-planner';
-import { createGeocoderApi } from '@atb/page-modules/departures/server/geocoder';
+import { createBffGeocoderApi } from '@atb/page-modules/bff/server/geocoder';
 
 export const geocoderClient = createExternalClient(
-  'http-entur',
-  createGeocoderApi,
+  'http-bff',
+  createBffGeocoderApi,
 );
 
 export const journeyClient = createExternalClient(

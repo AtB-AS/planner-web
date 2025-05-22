@@ -2,19 +2,40 @@ import { HttpRequester, genericError } from '@atb/modules/api-server';
 import { first } from 'lodash';
 import { Feature, FeatureCategory } from '../../../../modules/geocoder/types';
 import { GeocoderFeature } from '@atb/page-modules/departures';
+import qs from 'query-string';
 
 export type BffGeocoderApi = {
-  autocomplete(query: string): Promise<GeocoderFeature[]>;
-  reverse(query: string): Promise<GeocoderFeature | undefined>;
+  autocomplete(
+    query: string,
+    options?: {
+      lat?: string | number;
+      lon?: string | number;
+      layers?: string[];
+    },
+  ): Promise<GeocoderFeature[]>;
+  reverse(
+    lat: number | string,
+    lon: number | string,
+    layers: string[],
+  ): Promise<GeocoderFeature | undefined>;
 };
 
 export function createBffGeocoderApi(
   request: HttpRequester<'http-bff'>,
 ): BffGeocoderApi {
   return {
-    async autocomplete(query) {
+    async autocomplete(query, options) {
       const url = '/v1/geocoder/features';
-      const result = await request(`${url}?${query}`);
+
+      const queryObject = {
+        query,
+        ...options,
+        limit: 10,
+        multiModal: 'parent', // TODO: child was used previously
+      };
+      const result = await request(
+        `${url}?${qs.stringify(queryObject, { skipNull: true })}`,
+      );
 
       try {
         return mapGeocoderFeatures(await result.json());
@@ -23,9 +44,17 @@ export function createBffGeocoderApi(
       }
     },
 
-    async reverse(query) {
+    async reverse(lat, lon, layers) {
       const url = '/v1/geocoder/reverse';
-      const result = await request(`${url}?${query}`);
+
+      const query = {
+        lat: lat,
+        lon: lon,
+        layers,
+        limit: 1,
+      };
+
+      const result = await request(`${url}?${qs.stringify(query)}`);
 
       try {
         // Only return the first feature
