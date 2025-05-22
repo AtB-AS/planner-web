@@ -8,12 +8,12 @@ import {
 import { swrFetcher } from '@atb/modules/api-browser';
 import useSWRInfinite from 'swr/infinite';
 import { createTripQuery, tripQueryToQueryString } from '../../utils';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { fromLocalTimeToCET } from '@atb/utils/date';
 import { LineData } from '../../server/journey-planner/validators';
 
-const MAX_NUMBER_OF_INITIAL_SEARCH_ATTEMPTS = 3;
-const INITIAL_NUMBER_OF_WANTED_TRIP_PATTERNS = 6;
+const MAX_NUMBER_OF_INITIAL_SEARCH_ATTEMPTS = 5;
+const INITIAL_NUMBER_OF_WANTED_TRIP_PATTERNS = 8;
 
 export type TripApiReturnType = TripsType['trip'];
 export type NonTransitTripApiReturnType = NonTransitTripData;
