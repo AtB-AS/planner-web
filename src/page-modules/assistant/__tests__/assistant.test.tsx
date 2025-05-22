@@ -105,7 +105,6 @@ describe('assistant page', function () {
       ...context,
     } as any);
 
-    console.log(result);
     (await expectProps(result)).toMatchObject<AssistantContentProps>({
       tripQuery: {
         from: fromFeature,

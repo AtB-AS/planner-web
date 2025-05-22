@@ -58,8 +58,8 @@ const customRender = (ui: React.ReactNode, renderOptions?: RenderOptions) => {
     <SWRConfig
       value={{
         fallback: {
-          '/api/departures/autocomplete?q=test&onlyStopPlaces=false': result,
-          '/api/departures/autocomplete?q=test&onlyStopPlaces=true': result,
+          '/api/bff/autocomplete?onlyStopPlaces=false&q=test': result,
+          '/api/bff/autocomplete?onlyStopPlaces=true&q=test': result,
         },
       }}
     >
@@ -183,7 +183,7 @@ describe('search box', () => {
     });
 
     await waitFor(() => {
-      expect(list.children.length).toBeGreaterThan(0);
+      expect(list.children.length).toBeGreaterThan(1);
     });
   });
 
@@ -202,9 +202,9 @@ describe('search box', () => {
         name: /test/i,
       });
 
-      expect(list.children.length).toBeGreaterThan(0);
+      expect(list.children.length).toBeGreaterThan(1);
 
-      await userEvent.keyboard('{ArrowDown}{Enter}');
+      await userEvent.keyboard('{ArrowDown}{ArrowDown}{Enter}');
 
       expect(input).toHaveValue('1');
       expect(fn).toHaveBeenCalled();
