@@ -1,4 +1,4 @@
-import { GeocoderFeature } from '@atb/page-modules/departures';
+import { GeocoderFeature } from '@atb/modules/geocoder';
 import qs from 'query-string';
 
 export type ReverseApiReturnType = GeocoderFeature | undefined;

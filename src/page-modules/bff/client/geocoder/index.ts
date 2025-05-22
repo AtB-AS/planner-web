@@ -1,14 +1,8 @@
 import { swrFetcher } from '@atb/modules/api-browser';
-<<<<<<< HEAD:src/page-modules/departures/client/geocoder/index.ts
-import { GeocoderFeature } from '../../types';
 import useDebounce from '@atb/utils/use-debounce';
 import useSWRImmutable from 'swr/immutable';
-=======
-import useSWR from 'swr';
-import useDebounce from '@atb/utils/use-debounce';
 import qs from 'query-string';
-import { GeocoderFeature } from '@atb/page-modules/departures';
->>>>>>> 23af9722 (refactor: use bff for geocoder):src/page-modules/bff/client/geocoder/index.ts
+import { GeocoderFeature } from '@atb/modules/geocoder';
 
 export type AutocompleteApiReturnType = GeocoderFeature[];
 export type ReverseApiReturnType = GeocoderFeature | undefined;

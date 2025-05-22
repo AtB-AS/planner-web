@@ -1,7 +1,7 @@
 import { HttpRequester, genericError } from '@atb/modules/api-server';
 import { first } from 'lodash';
 import { Feature, FeatureCategory } from '../../../../modules/geocoder/types';
-import { GeocoderFeature } from '@atb/page-modules/departures';
+import { GeocoderFeature } from '@atb/modules/geocoder';
 import qs from 'query-string';
 
 export type BffGeocoderApi = {

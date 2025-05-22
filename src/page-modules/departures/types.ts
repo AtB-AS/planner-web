@@ -1,4 +1,3 @@
-import type { FeatureCategory } from '@atb/components/venue-icon';
 import type { SearchTime } from '@atb/modules/search-time';
 import {
   ServiceJourneyEstimatedCallFragment,
@@ -13,6 +12,7 @@ import {
 import { EstimatedCallFragment } from '@atb/page-modules/departures/journey-gql/estimated-calls.generated.ts';
 import { GetStopPlaceQuery } from '@atb/page-modules/departures/journey-gql/stop-place.generated.ts';
 import { SituationFragment } from '../assistant/journey-gql/trip-with-details.generated';
+import { GeocoderFeature } from '@atb/modules/geocoder';
 
 /**
  * IMPORTANT! READ THIS
@@ -38,18 +38,6 @@ import { SituationFragment } from '../assistant/journey-gql/trip-with-details.ge
  *   distance?: number;
  * };
  */
-
-export type GeocoderFeature = {
-  id: string;
-  name: string;
-  locality: string | null;
-  category: FeatureCategory[];
-  layer: 'address' | 'venue';
-  geometry: {
-    coordinates: number[];
-  };
-  street?: string;
-};
 
 export type FromDepartureQuery = {
   searchTime: SearchTime;

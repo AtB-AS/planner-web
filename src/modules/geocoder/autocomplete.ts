@@ -1,4 +1,4 @@
-import { GeocoderFeature } from '@atb/page-modules/departures';
+import { GeocoderFeature } from '@atb/modules/geocoder';
 import useDebounce from '@atb/utils/use-debounce';
 import useSWR from 'swr';
 import { swrFetcher } from '../api-browser';

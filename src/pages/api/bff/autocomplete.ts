@@ -3,7 +3,6 @@ import { handlerWithBffClient } from '@atb/page-modules/bff/server';
 import { ServerText } from '@atb/translations';
 import { constants } from 'http2';
 import { z } from 'zod';
-import qs from 'query-string';
 import { mapboxData } from '@atb/modules/org-data';
 import { AutocompleteApiReturnType } from '@atb/modules/geocoder/autocomplete';
 
