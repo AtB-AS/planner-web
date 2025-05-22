@@ -497,7 +497,6 @@ export function findTripPatternsFromViaTo(
   tripPatternsFromVia: ViaTripsWithDetailsQuery['viaTrip']['tripPatternsPerSegment'][0]['tripPatterns'],
   tripPatternsViaTo: ViaTripsWithDetailsQuery['viaTrip']['tripPatternsPerSegment'][0]['tripPatterns'],
 ) {
-  console.log('Combination: ' + tripPatternCombinations);
   const tripPatterns: ViaTripsWithDetailsQuery['viaTrip']['tripPatternsPerSegment'][0]['tripPatterns'] =
     [];
   tripPatternCombinations.map((segment) => {
