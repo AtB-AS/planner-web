@@ -21,15 +21,8 @@ export default handlerWithBffClient<ReverseApiReturnType>(
         );
       }
 
-      const query = {
-        lat: lat.data,
-        lon: lon.data,
-        layers: ['address'],
-        limit: 1,
-      };
-
       return tryResult(req, res, async () => {
-        return ok(await client.reverse(qs.stringify(query)));
+        return ok(await client.reverse(lat.data, lon.data, ['address']));
       });
     },
   },

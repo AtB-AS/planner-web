@@ -13,7 +13,6 @@ import {
 } from '@atb/pages/assistant';
 import { expectProps } from '@atb/tests/utils';
 import { createDynamicRouteParser } from 'next-router-mock/dynamic-routes';
-import { GeocoderApi } from '@atb/page-modules/departures/server/geocoder';
 import AssistantLayout from '../layout';
 import Trip from '../trip';
 import {
@@ -34,6 +33,7 @@ import {
 } from '../server/trip-cache';
 import { FromToTripQuery } from '../types';
 import { GlobalMessageContextProvider } from '@atb/modules/global-messages';
+import { BffGeocoderApi } from '@atb/page-modules/bff/server/geocoder';
 
 afterEach(function () {
   cleanup();
@@ -57,8 +57,8 @@ describe('assistant page', function () {
     await mockRouter.push('/assistant');
 
     const gqlClient: ExternalClient<
-      'graphql-journeyPlanner3' | 'http-entur',
-      GeocoderApi & JourneyPlannerApi
+      'graphql-journeyPlanner3' | 'http-bff',
+      BffGeocoderApi & JourneyPlannerApi
     > = {
       async trip() {
         return tripResult;
@@ -66,7 +66,7 @@ describe('assistant page', function () {
       async nonTransitTrips() {
         return nonTransitTripResult;
       },
-      async autocomplete(query, focus) {
+      async autocomplete(query) {
         if (query === 'Strindheim') return [fromFeature];
         else return [toFeature];
       },
@@ -305,8 +305,8 @@ describe('assistant page', function () {
     addAssistantTripToCache(cachedFromToTripQuery, tripResult);
 
     const gqlClient: ExternalClient<
-      'graphql-journeyPlanner3' | 'http-entur',
-      GeocoderApi & JourneyPlannerApi
+      'graphql-journeyPlanner3' | 'http-bff',
+      BffGeocoderApi & JourneyPlannerApi
     > = {
       async trip() {
         return tripResult;
@@ -314,7 +314,7 @@ describe('assistant page', function () {
       async nonTransitTrips() {
         return nonTransitTripResult;
       },
-      async autocomplete(query, focus) {
+      async autocomplete(query) {
         if (query === 'Strindheim') return [fromFeature];
         else return [toFeature];
       },

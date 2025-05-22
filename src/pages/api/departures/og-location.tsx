@@ -3,15 +3,13 @@ import { getStaticMapUrl } from '@atb/components/map';
 import { Resvg } from '@resvg/resvg-js';
 import { NextApiResponse } from 'next';
 import satori, { type Font } from 'satori';
-
 import { readFile } from 'fs/promises';
-
 import { getOrgData } from '@atb/modules/org-data';
 import { theme } from '@atb/modules/theme';
-import { handlerWithDepartureClient } from '@atb/page-modules/departures/server';
 import { join } from 'path';
+import { handlerWithBffClient } from '@atb/page-modules/bff/server';
 
-export default handlerWithDepartureClient<{}>({
+export default handlerWithBffClient<{}>({
   async GET(req, res, { client }) {
     const query = req.query as any;
     const position = {
@@ -23,7 +21,7 @@ export default handlerWithDepartureClient<{}>({
       return notfound(res);
     }
 
-    const from = await client.reverse(position.lat, position.lon, 'address');
+    const from = await client.reverse(position.lat, position.lon, ['address']);
 
     if (!from) {
       notfound(res);

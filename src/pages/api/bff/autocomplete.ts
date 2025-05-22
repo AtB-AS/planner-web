@@ -37,19 +37,14 @@ export default handlerWithBffClient<AutocompleteApiReturnType>(
         return ok([]);
       }
 
-      const q = {
-        query: query.data,
+      const options = {
         lat: lat.data ?? mapboxData.defaultLat,
         lon: lon.data ?? mapboxData.defaultLng,
         layers: onlyStopPlaces.data ? ['venue'] : ['venue', 'address'],
-        limit: 10,
-        multiModal: 'parent', // TODO: child was used previously
       };
 
       return tryResult(req, res, async () => {
-        return ok(
-          await client.autocomplete(qs.stringify(q, { skipNull: true })),
-        );
+        return ok(await client.autocomplete(query.data, options));
       });
     },
   },
