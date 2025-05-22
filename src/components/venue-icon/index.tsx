@@ -1,5 +1,6 @@
 import { ComponentText, useTranslation } from '@atb/translations';
 import { MonoIcon, MonoIconProps } from '@atb/components/icon';
+import { FeatureCategory } from '@atb/modules/geocoder';
 
 export type VenueIconProps = {
   categories: FeatureCategory[] | string[];
@@ -34,29 +35,6 @@ export default function VenueIcon({
   }
 
   return <IconComponent iconType={venueIconTypes[0]} {...props} />;
-}
-
-export enum FeatureCategory {
-  ONSTREET_BUS = 'onstreetBus',
-  ONSTREET_TRAM = 'onstreetTram',
-  AIRPORT = 'airport',
-  RAIL_STATION = 'railStation',
-  METRO_STATION = 'metroStation',
-  BUS_STATION = 'busStation',
-  COACH_STATION = 'coachStation',
-  TRAM_STATION = 'tramStation',
-  HARBOUR_PORT = 'harbourPort',
-  FERRY_PORT = 'ferryPort',
-  FERRY_STOP = 'ferryStop',
-  LIFT_STATION = 'liftStation',
-  VEHICLE_RAIL_INTERCHANGE = 'vehicleRailInterchange',
-  GROUP_OF_STOP_PLACES = 'GroupOfStopPlaces',
-  POI = 'poi',
-  VEGADRESSE = 'Vegadresse',
-  STREET = 'street',
-  TETTSTEDDEL = 'tettsteddel',
-  BYDEL = 'bydel',
-  OTHER = 'other',
 }
 
 function isFeatureCategory(categories: any): categories is FeatureCategory[] {

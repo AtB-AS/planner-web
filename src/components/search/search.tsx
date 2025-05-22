@@ -3,7 +3,7 @@ import { ReactNode, useState } from 'react';
 import style from './search.module.css';
 import VenueIcon from '@atb/components/venue-icon';
 import { andIf } from '@atb/utils/css';
-import { GeocoderFeature } from '@atb/page-modules/departures';
+import { GeocoderFeature } from '@atb/modules/geocoder';
 import { logSpecificEvent } from '@atb/modules/firebase';
 import { ComponentText, PageText, useTranslation } from '@atb/translations';
 import useLocalStorage from '@atb/utils/use-localstorage';
