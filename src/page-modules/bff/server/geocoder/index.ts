@@ -31,7 +31,7 @@ export function createBffGeocoderApi(
         query,
         ...options,
         limit: 10,
-        multiModal: 'parent', // TODO: child was used previously
+        multiModal: 'parent', // This is set to the same as in the app.
       };
       const result = await request(
         `${url}?${qs.stringify(queryObject, { skipNull: true })}`,

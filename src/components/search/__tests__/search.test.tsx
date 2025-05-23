@@ -58,8 +58,8 @@ const customRender = (ui: React.ReactNode, renderOptions?: RenderOptions) => {
     <SWRConfig
       value={{
         fallback: {
-          '/api/bff/autocomplete?onlyStopPlaces=false&q=test': result,
-          '/api/bff/autocomplete?onlyStopPlaces=true&q=test': result,
+          '/api/departures/autocomplete?onlyStopPlaces=false&q=test': result,
+          '/api/departures/autocomplete?onlyStopPlaces=true&q=test': result,
         },
       }}
     >

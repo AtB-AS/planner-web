@@ -24,7 +24,7 @@ export function useAutocomplete(
 
   return useSWR<AutocompleteApiReturnType>(
     debouncedQuery !== ''
-      ? `/api/bff/autocomplete?${qs.stringify(query)}`
+      ? `/api/departures/autocomplete?${qs.stringify(query)}`
       : null,
     swrFetcher,
     {

@@ -8,7 +8,7 @@ export async function reverse(coords: GeolocationCoordinates) {
     lat: coords.latitude,
     lon: coords.longitude,
   };
-  const result = await fetch(`/api/bff/reverse?${qs.stringify(query)}`);
+  const result = await fetch(`/api/departures/reverse?${qs.stringify(query)}`);
 
   return await result.json();
 }
