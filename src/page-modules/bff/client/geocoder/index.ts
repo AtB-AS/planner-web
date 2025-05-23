@@ -1,7 +1,8 @@
 import { swrFetcher } from '@atb/modules/api-browser';
-import { GeocoderFeature } from '../../types';
 import useDebounce from '@atb/utils/use-debounce';
 import useSWRImmutable from 'swr/immutable';
+import qs from 'query-string';
+import { GeocoderFeature } from '@atb/modules/geocoder';
 
 export type AutocompleteApiReturnType = GeocoderFeature[];
 export type ReverseApiReturnType = GeocoderFeature | undefined;
@@ -15,15 +16,16 @@ export function useAutocomplete(
 ) {
   const debouncedQuery = useDebounce(q, DEBOUNCE_TIME_AUTOCOMPLETE_IN_MS);
 
-  const focusQuery = autocompleteFocusPoint
-    ? `&lon=${autocompleteFocusPoint.geometry.coordinates[0]}&lat=${autocompleteFocusPoint.geometry.coordinates[1]}`
-    : '';
-
-  const layerQuery = `&onlyStopPlaces=${onlyStopPlaces}`;
+  const queryObj = {
+    query: debouncedQuery,
+    lon: autocompleteFocusPoint?.geometry.coordinates[0],
+    lat: autocompleteFocusPoint?.geometry.coordinates[1],
+    onlyStopPlaces,
+  };
 
   return useSWRImmutable<AutocompleteApiReturnType>(
     debouncedQuery !== ''
-      ? `/api/departures/autocomplete?q=${debouncedQuery}${focusQuery}${layerQuery}`
+      ? `/api/departures/autocomplete?q=${qs.stringify(queryObj, { skipNull: true })}`
       : null,
     swrFetcher,
   );

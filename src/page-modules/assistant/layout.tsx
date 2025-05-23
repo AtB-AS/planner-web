@@ -7,7 +7,7 @@ import { Typo } from '@atb/components/typography';
 import type { SearchTime } from '@atb/modules/search-time';
 import SearchTimeSelector from '@atb/modules/search-time/selector';
 import { TransportModeFilter } from '@atb/modules/transport-mode';
-import type { GeocoderFeature } from '@atb/page-modules/departures';
+import type { GeocoderFeature } from '@atb/modules/geocoder';
 import { PageText, useTranslation } from '@atb/translations';
 import { FocusScope } from '@react-aria/focus';
 import { AnimatePresence, motion } from 'framer-motion';

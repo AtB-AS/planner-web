@@ -1,6 +1,6 @@
 import { parseSearchTimeQuery } from '@atb/modules/search-time';
 import { parseFilterQuery } from '@atb/modules/transport-mode';
-import { GeocoderFeature } from '@atb/page-modules/departures';
+import { GeocoderFeature } from '@atb/modules/geocoder';
 import { ParsedUrlQuery } from 'querystring';
 import { TripQuery } from '.';
 import { AssistantClient } from './server';
@@ -153,7 +153,7 @@ function hasProperties(
 
 /**
  * Extracts location properties from a trip query.
- * 
+ *
  * @param query - Trip query object containing location-specific properties.
  * @param locationType - Type of the location ('from', 'to', etc.).
  * @returns An object containing name, id, latitude, and longitude properties.

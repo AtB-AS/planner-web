@@ -4,24 +4,22 @@ import {
   createWithExternalClientDecorator,
   createWithExternalClientDecoratorForHttpHandlers,
 } from '@atb/modules/api-server';
-import { createGeocoderApi } from './geocoder';
 import { createJourneyApi } from './journey-planner';
+import { createBffGeocoderApi } from '@atb/page-modules/bff/server/geocoder';
 
-export const departureClient = createExternalClient(
-  'http-entur',
-  createGeocoderApi,
-);
-
-export const journeyClient = createExternalClient(
+const journeyClient = createExternalClient(
   'graphql-journeyPlanner3',
   createJourneyApi,
 );
 
-const composed = composeClientFactories(departureClient, journeyClient);
+const bffGeocoderClient = createExternalClient(
+  'http-bff',
+  createBffGeocoderApi,
+);
+
+const composed = composeClientFactories(journeyClient, bffGeocoderClient);
 export const withDepartureClient = createWithExternalClientDecorator(composed);
 export type DepartureClient = ReturnType<typeof composed>;
 
 export const handlerWithDepartureClient =
-  createWithExternalClientDecoratorForHttpHandlers(
-    composeClientFactories(departureClient, journeyClient),
-  );
+  createWithExternalClientDecoratorForHttpHandlers(composed);

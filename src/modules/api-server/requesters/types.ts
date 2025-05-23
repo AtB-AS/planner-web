@@ -6,7 +6,7 @@ import type { NormalizedCacheObject } from '@apollo/client/cache';
 import { ApolloClient, type ApolloClientOptions } from '@apollo/client/core';
 
 export const externalHttpUrls = {
-  'http-entur': 'https://api.entur.io',
+  'http-bff': process.env.NEXT_PUBLIC_BFF_URL,
   'http-contact-api': process.env.NEXT_PUBLIC_CONTACT_API_URL,
 } as const;
 

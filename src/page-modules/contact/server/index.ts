@@ -6,12 +6,12 @@ import {
 import { createContactApi } from './contact';
 import { createJourneyApi } from './journey-planner';
 
-export const contactFormClient = createExternalClient(
+const contactFormClient = createExternalClient(
   'http-contact-api',
   createContactApi,
 );
 
-export const journeyClient = createExternalClient(
+const journeyClient = createExternalClient(
   'graphql-journeyPlanner3',
   createJourneyApi,
 );

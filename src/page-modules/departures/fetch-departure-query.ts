@@ -19,7 +19,7 @@ export async function fetchFromDepartureQuery(
       const from = await client.reverse(
         stopPlace.position.lat,
         stopPlace.position.lon,
-        'venue',
+        ['venue'],
       );
       return {
         isAddress: false,

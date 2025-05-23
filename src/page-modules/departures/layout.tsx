@@ -4,7 +4,7 @@ import { MessageBox } from '@atb/components/message-box';
 import Search from '@atb/components/search';
 import { Typo } from '@atb/components/typography';
 import { SearchTime, SearchTimeSelector } from '@atb/modules/search-time';
-import type { GeocoderFeature } from '@atb/page-modules/departures';
+import type { GeocoderFeature } from '@atb/modules/geocoder';
 import { PageText, useTranslation } from '@atb/translations';
 import { useRouter } from 'next/router';
 import { FormEventHandler, PropsWithChildren, useState } from 'react';
