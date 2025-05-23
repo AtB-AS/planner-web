@@ -2,7 +2,6 @@ import { GeocoderFeature } from '@atb/page-modules/departures';
 import { z } from 'zod';
 import { searchModeSchema, type SearchTime } from '@atb/modules/search-time';
 import type { TransportModeGroup } from '@atb/modules/transport-mode';
-import { TransportModeType } from '@atb-as/config-specs';
 import { NoticeFragment } from '@atb/page-modules/assistant/journey-gql/trip-with-details.generated.ts';
 import {
   LegWithDetailsFragment,

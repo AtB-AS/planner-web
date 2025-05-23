@@ -19,7 +19,6 @@ import {
 } from '@atb/page-modules/assistant';
 import { tripQueryStringToQueryParams } from '@atb/page-modules/assistant/details/utils.ts';
 import { useRouter } from 'next/router';
-import { motion } from 'framer-motion';
 
 type DetailsBodyProps = {
   tripPattern: ExtendedTripPatternWithDetailsType;

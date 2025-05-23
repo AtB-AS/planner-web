@@ -1,4 +1,3 @@
-import useSWR from 'swr';
 import {
   NonTransitTripData,
   TripQuery,
@@ -11,6 +10,7 @@ import { createTripQuery, tripQueryToQueryString } from '../../utils';
 import { useEffect, useState } from 'react';
 import { fromLocalTimeToCET } from '@atb/utils/date';
 import { LineData } from '../../server/journey-planner/validators';
+import useSWRImmutable from 'swr/immutable';
 
 const MAX_NUMBER_OF_INITIAL_SEARCH_ATTEMPTS = 3;
 const INITIAL_NUMBER_OF_WANTED_TRIP_PATTERNS = 6;
@@ -99,11 +99,11 @@ export function useTripPatterns(
 export function useNonTransitTrip(tripQuery: FromToTripQuery) {
   const query = createTripQuery(tripQuery);
   const queryString = tripQueryToQueryString(query);
-  const { data, error, isLoading } = useSWR<NonTransitTripApiReturnType>(
-    `/api/assistant/non-transit-trip?${queryString}`,
-    swrFetcher,
-    {},
-  );
+  const { data, error, isLoading } =
+    useSWRImmutable<NonTransitTripApiReturnType>(
+      `/api/assistant/non-transit-trip?${queryString}`,
+      swrFetcher,
+    );
 
   return {
     nonTransitTrips: data,

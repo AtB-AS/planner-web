@@ -4,10 +4,11 @@ import { getOrgData } from '@atb/modules/org-data';
 import { PageText, useTranslation } from '@atb/translations';
 import { ChangeEvent, FocusEvent, useEffect, useState } from 'react';
 import style from './line-filter.module.css';
-import useSWR from 'swr';
 import { swrFetcher } from '@atb/modules/api-browser';
 import { LinesApiReturnType } from '../client';
 import { isDefined, isTruthy } from '@atb/utils/presence';
+import useSWRImmutable from 'swr/immutable';
+
 type LineFilterProps = {
   filterState: string[] | null;
   onChange: (lineFilter: string[] | null) => void;
@@ -18,7 +19,7 @@ export default function LineFilter({ filterState, onChange }: LineFilterProps) {
 
   const { authorityId } = getOrgData();
 
-  const { data } = useSWR<LinesApiReturnType>(
+  const { data } = useSWRImmutable<LinesApiReturnType>(
     `api/assistant/lines/${authorityId}`,
     swrFetcher,
   );

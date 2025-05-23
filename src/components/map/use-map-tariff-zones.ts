@@ -4,8 +4,8 @@ import { AnyLayer } from 'mapbox-gl';
 import { getReferenceDataName } from '@atb/utils/reference-data';
 import { centroid } from '@turf/centroid';
 import { type TariffZone, getTariffZones } from '@atb/modules/firebase';
-import useSWR from 'swr';
 import { addLayerIfNotExists, addSourceIfNotExists } from '.';
+import useSWRImmutable from 'swr/immutable';
 
 const TARIFF_ZONE_SOURCE_ID = 'tariff-zones';
 const ZONE_BOUNDARY_LAYER_ID = 'zone-boundary-layer';
@@ -17,11 +17,7 @@ export const useMapTariffZones = async (
   const { language } = useTranslation();
   const [isZonesVisible, setIsZonesVisible] = useState(false);
   const [isStyleLoaded, setIsStyleLoaded] = useState(false);
-  const { data } = useSWR('tariffZones', getTariffZones, {
-    revalidateOnFocus: false,
-    revalidateOnReconnect: false,
-    revalidateIfStale: false,
-  });
+  const { data } = useSWRImmutable('tariffZones', getTariffZones);
 
   const addTariffZonesToMap = useCallback(
     (map: mapboxgl.Map) => {

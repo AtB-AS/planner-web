@@ -48,8 +48,6 @@ function DeparturesLayout({ children, fromQuery }: DeparturesLayoutProps) {
   const onSelectFeature = (feature: GeocoderFeature) =>
     doSearch({ from: feature });
 
-  const { orgId } = getOrgData();
-
   return (
     <div>
       <form className={style.container} onSubmit={onSubmitHandler}>

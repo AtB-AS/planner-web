@@ -22,8 +22,6 @@ export default function TimeSelectorDropdown({
   selectedTime,
   onChange,
 }: TimeSelectorDropdownProps) {
-  const theme = useTheme();
-
   const time = parseTime(selectedTime);
 
   const selectTime = (timeType: 'hour' | 'minute', timeValue: number) => {

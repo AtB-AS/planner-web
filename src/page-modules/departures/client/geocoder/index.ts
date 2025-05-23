@@ -1,7 +1,7 @@
 import { swrFetcher } from '@atb/modules/api-browser';
 import { GeocoderFeature } from '../../types';
-import useSWR from 'swr';
 import useDebounce from '@atb/utils/use-debounce';
+import useSWRImmutable from 'swr/immutable';
 
 export type AutocompleteApiReturnType = GeocoderFeature[];
 export type ReverseApiReturnType = GeocoderFeature | undefined;
@@ -21,15 +21,11 @@ export function useAutocomplete(
 
   const layerQuery = `&onlyStopPlaces=${onlyStopPlaces}`;
 
-  return useSWR<AutocompleteApiReturnType>(
+  return useSWRImmutable<AutocompleteApiReturnType>(
     debouncedQuery !== ''
       ? `/api/departures/autocomplete?q=${debouncedQuery}${focusQuery}${layerQuery}`
       : null,
     swrFetcher,
-    {
-      revalidateOnFocus: false,
-      revalidateOnReconnect: false,
-    },
   );
 }
 

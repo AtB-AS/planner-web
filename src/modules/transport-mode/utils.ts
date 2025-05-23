@@ -7,7 +7,6 @@ import {
   TransportSubmodeType,
 } from './types';
 import { TransportMode as GraphQlTransportMode } from '@atb/modules/graphql-types';
-import { TransportSubmode } from '@atb/modules/graphql-types/journeyplanner-types_v3.generated.ts';
 
 export function transportModeToTranslatedString(mode: TransportModeGroup) {
   if (!mode.transportMode) return ComponentText.TransportMode.modes.unknown;
