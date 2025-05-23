@@ -6,7 +6,6 @@ import {
 } from '@atb/modules/transport-mode';
 import { PageText, TranslateFunction, useTranslation } from '@atb/translations';
 import { secondsToDurationShort } from '@atb/utils/date';
-import { Mode } from '@atb/modules/graphql-types/journeyplanner-types_v3.generated.ts';
 
 type NonTransitTripProps = {
   nonTransit: {

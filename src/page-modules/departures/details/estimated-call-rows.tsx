@@ -9,10 +9,8 @@ import { Button } from '@atb/components/button';
 import {
   type TransportModeType,
   useTransportationThemeColor,
-  type TransportSubmodeType,
 } from '@atb/modules/transport-mode';
 import {
-  Situation,
   SituationMessageBox,
   SituationOrNoticeIcon,
 } from '@atb/modules/situations';

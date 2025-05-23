@@ -16,7 +16,6 @@ import {
   GlobalMessages,
 } from '@atb/modules/global-messages';
 import { ServiceJourneyType } from '@atb/page-modules/departures/types.ts';
-import { useEffect } from 'react';
 
 export type DeparturesDetailsProps = {
   fromQuayId?: string;

@@ -23,7 +23,6 @@ import { FromToTripQuery } from './types';
 import { createTripQuery, setTransportModeFilters } from './utils';
 import { TabLink } from '@atb/components/tab-link';
 import { logSpecificEvent } from '@atb/modules/firebase';
-import { getOrgData } from '@atb/modules/org-data';
 import { getTransportModeFilter } from '@atb/modules/firebase/transport-mode-filter';
 import useSWRImmutable from 'swr/immutable';
 import { debounce } from 'lodash';
