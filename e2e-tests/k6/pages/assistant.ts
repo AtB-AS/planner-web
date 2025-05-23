@@ -11,6 +11,7 @@ export class Assistant {
   private searchForTravelsButton: Locator;
   private swapButton: Locator;
   private tripDetails: Locator;
+  private moreDetails: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -22,6 +23,7 @@ export class Assistant {
     this.searchForTravelsButton = page.locator('[data-testid="findTravelsButton"]');
     this.swapButton = page.locator('[data-testid="swapButton"]');
     this.tripDetails = page.locator('[data-testid="tripDetails"]');
+    this.moreDetails = page.locator('[data-testid="moreDetailsButton"]');
   }
 
   async searchFrom(location: string) {
@@ -57,6 +59,10 @@ export class Assistant {
 
   getTripDetails(){
     return this.tripDetails;
+  }
+
+  getMoreDetails(){
+    return this.moreDetails;
   }
 
   // Fallback. Sometimes the search isn't started after to-location is entered.

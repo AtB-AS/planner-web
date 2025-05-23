@@ -34,6 +34,16 @@ export class Measures {
           window.performance.mark('assistant-details-opened');
         });
         break;
+      case 'assistant-summary-open':
+        await this.page.evaluate(() => {
+          window.performance.mark('assistant-summary-open');
+        });
+        break;
+      case 'assistant-summary-opened':
+        await this.page.evaluate(() => {
+          window.performance.mark('assistant-summary-opened');
+        });
+        break;
       case 'departures-details-open':
         await this.page.evaluate(() => {
           window.performance.mark('departures-details-open');
@@ -81,6 +91,24 @@ export class Measures {
               JSON.stringify(
                 window.performance.getEntriesByName(
                   'measure-search-lastResult',
+                ),
+              ),
+            )[0].duration,
+        );
+      case 'measure-assistant-summary-open':
+        await this.page.evaluate(() =>
+          window.performance.measure(
+            'measure-assistant-summary-open',
+            'assistant-summary-open',
+            'assistant-summary-opened',
+          ),
+        );
+        return await this.page.evaluate(
+          () =>
+            JSON.parse(
+              JSON.stringify(
+                window.performance.getEntriesByName(
+                  'measure-assistant-summary-open',
                 ),
               ),
             )[0].duration,
