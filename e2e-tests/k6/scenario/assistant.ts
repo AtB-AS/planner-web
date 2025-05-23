@@ -46,8 +46,21 @@ export async function assistant(
       'measure-search-lastResult',
     );
 
-    // Open trip details
+    // Open trip summary
     await trip.click();
+    await measures.mark('assistant-summary-open');
+    const tripSummary = assistant.getTripDetails();
+    await tripSummary.waitFor({
+      state: 'visible',
+    });
+    await measures.mark('assistant-summary-opened');
+    const openSummaryDetails = await measures.measure(
+      'measure-assistant-summary-open',
+    );
+
+    // Open trip details
+    const moreDetails = assistant.getMoreDetails();
+    await moreDetails.click()
     await measures.mark('assistant-details-open');
     const tripDetails = assistant.getTripDetails();
     await tripDetails.waitFor({
@@ -60,6 +73,7 @@ export async function assistant(
 
     metrics.metricAssistantFirstResult(searchToFirstResult, region);
     metrics.metricAssistantLastResult(searchToLastResult, region);
+    metrics.metricAssistantSummaryOpen(openSummaryDetails, region);
     metrics.metricAssistantDetailsOpen(openTripDetails, region);
 
     await screenshot(page, 'assistant');

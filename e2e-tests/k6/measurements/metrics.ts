@@ -3,9 +3,11 @@ import { Trend } from 'k6/metrics';
 export class Metrics {
   private metric_assistant_firstResult: Trend;
   private metric_assistant_lastResult: Trend;
+  private metric_assistant_summary_open: Trend;
   private metric_assistant_details_open: Trend;
   private metric_assistant_region_firstResult: Trend;
   private metric_assistant_region_lastResult: Trend;
+  private metric_assistant_region_summary_open: Trend;
   private metric_assistant_region_details_open: Trend;
   private metric_departures_show: Trend;
   private metric_departures_details_open: Trend;
@@ -19,6 +21,10 @@ export class Metrics {
       'metric_assistant_lastResult',
       true,
     );
+    this.metric_assistant_summary_open = new Trend(
+      'metric_assistant_summary_open',
+      true,
+    );
     this.metric_assistant_details_open = new Trend(
       'metric_assistant_details_open',
       true,
@@ -29,6 +35,10 @@ export class Metrics {
     );
     this.metric_assistant_region_lastResult = new Trend(
       'metric_assistant_region_lastResult',
+      true,
+    );
+    this.metric_assistant_region_summary_open = new Trend(
+      'metric_assistant_region_summary_open',
       true,
     );
     this.metric_assistant_region_details_open = new Trend(
@@ -55,6 +65,14 @@ export class Metrics {
       this.metric_assistant_region_lastResult.add(value);
     } else {
       this.metric_assistant_lastResult.add(value);
+    }
+  }
+
+  metricAssistantSummaryOpen(value: number, region: boolean) {
+    if (region) {
+      this.metric_assistant_region_summary_open.add(value);
+    } else {
+      this.metric_assistant_summary_open.add(value);
     }
   }
 
