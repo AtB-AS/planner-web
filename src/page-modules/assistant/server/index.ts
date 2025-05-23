@@ -7,12 +7,9 @@ import {
 import { createJourneyApi } from './journey-planner';
 import { createBffGeocoderApi } from '@atb/page-modules/bff/server/geocoder';
 
-export const geocoderClient = createExternalClient(
-  'http-bff',
-  createBffGeocoderApi,
-);
+const geocoderClient = createExternalClient('http-bff', createBffGeocoderApi);
 
-export const journeyClient = createExternalClient(
+const journeyClient = createExternalClient(
   'graphql-journeyPlanner3',
   createJourneyApi,
 );

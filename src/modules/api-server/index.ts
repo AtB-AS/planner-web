@@ -25,41 +25,19 @@ export {
   createWithExternalClientDecoratorForHttpHandlers,
 } from './external-client';
 
-// Helper types for composing client factories
-type UnionEndpoints<
-  Factories extends readonly ExternalClientFactory<any, any>[],
-> = Factories extends [ExternalClientFactory<infer E, any>, ...infer Rest]
-  ?
-      | E
-      | (Rest extends readonly ExternalClientFactory<any, any>[]
-          ? UnionEndpoints<Rest>
-          : never)
-  : never;
-
-type IntersectClients<
-  Factories extends readonly ExternalClientFactory<any, any>[],
-> = Factories extends [ExternalClientFactory<any, infer C>, ...infer Rest]
-  ? C &
-      (Rest extends readonly ExternalClientFactory<any, any>[]
-        ? IntersectClients<Rest>
-        : {})
-  : {};
-
-// Type-safe compose function that works with any number of factories
 export function composeClientFactories<
-  Factories extends readonly ExternalClientFactory<any, any>[],
+  U1 extends AllEndpoints,
+  T1,
+  U2 extends AllEndpoints,
+  T2,
 >(
-  ...factories: Factories
-): ExternalClientFactory<
-  UnionEndpoints<Factories>,
-  IntersectClients<Factories>
-> {
+  client1: ExternalClientFactory<U1, T1>,
+  client2: ExternalClientFactory<U2, T2>,
+): ExternalClientFactory<U1 | U2, T2 & T1> {
   return function (req?: IncomingMessage) {
-    return factories.reduce((result, factory) => {
-      return {
-        ...result,
-        ...factory(req),
-      };
-    }, {}) as IntersectClients<Factories>;
+    return {
+      ...client1(req),
+      ...client2(req),
+    };
   };
 }
