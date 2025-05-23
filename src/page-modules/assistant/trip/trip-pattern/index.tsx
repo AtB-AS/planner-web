@@ -275,6 +275,7 @@ export default function TripPattern({
                 radiusSize="circular"
                 className={style.goToDetailsButton}
                 icon={{ right: <MonoIcon icon="navigation/ArrowRight" /> }}
+                testID="moreDetailsButton"
               />
             </div>
           </motion.div>
