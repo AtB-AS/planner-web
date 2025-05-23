@@ -2,7 +2,6 @@ import {
   createExternalClient,
   createWithExternalClientDecorator,
   createWithExternalClientDecoratorForHttpHandlers,
-  composeClientFactories,
 } from '@atb/modules/api-server';
 import { createBffGeocoderApi } from './geocoder';
 
@@ -11,11 +10,10 @@ const bffGeocoderClient = createExternalClient(
   createBffGeocoderApi,
 );
 
-const composed = composeClientFactories(bffGeocoderClient);
+export const withBffClient =
+  createWithExternalClientDecorator(bffGeocoderClient);
 
-export const withBffClient = createWithExternalClientDecorator(composed);
-
-export type BffClient = ReturnType<typeof composed>;
+export type BffClient = ReturnType<typeof bffGeocoderClient>;
 
 export const handlerWithBffClient =
-  createWithExternalClientDecoratorForHttpHandlers(composed);
+  createWithExternalClientDecoratorForHttpHandlers(bffGeocoderClient);
