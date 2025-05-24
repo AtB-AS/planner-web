@@ -139,7 +139,10 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
           animate={{ paddingBottom: showAlternatives ? '1.5rem' : '5.75rem' }}
           initial={{ paddingBottom: '5.75rem' }}
           transition={{ duration: 0.25, ease: [0.04, 0.62, 0.23, 0.98] }}
-          className={style.main}
+          className={[
+            style.main,
+            showAlternatives && style.removeBorderRadiusBottom,
+          ].join(' ')}
         >
           <TabLink activePath="/assistant" />
 
@@ -211,10 +214,7 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
                   />
 
                   <div>
-                    <Typo.h2
-                      textType="body__primary--bold"
-                      className={style.heading}
-                    >
+                    <Typo.h2 textType="body__primary" className={style.heading}>
                       {t(PageText.Assistant.search.input.via.label)}
                     </Typo.h2>
                     <Search
@@ -247,7 +247,12 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
             </FocusScope>
           )}
         </AnimatePresence>
-        <div className={style.buttons}>
+        <div
+          className={[
+            style.buttons,
+            showAlternatives && style.removeAllBorderRadius,
+          ].join(' ')}
+        >
           <Button
             title={
               showAlternatives
