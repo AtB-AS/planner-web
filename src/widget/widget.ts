@@ -1020,7 +1020,7 @@ function createTripQueryForDeparture(
 }
 
 async function autocomplete(urlBase: string, q: string) {
-  const url = `${urlBase}api/bff/autocomplete?q=${q}`;
+  const url = `${urlBase}api/departures/autocomplete?q=${q}`;
   const result = await fetch(url);
 
   if (!result.ok) {
@@ -1033,7 +1033,7 @@ async function autocomplete(urlBase: string, q: string) {
 
 export async function reverse(urlBase: string, coords: GeolocationCoordinates) {
   const result = await fetch(
-    `${urlBase}api/bff/reverse?lat=${coords.latitude}&lon=${coords.longitude}`,
+    `${urlBase}api/departures/reverse?lat=${coords.latitude}&lon=${coords.longitude}`,
   );
 
   const data = await result.json();
