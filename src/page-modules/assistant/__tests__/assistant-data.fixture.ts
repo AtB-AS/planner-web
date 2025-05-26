@@ -1,5 +1,4 @@
-import { FeatureCategory } from '@atb/components/venue-icon';
-import { GeocoderFeature } from '@atb/page-modules/departures';
+import { GeocoderFeature, FeatureCategory } from '@atb/modules/geocoder';
 import { NonTransitTripData, TripsType } from '..';
 import { ViaTripsWithDetailsQuery } from '@atb/page-modules/assistant/journey-gql/via-trip-with-details.generated';
 import {

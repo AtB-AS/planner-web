@@ -1,5 +1,5 @@
 import { searchTimeToQueryString } from '@atb/modules/search-time';
-import { GeocoderFeature } from '@atb/page-modules/departures';
+import { GeocoderFeature } from '@atb/modules/geocoder';
 import { FromToTripQuery, TripQuery, TripQuerySchema } from './types';
 import { TravelSearchFiltersType } from '@atb-as/config-specs';
 import { filterNotices } from '@atb/modules/situations';

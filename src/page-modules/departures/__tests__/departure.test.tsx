@@ -10,10 +10,10 @@ import { departureDataFixture } from './departure-data.fixture';
 import { StopPlace } from '../stop-place';
 import userEvent from '@testing-library/user-event';
 import { NearestStopPlaces } from '..';
-import { GeocoderApi } from '@atb/page-modules/departures/server/geocoder';
 import Search from '@atb/components/search/search';
 import { sortQuays } from '../server/journey-planner/utils';
 import { GlobalMessageContextProvider } from '@atb/modules/global-messages';
+import { BffGeocoderApi } from '@atb/page-modules/bff/server/geocoder';
 
 afterEach(function () {
   cleanup();
@@ -51,8 +51,8 @@ describe('departure page', function () {
     };
 
     const gqlClient: ExternalClient<
-      'graphql-journeyPlanner3' | 'http-entur',
-      GeocoderApi & JourneyPlannerApi
+      'graphql-journeyPlanner3' | 'http-bff',
+      BffGeocoderApi & JourneyPlannerApi
     > = {
       async departures() {
         return departureDataFixture;

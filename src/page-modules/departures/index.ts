@@ -1,5 +1,3 @@
-export type { GeocoderFeature } from './types';
-
 export * from './nearest-stop-places';
 export { StopPlace } from './stop-place';
 export {

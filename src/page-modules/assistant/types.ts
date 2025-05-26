@@ -1,4 +1,4 @@
-import { GeocoderFeature } from '@atb/page-modules/departures';
+import { GeocoderFeature } from '@atb/modules/geocoder';
 import { z } from 'zod';
 import { searchModeSchema, type SearchTime } from '@atb/modules/search-time';
 import type { TransportModeGroup } from '@atb/modules/transport-mode';

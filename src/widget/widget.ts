@@ -1,5 +1,5 @@
-import type { AutocompleteApiReturnType } from '@atb/page-modules/departures/client';
-import type { GeocoderFeature } from '@atb/page-modules/departures';
+import type { AutocompleteApiReturnType } from '@atb/modules/geocoder';
+import type { GeocoderFeature } from '@atb/modules/geocoder';
 import type { SearchTime } from '@atb/modules/search-time/types';
 
 import Combobox from '@github/combobox-nav';
