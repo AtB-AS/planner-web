@@ -1,14 +1,14 @@
 import { swrFetcher } from '@atb/modules/api-browser';
 import { TransportModeType } from '../types';
-import useSWR from 'swr';
 import { Line } from '../server/journey-planner/validators';
+import useSWRImmutable from 'swr/immutable';
 
 export const useLines = () => {
   const {
     data: lines,
     error,
     isLoading,
-  } = useSWR<Line[]>('/api/contact/lines', swrFetcher);
+  } = useSWRImmutable<Line[]>('/api/contact/lines', swrFetcher);
 
   const subTransportModesExpressboat = [
     'highSpeedPassengerService',
