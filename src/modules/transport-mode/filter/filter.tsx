@@ -20,7 +20,7 @@ export default function TransportModeFilter({
   data,
 }: TransportModeFilterProps) {
   const { t, language } = useTranslation();
-  const { orgId } = getOrgData();
+  const isFlexibleTransportEnabled = false; //remove when AtB-bestill will be enabled in tripPatterns
 
   // Local filter state used for updating the checkbox states before the URL
   // state is updated to reflect the changed filters.
@@ -34,8 +34,6 @@ export default function TransportModeFilter({
   if (!data) {
     return null;
   }
-  const isFlexibleTransportEnabled = orgId === 'atb';
-
   return (
     <div>
       <Typo.h3 textType="body__primary" className={style.heading}>
@@ -43,8 +41,10 @@ export default function TransportModeFilter({
       </Typo.h3>
 
       <ul className={style.filter}>
-        <li className={[style.transportMode, style.all].join(' ')}>
-          <div>
+        <li
+          className={[style.transportMode, style.allTransportModes].join(' ')}
+        >
+          <div className={style.transportModeContainer}>
             <input
               type="checkbox"
               id="all"
@@ -61,7 +61,11 @@ export default function TransportModeFilter({
               }}
             />
 
-            <label htmlFor="all" aria-hidden>
+            <label
+              htmlFor="all"
+              aria-hidden
+              className={style.transportModeElement}
+            >
               <CheckBoxIcon
                 checked={
                   !localFilterState || localFilterState.length === data.length
@@ -133,7 +137,7 @@ function FilterCheckbox({ option, checked, onChange }: FilterCheckboxProps) {
   const text = getTextForLanguage(option.text, language);
 
   return (
-    <div>
+    <div className={style.transportModeContainer}>
       <input
         type="checkbox"
         id={option.id}
@@ -144,7 +148,11 @@ function FilterCheckbox({ option, checked, onChange }: FilterCheckboxProps) {
         aria-labelledby={`label-${option.id}`}
       />
 
-      <label htmlFor={option.id} aria-hidden>
+      <label
+        htmlFor={option.id}
+        aria-hidden
+        className={style.transportModeElement}
+      >
         <CheckBoxIcon checked={checked} />
 
         <TransportIcon
