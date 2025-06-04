@@ -10,6 +10,7 @@
 
 .heading {
   color: token('color.background.accent.0.foreground.primary');
+  font-weight: 400;
 }
 .infoText {
   color: token('color.foreground.dynamic.disabled');

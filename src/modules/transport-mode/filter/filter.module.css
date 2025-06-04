@@ -1,13 +1,12 @@
 .heading {
   color: token('color.background.accent.0.foreground.primary');
   margin-bottom: token('spacing.medium');
+  font-weight: 400;
 }
 
 .filter {
-  display: flex;
-  flex-wrap: wrap;
-  max-width: 30rem;
-  /* TODO: 6px in the design. */
+  display: grid;
+  grid-template-columns: repeat(3, minmax(12.5rem, 1fr));
   gap: token('spacing.small');
 }
 
@@ -19,16 +18,31 @@
   gap: token('spacing.xSmall');
 }
 
+.allTransportModes {
+  grid-column: 1 / -1;
+}
+
+.allTransportModes .transportModeElement {
+  max-width: calc(33.333% - (2 * token('spacing.small') / 3));
+  /* for 'alle transportmidler' element (1/3 of filter's width - (2 * gap_width_in_grid)/num_of_columns) */
+}
+
 @media (max-width: 650px) {
-  .transportMode {
-    flex-direction: row;
+  .filter {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .allTransportModes .transportModeElement {
+    max-width: 100%;
   }
 }
 
-.transportMode label {
-  padding: token('spacing.xSmall') token('spacing.small') token('spacing.xSmall')
-    token('spacing.medium');
-  border-radius: token('border.radius.circle');
+.transportModeContainer {
+  width: 100%;
+}
+
+.transportModeElement {
+  padding: token('spacing.small') token('spacing.medium');
+  border-radius: token('border.radius.regular');
   background-color: token('color.interactive.2.default.background');
   color: token('color.foreground.dynamic.primary');
   transition:
@@ -38,7 +52,8 @@
   display: flex;
   gap: token('spacing.small');
   align-items: center;
-  height: 1.75rem;
+  border: 1px solid token('color.background.neutral.3.background');
+  height: 2.25rem;
 }
 
 .transportMode input {
@@ -58,22 +73,6 @@
   max-width: 10rem;
 }
 
-.checkboxBackground {
-  width: 1rem;
-  height: 1rem;
-  background-color: token('color.interactive.2.active.background');
-  border-radius: token('border.radius.circle');
-  display: grid;
-  place-content: center;
-}
-
-.checkboxCheck {
-  display: none;
-}
-
-.transportMode input:checked ~ label .checkboxBackground .checkboxCheck {
-  display: block;
-}
 .transportMode input:focus-visible ~ label {
   box-shadow: inset 0 0 0 token('border.width.medium')
     token('color.status.info.primary.background');
@@ -82,16 +81,16 @@
 .transportMode input:hover ~ label {
   background-color: token('color.interactive.2.hover.background');
 }
-.transportMode input[type="checkbox"]:checked ~ label {
+.transportMode input[type='checkbox']:checked ~ label {
   background-color: token('color.interactive.2.active.background');
   border: 1px solid token('color.interactive.2.outline.background');
 }
 .transportMode input:hover ~ label .checkboxBackground {
   background-color: token('color.interactive.2.default.background');
 }
-.transportMode input[type="checkbox"]:checked:hover ~ label {
+.transportMode input[type='checkbox']:checked:hover ~ label {
   background-color: token('color.interactive.2.hover.background');
 }
-.transportMode input[type="checkbox"]:checked ~ label .checkboxBackground {
+.transportMode input[type='checkbox']:checked ~ label .checkboxBackground {
   background-color: token('color.interactive.2.active.background');
 }
