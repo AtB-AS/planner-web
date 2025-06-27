@@ -69,10 +69,13 @@ export default function TripSection({
     })),
   );
 
+  const flexBookingNumberOfDaysAvailable =
+    leg.authority?.id === 'ATB:Authority:2' ? 7 : undefined;
+
   const bookingStatus = getBookingStatus(
     leg.bookingArrangements,
     leg.aimedStartTime,
-    7,
+    flexBookingNumberOfDaysAvailable,
   );
 
   return (
@@ -178,6 +181,7 @@ export default function TripSection({
             bookingStatus={bookingStatus}
             bookingArrangements={leg.bookingArrangements}
             aimedStartTime={leg.aimedStartTime}
+            flexBookingNumberOfDaysAvailable={flexBookingNumberOfDaysAvailable}
           />
         )}
 

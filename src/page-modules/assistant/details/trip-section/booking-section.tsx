@@ -16,15 +16,21 @@ type BookingSectionProps = {
   bookingStatus: BookingStatus;
   bookingArrangements: BookingArrangementType;
   aimedStartTime: string;
+  flexBookingNumberOfDaysAvailable?: number;
 };
 
 export function BookingSection({
   bookingStatus,
   bookingArrangements,
   aimedStartTime,
+  flexBookingNumberOfDaysAvailable,
 }: BookingSectionProps) {
   const { t } = useTranslation();
-  const bookingMessage = useBookingMessage(bookingArrangements, aimedStartTime);
+  const bookingMessage = useBookingMessage(
+    bookingArrangements,
+    aimedStartTime,
+    flexBookingNumberOfDaysAvailable,
+  );
   const bookingPhone = bookingArrangements?.bookingContact?.phone;
   const bookingUrl = bookingArrangements?.bookingContact?.url;
 
@@ -91,11 +97,16 @@ export function BookingSection({
 const useBookingMessage = (
   bookingArrangements: BookingArrangementType | undefined,
   aimedStartTime: string,
+  flexBookingNumberOfDaysAvailable?: number,
 ): string | undefined => {
   const { t, language } = useTranslation();
   if (!bookingArrangements) return undefined;
 
-  const status = getBookingStatus(bookingArrangements, aimedStartTime, 7);
+  const status = getBookingStatus(
+    bookingArrangements,
+    aimedStartTime,
+    flexBookingNumberOfDaysAvailable,
+  );
 
   const formatDate = (date: Date) =>
     formatToShortDateTimeWithRelativeDayNames(new Date(), date, t, language);
