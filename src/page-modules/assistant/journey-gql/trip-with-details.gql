@@ -162,6 +162,10 @@ fragment legWithDetails on Leg {
       furtherDetails
     }
   }
+  authority {
+    id
+    name
+  }
 }
 
 fragment notice on Notice {
