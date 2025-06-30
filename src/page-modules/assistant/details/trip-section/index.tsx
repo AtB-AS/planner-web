@@ -70,7 +70,7 @@ export default function TripSection({
   );
 
   const flexBookingNumberOfDaysAvailable =
-    leg.authority?.id === 'ATB:Authority:2' ? 7 : undefined;
+    leg.line?.publicCode === 'AtB Bestill' ? 7 : undefined;
 
   const bookingStatus = getBookingStatus(
     leg.bookingArrangements,
