@@ -32,9 +32,9 @@
       "href": "https://www.reisnordland.no/"
     },
     "ticketsUrl": {
-      "en-US": "https://www.reisnordland.no/billetter-og-priser",
-      "no": "https://www.reisnordland.no/billetter-og-priser",
-      "default": "https://www.reisnordland.no/billetter-og-priser"
+      "en-US": "https://www.reisnordland.no/priser-pa-buss",
+      "no": "https://www.reisnordland.no/priser-pa-buss",
+      "default": "https://www.reisnordland.no/priser-pa-buss"
     },
     "sitemapUrls": {
       "dev": "http://localhost:3000",
