@@ -16,6 +16,7 @@ export default handlerWithBffClient<AutocompleteApiReturnType>(
       const onlyStopPlaces = z
         .string()
         .optional()
+        .transform((val) => val === 'true')
         .safeParse(req.query.onlyStopPlaces);
 
       if (
