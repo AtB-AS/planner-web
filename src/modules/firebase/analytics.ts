@@ -14,6 +14,8 @@ export async function init() {
   // Default all consents to denied.
   setConsent({
     ad_storage: 'denied',
+    ad_personalization: 'denied',
+    ad_user_data: 'denied',
     functionality_storage: 'denied',
     security_storage: 'denied',
     personalization_storage: 'denied',
