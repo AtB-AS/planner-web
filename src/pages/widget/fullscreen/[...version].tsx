@@ -39,7 +39,7 @@ const FullscreenWidgetPage: NextPage<
   WithGlobalData<FullscreenWidgetPageProps>
 > = ({ data, ...props }) => {
   const router = useRouter();
-  const version = router.query.version?.[0] ?? data.latest.version;
+  const version = router.query.version ?? data.latest.version;
   console.log('version', version);
 
   const currentUrlBase = 'http://localhost:3000';
@@ -62,6 +62,9 @@ const FullscreenWidgetPage: NextPage<
         lib.current = window.PlannerWeb.createWidget({
           urlBase: currentUrlBase,
           language: 'nb',
+          outputOverrideOptions: {
+            layoutMode: 'compact',
+          },
         });
 
         setHtml(lib.current.output);
@@ -92,6 +95,7 @@ const FullscreenWidgetPage: NextPage<
   return (
     <DefaultLayout {...props}>
       <Head>
+        {/* eslint-disable-next-line @next/next/no-css-tags */}
         <link rel="stylesheet" href={styleUrl} />
         <style>
           {`
