@@ -45,8 +45,8 @@ const initializeCode = html`
         // Inherit font from page website.
         // By default it uses Roboto as the hosted planner web solution.
         inheritFont: false,
-        // Use single column design of widget layout
-        singleColumnLayout: false,
+        // Replaces singleColumnLayout
+        layoutMode: 'doubleColumn',
       },
     });
 
@@ -127,6 +127,9 @@ const WidgetPage: NextPage<WidgetPageProps> = ({ data, ...props }) => {
             lib.current = window.PlannerWeb.createWidget({
               urlBase: location.protocol + '//' + location.host,
               language: 'nb',
+              outputOverrideOptions: {
+                layoutMode: 'doubleColumn',
+              },
             });
 
             setHtml(lib.current.output);

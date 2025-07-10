@@ -22,14 +22,15 @@
 }
 
 .wrapper {
-  background-color: token('color.background.neutral.0.background');
   box-sizing: border-box;
 }
 .wrapper * {
   box-sizing: border-box;
 }
 .form {
-  composes: container from assistant;
+  background-color: token('color.background.neutral.0.background');
+  padding: token('spacing.xLarge') token('spacing.large');
+  border-radius: 0 token('border.radius.regular') token('border.radius.regular') token('border.radius.regular');
 }
 
 .nav {
@@ -42,21 +43,31 @@
   list-style-position: inside;
   padding: 0;
   margin: 0;
-  gap: token('spacing.xLarge');
+  gap: token('spacing.xSmall');
   color: token('color.background.accent.0.foreground.primary');
+}
+
+.tabs li {
+  padding: token('spacing.medium') token('spacing.large');
+  border-radius: token('border.radius.regular') token('border.radius.regular') 0 0;
+
+  background-color: token('color.background.neutral.0.background');
+  opacity: 0.6;
+}
+
+.tabs li.tabSelected {
+  background-color: token('color.background.neutral.0.background');
+  opacity: 1;
 }
 
 .tabs a {
   text-decoration: none;
   display: block;
-  padding-bottom: token('spacing.medium');
   color: token('color.background.accent.0.foreground.primary');
-  border-bottom: 1px solid token('color.foreground.dynamic.secondary');
   box-sizing: border-box;
 }
-a.tabSelected {
+.tabSelected a {
   text-decoration: none;
-  border-bottom: 2px solid token('color.foreground.dynamic.primary');
   font-weight: var(--baseTypo-body__primary--bold-fontWeight, 500);
 }
 .tabs a:hover {
@@ -67,12 +78,10 @@ a.tabSelected {
 }
 
 .main {
-  composes: main from assistant;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: token('spacing.xLarge');
   margin-top: 0;
-  padding-top: token('spacing.large');
-  padding-left: 0;
-  padding-right: 0;
-  padding-bottom: 2.75rem;
 }
 .heading {
   composes: heading from assistant;
@@ -344,13 +353,21 @@ a.tabSelected {
   font-family: inherit !important;
 }
 
-/* Change the layout to a single column layout instead of the default layout. */
-.singleColumnLayout .main {
-  grid-template-columns: 1fr;
+[data-layout="singleColumn"],
+[data-layout="compact"] {
+  .main {
+    grid-template-columns: 1fr;
+    padding-bottom: token('spacing.medium')
+  }
+  .search_container {
+    max-width: unset;
+  }
+  .selector_options {
+    width: 100%
+  }
 }
-.singleColumnLayout .search_container {
-  max-width: unset;
+
+[data-layout="compact"] .buttonGroup {
+  justify-content: start;
 }
-.singleColumnLayout .selector_options {
-  width: 100%;
-}
+

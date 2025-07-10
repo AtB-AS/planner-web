@@ -1,6 +1,6 @@
 {
   "name": "@atb-as/planner-web",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "private": true,
   "license": "EUPL-1.2",
   "engines": {
@@ -11,7 +11,7 @@
     "test:e2e-local": "E2E_URL=https://localhost:3000 yarn playwright test",
     "dev": "next dev",
     "build": "next build",
-    "build:widget": "yarn vite build ./src/widget --emptyOutDir",
+    "build:widget": "yarn vite build ./src/widget --emptyOutDir --config src/widget/vite.config.js",
     "build:all": "sh ./scripts/build.sh",
     "build:docker": "sh ./scripts/build-docker.sh",
     "start": "next start",

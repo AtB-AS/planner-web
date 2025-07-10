@@ -1,5 +1,8 @@
 .wrapper {
   background-color: token('color.background.neutral.1.background');
+  padding: token('spacing.large');
+  margin: 0 auto;
+  max-width: var(--maxPageWidth);
 }
 .container {
   background-color: token('color.background.neutral.1.background');
@@ -9,9 +12,6 @@
   grid-template-areas:
     'main'
     'alternatives';
-  padding: token('spacing.large');
-  margin: 0 auto;
-  max-width: var(--maxPageWidth);
 }
 
 .main {
@@ -154,9 +154,6 @@
     border-radius: 0;
   }
 
-  .container {
-    padding: token('spacing.medium');
-  }
 }
 
 .contentContainer {

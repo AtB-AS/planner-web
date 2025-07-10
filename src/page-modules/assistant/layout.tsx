@@ -115,7 +115,7 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
   );
 
   return (
-    <div>
+    <div className={style.wrapper}>
       <form className={style.container} onSubmit={onSubmitHandler}>
         <motion.div
           animate={{ paddingBottom: showAlternatives ? '1.5rem' : '5.75rem' }}
