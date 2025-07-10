@@ -40,9 +40,19 @@ function createSettingsConstants(urlBase: string) {
   };
 }
 
+type LayoutMode = 'doubleColumn' | 'singleColumn' | 'compact';
+
 type OutputOverrideOptions = {
   inheritFont?: boolean;
+  // @deprecated Use `layoutMode` instead.
   singleColumnLayout?: boolean;
+  /**
+   * Layout mode for the widget.
+   * - `doubleColumn`: Default layout with two columns.
+   * - `singleColumn`: Single column layout. Replaces `singleColumnLayout` in previous versions.
+   * - `compact`: Compact layout with less options.
+   */
+  layoutMode?: LayoutMode;
 };
 export type WidgetOptions = {
   urlBase: string;
@@ -64,7 +74,6 @@ export function createWidget({
 
   const defaultOutputOverrideOptions: OutputOverrideOptions = {
     inheritFont: false,
-    singleColumnLayout: false,
     ...outputOverrideOptions,
   };
 
@@ -684,7 +693,9 @@ function createOutput(
             <pw-messagebox></pw-messagebox>
           </div>
         </fieldset>
-        ${searchTime('pw-assistant')}
+        ${outputOverrideOptions.layoutMode !== 'compact'
+          ? searchTime('pw-assistant')
+          : ''}
       </div>
       ${buttons}
     </form>
@@ -736,7 +747,9 @@ function createOutput(
           </div>
           <pw-messagebox></pw-messagebox>
         </fieldset>
-        ${searchTime('pw-departures', false)}
+        ${outputOverrideOptions.layoutMode !== 'compact'
+          ? searchTime('pw-departures', false)
+          : ''}
       </div>
       ${buttons}
     </form>
@@ -745,29 +758,25 @@ function createOutput(
   const output = html`
     <div
       data-theme="light"
+      data-layout="${outputOverrideOptions.singleColumnLayout
+        ? 'singleColumn'
+        : outputOverrideOptions.layoutMode}"
       class="${andIf({
         [style.wrapper]: true,
         [style.inheritFont]: outputOverrideOptions.inheritFont ?? false,
-        [style.singleColumnLayout]:
-          outputOverrideOptions.singleColumnLayout ?? false,
-      })}"
+      })} "
     >
       <nav class="${style.nav}">
         <ul class="${style.tabs} js-tablist">
-          <li>
-            <a
-              href="/assistant"
-              class="${style.tabSelected}"
-              id="pw-assistant-tab"
-              data-mode="assistant"
-            >
-              ${texts.assistant.link}
-            </a>
+          <li
+            class="${style.tabSelected}"
+            data-mode="assistant"
+            id="pw-assistant-tab"
+          >
+            <a href="/assistant">${texts.assistant.link}</a>
           </li>
-          <li>
-            <a href="/departures" id="pw-departures-tab" data-mode="departures">
-              ${texts.departure.link}
-            </a>
+          <li data-mode="departures" id="pw-departures-tab">
+            <a href="/departures">${texts.departure.link}</a>
           </li>
         </ul>
       </nav>
@@ -788,7 +797,7 @@ function tabBar() {
       e.preventDefault();
       e.stopPropagation();
 
-      const tab = (e.target as HTMLElement)?.closest('a');
+      const tab = (e.target as HTMLElement)?.closest('li');
       if (!tab) return;
 
       const mode = tab.getAttribute('data-mode');
@@ -803,7 +812,7 @@ function tabBar() {
       document.querySelectorAll('.js-tabpanel').forEach((panel) => {
         panel.classList.add(style.hidden);
       });
-      document.querySelectorAll('.js-tablist a').forEach((panel) => {
+      document.querySelectorAll('.js-tablist li').forEach((panel) => {
         panel.classList.remove(style.tabSelected);
       });
       tabpanel.classList.remove(style.hidden);
@@ -1118,14 +1127,14 @@ const texts: Record<Languages, Texts> = {
     searchButton: 'Finn reise',
     placeholder: 'Sted eller adresse',
     assistant: {
-      link: 'Reisesøk',
-      title: 'Hvor vil du reise?',
+      link: 'Planlegg reise',
+      title: 'Hei, hvor vil du reise?',
       from: 'Fra',
       to: 'Til',
     },
     departure: {
-      link: 'Avganger',
-      title: 'Hvor vil du reise fra?',
+      link: 'Se avganger',
+      title: 'Hei, hvor vil du reise fra?',
       from: 'Fra',
     },
     searchTime: {
@@ -1149,14 +1158,14 @@ const texts: Record<Languages, Texts> = {
     searchButton: 'Finn reise',
     placeholder: 'Stad eller adresse',
     assistant: {
-      link: 'Reisesøk',
-      title: 'Kor vil du reise?',
+      link: 'Planlegg reise',
+      title: 'Hei, kor vil du reise?',
       from: 'Frå',
       to: 'Til',
     },
     departure: {
-      link: 'Avgangar',
-      title: 'Kor vil du reise frå?',
+      link: 'Sjå avgangar',
+      title: 'Hei, kor vil du reise frå?',
       from: 'Frå',
     },
     searchTime: {
@@ -1180,14 +1189,14 @@ const texts: Record<Languages, Texts> = {
     searchButton: 'Find journey',
     placeholder: 'Location or address',
     assistant: {
-      link: 'Journey search',
-      title: 'Where do you want to travel?',
+      link: 'Find journey',
+      title: 'Hi, where do you want to travel?',
       from: 'From',
       to: 'To',
     },
     departure: {
-      link: 'Departures',
-      title: 'Where do you want to travel from?',
+      link: 'See departures',
+      title: 'Hi, where do you want to travel from?',
       from: 'From',
     },
     searchTime: {

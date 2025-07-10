@@ -62,7 +62,7 @@ const FullscreenWidgetPage: NextPage<
           urlBase: currentUrlBase,
           language: 'nb',
           outputOverrideOptions: {
-            layoutMode: 'compact',
+            layoutMode: 'doubleColumn',
           },
         });
 
