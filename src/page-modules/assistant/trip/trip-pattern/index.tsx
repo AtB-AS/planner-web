@@ -139,7 +139,7 @@ export default function TripPattern({
                         />
                       ) : (
                         <div className={style.legs__leg__walkIcon}>
-                          <MonoIcon icon="transportation/Walk" />
+                          <MonoIcon icon="transportation/WalkFill" />
                         </div>
                       )}
 

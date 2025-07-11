@@ -28,7 +28,7 @@ export const contactPages: ContactPage[] = [
   {
     title: PageText.Contact.modeOfTransport.title,
     href: '/contact/means-of-transport',
-    icon: 'transportation/Bus',
+    icon: 'transportation/BusFill',
   },
   {
     title: PageText.Contact.ticketing.title,
