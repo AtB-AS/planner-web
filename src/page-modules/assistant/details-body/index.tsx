@@ -64,7 +64,7 @@ export function AssistantDetailsBody({ tripPattern }: DetailsBodyProps) {
             </Typo.p>
           </div>
           <div className={style.walkDistance}>
-            <MonoIcon icon="transportation/Walk" />
+            <MonoIcon icon="transportation/WalkFill" />
             <Typo.p textType="body__primary">
               {t(
                 PageText.Assistant.details.mapSection.walkDistance(

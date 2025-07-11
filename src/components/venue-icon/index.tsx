@@ -53,7 +53,7 @@ function IconComponent({ iconType, ...props }: IconComponentProps) {
     case 'bus':
       return (
         <MonoIcon
-          icon="transportation-entur/Bus"
+          icon="transportation/BusFill"
           key="bus"
           role="img"
           alt={t(ComponentText.VenueIcon.bus)}
@@ -63,7 +63,7 @@ function IconComponent({ iconType, ...props }: IconComponentProps) {
     case 'tram':
       return (
         <MonoIcon
-          icon="transportation-entur/Tram"
+          icon="transportation/TramFill"
           key="tram"
           role="img"
           alt={t(ComponentText.VenueIcon.tram)}
@@ -73,7 +73,7 @@ function IconComponent({ iconType, ...props }: IconComponentProps) {
     case 'rail':
       return (
         <MonoIcon
-          icon="transportation-entur/Train"
+          icon="transportation/TrainFill"
           key="rail"
           role="img"
           alt={t(ComponentText.VenueIcon.rail)}
@@ -83,7 +83,7 @@ function IconComponent({ iconType, ...props }: IconComponentProps) {
     case 'air':
       return (
         <MonoIcon
-          icon="transportation-entur/Plane"
+          icon="transportation/PlaneFill"
           key="airport"
           role="img"
           alt={t(ComponentText.VenueIcon.air)}
@@ -93,7 +93,7 @@ function IconComponent({ iconType, ...props }: IconComponentProps) {
     case 'water':
       return (
         <MonoIcon
-          icon="transportation-entur/Ferry"
+          icon="transportation/FerryFill"
           key="boat"
           role="img"
           alt={t(ComponentText.VenueIcon.water)}
