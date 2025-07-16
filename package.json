@@ -72,7 +72,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@atb-as/generate-assets": "^17.1.0",
+    "@atb-as/generate-assets": "^18.1.0",
     "@atb-as/token": "^0.0.3",
     "@graphql-codegen/cli": "^5.0.2",
     "@graphql-codegen/near-operation-file-preset": "^3.0.0",
