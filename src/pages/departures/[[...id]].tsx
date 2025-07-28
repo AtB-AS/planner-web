@@ -1,5 +1,5 @@
 import DefaultLayout from '@atb/layouts/default';
-import { withGlobalData, type WithGlobalData } from '@atb/layouts/global-data';
+import { withGlobalData, type WithGlobalData } from '@atb/modules/global-data';
 import {
   DeparturesLayout,
   type DeparturesLayoutProps,
@@ -16,6 +16,7 @@ import {
 import { PageText, TranslatedString } from '@atb/translations';
 import type { NextPage } from 'next';
 import { encode } from 'querystring';
+import { withAccessLogging } from '@atb/modules/logging';
 
 type DeparturesStopPlaceProps = {
   stopPlace: true;
@@ -76,57 +77,63 @@ function getDepartureTitle(
 
 export default DeparturesPage;
 
-export const getServerSideProps = withGlobalData(
-  withDepartureClient<
-    DeparturesLayoutProps & DeparturesContentProps,
-    { id: string[] | undefined }
-  >(async function ({ client, params, query }) {
-    if (query?.id && !params?.id) {
-      const id = query.id;
-      delete query.id;
-      return {
-        redirect: {
-          destination: `/departures/${id}?${encode(query)}`,
-          permanent: false,
-        },
-      };
-    }
-    const fromQuery = await fetchFromDepartureQuery(params?.id, query, client);
-    if (!fromQuery.isAddress && fromQuery.from) {
-      const departures = await client.departures({
-        id: fromQuery.from.id,
-        date:
-          fromQuery.searchTime.mode !== 'now'
-            ? fromQuery.searchTime.dateTime
-            : null,
-      });
+export const getServerSideProps = withAccessLogging(
+  withGlobalData(
+    withDepartureClient<
+      DeparturesLayoutProps & DeparturesContentProps,
+      { id: string[] | undefined }
+    >(async function ({ client, params, query }) {
+      if (query?.id && !params?.id) {
+        const id = query.id;
+        delete query.id;
+        return {
+          redirect: {
+            destination: `/departures/${id}?${encode(query)}`,
+            permanent: false,
+          },
+        };
+      }
+      const fromQuery = await fetchFromDepartureQuery(
+        params?.id,
+        query,
+        client,
+      );
+      if (!fromQuery.isAddress && fromQuery.from) {
+        const departures = await client.departures({
+          id: fromQuery.from.id,
+          date:
+            fromQuery.searchTime.mode !== 'now'
+              ? fromQuery.searchTime.dateTime
+              : null,
+        });
 
-      return {
-        props: {
-          stopPlace: true,
-          departures,
-          fromQuery,
-        },
-      };
-    } else if (fromQuery.isAddress && fromQuery.from) {
-      const input = {
-        lon: fromQuery.from.geometry.coordinates[0],
-        lat: fromQuery.from.geometry.coordinates[1],
-      };
+        return {
+          props: {
+            stopPlace: true,
+            departures,
+            fromQuery,
+          },
+        };
+      } else if (fromQuery.isAddress && fromQuery.from) {
+        const input = {
+          lon: fromQuery.from.geometry.coordinates[0],
+          lat: fromQuery.from.geometry.coordinates[1],
+        };
 
-      const nearestStopPlaces = await client.nearestStopPlaces(input);
+        const nearestStopPlaces = await client.nearestStopPlaces(input);
 
-      return {
-        props: {
-          address: true,
-          nearestStopPlaces,
-          fromQuery,
-        },
-      };
-    } else {
-      return {
-        props: { empty: true, fromQuery },
-      };
-    }
-  }),
+        return {
+          props: {
+            address: true,
+            nearestStopPlaces,
+            fromQuery,
+          },
+        };
+      } else {
+        return {
+          props: { empty: true, fromQuery },
+        };
+      }
+    }),
+  ),
 );

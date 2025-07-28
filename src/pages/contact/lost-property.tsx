@@ -1,11 +1,12 @@
 import DefaultLayout from '@atb/layouts/default';
-import { withGlobalData, WithGlobalData } from '@atb/layouts/global-data';
 import {
   ContactPageLayout,
   ContactPageLayoutProps,
 } from '@atb/page-modules/contact';
 import LostPropertyContent from '@atb/page-modules/contact/lost-property';
 import { NextPage } from 'next';
+import { withAccessLogging } from '@atb/modules/logging';
+import { withGlobalData, type WithGlobalData } from '@atb/modules/global-data';
 
 export type LostPropertyPageProps = WithGlobalData<ContactPageLayoutProps>;
 
@@ -21,4 +22,4 @@ const LostPropertyPage: NextPage<LostPropertyPageProps> = (props) => {
 
 export default LostPropertyPage;
 
-export const getServerSideProps = withGlobalData();
+export const getServerSideProps = withAccessLogging(withGlobalData());

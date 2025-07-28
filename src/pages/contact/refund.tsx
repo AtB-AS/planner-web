@@ -1,11 +1,12 @@
 import DefaultLayout from '@atb/layouts/default';
-import { withGlobalData, WithGlobalData } from '@atb/layouts/global-data';
 import { NextPage } from 'next';
 import {
   ContactPageLayout,
   ContactPageLayoutProps,
   RefundContent,
 } from '@atb/page-modules/contact';
+import { withAccessLogging } from '@atb/modules/logging';
+import { withGlobalData, type WithGlobalData } from '@atb/modules/global-data';
 
 export type RefundPagePageProps = WithGlobalData<ContactPageLayoutProps>;
 
@@ -21,4 +22,4 @@ const RefundPage: NextPage<RefundPagePageProps> = (props) => {
 
 export default RefundPage;
 
-export const getServerSideProps = withGlobalData();
+export const getServerSideProps = withAccessLogging(withGlobalData());

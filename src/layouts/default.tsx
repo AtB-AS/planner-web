@@ -1,4 +1,4 @@
-import { WithGlobalData } from '@atb/layouts/global-data';
+import { type WithGlobalData } from '@atb/modules/global-data';
 import { AppCookiesProvider } from '@atb/modules/cookies';
 import { GlobalMessageContextProvider } from '@atb/modules/global-messages';
 import { AppLanguageProvider } from '@atb/translations';

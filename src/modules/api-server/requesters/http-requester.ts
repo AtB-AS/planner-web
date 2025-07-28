@@ -1,7 +1,5 @@
 import { ServerText, translation } from '@atb/translations';
 import { v4 as uuidv4 } from 'uuid';
-import { logResponse } from './log-response';
-import { Timer } from './timer';
 import {
   ApplicationError,
   HttpEndpoints,
@@ -11,6 +9,7 @@ import {
   externalHttpUrls,
 } from './types';
 import { getEtNameHeaders, passOnHeadersFromRequest } from './utils';
+import { logApiResponse, Timer } from '@atb/modules/logging';
 
 export function createRequester<T extends HttpEndpoints>(
   baseUrlKey: T,
@@ -42,7 +41,7 @@ export function createRequester<T extends HttpEndpoints>(
         },
       });
 
-      logResponse({
+      logApiResponse({
         message: 'http call',
         method: init?.method,
         url: data.url,

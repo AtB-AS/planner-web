@@ -1,11 +1,8 @@
-import { type GlobalCookiesData, getGlobalCookies } from '@atb/modules/cookies';
+import { getGlobalCookies } from '@atb/modules/cookies';
 import type { GetServerSideProps } from 'next';
 import type { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { ParsedUrlQuery } from 'node:querystring';
-
-export type AllData = GlobalCookiesData;
-
-export type WithGlobalData<T> = T & AllData;
+import { AllData, WithGlobalData } from './types.ts';
 
 /**
  * Higher order function to wrap default getServerSideProps to provide default
