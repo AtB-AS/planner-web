@@ -16,8 +16,8 @@ export function withAccessLogging<
       await propGetter?.(ctx);
     logPageAccess({
       url: ctx.resolvedUrl,
-      method: ctx.req.method,
-      requestHeaders: ctx.req.headers,
+      method: ctx.req?.method,
+      requestHeaders: ctx.req?.headers,
       duration: timer.getElapsedMs(),
       propsResult,
     });

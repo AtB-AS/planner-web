@@ -7,7 +7,7 @@ type LogCallHandlerParams = {
   url?: string;
   statusCode?: number;
   method?: string;
-  requestHeaders: IncomingHttpHeaders;
+  requestHeaders?: IncomingHttpHeaders;
   propsResult?: GetServerSidePropsResult<any>;
 };
 
@@ -46,7 +46,7 @@ export function logPageAccess({
       message: 'page access',
       time: new Date().toISOString(),
       code: statusCode,
-      requestId: requestHeaders['requestId'],
+      requestId: requestHeaders?.['requestId'],
       resolvedProps: stringifiedProps,
     };
     logger.info(ct);
