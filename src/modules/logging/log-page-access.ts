@@ -2,10 +2,9 @@ import { IncomingHttpHeaders } from 'http';
 import { GetServerSidePropsResult } from 'next/types';
 import { logger } from './logger.ts';
 
-type LogCallHandlerParams = {
+type LogPageAccessParams = {
   duration: number;
   url?: string;
-  statusCode?: number;
   method?: string;
   requestHeaders?: IncomingHttpHeaders;
   propsResult?: GetServerSidePropsResult<any>;
@@ -20,11 +19,10 @@ type LogCallHandlerParams = {
 export function logPageAccess({
   duration,
   url,
-  statusCode,
   method,
   requestHeaders,
   propsResult,
-}: LogCallHandlerParams) {
+}: LogPageAccessParams) {
   (async () => {
     // Try to stringify resolvedProps, but handle cases where it might not be stringifiable (circular references, etc.)
     let stringifiedProps: string;
@@ -45,8 +43,8 @@ export function logPageAccess({
       severity: 'INFO',
       message: 'page access',
       time: new Date().toISOString(),
-      code: statusCode,
       requestId: requestHeaders?.['requestId'],
+      clientIpAddress: requestHeaders?.['client-ip-address'],
       resolvedProps: stringifiedProps,
     };
     logger.info(ct);
