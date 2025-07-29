@@ -174,7 +174,7 @@ export const TransportationForm = ({
         />
       </Fieldset>
 
-      <Fieldset title={t(PageText.Contact.input.feedback.title)}>
+      <Fieldset title={t(PageText.Contact.input.feedback.title)} isRequired>
         <Textarea
           description={t(PageText.Contact.input.feedback.description)}
           id="feedback"
