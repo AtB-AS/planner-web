@@ -191,24 +191,24 @@ export function getTransportModeIcon(
   switch (mode.transportMode) {
     case 'bus':
     case 'coach':
-      return 'transportation/Bus';
+      return 'transportation/BusFill';
     case 'tram':
-      return 'transportation/Tram';
+      return 'transportation/TramFill';
     case 'rail':
-      return 'transportation/Train';
+      return 'transportation/TrainFill';
     case 'foot':
-      return 'transportation/Walk';
+      return 'transportation/WalkFill';
     case 'bicycle':
-      return 'transportation-entur/Bicycle';
+      return 'transportation/BicycleFill';
     case 'air':
-      return 'transportation-entur/Plane';
+      return 'transportation/PlaneFill';
     case 'water':
       return isSubModeBoat(mode.transportSubModes)
-        ? 'transportation/Boat'
-        : 'transportation/Ferry';
+        ? 'transportation/BoatFill'
+        : 'transportation/FerryFill';
     case 'metro':
-      return 'transportation-entur/Subway';
+      return 'transportation/MetroFill';
     default:
-      return 'transportation/Unknown';
+      return 'transportation/UnknownFill';
   }
 }
