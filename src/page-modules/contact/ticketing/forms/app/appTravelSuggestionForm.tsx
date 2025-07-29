@@ -16,7 +16,7 @@ export const AppTravelSuggestionForm = ({
 
   return (
     <>
-      <Fieldset title={t(PageText.Contact.input.question.title)}>
+      <Fieldset title={t(PageText.Contact.input.question.title)} isRequired>
         <Textarea
           id="question"
           description={t(PageText.Contact.input.question.info)}

@@ -255,10 +255,6 @@ export const RefundCarForm = ({ state, send }: RefundCarFormProps) => {
               value: e.target.value,
             })
           }
-          error={
-            state.context.errorMessages['feedback']?.[0] &&
-            t(state.context.errorMessages['feedback']?.[0])
-          }
           fileInputProps={{
             id: 'attachments',
             name: 'attachments',

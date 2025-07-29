@@ -39,7 +39,7 @@ export const AppTicketingForm = ({ state, send }: AppTicketingFormProps) => {
           }}
         />
       </Fieldset>
-      <Fieldset title={t(PageText.Contact.input.question.title)}>
+      <Fieldset title={t(PageText.Contact.input.question.title)} isRequired>
         <Textarea
           id="question"
           description={t(PageText.Contact.input.question.info)}

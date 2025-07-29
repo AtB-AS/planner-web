@@ -166,7 +166,7 @@ export const DelayForm = ({ state, send }: DelayFormProps) => {
         />
       </Fieldset>
 
-      <Fieldset title={t(PageText.Contact.input.feedback.title)}>
+      <Fieldset title={t(PageText.Contact.input.feedback.title)} isRequired>
         <Textarea
           id="feedback"
           description={t(PageText.Contact.input.feedback.description)}

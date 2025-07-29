@@ -1,17 +1,32 @@
 import style from './fieldset.module.css';
 import { PropsWithChildren } from 'react';
 import { Typo } from '@atb/components/typography';
+import { andIf } from '@atb/utils/css';
 
 export type FieldsetProps = PropsWithChildren<{
-  title: string;
+  title?: string;
+  isRequired?: boolean;
 }>;
 
-export const Fieldset = ({ title, children }: FieldsetProps) => {
+export const Fieldset = ({
+  title,
+  isRequired = false,
+  children,
+}: FieldsetProps) => {
   return (
     <fieldset className={style.fieldset}>
-      <legend className={style.legend}>
-        <Typo.h3 textType="heading__component">{title}</Typo.h3>
-      </legend>
+      {title && (
+        <legend className={style.legend}>
+          <Typo.h3
+            textType="heading__component"
+            className={andIf({
+              [style.required]: isRequired,
+            })}
+          >
+            {title}
+          </Typo.h3>
+        </legend>
+      )}
       {children}
     </fieldset>
   );
