@@ -57,7 +57,7 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
               ],
             )
           }
-          options={['bus', 'expressboat', 'ferry']}
+          options={['bus', 'expressboat']}
           placeholder={t(PageText.Contact.input.transportMode.optionLabel)}
         />
 
