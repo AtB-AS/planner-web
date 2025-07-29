@@ -51,7 +51,7 @@ export type MeansOfTransportContextProps = {
   firstName?: string;
   lastName?: string;
   email?: string;
-  isResponseWanted: boolean;
+  isResponseWanted?: boolean;
   errorMessages: InputErrorMessages;
   firstErrorMessage?: string;
 };
@@ -67,6 +67,8 @@ const setInputsToValidate = (context: MeansOfTransportContextProps) => {
     date,
     plannedDepartureTime,
     feedback,
+    firstName,
+    lastName,
     email,
     isResponseWanted,
   } = context;
@@ -82,6 +84,8 @@ const setInputsToValidate = (context: MeansOfTransportContextProps) => {
         date,
         plannedDepartureTime,
         feedback,
+        isResponseWanted,
+        ...(isResponseWanted && { firstName, lastName, email }),
       };
 
     case FormType.Transportation:
@@ -93,7 +97,8 @@ const setInputsToValidate = (context: MeansOfTransportContextProps) => {
         date,
         plannedDepartureTime,
         feedback,
-        ...(isResponseWanted && { email }), // Include email if response is wanted.
+        isResponseWanted,
+        ...(isResponseWanted && { firstName, lastName, email }),
       };
 
     case FormType.Delay:
@@ -105,6 +110,8 @@ const setInputsToValidate = (context: MeansOfTransportContextProps) => {
         date,
         plannedDepartureTime,
         feedback,
+        isResponseWanted,
+        ...(isResponseWanted && { firstName, lastName, email }),
       };
 
     case FormType.Stop:
@@ -114,6 +121,8 @@ const setInputsToValidate = (context: MeansOfTransportContextProps) => {
         stop,
         date,
         feedback,
+        isResponseWanted,
+        ...(isResponseWanted && { firstName, lastName, email }),
       };
 
     case FormType.ServiceOffering:
@@ -121,6 +130,8 @@ const setInputsToValidate = (context: MeansOfTransportContextProps) => {
         transportMode,
         line,
         feedback,
+        isResponseWanted,
+        ...(isResponseWanted && { firstName, lastName, email }),
       };
 
     case FormType.Injury:
@@ -132,6 +143,8 @@ const setInputsToValidate = (context: MeansOfTransportContextProps) => {
         date,
         plannedDepartureTime,
         feedback,
+        isResponseWanted,
+        ...(isResponseWanted && { firstName, lastName, email }),
       };
   }
 };
@@ -241,7 +254,7 @@ export const meansOfTransportFormMachine = setup({
   /** @xstate-layout N4IgpgJg5mDOIC5QAoC2BDAxgCwJYDswBKAOlwgBswBiAZQFUAhAWQEkAVAbQAYBdRUAAcA9rFwAXXMPwCQAD0QBGAGzcSAZgCsATnXLlAJi2rN6gDQgAnkoDsmktxsAObstN7FN5eoC+Pi2hYeISk5FTU7ADyAOLRADIAojz8SCAiYpLSsgoIACyKJNpFxSUlFtYIRvZO6rUqBg3c3Fp+ARg4BMRklDTsAIIAGqzJsukSUjKpOSpqWrr6VSbmVojqueoaBk6K3AbOqjYGyq0ggR0hJJDj+FB0TGxcfKOi41lTiJqaBdyKmoaKTmcTkB2nKtnsjhcblqyk83hOZ2CXSukhudAS7AA+uwAEp9ABytAACpEcVjmJEACJJJ6pMaZSagHJ2NSKXKudnqGw7TSAsGVdTaEhOYpOTQ2ZqmZS5BHtJGkCjCdAQAi3CDSMBkfAAN2EAGtNYjOgqlSqbggCLrMOgGckRnSXgzsh8vg5fv9AcCQfztiRcsVnHpuO4bLKgsaSIrlarqGAAE5x4RxkiCCg2gBmSdQJCNFyjZqgFp1wmttr49qEjomzoQn2+7oMAKB3pWlQM9nF20cn20nj8-hA+GEEDgslzxGeGWr7wQAFplA4mkvl8ubPz52Hzl0wmBJ69GfIPkLcgZtMpudovmze6DW7UbH7FGzT9wnA12TKB+PSCjVXunTO2wPq47anmK3DaGKuT8msBS5M4EFit4Ng2OoBifm04Z5qaf4OlObxMqsmi5H6TjrGRhwoV4wb8r8BgOAh5FNCo56bvKJCwAArpgmBwPAeH7jWQEOIYmhgZoiHEbRzQkKY2jBl83C5GKnihv2QA */
   initial: 'editing',
   context: {
-    isResponseWanted: false,
+    isResponseWanted: undefined,
     errorMessages: {},
   },
   on: {
