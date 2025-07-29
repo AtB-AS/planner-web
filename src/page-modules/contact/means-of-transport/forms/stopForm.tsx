@@ -14,6 +14,8 @@ import {
   getLineOptions,
   getStopOptions,
   DateSelector,
+  Radio,
+  FieldWrapperWithError,
 } from '../../components';
 
 type StopFormProps = {
@@ -156,51 +158,92 @@ export const StopForm = ({ state, send }: StopFormProps) => {
           }}
         />
       </Fieldset>
-      <Fieldset title={t(PageText.Contact.aboutYouInfo.optionalTitle)}>
-        <Input
-          id="firstName"
-          label={t(PageText.Contact.input.firstName.label)}
-          type="text"
-          name="firstName"
-          value={state.context.firstName || ''}
-          onChange={(e) =>
-            send({
-              type: 'ON_INPUT_CHANGE',
-              inputName: 'firstName',
-              value: e.target.value,
-            })
-          }
-        />
+      <Fieldset
+        title={t(PageText.Contact.aboutYouInfo.optionalTitle)}
+        isRequired
+      >
+        <FieldWrapperWithError
+          errorMessage={state.context?.errorMessages['isResponseWanted']?.[0]}
+        >
+          <Radio
+            label={t(PageText.Contact.input.wantedResponse.options.yes)}
+            checked={state.context.isResponseWanted === true}
+            onChange={() =>
+              send({
+                type: 'ON_INPUT_CHANGE',
+                inputName: 'isResponseWanted',
+                value: true,
+              })
+            }
+          />
 
-        <Input
-          id="lastName"
-          label={t(PageText.Contact.input.lastName.label)}
-          type="text"
-          name="lastName"
-          value={state.context.lastName || ''}
-          onChange={(e) =>
-            send({
-              type: 'ON_INPUT_CHANGE',
-              inputName: 'lastName',
-              value: e.target.value,
-            })
-          }
-        />
+          <Radio
+            label={t(PageText.Contact.input.wantedResponse.options.no)}
+            checked={state.context.isResponseWanted === false}
+            onChange={() =>
+              send({
+                type: 'ON_INPUT_CHANGE',
+                inputName: 'isResponseWanted',
+                value: false,
+              })
+            }
+          />
+        </FieldWrapperWithError>
 
-        <Input
-          id="email"
-          label={t(PageText.Contact.input.email.label)}
-          type="email"
-          name="email"
-          value={state.context.email || ''}
-          onChange={(e) =>
-            send({
-              type: 'ON_INPUT_CHANGE',
-              inputName: 'email',
-              value: e.target.value,
-            })
-          }
-        />
+        {state.context.isResponseWanted && (
+          <>
+            <Input
+              id="firstName"
+              label={t(PageText.Contact.input.firstName.label)}
+              type="text"
+              name="firstName"
+              isRequired
+              value={state.context.firstName || ''}
+              errorMessage={state.context?.errorMessages['firstName']?.[0]}
+              onChange={(e) =>
+                send({
+                  type: 'ON_INPUT_CHANGE',
+                  inputName: 'firstName',
+                  value: e.target.value,
+                })
+              }
+            />
+
+            <Input
+              id="lastName"
+              label={t(PageText.Contact.input.lastName.label)}
+              type="text"
+              name="lastName"
+              isRequired
+              value={state.context.lastName || ''}
+              errorMessage={state.context?.errorMessages['lastName']?.[0]}
+              onChange={(e) =>
+                send({
+                  type: 'ON_INPUT_CHANGE',
+                  inputName: 'lastName',
+                  value: e.target.value,
+                })
+              }
+            />
+
+            <Input
+              id="email"
+              label={t(PageText.Contact.input.email.label)}
+              type="email"
+              name="email"
+              isRequired
+              value={state.context.email || ''}
+              errorMessage={state.context?.errorMessages['email']?.[0]}
+              onChange={(e) =>
+                send({
+                  type: 'ON_INPUT_CHANGE',
+                  inputName: 'email',
+                  value: e.target.value,
+                })
+              }
+            />
+          </>
+        )}
       </Fieldset>
     </>
   );

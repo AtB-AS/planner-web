@@ -1,4 +1,5 @@
 export {
+  FieldWrapperWithError,
   FileInput,
   Fieldset,
   Input,

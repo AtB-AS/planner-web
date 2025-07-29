@@ -384,6 +384,13 @@ const rulesTravelCardNumber: ValidationRule[] = [
   },
 ];
 
+const rulesIsResponseWanted: ValidationRule[] = [
+  {
+    validate: (_isResponseWanted: boolean) => isDefined(_isResponseWanted),
+    errorMessage: PageText.Contact.input.wantedResponse.errorMessages.undefined,
+  },
+];
+
 type ValidationRulesMap = {
   [inputName: string]: ValidationRule[];
 };
@@ -425,4 +432,5 @@ export const validationRules: ValidationRulesMap = {
   appPhoneNumber: rulesAppPhoneNumber,
   customerNumber: rulesCustomerNumber,
   travelCardNumber: rulesTravelCardNumber,
+  isResponseWanted: rulesIsResponseWanted,
 };

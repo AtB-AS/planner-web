@@ -1,3 +1,4 @@
+export { default as FieldWrapperWithError } from './field-wrapper-with-error';
 export { default as FileInput } from './file-input';
 export { default as Fieldset } from './fieldset';
 export { default as Input } from './input';

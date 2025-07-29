@@ -791,9 +791,9 @@ const ContactInternal = {
       'Informasjon om deg',
     ),
     optionalTitle: _(
-      'Informasjon om deg (valgfritt)',
-      'Information about you (optinal)',
-      'Informasjon om deg  (valfritt)',
+      'Ønsker du svar fra oss?',
+      'Would you like a reply from us?',
+      'Ønsker du svar frå oss?',
     ),
   },
 
@@ -844,18 +844,6 @@ const ContactInternal = {
         'E-post (valfritt viss kundenummer er oppgitt) ',
       ),
 
-      isResponseWanted: {
-        label: _(
-          'E-post (må fylles ut hvis du vil ha svar)',
-          'Email (must be entered if you want to receive an answer)',
-          'E-post (må fyllast ut viss du vil ha svar)',
-        ),
-        checkbox: _(
-          'Ja, jeg ønsker å motta svar på epost',
-          'Yes, I want to receive an answer on email',
-          'Ja, eg ønsker å motta svar på epost',
-        ),
-      },
       errorMessages: {
         empty: _(
           'Vennligst fyll ut e-postadressen din',
@@ -1435,6 +1423,29 @@ const ContactInternal = {
           'Grunn for refusjon mangler',
           'Reason for refund is missing',
           'Grunn for refusjon manglar',
+        ),
+      },
+    },
+
+    wantedResponse: {
+      options: {
+        yes: _(
+          'Ja, jeg ønsker å motta svar på epost',
+          'Yes, I want to receive an answer on email',
+          'Ja, eg ønsker å motta svar på epost',
+        ),
+        no: _(
+          'Nei, jeg ønsker ikke å motta svar på epost',
+          'No, I dont´t want to receive an answer on email',
+          'Nei, eg ønsker ikkje å motta svar på epost.',
+        ),
+      },
+
+      errorMessages: {
+        undefined: _(
+          'Dette feltet er påkrevd. Velg "Ja" eller "Nei"',
+          'This field is required. Please select "Yes" or "No"',
+          'Dette feltet er påkravd. Vel "Ja" eller "Nei"',
         ),
       },
     },
