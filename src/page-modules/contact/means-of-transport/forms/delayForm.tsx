@@ -199,7 +199,10 @@ export const DelayForm = ({ state, send }: DelayFormProps) => {
           }}
         />
       </Fieldset>
-      <Fieldset title={t(PageText.Contact.aboutYouInfo.optionalTitle)}>
+      <Fieldset
+        title={t(PageText.Contact.aboutYouInfo.optionalTitle)}
+        isRequired
+      >
         <FieldWrapperWithError
           errorMessage={state.context?.errorMessages['isResponseWanted']?.[0]}
         >
