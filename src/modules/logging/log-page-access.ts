@@ -24,17 +24,10 @@ export function logPageAccess({
   propsResult,
 }: LogPageAccessParams) {
   (async () => {
-    // Try to stringify resolvedProps, but handle cases where it might not be stringifiable (circular references, etc.)
-    let stringifiedProps: string;
-    try {
-      if (propsResult && 'props' in propsResult) {
-        stringifiedProps = JSON.stringify(await propsResult.props);
-      } else {
-        stringifiedProps = 'No resolved props';
-      }
-    } catch (e) {
-      stringifiedProps = 'Non-stringifiable props. Error: ' + e;
-    }
+    const stringifiedProps =
+      propsResult && 'props' in propsResult
+        ? limitedStringify(await propsResult.props)
+        : 'No resolved props';
 
     const ct = {
       method,
@@ -49,4 +42,35 @@ export function logPageAccess({
     };
     logger.info(ct);
   })();
+}
+
+export function limitedStringify<T>(obj: T, maxDepth: number = 2): string {
+  const seen = new WeakSet<object>();
+
+  function _trunc(val: unknown, depth: number): unknown {
+    if (val !== null && typeof val === 'object') {
+      if (seen.has(val as object)) return '[Circular]';
+      if (depth > maxDepth)
+        return '[TrucatedObject, maxDepth: ' + maxDepth + ']';
+      seen.add(val as object);
+
+      if (Array.isArray(val)) {
+        return (val as unknown[]).map((item) => _trunc(item, depth + 1));
+      }
+      const out: Record<string, unknown> = {};
+      for (const k in val as Record<string, unknown>) {
+        if (Object.prototype.hasOwnProperty.call(val, k)) {
+          out[k] = _trunc((val as Record<string, unknown>)[k], depth + 1);
+        }
+      }
+      return out;
+    }
+    return val;
+  }
+
+  try {
+    return JSON.stringify(_trunc(obj, 0), null, 2);
+  } catch (e) {
+    return `[Unserializable: ${(e as Error).message}]`;
+  }
 }
