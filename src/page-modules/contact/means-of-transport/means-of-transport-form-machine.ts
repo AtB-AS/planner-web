@@ -80,7 +80,6 @@ const setInputsToValidate = (context: MeansOfTransportContextProps) => {
         line,
         fromStop,
         toStop,
-        stop,
         date,
         plannedDepartureTime,
         feedback,
