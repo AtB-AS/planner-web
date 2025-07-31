@@ -91,7 +91,7 @@ const setInputsToValidate = (context: TicketingContextType) => {
     travelCardNumber,
   } = context;
 
-  const commonAppFields = {
+  const commonFields = {
     formType,
     question,
     firstName,
@@ -102,16 +102,12 @@ const setInputsToValidate = (context: TicketingContextType) => {
   switch (formType) {
     case FormType.PriceAndTicketTypes:
       return {
-        formType,
-        question,
-        firstName,
-        lastName,
-        email,
+        ...commonFields,
       };
 
     case FormType.AppTicketing:
       return {
-        ...commonAppFields,
+        ...commonFields,
         orderId,
         phoneNumber,
         ...(customerNumber && { customerNumber }),
@@ -119,40 +115,36 @@ const setInputsToValidate = (context: TicketingContextType) => {
 
     case FormType.AppTravelSuggestion:
       return {
-        ...commonAppFields,
+        ...commonFields,
       };
 
     case FormType.AppAccount:
       return {
-        ...commonAppFields,
+        ...commonFields,
         customerNumber,
         phoneNumber,
       };
 
     case FormType.TravelCardQuestion:
       return {
-        formType,
+        ...commonFields,
         travelCardNumber,
-        question,
-        firstName,
-        lastName,
-        email,
         phoneNumber,
       };
 
     case FormType.WebshopTicketing:
       return {
-        formType,
+        ...commonFields,
+        ...(customerNumber && { customerNumber }),
         orderId,
-        question,
-        ...(customerNumber ? { customerNumber } : { email }),
+        phoneNumber,
       };
 
     case FormType.WebshopAccount:
       return {
-        formType,
-        question,
-        ...(customerNumber ? { customerNumber } : { email }),
+        ...commonFields,
+        ...(customerNumber && { customerNumber }),
+        phoneNumber,
       };
   }
 };
