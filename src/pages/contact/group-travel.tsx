@@ -1,11 +1,12 @@
 import DefaultLayout from '@atb/layouts/default';
-import { withGlobalData, WithGlobalData } from '@atb/layouts/global-data';
 import { NextPage } from 'next';
 import {
   ContactPageLayout,
   ContactPageLayoutProps,
 } from '@atb/page-modules/contact';
 import GroupTravelContent from '@atb/page-modules/contact/group-travel';
+import { withAccessLogging } from '@atb/modules/logging';
+import { withGlobalData, type WithGlobalData } from '@atb/modules/global-data';
 
 export type GroupTravelPageProps = WithGlobalData<ContactPageLayoutProps>;
 
@@ -21,4 +22,4 @@ const GroupTravelPage: NextPage<GroupTravelPageProps> = (props) => {
 
 export default GroupTravelPage;
 
-export const getServerSideProps = withGlobalData();
+export const getServerSideProps = withAccessLogging(withGlobalData());

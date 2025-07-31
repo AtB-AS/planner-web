@@ -1,5 +1,5 @@
 import { IncomingHttpHeaders } from 'http';
-import { logger } from '../logger';
+import { logger } from '@atb/modules/logging/logger.ts';
 
 type LogResponseParams = {
   message: string;
@@ -13,7 +13,7 @@ type LogResponseParams = {
   customerAccountId?: string;
 };
 
-export const logResponse = ({
+export const logApiResponse = ({
   message,
   duration,
   requestHeaders,

@@ -2,8 +2,7 @@ import { InMemoryCache } from '@apollo/client/cache';
 import { ApolloLink, DefaultOptions, HttpLink } from '@apollo/client/core';
 import { onError } from '@apollo/client/link/error';
 import { v4 as uuidv4 } from 'uuid';
-import { logResponse } from './log-response';
-import { Timer } from './timer';
+import { Timer } from '@atb/modules/logging';
 import {
   GraphQlRequester,
   GraphQlEndpoints,
@@ -11,6 +10,7 @@ import {
   externalGraphQlEndpoints,
 } from './types';
 import { getEtNameHeaders, passOnHeadersFromRequest } from './utils';
+import { logApiResponse } from '@atb/modules/logging';
 
 const defaultOptions: DefaultOptions = {
   watchQuery: {
@@ -59,7 +59,7 @@ export function createGraphQlRequester<T extends GraphQlEndpoints>(
       const context = operation.getContext();
       const timer = new Timer(operation.getContext().start);
 
-      logResponse({
+      logApiResponse({
         operationName: operation.operationName,
         message: 'graphql call',
         url: context.response.url,

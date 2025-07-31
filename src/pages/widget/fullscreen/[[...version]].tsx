@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import DefaultLayout from '@atb/layouts/default';
-import { withGlobalData, type WithGlobalData } from '@atb/layouts/global-data';
+import { withGlobalData, type WithGlobalData } from '@atb/modules/global-data';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -11,6 +11,7 @@ import {
   getWidgetData,
   PlannerWidgetData,
 } from '@atb/page-modules/widget/server';
+import { withAccessLogging } from '@atb/modules/logging';
 
 const currentOrg = process.env.NEXT_PUBLIC_PLANNER_ORG_ID;
 
@@ -129,7 +130,7 @@ const FullscreenWidgetPage: NextPage<
 
 export default FullscreenWidgetPage;
 
-export const getServerSideProps =
+export const getServerSideProps = withAccessLogging(
   withGlobalData<FullscreenWidgetPagePropsContent>(async function () {
     const data = await getWidgetData();
     return {
@@ -137,4 +138,5 @@ export const getServerSideProps =
         data,
       },
     };
-  });
+  }),
+);

@@ -1,11 +1,12 @@
 import DefaultLayout from '@atb/layouts/default';
-import { withGlobalData, WithGlobalData } from '@atb/layouts/global-data';
 import {
   ContactPageLayout,
   ContactPageLayoutProps,
   MeansOfTransportContent,
 } from '@atb/page-modules/contact';
 import { NextPage } from 'next';
+import { withAccessLogging } from '@atb/modules/logging';
+import { withGlobalData, type WithGlobalData } from '@atb/modules/global-data';
 
 export type MeansOfTransportPageProps = WithGlobalData<ContactPageLayoutProps>;
 
@@ -21,4 +22,4 @@ const MeansOfTransportPage: NextPage<MeansOfTransportPageProps> = (props) => {
 
 export default MeansOfTransportPage;
 
-export const getServerSideProps = withGlobalData();
+export const getServerSideProps = withAccessLogging(withGlobalData());

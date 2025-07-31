@@ -1,6 +1,4 @@
 import DefaultLayout from '@atb/layouts/default';
-import type { WithGlobalData } from '@atb/layouts/global-data';
-import { withGlobalData } from '@atb/layouts/global-data';
 import { NextPage } from 'next';
 import { withAssistantClient } from '@atb/page-modules/assistant/server';
 import {
@@ -9,6 +7,8 @@ import {
 } from '@atb/page-modules/assistant/details';
 import { PageText, useTranslation } from '@atb/translations';
 import EmptyMessage from '@atb/components/empty-message';
+import { withAccessLogging } from '@atb/modules/logging';
+import { withGlobalData, type WithGlobalData } from '@atb/modules/global-data';
 
 type AssistantDetailsRoutingProps =
   | AssistantDetailsProps
@@ -46,28 +46,30 @@ const AssistantDetailsPage: NextPage<AssistantDetailsPageProps> = (props) => {
 
 export default AssistantDetailsPage;
 
-export const getServerSideProps = withGlobalData(
-  withAssistantClient<
-    AssistantDetailsRoutingProps,
-    { id: string[] | undefined }
-  >(async function ({ client, params }) {
-    if (!params?.id) {
+export const getServerSideProps = withAccessLogging(
+  withGlobalData(
+    withAssistantClient<
+      AssistantDetailsRoutingProps,
+      { id: string[] | undefined }
+    >(async function ({ client, params }) {
+      if (!params?.id) {
+        return {
+          props: { empty: true },
+        };
+      }
+
+      const id = params.id.toString();
+      const result = await client.singleTrip(id);
+
+      if (!result) {
+        return {
+          props: { empty: true },
+        };
+      }
+
       return {
-        props: { empty: true },
+        props: { tripPatterns: result.trip.tripPatterns },
       };
-    }
-
-    const id = params.id.toString();
-    const result = await client.singleTrip(id);
-
-    if (!result) {
-      return {
-        props: { empty: true },
-      };
-    }
-
-    return {
-      props: { tripPatterns: result.trip.tripPatterns },
-    };
-  }),
+    }),
+  ),
 );

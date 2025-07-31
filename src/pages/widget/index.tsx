@@ -1,5 +1,5 @@
 import DefaultLayout from '@atb/layouts/default';
-import { withGlobalData, type WithGlobalData } from '@atb/layouts/global-data';
+import { withGlobalData, type WithGlobalData } from '@atb/modules/global-data';
 import {
   CopyMarkup,
   CopyMarkupLarge,
@@ -16,6 +16,7 @@ import type { createWidget, PlannerWebOutput } from '@atb/widget/widget';
 import style from '@atb/page-modules/widget/widget.module.css';
 import { useTranslation } from '@atb/translations';
 import { formatToLongDateTime } from '@atb/utils/date';
+import { withAccessLogging } from '@atb/modules/logging';
 
 type WidgetPagePropsContent = {
   data: PlannerWidgetData;
@@ -148,8 +149,8 @@ const WidgetPage: NextPage<WidgetPageProps> = ({ data, ...props }) => {
 
 export default WidgetPage;
 
-export const getServerSideProps = withGlobalData<WidgetPagePropsContent>(
-  async function () {
+export const getServerSideProps = withAccessLogging(
+  withGlobalData<WidgetPagePropsContent>(async function () {
     const data = await getWidgetData();
 
     return {
@@ -157,7 +158,7 @@ export const getServerSideProps = withGlobalData<WidgetPagePropsContent>(
         data,
       },
     };
-  },
+  }),
 );
 
 function WidgetContent({

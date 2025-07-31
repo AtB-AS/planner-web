@@ -1,11 +1,12 @@
 import DefaultLayout from '@atb/layouts/default';
-import { withGlobalData, WithGlobalData } from '@atb/layouts/global-data';
 import { NextPage } from 'next';
 import {
   ContactPageLayout,
   ContactPageLayoutProps,
   TicketingContent,
 } from '@atb/page-modules/contact';
+import { withAccessLogging } from '@atb/modules/logging';
+import { withGlobalData, type WithGlobalData } from '@atb/modules/global-data';
 
 export type TicketsAppPageProps = WithGlobalData<ContactPageLayoutProps>;
 
@@ -21,4 +22,4 @@ const TicketsAppPage: NextPage<TicketsAppPageProps> = (props) => {
 
 export default TicketsAppPage;
 
-export const getServerSideProps = withGlobalData();
+export const getServerSideProps = withAccessLogging(withGlobalData());

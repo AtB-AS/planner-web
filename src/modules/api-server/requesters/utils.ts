@@ -1,7 +1,7 @@
 import { ServerText, TranslatedString } from '@atb/translations';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { ApplicationError, ReqWithHeaders, ServerErrorMessage } from './types';
-import { logger } from '../logger';
+import { logger } from '@atb/modules/logging';
 import { currentOrg } from '../../org-data';
 
 export async function tryResult(

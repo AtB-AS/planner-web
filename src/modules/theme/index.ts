@@ -10,7 +10,7 @@ export type {
   TransportColors,
   ContrastColor,
   TextColorType,
-} from '@atb-as/theme'
+} from '@atb-as/theme';
 
 export const theme = createThemesFor(getThemeVariant(currentOrg));
 
@@ -60,7 +60,7 @@ export function useHtmlDarkMode() {
     function () {
       if (typeof window === 'undefined') return;
 
-      const theme = isDarkMode? 'dark' : 'light'
+      const theme = isDarkMode ? 'dark' : 'light';
       document.documentElement.setAttribute('data-theme', theme);
     },
     [isDarkMode],
