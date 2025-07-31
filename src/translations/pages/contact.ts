@@ -1010,9 +1010,9 @@ const ContactInternal = {
     fromStop: {
       label: _('Fra holdeplass/kai', 'From stop/harbor', 'Frå haldeplass/kai'),
       optionalLabel: _(
-        'Velg holdeplass/kai (valgfritt)',
-        'Select stop/harbor (optinal)',
-        'Vel haldeplass/kai (valfritt)',
+        'Fra holdeplass/kai (valgfritt)',
+        'From stop/harbor (optinal)',
+        'Frå haldeplass/kai (valfritt)',
       ),
       optionLabel: _(
         'Velg holdeplass/kai',
@@ -1031,9 +1031,9 @@ const ContactInternal = {
     toStop: {
       label: _('Til holdeplass/kai', 'To stop/harbor', 'Til haldeplass/kai'),
       optionalLabel: _(
-        'Velg holdeplass/kai (valgfritt)',
-        'Select stop/harbor (optinal)',
-        'Vel haldeplass/kai (valfritt)',
+        'Til holdeplass/kai (valgfritt)',
+        'To stop/harbor (optinal)',
+        'Til haldeplass/kai (valfritt)',
       ),
       optionLabel: _(
         'Velg holdeplass/kai',
