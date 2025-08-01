@@ -26,7 +26,7 @@ describe('departure time component', function () {
     const output = render(
       <DepartureTime
         aimedDepartureTime="2021-09-01T12:00:00+02:00"
-        expectedDepartureTime="2021-09-01T12:00:30+02:00"
+        expectedDepartureTime="2021-09-01T12:00:14+02:00"
         realtime
       />,
     );

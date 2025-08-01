@@ -1,6 +1,6 @@
 import { secondsBetween } from '@atb/utils/date';
 
-const DEFAULT_THRESHOLD_AIMED_EXPECTED_IN_SECONDS = 60;
+const DEFAULT_THRESHOLD_AIMED_EXPECTED_IN_SECONDS = 15;
 
 type TimeValues = {
   aimedTime: string;
