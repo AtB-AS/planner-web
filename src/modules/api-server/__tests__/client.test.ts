@@ -44,10 +44,7 @@ describe('requester client', () => {
 
     clientCreator().api();
 
-    expect(mockFetch).toHaveBeenCalledWith(
-      'https://test.api.mittatb.no/bff/foo',
-      expect.anything(),
-    );
+    expect(mockFetch).toHaveBeenCalledWith('/foo', expect.anything());
   });
 
   it('should return properly created API', () => {
