@@ -51,7 +51,7 @@ export function limitedStringify<T>(obj: T, maxDepth: number = 2): string {
     if (val !== null && typeof val === 'object') {
       if (seen.has(val as object)) return '[Circular]';
       if (depth > maxDepth)
-        return '[TrucatedObject, maxDepth: ' + maxDepth + ']';
+        return '[TrucatedObject, maxDepth: ' + maxDepth + ' exeeded]';
       seen.add(val as object);
 
       if (Array.isArray(val)) {
