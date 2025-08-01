@@ -17,8 +17,6 @@ import {
   ExtendedLegType,
   ExtendedTripPatternWithDetailsType,
 } from '@atb/page-modules/assistant';
-import { tripQueryStringToQueryParams } from '@atb/page-modules/assistant/details/utils.ts';
-import { useRouter } from 'next/router';
 
 type DetailsBodyProps = {
   tripPattern: ExtendedTripPatternWithDetailsType;
