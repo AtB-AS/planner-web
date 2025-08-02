@@ -806,11 +806,6 @@ const ContactInternal = {
         'First name and middle name',
         'Fornamn og mellomnamn',
       ),
-      labelOptional: _(
-        'Fornavn og mellomnavn (valgfritt)',
-        'First name and middle name (optional)',
-        'Fornamn og mellomnamn (valfritt)',
-      ),
       errorMessages: {
         empty: _(
           'Vennligst fyll ut fornavnet ditt',
@@ -822,11 +817,6 @@ const ContactInternal = {
 
     lastName: {
       label: _('Etternavn', 'Lastname', 'Etternamn'),
-      labelOptional: _(
-        'Etternavn (valgfritt)',
-        'Last name (optional)',
-        'Etternamn (valfritt)',
-      ),
       errorMessages: {
         empty: _(
           'Vennligst fyll ut etternavnet ditt',
@@ -838,12 +828,6 @@ const ContactInternal = {
 
     email: {
       label: _('E-post', 'Email', 'E-post'),
-      labelOptionalIfCustomerNumberIsProvided: _(
-        'E-post (valgfritt hvis kundenummer er oppgitt)',
-        'Email (optional if customer number is provided)',
-        'E-post (valfritt viss kundenummer er oppgitt) ',
-      ),
-
       errorMessages: {
         empty: _(
           'Vennligst fyll ut e-postadressen din',
