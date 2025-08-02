@@ -44,7 +44,7 @@ describe('requester client', () => {
 
     clientCreator().api();
 
-    expect(mockFetch).toHaveBeenCalledWith('/bffq/foo', expect.anything());
+    expect(mockFetch).toHaveBeenCalledWith('/bff/foo', expect.anything());
   });
 
   it('should return properly created API', () => {
