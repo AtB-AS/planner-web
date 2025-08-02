@@ -7,7 +7,7 @@ import { ApolloClient, type ApolloClientOptions } from '@apollo/client/core';
 import { getEnv, getServiceUrl } from '@atb/utils/env.ts';
 
 export const externalHttpUrls = {
-  'http-bff': getServiceUrl('http://', 'BFF', getEnv() === 'prod'),
+  'http-bff': getServiceUrl('http://', 'BFF', false),
   'http-contact-api': process.env.NEXT_PUBLIC_CONTACT_API_URL,
 } as const;
 
