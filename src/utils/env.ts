@@ -12,6 +12,7 @@ export function getEnv() {
 
 /**
  * Return a URL to the given service. `serviceKey` should be uppercased.
+ * These values are only available at runtime, not at build time
  */
 export const getServiceUrl = (
   prefix: string,
@@ -52,3 +53,5 @@ const getServicePort = (serviceKey: string): string => {
     ''
   );
 };
+
+export const BFFURL: string = getServiceUrl('http://', 'BFF', false);
