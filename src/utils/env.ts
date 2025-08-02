@@ -54,4 +54,4 @@ const getServicePort = (serviceKey: string): string => {
   );
 };
 
-export const BFFURL: string = getServiceUrl('http://', 'BFF', false);
+export const BFFURL: string = getServiceUrl('http://', 'BFF', false) + '/bff';
