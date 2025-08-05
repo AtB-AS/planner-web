@@ -37,7 +37,7 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
 
         <FileInput
           id="attachments"
-          label={t(PageText.Contact.input.feedback.attachment)}
+          iconLabel={t(PageText.Contact.input.feedback.attachment)}
           name="attachments"
           onChange={(files) => {
             send({
@@ -46,7 +46,7 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
               value: files,
             });
           }}
-          errorMessage={state.context?.errorMessages['attachments']?.[0]}
+          errorMessage={t(state.context?.errorMessages['attachments']?.[0])}
         />
         <Input
           id="amount"
@@ -241,7 +241,7 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
           }
           fileInputProps={{
             id: 'attachments',
-            label: t(PageText.Contact.input.feedback.attachment),
+            iconLabel: t(PageText.Contact.input.feedback.attachment),
             name: 'attachments',
             onChange: (files) => {
               send({
