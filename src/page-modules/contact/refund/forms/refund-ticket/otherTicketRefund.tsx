@@ -187,8 +187,10 @@ const RefundSection = ({ state, send }: RefundSectionProps) => {
 
       <FileInput
         id="attachments"
-        name="attachments"
+        label={t(PageText.Contact.refund.refundTaxi.taxiReceipt.info)}
         iconLabel={t(PageText.Contact.input.feedback.attachment.receipt)}
+        name="attachments"
+        isRequired
         onChange={(files) => {
           send({
             type: 'ON_INPUT_CHANGE',
