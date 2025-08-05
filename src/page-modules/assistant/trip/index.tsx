@@ -44,6 +44,7 @@ export default function Trip({ tripQuery, fallback }: TripProps) {
   if (isLoadingFirstTrip) {
     return <EmptySearch isSearching={isLoadingFirstTrip} type="trip" />;
   }
+
   if (
     (!trips ||
       trips?.length === 0 ||

@@ -97,6 +97,7 @@ describe('assistant page', function () {
         toLayer: 'venue',
         searchMode: 'departBy',
         searchTime: 123,
+        filter: 'bus,metro',
       },
     };
 
@@ -114,7 +115,7 @@ describe('assistant page', function () {
           mode: 'departBy',
           dateTime: 123,
         },
-        transportModeFilter: null,
+        transportModeFilter: ['bus', 'metro'],
         cursor: null,
         lineFilter: null,
       },
@@ -296,7 +297,7 @@ describe('assistant page', function () {
         mode: 'departBy',
         dateTime: 123,
       },
-      transportModeFilter: null,
+      transportModeFilter: ['bus', 'metro'],
       cursor: null,
       lineFilter: null,
       via: null,
@@ -345,6 +346,7 @@ describe('assistant page', function () {
         toLayer: 'venue',
         searchMode: 'departBy',
         searchTime: 123,
+        filter: 'bus,metro',
       },
     };
 
