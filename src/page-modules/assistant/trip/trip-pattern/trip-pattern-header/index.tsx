@@ -33,19 +33,20 @@ export function TripPatternHeader({
 
   return (
     <header className={style.header}>
-      {isCancelled && (
+      {isCancelled ? (
         <ColorIcon
           icon="status/Error"
           className={style.situationIcon}
           alt={t(PageText.Assistant.trip.tripPattern.isCancelled.label)}
         />
+      ) : (
+        <SituationOrNoticeIcon
+          situations={flatMap(tripPattern.legs, (leg) => leg.situations)}
+          notices={tripPattern.legs.flatMap(getNoticesForLeg)}
+          cancellation={isCancelled}
+          iconSize="large"
+        />
       )}
-      <SituationOrNoticeIcon
-        situations={flatMap(tripPattern.legs, (leg) => leg.situations)}
-        notices={tripPattern.legs.flatMap(getNoticesForLeg)}
-        cancellation={isCancelled}
-        iconSize="large"
-      />
       <RailReplacementBusMessage tripPattern={tripPattern} />
       <Typo.span textType="body__secondary--bold">
         {startModeAndPlaceText}
