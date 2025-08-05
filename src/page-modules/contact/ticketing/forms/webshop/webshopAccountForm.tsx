@@ -68,11 +68,13 @@ export const WebshopAccountForm = ({
         />
         <Input
           id="firstName"
-          label={t(PageText.Contact.input.firstName.labelOptional)}
+          label={t(PageText.Contact.input.firstName.label)}
           type="text"
           autoComplete="given-name additional-name"
           name="firstName"
           value={state.context.firstName || ''}
+          isRequired
+          errorMessage={state.context?.errorMessages['firstName']?.[0]}
           onChange={(e) =>
             send({
               type: 'ON_INPUT_CHANGE',
@@ -84,11 +86,13 @@ export const WebshopAccountForm = ({
 
         <Input
           id="lastName"
-          label={t(PageText.Contact.input.lastName.labelOptional)}
+          label={t(PageText.Contact.input.lastName.label)}
           type="text"
           autoComplete="family-name"
           name="lastName"
           value={state.context.lastName || ''}
+          isRequired
+          errorMessage={state.context?.errorMessages['lastName']?.[0]}
           onChange={(e) =>
             send({
               type: 'ON_INPUT_CHANGE',
@@ -99,19 +103,13 @@ export const WebshopAccountForm = ({
         />
         <Input
           id="email"
-          label={t(
-            PageText.Contact.input.email
-              .labelOptionalIfCustomerNumberIsProvided,
-          )}
+          label={t(PageText.Contact.input.email.label)}
           type="email"
           autoComplete="email"
           name="email"
           value={state.context.email || ''}
-          errorMessage={
-            state.context.customerNumber
-              ? undefined
-              : state.context?.errorMessages['email']?.[0]
-          }
+          isRequired
+          errorMessage={state.context?.errorMessages['email']?.[0]}
           onChange={(e) =>
             send({
               type: 'ON_INPUT_CHANGE',
@@ -122,11 +120,12 @@ export const WebshopAccountForm = ({
         />
         <Input
           id="phoneNumber"
-          label={t(PageText.Contact.input.phoneNumber.labelOptional)}
+          label={t(PageText.Contact.input.phoneNumber.label)}
           type="tel"
           autoComplete="tel"
           name="phoneNumber"
           value={state.context.phoneNumber || ''}
+          isRequired
           errorMessage={state.context?.errorMessages['phoneNumber']?.[0]}
           onChange={(e) =>
             send({
