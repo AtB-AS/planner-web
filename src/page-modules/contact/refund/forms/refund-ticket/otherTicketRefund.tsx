@@ -1,17 +1,15 @@
 import { PageText, useTranslation } from '@atb/translations';
 import { RefundFormEvents } from '../../events';
-import { Typo } from '@atb/components/typography';
 import {
   Fieldset,
+  FileInput,
   Input,
   Select,
   Textarea,
-  FileInput,
-  Radio,
 } from '../../../components';
 import { RefundContextProps } from '../../refundFormMachine';
 import { Checkbox } from '@atb/components/checkbox';
-import { TicketType } from '@atb/page-modules/contact/types';
+import { TicketType, TicketTypeId } from '@atb/page-modules/contact/types';
 
 type OtherTicketRefundProps = {
   state: { context: RefundContextProps };
@@ -22,6 +20,12 @@ type RefundSectionProps = Pick<OtherTicketRefundProps, 'state' | 'send'>;
 
 const RefundSection = ({ state, send }: RefundSectionProps) => {
   const { t } = useTranslation();
+  const ticketTypeOptions = PageText.Contact.input.ticketType.options.filter(
+    (option) =>
+      option.id == TicketTypeId.SingleTicket ||
+      option.id == TicketTypeId.PeriodTicket,
+  );
+
   return (
     <Fieldset
       title={t(PageText.Contact.ticketing.refund.otherTicketRefund.label)}
@@ -41,7 +45,7 @@ const RefundSection = ({ state, send }: RefundSectionProps) => {
           });
         }}
         placeholder={t(PageText.Contact.input.ticketType.optionLabelRefund)}
-        options={PageText.Contact.input.ticketType.options}
+        options={ticketTypeOptions}
         isRequired
         error={
           state.context?.errorMessages['ticketType']?.[0]
@@ -49,77 +53,6 @@ const RefundSection = ({ state, send }: RefundSectionProps) => {
             : undefined
         }
       />
-      <div>
-        <Radio
-          label={t(PageText.Contact.input.travelCardNumber.labelRadioButton)}
-          name="showInputTravelCardNumber"
-          checked={state.context.showInputTravelCardNumber}
-          onChange={() =>
-            send({
-              type: 'ON_INPUT_CHANGE',
-              inputName: 'showInputTravelCardNumber',
-              value: !state.context.showInputTravelCardNumber,
-            })
-          }
-        />
-
-        <Radio
-          label={t(PageText.Contact.input.customerNumber.label)}
-          name="isAppTicketStorageMode"
-          checked={!state.context.showInputTravelCardNumber}
-          onChange={() =>
-            send({
-              type: 'ON_INPUT_CHANGE',
-              inputName: 'showInputTravelCardNumber',
-              value: !state.context.showInputTravelCardNumber,
-            })
-          }
-        />
-      </div>
-
-      {state.context.showInputTravelCardNumber && (
-        <Input
-          id="travelCardNumber"
-          label={t(PageText.Contact.input.travelCardNumber.label)}
-          type="text"
-          name="travelCardNumber"
-          value={state.context.travelCardNumber || ''}
-          modalContent={{
-            description: t(PageText.Contact.input.travelCardNumber.info),
-          }}
-          isRequired
-          errorMessage={state.context.errorMessages['travelCardNumber']?.[0]}
-          onChange={(e) =>
-            send({
-              type: 'ON_INPUT_CHANGE',
-              inputName: 'travelCardNumber',
-              value: e.target.value,
-            })
-          }
-        />
-      )}
-
-      {!state.context.showInputTravelCardNumber && (
-        <Input
-          id="customerNumber"
-          label={t(PageText.Contact.input.customerNumber.label)}
-          type="text"
-          name="customerNumber"
-          value={state.context.customerNumber || ''}
-          isRequired
-          errorMessage={state.context?.errorMessages['customerNumber']?.[0]}
-          onChange={(e) =>
-            send({
-              type: 'ON_INPUT_CHANGE',
-              inputName: 'customerNumber',
-              value: e.target.value,
-            })
-          }
-          modalContent={{
-            description: t(PageText.Contact.input.customerNumber.description),
-          }}
-        />
-      )}
 
       <Input
         id="orderId"
@@ -146,6 +79,45 @@ const RefundSection = ({ state, send }: RefundSectionProps) => {
         }}
       />
 
+      {state.context.ticketType?.id === TicketTypeId.PeriodTicket && (
+        <Input
+          id="travelCardNumber"
+          label={t(PageText.Contact.input.travelCardNumber.label)}
+          type="text"
+          name="travelCardNumber"
+          value={state.context.travelCardNumber || ''}
+          modalContent={{
+            description: t(PageText.Contact.input.travelCardNumber.info),
+          }}
+          isRequired
+          errorMessage={state.context.errorMessages['travelCardNumber']?.[0]}
+          onChange={(e) =>
+            send({
+              type: 'ON_INPUT_CHANGE',
+              inputName: 'travelCardNumber',
+              value: e.target.value,
+            })
+          }
+        />
+      )}
+
+      <Input
+        id="amount"
+        label={t(PageText.Contact.input.amount.info)}
+        type="text"
+        name="amount"
+        value={state.context.amount || ''}
+        isRequired
+        errorMessage={state.context?.errorMessages['amount']?.[0]}
+        onChange={(e) =>
+          send({
+            type: 'ON_INPUT_CHANGE',
+            inputName: 'amount',
+            value: e.target.value,
+          })
+        }
+      />
+
       <Textarea
         id="refundReason"
         description={t(PageText.Contact.input.refundReason.question)}
@@ -164,27 +136,6 @@ const RefundSection = ({ state, send }: RefundSectionProps) => {
             : undefined
         }
       />
-
-      <Input
-        id="amount"
-        label={t(PageText.Contact.input.amount.label)}
-        type="text"
-        name="amount"
-        value={state.context.amount || ''}
-        isRequired
-        errorMessage={state.context?.errorMessages['amount']?.[0]}
-        onChange={(e) =>
-          send({
-            type: 'ON_INPUT_CHANGE',
-            inputName: 'amount',
-            value: e.target.value,
-          })
-        }
-      />
-      <Typo.p textType="body__primary">
-        {t(PageText.Contact.input.amount.info)}
-      </Typo.p>
-
       <FileInput
         id="attachments"
         label={t(PageText.Contact.refund.refundTaxi.taxiReceipt.info)}
@@ -198,6 +149,11 @@ const RefundSection = ({ state, send }: RefundSectionProps) => {
             value: files,
           });
         }}
+        errorMessage={
+          state.context?.errorMessages['attachments']?.[0]
+            ? t(state.context?.errorMessages['attachments']?.[0])
+            : undefined
+        }
       />
     </Fieldset>
   );
