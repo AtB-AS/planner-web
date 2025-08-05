@@ -577,3 +577,9 @@
   input[type='time']::-webkit-calendar-picker-indicator {
   filter: invert(1);
 }
+
+.required::after {
+  content: '*';
+  color: token('color.status.error.primary.background');
+  margin-left: token('spacing.small');
+}

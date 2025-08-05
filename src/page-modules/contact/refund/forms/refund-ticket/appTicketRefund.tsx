@@ -92,6 +92,7 @@ export const AppTicketRefund = ({ state, send }: AppTicketRefundProps) => {
         id="refundReason"
         description={t(PageText.Contact.input.refundReason.question)}
         value={state.context.refundReason || ''}
+        isRequired
         onChange={(e) =>
           send({
             type: 'ON_INPUT_CHANGE',
