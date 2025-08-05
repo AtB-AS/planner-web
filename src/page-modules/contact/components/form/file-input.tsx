@@ -1,16 +1,19 @@
-import { ChangeEvent, DragEvent, useId, useState } from 'react';
+import { ChangeEvent, DragEvent, useState } from 'react';
 import style from './form.module.css';
 import { Typo } from '@atb/components/typography';
 import { Button } from '@atb/components/button';
 import { MonoIcon } from '@atb/components/icon';
-import { PageText, TranslatedString, useTranslation } from '@atb/translations';
+import { PageText, useTranslation } from '@atb/translations';
 import { useTheme } from '@atb/modules/theme';
 import { ErrorMessage } from '@atb/components/error-message';
+import FormComponentLabel from './form-component-label';
 
 export type FileInputProps = {
   id: string;
-  label: string;
-  errorMessage?: TranslatedString;
+  iconLabel: string;
+  label?: string;
+  isRequired?: boolean;
+  errorMessage?: string;
   onChange?: (files: File[]) => void;
 } & Omit<JSX.IntrinsicElements['input'], 'onChange'>;
 
@@ -19,7 +22,9 @@ const MAX_ALLOWED_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 export default function FileInput({
   id,
   onChange,
+  iconLabel,
   label,
+  isRequired = false,
   name,
   errorMessage,
 }: FileInputProps) {
@@ -93,7 +98,13 @@ export default function FileInput({
         multiple
         accept="image/*,.pdf,.doc,docx,.txt"
       />
-
+      {label && (
+        <FormComponentLabel
+          label={label}
+          htmlFor={label}
+          isRequired={isRequired}
+        />
+      )}
       <label
         htmlFor={`file_input__${id}`}
         className={style.label__file}
@@ -106,7 +117,7 @@ export default function FileInput({
         }}
       >
         <FileIcon color={background.neutral[0].foreground.primary} />
-        <Typo.span textType="body__primary">{label}</Typo.span>
+        <Typo.span textType="body__primary">{iconLabel}</Typo.span>
       </label>
 
       {files.length > 0 && (
@@ -125,7 +136,7 @@ export default function FileInput({
           ))}
         </div>
       )}
-      {errorMessage && <ErrorMessage message={t(errorMessage)} />}
+      {errorMessage && <ErrorMessage message={errorMessage} />}
     </div>
   );
 }

@@ -59,7 +59,7 @@ export const AppTicketingForm = ({ state, send }: AppTicketingFormProps) => {
           fileInputProps={{
             id: 'attachments',
             name: 'attachments',
-            label: t(PageText.Contact.input.question.attachment),
+            iconLabel: t(PageText.Contact.input.question.attachment),
             onChange: (files) => {
               send({
                 type: 'ON_INPUT_CHANGE',
