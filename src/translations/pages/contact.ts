@@ -1243,11 +1243,18 @@ const ContactInternal = {
         'Unngå å oppgi personopplysningar som bankkortnummer eller helseopplysningar. Vi spør deg seinare viss det er nødvendig.',
       ),
 
-      attachment: _(
-        'Last opp vedlegg',
-        'Upload attachments',
-        'Last opp vedlegg',
-      ),
+      attachment: {
+        generic: _(
+          'Last opp vedlegg',
+          'Upload attachments',
+          'Last opp vedlegg',
+        ),
+        receipt: _(
+          'Last opp kvittering (bilde eller kopi)',
+          'Upload receipt (image or copy)',
+          'Last opp kvittering (bilde eller kopi)',
+        ),
+      },
       errorMessages: {
         empty: _(
           'Tilbakemelding mangler',
@@ -1487,9 +1494,9 @@ const ContactInternal = {
     amount: {
       label: _('Beløp', 'Amount', 'Beløp'),
       info: _(
-        'Skriv inn beløpet du ønsker utbetalt i norske kroner.',
-        'Enter the amount you want paid out in Norwegian kroner.',
-        'Skriv inn beløpet du ønsker utbetalt i norske kroner. ',
+        'Skriv inn beløpet du ønsker utbetalt i norske kroner',
+        'Enter the amount you want paid out in Norwegian kroner',
+        'Skriv inn beløpet du ønsker utbetalt i norske kroner ',
       ),
       errorMessages: {
         empty: _('Beløp mangler', 'Amount is missing', 'Beløp manglar'),
