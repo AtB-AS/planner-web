@@ -1496,7 +1496,7 @@ const ContactInternal = {
       info: _(
         'Skriv inn beløpet du ønsker utbetalt i norske kroner',
         'Enter the amount you want paid out in Norwegian kroner',
-        'Skriv inn beløpet du ønsker utbetalt i norske kroner ',
+        'Skriv inn beløpet du ønsker utbetalt i norske kroner',
       ),
       errorMessages: {
         empty: _('Beløp mangler', 'Amount is missing', 'Beløp manglar'),
