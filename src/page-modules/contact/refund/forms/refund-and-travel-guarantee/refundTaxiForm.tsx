@@ -37,7 +37,7 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
 
         <FileInput
           id="attachments"
-          iconLabel={t(PageText.Contact.input.feedback.attachment)}
+          iconLabel={t(PageText.Contact.input.feedback.attachment.generic)}
           name="attachments"
           onChange={(files) => {
             send({
@@ -241,7 +241,7 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
           }
           fileInputProps={{
             id: 'attachments',
-            iconLabel: t(PageText.Contact.input.feedback.attachment),
+            iconLabel: t(PageText.Contact.input.feedback.attachment.generic),
             name: 'attachments',
             onChange: (files) => {
               send({
