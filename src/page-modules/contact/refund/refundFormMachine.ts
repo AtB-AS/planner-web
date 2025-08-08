@@ -226,9 +226,8 @@ const setInputToValidate = (context: RefundContextProps) => {
         phoneNumber,
         orderId,
         attachments,
-        ...(ticketType && ticketType.id === TicketTypeId.PeriodTicket
-          ? { travelCardNumber }
-          : { customerNumber }),
+        ...(ticketType &&
+          ticketType.id === TicketTypeId.PeriodTicket && { travelCardNumber }),
         ...(hasInternationalBankAccount
           ? { IBAN, SWIFT }
           : { bankAccountNumber }),
