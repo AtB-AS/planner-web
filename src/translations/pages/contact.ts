@@ -1,6 +1,6 @@
 import {
   ReasonForTransportFailure,
-  TicketType,
+  TicketTypeId,
 } from '@atb/page-modules/contact/types';
 import { translation as _ } from '@atb/translations/commons';
 import { orgSpecificTranslations } from '../utils';
@@ -1454,11 +1454,11 @@ const ContactInternal = {
       ),
       options: [
         {
-          id: 'singleTicket',
+          id: TicketTypeId.SingleTicket,
           name: _('Enkeltbillett', 'Single ticket', 'Enkeltbillett'),
         },
         {
-          id: 'periodTicket',
+          id: TicketTypeId.PeriodTicket,
           name: _(
             'Periodebillett (sonebasert)',
             'Period ticket (zone-based)',
@@ -1466,22 +1466,22 @@ const ContactInternal = {
           ),
         },
         {
-          id: 'framYoung',
+          id: TicketTypeId.FramYoung,
           name: _('FRAM Ung', 'FRAM Ung', 'FRAM Ung'),
         },
         {
-          id: 'framStudent',
+          id: TicketTypeId.FramStudent,
           name: _('FRAM Student', 'FRAM Student', 'FRAM Student'),
         },
         {
-          id: 'framAdult',
+          id: TicketTypeId.FramAdult,
           name: _('FRAM Vaksen', 'FRAM Vaksen', 'FRAM Vaksen'),
         },
         {
-          id: 'framSenior',
+          id: TicketTypeId.FramSenior,
           name: _('FRAM Honnør', 'FRAM Honnør', 'FRAM Honnør'),
         },
-      ] as TicketType[],
+      ],
       errorMessages: {
         empty: _(
           'Billett for refusjon mangler',

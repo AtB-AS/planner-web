@@ -3,6 +3,7 @@ import {
   TransportModeType,
   ReasonForTransportFailure,
   TicketType,
+  TicketTypeId,
 } from '../types';
 import { assign, fromPromise, setup } from 'xstate';
 import { Line } from '../server/journey-planner/validators';
@@ -106,7 +107,6 @@ export type RefundContextProps = {
 
   isInitialAgreementChecked: boolean;
   hasInternationalBankAccount: boolean;
-  showInputTravelCardNumber: boolean;
   errorMessages: InputErrorMessages;
   firstIncorrectErrorMessage?: string;
 };
@@ -165,7 +165,6 @@ const setInputToValidate = (context: RefundContextProps) => {
     travelCardNumber,
     refundReason,
     purchasePlatform,
-    showInputTravelCardNumber,
   } = context;
 
   const commonFields = {
@@ -226,7 +225,8 @@ const setInputToValidate = (context: RefundContextProps) => {
         email,
         phoneNumber,
         orderId,
-        ...(showInputTravelCardNumber
+        attachments,
+        ...(ticketType && ticketType.id === TicketTypeId.PeriodTicket
           ? { travelCardNumber }
           : { customerNumber }),
         ...(hasInternationalBankAccount
@@ -386,7 +386,6 @@ export const refundStateMachine = setup({
   context: {
     isInitialAgreementChecked: false,
     hasInternationalBankAccount: false,
-    showInputTravelCardNumber: true,
     errorMessages: {},
   },
   on: {

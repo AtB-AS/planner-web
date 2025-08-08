@@ -4,7 +4,6 @@ import { ReasonForTransportFailure, TransportModeType } from '../../../types';
 import { Line } from '../../..';
 import { RefundFormEvents } from '../../events';
 import { RefundContextProps } from '../../refundFormMachine';
-import { Typo } from '@atb/components/typography';
 import {
   Fieldset,
   Input,
@@ -31,26 +30,9 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
   return (
     <>
       <Fieldset title={t(PageText.Contact.refund.refundTaxi.taxiReceipt.title)}>
-        <Typo.p textType="body__primary">
-          {t(PageText.Contact.refund.refundTaxi.taxiReceipt.info)}
-        </Typo.p>
-
-        <FileInput
-          id="attachments"
-          iconLabel={t(PageText.Contact.input.feedback.attachment.generic)}
-          name="attachments"
-          onChange={(files) => {
-            send({
-              type: 'ON_INPUT_CHANGE',
-              inputName: 'attachments',
-              value: files,
-            });
-          }}
-          errorMessage={t(state.context?.errorMessages['attachments']?.[0])}
-        />
         <Input
           id="amount"
-          label={t(PageText.Contact.input.amount.label)}
+          label={t(PageText.Contact.input.amount.info)}
           type="text"
           name="amount"
           value={state.context.amount || ''}
@@ -64,9 +46,26 @@ export const RefundTaxiForm = ({ state, send }: RefundTaxiFormProps) => {
             })
           }
         />
-        <Typo.p textType="body__primary">
-          {t(PageText.Contact.input.amount.info)}
-        </Typo.p>
+
+        <FileInput
+          id="attachments"
+          label={t(PageText.Contact.refund.refundTaxi.taxiReceipt.info)}
+          iconLabel={t(PageText.Contact.input.feedback.attachment.receipt)}
+          name="attachments"
+          isRequired
+          onChange={(files) => {
+            send({
+              type: 'ON_INPUT_CHANGE',
+              inputName: 'attachments',
+              value: files,
+            });
+          }}
+          errorMessage={
+            state.context?.errorMessages['attachments']?.[0]
+              ? t(state.context?.errorMessages['attachments']?.[0])
+              : undefined
+          }
+        />
       </Fieldset>
       <Fieldset
         title={t(PageText.Contact.refund.refundTaxi.aboutYourTrip.title)}
