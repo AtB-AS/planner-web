@@ -45,7 +45,7 @@ export const PostponePaymentForm = ({
         <Input
           id="invoiceNumber"
           label={t(PageText.Contact.input.invoiceNumber.label)}
-          type="text"
+          type="number"
           name="invoiceNumber"
           value={state.context.invoiceNumber || ''}
           isRequired
