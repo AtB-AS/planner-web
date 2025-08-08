@@ -235,10 +235,6 @@ const rulesFeeNumber: ValidationRule[] = [
     validate: hasExpectedLength(4),
     errorMessage: PageText.Contact.input.feeNumber.errorMessages.invalidFormat,
   },
-  {
-    validate: isDigitsOnly,
-    errorMessage: PageText.Contact.input.feeNumber.errorMessages.invalidFormat,
-  },
 ];
 
 const rulesInvoiceNumber: ValidationRule[] = [
