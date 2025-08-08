@@ -108,7 +108,7 @@ const FormContent = ({ state, send }: FormProps) => {
         <Input
           id="feeNumber"
           label={t(PageText.Contact.input.feeNumber.label)}
-          type="text"
+          type="number"
           name="feeNumber"
           value={state.context.feeNumber || ''}
           isRequired
