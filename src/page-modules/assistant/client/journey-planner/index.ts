@@ -100,7 +100,6 @@ export function useTripPatterns(
     size,
     setSize,
   };
-  9;
 }
 
 function getTripPatternCount(data: TripApiReturnType[] | undefined) {
@@ -133,7 +132,7 @@ export function useNonTransitTrip(tripQuery: FromToTripQuery) {
  * when no new patterns are found.
  *
  * @param numberOfTripPatterns - The current number of trip patterns loaded
- * @param size - The current page size 
+ * @param size - The current page size
  * @param setSize - Function to update the page size
  * @param isValidating - Boolean indicating if data is currently being fetched
  *

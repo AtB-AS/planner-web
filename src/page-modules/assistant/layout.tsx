@@ -12,15 +12,10 @@ import { PageText, useTranslation } from '@atb/translations';
 import { FocusScope } from '@react-aria/focus';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useRouter } from 'next/router';
-import {
-  FormEventHandler,
-  PropsWithChildren,
-  useEffect,
-  useState,
-} from 'react';
+import { FormEventHandler, PropsWithChildren, useState } from 'react';
 import style from './assistant.module.css';
 import { FromToTripQuery } from './types';
-import { createTripQuery, setTransportModeFilters } from './utils';
+import { createTripQuery } from './utils';
 import { TabLink } from '@atb/components/tab-link';
 import { logSpecificEvent } from '@atb/modules/firebase';
 import { getTransportModeFilter } from '@atb/modules/firebase/transport-mode-filter';
@@ -118,19 +113,6 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
       setValuesWithLoading({ lineFilter }, true),
     750,
   );
-
-  const isTripQueryTransportModeFilterNull =
-    tripQuery.transportModeFilter === null;
-
-  useEffect(() => {
-    if (isTripQueryTransportModeFilterNull) {
-      onTransportFilterChanged(setTransportModeFilters(transportModeFilter));
-    }
-  }, [
-    onTransportFilterChanged,
-    transportModeFilter,
-    isTripQueryTransportModeFilterNull,
-  ]);
 
   return (
     <div>
