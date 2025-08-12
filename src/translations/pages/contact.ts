@@ -6,6 +6,7 @@ import { translation as _ } from '@atb/translations/commons';
 import { orgSpecificTranslations } from '../utils';
 
 const ContactInternal = {
+  pageTitle: _('Kontakt', 'Contact', 'Kontakt'),
   contactPageLayout: {
     title: _(
       'Hva kan vi hjelpe deg med?',

@@ -15,7 +15,7 @@ import style from './base.module.css';
 import { I18nProvider } from 'react-aria-components';
 
 export type BaseLayoutProps = PropsWithChildren<{
-  title?: TranslatedString | string;
+  title?: TranslatedString | TranslatedString[] | string;
 }>;
 
 export function BaseLayout({ children, title }: BaseLayoutProps) {

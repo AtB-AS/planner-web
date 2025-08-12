@@ -4,12 +4,13 @@ import { ErrorContent } from '@atb/page-modules/contact/error-content/error-cont
 import { NextPage } from 'next';
 import { withAccessLogging } from '@atb/modules/logging';
 import { withGlobalData, type WithGlobalData } from '@atb/modules/global-data';
+import { getContactPageTitle } from '@atb/page-modules/contact/utils';
 
 export type ContactErrorPageProps = WithGlobalData<{}>;
 
 const ContactErrorPage: NextPage<ContactErrorPageProps> = (props) => {
   return (
-    <DefaultLayout {...props}>
+    <DefaultLayout {...props} title={getContactPageTitle()}>
       <ErrorContent />
     </DefaultLayout>
   );
