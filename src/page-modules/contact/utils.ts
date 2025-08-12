@@ -2,6 +2,15 @@ import { TransportModeType } from './types';
 import { Line } from '.';
 import { FormEvent } from 'react';
 import { InputErrorMessages } from './validation';
+import { PageText, TranslatedString } from '@atb/translations';
+
+export const getContactPageTitle = (
+  subtitle?: TranslatedString,
+): TranslatedString[] => {
+  return subtitle
+    ? [subtitle, PageText.Contact.pageTitle]
+    : [PageText.Contact.pageTitle];
+};
 
 export const shouldShowContactPage = (): boolean => {
   return process.env.NEXT_PUBLIC_CONTACT_API_URL ? true : false;
