@@ -784,9 +784,9 @@ const ContactInternal = {
           'Kvar vil du reisa?',
         ),
         info: _(
-          'Om du ønsker hjelp til hvordan du enkelt kan komme deg frem, kan vi hjelpe deg med å finne ruterinformasjonen. Forklar når og hvor du ønsker å reise fra og til',
-          'If you want help with how to get there, we can help you find route information. Explain when and where you want to travel from and to',
-          'Om du ønskjer hjelp til korleis du enkelt kan komme deg frem, kan vi hjelpe deg med å finne ruterinformasjonen. Beskriv når og kvar du ønskjer å reisa frå og til',
+          'Om du ønsker hjelp til hvordan du kommer deg frem med kollektivtilbudet, kan vi hjelpe deg med å finne ruteinformasjonen. Forklar når og hvor du ønsker å reise fra og til.',
+          'If you want help with how to get there with public transport, we can help you find route information. Explain when and where you want to travel from and to.',
+          'Om du ønskjer hjelp til korleis du kjem deg frem med kollektivtilbudet, kan vi hjelpe deg med å finne ruteinformasjonen. Beskriv når og kvar du ønskjer å reisa frå og til.',
         ),
         attachment: _('Vedlegg', 'Attachment', 'Vedlegg'),
       },
