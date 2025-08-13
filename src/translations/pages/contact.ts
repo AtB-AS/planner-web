@@ -772,7 +772,7 @@ const ContactInternal = {
       useTravelSearchLink: _(
         'Reiseplanlegger',
         'Journey planner',
-        'Reiseplanleggjar',
+        'Reiseplanleggar',
       ),
     },
 
