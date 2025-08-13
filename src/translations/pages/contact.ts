@@ -767,7 +767,7 @@ const ContactInternal = {
       useTravelSearch: _(
         'Du kan bruke reiseplanleggeren for å finne oppdatert ruteinformasjon om linjene, holdeplassene, tidene og annet.',
         'You can use the journey planner to find updated route information about the lines, stops, times and other.',
-        'Du kan bruke reiseplanleggjaren for å finne oppdatert ruteinformasjon om linjene, haldeplassene, tidene og anna.',
+        'Du kan bruke reiseplanleggaren for å finne oppdatert ruteinformasjon om linjene, haldeplassene, tidene og anna.',
       ),
       useTravelSearchLink: _(
         'Reiseplanlegger',
