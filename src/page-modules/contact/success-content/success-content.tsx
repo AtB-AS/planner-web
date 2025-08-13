@@ -8,12 +8,6 @@ export function SuccessContent() {
   const { t } = useTranslation();
   return (
     <section className={style.container}>
-      <ButtonLink
-        mode="transparent"
-        href="/"
-        title={t(PageText.Contact.success.backButton)}
-        icon={{ left: <MonoIcon icon="navigation/ArrowLeft" /> }}
-      />
       <Typo.h2 textType="heading--big">
         {t(PageText.Contact.success.title)}
       </Typo.h2>
