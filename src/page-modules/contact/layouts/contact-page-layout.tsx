@@ -45,6 +45,11 @@ export const contactPages: ContactPage[] = [
     href: '/contact/group-travel',
     icon: 'ticketing/TicketMultiple',
   },
+  {
+    title: PageText.Contact.journeyInfo.title,
+    href: '/contact/journey-info',
+    icon: 'actions/Feedback',
+  },
 ];
 
 const pagesWithoutPrivacyAndTerms = [

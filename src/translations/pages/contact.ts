@@ -760,6 +760,39 @@ const ContactInternal = {
       },
     },
   },
+  journeyInfo: {
+    title: _('Ruteinformasjon', 'Journey information', 'Ruteinformasjon'),
+
+    info: {
+      useTravelSearch: _(
+        'Du kan bruke reiseplanleggeren for å finne oppdatert ruteinformasjon om linjene, holdeplassene, tidene og annet.',
+        'You can use the journey planner to find updated route information about the lines, stops, times and other.',
+        'Du kan bruke reiseplanleggaren for å finne oppdatert ruteinformasjon om linjene, haldeplassene, tidene og anna.',
+      ),
+      useTravelSearchLink: _(
+        'Reiseplanlegger',
+        'Journey planner',
+        'Reiseplanleggar',
+      ),
+    },
+
+    input: {
+      question: {
+        title: _(
+          'Hvor vil du reise?',
+          'Where do you want to travel?',
+          'Kvar vil du reisa?',
+        ),
+        info: _(
+          'Om du ønsker hjelp til hvordan du kommer deg frem med kollektivtilbudet, kan vi hjelpe deg med å finne ruteinformasjonen. Forklar når og hvor du ønsker å reise fra og til.',
+          'If you want help with how to get there with public transport, we can help you find route information. Explain when and where you want to travel from and to.',
+          'Om du ønskjer hjelp til korleis du kjem deg frem med kollektivtilbudet, kan vi hjelpe deg med å finne ruteinformasjonen. Beskriv når og kvar du ønskjer å reisa frå og til.',
+        ),
+        attachment: _('Vedlegg', 'Attachment', 'Vedlegg'),
+      },
+    },
+  },
+
   lostAndFound: {
     title: _('Hittegods', 'Lost and found', 'Hittegods'),
   },

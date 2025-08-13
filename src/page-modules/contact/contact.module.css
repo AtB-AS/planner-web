@@ -63,3 +63,14 @@
     max-width: none;
   }
 }
+
+.extraInfo {
+  display: flex;
+  flex-direction: column;
+  gap: token('spacing.small');
+}
+.extraInfo__buttonContainer {
+  display: flex;
+  flex-direction: row;
+  gap: token('spacing.small');
+}
