@@ -11,7 +11,7 @@ import { PageText } from '@atb/translations';
 
 export type TicketsAppPageProps = WithGlobalData<ContactPageLayoutProps>;
 
-export default function TicketsAppPage(props: TicketsAppPageProps) {
+export default function JourneyInfoPage(props: JourneyInfoPageProps) {
   return (
     <DefaultLayout
       {...props}
