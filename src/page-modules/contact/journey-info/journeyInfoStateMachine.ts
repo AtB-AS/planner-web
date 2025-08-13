@@ -12,25 +12,21 @@ type SubmitInput = {
   firstName?: string;
   lastName?: string;
   email?: string;
-  phoneNumber?: string;
-  address?: string;
   question?: string;
 };
 
-export type TicketingContextType = {
+export type JourneyInfoContextType = {
   attachments?: File[];
   firstName?: string;
   lastName?: string;
   email?: string;
-  phoneNumber?: string;
-  address?: string;
   question?: string;
   errorMessages: InputErrorMessages;
   firstIncorrectErrorMessage?: string;
 };
 
-const setInputsToValidate = (context: TicketingContextType) => {
-  const { firstName, lastName, email, phoneNumber, question } = context;
+const setInputsToValidate = (context: JourneyInfoContextType) => {
+  const { firstName, lastName, email, question } = context;
 
   return {
     question,
@@ -40,9 +36,9 @@ const setInputsToValidate = (context: TicketingContextType) => {
   };
 };
 
-export const ticketingStateMachine = setup({
+export const journeyInfoStateMachine = setup({
   types: {
-    context: {} as TicketingContextType,
+    context: {} as JourneyInfoContextType,
     events: journeyInfoFormEvents,
   },
   guards: {
@@ -163,13 +159,11 @@ export const ticketingStateMachine = setup({
       id: 'submitting',
       invoke: {
         src: 'submit',
-        input: ({ context }: { context: TicketingContextType }) => ({
+        input: ({ context }: { context: JourneyInfoContextType }) => ({
           attachments: context.attachments,
           firstName: context.firstName,
           lastName: context.lastName,
           email: context.email,
-          phoneNumber: context.phoneNumber,
-          address: context.address,
           question: context.question,
         }),
 

@@ -6,11 +6,11 @@ import { FormEventHandler } from 'react';
 import { Fieldset, Input, Textarea } from '../components';
 import style from '../contact.module.css';
 import { findOrderFormFields } from '../utils';
-import { ticketingStateMachine } from './ticketingStateMachine';
+import { journeyInfoStateMachine } from './journeyInfoStateMachine';
 
 export default function JourneyInfoContent() {
   const { t } = useTranslation();
-  const [state, send] = useMachine(ticketingStateMachine);
+  const [state, send] = useMachine(journeyInfoStateMachine);
 
   const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
