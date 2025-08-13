@@ -9,7 +9,7 @@ import {
 import { getContactPageTitle } from '@atb/page-modules/contact/utils';
 import { PageText } from '@atb/translations';
 
-export type TicketsAppPageProps = WithGlobalData<ContactPageLayoutProps>;
+export type JourneyInfoPageProps = WithGlobalData<ContactPageLayoutProps>;
 
 export default function JourneyInfoPage(props: JourneyInfoPageProps) {
   return (
