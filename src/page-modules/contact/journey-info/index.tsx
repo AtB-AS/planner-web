@@ -1,4 +1,5 @@
-import { Button } from '@atb/components/button';
+import { Button, ButtonLink } from '@atb/components/button';
+import { MonoIcon } from '@atb/components/icon';
 import { PageText, useTranslation } from '@atb/translations';
 import { useMachine } from '@xstate/react';
 import { FormEventHandler } from 'react';
@@ -6,8 +7,6 @@ import { Fieldset, Input, Textarea } from '../components';
 import style from '../contact.module.css';
 import { findOrderFormFields } from '../utils';
 import { ticketingStateMachine } from './ticketingStateMachine';
-import Search from '@atb/components/search';
-import Link from 'next/link';
 
 export default function JourneyInfoContent() {
   const { t } = useTranslation();
@@ -24,13 +23,21 @@ export default function JourneyInfoContent() {
         title={t(PageText.Contact.journeyInfo.input.question.title)}
         isRequired
       >
-        <div>
-          <p>
-            {t(PageText.Contact.journeyInfo.info.useTravelSearch)}{' '}
-            <Link href="/">
-              {t(PageText.Contact.journeyInfo.info.useTravelSearchLink)}
-            </Link>
-          </p>
+        <div className={style.extraInfo}>
+          <p>{t(PageText.Contact.journeyInfo.info.useTravelSearch)}</p>
+
+          <div className={style.extraInfo__buttonContainer}>
+            <ButtonLink
+              href="/"
+              mode="interactive_0"
+              title={t(PageText.Contact.journeyInfo.info.useTravelSearchLink)}
+              icon={{
+                right: (
+                  <MonoIcon icon="navigation/ArrowRight" overrideMode="dark" />
+                ),
+              }}
+            />
+          </div>
         </div>
 
         <Textarea
