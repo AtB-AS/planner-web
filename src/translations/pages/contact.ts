@@ -1538,11 +1538,6 @@ const ContactInternal = {
     },
   },
   success: {
-    backButton: _(
-      'Tilbake til hovedsiden',
-      'Back to the main page',
-      'Tilbake til hovedsida',
-    ),
     title: _(
       'Takk for din henvendelse',
       'Thank you for your inquiry',
