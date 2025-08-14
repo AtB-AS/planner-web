@@ -59,17 +59,17 @@ export function ButtonLink({
   }
 
   return (
-    <Link href={href} shallow={shallow} legacyBehavior>
-      <a
-        className={className}
-        onClick={onClick}
-        {...extraProps}
-        {...aProps}
-        style={buttonStyle}
-        data-testid={testID}
-      >
-        <ButtonBase {...props} />
-      </a>
+    <Link
+      href={href}
+      shallow={shallow}
+      className={className}
+      onClick={onClick}
+      {...extraProps}
+      {...aProps}
+      style={buttonStyle}
+      data-testid={testID}
+    >
+      <ButtonBase {...props} />
     </Link>
   );
 }
