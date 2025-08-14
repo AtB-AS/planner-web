@@ -209,6 +209,13 @@ const setInputToValidate = (context: RefundContextProps) => {
         orderId,
         refundReason,
         purchasePlatform,
+        firstName,
+        lastName,
+        address,
+        postalCode,
+        city,
+        email,
+        phoneNumber,
       };
 
     case FormType.OtherTicketRefund:
