@@ -6,7 +6,7 @@ export type { SizeProps };
 
 export type { ColorIcons } from './generated-icons';
 
-export type ColorIconProps = Omit<JSX.IntrinsicElements['img'], 'src'> & {
+export type ColorIconProps = Omit<React.JSX.IntrinsicElements['img'], 'src'> & {
   /**
    * Size for icon
    * @default normal

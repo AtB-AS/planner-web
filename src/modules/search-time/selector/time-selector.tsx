@@ -28,7 +28,7 @@ export default function TimeSelector({
   return (
     <TimeField
       value={parsedValue}
-      onChange={(change) => onChange(change.toString())}
+      onChange={(change) => change && onChange(change.toString())}
       hourCycle={24}
       shouldForceLeadingZeros
       className={style.timeSelector}

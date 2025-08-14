@@ -11,7 +11,7 @@ const TARIFF_ZONE_SOURCE_ID = 'tariff-zones';
 const ZONE_BOUNDARY_LAYER_ID = 'zone-boundary-layer';
 const ZONE_NAMES_LAYER_ID = 'zone-names-layer';
 
-export const useMapTariffZones = async (
+export const useMapTariffZones = (
   mapRef: React.MutableRefObject<mapboxgl.Map | undefined>,
 ) => {
   const { language } = useTranslation();

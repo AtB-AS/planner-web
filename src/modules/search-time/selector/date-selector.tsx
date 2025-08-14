@@ -35,7 +35,7 @@ export default function DateSelector({
     <DatePicker
       granularity="day"
       value={fromDate(value, 'Europe/Oslo')}
-      onChange={(e) => onChange(e.toString().slice(0, 10))}
+      onChange={(e) => e && onChange(e.toString().slice(0, 10))}
       minValue={parseDate(min)}
       className={style.dateSelector}
       shouldForceLeadingZeros

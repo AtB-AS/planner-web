@@ -16,7 +16,7 @@ export type ButtonProps = {
   /**
    * Pass properties to button element directly
    */
-  buttonProps?: JSX.IntrinsicElements['button'];
+  buttonProps?: React.JSX.IntrinsicElements['button'];
 } & ButtonBaseProps;
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(

@@ -18,11 +18,11 @@ export type ButtonLinkProps = {
    * Optional additional onClick if you want to
    * enrich click actions with JavaScript function
    */
-  onClick?: JSX.IntrinsicElements['a']['onClick'];
+  onClick?: React.JSX.IntrinsicElements['a']['onClick'];
   /**
    * Specify properties to underlying a tag
    */
-  aProps?: JSX.IntrinsicElements['a'];
+  aProps?: React.JSX.IntrinsicElements['a'];
   /**
    * If we should do shallow routing or not.
    * Shallow routing will not trigger server side props
@@ -40,12 +40,7 @@ export function ButtonLink({
   ...props
 }: ButtonLinkProps) {
   const className = getBaseButtonClassName(props);
-  const extraProps =
-    props.state == 'active'
-      ? {
-          'aria-current': true,
-        }
-      : {};
+  const extraProps = props.state == 'active' ? { 'aria-current': true } : {};
   const buttonStyle = getButtonStyle(props);
 
   if (props.disabled || props.state == 'loading') {

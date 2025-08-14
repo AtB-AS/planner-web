@@ -19,7 +19,7 @@ type InputProps = {
   isRequired?: boolean;
   errorMessage?: TranslatedString;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
-} & JSX.IntrinsicElements['input'];
+} & React.JSX.IntrinsicElements['input'];
 
 export const Input = ({
   id,

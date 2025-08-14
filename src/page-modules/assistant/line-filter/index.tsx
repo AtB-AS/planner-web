@@ -26,7 +26,7 @@ export default function LineFilter({ filterState, onChange }: LineFilterProps) {
   const [localFilterState, setLocalFilterState] = useState('');
   const [unknownPublicCodes, setUnknownPublicCodes] = useState<string[]>([]);
 
-  const sanitizeInput = (input: string) => {
+  const sanitizeInput = (input: string): string => {
     // Replace commas and spaces with a single space
     return input.replaceAll(/[, ]+/g, ' ').trim();
   };
@@ -41,7 +41,7 @@ export default function LineFilter({ filterState, onChange }: LineFilterProps) {
       const sanitizedInput = sanitizeInput(input);
       const lines = sanitizedInput
         .split(' ')
-        .flatMap((line) => data?.[line])
+        .flatMap((line) => data?.[line] || [])
         .filter(isDefined);
       onChange(lines);
     }
@@ -65,7 +65,7 @@ export default function LineFilter({ filterState, onChange }: LineFilterProps) {
     return filterState
       .map((line) => {
         for (let id in data) {
-          if (data[id].includes(line)) {
+          if (data[id]?.includes(line)) {
             return id;
           }
         }

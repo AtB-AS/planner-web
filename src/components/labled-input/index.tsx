@@ -9,7 +9,10 @@ export type LabeledInputProps = {
   value: string;
   validationError?: string;
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
-} & JSX.IntrinsicElements['input'];
+} & Omit<
+  React.JSX.IntrinsicElements['input'],
+  'onChange' | 'value' | 'placeholder' | 'ref' | 'children'
+>;
 
 export default function LabeledInput({
   label,
@@ -24,7 +27,7 @@ export default function LabeledInput({
 
   const errorLabel = 'error-' + postfix;
 
-  const validationStatusProps: JSX.IntrinsicElements['input'] = isError
+  const validationStatusProps: React.JSX.IntrinsicElements['input'] = isError
     ? { 'aria-invalid': 'true', 'aria-describedby': errorLabel }
     : { 'aria-invalid': 'false' };
   return (
