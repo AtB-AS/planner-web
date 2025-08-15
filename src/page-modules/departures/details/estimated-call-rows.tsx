@@ -45,7 +45,7 @@ export function EstimatedCallRows({
 
   const passedCallsToShow = collapsed ? [passedCalls[0]] : passedCalls;
 
-  const collapseButton = showCollapsable ? (
+  const collapseButton: React.ReactNode = showCollapsable ? (
     <Button
       onClick={() => setCollapsed(!collapsed)}
       title={t(
@@ -77,9 +77,7 @@ export function EstimatedCallRows({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{
-                delay: i * 0.05,
-              }}
+              transition={{ delay: i * 0.05 }}
             >
               <EstimatedCallRow
                 call={call}
@@ -108,9 +106,7 @@ export function EstimatedCallRows({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{
-              delay: i * 0.015,
-            }}
+            transition={{ delay: i * 0.015 }}
           >
             <EstimatedCallRow
               call={call}
@@ -133,7 +129,7 @@ type EstimatedCallRowProps = {
   call: EstimatedCallWithMetadata;
   mode: TransportModeType;
   subMode?: TransportSubmode;
-  collapseButton: JSX.Element | null;
+  collapseButton: React.JSX.Element | null;
   situations: SituationFragment[];
 };
 
@@ -196,7 +192,7 @@ function EstimatedCallRow({
           <SituationMessageBox noStatusIcon={true} situation={situation} />
         </TripRow>
       ))}
-      {collapseButton}
+      {collapseButton as React.ReactNode}
     </div>
   );
 }

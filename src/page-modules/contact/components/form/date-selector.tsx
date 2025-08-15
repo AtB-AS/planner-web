@@ -46,7 +46,7 @@ export default function DateSelector({
         id={`date_selector__${id}`}
         granularity="day"
         value={zonedDateTime}
-        onChange={(e) => onChange(e.toString().slice(0, 10))}
+        onChange={(e) => e && onChange(e.toString().slice(0, 10))}
         className={style.dateSelector}
         shouldForceLeadingZeros
         aria-label={label}

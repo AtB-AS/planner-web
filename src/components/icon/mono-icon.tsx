@@ -11,7 +11,7 @@ import { colorToOverrideMode } from '@atb/utils/color';
 export type MonoIconOverrideMode = 'none' | 'dark' | 'light';
 
 export type { SizeProps };
-export type MonoIconProps = Omit<JSX.IntrinsicElements['img'], 'src'> & {
+export type MonoIconProps = Omit<React.JSX.IntrinsicElements['img'], 'src'> & {
   /**
    * Size for icon
    * @default normal

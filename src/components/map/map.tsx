@@ -28,20 +28,15 @@ export type MapProps = {
   layer?: string;
   onSelectStopPlace?: (id: string) => void;
 } & (
-  | {
-      position?: PositionType;
-      initialZoom?: number;
-    }
-  | {
-      mapLegs: MapLegType[];
-    }
+  | { position?: PositionType; initialZoom?: number }
+  | { mapLegs: MapLegType[] }
   | {}
 );
 
 export default function Map({ layer, onSelectStopPlace, ...props }: MapProps) {
   const mapWrapper = useRef<HTMLDivElement>(null);
   const mapContainer = useRef<HTMLDivElement>(null);
-  const map = useRef<mapboxgl.Map>();
+  const map = useRef<mapboxgl.Map | undefined>(undefined);
   const { t } = useTranslation();
   const isMobileDevice = useMediaQuery('(max-width: 650px)');
 

@@ -5,7 +5,7 @@ import { Typo } from '@atb/components/typography';
 export type RadioInputProps = {
   label: string;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
-} & JSX.IntrinsicElements['input'];
+} & React.JSX.IntrinsicElements['input'];
 
 export default function Radio({
   onChange,

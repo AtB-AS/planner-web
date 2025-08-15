@@ -21,7 +21,11 @@ export default function LoadingEmptyResults({
   const { t } = useTranslation();
 
   const hasEmptyChild = React.Children.toArray(children).some((child) => {
-    if (React.isValidElement(child)) {
+    if (
+      React.isValidElement(child) &&
+      child.props &&
+      typeof child.props === 'object'
+    ) {
       return 'empty' in child.props;
     }
     return false;

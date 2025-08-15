@@ -1,7 +1,7 @@
 import { useDarkMode } from '@atb/modules/theme';
 import { icons, Images } from './generated-icons';
 
-type ColorImageProps = Omit<JSX.IntrinsicElements['img'], 'src'> & {
+type ColorImageProps = Omit<React.JSX.IntrinsicElements['img'], 'src'> & {
   image: Images;
 };
 

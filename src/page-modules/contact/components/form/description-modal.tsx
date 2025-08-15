@@ -3,7 +3,7 @@ import style from './form.module.css';
 import { motion } from 'framer-motion';
 import { FocusScope } from '@react-aria/focus';
 import { MonoIcon } from '@atb/components/icon';
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { Button } from '@atb/components/button';
 import { PageText, useTranslation } from '@atb/translations';
 
@@ -28,17 +28,20 @@ const DescriptionModal = ({
   const modalRef = useRef<HTMLDivElement | null>(null);
   const { description, instruction, bulletPoints } = modalContent;
 
-  const handleEscapeOrClickOutside = (event: KeyboardEvent | MouseEvent) => {
-    if (event instanceof KeyboardEvent && event.key === 'Escape') {
-      closeModal();
-    } else if (
-      event instanceof MouseEvent &&
-      modalRef.current &&
-      !modalRef.current.contains(event.target as Node)
-    ) {
-      closeModal();
-    }
-  };
+  const handleEscapeOrClickOutside = useCallback(
+    (event: KeyboardEvent | MouseEvent) => {
+      if (event instanceof KeyboardEvent && event.key === 'Escape') {
+        closeModal();
+      } else if (
+        event instanceof MouseEvent &&
+        modalRef.current &&
+        !modalRef.current.contains(event.target as Node)
+      ) {
+        closeModal();
+      }
+    },
+    [closeModal],
+  );
 
   useEffect(() => {
     document.addEventListener('keydown', handleEscapeOrClickOutside);
@@ -48,7 +51,7 @@ const DescriptionModal = ({
       document.removeEventListener('keydown', handleEscapeOrClickOutside);
       document.removeEventListener('mousedown', handleEscapeOrClickOutside);
     };
-  }, []);
+  }, [handleEscapeOrClickOutside]);
 
   if (!isModalOpen) return null;
 

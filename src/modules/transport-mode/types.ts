@@ -49,6 +49,7 @@ export const transportSubmodeSchema = z.union([
   z.literal('domesticFlight'),
   z.literal('domesticScheduledFlight'),
   z.literal('dragLift'),
+  z.literal('escooter'),
   z.literal('expressBus'),
   z.literal('funicular'),
   z.literal('helicopterService'),

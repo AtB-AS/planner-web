@@ -5,6 +5,7 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useState,
 } from 'react';
 
@@ -72,24 +73,28 @@ function useCookie<T extends string | number | boolean>(
   initialValue: T | undefined,
   mapper: (val: string | boolean | null | undefined) => T,
 ): [T | undefined, (value: T) => void] {
-  const [storedValue, setStoredValue] = useState<T | undefined>(() => {
-    try {
-      const data = getCookie(key);
-      if (typeof data === 'undefined') return initialValue;
+  const [storedValue, setStoredValue] = useState<T | undefined>(initialValue);
 
-      return mapper(data);
-    } catch (e) {
-      return initialValue;
+  useEffect(() => {
+    async function getData() {
+      try {
+        const data = await getCookie(key);
+        if (typeof data !== 'undefined') {
+          setStoredValue(mapper(data));
+        }
+      } catch (e) {
+        console.warn('Failed to load cookie:', key, e);
+      }
     }
-  });
-  // Return a wrapped version of useState's setter function that ...
-  // ... persists the new value to cookies.
+
+    getData();
+  }, [key, mapper]);
+
   const setValue = useCallback(
     (value: T) => {
       try {
-        // Save state
         setStoredValue(value);
-        // Save to cookie
+
         if (typeof window !== 'undefined') {
           setCookie(key, value, {
             expires: addDays(new Date(), SETTINGS_STORETIME_DAYS),

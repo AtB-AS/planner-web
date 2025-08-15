@@ -15,7 +15,7 @@ export type FileInputProps = {
   isRequired?: boolean;
   errorMessage?: string;
   onChange?: (files: File[]) => void;
-} & Omit<JSX.IntrinsicElements['input'], 'onChange'>;
+} & Omit<React.JSX.IntrinsicElements['input'], 'onChange'>;
 
 const MAX_ALLOWED_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 
@@ -126,9 +126,7 @@ export default function FileInput({
             <div key={index} className={style.fileItem}>
               <Button
                 size="compact"
-                icon={{
-                  left: <MonoIcon size="small" icon="actions/Delete" />,
-                }}
+                icon={{ left: <MonoIcon size="small" icon="actions/Delete" /> }}
                 onClick={() => handleRemoveFile(index)}
               />
               <Typo.span textType="body__secondary">{file.name}</Typo.span>
@@ -141,7 +139,7 @@ export default function FileInput({
   );
 }
 
-function FileIcon({ color }: { color: string }): JSX.Element {
+function FileIcon({ color }: { color: string }) {
   return (
     <svg
       width="20"

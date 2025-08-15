@@ -35,9 +35,11 @@ export const MessageBox = ({
   onClick,
   onDismiss,
   borderRadius = true,
-  subtle = false
+  subtle = false,
 }: MessageBoxProps) => {
-  const { color: {status} } = useTheme();
+  const {
+    color: { status },
+  } = useTheme();
   const { t } = useTranslation();
   const backgroundColorStyle: HTMLAttributes<HTMLDivElement>['style'] = {
     borderColor: subtle ? undefined : status[type].primary.background,
@@ -54,7 +56,7 @@ export const MessageBox = ({
       className={andIf({
         [style.container]: true,
         [style.borderRadius]: borderRadius,
-        [style.subtle]: subtle
+        [style.subtle]: subtle,
       })}
       style={backgroundColorStyle}
     >
@@ -101,29 +103,39 @@ export const MessageBox = ({
 };
 
 function useStatusThemeColor(mode: MessageMode): MonoIconProps['overrideMode'] {
-  const { color: {status} } = useTheme();
+  const {
+    color: { status },
+  } = useTheme();
 
   let overrideColor: MonoIconProps['overrideMode'] = undefined;
 
   switch (mode) {
     case 'error':
-      overrideColor = colorToOverrideMode(status.error.secondary.foreground.primary);
+      overrideColor = colorToOverrideMode(
+        status.error.secondary.foreground.primary,
+      );
       break;
     case 'valid':
-      overrideColor = colorToOverrideMode(status.valid.secondary.foreground.primary);
+      overrideColor = colorToOverrideMode(
+        status.valid.secondary.foreground.primary,
+      );
       break;
     case 'warning':
-      overrideColor = colorToOverrideMode(status.warning.secondary.foreground.primary);
+      overrideColor = colorToOverrideMode(
+        status.warning.secondary.foreground.primary,
+      );
       break;
     case 'info':
-      overrideColor = colorToOverrideMode(status.info.secondary.foreground.primary);
+      overrideColor = colorToOverrideMode(
+        status.info.secondary.foreground.primary,
+      );
       break;
   }
 
   return overrideColor;
 }
 
-function modeToAria(mode: MessageMode): JSX.IntrinsicElements['div'] {
+function modeToAria(mode: MessageMode): React.JSX.IntrinsicElements['div'] {
   switch (mode) {
     case 'error':
       return { role: 'alert' };

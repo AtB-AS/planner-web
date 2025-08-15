@@ -11,7 +11,7 @@ export type CheckboxProps = {
   isRequired?: boolean;
   fileInputProps?: FileInputProps;
   onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
-} & JSX.IntrinsicElements['textarea'];
+} & React.JSX.IntrinsicElements['textarea'];
 
 export default function Textarea({
   id,
