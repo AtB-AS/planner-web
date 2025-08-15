@@ -75,12 +75,8 @@ function useCookie<T extends string | number | boolean>(
 ): [T | undefined, (value: T) => void] {
   const [storedValue, setStoredValue] = useState<T | undefined>(initialValue);
 
-  // Load cookie value on client-side only
   useEffect(() => {
     async function getData() {
-      // Only run on client-side to avoid SSR mismatch
-      if (typeof window === 'undefined') return;
-
       try {
         const data = await getCookie(key);
         if (typeof data !== 'undefined') {
@@ -93,14 +89,12 @@ function useCookie<T extends string | number | boolean>(
 
     getData();
   }, [key, mapper]);
-  // Return a wrapped version of useState's setter function that ...
-  // ... persists the new value to cookies.
+
   const setValue = useCallback(
     (value: T) => {
       try {
-        // Save state
         setStoredValue(value);
-        // Save to cookie
+
         if (typeof window !== 'undefined') {
           setCookie(key, value, {
             expires: addDays(new Date(), SETTINGS_STORETIME_DAYS),
