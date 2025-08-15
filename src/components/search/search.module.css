@@ -13,8 +13,6 @@
 }
 .container:focus-within {
   outline: 0;
-  box-shadow: 0 0 0 token('border.width.slim')
-    token('color.interactive.2.outline.background');
 }
 
 .container:not(:only-child):first-child {
@@ -80,8 +78,6 @@
   overflow-y: auto;
   z-index: 100;
   padding: token('spacing.medium');
-  border: token('border.width.slim') solid
-    token('color.interactive.2.outline.background');
 }
 .menu:empty {
   display: none;

@@ -9,7 +9,6 @@
   grid-template-areas:
     'main'
     'alternatives';
-  padding: token('spacing.large');
   margin: 0 auto;
   max-width: var(--maxPageWidth);
 }
@@ -39,10 +38,6 @@
   grid-template-rows: 1fr 1fr;
 }
 
-.searchSection > div {
-  box-shadow: 0 0 0 token('border.width.slim')
-    token('color.interactive.2.outline.background');
-}
 
 .button {
   text-align: center;
@@ -106,7 +101,7 @@
   border: none;
   background-color: token('color.background.neutral.0.background');
   border: token('border.width.slim') solid
-    token('color.interactive.2.outline.background');
+    token('color.foreground.dynamic.disabled');
   padding: token('spacing.small');
   border-radius: 50%;
   cursor: pointer;

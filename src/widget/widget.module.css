@@ -28,8 +28,15 @@
 .wrapper * {
   box-sizing: border-box;
 }
+
 .form {
   composes: container from assistant;
+}
+
+@media(max-width: 650px) {
+  .form {
+    padding: 0;
+  }
 }
 
 .nav {
@@ -345,12 +352,19 @@ a.tabSelected {
 }
 
 /* Change the layout to a single column layout instead of the default layout. */
-.singleColumnLayout .main {
-  grid-template-columns: 1fr;
+[data-layout="singleColumn"],
+[data-layout="compact"] {
+  .main {
+    grid-template-columns: 1fr;
+  }
+  .search_container {
+    max-width: unset;
+  }
+  .selector_options {
+    width: 100%;
+  }
 }
-.singleColumnLayout .search_container {
-  max-width: unset;
-}
-.singleColumnLayout .selector_options {
-  width: 100%;
+
+[data-layout="compact"] .buttonGroup {
+  justify-content: start;
 }

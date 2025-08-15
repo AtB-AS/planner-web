@@ -8,11 +8,7 @@ const AssistantInternal = {
   shortTitle: _('Reiseplanlegger', 'Assistant', 'Reiseplanleggar'),
   search: {
     input: {
-      label: _(
-        'Hvor vil du reise?',
-        'Where do you want to travel?',
-        'Kor vil du reise?',
-      ),
+      label: _('Planlegg reise', 'Plan your journey', 'Planlegg reise'),
       from: _('Fra', 'From', 'Frå'),
       to: _('Til', 'To', 'Til'),
       via: {
