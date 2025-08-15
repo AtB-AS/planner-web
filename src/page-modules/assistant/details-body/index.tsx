@@ -17,8 +17,6 @@ import {
   ExtendedLegType,
   ExtendedTripPatternWithDetailsType,
 } from '@atb/page-modules/assistant';
-import { tripQueryStringToQueryParams } from '@atb/page-modules/assistant/details/utils.ts';
-import { useRouter } from 'next/router';
 
 type DetailsBodyProps = {
   tripPattern: ExtendedTripPatternWithDetailsType;
@@ -26,7 +24,6 @@ type DetailsBodyProps = {
 
 export function AssistantDetailsBody({ tripPattern }: DetailsBodyProps) {
   const { t, language } = useTranslation();
-  const router = useRouter();
   const mapLegs = tripPattern.legs
     .map((leg: ExtendedLegType) => leg.mapLegs)
     .flat();
@@ -35,14 +32,6 @@ export function AssistantDetailsBody({ tripPattern }: DetailsBodyProps) {
     tripPattern.expectedEndTime,
     language,
   );
-
-  const tripSearchParams = router.query.id
-    ? tripQueryStringToQueryParams(String(router.query.id))
-    : undefined;
-
-  if (tripSearchParams && router.query.filter) {
-    tripSearchParams.append('filter', router.query.filter as string);
-  }
 
   const requireTicketBooking = tripPattern.legs.some((leg: ExtendedLegType) => {
     if (!leg.bookingArrangements) return false;
