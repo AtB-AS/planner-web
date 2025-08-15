@@ -40,9 +40,19 @@ function createSettingsConstants(urlBase: string) {
   };
 }
 
+type LayoutMode = 'doubleColumn' | 'singleColumn' | 'compact';
+
 type OutputOverrideOptions = {
   inheritFont?: boolean;
+  // @deprecated Use `layoutMode` instead.
   singleColumnLayout?: boolean;
+  /**
+   * Layout mode for the widget.
+   * - `doubleColumn`: Default layout with two columns.
+   * - `singleColumn`: Single column layout. Replaces `singleColumnLayout` in previous versions.
+   * - `compact`: Compact layout with less options.
+   */
+  layoutMode?: LayoutMode;
 };
 export type WidgetOptions = {
   urlBase: string;
@@ -64,7 +74,7 @@ export function createWidget({
 
   const defaultOutputOverrideOptions: OutputOverrideOptions = {
     inheritFont: false,
-    singleColumnLayout: false,
+    layoutMode: 'doubleColumn',
     ...outputOverrideOptions,
   };
 
@@ -684,7 +694,9 @@ function createOutput(
             <pw-messagebox></pw-messagebox>
           </div>
         </fieldset>
-        ${searchTime('pw-assistant')}
+        ${outputOverrideOptions.layoutMode !== 'compact'
+          ? searchTime('pw-assistant')
+          : ''}
       </div>
       ${buttons}
     </form>
@@ -736,7 +748,9 @@ function createOutput(
           </div>
           <pw-messagebox></pw-messagebox>
         </fieldset>
-        ${searchTime('pw-departures', false)}
+        ${outputOverrideOptions.layoutMode !== 'compact'
+          ? searchTime('pw-departures', false)
+          : ''}
       </div>
       ${buttons}
     </form>
@@ -745,11 +759,12 @@ function createOutput(
   const output = html`
     <div
       data-theme="light"
+      data-layout="${outputOverrideOptions.singleColumnLayout
+        ? 'singleColumn'
+        : outputOverrideOptions.layoutMode}"
       class="${andIf({
         [style.wrapper]: true,
         [style.inheritFont]: outputOverrideOptions.inheritFont ?? false,
-        [style.singleColumnLayout]:
-          outputOverrideOptions.singleColumnLayout ?? false,
       })}"
     >
       <nav class="${style.nav}">
@@ -1119,7 +1134,7 @@ const texts: Record<Languages, Texts> = {
     placeholder: 'Sted eller adresse',
     assistant: {
       link: 'Reisesøk',
-      title: 'Hvor vil du reise?',
+      title: 'Hei, hvor vil du reise?',
       from: 'Fra',
       to: 'Til',
     },
@@ -1150,7 +1165,7 @@ const texts: Record<Languages, Texts> = {
     placeholder: 'Stad eller adresse',
     assistant: {
       link: 'Reisesøk',
-      title: 'Kor vil du reise?',
+      title: 'Hei, kor vil du reise?',
       from: 'Frå',
       to: 'Til',
     },
@@ -1181,7 +1196,7 @@ const texts: Record<Languages, Texts> = {
     placeholder: 'Location or address',
     assistant: {
       link: 'Journey search',
-      title: 'Where do you want to travel?',
+      title: 'Hi, where do you want to travel?',
       from: 'From',
       to: 'To',
     },

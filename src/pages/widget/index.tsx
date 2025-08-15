@@ -46,7 +46,7 @@ const initializeCode = html`
         // By default it uses Roboto as the hosted planner web solution.
         inheritFont: false,
         // Use single column design of widget layout
-        singleColumnLayout: false,
+        layoutMode: 'doubleColumn',
       },
     });
 
@@ -96,6 +96,9 @@ const outputCodeExample2 = html`
   <script>
     const widget = window.PlannerWeb.createWidget({
       urlBase: 'http://localhost:3000/',
+      outputOverrideOptions: {
+        layoutMode: 'doubleColumn',
+      },
     });
     widget.init();
   </script>
@@ -127,6 +130,9 @@ const WidgetPage: NextPage<WidgetPageProps> = ({ data, ...props }) => {
             lib.current = window.PlannerWeb.createWidget({
               urlBase: location.protocol + '//' + location.host,
               language: 'nb',
+              outputOverrideOptions: {
+                layoutMode: 'doubleColumn',
+              },
             });
 
             setHtml(lib.current.output);
