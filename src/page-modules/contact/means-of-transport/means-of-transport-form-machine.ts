@@ -5,6 +5,7 @@ import { commonInputValidator, InputErrorMessages } from '../validation';
 import {
   convertFilesToBase64,
   findFirstErrorMessage,
+  getLineName,
   scrollToFirstErrorMessage,
   setLineAndResetStops,
   setTransportModeAndResetLineAndStops,
@@ -203,10 +204,7 @@ export const meansOfTransportFormMachine = setup({
 
         context.errorMessages[inputName] = [];
 
-        return {
-          ...context,
-          [inputName]: value,
-        };
+        return { ...context, [inputName]: value };
       }
       return context;
     }),
@@ -235,7 +233,6 @@ export const meansOfTransportFormMachine = setup({
       const base64EncodedAttachments = await convertFilesToBase64(
         input.attachments || [],
       );
-
       return await fetch('/api/contact/means-of-transport', {
         method: 'POST',
         body: JSON.stringify({
@@ -252,26 +249,15 @@ export const meansOfTransportFormMachine = setup({
 }).createMachine({
   /** @xstate-layout N4IgpgJg5mDOIC5QAoC2BDAxgCwJYDswBKAOlwgBswBiAZQFUAhAWQEkAVAbQAYBdRUAAcA9rFwAXXMPwCQAD0QBGAGzcSAZgCsATnXLlAJi2rN6gDQgAnkoDsmktxsAObstN7FN5eoC+Pi2hYeISk5FTU7ADyAOLRADIAojz8SCAiYpLSsgoIACyKJNpFxSUlFtYIRvZO6rUqBg3c3Fp+ARg4BMRklDTsAIIAGqzJsukSUjKpOSpqWrr6VSbmVojqueoaBk6K3AbOqjYGyq0ggR0hJJDj+FB0TGxcfKOi41lTiJqaBdyKmoaKTmcTkB2nKtnsjhcblqyk83hOZ2CXSukhudAS7AA+uwAEp9ABytAACpEcVjmJEACJJJ6pMaZSagHJ2NSKXKudnqGw7TSAsGVdTaEhOYpOTQ2ZqmZS5BHtJGkCjCdAQAi3CDSMBkfAAN2EAGtNYjOgqlSqbggCLrMOgGckRnSXgzsh8vg5fv9AcCQfztiRcsVnHpuO4bLKgsaSIrlarqGAAE5x4RxkiCCg2gBmSdQJCNFyjZqgFp1wmttr49qEjomzoQn2+7oMAKB3pWlQM9nF20cn20nj8-hA+GEEDgslzxGeGWr7wQAFplA4mkvl8ubPz52Hzl0wmBJ69GfIPkLcgZtMpudovmze6DW7UbH7FGzT9wnA12TKB+PSCjVXunTO2wPq47anmK3DaGKuT8msBS5M4EFit4Ng2OoBifm04Z5qaf4OlObxMqsmi5H6TjrGRhwoV4wb8r8BgOAh5FNCo56bvKJCwAArpgmBwPAeH7jWQEOIYmhgZoiHEbRzQkKY2jBl83C5GKnihv2QA */
   initial: 'editing',
-  context: {
-    isResponseWanted: undefined,
-    errorMessages: {},
-  },
+  context: { isResponseWanted: undefined, errorMessages: {} },
   on: {
-    ON_INPUT_CHANGE: {
-      actions: 'onInputChange',
-    },
+    ON_INPUT_CHANGE: { actions: 'onInputChange' },
 
-    SELECT_FORM_TYPE: {
-      target: '#formTypeHandler',
-    },
+    SELECT_FORM_TYPE: { target: '#formTypeHandler' },
 
-    ON_TRANSPORTMODE_CHANGE: {
-      actions: 'onTransportModeChange',
-    },
+    ON_TRANSPORTMODE_CHANGE: { actions: 'onTransportModeChange' },
 
-    ON_LINE_CHANGE: {
-      actions: 'onLineChange',
-    },
+    ON_LINE_CHANGE: { actions: 'onLineChange' },
 
     SUBMIT: { target: '#validating' },
   },
@@ -279,30 +265,18 @@ export const meansOfTransportFormMachine = setup({
     formTypeHandler: {
       id: 'formTypeHandler',
       always: [
-        {
-          guard: 'isDriverForm',
-          target: `#${FormType.Driver}`,
-        },
+        { guard: 'isDriverForm', target: `#${FormType.Driver}` },
         {
           guard: 'isTransportationForm',
           target: `#${FormType.Transportation}`,
         },
-        {
-          guard: 'isDelayForm',
-          target: `#${FormType.Delay}`,
-        },
-        {
-          guard: 'isStopForm',
-          target: `#${FormType.Stop}`,
-        },
+        { guard: 'isDelayForm', target: `#${FormType.Delay}` },
+        { guard: 'isStopForm', target: `#${FormType.Stop}` },
         {
           guard: 'isServiceOfferingForm',
           target: `#${FormType.ServiceOffering}`,
         },
-        {
-          guard: 'isInjuryForm',
-          target: `#${FormType.Injury}`,
-        },
+        { guard: 'isInjuryForm', target: `#${FormType.Injury}` },
       ],
     },
     editing: {
@@ -311,60 +285,42 @@ export const meansOfTransportFormMachine = setup({
         selectFormType: {},
         driver: {
           id: 'driver',
-          entry: assign({
-            formType: () => FormType.Driver,
-          }),
+          entry: assign({ formType: () => FormType.Driver }),
           exit: 'clearValidationErrors',
         },
         transportation: {
           id: 'transportation',
-          entry: assign({
-            formType: () => FormType.Transportation,
-          }),
+          entry: assign({ formType: () => FormType.Transportation }),
           exit: 'clearValidationErrors',
         },
         delay: {
           id: 'delay',
-          entry: assign({
-            formType: () => FormType.Delay,
-          }),
+          entry: assign({ formType: () => FormType.Delay }),
           exit: 'clearValidationErrors',
         },
         stop: {
           id: 'stop',
-          entry: assign({
-            formType: () => FormType.Stop,
-          }),
+          entry: assign({ formType: () => FormType.Stop }),
           exit: 'clearValidationErrors',
         },
         serviceOffering: {
           id: 'serviceOffering',
-          entry: assign({
-            formType: () => FormType.ServiceOffering,
-          }),
+          entry: assign({ formType: () => FormType.ServiceOffering }),
           exit: 'clearValidationErrors',
         },
         injury: {
           id: 'injury',
-          entry: assign({
-            formType: () => FormType.Injury,
-          }),
+          entry: assign({ formType: () => FormType.Injury }),
           exit: 'clearValidationErrors',
         },
-        history: {
-          type: 'history',
-          history: 'deep',
-        },
+        history: { type: 'history', history: 'deep' },
       },
     },
 
     validating: {
       id: 'validating',
       always: [
-        {
-          guard: 'isFormValid',
-          target: '#submitting',
-        },
+        { guard: 'isFormValid', target: '#submitting' },
         {
           actions: ['setValidationErrors', 'scrollToFirstErrorMessage'],
           target: 'editing.history',
@@ -380,7 +336,7 @@ export const meansOfTransportFormMachine = setup({
           return {
             formType: context.formType,
             transportMode: context.transportMode,
-            line: context.line?.name,
+            line: getLineName(context.line),
             fromStop: context.fromStop?.name,
             toStop: context.toStop?.name,
             stop: context.stop?.name,
@@ -394,23 +350,13 @@ export const meansOfTransportFormMachine = setup({
           };
         },
 
-        onDone: {
-          target: 'success',
-        },
+        onDone: { target: 'success' },
 
-        onError: {
-          target: 'error',
-        },
+        onError: { target: 'error' },
       },
     },
 
-    success: {
-      entry: 'navigateToSuccessPage',
-      type: 'final',
-    },
-    error: {
-      entry: 'navigateToErrorPage',
-      type: 'final',
-    },
+    success: { entry: 'navigateToSuccessPage', type: 'final' },
+    error: { entry: 'navigateToErrorPage', type: 'final' },
   },
 });

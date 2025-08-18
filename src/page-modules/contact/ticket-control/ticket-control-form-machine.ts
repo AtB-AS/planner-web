@@ -3,6 +3,7 @@ import { ticketControlFormEvents } from './events';
 import {
   convertFilesToBase64,
   findFirstErrorMessage,
+  getLineName,
   scrollToFirstErrorMessage,
   setBankAccountStatusAndResetBankInformation,
   setLineAndResetStops,
@@ -147,13 +148,7 @@ const setInputsToValidate = (context: TicketControlContextProps) => {
       };
 
     case FormType.PostponePayment:
-      return {
-        feeNumber,
-        invoiceNumber,
-        firstName,
-        lastName,
-        email,
-      };
+      return { feeNumber, invoiceNumber, firstName, lastName, email };
   }
 };
 
@@ -225,10 +220,7 @@ export const ticketControlFormMachine = setup({
           );
         }
 
-        return {
-          ...context,
-          [inputName]: value,
-        };
+        return { ...context, [inputName]: value };
       }
       return context;
     }),
@@ -278,13 +270,9 @@ export const ticketControlFormMachine = setup({
     errorMessages: {},
   },
   on: {
-    ON_INPUT_CHANGE: {
-      actions: 'onInputChange',
-    },
+    ON_INPUT_CHANGE: { actions: 'onInputChange' },
 
-    SELECT_FORM_TYPE: {
-      target: '#formTypeHandler',
-    },
+    SELECT_FORM_TYPE: { target: '#formTypeHandler' },
 
     SUBMIT: { target: '#validating' },
   },
@@ -292,14 +280,8 @@ export const ticketControlFormMachine = setup({
     formHandler: {
       id: 'formTypeHandler',
       always: [
-        {
-          guard: 'isFeeComplaintForm',
-          target: `#${FormType.FeeComplaint}`,
-        },
-        {
-          guard: 'isFeedbackForm',
-          target: `#${FormType.Feedback}`,
-        },
+        { guard: 'isFeeComplaintForm', target: `#${FormType.FeeComplaint}` },
+        { guard: 'isFeedbackForm', target: `#${FormType.Feedback}` },
         {
           guard: 'isPostponePaymentForm',
           target: `#${FormType.PostponePayment}`,
@@ -309,54 +291,36 @@ export const ticketControlFormMachine = setup({
     editing: {
       initial: 'selectFormType',
       on: {
-        ON_INPUT_CHANGE: {
-          actions: 'onInputChange',
-        },
-        ON_TRANSPORTMODE_CHANGE: {
-          actions: 'onTransportModeChange',
-        },
-        ON_LINE_CHANGE: {
-          actions: 'onLineChange',
-        },
+        ON_INPUT_CHANGE: { actions: 'onInputChange' },
+        ON_TRANSPORTMODE_CHANGE: { actions: 'onTransportModeChange' },
+        ON_LINE_CHANGE: { actions: 'onLineChange' },
       },
 
       states: {
         selectFormType: {},
         feeComplaint: {
           id: 'feeComplaint',
-          entry: assign({
-            formType: () => FormType.FeeComplaint,
-          }),
+          entry: assign({ formType: () => FormType.FeeComplaint }),
           exit: 'clearValidationErrors',
         },
         feedback: {
           id: 'feedback',
-          entry: assign({
-            formType: () => FormType.Feedback,
-          }),
+          entry: assign({ formType: () => FormType.Feedback }),
           exit: 'clearValidationErrors',
         },
         postponePayment: {
           id: 'postponePayment',
-          entry: assign({
-            formType: () => FormType.PostponePayment,
-          }),
+          entry: assign({ formType: () => FormType.PostponePayment }),
           exit: 'clearValidationErrors',
         },
-        history: {
-          type: 'history',
-          history: 'deep',
-        },
+        history: { type: 'history', history: 'deep' },
       },
     },
 
     validating: {
       id: 'validating',
       always: [
-        {
-          guard: 'isFormValid',
-          target: '#submitting',
-        },
+        { guard: 'isFormValid', target: '#submitting' },
         {
           actions: ['setValidationErrors', 'scrollToFirstErrorMessage'],
           target: 'editing.history',
@@ -385,7 +349,7 @@ export const ticketControlFormMachine = setup({
           SWIFT: context.SWIFT,
           feedback: context.feedback,
           transportMode: context.transportMode,
-          lineName: context.line?.name,
+          lineName: getLineName(context.line),
           fromStop: context.fromStop?.name,
           toStop: context.toStop?.name,
           dateOfTicketControl: context.dateOfTicketControl,
@@ -394,23 +358,13 @@ export const ticketControlFormMachine = setup({
           attachments: context.attachments,
         }),
 
-        onDone: {
-          target: 'success',
-        },
+        onDone: { target: 'success' },
 
-        onError: {
-          target: 'error',
-        },
+        onError: { target: 'error' },
       },
     },
 
-    success: {
-      entry: 'navigateToSuccessPage',
-      type: 'final',
-    },
-    error: {
-      entry: 'navigateToErrorPage',
-      type: 'final',
-    },
+    success: { entry: 'navigateToSuccessPage', type: 'final' },
+    error: { entry: 'navigateToErrorPage', type: 'final' },
   },
 });

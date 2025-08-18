@@ -11,6 +11,7 @@ import { commonInputValidator, InputErrorMessages } from '../validation';
 import {
   convertFilesToBase64,
   findFirstErrorMessage,
+  getLineName,
   scrollToFirstErrorMessage,
   setBankAccountStatusAndResetBankInformation,
   setLineAndResetStops,
@@ -115,11 +116,7 @@ const setFormTypeAndInitialContext = (
   context: RefundContextProps,
   formType: FormType,
 ) => {
-  return {
-    ...context,
-    formType: formType,
-    errorMessages: {},
-  };
+  return { ...context, formType: formType, errorMessages: {} };
 };
 const setInitialAgreementAndFormType = (
   context: RefundContextProps,
@@ -188,19 +185,10 @@ const setInputToValidate = (context: RefundContextProps) => {
 
   switch (formType) {
     case FormType.RefundTaxi:
-      return {
-        ...commonFields,
-        attachments,
-        amount,
-      };
+      return { ...commonFields, attachments, amount };
 
     case FormType.RefundCar:
-      return {
-        ...commonFields,
-        kilometersDriven,
-        fromAddress,
-        toAddress,
-      };
+      return { ...commonFields, kilometersDriven, fromAddress, toAddress };
 
     case FormType.AppTicketRefund:
       return {
@@ -243,10 +231,7 @@ const setInputToValidate = (context: RefundContextProps) => {
 };
 
 export const refundStateMachine = setup({
-  types: {
-    context: {} as RefundContextProps,
-    events: RefundFormEvents,
-  },
+  types: { context: {} as RefundContextProps, events: RefundFormEvents },
   guards: {
     isFormValid: ({ context }) => {
       const inputsToValidate = setInputToValidate(context);
@@ -283,9 +268,7 @@ export const refundStateMachine = setup({
       window.location.href = '/contact/success';
     },
 
-    setFormTypeToUndefined: assign({
-      formType: () => undefined,
-    }),
+    setFormTypeToUndefined: assign({ formType: () => undefined }),
 
     setInitialAgreementAndFormType: assign(({ context }) => {
       return setInitialAgreementAndFormType(context, false);
@@ -332,10 +315,7 @@ export const refundStateMachine = setup({
 
         context.errorMessages[inputName] = [];
 
-        return {
-          ...context,
-          [inputName]: value,
-        };
+        return { ...context, [inputName]: value };
       }
       return context;
     }),
@@ -357,9 +337,7 @@ export const refundStateMachine = setup({
         return {
           ...context,
           purchasePlatform: event.value,
-          errorMessages: {
-            ...context.errorMessages,
-          },
+          errorMessages: { ...context.errorMessages },
         };
       return context;
     }),
@@ -395,29 +373,17 @@ export const refundStateMachine = setup({
     errorMessages: {},
   },
   on: {
-    ON_INPUT_CHANGE: {
-      actions: 'onInputChange',
-    },
+    ON_INPUT_CHANGE: { actions: 'onInputChange' },
 
-    ON_TRANSPORTMODE_CHANGE: {
-      actions: 'onTransportModeChange',
-    },
+    ON_TRANSPORTMODE_CHANGE: { actions: 'onTransportModeChange' },
 
-    ON_LINE_CHANGE: {
-      actions: 'onLineChange',
-    },
+    ON_LINE_CHANGE: { actions: 'onLineChange' },
 
-    ON_PURCHASE_PLATFORM_CHANGE: {
-      actions: 'onPurchasePlatformChange',
-    },
+    ON_PURCHASE_PLATFORM_CHANGE: { actions: 'onPurchasePlatformChange' },
 
-    SELECT_FORM_CATEGORY: {
-      target: '#formCategoryHandler',
-    },
+    SELECT_FORM_CATEGORY: { target: '#formCategoryHandler' },
 
-    SELECT_REFUND_TICKET_FORM: {
-      target: '#refundTicketFormHandler',
-    },
+    SELECT_REFUND_TICKET_FORM: { target: '#refundTicketFormHandler' },
 
     SELECT_REFUND_AND_TRAVEL_GUARANTEE_FORM: {
       target: '#refundAndTravelGuaranteeFormHandler',
@@ -486,16 +452,12 @@ export const refundStateMachine = setup({
             selectRefundOfTicketForm: {},
             appTicketRefund: {
               id: 'appTicketRefund',
-              entry: assign({
-                formType: () => FormType.AppTicketRefund,
-              }),
+              entry: assign({ formType: () => FormType.AppTicketRefund }),
               exit: 'clearValidationErrors',
             },
             otherTicketRefund: {
               id: 'otherTicketRefund',
-              entry: assign({
-                formType: () => FormType.OtherTicketRefund,
-              }),
+              entry: assign({ formType: () => FormType.OtherTicketRefund }),
               exit: 'clearValidationErrors',
             },
           },
@@ -509,40 +471,28 @@ export const refundStateMachine = setup({
             selectRefundAndTravelGuaranteeForm: {},
             refundCar: {
               id: 'refundCar',
-              entry: assign({
-                formType: () => FormType.RefundCar,
-              }),
+              entry: assign({ formType: () => FormType.RefundCar }),
               exit: 'clearValidationErrors',
             },
             refundTaxi: {
               id: 'refundTaxi',
-              entry: assign({
-                formType: () => FormType.RefundTaxi,
-              }),
+              entry: assign({ formType: () => FormType.RefundTaxi }),
               exit: 'clearValidationErrors',
             },
           },
         },
         residualValueOnTravelCard: {
           id: 'residualValueOnTravelCard',
-          entry: assign({
-            formType: () => FormType.ResidualValueOnTravelCard,
-          }),
+          entry: assign({ formType: () => FormType.ResidualValueOnTravelCard }),
         },
-        history: {
-          type: 'history',
-          history: 'deep',
-        },
+        history: { type: 'history', history: 'deep' },
       },
     },
 
     validating: {
       id: 'validating',
       always: [
-        {
-          guard: 'isFormValid',
-          target: '#submitting',
-        },
+        { guard: 'isFormValid', target: '#submitting' },
         {
           actions: ['setValidationErrors', 'scrollToFirstErrorMessage'],
           target: 'editing.history',
@@ -556,7 +506,7 @@ export const refundStateMachine = setup({
         src: 'submit',
         input: ({ context }: { context: RefundContextProps }) => ({
           transportMode: context?.transportMode,
-          line: context.line?.name,
+          line: getLineName(context.line),
           fromStop: context.fromStop?.name,
           toStop: context.toStop?.name,
           date: context?.date,
@@ -587,23 +537,13 @@ export const refundStateMachine = setup({
           purchasePlatform: context?.purchasePlatform,
         }),
 
-        onDone: {
-          target: 'success',
-        },
+        onDone: { target: 'success' },
 
-        onError: {
-          target: 'error',
-        },
+        onError: { target: 'error' },
       },
     },
 
-    success: {
-      entry: 'navigateToSuccessPage',
-      type: 'final',
-    },
-    error: {
-      entry: 'navigateToErrorPage',
-      type: 'final',
-    },
+    success: { entry: 'navigateToSuccessPage', type: 'final' },
+    error: { entry: 'navigateToErrorPage', type: 'final' },
   },
 });

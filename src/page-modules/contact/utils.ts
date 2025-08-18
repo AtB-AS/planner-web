@@ -27,10 +27,7 @@ export const convertFilesToBase64 = (
         reader.onloadend = () => {
           const result = reader.result;
           if (typeof result === 'string') {
-            resolve({
-              filename: file.name,
-              body: result,
-            });
+            resolve({ filename: file.name, body: result });
           } else {
             reject(new Error('File conversion failed'));
           }
@@ -90,10 +87,7 @@ export const setBankAccountStatusAndResetBankInformation = (
     bankAccountNumber: undefined,
     IBAN: undefined,
     SWIFT: undefined,
-    errorMessages: {
-      ...context.errorMessages,
-      bankAccountNumber: [],
-    },
+    errorMessages: { ...context.errorMessages, bankAccountNumber: [] },
   };
 };
 
@@ -158,3 +152,7 @@ export const findFirstErrorMessage = (
     }
   }
 };
+
+export function getLineName(line: Line | undefined): string | undefined {
+  return line ? `${line.publicCode} - ${line.name}` : undefined;
+}
