@@ -23,7 +23,6 @@ export default function PageHeader() {
             <Link
               href={'/'}
               className={style.pageHeader__logoLink}
-              title={t(CommonText.Layout.homeLink(urls.homePageUrl.name))}
               data-testid="homeButton"
             >
               {fylkeskommune?.replaceTitleWithLogoInHeader &&
