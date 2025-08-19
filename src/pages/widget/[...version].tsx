@@ -4,7 +4,7 @@ import { withGlobalData, type WithGlobalData } from '@atb/modules/global-data';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import type { createWidget, PlannerWebOutput } from '@atb/widget/widget.ts';
+import type { createWidget, PlannerWebOutput } from '@atb/widget/widget';
 import { compressToEncodedURIComponent } from 'lz-string';
 import { useTheme } from '@atb/modules/theme';
 import {
