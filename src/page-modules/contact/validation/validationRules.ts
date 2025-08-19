@@ -21,6 +21,10 @@ const hasExpectedLength =
   (expectedLength: number) => (value: string | undefined) =>
     value?.length === expectedLength;
 
+const hasExpectedLengthRange =
+  (min: number, max: number) => (value: string | undefined) =>
+    !!value?.length && value?.length >= min && value?.length <= max;
+
 const isValidBankAccount = (value: string): boolean => {
   if (value.includes('.')) {
     if (value[4] !== '.' && value[8] !== '.') return false;
@@ -357,7 +361,7 @@ const rulesCustomerNumber: ValidationRule[] = [
   },
 
   {
-    validate: hasExpectedLength(7),
+    validate: hasExpectedLengthRange(7, 8),
     errorMessage:
       PageText.Contact.input.customerNumber.errorMessages.invalidFormat,
   },
@@ -387,9 +391,7 @@ const rulesIsResponseWanted: ValidationRule[] = [
   },
 ];
 
-type ValidationRulesMap = {
-  [inputName: string]: ValidationRule[];
-};
+type ValidationRulesMap = { [inputName: string]: ValidationRule[] };
 
 export const validationRules: ValidationRulesMap = {
   firstName: rulesFirstName,

@@ -56,9 +56,7 @@ const ContactInternal = {
           'Kor pleier du å ha billetten din?',
         ),
 
-        app: {
-          title: _('Mobilapp', 'Mobile app', 'Mobilapp'),
-        },
+        app: { title: _('Mobilapp', 'Mobile app', 'Mobilapp') },
       },
 
       firstAgreement: {
@@ -377,9 +375,7 @@ const ContactInternal = {
         ),
       },
 
-      carTrip: {
-        title: _('Om bilturen', 'About the car trip', 'Om bilturen'),
-      },
+      carTrip: { title: _('Om bilturen', 'About the car trip', 'Om bilturen') },
 
       aboutYourTrip: {
         title: _(
@@ -793,9 +789,7 @@ const ContactInternal = {
     },
   },
 
-  lostAndFound: {
-    title: _('Hittegods', 'Lost and found', 'Hittegods'),
-  },
+  lostAndFound: { title: _('Hittegods', 'Lost and found', 'Hittegods') },
 
   groupTravel: {
     title: _('Gruppereise', 'Group travel', 'Gruppereise'),
@@ -1020,9 +1014,7 @@ const ContactInternal = {
     line: {
       label: _('Linje', 'Line', 'Linje'),
       optionLabel: _('Velg linje', 'Choose line', 'Vel linje'),
-      errorMessages: {
-        empty: _('Velg linje', 'Select line', 'Vel linje'),
-      },
+      errorMessages: { empty: _('Velg linje', 'Select line', 'Vel linje') },
     },
 
     fromStop: {
@@ -1083,9 +1075,7 @@ const ContactInternal = {
     },
     date: {
       label: _('Dato', 'Date', 'Dato'),
-      errorMessages: {
-        empty: _('Velg dato', 'Select date', 'Vel dato'),
-      },
+      errorMessages: { empty: _('Velg dato', 'Select date', 'Vel dato') },
 
       ticketControl: {
         label: _(
@@ -1138,14 +1128,8 @@ const ContactInternal = {
       label: _('Mulige valg', 'Options', 'Moglege val'),
       optionLabel: _('Velg årsak', 'Select reason', 'Vel åtsak'),
       options: [
-        {
-          id: 'late',
-          name: _('Forsinket', 'Late', 'Forseinka'),
-        },
-        {
-          id: 'cancelled',
-          name: _('Innstilt', 'Cancelled', 'Innstilt'),
-        },
+        { id: 'late', name: _('Forsinket', 'Late', 'Forseinka') },
+        { id: 'cancelled', name: _('Innstilt', 'Cancelled', 'Innstilt') },
         {
           id: 'missedNextTransport',
           name: _(
@@ -1171,9 +1155,7 @@ const ContactInternal = {
           ),
         },
       ] as ReasonForTransportFailure[],
-      errorMessages: {
-        empty: _('Velg årsak', 'Select reason', 'Vel årsak'),
-      },
+      errorMessages: { empty: _('Velg årsak', 'Select reason', 'Vel årsak') },
     },
 
     kilometersDriven: {
@@ -1332,9 +1314,9 @@ const ContactInternal = {
           'Fyll inn kundenummer',
         ),
         invalidFormat: _(
-          'Ugyldig kundenummer. Skriv inn et gyldig kundenummer med 7 siffer.',
-          'Invalid customer number. Please enter a valid 7-digit number.',
-          'Ugyldig kundenummer. Skriv inn eit gyldig kundenummer med 7 siffer.',
+          'Ugyldig kundenummer. Skriv inn et gyldig kundenummer med 7 eller 8 siffer.',
+          'Invalid customer number. Please enter a valid 7 or 8-digit number.',
+          'Ugyldig kundenummer. Skriv inn eit gyldig kundenummer med 7 eller 8 siffer.',
         ),
       },
     },
