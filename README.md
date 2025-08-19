@@ -41,7 +41,7 @@ open http://localhost:3000
 
 ### Exposing environment variables
 To avoid having to write `NEXT_PUBLIC_PLANNER_ORG_ID` in every command, you can do the following. It is also
-recommended add this command as an  alias in your `.bash_profile` or `.zshrc` so it is always available:
+recommended to add this command as an alias in your `.bash_profile` or `.zshrc` so it is always available:
 ```bash
 set -a && source .env.local && set +a
 ````
