@@ -1126,7 +1126,7 @@ const ContactInternal = {
 
     reasonForTransportFailure: {
       label: _('Mulige valg', 'Options', 'Moglege val'),
-      optionLabel: _('Velg årsak', 'Select reason', 'Vel åtsak'),
+      optionLabel: _('Velg årsak', 'Select reason', 'Vel årsak'),
       options: [
         { id: 'late', name: _('Forsinket', 'Late', 'Forseinka') },
         { id: 'cancelled', name: _('Innstilt', 'Cancelled', 'Innstilt') },
