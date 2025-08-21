@@ -10,6 +10,9 @@ import AppForms from './forms/app';
 import WebshopForms from './forms/webshop';
 import TravelCardForms from './forms/travel-card';
 import { findOrderFormFields } from '../utils';
+import { getOrgData } from '@atb/modules/org-data';
+
+const { urls } = getOrgData();
 
 const TicketingContent = () => {
   const { t } = useTranslation();
@@ -21,6 +24,17 @@ const TicketingContent = () => {
     e.preventDefault();
     send({ type: 'SUBMIT', orderedFormFieldNames: findOrderFormFields(e) });
   };
+
+  const additionalTicketingInfo = PageText.Contact.ticketing
+    .additionalTicketingInfo ? (
+    <p>
+      {t(PageText.Contact.ticketing.additionalTicketingInfo.detail)}{' '}
+      <a href={t(PageText.Contact.ticketing.additionalTicketingInfo.href)}>
+        {t(PageText.Contact.ticketing.additionalTicketingInfo.linkText)}
+      </a>
+      .
+    </p>
+  ) : null;
 
   return (
     <form onSubmit={onSubmit} className={style.form}>
@@ -41,6 +55,8 @@ const TicketingContent = () => {
             </li>
           ))}
         </ul>
+
+        {additionalTicketingInfo}
       </Fieldset>
 
       {state.matches({ editing: 'priceAndTicketTypes' }) && (
