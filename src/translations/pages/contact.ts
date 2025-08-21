@@ -576,6 +576,23 @@ const ContactInternal = {
 
   ticketing: {
     title: _('Billetter og app', 'Tickets and app', 'Billettar og app'),
+    additionalTicketingInfo: {
+      detail: _(
+        'For informasjon om betaling på ferje, sjå',
+        'For information on payment on the ferry, see',
+        'For informasjon om betaling på ferje, sjå',
+      ),
+      linkText: _(
+        'betaling for ferje',
+        'payment on the ferry',
+        'betaling for ferje',
+      ),
+      href: _(
+        'https://frammr.no/billettar/billettar-og-prisar/ferje/',
+        'https://frammr.no/billettar/billettar-og-prisar/ferje/?sprak=3',
+        'https://frammr.no/billettar/billettar-og-prisar/ferje/?sprak=11',
+      ),
+    },
     priceAndTicketTypes: {
       description: _(
         'Priser og billettyper',

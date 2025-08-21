@@ -22,6 +22,17 @@ const TicketingContent = () => {
     send({ type: 'SUBMIT', orderedFormFieldNames: findOrderFormFields(e) });
   };
 
+  const additionalTicketingInfo = PageText.Contact.ticketing
+    .additionalTicketingInfo ? (
+    <p>
+      {t(PageText.Contact.ticketing.additionalTicketingInfo.detail)}{' '}
+      <a href={t(PageText.Contact.ticketing.additionalTicketingInfo.href)}>
+        {t(PageText.Contact.ticketing.additionalTicketingInfo.linkText)}
+      </a>
+      .
+    </p>
+  ) : null;
+
   return (
     <form onSubmit={onSubmit} className={style.form}>
       <Fieldset title={t(PageText.Contact.ticketing.title)}>
@@ -41,6 +52,8 @@ const TicketingContent = () => {
             </li>
           ))}
         </ul>
+
+        {additionalTicketingInfo}
       </Fieldset>
 
       {state.matches({ editing: 'priceAndTicketTypes' }) && (
