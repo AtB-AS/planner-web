@@ -41,7 +41,7 @@ open http://localhost:3000
 
 ### Exposing environment variables
 To avoid having to write `NEXT_PUBLIC_PLANNER_ORG_ID` in every command, you can do the following. It is also
-recommended to add this command as an alias in your `.bash_profile` or `.zshrc` so it is always available:
+recommended add this command as an  alias in your `.bash_profile` or `.zshrc` so it is always available:
 ```bash
 set -a && source .env.local && set +a
 ````
@@ -54,6 +54,28 @@ is set in your terminal environment as explained above.
 # Clean assets from old org and create new ones
 NEXT_PUBLIC_PLANNER_ORG_ID=<orgID> yarn clean:install
 ```
+
+## Release
+### Deploy to staging
+
+Changes to `main` branch will automatically be deployed to staging.
+
+You can see the status of each deploy [here](https://github.com/AtB-AS/planner-web/actions/workflows/docker.yml).
+
+
+### Deploy to prod
+Built versions of the widget gets released as part of this release process. 
+See details below for how to build new widget versions.
+
+1. Go to [Releases](https://github.com/AtB-AS/planner-web/releases)
+2. Changes to `main` branch will automatically create a new draft release
+3. Select previous released tag/version as base for the new release. This will automatically populate the changelog with all changes since the last release.
+4. Create a new tag (formatted something like "v1.9.0") with the version number from `package.json`, following the rules of semantic versioning.
+5. Click "Generate release notes"
+6. Click "Publish release"
+
+You can see the status of the deploy [here](https://github.com/AtB-AS/planner-web/actions/workflows/docker.yml).
+
 
 ## Building Planner Widget code
 
