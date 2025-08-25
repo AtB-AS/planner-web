@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import DefaultLayout from '@atb/layouts/default';
+import DefaultLayout from '@atb/layouts/default.tsx';
 import { withGlobalData, type WithGlobalData } from '@atb/modules/global-data';
 import type { NextPage } from 'next';
 import Head from 'next/head';
@@ -62,6 +62,9 @@ const FullscreenWidgetPage: NextPage<
         lib.current = window.PlannerWeb.createWidget({
           urlBase: currentUrlBase,
           language: 'nb',
+          outputOverrideOptions: {
+            layoutMode: 'doubleColumn',
+          },
         });
 
         setHtml(lib.current.output);

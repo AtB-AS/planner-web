@@ -5,12 +5,16 @@
 
 mkdir public/widget
 
-for orgId in atb nfk fram troms vkt farte; do
-  # @TODO FIX THIS
-  echo "Building widget for $orgId"
-  NEXT_PUBLIC_PLANNER_ORG_ID=$orgId yarn build:widget
-  NEXT_PUBLIC_PLANNER_ORG_ID=$orgId node ./scripts/generate-widget-stat.js
-done
+if [ -n "$NEXT_PUBLIC_PLANNER_ORG_ID" ]; then
+    ORG_ID="$NEXT_PUBLIC_PLANNER_ORG_ID"
+    echo "Found NEXT_PUBLIC_PLANNER_ORG_ID= $ORG_ID in environment. Building widget for $ORG_ID"
+    NEXT_PUBLIC_PLANNER_ORG_ID=$ORG_ID yarn build:widget
+    NEXT_PUBLIC_PLANNER_ORG_ID=$ORG_ID node ./scripts/generate-widget-stat.js
+else
+  echo "No NEXT_PUBLIC_PLANNER_ORG_ID found in environment. Please expose it, or build all widgets instead"
+  exit 1
+fi
+
 
 # Workaround for PostCSS processing issue
 # Issue: PostCSS does not allow control over plugin execution order, meaning the "composes" 

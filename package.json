@@ -1,6 +1,6 @@
 {
   "name": "@atb-as/planner-web",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "private": true,
   "license": "EUPL-1.2",
   "engines": {
@@ -17,13 +17,15 @@
     "start": "next start",
     "lint": "next lint",
     "clean-assets": "rimraf ./public/assets/",
+    "clean:install": "yarn clean-assets && rimraf node_modules && yarn && yarn setup && yarn build",
     "presetup": "rimraf ./next/",
     "setup": "generate-assets all $NEXT_PUBLIC_PLANNER_ORG_ID -o ./public/assets/ -ts -ts-o ./src/components/icon",
     "postsetup": "copyfiles -f \"public/assets/colors/favicon.ico\" \"public/\"",
     "generate": "graphql-codegen",
     "prestart": "yarn generate",
     "predev": "yarn generate",
-    "generate-widget-version": "sh ./scripts/build-widget.sh",
+    "generate-widget": "sh ./scripts/build-widget.sh",
+    "generate-all-widgets": "sh ./scripts/build-all-widgets.sh",
     "postinstall": "patch-package",
     "postbuild": "next-sitemap --config next-sitemap.js"
   },
