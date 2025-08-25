@@ -30,7 +30,7 @@ And populate the `.env.local` file with settings for your org.
 ```bash
 
 # Generate assets and icons specific for org
-NEXT_PUBLIC_PLANNER_ORG_ID=<orgID> yarn setup
+yarn refresh-assets
 
 # Run development build
 yarn dev
@@ -39,28 +39,43 @@ yarn dev
 open http://localhost:3000
 ```
 
-### Exposing environment variables
-To avoid having to write `NEXT_PUBLIC_PLANNER_ORG_ID` in every command, you can do the following. It is also
-recommended to add this command as an alias in your `.bash_profile` or `.zshrc` so it is always available:
-```bash
-set -a && source .env.local && set +a
-````
 
 
-## Changing organization
-To easily change organization, you can the following command. It assumes the new  `NEXT_PUBLIC_PLANNER_ORG_ID` 
-is set in your terminal environment as explained above.
+### Changing organization
+To easily change organization, change `NEXT_PUBLIC_PLANNER_ORG_ID` in your
+`.env.local` file and run:
 ```bash
 # Clean assets from old org and create new ones
-NEXT_PUBLIC_PLANNER_ORG_ID=<orgID> yarn clean:install
+yarn refresh-assets
 ```
+
+## Release
+### Deploy to staging
+
+Changes to `main` branch will automatically be deployed to staging.
+
+You can see the status of each deploy [here](https://github.com/AtB-AS/planner-web/actions/workflows/docker.yml).
+
+
+### Deploy to prod
+Built versions of the widget gets released as part of this release process. 
+See details below for how to build new widget versions.
+
+1. Go to [Releases](https://github.com/AtB-AS/planner-web/releases)
+2. Changes to `main` branch will automatically create a new draft release
+3. Select previous released tag/version as base for the new release. This will automatically populate the changelog with all changes since the last release.
+4. Click "Generate release notes"
+5. Click "Publish release"
+
+You can see the status of the deploy [here](https://github.com/AtB-AS/planner-web/actions/workflows/docker.yml).
+
 
 ## Building Planner Widget code
 
-Example of creating widget for AtB:
+Check that NEXT_PUBLIC_PLANNER_ORG_ID is set in your .env.local file, and run
 
 ```
-NEXT_PUBLIC_PLANNER_ORG_ID=atb yarn generate-widget
+yarn generate-widget
 ```
 
 This will place asset inside `public/widget/<VERSION>` which will be reachable
