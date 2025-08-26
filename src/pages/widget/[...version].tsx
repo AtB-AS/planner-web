@@ -31,19 +31,18 @@ declare global {
 
 type FullscreenWidgetPagePropsContent = {
   data: PlannerWidgetData;
+  urlBase: string;
 };
 export type FullscreenWidgetPageProps =
   WithGlobalData<FullscreenWidgetPagePropsContent>;
 
 const FullscreenWidgetPage: NextPage<
   WithGlobalData<FullscreenWidgetPageProps>
-> = ({ data, ...props }) => {
+> = ({ data, urlBase, ...props }) => {
   const router = useRouter();
   const version = router.query.version?.[0] ?? data.latest.version;
-  console.log('version', version);
 
-  const currentUrlBase = 'http://localhost:3000';
-  const widgetPath = `${currentUrlBase}/widget/${compressedOrgId}/${version}`;
+  const widgetPath = `${urlBase}/widget/${compressedOrgId}/${version}`;
   const scriptUrl = `${widgetPath}/planner-web.umd.js`;
   const styleUrl = `${widgetPath}/planner-web.css`;
 
@@ -60,7 +59,7 @@ const FullscreenWidgetPage: NextPage<
     const loadWidget = () => {
       if (window.PlannerWeb?.createWidget) {
         lib.current = window.PlannerWeb.createWidget({
-          urlBase: currentUrlBase,
+          urlBase,
           language: 'nb',
           outputOverrideOptions: {
             layoutMode: 'doubleColumn',
@@ -134,11 +133,13 @@ const FullscreenWidgetPage: NextPage<
 export default FullscreenWidgetPage;
 
 export const getServerSideProps = withAccessLogging(
-  withGlobalData<FullscreenWidgetPagePropsContent>(async function () {
+  withGlobalData<FullscreenWidgetPagePropsContent>(async function (context) {
     const data = await getWidgetData();
+    const urlBase = `${context.req.headers['x-forwarded-proto'] ?? 'http'}://${context.req.headers.host}`;
     return {
       props: {
         data,
+        urlBase,
       },
     };
   }),
