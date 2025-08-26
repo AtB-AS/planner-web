@@ -158,6 +158,7 @@
 
 .contentContainer {
   margin: 0 auto;
+  width: 100%;
   max-width: var(--maxPageWidth);
   padding: token('spacing.xLarge');
   display: flex;
