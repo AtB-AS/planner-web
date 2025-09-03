@@ -85,6 +85,8 @@ export default function TripPattern({
     return i < expandedLegs.length - 1 || collapsedLegs.length > 0;
   };
 
+  const priceInfoText = 'Price info here'; // todo: real data
+
   return (
     <div className={style.tripPatternContainer}>
       <motion.div
@@ -226,6 +228,9 @@ export default function TripPattern({
           </div>
         </div>
         <footer className={style.footer} onClick={() => setIsOpen(!isOpen)}>
+          <Typo.span textType="body__secondary" className={style.priceInfoText}>
+            {priceInfoText}
+          </Typo.span>
           <Button
             title={
               isOpen

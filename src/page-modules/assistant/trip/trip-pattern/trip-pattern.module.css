@@ -31,7 +31,6 @@
   color: token('color.foreground.dynamic.secondary');
 }
 
-
 .details {
   display: flex;
   flex-direction: column;
@@ -136,9 +135,11 @@
 .footer {
   border-top: 1px solid token('color.background.neutral.1.background');
   display: flex;
-  justify-content: flex-end;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
   padding: token('spacing.small') token('spacing.medium');
-  gap: token('spacing.small')
+  gap: token('spacing.small');
 }
 
 .footer__details {
@@ -153,6 +154,10 @@
   padding: token('spacing.xSmall') token('spacing.medium');
   border-radius: token('border.radius.circle');
   background-color: token('color.interactive.0.default.background');
+}
+
+.priceInfoText {
+  color: token('color.foreground.dynamic.secondary');
 }
 
 .accordionBody {
