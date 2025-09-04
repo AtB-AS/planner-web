@@ -10,6 +10,7 @@ import {
 } from '@atb/page-modules/assistant/journey-gql/trip-with-details.generated.ts';
 import { MapLegType } from '@atb/components/map';
 import { Mode } from '@atb/modules/graphql-types/journeyplanner-types_v3.generated.ts';
+import { TicketOffers } from '@atb-as/utils';
 
 /**
  * IMPORTANT! READ THIS
@@ -154,3 +155,30 @@ export type TripWithDetailsType = TripsWithDetailsQuery & {
 
 export type BookingArrangementType =
   TripWithDetailsType['trip']['tripPatterns'][number]['legs'][number]['bookingArrangements'];
+
+export const LegToGetOfferFromSchema = z.object({
+  travelDate: z.string(),
+  fromStopPlaceId: z.string(),
+  toStopPlaceId: z.string(),
+  serviceJourneyId: z.string(),
+});
+
+export type LegToGetOfferFrom = z.infer<typeof LegToGetOfferFromSchema>;
+
+const TravellerSchema = z.object({ id: z.string(), userType: z.string() });
+export type Traveller = z.infer<typeof TravellerSchema>;
+
+export const OfferFromLegsBodySchema = z.object({
+  travellers: z.array(TravellerSchema),
+  travelDate: z.string(),
+  products: z.array(z.string()),
+  isOnBehalfOf: z.boolean(),
+  legs: z.array(LegToGetOfferFromSchema),
+});
+export type OfferFromLegsBody = z.infer<typeof OfferFromLegsBodySchema>;
+
+export const OfferFromLegsResponseSchema = z.object({
+  offers: TicketOffers,
+  cheapestTotalPrice: z.number(),
+});
+export type OfferFromLegsResponse = z.infer<typeof OfferFromLegsResponseSchema>;
