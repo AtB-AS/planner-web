@@ -12,9 +12,13 @@ import { TransportIconWithLabel } from '@atb/modules/transport-mode';
 import { andIf } from '@atb/utils/css';
 import { useRouter } from 'next/router';
 import { isLineFlexibleTransport } from '@atb/modules/flexible';
-import { ExtendedTripPatternWithDetailsType } from '@atb/page-modules/assistant';
+import {
+  ExtendedTripPatternWithDetailsType,
+  Traveller,
+} from '@atb/page-modules/assistant';
 import { Button, ButtonLink } from '@atb/components/button';
 import { AssistantDetailsBody } from '@atb/page-modules/assistant/details-body';
+import { useOfferFromLegs } from '../../client/sales';
 
 const LAST_LEG_PADDING = 20;
 const DEFAULT_THRESHOLD_AIMED_EXPECTED_IN_SECONDS = 60;
@@ -85,7 +89,21 @@ export default function TripPattern({
     return i < expandedLegs.length - 1 || collapsedLegs.length > 0;
   };
 
-  const priceInfoText = 'Price info here'; // todo: real data
+  const adultTraveller: Traveller = { id: 'T0', userType: 'ADULT' };
+  // todo: get per OMS partner, and don't hard code
+  const productsAvailableForOffer = [
+    'ATB:PreassignedFareProduct:8808c360', // single ticket v2
+    'ATB:PreassignedFareProduct:925469fb', // periodic ticket (30 days)
+    // 'ATB:PreassignedFareProduct:c4467e3a', // boat single trip
+  ];
+  const { data: offerFromLegsResponse } = useOfferFromLegs({
+    travelDate: new Date(tripPattern.legs[0].expectedStartTime),
+    legs: tripPattern.legs,
+    travellers: [adultTraveller], // we don't know who the user is, so always default to adult which is non-discounted
+    products: productsAvailableForOffer,
+  });
+  // todo: map properly from traveller, language, handle error state
+  const priceInfoText = `Adult ${offerFromLegsResponse?.cheapestTotalPrice}`;
 
   return (
     <div className={style.tripPatternContainer}>
