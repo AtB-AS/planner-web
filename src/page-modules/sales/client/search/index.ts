@@ -1,4 +1,5 @@
 import useSWRImmutable from 'swr/immutable';
+import { swrPostFetcher } from '@atb/modules/api-browser';
 import {
   ExtendedLegType,
   LegToGetOfferFrom,
@@ -6,8 +7,7 @@ import {
   OfferFromLegsBody,
   OfferFromLegsResponse,
   Traveller,
-} from '../../types';
-import { swrPostFetcher } from '@atb/modules/api-browser';
+} from '@atb/page-modules/assistant';
 
 export function useOfferFromLegs(offerFromLegsProps: {
   travelDate: Date;
@@ -38,10 +38,7 @@ export function useOfferFromLegs(offerFromLegsProps: {
   };
 
   return useSWRImmutable<OfferFromLegsResponse>(
-    [
-      process.env.NEXT_PUBLIC_API_BASE_URL + '/v1/search/trip-pattern',
-      requestBody,
-    ],
+    ['/api/assistant/offer-from-legs', requestBody],
     swrPostFetcher,
   );
 }

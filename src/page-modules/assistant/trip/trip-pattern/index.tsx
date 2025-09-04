@@ -18,7 +18,7 @@ import {
 } from '@atb/page-modules/assistant';
 import { Button, ButtonLink } from '@atb/components/button';
 import { AssistantDetailsBody } from '@atb/page-modules/assistant/details-body';
-import { useOfferFromLegs } from '../../client/sales';
+import { useOfferFromLegs } from '@atb/page-modules/sales/client/search';
 
 const LAST_LEG_PADDING = 20;
 const DEFAULT_THRESHOLD_AIMED_EXPECTED_IN_SECONDS = 60;
