@@ -179,6 +179,6 @@ export type OfferFromLegsBody = z.infer<typeof OfferFromLegsBodySchema>;
 
 export const OfferFromLegsResponseSchema = z.object({
   // offers: TicketOffers, // something seems to go wrong with this type, and is not used
-  cheapestTotalPrice: z.number(),
+  cheapestTotalPrice: z.number().nullable(),
 });
 export type OfferFromLegsResponse = z.infer<typeof OfferFromLegsResponseSchema>;
