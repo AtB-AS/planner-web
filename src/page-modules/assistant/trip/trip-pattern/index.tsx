@@ -1,7 +1,11 @@
 import { useClientWidth } from '@atb/utils/use-client-width';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Fragment, useEffect, useId, useState } from 'react';
-import { getFilteredLegsByWalkOrWaitTime, tripSummary } from './utils';
+import {
+  formatNumberToString,
+  getFilteredLegsByWalkOrWaitTime,
+  tripSummary,
+} from './utils';
 import { PageText, useTranslation } from '@atb/translations';
 import style from './trip-pattern.module.css';
 import { formatToClock, isInPast, secondsBetween } from '@atb/utils/date';
@@ -90,20 +94,37 @@ export default function TripPattern({
   };
 
   const adultTraveller: Traveller = { id: 'T0', userType: 'ADULT' };
+  const travellers = [adultTraveller]; // we don't know who the user is, so always default to adult which is non-discounted
   // todo: get per OMS partner, and don't hard code
+  // potentially move it server side
   const productsAvailableForOffer = [
     'ATB:PreassignedFareProduct:8808c360', // single ticket v2
     'ATB:PreassignedFareProduct:925469fb', // periodic ticket (30 days)
     // 'ATB:PreassignedFareProduct:c4467e3a', // boat single trip
   ];
-  const { data: offerFromLegsResponse } = useOfferFromLegs({
-    travelDate: new Date(tripPattern.legs[0].expectedStartTime),
-    legs: tripPattern.legs,
-    travellers: [adultTraveller], // we don't know who the user is, so always default to adult which is non-discounted
-    products: productsAvailableForOffer,
-  });
-  // todo: map properly from traveller, language, handle error state
-  const priceInfoText = `Adult ${offerFromLegsResponse?.cheapestTotalPrice}`;
+  const { data: offerFromLegsResponse, isLoading: isLoadingOfferFromLegs } =
+    useOfferFromLegs({
+      travelDate: new Date(tripPattern.legs[0].expectedStartTime),
+      legs: tripPattern.legs,
+      travellers,
+      products: productsAvailableForOffer,
+    });
+
+  const hasValidPrice =
+    typeof offerFromLegsResponse?.cheapestTotalPrice === 'number' &&
+    !isLoadingOfferFromLegs;
+
+  const travellerTypeText = t(
+    PageText.Assistant.trip.tripPattern.userType(travellers[0]?.userType),
+  );
+  const priceInfoText = t(
+    PageText.Assistant.trip.tripPattern.priceInfo(
+      formatNumberToString(
+        offerFromLegsResponse?.cheapestTotalPrice ?? 0,
+        language,
+      ),
+    ),
+  );
 
   return (
     <div className={style.tripPatternContainer}>
@@ -247,7 +268,7 @@ export default function TripPattern({
         </div>
         <footer className={style.footer} onClick={() => setIsOpen(!isOpen)}>
           <Typo.span textType="body__secondary" className={style.priceInfoText}>
-            {priceInfoText}
+            {hasValidPrice && `${travellerTypeText}: ${priceInfoText}`}
           </Typo.span>
           <Button
             title={
