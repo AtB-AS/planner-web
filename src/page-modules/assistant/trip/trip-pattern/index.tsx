@@ -93,14 +93,16 @@ export default function TripPattern({
     return i < expandedLegs.length - 1 || collapsedLegs.length > 0;
   };
 
-  const adultTraveller: Traveller = { id: 'T0', userType: 'ADULT' };
+  const adultTraveller: Traveller = {
+    id: 'adultAnonymousTraveller',
+    userType: 'ADULT',
+  };
   const travellers = [adultTraveller]; // we don't know who the user is, so always default to adult which is non-discounted
-  // todo: get per OMS partner, and don't hard code
+  // todo: get per OMS partner, firestore config
+  // todo: remove train for AtB? boat?
   // potentially move it server side
   const productsAvailableForOffer = [
     'ATB:PreassignedFareProduct:8808c360', // single ticket v2
-    'ATB:PreassignedFareProduct:925469fb', // periodic ticket (30 days)
-    // 'ATB:PreassignedFareProduct:c4467e3a', // boat single trip
   ];
   const { data: offerFromLegsResponse, isLoading: isLoadingOfferFromLegs } =
     useOfferFromLegs({
