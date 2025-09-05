@@ -1,7 +1,11 @@
 import { useClientWidth } from '@atb/utils/use-client-width';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Fragment, useEffect, useId, useState } from 'react';
-import { getFilteredLegsByWalkOrWaitTime, tripSummary } from './utils';
+import {
+  formatNumberToString,
+  getFilteredLegsByWalkOrWaitTime,
+  tripSummary,
+} from './utils';
 import { PageText, useTranslation } from '@atb/translations';
 import style from './trip-pattern.module.css';
 import { formatToClock, isInPast, secondsBetween } from '@atb/utils/date';
@@ -12,9 +16,13 @@ import { TransportIconWithLabel } from '@atb/modules/transport-mode';
 import { andIf } from '@atb/utils/css';
 import { useRouter } from 'next/router';
 import { isLineFlexibleTransport } from '@atb/modules/flexible';
-import { ExtendedTripPatternWithDetailsType } from '@atb/page-modules/assistant';
+import {
+  ExtendedTripPatternWithDetailsType,
+  Traveller,
+} from '@atb/page-modules/assistant';
 import { Button, ButtonLink } from '@atb/components/button';
 import { AssistantDetailsBody } from '@atb/page-modules/assistant/details-body';
+import { useOfferFromLegs } from '@atb/page-modules/sales/client/search';
 
 const LAST_LEG_PADDING = 20;
 const DEFAULT_THRESHOLD_AIMED_EXPECTED_IN_SECONDS = 60;
@@ -84,6 +92,41 @@ export default function TripPattern({
   const isNotLastLeg = (i: number) => {
     return i < expandedLegs.length - 1 || collapsedLegs.length > 0;
   };
+
+  const adultTraveller: Traveller = {
+    id: 'adultAnonymousTraveller',
+    userType: 'ADULT',
+  };
+  const travellers = [adultTraveller]; // we don't know who the user is, so always default to adult which is non-discounted
+  // todo: get per OMS partner, firestore config
+  // todo: remove train for AtB? boat?
+  // potentially move it server side
+  const productsAvailableForOffer = [
+    'ATB:PreassignedFareProduct:8808c360', // single ticket v2
+  ];
+  const { data: offerFromLegsResponse, isLoading: isLoadingOfferFromLegs } =
+    useOfferFromLegs({
+      travelDate: new Date(tripPattern.legs[0].expectedStartTime),
+      legs: tripPattern.legs,
+      travellers,
+      products: productsAvailableForOffer,
+    });
+
+  const hasValidPrice =
+    typeof offerFromLegsResponse?.cheapestTotalPrice === 'number' &&
+    !isLoadingOfferFromLegs;
+
+  const travellerTypeText = t(
+    PageText.Assistant.trip.tripPattern.userType(travellers[0]?.userType),
+  );
+  const priceInfoText = t(
+    PageText.Assistant.trip.tripPattern.priceInfo(
+      formatNumberToString(
+        offerFromLegsResponse?.cheapestTotalPrice ?? 0,
+        language,
+      ),
+    ),
+  );
 
   return (
     <div className={style.tripPatternContainer}>
@@ -226,6 +269,9 @@ export default function TripPattern({
           </div>
         </div>
         <footer className={style.footer} onClick={() => setIsOpen(!isOpen)}>
+          <Typo.span textType="body__secondary" className={style.priceInfoText}>
+            {hasValidPrice && `${travellerTypeText}: ${priceInfoText}`}
+          </Typo.span>
           <Button
             title={
               isOpen
