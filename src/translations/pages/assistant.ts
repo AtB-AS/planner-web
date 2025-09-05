@@ -469,6 +469,11 @@ const AssistantInternal = {
           `Stay seated. The line number is changing from ${fromPublicCode} to ${toPublicCode}.`,
           `Bli sittande. Linjenummeret endrar seg frå ${fromPublicCode} til ${toPublicCode}.`,
         ),
+      buyTicketFrom: _(
+        'Billett kan kjøpes fra',
+        'Ticket can be bought from',
+        'Billett kan kjøpast frå',
+      ),
     },
     ticketBooking: {
       globalMessage: _(

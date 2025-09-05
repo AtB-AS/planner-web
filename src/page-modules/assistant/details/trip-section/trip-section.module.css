@@ -25,6 +25,12 @@
   align-items: center;
   gap: token('spacing.small');
 }
+.authoritySection {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: token('spacing.small');
+}
 .onDemandTransportLabel {
   composes: typo-body__secondary;
   color: token('color.foreground.dynamic.secondary');
