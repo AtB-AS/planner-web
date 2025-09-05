@@ -206,7 +206,7 @@ export default function TripSection({
           }
           duration={leg.duration}
           serviceJourneyId={leg.serviceJourney?.id ?? null}
-          date={leg.aimedStartTime.split('T')[0]}
+          date={leg.serviceDate}
           fromQuayId={leg.fromPlace.quay?.id ?? null}
         />
 

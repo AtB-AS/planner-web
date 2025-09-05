@@ -70,6 +70,7 @@ fragment legWithDetails on Leg {
   expectedEndTime
   realtime
   duration
+  serviceDate
   pointsOnLink {
     points
     length
