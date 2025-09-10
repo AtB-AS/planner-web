@@ -13,7 +13,7 @@ describe('search time selector', function () {
 
     expect(
       output.getByRole('radio', {
-        name: 'Nå',
+        name: 'Dra nå',
       }),
     ).toBeChecked();
   });
@@ -67,7 +67,7 @@ describe('search time selector', function () {
   it('should change selection with keyboard', async () => {
     const output = render(<SearchTimeSelector onChange={() => {}} />);
 
-    const radio = output.getByRole('radio', { name: 'Nå' });
+    const radio = output.getByRole('radio', { name: 'Dra nå' });
     radio.focus();
     expect(radio).toHaveFocus();
 
@@ -122,7 +122,7 @@ describe('search time selector', function () {
 
     expect(
       output.queryByRole('radio', {
-        name: 'Nå',
+        name: 'Dra nå',
       }),
     ).toBeInTheDocument();
 
