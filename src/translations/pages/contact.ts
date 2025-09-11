@@ -794,7 +794,7 @@ const ContactInternal = {
         title: _(
           'Hvor vil du reise?',
           'Where do you want to travel?',
-          'Kvar vil du reisa?',
+          'Kor vil du reise?',
         ),
         info: _(
           'Om du ønsker hjelp til hvordan du kommer deg frem med kollektivtilbudet, kan vi hjelpe deg med å finne ruteinformasjonen. Forklar når og hvor du ønsker å reise fra og til.',
