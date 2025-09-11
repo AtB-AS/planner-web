@@ -63,7 +63,7 @@ const AssistantInternal = {
     },
     buttons: {
       find: {
-        title: _('Finn reise', 'Find journey', 'Finn reise'),
+        title: _('Finn reise', 'Find trip', 'Finn reise'),
       },
       alternatives: {
         more: _('Filter', 'Filter', 'Filter'),
