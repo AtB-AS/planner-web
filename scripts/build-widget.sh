@@ -28,6 +28,9 @@ VERSION=$(node -p "require('./package.json').version")
 for FOLDER in "$BASE_DIR"/*/; do
   FOLDER_NAME=$(basename "$FOLDER")
   FILE_NAME="$BASE_DIR/$FOLDER_NAME/$VERSION/planner-web.css"
+  if [[ ! -f "$FILE_NAME" ]]; then
+    break
+  fi
   npx postcss "$FILE_NAME" -o "$FILE_NAME"
 done
 
