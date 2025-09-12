@@ -34,7 +34,7 @@ export function AuthoritySection({ authority }: AuthoritySectionProps) {
           title={authority.name}
           icon={{ left: <MonoIcon icon="navigation/ExternalLink" /> }}
           mode="secondary"
-          backgroundColor={color.background.accent['4']}
+          backgroundColor={color.background.neutral[0]}
           display="block"
           radiusSize="circular"
           size="pill"
