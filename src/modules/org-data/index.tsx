@@ -29,7 +29,7 @@ export type OrgData = {
     logoSrcDark: string;
   };
 
-  featureConfig?: {
+  featureConfig: {
     replaceTitleWithLogoInHeader?: boolean;
     forceTheme?: 'light' | 'dark';
     enableShowTripPatternPrice: boolean;

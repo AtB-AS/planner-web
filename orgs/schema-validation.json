@@ -134,7 +134,7 @@
           "type": "object"
         }
       },
-      "required": ["orgId", "supportEmail", "urls"],
+      "required": ["featureConfig", "orgId", "supportEmail", "urls"],
       "type": "object"
     },
     "TranslatableUrl": {

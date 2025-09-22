@@ -25,7 +25,7 @@ export default function PageHeader() {
               className={style.pageHeader__logoLink}
               data-testid="homeButton"
             >
-              {featureConfig?.replaceTitleWithLogoInHeader &&
+              {featureConfig.replaceTitleWithLogoInHeader &&
               fylkeskommuneLogo ? (
                 <Image
                   width={0}

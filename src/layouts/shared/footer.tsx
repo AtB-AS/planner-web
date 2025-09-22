@@ -49,7 +49,7 @@ export default function Footer({ withoutSettings = false }: FooterProps) {
     },
   ].filter(Boolean) as SomeLink[];
 
-  const isForcingTheme = featureConfig?.forceTheme !== undefined;
+  const isForcingTheme = featureConfig.forceTheme !== undefined;
   const { fylkeskommuneLogo } = useOrgThemeDefinitions();
 
   return (
