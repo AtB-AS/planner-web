@@ -11,6 +11,10 @@
     "name": "Trøndelag fylkeskommune"
   },
 
+  "featureConfig": {
+    "enableShowTripPatternPrice": true
+  },
+
   "urls": {
     "privacyDeclarationUrl": {
       "default": "https://www.atb.no/vilkar/personvernerklaering-for-kundetjenester/"

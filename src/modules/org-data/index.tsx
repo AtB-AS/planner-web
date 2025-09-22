@@ -27,8 +27,12 @@ export type OrgData = {
     name: string;
     logoSrc: string;
     logoSrcDark: string;
+  };
+
+  featureConfig?: {
     replaceTitleWithLogoInHeader?: boolean;
     forceTheme?: 'light' | 'dark';
+    enableShowTripPatternPrice: boolean;
   };
 
   urls: {

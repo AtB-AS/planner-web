@@ -16,17 +16,26 @@
             },
             "name": {
               "type": "string"
-            },
+            }
+          },
+          "required": ["name", "logoSrc", "logoSrcDark"],
+          "type": "object"
+        },
+        "featureConfig": {
+          "type": "object",
+          "properties": {
             "replaceTitleWithLogoInHeader": {
               "type": "boolean"
             },
             "forceTheme": {
               "type": "string",
               "enum": ["light", "dark"]
+            },
+            "enableShowTripPatternPrice": {
+              "type": "boolean"
             }
           },
-          "required": ["name", "logoSrc", "logoSrcDark"],
-          "type": "object"
+          "required": ["enableShowTripPatternPrice"]
         },
         "orgId": {
           "enum": ["atb", "fram", "nfk", "troms", "vkt", "farte"],

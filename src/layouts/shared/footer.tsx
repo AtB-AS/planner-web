@@ -20,7 +20,7 @@ type SomeLink = {
   title: string;
 };
 
-const { urls, fylkeskommune, orgId } = getOrgData();
+const { urls, fylkeskommune, featureConfig, orgId } = getOrgData();
 
 export default function Footer({ withoutSettings = false }: FooterProps) {
   const { isDarkMode, toggleDarkmode } = useTheme();
@@ -49,7 +49,7 @@ export default function Footer({ withoutSettings = false }: FooterProps) {
     },
   ].filter(Boolean) as SomeLink[];
 
-  const isForcingTheme = fylkeskommune?.forceTheme !== undefined;
+  const isForcingTheme = featureConfig?.forceTheme !== undefined;
   const { fylkeskommuneLogo } = useOrgThemeDefinitions();
 
   return (
