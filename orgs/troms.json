@@ -5,6 +5,10 @@
 
   "supportEmail": "",
 
+  "featureConfig": {
+    "enableShowTripPatternPrice": true
+  },
+
   "urls": {
     "privacyDeclarationUrl": {
       "default": "https://svipper.no/meny/hjelp-og-kontakt/personvern-og-transportvilkar/"

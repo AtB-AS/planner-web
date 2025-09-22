@@ -11,6 +11,10 @@
     "name": "Nordland fylkeskommune"
   },
 
+  "featureConfig": {
+    "enableShowTripPatternPrice": true
+  },
+
   "urls": {
     "privacyDeclarationUrl": {
       "default": "https://www.reisnordland.no/personvern-og-cookies"

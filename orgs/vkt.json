@@ -12,6 +12,10 @@
     "name": "Vestfolld fylkeskommune"
   },
 
+  "featureConfig": {
+    "enableShowTripPatternPrice": false
+  },
+
   "urls": {
     "privacyDeclarationUrl": {
       "default": "https://www.vkt.no/vilkaar-og-personvern/personvern/"
