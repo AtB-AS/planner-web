@@ -120,8 +120,12 @@ export function EstimatedCallList({ quay }: EstimatedCallListProps) {
     const date = new Date(latestDeparture.aimedDepartureTime);
     const data = await nextDepartures(quay.id, date.toISOString());
 
-    const set = new Set(departures.map((departure) => departure));
-    const filteredDepartures = data.filter((departure) => !set.has(departure));
+    const getKey = (departure: ExtendedDepartureType) =>
+      `${departure.serviceJourney.id} - ${departure.aimedDepartureTime}`;
+    // Filter out departures we already have
+    const filteredDepartures = data.filter(
+      (departure) => !departures.find((d) => getKey(d) === getKey(departure)),
+    );
 
     setDepartures([...departures, ...filteredDepartures]);
     setIsFetchingDepartures(false);

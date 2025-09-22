@@ -32,7 +32,6 @@ export function DeparturesDetails({
   const focusedCall =
     serviceJourney.estimatedCalls.find((call) => call.quay.id === fromQuayId) ||
     serviceJourney.estimatedCalls[0];
-  const title = `${serviceJourney.line.publicCode} ${formatDestinationDisplay(t, focusedCall.destinationDisplay)}`;
   const realtimeText = useRealtimeText(
     serviceJourney.estimatedCalls.map((c) => ({
       actualDepartureTime: c.actualDepartureTime,
@@ -44,6 +43,19 @@ export function DeparturesDetails({
     })),
   );
 
+  if (!focusedCall)
+    return (
+      <section className={style.container}>
+        <div className={style.headerContainer}>
+          <MessageBox
+            type="error"
+            message={t(PageText.Departures.details.messages.noActiveItem)}
+          />
+        </div>
+      </section>
+    );
+
+  const title = `${serviceJourney.line.publicCode} ${formatDestinationDisplay(t, focusedCall.destinationDisplay)}`;
   const estimatedCallsWithMetadata = addMetadataToEstimatedCalls(
     serviceJourney.estimatedCalls,
     fromQuayId,

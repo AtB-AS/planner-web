@@ -42,7 +42,7 @@ export function useTheme() {
 
 export function useDarkMode(): [boolean, (value: boolean) => void] {
   const [enabledState, setEnabledState] = useDarkmodeCookie();
-  const forceTheme = getOrgData().fylkeskommune?.forceTheme;
+  const forceTheme = getOrgData().featureConfig.forceTheme;
   if (forceTheme) {
     return [forceTheme == 'dark', () => {}];
   }

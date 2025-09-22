@@ -11,7 +11,7 @@ import { useOrgThemeDefinitions } from '@atb/utils/org-theme-definitions.ts';
 export default function PageHeader() {
   const { t } = useTranslation();
   const { color } = useTheme();
-  const { fylkeskommune, urls } = getOrgData();
+  const { fylkeskommune, featureConfig, urls } = getOrgData();
 
   const { fylkeskommuneLogo, overrideMonoIconMode } = useOrgThemeDefinitions();
 
@@ -25,7 +25,7 @@ export default function PageHeader() {
               className={style.pageHeader__logoLink}
               data-testid="homeButton"
             >
-              {fylkeskommune?.replaceTitleWithLogoInHeader &&
+              {featureConfig.replaceTitleWithLogoInHeader &&
               fylkeskommuneLogo ? (
                 <Image
                   width={0}
@@ -33,7 +33,7 @@ export default function PageHeader() {
                   sizes="100vw"
                   style={{ width: '100%', height: 'auto' }}
                   src={fylkeskommuneLogo}
-                  alt={fylkeskommune.name}
+                  alt={fylkeskommune?.name || ''}
                 />
               ) : (
                 <>

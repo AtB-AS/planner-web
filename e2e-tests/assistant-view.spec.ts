@@ -29,7 +29,7 @@ test('Should fetch Kristiansund - Molde and loading more after first result', as
 
   await page.getByRole('button', { name: 'Filter' }).click();
   await page.getByText('Bus', { exact: true }).click();
-  await page.getByRole('button', { name: 'Find journey' }).click();
+  await page.getByRole('button', { name: 'Find trip' }).click();
 
   const tripPatternItem = page.getByTestId('tripPattern-0-0');
   await tripPatternItem.waitFor();

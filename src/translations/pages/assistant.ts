@@ -9,7 +9,11 @@ const AssistantInternal = {
   shortTitle: _('Reiseplanlegger', 'Assistant', 'Reiseplanleggar'),
   search: {
     input: {
-      label: _('Planlegg reise', 'Plan your journey', 'Planlegg reise'),
+      label: _(
+        'Hvor vil du reise?',
+        'Where do you want to travel?',
+        'Kor vil du reise?',
+      ),
       from: _('Fra', 'From', 'Frå'),
       to: _('Til', 'To', 'Til'),
       via: {
@@ -60,7 +64,7 @@ const AssistantInternal = {
     },
     buttons: {
       find: {
-        title: _('Finn reise', 'Find journey', 'Finn reise'),
+        title: _('Finn reise', 'Find trip', 'Finn reise'),
       },
       alternatives: {
         more: _('Filter', 'Filter', 'Filter'),
@@ -502,6 +506,11 @@ const AssistantInternal = {
           `Stay seated. The line number is changing from ${fromPublicCode} to ${toPublicCode}.`,
           `Bli sittande. Linjenummeret endrar seg frå ${fromPublicCode} til ${toPublicCode}.`,
         ),
+      buyTicketFrom: _(
+        'Billett kan kjøpes fra',
+        'Ticket can be bought from',
+        'Billett kan kjøpast frå',
+      ),
     },
     ticketBooking: {
       globalMessage: _(

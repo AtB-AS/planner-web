@@ -70,6 +70,7 @@ fragment legWithDetails on Leg {
   expectedEndTime
   realtime
   duration
+  serviceDate
   pointsOnLink {
     points
     length
@@ -163,9 +164,14 @@ fragment legWithDetails on Leg {
     }
   }
   authority {
-    id
-    name
+    ...authority
   }
+}
+
+fragment authority on Authority {
+  id
+  name
+  url
 }
 
 fragment notice on Notice {

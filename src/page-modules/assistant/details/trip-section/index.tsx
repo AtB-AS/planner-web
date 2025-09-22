@@ -26,6 +26,7 @@ import { RealtimeSection } from './realtime-section';
 import { getBookingStatus } from '@atb/modules/flexible';
 import { BookingSection } from './booking-section';
 import { ExtendedLegType } from '@atb/page-modules/assistant';
+import { AuthoritySection } from './authority-section';
 
 export type TripSectionProps = {
   isFirst: boolean;
@@ -200,13 +201,15 @@ export default function TripSection({
 
         {realtimeText && <RealtimeSection realtimeText={realtimeText} />}
 
+        {leg.authority && <AuthoritySection authority={leg.authority} />}
+
         <EstimatedCallsSection
           numberOfIntermediateEstimatedCalls={
             leg.intermediateEstimatedCalls.length
           }
           duration={leg.duration}
           serviceJourneyId={leg.serviceJourney?.id ?? null}
-          date={leg.aimedStartTime.split('T')[0]}
+          date={leg.serviceDate}
           fromQuayId={leg.fromPlace.quay?.id ?? null}
         />
 

@@ -4,6 +4,14 @@ Travel planner for OMS.
 
 ## Configuration and initial setup
 
+For initial start you can copy `.env.example` like so:
+
+```
+cp .env.example .env.local
+```
+
+And populate the `.env.local` file with settings for your org.
+
 ```
 # What ORG to activate (nfk | atb | fram | troms | vkt | farte)
 NEXT_PUBLIC_PLANNER_ORG_ID=atb
@@ -15,17 +23,9 @@ NEXT_PUBLIC_ENVIRONMENT=dev
 # ... etc
 ```
 
-See all additional configuration in `.env.example`. For initial start you can
-copy `.env.example` like so:
-
-```
-cp .env.example .env.local
-```
-
-And populate the `.env.local` file with settings for your org.
+See all additional configuration in `.env.example`.
 
 ### Setup & Running locally
-
 
 ```bash
 
@@ -39,36 +39,39 @@ yarn dev
 open http://localhost:3000
 ```
 
-
-
 ### Changing organization
+
 To easily change organization, change `NEXT_PUBLIC_PLANNER_ORG_ID` in your
 `.env.local` file and run:
+
 ```bash
 # Clean assets from old org and create new ones
 yarn refresh-assets
 ```
 
 ## Release
+
 ### Deploy to staging
 
 Changes to `main` branch will automatically be deployed to staging.
 
-You can see the status of each deploy [here](https://github.com/AtB-AS/planner-web/actions/workflows/docker.yml).
-
+You can see the status of each deploy
+[here](https://github.com/AtB-AS/planner-web/actions/workflows/docker.yml).
 
 ### Deploy to prod
-Built versions of the widget gets released as part of this release process. 
-See details below for how to build new widget versions.
+
+Built versions of the widget gets released as part of this release process. See
+details below for how to build new widget versions.
 
 1. Go to [Releases](https://github.com/AtB-AS/planner-web/releases)
 2. Changes to `main` branch will automatically create a new draft release
-3. Select previous released tag/version as base for the new release. This will automatically populate the changelog with all changes since the last release.
+3. Select previous released tag/version as base for the new release. This will
+   automatically populate the changelog with all changes since the last release.
 4. Click "Generate release notes"
 5. Click "Publish release"
 
-You can see the status of the deploy [here](https://github.com/AtB-AS/planner-web/actions/workflows/docker.yml).
-
+You can see the status of the deploy
+[here](https://github.com/AtB-AS/planner-web/actions/workflows/docker.yml).
 
 ## Building Planner Widget code
 
@@ -80,8 +83,8 @@ yarn generate-widget
 
 This will place asset inside `public/widget/<VERSION>` which will be reachable
 through `http://localhost:3000/widget` or
-`http://localhost:3000/widget/<VERSION>` (omitting the version will
-default to the most recent one).
+`http://localhost:3000/widget/<VERSION>` (omitting the version will default to
+the most recent one).
 
 ### Releases and Widget Development
 
