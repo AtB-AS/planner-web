@@ -8,6 +8,7 @@ import {
   OfferFromLegsResponse,
   Traveller,
 } from '@atb/page-modules/assistant';
+import { getOrgData } from '@atb/modules/org-data';
 
 export function useOfferFromLegs(offerFromLegsProps: {
   travelDate: Date;
@@ -15,6 +16,8 @@ export function useOfferFromLegs(offerFromLegsProps: {
   travellers: Traveller[];
   products: string[];
 }) {
+  const { featureConfig } = getOrgData();
+
   const { travelDate, legs, travellers, products } = offerFromLegsProps;
   const legsToGetOfferFrom: LegToGetOfferFrom[] = legs.flatMap((leg) => {
     const parsedLegToGetOfferFrom = LegToGetOfferFromSchema.safeParse({
@@ -38,7 +41,9 @@ export function useOfferFromLegs(offerFromLegsProps: {
   };
 
   return useSWRImmutable<OfferFromLegsResponse>(
-    ['/api/assistant/offer-from-legs', requestBody],
+    featureConfig.enableShowTripPatternPrice
+      ? ['/api/assistant/offer-from-legs', requestBody]
+      : null,
     swrPostFetcher,
   );
 }

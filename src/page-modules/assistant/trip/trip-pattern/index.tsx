@@ -23,6 +23,7 @@ import {
 import { Button, ButtonLink } from '@atb/components/button';
 import { AssistantDetailsBody } from '@atb/page-modules/assistant/details-body';
 import { useOfferFromLegs } from '@atb/page-modules/sales/client/search';
+import { getOrgData } from '@atb/modules/org-data';
 
 const LAST_LEG_PADDING = 20;
 const DEFAULT_THRESHOLD_AIMED_EXPECTED_IN_SECONDS = 60;
@@ -42,6 +43,8 @@ export default function TripPattern({
   testId,
 }: TripPatternProps) {
   const { t, language } = useTranslation();
+
+  const { featureConfig } = getOrgData();
 
   const filteredLegs = getFilteredLegsByWalkOrWaitTime(tripPattern);
 
@@ -270,7 +273,9 @@ export default function TripPattern({
         </div>
         <footer className={style.footer} onClick={() => setIsOpen(!isOpen)}>
           <Typo.span textType="body__secondary" className={style.priceInfoText}>
-            {hasValidPrice && `${travellerTypeText}: ${priceInfoText}`}
+            {featureConfig.enableShowTripPatternPrice &&
+              hasValidPrice &&
+              `${travellerTypeText}: ${priceInfoText}`}
           </Typo.span>
           <Button
             title={
