@@ -15,6 +15,7 @@ import { withAccessLogging } from '@atb/modules/logging';
 import { getTransportModeFilter } from '@atb/modules/firebase/transport-mode-filter.ts';
 import qs from 'query-string';
 import { createTripQuery } from '@atb/page-modules/assistant/utils.ts';
+import { getPreassignedFareProducts } from '@atb/modules/firebase';
 
 export type AssistantContentProps =
   | { tripQuery: FromToTripQuery; empty: true }
@@ -91,12 +92,18 @@ export const getServerSideProps = withAccessLogging(
           };
         }
 
+        const preassignedFareProducts = await getPreassignedFareProducts();
+        const productIdsAvailableForOfferFromLegs = preassignedFareProducts
+          .filter((p) => p?.isEnabledForTripSearchOffer)
+          .map((p) => p.id);
+
         const potential = getAssistantTripIfCached(tripQuery);
 
         if (potential) {
           return {
             props: {
               tripQuery,
+              productIdsAvailableForOfferFromLegs,
               fallback: potential.trip,
             },
           };
@@ -105,6 +112,7 @@ export const getServerSideProps = withAccessLogging(
         return {
           props: {
             tripQuery,
+            productIdsAvailableForOfferFromLegs,
           },
         };
       },

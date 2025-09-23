@@ -34,6 +34,7 @@ type TripPatternProps = {
   delay: number;
   index: number;
   testId?: string;
+  productIdsAvailableForOfferFromLegs?: string[];
 };
 
 export default function TripPattern({
@@ -41,6 +42,7 @@ export default function TripPattern({
   delay,
   index,
   testId,
+  productIdsAvailableForOfferFromLegs,
 }: TripPatternProps) {
   const { t, language } = useTranslation();
 
@@ -101,18 +103,13 @@ export default function TripPattern({
     userType: 'ADULT',
   };
   const travellers = [adultTraveller]; // we don't know who the user is, so always default to adult which is non-discounted
-  // todo: get per OMS partner, firestore config
-  // todo: remove train for AtB? boat?
-  // potentially move it server side
-  const productsAvailableForOffer = [
-    'ATB:PreassignedFareProduct:8808c360', // single ticket v2
-  ];
+
   const { data: offerFromLegsResponse, isLoading: isLoadingOfferFromLegs } =
     useOfferFromLegs({
       travelDate: new Date(tripPattern.legs[0].expectedStartTime),
       legs: tripPattern.legs,
       travellers,
-      products: productsAvailableForOffer,
+      products: productIdsAvailableForOfferFromLegs ?? [], // todo: remove train for AtB? boat?
     });
 
   const hasValidPrice =
