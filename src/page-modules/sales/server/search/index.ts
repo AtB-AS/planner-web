@@ -16,10 +16,9 @@ export function createSalesSearchApi(
 ): SalesSearchApi {
   return {
     async offerFromLegs(offerFromLegsBody) {
-      const response = await request('/v1/search/trip-pattern', {
+      const response = await request('/internal/trip-pattern', {
         method: 'POST',
         body: JSON.stringify(offerFromLegsBody),
-        // todo: auth currently needed. Either sales stops requiring it, or add static auth here.
       });
 
       try {
