@@ -1,17 +1,13 @@
 import { ComponentText, useTranslation } from '@atb/translations';
 import { MonoIcon, MonoIconProps } from '@atb/components/icon';
 import { FeatureCategory } from '@atb/modules/geocoder';
+import style from './venue-icon.module.css';
 
 export type VenueIconProps = {
   categories: FeatureCategory[] | string[];
-  multiple?: boolean;
 } & Omit<MonoIconProps, 'icon'>;
 
-export default function VenueIcon({
-  categories,
-  multiple,
-  ...props
-}: VenueIconProps) {
+export default function VenueIcon({ categories, ...props }: VenueIconProps) {
   let venueIconTypes: VenueIconType[] = [];
 
   if (isFeatureCategory(categories)) {
@@ -24,13 +20,13 @@ export default function VenueIcon({
     return <MonoIcon icon="map/Pin" key="unknown" {...props} />;
   }
 
-  if (multiple) {
+  if (venueIconTypes.length > 1) {
     return (
-      <>
+      <div className={style.multipleContainer}>
         {venueIconTypes.map((it) => (
           <IconComponent iconType={it} key={it} {...props} />
         ))}
-      </>
+      </div>
     );
   }
 
