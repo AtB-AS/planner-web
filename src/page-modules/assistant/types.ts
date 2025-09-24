@@ -10,7 +10,8 @@ import {
 } from '@atb/page-modules/assistant/journey-gql/trip-with-details.generated.ts';
 import { MapLegType } from '@atb/components/map';
 import { Mode } from '@atb/modules/graphql-types/journeyplanner-types_v3.generated.ts';
-// import { TicketOffers } from '@atb-as/utils';
+import { UserProfile } from '@atb-as/config-specs';
+import { TicketOffers } from '@atb-as/utils';
 
 /**
  * IMPORTANT! READ THIS
@@ -165,7 +166,10 @@ export const LegToGetOfferFromSchema = z.object({
 
 export type LegToGetOfferFrom = z.infer<typeof LegToGetOfferFromSchema>;
 
-const TravellerSchema = z.object({ id: z.string(), userType: z.string() });
+const TravellerSchema = z.object({
+  id: z.string(),
+  userType: UserProfile.shape.userTypeString,
+});
 export type Traveller = z.infer<typeof TravellerSchema>;
 
 export const OfferFromLegsBodySchema = z.object({
@@ -178,7 +182,7 @@ export const OfferFromLegsBodySchema = z.object({
 export type OfferFromLegsBody = z.infer<typeof OfferFromLegsBodySchema>;
 
 export const OfferFromLegsResponseSchema = z.object({
-  // offers: TicketOffers, // something seems to go wrong with this type, and is not used
+  offers: TicketOffers,
   cheapestTotalPrice: z.number().nullable(),
 });
 export type OfferFromLegsResponse = z.infer<typeof OfferFromLegsResponseSchema>;

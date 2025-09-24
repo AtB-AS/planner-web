@@ -103,8 +103,8 @@ export const getServerSideProps = withAccessLogging(
           return {
             props: {
               tripQuery,
-              productIdsAvailableForOfferFromLegs,
               fallback: potential.trip,
+              productIdsAvailableForOfferFromLegs,
             },
           };
         }
