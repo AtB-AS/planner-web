@@ -12,11 +12,15 @@ import { formatToClock, isInPast, secondsBetween } from '@atb/utils/date';
 import { TripPatternHeader } from './trip-pattern-header';
 import { MonoIcon } from '@atb/components/icon';
 import { Typo } from '@atb/components/typography';
-import { TransportIconWithLabel } from '@atb/modules/transport-mode';
+import {
+  isSubModeBoat,
+  TransportIconWithLabel,
+} from '@atb/modules/transport-mode';
 import { andIf } from '@atb/utils/css';
 import { useRouter } from 'next/router';
 import { isLineFlexibleTransport } from '@atb/modules/flexible';
 import {
+  ExtendedLegType,
   ExtendedTripPatternWithDetailsType,
   Traveller,
 } from '@atb/page-modules/assistant';
@@ -24,6 +28,7 @@ import { Button, ButtonLink } from '@atb/components/button';
 import { AssistantDetailsBody } from '@atb/page-modules/assistant/details-body';
 import { useOfferFromLegs } from '@atb/page-modules/sales/client/search';
 import { getOrgData } from '@atb/modules/org-data';
+import { Mode } from '@atb/modules/graphql-types/journeyplanner-types_v3.generated';
 
 const LAST_LEG_PADDING = 20;
 const DEFAULT_THRESHOLD_AIMED_EXPECTED_IN_SECONDS = 60;
@@ -104,12 +109,32 @@ export default function TripPattern({
   };
   const travellers = [adultTraveller]; // we don't know who the user is, so always default to adult which is non-discounted
 
+  let products = productIdsAvailableForOfferFromLegs ?? [];
+
+  // edge case for AtB for trips with both boat and non-boat legs
+  // should be removed once the search trippattern endpoint supports it
+  if (getOrgData().orgId === 'atb') {
+    const isBoatLeg = (leg: ExtendedLegType) =>
+      leg.mode === Mode.Water &&
+      leg.transportSubmode &&
+      isSubModeBoat([leg.transportSubmode]);
+
+    const hasBoatLeg = tripPattern.legs.some(isBoatLeg);
+    const hasNonBoatLeg = tripPattern.legs.some(
+      (leg: ExtendedLegType) => !isBoatLeg(leg),
+    );
+
+    if (hasBoatLeg && hasNonBoatLeg) {
+      products = [];
+    }
+  }
+
   const { data: offerFromLegsResponse, isLoading: isLoadingOfferFromLegs } =
     useOfferFromLegs({
       travelDate: new Date(tripPattern.legs[0].expectedStartTime),
       legs: tripPattern.legs,
       travellers,
-      products: productIdsAvailableForOfferFromLegs ?? [], // todo: remove train for AtB? boat?
+      products,
     });
 
   const hasValidPrice =
