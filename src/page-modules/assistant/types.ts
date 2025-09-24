@@ -181,6 +181,7 @@ export const OfferFromLegsBodySchema = z.object({
 });
 export type OfferFromLegsBody = z.infer<typeof OfferFromLegsBodySchema>;
 
+// https://github.com/AtB-AS/sales/blob/main/sales-service/src/trip_pattern.rs#L20-L23
 export const OfferFromLegsResponseSchema = z.object({
   offers: TicketOffers,
   cheapestTotalPrice: z.number().nullable(),
