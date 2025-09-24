@@ -28,7 +28,7 @@ import { Button, ButtonLink } from '@atb/components/button';
 import { AssistantDetailsBody } from '@atb/page-modules/assistant/details-body';
 import { useOfferFromLegs } from '@atb/page-modules/sales/client/search';
 import { getOrgData } from '@atb/modules/org-data';
-import { Mode } from '@atb/modules/graphql-types/journeyplanner-types_v3.generated';
+import { Mode } from '@atb/modules/graphql-types';
 
 const LAST_LEG_PADDING = 20;
 const DEFAULT_THRESHOLD_AIMED_EXPECTED_IN_SECONDS = 60;
