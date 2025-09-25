@@ -9,6 +9,7 @@ import {
   Traveller,
 } from '@atb/page-modules/assistant';
 import { getOrgData } from '@atb/modules/org-data';
+import { isDefined } from '@atb/utils/presence';
 
 export function useOfferFromLegs(offerFromLegsProps: {
   travelDate: Date;
@@ -19,18 +20,18 @@ export function useOfferFromLegs(offerFromLegsProps: {
   const { featureConfig } = getOrgData();
 
   const { travelDate, legs, travellers, products } = offerFromLegsProps;
-  const legsToGetOfferFrom: LegToGetOfferFrom[] = legs.flatMap((leg) => {
-    const parsedLegToGetOfferFrom = LegToGetOfferFromSchema.safeParse({
-      fromStopPlaceId: leg.fromPlace.quay?.stopPlace?.id,
-      toStopPlaceId: leg.toPlace.quay?.stopPlace?.id,
-      serviceJourneyId: leg.serviceJourney?.id,
-      mode: leg.mode,
-      travelDate: leg.expectedStartTime.split('T')[0],
-    });
-    return parsedLegToGetOfferFrom.success
-      ? [parsedLegToGetOfferFrom.data]
-      : [];
-  });
+  const legsToGetOfferFrom: LegToGetOfferFrom[] = legs
+    .map(
+      (leg) =>
+        LegToGetOfferFromSchema.safeParse({
+          fromStopPlaceId: leg.fromPlace.quay?.stopPlace?.id,
+          toStopPlaceId: leg.toPlace.quay?.stopPlace?.id,
+          serviceJourneyId: leg.serviceJourney?.id,
+          mode: leg.mode,
+          travelDate: leg.expectedStartTime.split('T')[0],
+        }).data,
+    )
+    .filter(isDefined);
 
   const requestBody: OfferFromLegsBody = {
     travellers,
