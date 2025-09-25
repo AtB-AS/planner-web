@@ -9,6 +9,7 @@ import { isDefined } from '@atb/utils/presence';
 /**
  * NB! This retrieves preassignedFareProducts_v2 directly from firestore instead of via sales svc.
  * Be aware - future use cases may require going through sales svc.
+ * Any personalised tickets such as HjemJobbHjem need to go throug sales svc.
  */
 export async function getPreassignedFareProducts(): Promise<
   PreassignedFareProductType[]
