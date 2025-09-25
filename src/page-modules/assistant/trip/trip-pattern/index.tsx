@@ -1,11 +1,7 @@
 import { useClientWidth } from '@atb/utils/use-client-width';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Fragment, useEffect, useId, useState } from 'react';
-import {
-  formatNumberToString,
-  getFilteredLegsByWalkOrWaitTime,
-  tripSummary,
-} from './utils';
+import { getFilteredLegsByWalkOrWaitTime, tripSummary } from './utils';
 import { PageText, useTranslation } from '@atb/translations';
 import style from './trip-pattern.module.css';
 import { formatToClock, isInPast, secondsBetween } from '@atb/utils/date';
@@ -29,6 +25,7 @@ import { AssistantDetailsBody } from '@atb/page-modules/assistant/details-body';
 import { useOfferFromLegs } from '@atb/page-modules/sales/client/search';
 import { getOrgData } from '@atb/modules/org-data';
 import { Mode } from '@atb/modules/graphql-types';
+import { formatNumberToString } from '@atb-as/utils';
 
 const LAST_LEG_PADDING = 20;
 const DEFAULT_THRESHOLD_AIMED_EXPECTED_IN_SECONDS = 60;

@@ -119,10 +119,10 @@
   dependencies:
     postcss-functions "4.0.2"
 
-"@atb-as/utils@^5.0.0":
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/@atb-as/utils/-/utils-5.0.0.tgz#9af96bfc8a6d6f8dc7c86ab9f341f4c8a981b028"
-  integrity sha512-Mf2rLb4lvjEjI+DoCs+qp/nVukKYI5cDeJwuK0MW+rQ3SkBGHTP0sq4sfTnyXIN4nAiu2MluXVQuMCyhaOISww==
+"@atb-as/utils@^5.1.1":
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/@atb-as/utils/-/utils-5.1.1.tgz#b860fdd80a62811acd999b79036176b5c98302a3"
+  integrity sha512-R54mo0VfcmTH5ZMVKuuFG+McEqfbcq8VSOkMDT6USktc0xfRw9waJOYa80D1Z0DKhT+7wqhyOvffDoQXGUPEaw==
   dependencies:
     lodash "^4.17.21"
 
