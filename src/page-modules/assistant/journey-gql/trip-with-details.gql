@@ -184,6 +184,9 @@ fragment quay on Quay {
   name
   description
   id
+  stopPlace {
+    id
+  }
   situations {
     ...situation
   }
