@@ -6,6 +6,7 @@ type LogPageAccessParams = {
   duration: number;
   url?: string;
   method?: string;
+  statusCode?: number;
   requestHeaders?: IncomingHttpHeaders;
   propsResult?: GetServerSidePropsResult<any>;
 };
@@ -21,6 +22,7 @@ export function logPageAccess({
   url,
   method,
   requestHeaders,
+  statusCode,
   propsResult,
 }: LogPageAccessParams) {
   (async () => {
@@ -37,6 +39,7 @@ export function logPageAccess({
       message: 'page access',
       time: new Date().toISOString(),
       requestId: requestHeaders?.['requestId'],
+      code: statusCode,
       clientIpAddress: requestHeaders?.['client-ip-address'],
       resolvedProps: stringifiedProps,
     };
