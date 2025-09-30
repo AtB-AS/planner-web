@@ -19,6 +19,7 @@ export function withAccessLogging<
       method: ctx.req?.method,
       requestHeaders: ctx.req?.headers,
       duration: timer.getElapsedMs(),
+      statusCode: ctx.res?.statusCode,
       propsResult,
     });
     return propsResult ?? { props: {} as P };
