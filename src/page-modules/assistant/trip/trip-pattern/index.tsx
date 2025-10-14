@@ -22,7 +22,7 @@ import {
 } from '@atb/page-modules/assistant';
 import { Button, ButtonLink } from '@atb/components/button';
 import { AssistantDetailsBody } from '@atb/page-modules/assistant/details-body';
-import { useOfferFromLegs } from '@atb/page-modules/sales/client/search';
+import { useTripPatternPrice } from '@atb/page-modules/sales/client/search';
 import { getOrgData } from '@atb/modules/org-data';
 import { Mode } from '@atb/modules/graphql-types';
 import { formatNumberToString } from '@atb-as/utils';
@@ -36,7 +36,7 @@ type TripPatternProps = {
   delay: number;
   index: number;
   testId?: string;
-  productIdsAvailableForOfferFromLegs?: string[];
+  productIdsAvailableForTripPatternPrice?: string[];
 };
 
 export default function TripPattern({
@@ -44,7 +44,7 @@ export default function TripPattern({
   delay,
   index,
   testId,
-  productIdsAvailableForOfferFromLegs,
+  productIdsAvailableForTripPatternPrice,
 }: TripPatternProps) {
   const { t, language } = useTranslation();
 
@@ -106,7 +106,7 @@ export default function TripPattern({
   };
   const travellers = [adultTraveller]; // we don't know who the user is, so always default to adult which is non-discounted
 
-  let products = productIdsAvailableForOfferFromLegs ?? [];
+  let products = productIdsAvailableForTripPatternPrice ?? [];
 
   // edge case for AtB for trips with both boat and non-boat legs
   // should be removed once the search trippattern endpoint supports it
@@ -126,17 +126,19 @@ export default function TripPattern({
     }
   }
 
-  const { data: offerFromLegsResponse, isLoading: isLoadingOfferFromLegs } =
-    useOfferFromLegs({
-      travelDate: new Date(tripPattern.legs[0].expectedStartTime),
-      legs: tripPattern.legs,
-      travellers,
-      products,
-    });
+  const {
+    data: tripPatternPriceResponse,
+    isLoading: isLoadingTripPatternPrice,
+  } = useTripPatternPrice({
+    travelDate: new Date(tripPattern.legs[0].expectedStartTime),
+    legs: tripPattern.legs,
+    travellers,
+    products,
+  });
 
   const hasValidPrice =
-    typeof offerFromLegsResponse?.cheapestTotalPrice === 'number' &&
-    !isLoadingOfferFromLegs;
+    typeof tripPatternPriceResponse?.cheapestTotalPrice === 'number' &&
+    !isLoadingTripPatternPrice;
 
   const travellerTypeText = t(
     PageText.Assistant.trip.tripPattern.userType(travellers[0]?.userType),
@@ -144,7 +146,7 @@ export default function TripPattern({
   const priceInfoText = t(
     PageText.Assistant.trip.tripPattern.priceInfo(
       formatNumberToString(
-        offerFromLegsResponse?.cheapestTotalPrice ?? 0,
+        tripPatternPriceResponse?.cheapestTotalPrice ?? 0,
         language,
       ),
     ),

@@ -93,7 +93,7 @@ export const getServerSideProps = withAccessLogging(
         }
 
         const preassignedFareProducts = await getPreassignedFareProducts();
-        const productIdsAvailableForOfferFromLegs = preassignedFareProducts
+        const productIdsAvailableForTripPatternPrice = preassignedFareProducts
           .filter((p) => p?.isEnabledForTripSearchOffer)
           .map((p) => p.id);
 
@@ -104,7 +104,7 @@ export const getServerSideProps = withAccessLogging(
             props: {
               tripQuery,
               fallback: potential.trip,
-              productIdsAvailableForOfferFromLegs,
+              productIdsAvailableForTripPatternPrice,
             },
           };
         }
@@ -112,7 +112,7 @@ export const getServerSideProps = withAccessLogging(
         return {
           props: {
             tripQuery,
-            productIdsAvailableForOfferFromLegs,
+            productIdsAvailableForTripPatternPrice,
           },
         };
       },

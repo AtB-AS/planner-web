@@ -157,33 +157,36 @@ export type TripWithDetailsType = TripsWithDetailsQuery & {
 export type BookingArrangementType =
   TripWithDetailsType['trip']['tripPatterns'][number]['legs'][number]['bookingArrangements'];
 
-export const LegToGetOfferFromSchema = z.object({
-  travelDate: z.string(),
-  fromStopPlaceId: z.string(),
-  toStopPlaceId: z.string(),
-  serviceJourneyId: z.string(),
-});
-
-export type LegToGetOfferFrom = z.infer<typeof LegToGetOfferFromSchema>;
-
 const TravellerSchema = z.object({
   id: z.string(),
   userType: UserProfile.shape.userTypeString,
 });
 export type Traveller = z.infer<typeof TravellerSchema>;
 
-export const OfferFromLegsBodySchema = z.object({
+export const LegToGetPriceFromSchema = z.object({
+  travelDate: z.string(),
+  fromStopPlaceId: z.string(),
+  toStopPlaceId: z.string(),
+  serviceJourneyId: z.string(),
+});
+
+export type LegToGetPriceFrom = z.infer<typeof LegToGetPriceFromSchema>;
+
+export const TripPatternPriceRequestBodySchema = z.object({
   travellers: z.array(TravellerSchema),
   travelDate: z.string(),
   products: z.array(z.string()),
   isOnBehalfOf: z.boolean(),
-  legs: z.array(LegToGetOfferFromSchema),
+  legs: z.array(LegToGetPriceFromSchema),
 });
-export type OfferFromLegsBody = z.infer<typeof OfferFromLegsBodySchema>;
+export type TripPatternPriceRequestBody = z.infer<
+  typeof TripPatternPriceRequestBodySchema
+>;
 
-// https://github.com/AtB-AS/sales/blob/main/sales-service/src/trip_pattern.rs#L20-L23
-export const OfferFromLegsResponseSchema = z.object({
-  offers: TicketOffers,
+// https://github.com/AtB-AS/sales/blob/main/sales-service/src/trip_pattern.rs#L35
+export const TripPatternPriceResponseSchema = z.object({
   cheapestTotalPrice: z.number().nullable(),
 });
-export type OfferFromLegsResponse = z.infer<typeof OfferFromLegsResponseSchema>;
+export type TripPatternPriceResponse = z.infer<
+  typeof TripPatternPriceResponseSchema
+>;

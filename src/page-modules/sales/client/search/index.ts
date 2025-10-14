@@ -2,16 +2,16 @@ import useSWRImmutable from 'swr/immutable';
 import { swrPostFetcher } from '@atb/modules/api-browser';
 import {
   ExtendedLegType,
-  LegToGetOfferFrom,
-  LegToGetOfferFromSchema,
-  OfferFromLegsBody,
-  OfferFromLegsResponse,
+  LegToGetPriceFromSchema,
+  LegToGetPriceFrom,
   Traveller,
+  TripPatternPriceRequestBody,
+  TripPatternPriceResponse,
 } from '@atb/page-modules/assistant';
 import { getOrgData } from '@atb/modules/org-data';
 import { isDefined } from '@atb/utils/presence';
 
-export function useOfferFromLegs(offerFromLegsProps: {
+export function useTripPatternPrice(tripPatternPriceProps: {
   travelDate: Date;
   legs: ExtendedLegType[];
   travellers: Traveller[];
@@ -19,11 +19,11 @@ export function useOfferFromLegs(offerFromLegsProps: {
 }) {
   const { featureConfig } = getOrgData();
 
-  const { travelDate, legs, travellers, products } = offerFromLegsProps;
-  const legsToGetOfferFrom: LegToGetOfferFrom[] = legs
+  const { travelDate, legs, travellers, products } = tripPatternPriceProps;
+  const legsToGetPriceFrom: LegToGetPriceFrom[] = legs
     .map(
       (leg) =>
-        LegToGetOfferFromSchema.safeParse({
+        LegToGetPriceFromSchema.safeParse({
           fromStopPlaceId: leg.fromPlace.quay?.stopPlace?.id,
           toStopPlaceId: leg.toPlace.quay?.stopPlace?.id,
           serviceJourneyId: leg.serviceJourney?.id,
@@ -33,17 +33,17 @@ export function useOfferFromLegs(offerFromLegsProps: {
     )
     .filter(isDefined);
 
-  const requestBody: OfferFromLegsBody = {
+  const requestBody: TripPatternPriceRequestBody = {
     travellers,
     travelDate: travelDate.toISOString(),
     products,
-    legs: legsToGetOfferFrom,
+    legs: legsToGetPriceFrom,
     isOnBehalfOf: false,
   };
 
-  return useSWRImmutable<OfferFromLegsResponse>(
+  return useSWRImmutable<TripPatternPriceResponse>(
     featureConfig.enableShowTripPatternPrice
-      ? ['/api/assistant/offer-from-legs', requestBody]
+      ? ['/api/assistant/trip-pattern-price', requestBody]
       : null,
     swrPostFetcher,
   );

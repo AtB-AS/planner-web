@@ -1,28 +1,29 @@
 import { HttpRequester, genericError } from '@atb/modules/api-server';
 import {
-  OfferFromLegsBody,
-  OfferFromLegsResponse,
-  OfferFromLegsResponseSchema,
+  TripPatternPriceRequestBody,
+  TripPatternPriceResponse,
+  TripPatternPriceResponseSchema,
 } from '@atb/page-modules/assistant';
 
 export type SalesSearchApi = {
-  offerFromLegs(
-    offerFromLegsBody: OfferFromLegsBody,
-  ): Promise<OfferFromLegsResponse>;
+  tripPatternPrice(
+    tripPatternPriceRequestBody: TripPatternPriceRequestBody,
+  ): Promise<TripPatternPriceResponse>;
 };
 
 export function createSalesSearchApi(
   request: HttpRequester<'http-sales'>,
 ): SalesSearchApi {
   return {
-    async offerFromLegs(offerFromLegsBody) {
-      const response = await request('/internal/trip-pattern', {
+    async tripPatternPrice(tripPatternPriceRequestBody) {
+      const response = await request('/v1/search/trip-pattern/price', {
         method: 'POST',
-        body: JSON.stringify(offerFromLegsBody),
+        body: JSON.stringify(tripPatternPriceRequestBody),
+        headers: { 'atb-distribution-channel': 'Web' },
       });
 
       try {
-        return OfferFromLegsResponseSchema.parse(await response.json());
+        return TripPatternPriceResponseSchema.parse(await response.json());
       } catch {
         throw genericError();
       }
