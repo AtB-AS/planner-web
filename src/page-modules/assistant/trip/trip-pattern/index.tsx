@@ -8,24 +8,14 @@ import { formatToClock, isInPast, secondsBetween } from '@atb/utils/date';
 import { TripPatternHeader } from './trip-pattern-header';
 import { MonoIcon } from '@atb/components/icon';
 import { Typo } from '@atb/components/typography';
-import {
-  isSubModeBoat,
-  TransportIconWithLabel,
-} from '@atb/modules/transport-mode';
+import { TransportIconWithLabel } from '@atb/modules/transport-mode';
 import { andIf } from '@atb/utils/css';
 import { useRouter } from 'next/router';
 import { isLineFlexibleTransport } from '@atb/modules/flexible';
-import {
-  ExtendedLegType,
-  ExtendedTripPatternWithDetailsType,
-  Traveller,
-} from '@atb/page-modules/assistant';
+import { ExtendedTripPatternWithDetailsType } from '@atb/page-modules/assistant';
 import { Button, ButtonLink } from '@atb/components/button';
 import { AssistantDetailsBody } from '@atb/page-modules/assistant/details-body';
-import { useTripPatternPrice } from '@atb/page-modules/sales/client/search';
-import { getOrgData } from '@atb/modules/org-data';
-import { Mode } from '@atb/modules/graphql-types';
-import { formatNumberToString } from '@atb-as/utils';
+import { Price } from './price';
 
 const LAST_LEG_PADDING = 20;
 const DEFAULT_THRESHOLD_AIMED_EXPECTED_IN_SECONDS = 60;
@@ -47,8 +37,6 @@ export default function TripPattern({
   productIdsAvailableForTripPatternPrice,
 }: TripPatternProps) {
   const { t, language } = useTranslation();
-
-  const { featureConfig } = getOrgData();
 
   const filteredLegs = getFilteredLegsByWalkOrWaitTime(tripPattern);
 
@@ -99,58 +87,6 @@ export default function TripPattern({
   const isNotLastLeg = (i: number) => {
     return i < expandedLegs.length - 1 || collapsedLegs.length > 0;
   };
-
-  const adultTraveller: Traveller = {
-    id: 'adultAnonymousTraveller',
-    userType: 'ADULT',
-  };
-  const travellers = [adultTraveller]; // we don't know who the user is, so always default to adult which is non-discounted
-
-  let products = productIdsAvailableForTripPatternPrice ?? [];
-
-  // edge case for AtB for trips with both boat and non-boat legs
-  // should be removed once the search trippattern endpoint supports it
-  if (getOrgData().orgId === 'atb') {
-    const isBoatLeg = (leg: ExtendedLegType) =>
-      leg.mode === Mode.Water &&
-      leg.transportSubmode &&
-      isSubModeBoat([leg.transportSubmode]);
-
-    const hasBoatLeg = tripPattern.legs.some(isBoatLeg);
-    const hasNonBoatLeg = tripPattern.legs.some(
-      (leg: ExtendedLegType) => !isBoatLeg(leg),
-    );
-
-    if (hasBoatLeg && hasNonBoatLeg) {
-      products = [];
-    }
-  }
-
-  const {
-    data: tripPatternPriceResponse,
-    isLoading: isLoadingTripPatternPrice,
-  } = useTripPatternPrice({
-    travelDate: new Date(tripPattern.legs[0].serviceDate),
-    legs: tripPattern.legs,
-    travellers,
-    products,
-  });
-
-  const hasValidPrice =
-    typeof tripPatternPriceResponse?.cheapestTotalPrice === 'number' &&
-    !isLoadingTripPatternPrice;
-
-  const travellerTypeText = t(
-    PageText.Assistant.trip.tripPattern.userType(travellers[0]?.userType),
-  );
-  const priceInfoText = t(
-    PageText.Assistant.trip.tripPattern.priceInfo(
-      formatNumberToString(
-        tripPatternPriceResponse?.cheapestTotalPrice ?? 0,
-        language,
-      ),
-    ),
-  );
 
   return (
     <div className={style.tripPatternContainer}>
@@ -293,11 +229,12 @@ export default function TripPattern({
           </div>
         </div>
         <footer className={style.footer} onClick={() => setIsOpen(!isOpen)}>
-          <Typo.span textType="body__secondary" className={style.priceInfoText}>
-            {featureConfig.enableShowTripPatternPrice &&
-              hasValidPrice &&
-              `${travellerTypeText}: ${priceInfoText}`}
-          </Typo.span>
+          <Price
+            tripPattern={tripPattern}
+            productIdsAvailableForTripPatternPrice={
+              productIdsAvailableForTripPatternPrice
+            }
+          />
           <Button
             title={
               isOpen

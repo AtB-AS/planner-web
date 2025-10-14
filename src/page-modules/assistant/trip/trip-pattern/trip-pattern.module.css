@@ -156,10 +156,6 @@
   background-color: token('color.interactive.0.default.background');
 }
 
-.priceInfoText {
-  color: token('color.foreground.dynamic.secondary');
-}
-
 .accordionBody {
   padding: token('spacing.medium');
 }
