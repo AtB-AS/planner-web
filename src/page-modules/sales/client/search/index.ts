@@ -28,7 +28,7 @@ export function useTripPatternPrice(tripPatternPriceProps: {
           toStopPlaceId: leg.toPlace.quay?.stopPlace?.id,
           serviceJourneyId: leg.serviceJourney?.id,
           mode: leg.mode,
-          travelDate: leg.expectedStartTime.split('T')[0],
+          travelDate: leg.serviceDate,
         }).data,
     )
     .filter(isDefined);

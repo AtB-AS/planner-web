@@ -130,7 +130,7 @@ export default function TripPattern({
     data: tripPatternPriceResponse,
     isLoading: isLoadingTripPatternPrice,
   } = useTripPatternPrice({
-    travelDate: new Date(tripPattern.legs[0].expectedStartTime),
+    travelDate: new Date(tripPattern.legs[0].serviceDate),
     legs: tripPattern.legs,
     travellers,
     products,
