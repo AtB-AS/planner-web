@@ -5,7 +5,7 @@ import {
   LegToGetPriceFromSchema,
   LegToGetPriceFrom,
   Traveller,
-  TripPatternPriceRequestBody,
+  TripPatternPriceRequestBodySchema,
   TripPatternPriceResponse,
 } from '@atb/page-modules/assistant';
 import { getOrgData } from '@atb/modules/org-data';
@@ -33,17 +33,18 @@ export function useTripPatternPrice(tripPatternPriceProps: {
     )
     .filter(isDefined);
 
-  const requestBody: TripPatternPriceRequestBody = {
+  // includes length check for products
+  const requestBodyRes = TripPatternPriceRequestBodySchema.safeParse({
     travellers,
     travelDate: travelDate.toISOString(),
     products,
     legs: legsToGetPriceFrom,
     isOnBehalfOf: false,
-  };
+  });
 
   return useSWRImmutable<TripPatternPriceResponse>(
-    featureConfig.enableShowTripPatternPrice
-      ? ['/api/assistant/trip-pattern-price', requestBody]
+    featureConfig.enableShowTripPatternPrice && requestBodyRes.success
+      ? ['/api/assistant/trip-pattern-price', requestBodyRes.data]
       : null,
     swrPostFetcher,
   );

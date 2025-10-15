@@ -159,7 +159,7 @@ export type BookingArrangementType =
 
 const TravellerSchema = z.object({
   id: z.string(),
-  userType: UserProfile.shape.userTypeString,
+  userType: z.string(),
 });
 export type Traveller = z.infer<typeof TravellerSchema>;
 
@@ -175,7 +175,7 @@ export type LegToGetPriceFrom = z.infer<typeof LegToGetPriceFromSchema>;
 export const TripPatternPriceRequestBodySchema = z.object({
   travellers: z.array(TravellerSchema),
   travelDate: z.string(),
-  products: z.array(z.string()),
+  products: z.array(z.string()).min(1),
   isOnBehalfOf: z.boolean(),
   legs: z.array(LegToGetPriceFromSchema),
 });
