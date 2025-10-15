@@ -173,11 +173,11 @@ export const LegToGetPriceFromSchema = z.object({
 export type LegToGetPriceFrom = z.infer<typeof LegToGetPriceFromSchema>;
 
 export const TripPatternPriceRequestBodySchema = z.object({
-  travellers: z.array(TravellerSchema),
+  travellers: z.array(TravellerSchema).min(1),
   travelDate: z.string(),
   products: z.array(z.string()).min(1),
   isOnBehalfOf: z.boolean(),
-  legs: z.array(LegToGetPriceFromSchema),
+  legs: z.array(LegToGetPriceFromSchema).min(1),
 });
 export type TripPatternPriceRequestBody = z.infer<
   typeof TripPatternPriceRequestBodySchema

@@ -33,7 +33,6 @@ export function useTripPatternPrice(tripPatternPriceProps: {
     )
     .filter(isDefined);
 
-  // includes length check for products
   const requestBodyRes = TripPatternPriceRequestBodySchema.safeParse({
     travellers,
     travelDate: travelDate.toISOString(),
