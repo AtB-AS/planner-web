@@ -18,8 +18,9 @@ const isNonEmptyString = (value: string): boolean =>
 const isDigitsOnly = (value: string): boolean => /^\d+$/.test(value);
 
 const hasExpectedLength =
-  (expectedLength: number) => (value: string | undefined) =>
-    value?.length === expectedLength;
+  (...expectedLengths: number[]) =>
+  (value: string | undefined) =>
+    expectedLengths.includes(value?.length ?? 0);
 
 const hasExpectedLengthRange =
   (min: number, max: number) => (value: string | undefined) =>
@@ -292,7 +293,7 @@ const rulesOrderId: ValidationRule[] = [
     validate: (_orderId: string) => {
       if (_orderId.includes(',')) return true; // Possibly multiple orderIds. If so, skip to next rule.
       const cleanedOrderId = removeWhitespace(_orderId);
-      return hasExpectedLength(8)(cleanedOrderId);
+      return hasExpectedLength(6, 8)(cleanedOrderId);
     },
     errorMessage:
       PageText.Contact.input.orderId.errorMessages.invalidFormat.singleId,
@@ -300,7 +301,7 @@ const rulesOrderId: ValidationRule[] = [
   {
     validate: (_orderIdsString: string) => {
       const orderIds = removeWhitespace(_orderIdsString).split(',');
-      return orderIds.every((orderId) => hasExpectedLength(8)(orderId));
+      return orderIds.every((orderId) => hasExpectedLength(6, 8)(orderId));
     },
     errorMessage:
       PageText.Contact.input.orderId.errorMessages.invalidFormat.multipleIds,
