@@ -3,10 +3,12 @@ import { ButtonLink } from '@atb/components/button';
 import { ComponentText, useTranslation } from '@atb/translations';
 import { and } from '@atb/utils/css';
 import { MonoIcon } from '@atb/components/icon';
+
 import {
   transportModeToTranslatedString,
   getTransportModeIcon,
   TransportModeType,
+  TransportIcon,
 } from '@atb/modules/transport-mode';
 
 export type MapHeaderProps = {
@@ -29,17 +31,16 @@ export function MapHeader({
         <div className={style.header__icons}>
           {layer === 'address' || !transportModes ? (
             <div>
-              <MonoIcon size="large" icon="map/Pin" overrideMode="dark" />
+              <MonoIcon size="large" icon="map/Pin" />
             </div>
           ) : (
             transportModes.map((transportMode) => (
               <div key={`${transportMode}-icon`}>
-                <MonoIcon
+                <TransportIcon
+                  mode={{
+                    transportMode: transportMode,
+                  }}
                   size="large"
-                  overrideMode="dark"
-                  icon={getTransportModeIcon({ transportMode })}
-                  role="img"
-                  alt={t(transportModeToTranslatedString({ transportMode }))}
                 />
               </div>
             ))
