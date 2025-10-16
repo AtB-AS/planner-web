@@ -15,6 +15,7 @@ import { isLineFlexibleTransport } from '@atb/modules/flexible';
 import { ExtendedTripPatternWithDetailsType } from '@atb/page-modules/assistant';
 import { Button, ButtonLink } from '@atb/components/button';
 import { AssistantDetailsBody } from '@atb/page-modules/assistant/details-body';
+import { Price } from './price';
 
 const LAST_LEG_PADDING = 20;
 const DEFAULT_THRESHOLD_AIMED_EXPECTED_IN_SECONDS = 60;
@@ -25,6 +26,7 @@ type TripPatternProps = {
   delay: number;
   index: number;
   testId?: string;
+  productIdsAvailableForTripPatternPrice?: string[];
 };
 
 export default function TripPattern({
@@ -32,6 +34,7 @@ export default function TripPattern({
   delay,
   index,
   testId,
+  productIdsAvailableForTripPatternPrice,
 }: TripPatternProps) {
   const { t, language } = useTranslation();
 
@@ -226,6 +229,12 @@ export default function TripPattern({
           </div>
         </div>
         <footer className={style.footer} onClick={() => setIsOpen(!isOpen)}>
+          <Price
+            tripPattern={tripPattern}
+            productIdsAvailableForTripPatternPrice={
+              productIdsAvailableForTripPatternPrice
+            }
+          />
           <Button
             title={
               isOpen

@@ -69,10 +69,10 @@
   dependencies:
     node-fetch "^2.6.1"
 
-"@atb-as/config-specs@^7.1.0":
-  version "7.1.0"
-  resolved "https://registry.yarnpkg.com/@atb-as/config-specs/-/config-specs-7.1.0.tgz#f856fc9a6e412a36a60d8a2e28b3781544e3e5f2"
-  integrity sha512-8UWGAbotaI8RhTV5dudpAL2KU30eYPob5NQC9JTkpxM8dxO0OVEfkwdm4L5kcwW7A0HzWM/LE2m7LmJflvfXAg==
+"@atb-as/config-specs@^7.4.0":
+  version "7.4.0"
+  resolved "https://registry.yarnpkg.com/@atb-as/config-specs/-/config-specs-7.4.0.tgz#7140497631015b2a448a07023554c41fab4d00a6"
+  integrity sha512-qInwVjilj2XLzS8OpoLyaN2lIbw6jLzawNyAcbcGKtgku+bILr4+YVfq82MnmaifAjivGsAAg2R6N5cxcZT0DQ==
   dependencies:
     ajv "^8.12.0"
     ajv-formats "^2.1.1"
@@ -118,6 +118,13 @@
   integrity sha512-ZeMfhAq46kWVL0aFzVfhoQN1i3xKRUEvPhAQ4NcQaSdPYGqlJaQ6cjHEmFTdpZWR06usfY8Cd6Jo8gYXgDAprA==
   dependencies:
     postcss-functions "4.0.2"
+
+"@atb-as/utils@^5.1.1":
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/@atb-as/utils/-/utils-5.1.1.tgz#b860fdd80a62811acd999b79036176b5c98302a3"
+  integrity sha512-R54mo0VfcmTH5ZMVKuuFG+McEqfbcq8VSOkMDT6USktc0xfRw9waJOYa80D1Z0DKhT+7wqhyOvffDoQXGUPEaw==
+  dependencies:
+    lodash "^4.17.21"
 
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.10.4", "@babel/code-frame@^7.22.13":
   version "7.22.13"
@@ -12025,12 +12032,12 @@ zod-to-json-schema@^3.24.5:
   resolved "https://registry.yarnpkg.com/zod-to-json-schema/-/zod-to-json-schema-3.24.6.tgz#5920f020c4d2647edfbb954fa036082b92c9e12d"
   integrity sha512-h/z3PKvcTcTetyjl1fkj79MHNEjm+HpD6NXheWjzOekY7kV+lwDYnHw+ivHkijnCSMz1yJaWBD9vu/Fcmk+vEg==
 
+zod@4.1.11:
+  version "4.1.11"
+  resolved "https://registry.yarnpkg.com/zod/-/zod-4.1.11.tgz#4aab62f76cfd45e6c6166519ba31b2ea019f75f5"
+  integrity sha512-WPsqwxITS2tzx1bzhIKsEs19ABD5vmCVa4xBo2tq/SrV4RNZtfws1EnCWQXM6yh8bD08a1idvkB5MZSBiZsjwg==
+
 zod@^3.24.4:
   version "3.25.76"
   resolved "https://registry.yarnpkg.com/zod/-/zod-3.25.76.tgz#26841c3f6fd22a6a2760e7ccb719179768471e34"
   integrity sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==
-
-zod@^4.0.17:
-  version "4.0.17"
-  resolved "https://registry.yarnpkg.com/zod/-/zod-4.0.17.tgz#95931170715f73f7426c385c237b7477750d6c8d"
-  integrity sha512-1PHjlYRevNxxdy2JZ8JcNAw7rX8V9P1AKkP+x/xZfxB0K5FYfuV+Ug6P/6NVSR2jHQ+FzDDoDHS04nYUsOIyLQ==
