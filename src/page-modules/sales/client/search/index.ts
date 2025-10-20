@@ -4,9 +4,8 @@ import {
   ExtendedLegType,
   LegToGetPriceFromSchema,
   LegToGetPriceFrom,
-  Traveller,
   TripPatternPriceRequestBodySchema,
-  TripPatternPriceResponse,
+  TripPatternPrice,
 } from '@atb/page-modules/assistant';
 import { getOrgData } from '@atb/modules/org-data';
 import { isDefined } from '@atb/utils/presence';
@@ -14,12 +13,11 @@ import { isDefined } from '@atb/utils/presence';
 export function useTripPatternPrice(tripPatternPriceProps: {
   travelDate: Date;
   legs: ExtendedLegType[];
-  travellers: Traveller[];
-  products: string[];
+  isEnabled: boolean;
 }) {
   const { featureConfig } = getOrgData();
 
-  const { travelDate, legs, travellers, products } = tripPatternPriceProps;
+  const { travelDate, legs, isEnabled } = tripPatternPriceProps;
   const legsToGetPriceFrom: LegToGetPriceFrom[] = legs
     .map(
       (leg) =>
@@ -33,17 +31,14 @@ export function useTripPatternPrice(tripPatternPriceProps: {
     )
     .filter(isDefined);
 
-  const requestBodyRes = TripPatternPriceRequestBodySchema.safeParse({
-    travellers,
+  const requestBody = {
     travelDate: travelDate.toISOString(),
-    products,
     legs: legsToGetPriceFrom,
-    isOnBehalfOf: false,
-  });
+  };
 
-  return useSWRImmutable<TripPatternPriceResponse>(
-    featureConfig.enableShowTripPatternPrice && requestBodyRes.success
-      ? ['/api/assistant/trip-pattern-price', requestBodyRes.data]
+  return useSWRImmutable<TripPatternPrice>(
+    isEnabled && featureConfig.enableShowTripPatternPrice
+      ? ['/api/assistant/trip-pattern-price', requestBody]
       : null,
     swrPostFetcher,
   );

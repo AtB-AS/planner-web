@@ -26,7 +26,6 @@ type TripPatternProps = {
   delay: number;
   index: number;
   testId?: string;
-  productIdsAvailableForTripPatternPrice?: string[];
 };
 
 export default function TripPattern({
@@ -34,7 +33,6 @@ export default function TripPattern({
   delay,
   index,
   testId,
-  productIdsAvailableForTripPatternPrice,
 }: TripPatternProps) {
   const { t, language } = useTranslation();
 
@@ -229,12 +227,7 @@ export default function TripPattern({
           </div>
         </div>
         <footer className={style.footer} onClick={() => setIsOpen(!isOpen)}>
-          <Price
-            tripPattern={tripPattern}
-            productIdsAvailableForTripPatternPrice={
-              productIdsAvailableForTripPatternPrice
-            }
-          />
+          <Price tripPattern={tripPattern} />
           <Button
             title={
               isOpen
@@ -245,6 +238,7 @@ export default function TripPattern({
               'aria-controls': `${id}-details-region`,
               'aria-expanded': isOpen,
             }}
+            className={style.seeMoreButton}
             size={'pill'}
             onClick={() => setIsOpen(!isOpen)}
             icon={{

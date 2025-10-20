@@ -1,5 +1,5 @@
 import { Typo } from '@atb/components/typography';
-import { getOrgData } from '@atb/modules/org-data';
+import { getOrgData, WEBSHOP_ORGS } from '@atb/modules/org-data';
 import {
   ExtendedLegType,
   ExtendedTripPatternWithDetailsType,
@@ -14,73 +14,58 @@ import style from './price.module.css';
 
 type PriceProps = {
   tripPattern: ExtendedTripPatternWithDetailsType;
-  productIdsAvailableForTripPatternPrice?: string[];
 };
 
-export function Price({
-  tripPattern,
-  productIdsAvailableForTripPatternPrice,
-}: PriceProps) {
+export function Price({ tripPattern }: PriceProps) {
   const { t, language } = useTranslation();
-  const { featureConfig } = getOrgData();
+  const { featureConfig, orgId } = getOrgData();
 
-  const adultTraveller: Traveller = {
-    id: 'adultAnonymousTraveller',
-    userType: 'ADULT',
-  };
-  const travellers = [adultTraveller]; // we don't know who the user is, so always default to adult which is non-discounted
+  const isEnabled =
+    featureConfig.enableShowTripPatternPrice &&
+    !disableForTripPattern(tripPattern, orgId);
 
-  let products = productIdsAvailableForTripPatternPrice ?? [];
+  const { data: priceResponse, isLoading: isLoadingPrice } =
+    useTripPatternPrice({
+      travelDate: new Date(tripPattern.legs[0].serviceDate),
+      legs: tripPattern.legs,
+      isEnabled,
+    });
 
-  // edge case for AtB for trips with both boat and non-boat legs
-  // should be removed once the search trippattern endpoint supports it
-  if (getOrgData().orgId === 'atb') {
-    const isBoatLeg = (leg: ExtendedLegType) =>
-      leg.mode === Mode.Water &&
-      leg.transportSubmode &&
-      isSubModeBoat([leg.transportSubmode]);
-
-    const hasBoatLeg = tripPattern.legs.some(isBoatLeg);
-    const hasNonBoatLeg = tripPattern.legs.some(
-      (leg: ExtendedLegType) => !isBoatLeg(leg),
-    );
-
-    if (hasBoatLeg && hasNonBoatLeg) {
-      products = [];
-    }
+  if (isLoadingPrice || !priceResponse) {
+    return null;
   }
 
-  const {
-    data: tripPatternPriceResponse,
-    isLoading: isLoadingTripPatternPrice,
-  } = useTripPatternPrice({
-    travelDate: new Date(tripPattern.legs[0].serviceDate),
-    legs: tripPattern.legs,
-    travellers,
-    products,
-  });
-
-  const hasValidPrice =
-    typeof tripPatternPriceResponse?.cheapestTotalPrice === 'number' &&
-    !isLoadingTripPatternPrice;
-
   const travellerTypeText = t(
-    PageText.Assistant.trip.tripPattern.userType(travellers[0]?.userType),
+    PageText.Assistant.trip.tripPattern.userType(priceResponse.userType),
   );
   const priceInfoText = t(
     PageText.Assistant.trip.tripPattern.priceInfo(
-      formatNumberToString(
-        tripPatternPriceResponse?.cheapestTotalPrice ?? 0,
-        language,
-      ),
+      formatNumberToString(priceResponse?.cheapestTotalPrice ?? 0, language),
     ),
   );
 
   return (
     <Typo.span textType="body__secondary" className={style.priceInfoText}>
-      {featureConfig.enableShowTripPatternPrice &&
-        hasValidPrice &&
-        `${travellerTypeText}: ${priceInfoText}`}
+      {`${travellerTypeText}: ${priceInfoText}`}
     </Typo.span>
   );
+}
+
+/**
+ * Handles edge case for AtB for trips with both boat and non-boat legs
+ * should be removed once the search trippattern endpoint supports it
+ */
+function disableForTripPattern(
+  tp: ExtendedTripPatternWithDetailsType,
+  orgId: WEBSHOP_ORGS,
+): boolean {
+  const isBoatLeg = (leg: ExtendedLegType) =>
+    leg.mode === Mode.Water &&
+    leg.transportSubmode &&
+    isSubModeBoat([leg.transportSubmode]);
+
+  const hasBoatLeg = tp.legs.some(isBoatLeg);
+  const hasNonBoatLeg = tp.legs.some((leg: ExtendedLegType) => !isBoatLeg(leg));
+
+  return orgId === 'atb' && hasBoatLeg && hasNonBoatLeg;
 }

@@ -1,14 +1,14 @@
 import { HttpRequester, genericError } from '@atb/modules/api-server';
 import {
   TripPatternPriceRequestBody,
-  TripPatternPriceResponse,
-  TripPatternPriceResponseSchema,
+  TripPatternPriceSalesResponse,
+  TripPatternPriceSalesResponseSchema,
 } from '@atb/page-modules/assistant';
 
 export type SalesSearchApi = {
   tripPatternPrice(
     tripPatternPriceRequestBody: TripPatternPriceRequestBody,
-  ): Promise<TripPatternPriceResponse>;
+  ): Promise<TripPatternPriceSalesResponse>;
 };
 
 export function createSalesSearchApi(
@@ -23,7 +23,7 @@ export function createSalesSearchApi(
       });
 
       try {
-        return TripPatternPriceResponseSchema.parse(await response.json());
+        return TripPatternPriceSalesResponseSchema.parse(await response.json());
       } catch {
         throw genericError();
       }

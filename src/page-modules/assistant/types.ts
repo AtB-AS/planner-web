@@ -184,9 +184,20 @@ export type TripPatternPriceRequestBody = z.infer<
 >;
 
 // https://github.com/AtB-AS/sales/blob/main/sales-service/src/trip_pattern.rs#L35
-export const TripPatternPriceResponseSchema = z.object({
+export const TripPatternPriceSalesResponseSchema = z.object({
   cheapestTotalPrice: z.number().nullable(),
 });
-export type TripPatternPriceResponse = z.infer<
-  typeof TripPatternPriceResponseSchema
+
+export type TripPatternPriceSalesResponse = z.infer<
+  typeof TripPatternPriceSalesResponseSchema
 >;
+
+// Internal type (what we use in our app)
+export const TripPatternPriceSchema = z
+  .object({
+    cheapestTotalPrice: z.number(),
+    userType: z.string(),
+  })
+  .optional();
+
+export type TripPatternPrice = z.infer<typeof TripPatternPriceSchema>;

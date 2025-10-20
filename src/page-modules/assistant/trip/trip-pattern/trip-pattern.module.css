@@ -134,7 +134,8 @@
 
 .footer {
   border-top: 1px solid token('color.background.neutral.1.background');
-  display: flex;
+  display: grid;
+  grid-template-areas: "price button";
   width: 100%;
   justify-content: space-between;
   align-items: center;
@@ -182,6 +183,10 @@
 
 .chevron__rotated {
   transform: rotate(180deg);
+}
+
+.seeMoreButton {
+  grid-area: button;
 }
 
 .goToDetailsButton {

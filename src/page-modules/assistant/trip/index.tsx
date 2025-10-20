@@ -29,15 +29,10 @@ import { useTheme } from '@atb/modules/theme';
 
 export type TripProps = {
   tripQuery: FromToTripQuery;
-  productIdsAvailableForTripPatternPrice?: string[];
   fallback?: TripsType['trip'];
 };
 
-export default function Trip({
-  tripQuery,
-  productIdsAvailableForTripPatternPrice,
-  fallback,
-}: TripProps) {
+export default function Trip({ tripQuery, fallback }: TripProps) {
   const { t } = useTranslation();
   const { color } = useTheme();
   const { trips, isLoadingFirstTrip, loadMore, isLoadingMore } =
@@ -134,9 +129,6 @@ export default function Trip({
                   delay={i * 0.1}
                   index={i}
                   testId={`tripPattern-${tripIndex}-${i}`}
-                  productIdsAvailableForTripPatternPrice={
-                    productIdsAvailableForTripPatternPrice
-                  }
                 />
               </div>
             ),

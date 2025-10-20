@@ -6,6 +6,7 @@ import {
   type FromToTripQuery,
   Trip,
   type TripProps,
+  TripsType,
 } from '@atb/page-modules/assistant';
 import { withAssistantClient } from '@atb/page-modules/assistant/server';
 import { getAssistantTripIfCached } from '@atb/page-modules/assistant/server/trip-cache';
@@ -92,11 +93,6 @@ export const getServerSideProps = withAccessLogging(
           };
         }
 
-        const preassignedFareProducts = await getPreassignedFareProducts();
-        const productIdsAvailableForTripPatternPrice = preassignedFareProducts
-          .filter((p) => p?.isEnabledForTripSearchOffer)
-          .map((p) => p.id);
-
         const potential = getAssistantTripIfCached(tripQuery);
 
         if (potential) {
@@ -104,7 +100,6 @@ export const getServerSideProps = withAccessLogging(
             props: {
               tripQuery,
               fallback: potential.trip,
-              productIdsAvailableForTripPatternPrice,
             },
           };
         }
@@ -112,7 +107,6 @@ export const getServerSideProps = withAccessLogging(
         return {
           props: {
             tripQuery,
-            productIdsAvailableForTripPatternPrice,
           },
         };
       },
