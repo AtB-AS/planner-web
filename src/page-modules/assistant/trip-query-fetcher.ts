@@ -3,13 +3,15 @@ import { parseFilterQuery } from '@atb/modules/transport-mode';
 import { GeocoderFeature } from '@atb/modules/geocoder';
 import { ParsedUrlQuery } from 'querystring';
 import { TripQuery } from '.';
-import { AssistantClient } from './server';
 import { FromToTripQuery } from './types';
 import { parseTripQuery } from './utils';
+import { ExternalClient } from '@atb/modules/api-server';
+import { JourneyPlannerApi } from '@atb/page-modules/assistant/server/journey-planner';
+import { BffGeocoderApi } from '@atb/page-modules/bff/server/geocoder';
 
 export async function fetchFromToTripQuery(
   query: ParsedUrlQuery,
-  client: AssistantClient,
+  client: ExternalClient<'http-bff', BffGeocoderApi>,
 ): Promise<FromToTripQuery> {
   const tripQuery = parseTripQuery(query);
 
@@ -62,7 +64,7 @@ type LocationType = 'from' | 'to' | 'via';
  */
 async function getLocationPromise(
   tripQuery: TripQuery,
-  client: AssistantClient,
+  client: ExternalClient<'http-bff', BffGeocoderApi>,
   locationType: LocationType,
 ): Promise<GeocoderFeature | null> {
   // If the properties do not exist for this location type, we can't search.
@@ -104,21 +106,21 @@ async function getLocationPromise(
 
 async function getFromPromise(
   tripQuery: TripQuery,
-  client: AssistantClient,
+  client: ExternalClient<'http-bff', BffGeocoderApi>,
 ): Promise<GeocoderFeature | null> {
   return getLocationPromise(tripQuery, client, 'from');
 }
 
 async function getToPromise(
   tripQuery: TripQuery,
-  client: AssistantClient,
+  client: ExternalClient<'http-bff', BffGeocoderApi>,
 ): Promise<GeocoderFeature | null> {
   return getLocationPromise(tripQuery, client, 'to');
 }
 
 async function getViaPromise(
   tripQuery: TripQuery,
-  client: AssistantClient,
+  client: ExternalClient<'http-bff', BffGeocoderApi>,
 ): Promise<GeocoderFeature | null> {
   return getLocationPromise(tripQuery, client, 'via');
 }

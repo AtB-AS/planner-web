@@ -7,7 +7,10 @@ import {
   Trip,
   type TripProps,
 } from '@atb/page-modules/assistant';
-import { withAssistantClient } from '@atb/page-modules/assistant/server';
+import {
+  geocoderClient,
+  journeyClient,
+} from '@atb/page-modules/assistant/server';
 import { getAssistantTripIfCached } from '@atb/page-modules/assistant/server/trip-cache';
 import type { GetServerSideProps, NextPage } from 'next';
 import { withGlobalData, type WithGlobalData } from '@atb/modules/global-data';
@@ -65,49 +68,45 @@ async function getDefaultTransportModeFiltersString(): Promise<string> {
 }
 
 export const getServerSideProps = withAccessLogging(
-  withGlobalData(
-    withAssistantClient<AssistantLayoutProps & AssistantContentProps>(
-      async function ({ client, query }) {
-        const tripQuery = await fetchFromToTripQuery(query, client);
+  withGlobalData(async function ({ query }) {
+    const tripQuery = await fetchFromToTripQuery(query, geocoderClient());
 
-        if (isMissingTransportModeFilter(tripQuery)) {
-          const defaultTransportModeFilter =
-            await getDefaultTransportModeFiltersString();
-          const urlTripQuery = createTripQuery(tripQuery);
-          return {
-            redirect: {
-              destination: `/assistant?${defaultTransportModeFilter}&${qs.stringify(urlTripQuery, { encode: true })}`,
-              permanent: false,
-            },
-          };
-        }
+    if (isMissingTransportModeFilter(tripQuery)) {
+      const defaultTransportModeFilter =
+        await getDefaultTransportModeFiltersString;
+      const urlTripQuery = createTripQuery(tripQuery);
+      return {
+        redirect: {
+          destination: `/assistant?${defaultTransportModeFilter}&${qs.stringify(urlTripQuery, { encode: true })}`,
+          permanent: false,
+        },
+      };
+    }
 
-        if (!tripQuery.from || !tripQuery.to) {
-          return {
-            props: {
-              tripQuery,
-              empty: true,
-            },
-          };
-        }
+    if (!tripQuery.from || !tripQuery.to) {
+      return {
+        props: {
+          tripQuery,
+          empty: true,
+        },
+      };
+    }
 
-        const potential = getAssistantTripIfCached(tripQuery);
+    const potential = getAssistantTripIfCached(tripQuery);
 
-        if (potential) {
-          return {
-            props: {
-              tripQuery,
-              fallback: potential.trip,
-            },
-          };
-        }
+    if (potential) {
+      return {
+        props: {
+          tripQuery,
+          fallback: potential.trip,
+        },
+      };
+    }
 
-        return {
-          props: {
-            tripQuery,
-          },
-        };
+    return {
+      props: {
+        tripQuery,
       },
-    ),
-  ),
+    };
+  }),
 );
