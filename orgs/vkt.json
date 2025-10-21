@@ -9,10 +9,11 @@
   "fylkeskommune": {
     "logoSrc": "/vestfold_fylkeskommune.svg",
     "logoSrcDark": "/vestfold_fylkeskommune.svg",
-    "name": "Vestfolld fylkeskommune"
+    "name": "Vestfold fylkeskommune"
   },
 
   "featureConfig": {
+    "forceTheme": "light",
     "enableShowTripPatternPrice": false
   },
 
