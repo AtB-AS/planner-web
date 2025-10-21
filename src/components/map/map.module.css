@@ -10,7 +10,8 @@
   gap: token('spacing.medium');
   background: token('color.background.neutral.0.background');
   color: token('color.background.neutral.0.foreground.primary');
-  border-radius: token('border.radius.regular') token('border.radius.regular') 0 0;
+  border-radius: token('border.radius.regular') token('border.radius.regular') 0
+    0;
   padding: token('spacing.medium');
 }
 
@@ -20,10 +21,7 @@
 }
 
 .header__icons div {
-  background-color: token('color.background.accent.0.background');
   color: token('color.background.accent.0.foreground.primary');
-  padding: token('spacing.small');
-  border-radius: token('border.radius.regular');
   display: flex;
   justify-content: center;
   align-items: center;
@@ -49,7 +47,8 @@
   position: relative;
   height: 100%;
   width: 100%;
-  border-radius: 0 0 token('border.radius.regular') token('border.radius.regular');
+  border-radius: 0 0 token('border.radius.regular')
+    token('border.radius.regular');
   overflow: hidden;
   background-color: token('color.background.neutral.0.background');
 }
@@ -158,5 +157,6 @@
   min-height: 10rem;
   background-color: token('color.background.neutral.0.background');
 
-  border-radius: 0 0 token('border.radius.regular') token('border.radius.regular');
+  border-radius: 0 0 token('border.radius.regular')
+    token('border.radius.regular');
 }
