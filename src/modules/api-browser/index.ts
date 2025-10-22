@@ -5,6 +5,15 @@ export const swrFetcher = async (url: string) => {
   return fetchErrorHandler<any>(res);
 };
 
+export const swrPostFetcher = async ([url, body]: [string, object]) => {
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+  return fetchErrorHandler<any>(res);
+};
+
 async function fetchErrorHandler<T>(res: Response) {
   if (!res.ok) {
     const data = await responseToDataResponse(res);

@@ -6,6 +6,7 @@ import {
   type FromToTripQuery,
   Trip,
   type TripProps,
+  TripsType,
 } from '@atb/page-modules/assistant';
 import { withAssistantClient } from '@atb/page-modules/assistant/server';
 import { getAssistantTripIfCached } from '@atb/page-modules/assistant/server/trip-cache';
@@ -15,6 +16,7 @@ import { withAccessLogging } from '@atb/modules/logging';
 import { getTransportModeFilter } from '@atb/modules/firebase/transport-mode-filter.ts';
 import qs from 'query-string';
 import { createTripQuery } from '@atb/page-modules/assistant/utils.ts';
+import { getPreassignedFareProducts } from '@atb/modules/firebase';
 
 export type AssistantContentProps =
   | { tripQuery: FromToTripQuery; empty: true }

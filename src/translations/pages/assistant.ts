@@ -1,5 +1,6 @@
 import { translation as _ } from '@atb/translations/commons';
 import { orgSpecificTranslations } from '../utils';
+import { Traveller } from '@atb/page-modules/assistant';
 
 const AssistantInternal = {
   title: _('Planlegg reisen', 'Plan travel', 'Planlegg reisa'),
@@ -114,6 +115,38 @@ const AssistantInternal = {
       },
       quayPublicCodePrefix: _('', '', ''),
       details: _('Flere detaljer', 'More details', 'Fleire detaljar'),
+      userType: (userType: Traveller['userType']) => {
+        switch (userType) {
+          case 'ANYONE':
+            return _('Alle', 'Anyone', 'Alle');
+          case 'ADULT':
+            return _('Voksen', 'Adult', 'Vaksen');
+          case 'CHILD':
+            return _('Barn', 'Child', 'Barn');
+          case 'INFANT':
+            return _('Spedbarn', 'Infant', 'Spedbarn');
+          case 'ANIMAL':
+            return _('Dyr', 'Animal', 'Dyr');
+          case 'SENIOR':
+            return _('Honnør', 'Senior', 'Honnør');
+          case 'GUIDE_DOG':
+            return _('Førerhund', 'GuideDog', 'Førarhund');
+          case 'YOUTH':
+            return _('Ungdom', 'Youth', 'Ungdom');
+          case 'STUDENT':
+            return _('Student', 'Student', 'Student');
+          case 'MILITARY':
+            return _('Militær', 'Military', 'Militær');
+          default:
+            return _('Ukjent', 'Unknown', 'Ukjend');
+        }
+      },
+      priceInfo: (formattedPriceInNOK: string) =>
+        _(
+          `${formattedPriceInNOK} kr`,
+          `${formattedPriceInNOK} kr`,
+          `${formattedPriceInNOK} kr`,
+        ),
       seeMore: _('Se mer', 'See more', 'Sjå meir'),
       seeLess: _('Se mindre', 'See less', 'Sjå mindre'),
       hasSituationsTip: _(

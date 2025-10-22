@@ -31,7 +31,6 @@
   color: token('color.foreground.dynamic.secondary');
 }
 
-
 .details {
   display: flex;
   flex-direction: column;
@@ -135,10 +134,13 @@
 
 .footer {
   border-top: 1px solid token('color.background.neutral.1.background');
-  display: flex;
-  justify-content: flex-end;
+  display: grid;
+  grid-template-areas: "price button";
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
   padding: token('spacing.small') token('spacing.medium');
-  gap: token('spacing.small')
+  gap: token('spacing.small');
 }
 
 .footer__details {
@@ -181,6 +183,10 @@
 
 .chevron__rotated {
   transform: rotate(180deg);
+}
+
+.seeMoreButton {
+  grid-area: button;
 }
 
 .goToDetailsButton {

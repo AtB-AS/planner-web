@@ -10,6 +10,8 @@ import {
 } from '@atb/page-modules/assistant/journey-gql/trip-with-details.generated.ts';
 import { MapLegType } from '@atb/components/map';
 import { Mode } from '@atb/modules/graphql-types/journeyplanner-types_v3.generated.ts';
+import { UserProfile } from '@atb-as/config-specs';
+import { TicketOffers } from '@atb-as/utils';
 
 /**
  * IMPORTANT! READ THIS
@@ -154,3 +156,48 @@ export type TripWithDetailsType = TripsWithDetailsQuery & {
 
 export type BookingArrangementType =
   TripWithDetailsType['trip']['tripPatterns'][number]['legs'][number]['bookingArrangements'];
+
+const TravellerSchema = z.object({
+  id: z.string(),
+  userType: z.string(),
+});
+export type Traveller = z.infer<typeof TravellerSchema>;
+
+export const LegToGetPriceFromSchema = z.object({
+  travelDate: z.string(),
+  fromStopPlaceId: z.string(),
+  toStopPlaceId: z.string(),
+  serviceJourneyId: z.string(),
+});
+
+export type LegToGetPriceFrom = z.infer<typeof LegToGetPriceFromSchema>;
+
+export const TripPatternPriceRequestBodySchema = z.object({
+  travellers: z.array(TravellerSchema).min(1),
+  travelDate: z.string(),
+  products: z.array(z.string()).min(1),
+  isOnBehalfOf: z.boolean(),
+  legs: z.array(LegToGetPriceFromSchema).min(1),
+});
+export type TripPatternPriceRequestBody = z.infer<
+  typeof TripPatternPriceRequestBodySchema
+>;
+
+// https://github.com/AtB-AS/sales/blob/main/sales-service/src/trip_pattern.rs#L35
+export const TripPatternPriceSalesResponseSchema = z.object({
+  cheapestTotalPrice: z.number().nullable(),
+});
+
+export type TripPatternPriceSalesResponse = z.infer<
+  typeof TripPatternPriceSalesResponseSchema
+>;
+
+// Internal type (what we use in our app)
+export const TripPatternPriceSchema = z
+  .object({
+    cheapestTotalPrice: z.number(),
+    userType: z.string(),
+  })
+  .optional();
+
+export type TripPatternPrice = z.infer<typeof TripPatternPriceSchema>;

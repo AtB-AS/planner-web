@@ -15,6 +15,7 @@ import { isLineFlexibleTransport } from '@atb/modules/flexible';
 import { ExtendedTripPatternWithDetailsType } from '@atb/page-modules/assistant';
 import { Button, ButtonLink } from '@atb/components/button';
 import { AssistantDetailsBody } from '@atb/page-modules/assistant/details-body';
+import { Price } from './price';
 
 const LAST_LEG_PADDING = 20;
 const DEFAULT_THRESHOLD_AIMED_EXPECTED_IN_SECONDS = 60;
@@ -226,6 +227,7 @@ export default function TripPattern({
           </div>
         </div>
         <footer className={style.footer} onClick={() => setIsOpen(!isOpen)}>
+          <Price tripPattern={tripPattern} />
           <Button
             title={
               isOpen
@@ -236,6 +238,7 @@ export default function TripPattern({
               'aria-controls': `${id}-details-region`,
               'aria-expanded': isOpen,
             }}
+            className={style.seeMoreButton}
             size={'pill'}
             onClick={() => setIsOpen(!isOpen)}
             icon={{

@@ -1,0 +1,4 @@
+.priceInfoText {
+  color: token('color.foreground.dynamic.secondary');
+  grid-area: price;
+}

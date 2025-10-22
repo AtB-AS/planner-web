@@ -43,6 +43,9 @@ vi.mock('next/router', () => require('next-router-mock'));
 vi.mock('@atb/modules/firebase/transport-mode-filter', () => ({
   getTransportModeFilter: vi.fn(),
 }));
+vi.mock('@atb/modules/firebase/preassigned-fare-products', () => ({
+  getPreassignedFareProducts: vi.fn().mockResolvedValue([]),
+}));
 
 mockRouter.useParser(createDynamicRouteParser(['/assistant']));
 
