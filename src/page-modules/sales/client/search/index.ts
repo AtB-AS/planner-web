@@ -37,9 +37,7 @@ export function useTripPatternPrice(tripPatternPriceProps: {
   };
 
   return useSWRImmutable<TripPatternPrice>(
-    isEnabled && featureConfig.enableShowTripPatternPrice
-      ? ['/api/assistant/trip-pattern-price', requestBody]
-      : null,
+    isEnabled ? ['/api/assistant/trip-pattern-price', requestBody] : null,
     swrPostFetcher,
   );
 }
