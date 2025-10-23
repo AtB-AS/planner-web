@@ -12,7 +12,7 @@
   },
 
   "featureConfig": {
-    "enableShowTripPatternPrice": true
+    "enableShowTripPatternPrice": false
   },
 
   "urls": {
