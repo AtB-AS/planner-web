@@ -33,7 +33,7 @@
   "dependencies": {
     "@apollo/client": "^3.13.9",
     "@atb-as/config-specs": "^7.4.0",
-    "@atb-as/theme": "^14.1.0",
+    "@atb-as/theme": "14.2.2",
     "@atb-as/utils": "^5.1.1",
     "@github/combobox-nav": "^3.0.1",
     "@internationalized/date": "^3.8.2",
@@ -76,7 +76,7 @@
     "zod": "4.1.11"
   },
   "devDependencies": {
-    "@atb-as/generate-assets": "^18.3.1",
+    "@atb-as/generate-assets": "^18.5.1",
     "@atb-as/token": "^0.0.3",
     "@graphql-codegen/cli": "^5.0.7",
     "@graphql-codegen/near-operation-file-preset": "^3.1.0",
