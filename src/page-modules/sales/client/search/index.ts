@@ -4,20 +4,15 @@ import {
   ExtendedLegType,
   LegToGetPriceFromSchema,
   LegToGetPriceFrom,
-  TripPatternPriceRequestBodySchema,
   TripPatternPrice,
 } from '@atb/page-modules/assistant';
-import { getOrgData } from '@atb/modules/org-data';
 import { isDefined } from '@atb/utils/presence';
 
-export function useTripPatternPrice(tripPatternPriceProps: {
-  travelDate: Date;
-  legs: ExtendedLegType[];
-  isEnabled: boolean;
-}) {
-  const { featureConfig } = getOrgData();
-
-  const { travelDate, legs, isEnabled } = tripPatternPriceProps;
+export function useTripPatternPrice(
+  travelDate: Date,
+  legs: ExtendedLegType[],
+  shouldFetch: boolean,
+) {
   const legsToGetPriceFrom: LegToGetPriceFrom[] = legs
     .map(
       (leg) =>
@@ -37,7 +32,12 @@ export function useTripPatternPrice(tripPatternPriceProps: {
   };
 
   return useSWRImmutable<TripPatternPrice>(
-    isEnabled ? ['/api/assistant/trip-pattern-price', requestBody] : null,
+    shouldFetch ? ['/api/assistant/trip-pattern-price', requestBody] : null,
     swrPostFetcher,
+    {
+      shouldRetryOnError(err) {
+        return err.status !== 404;
+      },
+    },
   );
 }

@@ -3,7 +3,11 @@ import { orgSpecificTranslations } from '../utils';
 
 const EndpointsInternal = {
   empty: _('', '', ''),
-
+  resourceNotFound: _(
+    'Fant ikke resursen.',
+    'Resource not found.',
+    'Fann ikkje ressursen.',
+  ),
   rateLimit: _(
     'For mange forsøk. Prøv igjen senere.',
     'Rate limit exceeded.',

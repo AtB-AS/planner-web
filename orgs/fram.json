@@ -14,7 +14,7 @@
 
   "featureConfig": {
     "replaceTitleWithLogoInHeader": true,
-    "enableShowTripPatternPrice": false
+    "enableShowTripPatternPrice": true
   },
 
   "urls": {

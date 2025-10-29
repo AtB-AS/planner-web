@@ -6,7 +6,7 @@
   "supportEmail": "",
 
   "featureConfig": {
-    "enableShowTripPatternPrice": false
+    "enableShowTripPatternPrice": true
   },
 
   "urls": {

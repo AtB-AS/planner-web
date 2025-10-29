@@ -3,7 +3,6 @@ import { getOrgData, WEBSHOP_ORGS } from '@atb/modules/org-data';
 import {
   ExtendedLegType,
   ExtendedTripPatternWithDetailsType,
-  Traveller,
 } from '@atb/page-modules/assistant/types';
 import { useTripPatternPrice } from '@atb/page-modules/sales/client/search';
 import { PageText, useTranslation } from '@atb/translations';
@@ -11,36 +10,55 @@ import { Mode } from '@atb/modules/graphql-types';
 import { formatNumberToString } from '@atb-as/utils';
 import { isSubModeBoat } from '@atb/modules/transport-mode';
 import style from './price.module.css';
+import { useEffect } from 'react';
+import { Loading } from '@atb/components/loading';
 
 type PriceProps = {
   tripPattern: ExtendedTripPatternWithDetailsType;
+  inView: boolean;
 };
 
-export function Price({ tripPattern }: PriceProps) {
+export function Price({ tripPattern, inView }: PriceProps) {
   const { t, language } = useTranslation();
   const { featureConfig, orgId } = getOrgData();
 
-  const isEnabled =
+  const shouldFetch =
     featureConfig.enableShowTripPatternPrice &&
+    inView &&
     !disableForTripPattern(tripPattern, orgId);
 
-  const { data: priceResponse, isLoading: isLoadingPrice } =
-    useTripPatternPrice({
-      travelDate: new Date(tripPattern.legs[0].serviceDate),
-      legs: tripPattern.legs,
-      isEnabled,
-    });
+  const {
+    data: price,
+    error,
+    isLoading: isLoadingPrice,
+  } = useTripPatternPrice(
+    new Date(tripPattern.legs[0].serviceDate),
+    tripPattern.legs,
+    shouldFetch,
+  );
 
-  if (isLoadingPrice || !priceResponse) {
+  if (isLoadingPrice) {
+    return <Loading text={t(PageText.Assistant.trip.tripPattern.loading)} />;
+  }
+
+  if (error && error.statusCode === 404) {
+    return (
+      <Typo.span textType="body__secondary" className={style.priceInfoText}>
+        {t(PageText.Assistant.trip.tripPattern.noPrice)}
+      </Typo.span>
+    );
+  }
+
+  if (!price) {
     return null;
   }
 
   const travellerTypeText = t(
-    PageText.Assistant.trip.tripPattern.userType(priceResponse.userType),
+    PageText.Assistant.trip.tripPattern.userType(price.userType),
   );
   const priceInfoText = t(
     PageText.Assistant.trip.tripPattern.priceInfo(
-      formatNumberToString(priceResponse?.cheapestTotalPrice ?? 0, language),
+      formatNumberToString(price?.cheapestTotalPrice ?? 0, language),
     ),
   );
 
