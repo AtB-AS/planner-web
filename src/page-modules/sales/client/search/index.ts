@@ -36,7 +36,7 @@ export function useTripPatternPrice(
     swrPostFetcher,
     {
       shouldRetryOnError(err) {
-        return err.status !== 404;
+        return err.statusCode !== 404;
       },
     },
   );

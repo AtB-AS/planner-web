@@ -10,7 +10,6 @@ import { Mode } from '@atb/modules/graphql-types';
 import { formatNumberToString } from '@atb-as/utils';
 import { isSubModeBoat } from '@atb/modules/transport-mode';
 import style from './price.module.css';
-import { useEffect } from 'react';
 import { Loading } from '@atb/components/loading';
 
 type PriceProps = {
