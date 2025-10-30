@@ -24,7 +24,8 @@ export function createSalesSearchApi(
 
       try {
         return TripPatternPriceSalesResponseSchema.parse(await response.json());
-      } catch {
+      } catch (error) {
+        console.error(error);
         throw genericError();
       }
     },

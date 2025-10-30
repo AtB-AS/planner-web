@@ -16,6 +16,7 @@ import { ExtendedTripPatternWithDetailsType } from '@atb/page-modules/assistant'
 import { Button, ButtonLink } from '@atb/components/button';
 import { AssistantDetailsBody } from '@atb/page-modules/assistant/details-body';
 import { Price } from './price';
+import { useInView } from 'react-intersection-observer';
 
 const LAST_LEG_PADDING = 20;
 const DEFAULT_THRESHOLD_AIMED_EXPECTED_IN_SECONDS = 60;
@@ -86,8 +87,14 @@ export default function TripPattern({
     return i < expandedLegs.length - 1 || collapsedLegs.length > 0;
   };
 
+  const { ref, inView } = useInView({
+    triggerOnce: true,
+    rootMargin: '100px',
+    threshold: 0,
+  });
+
   return (
-    <div className={style.tripPatternContainer}>
+    <div ref={ref} className={style.tripPatternContainer}>
       <motion.div
         id={`${id}-details-region`}
         role="region"
@@ -227,7 +234,7 @@ export default function TripPattern({
           </div>
         </div>
         <footer className={style.footer} onClick={() => setIsOpen(!isOpen)}>
-          <Price tripPattern={tripPattern} />
+          <Price tripPattern={tripPattern} inView={inView} />
           <Button
             title={
               isOpen

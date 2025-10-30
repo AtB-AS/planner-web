@@ -68,6 +68,7 @@
     "react": "19.1.1",
     "react-aria-components": "^1.11.0",
     "react-dom": "19.1.1",
+    "react-intersection-observer": "^10.0.0",
     "react-syntax-highlighter": "^15.6.1",
     "satori": "^0.16.2",
     "swr": "^2.3.6",

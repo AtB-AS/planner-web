@@ -37,11 +37,7 @@ export function createBffGeocoderApi(
         `${url}?${qs.stringify(queryObject, { skipNull: true })}`,
       );
 
-      try {
-        return mapGeocoderFeatures(await result.json());
-      } catch {
-        throw genericError();
-      }
+      return mapGeocoderFeatures(await result.json());
     },
 
     async reverse(lat, lon, layers) {

@@ -147,6 +147,12 @@ const AssistantInternal = {
           `${formattedPriceInNOK} kr`,
           `${formattedPriceInNOK} kr`,
         ),
+      loading: _('Laster pris', 'Loading price', 'Lastar pris'),
+      noPrice: _(
+        'Billettpris er ikke tilgjengelig',
+        'Ticket price is not available',
+        'Billettpris er ikkje tilgjengeleg',
+      ),
       seeMore: _('Se mer', 'See more', 'Sjå meir'),
       seeLess: _('Se mindre', 'See less', 'Sjå mindre'),
       hasSituationsTip: _(

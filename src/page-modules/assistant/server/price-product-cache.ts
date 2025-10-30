@@ -1,7 +1,7 @@
 import TTLCache from '@isaacs/ttlcache';
-import { FromToTripQuery, TripsType } from '../types';
 import { PreassignedFareProduct } from '@atb-as/config-specs';
 import { getOrgData } from '@atb/modules/org-data';
+import { getPreassignedFareProducts } from '@atb/modules/firebase';
 
 let priceProductCache: TTLCache<string, PreassignedFareProduct[]> | null = null;
 
@@ -16,16 +16,18 @@ function getPriceProductCacheInstance(): TTLCache<
   return priceProductCache;
 }
 
-export function getPriceProductsIfCached():
-  | PreassignedFareProduct[]
-  | undefined {
+export async function getPriceProductsIfCached(): Promise<
+  PreassignedFareProduct[]
+> {
   const orgId = getOrgData().orgId;
-  if (priceProductCache?.has(orgId)) {
-    return priceProductCache.get(orgId);
-  }
-}
+  const cacheInstance = getPriceProductCacheInstance();
 
-export function addPriceProductToCache(products: PreassignedFareProduct[]) {
-  const orgId = getOrgData().orgId;
-  getPriceProductCacheInstance().set(orgId, products);
+  if (!cacheInstance.has(orgId)) {
+    const preassignedFareProducts = await getPreassignedFareProducts().then(
+      (val) => val.filter((p) => p.isEnabledForTripSearchOffer),
+    );
+    cacheInstance.set(orgId, preassignedFareProducts);
+  }
+
+  return cacheInstance.get(orgId) ?? [];
 }

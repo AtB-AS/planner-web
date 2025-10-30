@@ -57,6 +57,7 @@ export function createRequester<T extends HttpEndpoints>(
 
       return data;
     } catch (e) {
+      console.error(e);
       if (e instanceof ApplicationError) {
         throw e;
       } else {
