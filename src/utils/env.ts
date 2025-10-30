@@ -20,6 +20,8 @@ export const getServiceUrl = (
   required: boolean = false,
 ): string => {
   if (getEnv() === 'dev') return API_BASE_URL ?? '';
+  // Don't use internal services in Vercel for preview branches
+  if (process.env.VERCEL === '1') return API_BASE_URL ?? '';
 
   const host = getServiceHost(serviceKey);
   const port = getServicePort(serviceKey);
