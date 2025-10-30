@@ -19,7 +19,14 @@ export function createSalesSearchApi(
       const response = await request('/v1/search/trip-pattern/price', {
         method: 'POST',
         body: JSON.stringify(tripPatternPriceRequestBody),
-        headers: { 'atb-distribution-channel': 'Web' },
+        /*
+         * One might expect 'atb-distribution-channel' to be 'Web', since planner-web
+         * is a web app. However, 'atb-distribution-channel' header is ultimately
+         * used by Entur to determine what tickets are purchasable where, and since we
+         * show the price of single tickets that are only purchaseable in the app, we
+         * set the channel to 'App' here.
+         */
+        headers: { 'atb-distribution-channel': 'App' },
       });
 
       try {
