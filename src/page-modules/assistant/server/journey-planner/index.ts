@@ -162,10 +162,10 @@ export function createJourneyApi(
     },
     async trip(input) {
       const journeyModes = {
-        accessMode: StreetMode.Foot,
+        accessMode: StreetMode.Flexible,
         // Show specific non-transit suggestions through separate API call
-        directMode: undefined,
-        egressMode: StreetMode.Foot,
+        directMode: StreetMode.Flexible,
+        egressMode: StreetMode.Flexible,
         transportModes: input.transportModes as GraphQlTransportModes[],
       };
 
