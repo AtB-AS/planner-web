@@ -9,3 +9,9 @@
   gap: token('spacing.small');
   align-items: center;
 }
+
+@media (max-width: 650px) {
+  .container {
+    flex-direction: column;
+  }
+}
