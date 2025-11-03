@@ -11,8 +11,6 @@ import { formatNumberToString } from '@atb-as/utils';
 import { isSubModeBoat } from '@atb/modules/transport-mode';
 import style from './price.module.css';
 import { Loading } from '@atb/components/loading';
-import { getBookingStatus } from '@atb/modules/flexible';
-import { Tag } from '@atb/components/tag';
 
 type PriceProps = {
   tripPattern: ExtendedTripPatternWithDetailsType;
@@ -38,31 +36,15 @@ export function Price({ tripPattern, inView }: PriceProps) {
     shouldFetch,
   );
 
-  const requireTicketBooking = tripPattern.legs.some((leg: ExtendedLegType) => {
-    if (!leg.bookingArrangements) return false;
-    return (
-      getBookingStatus(leg.bookingArrangements, leg.aimedStartTime, 7) !==
-      'none'
-    );
-  });
-
   if (isLoadingPrice) {
     return <Loading text={t(PageText.Assistant.trip.tripPattern.loading)} />;
   }
 
   if (error && error.statusCode === 404) {
     return (
-      <div className={style.container}>
-        {requireTicketBooking && (
-          <Tag
-            type="warning"
-            message={t(PageText.Assistant.trip.tripPattern.requiresBooking)}
-          />
-        )}
-        <Typo.span textType="body__secondary" className={style.text}>
-          {t(PageText.Assistant.trip.tripPattern.noPrice)}
-        </Typo.span>
-      </div>
+      <Typo.span textType="body__secondary" className={style.text}>
+        {t(PageText.Assistant.trip.tripPattern.noPrice)}
+      </Typo.span>
     );
   }
 
@@ -80,17 +62,9 @@ export function Price({ tripPattern, inView }: PriceProps) {
   );
 
   return (
-    <div className={style.container}>
-      {requireTicketBooking && (
-        <Tag
-          type="warning"
-          message={t(PageText.Assistant.trip.tripPattern.requiresBooking)}
-        />
-      )}
-      <Typo.span textType="body__secondary" className={style.text}>
-        {`${travellerTypeText}: ${priceInfoText}`}
-      </Typo.span>
-    </div>
+    <Typo.span textType="body__secondary" className={style.text}>
+      {`${travellerTypeText}: ${priceInfoText}`}
+    </Typo.span>
   );
 }
 
