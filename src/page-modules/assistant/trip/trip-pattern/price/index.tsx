@@ -11,13 +11,23 @@ import { formatNumberToString } from '@atb-as/utils';
 import { isSubModeBoat } from '@atb/modules/transport-mode';
 import style from './price.module.css';
 import { Loading } from '@atb/components/loading';
+import { MonoIcon } from '@atb/components/icon';
 
 type PriceProps = {
   tripPattern: ExtendedTripPatternWithDetailsType;
   inView: boolean;
+  size?: 'small' | 'regular';
+  showIcon?: boolean;
+  showNotFoundText?: boolean;
 };
 
-export function Price({ tripPattern, inView }: PriceProps) {
+export function Price({
+  tripPattern,
+  inView,
+  size = 'regular',
+  showIcon = true,
+  showNotFoundText = true,
+}: PriceProps) {
   const { t, language } = useTranslation();
   const { featureConfig, orgId } = getOrgData();
 
@@ -40,9 +50,11 @@ export function Price({ tripPattern, inView }: PriceProps) {
     return <Loading text={t(PageText.Assistant.trip.tripPattern.loading)} />;
   }
 
-  if (error && error.statusCode === 404) {
+  const textType = size === 'small' ? 'body__secondary' : 'body__primary';
+
+  if (error && error.statusCode === 404 && showNotFoundText) {
     return (
-      <Typo.span textType="body__secondary" className={style.text}>
+      <Typo.span textType={textType} className={style.text}>
         {t(PageText.Assistant.trip.tripPattern.noPrice)}
       </Typo.span>
     );
@@ -62,9 +74,12 @@ export function Price({ tripPattern, inView }: PriceProps) {
   );
 
   return (
-    <Typo.span textType="body__secondary" className={style.text}>
-      {`${travellerTypeText}: ${priceInfoText}`}
-    </Typo.span>
+    <div className={style.container}>
+      {showIcon && <MonoIcon icon="ticketing/Ticket" />}
+      <Typo.span textType={textType} className={style.text}>
+        {`${travellerTypeText}: ${priceInfoText}`}
+      </Typo.span>
+    </div>
   );
 }
 

@@ -256,7 +256,12 @@ export default function TripPattern({
                 message={t(PageText.Assistant.trip.tripPattern.requiresBooking)}
               />
             )}
-            <Price tripPattern={tripPattern} inView={inView} />
+            <Price
+              tripPattern={tripPattern}
+              inView={inView}
+              size="small"
+              showIcon={false}
+            />
           </div>
           <Button
             title={
