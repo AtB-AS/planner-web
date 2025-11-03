@@ -1,4 +1,11 @@
-.priceInfoText {
+.text {
   color: token('color.foreground.dynamic.secondary');
   grid-area: price;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  gap: token('spacing.small');
+  align-items: center;
 }

@@ -103,10 +103,10 @@
     hex-to-rgba "^2.0.1"
     ts-deepmerge "^4.0.0"
 
-"@atb-as/theme@14.3.0":
-  version "14.3.0"
-  resolved "https://registry.yarnpkg.com/@atb-as/theme/-/theme-14.3.0.tgz#a1b4b3e99366f1806fc83bb7ad39e90b35b81ce4"
-  integrity sha512-B867fKBnKq6OuZDh+Xghmn40wOFs6uJ8DsFEcWoM3dXmUIQsBn2Z0czSS5NJe0EbgXOOBEXlsglk/D4TxYsLsQ==
+"@atb-as/theme@^14.4.0":
+  version "14.4.0"
+  resolved "https://registry.yarnpkg.com/@atb-as/theme/-/theme-14.4.0.tgz#406144045b7c9ec09d86ee34cf4421640011f936"
+  integrity sha512-sXE5QTRU/omULdHC9fbqkSCwqs0pTCcixkcnuK4umQYeGvPO/WRec0VpGrpEQMyJabSVzaGODZXJBi9r5O1BOg==
   dependencies:
     "@tfk-samf/figma-to-dtcg" "0.4.0"
     hex-to-rgba "^2.0.1"
