@@ -33,7 +33,7 @@
   "dependencies": {
     "@apollo/client": "^3.13.9",
     "@atb-as/config-specs": "^7.4.0",
-    "@atb-as/theme": "^14.4.0",
+    "@atb-as/theme": "^15.0.0",
     "@atb-as/utils": "^5.1.1",
     "@github/combobox-nav": "^3.0.1",
     "@internationalized/date": "^3.8.2",
