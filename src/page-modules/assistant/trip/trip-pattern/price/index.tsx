@@ -25,16 +25,18 @@ export function Price({
   tripPattern,
   inView,
   size = 'regular',
-  showIcon = true,
-  showNotFoundText = true,
+  showIcon,
+  showNotFoundText,
 }: PriceProps) {
   const { t, language } = useTranslation();
   const { featureConfig } = getOrgData();
 
+  const isEnabled = featureConfig.enableShowTripPatternPrice;
+  showIcon ??= isEnabled;
+  showNotFoundText ??= isEnabled;
+
   const shouldFetch =
-    featureConfig.enableShowTripPatternPrice &&
-    inView &&
-    !disableForTripPattern(tripPattern);
+    isEnabled && inView && !disableForTripPattern(tripPattern);
 
   const {
     data: price,
