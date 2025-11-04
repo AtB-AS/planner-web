@@ -9,6 +9,7 @@ import { Typo } from '@atb/components/typography';
 
 import style from './details-header.module.css';
 import { ExtendedTripPatternWithDetailsType } from '@atb/page-modules/assistant';
+import { Price } from '../../trip/trip-pattern/price';
 
 export type DetailsHeaderProps = {
   tripPattern: ExtendedTripPatternWithDetailsType;
@@ -89,6 +90,13 @@ export function AssistantDetailsHeader({ tripPattern }: DetailsHeaderProps) {
           >
             {t(PageText.Assistant.details.header.travelTime(tripDuration))}
           </Typo.p>
+        </div>
+        <div className={style.duration} data-testid={'detailsHeader-duration'}>
+          <Price
+            tripPattern={tripPattern}
+            inView={true}
+            behaviour={{ ifFound: 'show-icon' }}
+          />
         </div>
       </div>
     </div>

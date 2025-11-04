@@ -11,20 +11,36 @@ import { formatNumberToString } from '@atb-as/utils';
 import { isSubModeBoat } from '@atb/modules/transport-mode';
 import style from './price.module.css';
 import { Loading } from '@atb/components/loading';
+import { MonoIcon } from '@atb/components/icon';
+
+type FoundBehaviour = 'show-icon' | 'hide-icon';
+type NotFoundBehaviour = 'show-text' | 'hide-text';
 
 type PriceProps = {
   tripPattern: ExtendedTripPatternWithDetailsType;
   inView: boolean;
+  size?: 'small' | 'regular';
+  behaviour?: {
+    ifFound?: FoundBehaviour;
+    ifNotFound?: NotFoundBehaviour;
+  };
 };
 
-export function Price({ tripPattern, inView }: PriceProps) {
+export function Price({
+  tripPattern,
+  inView,
+  size = 'regular',
+  behaviour,
+}: PriceProps) {
   const { t, language } = useTranslation();
-  const { featureConfig, orgId } = getOrgData();
+  const { featureConfig } = getOrgData();
+
+  const isEnabled = featureConfig.enableShowTripPatternPrice;
+
+  const { ifFound = 'hide-icon', ifNotFound = 'hide-text' } = behaviour ?? {};
 
   const shouldFetch =
-    featureConfig.enableShowTripPatternPrice &&
-    inView &&
-    !disableForTripPattern(tripPattern, orgId);
+    isEnabled && inView && !disableForTripPattern(tripPattern);
 
   const {
     data: price,
@@ -36,19 +52,33 @@ export function Price({ tripPattern, inView }: PriceProps) {
     shouldFetch,
   );
 
+  if (!isEnabled) {
+    return null;
+  }
+
   if (isLoadingPrice) {
     return <Loading text={t(PageText.Assistant.trip.tripPattern.loading)} />;
   }
 
-  if (error && error.statusCode === 404) {
+  const textType = size === 'small' ? 'body__secondary' : 'body__primary';
+
+  if (error && error.statusCode === 404 && ifNotFound === 'show-text') {
     return (
-      <Typo.span textType="body__secondary" className={style.text}>
+      <Typo.span textType={textType} className={style.text}>
         {t(PageText.Assistant.trip.tripPattern.noPrice)}
       </Typo.span>
     );
   }
 
   if (!price) {
+    if (ifNotFound === 'show-text') {
+      return (
+        <Typo.span textType={textType} className={style.text}>
+          {t(PageText.Assistant.trip.tripPattern.noPrice)}
+        </Typo.span>
+      );
+    }
+
     return null;
   }
 
@@ -62,27 +92,32 @@ export function Price({ tripPattern, inView }: PriceProps) {
   );
 
   return (
-    <Typo.span textType="body__secondary" className={style.text}>
-      {`${travellerTypeText}: ${priceInfoText}`}
-    </Typo.span>
+    <div className={style.container}>
+      {ifFound === 'show-icon' && <MonoIcon icon="ticketing/Ticket" />}
+      <Typo.span textType={textType} className={style.text}>
+        {`${travellerTypeText}: ${priceInfoText}`}
+      </Typo.span>
+    </div>
   );
 }
 
 /**
- * Handles edge case for AtB for trips with both boat and non-boat legs
+ * Handles edge case for trips with both boat and bus or train legs
  * should be removed once the search trippattern endpoint supports it
  */
 function disableForTripPattern(
   tp: ExtendedTripPatternWithDetailsType,
-  orgId: WEBSHOP_ORGS,
 ): boolean {
   const isBoatLeg = (leg: ExtendedLegType) =>
     leg.mode === Mode.Water &&
     leg.transportSubmode &&
     isSubModeBoat([leg.transportSubmode]);
 
-  const hasBoatLeg = tp.legs.some(isBoatLeg);
-  const hasNonBoatLeg = tp.legs.some((leg: ExtendedLegType) => !isBoatLeg(leg));
+  const isBusOrTrainLeg = (leg: ExtendedLegType) =>
+    leg.mode === Mode.Bus || leg.mode === Mode.Rail;
 
-  return orgId === 'atb' && hasBoatLeg && hasNonBoatLeg;
+  const hasBoatLeg = tp.legs.some(isBoatLeg);
+  const hasBusOrTrainLeg = tp.legs.some(isBusOrTrainLeg);
+
+  return hasBoatLeg && hasBusOrTrainLeg;
 }
