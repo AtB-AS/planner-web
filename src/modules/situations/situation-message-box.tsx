@@ -45,17 +45,17 @@ export const SituationMessageBox = ({
             <div className={style.dialog__title}>
               <ColorIcon icon={messageTypeToColorIcon(messageType)} />
               {situation.summary && (
-                <Typo.h2 textType="body__primary--bold">
+                <Typo.h2 textType="body__m__strong">
                   {getTextForLanguage(situation.summary, language)}
                 </Typo.h2>
               )}
             </div>
 
-            <Typo.p textType="body__primary">
+            <Typo.p textType="body__m">
               {getTextForLanguage(situation.description, language)}
             </Typo.p>
             {situation.advice && (
-              <Typo.p textType="body__primary">
+              <Typo.p textType="body__m">
                 {getTextForLanguage(situation.advice, language)}
               </Typo.p>
             )}
@@ -70,10 +70,7 @@ export const SituationMessageBox = ({
             {validityPeriodText && (
               <div className={style.dialog__validity}>
                 <MonoIcon icon="time/Time" />
-                <Typo.p
-                  className={style.secondaryTextColor}
-                  textType="body__secondary"
-                >
+                <Typo.p className={style.secondaryTextColor} textType="body__s">
                   {validityPeriodText}
                 </Typo.p>
               </div>

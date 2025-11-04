@@ -18,7 +18,7 @@ export const FormComponentLabel = ({
   return (
     <label htmlFor={htmlFor}>
       <Typo.span
-        textType="body__primary"
+        textType="body__m"
         className={andIf({
           [style.disabled]: disabled,
           [style.required]: isRequired,

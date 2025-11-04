@@ -22,7 +22,7 @@ export const TravelCardQuestionForm = ({
           PageText.Contact.ticketing.travelCard.travelCardQuestion.label,
         )}
       >
-        <Typo.p textType="body__primary">
+        <Typo.p textType="body__m">
           {t(PageText.Contact.input.travelCardNumber.info)}
         </Typo.p>
         <Input

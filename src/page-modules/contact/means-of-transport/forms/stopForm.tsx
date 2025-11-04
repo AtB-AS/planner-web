@@ -30,13 +30,13 @@ export const StopForm = ({ state, send }: StopFormProps) => {
   return (
     <>
       <Fieldset title={t(PageText.Contact.modeOfTransport.stop.description)}>
-        <Typo.p textType="body__primary">
+        <Typo.p textType="body__m">
           {t(PageText.Contact.modeOfTransport.stop.info)}
         </Typo.p>
       </Fieldset>
 
       <Fieldset title={t(PageText.Contact.modeOfTransport.stop.about.title)}>
-        <Typo.p textType="body__primary">
+        <Typo.p textType="body__m">
           {t(PageText.Contact.modeOfTransport.stop.about.description)}
         </Typo.p>
 

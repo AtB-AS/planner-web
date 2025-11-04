@@ -99,7 +99,7 @@ export default function TripSection({
             }
             alignChildren="flex-start"
           >
-            <Typo.p textType="body__primary">
+            <Typo.p textType="body__m">
               {getPlaceName(
                 t,
                 leg.fromPlace.name,
@@ -110,7 +110,7 @@ export default function TripSection({
             {leg.fromPlace.quay?.description && (
               <Typo.span
                 className={style.textColor__secondary}
-                textType="body__tertiary"
+                textType="body__xs"
               >
                 {leg.fromPlace.quay.description}
               </Typo.span>
@@ -135,7 +135,7 @@ export default function TripSection({
               />
             }
           >
-            <Typo.p textType="body__primary--bold">
+            <Typo.p textType="body__m__strong">
               {formatLineName(
                 leg.fromEstimatedCall?.destinationDisplay?.frontText,
                 leg.line?.name,
@@ -144,7 +144,7 @@ export default function TripSection({
             </Typo.p>
             {isFlexible && (
               <Typo.p
-                textType="body__secondary"
+                textType="body__s"
                 className={style.onDemandTransportLabel}
               >
                 {t(
@@ -224,7 +224,7 @@ export default function TripSection({
             }
             alignChildren="flex-start"
           >
-            <Typo.p textType="body__primary">
+            <Typo.p textType="body__m">
               {getPlaceName(
                 t,
                 leg.toPlace.name,

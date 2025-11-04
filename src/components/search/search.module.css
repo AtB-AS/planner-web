@@ -1,4 +1,4 @@
-@value typo-body__secondary from "@atb/theme/typography.module.css";
+@value typo-body__s from "@atb/theme/typography.module.css";
 
 .container {
   --height: 2.75rem;
@@ -34,7 +34,7 @@
 }
 
 .label {
-  composes: typo-body__secondary;
+  composes: typo-body__s;
   height: var(--height);
   min-width: 3rem;
   display: flex;
@@ -103,7 +103,7 @@
 }
 
 .menuHeading {
-  composes: typo-body__secondary;
+  composes: typo-body__s;
 }
 
 .itemHighlighted {
@@ -129,7 +129,7 @@
 }
 
 .itemLocality {
-  composes: typo-body__secondary;
+  composes: typo-body__s;
 }
 
 @media (max-width: 650px) {

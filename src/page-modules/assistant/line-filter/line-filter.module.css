@@ -1,4 +1,4 @@
-@value typo-body__secondary from "@atb/theme/typography.module.css";
+@value typo-body__s from "@atb/theme/typography.module.css";
 
 .container {
   --height: 2.75rem;

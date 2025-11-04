@@ -81,7 +81,7 @@ export default function LineFilter({ filterState, onChange }: LineFilterProps) {
 
   return (
     <div className={style.container}>
-      <Typo.h3 textType="body__primary" className={style.heading}>
+      <Typo.h3 textType="body__m" className={style.heading}>
         {t(PageText.Assistant.search.lineFilter.label)}
       </Typo.h3>
 
@@ -105,7 +105,7 @@ export default function LineFilter({ filterState, onChange }: LineFilterProps) {
         }
       />
 
-      <Typo.p textType="body__tertiary" className={style.infoText}>
+      <Typo.p textType="body__xs" className={style.infoText}>
         {t(PageText.Assistant.search.lineFilter.example)}
       </Typo.p>
     </div>

@@ -1,6 +1,6 @@
 /* Button */
 .button {
-  composes: typo-body__primary from '@atb/theme/typography.module.css';
+  composes: typo-body__m from '@atb/theme/typography.module.css';
   cursor: pointer;
   text-align: left;
   border: 0;

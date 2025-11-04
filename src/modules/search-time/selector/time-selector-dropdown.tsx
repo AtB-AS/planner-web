@@ -98,7 +98,7 @@ const NumberSeriesScrollView = ({
         return (
           <Typo.div
             key={numberItem.key}
-            textType={isSelected ? 'body__primary--bold' : 'body__primary'}
+            textType={isSelected ? 'body__m__strong' : 'body__m'}
             style={{ height: numberItemRowHeight + 'px' }}
             className={and(
               style.numberItem,

@@ -78,7 +78,7 @@ const DescriptionModal = ({
             className={style.modal_content}
           >
             <div className={style.modal_header}>
-              <Typo.h2 id="title" textType="body__primary" autoFocus>
+              <Typo.h2 id="title" textType="body__m" autoFocus>
                 {title}
               </Typo.h2>
               <Button
@@ -93,15 +93,13 @@ const DescriptionModal = ({
               />
             </div>
 
-            {description && (
-              <Typo.p textType="body__primary">{description}</Typo.p>
-            )}
+            {description && <Typo.p textType="body__m">{description}</Typo.p>}
 
             {bulletPoints && (
               <ul className={style.modal__rules_list}>
                 {bulletPoints.map((desc, index) => (
                   <li key={index}>
-                    <Typo.p textType="body__primary" key={index}>
+                    <Typo.p textType="body__m" key={index}>
                       {desc}
                     </Typo.p>
                   </li>
@@ -110,7 +108,7 @@ const DescriptionModal = ({
             )}
 
             {instruction && (
-              <Typo.p textType="body__primary--bold">{instruction}</Typo.p>
+              <Typo.p textType="body__m__strong">{instruction}</Typo.p>
             )}
           </dialog>
         </motion.div>

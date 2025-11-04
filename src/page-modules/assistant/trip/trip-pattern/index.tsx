@@ -175,7 +175,7 @@ export default function TripPattern({
                           leg.expectedStartTime,
                         ) > DEFAULT_THRESHOLD_AIMED_EXPECTED_IN_SECONDS ? (
                           <>
-                            <Typo.span textType="body__tertiary">
+                            <Typo.span textType="body__xs">
                               {formatToClock(
                                 leg.expectedStartTime,
                                 language,
@@ -183,7 +183,7 @@ export default function TripPattern({
                               )}
                             </Typo.span>
                             <Typo.span
-                              textType="body__tertiary--strike"
+                              textType="body__xs__strike"
                               className={style.outdatet}
                             >
                               {formatToClock(
@@ -196,9 +196,7 @@ export default function TripPattern({
                         ) : (
                           <Typo.span
                             textType={
-                              isCancelled
-                                ? 'body__tertiary--strike'
-                                : 'body__tertiary'
+                              isCancelled ? 'body__xs__strike' : 'body__xs'
                             }
                           >
                             {formatToClock(
@@ -223,7 +221,7 @@ export default function TripPattern({
 
               {collapsedLegs.length > 0 && (
                 <div className={style.legs__collapsedLegs}>
-                  <Typo.span textType="body__primary--bold">
+                  <Typo.span textType="body__m__strong">
                     +{collapsedLegs.length}
                   </Typo.span>
                 </div>
@@ -239,11 +237,7 @@ export default function TripPattern({
             <div className={style.legs__lastLeg__icon}>
               <MonoIcon icon="places/Destination" />
             </div>
-            <Typo.span
-              textType={
-                isCancelled ? 'body__tertiary--strike' : 'body__tertiary'
-              }
-            >
+            <Typo.span textType={isCancelled ? 'body__xs__strike' : 'body__xs'}>
               {formatToClock(tripPattern.expectedEndTime, language, 'ceil')}
             </Typo.span>
           </div>

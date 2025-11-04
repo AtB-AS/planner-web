@@ -129,7 +129,7 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
           <TabLink activePath="/assistant" />
 
           <div className={style.input}>
-            <Typo.h2 textType="body__primary--bold" className={style.heading}>
+            <Typo.h2 textType="body__m__strong" className={style.heading}>
               {t(PageText.Assistant.search.input.label)}
             </Typo.h2>
             <div className={style.searchSection}>
@@ -159,7 +159,7 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
             </div>
           </div>
           <div className={style.date}>
-            <Typo.h2 textType="body__primary--bold" className={style.heading}>
+            <Typo.h2 textType="body__m__strong" className={style.heading}>
               {t(PageText.Assistant.search.date.label)}
             </Typo.h2>
             <SearchTimeSelector
@@ -196,7 +196,7 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
                   />
 
                   <div>
-                    <Typo.h2 textType="body__primary" className={style.heading}>
+                    <Typo.h2 textType="body__m" className={style.heading}>
                       {t(PageText.Assistant.search.input.via.label)}
                     </Typo.h2>
                     <Search

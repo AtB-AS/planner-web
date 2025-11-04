@@ -13,9 +13,9 @@ export default function EmptyMessage({ title, details }: EmptyMessageProps) {
       <div>
         <Image image="EmptyIllustration" alt="" className={style.emptyImage} />
       </div>
-      <div className={style.text} role='status'>
-        <Typo.h3 textType="body__primary--bold">{title}</Typo.h3>
-        <Typo.span textType="body__secondary">{details}</Typo.span>
+      <div className={style.text} role="status">
+        <Typo.h3 textType="body__m__strong">{title}</Typo.h3>
+        <Typo.span textType="body__s">{details}</Typo.span>
       </div>
     </div>
   );

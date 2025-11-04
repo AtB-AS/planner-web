@@ -18,7 +18,7 @@ export const PostponePaymentForm = ({
   return (
     <>
       <Fieldset title={t(PageText.Contact.ticketControl.postponePayment.title)}>
-        <Typo.p textType="body__primary">
+        <Typo.p textType="body__m">
           {t(PageText.Contact.ticketControl.postponePayment.info)}
         </Typo.p>
 

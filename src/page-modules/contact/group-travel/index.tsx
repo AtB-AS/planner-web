@@ -9,7 +9,7 @@ export default function GroupTravelContent() {
 
   return (
     <SectionCard title={t(PageText.Contact.groupTravel.title)}>
-      <Typo.p textType="body__primary">
+      <Typo.p textType="body__m">
         {t(PageText.Contact.groupTravel.description.info)}{' '}
         <Link href={t(PageText.Contact.groupTravel.description.url)}>
           {t(PageText.Contact.groupTravel.description.externalLink)}

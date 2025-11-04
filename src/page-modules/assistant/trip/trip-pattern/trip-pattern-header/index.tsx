@@ -48,14 +48,14 @@ export function TripPatternHeader({
         />
       )}
       <RailReplacementBusMessage tripPattern={tripPattern} />
-      <Typo.span textType="body__secondary--bold">
+      <Typo.span textType="body__s__strong">
         {startModeAndPlaceText}
         {isCancelled &&
           ` (${t(
             PageText.Assistant.trip.tripPattern.isCancelled.title,
           ).toUpperCase()})`}
       </Typo.span>
-      <Typo.span textType="body__secondary" className={style.header__duration}>
+      <Typo.span textType="body__s" className={style.header__duration}>
         {duration}
       </Typo.span>
     </header>

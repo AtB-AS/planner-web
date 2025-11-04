@@ -112,12 +112,12 @@ export default function StopPlaceItem({ item }: StopPlaceItemProps) {
       )}
     >
       <div className={style.stopPlaceItem__text}>
-        <Typo.h3 textType="body__primary--bold">{item.stopPlace.name}</Typo.h3>
-        <Typo.span textType="body__secondary">
+        <Typo.h3 textType="body__m__strong">{item.stopPlace.name}</Typo.h3>
+        <Typo.span textType="body__s">
           {item.stopPlace.description ??
             t(PageText.Departures.nearest.stopPlaceItem.stopPlace)}
         </Typo.span>
-        <Typo.span textType="body__secondary" className={style.secondaryText}>
+        <Typo.span textType="body__s" className={style.secondaryText}>
           {item.distance.toFixed(0)} m
         </Typo.span>
       </div>

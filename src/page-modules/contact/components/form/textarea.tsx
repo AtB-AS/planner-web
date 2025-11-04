@@ -26,7 +26,7 @@ export default function Textarea({
     <div className={style.textarea_container}>
       {description && (
         <Typo.p
-          textType="body__primary"
+          textType="body__m"
           className={andIf({
             [style.required]: isRequired,
           })}

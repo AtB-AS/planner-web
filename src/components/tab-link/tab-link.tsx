@@ -39,9 +39,7 @@ const TabLink = ({ activePath }: TabLinkProps) => {
         const isActive = tabLink.route === activePath;
         return (
           <Link key={index} className={style.href} href={tabLink.route}>
-            <Typo.p
-              textType={isActive ? 'body__primary--bold' : 'body__primary'}
-            >
+            <Typo.p textType={isActive ? 'body__m__strong' : 'body__m'}>
               {t(tabLink.title)}
             </Typo.p>
             <AnimatePresence initial={false}>

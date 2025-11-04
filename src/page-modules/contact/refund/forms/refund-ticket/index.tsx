@@ -36,7 +36,7 @@ export const RefundTicketForms = ({ state, send }: RefundTicketFormsProps) => {
           {PageText.Contact.ticketing.refund.initialAgreement.ticketRefundAvailability.rules.map(
             (rule: TranslatedString, index: number) => (
               <li key={index}>
-                <Typo.p textType="body__primary">{t(rule)}</Typo.p>
+                <Typo.p textType="body__m">{t(rule)}</Typo.p>
               </li>
             ),
           )}
@@ -52,12 +52,12 @@ export const RefundTicketForms = ({ state, send }: RefundTicketFormsProps) => {
           {PageText.Contact.ticketing.refund.initialAgreement.refundableTicketTypes.rules.map(
             (rule: TranslatedString, index: number) => (
               <li key={index}>
-                <Typo.p textType="body__primary">{t(rule)}</Typo.p>
+                <Typo.p textType="body__m">{t(rule)}</Typo.p>
               </li>
             ),
           )}
         </ul>
-        <Typo.p textType="body__primary">
+        <Typo.p textType="body__m">
           {t(
             PageText.Contact.ticketing.refund.initialAgreement
               .refundableTicketTypes.info.text,

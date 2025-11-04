@@ -51,7 +51,7 @@ export function AssistantDetailsHeader({ tripPattern }: DetailsHeaderProps) {
             alt={t(PageText.Assistant.trip.tripPattern.isCancelled.label)}
           />
         )}
-        <Typo.h2 textType="heading--big">
+        <Typo.h2 textType="heading__xl">
           {fromName && toName
             ? t(
                 PageText.Assistant.details.header.titleFromTo({
@@ -70,23 +70,17 @@ export function AssistantDetailsHeader({ tripPattern }: DetailsHeaderProps) {
       <div className={style.tripDetails}>
         <div className={style.date}>
           <MonoIcon icon="time/Date" />
-          <Typo.p
-            textType={isCancelled ? 'body__primary--strike' : 'body__primary'}
-          >
+          <Typo.p textType={isCancelled ? 'body__m__strike' : 'body__m'}>
             {weekdayAndDate}
           </Typo.p>
         </div>
         <div className={style.duration} data-testid={'detailsHeader-duration'}>
           <MonoIcon icon="time/Duration" />
-          <Typo.p
-            textType={isCancelled ? 'body__primary--strike' : 'body__primary'}
-          >
+          <Typo.p textType={isCancelled ? 'body__m__strike' : 'body__m'}>
             {timeRange}
           </Typo.p>
           <Typo.p
-            textType={
-              isCancelled ? 'body__primary--strike' : 'body__primary--bold'
-            }
+            textType={isCancelled ? 'body__m__strike' : 'body__m__strong'}
           >
             {t(PageText.Assistant.details.header.travelTime(tripDuration))}
           </Typo.p>

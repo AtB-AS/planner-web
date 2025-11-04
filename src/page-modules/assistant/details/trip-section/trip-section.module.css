@@ -1,4 +1,4 @@
-@value typo-body__secondary from "@atb/theme/typography.module.css";
+@value typo-body__s from "@atb/theme/typography.module.css";
 
 .container {
   display: flex;
@@ -17,7 +17,7 @@
 .walkTime,
 .waitTime,
 .textColor__secondary {
-  composes: typo-body__secondary;
+  composes: typo-body__s;
   color: token('color.foreground.dynamic.secondary');
 }
 .realtimeSection {
@@ -32,7 +32,7 @@
   gap: token('spacing.small');
 }
 .onDemandTransportLabel {
-  composes: typo-body__secondary;
+  composes: typo-body__s;
   color: token('color.foreground.dynamic.secondary');
   padding-top: token('spacing.small');
 }

@@ -31,7 +31,7 @@
 }
 
 .pageHeader__logoLink {
-  composes: typo-body__secondary--bold from '@atb/theme/typography.module.css';
+  composes: typo-body__s__strong from '@atb/theme/typography.module.css';
   transition:
     background-color 150ms ease,
     opacity 200ms ease-in-out;
@@ -60,7 +60,7 @@
 }
 
 .pageHeader__link {
-  composes: typo-body__secondary from '@atb/theme/typography.module.css';
+  composes: typo-body__s from '@atb/theme/typography.module.css';
   transition:
     background-color 150ms ease,
     opacity 200ms ease-in-out;

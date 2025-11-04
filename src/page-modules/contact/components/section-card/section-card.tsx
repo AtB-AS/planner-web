@@ -9,7 +9,7 @@ export type SectionCardProps = PropsWithChildren<{
 export const SectionCard = ({ title, children }: SectionCardProps) => {
   return (
     <section className={style.container}>
-      <Typo.h3 textType="heading__component">{title}</Typo.h3>
+      <Typo.h3 textType="heading__m">{title}</Typo.h3>
       {children}
     </section>
   );

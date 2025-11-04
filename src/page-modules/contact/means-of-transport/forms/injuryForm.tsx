@@ -31,12 +31,12 @@ export const InjuryForm = ({ state, send }: InjuryFormProps) => {
   return (
     <>
       <Fieldset title={t(PageText.Contact.modeOfTransport.injury.description)}>
-        <Typo.p textType="body__primary">
+        <Typo.p textType="body__m">
           {t(PageText.Contact.modeOfTransport.injury.info)}
         </Typo.p>
       </Fieldset>
       <Fieldset title={t(PageText.Contact.modeOfTransport.injury.about.title)}>
-        <Typo.p textType="body__primary">
+        <Typo.p textType="body__m">
           {t(PageText.Contact.modeOfTransport.injury.about.description)}
         </Typo.p>
 

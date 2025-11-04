@@ -33,7 +33,7 @@ export const ServiceOfferingForm = ({
       <Fieldset
         title={t(PageText.Contact.modeOfTransport.serviceOffering.description)}
       >
-        <Typo.p textType="body__primary">
+        <Typo.p textType="body__m">
           {t(PageText.Contact.modeOfTransport.serviceOffering.info)}
         </Typo.p>
       </Fieldset>
@@ -41,7 +41,7 @@ export const ServiceOfferingForm = ({
       <Fieldset
         title={t(PageText.Contact.modeOfTransport.serviceOffering.about.title)}
       >
-        <Typo.p textType="body__primary">
+        <Typo.p textType="body__m">
           {t(
             PageText.Contact.modeOfTransport.serviceOffering.about.description,
           )}

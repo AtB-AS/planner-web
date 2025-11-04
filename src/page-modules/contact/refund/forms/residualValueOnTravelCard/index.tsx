@@ -9,7 +9,7 @@ export const ResidualValueOnTravelCard = ({}) => {
     <Fieldset
       title={t(PageText.Contact.refund.residualValueOnTravelCard.title)}
     >
-      <Typo.p textType="body__primary">
+      <Typo.p textType="body__m">
         <Link
           href={t(PageText.Contact.refund.residualValueOnTravelCard.link.href)}
         >
@@ -17,7 +17,7 @@ export const ResidualValueOnTravelCard = ({}) => {
         </Link>
       </Typo.p>
 
-      <Typo.p textType="body__primary">
+      <Typo.p textType="body__m">
         {t(
           PageText.Contact.refund.residualValueOnTravelCard
             .monthlyPayoutDetails,
@@ -25,13 +25,13 @@ export const ResidualValueOnTravelCard = ({}) => {
       </Typo.p>
 
       <div>
-        <Typo.p textType="body__primary--bold">
+        <Typo.p textType="body__m__strong">
           {t(
             PageText.Contact.refund.residualValueOnTravelCard
               .automatedProcessNotice.note,
           )}
         </Typo.p>
-        <Typo.p textType="body__primary">
+        <Typo.p textType="body__m">
           {t(
             PageText.Contact.refund.residualValueOnTravelCard
               .automatedProcessNotice.text,

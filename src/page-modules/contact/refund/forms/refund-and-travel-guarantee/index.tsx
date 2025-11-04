@@ -33,16 +33,16 @@ export const RefundAndTravelGuaranteeForms = ({
   return (
     <>
       <Fieldset title={t(PageText.Contact.refund.agreement.title)}>
-        <Typo.p textType="body__primary">
+        <Typo.p textType="body__m">
           {t(PageText.Contact.refund.agreement.delayedRefundText)}
         </Typo.p>
 
-        <Typo.p textType="body__primary">
+        <Typo.p textType="body__m">
           {t(PageText.Contact.refund.agreement.ticketRefundText)}
         </Typo.p>
 
         <div>
-          <Typo.p textType="heading__component">
+          <Typo.p textType="heading__m">
             {t(
               PageText.Contact.refund.agreement.travelGuaranteeExceptions.label,
             )}
@@ -52,15 +52,13 @@ export const RefundAndTravelGuaranteeForms = ({
             {PageText.Contact.refund.agreement.travelGuaranteeExceptions.exceptions.map(
               (exception, index) => (
                 <li key={index}>
-                  <Typo.p textType="body__primary">{t(exception.text)}</Typo.p>
+                  <Typo.p textType="body__m">{t(exception.text)}</Typo.p>
                   {exception.examples.length > 0 && (
                     <ul className={style.rules__list}>
                       {exception.examples.map(
                         (example: TranslatedString, exampleIndex: number) => (
                           <li key={exampleIndex}>
-                            <Typo.p textType="body__primary">
-                              {t(example)}
-                            </Typo.p>
+                            <Typo.p textType="body__m">{t(example)}</Typo.p>
                           </li>
                         ),
                       )}
@@ -72,7 +70,7 @@ export const RefundAndTravelGuaranteeForms = ({
           </ul>
         </div>
 
-        <Typo.p textType="body__primary">
+        <Typo.p textType="body__m">
           {t(
             PageText.Contact.refund.agreement.travelGuaranteeExceptions
               .exclusion,

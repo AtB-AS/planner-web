@@ -41,10 +41,7 @@ export function EstimatedCallsSection({
           )}
         </Link>
       ) : (
-        <Typo.p
-          textType="body__secondary"
-          className={style.textColor__secondary}
-        >
+        <Typo.p textType="body__s" className={style.textColor__secondary}>
           {t(
             PageText.Assistant.details.tripSection.intermediateStops(
               numberOfIntermediateEstimatedCalls,
@@ -52,7 +49,7 @@ export function EstimatedCallsSection({
           )}
         </Typo.p>
       )}
-      <Typo.p textType="body__secondary" className={style.textColor__secondary}>
+      <Typo.p textType="body__s" className={style.textColor__secondary}>
         {secondsToDuration(duration, language)}
       </Typo.p>
     </TripRow>

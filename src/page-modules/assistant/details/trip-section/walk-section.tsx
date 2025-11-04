@@ -22,7 +22,7 @@ export default function WalkSection({ walkDuration }: WalkSectionProps) {
         <TransportIcon mode={{ transportMode: Mode.Foot }} size="xSmall" />
       }
     >
-      <Typo.p textType="body__secondary" className={style.walkTime}>
+      <Typo.p textType="body__s" className={style.walkTime}>
         {isWalkTimeOfSignificance
           ? t(
               PageText.Assistant.details.tripSection.walk.label(

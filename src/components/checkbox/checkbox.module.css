@@ -1,5 +1,5 @@
-@value typo-body__secondary from "@atb/theme/typography.module.css";
-@value typo-body__primary from "@atb/theme/typography.module.css";
+@value typo-body__s from "@atb/theme/typography.module.css";
+@value typo-body__m from "@atb/theme/typography.module.css";
 
 /* Checkbox */
 .checkbox {
@@ -74,7 +74,7 @@
   flex: 1;
   opacity: 0.6;
   margin-top: token('spacing.small');
-  composes: typo-body__secondary from '@atb/theme/typography.module.css';
+  composes: typo-body__s from '@atb/theme/typography.module.css';
 }
 .checkbox__checkbox:not(:checked) + .checkbox__icon {
   border: token('border.width.slim') solid

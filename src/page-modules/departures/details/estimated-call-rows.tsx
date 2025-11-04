@@ -170,16 +170,16 @@ function EstimatedCallRow({
         isBetween={isBetween}
         href={`/departures/${call.quay.stopPlace?.id}`}
       >
-        <Typo.p textType="body__primary">
+        <Typo.p textType="body__m">
           {formatQuayName(t, call.quay.name, call.quay.publicCode)}
         </Typo.p>
         {!call.forAlighting && !call.metadata.isStartOfServiceJourney && (
-          <Typo.p textType="body__secondary" className={style.boardingInfo}>
+          <Typo.p textType="body__s" className={style.boardingInfo}>
             {t(PageText.Departures.details.messages.noAlighting)}
           </Typo.p>
         )}
         {!call.forBoarding && !call.metadata.isEndOfServiceJourney && (
-          <Typo.p textType="body__secondary" className={style.boardingInfo}>
+          <Typo.p textType="body__s" className={style.boardingInfo}>
             {t(PageText.Departures.details.messages.noBoarding)}
           </Typo.p>
         )}
