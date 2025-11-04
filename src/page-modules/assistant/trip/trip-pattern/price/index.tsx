@@ -29,12 +29,12 @@ export function Price({
   showNotFoundText = true,
 }: PriceProps) {
   const { t, language } = useTranslation();
-  const { featureConfig, orgId } = getOrgData();
+  const { featureConfig } = getOrgData();
 
   const shouldFetch =
     featureConfig.enableShowTripPatternPrice &&
     inView &&
-    !disableForTripPattern(tripPattern, orgId);
+    !disableForTripPattern(tripPattern);
 
   const {
     data: price,
@@ -92,12 +92,11 @@ export function Price({
 }
 
 /**
- * Handles edge case for AtB for trips with both boat and bus or train legs
+ * Handles edge case for trips with both boat and bus or train legs
  * should be removed once the search trippattern endpoint supports it
  */
 function disableForTripPattern(
   tp: ExtendedTripPatternWithDetailsType,
-  orgId: WEBSHOP_ORGS,
 ): boolean {
   const isBoatLeg = (leg: ExtendedLegType) =>
     leg.mode === Mode.Water &&
@@ -110,5 +109,5 @@ function disableForTripPattern(
   const hasBoatLeg = tp.legs.some(isBoatLeg);
   const hasBusOrTrainLeg = tp.legs.some(isBusOrTrainLeg);
 
-  return orgId === 'atb' && hasBoatLeg && hasBusOrTrainLeg;
+  return hasBoatLeg && hasBusOrTrainLeg;
 }
