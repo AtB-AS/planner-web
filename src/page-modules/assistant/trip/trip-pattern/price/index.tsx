@@ -61,6 +61,14 @@ export function Price({
   }
 
   if (!price) {
+    if (showNotFoundText) {
+      return (
+        <Typo.span textType={textType} className={style.text}>
+          {t(PageText.Assistant.trip.tripPattern.noPrice)}
+        </Typo.span>
+      );
+    }
+
     return null;
   }
 
@@ -84,7 +92,7 @@ export function Price({
 }
 
 /**
- * Handles edge case for AtB for trips with both boat and non-boat legs
+ * Handles edge case for AtB for trips with both boat and bus or train legs
  * should be removed once the search trippattern endpoint supports it
  */
 function disableForTripPattern(
@@ -96,8 +104,11 @@ function disableForTripPattern(
     leg.transportSubmode &&
     isSubModeBoat([leg.transportSubmode]);
 
-  const hasBoatLeg = tp.legs.some(isBoatLeg);
-  const hasNonBoatLeg = tp.legs.some((leg: ExtendedLegType) => !isBoatLeg(leg));
+  const isBusOrTrainLeg = (leg: ExtendedLegType) =>
+    leg.mode === Mode.Bus || leg.mode === Mode.Rail;
 
-  return orgId === 'atb' && hasBoatLeg && hasNonBoatLeg;
+  const hasBoatLeg = tp.legs.some(isBoatLeg);
+  const hasBusOrTrainLeg = tp.legs.some(isBusOrTrainLeg);
+
+  return orgId === 'atb' && hasBoatLeg && hasBusOrTrainLeg;
 }
