@@ -13,27 +13,31 @@ import style from './price.module.css';
 import { Loading } from '@atb/components/loading';
 import { MonoIcon } from '@atb/components/icon';
 
+type FoundBehaviour = 'show-icon' | 'hide-icon';
+type NotFoundBehaviour = 'show-text' | 'hide-text';
+
 type PriceProps = {
   tripPattern: ExtendedTripPatternWithDetailsType;
   inView: boolean;
   size?: 'small' | 'regular';
-  showIcon?: boolean;
-  showNotFoundText?: boolean;
+  behaviour?: {
+    ifFound?: FoundBehaviour;
+    ifNotFound?: NotFoundBehaviour;
+  };
 };
 
 export function Price({
   tripPattern,
   inView,
   size = 'regular',
-  showIcon,
-  showNotFoundText,
+  behaviour,
 }: PriceProps) {
   const { t, language } = useTranslation();
   const { featureConfig } = getOrgData();
 
   const isEnabled = featureConfig.enableShowTripPatternPrice;
-  showIcon ??= isEnabled;
-  showNotFoundText ??= isEnabled;
+
+  const { ifFound = 'hide-icon', ifNotFound = 'hide-text' } = behaviour ?? {};
 
   const shouldFetch =
     isEnabled && inView && !disableForTripPattern(tripPattern);
@@ -48,13 +52,17 @@ export function Price({
     shouldFetch,
   );
 
+  if (!isEnabled) {
+    return null;
+  }
+
   if (isLoadingPrice) {
     return <Loading text={t(PageText.Assistant.trip.tripPattern.loading)} />;
   }
 
   const textType = size === 'small' ? 'body__secondary' : 'body__primary';
 
-  if (error && error.statusCode === 404 && showNotFoundText) {
+  if (error && error.statusCode === 404 && ifNotFound === 'show-text') {
     return (
       <Typo.span textType={textType} className={style.text}>
         {t(PageText.Assistant.trip.tripPattern.noPrice)}
@@ -63,7 +71,7 @@ export function Price({
   }
 
   if (!price) {
-    if (showNotFoundText) {
+    if (ifNotFound === 'show-text') {
       return (
         <Typo.span textType={textType} className={style.text}>
           {t(PageText.Assistant.trip.tripPattern.noPrice)}
@@ -85,7 +93,7 @@ export function Price({
 
   return (
     <div className={style.container}>
-      {showIcon && <MonoIcon icon="ticketing/Ticket" />}
+      {ifFound === 'show-icon' && <MonoIcon icon="ticketing/Ticket" />}
       <Typo.span textType={textType} className={style.text}>
         {`${travellerTypeText}: ${priceInfoText}`}
       </Typo.span>

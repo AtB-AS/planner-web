@@ -260,7 +260,7 @@ export default function TripPattern({
               tripPattern={tripPattern}
               inView={inView}
               size="small"
-              showIcon={false}
+              behaviour={{ ifNotFound: 'show-text' }}
             />
           </div>
           <Button

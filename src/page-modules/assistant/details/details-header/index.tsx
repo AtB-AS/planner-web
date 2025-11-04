@@ -95,7 +95,7 @@ export function AssistantDetailsHeader({ tripPattern }: DetailsHeaderProps) {
           <Price
             tripPattern={tripPattern}
             inView={true}
-            showNotFoundText={false}
+            behaviour={{ ifFound: 'show-icon' }}
           />
         </div>
       </div>
