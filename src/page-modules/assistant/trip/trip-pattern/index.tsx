@@ -11,12 +11,19 @@ import { Typo } from '@atb/components/typography';
 import { TransportIconWithLabel } from '@atb/modules/transport-mode';
 import { andIf } from '@atb/utils/css';
 import { useRouter } from 'next/router';
-import { isLineFlexibleTransport } from '@atb/modules/flexible';
-import { ExtendedTripPatternWithDetailsType } from '@atb/page-modules/assistant';
+import {
+  getBookingStatus,
+  isLineFlexibleTransport,
+} from '@atb/modules/flexible';
+import {
+  ExtendedLegType,
+  ExtendedTripPatternWithDetailsType,
+} from '@atb/page-modules/assistant';
 import { Button, ButtonLink } from '@atb/components/button';
 import { AssistantDetailsBody } from '@atb/page-modules/assistant/details-body';
 import { Price } from './price';
 import { useInView } from 'react-intersection-observer';
+import { Tag } from '@atb/components/tag';
 
 const LAST_LEG_PADDING = 20;
 const DEFAULT_THRESHOLD_AIMED_EXPECTED_IN_SECONDS = 60;
@@ -91,6 +98,14 @@ export default function TripPattern({
     triggerOnce: true,
     rootMargin: '100px',
     threshold: 0,
+  });
+
+  const requireTicketBooking = tripPattern.legs.some((leg: ExtendedLegType) => {
+    if (!leg.bookingArrangements) return false;
+    return (
+      getBookingStatus(leg.bookingArrangements, leg.aimedStartTime, 7) !==
+      'none'
+    );
   });
 
   return (
@@ -234,7 +249,15 @@ export default function TripPattern({
           </div>
         </div>
         <footer className={style.footer} onClick={() => setIsOpen(!isOpen)}>
-          <Price tripPattern={tripPattern} inView={inView} />
+          <div className={style.price__container}>
+            {requireTicketBooking && (
+              <Tag
+                type="warning"
+                message={t(PageText.Assistant.trip.tripPattern.requiresBooking)}
+              />
+            )}
+            <Price tripPattern={tripPattern} inView={inView} />
+          </div>
           <Button
             title={
               isOpen

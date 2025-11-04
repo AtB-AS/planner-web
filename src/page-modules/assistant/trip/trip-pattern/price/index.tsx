@@ -42,7 +42,7 @@ export function Price({ tripPattern, inView }: PriceProps) {
 
   if (error && error.statusCode === 404) {
     return (
-      <Typo.span textType="body__secondary" className={style.priceInfoText}>
+      <Typo.span textType="body__secondary" className={style.text}>
         {t(PageText.Assistant.trip.tripPattern.noPrice)}
       </Typo.span>
     );
@@ -62,7 +62,7 @@ export function Price({ tripPattern, inView }: PriceProps) {
   );
 
   return (
-    <Typo.span textType="body__secondary" className={style.priceInfoText}>
+    <Typo.span textType="body__secondary" className={style.text}>
       {`${travellerTypeText}: ${priceInfoText}`}
     </Typo.span>
   );

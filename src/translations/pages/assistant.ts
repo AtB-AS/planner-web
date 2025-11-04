@@ -147,6 +147,7 @@ const AssistantInternal = {
           `${formattedPriceInNOK} kr`,
           `${formattedPriceInNOK} kr`,
         ),
+      requiresBooking: _('Booking kreves', 'Booking required', 'Booking krev'),
       loading: _('Laster pris', 'Loading price', 'Lastar pris'),
       noPrice: _(
         'Billettpris er ikke tilgjengelig',

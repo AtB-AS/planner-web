@@ -1,0 +1,16 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: token('spacing.xSmall');
+  align-self: flex-start;
+  border-width: token('border.width.medium');
+  border-style: solid;
+  padding: token('spacing.xSmall') token('spacing.small');
+  border-radius: token('border.radius.regular');
+}
+
+.small {
+  padding: token('spacing.xSmall') calc(token('spacing.xSmall') / 2);
+}
