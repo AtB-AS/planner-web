@@ -2,8 +2,10 @@
 
 const orgId = process.env.NEXT_PUBLIC_PLANNER_ORG_ID;
 
+/**
+ * @type {import('next').NextConfig}
+ */
 const nextConfig = {
-  optimizeFonts: false,
   output: 'standalone',
   async headers() {
     return [
