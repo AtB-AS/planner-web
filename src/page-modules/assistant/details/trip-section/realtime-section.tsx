@@ -19,10 +19,7 @@ export function RealtimeSection({ realtimeText }: RealtimeSectionProps) {
           role="none"
           alt=""
         />
-        <Typo.p
-          textType="body__secondary"
-          className={style.textColor__secondary}
-        >
+        <Typo.p textType="body__s" className={style.textColor__secondary}>
           {realtimeText}
         </Typo.p>
       </div>

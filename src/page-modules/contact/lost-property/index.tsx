@@ -6,7 +6,7 @@ export default function LostPropertyContent() {
   const { t } = useTranslation();
   return (
     <SectionCard title={t(PageText.Contact.lostProperty.title)}>
-      <Typo.p textType="body__primary">
+      <Typo.p textType="body__m">
         <span>
           {t(PageText.Contact.lostProperty.description.info)}&nbsp;
           <a

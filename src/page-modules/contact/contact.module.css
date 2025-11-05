@@ -1,4 +1,4 @@
-@value typo-body__secondary from "@atb/theme/typography.module.css";
+@value typo-body__s from "@atb/theme/typography.module.css";
 
 .form {
   display: flex;
@@ -20,7 +20,7 @@
 }
 
 .feedback {
-  composes: typo-body__secondary;
+  composes: typo-body__s;
   padding: token('spacing.small');
   color: token('color.background.neutral.0.foreground.primary');
   outline: 0;

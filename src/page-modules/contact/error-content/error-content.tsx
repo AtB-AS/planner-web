@@ -14,10 +14,10 @@ export function ErrorContent() {
         title={t(PageText.Contact.error.backButton)}
         icon={{ left: <MonoIcon icon="navigation/ArrowLeft" /> }}
       />
-      <Typo.h2 textType="heading--big">
+      <Typo.h2 textType="heading__xl">
         {t(PageText.Contact.error.title)}
       </Typo.h2>
-      <Typo.p textType="body__primary">{t(PageText.Contact.error.info)}</Typo.p>
+      <Typo.p textType="body__m">{t(PageText.Contact.error.info)}</Typo.p>
     </section>
   );
 }

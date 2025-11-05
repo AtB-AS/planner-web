@@ -36,7 +36,7 @@ export const TransportationForm = ({
       <Fieldset
         title={t(PageText.Contact.modeOfTransport.transportation.description)}
       >
-        <Typo.p textType="body__primary">
+        <Typo.p textType="body__m">
           {t(PageText.Contact.modeOfTransport.transportation.info)}
         </Typo.p>
       </Fieldset>
@@ -44,7 +44,7 @@ export const TransportationForm = ({
       <Fieldset
         title={t(PageText.Contact.modeOfTransport.transportation.about.title)}
       >
-        <Typo.p textType="body__primary">
+        <Typo.p textType="body__m">
           {t(PageText.Contact.modeOfTransport.transportation.about.description)}
         </Typo.p>
 

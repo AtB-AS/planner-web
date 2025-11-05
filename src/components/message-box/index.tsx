@@ -67,8 +67,8 @@ export const MessageBox = ({
         />
       )}
       <div className={style.content}>
-        {title && <Typo.h2 textType="body__primary--bold">{title}</Typo.h2>}
-        <Typo.p textType="body__primary" id={textId} {...aria}>
+        {title && <Typo.h2 textType="body__m__strong">{title}</Typo.h2>}
+        <Typo.p textType="body__m" id={textId} {...aria}>
           {message}
         </Typo.p>
         {onClick && (

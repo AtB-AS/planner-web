@@ -47,7 +47,7 @@ export default function LoadingEmptyResults({
           transition={{ duration: 0.3 }}
           className={style.isSearching}
         >
-          <Typo.p textType="body__primary">
+          <Typo.p textType="body__m">
             {t(ComponentText.EmptySearch.searching[type])}
           </Typo.p>
         </motion.div>

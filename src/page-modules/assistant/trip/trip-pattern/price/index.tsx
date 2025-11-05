@@ -60,7 +60,7 @@ export function Price({
     return <Loading text={t(PageText.Assistant.trip.tripPattern.loading)} />;
   }
 
-  const textType = size === 'small' ? 'body__secondary' : 'body__primary';
+  const textType = size === 'small' ? 'body__s' : 'body__m';
 
   if (error && error.statusCode === 404 && ifNotFound === 'show-text') {
     return (

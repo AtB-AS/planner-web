@@ -73,8 +73,8 @@ select,
 button {
   font-family: var(--font-main);
   font-size: 1rem;
-  line-height: var(--baseTypo-body__primary-lineHeight, 1.25rem);
-  letter-spacing: var(--baseTypo-body__primary-letterSpacing, 0.03125rem);
+  line-height: var(--baseTypo-body__m-lineHeight, 1.25rem);
+  letter-spacing: var(--baseTypo-body__m-letterSpacing, 0.03125rem);
 }
 
 input[type='color'],

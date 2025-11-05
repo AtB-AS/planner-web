@@ -72,7 +72,7 @@ export function DepartureTime({
           </div>
 
           <Typo.p
-            textType="body__tertiary--strike"
+            textType="body__xs__strike"
             color="secondary"
             aria-label={`${t(
               ComponentText.DepartureTime.time.aimedPrefix,
@@ -120,7 +120,7 @@ function TimeContainer({
         cancelled ? style.textColor__secondary : '',
         style.timeContainer,
       )}
-      textType={cancelled ? 'body__primary--strike' : 'body__primary'}
+      textType={cancelled ? 'body__m__strike' : 'body__m'}
       aria-label={
         cancelled
           ? `${screenReaderPause} ${t(ComponentText.DepartureTime.cancelled)}`

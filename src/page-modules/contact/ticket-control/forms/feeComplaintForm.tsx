@@ -21,11 +21,11 @@ const FirstAgreement = ({ state, send }: FirstAgreementProps) => {
         PageText.Contact.ticketControl.feeComplaint.firstAgreement.title,
       )}
     >
-      <Typo.p textType="body__primary">
+      <Typo.p textType="body__m">
         {t(PageText.Contact.ticketControl.feeComplaint.firstAgreement.question)}
       </Typo.p>
       <div>
-        <Typo.p textType="body__primary--bold">
+        <Typo.p textType="body__m__strong">
           {t(
             PageText.Contact.ticketControl.feeComplaint.firstAgreement
               .labelRules,
@@ -35,7 +35,7 @@ const FirstAgreement = ({ state, send }: FirstAgreementProps) => {
           {PageText.Contact.ticketControl.feeComplaint.firstAgreement.rules.map(
             (rule: TranslatedString, index: number) => (
               <li key={index}>
-                <Typo.span textType="body__primary">{t(rule)}</Typo.span>
+                <Typo.span textType="body__m">{t(rule)}</Typo.span>
               </li>
             ),
           )}
@@ -73,12 +73,12 @@ const SecondAgreement = ({ state, send }: SecondAgreementProps) => {
         {PageText.Contact.ticketControl.feeComplaint.secondAgreement.rules.map(
           (rule: TranslatedString, index: number) => (
             <li key={index}>
-              <Typo.span textType="body__primary">{t(rule)}</Typo.span>
+              <Typo.span textType="body__m">{t(rule)}</Typo.span>
             </li>
           ),
         )}
       </ul>
-      <Typo.p textType="body__primary">
+      <Typo.p textType="body__m">
         {t(PageText.Contact.ticketControl.feeComplaint.secondAgreement.info)}
       </Typo.p>
 
@@ -125,7 +125,7 @@ const FormContent = ({ state, send }: FormProps) => {
           }}
         />
 
-        <Typo.h3 textType="heading__component">
+        <Typo.h3 textType="heading__m">
           {t(
             PageText.Contact.ticketControl.feeComplaint.ticketStorage.question,
           )}

@@ -10,7 +10,7 @@ export default function ErrorMessage({ message }: ErrorMessageProps) {
   return (
     <div role="alert" className={style.errorMessage}>
       <ColorIcon icon="status/Error" />
-      <Typo.span textType="body__secondary">{message}</Typo.span>
+      <Typo.span textType="body__s">{message}</Typo.span>
     </div>
   );
 }

@@ -116,7 +116,7 @@ export function TransportIconWithLabel({
       )}
       {!label && duration && (
         <Typo.span
-          textType="body__tertiary"
+          textType="body__xs"
           style={{ color: colors.textColor }}
           className={style.transportIconWithLabel__duration}
         >

@@ -15,7 +15,7 @@ export const OrderTravelCardForm = () => {
         {PageText.Contact.ticketing.travelCard.orderTravelCard.detailsList.map(
           (paragraph: TranslatedString, index: number) => (
             <li key={`info-paragraph-${index}`}>
-              <Typo.p textType="body__primary">{t(paragraph)}</Typo.p>
+              <Typo.p textType="body__m">{t(paragraph)}</Typo.p>
             </li>
           ),
         )}

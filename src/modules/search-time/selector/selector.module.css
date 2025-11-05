@@ -167,7 +167,7 @@
   padding: token('spacing.small');
 }
 .calendarDialog__title {
-  composes: typo-heading__component from '@atb/theme/typography.module.css';
+  composes: typo-heading__m from '@atb/theme/typography.module.css';
 }
 .calendarDialog__headerButtons {
   background: none;

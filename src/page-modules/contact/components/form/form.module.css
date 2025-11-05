@@ -1,8 +1,8 @@
-@value typo-body__secondary from "@atb/theme/typography.module.css";
-@value typo-body__primary from "@atb/theme/typography.module.css";
+@value typo-body__s from "@atb/theme/typography.module.css";
+@value typo-body__m from "@atb/theme/typography.module.css";
 
 .container {
-  composes: typo-body__secondary;
+  composes: typo-body__s;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
@@ -167,9 +167,9 @@
   min-height: 6rem;
   font-family: var(--font-main) !important;
   font-size: 1rem !important;
-  line-height: var(--baseTypo-body__primary-lineHeight, 1.25rem) !important;
+  line-height: var(--baseTypo-body__m-lineHeight, 1.25rem) !important;
   letter-spacing: var(
-    --baseTypo-body__primary-letterSpacing,
+    --baseTypo-body__m-letterSpacing,
     0.03125rem
   ) !important;
 }
@@ -536,7 +536,7 @@
 }
 
 .calendarDialog__title {
-  composes: typo-heading__component from '@atb/theme/typography.module.css';
+  composes: typo-heading__m from '@atb/theme/typography.module.css';
 }
 
 .calendarDialog__headerButtons {

@@ -75,7 +75,7 @@ export function StopPlace({ departures }: StopPlaceProps) {
           onMouseEnter={() => setIsHoveringRefreshButton(true)}
           onMouseLeave={() => setIsHoveringRefreshButton(false)}
         >
-          <Typo.span textType="body__primary">
+          <Typo.span textType="body__m">
             {t(PageText.Departures.stopPlace.quaySection.refreshButton)}
           </Typo.span>
           <MonoIcon
@@ -148,14 +148,14 @@ export function EstimatedCallList({ quay }: EstimatedCallListProps) {
         <div className={style.flex__row}>
           <Typo.h3
             className={style.textColor__secondary}
-            textType="body__secondary--bold"
+            textType="body__s__strong"
           >
             {formatQuayName(t, quay.name, quay.publicCode)}
           </Typo.h3>
           {quay.description && (
             <Typo.span
               className={style.textColor__secondary}
-              textType="body__tertiary"
+              textType="body__xs"
             >
               {quay.description}
             </Typo.span>
@@ -191,10 +191,7 @@ export function EstimatedCallList({ quay }: EstimatedCallListProps) {
             </>
           ) : (
             <li className={style.listItem}>
-              <Typo.p
-                textType="body__secondary"
-                className={style.fontColor__secondary}
-              >
+              <Typo.p textType="body__s" className={style.fontColor__secondary}>
                 {t(PageText.Departures.stopPlace.noDepartures)}
               </Typo.p>
             </li>
@@ -266,9 +263,7 @@ export function EstimatedCallItem({
 
           <Typo.p
             className={departure.cancellation ? style.textColor__secondary : ''}
-            textType={
-              departure.cancellation ? 'body__primary--strike' : 'body__primary'
-            }
+            textType={departure.cancellation ? 'body__m__strike' : 'body__m'}
           >
             {lineName}
           </Typo.p>

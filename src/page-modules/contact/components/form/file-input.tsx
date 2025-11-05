@@ -117,7 +117,7 @@ export default function FileInput({
         }}
       >
         <FileIcon color={background.neutral[0].foreground.primary} />
-        <Typo.span textType="body__primary">{iconLabel}</Typo.span>
+        <Typo.span textType="body__m">{iconLabel}</Typo.span>
       </label>
 
       {files.length > 0 && (
@@ -129,7 +129,7 @@ export default function FileInput({
                 icon={{ left: <MonoIcon size="small" icon="actions/Delete" /> }}
                 onClick={() => handleRemoveFile(index)}
               />
-              <Typo.span textType="body__secondary">{file.name}</Typo.span>
+              <Typo.span textType="body__s">{file.name}</Typo.span>
             </div>
           ))}
         </div>

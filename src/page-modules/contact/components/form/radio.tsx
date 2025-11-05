@@ -29,7 +29,7 @@ export default function Radio({
 
       <label htmlFor={id} className={style.label__radio}>
         <span className={style.label__radioBox}></span>
-        <Typo.span textType="body__primary">{label}</Typo.span>
+        <Typo.span textType="body__m">{label}</Typo.span>
       </label>
     </div>
   );

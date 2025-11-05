@@ -53,7 +53,7 @@ export default function WaitSection({ legWaitDetails }: WaitSectionProps) {
         </TripRow>
       )}
       <TripRow rowLabel={<MonoIcon icon="time/Time" />}>
-        <Typo.p textType="body__secondary" className={style.waitTime}>
+        <Typo.p textType="body__s" className={style.waitTime}>
           {t(PageText.Assistant.details.tripSection.wait.label(waitTime))}
         </Typo.p>
       </TripRow>

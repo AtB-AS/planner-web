@@ -44,7 +44,7 @@ export const Tag = ({ message, textId, type, size, icon }: TagProps) => {
         <ColorIcon icon={messageTypeToColorIcon(type)} />
       )}
       {type == 'secondary' && icon && <MonoIcon icon={icon} />}
-      <Typo.p textType="body__tertiary" id={textId} {...aria}>
+      <Typo.p textType="body__xs" id={textId} {...aria}>
         {message}
       </Typo.p>
     </div>

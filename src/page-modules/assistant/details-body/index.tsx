@@ -48,13 +48,13 @@ export function AssistantDetailsBody({ tripPattern }: DetailsBodyProps) {
         <div className={style.tripDetails}>
           <div className={style.duration}>
             <MonoIcon icon="time/Duration" />
-            <Typo.p textType="body__primary">
+            <Typo.p textType="body__m">
               {t(PageText.Assistant.details.mapSection.travelTime(duration))}
             </Typo.p>
           </div>
           <div className={style.walkDistance}>
             <MonoIcon icon="transportation/WalkFill" />
-            <Typo.p textType="body__primary">
+            <Typo.p textType="body__m">
               {t(
                 PageText.Assistant.details.mapSection.walkDistance(
                   (tripPattern.streetDistance ?? 0).toFixed(),

@@ -31,13 +31,13 @@ export const DelayForm = ({ state, send }: DelayFormProps) => {
   return (
     <>
       <Fieldset title={t(PageText.Contact.modeOfTransport.delay.description)}>
-        <Typo.p textType="body__primary">
+        <Typo.p textType="body__m">
           {t(PageText.Contact.modeOfTransport.delay.info)}
         </Typo.p>
       </Fieldset>
 
       <Fieldset title={t(PageText.Contact.modeOfTransport.delay.about.title)}>
-        <Typo.p textType="body__primary">
+        <Typo.p textType="body__m">
           {t(PageText.Contact.modeOfTransport.delay.about.description)}
         </Typo.p>
 

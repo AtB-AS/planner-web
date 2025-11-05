@@ -92,7 +92,7 @@ function ContactPageLayout({ children }: ContactPageLayoutProps) {
           />
         </div>
         <div className={style.layout__container}>
-          <Typo.h2 textType="heading--jumbo">
+          <Typo.h2 textType="heading__2xl">
             {t(PageText.Contact.contactPageLayout.title)}
           </Typo.h2>
 
@@ -111,9 +111,7 @@ function ContactPageLayout({ children }: ContactPageLayoutProps) {
                   })}
                 >
                   <MonoIcon size="large" icon={contactPage.icon} />
-                  <Typo.p textType="body__primary">
-                    {t(contactPage.title)}
-                  </Typo.p>
+                  <Typo.p textType="body__m">{t(contactPage.title)}</Typo.p>
                 </Link>
               );
             })}
@@ -123,7 +121,7 @@ function ContactPageLayout({ children }: ContactPageLayoutProps) {
       {children}
       {displayPrivacyAndTerms(selectedContactPage) && (
         <div className={style.privacyAndTerms}>
-          <Typo.p textType="body__secondary--bold">
+          <Typo.p textType="body__s__strong">
             {t(PageText.Contact.contactPageLayout.privacyAndTerms)}
           </Typo.p>
         </div>

@@ -8,12 +8,10 @@ export function SuccessContent() {
   const { t } = useTranslation();
   return (
     <section className={style.container}>
-      <Typo.h2 textType="heading--big">
+      <Typo.h2 textType="heading__xl">
         {t(PageText.Contact.success.title)}
       </Typo.h2>
-      <Typo.p textType="body__primary">
-        {t(PageText.Contact.success.info)}
-      </Typo.p>
+      <Typo.p textType="body__m">{t(PageText.Contact.success.info)}</Typo.p>
     </section>
   );
 }

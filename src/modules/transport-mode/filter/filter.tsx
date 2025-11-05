@@ -36,7 +36,7 @@ export default function TransportModeFilter({
   }
   return (
     <div>
-      <Typo.h3 textType="body__primary" className={style.heading}>
+      <Typo.h3 textType="body__m" className={style.heading}>
         {t(ComponentText.TransportModeFilter.label)}
       </Typo.h3>
 
@@ -113,7 +113,7 @@ export default function TransportModeFilter({
                 />
 
                 {option.description && (
-                  <Typo.p textType="body__tertiary" className={style.infoText}>
+                  <Typo.p textType="body__xs" className={style.infoText}>
                     {getTextForLanguage(option.description, language) ?? ''}
                   </Typo.p>
                 )}

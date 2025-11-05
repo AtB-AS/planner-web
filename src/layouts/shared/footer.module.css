@@ -20,7 +20,7 @@
 }
 
 .footer__title {
-  composes: typo-heading__paragraph from '@atb/theme/typography.module.css';
+  composes: typo-heading__m from '@atb/theme/typography.module.css';
   margin-bottom: token('spacing.xLarge');
 }
 
@@ -73,7 +73,7 @@
 
 .footer__cookieWarning {
   margin-top: token('spacing.medium');
-  composes: typo-body__tertiary from '@atb/theme/typography.module.css';
+  composes: typo-body__xs from '@atb/theme/typography.module.css';
   color: token('color.background.accent.4.foreground.primary');
 }
 

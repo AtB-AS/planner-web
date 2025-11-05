@@ -23,10 +23,7 @@ export function AuthoritySection({ authority }: AuthoritySectionProps) {
   return (
     <TripRow>
       <div className={style.authoritySection}>
-        <Typo.p
-          textType="body__secondary"
-          className={style.textColor__secondary}
-        >
+        <Typo.p textType="body__s" className={style.textColor__secondary}>
           {t(PageText.Assistant.details.tripSection.buyTicketFrom)}
         </Typo.p>
         <ButtonLink

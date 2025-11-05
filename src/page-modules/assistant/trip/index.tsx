@@ -138,7 +138,7 @@ export default function Trip({ tripQuery, fallback }: TripProps) {
 
       {tripQuery.via ? (
         <Typo.p
-          textType="body__primary--bold"
+          textType="body__m__strong"
           className={style.disabledFetchTextContainer}
         >
           {t(PageText.Assistant.trip.disabledFetchMore)}
@@ -184,7 +184,7 @@ function DayLabel({ departureTime, previousDepartureTime }: DayLabelProps) {
 
   if (isFirst || !isSameDay(prevDate, departureDate)) {
     return (
-      <Typo.p textType="heading--medium" className={style.dayLabel}>
+      <Typo.p textType="heading__l" className={style.dayLabel}>
         {dayLabel}
       </Typo.p>
     );

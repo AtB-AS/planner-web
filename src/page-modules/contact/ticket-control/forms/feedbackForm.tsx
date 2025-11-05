@@ -29,7 +29,7 @@ export const FeedbackForm = ({ state, send }: FeedbackFormProps) => {
   return (
     <>
       <Fieldset title={t(PageText.Contact.ticketControl.feedback.title)}>
-        <Typo.p textType="body__primary">
+        <Typo.p textType="body__m">
           {t(PageText.Contact.ticketControl.feedback.info)}
         </Typo.p>
 

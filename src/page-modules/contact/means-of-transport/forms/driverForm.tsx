@@ -31,13 +31,13 @@ export const DriverForm = ({ state, send }: DriverFormProps) => {
   return (
     <>
       <Fieldset title={t(PageText.Contact.modeOfTransport.driver.description)}>
-        <Typo.p textType="body__primary">
+        <Typo.p textType="body__m">
           {t(PageText.Contact.modeOfTransport.driver.info)}
         </Typo.p>
       </Fieldset>
 
       <Fieldset title={t(PageText.Contact.modeOfTransport.driver.about.title)}>
-        <Typo.p textType="body__primary">
+        <Typo.p textType="body__m">
           {t(PageText.Contact.modeOfTransport.driver.about.description)}
         </Typo.p>
 

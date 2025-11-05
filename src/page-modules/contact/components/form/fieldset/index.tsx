@@ -18,7 +18,7 @@ export const Fieldset = ({
       {title && (
         <legend className={style.legend}>
           <Typo.h3
-            textType="heading__component"
+            textType="heading__m"
             className={andIf({
               [style.required]: isRequired,
             })}

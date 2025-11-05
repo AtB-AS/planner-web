@@ -49,15 +49,12 @@ export function MapHeader({
         <div className={style.header__info}>
           {layer === 'address' && (
             <p
-              className={and(
-                'typo-body__secondary',
-                style['header__info__secondary'],
-              )}
+              className={and('typo-body__s', style['header__info__secondary'])}
             >
               {t(ComponentText.Map.header.address)}
             </p>
           )}
-          <h2 className={and('typo-heading--medium')}>{name}</h2>
+          <h2 className={and('typo-heading__l')}>{name}</h2>
         </div>
       </div>
 

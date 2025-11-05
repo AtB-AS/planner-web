@@ -64,7 +64,7 @@
 a.tabSelected {
   text-decoration: none;
   border-bottom: 2px solid token('color.foreground.dynamic.primary');
-  font-weight: var(--baseTypo-body__primary--bold-fontWeight, 500);
+  font-weight: var(--baseTypo-body__m__strong-fontWeight, 500);
 }
 .tabs a:hover {
   color: token('color.background.accent.1.foreground.primary');
@@ -85,10 +85,10 @@ a.tabSelected {
   composes: heading from assistant;
   margin-bottom: 0.375rem;
 
-  font-size: var(--baseTypo-body__primary--bold-fontSize, 1rem);
-  line-height: var(--baseTypo-body__primary--bold-lineHeight, 1.25rem);
-  letter-spacing: var(--baseTypo-body__primary--bold-letterSpacing, 0.03125rem);
-  font-weight: var(--baseTypo-body__primary--bold-fontWeight, 500);
+  font-size: var(--baseTypo-body__m__strong-fontSize, 1rem);
+  line-height: var(--baseTypo-body__m__strong-lineHeight, 1.25rem);
+  letter-spacing: var(--baseTypo-body__m__strong-letterSpacing, 0.03125rem);
+  font-weight: var(--baseTypo-body__m__strong-fontWeight, 500);
 }
 
 .inputBoxes {
@@ -112,9 +112,9 @@ a.tabSelected {
 .search_label {
   composes: label from search;
 
-  font-size: var(--baseTypo-body__secondary-fontSize, 0.875rem);
-  line-height: var(--baseTypo-body__secondary-lineHeight, 1.25rem);
-  letter-spacing: var(--baseTypo-body__secondary-letterSpacing, 0.015625rem);
+  font-size: var(--baseTypo-body__s-fontSize, 0.875rem);
+  line-height: var(--baseTypo-body__s-lineHeight, 1.25rem);
+  letter-spacing: var(--baseTypo-body__s-letterSpacing, 0.015625rem);
 }
 .search_input {
   composes: input from search;
@@ -204,9 +204,9 @@ a.tabSelected {
   text-decoration: none;
   align-items: center;
 
-  font-size: var(--baseTypo-body__primary-fontSize, 1rem);
-  line-height: var(--baseTypo-body__primary-lineHeight, 1.25rem);
-  letter-spacing: var(--baseTypo-body__primary-letterSpacing, 0.03125rem);
+  font-size: var(--baseTypo-body__m-fontSize, 1rem);
+  line-height: var(--baseTypo-body__m-lineHeight, 1.25rem);
+  letter-spacing: var(--baseTypo-body__m-letterSpacing, 0.03125rem);
 
   display: flex;
 

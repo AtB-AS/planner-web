@@ -93,7 +93,7 @@ export function DeparturesDetails({
             transportSubmode={serviceJourney.transportSubmode}
             publicCode={serviceJourney.line.publicCode}
           />
-          <Typo.h2 textType="heading--big">{title}</Typo.h2>
+          <Typo.h2 textType="heading__xl">{title}</Typo.h2>
         </div>
         <GlobalMessages
           context={GlobalMessageContextEnum.plannerWebDeparturesDetails}
@@ -101,7 +101,7 @@ export function DeparturesDetails({
         {realtimeText && !focusedCall.cancellation && (
           <div className={style.realtimeText}>
             <ColorIcon icon="status/Realtime" size="xSmall" />
-            <Typo.h3 textType="body__secondary">{realtimeText}</Typo.h3>
+            <Typo.h3 textType="body__s">{realtimeText}</Typo.h3>
           </div>
         )}
       </div>

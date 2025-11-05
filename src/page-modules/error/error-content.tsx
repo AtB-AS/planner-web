@@ -29,8 +29,8 @@ export function ErrorContent({ statusCode, message }: ErrorContentProps) {
         title={t(PageText.Error.backButton)}
         icon={{ left: <MonoIcon icon="navigation/ArrowLeft" /> }}
       />
-      <Typo.h2 textType="heading--big">{t(PageText.Error.title)}</Typo.h2>
-      <Typo.p textType="body__primary">{errorMessage}</Typo.p>
+      <Typo.h2 textType="heading__xl">{t(PageText.Error.title)}</Typo.h2>
+      <Typo.p textType="body__m">{errorMessage}</Typo.p>
     </section>
   );
 }

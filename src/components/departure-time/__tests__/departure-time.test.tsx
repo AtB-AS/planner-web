@@ -31,9 +31,7 @@ describe('departure time component', function () {
       />,
     );
     expect(output.getByLabelText('Sanntid 12:00')).toBeInTheDocument();
-    expect(output.queryByText('12:00')).not.toHaveClass(
-      'body__tertiary--strike',
-    );
+    expect(output.queryByText('12:00')).not.toHaveClass('body__xs__strike');
   });
 
   it('should render aimed if realtime not active, even on delays', () => {
@@ -58,7 +56,7 @@ describe('departure time component', function () {
     );
     expect(output.getByLabelText('Rutetid 12:00')).toBeInTheDocument();
     expect(output.getByLabelText('Rutetid 12:00')).toHaveClass(
-      'typo-body__tertiary--strike',
+      'typo-body__xs__strike',
     );
     expect(output.getByLabelText('Sanntid 12:05')).toBeInTheDocument();
   });
@@ -107,7 +105,7 @@ describe('departure time component', function () {
         realtime
       />,
     );
-    expect(output.getByText('12:00')).toHaveClass('typo-body__primary--strike');
+    expect(output.getByText('12:00')).toHaveClass('typo-body__m__strike');
     expect(output.getByText('12:00').getAttribute('aria-label')).toContain(
       'Avgangen fra denne holdeplassen er kansellert',
     );
@@ -151,7 +149,7 @@ describe('departure time component', function () {
 
       expect(output.getByLabelText(expectedLabel)).toBeInTheDocument();
       expect(output.getByLabelText(expectedLabel)).toHaveClass(
-        'typo-body__tertiary--strike',
+        'typo-body__xs__strike',
       );
       expect(
         output.getByLabelText(`Sanntid ${delayInMinutes} min`),
