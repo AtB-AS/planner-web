@@ -15,7 +15,7 @@ export const externalHttpUrls = {
 export type HttpEndpoints = keyof typeof externalHttpUrls;
 
 export const externalGraphQlEndpoints = {
-  'graphql-journeyPlanner3': 'https://api.entur.io/journey-planner/v3/graphql',
+  'graphql-journeyPlanner3': `${process.env.ENTUR_BASE_URL ?? 'https://api.entur.io'}/journey-planner/v3/graphql`,
 } as const;
 
 export type GraphQlEndpoints = keyof typeof externalGraphQlEndpoints;
