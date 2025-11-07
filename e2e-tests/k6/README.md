@@ -16,7 +16,7 @@ Install k6 and the xk6-extension to write to file (error log in `/logs`). On Mac
 ```bash
 $ brew install k6
 $ go install go.k6.io/xk6/cmd/xk6@latest
-$ xk6 build v0.54.0 --with github.com/avitalique/xk6-file@latest
+$ xk6 build v1.3.0 --with github.com/avitalique/xk6-file@latest
 $ yarn install
 ```
 
@@ -24,13 +24,13 @@ Run functional test
 
 ```bash
 # Headless
-e2e-tests/k6$  ./k6 run --compatibility-mode=experimental_enhanced runTest.ts -e env=[dev | staging | prod]
+e2e-tests/k6$  ./k6 run runTest.ts -e env=[dev | staging | prod]
 # With browser
-e2e-tests/k6$  K6_BROWSER_HEADLESS=false ./k6 run --compatibility-mode=experimental_enhanced runTest.ts -e env=[dev | staging | prod]
+e2e-tests/k6$  K6_BROWSER_HEADLESS=false ./k6 run runTest.ts -e env=[dev | staging | prod]
 ```
 
 Run performance test - default: 100 iterations with 10 users
 
 ```bash
-e2e-tests/k6$  ./k6 run --compatibility-mode=experimental_enhanced runTest.ts -e env=[dev | staging | prod] -e performanceTest=true
+e2e-tests/k6$  ./k6 run runTest.ts -e env=[dev | staging | prod] -e performanceTest=true
 ```
