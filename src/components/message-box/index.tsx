@@ -27,8 +27,6 @@ export type MessageBoxProps = {
   onDismiss?: () => void;
   borderRadius?: boolean;
   subtle?: boolean;
-  link?: string;
-  linkText?: string;
 };
 
 export const MessageBox = ({
