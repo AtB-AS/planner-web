@@ -13,7 +13,6 @@
   },
 
   "featureConfig": {
-    "forceTheme": "light",
     "enableShowTripPatternPrice": false
   },
 
