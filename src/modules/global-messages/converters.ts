@@ -20,6 +20,8 @@ export const globalMessageConverter = {
       isDismissable: data.isDismissable,
       startDate: firestoreTimestampToDate(data.startDate),
       endDate: firestoreTimestampToDate(data.endDate),
+      link: data.link,
+      linkText: data.linkText,
     };
 
     const validated = globalMessageTypeSchema.safeParse(potential);

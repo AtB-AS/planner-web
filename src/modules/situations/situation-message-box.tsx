@@ -90,7 +90,10 @@ export const SituationMessageBox = ({
         type={messageType}
         noStatusIcon={noStatusIcon}
         message={text}
-        onClick={() => dialogRef.current?.showModal()}
+        onClickConfig={{
+          text: t(dictionary.readMore),
+          action: () => dialogRef.current?.showModal(),
+        }}
       />
     </>
   );

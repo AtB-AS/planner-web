@@ -13,7 +13,8 @@ export type GlobalMessagesProps = {
 
 export function GlobalMessages({ context, className }: GlobalMessagesProps) {
   const { language } = useTranslation();
-  const { activeGlobalMessages, dismissGlobalMessage } = useActiveGlobalMessages();
+  const { activeGlobalMessages, dismissGlobalMessage } =
+    useActiveGlobalMessages();
 
   if (!activeGlobalMessages.length) return null;
 
@@ -34,23 +35,34 @@ export function GlobalMessages({ context, className }: GlobalMessagesProps) {
     >
       {activeGlobalMessages
         .filter((message) => message.context.includes(context))
-        .map((message) => (
-          <motion.div
-            key={message.id}
-            variants={{
-              hidden: { opacity: 0, height: 0 },
-              show: { opacity: 1, height: 'auto' },
-            }}
-          >
-            <MessageBox
-              type={message.type}
-              title={getTextForLanguage(message.title, language)}
-              message={getTextForLanguage(message.body, language) ?? ''}
-              subtle={message.subtle}
-              onDismiss={message.isDismissable ? () => dismissGlobalMessage(message) : undefined }
-            />
-          </motion.div>
-        ))}
+        .map((message) => {
+          const link = getTextForLanguage(message.link, language);
+          const linkText = getTextForLanguage(message.linkText, language);
+          return (
+            <motion.div
+              key={message.id}
+              variants={{
+                hidden: { opacity: 0, height: 0 },
+                show: { opacity: 1, height: 'auto' },
+              }}
+            >
+              <MessageBox
+                type={message.type}
+                title={getTextForLanguage(message.title, language)}
+                message={getTextForLanguage(message.body, language) ?? ''}
+                subtle={message.subtle}
+                onDismiss={
+                  message.isDismissable
+                    ? () => dismissGlobalMessage(message)
+                    : undefined
+                }
+                onClickConfig={
+                  link ? { url: link, text: linkText ?? link } : undefined
+                }
+              />
+            </motion.div>
+          );
+        })}
     </motion.div>
   );
 }

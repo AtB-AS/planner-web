@@ -6,13 +6,16 @@ import { messageTypeToMonoIcon } from '@atb/modules/situations';
 import { Button } from '@atb/components/button';
 import dictionary from '@atb/translations/dictionary';
 import { Typo } from '@atb/components/typography';
-
 import style from './message-box.module.css';
 import { colorToOverrideMode } from '@atb/utils/color';
-import { screenReaderPause } from '@atb/components/typography/utils';
 import { HTMLAttributes } from 'react';
+import Link from 'next/link';
 
 export type MessageMode = StatusColorName;
+
+export type OnClickConfig = {
+  text: string;
+} & ({ action: () => void } | { url: string });
 
 export type MessageBoxProps = {
   type: MessageMode;
@@ -20,7 +23,7 @@ export type MessageBoxProps = {
   textId?: string;
   message: string;
   noStatusIcon?: boolean;
-  onClick?: () => void;
+  onClickConfig?: OnClickConfig;
   onDismiss?: () => void;
   borderRadius?: boolean;
   subtle?: boolean;
@@ -32,7 +35,7 @@ export const MessageBox = ({
   message,
   textId,
   title,
-  onClick,
+  onClickConfig,
   onDismiss,
   borderRadius = true,
   subtle = false,
@@ -50,6 +53,12 @@ export const MessageBox = ({
   const aria = modeToAria(type);
 
   if (message === '') return null;
+
+  const onClickAction =
+    onClickConfig &&
+    ('action' in onClickConfig ? onClickConfig.action : undefined);
+  const onClickUrl =
+    onClickConfig && ('url' in onClickConfig ? onClickConfig.url : undefined);
 
   return (
     <div
@@ -71,19 +80,18 @@ export const MessageBox = ({
         <Typo.p textType="body__m" id={textId} {...aria}>
           {message}
         </Typo.p>
-        {onClick && (
+        {onClickAction && (
           <Button
             mode="transparent--underline"
-            onClick={() => onClick()}
-            title={t(dictionary.readMore)}
+            onClick={onClickAction}
+            title={onClickConfig.text}
             size="compact"
             buttonProps={{
-              'aria-label': `${message}${screenReaderPause}${t(
-                dictionary.readMore,
-              )}`,
+              'aria-label': onClickConfig.text,
             }}
           />
         )}
+        {onClickUrl && <Link href={onClickUrl}>{onClickConfig.text}</Link>}
       </div>
       {onDismiss && (
         <button
