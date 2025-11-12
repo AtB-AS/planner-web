@@ -42,6 +42,8 @@ export const globalMessageTypeSchema = z.object({
   isDismissable: z.boolean().default(false),
   startDate: z.date().optional(),
   endDate: z.date().optional(),
+  link: z.array(languageAndTextSchema).optional(),
+  linkText: z.array(languageAndTextSchema).optional(),
 });
 
 export type GlobalMessageType = z.infer<typeof globalMessageTypeSchema>;
