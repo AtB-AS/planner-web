@@ -1,0 +1,62 @@
+name: k6 preview tests
+
+on:
+  repository_dispatch:
+    types:
+      - 'vercel.deployment.success'
+  workflow_dispatch:
+    host:
+      branch:
+        description: 'Set the host'
+        required: true
+        default: ''
+
+jobs:
+  k6-preview-tests:
+    if: ${{ github.event_name == 'repository_dispatch' || github.event.inputs.host != '' }}
+    runs-on: ubuntu-latest
+    env:
+      ENV_HOST: ${{ github.event.inputs.host || github.event.client_payload.url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install k6
+        run: |
+          curl https://github.com/grafana/k6/releases/download/v1.4.0/k6-v1.4.0-linux-amd64.tar.gz -L | tar xvz --strip-components 1
+
+      - name: Install k6 extensions
+        run: |
+          go install go.k6.io/xk6/cmd/xk6@latest
+          export PATH=$(go env GOPATH)/bin:$PATH
+          xk6 build v1.4.0 --with github.com/avitalique/xk6-file@latest
+
+      - name: Install dependencies
+        working-directory: e2e-tests/k6
+        run: |
+          yarn install          
+
+      - name: Run k6 tests
+        working-directory: e2e-tests/k6
+        run: |
+          ./k6 run runTest.ts
+        env:
+          host: ${{ env.ENV_HOST }}
+
+      - name: Request log
+        run: |
+          cat e2e-tests/k6/logs/requests.log    
+
+      - name: Fail on any errors
+        run: |
+          if find e2e-tests/k6/logs -maxdepth 1 -name "errors.log" | grep -q .; then
+            echo "### ⚠️ Test errors" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "See more details in the workflow" >> $GITHUB_STEP_SUMMARY
+            echo "⚠️ Errors are found, failing the job."
+            cat e2e-tests/k6/logs/errors.log
+            exit 1
+          else
+            echo "✅ All good!" >> $GITHUB_STEP_SUMMARY
+            echo "✅ All good!"
+          fi

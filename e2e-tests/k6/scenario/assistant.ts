@@ -3,7 +3,7 @@ import { Assistant } from '../pages/assistant.ts';
 import { Measures } from '../measurements/measures.ts';
 import { Metrics } from '../measurements/metrics.ts';
 import Conf from '../conf/conf.ts';
-import { errorLog, screenshot } from '../utils/utils.ts';
+import { attachRequestLogger, errorLog, screenshot } from '../utils/utils.ts';
 import {
   getFromLocationName,
   getToLocationName,
@@ -16,6 +16,8 @@ export async function assistant(
   region: boolean = false,
 ) {
   try {
+    attachRequestLogger(page);
+
     await page.goto(`${Conf.host}/assistant`);
     const measures = new Measures(page);
     const assistant = new Assistant(page);
@@ -60,7 +62,7 @@ export async function assistant(
 
     // Open trip details
     const moreDetails = assistant.getMoreDetails();
-    await moreDetails.click()
+    await moreDetails.click();
     await measures.mark('assistant-details-open');
     const tripDetails = assistant.getTripDetails();
     await tripDetails.waitFor({
