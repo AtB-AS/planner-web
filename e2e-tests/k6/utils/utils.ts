@@ -2,12 +2,15 @@ import { Page } from 'k6/browser';
 import Conf from '../conf/conf.ts';
 /* @ts-ignore */
 import file from 'k6/x/file';
+import { sleep } from 'k6';
 
-const logFile = 'logs/log.txt';
-const errorLogFile = 'logs/log-error.txt';
+const logFile = 'logs/log.log';
+const errorLogFile = 'logs/errors.log';
+const requestsLogFile = 'logs/requests.log';
 
 export const screenshot = async (page: Page, label: string) => {
   if (!Conf.isPerformanceTest) {
+    sleep(1);
     await page.screenshot({ path: `screenshots/${label}.png` });
   }
 };
@@ -18,4 +21,22 @@ export const log = (label: string) => {
 
 export const errorLog = (label: string) => {
   file.appendString(errorLogFile, `${label}\n`);
+};
+
+export const requestLog = (label: string) => {
+  file.appendString(requestsLogFile, `${label}\n`);
+};
+
+// Registers a handler that logs all responses received by the page
+export const attachRequestLogger = (page: Page) => {
+  if (!Conf.isPerformanceTest) {
+    page.on('response', async (request) => {
+      if (request.url().includes(`${Conf.host}/api/`)) {
+        const delay = Math.round(request.request().timing().responseStart);
+        requestLog(
+          `[DELAY] ${delay}\t[REQUEST] ${request.request().method()}\t${request.status()}\t${request.url()}`,
+        );
+      }
+    });
+  }
 };
