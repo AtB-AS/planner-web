@@ -32,7 +32,12 @@ export const attachRequestLogger = (page: Page) => {
   if (!Conf.isPerformanceTest) {
     page.on('response', async (request) => {
       if (request.url().includes(`${Conf.host}/api/`)) {
-        const delay = Math.round(request.request().timing().responseStart);
+        let delay = Math.round(
+          request.request().timing().responseStart,
+        ).toString();
+        while (delay.length < 5) {
+          delay = ' ' + delay;
+        }
         requestLog(
           `[DELAY] ${delay}\t[REQUEST] ${request.request().method()}\t${request.status()}\t${request.url()}`,
         );
