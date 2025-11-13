@@ -1,6 +1,9 @@
 name: k6 tests
 
 on:
+  push:
+    branches:
+      - tor/e2e-vercel
   repository_dispatch:
     types:
       - 'vercel.deployment.success'
@@ -14,14 +17,14 @@ on:
       branch:
         description: 'Set the host'
         required: true
-        default: ''
+        default: 'https://planner-web-git-tor-e2e-vercel-atb.vercel.app'
 
 jobs:
   k6-tests:
     if: github.event_name == 'repository_dispatch' || github.event.inputs.host != ''
     runs-on: ubuntu-latest
     env:
-      ENV_BRANCH: ${{ github.event.inputs.branch || 'main' }}
+      ENV_BRANCH: ${{ github.event.inputs.branch || 'tor/e2e-vercel' }}
       ENV_HOST: ${{ github.event.inputs.host || github.event.client_payload.url }}
     steps:
       - name: Checkout
