@@ -1,12 +1,12 @@
 name: k6 tests
 
 on:
-  push:
-    branches:
-      - tor/e2e-vercel
-  repository_dispatch:
-    types:
-      - 'vercel.deployment.success'
+  #push:
+  #  branches:
+  #    - tor/e2e-vercel
+  #repository_dispatch:
+  #  types:
+  #    - 'vercel.deployment.success'
   workflow_dispatch:
     inputs:
       branch:
