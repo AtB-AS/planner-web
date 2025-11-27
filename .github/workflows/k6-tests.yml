@@ -36,7 +36,13 @@ jobs:
       - name: Install dependencies
         working-directory: e2e-tests/k6
         run: |
-          yarn install          
+          yarn install      
+
+      - name: temp log
+        run: |
+          ls -al .
+          ls -al e2e-tests
+          ls -al e2e-tests/k6
 
       - name: Run k6 tests
         working-directory: e2e-tests/k6
