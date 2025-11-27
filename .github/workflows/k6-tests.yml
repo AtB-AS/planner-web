@@ -5,15 +5,15 @@ on:
     types:
       - 'vercel.deployment.success'
   workflow_dispatch:
-    host:
-      branch:
+    inputs:
+      host:
         description: 'Set the host'
         required: true
         default: ''
 
 jobs:
   k6-preview-tests:
-    if: ${{ github.event_name == 'repository_dispatch' || github.event.inputs.host != '' }}
+    #if: ${{ github.event_name == 'repository_dispatch' || github.event.inputs.host != '' }}
     runs-on: ubuntu-latest
     env:
       ENV_HOST: ${{ github.event.inputs.host || github.event.client_payload.url }}
