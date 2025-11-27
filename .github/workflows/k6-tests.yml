@@ -21,10 +21,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install k6
+      #- name: Install k6
         #working-directory: e2e-tests/k6
-        run: |
-          curl https://github.com/grafana/k6/releases/download/v1.4.0/k6-v1.4.0-linux-amd64.tar.gz -L | tar xvz --strip-components 1
+      #  run: |
+      #    curl https://github.com/grafana/k6/releases/download/v1.4.0/k6-v1.4.0-linux-amd64.tar.gz -L | tar xvz --strip-components 1
 
       - name: Setup k6 browser environment
         uses: grafana/setup-k6-action@v1
@@ -58,6 +58,13 @@ jobs:
           ./k6 run runTest.ts
         env:
           host: ${{ env.ENV_HOST }}
+
+      - name: temp log 2
+        run: |
+          ls -al .
+          ls -al e2e-tests
+          ls -al e2e-tests/k6
+          ls -al e2e-tests/k6/logs
 
       - name: Request log
         run: |
