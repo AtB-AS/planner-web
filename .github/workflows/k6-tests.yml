@@ -5,15 +5,15 @@ on:
     types:
       - 'vercel.deployment.success'
   workflow_dispatch:
-    host:
-      branch:
+    inputs:
+      host:
         description: 'Set the host'
         required: true
         default: ''
 
 jobs:
   k6-preview-tests:
-    if: ${{ github.event_name == 'repository_dispatch' || github.event.inputs.host != '' }}
+    #if: ${{ github.event_name == 'repository_dispatch' || github.event.inputs.host != '' }}
     runs-on: ubuntu-latest
     env:
       ENV_HOST: ${{ github.event.inputs.host || github.event.client_payload.url }}
@@ -21,11 +21,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install k6
-        run: |
-          curl https://github.com/grafana/k6/releases/download/v1.4.0/k6-v1.4.0-linux-amd64.tar.gz -L | tar xvz --strip-components 1
+      #- name: Install k6
+        #working-directory: e2e-tests/k6
+      #  run: |
+      #    curl https://github.com/grafana/k6/releases/download/v1.4.0/k6-v1.4.0-linux-amd64.tar.gz -L | tar xvz --strip-components 1
+
+      - name: Setup k6 browser environment
+        uses: grafana/setup-k6-action@v1
+        with:
+          k6-version: '1.4.0'
+          browser: true
 
       - name: Install k6 extensions
+        working-directory: e2e-tests/k6
         run: |
           go install go.k6.io/xk6/cmd/xk6@latest
           export PATH=$(go env GOPATH)/bin:$PATH
@@ -34,14 +42,29 @@ jobs:
       - name: Install dependencies
         working-directory: e2e-tests/k6
         run: |
-          yarn install          
+          yarn install      
+
+      - name: temp log
+        run: |
+          ls -al .
+          ls -al e2e-tests
+          ls -al e2e-tests/k6
 
       - name: Run k6 tests
         working-directory: e2e-tests/k6
+        #run: |
+        #  K6_BROWSER_ARGS='no-sandbox' ./k6 run runTest.ts
         run: |
           ./k6 run runTest.ts
         env:
           host: ${{ env.ENV_HOST }}
+
+      - name: temp log 2
+        run: |
+          ls -al .
+          ls -al e2e-tests
+          ls -al e2e-tests/k6
+          ls -al e2e-tests/k6/logs
 
       - name: Request log
         run: |
