@@ -17,10 +17,12 @@ import TimeSelectorDropdown from './time-selector-dropdown';
 export type TimeSelectorProps = {
   selectedTime: string;
   onChange: (value: string) => void;
+  onValueChanged: (isChanged: boolean) => void;
 };
 export default function TimeSelector({
   selectedTime,
   onChange,
+  onValueChanged,
 }: TimeSelectorProps) {
   const { t } = useTranslation();
   const parsedValue = parseTime(selectedTime);
@@ -28,7 +30,10 @@ export default function TimeSelector({
   return (
     <TimeField
       value={parsedValue}
-      onChange={(change) => change && onChange(change.toString())}
+      onChange={(change) => {
+        onValueChanged(true);
+        change && onChange(change.toString());
+      }}
       hourCycle={24}
       shouldForceLeadingZeros
       className={style.timeSelector}
@@ -55,7 +60,10 @@ export default function TimeSelector({
 
           <TimeSelectorDropdown
             selectedTime={selectedTime}
-            onChange={onChange}
+            onChange={(time) => {
+              onChange(time);
+              onValueChanged(true);
+            }}
           />
         </DialogTrigger>
       </Group>

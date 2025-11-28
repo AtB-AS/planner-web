@@ -37,6 +37,8 @@ export default function SearchTimeSelector({
     format(initialDate, 'HH:mm'),
   );
 
+  const [isTimeUpdated, setTimeUpdated] = useState<boolean>(false);
+
   const internalOnStateChange = (state: SearchMode) => {
     const newState =
       state === 'now'
@@ -87,7 +89,9 @@ export default function SearchTimeSelector({
     // resets time to early morning when moving away from today
     // does not reset time when the date is already in the future
     const newTime =
-      isToday(selectedDate) && isFuture(newDate) ? '06:00' : selectedTime;
+      isToday(selectedDate) && isFuture(newDate) && !isTimeUpdated
+        ? '06:00'
+        : selectedTime;
 
     setSelectedDate(newDate);
     setSelectedTime(newTime);
@@ -168,6 +172,7 @@ export default function SearchTimeSelector({
               <TimeSelector
                 selectedTime={selectedTime}
                 onChange={internalOnTimeChange}
+                onValueChanged={setTimeUpdated}
               />
             </div>
           </motion.div>
