@@ -13,18 +13,12 @@ on:
 
 jobs:
   k6-preview-tests:
-    #if: ${{ github.event_name == 'repository_dispatch' || github.event.inputs.host != '' }}
     runs-on: ubuntu-latest
     env:
       ENV_HOST: ${{ github.event.inputs.host || github.event.client_payload.url }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      #- name: Install k6
-        #working-directory: e2e-tests/k6
-      #  run: |
-      #    curl https://github.com/grafana/k6/releases/download/v1.4.0/k6-v1.4.0-linux-amd64.tar.gz -L | tar xvz --strip-components 1
 
       - name: Setup k6 browser environment
         uses: grafana/setup-k6-action@v1
@@ -44,31 +38,32 @@ jobs:
         run: |
           yarn install      
 
-      - name: temp log
-        run: |
-          ls -al .
-          ls -al e2e-tests
-          ls -al e2e-tests/k6
-
       - name: Run k6 tests
         working-directory: e2e-tests/k6
-        #run: |
-        #  K6_BROWSER_ARGS='no-sandbox' ./k6 run runTest.ts
         run: |
           ./k6 run runTest.ts
         env:
           host: ${{ env.ENV_HOST }}
 
-      - name: temp log 2
-        run: |
-          ls -al .
-          ls -al e2e-tests
-          ls -al e2e-tests/k6
-          ls -al e2e-tests/k6/logs
-
       - name: Request log
         run: |
-          cat e2e-tests/k6/logs/requests.log    
+          if find e2e-tests/k6/logs -maxdepth 1 -name "errors.log" | grep -q .; then
+            cat e2e-tests/k6/logs/requests.log
+          else
+            echo "### ⚠️ Test errors" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "See more details in the workflow" >> $GITHUB_STEP_SUMMARY
+            echo "⚠️ No requests log is found, failing the job.
+            exit 1
+          fi
+
+      - name: Notify Slack
+        run: |
+          ./e2e-tests/k6/integration/slack_notification.sh
+        env:
+          SLACK_TOKEN: ${{ secrets.ATB_SLACK_TOKEN }}
+          SLACK_CHANNEL: "e2e_tests"
+          GH_RUN_ID: ${{ github.run_id }}
 
       - name: Fail on any errors
         run: |
