@@ -13,7 +13,8 @@
   },
 
   "featureConfig": {
-    "enableShowTripPatternPrice": false
+    "enableShowTripPatternPrice": false,
+    "forceTheme": "light"
   },
 
   "urls": {
