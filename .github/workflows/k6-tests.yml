@@ -53,7 +53,7 @@ jobs:
             echo "### ⚠️ Test errors" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
             echo "See more details in the workflow" >> $GITHUB_STEP_SUMMARY
-            echo "⚠️ No requests log is found, failing the job.
+            echo "⚠️ No requests log is found, failing the job."
             exit 1
           fi
 
