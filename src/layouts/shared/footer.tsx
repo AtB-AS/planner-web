@@ -28,8 +28,13 @@ export default function Footer({ withoutSettings = false }: FooterProps) {
   const { color } = useTheme();
   const buttonStyle = getButtonStyleForColor(color.background.accent['4']);
 
-  const iconSrc = (name: string) =>
-    orgId === 'atb' ? `/${name}_dark.svg` : `/${name}.svg`;
+  const iconSrc = (name: string) => {
+    if (orgId === 'atb') {
+      return isDarkMode ? `/${name}_dark.svg` : `/${name}.svg`;
+    } else {
+      return `/${name}.svg`;
+    }
+  };
 
   const someLinks: SomeLink[] = [
     urls.facebookLink && {
