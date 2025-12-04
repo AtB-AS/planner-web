@@ -33,6 +33,7 @@ export type OrgData = {
     replaceTitleWithLogoInHeader?: boolean;
     forceTheme?: 'light' | 'dark';
     enableShowTripPatternPrice: boolean;
+    disableBoatComboPriceSearch?: boolean;
   };
 
   urls: {
