@@ -7,6 +7,7 @@ export const transportModeSchema = z.union([
   z.literal('bicycle'),
   z.literal('cableway'),
   z.literal('car'),
+  z.literal('carpool'),
   z.literal('coach'),
   z.literal('funicular'),
   z.literal('lift'),
