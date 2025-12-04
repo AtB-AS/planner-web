@@ -18,7 +18,7 @@
     "lint": "next lint",
     "clean-assets": "rimraf ./public/assets/",
     "clean:install": "yarn clean-assets && rimraf node_modules && yarn",
-    "refresh-assets": "yarn clean:install && dotenv -e .env.local -- yarn setup",
+    "refresh-assets": "yarn clean:install && dotenv -e .env.local -- yarn setup && yarn build",
     "presetup": "rimraf ./next/",
     "setup": "generate-assets all $NEXT_PUBLIC_PLANNER_ORG_ID -o ./public/assets/ -ts -ts-o ./src/components/icon",
     "postsetup": "copyfiles -f \"public/assets/colors/favicon.ico\" \"public/\"",
