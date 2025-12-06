@@ -36,11 +36,17 @@ export function Price({
   const { featureConfig } = getOrgData();
 
   const isEnabled = featureConfig.enableShowTripPatternPrice;
+  const disableBoatComboPriceSearch = featureConfig.disableBoatComboPriceSearch;
 
   const { ifFound = 'hide-icon', ifNotFound = 'hide-text' } = behaviour ?? {};
 
   const shouldFetch =
-    isEnabled && inView && !disableForTripPattern(tripPattern);
+    isEnabled &&
+    inView &&
+    !disableBoatCombinationTripPatterns(
+      tripPattern,
+      !!disableBoatComboPriceSearch,
+    );
 
   const {
     data: price,
@@ -105,8 +111,9 @@ export function Price({
  * Handles edge case for trips with both boat and bus or train legs
  * should be removed once the search trippattern endpoint supports it
  */
-function disableForTripPattern(
+function disableBoatCombinationTripPatterns(
   tp: ExtendedTripPatternWithDetailsType,
+  disableBoatComboPriceSearch: boolean,
 ): boolean {
   const isBoatLeg = (leg: ExtendedLegType) =>
     leg.mode === Mode.Water &&
@@ -119,5 +126,5 @@ function disableForTripPattern(
   const hasBoatLeg = tp.legs.some(isBoatLeg);
   const hasBusOrTrainLeg = tp.legs.some(isBusOrTrainLeg);
 
-  return hasBoatLeg && hasBusOrTrainLeg;
+  return hasBoatLeg && hasBusOrTrainLeg && disableBoatComboPriceSearch;
 }
