@@ -85,9 +85,9 @@ export default function TransportModeFilter({
           .map((option) => {
             return (
               <li key={option.id} className={style.transportMode}>
-                <FilterCheckbox
+                <FilterOption
                   option={option}
-                  checked={
+                  selected={
                     !localFilterState ||
                     (localFilterState?.includes(option.id) ?? false)
                   }
@@ -124,13 +124,13 @@ export default function TransportModeFilter({
   );
 }
 
-type FilterCheckboxProps = {
+type FilterOptionProps = {
   option: TransportModeFilterOptionType;
-  checked: boolean;
+  selected: boolean;
   onChange: ChangeEventHandler<HTMLInputElement>;
 };
 
-function FilterCheckbox({ option, checked, onChange }: FilterCheckboxProps) {
+function FilterOption({ option, selected, onChange }: FilterOptionProps) {
   const { language } = useTranslation();
   const text = getTextForLanguage(option.text, language);
 
@@ -141,7 +141,7 @@ function FilterCheckbox({ option, checked, onChange }: FilterCheckboxProps) {
         id={option.id}
         name={option.id}
         value={option.id}
-        checked={checked}
+        checked={selected}
         onChange={onChange}
         aria-labelledby={`label-${option.id}`}
       />
@@ -151,7 +151,7 @@ function FilterCheckbox({ option, checked, onChange }: FilterCheckboxProps) {
         aria-hidden
         className={style.transportModeElement}
       >
-        <CheckBoxIcon checked={checked} />
+        <CheckBoxIcon checked={selected} />
 
         <TransportIcon
           mode={{
