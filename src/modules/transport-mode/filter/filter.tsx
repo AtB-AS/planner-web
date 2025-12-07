@@ -1,12 +1,14 @@
 import { getTextForLanguage } from '@atb/translations/utils';
 import { useTranslation, ComponentText } from '@atb/translations';
 import style from './filter.module.css';
-import { ColorIcon } from '@atb/components/icon';
 import { Typo } from '@atb/components/typography';
 import { TransportIcon } from '../icon';
 import { TransportModeFilterOptionType } from '@atb-as/config-specs';
 import { ChangeEventHandler, useState } from 'react';
-import { getOrgData } from '@atb/modules/org-data';
+import CheckboxChecked from '@atb-as/generate-assets/files/common/colors/icons/input/CheckboxChecked.svg';
+import CheckboxUnchecked from '@atb-as/generate-assets/files/common/colors/icons/input/CheckboxUnchecked.svg';
+import { useSize } from '@atb/components/icon/utils';
+import { useTheme } from '@atb/modules/theme';
 
 type TransportModeFilterProps = {
   filterState: string[] | null;
@@ -133,7 +135,6 @@ type FilterCheckboxProps = {
 
 function FilterCheckbox({ option, checked, onChange }: FilterCheckboxProps) {
   const { language } = useTranslation();
-
   const text = getTextForLanguage(option.text, language);
 
   return (
@@ -172,9 +173,15 @@ function FilterCheckbox({ option, checked, onChange }: FilterCheckboxProps) {
 }
 
 function CheckBoxIcon({ checked }: { checked: boolean }) {
-  return checked ? (
-    <ColorIcon icon="input/CheckboxChecked" />
-  ) : (
-    <ColorIcon icon="input/CheckboxUnchecked" />
+  const theme = useTheme();
+  const wh = useSize('normal');
+
+  const Icon = checked ? CheckboxChecked : CheckboxUnchecked;
+  return (
+    <Icon
+      width={wh}
+      height={wh}
+      fill={theme.color.interactive[0].default.background}
+    />
   );
 }
