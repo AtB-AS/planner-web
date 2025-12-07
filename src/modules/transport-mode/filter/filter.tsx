@@ -5,10 +5,7 @@ import { Typo } from '@atb/components/typography';
 import { TransportIcon } from '../icon';
 import { TransportModeFilterOptionType } from '@atb-as/config-specs';
 import { ChangeEventHandler, useState } from 'react';
-import CheckboxChecked from '@atb-as/generate-assets/files/common/colors/icons/input/CheckboxChecked.svg';
-import CheckboxUnchecked from '@atb-as/generate-assets/files/common/colors/icons/input/CheckboxUnchecked.svg';
-import { useSize } from '@atb/components/icon/utils';
-import { useTheme } from '@atb/modules/theme';
+import { CheckBoxIcon } from '@atb/components/icon';
 
 type TransportModeFilterProps = {
   filterState: string[] | null;
@@ -169,19 +166,5 @@ function FilterCheckbox({ option, checked, onChange }: FilterCheckboxProps) {
         <span id={`label-${option.id}`}>{text}</span>
       </label>
     </div>
-  );
-}
-
-function CheckBoxIcon({ checked }: { checked: boolean }) {
-  const theme = useTheme();
-  const wh = useSize('normal');
-
-  const Icon = checked ? CheckboxChecked : CheckboxUnchecked;
-  return (
-    <Icon
-      width={wh}
-      height={wh}
-      fill={theme.color.interactive[0].default.background}
-    />
   );
 }
