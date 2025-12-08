@@ -153,6 +153,8 @@ function init() {
     ?.addEventListener('submit', (e) => {
       e.preventDefault();
       const form = e.currentTarget as HTMLFormElement;
+      console.log('From', fromTo.from);
+      console.log('To', fromTo.to);
       submitAssistant(form, fromTo.from, fromTo.to);
     });
 }
@@ -388,6 +390,20 @@ function createOutput(
         toggleList(true);
       }
 
+      function selectFirstItem() {
+        if (list && !list.hidden && input.value.trim() !== '') {
+          const firstItem = list.firstElementChild;
+
+          if (firstItem) {
+            firstItem.dispatchEvent(
+              new CustomEvent('combobox-commit', {
+                bubbles: true,
+              }),
+            );
+          }
+        }
+      }
+
       const fetcher = debounce(async (input: HTMLInputElement) => {
         try {
           if (!input.value) {
@@ -413,6 +429,7 @@ function createOutput(
 
       input.addEventListener('keydown', (event) => {
         if (event.key === 'Escape') {
+          selectFirstItem();
           toggleList(false);
         }
       });
@@ -420,7 +437,10 @@ function createOutput(
         fetcher(e.target as HTMLInputElement),
       );
       input.addEventListener('focus', () => toggleList(true));
-      input.addEventListener('blur', () => toggleList(false));
+      input.addEventListener('blur', () => {
+        selectFirstItem();
+        toggleList(false);
+      });
       document.addEventListener('click', (e) => {
         if (!hasParent(e.target as HTMLElement, this)) {
           toggleList(false);
