@@ -1,12 +1,11 @@
 import { getTextForLanguage } from '@atb/translations/utils';
 import { useTranslation, ComponentText } from '@atb/translations';
 import style from './filter.module.css';
-import { ColorIcon } from '@atb/components/icon';
 import { Typo } from '@atb/components/typography';
 import { TransportIcon } from '../icon';
 import { TransportModeFilterOptionType } from '@atb-as/config-specs';
 import { ChangeEventHandler, useState } from 'react';
-import { getOrgData } from '@atb/modules/org-data';
+import { CheckBoxIcon } from '@atb/components/icon';
 
 type TransportModeFilterProps = {
   filterState: string[] | null;
@@ -86,9 +85,9 @@ export default function TransportModeFilter({
           .map((option) => {
             return (
               <li key={option.id} className={style.transportMode}>
-                <FilterCheckbox
+                <FilterOption
                   option={option}
-                  checked={
+                  selected={
                     !localFilterState ||
                     (localFilterState?.includes(option.id) ?? false)
                   }
@@ -125,15 +124,14 @@ export default function TransportModeFilter({
   );
 }
 
-type FilterCheckboxProps = {
+type FilterOptionProps = {
   option: TransportModeFilterOptionType;
-  checked: boolean;
+  selected: boolean;
   onChange: ChangeEventHandler<HTMLInputElement>;
 };
 
-function FilterCheckbox({ option, checked, onChange }: FilterCheckboxProps) {
+function FilterOption({ option, selected, onChange }: FilterOptionProps) {
   const { language } = useTranslation();
-
   const text = getTextForLanguage(option.text, language);
 
   return (
@@ -143,7 +141,7 @@ function FilterCheckbox({ option, checked, onChange }: FilterCheckboxProps) {
         id={option.id}
         name={option.id}
         value={option.id}
-        checked={checked}
+        checked={selected}
         onChange={onChange}
         aria-labelledby={`label-${option.id}`}
       />
@@ -153,7 +151,7 @@ function FilterCheckbox({ option, checked, onChange }: FilterCheckboxProps) {
         aria-hidden
         className={style.transportModeElement}
       >
-        <CheckBoxIcon checked={checked} />
+        <CheckBoxIcon checked={selected} />
 
         <TransportIcon
           mode={{
@@ -168,13 +166,5 @@ function FilterCheckbox({ option, checked, onChange }: FilterCheckboxProps) {
         <span id={`label-${option.id}`}>{text}</span>
       </label>
     </div>
-  );
-}
-
-function CheckBoxIcon({ checked }: { checked: boolean }) {
-  return checked ? (
-    <ColorIcon icon="input/CheckboxChecked" />
-  ) : (
-    <ColorIcon icon="input/CheckboxUnchecked" />
   );
 }

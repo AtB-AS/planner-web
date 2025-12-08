@@ -1,7 +1,7 @@
 import { andIf } from '@atb/utils/css';
 import style from './checkbox.module.css';
 import { useId } from 'react';
-import { ColorIcon } from '@atb/components/icon';
+import { CheckBoxIcon } from '@atb/components/icon';
 import { ErrorMessage } from '../error-message';
 
 export type CheckboxProps = {
@@ -37,8 +37,6 @@ export default function Checkbox({
     [style['checkbox--expand']]: expand,
   });
 
-  const icon = checked ? 'input/CheckboxChecked' : 'input/CheckboxUnchecked';
-
   return (
     <label htmlFor={`checkbox-${id}`} className={className}>
       <span className={style.checkbox__content}>
@@ -52,7 +50,11 @@ export default function Checkbox({
           aria-invalid={!!error}
           onClick={onClick}
         />
-        <ColorIcon icon={icon} className={style.checkbox__icon} role="none" />
+        <CheckBoxIcon
+          checked={checked}
+          className={style.checkbox__icon}
+          role="none"
+        />
         <dl>
           <dt className={style.checkbox__label}>{label}</dt>
           {description && (

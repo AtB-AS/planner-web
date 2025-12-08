@@ -51,6 +51,35 @@ const nextConfig = {
       }
     }
 
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: [
+        {
+          loader: '@svgr/webpack',
+          options: {
+            svgo: true,
+            svgoConfig: {
+              plugins: [
+                'cleanupListOfValues',
+                'convertStyleToAttrs',
+                'removeElementsByAttr',
+                'removeRasterImages',
+                'removeStyleElement',
+                'sortAttrs',
+                'removeXMLNS',
+                {
+                  name: 'removeAttrs',
+                  params: {
+                    attrs: ['fill'],
+                  },
+                },
+              ],
+            },
+          },
+        },
+      ],
+    });
+
     return config;
   },
 };
