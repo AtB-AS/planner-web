@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { useState } from 'react';
-import CopyIcon from './copy.svg';
+import copyIcon from './copy.svg';
 
 import {
   SyntaxHighlighterProps,
@@ -76,7 +76,7 @@ function CopyButton({ text }: { text: string }) {
       {isCopied ? (
         '👍'
       ) : (
-        <CopyIcon className={style.copyIcon} aria-label="Copy" title="Copy" />
+        <Image className={style.copyIcon} src={copyIcon} alt="Copy" />
       )}
     </button>
   );
