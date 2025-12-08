@@ -36,10 +36,10 @@
 .label {
   composes: typo-body__s;
   height: var(--height);
-  min-width: 3rem;
+  min-width: 3.5rem;
   display: flex;
   align-items: center;
-  padding: token('spacing.small');
+  padding: token('spacing.medium');
   border-bottom-left-radius: 0.75rem;
   border-top-left-radius: 0.75rem;
   color: token('color.foreground.dynamic.secondary');

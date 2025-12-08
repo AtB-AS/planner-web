@@ -2,6 +2,7 @@
 
 .container {
   --height: 2.75rem;
+  --label-min-width: 3.5rem;
   display: grid;
   flex-direction: row;
   width: 100%;
@@ -28,19 +29,19 @@
 }
 
 .input {
-  padding: token('spacing.small');
+  padding: token('spacing.medium');
   border: none;
   width: 100%;
   color: token('color.background.neutral.0.foreground.primary');
   outline: 0;
   height: var(--height);
-  padding-left: 3.5rem;
+  padding-left: calc(var(--label-min-width) + token('spacing.small'));
   background: none;
   border-radius: 0;
 }
 
 .input::placeholder {
-  color: token('color.foreground.dynamic.disabled');
+  color: token('color.foreground.dynamic.secondary');
   opacity: 1;
 }
 
@@ -54,10 +55,10 @@
   composes: typo-body__s;
   position: absolute;
   height: var(--height);
-  min-width: 3rem;
+  min-width: var(--label-min-width);
   display: flex;
   align-items: center;
-  padding: token('spacing.small');
+  padding: token('spacing.medium');
   border-bottom-left-radius: 0.75rem;
   border-top-left-radius: 0.75rem;
   color: token('color.foreground.dynamic.primary');
