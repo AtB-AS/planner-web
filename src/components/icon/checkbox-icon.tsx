@@ -26,9 +26,7 @@ export function CheckBoxIcon({
   const theme = useTheme();
   const wh = useSize('normal');
 
-  const Icon: FC<SVGProps<SVGSVGElement>> = checked
-    ? CheckboxChecked
-    : CheckboxUnchecked;
+  const Icon = checked ? CheckboxChecked : CheckboxUnchecked;
 
   return (
     <Icon
