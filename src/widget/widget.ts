@@ -153,8 +153,6 @@ function init() {
     ?.addEventListener('submit', (e) => {
       e.preventDefault();
       const form = e.currentTarget as HTMLFormElement;
-      console.log('From', fromTo.from);
-      console.log('To', fromTo.to);
       submitAssistant(form, fromTo.from, fromTo.to);
     });
 }
