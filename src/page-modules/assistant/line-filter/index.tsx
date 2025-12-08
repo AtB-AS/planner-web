@@ -104,10 +104,6 @@ export default function LineFilter({ filterState, onChange }: LineFilterProps) {
             : undefined
         }
       />
-
-      <Typo.p textType="body__xs" className={style.infoText}>
-        {t(PageText.Assistant.search.lineFilter.example)}
-      </Typo.p>
     </div>
   );
 }

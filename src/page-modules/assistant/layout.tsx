@@ -194,11 +194,14 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
                     data={transportModeFilter}
                     onChange={onTransportFilterChanged}
                   />
-
+                  <LineFilter
+                    filterState={tripQuery.lineFilter}
+                    onChange={onLineFilterChanged}
+                  />
                   <div>
-                    <Typo.h2 textType="body__m" className={style.heading}>
+                    <Typo.h3 textType="body__m" className={style.heading}>
                       {t(PageText.Assistant.search.input.via.label)}
-                    </Typo.h2>
+                    </Typo.h3>
                     <Search
                       label={t(PageText.Assistant.search.input.via.description)}
                       placeholder={t(
@@ -219,11 +222,6 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
                       onGeolocationError={setGeolocationError}
                     />
                   </div>
-
-                  <LineFilter
-                    filterState={tripQuery.lineFilter}
-                    onChange={onLineFilterChanged}
-                  />
                 </div>
               </motion.div>
             </FocusScope>
