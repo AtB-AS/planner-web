@@ -18,6 +18,7 @@
   margin: 0 auto;
   margin-top: token('spacing.large');
   background-color: token('color.background.neutral.0.background');
+  border-radius: token('border.radius.regular');
 }
 
 .button {
@@ -60,6 +61,7 @@
   left: 0;
   right: 0;
   background-color: token('color.background.neutral.0.background');
+  border-radius: token('border.radius.regular');
 }
 
 @media (max-width: 600px) {
