@@ -5,7 +5,7 @@
   display: grid;
   flex-direction: row;
   width: 100%;
-  border-radius: 0.75rem;
+  border-radius: token('border.radius.regular');
   color: token('color.background.neutral.0.foreground.primary');
   background-color: token('color.background.neutral.0.background');
   border: 1px solid token('color.foreground.dynamic.disabled');
