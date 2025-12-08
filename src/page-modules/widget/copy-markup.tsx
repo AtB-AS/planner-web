@@ -73,7 +73,11 @@ function CopyButton({ text }: { text: string }) {
 
   return (
     <button onClick={handleClick} className={style.copyButton}>
-      {isCopied ? '👍' : <CopyIcon className={style.copyIcon} alt="Copy" />}
+      {isCopied ? (
+        '👍'
+      ) : (
+        <CopyIcon className={style.copyIcon} aria-label="Copy" title="Copy" />
+      )}
     </button>
   );
 }
