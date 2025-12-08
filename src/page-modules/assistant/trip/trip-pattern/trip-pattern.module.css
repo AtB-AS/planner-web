@@ -7,18 +7,12 @@
   transition: opacity 150ms ease-in-out;
 }
 
-.tripPatternContainer:hover {
-  background-color: token('color.background.neutral.0.background');
-  color: token('color.foreground.dynamic.primary');
-  opacity: 0.8 !important;
-}
-
 .tripPattern {
   display: flex;
   flex-direction: column;
 }
-.tripPattern--old:hover {
-  opacity: 0.5 !important;
+.tripPattern:hover {
+  cursor: pointer;
 }
 
 .header {
