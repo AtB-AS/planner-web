@@ -2,7 +2,6 @@ import { useTheme } from '@atb/modules/theme';
 import { SizeProps, useSize } from './utils';
 import CheckboxChecked from '@atb-as/generate-assets/files/common/colors/icons/input/CheckboxChecked.svg';
 import CheckboxUnchecked from '@atb-as/generate-assets/files/common/colors/icons/input/CheckboxUnchecked.svg';
-import { FC, SVGProps } from 'react';
 
 export type CheckboxIconProps = Pick<
   React.JSX.IntrinsicElements['div'],
@@ -24,7 +23,7 @@ export function CheckBoxIcon({
   ...props
 }: CheckboxIconProps) {
   const theme = useTheme();
-  const wh = useSize('normal');
+  const wh = useSize(size);
 
   const Icon = checked ? CheckboxChecked : CheckboxUnchecked;
 
