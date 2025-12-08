@@ -42,7 +42,6 @@
   padding: token('spacing.medium');
   border-bottom-left-radius: 0.75rem;
   border-top-left-radius: 0.75rem;
-  color: token('color.foreground.dynamic.secondary');
 }
 
 .inputContainer {
