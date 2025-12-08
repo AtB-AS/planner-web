@@ -82,7 +82,6 @@ export default function TripPattern({
 
   const className = andIf({
     [style.tripPattern]: true,
-    [style['tripPattern--old']]: tripIsInPast,
   });
 
   const staySeated = (idx: number) => {
