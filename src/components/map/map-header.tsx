@@ -4,17 +4,14 @@ import { ComponentText, useTranslation } from '@atb/translations';
 import { and } from '@atb/utils/css';
 import { MonoIcon } from '@atb/components/icon';
 
-import {
-  transportModeToTranslatedString,
-  getTransportModeIcon,
-  TransportModeType,
-  TransportIcon,
-} from '@atb/modules/transport-mode';
+import { TransportModeType, TransportIcon } from '@atb/modules/transport-mode';
+import { TransportSubmode } from '@atb/modules/graphql-types/journeyplanner-types_v3.generated';
 
 export type MapHeaderProps = {
   name: string; // StopPlace name or address
   layer: 'address' | 'venue';
   transportModes?: TransportModeType[];
+  transportSubmodes?: Array<TransportSubmode>;
   position?: { lat: number; lon: number };
 };
 
@@ -22,6 +19,7 @@ export function MapHeader({
   name,
   layer,
   transportModes,
+  transportSubmodes,
   position,
 }: MapHeaderProps) {
   const { t } = useTranslation();
@@ -39,6 +37,7 @@ export function MapHeader({
                 <TransportIcon
                   mode={{
                     transportMode: transportMode,
+                    transportSubModes: transportSubmodes,
                   }}
                   size="large"
                 />
