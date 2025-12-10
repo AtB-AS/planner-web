@@ -34,6 +34,10 @@ import {
   ExtendedDeparturesType,
   ExtendedDepartureType,
 } from '@atb/page-modules/departures/types.ts';
+import {
+  TransportMode,
+  TransportSubmode,
+} from '@atb/modules/graphql-types/journeyplanner-types_v3.generated';
 
 export type StopPlaceProps = {
   departures: ExtendedDeparturesType;
@@ -46,6 +50,14 @@ export function StopPlace({ departures }: StopPlaceProps) {
   } = useTheme();
   const router = useRouter();
   const [isHoveringRefreshButton, setIsHoveringRefreshButton] = useState(false);
+
+  // if the stop place contains mode === Bus, then append LocalBus into it so the header color is correct
+  // this change is made, so the logic on the transport icon color assignment can be consistent with the app
+  const submodes =
+    departures.stopPlace.transportSubmode &&
+    departures.stopPlace.transportMode?.includes(TransportMode.Bus)
+      ? [...departures.stopPlace.transportSubmode, TransportSubmode.LocalBus]
+      : departures.stopPlace.transportSubmode;
 
   return (
     <section className={style.stopPlaceContainer}>
@@ -95,6 +107,7 @@ export function StopPlace({ departures }: StopPlaceProps) {
           layer="venue"
           onSelectStopPlace={(id) => router.push(`/departures/${id}`)}
           transportModes={departures.stopPlace.transportMode}
+          transportSubmodes={[TransportSubmode.LocalBus]}
         />
       </div>
     </section>
