@@ -28,7 +28,6 @@
 
 .option__text {
   z-index: 2;
-  line-height: 1;
   color: token('color.foreground.dynamic.primary');
 }
 

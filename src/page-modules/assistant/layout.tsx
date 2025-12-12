@@ -27,6 +27,7 @@ import {
   GlobalMessageContextEnum,
   GlobalMessages,
 } from '@atb/modules/global-messages';
+import { RadioSegments } from '@atb/components/radio-segments';
 
 export type AssistantLayoutProps = PropsWithChildren<{
   tripQuery: FromToTripQuery;
@@ -36,6 +37,7 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
   const { t } = useTranslation();
   const { color } = useTheme();
   const router = useRouter();
+  const [walkSpeed, setWalkSpeed] = useState(0);
 
   const [showAlternatives, setShowAlternatives] = useState(false);
   const [searchTime, setSearchTime] = useState<SearchTime>(
@@ -194,6 +196,37 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
                     data={transportModeFilter}
                     onChange={onTransportFilterChanged}
                   />
+                  <div>
+                    <Typo.h3 textType="body__m" className={style.heading}>
+                      {t(PageText.Assistant.search.walkSpeed.label)}
+                    </Typo.h3>
+                    <RadioSegments
+                      name="walkSpeedFilter"
+                      activeIndex={walkSpeed}
+                      className={style.walkSpeedSegments}
+                      options={[
+                        {
+                          onPress: setWalkSpeed,
+                          text: t(
+                            PageText.Assistant.search.walkSpeed.options.slow,
+                          ),
+                        },
+                        {
+                          onPress: setWalkSpeed,
+                          text: t(
+                            PageText.Assistant.search.walkSpeed.options.medium,
+                          ),
+                        },
+                        {
+                          onPress: setWalkSpeed,
+                          text: t(
+                            PageText.Assistant.search.walkSpeed.options.fast,
+                          ),
+                        },
+                      ]}
+                    />
+                  </div>
+
                   <LineFilter
                     filterState={tripQuery.lineFilter}
                     onChange={onLineFilterChanged}

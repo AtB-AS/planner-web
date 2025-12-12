@@ -61,7 +61,6 @@ export type OrgData = {
   journeyApiConfigurations: {
     waitReluctance?: number;
     walkingReluctance?: number;
-    walkingSpeed?: number;
     transferPenalty?: number;
     transferSlack?: number;
   };

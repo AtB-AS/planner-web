@@ -48,6 +48,7 @@ export type TripInput = {
   cursor?: string;
   via?: GeocoderFeature;
   lineFilter?: string[];
+  walkSpeed?: number;
 };
 
 export type FromToTripQuery = {
@@ -110,6 +111,7 @@ export type NonTransitTripInput = {
   to: GeocoderFeature;
   searchTime: SearchTime;
   directModes: StreetMode[];
+  walkSpeed?: number;
 };
 
 export type NonTransitTripData = {
