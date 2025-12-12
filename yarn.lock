@@ -3557,10 +3557,10 @@
   resolved "https://registry.yarnpkg.com/@microsoft/tsdoc/-/tsdoc-0.15.1.tgz#d4f6937353bc4568292654efb0a0e0532adbcba2"
   integrity sha512-4aErSrCR/On/e5G2hDP0wjooqDdauzEbIq8hIkIe5pXV0rtWJZvdCEKL0ykZxex+IxIwBp0eGeV48hQN07dXtw==
 
-"@next/env@15.4.9":
-  version "15.4.9"
-  resolved "https://registry.yarnpkg.com/@next/env/-/env-15.4.9.tgz#5caeeaf5f20cf2bf5176444f13d087963159031f"
-  integrity sha512-OYR0RulK5phnbxxzcLE4/ECgfx1PL3EHrDbjyelJ7jauaO+/Qvj5gG8JPMltB51CygC2KrZ0aAfYLjPYjYY17A==
+"@next/env@15.4.10":
+  version "15.4.10"
+  resolved "https://registry.yarnpkg.com/@next/env/-/env-15.4.10.tgz#a794b738d043d9e98ea435bd45254899f7f77714"
+  integrity sha512-knhmoJ0Vv7VRf6pZEPSnciUG1S4bIhWx+qTYBW/AjxEtlzsiNORPk8sFDCEvqLfmKuey56UB9FL1UdHEV3uBrg==
 
 "@next/env@^13.4.3":
   version "13.5.6"
@@ -10095,12 +10095,12 @@ next-sitemap@^4.2.3:
     fast-glob "^3.2.12"
     minimist "^1.2.8"
 
-next@15.4.9:
-  version "15.4.9"
-  resolved "https://registry.yarnpkg.com/next/-/next-15.4.9.tgz#9204500a9c3cb2b981fb932077abfa66d3ef663f"
-  integrity sha512-/NedNmbiH4Umt/7SohT9VKxEdBt02Lj33xHrukE7d8Li6juT+75sEq4a4U06jggrvdbklKgr78OZEyWZ8XRrtw==
+next@15.4.10:
+  version "15.4.10"
+  resolved "https://registry.yarnpkg.com/next/-/next-15.4.10.tgz#4ee237d4eb16289f6e16167fbed59d8ada86aa59"
+  integrity sha512-itVlc79QjpKMFMRhP+kbGKaSG/gZM6RCvwhEbwmCNF06CdDiNaoHcbeg0PqkEa2GOcn8KJ0nnc7+yL7EjoYLHQ==
   dependencies:
-    "@next/env" "15.4.9"
+    "@next/env" "15.4.10"
     "@swc/helpers" "0.5.15"
     caniuse-lite "^1.0.30001579"
     postcss "8.4.31"
@@ -11201,10 +11201,10 @@ react-aria@^3.42.0:
     "@react-aria/visually-hidden" "^3.8.26"
     "@react-types/shared" "^3.31.0"
 
-react-dom@19.1.3:
-  version "19.1.3"
-  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-19.1.3.tgz#3ef45979d2657ae2d0f4abe9e1a05af9c38a6760"
-  integrity sha512-stZrJtR8ovt0w3Dn8kTWwcx8hGHMhwjYOcv7hyzPPX/Ym+yl+Z39XFa+1meucWq0FgxF5IIE3h93SYP1kWB0tg==
+react-dom@19.1.4:
+  version "19.1.4"
+  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-19.1.4.tgz#faa672c4fdc041b1928c6bafd6bdca7cf2a11f66"
+  integrity sha512-s2868ab/xo2SI6H4106A7aFI8Mrqa4xC6HZT/pBzYyQ3cBLqa88hu47xYD8xf+uECleN698Awn7RCWlkTiKnqQ==
   dependencies:
     scheduler "^0.26.0"
 
@@ -11277,10 +11277,10 @@ react-syntax-highlighter@^15.6.1:
     prismjs "^1.27.0"
     refractor "^3.6.0"
 
-react@19.1.3:
-  version "19.1.3"
-  resolved "https://registry.yarnpkg.com/react/-/react-19.1.3.tgz#0d2b68b3c3b516c8deec0154e2db59a35fd9c5d9"
-  integrity sha512-A4YW2fBH0DryMfkcPOfIPd6YO7jP/0KguaRmONj69EcxMbHerGFzxeCqfznKipB8aJIwr/VefHwehTakgfDA1g==
+react@19.1.4:
+  version "19.1.4"
+  resolved "https://registry.yarnpkg.com/react/-/react-19.1.4.tgz#d8a59f8ce3257cb383474586be4c8aab92afefa7"
+  integrity sha512-DHINL3PAmPUiK1uszfbKiXqfE03eszdt5BpVSuEAHb5nfmNPwnsy7g39h2t8aXFc/Bv99GH81s+j8dobtD+jOw==
 
 read-cache@^1.0.0:
   version "1.0.0"
