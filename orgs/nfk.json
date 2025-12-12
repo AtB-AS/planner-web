@@ -12,7 +12,8 @@
   },
 
   "featureConfig": {
-    "enableShowTripPatternPrice": true
+    "enableShowTripPatternPrice": true,
+    "disableBoatComboPriceSearch": true
   },
 
   "urls": {
