@@ -22,6 +22,7 @@ export async function fetchFromToTripQuery(
       searchTime: { mode: 'now' },
       cursor: null,
       lineFilter: [],
+      walkSpeed: null,
     };
   }
 
@@ -46,6 +47,7 @@ export async function fetchFromToTripQuery(
     searchTime,
     cursor: tripQuery?.cursor ?? null,
     lineFilter,
+    walkSpeed: tripQuery.walkSpeed ?? null,
   };
 }
 

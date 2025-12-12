@@ -121,9 +121,6 @@
             "walkingReluctance": {
               "type": "number"
             },
-            "walkingSpeed": {
-              "type": "number"
-            },
             "transferPenalty": {
               "type": "number"
             },

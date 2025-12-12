@@ -4,6 +4,7 @@ import { FromToTripQuery, TripQuery, TripQuerySchema } from './types';
 import { TravelSearchFiltersType } from '@atb-as/config-specs';
 import { filterNotices } from '@atb/modules/situations';
 import { LegWithDetailsFragment } from './journey-gql/trip-with-details.generated';
+import { MEDIUM_WALK_SPEED } from './walk-speed-input';
 
 function featuresToFromToQuery(
   from: GeocoderFeature | null,
@@ -55,6 +56,9 @@ export function createTripQuery(tripQuery: FromToTripQuery): TripQuery {
 
   const searchTimeQuery = searchTimeToQueryString(tripQuery.searchTime);
   const cursorQuery = tripQuery.cursor ? { cursor: tripQuery.cursor } : {};
+  const walkSpeedQuery = tripQuery.walkSpeed
+    ? { walkSpeed: tripQuery.walkSpeed }
+    : { walkSpeed: MEDIUM_WALK_SPEED };
   const fromToQuery = featuresToFromToQuery(
     tripQuery.from,
     tripQuery.to,
@@ -74,6 +78,7 @@ export function createTripQuery(tripQuery: FromToTripQuery): TripQuery {
     ...cursorQuery,
     ...fromToQuery,
     ...lineFilterQuery,
+    ...walkSpeedQuery,
   };
 }
 
@@ -86,6 +91,7 @@ export function parseTripQuery(query: any): TripQuery | undefined {
     'viaLat',
     'viaLon',
     'searchTime',
+    'walkSpeed',
   ];
   optionalNumericFields.forEach((field) => {
     if (query[field] && typeof query[field] === 'string')

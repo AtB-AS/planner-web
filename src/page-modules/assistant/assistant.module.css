@@ -115,6 +115,10 @@
   z-index: 100;
 }
 
+.walkSpeedSegments {
+  max-width: 30rem;
+}
+
 @media (max-width: 650px) {
   .container {
     grid-template-areas:
@@ -152,6 +156,10 @@
 
   .container {
     padding: token('spacing.medium');
+  }
+
+  .walkSpeedSegments {
+    max-width: 100%;
   }
 }
 

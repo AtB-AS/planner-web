@@ -27,6 +27,7 @@ import {
   GlobalMessageContextEnum,
   GlobalMessages,
 } from '@atb/modules/global-messages';
+import { WalkSpeedInput } from './walk-speed-input';
 
 export type AssistantLayoutProps = PropsWithChildren<{
   tripQuery: FromToTripQuery;
@@ -114,6 +115,9 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
     750,
   );
 
+  const onSetWalkSpeed = async (walkSpeed: number) =>
+    setValuesWithLoading({ walkSpeed });
+
   return (
     <div className={style.wrapper}>
       <form className={style.container} onSubmit={onSubmitHandler}>
@@ -193,6 +197,10 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
                     filterState={tripQuery.transportModeFilter}
                     data={transportModeFilter}
                     onChange={onTransportFilterChanged}
+                  />
+                  <WalkSpeedInput
+                    onChange={onSetWalkSpeed}
+                    initialValue={tripQuery.walkSpeed ?? undefined}
                   />
                   <LineFilter
                     filterState={tripQuery.lineFilter}

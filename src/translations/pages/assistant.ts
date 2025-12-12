@@ -40,6 +40,18 @@ const AssistantInternal = {
         'Alle transportmiddel',
       ),
     },
+    walkSpeed: {
+      label: _(
+        'Hvor fort går du?',
+        'How fast do you walk?',
+        'Kor fort går du?',
+      ),
+      options: {
+        slow: _('Sakte', 'Slow', 'Sakte'),
+        medium: _('Middels', 'Medium', 'Middels'),
+        fast: _('Raskt', 'Fast', 'Raskt'),
+      },
+    },
     lineFilter: {
       label: _('Linje', 'Line', 'Linje'),
       lineSearch: {

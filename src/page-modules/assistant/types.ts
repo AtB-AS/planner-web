@@ -10,8 +10,6 @@ import {
 } from '@atb/page-modules/assistant/journey-gql/trip-with-details.generated.ts';
 import { MapLegType } from '@atb/components/map';
 import { Mode } from '@atb/modules/graphql-types/journeyplanner-types_v3.generated.ts';
-import { UserProfile } from '@atb-as/config-specs';
-import { TicketOffers } from '@atb-as/utils';
 
 /**
  * IMPORTANT! READ THIS
@@ -48,6 +46,7 @@ export type TripInput = {
   cursor?: string;
   via?: GeocoderFeature;
   lineFilter?: string[];
+  walkSpeed?: number;
 };
 
 export type FromToTripQuery = {
@@ -58,6 +57,7 @@ export type FromToTripQuery = {
   cursor: string | null;
   via?: GeocoderFeature | null;
   lineFilter: string[] | null;
+  walkSpeed: number | null;
 };
 
 export const TripQuerySchema = z.object({
@@ -81,6 +81,7 @@ export const TripQuerySchema = z.object({
   viaLat: z.number().optional(),
   viaLayer: z.union([z.literal('address'), z.literal('venue')]).optional(),
   lineFilter: z.string().optional(),
+  walkSpeed: z.number().optional(),
 });
 
 export type TripQuery = z.infer<typeof TripQuerySchema>;
@@ -110,6 +111,7 @@ export type NonTransitTripInput = {
   to: GeocoderFeature;
   searchTime: SearchTime;
   directModes: StreetMode[];
+  walkSpeed?: number;
 };
 
 export type NonTransitTripData = {
