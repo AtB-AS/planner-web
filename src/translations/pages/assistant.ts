@@ -50,6 +50,7 @@ const AssistantInternal = {
         slow: _('Sakte', 'Slow', 'Sakte'),
         medium: _('Middels', 'Medium', 'Middels'),
         fast: _('Raskt', 'Fast', 'Raskt'),
+        other: _('Annen', 'Other', 'Annan'),
       },
     },
     lineFilter: {

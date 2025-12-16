@@ -12,6 +12,7 @@ export enum WalkSpeedOption {
   SLOW = 'slow',
   MEDIUM = 'medium',
   FAST = 'fast',
+  UNKNOWN = 'unknown',
 }
 
 type Props = {
@@ -23,11 +24,6 @@ export function WalkSpeedInput({ initialValue, onChange }: Props) {
   const [walkSpeed, setWalkSpeed] = useState<WalkSpeedOption>(
     valueToOption(initialValue),
   );
-  const options = [
-    WalkSpeedOption.SLOW,
-    WalkSpeedOption.MEDIUM,
-    WalkSpeedOption.FAST,
-  ];
 
   const getWalkSpeedText = (walkSpeed: WalkSpeedOption) => {
     switch (walkSpeed) {
@@ -37,8 +33,16 @@ export function WalkSpeedInput({ initialValue, onChange }: Props) {
         return t(PageText.Assistant.search.walkSpeed.options.medium);
       case WalkSpeedOption.FAST:
         return t(PageText.Assistant.search.walkSpeed.options.fast);
+      case WalkSpeedOption.UNKNOWN:
+        return t(PageText.Assistant.search.walkSpeed.options.other);
     }
   };
+
+  const optionList = [
+    WalkSpeedOption.SLOW,
+    WalkSpeedOption.MEDIUM,
+    WalkSpeedOption.FAST,
+  ];
 
   return (
     <div>
@@ -47,12 +51,12 @@ export function WalkSpeedInput({ initialValue, onChange }: Props) {
       </Typo.h3>
       <RadioSegments
         name="walkSpeedFilter"
-        activeIndex={options.indexOf(walkSpeed)}
+        activeIndex={optionList.indexOf(walkSpeed)}
         className={style.walkSpeedSegments}
-        options={options.map((speed) => ({
+        options={optionList.map((speed) => ({
           onPress: () => {
             setWalkSpeed(speed);
-            onChange(walkSpeedOptionMapToValue(speed));
+            onChange(optionToValue(speed));
           },
           text: getWalkSpeedText(speed),
         }))}
@@ -61,7 +65,7 @@ export function WalkSpeedInput({ initialValue, onChange }: Props) {
   );
 }
 
-export function walkSpeedOptionMapToValue(walkSpeed?: WalkSpeedOption): number {
+function optionToValue(walkSpeed?: WalkSpeedOption): number {
   switch (walkSpeed) {
     case WalkSpeedOption.SLOW:
       return SLOW_WALK_SPEED;
@@ -74,7 +78,7 @@ export function walkSpeedOptionMapToValue(walkSpeed?: WalkSpeedOption): number {
   }
 }
 
-export function valueToOption(value?: number): WalkSpeedOption {
+function valueToOption(value?: number): WalkSpeedOption {
   switch (value) {
     case SLOW_WALK_SPEED:
       return WalkSpeedOption.SLOW;
@@ -83,6 +87,6 @@ export function valueToOption(value?: number): WalkSpeedOption {
     case FAST_WALK_SPEED:
       return WalkSpeedOption.FAST;
     default:
-      return WalkSpeedOption.MEDIUM;
+      return WalkSpeedOption.UNKNOWN;
   }
 }

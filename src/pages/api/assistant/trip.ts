@@ -5,6 +5,7 @@ import {
   type TripApiReturnType,
 } from '@atb/page-modules/assistant';
 import { handlerWithAssistantClient } from '@atb/page-modules/assistant/server';
+import { MEDIUM_WALK_SPEED } from '@atb/page-modules/assistant/walk-speed-input';
 import { ServerText } from '@atb/translations';
 import { constants } from 'http2';
 
@@ -33,7 +34,7 @@ export default handlerWithAssistantClient<TripApiReturnType>({
         transportModes,
         cursor: tripQuery.cursor!,
         lineFilter: tripQuery.lineFilter ?? [],
-        walkSpeed: tripQuery.walkSpeed,
+        walkSpeed: tripQuery.walkSpeed ?? MEDIUM_WALK_SPEED,
       });
       return ok(result.trip);
     });
