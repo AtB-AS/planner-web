@@ -52,6 +52,7 @@ const AssistantInternal = {
         fast: _('Raskt', 'Fast', 'Raskt'),
         other: _('Annen', 'Other', 'Annan'),
       },
+      kmph: _('km/t', 'km/h', 'km/t'),
     },
     lineFilter: {
       label: _('Linje', 'Line', 'Linje'),

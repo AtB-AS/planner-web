@@ -3,6 +3,7 @@ import { Typo } from '@atb/components/typography';
 import { PageText, useTranslation } from '@atb/translations';
 import style from './walk-speed.module.css';
 import { useState } from 'react';
+import { MonoIcon } from '@atb/components/icon';
 
 export const SLOW_WALK_SPEED = 0.8;
 export const MEDIUM_WALK_SPEED = 1.3;
@@ -21,8 +22,8 @@ type Props = {
 };
 export function WalkSpeedInput({ initialValue, onChange }: Props) {
   const { t } = useTranslation();
-  const [walkSpeed, setWalkSpeed] = useState<WalkSpeedOption>(
-    valueToOption(initialValue),
+  const [walkSpeed, setWalkSpeed] = useState<number>(
+    initialValue ?? MEDIUM_WALK_SPEED,
   );
 
   const getWalkSpeedText = (walkSpeed: WalkSpeedOption) => {
@@ -45,17 +46,25 @@ export function WalkSpeedInput({ initialValue, onChange }: Props) {
   ];
 
   return (
-    <div>
-      <Typo.h3 textType="body__m" className={style.heading}>
-        {t(PageText.Assistant.search.walkSpeed.label)}
-      </Typo.h3>
+    <div className={style.container}>
+      <div className={style.headingContainer}>
+        <Typo.h3 textType="body__m" className={style.heading}>
+          {t(PageText.Assistant.search.walkSpeed.label)}
+        </Typo.h3>
+        <div className={style.kmphContainer}>
+          <Typo.p textType="body__s" className={style.infoText}>
+            {mpsToKmph(walkSpeed)} {t(PageText.Assistant.search.walkSpeed.kmph)}
+          </Typo.p>
+          <MonoIcon icon="transportation/WalkFill" size="small" />
+        </div>
+      </div>
       <RadioSegments
         name="walkSpeedFilter"
-        activeIndex={optionList.indexOf(walkSpeed)}
+        activeIndex={optionList.indexOf(valueToOption(walkSpeed))}
         className={style.walkSpeedSegments}
         options={optionList.map((speed) => ({
           onPress: () => {
-            setWalkSpeed(speed);
+            setWalkSpeed(optionToValue(speed));
             onChange(optionToValue(speed));
           },
           text: getWalkSpeedText(speed),
@@ -89,4 +98,8 @@ function valueToOption(value?: number): WalkSpeedOption {
     default:
       return WalkSpeedOption.UNKNOWN;
   }
+}
+
+function mpsToKmph(mps: number): string {
+  return (mps * 3.6).toFixed(1).replace('.', ',');
 }

@@ -1,14 +1,26 @@
 .heading {
   color: token('color.background.accent.0.foreground.primary');
-  margin-bottom: token('spacing.medium');
 }
 
-.walkSpeedSegments {
+.container {
   max-width: 30rem;
 }
 
+.headingContainer {
+  display: flex;
+  justify-content: space-between;
+  gap: token('spacing.medium');
+  margin-bottom: token('spacing.medium');
+}
+
+.kmphContainer {
+  display: flex;
+  align-items: center;
+  gap: token('spacing.xSmall');
+}
+
 @media (max-width: 650px) {
-  .walkSpeedSegments {
+  .container {
     max-width: 100%;
   }
 }
