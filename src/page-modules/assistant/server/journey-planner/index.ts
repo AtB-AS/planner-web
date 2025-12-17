@@ -49,6 +49,7 @@ import {
   TripsNonTransitQueryVariables,
   TripsNonTransitDocument,
 } from '@atb/page-modules/assistant/journey-gql/non-transit-trip.generated';
+import { MEDIUM_WALK_SPEED } from '@atb/page-modules/assistant/walk-speed-input';
 
 const { journeyApiConfigurations } = getOrgData();
 
@@ -84,7 +85,7 @@ export function createJourneyApi(
         to,
         arriveBy: input.searchTime.mode === 'arriveBy',
         when,
-        walkSpeed: input.walkSpeed ?? 1.3,
+        walkSpeed: input.walkSpeed ?? MEDIUM_WALK_SPEED,
 
         includeFoot: input.directModes.includes(StreetMode.Foot),
         includeBicycle: input.directModes.includes(StreetMode.Bicycle),
