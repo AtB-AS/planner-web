@@ -20,6 +20,7 @@ export const transportModeSchema = z.union([
   z.literal('trolleybus'),
   z.literal('unknown'),
   z.literal('water'),
+  z.literal('snowAndIce'),
 ]);
 export type TransportModeType = z.infer<typeof transportModeSchema>;
 

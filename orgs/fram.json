@@ -15,7 +15,7 @@
   "featureConfig": {
     "replaceTitleWithLogoInHeader": true,
     "enableShowTripPatternPrice": true,
-    "disableBoatComboPriceSearch": true
+    "disableBoatComboPriceSearch": false
   },
 
   "urls": {
