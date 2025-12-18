@@ -23,6 +23,7 @@ export async function fetchFromToTripQuery(
       cursor: null,
       lineFilter: [],
       walkSpeed: null,
+      transferSlack: null,
     };
   }
 
@@ -48,6 +49,7 @@ export async function fetchFromToTripQuery(
     cursor: tripQuery?.cursor ?? null,
     lineFilter,
     walkSpeed: tripQuery.walkSpeed ?? null,
+    transferSlack: tripQuery.transferSlack ?? null,
   };
 }
 

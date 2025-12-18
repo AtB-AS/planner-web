@@ -123,9 +123,6 @@
             },
             "transferPenalty": {
               "type": "number"
-            },
-            "transferSlack": {
-              "type": "number"
             }
           },
           "type": "object"

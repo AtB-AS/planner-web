@@ -54,6 +54,15 @@ const AssistantInternal = {
       },
       kmph: _('km/t', 'km/h', 'km/t'),
     },
+    transferSlack: {
+      label: _(
+        'Minste overgangstid',
+        'Minimum transfer time',
+        'Minste overgangstid',
+      ),
+      option: (minutes: number) =>
+        _(`${minutes} min`, `${minutes} min`, `${minutes} min`),
+    },
     lineFilter: {
       label: _('Linje', 'Line', 'Linje'),
       lineSearch: {

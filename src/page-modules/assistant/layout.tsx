@@ -28,6 +28,7 @@ import {
   GlobalMessages,
 } from '@atb/modules/global-messages';
 import { WalkSpeedInput } from './walk-speed-input';
+import { TransferSlackInput } from './transfer-slack-input';
 
 export type AssistantLayoutProps = PropsWithChildren<{
   tripQuery: FromToTripQuery;
@@ -117,6 +118,8 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
 
   const onSetWalkSpeed = async (walkSpeed: number) =>
     setValuesWithLoading({ walkSpeed });
+  const onSetTransferSlack = async (transferSlack: number) =>
+    setValuesWithLoading({ transferSlack });
 
   return (
     <div className={style.wrapper}>
@@ -201,6 +204,10 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
                   <WalkSpeedInput
                     onChange={onSetWalkSpeed}
                     initialValue={tripQuery.walkSpeed ?? undefined}
+                  />
+                  <TransferSlackInput
+                    onChange={onSetTransferSlack}
+                    initialValue={tripQuery.transferSlack ?? undefined}
                   />
                   <LineFilter
                     filterState={tripQuery.lineFilter}

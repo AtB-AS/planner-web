@@ -47,6 +47,7 @@ export type TripInput = {
   via?: GeocoderFeature;
   lineFilter?: string[];
   walkSpeed?: number;
+  transferSlack?: number;
 };
 
 export type FromToTripQuery = {
@@ -58,6 +59,7 @@ export type FromToTripQuery = {
   via?: GeocoderFeature | null;
   lineFilter: string[] | null;
   walkSpeed: number | null;
+  transferSlack: number | null;
 };
 
 export const TripQuerySchema = z.object({
@@ -82,6 +84,7 @@ export const TripQuerySchema = z.object({
   viaLayer: z.union([z.literal('address'), z.literal('venue')]).optional(),
   lineFilter: z.string().optional(),
   walkSpeed: z.number().optional(),
+  transferSlack: z.number().optional(),
 });
 
 export type TripQuery = z.infer<typeof TripQuerySchema>;

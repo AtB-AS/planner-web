@@ -58,7 +58,6 @@ const DEFAULT_JOURNEY_CONFIG = {
   waitReluctance: journeyApiConfigurations.waitReluctance ?? 1, // Setting this to a value lower than 1 indicates that waiting is better than staying on a vehicle.
   walkReluctance: journeyApiConfigurations.walkingReluctance ?? 4, // This is the main parameter to use for limiting walking.
   transferPenalty: journeyApiConfigurations.transferPenalty ?? 10, // An extra penalty added on transfers (i.e. all boardings except the first one)
-  transferSlack: journeyApiConfigurations.transferSlack ?? 0, // An expected transfer time (in seconds) that specifies the amount of time that must pass between exiting one public transport vehicle and boarding another.
 };
 
 export type JourneyPlannerApi = {
@@ -80,7 +79,7 @@ export function createJourneyApi(
           ? new Date(input.searchTime.dateTime)
           : new Date();
 
-      const queryVariables = {
+      const queryVariables: TripsNonTransitQueryVariables = {
         from,
         to,
         arriveBy: input.searchTime.mode === 'arriveBy',
@@ -186,7 +185,7 @@ export function createJourneyApi(
           ? new Date(input.searchTime.dateTime)
           : new Date();
 
-      const queryVariables = {
+      const queryVariables: TripsWithDetailsQueryVariables = {
         from,
         to,
         arriveBy: input.searchTime.mode === 'arriveBy',
@@ -195,6 +194,7 @@ export function createJourneyApi(
         cursor: input.cursor,
         lineFilter,
         walkSpeed: input.walkSpeed,
+        transferSlack: input.transferSlack,
         ...DEFAULT_JOURNEY_CONFIG,
       };
 

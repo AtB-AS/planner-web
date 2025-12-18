@@ -5,6 +5,7 @@ import {
   type TripApiReturnType,
 } from '@atb/page-modules/assistant';
 import { handlerWithAssistantClient } from '@atb/page-modules/assistant/server';
+import { DEFAULT_TRANSFER_SLACK } from '@atb/page-modules/assistant/transfer-slack-input';
 import { MEDIUM_WALK_SPEED } from '@atb/page-modules/assistant/walk-speed-input';
 import { ServerText } from '@atb/translations';
 import { constants } from 'http2';
@@ -35,6 +36,7 @@ export default handlerWithAssistantClient<TripApiReturnType>({
         cursor: tripQuery.cursor!,
         lineFilter: tripQuery.lineFilter ?? [],
         walkSpeed: tripQuery.walkSpeed ?? MEDIUM_WALK_SPEED,
+        transferSlack: tripQuery.transferSlack ?? DEFAULT_TRANSFER_SLACK,
       });
       return ok(result.trip);
     });
