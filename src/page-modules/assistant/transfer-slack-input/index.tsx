@@ -3,8 +3,7 @@ import { Typo } from '@atb/components/typography';
 import { PageText, useTranslation } from '@atb/translations';
 import style from './transfer-slack.module.css';
 import { useState } from 'react';
-
-export const DEFAULT_TRANSFER_SLACK = 120;
+import { getOrgData } from '@atb/modules/org-data';
 
 type Props = {
   onChange: (transferSlack: number) => void;
@@ -17,7 +16,7 @@ type Props = {
 export function TransferSlackInput({ initialValue, onChange }: Props) {
   const { t } = useTranslation();
   const initialValueMinutes = Math.round(
-    (initialValue === undefined ? DEFAULT_TRANSFER_SLACK : initialValue) / 60,
+    (initialValue === undefined ? defaultTransferSlack() : initialValue) / 60,
   );
   const [transferSlackMinutes, setTransferSlackMinutes] =
     useState<number>(initialValueMinutes);
@@ -45,4 +44,9 @@ export function TransferSlackInput({ initialValue, onChange }: Props) {
       />
     </div>
   );
+}
+
+export function defaultTransferSlack() {
+  const orgData = getOrgData();
+  return orgData.journeyApiConfigurations.defaultTransferSlack ?? 0;
 }

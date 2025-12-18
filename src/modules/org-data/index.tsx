@@ -62,6 +62,7 @@ export type OrgData = {
     waitReluctance?: number;
     walkingReluctance?: number;
     transferPenalty?: number;
+    defaultTransferSlack?: number;
   };
 };
 
