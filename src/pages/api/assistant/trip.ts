@@ -35,8 +35,14 @@ export default handlerWithAssistantClient<TripApiReturnType>({
         transportModes,
         cursor: tripQuery.cursor!,
         lineFilter: tripQuery.lineFilter ?? [],
-        walkSpeed: tripQuery.walkSpeed ?? MEDIUM_WALK_SPEED,
-        transferSlack: tripQuery.transferSlack ?? defaultTransferSlack(),
+        walkSpeed:
+          tripQuery.walkSpeed !== null
+            ? tripQuery.walkSpeed
+            : MEDIUM_WALK_SPEED,
+        transferSlack:
+          tripQuery.transferSlack !== null
+            ? tripQuery.transferSlack
+            : defaultTransferSlack(),
       });
       return ok(result.trip);
     });

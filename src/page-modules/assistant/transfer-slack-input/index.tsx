@@ -7,7 +7,7 @@ import { getOrgData } from '@atb/modules/org-data';
 
 type Props = {
   onChange: (transferSlack: number) => void;
-  initialValue?: number;
+  initialValue: number | null;
 };
 /**
  * Input component for selecting the transfer slack, initialValue and onChange
@@ -16,7 +16,7 @@ type Props = {
 export function TransferSlackInput({ initialValue, onChange }: Props) {
   const { t } = useTranslation();
   const initialValueMinutes = Math.round(
-    (initialValue === undefined ? defaultTransferSlack() : initialValue) / 60,
+    (initialValue === null ? defaultTransferSlack() : initialValue) / 60,
   );
   const [transferSlackMinutes, setTransferSlackMinutes] =
     useState<number>(initialValueMinutes);

@@ -203,11 +203,11 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
                   />
                   <WalkSpeedInput
                     onChange={onSetWalkSpeed}
-                    initialValue={tripQuery.walkSpeed ?? undefined}
+                    initialValue={tripQuery.walkSpeed}
                   />
                   <TransferSlackInput
                     onChange={onSetTransferSlack}
-                    initialValue={tripQuery.transferSlack ?? undefined}
+                    initialValue={tripQuery.transferSlack}
                   />
                   <LineFilter
                     filterState={tripQuery.lineFilter}

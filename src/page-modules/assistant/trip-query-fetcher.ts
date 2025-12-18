@@ -48,8 +48,9 @@ export async function fetchFromToTripQuery(
     searchTime,
     cursor: tripQuery?.cursor ?? null,
     lineFilter,
-    walkSpeed: tripQuery.walkSpeed ?? null,
-    transferSlack: tripQuery.transferSlack ?? null,
+    walkSpeed: tripQuery.walkSpeed !== undefined ? tripQuery.walkSpeed : null,
+    transferSlack:
+      tripQuery.transferSlack !== undefined ? tripQuery.transferSlack : null,
   };
 }
 

@@ -57,12 +57,14 @@ export function createTripQuery(tripQuery: FromToTripQuery): TripQuery {
 
   const searchTimeQuery = searchTimeToQueryString(tripQuery.searchTime);
   const cursorQuery = tripQuery.cursor ? { cursor: tripQuery.cursor } : {};
-  const walkSpeedQuery = tripQuery.walkSpeed
-    ? { walkSpeed: tripQuery.walkSpeed }
-    : { walkSpeed: MEDIUM_WALK_SPEED };
-  const transferSlackQuery = tripQuery.transferSlack
-    ? { transferSlack: tripQuery.transferSlack }
-    : { transferSlack: defaultTransferSlack() };
+  const walkSpeedQuery =
+    tripQuery.walkSpeed !== null
+      ? { walkSpeed: tripQuery.walkSpeed }
+      : { walkSpeed: MEDIUM_WALK_SPEED };
+  const transferSlackQuery =
+    tripQuery.transferSlack !== null
+      ? { transferSlack: tripQuery.transferSlack }
+      : { transferSlack: defaultTransferSlack() };
   const fromToQuery = featuresToFromToQuery(
     tripQuery.from,
     tripQuery.to,

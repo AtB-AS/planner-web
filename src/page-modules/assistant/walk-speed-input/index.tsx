@@ -19,13 +19,13 @@ export enum WalkSpeedOption {
 
 type Props = {
   onChange: (walkSpeed: number) => void;
-  initialValue?: number;
+  initialValue: number | null;
 };
 export function WalkSpeedInput({ initialValue, onChange }: Props) {
   const { t } = useTranslation();
   const theme = useTheme();
   const [walkSpeed, setWalkSpeed] = useState<number>(
-    initialValue ?? MEDIUM_WALK_SPEED,
+    initialValue !== null ? initialValue : MEDIUM_WALK_SPEED,
   );
 
   const getWalkSpeedText = (walkSpeed: WalkSpeedOption) => {
