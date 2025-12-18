@@ -3,7 +3,8 @@ import { Typo } from '@atb/components/typography';
 import { PageText, useTranslation } from '@atb/translations';
 import style from './walk-speed.module.css';
 import { useState } from 'react';
-import { MonoIcon } from '@atb/components/icon';
+import WalkFill from '@atb-as/generate-assets/files/common/mono/transportation/WalkFill.svg';
+import { useTheme } from '@atb/modules/theme';
 
 export const SLOW_WALK_SPEED = 0.8;
 export const MEDIUM_WALK_SPEED = 1.3;
@@ -22,6 +23,7 @@ type Props = {
 };
 export function WalkSpeedInput({ initialValue, onChange }: Props) {
   const { t } = useTranslation();
+  const theme = useTheme();
   const [walkSpeed, setWalkSpeed] = useState<number>(
     initialValue ?? MEDIUM_WALK_SPEED,
   );
@@ -52,10 +54,14 @@ export function WalkSpeedInput({ initialValue, onChange }: Props) {
           {t(PageText.Assistant.search.walkSpeed.label)}
         </Typo.h3>
         <div className={style.kmphContainer}>
-          <Typo.p textType="body__s" className={style.infoText}>
+          <Typo.p textType="body__s" className={style.kmphText}>
             {mpsToKmph(walkSpeed)} {t(PageText.Assistant.search.walkSpeed.kmph)}
           </Typo.p>
-          <MonoIcon icon="transportation/WalkFill" size="small" />
+          <WalkFill
+            width={theme.icon.size.small}
+            height={theme.icon.size.small}
+            fill={theme.color.background.neutral[0].foreground.secondary}
+          />
         </div>
       </div>
       <RadioSegments

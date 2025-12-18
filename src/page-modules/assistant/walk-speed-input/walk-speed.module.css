@@ -11,12 +11,18 @@
   justify-content: space-between;
   gap: token('spacing.medium');
   margin-bottom: token('spacing.medium');
+  align-items: center;
 }
 
 .kmphContainer {
   display: flex;
   align-items: center;
   gap: token('spacing.xSmall');
+  justify-content: center;
+}
+
+.kmphText {
+  color: token('color.background.neutral.0.foreground.secondary');
 }
 
 @media (max-width: 650px) {
