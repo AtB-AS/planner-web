@@ -121,13 +121,10 @@
             "walkingReluctance": {
               "type": "number"
             },
-            "walkingSpeed": {
-              "type": "number"
-            },
             "transferPenalty": {
               "type": "number"
             },
-            "transferSlack": {
+            "defaultTransferSlack": {
               "type": "number"
             }
           },

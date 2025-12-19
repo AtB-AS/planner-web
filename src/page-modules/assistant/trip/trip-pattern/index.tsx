@@ -74,15 +74,12 @@ export default function TripPattern({
 
   const tripIsInPast = isInPast(tripPattern.legs[0].expectedStartTime);
 
-  const maxOpacity = tripIsInPast ? 0.7 : 1;
-
   const isCancelled = tripPattern.legs.some(
     (leg) => leg.fromEstimatedCall?.cancellation,
   );
 
   const className = andIf({
     [style.tripPattern]: true,
-    [style['tripPattern--old']]: tripIsInPast,
   });
 
   const staySeated = (idx: number) => {
@@ -117,7 +114,7 @@ export default function TripPattern({
         className={className}
         data-testid={testId}
         initial={{ opacity: 0, x: -10 }}
-        animate={{ opacity: maxOpacity, x: 0 }}
+        animate={{ opacity: 1, x: 0 }}
         exit={{ opacity: 0, x: -10 }}
         transition={{
           delay, // staggerChildren on parent only works first render
@@ -243,7 +240,13 @@ export default function TripPattern({
           </div>
         </div>
         <footer className={style.footer} onClick={() => setIsOpen(!isOpen)}>
-          <div className={style.price__container}>
+          <div className={style.info__container}>
+            {tripIsInPast && (
+              <Tag
+                type="warning"
+                message={t(PageText.Assistant.trip.tripPattern.passedTrip)}
+              />
+            )}
             {requireTicketBooking && (
               <Tag
                 type="warning"

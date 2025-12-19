@@ -27,6 +27,8 @@ import {
   GlobalMessageContextEnum,
   GlobalMessages,
 } from '@atb/modules/global-messages';
+import { WalkSpeedInput } from './walk-speed-input';
+import { TransferSlackInput } from './transfer-slack-input';
 
 export type AssistantLayoutProps = PropsWithChildren<{
   tripQuery: FromToTripQuery;
@@ -114,6 +116,11 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
     750,
   );
 
+  const onSetWalkSpeed = async (walkSpeed: number) =>
+    setValuesWithLoading({ walkSpeed });
+  const onSetTransferSlack = async (transferSlack: number) =>
+    setValuesWithLoading({ transferSlack });
+
   return (
     <div className={style.wrapper}>
       <form className={style.container} onSubmit={onSubmitHandler}>
@@ -194,11 +201,22 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
                     data={transportModeFilter}
                     onChange={onTransportFilterChanged}
                   />
-
+                  <WalkSpeedInput
+                    onChange={onSetWalkSpeed}
+                    initialValue={tripQuery.walkSpeed}
+                  />
+                  <TransferSlackInput
+                    onChange={onSetTransferSlack}
+                    initialValue={tripQuery.transferSlack}
+                  />
+                  <LineFilter
+                    filterState={tripQuery.lineFilter}
+                    onChange={onLineFilterChanged}
+                  />
                   <div>
-                    <Typo.h2 textType="body__m" className={style.heading}>
+                    <Typo.h3 textType="body__m" className={style.heading}>
                       {t(PageText.Assistant.search.input.via.label)}
-                    </Typo.h2>
+                    </Typo.h3>
                     <Search
                       label={t(PageText.Assistant.search.input.via.description)}
                       placeholder={t(
@@ -219,11 +237,6 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
                       onGeolocationError={setGeolocationError}
                     />
                   </div>
-
-                  <LineFilter
-                    filterState={tripQuery.lineFilter}
-                    onChange={onLineFilterChanged}
-                  />
                 </div>
               </motion.div>
             </FocusScope>

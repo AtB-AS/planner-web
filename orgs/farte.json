@@ -47,8 +47,7 @@
   "journeyApiConfigurations": {
     "waitReluctance": 1.0,
     "walkingReluctance": 4.0,
-    "walkingSpeed": 1.3,
     "transferPenalty": 0,
-    "transferSlack": 0
+    "defaultTransferSlack": 0
   }
 }

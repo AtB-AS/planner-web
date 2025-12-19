@@ -7,5 +7,5 @@ export const TransportModeFilter = {
     'All transport modes',
     'Alle transportmiddel',
   ),
-  label: _('Transportmiddel', 'Transportation vehicle', 'Transportmiddel'),
+  label: _('Transportmiddel', 'Transport mode', 'Transportmiddel'),
 };

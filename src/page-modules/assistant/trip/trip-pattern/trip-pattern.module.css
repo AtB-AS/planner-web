@@ -7,18 +7,12 @@
   transition: opacity 150ms ease-in-out;
 }
 
-.tripPatternContainer:hover {
-  background-color: token('color.background.neutral.0.background');
-  color: token('color.foreground.dynamic.primary');
-  opacity: 0.8 !important;
-}
-
 .tripPattern {
   display: flex;
   flex-direction: column;
 }
-.tripPattern--old:hover {
-  opacity: 0.5 !important;
+.tripPattern:hover {
+  cursor: pointer;
 }
 
 .header {
@@ -198,7 +192,7 @@
   border: 2px solid token('color.interactive.0.outline.background');
 }
 
-.price__container {
+.info__container {
   display: flex;
   flex-direction: row;
   gap: token('spacing.small');
@@ -206,7 +200,8 @@
 }
 
 @media (max-width: 650px) {
-  .price__container {
+  .info__container {
     flex-direction: column;
+    align-items: flex-start;
   }
 }

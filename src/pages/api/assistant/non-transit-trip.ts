@@ -5,6 +5,7 @@ import {
   type NonTransitTripApiReturnType,
 } from '@atb/page-modules/assistant';
 import { handlerWithAssistantClient } from '@atb/page-modules/assistant/server';
+import { MEDIUM_WALK_SPEED } from '@atb/page-modules/assistant/walk-speed-input';
 import { ServerText } from '@atb/translations';
 import { constants } from 'http2';
 
@@ -27,6 +28,7 @@ export default handlerWithAssistantClient<NonTransitTripApiReturnType>({
           to: tripQuery.to!,
           searchTime: tripQuery.searchTime,
           directModes: [StreetMode.Foot, StreetMode.Bicycle],
+          walkSpeed: tripQuery.walkSpeed ?? MEDIUM_WALK_SPEED,
         }),
       );
     });

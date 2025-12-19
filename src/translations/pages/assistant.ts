@@ -17,11 +17,7 @@ const AssistantInternal = {
       from: _('Fra', 'From', 'Frå'),
       to: _('Til', 'To', 'Til'),
       via: {
-        label: _(
-          'Vil du reise via en mellomdestinasjon?',
-          'Do you want to travel via an intermediate destination?',
-          'Vil du reise via ein mellomdestinasjon?',
-        ),
+        label: _('Mellomstopp', 'Intermediate stop', 'Mellomstopp'),
         description: _('Via', 'Via', 'Via'),
       },
       placeholder: _(
@@ -44,17 +40,35 @@ const AssistantInternal = {
         'Alle transportmiddel',
       ),
     },
-    lineFilter: {
+    walkSpeed: {
       label: _(
-        'Jeg reiser med linje',
-        'I travel with line',
-        'Eg reiser med linje',
+        'Hvor fort går du?',
+        'What is your walking speed?',
+        'Kor fort går du?',
       ),
+      options: {
+        slow: _('Sakte', 'Slow', 'Sakte'),
+        medium: _('Middels', 'Medium', 'Middels'),
+        fast: _('Raskt', 'Fast', 'Raskt'),
+        other: _('Annen', 'Other', 'Annan'),
+      },
+      kmph: _('km/t', 'km/h', 'km/t'),
+    },
+    transferSlack: {
+      label: _(
+        'Minste overgangstid',
+        'Minimum transfer time',
+        'Minste overgangstid',
+      ),
+      option: (minutes: number) =>
+        _(`${minutes} min`, `${minutes} min`, `${minutes} min`),
+    },
+    lineFilter: {
+      label: _('Linje', 'Line', 'Linje'),
       lineSearch: {
         label: _('Linje', 'Line', 'Linje'),
-        placeholder: _('linjenummer', 'line number', 'linjenummer'),
+        placeholder: _('Eksempel: 2, 10', 'Example: 2, 10', 'Eksempel: 2, 10'),
       },
-      example: _('Eksempel: 2, 10', 'Example: 2, 10', 'Eksempel: 2, 10'),
       unknownLines: (lines: string[]) =>
         _(
           `Vi finner ikke linje ${lines.join(', ')}`,
@@ -148,6 +162,11 @@ const AssistantInternal = {
           `${formattedPriceInNOK} kr`,
         ),
       requiresBooking: _('Booking kreves', 'Booking required', 'Booking krev'),
+      passedTrip: _(
+        'Avgangstid passert',
+        'Departure time passed',
+        'Avgangstid passert',
+      ),
       loading: _('Laster pris', 'Loading price', 'Lastar pris'),
       noPrice: _(
         'Billettpris er ikke tilgjengelig',
@@ -533,11 +552,13 @@ export const Assistant = orgSpecificTranslations(AssistantInternal, {
   nfk: {
     search: {
       lineFilter: {
-        example: _(
-          'Eksempel: 100, 200, 300',
-          'Example: 100, 200, 300',
-          'Eksempel: 100, 200, 300',
-        ),
+        lineSearch: {
+          placeholder: _(
+            'Eksempel: 100, 200, 300',
+            'Example: 100, 200, 300',
+            'Eksempel: 100, 200, 300',
+          ),
+        },
       },
     },
     details: {
@@ -553,11 +574,13 @@ export const Assistant = orgSpecificTranslations(AssistantInternal, {
   fram: {
     search: {
       lineFilter: {
-        example: _(
-          'Eksempel: 905, 902, 901',
-          'Example: 905, 902, 901',
-          'Eksempel: 905, 902, 901',
-        ),
+        lineSearch: {
+          placeholder: _(
+            'Eksempel: 905, 902, 901',
+            'Example: 905, 902, 901',
+            'Eksempel: 905, 902, 901',
+          ),
+        },
       },
     },
     details: {
@@ -573,11 +596,13 @@ export const Assistant = orgSpecificTranslations(AssistantInternal, {
   farte: {
     search: {
       lineFilter: {
-        example: _(
-          'Eksempel: R1, P5, 601',
-          'Example: R1, P5, 601',
-          'Eksempel: R1, P5, 601',
-        ),
+        lineSearch: {
+          placeholder: _(
+            'Eksempel: R1, P5, 601',
+            'Example: R1, P5, 601',
+            'Eksempel: R1, P5, 601',
+          ),
+        },
       },
     },
     details: {
@@ -593,11 +618,13 @@ export const Assistant = orgSpecificTranslations(AssistantInternal, {
   vkt: {
     search: {
       lineFilter: {
-        example: _(
-          'Eksempel: 03, 100, 113B',
-          'Example: 03, 100, 113B',
-          'Eksempel: 03, 100, 113B',
-        ),
+        lineSearch: {
+          placeholder: _(
+            'Eksempel: 03, 100, 113B',
+            'Example: 03, 100, 113B',
+            'Eksempel: 03, 100, 113B',
+          ),
+        },
       },
     },
     details: {

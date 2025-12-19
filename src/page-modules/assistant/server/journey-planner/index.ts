@@ -49,6 +49,7 @@ import {
   TripsNonTransitQueryVariables,
   TripsNonTransitDocument,
 } from '@atb/page-modules/assistant/journey-gql/non-transit-trip.generated';
+import { MEDIUM_WALK_SPEED } from '@atb/page-modules/assistant/walk-speed-input';
 
 const { journeyApiConfigurations } = getOrgData();
 
@@ -56,9 +57,7 @@ const DEFAULT_JOURNEY_CONFIG = {
   numTripPatterns: 8, // The maximum number of trip patterns to return.
   waitReluctance: journeyApiConfigurations.waitReluctance ?? 1, // Setting this to a value lower than 1 indicates that waiting is better than staying on a vehicle.
   walkReluctance: journeyApiConfigurations.walkingReluctance ?? 4, // This is the main parameter to use for limiting walking.
-  walkSpeed: journeyApiConfigurations.walkingSpeed ?? 1.3, // The maximum walk speed along streets, in meters per second.
   transferPenalty: journeyApiConfigurations.transferPenalty ?? 10, // An extra penalty added on transfers (i.e. all boardings except the first one)
-  transferSlack: journeyApiConfigurations.transferSlack ?? 0, // An expected transfer time (in seconds) that specifies the amount of time that must pass between exiting one public transport vehicle and boarding another.
 };
 
 export type JourneyPlannerApi = {
@@ -80,12 +79,12 @@ export function createJourneyApi(
           ? new Date(input.searchTime.dateTime)
           : new Date();
 
-      const queryVariables = {
+      const queryVariables: TripsNonTransitQueryVariables = {
         from,
         to,
         arriveBy: input.searchTime.mode === 'arriveBy',
         when,
-        walkSpeed: 1.3,
+        walkSpeed: input.walkSpeed ?? MEDIUM_WALK_SPEED,
 
         includeFoot: input.directModes.includes(StreetMode.Foot),
         includeBicycle: input.directModes.includes(StreetMode.Bicycle),
@@ -186,7 +185,7 @@ export function createJourneyApi(
           ? new Date(input.searchTime.dateTime)
           : new Date();
 
-      const queryVariables = {
+      const queryVariables: TripsWithDetailsQueryVariables = {
         from,
         to,
         arriveBy: input.searchTime.mode === 'arriveBy',
@@ -194,6 +193,8 @@ export function createJourneyApi(
         modes: journeyModes,
         cursor: input.cursor,
         lineFilter,
+        walkSpeed: input.walkSpeed,
+        transferSlack: input.transferSlack,
         ...DEFAULT_JOURNEY_CONFIG,
       };
 

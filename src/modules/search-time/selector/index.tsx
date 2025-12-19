@@ -6,11 +6,12 @@ import {
 import { fromLocalTimeToCET, setTimezone } from '@atb/utils/date';
 import { format, isFuture, isToday, subDays } from 'date-fns';
 import { AnimatePresence, motion } from 'framer-motion';
-import { CSSProperties, useState } from 'react';
+import { useState } from 'react';
 import { SEARCH_MODES, SearchMode, SearchTime } from '../types';
 import DateSelector from './date-selector';
 import style from './selector.module.css';
 import TimeSelector from './time-selector';
+import { RadioSegments } from '@atb/components/radio-segments';
 
 type SearchTimeSelectorProps = {
   onChange: (state: SearchTime) => void;
@@ -39,19 +40,16 @@ export default function SearchTimeSelector({
 
   const [isTimeUpdated, setTimeUpdated] = useState<boolean>(false);
 
-  const internalOnStateChange = (state: SearchMode) => {
+  const internalOnStateChange = (mode: SearchMode) => {
     const newState =
-      state === 'now'
-        ? {
-            mode: state,
-          }
+      mode === 'now'
+        ? { mode }
         : {
-            mode: state,
+            mode,
             dateTime: new Date(
               selectedDate.toISOString().slice(0, 10) + 'T' + selectedTime,
             ).getTime(),
           };
-
     setSelectedMode(newState);
     onChange(newState);
   };
@@ -117,37 +115,16 @@ export default function SearchTimeSelector({
 
   return (
     <div className={style.departureDateSelector}>
-      <div
+      <RadioSegments
         className={style.options}
-        style={{ '--number-of-options': options.length } as CSSProperties}
-      >
-        {options.map((state) => (
-          <label
-            key={state}
-            className={style.option}
-            data-testid={'searchTimeSelector-' + state}
-          >
-            <input
-              type="radio"
-              name="searchTimeSelector"
-              value={state}
-              checked={selectedMode.mode === state}
-              onChange={() => internalOnStateChange(state)}
-              aria-label={stateToLabel(state, t)}
-              className={style.option__input}
-            />
-
-            <span className={style.option__label}>
-              {selectedMode.mode === state && (
-                <span className={style.option__selected} />
-              )}
-              <span className={style.option__text}>
-                {stateToLabel(state, t)}
-              </span>
-            </span>
-          </label>
-        ))}
-      </div>
+        name="searchTimeSelector"
+        options={options.map((option) => ({
+          onPress: () => internalOnStateChange(option),
+          text: stateToLabel(option, t),
+          selected: selectedMode.mode === option,
+        }))}
+        activeIndex={options.indexOf(selectedMode.mode)}
+      />
 
       <AnimatePresence initial={false}>
         {selectedMode.mode !== 'now' && (
