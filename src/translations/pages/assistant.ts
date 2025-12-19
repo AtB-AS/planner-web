@@ -43,7 +43,7 @@ const AssistantInternal = {
     walkSpeed: {
       label: _(
         'Hvor fort går du?',
-        'How fast do you walk?',
+        'What is your walking speed?',
         'Kor fort går du?',
       ),
       options: {
