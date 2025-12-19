@@ -162,6 +162,11 @@ const AssistantInternal = {
           `${formattedPriceInNOK} kr`,
         ),
       requiresBooking: _('Booking kreves', 'Booking required', 'Booking krev'),
+      passedTrip: _(
+        'Avgangstid passert',
+        'Departure time passed',
+        'Avgangstid passert',
+      ),
       loading: _('Laster pris', 'Loading price', 'Lastar pris'),
       noPrice: _(
         'Billettpris er ikke tilgjengelig',
