@@ -107,7 +107,7 @@ export function StopPlace({ departures }: StopPlaceProps) {
           layer="venue"
           onSelectStopPlace={(id) => router.push(`/departures/${id}`)}
           transportModes={departures.stopPlace.transportMode}
-          transportSubmodes={[TransportSubmode.LocalBus]}
+          transportSubmodes={submodes}
         />
       </div>
     </section>
