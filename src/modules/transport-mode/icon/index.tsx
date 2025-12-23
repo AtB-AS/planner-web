@@ -9,71 +9,64 @@ import { secondsToMinutes } from 'date-fns';
 
 import style from './icon.module.css';
 import { TransportSubmode } from '@atb/modules/graphql-types/journeyplanner-types_v3.generated.ts';
-
-export type TransportIconsProps = {
-  modes: TransportModeGroup[];
-};
-export function TransportIcons({ modes }: TransportIconsProps) {
-  return (
-    <div className={style.transportIcons}>
-      {modes.map((mode) => (
-        <TransportIcon
-          key={mode.transportMode ?? '' + mode.transportSubModes}
-          mode={mode}
-        />
-      ))}
-    </div>
-  );
-}
+import { TransportModeType, TransportSubmodeType } from '@atb-as/config-specs';
 
 export type TransportIconProps = {
-  mode: TransportModeGroup;
+  transportMode: TransportModeType;
+  transportSubmode?: TransportSubmodeType;
   size?: MonoIconProps['size'];
   isFlexible?: boolean;
 };
 
 export function TransportIcon({
-  mode,
+  transportMode,
+  transportSubmode,
   size = 'normal',
   isFlexible,
 }: TransportIconProps) {
   const { t } = useTranslation();
-  const { backgroundColor, overrideMode } = useTransportationThemeColor(
-    mode,
+  const { backgroundColor, overrideMode } = useTransportationThemeColor({
+    transportMode,
+    transportSubmode,
     isFlexible,
-  );
+  });
   return (
     <span className={style.transportIcon} style={{ backgroundColor }}>
       <MonoIcon
         size={size}
-        icon={getTransportModeIcon(mode)}
+        icon={getTransportModeIcon(transportMode, transportSubmode)}
         role="img"
-        alt={t(transportModeToTranslatedString(mode))}
+        alt={t(transportModeToTranslatedString(transportMode))}
         overrideMode={overrideMode}
       />
     </span>
   );
 }
-export function TransportMonoIcon({ mode }: TransportIconProps) {
+export function TransportMonoIcon({
+  transportMode,
+  transportSubmode,
+}: TransportIconProps) {
   const { t } = useTranslation();
   return (
     <MonoIcon
-      icon={getTransportModeIcon(mode)}
+      icon={getTransportModeIcon(transportMode, transportSubmode)}
       role="img"
-      alt={t(transportModeToTranslatedString(mode))}
+      alt={t(transportModeToTranslatedString(transportMode))}
     />
   );
 }
 
 export type TransportIconWithLabelProps = {
-  mode: TransportModeGroup;
+  transportMode: TransportModeType;
+  transportSubmode?: TransportSubmodeType;
   label?: string;
   duration?: number;
   isFlexible?: boolean;
 };
 
 export function TransportIconWithLabel({
-  mode,
+  transportMode,
+  transportSubmode,
   label,
   duration,
   isFlexible,
@@ -82,10 +75,14 @@ export function TransportIconWithLabel({
   const {
     color: { background },
   } = useTheme();
-  let colors = useTransportationThemeColor(mode, isFlexible);
+  let colors = useTransportationThemeColor({
+    transportMode,
+    transportSubmode,
+    isFlexible,
+  });
 
   // Walking legs should have a lighter background color in the trip pattern view.
-  if (mode.transportMode === 'foot') {
+  if (transportMode === 'foot') {
     colors = {
       backgroundColor: background.neutral[2].background,
       textColor: background.neutral[2].foreground.primary,
@@ -101,9 +98,9 @@ export function TransportIconWithLabel({
       style={{ backgroundColor: colors.backgroundColor }}
     >
       <MonoIcon
-        icon={getTransportModeIcon(mode)}
+        icon={getTransportModeIcon(transportMode, transportSubmode)}
         role="img"
-        alt={t(transportModeToTranslatedString(mode))}
+        alt={t(transportModeToTranslatedString(transportMode))}
         overrideMode={colors.overrideMode}
       />
       {label && (
@@ -127,14 +124,20 @@ export function TransportIconWithLabel({
   );
 }
 
-export function useTransportationThemeColor(
-  mode: TransportModeGroup,
-  isFlexible?: boolean,
-) {
+export function useTransportationThemeColor(props: {
+  transportMode: TransportModeType;
+  transportSubmode?: TransportSubmodeType;
+  isFlexible?: boolean;
+}) {
   const {
     color: { transport },
   } = useTheme();
-  let color = transportModeToColor(mode, transport, isFlexible);
+  let color = transportModeToColor(
+    transport,
+    props.transportMode,
+    props.transportSubmode,
+    props.isFlexible,
+  );
   return {
     backgroundColor: color.background,
     textColor: color.foreground.primary,
@@ -143,52 +146,54 @@ export function useTransportationThemeColor(
 }
 
 export function transportModeToColor(
-  mode: TransportModeGroup,
-  transport: TransportColors,
+  transportColors: TransportColors,
+  transportMode: TransportModeType,
+  transportSubMode?: TransportSubmodeType,
   isFlexible?: boolean,
 ): ContrastColor {
-  if (isFlexible) return transport.flexible.primary;
-  switch (mode.transportMode) {
+  if (isFlexible) return transportColors.flexible.primary;
+  switch (transportMode) {
     case 'bus':
     case 'coach':
-      if (mode.transportSubModes?.includes(TransportSubmode.LocalBus)) {
-        return transport.city.primary;
+      if (transportSubMode === TransportSubmode.LocalBus) {
+        return transportColors.city.primary;
       }
-      if (mode.transportSubModes?.includes(TransportSubmode.AirportLinkBus)) {
-        return transport.airportExpress.primary;
+      if (transportSubMode === TransportSubmode.AirportLinkBus) {
+        return transportColors.airportExpress.primary;
       }
-      return transport.region.primary;
+      return transportColors.region.primary;
 
     case 'rail':
-      if (mode.transportSubModes?.includes(TransportSubmode.AirportLinkRail)) {
-        return transport.airportExpress.primary;
+      if (transportSubMode === TransportSubmode.AirportLinkRail) {
+        return transportColors.airportExpress.primary;
       }
-      return transport.train.primary;
+      return transportColors.train.primary;
 
     case 'tram':
-      return transport.city.primary;
+      return transportColors.city.primary;
 
     case 'bicycle':
-      return transport.bike.primary;
+      return transportColors.bike.primary;
 
     case 'water':
-      return transport.boat.primary;
+      return transportColors.boat.primary;
 
     case 'air':
-      return transport.other.primary;
+      return transportColors.other.primary;
 
     case 'metro':
-      return transport.train.primary;
+      return transportColors.train.primary;
 
     default:
-      return transport.other.primary;
+      return transportColors.other.primary;
   }
 }
 
 export function getTransportModeIcon(
-  mode: TransportModeGroup,
+  transportMode: TransportModeType,
+  transportSubmode?: TransportSubmodeType,
 ): MonoIconProps['icon'] {
-  switch (mode.transportMode) {
+  switch (transportMode) {
     case 'bus':
     case 'coach':
       return 'transportation/BusFill';
@@ -203,7 +208,7 @@ export function getTransportModeIcon(
     case 'air':
       return 'transportation/PlaneFill';
     case 'water':
-      return isSubModeBoat(mode.transportSubModes)
+      return isSubModeBoat(transportSubmode)
         ? 'transportation/BoatFill'
         : 'transportation/FerryFill';
     case 'metro':

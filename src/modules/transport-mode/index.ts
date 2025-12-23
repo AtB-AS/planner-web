@@ -2,13 +2,13 @@ export {
   type TransportModeType,
   type TransportSubmodeType,
   type TransportModeGroup,
+  type NewTransportModeGroup,
   transportModeSchema,
   transportSubmodeSchema,
 } from './types';
 
 export {
   transportModeToTranslatedString,
-  severalTransportModesToTranslatedStrings,
   isTransportModeType,
   isTransportSubmodeType,
   filterGraphQlTransportModes,

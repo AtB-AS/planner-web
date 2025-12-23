@@ -2,13 +2,15 @@ import { Typo } from '@atb/components/typography';
 import style from './line-chip.module.css';
 import {
   TransportIcon,
-  TransportModeType,
   useTransportationThemeColor,
 } from '@atb/modules/transport-mode';
-import { TransportSubmode } from '@atb/modules/graphql-types/journeyplanner-types_v3.generated.ts';
+import {
+  TransportMode,
+  TransportSubmode,
+} from '@atb/modules/graphql-types/journeyplanner-types_v3.generated.ts';
 
 export type LineChipProps = {
-  transportMode: TransportModeType;
+  transportMode: TransportMode;
   transportSubmode?: TransportSubmode;
   publicCode?: string;
 };
@@ -19,8 +21,8 @@ export default function LineChip({
   publicCode,
 }: LineChipProps) {
   const transportationColor = useTransportationThemeColor({
-    transportMode: transportMode,
-    transportSubModes: transportSubmode ? [transportSubmode] : [],
+    transportMode,
+    transportSubmode,
   });
 
   return (
@@ -32,10 +34,8 @@ export default function LineChip({
       }}
     >
       <TransportIcon
-        mode={{
-          transportMode: transportMode,
-          transportSubModes: transportSubmode ? [transportSubmode] : [],
-        }}
+        transportMode={transportMode}
+        transportSubmode={transportSubmode}
       />
       {publicCode && (
         <Typo.span className={style.publicCode} textType="body__m__strong">

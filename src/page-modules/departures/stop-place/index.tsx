@@ -107,7 +107,6 @@ export function StopPlace({ departures }: StopPlaceProps) {
           layer="venue"
           onSelectStopPlace={(id) => router.push(`/departures/${id}`)}
           transportModes={departures.stopPlace.transportMode}
-          transportSubmodes={submodes}
         />
       </div>
     </section>
@@ -264,7 +263,8 @@ export function EstimatedCallItem({
 
               <LineChip
                 transportMode={
-                  departure.serviceJourney.line.transportMode || 'unknown'
+                  departure.serviceJourney.line.transportMode ??
+                  TransportMode.Unknown
                 }
                 publicCode={departure.serviceJourney.line.publicCode}
                 transportSubmode={

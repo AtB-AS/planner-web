@@ -145,12 +145,8 @@ export default function TripPattern({
                     <div className={style.legs__leg}>
                       {leg.mode ? (
                         <TransportIconWithLabel
-                          mode={{
-                            transportMode: leg.mode,
-                            transportSubModes: leg.transportSubmode
-                              ? [leg.transportSubmode]
-                              : undefined,
-                          }}
+                          transportMode={leg.mode}
+                          transportSubmode={leg.transportSubmode}
                           label={leg.line?.publicCode ?? undefined}
                           duration={
                             leg.mode === 'foot' ? leg.duration : undefined

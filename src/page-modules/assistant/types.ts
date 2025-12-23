@@ -1,7 +1,5 @@
-import { GeocoderFeature } from '@atb/modules/geocoder';
 import { z } from 'zod';
 import { searchModeSchema, type SearchTime } from '@atb/modules/search-time';
-import type { TransportModeGroup } from '@atb/modules/transport-mode';
 import { NoticeFragment } from '@atb/page-modules/assistant/journey-gql/trip-with-details.generated.ts';
 import {
   LegWithDetailsFragment,
@@ -9,7 +7,12 @@ import {
   TripsWithDetailsQuery,
 } from '@atb/page-modules/assistant/journey-gql/trip-with-details.generated.ts';
 import { MapLegType } from '@atb/components/map';
-import { Mode } from '@atb/modules/graphql-types/journeyplanner-types_v3.generated.ts';
+import {
+  Mode,
+  StreetMode,
+  TransportModes,
+} from '@atb/modules/graphql-types/journeyplanner-types_v3.generated.ts';
+import { GeocoderFeature } from '@atb/modules/geocoder';
 
 /**
  * IMPORTANT! READ THIS
@@ -42,7 +45,7 @@ export type TripInput = {
   from: GeocoderFeature;
   to: GeocoderFeature;
   searchTime: SearchTime;
-  transportModes?: TransportModeGroup[];
+  transportModes?: TransportModes[];
   cursor?: string;
   via?: GeocoderFeature;
   lineFilter?: string[];
@@ -88,26 +91,6 @@ export const TripQuerySchema = z.object({
 });
 
 export type TripQuery = z.infer<typeof TripQuerySchema>;
-export enum StreetMode {
-  /** Bike only. This can be used as access/egress, but transfers will still be walk only. */
-  Bicycle = 'bicycle',
-  /** Bike to a bike parking area, then walk the rest of the way. Direct mode and access mode only. */
-  BikePark = 'bike_park',
-  /** Walk to a bike rental point, bike to a bike rental drop-off point, and walk the rest of the way. This can include bike rental at fixed locations or free-floating services. */
-  BikeRental = 'bike_rental',
-  /** Car only. Direct mode only. */
-  Car = 'car',
-  /** Start in the car, drive to a parking area, and walk the rest of the way. Direct mode and access mode only. */
-  CarPark = 'car_park',
-  /** Walk to a pickup point along the road, drive to a drop-off point along the road, and walk the rest of the way. This can include various taxi-services or kiss & ride. */
-  CarPickup = 'car_pickup',
-  /** Walk to an eligible pickup area for flexible transportation, ride to an eligible drop-off area and then walk the rest of the way. */
-  Flexible = 'flexible',
-  /** Walk only */
-  Foot = 'foot',
-  /** Walk to a scooter rental point, ride a scooter to a scooter rental drop-off point, and walk the rest of the way. This can include scooter rental at fixed locations or free-floating services. */
-  ScooterRental = 'scooter_rental',
-}
 
 export type NonTransitTripInput = {
   from: GeocoderFeature;
