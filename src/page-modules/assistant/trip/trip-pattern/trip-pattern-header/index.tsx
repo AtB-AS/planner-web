@@ -101,7 +101,7 @@ export function getStartModeAndPlaceText(
     case 'water':
       if (
         startLeg.transportSubmode &&
-        isSubModeBoat([startLeg.transportSubmode])
+        isSubModeBoat(startLeg.transportSubmode)
       ) {
         return t(
           PageText.Assistant.trip.tripPattern.travelFrom.boat(startName),

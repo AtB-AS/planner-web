@@ -33,7 +33,7 @@ export function NonTransitTrip({ nonTransit }: NonTransitTripProps) {
       title={`${modeText} ${durationShort}`}
       testID={`non-transit-pill-${mode}`}
       icon={{
-        left: <TransportMonoIcon mode={{ transportMode: mode }} />,
+        left: <TransportMonoIcon transportMode={mode} />,
         right: <MonoIcon icon="navigation/ArrowRight" />,
       }}
     />

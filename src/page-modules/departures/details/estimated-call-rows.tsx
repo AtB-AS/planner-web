@@ -145,7 +145,7 @@ function EstimatedCallRow({
   const isBetween = !isStartOfGroup && !isEndOfGroup;
   const iconColor = useTransportationThemeColor({
     transportMode: group === 'trip' ? mode : 'unknown',
-    transportSubModes: subMode ? [subMode] : undefined,
+    transportSubmode: subMode,
   });
 
   return (

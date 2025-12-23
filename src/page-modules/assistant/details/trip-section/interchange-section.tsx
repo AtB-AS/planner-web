@@ -24,7 +24,6 @@ export type InterchangeSectionProps = {
 export function InterchangeSection(props: InterchangeSectionProps) {
   const unknownTransportationColor = useTransportationThemeColor({
     transportMode: 'unknown',
-    transportSubModes: undefined,
   });
 
   const message = useInterchangeTextTranslation(props);

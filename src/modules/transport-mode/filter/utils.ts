@@ -1,5 +1,5 @@
 import { uniq } from 'lodash';
-import type { TransportModeGroup } from '../types';
+import type { NewTransportModeGroup } from '../types';
 import { getTransportModeFilter } from '@atb/modules/firebase/transport-mode-filter';
 
 export function parseFilterQuery(
@@ -12,12 +12,12 @@ export function parseFilterQuery(
 
 export async function getAllTransportModesFromFilterOptions(
   filterOptions: string[] | null,
-): Promise<TransportModeGroup[] | undefined> {
+): Promise<NewTransportModeGroup[] | undefined> {
   const transportModeFilter = await getTransportModeFilter();
 
   if (!transportModeFilter) return;
 
-  const transportModes: TransportModeGroup[] = transportModeFilter
+  const transportModes: NewTransportModeGroup[] = transportModeFilter
     .filter((option) => !filterOptions || filterOptions.includes(option.id))
     .flatMap((option) => option.modes);
 

@@ -22,7 +22,6 @@ export default function WaitSection({ legWaitDetails }: WaitSectionProps) {
   const { t, language } = useTranslation();
   const unknownTransportationColor = useTransportationThemeColor({
     transportMode: 'unknown',
-    transportSubModes: undefined,
   });
 
   const showWaitSection =
