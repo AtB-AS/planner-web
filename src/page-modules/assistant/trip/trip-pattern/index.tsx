@@ -8,7 +8,7 @@ import { formatToClock, isInPast, secondsBetween } from '@atb/utils/date';
 import { TripPatternHeader } from './trip-pattern-header';
 import { MonoIcon } from '@atb/components/icon';
 import { Typo } from '@atb/components/typography';
-import { TransportIconWithLabel } from '@atb/modules/transport-mode';
+import { TransportIconWithDuration } from '@atb/modules/transport-mode';
 import { andIf } from '@atb/utils/css';
 import { useRouter } from 'next/router';
 import {
@@ -144,7 +144,7 @@ export default function TripPattern({
                   {staySeated(i - 1) ? null : (
                     <div className={style.legs__leg}>
                       {leg.mode ? (
-                        <TransportIconWithLabel
+                        <TransportIconWithDuration
                           mode={{
                             transportMode: leg.mode,
                             transportSubModes: leg.transportSubmode

@@ -343,6 +343,11 @@ function getShortHumanizer(
   return humanizer(ms, opts);
 }
 
+// Translates seconds to minutes without postfix. Returns minimum 1
+export function secondsToMinutes(seconds: number): string {
+  return Math.max(Math.round(seconds / 60), 1).toString();
+}
+
 export function formatTripDuration(
   originalDepartureTimeISO: string,
   originalArrivalTimeISO: string,
