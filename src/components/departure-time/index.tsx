@@ -77,6 +77,7 @@ export function DepartureTime({
             aria-label={`${t(
               ComponentText.DepartureTime.time.aimedPrefix,
             )} ${scheduled}`}
+            testID="routeDepartureTime"
           >
             {scheduled}
           </Typo.p>
@@ -126,6 +127,7 @@ function TimeContainer({
           ? `${screenReaderPause} ${t(ComponentText.DepartureTime.cancelled)}`
           : `${t(ComponentText.DepartureTime.time[prefix])} ${time}`
       }
+      testID="departureTime"
       {...props}
     >
       {realtimeIndicator && (

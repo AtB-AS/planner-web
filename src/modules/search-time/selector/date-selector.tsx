@@ -52,7 +52,7 @@ export default function DateSelector({
             />
           )}
         </DateInput>
-        <Button className={style.calendarButton}>
+        <Button className={style.calendarButton} data-testid="calendarButton">
           <MonoIcon icon="time/Date" />
         </Button>
       </Group>
@@ -63,6 +63,7 @@ export default function DateSelector({
               <Button
                 slot="previous"
                 className={style.calendarDialog__headerButtons}
+                data-testid="previousMonthButton"
               >
                 <MonoIcon icon="navigation/ArrowLeft" />
               </Button>
@@ -70,6 +71,7 @@ export default function DateSelector({
               <Button
                 slot="next"
                 className={style.calendarDialog__headerButtons}
+                data-testid="nextMonthButton"
               >
                 <MonoIcon icon="navigation/ArrowRight" />
               </Button>
@@ -79,6 +81,7 @@ export default function DateSelector({
                 <CalendarCell
                   date={date}
                   className={style.calendarGrid__cell}
+                  data-testid={`date-${date}`}
                 />
               )}
             </CalendarGrid>

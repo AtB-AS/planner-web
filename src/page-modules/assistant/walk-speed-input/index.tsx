@@ -66,6 +66,7 @@ export function WalkSpeedInput({ initialValue, onChange }: Props) {
       </div>
       <RadioSegments
         name="walkSpeedFilter"
+        testID="walkSpeedFilter"
         activeIndex={optionList.indexOf(valueToOption(walkSpeed))}
         className={style.walkSpeedSegments}
         options={optionList.map((speed) => ({

@@ -118,6 +118,7 @@ export default function SearchTimeSelector({
       <RadioSegments
         className={style.options}
         name="searchTimeSelector"
+        testID="searchTimeSelector"
         options={options.map((option) => ({
           onPress: () => internalOnStateChange(option),
           text: stateToLabel(option, t),

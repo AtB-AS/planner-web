@@ -172,7 +172,10 @@ export default function TripPattern({
                           leg.expectedStartTime,
                         ) > DEFAULT_THRESHOLD_AIMED_EXPECTED_IN_SECONDS ? (
                           <>
-                            <Typo.span textType="body__xs">
+                            <Typo.span
+                              textType="body__xs"
+                              testID="expStartTime"
+                            >
                               {formatToClock(
                                 leg.expectedStartTime,
                                 language,
@@ -182,6 +185,7 @@ export default function TripPattern({
                             <Typo.span
                               textType="body__xs__strike"
                               className={style.outdatet}
+                              testID="aimedStartTime"
                             >
                               {formatToClock(
                                 leg.aimedStartTime,
@@ -195,6 +199,7 @@ export default function TripPattern({
                             textType={
                               isCancelled ? 'body__xs__strike' : 'body__xs'
                             }
+                            testID="expStartTime"
                           >
                             {formatToClock(
                               leg.aimedStartTime,
@@ -234,7 +239,10 @@ export default function TripPattern({
             <div className={style.legs__lastLeg__icon}>
               <MonoIcon icon="places/Destination" />
             </div>
-            <Typo.span textType={isCancelled ? 'body__xs__strike' : 'body__xs'}>
+            <Typo.span
+              textType={isCancelled ? 'body__xs__strike' : 'body__xs'}
+              testID="expEndTime"
+            >
               {formatToClock(tripPattern.expectedEndTime, language, 'ceil')}
             </Typo.span>
           </div>

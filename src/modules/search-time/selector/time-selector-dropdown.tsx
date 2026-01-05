@@ -43,11 +43,13 @@ export default function TimeSelectorDropdown({
             numberSeries={hours}
             selectedValue={time.hour}
             onSelect={(hour) => selectTime('hour', hour)}
+            testID="hours"
           />
           <NumberSeriesScrollView
             numberSeries={minutes}
             selectedValue={time.minute}
             onSelect={(minute) => selectTime('minute', minute)}
+            testID="minutes"
           />
         </div>
       </Dialog>
@@ -59,12 +61,14 @@ type NumberSeriesScrollViewProps = {
   numberSeries: number[];
   selectedValue: number;
   onSelect: (number: number) => void;
+  testID?: string;
 };
 
 const NumberSeriesScrollView = ({
   numberSeries,
   selectedValue,
   onSelect,
+  testID,
 }: NumberSeriesScrollViewProps) => {
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
   const theme = useTheme();
@@ -105,6 +109,7 @@ const NumberSeriesScrollView = ({
               isSelected && style.numberItemSelected,
             )}
             onClick={() => onSelect(numberItem.value)}
+            testID={`time-${testID}-${numberItem.value.toString().padStart(2, '0')}`}
           >
             {numberItem.value.toString().padStart(2, '0')}
           </Typo.div>
