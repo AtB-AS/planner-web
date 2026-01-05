@@ -130,22 +130,27 @@ describe('departure time component', function () {
   });
 
   it.each([[5], [6], [7]])(
-    'should show relative time if activated, and difference between realtime and aimed for delay %i',
+    'should show relative time only for expectedDepartureTime, and difference between realtime and aimed for delay %i',
     (delayInMinutes) => {
       const now = new Date();
+      const aimedDepartureTime = now.toISOString();
+
       vi.useFakeTimers();
       vi.setSystemTime(new Date());
 
       const output = render(
         <DepartureTime
-          aimedDepartureTime={now.toISOString()}
+          aimedDepartureTime={aimedDepartureTime}
           expectedDepartureTime={addMinutes(now, delayInMinutes).toISOString()}
           relativeTime
           realtime
         />,
       );
 
-      const expectedLabel = `Rutetid Nå`;
+      const expectedLabel = `Rutetid ${formatLocaleTime(
+        aimedDepartureTime,
+        Language.Norwegian,
+      )}`;
 
       expect(output.getByLabelText(expectedLabel)).toBeInTheDocument();
       expect(output.getByLabelText(expectedLabel)).toHaveClass(
