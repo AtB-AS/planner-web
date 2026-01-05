@@ -184,7 +184,11 @@ function DayLabel({ departureTime, previousDepartureTime }: DayLabelProps) {
 
   if (isFirst || !isSameDay(prevDate, departureDate)) {
     return (
-      <Typo.p textType="heading__l" className={style.dayLabel}>
+      <Typo.p
+        textType="heading__l"
+        className={style.dayLabel}
+        testID="dayLabel"
+      >
         {dayLabel}
       </Typo.p>
     );

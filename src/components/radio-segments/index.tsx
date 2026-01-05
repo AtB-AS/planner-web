@@ -14,12 +14,14 @@ type RadioSegmentsProps = {
   activeIndex?: number;
   name: string;
   className?: string;
+  testID?: string;
 };
 export function RadioSegments({
   options,
   activeIndex,
   name,
   className,
+  testID,
 }: RadioSegmentsProps) {
   return (
     <div
@@ -33,7 +35,15 @@ export function RadioSegments({
       {options.map((state, index) => {
         const selected = activeIndex === index;
         return (
-          <label key={index} className={style.option}>
+          <label
+            key={index}
+            className={style.option}
+            data-testid={
+              testID
+                ? `${testID}-${state.text.toLowerCase().replace(/\s+/g, '')}`
+                : undefined
+            }
+          >
             <input
               type="radio"
               name={name}

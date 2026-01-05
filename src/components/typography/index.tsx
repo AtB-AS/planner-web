@@ -6,6 +6,7 @@ type BaseTypographyInternal<E extends React.ElementType = React.ElementType> =
   React.PropsWithChildren<{
     textType: TextNames;
     as?: E;
+    testID?: string;
   }>;
 
 export type BaseTypographyProps<E extends React.ElementType> =
@@ -16,11 +17,22 @@ const __DEFAULT_ELEMENT__ = 'span';
 
 export default function BaseTypography<
   E extends React.ElementType = typeof __DEFAULT_ELEMENT__,
->({ as, textType, className, children, ...props }: BaseTypographyProps<E>) {
+>({
+  as,
+  textType,
+  testID,
+  className,
+  children,
+  ...props
+}: BaseTypographyProps<E>) {
   const Component = as || __DEFAULT_ELEMENT__;
   const extraClass = `typo-${textType}`;
   return (
-    <Component {...props} className={and(extraClass, className)}>
+    <Component
+      {...props}
+      className={and(extraClass, className)}
+      data-testid={testID ? testID : undefined}
+    >
       {children}
     </Component>
   );

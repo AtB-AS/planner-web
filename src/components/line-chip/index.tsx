@@ -38,7 +38,11 @@ export default function LineChip({
         }}
       />
       {publicCode && (
-        <Typo.span className={style.publicCode} textType="body__m__strong">
+        <Typo.span
+          className={style.publicCode}
+          textType="body__m__strong"
+          testID="linePublicCode"
+        >
           {publicCode}
         </Typo.span>
       )}

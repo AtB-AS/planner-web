@@ -49,12 +49,17 @@ export default function TimeSelector({
             <DateSegment
               className={style.timeSelectorSegment}
               segment={segment}
+              data-testid={`time-${segment.type}`}
             />
           )}
         </DateInput>
 
         <DialogTrigger>
-          <Button excludeFromTabOrder className={style.timePickerButton}>
+          <Button
+            excludeFromTabOrder
+            className={style.timePickerButton}
+            data-testid="timePickerButton"
+          >
             <MonoIcon icon="time/Time" />
           </Button>
 
@@ -64,6 +69,7 @@ export default function TimeSelector({
               onChange(time);
               onValueChanged(true);
             }}
+            data-testid={`time-${selectedTime}`}
           />
         </DialogTrigger>
       </Group>

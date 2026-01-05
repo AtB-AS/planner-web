@@ -30,6 +30,7 @@ export function TransferSlackInput({ initialValue, onChange }: Props) {
       </Typo.h3>
       <RadioSegments
         name="transferSlackFilter"
+        testID="transferSlackFilter"
         activeIndex={optionListMinutes.indexOf(transferSlackMinutes)}
         className={style.transferSlackSegments}
         options={optionListMinutes.map((transferSlack) => ({
