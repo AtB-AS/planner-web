@@ -5,7 +5,7 @@ import { useTranslation } from '@atb/translations';
 import { isSubModeBoat, transportModeToTranslatedString } from '../utils';
 import { colorToOverrideMode } from '@atb/utils/color';
 import { Typo } from '@atb/components/typography';
-import { secondsToMinutes } from 'date-fns';
+import { secondsToMinutes } from '@atb/utils/date';
 
 import style from './icon.module.css';
 import { TransportSubmode } from '@atb/modules/graphql-types/journeyplanner-types_v3.generated.ts';
@@ -65,19 +65,19 @@ export function TransportMonoIcon({ mode }: TransportIconProps) {
   );
 }
 
-export type TransportIconWithLabelProps = {
+export type TransportIconWithDurationProps = {
   mode: TransportModeGroup;
   label?: string;
   duration?: number;
   isFlexible?: boolean;
 };
 
-export function TransportIconWithLabel({
+export function TransportIconWithDuration({
   mode,
   label,
   duration,
   isFlexible,
-}: TransportIconWithLabelProps) {
+}: TransportIconWithDurationProps) {
   const { t } = useTranslation();
   const {
     color: { background },
@@ -120,7 +120,7 @@ export function TransportIconWithLabel({
           style={{ color: colors.textColor }}
           className={style.transportIconWithLabel__duration}
         >
-          {Math.max(secondsToMinutes(duration), 1)}
+          {secondsToMinutes(duration)}
         </Typo.span>
       )}
     </span>
