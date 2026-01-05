@@ -41,7 +41,10 @@ export function DepartureTime({
     missingRealTime: !realtime,
     cancelled: cancelled,
   });
-  const scheduled = useTimeOrRelative(aimedDepartureTime, relativeTime);
+  const scheduled = useTimeOrRelative(
+    aimedDepartureTime,
+    representationType !== 'significant-difference' ? relativeTime : false,
+  );
   const expected = useTimeOrRelative(expectedDepartureTime, relativeTime);
   const showRealtimeIndicator = Boolean(withRealtimeIndicator && realtime);
 
