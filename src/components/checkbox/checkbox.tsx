@@ -49,6 +49,7 @@ export default function Checkbox({
           checked={checked}
           aria-invalid={!!error}
           onClick={onClick}
+          data-testid="onlyStopPlacesCheckbox"
         />
         <CheckBoxIcon
           checked={checked}

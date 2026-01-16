@@ -6,7 +6,7 @@ export type MapWithHeaderProps = MapHeaderProps & MapProps;
 
 export function MapWithHeader({ ...props }: MapWithHeaderProps) {
   return (
-    <div className={style.mapWithHeader}>
+    <div className={style.mapWithHeader} data-testid="mapContainer">
       <MapHeader {...props} />
       <Map {...props} />
     </div>

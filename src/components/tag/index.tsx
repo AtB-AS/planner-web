@@ -15,6 +15,7 @@ type BaseTagProps = {
   message: string;
   size?: TagSize;
   textId?: string;
+  testID?: string;
 };
 
 // Allowed to set icon for secondary, but not for primary or other statuses.
@@ -28,7 +29,14 @@ type TagProps =
       icon?: never;
     });
 
-export const Tag = ({ message, textId, type, size, icon }: TagProps) => {
+export const Tag = ({
+  message,
+  textId,
+  testID,
+  type,
+  size,
+  icon,
+}: TagProps) => {
   const colors = useTagColors(type);
   const aria = statusToAria(type);
 
@@ -39,6 +47,7 @@ export const Tag = ({ message, textId, type, size, icon }: TagProps) => {
         [style.small]: size === 'small',
       })}
       style={colors}
+      data-testid={testID ? testID : undefined}
     >
       {type !== 'secondary' && type !== 'primary' && (
         <ColorIcon icon={messageTypeToColorIcon(type)} />

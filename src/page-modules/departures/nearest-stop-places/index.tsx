@@ -70,7 +70,7 @@ export function NearestStopPlaces({
 
       <ul className={style.stopPlacesList}>
         {nearestStopPlaces.map((item) => (
-          <li key={item.stopPlace.id}>
+          <li key={item.stopPlace.id} data-testid="list-item-stop-place">
             <StopPlaceItem item={item} />
           </li>
         ))}
@@ -112,7 +112,9 @@ export default function StopPlaceItem({ item }: StopPlaceItemProps) {
       )}
     >
       <div className={style.stopPlaceItem__text}>
-        <Typo.h3 textType="body__m__strong">{item.stopPlace.name}</Typo.h3>
+        <Typo.h3 textType="body__m__strong" testID="stopPlaceName">
+          {item.stopPlace.name}
+        </Typo.h3>
         <Typo.span textType="body__s">
           {item.stopPlace.description ??
             t(PageText.Departures.nearest.stopPlaceItem.stopPlace)}
