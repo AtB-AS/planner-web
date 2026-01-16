@@ -164,7 +164,11 @@ export default function Search({
 
           {button ?? null}
 
-          <ul className={style.menu} {...getMenuProps()}>
+          <ul
+            className={style.menu}
+            {...getMenuProps()}
+            data-testid="searchResults"
+          >
             {isOpen && inputValue !== '' && (
               <>
                 <li
@@ -178,7 +182,6 @@ export default function Search({
                   })}
                   role="checkbox"
                   aria-checked={onlyStopPlaces}
-                  data-testid={`list-item-1`}
                   onClick={(e) => e.stopPropagation()}
                 >
                   <Checkbox
@@ -201,13 +204,18 @@ export default function Search({
                       index: index + 1,
                       item,
                     })}
-                    data-testid={`list-item-${index}`}
+                    data-testid={`list-item-${item.layer}`}
                   >
                     <div className={style.itemIcon} aria-hidden>
                       <VenueIcon categories={item.category} />
                     </div>
                     <div className={style.itemInfo}>
-                      <span className={style.itemName}>{item.name}</span>
+                      <span
+                        className={style.itemName}
+                        data-testid="list-item-name"
+                      >
+                        {item.name}
+                      </span>
                       <span className={style.itemLocality}>
                         {item.locality}
                       </span>
@@ -227,7 +235,7 @@ export default function Search({
                     index: 0,
                     item: 'location',
                   })}
-                  data-testid={`list-item-0`}
+                  data-testid={`list-item-XX`}
                 >
                   <div className={style.itemIcon} aria-hidden>
                     {isGeolocationLoading ? (

@@ -53,7 +53,12 @@ export function MapHeader({
               {t(ComponentText.Map.header.address)}
             </p>
           )}
-          <h2 className={and('typo-heading__l')}>{name}</h2>
+          <h2
+            className={and('typo-heading__l')}
+            data-testid={layer === 'address' ? 'addressName' : 'stopPlaceName'}
+          >
+            {name}
+          </h2>
         </div>
       </div>
 

@@ -162,6 +162,7 @@ export function EstimatedCallList({ quay }: EstimatedCallListProps) {
           <Typo.h3
             className={style.textColor__secondary}
             textType="body__s__strong"
+            testID="quayName"
           >
             {formatQuayName(t, quay.name, quay.publicCode)}
           </Typo.h3>
@@ -198,7 +199,7 @@ export function EstimatedCallList({ quay }: EstimatedCallListProps) {
                   key={departure.id}
                   departure={departure}
                   quayId={quay.id}
-                  testID={`departure-${quay.publicCode}-${index}`}
+                  testID={`estimatedCallItem-${quay.publicCode}`}
                 />
               ))}
             </>

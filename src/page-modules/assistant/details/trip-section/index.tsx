@@ -80,7 +80,7 @@ export default function TripSection({
   );
 
   return (
-    <div className={style.container}>
+    <div className={style.container} data-testid="trip-leg">
       <div className={style.rowContainer}>
         <DecorationLine
           hasStart={showFrom}
@@ -99,7 +99,7 @@ export default function TripSection({
             }
             alignChildren="flex-start"
           >
-            <Typo.p textType="body__m">
+            <Typo.p textType="body__m" testID="legFromName">
               {getPlaceName(
                 t,
                 leg.fromPlace.name,
@@ -224,7 +224,7 @@ export default function TripSection({
             }
             alignChildren="flex-start"
           >
-            <Typo.p textType="body__m">
+            <Typo.p textType="body__m" testID="legToName">
               {getPlaceName(
                 t,
                 leg.toPlace.name,

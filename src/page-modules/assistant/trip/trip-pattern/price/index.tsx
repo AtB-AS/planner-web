@@ -100,7 +100,7 @@ export function Price({
   return (
     <div className={style.container}>
       {ifFound === 'show-icon' && <MonoIcon icon="ticketing/Ticket" />}
-      <Typo.span textType={textType} className={style.text}>
+      <Typo.span textType={textType} className={style.text} testID="price">
         {`${travellerTypeText}: ${priceInfoText}`}
       </Typo.span>
     </div>

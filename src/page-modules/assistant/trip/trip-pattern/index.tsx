@@ -253,12 +253,14 @@ export default function TripPattern({
               <Tag
                 type="warning"
                 message={t(PageText.Assistant.trip.tripPattern.passedTrip)}
+                testID="tripIsInPast"
               />
             )}
             {requireTicketBooking && (
               <Tag
                 type="warning"
                 message={t(PageText.Assistant.trip.tripPattern.requiresBooking)}
+                testID="requireTicketBooking"
               />
             )}
             <Price
