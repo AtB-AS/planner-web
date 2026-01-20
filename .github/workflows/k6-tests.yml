@@ -58,6 +58,10 @@ jobs:
       #      exit 1
       #    fi
 
+      - name: print run id
+        run: |
+          echo "${{ github.run_id }}"
+
       - name: Notify Slack
         run: |
           ./e2e-tests/k6/integration/slack_notification.sh ${{ secrets.ATB_SLACK_TOKEN }} e2e_tests ${{ github.run_id }} Preview

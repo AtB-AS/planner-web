@@ -13,6 +13,11 @@ else
     SLACK_CHANNEL=$2
     GH_RUN_ID=$3
     TEST_TYPE=$4
+    GH_REF="https://github.com/AtB-AS/planner-web/actions/runs/${GH_RUN_ID}"
+    echo "GitHub run url"
+    echo "$GH_REF"
+    echo "GitHub run id"
+    echo "$GH_RUN_ID"
       
     # Error or success
     if find e2e-tests/k6/logs -maxdepth 1 -name "errors.log" | grep -q .; then
@@ -28,7 +33,6 @@ else
       ERRORS_JSON=$(jq -n --arg text "$ERRORS" 'text: $text') # Endre til Slack-format
       PAYLOAD_DETAILS=$(jq -n --arg text "$ERRORS" "{\"channel\": \"${SLACK_CHANNEL}\",${ERRORS_JSON}")
 
-      GH_REF="https://github.com/AtB-AS/planner-web/actions/runs/${GH_RUN_ID}"
       #PAYLOAD="{\"channel\": \"${SLACK_CHANNEL}\", \"blocks\": [{\"type\": \"section\", \"text\": {\"type\": \"mrkdwn\", \"text\": \"\n\"}}, {\"type\": \"section\", \"text\": {\"type\": \"mrkdwn\", \"text\": \":warning: *Errors in Planner Web (Test: ${TEST_TYPE}, <${GH_REF}|ref>)*\"}}, {\"type\": \"section\", \"text\": {\"type\": \"mrkdwn\", \"text\": \"${ERRORS}\"}}]}"
       PAYLOAD="{\"channel\": \"${SLACK_CHANNEL}\", \"blocks\": [{\"type\": \"section\", \"text\": {\"type\": \"mrkdwn\", \"text\": \"\n\"}}, {\"type\": \"section\", \"text\": {\"type\": \"mrkdwn\", \"text\": \":warning: *Errors in Planner Web (Test: ${TEST_TYPE}, <${GH_REF}|ref>)*\"}}]}"
 
