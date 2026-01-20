@@ -38,10 +38,11 @@ jobs:
         run: |
           yarn install      
 
+      # TODO functional > smoke
       - name: Run k6 tests
         working-directory: e2e-tests/k6
         run: |
-          ./k6 run runTest.ts
+          ./k6 run runTest.ts --env usecase=functional
         env:
           host: ${{ env.ENV_HOST }}
 
@@ -59,7 +60,7 @@ jobs:
 
       - name: Notify Slack
         run: |
-          ./e2e-tests/k6/integration/slack_notification.sh ${{ secrets.ATB_SLACK_TOKEN }} e2e_tests ${{ github.run_id }}
+          ./e2e-tests/k6/integration/slack_notification.sh ${{ secrets.ATB_SLACK_TOKEN }} e2e_tests ${{ github.run_id }} Preview
 
       - name: Fail on any errors
         run: |

@@ -45,3 +45,15 @@ export const attachRequestLogger = (page: Page) => {
     });
   }
 };
+
+export async function testIdExists(
+  page: Page,
+  testId: string,
+): Promise<boolean> {
+  return (await page.locator(`[data-testid="${testId}"]`).count()) > 0;
+}
+
+export function functName(fn: Function) {
+  console.log(`** Test case: ${fn.name}`);
+  return fn.name;
+}
