@@ -11,7 +11,7 @@ export class TimeSelector {
     return this.page.locator('[data-testid="time-minute"]');
   }
   private get calendar(): Locator {
-    return this.page.locator('[data-testid="calendarButton"]');
+    return this.page.locator('[data-testid="calendarButtonTODO"]');
   }
 
   // Set departure time: hours
