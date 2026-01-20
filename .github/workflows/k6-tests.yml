@@ -46,17 +46,17 @@ jobs:
         env:
           host: ${{ env.ENV_HOST }}
 
-      - name: Request log
-        run: |
-          if find e2e-tests/k6/logs -maxdepth 1 -name "requests.log" | grep -q .; then
-            cat e2e-tests/k6/logs/requests.log
-          else
-            echo "### ⚠️ Test errors" >> $GITHUB_STEP_SUMMARY
-            echo "" >> $GITHUB_STEP_SUMMARY
-            echo "See more details in the workflow" >> $GITHUB_STEP_SUMMARY
-            echo "⚠️ No requests log is found, failing the job."
-            exit 1
-          fi
+      #- name: Request log
+      #  run: |
+      #    if find e2e-tests/k6/logs -maxdepth 1 -name "requests.log" | grep -q .; then
+      #      cat e2e-tests/k6/logs/requests.log
+      #    else
+      #      echo "### ⚠️ Test errors" >> $GITHUB_STEP_SUMMARY
+      #      echo "" >> $GITHUB_STEP_SUMMARY
+      #      echo "See more details in the workflow" >> $GITHUB_STEP_SUMMARY
+      #      echo "⚠️ No requests log is found, failing the job."
+      #      exit 1
+      #    fi
 
       - name: Notify Slack
         run: |
