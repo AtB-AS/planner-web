@@ -29,9 +29,9 @@ else
       #ERRORS=$(awk 'NR>1 {print ""} {printf "%s", $0}' logs/errors.log)
       #PAYLOAD=$(jq -n --arg text "$ERRORS" '{ text: $text }')
       #printf '%s\n' "$PAYLOAD" | jq -r '.text'
-      ERRORS=$(awk 'NR>1 {print ""} {printf "%s", $0}' logs/errors.log)
+      ERRORS=$(awk 'NR>1 {print ""} {printf "%s", $0}' e2e-tests/k6/logs/errors.log)
       ERRORS_JSON=$(jq -n --arg text "$ERRORS" 'text: $text') # Endre til Slack-format
-      PAYLOAD_DETAILS=$(jq -n --arg text "$ERRORS" "{\"channel\": \"${SLACK_CHANNEL}\",${ERRORS_JSON}")
+      PAYLOAD_DETAILS=$(jq -n --arg text "$ERRORS" "{\"channel\": \"${SLACK_CHANNEL}\",${ERRORS_JSON}}")
 
       #PAYLOAD="{\"channel\": \"${SLACK_CHANNEL}\", \"blocks\": [{\"type\": \"section\", \"text\": {\"type\": \"mrkdwn\", \"text\": \"\n\"}}, {\"type\": \"section\", \"text\": {\"type\": \"mrkdwn\", \"text\": \":warning: *Errors in Planner Web (Test: ${TEST_TYPE}, <${GH_REF}|ref>)*\"}}, {\"type\": \"section\", \"text\": {\"type\": \"mrkdwn\", \"text\": \"${ERRORS}\"}}]}"
       PAYLOAD="{\"channel\": \"${SLACK_CHANNEL}\", \"blocks\": [{\"type\": \"section\", \"text\": {\"type\": \"mrkdwn\", \"text\": \"\n\"}}, {\"type\": \"section\", \"text\": {\"type\": \"mrkdwn\", \"text\": \":warning: *Errors in Planner Web (Test: ${TEST_TYPE}, <${GH_REF}|ref>)*\"}}]}"
