@@ -30,29 +30,26 @@ else
       PAYLOAD="{\"channel\": \"${SLACK_CHANNEL}\", \"blocks\": [{\"type\": \"section\", \"text\": {\"type\": \"mrkdwn\", \"text\": \"\n\"}}, {\"type\": \"section\", \"text\": {\"type\": \"mrkdwn\", \"text\": \":warning: *Errors in Planner Web (Test: ${TEST_TYPE}, <${GH_REF}|ref>)*\"}}]}"
 
       # Send slack notification
-      curl -H "Content-type: application/json" \
-        --data "${PAYLOAD}" \
+      curl -X POST https://slack.com/api/chat.postMessage \
         -H "Authorization: Bearer ${SLACK_TOKEN}" \
         -H "Content-type: application/json; charset=utf-8" \
-        -X POST https://slack.com/api/chat.postMessage
+        --data "${PAYLOAD}"
       echo ""
       echo "** Slack notification sent: errors **"
-      curl -H "Content-type: application/json" \
-        --data "${PAYLOAD_DETAILS}" \
+      curl -X POST https://slack.com/api/chat.postMessage \
         -H "Authorization: Bearer ${SLACK_TOKEN}" \
         -H "Content-type: application/json; charset=utf-8" \
-        -X POST https://slack.com/api/chat.postMessage
+        --data "${PAYLOAD_DETAILS}"
       echo ""
       echo "** Slack notification sent: error details **"
     else
       PAYLOAD="{\"channel\": \"${SLACK_CHANNEL}\", \"blocks\": [{\"type\": \"section\", \"text\": {\"type\": \"mrkdwn\", \"text\": \"\n\"}}, {\"type\": \"section\", \"text\": {\"type\": \"mrkdwn\", \"text\": \":white_check_mark: *All good for Planner Web (Test: ${TEST_TYPE}, <${GH_REF}|ref>)*\"}}]}"
 
       # Send slack notification
-      curl -H "Content-type: application/json" \
-        --data "${PAYLOAD}" \
+      curl -X POST https://slack.com/api/chat.postMessage \
         -H "Authorization: Bearer ${SLACK_TOKEN}" \
         -H "Content-type: application/json; charset=utf-8" \
-        -X POST https://slack.com/api/chat.postMessage
+        --data "${PAYLOAD}"
       echo ""
       echo "** Slack notification sent: success **"
     fi
