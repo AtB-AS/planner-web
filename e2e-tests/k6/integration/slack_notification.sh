@@ -14,24 +14,11 @@ else
     GH_RUN_ID=$3
     TEST_TYPE=$4
     GH_REF="https://github.com/AtB-AS/planner-web/actions/runs/${GH_RUN_ID}"
-    echo "GitHub run url"
-    echo "$GH_REF"
-    echo "GitHub run id"
-    echo "$GH_RUN_ID"
-      
+
     # Error or success
     if find e2e-tests/k6/logs -maxdepth 1 -name "errors.log" | grep -q .; then
-      #ERRORS=$(cat e2e-tests/k6/logs/errors.log)
-      #ERRORS=$(sed ':a;N;$!ba;s/"/\\"/g;s/\n/\\n/g' e2e-tests/k6/logs/errors.log) #TODO TEST
-      #ERRORS=$(awk '{gsub(/"/,"\\\""); printf "%s%s", (NR>1?"\\n":""), $0}' logs/errors.log) #TODO TEST
-
-      # TODO TEST
-      #ERRORS=$(awk 'NR>1 {print ""} {printf "%s", $0}' logs/errors.log)
-      #PAYLOAD=$(jq -n --arg text "$ERRORS" '{ text: $text }')
-      #printf '%s\n' "$PAYLOAD" | jq -r '.text'
+      # WARNING: If error details are too long, Slack might give error 79 back. Might need to truncate or split in several messages
       ERRORS=$(awk 'NR>1 {print ""} {printf "%s", $0}' e2e-tests/k6/logs/errors.log)
-      #ERRORS_JSON=$(jq -n --arg text "$ERRORS" 'text: $text') # Endre til Slack-format
-      #PAYLOAD_DETAILS=$(jq -n --arg text "$ERRORS" "{\"channel\": \"${SLACK_CHANNEL}\",${ERRORS_JSON}}")
       PAYLOAD_DETAILS=$(jq -n \
         --arg channel "$SLACK_CHANNEL" \
         --arg text "$ERRORS" '
@@ -40,25 +27,20 @@ else
         text: $text
       }')
 
-      echo ""
-      echo "PAYLOAD_DETAILS"
-      echo ""
-      echo "$PAYLOAD_DETAILS"
-      echo ""
-
-      #PAYLOAD="{\"channel\": \"${SLACK_CHANNEL}\", \"blocks\": [{\"type\": \"section\", \"text\": {\"type\": \"mrkdwn\", \"text\": \"\n\"}}, {\"type\": \"section\", \"text\": {\"type\": \"mrkdwn\", \"text\": \":warning: *Errors in Planner Web (Test: ${TEST_TYPE}, <${GH_REF}|ref>)*\"}}, {\"type\": \"section\", \"text\": {\"type\": \"mrkdwn\", \"text\": \"${ERRORS}\"}}]}"
       PAYLOAD="{\"channel\": \"${SLACK_CHANNEL}\", \"blocks\": [{\"type\": \"section\", \"text\": {\"type\": \"mrkdwn\", \"text\": \"\n\"}}, {\"type\": \"section\", \"text\": {\"type\": \"mrkdwn\", \"text\": \":warning: *Errors in Planner Web (Test: ${TEST_TYPE}, <${GH_REF}|ref>)*\"}}]}"
 
       # Send slack notification
       curl -H "Content-type: application/json" \
         --data "${PAYLOAD}" \
         -H "Authorization: Bearer ${SLACK_TOKEN}" \
+        -H "Content-type: application/json; charset=utf-8" \
         -X POST https://slack.com/api/chat.postMessage
       echo ""
       echo "** Slack notification sent: errors **"
       curl -H "Content-type: application/json" \
         --data "${PAYLOAD_DETAILS}" \
         -H "Authorization: Bearer ${SLACK_TOKEN}" \
+        -H "Content-type: application/json; charset=utf-8" \
         -X POST https://slack.com/api/chat.postMessage
       echo ""
       echo "** Slack notification sent: error details **"
@@ -69,6 +51,7 @@ else
       curl -H "Content-type: application/json" \
         --data "${PAYLOAD}" \
         -H "Authorization: Bearer ${SLACK_TOKEN}" \
+        -H "Content-type: application/json; charset=utf-8" \
         -X POST https://slack.com/api/chat.postMessage
       echo ""
       echo "** Slack notification sent: success **"

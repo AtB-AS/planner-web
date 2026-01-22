@@ -1,9 +1,6 @@
-name: k6 preview tests
+name: k6 performance test
 
 on:
-  repository_dispatch:
-    types:
-      - 'vercel.deployment.success'
   workflow_dispatch:
     inputs:
       host:
@@ -12,7 +9,7 @@ on:
         default: ''
 
 jobs:
-  k6-preview-tests:
+  k6-measurement-tests:
     runs-on: ubuntu-latest
     env:
       ENV_HOST: ${{ github.event.inputs.host || github.event.client_payload.url }}
@@ -41,13 +38,21 @@ jobs:
       - name: Run k6 tests
         working-directory: e2e-tests/k6
         run: |
-          ./k6 run runTest.ts --env usecase=functional
+          ./k6 run runTest.ts --env usecase=performance --env performanceTest=true
         env:
           host: ${{ env.ENV_HOST }}
 
+      - name: Print request log
+        run: |
+          if find e2e-tests/k6/logs -maxdepth 1 -name "requests.log" | grep -q .; then
+            cat e2e-tests/k6/logs/requests.log
+          else
+            echo "No request log found!"
+          fi
+
       - name: Notify Slack
         run: |
-          ./e2e-tests/k6/integration/slack_notification.sh ${{ secrets.ATB_SLACK_TOKEN }} e2e_tests ${{ github.run_id }} Preview
+          ./e2e-tests/k6/integration/slack_notification.sh ${{ secrets.ATB_SLACK_TOKEN }} e2e_tests ${{ github.run_id }} Performance
 
       - name: Fail on any errors
         run: |
