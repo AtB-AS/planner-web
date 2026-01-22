@@ -64,8 +64,8 @@ function useInterchangeTextTranslation({
     return appendWaitTime(
       t(
         PageText.Assistant.details.tripSection.lineChangeStaySeated(
-          interchangeDetails.publicCode,
           publicCode,
+          interchangeDetails.publicCode,
         ),
       ),
     );
