@@ -29,7 +29,8 @@ export const requestLog = (label: string) => {
 
 // Registers a handler that logs all responses received by the page
 export const attachRequestLogger = (page: Page) => {
-  if (!Conf.isPerformanceTest) {
+  // Only log one of the users during perf test with more users
+  if (__VU === 1) {
     page.on('response', async (request) => {
       if (request.url().includes(`${Conf.host}/api/`)) {
         let delay = Math.round(
@@ -45,3 +46,15 @@ export const attachRequestLogger = (page: Page) => {
     });
   }
 };
+
+export async function testIdExists(
+  page: Page,
+  testId: string,
+): Promise<boolean> {
+  return (await page.locator(`[data-testid="${testId}"]`).count()) > 0;
+}
+
+export function functName(fn: Function) {
+  console.log(`** Test case: ${fn.name}`);
+  return fn.name;
+}

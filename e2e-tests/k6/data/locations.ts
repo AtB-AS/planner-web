@@ -1,7 +1,11 @@
-import { FromLocationType, ToLocationType } from '../types';
+import { FromAddressType, FromLocationType, ToLocationType } from '../types';
 
 export const getFromLocation = (): FromLocationType => {
   return fromLocations[Math.floor(Math.random() * fromLocations.length)];
+};
+
+export const getFromAddress = (): FromAddressType => {
+  return fromAddresses[Math.floor(Math.random() * fromAddresses.length)];
 };
 
 export const getFromLocationName = (): string => {
@@ -73,5 +77,28 @@ const toLocationsRegion: ToLocationType[] = [
   },
   {
     name: 'Selbu skysstasjon',
+  },
+];
+
+const fromAddresses: FromAddressType[] = [
+  {
+    name: 'Nidarosdomen',
+    nearbyStopPlace: 'Nidarosdomen',
+  },
+  {
+    name: 'Prinsens gate',
+    nearbyStopPlace: 'Prinsens gate',
+  },
+  {
+    name: 'Melhus',
+    nearbyStopPlace: 'Melhus skysstasjon',
+  },
+  {
+    name: 'Dronningens gate',
+    nearbyStopPlace: 'Dronningens gate',
+  },
+  {
+    name: 'Trondheim Torg',
+    nearbyStopPlace: 'Kongens gate',
   },
 ];

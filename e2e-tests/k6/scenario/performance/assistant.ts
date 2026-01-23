@@ -1,14 +1,19 @@
 import { Page } from 'k6/browser';
-import { Assistant } from '../pages/assistant.ts';
-import { Measures } from '../measurements/measures.ts';
-import { Metrics } from '../measurements/metrics.ts';
-import Conf from '../conf/conf.ts';
-import { attachRequestLogger, errorLog, screenshot } from '../utils/utils.ts';
+import { Assistant } from '../../pages/assistant.ts';
+import { Measures } from '../../measurements/measures.ts';
+import { Metrics } from '../../measurements/metrics.ts';
+import Conf from '../../conf/conf.ts';
+import {
+  attachRequestLogger,
+  errorLog,
+  screenshot,
+} from '../../utils/utils.ts';
 import {
   getFromLocationName,
   getToLocationName,
   getToLocationRegionName,
-} from '../data/locations.ts';
+} from '../../data/locations.ts';
+import { Search } from '../../pages/search.ts';
 
 export async function assistant(
   page: Page,
@@ -21,22 +26,21 @@ export async function assistant(
     await page.goto(`${Conf.host}/assistant`);
     const measures = new Measures(page);
     const assistant = new Assistant(page);
+    const search = new Search(page);
     const fromLocation = getFromLocationName();
     const toLocation = region ? getToLocationRegionName() : getToLocationName();
 
     // Search
-    await assistant.searchFrom(fromLocation);
-    await assistant.searchTo(toLocation);
-    await assistant.swapLocationsIfDisabled();
+    await search.doSearch(fromLocation, toLocation);
     await measures.mark('search');
-    const trip = assistant.getFirstTrip();
+    const trip = assistant.getTrip();
     await trip.waitFor({
       state: 'visible',
     });
     await measures.mark('search-firstResult');
 
     // All results are loaded when "load more" button is visible
-    const loadMore = assistant.getLoadMoreButton();
+    const loadMore = assistant.loadMoreResultsButton;
     await loadMore.waitFor({
       state: 'visible',
     });
@@ -51,7 +55,7 @@ export async function assistant(
     // Open trip summary
     await trip.click();
     await measures.mark('assistant-summary-open');
-    const tripSummary = assistant.getTripDetails();
+    const tripSummary = assistant.tripDetails;
     await tripSummary.waitFor({
       state: 'visible',
     });
@@ -61,10 +65,10 @@ export async function assistant(
     );
 
     // Open trip details
-    const moreDetails = assistant.getMoreDetails();
+    const moreDetails = assistant.moreDetails;
     await moreDetails.click();
     await measures.mark('assistant-details-open');
-    const tripDetails = assistant.getTripDetails();
+    const tripDetails = assistant.tripDetails;
     await tripDetails.waitFor({
       state: 'visible',
     });

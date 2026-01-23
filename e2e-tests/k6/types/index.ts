@@ -16,6 +16,11 @@ export type ToLocationType = {
   quay?: string;
 };
 
+export type FromAddressType = {
+  name: string;
+  nearbyStopPlace: string;
+};
+
 export interface SummaryMetric {
   type: string;
   contains: string;

@@ -1,29 +1,78 @@
 import { Locator, Page } from 'k6/browser';
 
 export class Departures {
-  private page: Page;
-  private searchFromField: Locator;
-  private searchOptionField: Locator;
-  private estimatedCallRows: Locator;
+  constructor(private page: Page) {}
 
-  constructor(page: Page) {
-    this.page = page;
-    this.searchFromField = page.locator('[data-testid="searchFrom"]');
-    this.searchOptionField = page.locator('[data-testid="list-item-0"]');
-    this.estimatedCallRows = page.locator('[data-testid="estimatedCallRows"]');
+  // ### Return test-id locators ####
+  get nextEstimatedCalls(): Locator {
+    return this.page.locator('[data-testid="nextEstimatedCalls"]');
+  }
+  get departuresList(): Locator {
+    return this.page.locator('[data-testid="estimatedCallsList"]');
+  }
+  get findDeparturesButton(): Locator {
+    return this.page.locator('[data-testid="findDeparturesButton"]');
+  }
+  get mapContainer(): Locator {
+    return this.page.locator('[data-testid="mapContainer"]');
+  }
+  getDeparture(quay: string, index: number = 0): Locator {
+    return this.page
+      .locator(`[data-testid="estimatedCallItem-${quay}"]`)
+      .nth(index);
+  }
+  get getNearbyStopPlaces() {
+    return this.page.locator(`[data-testid="list-item-stop-place"]`);
   }
 
-  async searchFrom(location: string) {
-    await this.searchFromField.click();
-    await this.searchFromField.type(location);
-    await this.searchOptionField.click();
+  // Return the departure time for a departure
+  async getDepartureTime(quay: string, index: number = 0) {
+    const departure = this.page
+      .locator(`[data-testid="estimatedCallItem-${quay}"]`)
+      .nth(index);
+    const depTime = departure.locator(`[data-testid="departureTime"]`);
+    await depTime.waitFor({ state: 'visible' });
+    return ((await depTime.textContent()) ?? '').trim();
   }
 
-  getFirstDeparture(quay: string) {
-    return this.page.locator(`[data-testid="departure-${quay}-0"]`);
+  // Return all quay names for the stop place
+  async getQuayNames() {
+    const depLists = await this.departuresList.all();
+    const names = [];
+    for (const list of depLists) {
+      names.push(
+        (await list.locator(`[data-testid="quayName"]`).textContent()) ?? '',
+      );
+    }
+    return names;
   }
 
-  getEstimatedCallRows() {
-    return this.estimatedCallRows;
+  // Return the stop place name
+  async getStopPlaceName() {
+    const map = this.mapContainer;
+    await map.waitFor({ state: 'visible' });
+    return (
+      (await map.locator('[data-testid="stopPlaceName"]').textContent()) ?? ''
+    );
+  }
+
+  // Return the stop place name of nearby stop places
+  async getNearbyStopPlaceName(index: number = 0) {
+    const nearbyStopPlaces = this.getNearbyStopPlaces.nth(index);
+    await nearbyStopPlaces.waitFor({ state: 'visible' });
+    return (
+      (await nearbyStopPlaces
+        .locator('[data-testid="stopPlaceName"]')
+        .textContent()) ?? ''
+    );
+  }
+
+  // Return address on top of the map
+  async getAddressName() {
+    const map = this.mapContainer;
+    await map.waitFor({ state: 'visible' });
+    return (
+      (await map.locator('[data-testid="addressName"]').textContent()) ?? ''
+    );
   }
 }

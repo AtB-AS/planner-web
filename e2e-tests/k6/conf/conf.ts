@@ -1,7 +1,7 @@
 import { env } from './env.ts';
 import { funcOptions, perfOptions } from './options.ts';
 import { Options } from 'k6/options';
-import { functScenario, perfScenario } from '../scenario/scenario.ts';
+import { scenarios } from '../scenario/scenario.ts';
 import { Metrics } from '../measurements/metrics.ts';
 
 class Conf {
@@ -17,9 +17,7 @@ class Conf {
 
   /* @ts-ignore */
   usecase = (metrics: Metrics): Promise<void> => {
-    __ENV.performanceTest === 'true'
-      ? perfScenario(metrics)
-      : functScenario(metrics);
+    scenarios(__ENV.usecase || 'smoke', metrics);
   };
 }
 

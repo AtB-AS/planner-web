@@ -1,82 +1,56 @@
 import { Locator, Page } from 'k6/browser';
-import { sleep } from 'k6';
 
 export class Assistant {
-  private page: Page;
-  private searchFromField: Locator;
-  private searchToField: Locator;
-  private searchOptionField: Locator;
-  private firstTrip: Locator;
-  private loadMoreButton: Locator;
-  private searchForTravelsButton: Locator;
-  private swapButton: Locator;
-  private tripDetails: Locator;
-  private moreDetails: Locator;
+  constructor(private page: Page) {}
 
-  constructor(page: Page) {
-    this.page = page;
-    this.searchFromField = page.locator('[data-testid="searchFrom"]');
-    this.searchToField = page.locator('[data-testid="searchTo"]');
-    this.searchOptionField = page.locator('[data-testid="list-item-0"]');
-    this.firstTrip = page.locator('[data-testid="tripPattern-0-0"]');
-    this.loadMoreButton = page.locator('[data-testid="loadMoreButton"]');
-    this.searchForTravelsButton = page.locator('[data-testid="findTravelsButton"]');
-    this.swapButton = page.locator('[data-testid="swapButton"]');
-    this.tripDetails = page.locator('[data-testid="tripDetails"]');
-    this.moreDetails = page.locator('[data-testid="moreDetailsButton"]');
+  // ### Return test-id locators ####
+  get findTravelsButton(): Locator {
+    return this.page.locator('[data-testid="findTravelsButton"]');
+  }
+  get loadMoreResultsButton(): Locator {
+    return this.page.locator('[data-testid="loadMoreButton"]');
+  }
+  get tripDetails(): Locator {
+    return this.page.locator('[data-testid="tripDetails"]');
+  }
+  get moreDetails(): Locator {
+    return this.page.locator('[data-testid="moreDetailsButton"]');
+  }
+  private get firstDayLabel(): Locator {
+    return this.page.locator('[data-testid="dayLabel"]').first();
+  }
+  getTrip(index: number = 0): Locator {
+    return this.page.locator('[data-testid="tripPattern"]').nth(index);
   }
 
-  async searchFrom(location: string) {
-    await this.searchFromField.click();
-    await this.searchFromField.type(location);
-    await Promise.all([
-      this.page.waitForLoadState('domcontentloaded'),
-      this.page.waitForNavigation(),
-      this.searchOptionField.click(),
-    ]);
-    await this.page.waitForTimeout(1000);
-
-    // To avoid an error where the search from is not sent
-    const inputText = await this.searchFromField.inputValue();
-    if (!inputText || !inputText.includes(location)) {
-      await this.searchFrom(location);
-    }
+  // Return the day label, e.g. "Today" and "Tomorrow"
+  async getFirstDayLabel() {
+    const label = this.firstDayLabel;
+    await label.waitFor({ state: 'visible' });
+    return ((await label.textContent()) ?? '').trim();
   }
 
-  async searchTo(location: string) {
-    await this.searchToField.click();
-    await this.searchToField.type(location);
-    await this.searchOptionField.click();
+  // Return the price info for a trip
+  async getTripPrice() {
+    const trip = this.getTrip();
+    const price = trip.locator('[data-testid="price"]');
+    await price.waitFor({ state: 'visible' });
+    return ((await price.textContent()) ?? '').trim();
   }
 
-  getFirstTrip() {
-    return this.firstTrip;
+  // Get expected start time for a trip pattern (default: first trip)
+  async getTripStartTime(index: number = 0) {
+    const trip = this.page.locator(`[data-testid="tripPattern"]`).nth(index);
+    const startTime = trip.locator('[data-testid="expStartTime"]').first();
+    await startTime.waitFor({ state: 'visible' });
+    return ((await startTime.textContent()) ?? '').trim();
   }
 
-  getLoadMoreButton() {
-    return this.loadMoreButton;
-  }
-
-  getTripDetails(){
-    return this.tripDetails;
-  }
-
-  getMoreDetails(){
-    return this.moreDetails;
-  }
-
-  // Fallback. Sometimes the search isn't started after to-location is entered.
-  // Try to swap to/from locations.
-  async swapLocationsIfDisabled() {
-    let counter = 0
-    // Wait 1 sec and check every 100 ms
-    while (!await this.searchForTravelsButton.isEnabled() && counter < 10){
-      sleep(0.1)
-      counter++
-    }
-    // Swap if disabled after 1 sec
-    if (!await this.searchForTravelsButton.isEnabled()) {
-      await this.swapButton.click();
-    }
+  // Get expected end time for a trip pattern (default: first trip)
+  async getTripEndTime(index: number = 0) {
+    const trip = this.page.locator(`[data-testid="tripPattern"]`).nth(index);
+    const endTime = trip.locator('[data-testid="expEndTime"]').first();
+    await endTime.waitFor({ state: 'visible' });
+    return ((await endTime.textContent()) ?? '').trim();
   }
 }
