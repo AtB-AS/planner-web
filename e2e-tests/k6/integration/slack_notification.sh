@@ -27,7 +27,7 @@ else
         text: $text
       }')
 
-      PAYLOAD="{\"channel\": \"${SLACK_CHANNEL}\", \"blocks\": [{\"type\": \"section\", \"text\": {\"type\": \"mrkdwn\", \"text\": \"\n\"}}, {\"type\": \"section\", \"text\": {\"type\": \"mrkdwn\", \"text\": \":warning: *Errors in Planner Web (Test: ${TEST_TYPE}, <${GH_REF}|ref>)*\"}}]}"
+      PAYLOAD="{\"channel\": \"${SLACK_CHANNEL}\", \"blocks\": [{\"type\": \"section\", \"text\": {\"type\": \"mrkdwn\", \"text\": \"\n\"}}, {\"type\": \"section\", \"text\": {\"type\": \"mrkdwn\", \"text\": \":warning: *Errors in Planner Web ${TEST_TYPE} tests (<${GH_REF}|GH action>)*\"}}]}"
 
       # Send slack notification
       curl -X POST https://slack.com/api/chat.postMessage \
@@ -43,7 +43,7 @@ else
       echo ""
       echo "** Slack notification sent: error details **"
     else
-      PAYLOAD="{\"channel\": \"${SLACK_CHANNEL}\", \"blocks\": [{\"type\": \"section\", \"text\": {\"type\": \"mrkdwn\", \"text\": \"\n\"}}, {\"type\": \"section\", \"text\": {\"type\": \"mrkdwn\", \"text\": \":white_check_mark: *All good for Planner Web (Test: ${TEST_TYPE}, <${GH_REF}|ref>)*\"}}]}"
+      PAYLOAD="{\"channel\": \"${SLACK_CHANNEL}\", \"blocks\": [{\"type\": \"section\", \"text\": {\"type\": \"mrkdwn\", \"text\": \"\n\"}}, {\"type\": \"section\", \"text\": {\"type\": \"mrkdwn\", \"text\": \":white_check_mark: *All good for Planner Web ${TEST_TYPE} tests (<${GH_REF}|GH action>)*\"}}]}"
 
       # Send slack notification
       curl -X POST https://slack.com/api/chat.postMessage \
