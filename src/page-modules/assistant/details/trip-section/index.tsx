@@ -244,7 +244,9 @@ export default function TripSection({
         />
       )}
 
-      <WaitSection legWaitDetails={legWaitDetails} />
+      {!!leg.interchangeTo?.staySeated && (
+        <WaitSection legWaitDetails={legWaitDetails} />
+      )}
     </div>
   );
 }
