@@ -46,21 +46,10 @@ import {
   TripsNonTransitDocument,
 } from '@atb/page-modules/assistant/journey-gql/non-transit-trip.generated';
 import { MEDIUM_WALK_SPEED } from '@atb/page-modules/assistant/walk-speed-input';
-import { NewTransportModeGroup } from '@atb/modules/transport-mode';
 import {
   StreetMode,
-  TransportMode,
   TransportModes,
-  TransportSubmode,
 } from '@atb/modules/graphql-types/journeyplanner-types_v3.generated.ts';
-import { enumFromString } from '@atb/utils/enum-from-string.ts';
-import { isDefined } from '@atb/utils/presence.ts';
-
-type AssertSameEnum<T1, T2> = T1 extends T2
-  ? T2 extends T1
-    ? true
-    : never
-  : never;
 
 type JourneyModes = {
   accessMode: StreetMode;

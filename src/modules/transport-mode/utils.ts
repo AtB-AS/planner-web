@@ -1,6 +1,5 @@
 import { ComponentText } from '@atb/translations';
 import {
-  TransportModeGroup,
   transportModeSchema,
   TransportModeType,
   transportSubmodeSchema,
@@ -20,13 +19,6 @@ export function transportModeToTranslatedString(
     return ComponentText.TransportMode.modes.unknown;
   }
   return text;
-}
-export function severalTransportModesToTranslatedStrings(
-  modes: TransportModeGroup[],
-) {
-  return modes
-    .filter((mode) => !!mode.transportMode) // Remove the ! from mode.transportMode! below if this line is removed
-    .map((mode) => ComponentText.TransportMode.modes[mode.transportMode!]);
 }
 
 export function isTransportModeType(a: any): a is TransportModeType {

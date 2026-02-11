@@ -1,4 +1,3 @@
-import { TransportModeGroup } from '../types';
 import MonoIcon, { MonoIconProps } from '@atb/components/icon/mono-icon';
 import { ContrastColor, TransportColors, useTheme } from '@atb/modules/theme';
 import { useTranslation } from '@atb/translations';

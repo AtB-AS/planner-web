@@ -1,5 +1,4 @@
 import { errorResultAsJson, tryResult } from '@atb/modules/api-server';
-import { getAllTransportModesFromFilterOptions } from '@atb/modules/transport-mode';
 import {
   fetchFromToTripQuery,
   type TripApiReturnType,
@@ -24,9 +23,7 @@ export default handlerWithAssistantClient<TripApiReturnType>({
     }
 
     const journeyPlannerTransportModes =
-      await getAllTransportModesFromFilterOptions(
-        tripQuery.transportModeFilter,
-      ).then(mapToJourneyPlannerTransportModes);
+      await mapToJourneyPlannerTransportModes(tripQuery.transportModeFilter);
 
     return tryResult(req, res, async () => {
       const result = await client.trip({

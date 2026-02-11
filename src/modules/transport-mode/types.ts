@@ -1,9 +1,4 @@
 import { z } from 'zod';
-import {
-  TransportModeType as NewTransportModeType,
-  TransportSubmodeType as NewTransportSubmodeType,
-} from '@atb-as/config-specs';
-import { TransportMode as GraphQlTransportModeType } from '@atb/modules/graphql-types';
 
 export const transportModeSchema = z.union([
   z.literal('air'),
@@ -146,13 +141,3 @@ export const transportSubmodeSchema = z.union([
 ]);
 
 export type TransportSubmodeType = z.infer<typeof transportSubmodeSchema>;
-
-export type TransportModeGroup = {
-  transportMode: TransportModeType;
-  transportSubModes?: TransportSubmodeType[];
-};
-
-export type NewTransportModeGroup = {
-  transportMode: NewTransportModeType;
-  transportSubModes?: NewTransportSubmodeType[];
-};
