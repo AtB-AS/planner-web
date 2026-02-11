@@ -51,14 +51,6 @@ export default function TripSection({
     isFlexible,
   });
 
-  /**
-   *
-   {
-   transportMode: leg.mode,
-   transportSubModes: leg.transportSubmode && [leg.transportSubmode],
-   },
-   */
-
   const showFrom = !isWalkSection || (isFirst && isWalkSection);
   const showTo = !isWalkSection || (isLast && isWalkSection);
 
