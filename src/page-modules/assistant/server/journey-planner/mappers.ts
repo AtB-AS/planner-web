@@ -27,12 +27,9 @@ export async function mapToJourneyPlannerTransportModes(
   const transportModes =
     filters
       .flatMap((option) => option.modes)
-      .map((transportModeGroup) => ({
-        transportMode: enumFromString(
-          TransportMode,
-          transportModeGroup.transportMode,
-        ),
-        transportSubModes: transportModeGroup.transportSubModes
+      .map((modeGroup) => ({
+        transportMode: enumFromString(TransportMode, modeGroup.transportMode),
+        transportSubModes: modeGroup.transportSubModes
           ?.map((subMode) => enumFromString(TransportSubmode, subMode))
           .filter(isDefined),
       })) ?? [];
