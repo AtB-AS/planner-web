@@ -61,12 +61,10 @@ function useInterchangeTextTranslation({
       : text;
 
   if (publicCode && staySeated) {
-    return appendWaitTime(
-      t(
-        PageText.Assistant.details.tripSection.lineChangeStaySeated(
-          publicCode,
-          interchangeDetails.publicCode,
-        ),
+    return t(
+      PageText.Assistant.details.tripSection.lineChangeStaySeated(
+        publicCode,
+        interchangeDetails.publicCode,
       ),
     );
   }
