@@ -1,12 +1,6 @@
-import { tryResult } from '@atb/modules/api-server';
-import { handlerWithContactFormClient } from '@atb/page-modules/contact/server';
-import { Line } from '@atb/page-modules/contact';
-import { NextApiRequest, NextApiResponse } from 'next';
+import { createLinesRouteHandler } from '@mrfylke/contact-form/server';
+import { getOrgData } from '@atb/modules/org-data';
 
-export default handlerWithContactFormClient<Line[]>({
-  async GET(req: NextApiRequest, res: NextApiResponse, { client, ok }) {
-    return tryResult(req, res, async () => {
-      return ok(await client.lines());
-    });
-  },
+export default createLinesRouteHandler({
+  getAuthorityId: () => getOrgData().authorityId,
 });
