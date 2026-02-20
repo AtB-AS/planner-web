@@ -8,7 +8,7 @@ import { useLanguageSettings } from '@atb/translations/language-context';
 import style from './footer.module.css';
 import { getButtonStyleForColor } from '@atb/components/button/utils.tsx';
 import { useOrgThemeDefinitions } from '@atb/utils/org-theme-definitions.ts';
-import { shouldShowContactPage } from '@atb/page-modules/contact';
+import { shouldShowContactPage } from '@mrfylke/contact-form';
 
 export type FooterProps = {
   withoutSettings?: boolean;
