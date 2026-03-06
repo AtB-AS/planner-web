@@ -19,13 +19,9 @@ export const useMapLegs = (
   const addToMap = useCallback(
     (map: Map, mapLeg: MapLegType, id: number) => {
       const transportColor = transportModeToColor(
-        {
-          transportMode: mapLeg.faded ? 'unknown' : mapLeg.transportMode,
-          transportSubModes: mapLeg.transportSubmode && [
-            mapLeg.transportSubmode,
-          ],
-        },
         transport,
+        mapLeg.faded ? 'unknown' : mapLeg.transportMode,
+        mapLeg.transportSubmode,
         mapLeg.isFlexibleLine,
       );
       const lineColor = mapLeg.faded

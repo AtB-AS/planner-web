@@ -16,6 +16,7 @@ import {
   GlobalMessages,
 } from '@atb/modules/global-messages';
 import { ServiceJourneyType } from '@atb/page-modules/departures/types.ts';
+import { TransportMode } from '@atb/modules/graphql-types/journeyplanner-types_v3.generated.ts';
 
 export type DeparturesDetailsProps = {
   fromQuayId?: string;
@@ -89,7 +90,9 @@ export function DeparturesDetails({
         />
         <div className={style.header}>
           <LineChip
-            transportMode={serviceJourney.transportMode ?? 'unknown'}
+            transportMode={
+              serviceJourney.transportMode ?? TransportMode.Unknown
+            }
             transportSubmode={serviceJourney.transportSubmode}
             publicCode={serviceJourney.line.publicCode}
           />

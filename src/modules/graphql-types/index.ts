@@ -1,25 +1,38 @@
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
-export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
+export type Exact<T extends { [key: string]: unknown }> = {
+  [K in keyof T]: T[K];
+};
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]?: Maybe<T[SubKey]>;
+};
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]: Maybe<T[SubKey]>;
+};
+export type MakeEmpty<
+  T extends { [key: string]: unknown },
+  K extends keyof T,
+> = { [_ in K]?: never };
+export type Incremental<T> =
+  | T
+  | {
+      [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never;
+    };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string; }
-  String: { input: string; output: string; }
-  Boolean: { input: boolean; output: boolean; }
-  Int: { input: number; output: number; }
-  Float: { input: number; output: number; }
-  Coordinates: { input: any; output: any; }
-  Date: { input: any; output: any; }
-  DateTime: { input: any; output: any; }
-  DoubleFunction: { input: any; output: any; }
-  Duration: { input: any; output: any; }
-  LocalTime: { input: any; output: any; }
-  Long: { input: any; output: any; }
-  Time: { input: any; output: any; }
+  ID: { input: string; output: string };
+  String: { input: string; output: string };
+  Boolean: { input: boolean; output: boolean };
+  Int: { input: number; output: number };
+  Float: { input: number; output: number };
+  Coordinates: { input: any; output: any };
+  Date: { input: any; output: any };
+  DateTime: { input: any; output: any };
+  DoubleFunction: { input: any; output: any };
+  Duration: { input: any; output: any };
+  LocalTime: { input: any; output: any };
+  Long: { input: any; output: any };
+  Time: { input: any; output: any };
 };
 
 export enum AbsoluteDirection {
@@ -30,7 +43,7 @@ export enum AbsoluteDirection {
   South = 'south',
   Southeast = 'southeast',
   Southwest = 'southwest',
-  West = 'west'
+  West = 'west',
 }
 
 export type AffectedLine = {
@@ -75,13 +88,19 @@ export type AffectedUnknown = {
   description?: Maybe<Scalars['String']['output']>;
 };
 
-export type Affects = AffectedLine | AffectedServiceJourney | AffectedStopPlace | AffectedStopPlaceOnLine | AffectedStopPlaceOnServiceJourney | AffectedUnknown;
+export type Affects =
+  | AffectedLine
+  | AffectedServiceJourney
+  | AffectedStopPlace
+  | AffectedStopPlaceOnLine
+  | AffectedStopPlaceOnServiceJourney
+  | AffectedUnknown;
 
 export enum AlternativeLegsFilter {
   NoFilter = 'noFilter',
   SameAuthority = 'sameAuthority',
   SameLine = 'sameLine',
-  SameMode = 'sameMode'
+  SameMode = 'sameMode',
 }
 
 export enum ArrivalDeparture {
@@ -90,7 +109,7 @@ export enum ArrivalDeparture {
   /** Show both arrivals and departures */
   Both = 'both',
   /** Only show departures */
-  Departures = 'departures'
+  Departures = 'departures',
 }
 
 /** Authority involved in public transportation. An organisation under which the responsibility of organising the transport service in a certain area is placed. */
@@ -113,7 +132,7 @@ export enum BicycleOptimisationMethod {
   Greenways = 'greenways',
   Quick = 'quick',
   Safe = 'safe',
-  Triangle = 'triangle'
+  Triangle = 'triangle',
 }
 
 export type BikePark = PlaceInterface & {
@@ -145,7 +164,7 @@ export enum BikesAllowed {
   /** There is no bike information for the trip. */
   NoInformation = 'noInformation',
   /** No bicycles are allowed on this trip. */
-  NotAllowed = 'notAllowed'
+  NotAllowed = 'notAllowed',
 }
 
 export type BookingArrangement = {
@@ -171,7 +190,7 @@ export enum BookingMethod {
   CallOffice = 'callOffice',
   Online = 'online',
   PhoneAtStop = 'phoneAtStop',
-  Text = 'text'
+  Text = 'text',
 }
 
 export type Branding = {
@@ -223,7 +242,6 @@ export type DatedServiceJourney = {
   tripAlteration?: Maybe<ServiceAlteration>;
 };
 
-
 /** A planned journey on a specific day */
 export type DatedServiceJourneyQuaysArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -244,7 +262,7 @@ export enum DirectionType {
   Clockwise = 'clockwise',
   Inbound = 'inbound',
   Outbound = 'outbound',
-  Unknown = 'unknown'
+  Unknown = 'unknown',
 }
 
 /** Individual step of an elevation profile. */
@@ -315,7 +333,7 @@ export enum FilterPlaceType {
   /** Quay */
   Quay = 'quay',
   /** StopPlace */
-  StopPlace = 'stopPlace'
+  StopPlace = 'stopPlace',
 }
 
 /** Additional (optional) grouping of lines for particular purposes such as e.g. fare harmonisation or public presentation. */
@@ -362,14 +380,16 @@ export enum InputField {
   DateTime = 'dateTime',
   From = 'from',
   IntermediatePlace = 'intermediatePlace',
-  To = 'to'
+  To = 'to',
 }
 
 export type InputPlaceIds = {
   /** Bike parks to include by id. */
   bikeParks?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   /** Bike rentals to include by id. */
-  bikeRentalStations?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  bikeRentalStations?: InputMaybe<
+    Array<InputMaybe<Scalars['String']['input']>>
+  >;
   /** Car parks to include by id. */
   carParks?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   /** Lines to include by id. */
@@ -412,7 +432,7 @@ export enum InterchangePriority {
   Allowed = 'allowed',
   NotAllowed = 'notAllowed',
   Preferred = 'preferred',
-  Recommended = 'recommended'
+  Recommended = 'recommended',
 }
 
 export enum InterchangeWeighting {
@@ -423,7 +443,7 @@ export enum InterchangeWeighting {
   /** Highest priority interchange. */
   PreferredInterchange = 'preferredInterchange',
   /** Second highest priority interchange. */
-  RecommendedInterchange = 'recommendedInterchange'
+  RecommendedInterchange = 'recommendedInterchange',
 }
 
 /**
@@ -446,7 +466,7 @@ export enum ItineraryFilterDebugProfile {
   /** List all itineraries, including all deleted itineraries. */
   ListAll = 'listAll',
   /** By default, the debug itinerary filters is turned off. */
-  Off = 'off'
+  Off = 'off',
 }
 
 /** Parameters for the OTP Itinerary Filter Chain. These parameters SHOULD be configured on the server side and should not be used by the client. They are made available here to be able to experiment and tune the server. */
@@ -462,7 +482,9 @@ export type ItineraryFilters = {
   /** Reduce the number of itineraries in each group to to maximum 3 itineraries. The itineraries are grouped by similar legs (on board same journey). So, if  68% of the distance is traveled by similar legs, then two itineraries are in the same group. Default value is 68%, must be at least 50%. */
   groupSimilarityKeepThree?: InputMaybe<Scalars['Float']['input']>;
   /** Of the itineraries grouped to maximum of three itineraries, how much worse can the non-grouped legs be compared to the lowest cost. 2.0 means that they can be double the cost, and any itineraries having a higher cost will be filtered. Default value is 2.0, use a value lower than 1.0 to turn off */
-  groupedOtherThanSameLegsMaxCostMultiplier?: InputMaybe<Scalars['Float']['input']>;
+  groupedOtherThanSameLegsMaxCostMultiplier?: InputMaybe<
+    Scalars['Float']['input']
+  >;
   /** Set a relative limit for all transit itineraries. The limit is calculated based on the transit itinerary generalized-cost and the time between itineraries Itineraries without transit legs are excluded from this filter. Example: costLimitFunction(x) = 3600 + 2.0 x and intervalRelaxFactor = 0.5. If the lowest cost returned is 10 000, then the limit is set to: 3 600 + 2 * 10 000 = 26 600 plus half of the time between either departure or arrival times of the itinerary. Default: {"costLimitFunction": 15m + 1.50 t, "intervalRelaxFactor": 0.75} */
   transitGeneralizedCostLimit?: InputMaybe<TransitGeneralizedCostFilterParams>;
 };
@@ -485,7 +507,6 @@ export type JourneyPattern = {
   /** Detailed path travelled by journey pattern divided into stop-to-stop sections. */
   stopToStopGeometries?: Maybe<Array<Maybe<StopToStopGeometry>>>;
 };
-
 
 export type JourneyPatternServiceJourneysForDateArgs = {
   date?: InputMaybe<Scalars['Date']['input']>;
@@ -573,13 +594,11 @@ export type Leg = {
   walkingBike?: Maybe<Scalars['Boolean']['output']>;
 };
 
-
 /** Part of a trip pattern. Either a ride on a public transport vehicle or access or path link to/from/between places */
 export type LegNextLegsArgs = {
   filter?: InputMaybe<AlternativeLegsFilter>;
   next?: InputMaybe<Scalars['Int']['input']>;
 };
-
 
 /** Part of a trip pattern. Either a ride on a public transport vehicle or access or path link to/from/between places */
 export type LegPreviousLegsArgs = {
@@ -622,7 +641,7 @@ export type Line = {
 
 export enum Locale {
   No = 'no',
-  Us = 'us'
+  Us = 'us',
 }
 
 /** Input format for specifying a location through either a place reference (id), coordinates or both. If both place and coordinates are provided the place ref will be used if found, coordinates will only be used if place is not known. */
@@ -652,7 +671,7 @@ export enum Mode {
   Taxi = 'taxi',
   Tram = 'tram',
   Trolleybus = 'trolleybus',
-  Water = 'water'
+  Water = 'water',
 }
 
 /** Input format for specifying which modes will be allowed for this search. If this element is not present, it will default to accessMode/egressMode/directMode of foot and all transport modes will be allowed. */
@@ -673,7 +692,7 @@ export enum MultiModalMode {
   /** Only mono modal children stop places, not their multi modal parent stop */
   Child = 'child',
   /** Multi modal parent stop places without their mono modal children. */
-  Parent = 'parent'
+  Parent = 'parent',
 }
 
 /** Text with language */
@@ -702,7 +721,7 @@ export enum OccupancyStatus {
   /** The vehicle or carriage has no seats or standing room available. */
   NotAcceptingPassengers = 'notAcceptingPassengers',
   /** The vehicle or carriage only has standing room available. */
-  StandingRoomOnly = 'standingRoomOnly'
+  StandingRoomOnly = 'standingRoomOnly',
 }
 
 /** Organisation providing public transport services. */
@@ -890,7 +909,7 @@ export enum PurchaseWhen {
   DayOfTravelOnly = 'dayOfTravelOnly',
   Other = 'other',
   TimeOfTravelOnly = 'timeOfTravelOnly',
-  UntilPreviousDay = 'untilPreviousDay'
+  UntilPreviousDay = 'untilPreviousDay',
 }
 
 /** A place such as platform, stance, or quayside where passengers have access to PT vehicles. */
@@ -924,19 +943,19 @@ export type Quay = PlaceInterface & {
   wheelchairAccessible?: Maybe<WheelchairBoarding>;
 };
 
-
 /** A place such as platform, stance, or quayside where passengers have access to PT vehicles. */
 export type QuayEstimatedCallsArgs = {
   arrivalDeparture?: InputMaybe<ArrivalDeparture>;
   includeCancelledTrips?: InputMaybe<Scalars['Boolean']['input']>;
   numberOfDepartures?: InputMaybe<Scalars['Int']['input']>;
-  numberOfDeparturesPerLineAndDestinationDisplay?: InputMaybe<Scalars['Int']['input']>;
+  numberOfDeparturesPerLineAndDestinationDisplay?: InputMaybe<
+    Scalars['Int']['input']
+  >;
   startTime?: InputMaybe<Scalars['DateTime']['input']>;
   timeRange?: InputMaybe<Scalars['Int']['input']>;
   whiteListed?: InputMaybe<InputWhiteListed>;
   whiteListedModes?: InputMaybe<Array<InputMaybe<TransportMode>>>;
 };
-
 
 /** A place such as platform, stance, or quayside where passengers have access to PT vehicles. */
 export type QuayNameArgs = {
@@ -1019,26 +1038,21 @@ export type QueryType = {
   viaTrip: ViaTrip;
 };
 
-
 export type QueryTypeAuthorityArgs = {
   id: Scalars['String']['input'];
 };
-
 
 export type QueryTypeBikeParkArgs = {
   id: Scalars['String']['input'];
 };
 
-
 export type QueryTypeBikeRentalStationArgs = {
   id: Scalars['String']['input'];
 };
 
-
 export type QueryTypeBikeRentalStationsArgs = {
   ids?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
-
 
 export type QueryTypeBikeRentalStationsByBboxArgs = {
   maximumLatitude?: InputMaybe<Scalars['Float']['input']>;
@@ -1047,11 +1061,9 @@ export type QueryTypeBikeRentalStationsByBboxArgs = {
   minimumLongitude?: InputMaybe<Scalars['Float']['input']>;
 };
 
-
 export type QueryTypeDatedServiceJourneyArgs = {
   id?: InputMaybe<Scalars['String']['input']>;
 };
-
 
 export type QueryTypeDatedServiceJourneysArgs = {
   alterations?: InputMaybe<Array<ServiceAlteration>>;
@@ -1063,21 +1075,17 @@ export type QueryTypeDatedServiceJourneysArgs = {
   serviceJourneys?: InputMaybe<Array<Scalars['String']['input']>>;
 };
 
-
 export type QueryTypeGroupOfLinesArgs = {
   id: Scalars['String']['input'];
 };
-
 
 export type QueryTypeLegArgs = {
   id: Scalars['ID']['input'];
 };
 
-
 export type QueryTypeLineArgs = {
   id: Scalars['ID']['input'];
 };
-
 
 export type QueryTypeLinesArgs = {
   authorities?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
@@ -1088,7 +1096,6 @@ export type QueryTypeLinesArgs = {
   publicCodes?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   transportModes?: InputMaybe<Array<InputMaybe<TransportMode>>>;
 };
-
 
 export type QueryTypeNearestArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -1106,22 +1113,18 @@ export type QueryTypeNearestArgs = {
   multiModalMode?: InputMaybe<MultiModalMode>;
 };
 
-
 export type QueryTypeOperatorArgs = {
   id: Scalars['String']['input'];
 };
-
 
 export type QueryTypeQuayArgs = {
   id: Scalars['String']['input'];
 };
 
-
 export type QueryTypeQuaysArgs = {
   ids?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   name?: InputMaybe<Scalars['String']['input']>;
 };
-
 
 export type QueryTypeQuaysByBboxArgs = {
   authority?: InputMaybe<Scalars['String']['input']>;
@@ -1131,7 +1134,6 @@ export type QueryTypeQuaysByBboxArgs = {
   minimumLatitude: Scalars['Float']['input'];
   minimumLongitude: Scalars['Float']['input'];
 };
-
 
 export type QueryTypeQuaysByRadiusArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -1144,11 +1146,9 @@ export type QueryTypeQuaysByRadiusArgs = {
   radius: Scalars['Float']['input'];
 };
 
-
 export type QueryTypeServiceJourneyArgs = {
   id: Scalars['String']['input'];
 };
-
 
 export type QueryTypeServiceJourneysArgs = {
   activeDates?: InputMaybe<Array<InputMaybe<Scalars['Date']['input']>>>;
@@ -1157,27 +1157,22 @@ export type QueryTypeServiceJourneysArgs = {
   privateCodes?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
-
 export type QueryTypeSituationArgs = {
   situationNumber: Scalars['String']['input'];
 };
-
 
 export type QueryTypeSituationsArgs = {
   codespaces?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   severities?: InputMaybe<Array<InputMaybe<Severity>>>;
 };
 
-
 export type QueryTypeStopPlaceArgs = {
   id: Scalars['String']['input'];
 };
 
-
 export type QueryTypeStopPlacesArgs = {
   ids?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
-
 
 export type QueryTypeStopPlacesByBboxArgs = {
   authority?: InputMaybe<Scalars['String']['input']>;
@@ -1188,7 +1183,6 @@ export type QueryTypeStopPlacesByBboxArgs = {
   minimumLongitude: Scalars['Float']['input'];
   multiModalMode?: InputMaybe<MultiModalMode>;
 };
-
 
 export type QueryTypeTripArgs = {
   accessEgressPenalty?: InputMaybe<Array<PenaltyForStreetMode>>;
@@ -1217,21 +1211,24 @@ export type QueryTypeTripArgs = {
   modes?: InputMaybe<Modes>;
   numTripPatterns?: InputMaybe<Scalars['Int']['input']>;
   pageCursor?: InputMaybe<Scalars['String']['input']>;
-  relaxTransitSearchGeneralizedCostAtDestination?: InputMaybe<Scalars['Float']['input']>;
+  relaxTransitSearchGeneralizedCostAtDestination?: InputMaybe<
+    Scalars['Float']['input']
+  >;
   searchWindow?: InputMaybe<Scalars['Int']['input']>;
   timetableView?: InputMaybe<Scalars['Boolean']['input']>;
   to: Location;
   transferPenalty?: InputMaybe<Scalars['Int']['input']>;
   transferSlack?: InputMaybe<Scalars['Int']['input']>;
   triangleFactors?: InputMaybe<TriangleFactors>;
-  useBikeRentalAvailabilityInformation?: InputMaybe<Scalars['Boolean']['input']>;
+  useBikeRentalAvailabilityInformation?: InputMaybe<
+    Scalars['Boolean']['input']
+  >;
   waitReluctance?: InputMaybe<Scalars['Float']['input']>;
   walkReluctance?: InputMaybe<Scalars['Float']['input']>;
   walkSpeed?: InputMaybe<Scalars['Float']['input']>;
   wheelchairAccessible?: InputMaybe<Scalars['Boolean']['input']>;
   whiteListed?: InputMaybe<InputWhiteListed>;
 };
-
 
 export type QueryTypeViaTripArgs = {
   dateTime?: InputMaybe<Scalars['DateTime']['input']>;
@@ -1256,7 +1253,7 @@ export enum RealtimeState {
   /** The service journey information comes from the regular time table, i.e. no real-time update has been applied. */
   Scheduled = 'scheduled',
   /** The service journey information has been updated, but the journey pattern stayed the same as the journey pattern of the scheduled service journey. */
-  Updated = 'updated'
+  Updated = 'updated',
 }
 
 export enum RelativeDirection {
@@ -1272,7 +1269,7 @@ export enum RelativeDirection {
   SlightlyLeft = 'slightlyLeft',
   SlightlyRight = 'slightlyRight',
   UturnLeft = 'uturnLeft',
-  UturnRight = 'uturnRight'
+  UturnRight = 'uturnRight',
 }
 
 export type RentalVehicle = PlaceInterface & {
@@ -1298,7 +1295,7 @@ export enum ReportType {
   /** Indicates a general info-message that should not affect trip. */
   General = 'general',
   /** Indicates an incident that may affect trip. */
-  Incident = 'incident'
+  Incident = 'incident',
 }
 
 /** Description of the reason, why the planner did not return any results */
@@ -1326,7 +1323,7 @@ export enum RoutingErrorCode {
   /** The date specified is outside the range of data currently loaded into the system */
   OutsideServicePeriod = 'outsideServicePeriod',
   /** The origin and destination are so close to each other, that walking is always better, but no direct mode was specified for the search */
-  WalkingBetterThanTransit = 'walkingBetterThanTransit'
+  WalkingBetterThanTransit = 'walkingBetterThanTransit',
 }
 
 /** The default parameters used in travel searches. */
@@ -1462,7 +1459,7 @@ export enum ServiceAlteration {
   Cancellation = 'cancellation',
   ExtraJourney = 'extraJourney',
   Planned = 'planned',
-  Replaced = 'replaced'
+  Replaced = 'replaced',
 }
 
 /** A planned vehicle journey with passengers. */
@@ -1505,12 +1502,10 @@ export type ServiceJourney = {
   wheelchairAccessible?: Maybe<WheelchairBoarding>;
 };
 
-
 /** A planned vehicle journey with passengers. */
 export type ServiceJourneyEstimatedCallsArgs = {
   date?: InputMaybe<Scalars['Date']['input']>;
 };
-
 
 /** A planned vehicle journey with passengers. */
 export type ServiceJourneyQuaysArgs = {
@@ -1534,7 +1529,7 @@ export enum Severity {
   /** Situation has a very severe impact on trips. */
   VerySevere = 'verySevere',
   /** Situation has a very slight impact on trips. */
-  VerySlight = 'verySlight'
+  VerySlight = 'verySlight',
 }
 
 export enum StopCondition {
@@ -1547,7 +1542,7 @@ export enum StopCondition {
   /** Situation applies when at the stop, and the stop requires a request to stop. */
   RequestStop = 'requestStop',
   /** Situation applies when stop is the startpoint of the leg. */
-  StartPoint = 'startPoint'
+  StartPoint = 'startPoint',
 }
 
 /** Named place where public transport may be accessed. May be a building complex (e.g. a station) or an on-street location. */
@@ -1576,25 +1571,24 @@ export type StopPlace = PlaceInterface & {
   weighting?: Maybe<InterchangeWeighting>;
 };
 
-
 /** Named place where public transport may be accessed. May be a building complex (e.g. a station) or an on-street location. */
 export type StopPlaceEstimatedCallsArgs = {
   arrivalDeparture?: InputMaybe<ArrivalDeparture>;
   includeCancelledTrips?: InputMaybe<Scalars['Boolean']['input']>;
   numberOfDepartures?: InputMaybe<Scalars['Int']['input']>;
-  numberOfDeparturesPerLineAndDestinationDisplay?: InputMaybe<Scalars['Int']['input']>;
+  numberOfDeparturesPerLineAndDestinationDisplay?: InputMaybe<
+    Scalars['Int']['input']
+  >;
   startTime?: InputMaybe<Scalars['DateTime']['input']>;
   timeRange?: InputMaybe<Scalars['Int']['input']>;
   whiteListed?: InputMaybe<InputWhiteListed>;
   whiteListedModes?: InputMaybe<Array<InputMaybe<TransportMode>>>;
 };
 
-
 /** Named place where public transport may be accessed. May be a building complex (e.g. a station) or an on-street location. */
 export type StopPlaceNameArgs = {
   language?: InputMaybe<Scalars['String']['input']>;
 };
-
 
 /** Named place where public transport may be accessed. May be a building complex (e.g. a station) or an on-street location. */
 export type StopPlaceQuaysArgs = {
@@ -1630,7 +1624,7 @@ export enum StreetMode {
   /** Walk only */
   Foot = 'foot',
   /** Walk to a scooter rental point, ride a scooter to a scooter rental drop-off point, and walk the rest of the way. This can include scooter rental at fixed locations or free-floating services. */
-  ScooterRental = 'scooter_rental'
+  ScooterRental = 'scooter_rental',
 }
 
 /** A combination of street mode and corresponding duration */
@@ -1726,7 +1720,7 @@ export enum TransportMode {
   Tram = 'tram',
   Trolleybus = 'trolleybus',
   Unknown = 'unknown',
-  Water = 'water'
+  Water = 'water',
 }
 
 /** Used to specify board and alight slack for a given modes. */
@@ -1863,7 +1857,7 @@ export enum TransportSubmode {
   UndefinedFunicular = 'undefinedFunicular',
   Unknown = 'unknown',
   UrbanRailway = 'urbanRailway',
-  WaterTaxi = 'waterTaxi'
+  WaterTaxi = 'waterTaxi',
 }
 
 /** How much the factors safety, slope and distance are weighted relative to each other when routing bicycle legs. In total all three values need to add up to 1. */
@@ -1914,7 +1908,6 @@ export type Trip = {
   /** A list of possible trip patterns */
   tripPatterns: Array<TripPattern>;
 };
-
 
 /** Description of a travel between two places. */
 export type TripMessageStringsArgs = {
@@ -2019,7 +2012,7 @@ export enum VertexType {
   BikePark = 'bikePark',
   BikeShare = 'bikeShare',
   Normal = 'normal',
-  Transit = 'transit'
+  Transit = 'transit',
 }
 
 /** An acceptable combination of trip patterns between two segments of the via search */
@@ -2076,7 +2069,7 @@ export enum WheelchairBoarding {
   /** Wheelchair boarding/alighting is not possible at this stop. */
   NotPossible = 'notPossible',
   /** Boarding wheelchair-accessible serviceJourneys is possible at this stopPlace/quay. */
-  Possible = 'possible'
+  Possible = 'possible',
 }
 
 export type DebugOutput = {

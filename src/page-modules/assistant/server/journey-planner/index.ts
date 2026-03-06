@@ -1,9 +1,5 @@
 import { GraphQlRequester } from '@atb/modules/api-server';
-import {
-  Notice as GraphQlNotice,
-  StreetMode,
-  TransportModes as GraphQlTransportModes,
-} from '@atb/modules/graphql-types';
+import { Notice as GraphQlNotice } from '@atb/modules/graphql-types';
 import { LineData } from './validators';
 import type {
   FromToTripQuery,
@@ -50,6 +46,17 @@ import {
   TripsNonTransitDocument,
 } from '@atb/page-modules/assistant/journey-gql/non-transit-trip.generated';
 import { MEDIUM_WALK_SPEED } from '@atb/page-modules/assistant/walk-speed-input';
+import {
+  StreetMode,
+  TransportModes,
+} from '@atb/modules/graphql-types/journeyplanner-types_v3.generated.ts';
+
+type JourneyModes = {
+  accessMode: StreetMode;
+  directMode?: StreetMode;
+  egressMode: StreetMode;
+  transportModes: TransportModes[];
+};
 
 const { journeyApiConfigurations } = getOrgData();
 
@@ -160,12 +167,12 @@ export function createJourneyApi(
       return createLinesRecord(result.data.lines);
     },
     async trip(input) {
-      const journeyModes = {
+      const journeyModes: JourneyModes = {
         accessMode: StreetMode.Foot,
         // Show specific non-transit suggestions through separate API call
         directMode: undefined,
         egressMode: StreetMode.Foot,
-        transportModes: input.transportModes as GraphQlTransportModes[],
+        transportModes: input.transportModes ?? [],
       };
 
       const potential = getAssistantTripIfCached(input as FromToTripQuery);
@@ -245,6 +252,7 @@ export function createJourneyApi(
         },
       };
 
+      // Invalid cast. Input is not FromToTripQuery at this point
       addAssistantTripToCache(input as FromToTripQuery, trips);
 
       return trips;
@@ -471,7 +479,7 @@ function mapAndFilterNotices(notices: GraphQlNotice[]): NoticeFragment[] {
   return filterNotices(mappedNotices);
 }
 
-export function setFilterSegments(transportModes: GraphQlTransportModes[]) {
+export function setFilterSegments(transportModes: TransportModes[]) {
   return [
     {
       filters: [{ select: [{ transportModes: transportModes }] }],
@@ -540,7 +548,7 @@ export function findTripPatternsFromViaToWithDetails(
 async function getSortedViaTrips(
   client: GraphQlRequester<'graphql-journeyPlanner3'>,
   input: TripInput,
-  transportModes: GraphQlTransportModes[],
+  transportModes: TransportModes[],
 ): Promise<TripsType> {
   const from = inputToLocation(input, 'from');
   const to = inputToLocation(input, 'to');
@@ -552,7 +560,7 @@ async function getSortedViaTrips(
       ? new Date(input.searchTime.dateTime)
       : new Date();
 
-  const queryVariables = {
+  const queryVariables: ViaTripsWithDetailsQueryVariables = {
     from,
     to,
     via,

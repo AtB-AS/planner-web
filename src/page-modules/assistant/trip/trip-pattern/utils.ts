@@ -56,11 +56,7 @@ export const tripSummary = (
     if (quayName) {
       startText = t(
         PageText.Assistant.trip.tripSummary.header.title(
-          t(
-            transportModeToTranslatedString({
-              transportMode: tripPattern.legs[0].mode ?? 'unknown',
-            }),
-          ),
+          t(transportModeToTranslatedString(tripPattern.legs[0].mode)),
           quayName,
         ),
       );
@@ -80,11 +76,7 @@ export const tripSummary = (
     : undefined;
 
   const modeAndNumberText = firstLeg
-    ? t(
-        transportModeToTranslatedString({
-          transportMode: firstLeg.mode ?? 'unknown',
-        }),
-      ) +
+    ? t(transportModeToTranslatedString(firstLeg.mode)) +
       (firstLeg.line?.publicCode
         ? t(
             PageText.Assistant.trip.tripSummary.journeySummary.prefixedLineNumber(

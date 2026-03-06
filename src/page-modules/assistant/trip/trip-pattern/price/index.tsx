@@ -118,7 +118,7 @@ function disableBoatCombinationTripPatterns(
   const isBoatLeg = (leg: ExtendedLegType) =>
     leg.mode === Mode.Water &&
     leg.transportSubmode &&
-    isSubModeBoat([leg.transportSubmode]);
+    isSubModeBoat(leg.transportSubmode);
 
   const isBusOrTrainLeg = (leg: ExtendedLegType) =>
     leg.mode === Mode.Bus || leg.mode === Mode.Rail;
