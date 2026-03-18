@@ -5,6 +5,8 @@ on:
       - '**.js'
       - '**.ts'
       - '**.tsx'
+      - '**.module.css'
+      - '**.gql'
 jobs:
   build:
     name: tsc
@@ -20,5 +22,4 @@ jobs:
       - run: yarn setup
         env:
           NEXT_PUBLIC_PLANNER_ORG_ID: atb
-      - run: yarn tsc
-      - run: yarn lint
+      - run: yarn check-all
