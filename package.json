@@ -16,6 +16,8 @@
     "build:docker": "sh ./scripts/build-docker.sh",
     "start": "next start",
     "lint": "next lint",
+    "prettier": "prettier -c src",
+    "check-all": "yarn tsc && yarn lint && yarn test --run && yarn prettier",
     "clean-assets": "rimraf ./public/assets/",
     "clean:install": "yarn clean-assets && rimraf node_modules && yarn",
     "refresh-assets": "yarn clean:install && dotenv -e .env.local -- yarn setup && yarn build",
