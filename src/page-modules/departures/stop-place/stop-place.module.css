@@ -59,7 +59,8 @@
   align-items: center;
   gap: token('spacing.xSmall');
   justify-content: space-between;
-  border-radius: token('border.radius.regular') token('border.radius.regular') 0 0;
+  border-radius: token('border.radius.regular') token('border.radius.regular') 0
+    0;
   border-bottom: 1px solid token('color.background.neutral.2.background');
   padding: token('spacing.small') token('spacing.medium');
   cursor: pointer;
@@ -87,7 +88,8 @@
   border-bottom: none;
 }
 .listItem__last {
-  border-radius: 0 0 token('border.radius.regular') token('border.radius.regular');
+  border-radius: 0 0 token('border.radius.regular')
+    token('border.radius.regular');
 }
 
 .textColor__secondary {

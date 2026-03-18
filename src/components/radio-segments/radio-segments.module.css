@@ -53,5 +53,6 @@
   height: 100%;
   position: absolute;
   border-radius: token('border.radius.regular');
-  border: token('border.width.medium') solid token('color.interactive.2.outline.background');
+  border: token('border.width.medium') solid
+    token('color.interactive.2.outline.background');
 }
