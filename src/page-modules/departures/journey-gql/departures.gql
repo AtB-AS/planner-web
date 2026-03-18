@@ -3,7 +3,6 @@ query stopPlaceQuayDepartures(
   $numberOfDepartures: Int
   $startTime: DateTime
 ) {
-
   stopPlace(id: $id) {
     id
     name

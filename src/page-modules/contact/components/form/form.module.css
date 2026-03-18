@@ -168,10 +168,7 @@
   font-family: var(--font-main) !important;
   font-size: 1rem !important;
   line-height: var(--baseTypo-body__m-lineHeight, 1.25rem) !important;
-  letter-spacing: var(
-    --baseTypo-body__m-letterSpacing,
-    0.03125rem
-  ) !important;
+  letter-spacing: var(--baseTypo-body__m-letterSpacing, 0.03125rem) !important;
 }
 
 /** file input */
