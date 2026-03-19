@@ -44,8 +44,11 @@ export function BaseLayout({ children, title }: BaseLayoutProps) {
           />
         </Head>
         <OpenGraphBase title={siteTitle} />
+        <a href="#main-content" className={style.skipLink}>
+          {t(CommonText.Layout.skipToContent)}
+        </a>
         <PageHeader />
-        <main className={style.main}>{children}</main>
+        <main id="main-content" tabIndex={-1} className={style.main}>{children}</main>
         <Footer />
       </div>
     </I18nProvider>
