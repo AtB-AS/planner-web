@@ -48,7 +48,9 @@ export function BaseLayout({ children, title }: BaseLayoutProps) {
           {t(CommonText.Layout.skipToContent)}
         </a>
         <PageHeader />
-        <main id="main-content" tabIndex={-1} className={style.main}>{children}</main>
+        <main id="main-content" tabIndex={-1} className={style.main}>
+          {children}
+        </main>
         <Footer />
       </div>
     </I18nProvider>
