@@ -218,38 +218,7 @@ export function createJourneyApi(
       }
 
       const trips: TripsType = {
-        trip: {
-          ...result.data.trip,
-          tripPatterns: result.data.trip.tripPatterns.map((tripPattern) => ({
-            ...tripPattern,
-            compressedQuery: generateSingleTripQueryString(
-              extractServiceJourneyIds(tripPattern),
-              tripPattern.legs[0].aimedStartTime,
-              queryVariables,
-            ),
-
-            legs: tripPattern.legs.map((leg) => ({
-              ...leg,
-              mapLegs: leg.pointsOnLink?.points
-                ? mapToMapLegs(
-                    leg.pointsOnLink,
-                    leg.mode,
-                    leg.transportSubmode,
-                    leg.fromPlace,
-                    leg.toPlace,
-                    !!leg.line?.flexibleLineType,
-                  )
-                : [],
-              notices: mapAndFilterNotices([
-                ...(leg.line?.notices ?? []),
-                ...(leg.serviceJourney?.notices ?? []),
-                ...(leg.serviceJourney?.journeyPattern?.notices ?? []),
-                ...(leg.fromEstimatedCall?.notices ?? []),
-                ...(leg.toEstimatedCall?.notices ?? []),
-              ]),
-            })),
-          })),
-        },
+        trip: mapRawTripResponse(result.data.trip, queryVariables),
       };
 
       // Invalid cast. Input is not FromToTripQuery at this point
@@ -417,6 +386,43 @@ function generateSingleTripQueryString(
       originalSearchTime,
     }),
   );
+}
+
+export function mapRawTripResponse(
+  rawTrip: TripsWithDetailsQuery['trip'],
+  queryVariables: TripsWithDetailsQueryVariables,
+): TripsType['trip'] {
+  return {
+    ...rawTrip,
+    tripPatterns: rawTrip.tripPatterns.map((tripPattern) => ({
+      ...tripPattern,
+      compressedQuery: generateSingleTripQueryString(
+        extractServiceJourneyIds(tripPattern),
+        tripPattern.legs[0].aimedStartTime,
+        queryVariables,
+      ),
+      legs: tripPattern.legs.map((leg) => ({
+        ...leg,
+        mapLegs: leg.pointsOnLink?.points
+          ? mapToMapLegs(
+              leg.pointsOnLink,
+              leg.mode,
+              leg.transportSubmode,
+              leg.fromPlace,
+              leg.toPlace,
+              !!leg.line?.flexibleLineType,
+            )
+          : [],
+        notices: mapAndFilterNotices([
+          ...(leg.line?.notices ?? []),
+          ...(leg.serviceJourney?.notices ?? []),
+          ...(leg.serviceJourney?.journeyPattern?.notices ?? []),
+          ...(leg.fromEstimatedCall?.notices ?? []),
+          ...(leg.toEstimatedCall?.notices ?? []),
+        ]),
+      })),
+    })),
+  };
 }
 
 export function parseTripQueryString(compressedQueryString: string):
