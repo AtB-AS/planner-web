@@ -41,7 +41,9 @@ function locationToFeature(loc: VariablesLocation): GeocoderFeature {
     locality: null,
     category: [],
     layer: 'venue',
-    geometry: { coordinates: [loc.coordinates.longitude, loc.coordinates.latitude] },
+    geometry: {
+      coordinates: [loc.coordinates.longitude, loc.coordinates.latitude],
+    },
   };
 }
 
