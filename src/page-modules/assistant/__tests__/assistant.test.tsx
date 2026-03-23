@@ -46,6 +46,10 @@ vi.mock('@atb/modules/firebase/transport-mode-filter', () => ({
 vi.mock('@atb/modules/firebase/preassigned-fare-products', () => ({
   getPreassignedFareProducts: vi.fn().mockResolvedValue([]),
 }));
+vi.mock('@atb/modules/api-browser', () => ({
+  swrFetcher: vi.fn().mockRejectedValue(new Error('Network error')),
+  swrPostFetcher: vi.fn().mockRejectedValue(new Error('Network error')),
+}));
 
 mockRouter.useParser(createDynamicRouteParser(['/assistant']));
 
