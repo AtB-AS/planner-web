@@ -110,8 +110,8 @@ const DevTripPatternPage: NextPage<DevTripPatternPageProps> = (props) => {
   const onVariablesTextChange = (text: string) => {
     setVariablesText(text);
     const { from, to } = parseFeaturesFromVariablesText(text);
-    if (from) setFromFeature(from);
-    if (to) setToFeature(to);
+    setFromFeature(from);
+    setToFeature(to);
   };
 
   const toggleDevMode = () => {
@@ -188,8 +188,11 @@ const DevTripPatternPage: NextPage<DevTripPatternPageProps> = (props) => {
         </div>
 
         <div className={style.section}>
-          <label className={style.label}>Query</label>
+          <label className={style.label} htmlFor="dev-query">
+            Query
+          </label>
           <textarea
+            id="dev-query"
             className={style.textarea}
             rows={20}
             value={queryText}
@@ -199,8 +202,11 @@ const DevTripPatternPage: NextPage<DevTripPatternPageProps> = (props) => {
         </div>
 
         <div className={style.section}>
-          <label className={style.label}>Variables (JSON)</label>
+          <label className={style.label} htmlFor="dev-variables">
+            Variables (JSON)
+          </label>
           <textarea
+            id="dev-variables"
             className={style.textarea}
             rows={12}
             value={variablesText}
@@ -236,7 +242,7 @@ const DevTripPatternPage: NextPage<DevTripPatternPageProps> = (props) => {
                 <div className={style.tripPatterns}>
                   {result.tripPatterns.map((tripPattern, i) => (
                     <TripPattern
-                      key={i}
+                      key={tripPattern.compressedQuery}
                       tripPattern={tripPattern}
                       delay={i * 0.05}
                       index={i}
