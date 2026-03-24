@@ -25,7 +25,11 @@ export default async function handler(
 
   const { query, variables } = req.body ?? {};
 
-  if (typeof query !== 'string' || typeof variables !== 'object' || variables === null) {
+  if (
+    typeof query !== 'string' ||
+    typeof variables !== 'object' ||
+    variables === null
+  ) {
     return errorResultAsJson(
       res,
       constants.HTTP_STATUS_BAD_REQUEST,
