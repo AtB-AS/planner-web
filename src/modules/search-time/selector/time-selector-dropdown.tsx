@@ -46,6 +46,7 @@ export default function TimeSelectorDropdown({
             onSelect={(hour) => selectTime('hour', hour)}
             testID="hours"
             label="Hours"
+            autoFocus
           />
           <NumberSeriesScrollView
             numberSeries={minutes}
@@ -66,6 +67,7 @@ type NumberSeriesScrollViewProps = {
   onSelect: (number: number) => void;
   testID?: string;
   label: string;
+  autoFocus?: boolean;
 };
 
 const NumberSeriesScrollView = ({
@@ -74,6 +76,7 @@ const NumberSeriesScrollView = ({
   onSelect,
   testID,
   label,
+  autoFocus,
 }: NumberSeriesScrollViewProps) => {
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
   const theme = useTheme();
@@ -98,6 +101,16 @@ const NumberSeriesScrollView = ({
   useEffect(() => {
     scrollToValue(initialSelectedValue.current);
   }, [scrollToValue, theme.spacing.small]);
+
+  const scrollContainerCallbackRef = useCallback(
+    (node: HTMLDivElement | null) => {
+      scrollContainerRef.current = node;
+      if (node && autoFocus) {
+        node.focus();
+      }
+    },
+    [autoFocus],
+  );
 
   const getOptionId = (value: number) => `${listboxId}-option-${value}`;
 
@@ -156,7 +169,7 @@ const NumberSeriesScrollView = ({
 
   return (
     <div
-      ref={scrollContainerRef}
+      ref={scrollContainerCallbackRef}
       className={style.scrollView}
       role="listbox"
       aria-label={label}
