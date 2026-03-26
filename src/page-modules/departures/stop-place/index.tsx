@@ -290,6 +290,7 @@ export function EstimatedCallItem({
           relativeTime
           realtime={departure.realtime}
           withRealtimeIndicator
+          roundingMethod="floor"
         />
       </Link>
     </li>
