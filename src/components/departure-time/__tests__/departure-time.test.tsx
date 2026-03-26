@@ -207,4 +207,19 @@ describe('departure time component', function () {
     );
     expect(output.getByLabelText('Sanntid 12:06')).toBeInTheDocument();
   });
+
+  it('should not show both aimed and expected if they are the same', () => {
+    const output = render(
+      <DepartureTime
+        aimedDepartureTime="2021-09-01T16:10:00+02:00"
+        expectedDepartureTime="2021-09-01T16:10:49+02:00"
+        realtime
+        roundingMethod="floor"
+      />,
+    );
+    expect(output.queryByLabelText('Rutetid', { exact: false })).toBeNull();
+    expect(
+      output.getByLabelText('Sanntid', { exact: false }),
+    ).toBeInTheDocument();
+  });
 });
