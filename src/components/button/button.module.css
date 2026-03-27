@@ -92,6 +92,11 @@
 .button--primary.button--disabled {
   opacity: 0.2;
 }
+.button--primary:focus {
+  outline: 0;
+  box-shadow: inset 0 0 0 token('border.width.medium')
+    token('color.interactive.0.outline.background');
+}
 
 /* Secondary */
 .button--secondary,
@@ -110,6 +115,11 @@
 .button--secondary:disabled,
 .button--secondary.button--disabled {
   opacity: 0.2;
+}
+.button--secondary:focus {
+  outline: 0;
+  box-shadow: inset 0 0 0 token('border.width.medium')
+    token('color.interactive.0.outline.background');
 }
 
 /* Interactive button 0 */
