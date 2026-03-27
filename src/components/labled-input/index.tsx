@@ -38,7 +38,9 @@ export default function LabeledInput({
         [style['container--error']]: isError,
       })}
     >
-      <label className={style.label} htmlFor={inputId}>{label}</label>
+      <label className={style.label} htmlFor={inputId}>
+        {label}
+      </label>
       <input
         id={inputId}
         className={style.input}
