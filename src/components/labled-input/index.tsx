@@ -25,6 +25,7 @@ export default function LabeledInput({
   const isError = typeof validationError !== 'undefined';
   const postfix = useId();
 
+  const inputId = 'input-' + postfix;
   const errorLabel = 'error-' + postfix;
 
   const validationStatusProps: React.JSX.IntrinsicElements['input'] = isError
@@ -37,8 +38,9 @@ export default function LabeledInput({
         [style['container--error']]: isError,
       })}
     >
-      <label className={style.label}>{label}</label>
+      <label className={style.label} htmlFor={inputId}>{label}</label>
       <input
+        id={inputId}
         className={style.input}
         type="text"
         placeholder={placeholder}
