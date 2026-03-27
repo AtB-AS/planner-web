@@ -1,6 +1,5 @@
-import { useClientWidth } from '@atb/utils/use-client-width';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Fragment, useEffect, useId, useState } from 'react';
+import { Fragment, useId, useRef, useState } from 'react';
 import { getFilteredLegsByWalkOrWaitTime, tripSummary } from './utils';
 import { PageText, useTranslation } from '@atb/translations';
 import style from './trip-pattern.module.css';
@@ -24,8 +23,8 @@ import { AssistantDetailsBody } from '@atb/page-modules/assistant/details-body';
 import { Price } from './price';
 import { useInView } from 'react-intersection-observer';
 import { Tag } from '@atb/components/tag';
+import useResizeObserver from '@react-hook/resize-observer';
 
-const LAST_LEG_PADDING = 20;
 const DEFAULT_THRESHOLD_AIMED_EXPECTED_IN_SECONDS = 60;
 const ANIMATION_DURATION = 0.2;
 
@@ -35,6 +34,25 @@ type TripPatternProps = {
   index: number;
   testId?: string;
 };
+
+/**
+ * Count how many leg elements overflow the container's visible width.
+ * Each leg item is a direct child with data-leg-index attribute.
+ */
+function countOverflowingLegs(container: HTMLElement | null): number {
+  if (!container) return 0;
+  const containerRight = container.getBoundingClientRect().right;
+  const legElements = Array.from(container.querySelectorAll('[data-leg-index]'));
+  let hiddenCount = 0;
+  for (const el of legElements) {
+    const elRect = el.getBoundingClientRect();
+    // Consider a leg overflowing if its right edge is beyond the container
+    if (elRect.right > containerRight + 1) {
+      hiddenCount++;
+    }
+  }
+  return hiddenCount;
+}
 
 export default function TripPattern({
   tripPattern,
@@ -46,31 +64,17 @@ export default function TripPattern({
 
   const filteredLegs = getFilteredLegsByWalkOrWaitTime(tripPattern);
 
-  const [numberOfExpandedLegs, setNumberOfExpandedLegs] = useState(
-    filteredLegs.length,
-  );
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
   const id = useId();
 
-  const expandedLegs = filteredLegs.slice(0, numberOfExpandedLegs);
-  const collapsedLegs = filteredLegs.slice(
-    numberOfExpandedLegs,
-    filteredLegs.length,
-  );
+  // Use ResizeObserver to track overflow count
+  const legsContainerRef = useRef<HTMLDivElement>(null);
+  const [overflowCount, setOverflowCount] = useState(0);
 
-  const [legsParentWidth, legsParentRef] = useClientWidth<HTMLDivElement>();
-  const [legsContentWidth, legsContentRef] = useClientWidth<HTMLDivElement>();
-
-  // Dynamically collapse legs to fit horizontally
-  useEffect(() => {
-    if (legsParentWidth && legsContentWidth) {
-      if (legsContentWidth >= legsParentWidth - LAST_LEG_PADDING) {
-        setNumberOfExpandedLegs((val) => Math.max(val - 1, 1));
-      }
-      // TODO: Increase expanded legs if there is space?
-    }
-  }, [legsParentWidth, legsContentWidth]);
+  useResizeObserver(legsContainerRef, () => {
+    setOverflowCount(countOverflowingLegs(legsContainerRef.current));
+  });
 
   const tripIsInPast = isInPast(tripPattern.legs[0].expectedStartTime);
 
@@ -83,12 +87,8 @@ export default function TripPattern({
   });
 
   const staySeated = (idx: number) => {
-    const leg = expandedLegs[idx];
+    const leg = filteredLegs[idx];
     return leg && leg.interchangeTo?.staySeated === true;
-  };
-
-  const isNotLastLeg = (i: number) => {
-    return i < expandedLegs.length - 1 || collapsedLegs.length > 0;
   };
 
   const { ref, inView } = useInView({
@@ -134,15 +134,18 @@ export default function TripPattern({
         />
 
         <div className={style.legs}>
-          <div
-            className={style.legs__expandedLegsContainer}
-            ref={legsParentRef}
-          >
-            <div className={style.legs__expandedLegs} ref={legsContentRef}>
-              {expandedLegs.map((leg, i) => (
+          <div className={style.legs__legsAndLine}>
+            <div
+              className={style.legs__expandedLegs}
+              ref={legsContainerRef}
+            >
+              {filteredLegs.map((leg, i) => (
                 <Fragment key={`leg-${leg.expectedStartTime}-${i}`}>
                   {staySeated(i - 1) ? null : (
-                    <div className={style.legs__leg}>
+                    <div
+                      className={style.legs__leg}
+                      data-leg-index={i}
+                    >
                       {leg.mode ? (
                         <TransportIconWithDuration
                           transportMode={leg.mode}
@@ -180,7 +183,7 @@ export default function TripPattern({
                             </Typo.span>
                             <Typo.span
                               textType="body__xs__strike"
-                              className={style.outdatet}
+                              className={style.outdated}
                               testID="aimedStartTime"
                             >
                               {formatToClock(
@@ -208,27 +211,18 @@ export default function TripPattern({
                     </div>
                   )}
 
-                  {isNotLastLeg(i) && !staySeated(i) && (
-                    <div className={style.legs__legLineContainer}>
-                      <div className={style.legs__legLine} />
-                      <div className={style.legs__legLine} />
-                    </div>
-                  )}
                 </Fragment>
               ))}
-
-              {collapsedLegs.length > 0 && (
-                <div className={style.legs__collapsedLegs}>
-                  <Typo.span textType="body__m__strong">
-                    +{collapsedLegs.length}
-                  </Typo.span>
-                </div>
-              )}
             </div>
 
-            <div className={style.legs__lastLegLineContainer}>
-              <div className={style.legs__lastLegLine} />
-            </div>
+            {overflowCount > 0 && (
+              <div className={style.legs__collapsedLegs}>
+                <Typo.span textType="body__m__strong">
+                  +{overflowCount}
+                </Typo.span>
+              </div>
+            )}
+
           </div>
 
           <div className={style.legs__lastLeg}>

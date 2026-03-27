@@ -40,11 +40,15 @@ const customRender = (
 };
 
 describe('trip pattern header', function () {
-  it('should render trip pattern header', async () => {
+  it('should render trip pattern header with start place and duration', async () => {
     render(<TripPatternHeader tripPattern={tripPatternWithDetailsFixture} />);
 
+    // The start mode/place text is still rendered (as secondary info)
     expect(screen.getByText('Buss fra From 1')).toBeInTheDocument();
+    // Duration is still displayed
     expect(screen.getByText('1 time')).toBeInTheDocument();
+    // Since fixture dates are in the past, should show "Avgangstid passert"
+    expect(screen.getByText('Avgangstid passert')).toBeInTheDocument();
   });
 
   it('should render trip pattern header in english', async () => {
@@ -62,6 +66,7 @@ describe('trip pattern header', function () {
 
     expect(screen.getByText('Bus from From 1')).toBeInTheDocument();
     expect(screen.getByText('1 hour')).toBeInTheDocument();
+    expect(screen.getByText('Departure time passed')).toBeInTheDocument();
   });
 
   it('should render trip pattern header in nynorsk', async () => {
@@ -79,6 +84,7 @@ describe('trip pattern header', function () {
 
     expect(screen.getByText('Buss frå From 1')).toBeInTheDocument();
     expect(screen.getByText('1 time')).toBeInTheDocument();
+    expect(screen.getByText('Avgangstid passert')).toBeInTheDocument();
   });
 
   it('should get quay name from quay', () => {

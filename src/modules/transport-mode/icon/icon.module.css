@@ -6,7 +6,7 @@
 .transportIcon,
 .transportIconWithLabel {
   display: inline-block;
-  border-radius: token('border.radius.small');
+  border-radius: token('border.radius.regular');
   padding: token('spacing.xSmall');
 }
 

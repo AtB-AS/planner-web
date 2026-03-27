@@ -98,6 +98,11 @@ const AssistantInternal = {
       'Reiseforslag funne',
     ),
     tripPattern: {
+      originalTime: _(
+        'Opprinnelig',
+        'Original',
+        'Opphavleg',
+      ),
       travelFrom: {
         bus: (place: string) =>
           _(`Buss fra ${place}`, `Bus from ${place}`, `Buss frå ${place}`),

@@ -15,80 +15,49 @@
   cursor: pointer;
 }
 
-.header {
-  display: flex;
-  justify-content: space-between;
-  padding: token('spacing.small') token('spacing.medium');
-}
-
-.header__duration {
-  color: token('color.foreground.dynamic.secondary');
-}
-
 .details {
   display: flex;
   flex-direction: column;
   padding: 0 token('spacing.medium');
 }
 
+/* Legs section: grid with legs area on the left, destination on the right */
 .legs {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto;
   align-items: center;
   padding: token('spacing.small') token('spacing.medium');
+  gap: token('spacing.small');
 }
 
-.legs__expandedLegsContainer {
+/* Container for the expanded legs row + overflow badge */
+.legs__legsAndLine {
   display: flex;
-  flex-grow: 1;
-  overflow: hidden;
-  max-width: 100%;
-  margin-right: token('spacing.xSmall');
+  align-items: center;
+  min-width: 0;
+  gap: token('spacing.xSmall');
 }
 
+/* The overflowing legs row */
 .legs__expandedLegs {
   display: flex;
   align-items: flex-start;
-  position: relative;
-  margin-right: token('spacing.xSmall');
+  overflow: hidden;
+  gap: token('spacing.xSmall');
+  flex: 0 1 auto;
+  min-width: 0;
 }
 
 .legs__leg {
   display: flex;
   flex-direction: column;
   gap: token('spacing.small');
-}
-
-.legs__legLineContainer,
-.legs__lastLegLineContainer {
-  /* The height of the icon in a leg. */
-  --inner-height: 20px;
-  display: flex;
-  align-items: center;
-  gap: 0.125rem;
-  padding: 0 token('spacing.xSmall');
-  /* Set the container to the same height as leg boxes to vertically center the line correctly. */
-  height: calc(var(--inner-height) + token('spacing.small') * 2);
-}
-.legs__legLine,
-.legs__lastLegLine {
-  width: 0.3125rem;
-  height: 0.125rem;
-  background-color: token('color.interactive.1.disabled.background');
-  border-radius: token('border.radius.circle');
-}
-
-.legs__lastLegLineContainer {
-  padding: 0;
-}
-
-.legs__lastLegLineContainer,
-.legs__lastLegLine {
-  flex: 1 1;
+  flex-shrink: 0;
 }
 
 .legs__leg__walkIcon {
   background-color: token('color.background.neutral.2.background');
-  border-radius: token('border.radius.small');
+  border-radius: token('border.radius.regular');
   display: grid;
   place-content: center;
   padding: token('spacing.small');
@@ -96,40 +65,37 @@
 
 .legs__collapsedLegs {
   background-color: token('color.background.neutral.2.background');
-  border-radius: token('border.radius.small');
-  padding: token('spacing.small');
-  display: grid;
-  place-content: center;
-}
-
-.legs__collapsedLegs > span {
-  display: grid;
-  place-content: center;
-  height: 20px;
-  width: 20px;
+  border-radius: token('border.radius.regular');
+  padding: token('spacing.small') token('spacing.medium');
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
 }
 
 .legs__lastLeg {
-  margin-left: auto;
   display: flex;
   gap: token('spacing.small');
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  flex-shrink: 0;
 }
 
 .legs__lastLeg__icon {
   background-color: token('color.background.neutral.2.background');
-  border-radius: token('border.radius.small');
+  border-radius: token('border.radius.regular');
   display: grid;
   place-content: center;
   padding: token('spacing.small');
 }
 
+/* Footer: grid with price/tags on the left, button on the right */
 .footer {
   border-top: 1px solid token('color.background.neutral.1.background');
   display: grid;
   grid-template-areas: 'price button';
+  grid-template-columns: 1fr auto;
   width: 100%;
   justify-content: space-between;
   align-items: center;
@@ -167,7 +133,7 @@
   gap: token('spacing.xSmall');
 }
 
-.outdatet {
+.outdated {
   color: token('color.foreground.dynamic.secondary');
 }
 

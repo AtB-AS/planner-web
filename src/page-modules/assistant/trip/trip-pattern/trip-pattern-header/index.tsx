@@ -1,7 +1,12 @@
 import style from './trip-pattern-header.module.css';
 import { Typo } from '@atb/components/typography';
 import { useTranslation, PageText, TranslateFunction } from '@atb/translations';
-import { formatTripDuration } from '@atb/utils/date';
+import {
+  formatToClock,
+  formatTripDuration,
+  secondsBetween,
+  isInPast,
+} from '@atb/utils/date';
 import { flatMap } from 'lodash';
 import { RailReplacementBusMessage } from './rail-replacement-bus';
 import { SituationOrNoticeIcon } from '@atb/modules/situations';
@@ -11,6 +16,8 @@ import { Assistant } from '@atb/translations/pages';
 import { getNoticesForLeg } from '@atb/page-modules/assistant/utils.ts';
 import { ExtendedTripPatternWithDetailsType } from '@atb/page-modules/assistant';
 import { QuayFragment } from '@atb/page-modules/assistant/journey-gql/trip-with-details.generated.ts';
+
+const DEFAULT_THRESHOLD_AIMED_EXPECTED_IN_SECONDS = 60;
 
 type TripPatternHeaderProps = {
   tripPattern: ExtendedTripPatternWithDetailsType;
@@ -29,35 +36,88 @@ export function TripPatternHeader({
     language,
   );
 
+  const tripIsInPast = isInPast(tripPattern.expectedStartTime);
+
+  const expectedStartTimeLabel = formatToClock(
+    tripPattern.expectedStartTime,
+    language,
+    'floor',
+  );
+  const expectedEndTimeLabel = formatToClock(
+    tripPattern.expectedEndTime,
+    language,
+    'ceil',
+  );
+
+  const aimedStartTime = tripPattern.legs[0]?.aimedStartTime;
+  const aimedEndTime =
+    tripPattern.legs[tripPattern.legs.length - 1]?.aimedEndTime;
+
+  const aimedStartTimeLabel = formatToClock(aimedStartTime, language, 'floor');
+  const aimedEndTimeLabel = formatToClock(aimedEndTime, language, 'ceil');
+
+  const startTimeDiffers =
+    secondsBetween(aimedStartTime, tripPattern.expectedStartTime) >
+    DEFAULT_THRESHOLD_AIMED_EXPECTED_IN_SECONDS;
+  const endTimeDiffers =
+    secondsBetween(aimedEndTime, tripPattern.expectedEndTime) >
+    DEFAULT_THRESHOLD_AIMED_EXPECTED_IN_SECONDS;
+  const showAimedTime = startTimeDiffers || endTimeDiffers;
+
   const startModeAndPlaceText = getStartModeAndPlaceText(tripPattern, t);
 
   return (
     <header className={style.header}>
-      {isCancelled ? (
-        <ColorIcon
-          icon="status/Error"
-          className={style.situationIcon}
-          alt={t(PageText.Assistant.trip.tripPattern.isCancelled.label)}
-        />
-      ) : (
-        <SituationOrNoticeIcon
-          situations={flatMap(tripPattern.legs, (leg) => leg.situations)}
-          notices={tripPattern.legs.flatMap(getNoticesForLeg)}
-          cancellation={isCancelled}
-          iconSize="large"
-        />
-      )}
-      <RailReplacementBusMessage tripPattern={tripPattern} />
-      <Typo.span textType="body__s__strong">
-        {startModeAndPlaceText}
-        {isCancelled &&
-          ` (${t(
-            PageText.Assistant.trip.tripPattern.isCancelled.title,
-          ).toUpperCase()})`}
-      </Typo.span>
-      <Typo.span textType="body__s" className={style.header__duration}>
-        {duration}
-      </Typo.span>
+      <div className={style.header__timesArea}>
+        <div className={style.header__timesRow}>
+          {isCancelled ? (
+            <ColorIcon
+              icon="status/Error"
+              className={style.situationIcon}
+              alt={t(PageText.Assistant.trip.tripPattern.isCancelled.label)}
+            />
+          ) : (
+            <SituationOrNoticeIcon
+              situations={flatMap(tripPattern.legs, (leg) => leg.situations)}
+              notices={tripPattern.legs.flatMap(getNoticesForLeg)}
+              cancellation={isCancelled}
+              iconSize="large"
+            />
+          )}
+          <RailReplacementBusMessage tripPattern={tripPattern} />
+          <Typo.span textType="body__m__strong" testID="expectedTimeRange">
+            {tripIsInPast
+              ? t(PageText.Assistant.trip.tripPattern.passedTrip)
+              : `${expectedStartTimeLabel} - ${expectedEndTimeLabel}`}
+            {isCancelled &&
+              ` (${t(
+                PageText.Assistant.trip.tripPattern.isCancelled.title,
+              ).toUpperCase()})`}
+          </Typo.span>
+        </div>
+        {showAimedTime && !tripIsInPast && (
+          <Typo.span
+            textType="body__s"
+            className={style.header__aimedTime}
+            testID="aimedTimeRange"
+          >
+            {t(PageText.Assistant.trip.tripPattern.originalTime)}{' '}
+            {aimedStartTimeLabel} - {aimedEndTimeLabel}
+          </Typo.span>
+        )}
+      </div>
+      <div className={style.header__metaArea}>
+        <Typo.span
+          textType="body__s"
+          className={style.header__duration}
+          testID="resultDuration"
+        >
+          {duration}
+        </Typo.span>
+        <Typo.span textType="body__s" className={style.header__startPlace}>
+          {startModeAndPlaceText}
+        </Typo.span>
+      </div>
     </header>
   );
 }
