@@ -26,7 +26,16 @@ export function ColorIcon({ icon, size = 'normal', ...props }: ColorIconProps) {
   if (!currentIcon.darkable) {
     const totalPath = `/assets/${currentIcon.relative}`;
     // eslint-disable-next-line
-    return <img width={wh} height={wh} src={totalPath} role="none" alt="" {...props} />;
+    return (
+      <img
+        width={wh}
+        height={wh}
+        src={totalPath}
+        role="none"
+        alt=""
+        {...props}
+      />
+    );
   } else {
     const totalPath = `/assets/${specifyDarkOrLight(
       currentIcon.relative,
@@ -34,7 +43,16 @@ export function ColorIcon({ icon, size = 'normal', ...props }: ColorIconProps) {
     )}`;
 
     // eslint-disable-next-line
-    return <img width={wh} height={wh} src={totalPath} role="none" alt="" {...props} />;
+    return (
+      <img
+        width={wh}
+        height={wh}
+        src={totalPath}
+        role="none"
+        alt=""
+        {...props}
+      />
+    );
   }
 }
 
