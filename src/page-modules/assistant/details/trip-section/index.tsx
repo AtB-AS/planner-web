@@ -93,6 +93,7 @@ export default function TripSection({
                 aimedDepartureTime={leg.aimedStartTime}
                 expectedDepartureTime={leg.expectedStartTime}
                 realtime={leg.realtime}
+                roundingMethod="floor"
               />
             }
             alignChildren="flex-start"
@@ -214,6 +215,7 @@ export default function TripSection({
                 aimedDepartureTime={leg.aimedEndTime}
                 expectedDepartureTime={leg.expectedEndTime}
                 realtime={leg.realtime}
+                roundingMethod="ceil"
               />
             }
             alignChildren="flex-start"
