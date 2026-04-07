@@ -35,15 +35,26 @@
       "name": "frammr.no",
       "href": "https://www.frammr.no/"
     },
-    "ticketsUrl": {
+    "ticketInfoUrl": {
       "en-US": "https://frammr.no/billettar/billettar-og-prisar/?sprak=3",
       "nn": "https://frammr.no/billettar/billettar-og-prisar/?sprak=11",
       "default": "https://frammr.no/billettar/billettar-og-prisar/"
+    },
+    "purchaseTicketUrl": {
+      "en-US": "https://frammr.no/tickets/how-to-buy-a-ticket/?sprak=3",
+      "nn": "https://frammr.no/billettar/slik-kjoper-du-billett/",
+      "default": "https://frammr.no/billettar/slik-kjoper-du-billett/"
     },
     "sitemapUrls": {
       "dev": "http://localhost:3000",
       "staging": "https://fram-staging.planner-web.mittatb.no/",
       "prod": "https://reise.frammr.no/"
+    },
+    "androidAppUrl": {
+      "default": "https://play.google.com/store/apps/details?id=no.mrfylke.fram.production"
+    },
+    "iosAppUrl": {
+      "default": "https://apps.apple.com/no/app/fram/id6447612651"
     }
   },
   "journeyApiConfigurations": {

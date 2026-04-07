@@ -27,16 +27,26 @@
       "name": "svipper.no",
       "href": "https://www.svipper.no/"
     },
-    "ticketsUrl": {
+    "ticketInfoUrl": {
       "en-US": "https://svipper.no/meny/billetter-og-priser/?sprak=3",
       "no": "https://svipper.no/meny/billetter-og-priser/",
       "default": "https://svipper.no/meny/billetter-og-priser/"
     },
-
+    "purchaseTicketUrl": {
+      "en-US": "https://svipper.no/menu/tickets/how-to-buy-tickets/",
+      "no": "https://svipper.no/meny/billetter-og-priser/slik-kjoper-du-billett/",
+      "default": "https://svipper.no/meny/billetter-og-priser/slik-kjoper-du-billett/"
+    },
     "sitemapUrls": {
       "dev": "http://localhost:3000",
       "staging": "https://troms-staging.planner-web.mittatb.no/",
       "prod": "https://reise.svipper.no/"
+    },
+    "androidAppUrl": {
+      "default": "https://play.google.com/store/apps/details?id=PLACEHOLDER_TROMS"
+    },
+    "iosAppUrl": {
+      "default": "https://apps.apple.com/no/app/svipper/id6502283055"
     }
   },
   "journeyApiConfigurations": {
