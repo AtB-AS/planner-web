@@ -50,6 +50,12 @@
       "en-US": "https://www.atb.no/en/ticket/",
       "no": "https://www.atb.no/billett/",
       "default": "https://www.atb.no/billett/"
+    },
+    "androidAppUrl": {
+      "default": "https://play.google.com/store/apps/details?id=no.mittatb.store"
+    },
+    "iosAppUrl": {
+      "default": "https://apps.apple.com/us/app/atb/id1502395251"
     }
   },
   "journeyApiConfigurations": {

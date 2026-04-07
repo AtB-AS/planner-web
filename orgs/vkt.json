@@ -39,10 +39,21 @@
       "nn": "https://www.vkt.no/reise/billetter-og-priser/",
       "default": "https://www.vkt.no/reise/billetter-og-priser/"
     },
+    "purchaseTicketUrl": {
+      "en-US": "https://www.vkt.no/english/",
+      "nn": "https://www.vkt.no/reise/billetter-og-priser/",
+      "default": "https://www.vkt.no/reise/billetter-og-priser/"
+    },
     "sitemapUrls": {
       "dev": "http://localhost:3000",
       "staging": "https://vkt-staging.planner-web.mittatb.no/",
       "prod": "https://reise.vkt.no/"
+    },
+    "androidAppUrl": {
+      "default": "https://play.google.com/store/apps/details?id=no.vfk.travelassistant"
+    },
+    "iosAppUrl": {
+      "default": "https://apps.apple.com/no/app/vkt/id6673909689"
     }
   },
   "journeyApiConfigurations": {

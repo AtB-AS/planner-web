@@ -35,13 +35,25 @@
       "href": "https://www.farte.no/"
     },
     "ticketInfoUrl": {
-      "nn": "https://www.farte.no/kundeservice/billetter-og-priser/",
-      "default": "https://www.farte.no/kundeservice/billetter-og-priser/"
+      "en-US": "https://www.farte.no/english/",
+      "nn": "https://www.farte.no/reise/billetter-og-priser/",
+      "default": "https://www.farte.no/reise/billetter-og-priser/"
+    },
+    "purchaseTicketUrl": {
+      "en-US": "https://www.farte.no/english/",
+      "nn": "https://www.farte.no/reise/billetter-og-priser/",
+      "default": "https://www.farte.no/reise/billetter-og-priser/"
     },
     "sitemapUrls": {
       "dev": "http://localhost:3000",
       "staging": "https://farte-staging.planner-web.mittatb.no/",
       "prod": "https://reise.farte.no/"
+    },
+    "androidAppUrl": {
+      "default": "https://play.google.com/store/apps/details?id=no.trfylke.svipper.production"
+    },
+    "iosAppUrl": {
+      "default": "https://apps.apple.com/no/app/farte/id6479402566"
     }
   },
   "journeyApiConfigurations": {
