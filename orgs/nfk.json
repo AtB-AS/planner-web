@@ -36,7 +36,7 @@
       "name": "reisnordland.no",
       "href": "https://www.reisnordland.no/"
     },
-    "ticketsUrl": {
+    "ticketInfoUrl": {
       "en-US": "https://www.reisnordland.no/priser-pa-buss",
       "no": "https://www.reisnordland.no/priser-pa-buss",
       "default": "https://www.reisnordland.no/priser-pa-buss"

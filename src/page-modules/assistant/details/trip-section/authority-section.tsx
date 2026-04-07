@@ -7,18 +7,28 @@ import { AuthorityFragment } from '../../journey-gql/trip-with-details.generated
 import { ButtonLink } from '@atb/components/button';
 import { MonoIcon } from '@atb/components/icon';
 import { useTheme } from '@atb/modules/theme';
-import { getOrgData } from '@atb/modules/org-data';
+import { getConfigUrl, getOrgData } from '@atb/modules/org-data';
 
 export type AuthoritySectionProps = {
   authority: AuthorityFragment;
 };
 
 export function AuthoritySection({ authority }: AuthoritySectionProps) {
-  const { t } = useTranslation();
+  const { language, t } = useTranslation();
   const { color } = useTheme();
-  const { authorityId } = getOrgData();
+  const { authorityId, urls } = getOrgData();
 
-  if (!authority.url || authority.id === authorityId) return null;
+  const isCurrentAuthority = authority.id == authorityId;
+
+  if (!isCurrentAuthority && !authority.url) return null;
+
+  const url = isCurrentAuthority
+    ? urls.purchaseTicketUrl
+      ? getConfigUrl(urls.purchaseTicketUrl, language)
+      : undefined
+    : authority.url;
+
+  if (!url) return null;
 
   return (
     <TripRow>
@@ -27,7 +37,7 @@ export function AuthoritySection({ authority }: AuthoritySectionProps) {
           {t(PageText.Assistant.details.tripSection.buyTicketFrom)}
         </Typo.p>
         <ButtonLink
-          href={authority.url || '#'}
+          href={url}
           title={authority.name}
           icon={{ left: <MonoIcon icon="navigation/ExternalLink" /> }}
           mode="secondary"

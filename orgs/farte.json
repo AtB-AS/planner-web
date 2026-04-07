@@ -34,7 +34,7 @@
       "name": "farte.no",
       "href": "https://www.farte.no/"
     },
-    "ticketsUrl": {
+    "ticketInfoUrl": {
       "nn": "https://www.farte.no/kundeservice/billetter-og-priser/",
       "default": "https://www.farte.no/kundeservice/billetter-og-priser/"
     },

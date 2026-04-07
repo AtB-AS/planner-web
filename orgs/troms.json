@@ -27,7 +27,7 @@
       "name": "svipper.no",
       "href": "https://www.svipper.no/"
     },
-    "ticketsUrl": {
+    "ticketInfoUrl": {
       "en-US": "https://svipper.no/meny/billetter-og-priser/?sprak=3",
       "no": "https://svipper.no/meny/billetter-og-priser/",
       "default": "https://svipper.no/meny/billetter-og-priser/"

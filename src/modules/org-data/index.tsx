@@ -50,7 +50,8 @@ export type OrgData = {
       name: string;
       href: string;
     };
-    ticketsUrl?: TranslatableUrl;
+    ticketInfoUrl?: TranslatableUrl;
+    purchaseTicketUrl?: TranslatableUrl;
 
     sitemapUrls: {
       dev: string;

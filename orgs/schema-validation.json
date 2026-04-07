@@ -84,7 +84,10 @@
                 }
               }
             },
-            "ticketsUrl": {
+            "purchaseTicketUrl": {
+              "$ref": "#/definitions/TranslatableUrl"
+            },
+            "ticketInfoUrl": {
               "$ref": "#/definitions/TranslatableUrl"
             },
             "sitemapUrls": {

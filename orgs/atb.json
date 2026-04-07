@@ -36,7 +36,7 @@
       "name": "atb.no",
       "href": "https://atb.no/"
     },
-    "ticketsUrl": {
+    "ticketInfoUrl": {
       "en-US": "https://www.atb.no/en/fares/",
       "no": "https://www.atb.no/priser/",
       "default": "https://www.atb.no/priser/"
@@ -45,6 +45,11 @@
       "dev": "http://localhost:3000",
       "staging": "https://atb-staging.planner-web.mittatb.no/",
       "prod": "https://reise.atb.no/"
+    },
+    "purchaseTicketUrl": {
+      "en-US": "https://www.atb.no/en/ticket/",
+      "no": "https://www.atb.no/billett/",
+      "default": "https://www.atb.no/billett/"
     }
   },
   "journeyApiConfigurations": {

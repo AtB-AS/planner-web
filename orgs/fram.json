@@ -35,7 +35,7 @@
       "name": "frammr.no",
       "href": "https://www.frammr.no/"
     },
-    "ticketsUrl": {
+    "ticketInfoUrl": {
       "en-US": "https://frammr.no/billettar/billettar-og-prisar/?sprak=3",
       "nn": "https://frammr.no/billettar/billettar-og-prisar/?sprak=11",
       "default": "https://frammr.no/billettar/billettar-og-prisar/"
