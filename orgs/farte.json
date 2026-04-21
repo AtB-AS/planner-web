@@ -50,7 +50,7 @@
       "prod": "https://reise.farte.no/"
     },
     "androidAppUrl": {
-      "default": "https://play.google.com/store/apps/details?id=no.trfylke.svipper.production"
+      "default": "https://play.google.com/store/apps/details?id=no.tfk.travelassistant"
     },
     "iosAppUrl": {
       "default": "https://apps.apple.com/no/app/farte/id6479402566"
