@@ -43,7 +43,7 @@
       "prod": "https://reise.svipper.no/"
     },
     "androidAppUrl": {
-      "default": "https://play.google.com/store/apps/details?id=PLACEHOLDER_TROMS"
+      "default": "https://play.google.com/store/apps/details?id=no.trfylke.svipper.production"
     },
     "iosAppUrl": {
       "default": "https://apps.apple.com/no/app/svipper/id6502283055"
