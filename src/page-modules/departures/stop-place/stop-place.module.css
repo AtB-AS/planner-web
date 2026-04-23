@@ -13,6 +13,8 @@
 .mapContainer {
   grid-area: map;
   max-height: 37.5rem;
+  border-radius: token('border.radius.regular');
+  overflow: hidden;
 }
 
 .quaysContainer {

@@ -2,7 +2,7 @@ import { Button } from '@atb/components/button';
 import { DepartureTime } from '@atb/components/departure-time';
 import { ColorIcon, MonoIcon } from '@atb/components/icon';
 import LineChip from '@atb/components/line-chip';
-import { MapWithHeader } from '@atb/components/map';
+import { Map } from '@atb/components/map';
 import {
   OpenGraphDescription,
   OpenGraphImage,
@@ -101,12 +101,10 @@ export function StopPlace({ departures }: StopPlaceProps) {
         ))}
       </div>
       <div className={style.mapContainer}>
-        <MapWithHeader
-          name={departures.stopPlace.name}
+        <Map
           position={departures.stopPlace.position}
           layer="venue"
           onSelectStopPlace={(id) => router.push(`/departures/${id}`)}
-          transportModes={departures.stopPlace.transportMode}
         />
       </div>
     </section>
