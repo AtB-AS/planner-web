@@ -61,6 +61,6 @@
     "waitReluctance": 1.0,
     "walkingReluctance": 4.0,
     "transferPenalty": 0,
-    "defaultTransferSlack": 0
+    "defaultTransferSlack": 2
   }
 }
