@@ -43,7 +43,11 @@ export function AuthoritySection({ authority }: AuthoritySectionProps) {
         </Typo.p>
         <ButtonLink
           href={url}
-          title={authority.name}
+          title={
+            isCurrentAuthority && devicePlatform !== 'desktop'
+              ? t(PageText.Assistant.details.tripSection.appName)
+              : authority.name
+          }
           icon={{ left: <MonoIcon icon="navigation/ExternalLink" /> }}
           mode="secondary"
           backgroundColor={color.background.neutral[0]}
