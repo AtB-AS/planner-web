@@ -21,6 +21,18 @@ export type FromAddressType = {
   nearbyStopPlace: string;
 };
 
+export type LoggedMetric = {
+  name: string,
+  type: 'WEB_VITAL' | 'CUSTOM',
+  values: {
+    avg: number,
+    p75: number | null,
+    p95: number | null,
+    unit: string | null,
+    count: number
+  } | null
+}
+
 export interface SummaryMetric {
   type: string;
   contains: string;
@@ -41,3 +53,29 @@ export interface SummaryData {
   root_group: object;
   state: string;
 }
+
+type SlackTextElement = {
+  type: 'text';
+  text: string;
+  style?: { bold: boolean };
+};
+
+export type SlackRichText = {
+  type: 'rich_text';
+  elements: [{ type: 'rich_text_section'; elements: SlackTextElement[] }];
+};
+
+type SlackSectionBlock = {
+  type: 'section';
+  text: { type: 'mrkdwn'; text: string };
+};
+
+type SlackTableBlock = {
+  type: 'table';
+  rows: SlackRichText[][];
+};
+
+export type SlackMessage = {
+  blocks: (SlackSectionBlock | SlackTableBlock)[];
+};
+

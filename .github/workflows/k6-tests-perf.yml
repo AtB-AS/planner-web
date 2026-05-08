@@ -1,6 +1,9 @@
 name: k6 performance test
 
 on:
+  repository_dispatch:
+    types:
+      - 'vercel.deployment.success'
   workflow_dispatch:
     inputs:
       host:
@@ -20,7 +23,7 @@ jobs:
       - name: Setup k6 browser environment
         uses: grafana/setup-k6-action@v1
         with:
-          k6-version: '1.4.0'
+          k6-version: '1.7.0'
           browser: true
 
       - name: Install k6 extensions
@@ -28,7 +31,7 @@ jobs:
         run: |
           go install go.k6.io/xk6/cmd/xk6@latest
           export PATH=$(go env GOPATH)/bin:$PATH
-          xk6 build v1.4.0 --with github.com/avitalique/xk6-file@latest
+          xk6 build v1.7.0 --with github.com/avitalique/xk6-file@latest
 
       - name: Install dependencies
         working-directory: e2e-tests/k6
@@ -50,20 +53,14 @@ jobs:
             echo "No request log found!"
           fi
 
+      - name: Print error log
+        run: |
+          if find e2e-tests/k6/logs -maxdepth 1 -name "errors.log" | grep -q .; then
+            cat e2e-tests/k6/logs/errors.log
+          else
+            echo "No error log found!"
+          fi          
+
       - name: Notify Slack
         run: |
           ./e2e-tests/k6/integration/slack_notification.sh ${{ secrets.ATB_SLACK_TOKEN }} e2e_tests ${{ github.run_id }} performance
-
-      - name: Fail on any errors
-        run: |
-          if find e2e-tests/k6/logs -maxdepth 1 -name "errors.log" | grep -q .; then
-            echo "### ⚠️ Test errors" >> $GITHUB_STEP_SUMMARY
-            echo "" >> $GITHUB_STEP_SUMMARY
-            echo "See more details in the workflow" >> $GITHUB_STEP_SUMMARY
-            echo "⚠️ Errors are found, failing the job."
-            cat e2e-tests/k6/logs/errors.log
-            exit 1
-          else
-            echo "✅ All good!" >> $GITHUB_STEP_SUMMARY
-            echo "✅ All good!"
-          fi

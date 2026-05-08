@@ -2,7 +2,7 @@
 # yarn lockfile v1
 
 
-"@types/k6@1.4.0":
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/@types/k6/-/k6-1.4.0.tgz#b8d6fb534ffb05df988b1981026642230f8495a2"
-  integrity sha512-2tgKVnzNXZTZT1TDAGLY/3cuvHPZLyOF751N7M8T2dBgWzInzUVZYjGn9zVW01S1yNLqAr1az9gctyJHTW6GRQ==
+"@types/k6@1.7.0":
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/@types/k6/-/k6-1.7.0.tgz#b74c9a0440e57a60596eda988c69c13a419b358c"
+  integrity sha512-oL4mckVcOPIA2HUrCVj3aQXCJgCqsQe35Uc4fRTffmrQuR24v92GJImnagqUaRnC1TQVJFx85o3aHQPP+0bxpg==
