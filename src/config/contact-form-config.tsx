@@ -48,12 +48,16 @@ const iconSet: ContactFormConfig['icons'] = {
   'transportation/TramFill': createIconComponent('transportation/TramFill'),
   'transportation/TrainFill': createIconComponent('transportation/TrainFill'),
   'transportation/WalkFill': createIconComponent('transportation/WalkFill'),
-  'transportation/BicycleFill': createIconComponent('transportation/BicycleFill'),
+  'transportation/BicycleFill': createIconComponent(
+    'transportation/BicycleFill',
+  ),
   'transportation/PlaneFill': createIconComponent('transportation/PlaneFill'),
   'transportation/BoatFill': createIconComponent('transportation/BoatFill'),
   'transportation/FerryFill': createIconComponent('transportation/FerryFill'),
   'transportation/MetroFill': createIconComponent('transportation/MetroFill'),
-  'transportation/UnknownFill': createIconComponent('transportation/UnknownFill'),
+  'transportation/UnknownFill': createIconComponent(
+    'transportation/UnknownFill',
+  ),
   'actions/Close': createIconComponent('actions/Close'),
   'actions/Clear': createIconComponent('actions/Clear'),
   'actions/Add': createIconComponent('actions/Add'),
