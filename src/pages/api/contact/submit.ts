@@ -16,7 +16,9 @@ function getSubmitForFormType(
   client: {
     submitTicketControlForm: (body: unknown) => Promise<ContactApiReturnType>;
     submitRefundForm: (body: unknown) => Promise<ContactApiReturnType>;
-    submitMeansOfTransportForm: (body: unknown) => Promise<ContactApiReturnType>;
+    submitMeansOfTransportForm: (
+      body: unknown,
+    ) => Promise<ContactApiReturnType>;
     submitTicketingForm: (body: unknown) => Promise<ContactApiReturnType>;
     submitJourneyInfoForm: (body: unknown) => Promise<ContactApiReturnType>;
   },
@@ -44,7 +46,13 @@ export default handlerWithContactFormClient<ContactApiReturnType>({
       if (
         !formType ||
         typeof formType !== 'string' ||
-        !['ticketControl', 'refund', 'meansOfTransport', 'ticketing', 'journeyInfo'].includes(formType)
+        ![
+          'ticketControl',
+          'refund',
+          'meansOfTransport',
+          'ticketing',
+          'journeyInfo',
+        ].includes(formType)
       ) {
         return res.status(400).json({
           success: false,
