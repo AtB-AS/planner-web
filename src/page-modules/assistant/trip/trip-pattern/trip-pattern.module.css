@@ -14,6 +14,12 @@
 .tripPattern:hover {
   cursor: pointer;
 }
+.tripPattern:focus {
+  outline: 0;
+  box-shadow: inset 0 0 0 token('border.width.medium')
+    token('color.interactive.2.outline.background');
+  border-radius: token('border.radius.regular');
+}
 
 .header {
   display: flex;

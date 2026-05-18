@@ -79,7 +79,8 @@
   padding: token('spacing.xSmall');
   margin-bottom: token('spacing.medium');
   margin-left: calc(
-    var(--labelWidth) + var(--decorationContainerWidth) - token('spacing.xSmall')
+    var(--labelWidth) + var(--decorationContainerWidth) -
+      token('spacing.xSmall')
   );
   color: token('color.foreground.dynamic.secondary');
 }

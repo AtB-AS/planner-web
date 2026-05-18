@@ -33,7 +33,7 @@
   composes: container from assistant;
 }
 
-@media(max-width: 650px) {
+@media (max-width: 650px) {
   .form {
     padding: 0;
   }
@@ -352,8 +352,8 @@ a.tabSelected {
 }
 
 /* Change the layout to a single column layout instead of the default layout. */
-[data-layout="singleColumn"],
-[data-layout="compact"] {
+[data-layout='singleColumn'],
+[data-layout='compact'] {
   .main {
     grid-template-columns: 1fr;
   }
@@ -365,6 +365,6 @@ a.tabSelected {
   }
 }
 
-[data-layout="compact"] .buttonGroup {
+[data-layout='compact'] .buttonGroup {
   justify-content: start;
 }

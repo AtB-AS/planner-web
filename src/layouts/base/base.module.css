@@ -5,6 +5,27 @@
   flex-direction: column;
 }
 
+.skipLink {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  z-index: 1000;
+  padding: token('spacing.small') token('spacing.medium');
+  background: token('color.background.neutral.0.background');
+  color: token('color.foreground.dynamic.primary');
+}
+
+.skipLink:focus {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: auto;
+  height: auto;
+}
+
 .main {
   min-width: 100%;
   max-width: var(--maxPageWidth);

@@ -1,5 +1,4 @@
 import { errorResultAsJson, tryResult } from '@atb/modules/api-server';
-import { getAllTransportModesFromFilterOptions } from '@atb/modules/transport-mode';
 import {
   fetchFromToTripQuery,
   type TripApiReturnType,
@@ -9,6 +8,7 @@ import { defaultTransferSlack } from '@atb/page-modules/assistant/transfer-slack
 import { MEDIUM_WALK_SPEED } from '@atb/page-modules/assistant/walk-speed-input';
 import { ServerText } from '@atb/translations';
 import { constants } from 'http2';
+import { mapToJourneyPlannerTransportModes } from '@atb/page-modules/assistant/server/journey-planner/mappers.ts';
 
 export default handlerWithAssistantClient<TripApiReturnType>({
   async GET(req, res, { client, ok }) {
@@ -22,9 +22,8 @@ export default handlerWithAssistantClient<TripApiReturnType>({
       );
     }
 
-    const transportModes = await getAllTransportModesFromFilterOptions(
-      tripQuery.transportModeFilter,
-    );
+    const journeyPlannerTransportModes =
+      await mapToJourneyPlannerTransportModes(tripQuery.transportModeFilter);
 
     return tryResult(req, res, async () => {
       const result = await client.trip({
@@ -32,7 +31,7 @@ export default handlerWithAssistantClient<TripApiReturnType>({
         to: tripQuery.to!,
         via: tripQuery.via || undefined,
         searchTime: tripQuery.searchTime,
-        transportModes,
+        transportModes: journeyPlannerTransportModes,
         cursor: tripQuery.cursor!,
         lineFilter: tripQuery.lineFilter ?? [],
         walkSpeed:

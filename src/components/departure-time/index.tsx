@@ -11,6 +11,7 @@ import {
   formatToClock,
   formatToClockOrRelativeMinutes,
   isInPast,
+  RoundingMethod,
 } from '@atb/utils/date';
 import style from './departure-time.module.css';
 import { ColorIcon } from '../icon';
@@ -20,6 +21,7 @@ type DepartureTimeProps = {
   aimedDepartureTime: string;
   expectedDepartureTime: string;
   realtime?: boolean;
+  roundingMethod: RoundingMethod;
   cancelled?: boolean;
   relativeTime?: boolean;
   withRealtimeIndicator?: boolean;
@@ -29,6 +31,7 @@ export function DepartureTime({
   aimedDepartureTime,
   expectedDepartureTime,
   realtime,
+  roundingMethod,
   cancelled = false,
   relativeTime = false,
   withRealtimeIndicator = false,
@@ -44,8 +47,13 @@ export function DepartureTime({
   const scheduled = useTimeOrRelative(
     aimedDepartureTime,
     representationType !== 'significant-difference' ? relativeTime : false,
+    roundingMethod,
   );
-  const expected = useTimeOrRelative(expectedDepartureTime, relativeTime);
+  const expected = useTimeOrRelative(
+    expectedDepartureTime,
+    relativeTime,
+    roundingMethod,
+  );
   const showRealtimeIndicator = Boolean(withRealtimeIndicator && realtime);
 
   switch (representationType) {
@@ -147,11 +155,15 @@ function TimeContainer({
   );
 }
 
-function useTimeOrRelative(time: string, relative: boolean) {
+function useTimeOrRelative(
+  time: string,
+  relative: boolean,
+  roundingMethod: RoundingMethod,
+) {
   const { t, language } = useTranslation();
 
   if (!relative) {
-    return formatToClock(time, language, 'floor');
+    return formatToClock(time, language, roundingMethod);
   }
 
   return isInPast(time)

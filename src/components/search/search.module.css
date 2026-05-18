@@ -13,6 +13,8 @@
 }
 .container:focus-within {
   outline: 0;
+  box-shadow: inset 0 0 0 token('border.width.medium')
+    token('color.interactive.2.outline.background');
 }
 
 .container:not(:only-child):first-child {

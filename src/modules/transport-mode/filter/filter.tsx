@@ -154,12 +154,8 @@ function FilterOption({ option, selected, onChange }: FilterOptionProps) {
         <CheckBoxIcon checked={selected} />
 
         <TransportIcon
-          mode={{
-            transportMode: option.icon.transportMode,
-            transportSubModes: option.icon?.transportSubMode
-              ? [option.icon.transportSubMode]
-              : [],
-          }}
+          transportMode={option.icon.transportMode}
+          transportSubmode={option.icon.transportSubMode}
           isFlexible={option.id == 'flexibleTransport'}
           size="small"
         />

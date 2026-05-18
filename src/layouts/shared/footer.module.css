@@ -15,7 +15,8 @@
 
 .footer__content hr {
   border: 0;
-  border-bottom: token('border.width.slim') solid token('color.background.accent.4.foreground.primary');
+  border-bottom: token('border.width.slim') solid
+    token('color.background.accent.4.foreground.primary');
   margin: token('spacing.xLarge');
 }
 

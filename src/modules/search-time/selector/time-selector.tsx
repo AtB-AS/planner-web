@@ -56,7 +56,6 @@ export default function TimeSelector({
 
         <DialogTrigger>
           <Button
-            excludeFromTabOrder
             className={style.timePickerButton}
             data-testid="timePickerButton"
           >
