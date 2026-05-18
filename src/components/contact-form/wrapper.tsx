@@ -31,7 +31,8 @@ function LanguageSync() {
       plannerLanguage !== (contactLanguage as unknown as PlannerLanguage)
     ) {
       lastSyncedPlannerLanguage.current = plannerLanguage;
-      lastSyncedContactLanguage.current = plannerLanguage as unknown as ContactFormLanguage;
+      lastSyncedContactLanguage.current =
+        plannerLanguage as unknown as ContactFormLanguage;
       setContactLanguage(plannerLanguage as unknown as ContactFormLanguage);
     }
   }, [plannerLanguage, contactLanguage, setContactLanguage]);
@@ -42,7 +43,8 @@ function LanguageSync() {
       contactLanguage !== (plannerLanguage as unknown as ContactFormLanguage)
     ) {
       lastSyncedContactLanguage.current = contactLanguage;
-      lastSyncedPlannerLanguage.current = contactLanguage as unknown as PlannerLanguage;
+      lastSyncedPlannerLanguage.current =
+        contactLanguage as unknown as PlannerLanguage;
       setPlannerLanguage(contactLanguage as unknown as PlannerLanguage);
     }
   }, [contactLanguage, plannerLanguage, setPlannerLanguage]);
