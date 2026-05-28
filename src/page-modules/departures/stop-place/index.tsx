@@ -89,7 +89,7 @@ export function StopPlace({ departures }: StopPlaceProps) {
             onClick={router.reload}
             title={t(PageText.Departures.stopPlace.quaySection.refreshButton)}
             icon={{
-              right: <MonoIcon icon={'actions/ArrowsCounterClockwise'} />,
+              right: <MonoIcon icon={'actions/Reload'} />,
             }}
             size="pill"
             radiusSize="circular"
