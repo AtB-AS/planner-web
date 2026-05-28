@@ -26,32 +26,16 @@
 .quaysContainer li {
   list-style: none;
 }
-.refreshButton {
-  align-self: flex-end;
+
+.quaysHeader {
   display: flex;
   gap: token('spacing.small');
+  flex-direction: row;
   align-items: center;
-  padding: token('spacing.medium');
-  border-radius: token('border.radius.circle');
-  text-decoration: none;
-  transition: none;
-  border: none;
-
-  color: token('color.interactive.1.default.foreground.primary');
-  background-color: token('color.interactive.1.default.background');
-}
-.refreshButton:hover {
-  color: token('color.interactive.1.hover.foreground.primary');
-  background-color: token('color.interactive.1.hover.background');
 }
 
-.refreshButton:active {
-  color: token('color.interactive.1.active.foreground.primary');
-  background-color: token('color.interactive.1.active.background');
-}
-.refreshButton:disabled {
-  color: token('color.interactive.1.disabled.foreground.primary');
-  background-color: token('color.interactive.1.disabled.background');
+.quaysHeader h2 {
+  flex: 1;
 }
 
 .listHeader {

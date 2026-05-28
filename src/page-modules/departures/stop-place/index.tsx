@@ -38,6 +38,7 @@ import {
   TransportMode,
   TransportSubmode,
 } from '@atb/modules/graphql-types/journeyplanner-types_v3.generated';
+import { TransportIcon } from '@atb/modules/transport-mode';
 
 export type StopPlaceProps = {
   departures: ExtendedDeparturesType;
@@ -45,19 +46,8 @@ export type StopPlaceProps = {
 
 export function StopPlace({ departures }: StopPlaceProps) {
   const { t } = useTranslation();
-  const {
-    color: { interactive },
-  } = useTheme();
+  const theme = useTheme();
   const router = useRouter();
-  const [isHoveringRefreshButton, setIsHoveringRefreshButton] = useState(false);
-
-  // if the stop place contains mode === Bus, then append LocalBus into it so the header color is correct
-  // this change is made, so the logic on the transport icon color assignment can be consistent with the app
-  const submodes =
-    departures.stopPlace.transportSubmode &&
-    departures.stopPlace.transportMode?.includes(TransportMode.Bus)
-      ? [...departures.stopPlace.transportSubmode, TransportSubmode.LocalBus]
-      : departures.stopPlace.transportSubmode;
 
   return (
     <section className={style.stopPlaceContainer}>
@@ -81,21 +71,32 @@ export function StopPlace({ departures }: StopPlaceProps) {
         context={GlobalMessageContextEnum.plannerWebDepartures}
       />
       <div className={style.quaysContainer}>
-        <button
-          onClick={() => router.reload()}
-          className={style.refreshButton}
-          onMouseEnter={() => setIsHoveringRefreshButton(true)}
-          onMouseLeave={() => setIsHoveringRefreshButton(false)}
-        >
-          <Typo.span textType="body__m">
-            {t(PageText.Departures.stopPlace.quaySection.refreshButton)}
-          </Typo.span>
-          <MonoIcon
-            icon={'actions/ArrowsCounterClockwise'}
-            interactiveColor={interactive[1]}
-            interactiveState={isHoveringRefreshButton ? 'hover' : undefined}
+        <div className={style.quaysHeader}>
+          {departures.stopPlace.transportMode?.map((mode) => {
+            return (
+              <TransportIcon
+                transportMode={mode}
+                transportSubmode={
+                  mode === TransportMode.Bus
+                    ? TransportSubmode.LocalBus
+                    : undefined
+                }
+              />
+            );
+          })}
+          <Typo.h2 textType="heading__m">{departures.stopPlace.name}</Typo.h2>
+          <Button
+            onClick={router.reload}
+            title={t(PageText.Departures.stopPlace.quaySection.refreshButton)}
+            icon={{
+              right: <MonoIcon icon={'actions/ArrowsCounterClockwise'} />,
+            }}
+            size="pill"
+            radiusSize="circular"
+            mode="secondary"
+            backgroundColor={theme.color.background.neutral[0]}
           />
-        </button>
+        </div>
         {departures.stopPlace.quays.map((quay) => (
           <EstimatedCallList key={quay.id} quay={quay} />
         ))}
