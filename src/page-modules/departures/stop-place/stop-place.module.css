@@ -38,6 +38,18 @@
   flex: 1;
 }
 
+.dateNavigation {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: token('spacing.small');
+}
+
+.dateNavigation__date {
+  text-align: center;
+}
+
 .listHeader {
   border: none;
   width: 100%;

@@ -98,9 +98,18 @@ describe('departure page', function () {
     (await expectProps(result)).toMatchObject(expectedDeparturesResult);
   });
 
+  const stopPlaceFromQuery = {
+    from: null,
+    isAddress: false,
+    searchTime: { mode: 'now' } as const,
+  };
+
   it('should render quays', () => {
     const output = customRender(
-      <StopPlace departures={departureDataFixture} />,
+      <StopPlace
+        departures={departureDataFixture}
+        fromQuery={stopPlaceFromQuery}
+      />,
     );
 
     departureDataFixture.stopPlace.quays.forEach((q) =>
@@ -110,7 +119,10 @@ describe('departure page', function () {
 
   it('should render estimated calls', () => {
     const output = customRender(
-      <StopPlace departures={departureDataFixture} />,
+      <StopPlace
+        departures={departureDataFixture}
+        fromQuery={stopPlaceFromQuery}
+      />,
     );
     const lists = output.getAllByRole('list');
     const { getAllByRole } = within(lists[0]);
@@ -122,7 +134,10 @@ describe('departure page', function () {
 
   it('Should collapse estimated calls list', async () => {
     const output = customRender(
-      <StopPlace departures={departureDataFixture} />,
+      <StopPlace
+        departures={departureDataFixture}
+        fromQuery={stopPlaceFromQuery}
+      />,
     );
     const button = screen.getAllByRole('button', {
       name: 'Aktiver for å minimere',

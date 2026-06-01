@@ -7,6 +7,7 @@ import {
   isBefore,
   isPast,
   isSameDay,
+  isSameYear,
   Locale,
   parseISO,
   setMinutes,
@@ -42,6 +43,26 @@ export function maybeParseISO(a: string | undefined): Date | undefined {
 }
 
 export function formatToLongDateTime(
+  isoDate: string | Date,
+  language: Language,
+) {
+  const parsed = parseIfNeeded(isoDate);
+  const now = new Date();
+  if (isSameDay(parsed, now)) {
+    return formatToClock(parsed, language, 'floor');
+  }
+  if (isSameYear(parsed, now)) {
+    return format(parsed, 'dd. MMM HH:mm', {
+      locale: languageToLocale(language),
+    });
+  }
+  return format(parsed, 'dd. MMM yyyy, HH:mm', {
+    locale: languageToLocale(language),
+  });
+}
+
+// TODO: Remove once widget is removed from this repo
+export function legacyFormatToLongDateTime(
   isoDate: string | Date,
   language: Language,
 ) {

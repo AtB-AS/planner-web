@@ -17,6 +17,8 @@ import {
 import { PageText, useTranslation } from '@atb/translations';
 import { Departures } from '@atb/translations/pages';
 import { and, andIf } from '@atb/utils/css';
+import { isInPast } from '@atb/utils/date';
+import { addDays } from 'date-fns';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
@@ -33,21 +35,52 @@ import {
   ExtendedDepartureQuayType,
   ExtendedDeparturesType,
   ExtendedDepartureType,
+  FromDepartureQuery,
 } from '@atb/page-modules/departures/types.ts';
 import {
   TransportMode,
   TransportSubmode,
 } from '@atb/modules/graphql-types/journeyplanner-types_v3.generated';
 import { TransportIcon } from '@atb/modules/transport-mode';
+import { SearchTime, searchTimeToQueryString } from '@atb/modules/search-time';
+import { DateNavigation } from './date-navigation';
 
 export type StopPlaceProps = {
   departures: ExtendedDeparturesType;
+  fromQuery: FromDepartureQuery;
 };
 
-export function StopPlace({ departures }: StopPlaceProps) {
+function changeDay(current: SearchTime, days: number): SearchTime {
+  const baseDate =
+    current.mode === 'now' ? new Date().setHours(0, 0, 0, 0) : current.dateTime;
+  const date = addDays(baseDate, days);
+  if (isInPast(date)) {
+    return { mode: 'now' };
+  }
+  const mode = current.mode === 'now' ? 'departBy' : current.mode;
+  return { mode, dateTime: date.getTime() };
+}
+
+function searchTimeKey(searchTime: SearchTime): string {
+  return searchTime.mode === 'now' ? 'now' : String(searchTime.dateTime);
+}
+
+export function StopPlace({ departures, fromQuery }: StopPlaceProps) {
   const { t } = useTranslation();
   const theme = useTheme();
   const router = useRouter();
+  const { searchTime } = fromQuery;
+
+  const navigateSearchTime = (newSearchTime: SearchTime) => {
+    const { searchMode: _, searchTime: __, ...rest } = router.query;
+    router.push(
+      {
+        query: { ...rest, ...searchTimeToQueryString(newSearchTime) },
+      },
+      undefined,
+      { scroll: false },
+    );
+  };
 
   return (
     <section className={style.stopPlaceContainer}>
@@ -72,18 +105,17 @@ export function StopPlace({ departures }: StopPlaceProps) {
       />
       <div className={style.quaysContainer}>
         <div className={style.quaysHeader}>
-          {departures.stopPlace.transportMode?.map((mode) => {
-            return (
-              <TransportIcon
-                transportMode={mode}
-                transportSubmode={
-                  mode === TransportMode.Bus
-                    ? TransportSubmode.LocalBus
-                    : undefined
-                }
-              />
-            );
-          })}
+          {departures.stopPlace.transportMode?.map((mode) => (
+            <TransportIcon
+              key={mode}
+              transportMode={mode}
+              transportSubmode={
+                mode === TransportMode.Bus
+                  ? TransportSubmode.LocalBus
+                  : undefined
+              }
+            />
+          ))}
           <Typo.h2 textType="heading__m">{departures.stopPlace.name}</Typo.h2>
           <Button
             onClick={router.reload}
@@ -97,8 +129,17 @@ export function StopPlace({ departures }: StopPlaceProps) {
             backgroundColor={theme.color.background.neutral[0]}
           />
         </div>
+        <DateNavigation
+          searchTime={searchTime}
+          onChangeDay={(days) =>
+            navigateSearchTime(changeDay(searchTime, days))
+          }
+        />
         {departures.stopPlace.quays.map((quay) => (
-          <EstimatedCallList key={quay.id} quay={quay} />
+          <EstimatedCallList
+            key={`${quay.id}-${searchTimeKey(searchTime)}`}
+            quay={quay}
+          />
         ))}
       </div>
       <div className={style.mapContainer}>
