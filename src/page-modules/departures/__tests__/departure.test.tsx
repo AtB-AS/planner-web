@@ -47,7 +47,7 @@ describe('departure page', function () {
         darkmode: null,
         language: null,
       },
-      referer: '',
+      referer: null,
     };
 
     const gqlClient: ExternalClient<
