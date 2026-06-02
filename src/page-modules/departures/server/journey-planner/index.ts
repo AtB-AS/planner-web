@@ -39,6 +39,7 @@ import { SituationFragment } from '@atb/page-modules/assistant/journey-gql/trip-
 import { getSecondsUntilMidnightOrMinimum } from '@atb/utils/date';
 
 const DEPARTURES_MIN_TIME_RANGE = 3 * 60 * 60; // Three hours
+const NUMBER_OF_DEPARTURES = 10;
 
 export type DepartureInput = {
   id: string;
@@ -57,6 +58,7 @@ export type NearestStopPlacesInput = {
 export type EstimatedCallsInput = {
   quayId: string;
   startTime: string;
+  numberOfDepartures: number;
 };
 
 export type ServiceJourneyInput = {
@@ -92,7 +94,7 @@ export function createJourneyApi(
         variables: {
           id: input.id,
           startTime,
-          numberOfDepartures: 1000,
+          numberOfDepartures: NUMBER_OF_DEPARTURES,
           timeRange: getSecondsUntilMidnightOrMinimum(
             startTime,
             DEPARTURES_MIN_TIME_RANGE,
@@ -207,8 +209,12 @@ export function createJourneyApi(
         query: QuayEstimatedCallsDocument,
         variables: {
           id: input.quayId,
-          numberOfDepartures: 6,
+          numberOfDepartures: input.numberOfDepartures,
           startTime: new Date(input.startTime),
+          timeRange: getSecondsUntilMidnightOrMinimum(
+            input.startTime,
+            DEPARTURES_MIN_TIME_RANGE,
+          ),
         },
       });
 

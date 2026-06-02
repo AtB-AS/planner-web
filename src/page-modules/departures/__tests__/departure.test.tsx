@@ -127,8 +127,10 @@ describe('departure page', function () {
     const lists = output.getAllByRole('list');
     const { getAllByRole } = within(lists[0]);
     const items = getAllByRole('listitem');
+    // The fixture quay has fewer departures than a full page, so the
+    // "See more departures" button is not rendered.
     expect(items.length).toBe(
-      departureDataFixture.stopPlace.quays[0].estimatedCalls.length + 1,
+      departureDataFixture.stopPlace.quays[0].estimatedCalls.length,
     );
   });
 

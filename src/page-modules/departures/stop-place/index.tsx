@@ -45,6 +45,8 @@ import { TransportIcon } from '@atb/modules/transport-mode';
 import { SearchTime, searchTimeToQueryString } from '@atb/modules/search-time';
 import { DateNavigation } from './date-navigation';
 
+const NUMBER_OF_DEPARTURES = 10;
+
 export type StopPlaceProps = {
   departures: ExtendedDeparturesType;
   fromQuery: FromDepartureQuery;
@@ -166,13 +168,25 @@ export function EstimatedCallList({ quay }: EstimatedCallListProps) {
     quay.estimatedCalls,
   );
   const [isFetchingDepartures, setIsFetchingDepartures] = useState(false);
+  // If we have fewer than requested departures means there are no more to load
+  // for this time range.
+  const [hasMoreDepartures, setHasMoreDepartures] = useState(
+    quay.estimatedCalls.length >= NUMBER_OF_DEPARTURES,
+  );
 
   const getMoreDepartures = async () => {
     setIsFetchingDepartures(true);
     const latestDeparture = departures[departures.length - 1];
 
     const date = new Date(latestDeparture.aimedDepartureTime);
-    const data = await nextDepartures(quay.id, date.toISOString());
+    // The departure at startTime is included in the response, so request one
+    // extra to account for the overlapping departure we already have.
+    const numberToRequest = NUMBER_OF_DEPARTURES + 1;
+    const data = await nextDepartures(
+      quay.id,
+      date.toISOString(),
+      numberToRequest,
+    );
 
     const getKey = (departure: ExtendedDepartureType) =>
       `${departure.serviceJourney.id} - ${departure.aimedDepartureTime}`;
@@ -182,11 +196,14 @@ export function EstimatedCallList({ quay }: EstimatedCallListProps) {
     );
 
     setDepartures([...departures, ...filteredDepartures]);
+    if (data.length < numberToRequest) {
+      setHasMoreDepartures(false);
+    }
     setIsFetchingDepartures(false);
   };
 
   return (
-    <div data-testid="estimatedCallsList">
+    <div data-testid="estimatedCallsList" className={style.estimatedCallsList}>
       <button
         className={andIf({
           [style.listHeader]: true,
@@ -235,7 +252,7 @@ export function EstimatedCallList({ quay }: EstimatedCallListProps) {
               ))}
           {departures.length > 0 ? (
             <>
-              {departures.map((departure, index) => (
+              {departures.map((departure) => (
                 <EstimatedCallItem
                   key={departure.id}
                   departure={departure}
@@ -251,16 +268,18 @@ export function EstimatedCallList({ quay }: EstimatedCallListProps) {
               </Typo.p>
             </li>
           )}
-          <li>
-            <Button
-              className={and(style.listItem, style.listItem__last)}
-              aria-label={t(Departures.stopPlace.quaySection.a11yToQuayHint)}
-              onClick={getMoreDepartures}
-              state={isFetchingDepartures ? 'loading' : undefined}
-              title={t(Departures.stopPlace.quaySection.moreDepartures)}
-              icon={{ right: <MonoIcon icon={'navigation/ExpandMore'} /> }}
-            />
-          </li>
+          {hasMoreDepartures && (
+            <li>
+              <Button
+                className={and(style.listItem, style.seeMoreButton)}
+                aria-label={t(Departures.stopPlace.quaySection.a11yToQuayHint)}
+                onClick={getMoreDepartures}
+                state={isFetchingDepartures ? 'loading' : undefined}
+                title={t(Departures.stopPlace.quaySection.moreDepartures)}
+                icon={{ right: <MonoIcon icon={'navigation/ExpandMore'} /> }}
+              />
+            </li>
+          )}
         </ul>
       )}
     </div>

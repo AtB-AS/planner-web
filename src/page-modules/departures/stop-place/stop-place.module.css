@@ -50,6 +50,18 @@
   text-align: center;
 }
 
+.estimatedCallsList {
+  border-radius: token('border.radius.regular');
+  overflow: hidden;
+}
+
+.estimatedCallsList li {
+  border-bottom: 1px solid token('color.background.neutral.2.background');
+}
+.estimatedCallsList li:last-child {
+  border-bottom: none;
+}
+
 .listHeader {
   border: none;
   width: 100%;
@@ -62,7 +74,6 @@
   border-bottom: 1px solid token('color.background.neutral.2.background');
   padding: token('spacing.small') token('spacing.medium');
   cursor: pointer;
-
   color: token('color.interactive.2.default.foreground.primary');
   background-color: token('color.interactive.2.default.background');
 }
@@ -82,16 +93,15 @@
 }
 
 .listHeader--collapsed {
-  border-radius: token('border.radius.regular');
   border-bottom: none;
-}
-.listItem__last {
-  border-radius: 0 0 token('border.radius.regular')
-    token('border.radius.regular');
 }
 
 .textColor__secondary {
   color: token('color.foreground.dynamic.secondary');
+}
+
+.seeMoreButton {
+  border-radius: 0;
 }
 
 .flex__row {
@@ -109,7 +119,6 @@
   align-items: center;
   background-color: token('color.interactive.2.default.background');
   color: token('color.interactive.2.default.foreground.primary');
-  border-bottom: 1px solid token('color.background.neutral.2.background');
   padding: token('spacing.medium');
   text-decoration: none;
   cursor: pointer;
