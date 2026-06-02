@@ -105,17 +105,19 @@ export function StopPlace({ departures, fromQuery }: StopPlaceProps) {
       />
       <div className={style.quaysContainer}>
         <div className={style.quaysHeader}>
-          {departures.stopPlace.transportMode?.map((mode) => (
-            <TransportIcon
-              key={mode}
-              transportMode={mode}
-              transportSubmode={
-                mode === TransportMode.Bus
-                  ? TransportSubmode.LocalBus
-                  : undefined
-              }
-            />
-          ))}
+          {departures.stopPlace.transportMode
+            ?.sort((a, b) => a.localeCompare(b, 'en-US'))
+            ?.map((mode) => (
+              <TransportIcon
+                key={mode}
+                transportMode={mode}
+                transportSubmode={
+                  mode === TransportMode.Bus
+                    ? TransportSubmode.LocalBus
+                    : undefined
+                }
+              />
+            ))}
           <Typo.h2 textType="heading__m">{departures.stopPlace.name}</Typo.h2>
           <Button
             onClick={router.reload}
