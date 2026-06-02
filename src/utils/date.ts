@@ -517,3 +517,18 @@ export function formatToShortDateTimeWithRelativeDayNames(
   }
   return formattedTime;
 }
+
+/**
+ * Get seconds until midnight, but a minimum of `minimumSeconds`
+ */
+export function getSecondsUntilMidnightOrMinimum(
+  isoTime?: string,
+  minimumSeconds: number = 0,
+): number {
+  if (!isoTime) return minimumSeconds;
+  const timeUntilMidnight = differenceInSeconds(
+    addDays(parseISO(isoTime), 1).setHours(0, 0, 0),
+    parseISO(isoTime),
+  );
+  return Math.round(Math.max(timeUntilMidnight, minimumSeconds));
+}

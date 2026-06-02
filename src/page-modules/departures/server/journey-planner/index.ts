@@ -36,6 +36,9 @@ import {
   NearestStopPlacesQueryVariables,
 } from '@atb/page-modules/departures/journey-gql/nearest-stop-places.generated.ts';
 import { SituationFragment } from '@atb/page-modules/assistant/journey-gql/trip-with-details.generated.ts';
+import { getSecondsUntilMidnightOrMinimum } from '@atb/utils/date';
+
+const DEPARTURES_MIN_TIME_RANGE = 3 * 60 * 60; // Three hours
 
 export type DepartureInput = {
   id: string;
@@ -77,6 +80,10 @@ export function createJourneyApi(
 ): JourneyPlannerApi {
   const api: JourneyPlannerApi = {
     async departures(input) {
+      const startTime = input.date
+        ? new Date(input.date).toISOString()
+        : new Date().toISOString();
+
       const result = await client.query<
         StopPlaceQuayDeparturesQuery,
         StopPlaceQuayDeparturesQueryVariables
@@ -84,10 +91,12 @@ export function createJourneyApi(
         query: StopPlaceQuayDeparturesDocument,
         variables: {
           id: input.id,
-          startTime: input.date
-            ? new Date(input.date).toISOString()
-            : new Date().toISOString(),
-          numberOfDepartures: 10,
+          startTime,
+          numberOfDepartures: 1000,
+          timeRange: getSecondsUntilMidnightOrMinimum(
+            startTime,
+            DEPARTURES_MIN_TIME_RANGE,
+          ),
         },
       });
 
