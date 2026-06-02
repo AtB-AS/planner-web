@@ -6,7 +6,7 @@ import {
 import { fromLocalTimeToCET, setTimezone } from '@atb/utils/date';
 import { format, isFuture, isToday, subDays } from 'date-fns';
 import { AnimatePresence, motion } from 'framer-motion';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SEARCH_MODES, SearchMode, SearchTime } from '../types';
 import DateSelector from './date-selector';
 import style from './selector.module.css';
@@ -19,18 +19,16 @@ type SearchTimeSelectorProps = {
   options?: SearchMode[];
 };
 
+const DEFAULT_INITIAL_STATE: SearchTime = { mode: 'now' };
+
 export default function SearchTimeSelector({
   onChange,
-  initialState = { mode: 'now' },
+  initialState = DEFAULT_INITIAL_STATE,
   options = SEARCH_MODES,
 }: SearchTimeSelectorProps) {
   const { t } = useTranslation();
+  const initialDate = searchTimeToDate(initialState);
   const [selectedMode, setSelectedMode] = useState<SearchTime>(initialState);
-  const initialDate = setTimezone(
-    'dateTime' in initialState
-      ? new Date(fromLocalTimeToCET(initialState.dateTime))
-      : new Date(),
-  ) as Date;
 
   const yesterday = format(subDays(new Date(), 1), 'yyyy-MM-dd');
   const [selectedDate, setSelectedDate] = useState(initialDate);
@@ -39,6 +37,14 @@ export default function SearchTimeSelector({
   );
 
   const [isTimeUpdated, setTimeUpdated] = useState<boolean>(false);
+
+  // Re-initialise the selector when the incoming search time changes
+  useEffect(() => {
+    const date = searchTimeToDate(initialState);
+    setSelectedMode(initialState);
+    setSelectedDate(date);
+    setSelectedTime(format(date, 'HH:mm'));
+  }, [initialState]);
 
   const internalOnStateChange = (mode: SearchMode) => {
     const newState =
@@ -158,6 +164,14 @@ export default function SearchTimeSelector({
       </AnimatePresence>
     </div>
   );
+}
+
+function searchTimeToDate(searchTime: SearchTime): Date {
+  return setTimezone(
+    'dateTime' in searchTime
+      ? new Date(fromLocalTimeToCET(searchTime.dateTime))
+      : new Date(),
+  ) as Date;
 }
 
 function stateToLabel(state: SearchMode, t: TranslateFunction): string {
