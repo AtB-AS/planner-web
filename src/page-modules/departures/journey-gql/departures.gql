@@ -17,25 +17,6 @@ query stopPlaceQuayDepartures(
   }
 }
 
-fragment departureServiceJourney on ServiceJourney {
-  id
-  line {
-    id
-    description
-    publicCode
-    transportMode
-    transportSubmode
-  }
-  journeyPattern {
-    notices {
-      ...notice
-    }
-  }
-  notices {
-    ...notice
-  }
-}
-
 fragment departureQuay on Quay {
   id
   name
