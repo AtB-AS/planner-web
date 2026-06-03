@@ -13,6 +13,7 @@ import type { GeocoderFeature } from '@atb/modules/geocoder';
 import Search from '@atb/components/search';
 import dynamic from 'next/dynamic';
 import style from './trip-pattern.module.css';
+import { currentOrg, getOrgData } from '@atb/modules/org-data';
 
 const GraphQLEditor = dynamic(() => import('@atb/components/graphql-editor'), {
   ssr: false,
@@ -163,6 +164,35 @@ function buildDefaultInlinedQuery(fragments: string): string {
 }
 
 ${fragments}`;
+}
+
+/**
+ * Collects the unique fare zones (ids containing "ATB:FareZone") the trip
+ * passes through, in the order they are first encountered, from the quays of
+ * each leg's from/to place. Deduped by zone id.
+ */
+function getTripPatternZones(
+  tripPattern: ExtendedTripPatternWithDetailsType,
+): { id: string; name?: string }[] {
+  const zones: { id: string; name?: string }[] = [];
+  const seen = new Set<string>();
+
+  for (const leg of tripPattern.legs) {
+    for (const place of [leg.fromPlace, leg.toPlace]) {
+      for (const zone of place?.quay?.tariffZones ?? []) {
+        if (
+          zone?.id &&
+          zone.id.includes(`${currentOrg.toUpperCase()}:FareZone`) &&
+          !seen.has(zone.id)
+        ) {
+          seen.add(zone.id);
+          zones.push({ id: zone.id, name: zone.name ?? undefined });
+        }
+      }
+    }
+  }
+
+  return zones;
 }
 
 const DevTripPatternPage: NextPage<DevTripPatternPageProps> = (props) => {
@@ -360,14 +390,32 @@ const DevTripPatternPage: NextPage<DevTripPatternPageProps> = (props) => {
               <div className={style.section}>
                 <span className={style.label}>Trip patterns</span>
                 <div className={style.tripPatterns}>
-                  {result.tripPatterns.map((tripPattern, i) => (
-                    <TripPattern
-                      key={`${runCount}-${i}-${tripPattern.compressedQuery}`}
-                      tripPattern={tripPattern}
-                      delay={i * 0.05}
-                      index={i}
-                    />
-                  ))}
+                  {result.tripPatterns.map((tripPattern, i) => {
+                    const zones = getTripPatternZones(tripPattern);
+                    return (
+                      <div
+                        key={`${runCount}-${i}-${tripPattern.compressedQuery}`}
+                      >
+                        <TripPattern
+                          tripPattern={tripPattern}
+                          delay={i * 0.05}
+                          index={i}
+                        />
+                        {zones.length > 0 && (
+                          <div className={style.zonesPassed}>
+                            <span>Zones passed:</span>
+                            {zones.map((zone) => (
+                              <span key={zone.id}>
+                                {zone.name
+                                  ? `${zone.name} (${zone.id})`
+                                  : zone.id}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
                 </div>
                 {nextPageCursor && (
                   <button
