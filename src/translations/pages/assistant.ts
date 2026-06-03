@@ -406,11 +406,6 @@ const AssistantInternal = {
       'Vi kunne ikkje oppdatere reiseforslaget ditt. Det kan hende reisa har endra seg eller er utdatert.',
     ),
     header: {
-      backLink: _(
-        'Tilbake til reiseforslag',
-        'Back to travel suggestions',
-        'Tilbake til reiseforslag',
-      ),
       title: _('Reisedetaljer', 'Trip details', 'Reisedetaljar'),
       titleFromTo: ({
         fromName,

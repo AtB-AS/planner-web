@@ -108,16 +108,6 @@ const DeparturesInternal = {
     },
   },
   details: {
-    backToDepartures: _(
-      'Tilbake til avganger',
-      'Back to departures',
-      'Tilbake til avgangar',
-    ),
-    backToAssistant: _(
-      'Tilbake til reiseforslag',
-      'Back to travel suggestion',
-      'Tilbake til reiseforslag',
-    ),
     quayPublicCodePrefix: _('', '', ''),
     lastPassedStop: (stopPlaceName: string, time: string) =>
       _(
