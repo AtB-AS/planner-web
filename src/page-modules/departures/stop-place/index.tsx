@@ -45,7 +45,7 @@ import { TransportIcon } from '@atb/modules/transport-mode';
 import { SearchTime, searchTimeToQueryString } from '@atb/modules/search-time';
 import { DateNavigation } from './date-navigation';
 
-const NUMBER_OF_DEPARTURES = 10;
+const NUMBER_OF_DEPARTURES = 7;
 
 export type StopPlaceProps = {
   departures: ExtendedDeparturesType;

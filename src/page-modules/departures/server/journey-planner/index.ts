@@ -36,10 +36,9 @@ import {
   NearestStopPlacesQueryVariables,
 } from '@atb/page-modules/departures/journey-gql/nearest-stop-places.generated.ts';
 import { SituationFragment } from '@atb/page-modules/assistant/journey-gql/trip-with-details.generated.ts';
-import { getSecondsUntilMidnightOrMinimum } from '@atb/utils/date';
+import { getSecondsUntilMidnight } from '@atb/utils/date';
 
-const DEPARTURES_MIN_TIME_RANGE = 3 * 60 * 60; // Three hours
-const NUMBER_OF_DEPARTURES = 10;
+const NUMBER_OF_DEPARTURES = 7;
 
 export type DepartureInput = {
   id: string;
@@ -95,10 +94,7 @@ export function createJourneyApi(
           id: input.id,
           startTime,
           numberOfDepartures: NUMBER_OF_DEPARTURES,
-          timeRange: getSecondsUntilMidnightOrMinimum(
-            startTime,
-            DEPARTURES_MIN_TIME_RANGE,
-          ),
+          timeRange: getSecondsUntilMidnight(startTime),
         },
       });
 
@@ -211,10 +207,7 @@ export function createJourneyApi(
           id: input.quayId,
           numberOfDepartures: input.numberOfDepartures,
           startTime: new Date(input.startTime),
-          timeRange: getSecondsUntilMidnightOrMinimum(
-            input.startTime,
-            DEPARTURES_MIN_TIME_RANGE,
-          ),
+          timeRange: getSecondsUntilMidnight(input.startTime),
         },
       });
 
