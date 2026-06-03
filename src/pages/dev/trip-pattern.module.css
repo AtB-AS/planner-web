@@ -68,6 +68,13 @@
   box-sizing: border-box;
 }
 
+.transportModeFilter {
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--color-background-neutral-2-background, #e0e0e0);
+  border-radius: 4px;
+  background: var(--color-background-neutral-0-background, #fff);
+}
+
 .controls {
   display: flex;
   gap: 0.75rem;

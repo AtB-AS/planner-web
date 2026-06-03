@@ -11,6 +11,11 @@ import TripPattern from '@atb/page-modules/assistant/trip/trip-pattern';
 import type { ExtendedTripPatternWithDetailsType } from '@atb/page-modules/assistant';
 import type { GeocoderFeature } from '@atb/modules/geocoder';
 import Search from '@atb/components/search';
+import { TransportModeFilter } from '@atb/modules/transport-mode';
+import { getTransportModeFilter } from '@atb/modules/firebase/transport-mode-filter';
+import type { TransportModeFilterOptionType } from '@atb-as/config-specs';
+import useSWRImmutable from 'swr/immutable';
+import { uniq } from 'lodash';
 import dynamic from 'next/dynamic';
 import style from './trip-pattern.module.css';
 
@@ -70,6 +75,57 @@ function locationToGraphQL(loc: VariablesLocation): string {
 
 const FROM_PATTERN = /from:\s*\{[\s\S]*?coordinates:\s*\{[\s\S]*?\}[\s\S]*?\}/;
 const TO_PATTERN = /to:\s*\{[\s\S]*?coordinates:\s*\{[\s\S]*?\}[\s\S]*?\}/;
+// Matches the `modes: { ... }` block injected by the transport mode filter.
+// The `transportModes` list is always rendered inline (single line), so the
+// first newline-indented `}` is the closing brace of the modes block.
+const MODES_PATTERN = /\n\s*modes:\s*\{[\s\S]*?\n\s*\}/;
+
+/**
+ * Builds the inline GraphQL `modes: { ... }` block from the selected transport
+ * mode filter options, mirroring how the assistant maps the filter to the
+ * JourneyPlanner `Modes` input (see server/journey-planner/mappers.ts).
+ *
+ * Returns `null` when no filter should be applied (nothing selected yet, or
+ * every option selected — both mean "all modes", same as the assistant).
+ */
+function buildModesGraphQL(
+  options: TransportModeFilterOptionType[],
+  filterState: string[] | null,
+): string | null {
+  // `null` means no filter; all options selected is equivalent to no filter.
+  if (!filterState) return null;
+  if (filterState.length === options.length) return null;
+
+  const selectedModes = options
+    .filter((option) => filterState.includes(option.id))
+    .flatMap((option) => option.modes);
+
+  const transportModes = uniq(
+    selectedModes.map((mode) => {
+      const subModes =
+        mode.transportSubModes && mode.transportSubModes.length > 0
+          ? `, transportSubModes: [${mode.transportSubModes.join(', ')}]`
+          : '';
+      return `{ transportMode: ${mode.transportMode}${subModes} }`;
+    }),
+  );
+
+  return `    modes: {
+      accessMode: foot
+      egressMode: foot
+      transportModes: [${transportModes.join(', ')}]
+    }`;
+}
+
+/**
+ * Removes any existing `modes` block from the query and, when a block is
+ * provided, injects it as the first argument of the `trip(...)` call.
+ */
+function patchQueryModes(query: string, modesBlock: string | null): string {
+  const withoutModes = query.replace(MODES_PATTERN, '');
+  if (!modesBlock) return withoutModes;
+  return withoutModes.replace(/trip\s*\(/, `trip(\n${modesBlock}`);
+}
 
 function parseLocationFromMatch(match: string): VariablesLocation | undefined {
   try {
@@ -175,6 +231,11 @@ const DevTripPatternPage: NextPage<DevTripPatternPageProps> = (props) => {
     locationToFeature(DEFAULT_TO),
   );
   const [queryText, setQueryText] = useState(defaultGqlQuery);
+  const [transportModeFilterState, setTransportModeFilterState] = useState<
+    string[] | null
+  >(null);
+  // Bumped on "Restore defaults" to remount the filter so its checkboxes reset.
+  const [filterResetNonce, setFilterResetNonce] = useState(0);
   const [result, setResult] = useState<{
     raw: unknown;
     tripPatterns?: ExtendedTripPatternWithDetailsType[];
@@ -184,6 +245,13 @@ const DevTripPatternPage: NextPage<DevTripPatternPageProps> = (props) => {
   const [nextPageCursor, setNextPageCursor] = useState<string | null>(null);
   const [runCount, setRunCount] = useState(0);
   const [schema, setSchema] = useState<GraphQLSchema | undefined>(undefined);
+
+  // Loaded the same way as the assistant layout so the available transport
+  // modes match the real travel search filters.
+  const { data: transportModeFilterData } = useSWRImmutable(
+    'transportModeFilter',
+    getTransportModeFilter,
+  );
 
   // Fetch introspection schema for autocomplete
   useEffect(() => {
@@ -241,6 +309,14 @@ const DevTripPatternPage: NextPage<DevTripPatternPageProps> = (props) => {
     setQueryText((prev) => patchQueryLocation(prev, 'to', loc));
   };
 
+  const onTransportModeFilterChanged = (filterState: string[] | null) => {
+    setTransportModeFilterState(filterState);
+    const modesBlock = transportModeFilterData
+      ? buildModesGraphQL(transportModeFilterData, filterState)
+      : null;
+    setQueryText((prev) => patchQueryModes(prev, modesBlock));
+  };
+
   const onQueryTextChange = (text: string) => {
     setQueryText(text);
     const { from, to } = parseLocationsFromQuery(text);
@@ -260,6 +336,8 @@ const DevTripPatternPage: NextPage<DevTripPatternPageProps> = (props) => {
     setQueryText(defaultQuery);
     setFromFeature(locationToFeature(DEFAULT_FROM));
     setToFeature(locationToFeature(DEFAULT_TO));
+    setTransportModeFilterState(null);
+    setFilterResetNonce((n) => n + 1);
   };
 
   const handleLoadMore = async () => {
@@ -328,6 +406,20 @@ const DevTripPatternPage: NextPage<DevTripPatternPageProps> = (props) => {
             />
           </div>
         </div>
+
+        {transportModeFilterData && (
+          <details className={style.section}>
+            <summary className={style.label}>Transport modes</summary>
+            <div className={style.transportModeFilter}>
+              <TransportModeFilter
+                key={filterResetNonce}
+                filterState={transportModeFilterState}
+                data={transportModeFilterData}
+                onChange={onTransportModeFilterChanged}
+              />
+            </div>
+          </details>
+        )}
 
         <details className={style.section} open>
           <summary className={style.label}>Query</summary>
