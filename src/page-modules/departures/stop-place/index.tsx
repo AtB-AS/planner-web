@@ -105,34 +105,34 @@ export function StopPlace({ departures, fromQuery }: StopPlaceProps) {
         className={style.stopPlaceMessages}
         context={GlobalMessageContextEnum.plannerWebDepartures}
       />
+      <div className={style.quaysHeader}>
+        {departures.stopPlace.transportMode
+          ?.sort((a, b) => a.localeCompare(b, 'en-US'))
+          ?.map((mode) => (
+            <TransportIcon
+              key={mode}
+              transportMode={mode}
+              transportSubmode={
+                mode === TransportMode.Bus
+                  ? TransportSubmode.LocalBus
+                  : undefined
+              }
+            />
+          ))}
+        <Typo.h2 textType="heading__m">{departures.stopPlace.name}</Typo.h2>
+        <Button
+          onClick={router.reload}
+          title={t(PageText.Departures.stopPlace.quaySection.refreshButton)}
+          icon={{
+            right: <MonoIcon icon={'actions/Reload'} />,
+          }}
+          size="pill"
+          radiusSize="circular"
+          mode="secondary"
+          backgroundColor={theme.color.background.neutral[0]}
+        />
+      </div>
       <div className={style.quaysContainer}>
-        <div className={style.quaysHeader}>
-          {departures.stopPlace.transportMode
-            ?.sort((a, b) => a.localeCompare(b, 'en-US'))
-            ?.map((mode) => (
-              <TransportIcon
-                key={mode}
-                transportMode={mode}
-                transportSubmode={
-                  mode === TransportMode.Bus
-                    ? TransportSubmode.LocalBus
-                    : undefined
-                }
-              />
-            ))}
-          <Typo.h2 textType="heading__m">{departures.stopPlace.name}</Typo.h2>
-          <Button
-            onClick={router.reload}
-            title={t(PageText.Departures.stopPlace.quaySection.refreshButton)}
-            icon={{
-              right: <MonoIcon icon={'actions/Reload'} />,
-            }}
-            size="pill"
-            radiusSize="circular"
-            mode="secondary"
-            backgroundColor={theme.color.background.neutral[0]}
-          />
-        </div>
         <DatePagination
           searchTime={searchTime}
           onChangeDay={(days) =>
