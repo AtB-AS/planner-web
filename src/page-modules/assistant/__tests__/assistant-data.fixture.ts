@@ -94,6 +94,7 @@ export const tripPatternsFromVia: ViaTripsWithDetailsQuery['viaTrip']['tripPatte
               name: 'Kristiansund trafikkterminal',
               id: 'NSR:Quay:69011',
               situations: [],
+              tariffZones: [],
             },
           },
           toPlace: {
@@ -105,6 +106,7 @@ export const tripPatternsFromVia: ViaTripsWithDetailsQuery['viaTrip']['tripPatte
               name: 'Kårvåg bedehus',
               id: 'NSR:Quay:67412',
               situations: [],
+              tariffZones: [],
             },
           },
           serviceJourney: {
@@ -137,6 +139,7 @@ export const tripPatternsFromVia: ViaTripsWithDetailsQuery['viaTrip']['tripPatte
               name: 'Kårvåg bedehus',
               id: 'NSR:Quay:67412',
               situations: [],
+              tariffZones: [],
             },
           },
           toPlace: {
@@ -148,6 +151,7 @@ export const tripPatternsFromVia: ViaTripsWithDetailsQuery['viaTrip']['tripPatte
               name: 'Kårvåg butikk',
               id: 'NSR:Quay:67413',
               situations: [],
+              tariffZones: [],
             },
           },
           serviceJourney: undefined,
@@ -190,6 +194,7 @@ export const tripPatternsFromVia: ViaTripsWithDetailsQuery['viaTrip']['tripPatte
               name: 'Kristiansund trafikkterminal',
               id: 'NSR:Quay:69011',
               situations: [],
+              tariffZones: [],
             },
           },
           toPlace: {
@@ -201,6 +206,7 @@ export const tripPatternsFromVia: ViaTripsWithDetailsQuery['viaTrip']['tripPatte
               name: 'Kårvåg bedehus',
               id: 'NSR:Quay:67412',
               situations: [],
+              tariffZones: [],
             },
           },
           serviceJourney: {
@@ -233,6 +239,7 @@ export const tripPatternsFromVia: ViaTripsWithDetailsQuery['viaTrip']['tripPatte
               name: 'Kårvåg bedehus',
               id: 'NSR:Quay:67412',
               situations: [],
+              tariffZones: [],
             },
           },
           toPlace: {
@@ -244,6 +251,7 @@ export const tripPatternsFromVia: ViaTripsWithDetailsQuery['viaTrip']['tripPatte
               name: 'Kårvåg butikk',
               id: 'NSR:Quay:67413',
               situations: [],
+              tariffZones: [],
             },
           },
           serviceJourney: undefined,
@@ -319,6 +327,7 @@ export const tripPatternsViaTo: ViaTripsWithDetailsQuery['viaTrip']['tripPattern
               name: 'Kårvåg bedehus',
               id: 'NSR:Quay:67412',
               situations: [],
+              tariffZones: [],
             },
           },
           toPlace: {
@@ -330,6 +339,7 @@ export const tripPatternsViaTo: ViaTripsWithDetailsQuery['viaTrip']['tripPattern
               name: 'Kristiansund trafikkterminal',
               id: 'NSR:Quay:69011',
               situations: [],
+              tariffZones: [],
             },
           },
           serviceJourney: {
@@ -362,6 +372,7 @@ export const tripPatternsViaTo: ViaTripsWithDetailsQuery['viaTrip']['tripPattern
               name: 'Kristiansund trafikkterminal',
               id: 'NSR:Quay:69011',
               situations: [],
+              tariffZones: [],
             },
           },
           toPlace: {
@@ -373,6 +384,7 @@ export const tripPatternsViaTo: ViaTripsWithDetailsQuery['viaTrip']['tripPattern
               name: 'Kristiansund sentrum',
               id: 'NSR:Quay:69013',
               situations: [],
+              tariffZones: [],
             },
           },
           serviceJourney: undefined,
@@ -434,6 +446,7 @@ export const tripPatternsViaTo: ViaTripsWithDetailsQuery['viaTrip']['tripPattern
               name: 'Kristiansund trafikkterminal',
               id: 'NSR:Quay:69009',
               situations: [],
+              tariffZones: [],
             },
           },
           toPlace: {
@@ -445,6 +458,7 @@ export const tripPatternsViaTo: ViaTripsWithDetailsQuery['viaTrip']['tripPattern
               name: 'Molde trafikkterminal',
               id: 'NSR:Quay:59001',
               situations: [],
+              tariffZones: [],
             },
           },
           serviceJourney: {
@@ -494,6 +508,7 @@ export const tripPatternsFromViaTo: ViaTripsWithDetailsQuery['viaTrip']['tripPat
               name: 'Kristiansund trafikkterminal',
               id: 'NSR:Quay:69011',
               situations: [],
+              tariffZones: [],
             },
           },
           toPlace: {
@@ -505,6 +520,7 @@ export const tripPatternsFromViaTo: ViaTripsWithDetailsQuery['viaTrip']['tripPat
               name: 'Kårvåg bedehus',
               id: 'NSR:Quay:67412',
               situations: [],
+              tariffZones: [],
             },
           },
           serviceJourney: {
@@ -537,6 +553,7 @@ export const tripPatternsFromViaTo: ViaTripsWithDetailsQuery['viaTrip']['tripPat
               name: 'Kårvåg bedehus',
               id: 'NSR:Quay:67412',
               situations: [],
+              tariffZones: [],
             },
           },
           toPlace: {
@@ -548,6 +565,7 @@ export const tripPatternsFromViaTo: ViaTripsWithDetailsQuery['viaTrip']['tripPat
               name: 'Kårvåg butikk',
               id: 'NSR:Quay:67413',
               situations: [],
+              tariffZones: [],
             },
           },
           serviceJourney: undefined,
@@ -612,6 +630,7 @@ export const tripPatternsFromViaTo: ViaTripsWithDetailsQuery['viaTrip']['tripPat
               name: 'Kårvåg bedehus',
               id: 'NSR:Quay:67412',
               situations: [],
+              tariffZones: [],
             },
           },
           toPlace: {
@@ -623,6 +642,7 @@ export const tripPatternsFromViaTo: ViaTripsWithDetailsQuery['viaTrip']['tripPat
               name: 'Kristiansund trafikkterminal',
               id: 'NSR:Quay:69011',
               situations: [],
+              tariffZones: [],
             },
           },
           serviceJourney: {
@@ -655,6 +675,7 @@ export const tripPatternsFromViaTo: ViaTripsWithDetailsQuery['viaTrip']['tripPat
               name: 'Kristiansund trafikkterminal',
               id: 'NSR:Quay:69011',
               situations: [],
+              tariffZones: [],
             },
           },
           toPlace: {
@@ -666,6 +687,7 @@ export const tripPatternsFromViaTo: ViaTripsWithDetailsQuery['viaTrip']['tripPat
               name: 'Kristiansund sentrum',
               id: 'NSR:Quay:69013',
               situations: [],
+              tariffZones: [],
             },
           },
           serviceJourney: undefined,
@@ -727,6 +749,7 @@ export const tripPatternsFromViaTo: ViaTripsWithDetailsQuery['viaTrip']['tripPat
               name: 'Kristiansund trafikkterminal',
               id: 'NSR:Quay:69009',
               situations: [],
+              tariffZones: [],
             },
           },
           toPlace: {
@@ -738,6 +761,7 @@ export const tripPatternsFromViaTo: ViaTripsWithDetailsQuery['viaTrip']['tripPat
               name: 'Molde trafikkterminal',
               id: 'NSR:Quay:59001',
               situations: [],
+              tariffZones: [],
             },
           },
           serviceJourney: {

@@ -190,6 +190,10 @@ fragment quay on Quay {
   situations {
     ...situation
   }
+  tariffZones {
+    id
+    name
+  }
 }
 fragment situation on PtSituationElement {
   id
