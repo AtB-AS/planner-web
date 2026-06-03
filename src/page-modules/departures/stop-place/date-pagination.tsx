@@ -5,14 +5,14 @@ import { SearchTime } from '@atb/modules/search-time';
 import { PageText, useTranslation } from '@atb/translations';
 import { formatToLongDateTime } from '@atb/utils/date';
 import { isToday } from 'date-fns';
-import style from './date-navigation.module.css';
+import style from './date-pagination.module.css';
 
 type DateNavigationProps = {
   searchTime: SearchTime;
   onChangeDay: (days: number) => void;
 };
 
-export function DateNavigation({
+export function DatePagination({
   searchTime,
   onChangeDay,
 }: DateNavigationProps) {

@@ -43,7 +43,7 @@ import {
 } from '@atb/modules/graphql-types/journeyplanner-types_v3.generated';
 import { TransportIcon } from '@atb/modules/transport-mode';
 import { SearchTime, searchTimeToQueryString } from '@atb/modules/search-time';
-import { DateNavigation } from './date-navigation';
+import { DatePagination } from './date-pagination';
 
 const NUMBER_OF_DEPARTURES = 7;
 
@@ -133,7 +133,7 @@ export function StopPlace({ departures, fromQuery }: StopPlaceProps) {
             backgroundColor={theme.color.background.neutral[0]}
           />
         </div>
-        <DateNavigation
+        <DatePagination
           searchTime={searchTime}
           onChangeDay={(days) =>
             navigateSearchTime(changeDay(searchTime, days))
