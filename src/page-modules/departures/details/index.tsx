@@ -1,4 +1,4 @@
-import { ButtonLink } from '@atb/components/button';
+import { Button } from '@atb/components/button';
 import { ColorIcon, MonoIcon } from '@atb/components/icon';
 import LineChip from '@atb/components/line-chip';
 import { Map } from '@atb/components/map';
@@ -7,6 +7,7 @@ import { Typo } from '@atb/components/typography';
 import { SituationMessageBox, filterNotices } from '@atb/modules/situations';
 import { useRealtimeText } from '@atb/modules/trip-details';
 import { PageText, useTranslation } from '@atb/translations';
+import dictionary from '@atb/translations/dictionary';
 import style from './details.module.css';
 import { EstimatedCallRows } from './estimated-call-rows';
 import { addMetadataToEstimatedCalls } from './utils';
@@ -17,19 +18,19 @@ import {
 } from '@atb/modules/global-messages';
 import { ServiceJourneyType } from '@atb/page-modules/departures/types.ts';
 import { TransportMode } from '@atb/modules/graphql-types/journeyplanner-types_v3.generated.ts';
+import { useGoBack } from '@atb/utils/use-go-back';
 
 export type DeparturesDetailsProps = {
   fromQuayId?: string;
   serviceJourney: ServiceJourneyType;
-  referer?: string;
 };
 
 export function DeparturesDetails({
   fromQuayId,
   serviceJourney,
-  referer,
 }: DeparturesDetailsProps) {
   const { t } = useTranslation();
+  const goBack = useGoBack();
   const focusedCall =
     serviceJourney.estimatedCalls.find((call) => call.quay.id === fromQuayId) ||
     serviceJourney.estimatedCalls[0];
@@ -71,21 +72,13 @@ export function DeparturesDetails({
     .map((s) => s.situationNumber)
     .filter((s): s is string => !!s);
 
-  const backLink = referer?.includes('departures/')
-    ? `/departures/${focusedCall.quay.stopPlace?.id}`
-    : referer;
-
   return (
     <section className={style.container}>
       <div className={style.headerContainer}>
-        <ButtonLink
+        <Button
           mode="transparent"
-          href={backLink ?? '/'}
-          title={
-            backLink?.includes('departures/')
-              ? t(PageText.Departures.details.backToDepartures)
-              : t(PageText.Departures.details.backToAssistant)
-          }
+          onClick={goBack}
+          title={t(dictionary.back)}
           icon={{ left: <MonoIcon icon="navigation/ArrowLeft" /> }}
         />
         <div className={style.header}>

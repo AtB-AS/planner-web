@@ -1,9 +1,11 @@
 import { serviceJourneyFixture } from './service-journey-data.fixture';
 import { cleanup, render, screen } from '@testing-library/react';
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import userEvent from '@testing-library/user-event';
 import { DeparturesDetails } from '../details';
 import { GlobalMessageContextProvider } from '@atb/modules/global-messages';
+
+vi.mock('next/router', () => require('next-router-mock'));
 
 afterEach(function () {
   cleanup();
