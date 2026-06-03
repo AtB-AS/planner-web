@@ -3,7 +3,7 @@
   grid-template-columns: 2fr 3fr;
   grid-auto-rows: auto minmax(37.5rem, auto) auto;
   grid-template-areas: 'messages messages' 'quays map';
-  gap: token('spacing.small');
+  gap: token('spacing.medium');
 }
 
 .stopPlaceMessages {
