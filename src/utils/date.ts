@@ -32,7 +32,7 @@ import {
 
 const humanizer = humanizeDuration.humanizer({});
 const CET = 'Europe/Oslo';
-const ONE_HOUR = 3600000;
+const ONE_HOUR_MS = 3600000;
 
 export function parseIfNeeded(a: string | Date): Date {
   return a instanceof Date ? a : parseISO(a);
@@ -398,12 +398,12 @@ export function setTimezone(date: Date): Date {
 
 export function fromLocalTimeToCET(localTime: number) {
   const hoursDifference = getHoursDifferenceFromCET(localTime); // difference from CET.
-  return localTime + ONE_HOUR * hoursDifference;
+  return localTime + ONE_HOUR_MS * hoursDifference;
 }
 
 export function fromCETToLocalTime(cet: number) {
   const hoursDifference = getHoursDifferenceFromCET(cet);
-  return cet - ONE_HOUR * hoursDifference;
+  return cet - ONE_HOUR_MS * hoursDifference;
 }
 
 function getUTCOffset(date: Date, timeZone: string): number {
@@ -518,9 +518,23 @@ export function formatToShortDateTimeWithRelativeDayNames(
   return formattedTime;
 }
 
+/**
+ * Get seconds until midnight in Oslo time / CET, regardless of the server time
+ * zone.
+ */
 export function getSecondsUntilMidnight(isoTime: string): number {
-  return differenceInSeconds(
-    addDays(parseISO(isoTime), 1).setHours(0, 0, 0),
-    parseISO(isoTime),
-  );
+  const instant = parseISO(isoTime);
+
+  // Oslo calendar date of the instant (en-CA formats as YYYY-MM-DD)
+  const osloDate = instant.toLocaleDateString('en-CA', { timeZone: CET });
+
+  // Start of the next Oslo day, computed in UTC first (UTC has no DST, so a day
+  // is always 24h)
+  const nextDayUtc =
+    parseISO(`${osloDate}T00:00:00Z`).getTime() + 24 * ONE_HOUR_MS;
+
+  // Then shift back by Oslo's UTC offset to get actual Oslo midnight.
+  const nextOsloMidnight =
+    nextDayUtc - getUTCOffset(new Date(nextDayUtc), CET) * ONE_HOUR_MS;
+  return differenceInSeconds(nextOsloMidnight, instant);
 }
