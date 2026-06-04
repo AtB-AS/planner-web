@@ -25,7 +25,6 @@ import { useState } from 'react';
 import { nextDepartures } from '../client';
 import style from './stop-place.module.css';
 import { formatDestinationDisplay } from '../utils';
-import { useTheme } from '@atb/modules/theme';
 import { formatQuayName } from '@atb/page-modules/departures/details/utils';
 import {
   GlobalMessageContextEnum,
@@ -69,7 +68,6 @@ function searchTimeKey(searchTime: SearchTime): string {
 
 export function StopPlace({ departures, fromQuery }: StopPlaceProps) {
   const { t } = useTranslation();
-  const theme = useTheme();
   const router = useRouter();
   const { searchTime } = fromQuery;
 
@@ -120,17 +118,6 @@ export function StopPlace({ departures, fromQuery }: StopPlaceProps) {
             />
           ))}
         <Typo.h2 textType="heading__m">{departures.stopPlace.name}</Typo.h2>
-        <Button
-          onClick={router.reload}
-          title={t(PageText.Departures.stopPlace.quaySection.refreshButton)}
-          icon={{
-            right: <MonoIcon icon={'actions/Reload'} />,
-          }}
-          size="pill"
-          radiusSize="circular"
-          mode="secondary"
-          backgroundColor={theme.color.background.neutral[0]}
-        />
       </div>
       <div className={style.quaysContainer}>
         <DatePagination
