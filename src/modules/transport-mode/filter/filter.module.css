@@ -50,9 +50,15 @@
   cursor: pointer;
   display: flex;
   gap: token('spacing.small');
-  align-items: center;
+  align-items: flex-start;
   border: 1px solid token('color.background.neutral.3.background');
-  height: 2.25rem;
+  min-height: 2.25rem;
+}
+
+.labelTexts {
+  display: flex;
+  flex-direction: column;
+  gap: token('spacing.xSmall');
 }
 
 .transportMode input {
@@ -67,9 +73,7 @@
 }
 
 .infoText {
-  color: token('color.foreground.dynamic.disabled');
-  opacity: 0.75;
-  max-width: 10rem;
+  color: token('color.interactive.2.default.foreground.secondary');
 }
 
 .transportMode input:focus-visible ~ label {
@@ -84,12 +88,12 @@
   background-color: token('color.interactive.2.active.background');
   border: 1px solid token('color.interactive.2.outline.background');
 }
-.transportMode input:hover ~ label .checkboxBackground {
-  background-color: token('color.interactive.2.default.background');
+.transportMode input[type='checkbox']:checked ~ label .infoText {
+  color: token('color.interactive.2.active.foreground.secondary');
 }
 .transportMode input[type='checkbox']:checked:hover ~ label {
   background-color: token('color.interactive.2.hover.background');
 }
-.transportMode input[type='checkbox']:checked ~ label .checkboxBackground {
-  background-color: token('color.interactive.2.active.background');
+.transportMode input[type='checkbox']:hover ~ label .infoText {
+  color: token('color.interactive.2.hover.foreground.secondary');
 }
