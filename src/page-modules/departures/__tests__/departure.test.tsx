@@ -97,9 +97,18 @@ describe('departure page', function () {
     (await expectProps(result)).toMatchObject(expectedDeparturesResult);
   });
 
+  const stopPlaceFromQuery = {
+    from: null,
+    isAddress: false,
+    searchTime: { mode: 'now' } as const,
+  };
+
   it('should render quays', () => {
     const output = customRender(
-      <StopPlace departures={departureDataFixture} />,
+      <StopPlace
+        departures={departureDataFixture}
+        fromQuery={stopPlaceFromQuery}
+      />,
     );
 
     departureDataFixture.stopPlace.quays.forEach((q) =>
@@ -109,19 +118,27 @@ describe('departure page', function () {
 
   it('should render estimated calls', () => {
     const output = customRender(
-      <StopPlace departures={departureDataFixture} />,
+      <StopPlace
+        departures={departureDataFixture}
+        fromQuery={stopPlaceFromQuery}
+      />,
     );
     const lists = output.getAllByRole('list');
     const { getAllByRole } = within(lists[0]);
     const items = getAllByRole('listitem');
+    // The fixture quay has fewer departures than a full page, so the
+    // "See more departures" button is not rendered.
     expect(items.length).toBe(
-      departureDataFixture.stopPlace.quays[0].estimatedCalls.length + 1,
+      departureDataFixture.stopPlace.quays[0].estimatedCalls.length,
     );
   });
 
   it('Should collapse estimated calls list', async () => {
     const output = customRender(
-      <StopPlace departures={departureDataFixture} />,
+      <StopPlace
+        departures={departureDataFixture}
+        fromQuery={stopPlaceFromQuery}
+      />,
     );
     const button = screen.getAllByRole('button', {
       name: 'Aktiver for å minimere',

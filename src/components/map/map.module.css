@@ -3,6 +3,9 @@
   width: 100%;
   display: flex;
   flex-direction: column;
+  border-radius: 0 0 token('border.radius.regular')
+    token('border.radius.regular');
+  overflow: hidden;
 }
 .header {
   display: flex;
@@ -47,9 +50,6 @@
   position: relative;
   height: 100%;
   width: 100%;
-  border-radius: 0 0 token('border.radius.regular')
-    token('border.radius.regular');
-  overflow: hidden;
   background-color: token('color.background.neutral.0.background');
 }
 

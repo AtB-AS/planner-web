@@ -102,14 +102,16 @@
 .button--secondary,
 .button--secondary:visited {
   color: token('color.foreground.dynamic.primary');
-  border: 2px solid token('color.foreground.dynamic.primary');
+  border: token('border.width.slim') solid
+    token('color.foreground.dynamic.primary');
 }
 
 .button--secondary:not(:disabled):hover,
 .button--secondary:not(:disabled):active,
 .button--secondary.button--state_active {
   background-color: token('color.interactive.0.active.background');
-  border: 2px solid token('color.interactive.0.outline.background');
+  border: token('border.width.slim') solid
+    token('color.interactive.0.outline.background');
 }
 
 .button--secondary:disabled,
