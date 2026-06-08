@@ -182,6 +182,24 @@ function patchQueryLocation(
   return query.replace(pattern, replacement);
 }
 
+/**
+ * Removes any existing `pageCursor` from the query and injects the given one as
+ * the first argument of the `trip(...)` call.
+ */
+function injectPageCursor(query: string, cursor: string): string {
+  const withoutCursor = query.replace(/\s*pageCursor:\s*"[^"]*"\n?/, '');
+  return withoutCursor.replace(
+    /trip\s*\(/,
+    `trip(\n    pageCursor: "${cursor}"`,
+  );
+}
+
+// Mirrors the assistant's initial search behaviour: keep following
+// `nextPageCursor` until we have collected enough trip patterns, or we have
+// made too many attempts. See page-modules/assistant/client/journey-planner.
+const WANTED_TRIP_PATTERNS = 8;
+const MAX_SEARCH_ATTEMPTS = 5;
+
 const DEFAULT_FROM: VariablesLocation = {
   place: 'NSR:StopPlace:41613',
   coordinates: { latitude: 63.431034, longitude: 10.392007 },
@@ -310,14 +328,33 @@ const DevTripPatternPage: NextPage<DevTripPatternPageProps> = (props) => {
   const runQuery = async (query: string) => {
     setLoading(true);
     try {
-      const response = await fetch('/api/dev/graphql', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ query, variables: {} }),
-      });
-      const data = await response.json();
-      setResult(data);
-      const cursor = (data.raw as any)?.data?.trip?.nextPageCursor ?? null;
+      let accumulated: ExtendedTripPatternWithDetailsType[] = [];
+      let latestRaw: unknown = null;
+      let cursor: string | null = null;
+      let attempts = 0;
+
+      // Follow `nextPageCursor` automatically, like the assistant's initial
+      // search, until we have enough trip patterns or run out of attempts.
+      while (attempts < MAX_SEARCH_ATTEMPTS) {
+        const currentQuery = cursor ? injectPageCursor(query, cursor) : query;
+        const response = await fetch('/api/dev/graphql', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ query: currentQuery, variables: {} }),
+        });
+        const data: {
+          raw?: { data?: { trip?: { nextPageCursor?: string | null } } };
+          tripPatterns?: ExtendedTripPatternWithDetailsType[];
+        } = await response.json();
+        latestRaw = data.raw;
+        accumulated = [...accumulated, ...(data.tripPatterns ?? [])];
+        cursor = data.raw?.data?.trip?.nextPageCursor ?? null;
+        attempts++;
+
+        if (!cursor || accumulated.length >= WANTED_TRIP_PATTERNS) break;
+      }
+
+      setResult({ raw: latestRaw, tripPatterns: accumulated });
       setNextPageCursor(cursor);
       setRunCount((c) => c + 1);
     } catch {
@@ -372,12 +409,7 @@ const DevTripPatternPage: NextPage<DevTripPatternPageProps> = (props) => {
 
   const handleLoadMore = async () => {
     if (!nextPageCursor) return;
-    // Remove any existing pageCursor, then inject the new one
-    const withoutCursor = queryText.replace(/\s*pageCursor:\s*"[^"]*"\n?/, '');
-    const cursorQuery = withoutCursor.replace(
-      /trip\s*\(/,
-      `trip(\n    pageCursor: "${nextPageCursor}"`,
-    );
+    const cursorQuery = injectPageCursor(queryText, nextPageCursor);
     setQueryText(cursorQuery);
     setLoadingMore(true);
     try {
