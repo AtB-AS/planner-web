@@ -168,7 +168,7 @@ export default function SearchTimeSelector({
 
 function searchTimeToDate(searchTime: SearchTime): Date {
   return setTimezone(
-    'dateTime' in searchTime
+    searchTime.mode !== 'now'
       ? new Date(fromLocalTimeToCET(searchTime.dateTime))
       : new Date(),
   ) as Date;
