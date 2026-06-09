@@ -86,6 +86,15 @@
   font-size: 0.85rem;
 }
 
+.filterToggle {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+  user-select: none;
+}
+
 .tripPatterns {
   display: flex;
   flex-direction: column;
