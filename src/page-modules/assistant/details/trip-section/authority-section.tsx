@@ -26,12 +26,13 @@ export function AuthoritySection({ authority }: AuthoritySectionProps) {
   const devicePlatform = useDevicePlatform();
 
   const isCurrentAuthority = authority.id == authorityId;
+  const authorityFareUrl = authority.fareUrl ?? authority.url;
 
-  if (!isCurrentAuthority && !authority.url) return null;
+  if (!isCurrentAuthority && !authorityFareUrl) return null;
 
   const url = isCurrentAuthority
     ? getTicketUrlForPlatform(devicePlatform, urls, language)
-    : authority.url;
+    : authorityFareUrl;
 
   if (!url) return null;
 
