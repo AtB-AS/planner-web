@@ -1,16 +1,16 @@
 import { SearchMode, SearchTime } from './types';
 
 export function parseSearchTimeQuery(
-  mode: SearchMode | undefined,
+  searchModeQuery: SearchMode | undefined,
   searchTimeQuery: number | undefined,
 ): SearchTime {
-  if (!mode || mode === 'now') {
+  if (!searchModeQuery || searchModeQuery === 'now') {
     return { mode: 'now', dateTime: searchTimeQuery };
   }
   if (searchTimeQuery === undefined) {
     return { mode: 'now' };
   }
-  return { mode, dateTime: searchTimeQuery };
+  return { mode: searchModeQuery, dateTime: searchTimeQuery };
 }
 
 export function searchTimeToQueryString(searchTime: SearchTime) {
