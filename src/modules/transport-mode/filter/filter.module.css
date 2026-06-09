@@ -55,10 +55,15 @@
   min-height: 2.25rem;
 }
 
+.checkBoxIcon {
+  margin-top: 0.125rem;
+}
+
 .labelTexts {
   display: flex;
   flex-direction: column;
   gap: token('spacing.xSmall');
+  margin-top: 0.125rem;
 }
 
 .transportMode input {

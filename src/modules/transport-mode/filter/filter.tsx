@@ -146,7 +146,9 @@ function FilterOption({ option, selected, onChange }: FilterOptionProps) {
         aria-hidden
         className={style.transportModeElement}
       >
-        <CheckBoxIcon checked={selected} />
+        <span className={style.checkBoxIcon}>
+          <CheckBoxIcon checked={selected} />
+        </span>
 
         <TransportIcon
           transportMode={option.icon.transportMode}
