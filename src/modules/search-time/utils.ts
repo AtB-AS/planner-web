@@ -4,13 +4,14 @@ export function parseSearchTimeQuery(
   searchModeQuery: SearchMode | undefined,
   searchTimeQuery: number | undefined,
 ): SearchTime {
-  if (!searchModeQuery || searchModeQuery === 'now') {
-    return { mode: 'now', dateTime: searchTimeQuery };
-  }
-  if (searchTimeQuery === undefined) {
+  if (!searchTimeQuery) {
     return { mode: 'now' };
   }
-  return { mode: searchModeQuery, dateTime: searchTimeQuery };
+
+  return {
+    mode: searchModeQuery ?? 'now',
+    dateTime: searchTimeQuery,
+  }
 }
 
 export function searchTimeToQueryString(searchTime: SearchTime) {
