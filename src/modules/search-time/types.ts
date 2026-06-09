@@ -13,6 +13,7 @@ export type SearchMode = z.infer<typeof searchModeSchema>;
 export type SearchTime =
   | {
       mode: 'now';
+      dateTime?: number;
     }
   | {
       mode: 'arriveBy' | 'departBy';
