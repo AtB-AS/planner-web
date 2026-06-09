@@ -77,14 +77,14 @@
 /* Primary */
 .button--primary,
 .button--primary:visited {
-  color: token('color.foreground.inverse.primary');
+  color: token('color.interactive.0.default.foreground.primary');
   background-color: token('color.interactive.0.default.background');
 }
 
 .button--primary:not(:disabled):hover,
 .button--primary:not(:disabled):active,
 .button--primary.button--state_active {
-  color: token('color.foreground.dynamic.primary');
+  color: token('color.interactive.0.active.foreground.primary');
   background-color: token('color.interactive.0.active.background');
 }
 
