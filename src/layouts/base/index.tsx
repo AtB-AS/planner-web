@@ -2,6 +2,7 @@ import { OpenGraphBase } from '@atb/components/open-graph';
 import Footer from '@atb/layouts/shared/footer';
 import PageHeader from '@atb/layouts/shared/page-header';
 import { usePageTitle } from '@atb/layouts/shared/utils';
+import { getOrgData } from '@atb/modules/org-data';
 import { useHtmlDarkMode, useTheme } from '@atb/modules/theme';
 import {
   CommonText,
@@ -25,6 +26,8 @@ export function BaseLayout({ children, title }: BaseLayoutProps) {
 
   const siteTitle = usePageTitle(title);
 
+  const iosAppId = getIosAppId();
+
   // Used for calendars and date pickers, transform to locale supported by react-aria.
   const i18nLocale = language === Language.English ? 'en-GB' : 'nb-NO';
 
@@ -42,6 +45,9 @@ export function BaseLayout({ children, title }: BaseLayoutProps) {
             name="theme-color"
             content={theme.color.background.accent[0].background}
           />
+          {iosAppId && (
+            <meta name="apple-itunes-app" content={`app-id=${iosAppId}`} />
+          )}
         </Head>
         <OpenGraphBase title={siteTitle} />
         <a href="#main-content" className={style.skipLink}>
@@ -56,3 +62,8 @@ export function BaseLayout({ children, title }: BaseLayoutProps) {
     </I18nProvider>
   );
 }
+
+const getIosAppId = () => {
+  const iosAppUrl = getOrgData().urls.iosAppUrl?.default;
+  return iosAppUrl?.match(/\/id(\d+)/)?.[1];
+};
