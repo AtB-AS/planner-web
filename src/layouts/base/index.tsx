@@ -26,7 +26,7 @@ export function BaseLayout({ children, title }: BaseLayoutProps) {
 
   const siteTitle = usePageTitle(title);
 
-  const iosAppId = getIosAppId(getOrgData().urls.iosAppUrl?.default);
+  const iosAppId = getIosAppId();
 
   // Used for calendars and date pickers, transform to locale supported by react-aria.
   const i18nLocale = language === Language.English ? 'en-GB' : 'nb-NO';
@@ -63,6 +63,7 @@ export function BaseLayout({ children, title }: BaseLayoutProps) {
   );
 }
 
-function getIosAppId(iosAppUrl: string | undefined): string | undefined {
+const getIosAppId = () => {
+  const iosAppUrl = getOrgData().urls.iosAppUrl?.default;
   return iosAppUrl?.match(/\/id(\d+)/)?.[1];
-}
+};
