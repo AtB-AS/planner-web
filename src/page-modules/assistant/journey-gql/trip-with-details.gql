@@ -172,6 +172,7 @@ fragment authority on Authority {
   id
   name
   url
+  fareUrl
 }
 
 fragment notice on Notice {
