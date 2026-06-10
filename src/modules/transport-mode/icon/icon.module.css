@@ -3,18 +3,35 @@
   gap: 0.125rem;
 }
 
-.transportIcon,
-.transportIconWithLabel {
+.transportIcon {
   display: inline-block;
-  border-radius: token('border.radius.regular');
+  border-radius: token('border.radius.circle');
   padding: token('spacing.xSmall');
+}
+
+.transportIconWithLabelContainer {
+  display: flex;
+  align-items: center;
 }
 
 .transportIconWithLabel {
   display: flex;
   justify-content: center;
   align-items: center;
+  border-radius: token('border.radius.circle');
   padding: token('spacing.small') token('spacing.medium');
+}
+
+.transportIconNotification {
+  margin-left: -10px;
+  background-color: token('color.background.neutral.0.background');
+  border-radius: 50%;
+  padding: 1px;
+  line-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
 }
 
 .transportIcon img,

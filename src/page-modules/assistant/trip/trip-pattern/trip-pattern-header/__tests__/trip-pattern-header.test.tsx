@@ -2,11 +2,7 @@ import { cleanup, render, screen } from '@testing-library/react';
 import mockRouter from 'next-router-mock';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { createDynamicRouteParser } from 'next-router-mock/dynamic-routes';
-import {
-  getQuayOrPlaceName,
-  getStartModeAndPlaceText,
-  TripPatternHeader,
-} from '..';
+import { getQuayOrPlaceName, TripPatternHeader } from '..';
 import {
   tripPatternFixture,
   tripPatternWithDetailsFixture,
@@ -40,15 +36,12 @@ const customRender = (
 };
 
 describe('trip pattern header', function () {
-  it('should render trip pattern header with start place and duration', async () => {
+  it('should render trip pattern header with duration and ended status', async () => {
+    // Fixture dates are in 2023 (past), so "ended" status should show
     render(<TripPatternHeader tripPattern={tripPatternWithDetailsFixture} />);
 
-    // The start mode/place text is still rendered (as secondary info)
-    expect(screen.getByText('Buss fra From 1')).toBeInTheDocument();
-    // Duration is still displayed
-    expect(screen.getByText('1 time')).toBeInTheDocument();
-    // Since fixture dates are in the past, should show "Avgangstid passert"
-    expect(screen.getByText('Avgangstid passert')).toBeInTheDocument();
+    expect(screen.getByTestId('resultDuration')).toBeInTheDocument();
+    expect(screen.getByText('Reisen er ferdig')).toBeInTheDocument();
   });
 
   it('should render trip pattern header in english', async () => {
@@ -64,9 +57,7 @@ describe('trip pattern header', function () {
       },
     );
 
-    expect(screen.getByText('Bus from From 1')).toBeInTheDocument();
-    expect(screen.getByText('1 hour')).toBeInTheDocument();
-    expect(screen.getByText('Departure time passed')).toBeInTheDocument();
+    expect(screen.getByText('Trip ended')).toBeInTheDocument();
   });
 
   it('should render trip pattern header in nynorsk', async () => {
@@ -82,9 +73,7 @@ describe('trip pattern header', function () {
       },
     );
 
-    expect(screen.getByText('Buss frå From 1')).toBeInTheDocument();
-    expect(screen.getByText('1 time')).toBeInTheDocument();
-    expect(screen.getByText('Avgangstid passert')).toBeInTheDocument();
+    expect(screen.getByText('Reisa er ferdig')).toBeInTheDocument();
   });
 
   it('should get quay name from quay', () => {
@@ -189,28 +178,5 @@ describe('trip pattern header', function () {
     });
 
     expect(screen.getByText('FromPlaceName')).toBeInTheDocument();
-  });
-
-  it('should get start mode and start place from trip', () => {
-    const Test = function () {
-      const { t } = useTranslation();
-
-      const startModeAndPlaceText = getStartModeAndPlaceText(
-        tripPatternWithDetailsFixture,
-        t,
-      );
-      return <div>{startModeAndPlaceText}</div>;
-    };
-
-    customRender(<Test />, {
-      providerProps: {
-        initialCookies: {
-          darkmode: false,
-          language: 'no',
-        },
-      },
-    });
-
-    expect(screen.getByText('Buss fra From 1')).toBeInTheDocument();
   });
 });

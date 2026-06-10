@@ -1,9 +1,10 @@
 import { AnimatePresence, motion } from 'framer-motion';
+import { ColorIcon } from '@atb/components/icon';
 import { Fragment, useId, useRef, useState } from 'react';
 import { getFilteredLegsByWalkOrWaitTime, tripSummary } from './utils';
 import { PageText, useTranslation } from '@atb/translations';
 import style from './trip-pattern.module.css';
-import { formatToClock, isInPast, secondsBetween } from '@atb/utils/date';
+import { isInPast, secondsBetween } from '@atb/utils/date';
 import { TripPatternHeader } from './trip-pattern-header';
 import { MonoIcon } from '@atb/components/icon';
 import { Typo } from '@atb/components/typography';
@@ -19,13 +20,22 @@ import {
   ExtendedTripPatternWithDetailsType,
 } from '@atb/page-modules/assistant';
 import { Button, ButtonLink } from '@atb/components/button';
-import { AssistantDetailsBody } from '@atb/page-modules/assistant/details-body';
+import TripSection from '@atb/page-modules/assistant/details/trip-section';
+import { getInterchangeDetails } from '@atb/page-modules/assistant/details/trip-section/interchange-section.tsx';
+import { getLegWaitDetails } from '@atb/page-modules/assistant/details/trip-section/wait-section.tsx';
 import { Price } from './price';
 import { useInView } from 'react-intersection-observer';
-import { Tag } from '@atb/components/tag';
 import useResizeObserver from '@react-hook/resize-observer';
+import {
+  getMsgTypeForMostCriticalSituationOrNotice,
+  messageTypeToColorIcon,
+} from '@atb/modules/situations';
+import { getNoticesForLeg } from '@atb/page-modules/assistant/utils';
+import { StatusColorName } from '@atb/modules/theme';
+import { TransportSubmode } from '@atb/modules/graphql-types/journeyplanner-types_v3.generated.ts';
 
-const DEFAULT_THRESHOLD_AIMED_EXPECTED_IN_SECONDS = 60;
+const SHORT_TRANSFER_SECONDS = 180;
+const MIN_SIGNIFICANT_WAIT_SECONDS = 30;
 const ANIMATION_DURATION = 0.2;
 
 type TripPatternProps = {
@@ -46,12 +56,60 @@ function countOverflowingLegs(container: HTMLElement | null): number {
   let hiddenCount = 0;
   for (const el of legElements) {
     const elRect = el.getBoundingClientRect();
-    // Consider a leg overflowing if its right edge is beyond the container
     if (elRect.right > containerRight + 1) {
       hiddenCount++;
     }
   }
   return hiddenCount;
+}
+
+function toMostCriticalNotificationStatus(
+  a: StatusColorName | undefined,
+  b: StatusColorName | undefined,
+): StatusColorName | undefined {
+  const priority: Record<StatusColorName, number> = {
+    error: 3,
+    warning: 2,
+    info: 1,
+    valid: 0,
+  };
+  if (!a) return b;
+  if (!b) return a;
+  return (priority[a] ?? 0) >= (priority[b] ?? 0) ? a : b;
+}
+
+function getLegNotificationType(
+  leg: ExtendedLegType,
+  previousLeg: ExtendedLegType | undefined,
+): StatusColorName | undefined {
+  const situationsMsgType = getMsgTypeForMostCriticalSituationOrNotice(
+    leg.situations,
+    getNoticesForLeg(leg),
+    leg.fromEstimatedCall?.cancellation,
+  );
+  const railReplacementMsgType =
+    leg.transportSubmode === TransportSubmode.RailReplacementBus
+      ? ('warning' as const)
+      : undefined;
+  const bookingMsgType = leg.bookingArrangements ? ('warning' as const) : undefined;
+  const shortTransferMsgType: StatusColorName | undefined = (() => {
+    if (!previousLeg) return undefined;
+    const waitSeconds = secondsBetween(
+      previousLeg.expectedEndTime,
+      leg.expectedStartTime,
+    );
+    return waitSeconds > MIN_SIGNIFICANT_WAIT_SECONDS &&
+      waitSeconds <= SHORT_TRANSFER_SECONDS
+      ? 'info'
+      : undefined;
+  })();
+
+  return [
+    situationsMsgType,
+    railReplacementMsgType,
+    bookingMsgType,
+    shortTransferMsgType,
+  ].reduce<StatusColorName | undefined>(toMostCriticalNotificationStatus, undefined);
 }
 
 export default function TripPattern({
@@ -68,7 +126,6 @@ export default function TripPattern({
   const router = useRouter();
   const id = useId();
 
-  // Use ResizeObserver to track overflow count
   const legsContainerRef = useRef<HTMLDivElement>(null);
   const [overflowCount, setOverflowCount] = useState(0);
 
@@ -82,10 +139,6 @@ export default function TripPattern({
     (leg) => leg.fromEstimatedCall?.cancellation,
   );
 
-  const className = andIf({
-    [style.tripPattern]: true,
-  });
-
   const staySeated = (idx: number) => {
     const leg = filteredLegs[idx];
     return leg && leg.interchangeTo?.staySeated === true;
@@ -97,13 +150,22 @@ export default function TripPattern({
     threshold: 0,
   });
 
-  const requireTicketBooking = tripPattern.legs.some((leg: ExtendedLegType) => {
-    if (!leg.bookingArrangements) return false;
-    return (
-      getBookingStatus(leg.bookingArrangements, leg.aimedStartTime, 7) !==
-      'none'
-    );
-  });
+  const overflowNotificationType: StatusColorName | undefined =
+    overflowCount > 0
+      ? filteredLegs
+          .slice(-overflowCount)
+          .map((leg) =>
+            getMsgTypeForMostCriticalSituationOrNotice(
+              leg.situations,
+              getNoticesForLeg(leg),
+              leg.fromEstimatedCall?.cancellation,
+            ),
+          )
+          .reduce<StatusColorName | undefined>(
+            toMostCriticalNotificationStatus,
+            undefined,
+          )
+      : undefined;
 
   return (
     <div ref={ref} className={style.tripPatternContainer}>
@@ -111,13 +173,13 @@ export default function TripPattern({
         id={`${id}-details-region`}
         role="region"
         onClick={() => setIsOpen(!isOpen)}
-        className={className}
+        className={style.tripPattern}
         data-testid={testId}
         initial={{ opacity: 0, x: -10 }}
         animate={{ opacity: 1, x: 0 }}
         exit={{ opacity: 0, x: -10 }}
         transition={{
-          delay, // staggerChildren on parent only works first render
+          delay,
         }}
         aria-label={tripSummary(
           tripPattern,
@@ -146,113 +208,53 @@ export default function TripPattern({
                       className={style.legs__leg}
                       data-leg-index={i}
                     >
-                      {leg.mode ? (
+                      {leg.mode === 'foot' ? (
+                        <div className={style.legs__leg__walkIcon}>
+                          <MonoIcon icon="transportation/WalkFill" />
+                        </div>
+                      ) : (
                         <TransportIconWithDuration
                           transportMode={leg.mode}
                           transportSubmode={leg.transportSubmode}
                           label={leg.line?.publicCode ?? undefined}
-                          duration={
-                            leg.mode === 'foot' ? leg.duration : undefined
-                          }
                           isFlexible={isLineFlexibleTransport(leg.line)}
+                          notificationType={getLegNotificationType(
+                            leg,
+                            filteredLegs[i - 1],
+                          )}
                         />
-                      ) : (
-                        <div className={style.legs__leg__walkIcon}>
-                          <MonoIcon icon="transportation/WalkFill" />
-                        </div>
                       )}
-
-                      <div
-                        className={style.timeStartContainer}
-                        data-testid={`timeStartContainer-${i}`}
-                      >
-                        {secondsBetween(
-                          leg.aimedStartTime,
-                          leg.expectedStartTime,
-                        ) > DEFAULT_THRESHOLD_AIMED_EXPECTED_IN_SECONDS ? (
-                          <>
-                            <Typo.span
-                              textType="body__xs"
-                              testID="expStartTime"
-                            >
-                              {formatToClock(
-                                leg.expectedStartTime,
-                                language,
-                                'floor',
-                              )}
-                            </Typo.span>
-                            <Typo.span
-                              textType="body__xs__strike"
-                              className={style.outdated}
-                              testID="aimedStartTime"
-                            >
-                              {formatToClock(
-                                leg.aimedStartTime,
-                                language,
-                                'floor',
-                              )}
-                            </Typo.span>
-                          </>
-                        ) : (
-                          <Typo.span
-                            textType={
-                              isCancelled ? 'body__xs__strike' : 'body__xs'
-                            }
-                            testID="expStartTime"
-                          >
-                            {formatToClock(
-                              leg.aimedStartTime,
-                              language,
-                              'floor',
-                            )}
-                          </Typo.span>
-                        )}
-                      </div>
                     </div>
                   )}
-
                 </Fragment>
               ))}
             </div>
 
             {overflowCount > 0 && (
-              <div className={style.legs__collapsedLegs}>
-                <Typo.span textType="body__m__strong">
-                  +{overflowCount}
-                </Typo.span>
+              <div className={style.legs__collapsedLegsContainer}>
+                <div className={style.legs__collapsedLegs}>
+                  <Typo.span textType="body__m__strong">
+                    +{overflowCount}
+                  </Typo.span>
+                </div>
+                {overflowNotificationType && (
+                  <span
+                    className={style.legs__collapsedLegs__notification}
+                    aria-hidden="true"
+                  >
+                    <ColorIcon
+                      icon={messageTypeToColorIcon(overflowNotificationType)}
+                      size="xSmall"
+                    />
+                  </span>
+                )}
               </div>
             )}
-
-          </div>
-
-          <div className={style.legs__lastLeg}>
-            <div className={style.legs__lastLeg__icon}>
-              <MonoIcon icon="places/Destination" />
-            </div>
-            <Typo.span
-              textType={isCancelled ? 'body__xs__strike' : 'body__xs'}
-              testID="expEndTime"
-            >
-              {formatToClock(tripPattern.expectedEndTime, language, 'ceil')}
-            </Typo.span>
           </div>
         </div>
+
         <footer className={style.footer} onClick={() => setIsOpen(!isOpen)}>
           <div className={style.info__container}>
-            {tripIsInPast && (
-              <Tag
-                type="warning"
-                message={t(PageText.Assistant.trip.tripPattern.passedTrip)}
-                testID="tripIsInPast"
-              />
-            )}
-            {requireTicketBooking && (
-              <Tag
-                type="warning"
-                message={t(PageText.Assistant.trip.tripPattern.requiresBooking)}
-                testID="requireTicketBooking"
-              />
-            )}
             <Price
               tripPattern={tripPattern}
               inView={inView}
@@ -299,7 +301,23 @@ export default function TripPattern({
             exit={{ height: 0, transition: { duration: ANIMATION_DURATION } }}
           >
             <div className={style.accordionBody}>
-              <AssistantDetailsBody tripPattern={tripPattern} />
+              {tripPattern.legs.map((leg, index) => (
+                <TripSection
+                  key={index}
+                  isFirst={index === 0}
+                  isLast={index === tripPattern.legs.length - 1}
+                  leg={leg}
+                  interchangeDetails={getInterchangeDetails(
+                    tripPattern.legs,
+                    leg.interchangeTo?.toServiceJourney?.id,
+                    t,
+                  )}
+                  legWaitDetails={getLegWaitDetails(
+                    leg,
+                    tripPattern.legs[index + 1],
+                  )}
+                />
+              ))}
             </div>
             <div className={style.accordionFooter}>
               <ButtonLink

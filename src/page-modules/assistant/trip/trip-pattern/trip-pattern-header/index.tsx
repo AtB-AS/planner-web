@@ -7,15 +7,11 @@ import {
   secondsBetween,
   isInPast,
 } from '@atb/utils/date';
-import { flatMap } from 'lodash';
-import { RailReplacementBusMessage } from './rail-replacement-bus';
-import { SituationOrNoticeIcon } from '@atb/modules/situations';
-import { isSubModeBoat } from '@atb/modules/transport-mode';
-import { ColorIcon } from '@atb/components/icon';
 import { Assistant } from '@atb/translations/pages';
-import { getNoticesForLeg } from '@atb/page-modules/assistant/utils.ts';
 import { ExtendedTripPatternWithDetailsType } from '@atb/page-modules/assistant';
 import { QuayFragment } from '@atb/page-modules/assistant/journey-gql/trip-with-details.generated.ts';
+import { StatusText, StatusType } from './status-text';
+import { getBookingStatus } from '@atb/modules/flexible';
 
 const DEFAULT_THRESHOLD_AIMED_EXPECTED_IN_SECONDS = 60;
 
@@ -23,6 +19,63 @@ type TripPatternHeaderProps = {
   tripPattern: ExtendedTripPatternWithDetailsType;
   isCancelled?: boolean;
 };
+
+type StatusConfig = {
+  statusType: StatusType;
+  text: string;
+};
+
+function getStatusConfig(
+  tripPattern: ExtendedTripPatternWithDetailsType,
+  isCancelled: boolean,
+  t: ReturnType<typeof useTranslation>['t'],
+): StatusConfig | undefined {
+  if (isCancelled) {
+    return {
+      statusType: 'error',
+      text: t(PageText.Assistant.trip.tripPattern.statusText.cancelled),
+    };
+  }
+
+  const endIsInPast = isInPast(tripPattern.expectedEndTime);
+  const startIsInPast = isInPast(tripPattern.expectedStartTime);
+
+  if (endIsInPast) {
+    return {
+      statusType: 'error',
+      text: t(PageText.Assistant.trip.tripPattern.statusText.ended),
+    };
+  }
+
+  if (startIsInPast) {
+    return {
+      statusType: 'info',
+      text: t(PageText.Assistant.trip.tripPattern.statusText.started),
+    };
+  }
+
+  const bookingLegs = tripPattern.legs.filter((leg) => leg.bookingArrangements);
+  if (bookingLegs.length > 0) {
+    const anyDeadlineExceeded = bookingLegs.some(
+      (leg) =>
+        getBookingStatus(leg.bookingArrangements!, leg.aimedStartTime) === 'late',
+    );
+    if (anyDeadlineExceeded) {
+      return {
+        statusType: 'interactive',
+        text: t(
+          PageText.Assistant.trip.tripPattern.statusText.bookingDeadlineExceeded,
+        ),
+      };
+    }
+    return {
+      statusType: 'info',
+      text: t(PageText.Assistant.trip.tripPattern.statusText.requiresBooking),
+    };
+  }
+
+  return undefined;
+}
 
 export function TripPatternHeader({
   tripPattern,
@@ -35,8 +88,6 @@ export function TripPatternHeader({
     tripPattern.expectedEndTime,
     language,
   );
-
-  const tripIsInPast = isInPast(tripPattern.expectedStartTime);
 
   const expectedStartTimeLabel = formatToClock(
     tripPattern.expectedStartTime,
@@ -64,38 +115,26 @@ export function TripPatternHeader({
     DEFAULT_THRESHOLD_AIMED_EXPECTED_IN_SECONDS;
   const showAimedTime = startTimeDiffers || endTimeDiffers;
 
-  const startModeAndPlaceText = getStartModeAndPlaceText(tripPattern, t);
+  const statusConfig = getStatusConfig(tripPattern, isCancelled, t);
 
   return (
     <header className={style.header}>
       <div className={style.header__timesArea}>
+        {statusConfig && (
+          <StatusText
+            statusType={statusConfig.statusType}
+            text={statusConfig.text}
+          />
+        )}
         <div className={style.header__timesRow}>
-          {isCancelled ? (
-            <ColorIcon
-              icon="status/Error"
-              className={style.situationIcon}
-              alt={t(PageText.Assistant.trip.tripPattern.isCancelled.label)}
-            />
-          ) : (
-            <SituationOrNoticeIcon
-              situations={flatMap(tripPattern.legs, (leg) => leg.situations)}
-              notices={tripPattern.legs.flatMap(getNoticesForLeg)}
-              cancellation={isCancelled}
-              iconSize="large"
-            />
-          )}
-          <RailReplacementBusMessage tripPattern={tripPattern} />
-          <Typo.span textType="body__m__strong" testID="expectedTimeRange">
-            {tripIsInPast
-              ? t(PageText.Assistant.trip.tripPattern.passedTrip)
-              : `${expectedStartTimeLabel} - ${expectedEndTimeLabel}`}
-            {isCancelled &&
-              ` (${t(
-                PageText.Assistant.trip.tripPattern.isCancelled.title,
-              ).toUpperCase()})`}
+          <Typo.span
+            textType={isCancelled ? 'body__m__strong__strike' : 'body__m__strong'}
+            testID="expectedTimeRange"
+          >
+            {`${expectedStartTimeLabel} - ${expectedEndTimeLabel}`}
           </Typo.span>
         </div>
-        {showAimedTime && !tripIsInPast && (
+        {showAimedTime && (
           <Typo.span
             textType="body__s"
             className={style.header__aimedTime}
@@ -114,76 +153,9 @@ export function TripPatternHeader({
         >
           {duration}
         </Typo.span>
-        <Typo.span textType="body__s" className={style.header__startPlace}>
-          {startModeAndPlaceText}
-        </Typo.span>
       </div>
     </header>
   );
-}
-
-export function getStartModeAndPlaceText(
-  tripPattern: ExtendedTripPatternWithDetailsType,
-  t: TranslateFunction,
-): string {
-  let startLeg = tripPattern.legs[0];
-  let tmpStartName = startLeg.fromPlace.name;
-
-  if (tripPattern.legs[0].mode === 'foot' && tripPattern.legs[1]) {
-    startLeg = tripPattern.legs[1];
-    tmpStartName = getQuayOrPlaceName(
-      t,
-      startLeg.fromPlace.quay,
-      startLeg.fromPlace.name,
-    );
-  } else if (tripPattern.legs[0].mode !== 'foot') {
-    tmpStartName = getQuayOrPlaceName(
-      t,
-      startLeg.fromPlace.quay,
-      startLeg.fromPlace.name,
-    );
-  }
-
-  const startName: string =
-    tmpStartName ??
-    t(PageText.Assistant.trip.tripPattern.travelFrom.unknownPlace);
-
-  switch (startLeg.mode) {
-    case 'bus':
-    case 'coach':
-      return t(PageText.Assistant.trip.tripPattern.travelFrom.bus(startName));
-    case 'tram':
-      return t(PageText.Assistant.trip.tripPattern.travelFrom.tram(startName));
-    case 'metro':
-      return t(PageText.Assistant.trip.tripPattern.travelFrom.metro(startName));
-    case 'rail':
-      return t(PageText.Assistant.trip.tripPattern.travelFrom.rail(startName));
-    case 'water':
-      if (
-        startLeg.transportSubmode &&
-        isSubModeBoat(startLeg.transportSubmode)
-      ) {
-        return t(
-          PageText.Assistant.trip.tripPattern.travelFrom.boat(startName),
-        );
-      } else {
-        return t(
-          PageText.Assistant.trip.tripPattern.travelFrom.ferry(startName),
-        );
-      }
-    case 'air':
-      return t(PageText.Assistant.trip.tripPattern.travelFrom.air(startName));
-    case 'bicycle':
-      return t(
-        PageText.Assistant.trip.tripPattern.travelFrom.bicycle(startName),
-      );
-    case 'foot':
-      return t(PageText.Assistant.trip.tripPattern.travelFrom.foot(startName));
-    default:
-      return t(
-        PageText.Assistant.trip.tripPattern.travelFrom.unknown(startName),
-      );
-  }
 }
 
 export function getQuayOrPlaceName(

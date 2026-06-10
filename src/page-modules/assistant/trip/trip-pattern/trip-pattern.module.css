@@ -19,15 +19,16 @@
   display: flex;
   flex-direction: column;
   padding: 0 token('spacing.medium');
+  background-color: token('color.background.neutral.0.background');
 }
 
-/* Legs section: grid with legs area on the left, destination on the right */
+/* Legs section */
 .legs {
-  display: grid;
-  grid-template-columns: 1fr auto;
+  display: flex;
   align-items: center;
   padding: token('spacing.small') token('spacing.medium');
   gap: token('spacing.small');
+  min-width: 0;
 }
 
 /* Container for the expanded legs row + overflow badge */
@@ -35,13 +36,14 @@
   display: flex;
   align-items: center;
   min-width: 0;
+  flex: 1;
   gap: token('spacing.xSmall');
 }
 
 /* The overflowing legs row */
 .legs__expandedLegs {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   overflow: hidden;
   gap: token('spacing.xSmall');
   flex: 0 1 auto;
@@ -50,47 +52,46 @@
 
 .legs__leg {
   display: flex;
-  flex-direction: column;
-  gap: token('spacing.small');
   flex-shrink: 0;
 }
 
 .legs__leg__walkIcon {
+  position: relative;
   background-color: token('color.background.neutral.2.background');
-  border-radius: token('border.radius.regular');
+  border-radius: token('border.radius.circle');
   display: grid;
   place-content: center;
   padding: token('spacing.small');
+}
+
+.legs__collapsedLegsContainer {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
 }
 
 .legs__collapsedLegs {
   background-color: token('color.background.neutral.2.background');
-  border-radius: token('border.radius.regular');
+  border-radius: token('border.radius.circle');
   padding: token('spacing.small') token('spacing.medium');
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-shrink: 0;
 }
 
-.legs__lastLeg {
+.legs__collapsedLegs__notification {
+  margin-left: -10px;
+  background-color: token('color.background.neutral.0.background');
+  border-radius: 50%;
+  padding: 1px;
+  line-height: 0;
   display: flex;
-  gap: token('spacing.small');
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
-  flex-shrink: 0;
+  justify-content: center;
+  z-index: 1;
 }
 
-.legs__lastLeg__icon {
-  background-color: token('color.background.neutral.2.background');
-  border-radius: token('border.radius.regular');
-  display: grid;
-  place-content: center;
-  padding: token('spacing.small');
-}
-
-/* Footer: grid with price/tags on the left, button on the right */
+/* Footer: grid with price on the left, button on the right */
 .footer {
   border-top: 1px solid token('color.background.neutral.1.background');
   display: grid;
@@ -118,23 +119,18 @@
 }
 
 .accordionBody {
+  display: flex;
+  flex-direction: column;
+  gap: token('spacing.medium');
   padding: token('spacing.medium');
+  background-color: token('color.background.neutral.0.background');
 }
 
 .accordionFooter {
   display: flex;
   justify-content: flex-end;
   padding: token('spacing.small') token('spacing.medium');
-}
-
-.timeStartContainer {
-  display: flex;
-  direction: row;
-  gap: token('spacing.xSmall');
-}
-
-.outdated {
-  color: token('color.foreground.dynamic.secondary');
+  background-color: token('color.background.neutral.0.background');
 }
 
 .chevron {
@@ -163,11 +159,4 @@
   flex-direction: row;
   gap: token('spacing.small');
   align-items: center;
-}
-
-@media (max-width: 650px) {
-  .info__container {
-    flex-direction: column;
-    align-items: flex-start;
-  }
 }

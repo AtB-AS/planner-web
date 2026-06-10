@@ -38,10 +38,6 @@
   color: token('color.foreground.dynamic.secondary');
 }
 
-.header__startPlace {
-  color: token('color.foreground.dynamic.secondary');
-}
-
 .situationIcon {
   display: flex;
   justify-content: center;

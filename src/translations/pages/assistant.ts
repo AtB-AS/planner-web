@@ -198,6 +198,27 @@ const AssistantInternal = {
           'Denne reisa er innstilt',
         ),
       },
+      statusText: {
+        cancelled: _('Innstilt', 'Cancelled', 'Innstilt'),
+        impossible: _('Ikke mulig', 'Not possible', 'Ikkje mogleg'),
+        ended: _('Reisen er ferdig', 'Trip ended', 'Reisa er ferdig'),
+        started: _('Reisen har startet', 'Trip started', 'Reisa har starta'),
+        bookingDeadlineExceeded: _(
+          'Bestillingsfristen er passert',
+          'Booking deadline exceeded',
+          'Bestillingsfristen er passert',
+        ),
+        requiresBooking: _(
+          'Krever bestilling',
+          'Requires booking',
+          'Krev bestilling',
+        ),
+        stale: _(
+          'Resultatene kan være utdaterte',
+          'Results may be outdated',
+          'Resultata kan vera utdaterte',
+        ),
+      },
     },
     fetchMore: _(
       'Last inn flere reiseforslag',
