@@ -128,6 +128,30 @@ function patchQueryModes(query: string, modesBlock: string | null): string {
   return withoutModes.replace(/trip\s*\(/, `trip(\n${modesBlock}`);
 }
 
+// Matches the single-line `whiteListed: { authorities: [...] }` block injected
+// by the authority toggle, so it can be removed/replaced idempotently.
+const WHITELISTED_AUTHORITIES_PATTERN =
+  /\n\s*whiteListed:\s*\{\s*authorities:[^}]*\}/;
+
+/**
+ * Removes any injected authority whitelist and, when an authority id is given,
+ * injects `whiteListed: { authorities: [...] }` as the first argument of
+ * `trip(...)`. This filters server-side: the JourneyPlanner only returns trips
+ * operated by the whitelisted authority — i.e. the ones the sales endpoint can
+ * price.
+ */
+function patchQueryAuthorities(
+  query: string,
+  authorityId: string | null,
+): string {
+  const without = query.replace(WHITELISTED_AUTHORITIES_PATTERN, '');
+  if (!authorityId) return without;
+  return without.replace(
+    /trip\s*\(/,
+    `trip(\n    whiteListed: { authorities: ["${authorityId}"] }`,
+  );
+}
+
 function parseLocationFromMatch(match: string): VariablesLocation | undefined {
   try {
     const place = match.match(/place:\s*"([^"]+)"/)?.[1] ?? '';
@@ -293,6 +317,11 @@ const DevTripPatternPage: NextPage<DevTripPatternPageProps> = (props) => {
   const [nextPageCursor, setNextPageCursor] = useState<string | null>(null);
   const [runCount, setRunCount] = useState(0);
   const [schema, setSchema] = useState<GraphQLSchema | undefined>(undefined);
+  // Server-side filter: whitelist the org's authority so the JourneyPlanner only
+  // returns own-operator trips (the ones the sales endpoint can price).
+  const [authorityOnly, setAuthorityOnly] = useState(false);
+
+  const { authorityId } = getOrgData();
 
   // Loaded the same way as the assistant layout so the available transport
   // modes match the real travel search filters.
@@ -384,6 +413,13 @@ const DevTripPatternPage: NextPage<DevTripPatternPageProps> = (props) => {
     setQueryText((prev) => patchQueryModes(prev, modesBlock));
   };
 
+  const onAuthorityOnlyChanged = (enabled: boolean) => {
+    setAuthorityOnly(enabled);
+    setQueryText((prev) =>
+      patchQueryAuthorities(prev, enabled ? authorityId : null),
+    );
+  };
+
   const onQueryTextChange = (text: string) => {
     setQueryText(text);
     const { from, to } = parseLocationsFromQuery(text);
@@ -405,6 +441,7 @@ const DevTripPatternPage: NextPage<DevTripPatternPageProps> = (props) => {
     setToFeature(locationToFeature(DEFAULT_TO));
     setTransportModeFilterState(null);
     setFilterResetNonce((n) => n + 1);
+    setAuthorityOnly(false);
   };
 
   const handleLoadMore = async () => {
@@ -506,6 +543,17 @@ const DevTripPatternPage: NextPage<DevTripPatternPageProps> = (props) => {
           >
             Restore defaults
           </button>
+          <label
+            className={style.filterToggle}
+            title={`Injects whiteListed: { authorities: ["${authorityId}"] } into the query — re-run to filter server-side`}
+          >
+            <input
+              type="checkbox"
+              checked={authorityOnly}
+              onChange={(e) => onAuthorityOnlyChanged(e.target.checked)}
+            />
+            <span>Only {authorityId} trips (server-side)</span>
+          </label>
         </div>
 
         {result && (
