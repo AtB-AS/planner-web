@@ -25,5 +25,5 @@
     "types": ["node", "vite/client"]
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules", "e2e-tests/k6"]
+  "exclude": ["node_modules", "e2e-tests/k6", "dist"]
 }

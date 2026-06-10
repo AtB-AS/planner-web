@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # This script prepares and builds the application for a organization
 # by setting up the environment, building the application, and organizing the output 

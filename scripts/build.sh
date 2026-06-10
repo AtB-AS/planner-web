@@ -1,6 +1,7 @@
 #!/bin/bash
+set -e
 
-# This script prepares and organizes the application for different organizations 
+# This script prepares and organizes the application for different organizations
 # by setting up the environment, building the application, and organizing the output 
 # into the 'dist' directory with separate subdirectories for each organization.
 
