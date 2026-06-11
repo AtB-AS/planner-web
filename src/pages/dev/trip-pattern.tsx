@@ -1,7 +1,6 @@
 import DefaultLayout from '@atb/layouts/default';
 import { withGlobalData, type WithGlobalData } from '@atb/modules/global-data';
 import type { GetServerSideProps, NextPage } from 'next';
-import { setCookie } from 'cookies-next';
 import { useState, useEffect } from 'react';
 import { DEV_MODE_COOKIE_NAME } from '@atb/modules/cookies/constants';
 import { TripsWithDetailsDocument } from '@atb/page-modules/assistant/journey-gql/trip-with-details.generated';
@@ -18,7 +17,14 @@ import useSWRImmutable from 'swr/immutable';
 import { uniq } from 'lodash';
 import dynamic from 'next/dynamic';
 import style from './trip-pattern.module.css';
-import { currentOrg, getOrgData } from '@atb/modules/org-data';
+import { currentOrg } from '@atb/modules/org-data';
+import { TripInspector } from '@atb/page-modules/dev/trip-inspector';
+import atb from '../../../orgs/atb.json';
+import fram from '../../../orgs/fram.json';
+import nfk from '../../../orgs/nfk.json';
+import troms from '../../../orgs/troms.json';
+import vkt from '../../../orgs/vkt.json';
+import farte from '../../../orgs/farte.json';
 
 const GraphQLEditor = dynamic(() => import('@atb/components/graphql-editor'), {
   ssr: false,
@@ -264,34 +270,12 @@ function buildDefaultInlinedQuery(fragments: string): string {
 ${fragments}`;
 }
 
-/**
- * Collects the unique fare zones (ids containing "ATB:FareZone") the trip
- * passes through, in the order they are first encountered, from the quays of
- * each leg's from/to place. Deduped by zone id.
- */
-function getTripPatternZones(
-  tripPattern: ExtendedTripPatternWithDetailsType,
-): { id: string; name?: string }[] {
-  const zones: { id: string; name?: string }[] = [];
-  const seen = new Set<string>();
-
-  for (const leg of tripPattern.legs) {
-    for (const place of [leg.fromPlace, leg.toPlace]) {
-      for (const zone of place?.quay?.tariffZones ?? []) {
-        if (
-          zone?.id &&
-          zone.id.includes(`${currentOrg.toUpperCase()}:FareZone`) &&
-          !seen.has(zone.id)
-        ) {
-          seen.add(zone.id);
-          zones.push({ id: zone.id, name: zone.name ?? undefined });
-        }
-      }
-    }
-  }
-
-  return zones;
-}
+// Authorities selectable in the dev config panel, the current org's first.
+const ALL_AUTHORITIES = [atb, nfk, fram, troms, vkt, farte]
+  .map((org) => ({ orgId: org.orgId, authorityId: org.authorityId }))
+  .sort((a, b) =>
+    a.orgId === currentOrg ? -1 : b.orgId === currentOrg ? 1 : 0,
+  );
 
 const DevTripPatternPage: NextPage<DevTripPatternPageProps> = (props) => {
   const { defaultGqlQuery, fragments } = props;
@@ -317,11 +301,12 @@ const DevTripPatternPage: NextPage<DevTripPatternPageProps> = (props) => {
   const [nextPageCursor, setNextPageCursor] = useState<string | null>(null);
   const [runCount, setRunCount] = useState(0);
   const [schema, setSchema] = useState<GraphQLSchema | undefined>(undefined);
-  // Server-side filter: whitelist the org's authority so the JourneyPlanner only
-  // returns own-operator trips (the ones the sales endpoint can price).
-  const [authorityOnly, setAuthorityOnly] = useState(false);
-
-  const { authorityId } = getOrgData();
+  // Server-side filter: whitelist a single authority so the JourneyPlanner
+  // only returns that operator's trips (e.g. the ones the sales endpoint can
+  // price).
+  const [authorityFilter, setAuthorityFilter] = useState<string | null>(null);
+  // Toggles the per-trip inspector panels in the results.
+  const [showInspector, setShowInspector] = useState(false);
 
   // Loaded the same way as the assistant layout so the available transport
   // modes match the real travel search filters.
@@ -413,11 +398,9 @@ const DevTripPatternPage: NextPage<DevTripPatternPageProps> = (props) => {
     setQueryText((prev) => patchQueryModes(prev, modesBlock));
   };
 
-  const onAuthorityOnlyChanged = (enabled: boolean) => {
-    setAuthorityOnly(enabled);
-    setQueryText((prev) =>
-      patchQueryAuthorities(prev, enabled ? authorityId : null),
-    );
+  const onAuthorityFilterChanged = (authority: string | null) => {
+    setAuthorityFilter(authority);
+    setQueryText((prev) => patchQueryAuthorities(prev, authority));
   };
 
   const onQueryTextChange = (text: string) => {
@@ -425,11 +408,6 @@ const DevTripPatternPage: NextPage<DevTripPatternPageProps> = (props) => {
     const { from, to } = parseLocationsFromQuery(text);
     setFromFeature(from);
     setToFeature(to);
-  };
-
-  const toggleDevMode = () => {
-    setCookie(DEV_MODE_COOKIE_NAME, 'false', { path: '/' });
-    window.location.reload();
   };
 
   const handleRun = () => runQuery(queryText);
@@ -441,7 +419,7 @@ const DevTripPatternPage: NextPage<DevTripPatternPageProps> = (props) => {
     setToFeature(locationToFeature(DEFAULT_TO));
     setTransportModeFilterState(null);
     setFilterResetNonce((n) => n + 1);
-    setAuthorityOnly(false);
+    setAuthorityFilter(null);
   };
 
   const handleLoadMore = async () => {
@@ -475,17 +453,6 @@ const DevTripPatternPage: NextPage<DevTripPatternPageProps> = (props) => {
   return (
     <DefaultLayout {...props} title="Dev: Trip Pattern">
       <div className={style.container}>
-        <div className={style.statusBar}>
-          <span className={style.statusLabel}>Dev mode:</span>
-          <span className={style.statusEnabled}>ENABLED</span>
-          <button
-            className={`${style.button} ${style.buttonSecondary}`}
-            onClick={toggleDevMode}
-          >
-            Disable
-          </button>
-        </div>
-
         <div className={style.section}>
           <span className={style.label}>Locations</span>
           <div className={style.searchRow}>
@@ -506,27 +473,56 @@ const DevTripPatternPage: NextPage<DevTripPatternPageProps> = (props) => {
           </div>
         </div>
 
-        {transportModeFilterData && (
-          <details className={style.section}>
-            <summary className={style.label}>Transport modes</summary>
-            <div className={style.transportModeFilter}>
-              <TransportModeFilter
-                key={filterResetNonce}
-                filterState={transportModeFilterState}
-                data={transportModeFilterData}
-                onChange={onTransportModeFilterChanged}
-              />
-            </div>
-          </details>
-        )}
-
-        <details className={style.section} open>
-          <summary className={style.label}>Query</summary>
+        <div className={style.section}>
+          <span className={style.label}>GraphQL</span>
           <GraphQLEditor
             value={queryText}
             onChange={onQueryTextChange}
             schema={schema}
           />
+        </div>
+
+        <details className={style.section}>
+          <summary className={style.label}>Query options</summary>
+          {transportModeFilterData && (
+            <div className={style.fieldBlock}>
+              <span className={style.subLabel}>Transport modes</span>
+              <div className={style.fieldPanel}>
+                <TransportModeFilter
+                  key={filterResetNonce}
+                  filterState={transportModeFilterState}
+                  data={transportModeFilterData}
+                  onChange={onTransportModeFilterChanged}
+                />
+              </div>
+            </div>
+          )}
+          <div className={style.fieldBlock}>
+            <span className={style.subLabel}>Authority</span>
+            <div
+              className={style.fieldPanel}
+              title="Injects whiteListed: { authorities: [...] } into the query — re-run to filter server-side"
+            >
+              <select
+                className={style.select}
+                value={authorityFilter ?? ''}
+                onChange={(e) =>
+                  onAuthorityFilterChanged(e.target.value || null)
+                }
+              >
+                <option value="">All authorities</option>
+                {ALL_AUTHORITIES.map((authority) => (
+                  <option
+                    key={authority.authorityId}
+                    value={authority.authorityId}
+                  >
+                    {authority.orgId.toUpperCase()} — {authority.authorityId}
+                    {authority.orgId === currentOrg ? ' (current)' : ''}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
         </details>
 
         <div className={style.controls}>
@@ -543,17 +539,20 @@ const DevTripPatternPage: NextPage<DevTripPatternPageProps> = (props) => {
           >
             Restore defaults
           </button>
-          <label
-            className={style.filterToggle}
-            title={`Injects whiteListed: { authorities: ["${authorityId}"] } into the query — re-run to filter server-side`}
-          >
-            <input
-              type="checkbox"
-              checked={authorityOnly}
-              onChange={(e) => onAuthorityOnlyChanged(e.target.checked)}
-            />
-            <span>Only {authorityId} trips (server-side)</span>
-          </label>
+        </div>
+
+        <div className={style.fieldBlock}>
+          <span className={style.subLabel}>View</span>
+          <div className={style.fieldPanel}>
+            <label className={style.fieldRow}>
+              <span className={style.fieldRowLabel}>Inspector</span>
+              <input
+                type="checkbox"
+                checked={showInspector}
+                onChange={(e) => setShowInspector(e.target.checked)}
+              />
+            </label>
+          </div>
         </div>
 
         {result && (
@@ -563,27 +562,23 @@ const DevTripPatternPage: NextPage<DevTripPatternPageProps> = (props) => {
                 <span className={style.label}>Trip patterns</span>
                 <div className={style.tripPatterns}>
                   {result.tripPatterns.map((tripPattern, i) => {
-                    const zones = getTripPatternZones(tripPattern);
                     return (
                       <div
                         key={`${runCount}-${i}-${tripPattern.compressedQuery}`}
+                        className={style.tripPatternRow}
                       >
-                        <TripPattern
-                          tripPattern={tripPattern}
-                          delay={i * 0.05}
-                          index={i}
-                        />
-                        {zones.length > 0 && (
-                          <div className={style.zonesPassed}>
-                            <span>Zones passed:</span>
-                            {zones.map((zone) => (
-                              <span key={zone.id}>
-                                {zone.name
-                                  ? `${zone.name} (${zone.id})`
-                                  : zone.id}
-                              </span>
-                            ))}
-                          </div>
+                        <div className={style.tripPatternMain}>
+                          <TripPattern
+                            tripPattern={tripPattern}
+                            delay={i * 0.05}
+                            index={i}
+                          />
+                        </div>
+                        {showInspector && (
+                          <TripInspector
+                            tripPattern={tripPattern}
+                            delay={i * 0.05}
+                          />
                         )}
                       </div>
                     );
