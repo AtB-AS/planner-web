@@ -23,6 +23,7 @@ const dummySituation: SituationFragment = {
     startTime: '2024-11-21T00:00:00+01:00',
     endTime: '2024-11-23T23:59:59+01:00',
   },
+  affects: [],
 };
 
 describe('isSituationValidAtDate', () => {

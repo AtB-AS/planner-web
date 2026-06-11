@@ -2,7 +2,8 @@ import { ColorIcons, MonoIcons } from '@atb/components/icon';
 import { Language } from '@atb/translations';
 import { getTextForLanguage } from '@atb/translations/utils';
 import { daysBetween, isBetween } from '@atb/utils/date';
-import { onlyUniquesBasedOnField } from '@atb/utils/only-uniques';
+import { onlyUniques, onlyUniquesBasedOnField } from '@atb/utils/only-uniques';
+import { isDefined } from '@atb/utils/presence';
 import { StatusColorName } from '@atb/modules/theme';
 import { isAfter, isBefore } from 'date-fns';
 import {
@@ -107,6 +108,26 @@ export const getSituationSummary = (
  */
 export const validateEndTime = (endTime?: string) =>
   endTime && daysBetween(new Date(), endTime) <= 365 ? endTime : undefined;
+
+/**
+ * Extract unique stop place / quay names from a situation's affects list.
+ */
+export const getAffectedStopNames = (
+  affects: SituationFragment['affects'],
+): string[] =>
+  affects
+    .map((affect) => {
+      switch (affect.__typename) {
+        case 'AffectedStopPlace':
+        case 'AffectedStopPlaceOnServiceJourney':
+        case 'AffectedStopPlaceOnLine':
+          return affect.stopPlace?.name ?? affect.quay?.name;
+        default:
+          return undefined;
+      }
+    })
+    .filter(isDefined)
+    .filter(onlyUniques);
 
 /**
  * Check if a situation is valid at a specific date by comparing it to the
