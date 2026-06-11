@@ -18,16 +18,8 @@ export const Situation = {
       ),
   },
   affectedStopPlaces: {
-    header: _(
-      'Påvirker',
-      'Affects',
-      'Påverkar',
-    ),
+    header: _('Påvirker', 'Affects', 'Påverkar'),
     otherStops: (count: number) =>
-      _(
-        `${count} andre stopp`,
-        `${count} other stops`,
-        `${count} andre stopp`,
-      ),
+      _(`${count} andre stopp`, `${count} other stops`, `${count} andre stopp`),
   },
 };
