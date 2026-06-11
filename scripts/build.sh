@@ -2,7 +2,7 @@
 set -e
 
 # This script prepares and organizes the application for different organizations
-# by setting up the environment, building the application, and organizing the output 
+# by setting up the environment, building the application, and organizing the output
 # into the 'dist' directory with separate subdirectories for each organization.
 
 mkdir dist
@@ -11,9 +11,9 @@ for orgId in atb nfk fram troms vkt farte; do
   mkdir dist/$orgId
   export NEXT_PUBLIC_PLANNER_ORG_ID=$orgId
   # @TODO FIX THIS
-  echo "Running yarn setup && yarn build for $orgId"
-  yarn setup $orgId
-  yarn build
+  echo "Running pnpm setup && pnpm build for $orgId"
+  pnpm setup $orgId
+  pnpm build
 
   echo "Moving the output into the dist directory"
   mv .next/standalone dist/$orgId

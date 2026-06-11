@@ -9,10 +9,10 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version-file: '.nvmrc'
-          cache: 'yarn'
-      - run: yarn
-      - run: yarn generate
-      - run: yarn setup
+          cache: 'pnpm'
+      - run: pnpm
+      - run: pnpm generate
+      - run: pnpm setup
         env:
           NEXT_PUBLIC_PLANNER_ORG_ID: atb
-      - run: yarn test
+      - run: pnpm test

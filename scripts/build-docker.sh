@@ -2,7 +2,7 @@
 set -e
 
 # This script prepares and builds the application for a organization
-# by setting up the environment, building the application, and organizing the output 
+# by setting up the environment, building the application, and organizing the output
 # into a organization specific subdirectiory in the 'dist' directory.
 
 # Clean potential previous builds
@@ -11,9 +11,9 @@ rm -rf .next/
 
 mkdir -p dist
 mkdir -p dist/$NEXT_PUBLIC_PLANNER_ORG_ID
-echo "Running yarn setup && yarn build for $NEXT_PUBLIC_PLANNER_ORG_ID"
-yarn setup
-yarn build
+echo "Running pnpm setup && pnpm build for $NEXT_PUBLIC_PLANNER_ORG_ID"
+pnpm setup
+pnpm build
 
 echo "Moving the output into the dist directory"
 mv .next/standalone dist/$NEXT_PUBLIC_PLANNER_ORG_ID
