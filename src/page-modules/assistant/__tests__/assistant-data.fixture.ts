@@ -435,6 +435,7 @@ export const tripPatternsViaTo: ViaTripsWithDetailsQuery['viaTrip']['tripPattern
                 startTime: '2024-01-31T10:12:39+01:00',
                 endTime: '2024-01-31T23:59:00+01:00',
               },
+              affects: [],
             },
           ],
           fromPlace: {
@@ -738,6 +739,7 @@ export const tripPatternsFromViaTo: ViaTripsWithDetailsQuery['viaTrip']['tripPat
                 startTime: '2024-01-31T10:12:39+01:00',
                 endTime: '2024-01-31T23:59:00+01:00',
               },
+              affects: [],
             },
           ],
           fromPlace: {
