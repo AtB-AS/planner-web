@@ -129,6 +129,48 @@
   min-width: 0;
 }
 
+.ticketPlan {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-top: 0.25rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.8rem;
+  border-radius: 4px;
+  border: 1px solid var(--color-background-neutral-2-background, #e0e0e0);
+  background: var(--color-background-neutral-1-background, #f5f5f5);
+}
+
+.ticketPlanWarn {
+  border-color: #d9a400;
+  background: #fff8e6;
+}
+
+.ticketPlanHeader {
+  font-weight: 600;
+}
+
+.ticketRow {
+  display: flex;
+  flex-direction: column;
+}
+
+.ticketBoardings,
+.ticketTrigger {
+  color: var(--color-background-neutral-0-foreground, #555);
+  font-size: 0.75rem;
+}
+
+.ticketTrigger {
+  font-style: italic;
+}
+
+.ticketRecommendation {
+  margin-top: 0.25rem;
+  font-weight: 600;
+  color: #8a6d00;
+}
+
 .rawResponse {
   margin-top: 0.5rem;
 }
