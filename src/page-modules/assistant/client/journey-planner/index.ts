@@ -1,10 +1,12 @@
 import {
+  ExtendedTripPatternWithDetailsType,
   NonTransitTripData,
   TripQuery,
   FromToTripQuery,
   TripsType,
 } from '../../types';
-import { swrFetcher } from '@atb/modules/api-browser';
+import { swrFetcher, swrPostFetcher } from '@atb/modules/api-browser';
+import useSWR from 'swr';
 import useSWRInfinite from 'swr/infinite';
 import { createTripQuery, tripQueryToQueryString } from '../../utils';
 import { useEffect, useRef, useState } from 'react';
@@ -104,6 +106,37 @@ export function useTripPatterns(
 
 function getTripPatternCount(data: TripApiReturnType[] | undefined) {
   return data?.reduce((acc, curr) => acc + curr.tripPatterns.length, 0) ?? 0;
+}
+
+const TRIP_REFRESH_INTERVAL_MS = 30_000;
+
+/**
+ * Polls /api/assistant/refresh-trip with the given (original) trip pattern,
+ * returning a refreshed version with up-to-date leg times and a trip-level
+ * `status` ('valid' | 'impossible' | 'stale').
+ *
+ * The SWR key is based on the original pattern, which is stable across
+ * refreshes, so polling does not churn the cache key.
+ */
+export function useRefreshedTripPattern(
+  tripPattern: ExtendedTripPatternWithDetailsType,
+  shouldFetch: boolean,
+) {
+  const { data, error, isLoading } =
+    useSWR<ExtendedTripPatternWithDetailsType>(
+      shouldFetch ? ['/api/assistant/refresh-trip', tripPattern] : null,
+      swrPostFetcher,
+      {
+        refreshInterval: TRIP_REFRESH_INTERVAL_MS,
+        revalidateOnFocus: false,
+      },
+    );
+
+  return {
+    refreshedTripPattern: data,
+    isLoading,
+    isError: Boolean(error),
+  };
 }
 
 export function useNonTransitTrip(tripQuery: FromToTripQuery) {
