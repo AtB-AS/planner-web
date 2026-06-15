@@ -1,4 +1,7 @@
 .ticketPlan {
+  /* Cap the width so the per-ticket lines wrap instead of stretching the row
+     (only constrains width, so it still stacks cleanly on narrow screens). */
+  max-width: 19rem;
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
