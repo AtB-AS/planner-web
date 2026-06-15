@@ -506,8 +506,7 @@ export function computeTicketPlan(
   // ticket is valid 24h instead of 3 × 90 min.
   const singleZoneTrip = tickets.every((t) => t.zoneCount === 1);
   const recommendDayTicket =
-    singleZoneTrip &&
-    tickets.length > tariff.maxSingleTicketsBeforeDayTicket;
+    singleZoneTrip && tickets.length > tariff.maxSingleTicketsBeforeDayTicket;
 
   return {
     tickets,
