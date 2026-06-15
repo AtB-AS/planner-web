@@ -17,6 +17,7 @@ import dynamic from 'next/dynamic';
 import style from './trip-pattern.module.css';
 import { currentOrg } from '@atb/modules/org-data';
 import { TripInspector } from '@atb/page-modules/dev/trip-inspector';
+import { TicketPlanPanel } from '@atb/page-modules/dev/ticket-plan';
 import atb from '../../../orgs/atb.json';
 import fram from '../../../orgs/fram.json';
 import nfk from '../../../orgs/nfk.json';
@@ -33,8 +34,6 @@ import {
   parseLocationsFromQuery,
   injectPageCursor,
   buildDefaultInlinedQuery,
-  computeTicketPlan,
-  formatOsloTime,
   WANTED_TRIP_PATTERNS,
   MAX_SEARCH_ATTEMPTS,
   DEFAULT_FROM,
@@ -355,85 +354,29 @@ const DevTripPatternPage: NextPage<DevTripPatternPageProps> = (props) => {
               <div className={style.section}>
                 <span className={style.label}>Trip patterns</span>
                 <div className={style.tripPatterns}>
-                  {result.tripPatterns.map((tripPattern, i) => {
-                    const plan = showTicketPlan
-                      ? computeTicketPlan(tripPattern)
-                      : null;
-                    return (
-                      <div
-                        key={`${runCount}-${i}-${tripPattern.compressedQuery}`}
-                        className={style.tripPatternRow}
-                      >
-                        {showInspector && (
-                          <TripInspector
-                            tripPattern={tripPattern}
-                            delay={i * 0.05}
-                          />
-                        )}
-                        <div className={style.tripPatternMain}>
-                          <TripPattern
-                            tripPattern={tripPattern}
-                            delay={i * 0.05}
-                            index={i}
-                          />
-                        </div>
-                        {showTicketPlan && plan && (
-                          <div
-                            className={`${style.ticketPlan} ${
-                              plan.recommendDayTicket
-                                ? style.ticketPlanWarn
-                                : ''
-                            }`}
-                          >
-                            <span className={style.ticketPlanHeader}>
-                              {plan.tickets.length > 1
-                                ? `${plan.recommendDayTicket ? '⚠ ' : ''}${
-                                    plan.tickets.length
-                                  } single tickets · ${plan.singleTotalKr} kr`
-                                : `1 ticket covers this trip · ${plan.singleTotalKr} kr`}
-                            </span>
-                            {plan.tickets.map((ticket, ti) => (
-                              <div key={ti} className={style.ticketRow}>
-                                <span>
-                                  {`Ticket ${ti + 1}: ${ticket.fromZone}→${
-                                    ticket.toZone
-                                  } · ${ticket.zoneCount} ${
-                                    ticket.zoneCount === 1 ? 'zone' : 'zones'
-                                  } · ${ticket.priceKr} kr · ${ticket.validityMinutes} min · ${formatOsloTime(
-                                    ticket.activatedAtMs,
-                                  )}–${formatOsloTime(ticket.expiresAtMs)}`}
-                                </span>
-                                <span className={style.ticketBoardings}>
-                                  {`covers: ${ticket.boardings
-                                    .map(
-                                      (b) =>
-                                        `${formatOsloTime(b.timeMs)} (${b.label})`,
-                                    )
-                                    .join(', ')}`}
-                                </span>
-                                {ti > 0 && (
-                                  <span className={style.ticketTrigger}>
-                                    {`new ticket — previous expired ${formatOsloTime(
-                                      plan.tickets[ti - 1].expiresAtMs,
-                                    )}`}
-                                  </span>
-                                )}
-                              </div>
-                            ))}
-                            {plan.recommendDayTicket && (
-                              <span className={style.ticketRecommendation}>
-                                {`💡 Buy a 24-hour ticket (${plan.dayTicketKr} kr, valid 24h in zone ${plan.tickets[0].fromZone}) instead — ${
-                                  plan.singleTotalKr > plan.dayTicketKr
-                                    ? `saves ${plan.singleTotalKr - plan.dayTicketKr} kr`
-                                    : 'same price but valid all day'
-                                }`}
-                              </span>
-                            )}
-                          </div>
-                        )}
+                  {result.tripPatterns.map((tripPattern, i) => (
+                    <div
+                      key={`${runCount}-${i}-${tripPattern.compressedQuery}`}
+                      className={style.tripPatternRow}
+                    >
+                      {showInspector && (
+                        <TripInspector
+                          tripPattern={tripPattern}
+                          delay={i * 0.05}
+                        />
+                      )}
+                      <div className={style.tripPatternMain}>
+                        <TripPattern
+                          tripPattern={tripPattern}
+                          delay={i * 0.05}
+                          index={i}
+                        />
                       </div>
-                    );
-                  })}
+                      {showTicketPlan && (
+                        <TicketPlanPanel tripPattern={tripPattern} />
+                      )}
+                    </div>
+                  ))}
                 </div>
                 {nextPageCursor && (
                   <button
