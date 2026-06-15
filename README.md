@@ -28,6 +28,8 @@ See all additional configuration in `.env.example`.
 ### Setup & Running locally
 
 ```bash
+# Enable corepack to install the correct pnpm version
+corepack enable
 
 # Generate assets and icons specific for org
 pnpm refresh-assets
