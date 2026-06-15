@@ -83,6 +83,9 @@ describe('assistant page', function () {
       async singleTrip() {
         return {} as any;
       },
+      async refreshSingleTrip() {
+        return {} as any;
+      },
       async lines() {
         return {} as any;
       },
@@ -348,6 +351,9 @@ describe('assistant page', function () {
         return {} as any;
       },
       async singleTrip() {
+        return {} as any;
+      },
+      async refreshSingleTrip() {
         return {} as any;
       },
       async lines() {
