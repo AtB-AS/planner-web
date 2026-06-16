@@ -54,32 +54,17 @@ pnpm refresh-assets
 ## Developer mode
 
 Developer mode unlocks the debugging interface at `/dev/trip-pattern`, which
-lets you edit GraphQL queries directly, inspect trip patterns (including fare
-zones), filter by authority and transport mode, and view raw API responses.
+lets you edit GraphQL queries directly and see detailed metadata.
 
-There is no UI toggle. It is gated by a browser cookie that you set manually.
-Both the `/dev/trip-pattern` page and the `/api/dev/graphql` endpoint return a
-not-found/forbidden response unless the cookie is present.
-
-The cookie gate works the same in every environment, so dev mode is also
-available in staging and production — set the cookie there and open
-`/dev/trip-pattern` on that environment's URL.
-
-To enable it, set the `dev-mode-enabled` cookie to `true`. The easiest way is to
-run this in your browser's DevTools console (with the app open):
+To enable it, set the `dev-mode-enabled` cookie to `true`. Run this in the
+DevTools console:
 
 ```js
-document.cookie = 'dev-mode-enabled=true; path=/; max-age=31536000';
+document.cookie = 'dev-mode-enabled=true';
 ```
 
-Then reload and open `https://<host>/dev/trip-pattern` (e.g.
-`http://localhost:3000/dev/trip-pattern` when running locally). To disable it
-again, delete the cookie (e.g. via the Application → Cookies tab in DevTools) or
-expire it:
-
-```js
-document.cookie = 'dev-mode-enabled=; path=/; max-age=0';
-```
+Then load `/dev/trip-pattern`. This works in any environment — set the cookie on
+that host to use dev mode in staging or production too.
 
 ## Release
 
