@@ -330,22 +330,42 @@ function fareZoneIdOfPlace(place: PlaceWithZones | undefined): string | null {
   );
 }
 
+// Sorted unique zone names for the active org — drives the dev "owned tickets"
+// editor. Empty when the org has no tariff config.
+export const ACTIVE_ZONE_NAMES: string[] = ACTIVE_TARIFF
+  ? Object.keys(ACTIVE_TARIFF.connections).sort()
+  : [];
+
 /**
- * Billed number of zones between two fare zones, via the active org's connection
- * graph (neighbours = 2 zones, same zone = 1). Returns null when either zone is
- * unknown, so callers can fall back to counting zones travelled.
+ * Billed number of zones between two zone *names* via the active org's
+ * connection graph (neighbours = 2 zones, same zone = 1). Null when either name
+ * is unknown.
  */
-function zoneCountBetween(
-  fromId: string | null,
-  toId: string | null,
-  t: TariffConfig,
-): number | null {
-  if (!fromId || !toId) return null;
-  const a = t.zoneNames[fromId];
-  const b = t.zoneNames[toId];
-  if (!a || !b) return null;
+function zoneCountBetweenNames(a: string, b: string): number | null {
   const count = ACTIVE_ZONE_COUNT[a]?.[b];
   return Number.isFinite(count) ? count : null;
+}
+
+/**
+ * Ordered list of the org's fare-zone *names* the legs traverse, deduped (first
+ * occurrence wins), e.g. [A, C6, D]. This is the real route, used to bill the
+ * un-owned remainder of a journey.
+ */
+function traversedZoneNames(legs: TripLeg[], t: TariffConfig): string[] {
+  const names: string[] = [];
+  const seen = new Set<string>();
+  for (const leg of legs) {
+    for (const place of [leg.fromPlace, leg.toPlace]) {
+      const id = fareZoneIdOfPlace(place);
+      if (!id) continue;
+      const name = t.zoneNames[id] ?? id;
+      if (!seen.has(name)) {
+        seen.add(name);
+        names.push(name);
+      }
+    }
+  }
+  return names;
 }
 
 const osloTimeFormatter = new Intl.DateTimeFormat('no-NO', {
@@ -363,6 +383,8 @@ function legLabel(leg: TripLeg): string {
 }
 
 export type TicketSegment = {
+  // For a bought ticket: the un-owned span it pays for (e.g. C6→D). For a
+  // covered segment: the boarding's own from/to zones.
   fromZone: string;
   toZone: string;
   zoneCount: number;
@@ -371,7 +393,46 @@ export type TicketSegment = {
   activatedAtMs: number;
   expiresAtMs: number;
   boardings: { timeMs: number; label: string }[];
+  // True when an owned, still-valid ticket already covers the whole span, so
+  // nothing is bought for it.
+  fullyCovered: boolean;
+  // Zone names within this span an owned ticket covers (dropped from the billed
+  // count). Empty when the traveller owns nothing along it.
+  coveredZones: string[];
 };
+
+/**
+ * A ticket the traveller already holds. `kind` is for labelling only — the
+ * calculation uses `zones` (the zone names it's valid in) and `remainingMinutes`
+ * (validity left at the trip's start; undefined = valid for the whole trip).
+ */
+export type OwnedTicket = {
+  kind: 'day' | 'single' | 'period';
+  zones: string[];
+  remainingMinutes?: number;
+};
+
+/**
+ * Zone names covered by owned tickets still valid at `timeMs`, where each
+ * ticket's validity is measured from the trip's first boarding.
+ */
+function ownedValidNamesAt(
+  timeMs: number,
+  firstBoardingMs: number,
+  owned: OwnedTicket[],
+): Set<string> {
+  const set = new Set<string>();
+  for (const ticket of owned) {
+    const expiry =
+      ticket.remainingMinutes == null
+        ? Infinity
+        : firstBoardingMs + ticket.remainingMinutes * 60_000;
+    if (timeMs <= expiry) {
+      for (const zone of ticket.zones) set.add(zone);
+    }
+  }
+  return set;
+}
 
 export type TicketPlan = {
   tickets: TicketSegment[];
@@ -389,22 +450,29 @@ export type TicketPlan = {
  * count between two zones comes from the connection graph (pass-through zones
  * aren't charged — neighbours are 2 zones).
  *
- * Each ticket is activated at a boarding and billed `origin → the destination of
- * the last leg it actually covers` (not the journey's final zone), so a
- * force-split trip pays only for the zones ridden on each ticket. A ticket is
- * extended to the next boarding only while a ticket spanning origin → that
- * boarding's destination would still be valid at that boarding's time
- * (`90 + 60·(zones − 1)` min); the first boarding that no longer fits starts the
- * next ticket. Returns null when the org has no tariff config or the trip has no
- * transit legs.
+ * When the traveller already holds tickets (`options.ownedTickets`), each
+ * span's billed zones are computed on the **un-owned remainder of the real
+ * route**: collect the traversed zone names, drop the zones an owned, still-
+ * valid ticket covers, then bill `zoneCountBetween(firstRemaining,
+ * lastRemaining)`. A span whose remainder is empty is fully covered and bought
+ * nothing — it's recorded as a covered segment. With no owned tickets the
+ * remainder is the whole route, so this reduces to billing origin → the
+ * destination of the last leg the ticket covers.
+ *
+ * Each ticket is activated at a boarding and extended to the next boarding only
+ * while it would still be valid at that boarding's time (`90 + 60·(zones − 1)`
+ * min) and that boarding isn't itself fully covered by an owned ticket. Returns
+ * null when the org has no tariff config or the trip has no transit legs.
  */
 export function computeTicketPlan(
   tripPattern: ExtendedTripPatternWithDetailsType,
+  options: { ownedTickets?: OwnedTicket[] } = {},
 ): TicketPlan | null {
   const tariff = ACTIVE_TARIFF;
   // No tariff config for this org → no ticket plan (rather than wrong numbers).
   if (!tariff) return null;
 
+  const owned = options.ownedTickets ?? [];
   const legs = tripPattern.legs;
   // Index of each transit leg (a "boarding"); walk legs need no ticket.
   const boardingLegs = legs
@@ -413,21 +481,52 @@ export function computeTicketPlan(
 
   if (boardingLegs.length === 0) return null;
 
-  // Billed zones between two fare zones via the connection graph, falling back
-  // to the literal zones travelled across the covered legs if a zone id can't
-  // be resolved.
-  const billedZones = (
-    fromId: string | null,
-    toId: string | null,
+  const firstBoardingMs = new Date(
+    boardingLegs[0].leg.expectedStartTime,
+  ).getTime();
+
+  // Bill legs[fromLegIndex..toLegIndex] for a ticket activated at `atMs`, after
+  // dropping zones an owned, still-valid ticket covers. Returns the billed zone
+  // count (0 = fully covered), the un-owned span endpoints, and the owned zones
+  // it absorbed.
+  const billSpan = (
     fromLegIndex: number,
     toLegIndex: number,
-  ): number => {
-    const connection = zoneCountBetween(fromId, toId, tariff);
-    if (connection != null) return connection;
-    return Math.max(
-      1,
-      collectFareZones(legs.slice(fromLegIndex, toLegIndex + 1)).length,
+    atMs: number,
+  ): {
+    zoneCount: number;
+    fromZone: string;
+    toZone: string;
+    coveredZones: string[];
+  } => {
+    const chain = traversedZoneNames(
+      legs.slice(fromLegIndex, toLegIndex + 1),
+      tariff,
     );
+    const ownedZones = ownedValidNamesAt(atMs, firstBoardingMs, owned);
+    const remaining = chain.filter((zone) => !ownedZones.has(zone));
+    const coveredZones = chain.filter((zone) => ownedZones.has(zone));
+
+    if (remaining.length === 0) {
+      return {
+        zoneCount: 0,
+        fromZone: chain[0] ?? '?',
+        toZone: chain[chain.length - 1] ?? '?',
+        coveredZones,
+      };
+    }
+
+    const first = remaining[0];
+    const last = remaining[remaining.length - 1];
+    // Fall back to the count of distinct un-owned zones if the graph can't
+    // resolve a span between the endpoints.
+    const span = zoneCountBetweenNames(first, last);
+    return {
+      zoneCount: span ?? remaining.length,
+      fromZone: first,
+      toZone: last,
+      coveredZones,
+    };
   };
 
   const tickets: TicketSegment[] = [];
@@ -435,78 +534,81 @@ export function computeTicketPlan(
 
   while (cursor < boardingLegs.length) {
     const start = boardingLegs[cursor];
-    const originZoneId = fareZoneIdOfPlace(start.leg.fromPlace);
     const activatedAtMs = new Date(start.leg.expectedStartTime).getTime();
 
-    // Extend to cover the next boarding only while a ticket spanning origin →
-    // that boarding's destination would still be valid at its boarding time.
+    // A boarding whose own span is fully owned needs no ticket — record it as a
+    // covered segment and move on.
+    const startSelf = billSpan(start.index, start.index, activatedAtMs);
+    if (startSelf.zoneCount === 0) {
+      tickets.push({
+        fromZone: startSelf.fromZone,
+        toZone: startSelf.toZone,
+        zoneCount: 0,
+        validityMinutes: 0,
+        priceKr: 0,
+        activatedAtMs,
+        expiresAtMs: activatedAtMs,
+        boardings: [{ timeMs: activatedAtMs, label: legLabel(start.leg) }],
+        fullyCovered: true,
+        coveredZones: startSelf.coveredZones,
+      });
+      cursor += 1;
+      continue;
+    }
+
+    // Extend one new ticket to cover later boardings while it stays valid and
+    // those boardings aren't independently covered by an owned ticket.
     let last = cursor;
     while (last + 1 < boardingLegs.length) {
       const next = boardingLegs[last + 1];
-      const candidateDestId = fareZoneIdOfPlace(next.leg.toPlace);
-      const candidateZones = billedZones(
-        originZoneId,
-        candidateDestId,
-        start.index,
-        next.index,
-      );
+      const nextTimeMs = new Date(next.leg.expectedStartTime).getTime();
+      const nextSelf = billSpan(next.index, next.index, nextTimeMs);
+      if (nextSelf.zoneCount === 0) break; // covered separately
+      const candidate = billSpan(start.index, next.index, activatedAtMs);
       const candidateExpiry =
-        activatedAtMs + zoneValidityMinutes(candidateZones, tariff) * 60_000;
-      if (new Date(next.leg.expectedStartTime).getTime() > candidateExpiry) {
-        break;
-      }
+        activatedAtMs +
+        zoneValidityMinutes(candidate.zoneCount, tariff) * 60_000;
+      if (nextTimeMs > candidateExpiry) break;
       last += 1;
     }
 
-    // The ticket is billed origin → the last leg it actually covers.
     const lastEntry = boardingLegs[last];
-    const destZoneId = fareZoneIdOfPlace(lastEntry.leg.toPlace);
-    const zoneCount = billedZones(
-      originZoneId,
-      destZoneId,
-      start.index,
-      lastEntry.index,
-    );
-    const validityMinutes = zoneValidityMinutes(zoneCount, tariff);
-    const priceKr = singleTicketPriceKr(zoneCount, tariff);
-    const expiresAtMs = activatedAtMs + validityMinutes * 60_000;
-
-    const covered = collectFareZones(
-      legs.slice(start.index, lastEntry.index + 1),
-    );
-    const boardings = boardingLegs.slice(cursor, last + 1).map((entry) => ({
-      timeMs: new Date(entry.leg.expectedStartTime).getTime(),
-      label: legLabel(entry.leg),
-    }));
+    const final = billSpan(start.index, lastEntry.index, activatedAtMs);
+    const validityMinutes = zoneValidityMinutes(final.zoneCount, tariff);
+    const priceKr = singleTicketPriceKr(final.zoneCount, tariff);
 
     tickets.push({
-      fromZone: originZoneId
-        ? (tariff.zoneNames[originZoneId] ?? originZoneId)
-        : (covered[0]?.name ?? '?'),
-      toZone: destZoneId
-        ? (tariff.zoneNames[destZoneId] ?? destZoneId)
-        : (covered[covered.length - 1]?.name ?? '?'),
-      zoneCount,
+      fromZone: final.fromZone,
+      toZone: final.toZone,
+      zoneCount: final.zoneCount,
       validityMinutes,
       priceKr,
       activatedAtMs,
-      expiresAtMs,
-      boardings,
+      expiresAtMs: activatedAtMs + validityMinutes * 60_000,
+      boardings: boardingLegs.slice(cursor, last + 1).map((entry) => ({
+        timeMs: new Date(entry.leg.expectedStartTime).getTime(),
+        label: legLabel(entry.leg),
+      })),
+      fullyCovered: false,
+      coveredZones: final.coveredZones,
     });
 
     cursor = last + 1;
   }
 
-  const singleTotalKr = tickets.reduce((sum, t) => sum + t.priceKr, 0);
+  // Only bought tickets count toward the total and the day-ticket suggestion.
+  const bought = tickets.filter((ticket) => !ticket.fullyCovered);
+  const singleTotalKr = bought.reduce((sum, ticket) => sum + ticket.priceKr, 0);
 
   // The day ticket is valid in a single zone only, so it can replace the single
-  // tickets just when the whole trip stays within one zone (every ticket is one
-  // zone). It's the better buy once more than `maxSingleTicketsBeforeDayTicket`
-  // single tickets are needed — at 3 the price ties at 150 kr, but the day
-  // ticket is valid 24h instead of 3 × 90 min.
-  const singleZoneTrip = tickets.every((t) => t.zoneCount === 1);
+  // tickets just when every bought ticket stays within one zone. It's the
+  // better buy once more than `maxSingleTicketsBeforeDayTicket` are needed — at
+  // 3 the price ties at 150 kr, but the day ticket is valid 24h instead of
+  // 3 × 90 min.
+  const singleZoneTrip =
+    bought.length > 0 && bought.every((ticket) => ticket.zoneCount === 1);
   const recommendDayTicket =
-    singleZoneTrip && tickets.length > tariff.maxSingleTicketsBeforeDayTicket;
+    singleZoneTrip && bought.length > tariff.maxSingleTicketsBeforeDayTicket;
 
   return {
     tickets,

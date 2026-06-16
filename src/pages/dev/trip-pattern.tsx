@@ -18,6 +18,8 @@ import style from './trip-pattern.module.css';
 import { currentOrg } from '@atb/modules/org-data';
 import { TripInspector } from '@atb/page-modules/dev/trip-inspector';
 import { TicketPlanPanel } from '@atb/page-modules/dev/ticket-plan';
+import { OwnedTicketsEditor } from '@atb/page-modules/dev/owned-tickets';
+import type { OwnedTicket } from '@atb/page-modules/dev/trip-pattern/utils';
 import atb from '../../../orgs/atb.json';
 import fram from '../../../orgs/fram.json';
 import nfk from '../../../orgs/nfk.json';
@@ -92,6 +94,9 @@ const DevTripPatternPage: NextPage<DevTripPatternPageProps> = (props) => {
   const [showInspector, setShowInspector] = useState(false);
   // Toggles the per-trip ticket-plan / day-ticket recommendation in the results.
   const [showTicketPlan, setShowTicketPlan] = useState(false);
+  // Tickets the traveller already holds; subtracted from every trip's route by
+  // the ticket plan.
+  const [ownedTickets, setOwnedTickets] = useState<OwnedTicket[]>([]);
 
   // Loaded the same way as the assistant layout so the available transport
   // modes match the real travel search filters.
@@ -348,6 +353,18 @@ const DevTripPatternPage: NextPage<DevTripPatternPageProps> = (props) => {
           </div>
         </div>
 
+        {showTicketPlan && (
+          <div className={style.fieldBlock}>
+            <span className={style.subLabel}>Owned tickets</span>
+            <div className={style.fieldPanel}>
+              <OwnedTicketsEditor
+                value={ownedTickets}
+                onChange={setOwnedTickets}
+              />
+            </div>
+          </div>
+        )}
+
         {result && (
           <>
             {result.tripPatterns && result.tripPatterns.length > 0 && (
@@ -373,7 +390,10 @@ const DevTripPatternPage: NextPage<DevTripPatternPageProps> = (props) => {
                         />
                       </div>
                       {showTicketPlan && (
-                        <TicketPlanPanel tripPattern={tripPattern} />
+                        <TicketPlanPanel
+                          tripPattern={tripPattern}
+                          ownedTickets={ownedTickets}
+                        />
                       )}
                     </div>
                   ))}
