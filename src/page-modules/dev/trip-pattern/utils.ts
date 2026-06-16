@@ -402,12 +402,12 @@ export type TicketSegment = {
 };
 
 /**
- * A ticket the traveller already holds. `kind` is for labelling only — the
- * calculation uses `zones` (the zone names it's valid in) and `remainingMinutes`
- * (validity left at the trip's start; undefined = valid for the whole trip).
+ * A ticket the traveller already holds, described by the zone names it's valid
+ * in and the validity left at the trip's start (`remainingMinutes`; undefined =
+ * valid for the whole trip). The ticket "kind" doesn't matter to the maths —
+ * only its zones and how long it stays valid.
  */
 export type OwnedTicket = {
-  kind: 'day' | 'single' | 'period';
   zones: string[];
   remainingMinutes?: number;
 };

@@ -46,7 +46,7 @@ describe('computeTicketPlan — owned tickets', () => {
       leg('A', 'C6', T('08:00')),
       leg('C6', 'D', T('08:20')),
     ]);
-    const owned: OwnedTicket[] = [{ kind: 'period', zones: ['A'] }];
+    const owned: OwnedTicket[] = [{ zones: ['A'] }];
 
     const plan = computeTicketPlan(pattern, { ownedTickets: owned });
     const bought = plan!.tickets.filter((t) => !t.fullyCovered);
@@ -79,7 +79,7 @@ describe('computeTicketPlan — owned tickets', () => {
 
   it('marks a trip fully covered when the owned ticket spans every zone', () => {
     const pattern = trip([leg('A', 'C6', T('08:00'))]);
-    const owned: OwnedTicket[] = [{ kind: 'period', zones: ['A', 'C6'] }];
+    const owned: OwnedTicket[] = [{ zones: ['A', 'C6'] }];
 
     const plan = computeTicketPlan(pattern, { ownedTickets: owned });
     const bought = plan!.tickets.filter((t) => !t.fullyCovered);
@@ -96,9 +96,7 @@ describe('computeTicketPlan — owned tickets', () => {
       leg('A', 'A', T('08:00')),
       leg('A', 'A', T('10:00')),
     ]);
-    const owned: OwnedTicket[] = [
-      { kind: 'day', zones: ['A'], remainingMinutes: 30 },
-    ];
+    const owned: OwnedTicket[] = [{ zones: ['A'], remainingMinutes: 30 }];
 
     const plan = computeTicketPlan(pattern, { ownedTickets: owned });
 

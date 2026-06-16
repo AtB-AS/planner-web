@@ -9,19 +9,20 @@ export type OwnedTicketsEditorProps = {
   onChange: (next: OwnedTicket[]) => void;
 };
 
-const KINDS: OwnedTicket['kind'][] = ['day', 'single', 'period'];
-const KIND_LABELS: Record<OwnedTicket['kind'], string> = {
-  day: '24-hour',
-  single: 'Single',
-  period: 'Period',
-};
+// Quick-set presets for the validity-remaining input, in minutes.
+const DURATIONS: { minutes: number; label: string }[] = [
+  { minutes: 30, label: '30' },
+  { minutes: 60, label: '60' },
+  { minutes: 90, label: '90' },
+  { minutes: 24 * 60, label: '24h' },
+];
+const DEFAULT_DURATION_MIN = 24 * 60;
 
 /**
- * Dev-mode editor for the tickets a traveller already holds. Each row is a
- * ticket kind (labelling only), the zones it's valid in, and how many minutes
- * of validity remain at the trip's start (blank = valid the whole trip). The
- * ticket plan subtracts these from every trip's route. Renders nothing for orgs
- * without a tariff config (no zones to pick).
+ * Dev-mode editor for the tickets a traveller already holds. Each row is the
+ * zones the ticket is valid in plus how long it stays valid from the trip's
+ * start. The ticket plan subtracts these from every trip's route. Renders
+ * nothing for orgs without a tariff config (no zones to pick).
  */
 export function OwnedTicketsEditor({
   value,
@@ -36,10 +37,7 @@ export function OwnedTicketsEditor({
     onChange(value.filter((_, i) => i !== index));
 
   const add = () =>
-    onChange([
-      ...value,
-      { kind: 'period', zones: [], remainingMinutes: undefined },
-    ]);
+    onChange([...value, { zones: [], remainingMinutes: DEFAULT_DURATION_MIN }]);
 
   const toggleZone = (index: number, zone: string) => {
     const zones = value[index].zones.includes(zone)
@@ -57,19 +55,6 @@ export function OwnedTicketsEditor({
       )}
       {value.map((ticket, index) => (
         <div key={index} className={style.row}>
-          <select
-            className={style.kindSelect}
-            value={ticket.kind}
-            onChange={(e) =>
-              update(index, { kind: e.target.value as OwnedTicket['kind'] })
-            }
-          >
-            {KINDS.map((kind) => (
-              <option key={kind} value={kind}>
-                {KIND_LABELS[kind]}
-              </option>
-            ))}
-          </select>
           <div className={style.zones}>
             {ACTIVE_ZONE_NAMES.map((zone) => (
               <button
@@ -84,8 +69,10 @@ export function OwnedTicketsEditor({
               </button>
             ))}
           </div>
-          <label className={style.minutes}>
+          <div className={style.minutes}>
+            <span>valid</span>
             <input
+              className={style.minutesInput}
               type="number"
               min={0}
               placeholder="∞"
@@ -97,8 +84,26 @@ export function OwnedTicketsEditor({
                 })
               }
             />
-            <span>min left</span>
-          </label>
+            <span>min</span>
+            <div className={style.presets}>
+              {DURATIONS.map((duration) => (
+                <button
+                  key={duration.minutes}
+                  type="button"
+                  className={`${style.zoneChip} ${
+                    ticket.remainingMinutes === duration.minutes
+                      ? style.zoneChipOn
+                      : ''
+                  }`}
+                  onClick={() =>
+                    update(index, { remainingMinutes: duration.minutes })
+                  }
+                >
+                  {duration.label}
+                </button>
+              ))}
+            </div>
+          </div>
           <button
             type="button"
             className={style.remove}
