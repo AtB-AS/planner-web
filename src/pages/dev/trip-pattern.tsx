@@ -12,19 +12,35 @@ import type { GeocoderFeature } from '@atb/modules/geocoder';
 import Search from '@atb/components/search';
 import { TransportModeFilter } from '@atb/modules/transport-mode';
 import { getTransportModeFilter } from '@atb/modules/firebase/transport-mode-filter';
-import type { TransportModeFilterOptionType } from '@atb-as/config-specs';
 import useSWRImmutable from 'swr/immutable';
-import { uniq } from 'lodash';
 import dynamic from 'next/dynamic';
 import style from './trip-pattern.module.css';
 import { currentOrg } from '@atb/modules/org-data';
 import { TripInspector } from '@atb/page-modules/dev/trip-inspector';
+import { TicketPlanPanel } from '@atb/page-modules/dev/ticket-plan';
+import { OwnedTicketsEditor } from '@atb/page-modules/dev/owned-tickets';
+import type { OwnedTicket } from '@atb/page-modules/dev/trip-pattern/utils';
 import atb from '../../../orgs/atb.json';
 import fram from '../../../orgs/fram.json';
 import nfk from '../../../orgs/nfk.json';
 import troms from '../../../orgs/troms.json';
 import vkt from '../../../orgs/vkt.json';
 import farte from '../../../orgs/farte.json';
+import {
+  featureToLocation,
+  locationToFeature,
+  patchQueryLocation,
+  buildModesGraphQL,
+  patchQueryModes,
+  patchQueryAuthorities,
+  parseLocationsFromQuery,
+  injectPageCursor,
+  buildDefaultInlinedQuery,
+  WANTED_TRIP_PATTERNS,
+  MAX_SEARCH_ATTEMPTS,
+  DEFAULT_FROM,
+  DEFAULT_TO,
+} from '@atb/page-modules/dev/trip-pattern/utils';
 
 const GraphQLEditor = dynamic(() => import('@atb/components/graphql-editor'), {
   ssr: false,
@@ -38,237 +54,6 @@ type DevTripPatternPageProps = WithGlobalData<{
   defaultGqlQuery: string;
   fragments: string;
 }>;
-
-type VariablesLocation = {
-  place: string;
-  coordinates: { latitude: number; longitude: number };
-  name: string;
-};
-
-function featureToLocation(feature: GeocoderFeature): VariablesLocation {
-  return {
-    place: feature.id,
-    coordinates: {
-      latitude: feature.geometry.coordinates[1],
-      longitude: feature.geometry.coordinates[0],
-    },
-    name: feature.name,
-  };
-}
-
-function locationToFeature(loc: VariablesLocation): GeocoderFeature {
-  return {
-    id: loc.place,
-    name: loc.name,
-    locality: null,
-    category: [],
-    layer: 'venue',
-    geometry: {
-      coordinates: [loc.coordinates.longitude, loc.coordinates.latitude],
-    },
-  };
-}
-
-function locationToGraphQL(loc: VariablesLocation): string {
-  return `{
-      place: "${loc.place}"
-      coordinates: {
-        latitude: ${loc.coordinates.latitude}
-        longitude: ${loc.coordinates.longitude}
-      }
-      name: "${loc.name}"
-    }`;
-}
-
-const FROM_PATTERN = /from:\s*\{[\s\S]*?coordinates:\s*\{[\s\S]*?\}[\s\S]*?\}/;
-const TO_PATTERN = /to:\s*\{[\s\S]*?coordinates:\s*\{[\s\S]*?\}[\s\S]*?\}/;
-// Matches the `modes: { ... }` block injected by the transport mode filter.
-// The `transportModes` list is always rendered inline (single line), so the
-// first newline-indented `}` is the closing brace of the modes block.
-const MODES_PATTERN = /\n\s*modes:\s*\{[\s\S]*?\n\s*\}/;
-
-/**
- * Builds the inline GraphQL `modes: { ... }` block from the selected transport
- * mode filter options, mirroring how the assistant maps the filter to the
- * JourneyPlanner `Modes` input (see server/journey-planner/mappers.ts).
- *
- * Returns `null` when no filter should be applied (nothing selected yet, or
- * every option selected — both mean "all modes", same as the assistant).
- */
-function buildModesGraphQL(
-  options: TransportModeFilterOptionType[],
-  filterState: string[] | null,
-): string | null {
-  // `null` means no filter; all options selected is equivalent to no filter.
-  if (!filterState) return null;
-  if (filterState.length === options.length) return null;
-
-  const selectedModes = options
-    .filter((option) => filterState.includes(option.id))
-    .flatMap((option) => option.modes);
-
-  const transportModes = uniq(
-    selectedModes.map((mode) => {
-      const subModes =
-        mode.transportSubModes && mode.transportSubModes.length > 0
-          ? `, transportSubModes: [${mode.transportSubModes.join(', ')}]`
-          : '';
-      return `{ transportMode: ${mode.transportMode}${subModes} }`;
-    }),
-  );
-
-  return `    modes: {
-      accessMode: foot
-      egressMode: foot
-      transportModes: [${transportModes.join(', ')}]
-    }`;
-}
-
-/**
- * Removes any existing `modes` block from the query and, when a block is
- * provided, injects it as the first argument of the `trip(...)` call.
- */
-function patchQueryModes(query: string, modesBlock: string | null): string {
-  const withoutModes = query.replace(MODES_PATTERN, '');
-  if (!modesBlock) return withoutModes;
-  return withoutModes.replace(/trip\s*\(/, `trip(\n${modesBlock}`);
-}
-
-// Matches the single-line `whiteListed: { authorities: [...] }` block injected
-// by the authority toggle, so it can be removed/replaced idempotently.
-const WHITELISTED_AUTHORITIES_PATTERN =
-  /\n\s*whiteListed:\s*\{\s*authorities:[^}]*\}/;
-
-/**
- * Removes any injected authority whitelist and, when an authority id is given,
- * injects `whiteListed: { authorities: [...] }` as the first argument of
- * `trip(...)`. This filters server-side: the JourneyPlanner only returns trips
- * operated by the whitelisted authority — i.e. the ones the sales endpoint can
- * price.
- */
-function patchQueryAuthorities(
-  query: string,
-  authorityId: string | null,
-): string {
-  const without = query.replace(WHITELISTED_AUTHORITIES_PATTERN, '');
-  if (!authorityId) return without;
-  return without.replace(
-    /trip\s*\(/,
-    `trip(\n    whiteListed: { authorities: ["${authorityId}"] }`,
-  );
-}
-
-function parseLocationFromMatch(match: string): VariablesLocation | undefined {
-  try {
-    const place = match.match(/place:\s*"([^"]+)"/)?.[1] ?? '';
-    const lat = match.match(/latitude:\s*([\d.-]+)/)?.[1];
-    const lon = match.match(/longitude:\s*([\d.-]+)/)?.[1];
-    const name = match.match(/name:\s*"([^"]+)"/)?.[1];
-    if (name) {
-      return {
-        place,
-        coordinates: {
-          latitude: lat ? parseFloat(lat) : 0,
-          longitude: lon ? parseFloat(lon) : 0,
-        },
-        name,
-      };
-    }
-  } catch {
-    // ignore
-  }
-  return undefined;
-}
-
-function parseLocationsFromQuery(query: string): {
-  from: GeocoderFeature | undefined;
-  to: GeocoderFeature | undefined;
-} {
-  const fromMatch = query.match(FROM_PATTERN)?.[0];
-  const toMatch = query.match(TO_PATTERN)?.[0];
-  return {
-    from: fromMatch
-      ? (() => {
-          const l = parseLocationFromMatch(fromMatch);
-          return l ? locationToFeature(l) : undefined;
-        })()
-      : undefined,
-    to: toMatch
-      ? (() => {
-          const l = parseLocationFromMatch(toMatch);
-          return l ? locationToFeature(l) : undefined;
-        })()
-      : undefined,
-  };
-}
-
-function patchQueryLocation(
-  query: string,
-  field: 'from' | 'to',
-  loc: VariablesLocation,
-): string {
-  const pattern = field === 'from' ? FROM_PATTERN : TO_PATTERN;
-  const replacement = `${field}: ${locationToGraphQL(loc)}`;
-  return query.replace(pattern, replacement);
-}
-
-/**
- * Removes any existing `pageCursor` from the query and injects the given one as
- * the first argument of the `trip(...)` call.
- */
-function injectPageCursor(query: string, cursor: string): string {
-  const withoutCursor = query.replace(/\s*pageCursor:\s*"[^"]*"\n?/, '');
-  return withoutCursor.replace(
-    /trip\s*\(/,
-    `trip(\n    pageCursor: "${cursor}"`,
-  );
-}
-
-// Mirrors the assistant's initial search behaviour: keep following
-// `nextPageCursor` until we have collected enough trip patterns, or we have
-// made too many attempts. See page-modules/assistant/client/journey-planner.
-const WANTED_TRIP_PATTERNS = 8;
-const MAX_SEARCH_ATTEMPTS = 5;
-
-const DEFAULT_FROM: VariablesLocation = {
-  place: 'NSR:StopPlace:41613',
-  coordinates: { latitude: 63.431034, longitude: 10.392007 },
-  name: 'Prinsens gate',
-};
-
-const DEFAULT_TO: VariablesLocation = {
-  place: 'NSR:StopPlace:42625',
-  coordinates: { latitude: 63.435085, longitude: 10.457026 },
-  name: 'Strindheim',
-};
-
-function buildDefaultInlinedQuery(fragments: string): string {
-  return `{
-  trip(
-    from: ${locationToGraphQL(DEFAULT_FROM)}
-    to: ${locationToGraphQL(DEFAULT_TO)}
-    arriveBy: false
-    numTripPatterns: 3
-    waitReluctance: 1
-    walkReluctance: 4
-    transferPenalty: 10
-    searchWindow: 120
-    includeRealtimeCancellations: true
-    includePlannedCancellations: true
-  ) {
-    nextPageCursor
-    previousPageCursor
-    metadata {
-      searchWindowUsed
-    }
-    tripPatterns {
-      ...tripPatternWithDetails
-    }
-  }
-}
-
-${fragments}`;
-}
 
 // Authorities selectable in the dev config panel, the current org's first.
 const ALL_AUTHORITIES = [atb, nfk, fram, troms, vkt, farte]
@@ -307,6 +92,11 @@ const DevTripPatternPage: NextPage<DevTripPatternPageProps> = (props) => {
   const [authorityFilter, setAuthorityFilter] = useState<string | null>(null);
   // Toggles the per-trip inspector panels in the results.
   const [showInspector, setShowInspector] = useState(false);
+  // Toggles the per-trip ticket-plan / day-ticket recommendation in the results.
+  const [showTicketPlan, setShowTicketPlan] = useState(false);
+  // Tickets the traveller already holds; subtracted from every trip's route by
+  // the ticket plan.
+  const [ownedTickets, setOwnedTickets] = useState<OwnedTicket[]>([]);
 
   // Loaded the same way as the assistant layout so the available transport
   // modes match the real travel search filters.
@@ -552,8 +342,28 @@ const DevTripPatternPage: NextPage<DevTripPatternPageProps> = (props) => {
                 onChange={(e) => setShowInspector(e.target.checked)}
               />
             </label>
+            <label className={style.fieldRow}>
+              <span className={style.fieldRowLabel}>Ticket plan</span>
+              <input
+                type="checkbox"
+                checked={showTicketPlan}
+                onChange={(e) => setShowTicketPlan(e.target.checked)}
+              />
+            </label>
           </div>
         </div>
+
+        {showTicketPlan && (
+          <div className={style.fieldBlock}>
+            <span className={style.subLabel}>Owned tickets</span>
+            <div className={style.fieldPanel}>
+              <OwnedTicketsEditor
+                value={ownedTickets}
+                onChange={setOwnedTickets}
+              />
+            </div>
+          </div>
+        )}
 
         {result && (
           <>
@@ -561,28 +371,32 @@ const DevTripPatternPage: NextPage<DevTripPatternPageProps> = (props) => {
               <div className={style.section}>
                 <span className={style.label}>Trip patterns</span>
                 <div className={style.tripPatterns}>
-                  {result.tripPatterns.map((tripPattern, i) => {
-                    return (
-                      <div
-                        key={`${runCount}-${i}-${tripPattern.compressedQuery}`}
-                        className={style.tripPatternRow}
-                      >
-                        <div className={style.tripPatternMain}>
-                          <TripPattern
-                            tripPattern={tripPattern}
-                            delay={i * 0.05}
-                            index={i}
-                          />
-                        </div>
-                        {showInspector && (
-                          <TripInspector
-                            tripPattern={tripPattern}
-                            delay={i * 0.05}
-                          />
-                        )}
+                  {result.tripPatterns.map((tripPattern, i) => (
+                    <div
+                      key={`${runCount}-${i}-${tripPattern.compressedQuery}`}
+                      className={style.tripPatternRow}
+                    >
+                      {showInspector && (
+                        <TripInspector
+                          tripPattern={tripPattern}
+                          delay={i * 0.05}
+                        />
+                      )}
+                      <div className={style.tripPatternMain}>
+                        <TripPattern
+                          tripPattern={tripPattern}
+                          delay={i * 0.05}
+                          index={i}
+                        />
                       </div>
-                    );
-                  })}
+                      {showTicketPlan && (
+                        <TicketPlanPanel
+                          tripPattern={tripPattern}
+                          ownedTickets={ownedTickets}
+                        />
+                      )}
+                    </div>
+                  ))}
                 </div>
                 {nextPageCursor && (
                   <button
