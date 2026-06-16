@@ -33,10 +33,12 @@ jobs:
           export PATH=$(go env GOPATH)/bin:$PATH
           xk6 build v1.7.0 --with github.com/avitalique/xk6-file@latest
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
       - name: Install dependencies
         working-directory: e2e-tests/k6
-        run: |
-          yarn install      
+        run: pnpm install
 
       - name: Run k6 tests
         working-directory: e2e-tests/k6
@@ -59,7 +61,7 @@ jobs:
             cat e2e-tests/k6/logs/errors.log
           else
             echo "No error log found!"
-          fi          
+          fi
 
       - name: Notify Slack
         run: |
