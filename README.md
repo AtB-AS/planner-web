@@ -51,6 +51,21 @@ To easily change organization, change `NEXT_PUBLIC_PLANNER_ORG_ID` in your
 pnpm refresh-assets
 ```
 
+## Developer mode
+
+Developer mode unlocks the debugging interface at `/dev/trip-pattern`, which
+lets you edit GraphQL queries directly and see detailed metadata.
+
+To enable it, set the `dev-mode-enabled` cookie to `true`. Run this in the
+DevTools console:
+
+```js
+document.cookie = 'dev-mode-enabled=true';
+```
+
+Then load `/dev/trip-pattern`. This works in any environment — set the cookie on
+that host to use dev mode in staging or production too.
+
 ## Release
 
 ### Deploy to staging
