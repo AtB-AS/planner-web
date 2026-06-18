@@ -122,15 +122,14 @@ export function useRefreshedTripPattern(
   tripPattern: ExtendedTripPatternWithDetailsType,
   shouldFetch: boolean,
 ) {
-  const { data, error, isLoading } =
-    useSWR<ExtendedTripPatternWithDetailsType>(
-      shouldFetch ? ['/api/assistant/refresh-trip', tripPattern] : null,
-      swrPostFetcher,
-      {
-        refreshInterval: TRIP_REFRESH_INTERVAL_MS,
-        revalidateOnFocus: false,
-      },
-    );
+  const { data, error, isLoading } = useSWR<ExtendedTripPatternWithDetailsType>(
+    shouldFetch ? ['/api/assistant/refresh-trip', tripPattern] : null,
+    swrPostFetcher,
+    {
+      refreshInterval: TRIP_REFRESH_INTERVAL_MS,
+      revalidateOnFocus: false,
+    },
+  );
 
   return {
     refreshedTripPattern: data,

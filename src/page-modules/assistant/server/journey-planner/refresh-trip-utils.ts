@@ -114,9 +114,7 @@ const STALE_THRESHOLD_SECONDS = 10;
  * seconds, early-refreshed legs would otherwise appear stale relative
  * to `Date.now()`.
  */
-export function determineTripStatus(
-  legs: RefreshableLeg[],
-): TripPatternStatus {
+export function determineTripStatus(legs: RefreshableLeg[]): TripPatternStatus {
   if (hasStaleLegs(legs)) {
     return 'stale';
   }
