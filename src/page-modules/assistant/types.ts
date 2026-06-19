@@ -130,11 +130,30 @@ export type TripsType = TripsWithDetailsQuery & {
 export type ExtendedLegType = LegWithDetailsFragment & {
   mapLegs: MapLegType[];
   notices: NoticeFragment[];
+  /** When this leg's data was last fetched or refreshed from journey-planner. */
+  refreshedAt?: string;
 };
+
+/**
+ * Status of a trip pattern after a refresh (see refreshSingleTrip):
+ * - valid: all legs refreshed and temporally consistent
+ * - impossible: a leg starts before the previous one ends (missed connection)
+ * - stale: one or more legs could not be refreshed, so data may be outdated
+ */
+export type TripPatternStatus = 'valid' | 'impossible' | 'stale';
+
 export type ExtendedTripPatternWithDetailsType =
   TripPatternWithDetailsFragment & {
     compressedQuery: string;
     legs: ExtendedLegType[];
+    status?: TripPatternStatus;
+    /**
+     * Trip-level aimed times, derived from the legs by refreshSingleTrip.
+     * Non-transit legs have no real schedule, so these are anchored to the
+     * nearest transit legs.
+     */
+    aimedStartTime?: string;
+    aimedEndTime?: string;
   };
 export type TripWithDetailsType = TripsWithDetailsQuery & {
   trip: {
@@ -159,6 +178,27 @@ export const LegToGetPriceFromSchema = z.object({
 });
 
 export type LegToGetPriceFrom = z.infer<typeof LegToGetPriceFromSchema>;
+
+// Request body for /api/assistant/refresh-trip. Mirrors the leg-stub
+// validation of atb-bff's singleTrip v3: only the fields the refresh logic
+// relies on are validated, everything else passes through untouched.
+const RefreshTripLegStubSchema = z.looseObject({
+  id: z.string().nullish(),
+  mode: z.string(),
+  distance: z.number(),
+  duration: z.number(),
+  aimedStartTime: z.string(),
+  aimedEndTime: z.string(),
+  expectedStartTime: z.string(),
+  expectedEndTime: z.string(),
+});
+
+export const RefreshTripRequestBodySchema = z.looseObject({
+  compressedQuery: z.string(),
+  expectedStartTime: z.string(),
+  expectedEndTime: z.string(),
+  legs: z.array(RefreshTripLegStubSchema).min(1),
+});
 
 export const TripPatternPriceRequestBodySchema = z.object({
   travellers: z.array(TravellerSchema).min(1),

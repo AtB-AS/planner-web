@@ -61,6 +61,7 @@ fragment tripWithDetailsLine on Line {
 }
 
 fragment legWithDetails on Leg {
+  id
   mode
   distance
   transportSubmode

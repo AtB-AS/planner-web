@@ -2,6 +2,8 @@ import { GraphQlRequester } from '@atb/modules/api-server';
 import { Notice as GraphQlNotice } from '@atb/modules/graphql-types';
 import { LineData } from './validators';
 import type {
+  ExtendedLegType,
+  ExtendedTripPatternWithDetailsType,
   FromToTripQuery,
   LineInput,
   NonTransitTripData,
@@ -10,6 +12,16 @@ import type {
   TripsType,
   TripWithDetailsType,
 } from '../../types';
+import {
+  adjustNonTransitExpectedTimes,
+  computeTripAimedStartEnd,
+  determineTripStatus,
+} from './refresh-trip-utils';
+import {
+  RefreshLegDocument,
+  RefreshLegQuery,
+  RefreshLegQueryVariables,
+} from '@atb/page-modules/assistant/journey-gql/refresh-leg.generated';
 import { filterNotices } from '@atb/modules/situations';
 import {
   compressToEncodedURIComponent,
@@ -23,7 +35,7 @@ import {
   TripsWithDetailsQuery,
   TripsWithDetailsQueryVariables,
 } from '@atb/page-modules/assistant/journey-gql/trip-with-details.generated';
-import { mapToMapLegs } from '@atb/components/map';
+import { mapToMapLegs, MapLegType } from '@atb/components/map';
 import { getOrgData } from '@atb/modules/org-data';
 import {
   ViaTripsWithDetailsDocument,
@@ -47,6 +59,7 @@ import {
 } from '@atb/page-modules/assistant/journey-gql/non-transit-trip.generated';
 import { MEDIUM_WALK_SPEED } from '@atb/page-modules/assistant/walk-speed-input';
 import {
+  Mode,
   StreetMode,
   TransportModes,
 } from '@atb/modules/graphql-types/journeyplanner-types_v3.generated.ts';
@@ -71,6 +84,9 @@ export type JourneyPlannerApi = {
   trip(input: TripInput): Promise<TripsType>;
   nonTransitTrips(input: NonTransitTripInput): Promise<NonTransitTripData>;
   singleTrip(input: string): Promise<TripWithDetailsType | undefined>;
+  refreshSingleTrip(
+    tripPattern: ExtendedTripPatternWithDetailsType,
+  ): Promise<ExtendedTripPatternWithDetailsType>;
   lines(input: LineInput): Promise<LineData>;
 };
 
@@ -297,6 +313,8 @@ export function createJourneyApi(
 
       if (!singleTripPattern) return;
 
+      const refreshedAt = new Date().toISOString();
+
       // Extend GraphQL-type with mapLegs for easy map rendering
       return {
         trip: {
@@ -308,34 +326,152 @@ export function createJourneyApi(
                 singleTripPattern.legs[0].aimedStartTime,
                 tripQuery.query,
               ),
-              legs: singleTripPattern.legs.map((leg) => ({
-                ...leg,
-                mapLegs: leg.pointsOnLink?.points
-                  ? mapToMapLegs(
-                      leg.pointsOnLink,
-                      leg.mode,
-                      leg.transportSubmode,
-                      leg.fromPlace,
-                      leg.toPlace,
-                      !!leg.line?.flexibleLineType,
-                    )
-                  : [],
-                notices: mapAndFilterNotices([
-                  ...(leg.line?.notices ?? []),
-                  ...(leg.serviceJourney?.notices ?? []),
-                  ...(leg.serviceJourney?.journeyPattern?.notices ?? []),
-                  ...(leg.fromEstimatedCall?.notices ?? []),
-                  ...(leg.toEstimatedCall?.notices ?? []),
-                ]),
-              })),
+              legs: singleTripPattern.legs.map((leg) =>
+                extendLeg(leg, refreshedAt),
+              ),
             },
           ],
         },
       };
     },
+
+    async refreshSingleTrip(tripPattern: ExtendedTripPatternWithDetailsType) {
+      const now = new Date().toISOString();
+
+      // tripPattern.legs is an intersection type (LegWithDetailsFragment[] &
+      // ExtendedLegType[]); narrowing to a typed local makes .map yield the
+      // extended element type rather than the bare fragment.
+      const originalLegs: ExtendedLegType[] = tripPattern.legs;
+
+      // Refetch all transit legs in parallel, keep non-transit legs as-is.
+      // Failed fetches fall back to the original leg with its old refreshedAt.
+      const legs: ExtendedLegType[] = await Promise.all(
+        originalLegs.map(async (leg): Promise<ExtendedLegType> => {
+          if (!leg.id) {
+            return { ...leg, refreshedAt: now };
+          }
+
+          try {
+            const result = await client.query<
+              RefreshLegQuery,
+              RefreshLegQueryVariables
+            >({
+              query: RefreshLegDocument,
+              variables: { id: leg.id },
+              fetchPolicy: 'no-cache',
+            });
+
+            if (result.data.leg) {
+              // Preserve interchangeTo from the original leg: it's a
+              // trip-level relationship that journey-planner does not populate
+              // when a leg is queried in isolation by id.
+              return extendLeg(
+                { ...result.data.leg, interchangeTo: leg.interchangeTo },
+                now,
+              );
+            }
+          } catch {
+            // Query failed — leg keeps its old refreshedAt
+          }
+
+          return leg;
+        }),
+      );
+
+      const adjustedLegs = adjustNonTransitExpectedTimes(legs);
+
+      const status = determineTripStatus(adjustedLegs);
+      const { aimedStartTime, aimedEndTime } =
+        computeTripAimedStartEnd(adjustedLegs);
+
+      const expectedStartTime = adjustedLegs[0].expectedStartTime;
+      const expectedEndTime =
+        adjustedLegs[adjustedLegs.length - 1].expectedEndTime;
+      const streetDistance = adjustedLegs
+        .filter((leg) => leg.mode === Mode.Foot)
+        .reduce((acc, leg) => acc + leg.distance, 0);
+
+      // Regenerate the compressed query so the details link stays accurate as
+      // times drift. Journey ids are unchanged by a refresh, but the embedded
+      // `when` derives from the aimed start time.
+      const tripQuery = parseTripQueryString(tripPattern.compressedQuery);
+      const compressedQuery = tripQuery
+        ? generateSingleTripQueryString(
+            extractServiceJourneyIds(tripPattern),
+            aimedStartTime,
+            tripQuery.query,
+          )
+        : tripPattern.compressedQuery;
+
+      return {
+        ...tripPattern,
+        status,
+        aimedStartTime,
+        aimedEndTime,
+        expectedStartTime,
+        expectedEndTime,
+        streetDistance,
+        compressedQuery,
+        legs: adjustedLegs,
+      };
+    },
   };
 
   return api;
+}
+
+type ExtendableLeg = {
+  mode: Mode;
+  transportSubmode?: Parameters<typeof mapToMapLegs>[2];
+  pointsOnLink?: Parameters<typeof mapToMapLegs>[0] | null;
+  fromPlace?: Parameters<typeof mapToMapLegs>[3];
+  toPlace?: Parameters<typeof mapToMapLegs>[4];
+  line?: {
+    notices?: GraphQlNotice[] | null;
+    flexibleLineType?: string | null;
+  } | null;
+  serviceJourney?: {
+    notices?: GraphQlNotice[] | null;
+    journeyPattern?: { notices?: GraphQlNotice[] | null } | null;
+  } | null;
+  fromEstimatedCall?: { notices?: GraphQlNotice[] | null } | null;
+  toEstimatedCall?: { notices?: GraphQlNotice[] | null } | null;
+};
+
+/**
+ * Extends a GraphQL leg with the convenience properties used by the client:
+ * mapLegs for map rendering, filtered notices, and the refreshedAt timestamp
+ * used to determine staleness when refreshing a trip.
+ */
+function extendLeg<T extends ExtendableLeg>(
+  leg: T,
+  refreshedAt: string,
+): T & {
+  mapLegs: MapLegType[];
+  notices: NoticeFragment[];
+  refreshedAt: string;
+} {
+  return {
+    ...leg,
+    mapLegs: leg.pointsOnLink?.points
+      ? mapToMapLegs(
+          leg.pointsOnLink,
+          leg.mode,
+          leg.transportSubmode,
+          leg.fromPlace,
+          leg.toPlace,
+          !!leg.line?.flexibleLineType,
+        )
+      : [],
+    notices: mapAndFilterNotices([
+      ...(leg.line?.notices ?? []),
+      ...(leg.serviceJourney?.notices ?? []),
+      ...(leg.serviceJourney?.journeyPattern?.notices ?? []),
+      ...(leg.fromEstimatedCall?.notices ?? []),
+      ...(leg.toEstimatedCall?.notices ?? []),
+    ]),
+    refreshedAt,
+  };
 }
 
 function inputToLocation(
@@ -392,6 +528,7 @@ export function mapRawTripResponse(
   rawTrip: TripsWithDetailsQuery['trip'],
   queryVariables: TripsWithDetailsQueryVariables,
 ): TripsType['trip'] {
+  const refreshedAt = new Date().toISOString();
   return {
     ...rawTrip,
     tripPatterns: rawTrip.tripPatterns.map((tripPattern) => ({
@@ -401,26 +538,7 @@ export function mapRawTripResponse(
         tripPattern.legs[0].aimedStartTime,
         queryVariables,
       ),
-      legs: tripPattern.legs.map((leg) => ({
-        ...leg,
-        mapLegs: leg.pointsOnLink?.points
-          ? mapToMapLegs(
-              leg.pointsOnLink,
-              leg.mode,
-              leg.transportSubmode,
-              leg.fromPlace,
-              leg.toPlace,
-              !!leg.line?.flexibleLineType,
-            )
-          : [],
-        notices: mapAndFilterNotices([
-          ...(leg.line?.notices ?? []),
-          ...(leg.serviceJourney?.notices ?? []),
-          ...(leg.serviceJourney?.journeyPattern?.notices ?? []),
-          ...(leg.fromEstimatedCall?.notices ?? []),
-          ...(leg.toEstimatedCall?.notices ?? []),
-        ]),
-      })),
+      legs: tripPattern.legs.map((leg) => extendLeg(leg, refreshedAt)),
     })),
   };
 }
@@ -608,6 +726,8 @@ async function getSortedViaTrips(
       new Date(b.expectedEndTime!).getTime(),
   );
 
+  const refreshedAt = new Date().toISOString();
+
   return {
     trip: {
       tripPatterns: tripPatternsSortedByExpectedEndTime.map((tripPattern) => ({
@@ -617,26 +737,7 @@ async function getSortedViaTrips(
           tripPattern.legs[0].aimedStartTime,
           queryVariables,
         ),
-        legs: tripPattern.legs.map((leg) => ({
-          ...leg,
-          mapLegs: leg.pointsOnLink?.points
-            ? mapToMapLegs(
-                leg.pointsOnLink,
-                leg.mode,
-                leg.transportSubmode,
-                leg.fromPlace,
-                leg.toPlace,
-                !!leg.line?.flexibleLineType,
-              )
-            : [],
-          notices: mapAndFilterNotices([
-            ...(leg.line?.notices ?? []),
-            ...(leg.serviceJourney?.notices ?? []),
-            ...(leg.serviceJourney?.journeyPattern?.notices ?? []),
-            ...(leg.fromEstimatedCall?.notices ?? []),
-            ...(leg.toEstimatedCall?.notices ?? []),
-          ]),
-        })),
+        legs: tripPattern.legs.map((leg) => extendLeg(leg, refreshedAt)),
       })),
     },
   };
