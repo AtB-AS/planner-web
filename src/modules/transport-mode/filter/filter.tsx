@@ -18,7 +18,7 @@ export default function TransportModeFilter({
   onChange,
   data,
 }: TransportModeFilterProps) {
-  const { t, language } = useTranslation();
+  const { t } = useTranslation();
   const isFlexibleTransportEnabled = false; //remove when AtB-bestill will be enabled in tripPatterns
 
   // Local filter state used for updating the checkbox states before the URL
@@ -110,12 +110,6 @@ export default function TransportModeFilter({
                     }
                   }}
                 />
-
-                {option.description && (
-                  <Typo.p textType="body__xs" className={style.infoText}>
-                    {getTextForLanguage(option.description, language) ?? ''}
-                  </Typo.p>
-                )}
               </li>
             );
           })}
@@ -133,6 +127,7 @@ type FilterOptionProps = {
 function FilterOption({ option, selected, onChange }: FilterOptionProps) {
   const { language } = useTranslation();
   const text = getTextForLanguage(option.text, language);
+  const description = getTextForLanguage(option.description, language);
 
   return (
     <div className={style.transportModeContainer}>
@@ -151,7 +146,9 @@ function FilterOption({ option, selected, onChange }: FilterOptionProps) {
         aria-hidden
         className={style.transportModeElement}
       >
-        <CheckBoxIcon checked={selected} />
+        <span className={style.checkBoxIcon}>
+          <CheckBoxIcon checked={selected} />
+        </span>
 
         <TransportIcon
           transportMode={option.icon.transportMode}
@@ -159,7 +156,14 @@ function FilterOption({ option, selected, onChange }: FilterOptionProps) {
           isFlexible={option.id == 'flexibleTransport'}
           size="small"
         />
-        <span id={`label-${option.id}`}>{text}</span>
+        <span className={style.labelTexts}>
+          <span id={`label-${option.id}`}>{text}</span>
+          {description && (
+            <Typo.span textType="body__xs" className={style.infoText}>
+              {description}
+            </Typo.span>
+          )}
+        </span>
       </label>
     </div>
   );

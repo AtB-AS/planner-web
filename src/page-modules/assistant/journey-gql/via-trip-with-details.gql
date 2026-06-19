@@ -108,29 +108,7 @@ query ViaTripsWithDetails(
             aimedDepartureTime
           }
           situations {
-            id
-            situationNumber
-            reportType
-            summary {
-              language
-              value
-            }
-            description {
-              language
-              value
-            }
-            advice {
-              language
-              value
-            }
-            infoLinks {
-              uri
-              label
-            }
-            validityPeriod {
-              startTime
-              endTime
-            }
+            ...situation
           }
           serviceJourneyEstimatedCalls {
             aimedDepartureTime

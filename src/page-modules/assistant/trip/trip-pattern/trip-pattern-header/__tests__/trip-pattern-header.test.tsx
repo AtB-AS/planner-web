@@ -87,6 +87,7 @@ describe('trip pattern header', function () {
           description: undefined,
           id: 'NSR:Quay:1',
           situations: [],
+          tariffZones: [],
         },
         'PlaceName',
       );
@@ -116,6 +117,7 @@ describe('trip pattern header', function () {
           description: undefined,
           id: 'NSR:Quay:1',
           situations: [],
+          tariffZones: [],
         },
         'PlaceName',
       );

@@ -2,6 +2,7 @@ query stopPlaceQuayDepartures(
   $id: String!
   $numberOfDepartures: Int
   $startTime: DateTime
+  $timeRange: Int
 ) {
   stopPlace(id: $id) {
     id
@@ -17,25 +18,6 @@ query stopPlaceQuayDepartures(
   }
 }
 
-fragment departureServiceJourney on ServiceJourney {
-  id
-  line {
-    id
-    description
-    publicCode
-    transportMode
-    transportSubmode
-  }
-  journeyPattern {
-    notices {
-      ...notice
-    }
-  }
-  notices {
-    ...notice
-  }
-}
-
 fragment departureQuay on Quay {
   id
   name
@@ -45,6 +27,7 @@ fragment departureQuay on Quay {
     numberOfDepartures: $numberOfDepartures
     startTime: $startTime
     includeCancelledTrips: true
+    timeRange: $timeRange
   ) {
     ...estimatedCall
   }

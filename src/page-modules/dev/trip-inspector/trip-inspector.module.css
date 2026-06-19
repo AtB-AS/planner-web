@@ -1,0 +1,184 @@
+/* Inspector panel beside each trip pattern: a light "technical readout"
+   panel in the page's theme, set apart from the product card by its mono
+   typography and instrument detailing rather than by tone. Holds one
+   .section (sub-header + content) per data point; meant to grow with more
+   sections over time. */
+.tripInspector {
+  --dev-bg: var(--color-background-neutral-0-background, #ffffff);
+  --dev-line: var(--color-background-neutral-2-background, #e1e8eb);
+  --dev-text: var(--color-background-neutral-0-foreground-primary, #1a2326);
+  --dev-dim: var(--color-background-neutral-0-foreground-secondary, #415058);
+  --dev-accent: var(--color-border-focus-background, #0959aa);
+
+  flex: 0 0 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  padding: 0.875rem 0.75rem 0.75rem;
+  border-radius: 2px;
+  border: 1px solid var(--dev-line);
+  color: var(--dev-text);
+  background-color: var(--dev-bg);
+  font-family:
+    ui-monospace, 'SF Mono', 'Cascadia Code', Menlo, Consolas, monospace;
+  font-size: 0.75rem;
+  animation: inspectorIn 0.35s ease both;
+  transition: border-color 0.15s ease;
+}
+
+.tripInspector:hover {
+  border-color: var(--dev-accent);
+}
+
+@keyframes inspectorIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tripInspector {
+    animation: none;
+  }
+}
+
+.header {
+  color: var(--dev-text);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid var(--dev-line);
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.sectionLabel {
+  color: var(--dev-dim);
+  font-size: 0.65rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.empty {
+  color: var(--dev-dim);
+}
+
+.empty::before {
+  content: '— ';
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.zoneChip {
+  padding: 0.2rem 0.5rem;
+  border-radius: 2px;
+  border: 1px solid color-mix(in srgb, var(--dev-accent) 35%, var(--dev-bg));
+  background: color-mix(in srgb, var(--dev-accent) 9%, var(--dev-bg));
+  color: color-mix(in srgb, var(--dev-accent) 70%, var(--dev-text));
+  letter-spacing: 0.02em;
+}
+
+/* Collapsible Path section: a summary row (label + stop count) that toggles
+   the ordered stop list. */
+.pathDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.pathSummary {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+  list-style: none;
+}
+
+.pathSummary::-webkit-details-marker {
+  display: none;
+}
+
+.pathSummary::before {
+  content: '▸';
+  color: var(--dev-dim);
+  font-size: 0.6rem;
+}
+
+.pathDetails[open] .pathSummary::before {
+  content: '▾';
+}
+
+.pathCount {
+  color: var(--dev-dim);
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+}
+
+/* Ordered stop list: each stop name with its fare zone, the leg that arrives
+   there shown as a connector above it. */
+.path {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.pathStop {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.pathConnector {
+  color: var(--dev-dim);
+  font-size: 0.65rem;
+  letter-spacing: 0.02em;
+}
+
+.pathStopName {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.pathStopLabel {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pathZone {
+  flex: none;
+  margin-left: auto;
+  padding: 0.05rem 0.4rem;
+  border-radius: 2px;
+  border: 1px solid color-mix(in srgb, var(--dev-accent) 35%, var(--dev-bg));
+  background: color-mix(in srgb, var(--dev-accent) 9%, var(--dev-bg));
+  color: color-mix(in srgb, var(--dev-accent) 70%, var(--dev-text));
+  font-size: 0.65rem;
+  letter-spacing: 0.02em;
+}
+
+.pathZoneEmpty {
+  flex: none;
+  margin-left: auto;
+  color: var(--dev-dim);
+}

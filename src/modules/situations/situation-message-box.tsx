@@ -1,4 +1,5 @@
 import {
+  getAffectedStopNames,
   getMessageTypeForSituation,
   getSituationSummary,
   messageTypeToColorIcon,
@@ -34,6 +35,7 @@ export const SituationMessageBox = ({
   const messageType = getMessageTypeForSituation(situation);
   const text = getSituationSummary(situation, language);
   const validityPeriodText = useValidityPeriodText(situation.validityPeriod);
+  const affectedStopsText = useAffectedStopNamesText(situation.affects);
 
   if (!text) return null;
 
@@ -67,6 +69,10 @@ export const SituationMessageBox = ({
                 </Link>
               ))}
 
+            {affectedStopsText && (
+              <Typo.p textType="body__m">{affectedStopsText}</Typo.p>
+            )}
+
             {validityPeriodText && (
               <div className={style.dialog__validity}>
                 <MonoIcon icon="time/Time" />
@@ -97,6 +103,32 @@ export const SituationMessageBox = ({
       />
     </>
   );
+};
+
+/**
+ * Get a string which lists the affected stop places. Up to 10 names are shown
+ * in full; beyond that the list is truncated to 8 names followed by an "N other
+ * stops" tail. Returns undefined if no stop places affected.
+ */
+export const useAffectedStopNamesText = (
+  affects: SituationFragment['affects'],
+) => {
+  const { t, language } = useTranslation();
+  const names = getAffectedStopNames(affects);
+  if (names.length === 0) return undefined;
+
+  const displayItems =
+    names.length > 10
+      ? [
+          ...names.slice(0, 8),
+          t(SituationTexts.affectedStopPlaces.otherStops(names.length - 8)),
+        ]
+      : names;
+
+  const list = new Intl.ListFormat(language, { type: 'conjunction' }).format(
+    displayItems,
+  );
+  return `${t(SituationTexts.affectedStopPlaces.header)} ${list}`;
 };
 
 export const useValidityPeriodText = (

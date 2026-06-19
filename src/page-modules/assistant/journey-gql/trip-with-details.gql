@@ -61,6 +61,7 @@ fragment tripWithDetailsLine on Line {
 }
 
 fragment legWithDetails on Leg {
+  id
   mode
   distance
   transportSubmode
@@ -172,6 +173,7 @@ fragment authority on Authority {
   id
   name
   url
+  fareUrl
 }
 
 fragment notice on Notice {
@@ -189,6 +191,10 @@ fragment quay on Quay {
   }
   situations {
     ...situation
+  }
+  tariffZones {
+    id
+    name
   }
 }
 fragment situation on PtSituationElement {
@@ -209,6 +215,33 @@ fragment situation on PtSituationElement {
   }
   validityPeriod {
     ...validityPeriod
+  }
+  affects {
+    __typename
+    ... on AffectedStopPlace {
+      stopPlace {
+        name
+      }
+      quay {
+        name
+      }
+    }
+    ... on AffectedStopPlaceOnServiceJourney {
+      stopPlace {
+        name
+      }
+      quay {
+        name
+      }
+    }
+    ... on AffectedStopPlaceOnLine {
+      stopPlace {
+        name
+      }
+      quay {
+        name
+      }
+    }
   }
 }
 

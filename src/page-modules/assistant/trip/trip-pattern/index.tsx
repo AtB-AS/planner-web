@@ -171,8 +171,16 @@ export default function TripPattern({
     <div ref={ref} className={style.tripPatternContainer}>
       <motion.div
         id={`${id}-details-region`}
-        role="region"
+        role="button"
+        tabIndex={0}
         onClick={() => setIsOpen(!isOpen)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            setIsOpen(!isOpen);
+          }
+        }}
+        aria-expanded={isOpen}
         className={style.tripPattern}
         data-testid={testId}
         initial={{ opacity: 0, x: -10 }}
@@ -181,14 +189,14 @@ export default function TripPattern({
         transition={{
           delay,
         }}
-        aria-label={tripSummary(
+        aria-label={`${tripSummary(
           tripPattern,
           t,
           language,
           tripIsInPast,
           index + 1,
           isCancelled,
-        )}
+        )}. ${isOpen ? t(PageText.Assistant.trip.tripPattern.activateToCollapse) : t(PageText.Assistant.trip.tripPattern.activateToExpand)}`}
       >
         <TripPatternHeader
           tripPattern={tripPattern}
@@ -252,8 +260,8 @@ export default function TripPattern({
             )}
           </div>
         </div>
+        <footer className={style.footer}>
 
-        <footer className={style.footer} onClick={() => setIsOpen(!isOpen)}>
           <div className={style.info__container}>
             <Price
               tripPattern={tripPattern}
@@ -269,8 +277,8 @@ export default function TripPattern({
                 : t(PageText.Assistant.trip.tripPattern.seeMore)
             }
             buttonProps={{
-              'aria-controls': `${id}-details-region`,
-              'aria-expanded': isOpen,
+              tabIndex: -1,
+              'aria-hidden': true,
             }}
             className={style.seeMoreButton}
             size={'pill'}

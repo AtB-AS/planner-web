@@ -143,7 +143,7 @@ export async function shouldShowPrice(page: Page) {
     await assistant.getTrip().waitFor({ state: 'visible' });
 
     // Verify
-    expect(await assistant.getTripPrice()).toContain('47 kr');
+    expect(await assistant.getTripPrice()).toContain('50 kr');
   } catch (e) {
     errorLog(`[ERROR] Assistant ${functionName}: ${e}`);
     await screenshot(page, `error_assistant_${functionName}`);

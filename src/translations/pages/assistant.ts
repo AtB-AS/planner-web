@@ -180,6 +180,16 @@ const AssistantInternal = {
       ),
       seeMore: _('Se mer', 'See more', 'Sjå meir'),
       seeLess: _('Se mindre', 'See less', 'Sjå mindre'),
+      activateToExpand: _(
+        'Trykk for å utvide',
+        'Activate to expand',
+        'Trykk for å utvide',
+      ),
+      activateToCollapse: _(
+        'Trykk for å lukke',
+        'Activate to collapse',
+        'Trykk for å lukke',
+      ),
       hasSituationsTip: _(
         'Denne reisen har driftsmeldinger. Se detaljer for mer info',
         'There are service messages affecting your journey. See details for more info ',
@@ -422,11 +432,6 @@ const AssistantInternal = {
       'Vi kunne ikkje oppdatere reiseforslaget ditt. Det kan hende reisa har endra seg eller er utdatert.',
     ),
     header: {
-      backLink: _(
-        'Tilbake til reiseforslag',
-        'Back to travel suggestions',
-        'Tilbake til reiseforslag',
-      ),
       title: _('Reisedetaljer', 'Trip details', 'Reisedetaljar'),
       titleFromTo: ({
         fromName,

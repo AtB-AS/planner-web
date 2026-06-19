@@ -106,7 +106,7 @@ const NumberSeriesScrollView = ({
     (node: HTMLDivElement | null) => {
       scrollContainerRef.current = node;
       if (node && autoFocus) {
-        node.focus();
+        node.focus({ preventScroll: true });
       }
     },
     [autoFocus],

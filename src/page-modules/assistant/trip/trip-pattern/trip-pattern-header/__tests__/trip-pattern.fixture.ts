@@ -36,6 +36,7 @@ export const tripPatternFixture: ExtendedTripPatternType = {
           description: undefined,
           id: 'NSR:Quay:1',
           situations: [],
+          tariffZones: [],
         },
         latitude: 1,
         longitude: 1,
@@ -48,6 +49,7 @@ export const tripPatternFixture: ExtendedTripPatternType = {
           description: undefined,
           id: 'NSR:Quay:2',
           situations: [],
+          tariffZones: [],
         },
         latitude: 1,
         longitude: 1,
@@ -106,6 +108,7 @@ export const tripPatternWithDetailsFixture: ExtendedTripPatternWithDetailsType =
             description: undefined,
             id: 'NSR:Quay:1',
             situations: [],
+            tariffZones: [],
           },
         },
         toPlace: {
@@ -118,6 +121,7 @@ export const tripPatternWithDetailsFixture: ExtendedTripPatternWithDetailsType =
             description: undefined,
             id: 'NSR:Quay:2',
             situations: [],
+            tariffZones: [],
           },
         },
         serviceJourney: {

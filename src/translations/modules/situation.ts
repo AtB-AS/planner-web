@@ -17,4 +17,9 @@ export const Situation = {
         `Gyldig frå ${fromDate} til ${toDate}`,
       ),
   },
+  affectedStopPlaces: {
+    header: _('Påvirker', 'Affects', 'Påverkar'),
+    otherStops: (count: number) =>
+      _(`${count} andre stopp`, `${count} other stops`, `${count} andre stopp`),
+  },
 };

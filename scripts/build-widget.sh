@@ -8,7 +8,7 @@ mkdir public/widget
 if [ -n "$NEXT_PUBLIC_PLANNER_ORG_ID" ]; then
     ORG_ID="$NEXT_PUBLIC_PLANNER_ORG_ID"
     echo "Found NEXT_PUBLIC_PLANNER_ORG_ID= $ORG_ID in environment. Building widget for $ORG_ID"
-    NEXT_PUBLIC_PLANNER_ORG_ID=$ORG_ID yarn build:widget
+    NEXT_PUBLIC_PLANNER_ORG_ID=$ORG_ID pnpm build:widget
     NEXT_PUBLIC_PLANNER_ORG_ID=$ORG_ID node ./scripts/generate-widget-stat.js
 else
   echo "No NEXT_PUBLIC_PLANNER_ORG_ID found in environment. Please expose it, or build all widgets instead"
@@ -17,7 +17,7 @@ fi
 
 
 # Workaround for PostCSS processing issue
-# Issue: PostCSS does not allow control over plugin execution order, meaning the "composes" 
+# Issue: PostCSS does not allow control over plugin execution order, meaning the "composes"
 # CSS is not processed before other plugins. As a result, parts of the CSS remain unprocessed.
 #
 # Workaround: Run PostCSS twice to ensure CSS imported using "composes" also is processed properly.

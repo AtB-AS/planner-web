@@ -36,15 +36,26 @@
       "name": "reisnordland.no",
       "href": "https://www.reisnordland.no/"
     },
-    "ticketsUrl": {
+    "ticketInfoUrl": {
       "en-US": "https://www.reisnordland.no/priser-pa-buss",
       "no": "https://www.reisnordland.no/priser-pa-buss",
       "default": "https://www.reisnordland.no/priser-pa-buss"
+    },
+    "purchaseTicketUrl": {
+      "en-US": "https://www.reisnordland.no/kjop-bussbillett",
+      "no": "https://www.reisnordland.no/kjop-bussbillett",
+      "default": "https://www.reisnordland.no/kjop-bussbillett"
     },
     "sitemapUrls": {
       "dev": "http://localhost:3000",
       "staging": "https://nfk-staging.planner-web.mittatb.no/",
       "prod": "https://reise.reisnordland.no/"
+    },
+    "androidAppUrl": {
+      "default": "https://play.google.com/store/apps/details?id=no.reisnordland.reis.production"
+    },
+    "iosAppUrl": {
+      "default": "https://apps.apple.com/no/app/reis/id1574137854"
     }
   },
   "journeyApiConfigurations": {

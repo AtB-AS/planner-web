@@ -7,9 +7,14 @@ import {
   useState,
 } from 'react';
 import { GlobalMessageContextEnum, GlobalMessageType } from './types';
-import { collection, onSnapshot, query, where } from '@firebase/firestore';
 import app from '@atb/modules/firebase/firebase';
-import { getFirestore } from 'firebase/firestore';
+import {
+  collection,
+  onSnapshot,
+  query,
+  where,
+  getFirestore,
+} from 'firebase/firestore';
 import { globalMessageConverter } from './converters';
 import useLocalStorage from '@atb/utils/use-localstorage.ts';
 import { useNow } from '@atb/utils/use-now.ts';
@@ -124,10 +129,10 @@ function subscribeToActiveGlobalMessagesFromFirestore(
     ),
   ).withConverter<GlobalMessageType | undefined>(globalMessageConverter);
 
-  return onSnapshot(q, (querySnapshot) => {
+  return onSnapshot(q, (querySnapshot: any) => {
     const activeGlobalMessages: GlobalMessageType[] = [];
 
-    querySnapshot.forEach((doc) => {
+    querySnapshot.forEach((doc: any) => {
       const data = doc.data();
       if (data) {
         activeGlobalMessages.push(data);

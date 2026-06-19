@@ -36,6 +36,9 @@ import {
   NearestStopPlacesQueryVariables,
 } from '@atb/page-modules/departures/journey-gql/nearest-stop-places.generated.ts';
 import { SituationFragment } from '@atb/page-modules/assistant/journey-gql/trip-with-details.generated.ts';
+import { getSecondsUntilMidnight } from '@atb/utils/date';
+
+const NUMBER_OF_DEPARTURES = 7;
 
 export type DepartureInput = {
   id: string;
@@ -54,6 +57,7 @@ export type NearestStopPlacesInput = {
 export type EstimatedCallsInput = {
   quayId: string;
   startTime: string;
+  numberOfDepartures: number;
 };
 
 export type ServiceJourneyInput = {
@@ -77,6 +81,10 @@ export function createJourneyApi(
 ): JourneyPlannerApi {
   const api: JourneyPlannerApi = {
     async departures(input) {
+      const startTime = input.date
+        ? new Date(input.date).toISOString()
+        : new Date().toISOString();
+
       const result = await client.query<
         StopPlaceQuayDeparturesQuery,
         StopPlaceQuayDeparturesQueryVariables
@@ -84,10 +92,9 @@ export function createJourneyApi(
         query: StopPlaceQuayDeparturesDocument,
         variables: {
           id: input.id,
-          startTime: input.date
-            ? new Date(input.date).toISOString()
-            : new Date().toISOString(),
-          numberOfDepartures: 10,
+          startTime,
+          numberOfDepartures: NUMBER_OF_DEPARTURES,
+          timeRange: getSecondsUntilMidnight(startTime),
         },
       });
 
@@ -198,8 +205,9 @@ export function createJourneyApi(
         query: QuayEstimatedCallsDocument,
         variables: {
           id: input.quayId,
-          numberOfDepartures: 6,
+          numberOfDepartures: input.numberOfDepartures,
           startTime: new Date(input.startTime),
+          timeRange: getSecondsUntilMidnight(input.startTime),
         },
       });
 

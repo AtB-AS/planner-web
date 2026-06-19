@@ -78,6 +78,26 @@ const DeparturesInternal = {
       'No departures in the selected period of time.',
       'Ingen avgangar i dette tidsrommet.',
     ),
+    dateNavigation: {
+      today: _('I dag', 'Today', 'I dag'),
+      a11yNextDayHint: _(
+        'Aktiver for å gå til neste dag',
+        'Activate to go to next day',
+        'Aktiver for å gå til neste dag',
+      ),
+      a11yPreviousDayHint: _(
+        'Aktiver for å gå til forrige dag',
+        'Activate to go to previous day',
+        'Aktiver for å gå til førre dag',
+      ),
+      a11yDisabled: _('Deaktivert', 'Disabled', 'Deaktivert'),
+      a11ySelectedLabel: (dateTime: string) =>
+        _(
+          `Valgt dato: ${dateTime}`,
+          `Selected date, ${dateTime}`,
+          `Vald dato: ${dateTime}`,
+        ),
+    },
     quaySection: {
       resultsLoaded: _(
         'Lastet avganger',
@@ -108,16 +128,6 @@ const DeparturesInternal = {
     },
   },
   details: {
-    backToDepartures: _(
-      'Tilbake til avganger',
-      'Back to departures',
-      'Tilbake til avgangar',
-    ),
-    backToAssistant: _(
-      'Tilbake til reiseforslag',
-      'Back to travel suggestion',
-      'Tilbake til reiseforslag',
-    ),
     quayPublicCodePrefix: _('', '', ''),
     lastPassedStop: (stopPlaceName: string, time: string) =>
       _(

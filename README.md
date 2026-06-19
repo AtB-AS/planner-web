@@ -28,12 +28,14 @@ See all additional configuration in `.env.example`.
 ### Setup & Running locally
 
 ```bash
+# Enable corepack to install the correct pnpm version
+corepack enable
 
 # Generate assets and icons specific for org
-yarn refresh-assets
+pnpm refresh-assets
 
 # Run development build
-yarn dev
+pnpm dev
 
 # Open service
 open http://localhost:3000
@@ -46,8 +48,23 @@ To easily change organization, change `NEXT_PUBLIC_PLANNER_ORG_ID` in your
 
 ```bash
 # Clean assets from old org and create new ones
-yarn refresh-assets
+pnpm refresh-assets
 ```
+
+## Developer mode
+
+Developer mode unlocks the debugging interface at `/dev/trip-pattern`, which
+lets you edit GraphQL queries directly and see detailed metadata.
+
+To enable it, set the `dev-mode-enabled` cookie to `true`. Run this in the
+DevTools console:
+
+```js
+document.cookie = 'dev-mode-enabled=true';
+```
+
+Then load `/dev/trip-pattern`. This works in any environment — set the cookie on
+that host to use dev mode in staging or production too.
 
 ## Release
 
@@ -78,7 +95,7 @@ You can see the status of the deploy
 Check that NEXT_PUBLIC_PLANNER_ORG_ID is set in your .env.local file, and run
 
 ```
-yarn generate-widget
+pnpm generate-widget
 ```
 
 This will place asset inside `public/widget/<VERSION>` which will be reachable
@@ -119,7 +136,7 @@ This will set correct version in releases on Github.
 2. Generate new asset files to check in by running the following command:
 
 ```sh
-yarn generate-all-widgets
+pnpm generate-all-widgets
 ```
 
 ## Sitemap & Stop Place overview
@@ -131,7 +148,7 @@ Sitemap is generated as part of a build step with correct URLs specified in the
 `<org.>.json` files. If you want to generate manually you can run command:
 
 ```bash
-yarn next-sitemap --config next-sitemap.js
+pnpm next-sitemap --config next-sitemap.js
 ```
 
 ### Updating StopPlaces data

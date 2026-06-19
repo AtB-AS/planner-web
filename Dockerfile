@@ -1,21 +1,22 @@
 # Install dependencies only when needed
-FROM node:20-alpine AS deps
+FROM node:24-alpine AS deps
 # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-COPY package.json yarn.lock* codegen.ts ./
-RUN yarn --frozen-lockfile
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml codegen.ts ./
+RUN corepack enable pnpm && pnpm install --frozen-lockfile
 
 # Rebuild the source code only when needed
-FROM node:20-alpine AS builder
+FROM node:24-alpine AS builder
 WORKDIR /app
+RUN corepack enable pnpm
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 ENV NEXT_TELEMETRY_DISABLED 1
 
-ARG NEXT_PUBLIC_ENVIRONMENT       
+ARG NEXT_PUBLIC_ENVIRONMENT
 
 ARG ATB_NEXT_PUBLIC_MAPBOX_DEFAULT_LAT
 ARG ATB_NEXT_PUBLIC_MAPBOX_DEFAULT_LNG
@@ -79,7 +80,7 @@ ARG FARTE_NEXT_PUBLIC_BFF_URL
 
 
 # Generate GraphQL files
-RUN yarn generate
+RUN pnpm generate
 
 # Global build
 ENV NEXT_PUBLIC_ENVIRONMENT=$NEXT_PUBLIC_ENVIRONMENT
@@ -100,7 +101,7 @@ RUN --mount=type=secret,id=ATB_NEXT_PUBLIC_MAPBOX_API_TOKEN \
   --mount=type=secret,id=ATB_NEXT_PUBLIC_MAPBOX_STOP_PLACES_STYLE_URL \
   sh -c 'NEXT_PUBLIC_MAPBOX_API_TOKEN=$(cat /run/secrets/ATB_NEXT_PUBLIC_MAPBOX_API_TOKEN) \
   NEXT_PUBLIC_MAPBOX_STOP_PLACES_STYLE_URL=$(cat /run/secrets/ATB_NEXT_PUBLIC_MAPBOX_STOP_PLACES_STYLE_URL) \
-  yarn build:docker'
+  pnpm build:docker'
 
 # Build NFK
 ENV NEXT_PUBLIC_PLANNER_ORG_ID="nfk"
@@ -118,7 +119,7 @@ RUN --mount=type=secret,id=NFK_NEXT_PUBLIC_MAPBOX_API_TOKEN \
   --mount=type=secret,id=NFK_NEXT_PUBLIC_MAPBOX_STOP_PLACES_STYLE_URL \
   sh -c 'NEXT_PUBLIC_MAPBOX_API_TOKEN=$(cat /run/secrets/NFK_NEXT_PUBLIC_MAPBOX_API_TOKEN) \
   NEXT_PUBLIC_MAPBOX_STOP_PLACES_STYLE_URL=$(cat /run/secrets/NFK_NEXT_PUBLIC_MAPBOX_STOP_PLACES_STYLE_URL) \
-  yarn build:docker'
+  pnpm build:docker'
 
 # Build FRAM
 ENV NEXT_PUBLIC_PLANNER_ORG_ID="fram"
@@ -136,7 +137,7 @@ RUN --mount=type=secret,id=FRAM_NEXT_PUBLIC_MAPBOX_API_TOKEN \
   --mount=type=secret,id=FRAM_NEXT_PUBLIC_MAPBOX_STOP_PLACES_STYLE_URL \
   sh -c 'NEXT_PUBLIC_MAPBOX_API_TOKEN=$(cat /run/secrets/FRAM_NEXT_PUBLIC_MAPBOX_API_TOKEN) \
   NEXT_PUBLIC_MAPBOX_STOP_PLACES_STYLE_URL=$(cat /run/secrets/FRAM_NEXT_PUBLIC_MAPBOX_STOP_PLACES_STYLE_URL) \
-  yarn build:docker'
+  pnpm build:docker'
 
 # Build Troms
 ENV NEXT_PUBLIC_PLANNER_ORG_ID="troms"
@@ -154,7 +155,7 @@ RUN --mount=type=secret,id=TROMS_NEXT_PUBLIC_MAPBOX_API_TOKEN \
   --mount=type=secret,id=TROMS_NEXT_PUBLIC_MAPBOX_STOP_PLACES_STYLE_URL \
   sh -c 'NEXT_PUBLIC_MAPBOX_API_TOKEN=$(cat /run/secrets/TROMS_NEXT_PUBLIC_MAPBOX_API_TOKEN) \
   NEXT_PUBLIC_MAPBOX_STOP_PLACES_STYLE_URL=$(cat /run/secrets/TROMS_NEXT_PUBLIC_MAPBOX_STOP_PLACES_STYLE_URL) \
-  yarn build:docker'
+  pnpm build:docker'
 
 # Build VKT
 ENV NEXT_PUBLIC_PLANNER_ORG_ID="vkt"
@@ -172,7 +173,7 @@ RUN --mount=type=secret,id=VKT_NEXT_PUBLIC_MAPBOX_API_TOKEN \
   --mount=type=secret,id=VKT_NEXT_PUBLIC_MAPBOX_STOP_PLACES_STYLE_URL \
   sh -c 'NEXT_PUBLIC_MAPBOX_API_TOKEN=$(cat /run/secrets/VKT_NEXT_PUBLIC_MAPBOX_API_TOKEN) \
   NEXT_PUBLIC_MAPBOX_STOP_PLACES_STYLE_URL=$(cat /run/secrets/VKT_NEXT_PUBLIC_MAPBOX_STOP_PLACES_STYLE_URL) \
-  yarn build:docker'
+  pnpm build:docker'
 
 # Build Farte
 ENV NEXT_PUBLIC_PLANNER_ORG_ID="farte"
@@ -190,10 +191,10 @@ RUN --mount=type=secret,id=FARTE_NEXT_PUBLIC_MAPBOX_API_TOKEN \
   --mount=type=secret,id=FARTE_NEXT_PUBLIC_MAPBOX_STOP_PLACES_STYLE_URL \
   sh -c 'NEXT_PUBLIC_MAPBOX_API_TOKEN=$(cat /run/secrets/FARTE_NEXT_PUBLIC_MAPBOX_API_TOKEN) \
   NEXT_PUBLIC_MAPBOX_STOP_PLACES_STYLE_URL=$(cat /run/secrets/FARTE_NEXT_PUBLIC_MAPBOX_STOP_PLACES_STYLE_URL) \
-  yarn build:docker'
+  pnpm build:docker'
 
 # Production image, copy all the files and run next
-FROM node:20-alpine AS runner
+FROM node:24-alpine AS runner
 WORKDIR /app
 
 ENV NODE_ENV production
