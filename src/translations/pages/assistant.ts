@@ -542,6 +542,7 @@ const AssistantInternal = {
         'Ticket can be bought from',
         'Billett kan kjøpast frå',
       ),
+      appName: _('AtB-appen', 'AtB app', 'AtB-appen'),
     },
     ticketBooking: {
       globalMessage: _(
@@ -574,6 +575,9 @@ export const Assistant = orgSpecificTranslations(AssistantInternal, {
           'Reisa krev billett som ikkje er tilgjengeleg i denne appen, eller som må kjøpast frå eit anna selskap enn Reis Nordland.',
         ),
       },
+      tripSection: {
+        appName: _('Reis-appen', 'Reis app', 'Reis-appen'),
+      },
     },
   },
   fram: {
@@ -596,6 +600,9 @@ export const Assistant = orgSpecificTranslations(AssistantInternal, {
           'Reisa krev billett som ikkje er tilgjengeleg i denne appen, eller som må kjøpast frå eit anna selskap enn FRAM.',
         ),
       },
+      tripSection: {
+        appName: _('FRAM-appen', 'FRAM app', 'FRAM-appen'),
+      },
     },
   },
   farte: {
@@ -617,6 +624,9 @@ export const Assistant = orgSpecificTranslations(AssistantInternal, {
           'This journey requires a ticket that is not available from this app, or must be purchased from a provider other than Farte.',
           'Reisa krev billett som ikkje er tilgjengeleg i denne appen, eller som må kjøpast frå eit anna selskap enn Farte.',
         ),
+      },
+      tripSection: {
+        appName: _('Farte-appen', 'Farte app', 'Farte-appen'),
       },
     },
   },
@@ -641,10 +651,20 @@ export const Assistant = orgSpecificTranslations(AssistantInternal, {
           'Denne reisa inkluderer transport som ikkje vert tilbydd av VKT. VKT sel per i dag berre billettar til lokalbuss. Billett til annan transport må kjøpast via nettside/app til det aktuelle transportselskapet.',
         ),
       },
+      tripSection: {
+        appName: _('VKT-appen', 'VKT app', 'VKT-appen'),
+      },
     },
     trip: {
       tripPattern: {
         quayPublicCodePrefix: _(' - Spor ', ' - Track ', ' - Spor '),
+      },
+    },
+  },
+  troms: {
+    details: {
+      tripSection: {
+        appName: _('Svipper-appen', 'Svipper app', 'Svipper-appen'),
       },
     },
   },
