@@ -37,6 +37,15 @@ function getStatusConfig(
     };
   }
 
+  // Trip-level status from refreshSingleTrip (only set once a card has been
+  // refreshed). 'impossible' means a connection can no longer be made.
+  if (tripPattern.status === 'impossible') {
+    return {
+      statusType: 'error',
+      text: t(PageText.Assistant.trip.tripPattern.statusText.impossible),
+    };
+  }
+
   const endIsInPast = isInPast(tripPattern.expectedEndTime);
   const startIsInPast = isInPast(tripPattern.expectedStartTime);
 
@@ -71,6 +80,15 @@ function getStatusConfig(
     return {
       statusType: 'info',
       text: t(PageText.Assistant.trip.tripPattern.statusText.requiresBooking),
+    };
+  }
+
+  // 'stale' means one or more legs could not be refreshed, so the shown times
+  // may be outdated. Lowest priority — only surfaced when nothing else applies.
+  if (tripPattern.status === 'stale') {
+    return {
+      statusType: 'info',
+      text: t(PageText.Assistant.trip.tripPattern.statusText.stale),
     };
   }
 
@@ -128,7 +146,7 @@ export function TripPatternHeader({
         )}
         <div className={style.header__timesRow}>
           <Typo.span
-            textType={isCancelled ? 'body__m__strong__strike' : 'body__m__strong'}
+            textType={isCancelled ? 'body__m__strike' : 'body__m__strong'}
             testID="expectedTimeRange"
           >
             {`${expectedStartTimeLabel} - ${expectedEndTimeLabel}`}

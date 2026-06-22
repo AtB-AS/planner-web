@@ -8,7 +8,10 @@ import dictionary from '@atb/translations/dictionary';
 import { screenReaderPause } from '@atb/components/typography/utils';
 import { transportModeToTranslatedString } from '@atb/modules/transport-mode';
 import { getTimeRepresentationType } from '@atb/modules/time-representation';
-import { ExtendedTripPatternWithDetailsType } from '@atb/page-modules/assistant';
+import {
+  ExtendedLegType,
+  ExtendedTripPatternWithDetailsType,
+} from '@atb/page-modules/assistant';
 import { getQuayOrPlaceName } from '@atb/page-modules/assistant/trip/trip-pattern/trip-pattern-header';
 import { LegWithDetailsFragment } from '../../journey-gql/trip-with-details.generated';
 
@@ -239,14 +242,11 @@ function isSignificantFootLegWalkOrWaitTime(
 
 export function getFilteredLegsByWalkOrWaitTime(
   tripPattern: ExtendedTripPatternWithDetailsType,
-) {
-  if (!!tripPattern?.legs?.length) {
-    return tripPattern.legs.filter((leg, i) =>
-      isSignificantFootLegWalkOrWaitTime(leg, tripPattern.legs[i + 1]),
-    );
-  } else {
-    return [];
-  }
+): ExtendedLegType[] {
+  const legs = tripPattern.legs;
+  return legs.filter((leg, i) =>
+    isSignificantFootLegWalkOrWaitTime(leg, legs[i + 1]),
+  );
 }
 
 function isLegFlexibleTransport(leg: LegWithDetailsFragment): boolean {

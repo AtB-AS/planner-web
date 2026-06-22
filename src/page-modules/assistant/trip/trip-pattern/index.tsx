@@ -19,12 +19,12 @@ import {
   ExtendedLegType,
   ExtendedTripPatternWithDetailsType,
 } from '@atb/page-modules/assistant';
+import { useRefreshedTripPattern } from '@atb/page-modules/assistant/client';
 import { Button, ButtonLink } from '@atb/components/button';
 import TripSection from '@atb/page-modules/assistant/details/trip-section';
 import { getInterchangeDetails } from '@atb/page-modules/assistant/details/trip-section/interchange-section.tsx';
 import { getLegWaitDetails } from '@atb/page-modules/assistant/details/trip-section/wait-section.tsx';
 import { Price } from './price';
-import { useInView } from 'react-intersection-observer';
 import useResizeObserver from '@react-hook/resize-observer';
 import {
   getMsgTypeForMostCriticalSituationOrNotice,
@@ -120,9 +120,8 @@ export default function TripPattern({
 }: TripPatternProps) {
   const { t, language } = useTranslation();
 
-  const filteredLegs = getFilteredLegsByWalkOrWaitTime(tripPattern);
-
   const [isOpen, setIsOpen] = useState(false);
+  const [hasHovered, setHasHovered] = useState(false);
   const router = useRouter();
   const id = useId();
 
@@ -139,16 +138,19 @@ export default function TripPattern({
     (leg) => leg.fromEstimatedCall?.cancellation,
   );
 
+  // Refetch this trip pattern every 30s for up-to-date leg times and a
+  // trip-level status (valid | impossible | stale). `tripPattern` is the
+  // stable SWR key; `displayTripPattern` — the refreshed copy when available —
+  // is what we render.
+  const { refreshedTripPattern } = useRefreshedTripPattern(tripPattern, true);
+  const displayTripPattern = refreshedTripPattern ?? tripPattern;
+
+  const filteredLegs = getFilteredLegsByWalkOrWaitTime(displayTripPattern);
+
   const staySeated = (idx: number) => {
     const leg = filteredLegs[idx];
     return leg && leg.interchangeTo?.staySeated === true;
   };
-
-  const { ref, inView } = useInView({
-    triggerOnce: true,
-    rootMargin: '100px',
-    threshold: 0,
-  });
 
   const overflowNotificationType: StatusColorName | undefined =
     overflowCount > 0
@@ -168,7 +170,7 @@ export default function TripPattern({
       : undefined;
 
   return (
-    <div ref={ref} className={style.tripPatternContainer}>
+    <div className={style.tripPatternContainer}>
       <motion.div
         id={`${id}-details-region`}
         role="button"
@@ -180,6 +182,7 @@ export default function TripPattern({
             setIsOpen(!isOpen);
           }
         }}
+        onMouseEnter={() => setHasHovered(true)}
         aria-expanded={isOpen}
         className={style.tripPattern}
         data-testid={testId}
@@ -190,7 +193,7 @@ export default function TripPattern({
           delay,
         }}
         aria-label={`${tripSummary(
-          tripPattern,
+          displayTripPattern,
           t,
           language,
           tripIsInPast,
@@ -199,7 +202,7 @@ export default function TripPattern({
         )}. ${isOpen ? t(PageText.Assistant.trip.tripPattern.activateToCollapse) : t(PageText.Assistant.trip.tripPattern.activateToExpand)}`}
       >
         <TripPatternHeader
-          tripPattern={tripPattern}
+          tripPattern={displayTripPattern}
           isCancelled={isCancelled}
         />
 
@@ -261,11 +264,10 @@ export default function TripPattern({
           </div>
         </div>
         <footer className={style.footer}>
-
           <div className={style.info__container}>
             <Price
               tripPattern={tripPattern}
-              inView={inView}
+              shouldFetch={hasHovered}
               size="small"
               behaviour={{ ifNotFound: 'show-text' }}
             />
@@ -309,27 +311,27 @@ export default function TripPattern({
             exit={{ height: 0, transition: { duration: ANIMATION_DURATION } }}
           >
             <div className={style.accordionBody}>
-              {tripPattern.legs.map((leg, index) => (
+              {displayTripPattern.legs.map((leg, index) => (
                 <TripSection
                   key={index}
                   isFirst={index === 0}
-                  isLast={index === tripPattern.legs.length - 1}
+                  isLast={index === displayTripPattern.legs.length - 1}
                   leg={leg}
                   interchangeDetails={getInterchangeDetails(
-                    tripPattern.legs,
+                    displayTripPattern.legs,
                     leg.interchangeTo?.toServiceJourney?.id,
                     t,
                   )}
                   legWaitDetails={getLegWaitDetails(
                     leg,
-                    tripPattern.legs[index + 1],
+                    displayTripPattern.legs[index + 1],
                   )}
                 />
               ))}
             </div>
             <div className={style.accordionFooter}>
               <ButtonLink
-                href={`/assistant/${tripPattern.compressedQuery}?filter=${router.query.filter}`}
+                href={`/assistant/${displayTripPattern.compressedQuery}?filter=${router.query.filter}`}
                 title={t(PageText.Assistant.trip.tripPattern.details)}
                 mode="interactive_2"
                 size="pill"

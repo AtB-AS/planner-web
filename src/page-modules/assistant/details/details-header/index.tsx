@@ -88,7 +88,7 @@ export function AssistantDetailsHeader({ tripPattern }: DetailsHeaderProps) {
         <div className={style.duration} data-testid={'detailsHeader-duration'}>
           <Price
             tripPattern={tripPattern}
-            inView={true}
+            shouldFetch={true}
             behaviour={{ ifFound: 'show-icon' }}
           />
         </div>
