@@ -1,8 +1,8 @@
 import { getFirestore, getDoc, doc } from 'firebase/firestore';
 import app from './firebase';
-import { TariffZone, tariffZoneSchema } from './types';
+import { FareZone, fareZoneSchema } from './types';
 
-export async function getTariffZones() {
+export async function getFareZones() {
   const firestore = getFirestore(app);
   const docRef = doc(firestore, 'configuration', 'referenceData');
 
@@ -11,10 +11,10 @@ export async function getTariffZones() {
   if (snapshot.exists()) {
     const data = snapshot.data();
     try {
-      const potential = JSON.parse(data.tariffZones);
-      const result: TariffZone[] = [];
-      potential.forEach((tariffZone: any) => {
-        const validated = tariffZoneSchema.safeParse(tariffZone);
+      const potential = JSON.parse(data.fareZones);
+      const result: FareZone[] = [];
+      potential.forEach((fareZone: any) => {
+        const validated = fareZoneSchema.safeParse(fareZone);
         if (validated.success) {
           result.push(validated.data);
         }
@@ -22,7 +22,7 @@ export async function getTariffZones() {
 
       return result;
     } catch (e) {
-      throw new Error('Could not parse tariff zones from firebase');
+      throw new Error('Could not parse fare zones from firebase');
     }
   }
   return [];
