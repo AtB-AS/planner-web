@@ -33,9 +33,9 @@
   },
   "dependencies": {
     "@apollo/client": "^3.13.9",
-    "@atb-as/config-specs": "8.8.0",
-    "@atb-as/theme": "^15.0.1",
-    "@atb-as/utils": "^5.1.1",
+    "@atb-as/config-specs": "11.1.0",
+    "@atb-as/theme": "^15.2.0",
+    "@atb-as/utils": "^6.1.3",
     "@codemirror/autocomplete": "^6.20.1",
     "@codemirror/lang-json": "^6.0.2",
     "@codemirror/language": "^6.12.3",
@@ -88,8 +88,8 @@
     "zod": "4.1.11"
   },
   "devDependencies": {
-    "@atb-as/generate-assets": "^18.14.1",
-    "@atb-as/token": "^0.0.3",
+    "@atb-as/generate-assets": "^18.16.0",
+    "@atb-as/token": "^0.0.4",
     "@graphql-codegen/cli": "^5.0.7",
     "@graphql-codegen/near-operation-file-preset": "^3.1.0",
     "@graphql-codegen/typescript": "^4.1.6",
