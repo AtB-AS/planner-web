@@ -428,18 +428,22 @@ const AssistantInternal = {
     },
     quayPublicCodePrefix: _('', '', ''),
     mapSection: {
-      travelTime: (time: string) =>
-        _(
-          `Total reisetid: ${time}`,
-          `Total trip time: ${time}`,
-          `Total reisetid: ${time}`,
-        ),
-      walkDistance: (distance: string) =>
-        _(
-          `Total gangavstand: ${distance} m`,
-          `Total walking distance: ${distance} m`,
-          `Total gangavstand: ${distance} m`,
-        ),
+      // Label/value pairs used by the trip summary card, where the value is
+      // shown prominently above a secondary label.
+      travelTimeLabel: _(
+        'Total reisetid',
+        'Total travel time',
+        'Total reisetid',
+      ),
+      walkDistanceLabel: _(
+        'Total gangavstand',
+        'Total walking distance',
+        'Total gangavstand',
+      ),
+      walkDistanceValue: (distance: string) =>
+        _(`${distance} m`, `${distance} m`, `${distance} m`),
+      priceLabel: (traveller: string) =>
+        _(`pris (1 ${traveller})`, `price (1 ${traveller})`, `pris (1 ${traveller})`),
     },
     tripSection: {
       walk: {
