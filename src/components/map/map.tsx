@@ -20,7 +20,7 @@ import { useMapPin } from './use-map-pin';
 import { useMapLegs } from './use-map-legs';
 import { and } from '@atb/utils/css';
 import { MapLegType, PositionType } from './types';
-import { useMapTariffZones } from './use-map-tariff-zones';
+import { useMapFareZones } from './use-map-fare-zones';
 import useMediaQuery from '@atb/utils/user-media-query';
 import { logSpecificEvent } from '@atb/modules/firebase';
 
@@ -75,7 +75,7 @@ export default function Map({ layer, onSelectStopPlace, ...props }: MapProps) {
   );
   useMapPin(map, position, layer);
   useMapLegs(map, mapLegs);
-  useMapTariffZones(map);
+  useMapFareZones(map);
 
   useEffect(() => {
     if (!isMobileDevice) {

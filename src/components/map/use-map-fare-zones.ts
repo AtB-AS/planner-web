@@ -3,35 +3,35 @@ import { Language, useTranslation } from '@atb/translations';
 import { AnyLayer } from 'mapbox-gl';
 import { getReferenceDataName } from '@atb/utils/reference-data';
 import { centroid } from '@turf/centroid';
-import { type TariffZone, getTariffZones } from '@atb/modules/firebase';
+import { type FareZone, getFareZones } from '@atb/modules/firebase';
 import { addLayerIfNotExists, addSourceIfNotExists } from '.';
 import useSWRImmutable from 'swr/immutable';
 
-const TARIFF_ZONE_SOURCE_ID = 'tariff-zones';
+const FARE_ZONE_SOURCE_ID = 'fare-zones';
 const ZONE_BOUNDARY_LAYER_ID = 'zone-boundary-layer';
 const ZONE_NAMES_LAYER_ID = 'zone-names-layer';
 
-export const useMapTariffZones = (
+export const useMapFareZones = (
   mapRef: React.MutableRefObject<mapboxgl.Map | undefined>,
 ) => {
   const { language } = useTranslation();
   const [isZonesVisible, setIsZonesVisible] = useState(false);
   const [isStyleLoaded, setIsStyleLoaded] = useState(false);
-  const { data } = useSWRImmutable('tariffZones', getTariffZones);
+  const { data } = useSWRImmutable('fareZones', getFareZones);
 
-  const addTariffZonesToMap = useCallback(
+  const addFareZonesToMap = useCallback(
     (map: mapboxgl.Map) => {
       if (!data || !isStyleLoaded) return;
       addSourceIfNotExists(
         map,
-        TARIFF_ZONE_SOURCE_ID,
-        createTariffZonesFeatureCollection(data, language),
+        FARE_ZONE_SOURCE_ID,
+        createFareZonesFeatureCollection(data, language),
       );
 
       const zoneBoundaryLayer: AnyLayer = {
         id: ZONE_BOUNDARY_LAYER_ID,
         type: 'line',
-        source: TARIFF_ZONE_SOURCE_ID,
+        source: FARE_ZONE_SOURCE_ID,
         paint: {
           'line-width': 1,
           'line-color': '#666666',
@@ -43,7 +43,7 @@ export const useMapTariffZones = (
       const zoneNamesLayer: AnyLayer = {
         id: ZONE_NAMES_LAYER_ID,
         type: 'symbol',
-        source: TARIFF_ZONE_SOURCE_ID,
+        source: FARE_ZONE_SOURCE_ID,
         layout: {
           'text-field': ['get', 'name'],
           'text-justify': 'auto',
@@ -81,37 +81,37 @@ export const useMapTariffZones = (
     if (isZonesVisible || !data || !mapRef.current || !isStyleLoaded) {
       return;
     }
-    addTariffZonesToMap(mapRef.current);
-  }, [addTariffZonesToMap, data, isZonesVisible, mapRef, isStyleLoaded]);
+    addFareZonesToMap(mapRef.current);
+  }, [addFareZonesToMap, data, isZonesVisible, mapRef, isStyleLoaded]);
 };
 
-const createTariffZonesFeatureCollection = (
-  tariffZones: TariffZone[],
+const createFareZonesFeatureCollection = (
+  fareZones: FareZone[],
   language: Language,
 ) => ({
   type: 'geojson' as const,
   data: {
     type: 'FeatureCollection' as const,
-    features: tariffZones
-      .map((tariffZone) => [
+    features: fareZones
+      .map((fareZone) => [
         {
           type: 'Feature' as const,
           properties: {},
           geometry: {
             type: 'Polygon' as const,
-            coordinates: tariffZone.geometry.coordinates,
+            coordinates: fareZone.geometry.coordinates,
           },
         },
         {
           type: 'Feature' as const,
           properties: {
-            name: getReferenceDataName(tariffZone, language),
-            middlePoint: centroid(tariffZone.geometry),
+            name: getReferenceDataName(fareZone, language),
+            middlePoint: centroid(fareZone.geometry),
           },
           geometry: {
             type: 'Point' as const,
             coordinates:
-              centroid(tariffZone.geometry)?.geometry?.coordinates ?? [],
+              centroid(fareZone.geometry)?.geometry?.coordinates ?? [],
           },
         },
       ])
