@@ -112,7 +112,9 @@ export const useMapLegs = (
   }, [mapRef, mapLegs, addToMap, addStartEndText]);
 };
 
-const createRouteFeature = (positions: PositionType[]): SourceSpecification => ({
+const createRouteFeature = (
+  positions: PositionType[],
+): SourceSpecification => ({
   type: 'geojson',
   data: {
     type: 'Feature',
@@ -176,7 +178,10 @@ const createStartEndCircle = (
   },
 });
 
-const createStartEndLayer = (id: number | string, color: string): LayerSpecification => ({
+const createStartEndLayer = (
+  id: number | string,
+  color: string,
+): LayerSpecification => ({
   id: `route-layer-${id}-start-end`,
   type: 'circle',
   source: `route-${id}-start-end`,
@@ -186,7 +191,9 @@ const createStartEndLayer = (id: number | string, color: string): LayerSpecifica
   },
 });
 
-const createStartEndTextPoint = (position: PositionType): SourceSpecification => ({
+const createStartEndTextPoint = (
+  position: PositionType,
+): SourceSpecification => ({
   type: 'geojson',
   data: {
     type: 'Feature',
