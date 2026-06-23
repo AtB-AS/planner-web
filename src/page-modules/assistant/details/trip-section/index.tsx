@@ -5,17 +5,13 @@ import {
 } from '@atb/modules/trip-details';
 import style from './trip-section.module.css';
 import {
-  TransportIcon,
+  TransportIconWithDuration,
   useTransportationThemeColor,
 } from '@atb/modules/transport-mode';
 import { Typo } from '@atb/components/typography';
 import WalkSection from './walk-section';
-import { ColorIcon } from '@atb/components/icon';
 import { MessageBox } from '@atb/components/message-box';
-import {
-  SituationMessageBox,
-  SituationOrNoticeIcon,
-} from '@atb/modules/situations';
+import { SituationMessageBox } from '@atb/modules/situations';
 import { PageText, useTranslation } from '@atb/translations';
 import { InterchangeDetails, InterchangeSection } from './interchange-section';
 import { formatLineName, getPlaceName } from '../utils';
@@ -120,23 +116,24 @@ export default function TripSection({
         {isWalkSection ? (
           <WalkSection walkDuration={leg.duration} />
         ) : (
-          <TripRow
-            rowLabel={
-              <TransportIcon
+          <TripRow>
+            {/* Transport icon (with line number) sits in the content column,
+             * to the right of the decoration line — matching the app. The line
+             * number lives in the icon, so the destination text omits it. */}
+            <div className={style.iconRow}>
+              <TransportIconWithDuration
                 transportMode={leg.mode}
                 transportSubmode={leg.transportSubmode}
+                label={leg.line?.publicCode ?? undefined}
                 isFlexible={isFlexible}
-                size="xSmall"
               />
-            }
-          >
-            <Typo.p textType="body__m__strong">
-              {formatLineName(
-                leg.fromEstimatedCall?.destinationDisplay?.frontText,
-                leg.line?.name,
-                leg.line?.publicCode,
-              )}
-            </Typo.p>
+              <Typo.p textType="body__m__strong">
+                {formatLineName(
+                  leg.fromEstimatedCall?.destinationDisplay?.frontText,
+                  leg.line?.name,
+                )}
+              </Typo.p>
+            </div>
             {isFlexible && (
               <Typo.p
                 textType="body__s"
@@ -152,22 +149,16 @@ export default function TripSection({
         )}
 
         {leg.situations.map((situation) => (
-          <TripRow
-            key={situation.id}
-            rowLabel={<SituationOrNoticeIcon situation={situation} />}
-          >
-            <SituationMessageBox noStatusIcon situation={situation} />
+          <TripRow key={situation.id}>
+            <SituationMessageBox situation={situation} />
           </TripRow>
         ))}
 
         {leg.notices.map(
           (notice) =>
             notice.text && (
-              <TripRow
-                key={notice.id}
-                rowLabel={<ColorIcon icon="status/Info" />}
-              >
-                <MessageBox type="info" noStatusIcon message={notice.text} />
+              <TripRow key={notice.id}>
+                <MessageBox type="info" message={notice.text} />
               </TripRow>
             ),
         )}
@@ -182,10 +173,9 @@ export default function TripSection({
         )}
 
         {leg.transportSubmode === 'railReplacementBus' && (
-          <TripRow rowLabel={<ColorIcon icon="status/Warning" />}>
+          <TripRow>
             <MessageBox
               type="warning"
-              noStatusIcon
               message={t(
                 PageText.Assistant.details.tripSection
                   .departureIsRailReplacementBus,

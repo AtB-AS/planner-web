@@ -1,5 +1,5 @@
 import { ButtonLink } from '@atb/components/button';
-import { ColorIcon, MonoIcon } from '@atb/components/icon';
+import { MonoIcon } from '@atb/components/icon';
 import { MessageBox } from '@atb/components/message-box';
 import {
   BookingStatus,
@@ -45,13 +45,7 @@ export function BookingSection({
 
   return (
     <>
-      <TripRow
-        rowLabel={
-          <ColorIcon
-            icon={bookingStatus === 'late' ? 'status/Error' : 'status/Warning'}
-          />
-        }
-      >
+      <TripRow>
         {bookingMessage && (
           <MessageBox
             type={bookingStatus === 'late' ? 'error' : 'warning'}
