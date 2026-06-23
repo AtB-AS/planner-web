@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Language, useTranslation } from '@atb/translations';
-import { AnyLayer } from 'mapbox-gl';
+import { LayerSpecification } from 'mapbox-gl';
 import { getReferenceDataName } from '@atb/utils/reference-data';
 import { centroid } from '@turf/centroid';
 import { type FareZone, getFareZones } from '@atb/modules/firebase';
@@ -28,7 +28,7 @@ export const useMapFareZones = (
         createFareZonesFeatureCollection(data, language),
       );
 
-      const zoneBoundaryLayer: AnyLayer = {
+      const zoneBoundaryLayer: LayerSpecification = {
         id: ZONE_BOUNDARY_LAYER_ID,
         type: 'line',
         source: FARE_ZONE_SOURCE_ID,
@@ -40,7 +40,7 @@ export const useMapFareZones = (
 
       addLayerIfNotExists(map, zoneBoundaryLayer);
 
-      const zoneNamesLayer: AnyLayer = {
+      const zoneNamesLayer: LayerSpecification = {
         id: ZONE_NAMES_LAYER_ID,
         type: 'symbol',
         source: FARE_ZONE_SOURCE_ID,

@@ -4,7 +4,7 @@ import hexToRgba from 'hex-to-rgba';
 import { ContrastColor, useTheme } from '@atb/modules/theme';
 import { ComponentText, useTranslation } from '@atb/translations';
 import type { MapLegType, PositionType } from './types';
-import type { Map, AnySourceData, AnyLayer } from 'mapbox-gl';
+import type { Map, SourceSpecification, LayerSpecification } from 'mapbox-gl';
 import { addLayerIfNotExists, addSourceIfNotExists } from '.';
 
 export const useMapLegs = (
@@ -112,7 +112,7 @@ export const useMapLegs = (
   }, [mapRef, mapLegs, addToMap, addStartEndText]);
 };
 
-const createRouteFeature = (positions: PositionType[]): AnySourceData => ({
+const createRouteFeature = (positions: PositionType[]): SourceSpecification => ({
   type: 'geojson',
   data: {
     type: 'Feature',
@@ -128,7 +128,7 @@ const createRouteLayer = (
   id: number | string,
   color: string,
   isDotted?: boolean,
-): AnyLayer => {
+): LayerSpecification => {
   let paint = {};
   let layout = {};
 
@@ -159,7 +159,7 @@ const createRouteLayer = (
 const createStartEndCircle = (
   startPosition: PositionType,
   endPosition: PositionType,
-): AnySourceData => ({
+): SourceSpecification => ({
   type: 'geojson',
   data: {
     type: 'GeometryCollection',
@@ -176,7 +176,7 @@ const createStartEndCircle = (
   },
 });
 
-const createStartEndLayer = (id: number | string, color: string): AnyLayer => ({
+const createStartEndLayer = (id: number | string, color: string): LayerSpecification => ({
   id: `route-layer-${id}-start-end`,
   type: 'circle',
   source: `route-${id}-start-end`,
@@ -186,7 +186,7 @@ const createStartEndLayer = (id: number | string, color: string): AnyLayer => ({
   },
 });
 
-const createStartEndTextPoint = (position: PositionType): AnySourceData => ({
+const createStartEndTextPoint = (position: PositionType): SourceSpecification => ({
   type: 'geojson',
   data: {
     type: 'Feature',
@@ -202,7 +202,7 @@ const createStartEndTextLayer = (
   source: string,
   textField: string,
   contrastColor: ContrastColor,
-): AnyLayer => ({
+): LayerSpecification => ({
   id: source,
   type: 'symbol',
   source: source,
