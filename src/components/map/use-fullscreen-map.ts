@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
 
 export const useFullscreenMap = (
-  mapWrapperRef: React.MutableRefObject<HTMLDivElement | null>,
-  mapRef: React.MutableRefObject<mapboxgl.Map | undefined>,
+  mapWrapperRef: React.RefObject<HTMLDivElement | null>,
+  mapRef: React.RefObject<mapboxgl.Map | undefined>,
   initializeMap: () => void,
 ) => {
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);

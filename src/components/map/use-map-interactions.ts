@@ -8,7 +8,7 @@ import {
 import { PositionType } from '@atb/components/map/types.ts';
 
 export function useMapInteractions(
-  mapRef: React.MutableRefObject<mapboxgl.Map | undefined>,
+  mapRef: React.RefObject<mapboxgl.Map | undefined>,
   onSelectStopPlace?: (id: string) => void,
 ) {
   useEffect(() => {
