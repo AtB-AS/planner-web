@@ -443,7 +443,11 @@ const AssistantInternal = {
       walkDistanceValue: (distance: string) =>
         _(`${distance} m`, `${distance} m`, `${distance} m`),
       priceLabel: (traveller: string) =>
-        _(`pris (1 ${traveller})`, `price (1 ${traveller})`, `pris (1 ${traveller})`),
+        _(
+          `pris (1 ${traveller})`,
+          `price (1 ${traveller})`,
+          `pris (1 ${traveller})`,
+        ),
     },
     tripSection: {
       walk: {
