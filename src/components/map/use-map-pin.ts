@@ -3,7 +3,7 @@ import mapboxgl from 'mapbox-gl';
 import { PositionType } from '@atb/components/map/types.ts';
 
 export function useMapPin(
-  mapRef: React.MutableRefObject<mapboxgl.Map | undefined>,
+  mapRef: React.RefObject<mapboxgl.Map | undefined>,
   position: PositionType,
   layer?: string,
 ) {

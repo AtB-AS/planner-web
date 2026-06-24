@@ -1,5 +1,5 @@
 import { transportModeToColor } from '@atb/modules/transport-mode';
-import { type MutableRefObject, useCallback, useEffect } from 'react';
+import { type RefObject, useCallback, useEffect } from 'react';
 import hexToRgba from 'hex-to-rgba';
 import { ContrastColor, useTheme } from '@atb/modules/theme';
 import { ComponentText, useTranslation } from '@atb/translations';
@@ -8,7 +8,7 @@ import type { Map, AnySourceData, AnyLayer } from 'mapbox-gl';
 import { addLayerIfNotExists, addSourceIfNotExists } from '.';
 
 export const useMapLegs = (
-  mapRef: MutableRefObject<Map | undefined>,
+  mapRef: RefObject<Map | undefined>,
   mapLegs?: MapLegType[],
 ) => {
   const { t, language } = useTranslation();
