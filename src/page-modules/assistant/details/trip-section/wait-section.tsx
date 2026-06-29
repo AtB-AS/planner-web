@@ -4,7 +4,7 @@ import { DecorationLine, TripRow } from '@atb/modules/trip-details';
 import { PageText, useTranslation } from '@atb/translations';
 import { secondsBetween, secondsToDuration } from '@atb/utils/date';
 import style from './trip-section.module.css';
-import { ColorIcon, MonoIcon } from '@atb/components/icon';
+import { MonoIcon } from '@atb/components/icon';
 import { MessageBox } from '@atb/components/message-box';
 import { ExtendedLegType } from '@atb/page-modules/assistant';
 
@@ -43,18 +43,20 @@ export default function WaitSection({ legWaitDetails }: WaitSectionProps) {
         color={unknownTransportationColor.backgroundColor}
       />
       {shortWait && (
-        <TripRow rowLabel={<ColorIcon icon="status/Info" />}>
+        <TripRow>
           <MessageBox
-            noStatusIcon
             type="info"
             message={t(PageText.Assistant.details.tripSection.wait.shortTime)}
           />
         </TripRow>
       )}
-      <TripRow rowLabel={<MonoIcon icon="time/Time" />}>
-        <Typo.p textType="body__s" className={style.waitTime}>
-          {t(PageText.Assistant.details.tripSection.wait.label(waitTime))}
-        </Typo.p>
+      <TripRow>
+        <div className={style.iconRow}>
+          <MonoIcon icon="time/Time" />
+          <Typo.p textType="body__s" className={style.waitTime}>
+            {t(PageText.Assistant.details.tripSection.wait.label(waitTime))}
+          </Typo.p>
+        </div>
       </TripRow>
     </div>
   );

@@ -1,57 +1,82 @@
+import { useState } from 'react';
 import { Typo } from '@atb/components/typography';
 import { TripRow } from '@atb/modules/trip-details';
+import { DepartureTime } from '@atb/components/departure-time';
+import { Button } from '@atb/components/button';
+import { TintedMonoIcon } from '@atb/components/icon';
 import { PageText, useTranslation } from '@atb/translations';
-import { secondsToDuration } from '@atb/utils/date';
-import Link from 'next/link';
+import { secondsToDurationShort } from '@atb/utils/date';
+import { andIf } from '@atb/utils/css';
+import { ExtendedLegType } from '@atb/page-modules/assistant';
 
 import style from './trip-section.module.css';
 
 export type EstimatedCallsSectionProps = {
-  numberOfIntermediateEstimatedCalls: number;
+  intermediateEstimatedCalls: ExtendedLegType['intermediateEstimatedCalls'];
   duration: number;
-  serviceJourneyId: string | null;
-  date: string;
-  fromQuayId: string | null;
 };
 
 export function EstimatedCallsSection({
-  numberOfIntermediateEstimatedCalls,
+  intermediateEstimatedCalls,
   duration,
-  serviceJourneyId,
-  date,
-  fromQuayId,
 }: EstimatedCallsSectionProps) {
   const { t, language } = useTranslation();
+  const [expanded, setExpanded] = useState(false);
 
-  const shouldShowLinkToServiceJourney = !!serviceJourneyId;
-  let serviceJourneyHref = `/departures/details/${serviceJourneyId}?date=${date}`;
-  if (fromQuayId) {
-    serviceJourneyHref += `&fromQuayId=${fromQuayId}`;
-  }
+  const numberOfCalls = intermediateEstimatedCalls.length;
+  if (numberOfCalls === 0) return null;
 
-  if (numberOfIntermediateEstimatedCalls === 0) return null;
   return (
-    <TripRow>
-      {shouldShowLinkToServiceJourney ? (
-        <Link className={style.textColor__secondary} href={serviceJourneyHref}>
-          {t(
+    <>
+      <TripRow>
+        <Button
+          title={t(
             PageText.Assistant.details.tripSection.intermediateStops(
-              numberOfIntermediateEstimatedCalls,
+              numberOfCalls,
+              secondsToDurationShort(duration, language),
             ),
           )}
-        </Link>
-      ) : (
-        <Typo.p textType="body__s" className={style.textColor__secondary}>
-          {t(
-            PageText.Assistant.details.tripSection.intermediateStops(
-              numberOfIntermediateEstimatedCalls,
+          mode="interactive_2"
+          size="small"
+          radiusSize="circular"
+          display="inline"
+          className={style.intermediateToggle}
+          onClick={() => setExpanded(!expanded)}
+          buttonProps={{ 'aria-expanded': expanded }}
+          icon={{
+            right: (
+              <TintedMonoIcon
+                icon="navigation/ExpandMore"
+                size="small"
+                className={andIf({
+                  [style.chevron]: true,
+                  [style.chevron__rotated]: expanded,
+                })}
+              />
             ),
-          )}
-        </Typo.p>
-      )}
-      <Typo.p textType="body__s" className={style.textColor__secondary}>
-        {secondsToDuration(duration, language)}
-      </Typo.p>
-    </TripRow>
+          }}
+        />
+      </TripRow>
+
+      {expanded &&
+        intermediateEstimatedCalls.map((call, index) => (
+          <TripRow
+            key={`${index}-${call.quay.name}`}
+            rowLabel={
+              <DepartureTime
+                aimedDepartureTime={call.aimedDepartureTime}
+                expectedDepartureTime={call.expectedDepartureTime}
+                realtime={call.realtime}
+                roundingMethod="floor"
+              />
+            }
+            alignChildren="flex-start"
+          >
+            <Typo.p textType="body__s" className={style.textColor__secondary}>
+              {call.quay.name}
+            </Typo.p>
+          </TripRow>
+        ))}
+    </>
   );
 }

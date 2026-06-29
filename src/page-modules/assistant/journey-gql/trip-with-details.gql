@@ -134,6 +134,11 @@ fragment legWithDetails on Leg {
   }
   intermediateEstimatedCalls {
     aimedDepartureTime
+    expectedDepartureTime
+    realtime
+    quay {
+      name
+    }
   }
   situations {
     ...situation
