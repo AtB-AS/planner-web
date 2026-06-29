@@ -37,8 +37,6 @@ function getStatusConfig(
     };
   }
 
-  // Trip-level status from refreshSingleTrip (only set once a card has been
-  // refreshed). 'impossible' means a connection can no longer be made.
   if (tripPattern.status === 'impossible') {
     return {
       statusType: 'error',
@@ -67,13 +65,15 @@ function getStatusConfig(
   if (bookingLegs.length > 0) {
     const anyDeadlineExceeded = bookingLegs.some(
       (leg) =>
-        getBookingStatus(leg.bookingArrangements!, leg.aimedStartTime) === 'late',
+        getBookingStatus(leg.bookingArrangements!, leg.aimedStartTime) ===
+        'late',
     );
     if (anyDeadlineExceeded) {
       return {
         statusType: 'interactive',
         text: t(
-          PageText.Assistant.trip.tripPattern.statusText.bookingDeadlineExceeded,
+          PageText.Assistant.trip.tripPattern.statusText
+            .bookingDeadlineExceeded,
         ),
       };
     }
@@ -83,8 +83,6 @@ function getStatusConfig(
     };
   }
 
-  // 'stale' means one or more legs could not be refreshed, so the shown times
-  // may be outdated. Lowest priority — only surfaced when nothing else applies.
   if (tripPattern.status === 'stale') {
     return {
       statusType: 'info',

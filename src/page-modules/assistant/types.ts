@@ -142,10 +142,6 @@ export type ExtendedLegType = LegWithDetailsFragment & {
  */
 export type TripPatternStatus = 'valid' | 'impossible' | 'stale';
 
-/**
- * We Omit the original legs, as to not confuse TS about what shape
- * legs has in a trip pattern
- */
 export type ExtendedTripPatternWithDetailsType = Omit<
   TripPatternWithDetailsFragment,
   'legs'
@@ -153,11 +149,6 @@ export type ExtendedTripPatternWithDetailsType = Omit<
   compressedQuery: string;
   legs: ExtendedLegType[];
   status?: TripPatternStatus;
-  /**
-   * Trip-level aimed times, derived from the legs by refreshSingleTrip.
-   * Non-transit legs have no real schedule, so these are anchored to the
-   * nearest transit legs.
-   */
   aimedStartTime?: string;
   aimedEndTime?: string;
 };

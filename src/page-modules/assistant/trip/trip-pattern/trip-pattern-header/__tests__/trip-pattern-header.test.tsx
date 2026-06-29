@@ -37,7 +37,6 @@ const customRender = (
 
 describe('trip pattern header', function () {
   it('should render trip pattern header with duration and ended status', async () => {
-    // Fixture dates are in 2023 (past), so "ended" status should show
     render(<TripPatternHeader tripPattern={tripPatternWithDetailsFixture} />);
 
     expect(screen.getByTestId('resultDuration')).toBeInTheDocument();
