@@ -7,12 +7,19 @@ export type StatusType = 'error' | 'info' | 'interactive';
 type StatusTextProps = {
   statusType: StatusType;
   text: string;
+  showIcon?: boolean;
 };
 
-export function StatusText({ statusType, text }: StatusTextProps) {
+export function StatusText({
+  statusType,
+  text,
+  showIcon = false,
+}: StatusTextProps) {
   return (
     <div className={style.container}>
-      <ColorIcon icon={statusTypeToColorIcon(statusType)} size="xSmall" />
+      {showIcon && (
+        <ColorIcon icon={statusTypeToColorIcon(statusType)} size="xSmall" />
+      )}
       <Typo.span textType="body__s__strong" className={style[statusType]}>
         {text}
       </Typo.span>
