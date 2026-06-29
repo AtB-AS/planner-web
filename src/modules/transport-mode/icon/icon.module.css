@@ -22,11 +22,15 @@
   padding: token('spacing.small') token('spacing.medium');
 }
 
+.transportIconWithLabel__hasNotification {
+  padding-right: calc(token('spacing.medium') + token('spacing.small'));
+}
+
 .transportIconNotification {
   margin-left: -10px;
   background-color: token('color.background.neutral.0.background');
   border-radius: 50%;
-  padding: 1px;
+  padding: token('border.width.medium');
   line-height: 0;
   display: flex;
   align-items: center;
