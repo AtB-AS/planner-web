@@ -1,6 +1,5 @@
 import { useTransportationThemeColor } from '@atb/modules/transport-mode';
 import { DecorationLine, TripRow } from '@atb/modules/trip-details';
-import { MonoIcon } from '@atb/components/icon';
 import { MessageBox } from '@atb/components/message-box';
 import { getPlaceName } from '../utils';
 import { PageText, TranslateFunction, useTranslation } from '@atb/translations';
@@ -31,8 +30,8 @@ export function InterchangeSection(props: InterchangeSectionProps) {
   return (
     <div className={style.rowContainer}>
       <DecorationLine color={unknownTransportationColor.backgroundColor} />
-      <TripRow rowLabel={<MonoIcon icon="actions/Interchange" />}>
-        <MessageBox noStatusIcon type="info" message={message} />
+      <TripRow>
+        <MessageBox type="info" message={message} />
       </TripRow>
     </div>
   );
