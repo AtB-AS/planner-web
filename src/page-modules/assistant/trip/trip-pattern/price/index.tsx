@@ -12,6 +12,7 @@ import { isSubModeBoat } from '@atb/modules/transport-mode';
 import style from './price.module.css';
 import { Loading } from '@atb/components/loading';
 import { MonoIcon } from '@atb/components/icon';
+import { SummaryRow } from '../../../trip-summary-panel/summary-row';
 
 type FoundBehaviour = 'show-icon' | 'hide-icon';
 type NotFoundBehaviour = 'show-text' | 'hide-text';
@@ -20,6 +21,7 @@ type PriceProps = {
   tripPattern: ExtendedTripPatternWithDetailsType;
   shouldFetch: boolean;
   size?: 'small' | 'regular';
+  variant?: 'inline' | 'summary';
   behaviour?: {
     ifFound?: FoundBehaviour;
     ifNotFound?: NotFoundBehaviour;
@@ -30,6 +32,7 @@ export function Price({
   tripPattern,
   shouldFetch,
   size = 'regular',
+  variant = 'inline',
   behaviour,
 }: PriceProps) {
   const { t, language } = useTranslation();
@@ -60,6 +63,37 @@ export function Price({
 
   if (!isEnabled) {
     return null;
+  }
+
+  if (variant === 'summary') {
+    const ticketIcon = <MonoIcon icon="ticketing/Ticket" />;
+    if (isLoadingPrice) {
+      return (
+        <SummaryRow
+          icon={ticketIcon}
+          value={t(PageText.Assistant.trip.tripPattern.loading)}
+        />
+      );
+    }
+    if (!price) return null;
+    const travellerTypeText = t(
+      PageText.Assistant.trip.tripPattern.userType(price.userType),
+    );
+    return (
+      <SummaryRow
+        icon={ticketIcon}
+        value={t(
+          PageText.Assistant.trip.tripPattern.priceInfo(
+            formatNumberToString(price.cheapestTotalPrice ?? 0, language),
+          ),
+        )}
+        label={t(
+          PageText.Assistant.details.mapSection.priceLabel(
+            travellerTypeText.toLowerCase(),
+          ),
+        )}
+      />
+    );
   }
 
   if (isLoadingPrice) {

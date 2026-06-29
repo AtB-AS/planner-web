@@ -98,11 +98,7 @@ const AssistantInternal = {
       'Reiseforslag funne',
     ),
     tripPattern: {
-      originalTime: _(
-        'Opprinnelig',
-        'Original',
-        'Opphavleg',
-      ),
+      originalTime: _('Opprinnelig', 'Original', 'Opphavleg'),
       travelFrom: {
         bus: (place: string) =>
           _(`Buss fra ${place}`, `Bus from ${place}`, `Buss frå ${place}`),
@@ -454,17 +450,23 @@ const AssistantInternal = {
     },
     quayPublicCodePrefix: _('', '', ''),
     mapSection: {
-      travelTime: (time: string) =>
+      travelTimeLabel: _(
+        'Total reisetid',
+        'Total travel time',
+        'Total reisetid',
+      ),
+      walkDistanceLabel: _(
+        'Total gangavstand',
+        'Total walking distance',
+        'Total gangavstand',
+      ),
+      walkDistanceValue: (distance: string) =>
+        _(`${distance} m`, `${distance} m`, `${distance} m`),
+      priceLabel: (traveller: string) =>
         _(
-          `Total reisetid: ${time}`,
-          `Total trip time: ${time}`,
-          `Total reisetid: ${time}`,
-        ),
-      walkDistance: (distance: string) =>
-        _(
-          `Total gangavstand: ${distance} m`,
-          `Total walking distance: ${distance} m`,
-          `Total gangavstand: ${distance} m`,
+          `pris (1 ${traveller})`,
+          `price (1 ${traveller})`,
+          `pris (1 ${traveller})`,
         ),
     },
     tripSection: {
