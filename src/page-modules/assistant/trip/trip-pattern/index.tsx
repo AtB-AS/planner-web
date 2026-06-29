@@ -6,7 +6,7 @@ import { PageText, useTranslation } from '@atb/translations';
 import style from './trip-pattern.module.css';
 import { isInPast, secondsBetween } from '@atb/utils/date';
 import { TripPatternHeader } from './trip-pattern-header';
-import { MonoIcon } from '@atb/components/icon';
+import { TintedMonoIcon } from '@atb/components/icon';
 import { Typo } from '@atb/components/typography';
 import { TransportIconWithDuration } from '@atb/modules/transport-mode';
 import { andIf } from '@atb/utils/css';
@@ -24,7 +24,7 @@ import { Button, ButtonLink } from '@atb/components/button';
 import TripSection from '@atb/page-modules/assistant/details/trip-section';
 import { getInterchangeDetails } from '@atb/page-modules/assistant/details/trip-section/interchange-section.tsx';
 import { getLegWaitDetails } from '@atb/page-modules/assistant/details/trip-section/wait-section.tsx';
-import { Price } from './price';
+import { TripSummaryPanel } from '@atb/page-modules/assistant/trip-summary-panel';
 import useResizeObserver from '@react-hook/resize-observer';
 import {
   getMsgTypeForMostCriticalSituationOrNotice,
@@ -45,14 +45,12 @@ type TripPatternProps = {
   testId?: string;
 };
 
-/**
- * Count how many leg elements overflow the container's visible width.
- * Each leg item is a direct child with data-leg-index attribute.
- */
 function countOverflowingLegs(container: HTMLElement | null): number {
   if (!container) return 0;
   const containerRight = container.getBoundingClientRect().right;
-  const legElements = Array.from(container.querySelectorAll('[data-leg-index]'));
+  const legElements = Array.from(
+    container.querySelectorAll('[data-leg-index]'),
+  );
   let hiddenCount = 0;
   for (const el of legElements) {
     const elRect = el.getBoundingClientRect();
@@ -91,7 +89,9 @@ function getLegNotificationType(
     leg.transportSubmode === TransportSubmode.RailReplacementBus
       ? ('warning' as const)
       : undefined;
-  const bookingMsgType = leg.bookingArrangements ? ('warning' as const) : undefined;
+  const bookingMsgType = leg.bookingArrangements
+    ? ('warning' as const)
+    : undefined;
   const shortTransferMsgType: StatusColorName | undefined = (() => {
     if (!previousLeg) return undefined;
     const waitSeconds = secondsBetween(
@@ -109,7 +109,10 @@ function getLegNotificationType(
     railReplacementMsgType,
     bookingMsgType,
     shortTransferMsgType,
-  ].reduce<StatusColorName | undefined>(toMostCriticalNotificationStatus, undefined);
+  ].reduce<StatusColorName | undefined>(
+    toMostCriticalNotificationStatus,
+    undefined,
+  );
 }
 
 export default function TripPattern({
@@ -121,7 +124,6 @@ export default function TripPattern({
   const { t, language } = useTranslation();
 
   const [isOpen, setIsOpen] = useState(false);
-  const [hasHovered, setHasHovered] = useState(false);
   const router = useRouter();
   const id = useId();
 
@@ -138,10 +140,6 @@ export default function TripPattern({
     (leg) => leg.fromEstimatedCall?.cancellation,
   );
 
-  // Refetch this trip pattern every 30s for up-to-date leg times and a
-  // trip-level status (valid | impossible | stale). `tripPattern` is the
-  // stable SWR key; `displayTripPattern` — the refreshed copy when available —
-  // is what we render.
   const { refreshedTripPattern } = useRefreshedTripPattern(tripPattern, true);
   const displayTripPattern = refreshedTripPattern ?? tripPattern;
 
@@ -182,7 +180,6 @@ export default function TripPattern({
             setIsOpen(!isOpen);
           }
         }}
-        onMouseEnter={() => setHasHovered(true)}
         aria-expanded={isOpen}
         className={style.tripPattern}
         data-testid={testId}
@@ -208,33 +205,28 @@ export default function TripPattern({
 
         <div className={style.legs}>
           <div className={style.legs__legsAndLine}>
-            <div
-              className={style.legs__expandedLegs}
-              ref={legsContainerRef}
-            >
+            <div className={style.legs__expandedLegs} ref={legsContainerRef}>
               {filteredLegs.map((leg, i) => (
                 <Fragment key={`leg-${leg.expectedStartTime}-${i}`}>
                   {staySeated(i - 1) ? null : (
-                    <div
-                      className={style.legs__leg}
-                      data-leg-index={i}
-                    >
-                      {leg.mode === 'foot' ? (
-                        <div className={style.legs__leg__walkIcon}>
-                          <MonoIcon icon="transportation/WalkFill" />
-                        </div>
-                      ) : (
-                        <TransportIconWithDuration
-                          transportMode={leg.mode}
-                          transportSubmode={leg.transportSubmode}
-                          label={leg.line?.publicCode ?? undefined}
-                          isFlexible={isLineFlexibleTransport(leg.line)}
-                          notificationType={getLegNotificationType(
-                            leg,
-                            filteredLegs[i - 1],
-                          )}
-                        />
-                      )}
+                    <div className={style.legs__leg} data-leg-index={i}>
+                      <TransportIconWithDuration
+                        transportMode={leg.mode}
+                        transportSubmode={leg.transportSubmode}
+                        label={
+                          leg.mode === 'foot'
+                            ? undefined
+                            : (leg.line?.publicCode ?? undefined)
+                        }
+                        duration={
+                          leg.mode === 'foot' ? leg.duration : undefined
+                        }
+                        isFlexible={isLineFlexibleTransport(leg.line)}
+                        notificationType={getLegNotificationType(
+                          leg,
+                          filteredLegs[i - 1],
+                        )}
+                      />
                     </div>
                   )}
                 </Fragment>
@@ -262,22 +254,13 @@ export default function TripPattern({
               </div>
             )}
           </div>
-        </div>
-        <footer className={style.footer}>
-          <div className={style.info__container}>
-            <Price
-              tripPattern={tripPattern}
-              shouldFetch={hasHovered}
-              size="small"
-              behaviour={{ ifNotFound: 'show-text' }}
-            />
-          </div>
           <Button
             title={
               isOpen
                 ? t(PageText.Assistant.trip.tripPattern.seeLess)
                 : t(PageText.Assistant.trip.tripPattern.seeMore)
             }
+            mode="transparent"
             buttonProps={{
               tabIndex: -1,
               'aria-hidden': true,
@@ -287,7 +270,7 @@ export default function TripPattern({
             onClick={() => setIsOpen(!isOpen)}
             icon={{
               right: (
-                <MonoIcon
+                <TintedMonoIcon
                   icon="navigation/ExpandMore"
                   className={andIf({
                     [style.chevron]: true,
@@ -297,7 +280,7 @@ export default function TripPattern({
               ),
             }}
           />
-        </footer>
+        </div>
       </motion.div>
       <AnimatePresence>
         {isOpen && (
@@ -310,36 +293,45 @@ export default function TripPattern({
             }}
             exit={{ height: 0, transition: { duration: ANIMATION_DURATION } }}
           >
-            <div className={style.accordionBody}>
-              {displayTripPattern.legs.map((leg, index) => (
-                <TripSection
-                  key={index}
-                  isFirst={index === 0}
-                  isLast={index === displayTripPattern.legs.length - 1}
-                  leg={leg}
-                  interchangeDetails={getInterchangeDetails(
-                    displayTripPattern.legs,
-                    leg.interchangeTo?.toServiceJourney?.id,
-                    t,
-                  )}
-                  legWaitDetails={getLegWaitDetails(
-                    leg,
-                    displayTripPattern.legs[index + 1],
-                  )}
+            <div className={style.detailsGrid}>
+              <div className={style.accordionBody}>
+                {displayTripPattern.legs.map((leg, index) => (
+                  <TripSection
+                    key={index}
+                    isFirst={index === 0}
+                    isLast={index === displayTripPattern.legs.length - 1}
+                    leg={leg}
+                    interchangeDetails={getInterchangeDetails(
+                      displayTripPattern.legs,
+                      leg.interchangeTo?.toServiceJourney?.id,
+                      t,
+                    )}
+                    legWaitDetails={getLegWaitDetails(
+                      leg,
+                      displayTripPattern.legs[index + 1],
+                    )}
+                  />
+                ))}
+              </div>
+              <div className={style.detailsAside}>
+                <TripSummaryPanel
+                  tripPattern={displayTripPattern}
+                  shouldFetchPrice={isOpen}
                 />
-              ))}
-            </div>
-            <div className={style.accordionFooter}>
-              <ButtonLink
-                href={`/assistant/${displayTripPattern.compressedQuery}?filter=${router.query.filter}`}
-                title={t(PageText.Assistant.trip.tripPattern.details)}
-                mode="interactive_2"
-                size="pill"
-                radiusSize="circular"
-                className={style.goToDetailsButton}
-                icon={{ right: <MonoIcon icon="navigation/ArrowRight" /> }}
-                testID="moreDetailsButton"
-              />
+                <ButtonLink
+                  href={`/assistant/${displayTripPattern.compressedQuery}?filter=${router.query.filter}`}
+                  title={t(PageText.Assistant.trip.tripPattern.details)}
+                  mode="interactive_2"
+                  size="small"
+                  radiusSize="circular"
+                  display="block"
+                  className={style.goToDetailsButton}
+                  icon={{
+                    right: <TintedMonoIcon icon="navigation/ArrowRight" />,
+                  }}
+                  testID="moreDetailsButton"
+                />
+              </div>
             </div>
           </motion.div>
         )}

@@ -7,7 +7,7 @@
 .tripResults {
   display: flex;
   flex-direction: column;
-  gap: token('spacing.large');
+  gap: token('spacing.xLarge');
 }
 
 .nonTransitResult {
