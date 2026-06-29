@@ -1,12 +1,18 @@
 import MonoIcon, { MonoIconProps } from '@atb/components/icon/mono-icon';
 import { ColorIcon } from '@atb/components/icon';
-import { ContrastColor, StatusColorName, TransportColors, useTheme } from '@atb/modules/theme';
+import {
+  ContrastColor,
+  StatusColorName,
+  TransportColors,
+  useTheme,
+} from '@atb/modules/theme';
 import { useTranslation } from '@atb/translations';
 import { isSubModeBoat, transportModeToTranslatedString } from '../utils';
 import { colorToOverrideMode } from '@atb/utils/color';
 import { Typo } from '@atb/components/typography';
 import { secondsToMinutes } from '@atb/utils/date';
 import { messageTypeToColorIcon } from '@atb/modules/situations';
+import { and } from '@atb/utils/css';
 
 import style from './icon.module.css';
 import { TransportSubmode } from '@atb/modules/graphql-types/journeyplanner-types_v3.generated.ts';
@@ -97,7 +103,10 @@ export function TransportIconWithDuration({
 
   const pill = (
     <span
-      className={style.transportIconWithLabel}
+      className={and(
+        style.transportIconWithLabel,
+        notificationType && style.transportIconWithLabel__hasNotification,
+      )}
       style={{ backgroundColor: colors.backgroundColor }}
     >
       <MonoIcon
@@ -132,7 +141,10 @@ export function TransportIconWithDuration({
     <span className={style.transportIconWithLabelContainer}>
       {pill}
       <span className={style.transportIconNotification} aria-hidden="true">
-        <ColorIcon icon={messageTypeToColorIcon(notificationType)} size="xSmall" />
+        <ColorIcon
+          icon={messageTypeToColorIcon(notificationType)}
+          size="small"
+        />
       </span>
     </span>
   );
