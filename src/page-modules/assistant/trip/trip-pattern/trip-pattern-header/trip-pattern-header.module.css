@@ -1,11 +1,10 @@
 .header {
   display: grid;
   grid-template-columns: 1fr auto;
-  grid-template-areas:
-    'times  meta';
+  grid-template-areas: 'times  meta';
   gap: token('spacing.small');
   align-items: start;
-  padding: token('spacing.small') token('spacing.medium');
+  padding: token('spacing.medium') token('spacing.medium') 0;
 }
 
 .header__timesArea {
