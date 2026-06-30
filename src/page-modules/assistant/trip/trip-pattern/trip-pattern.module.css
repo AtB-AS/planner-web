@@ -94,18 +94,6 @@
   align-items: center;
 }
 
-.legs__collapsedLegs__notification {
-  margin-left: calc(-1 * (token('border.width.medium') + token('icon.size.small') / 2));
-  background-color: token('color.background.neutral.0.background');
-  border-radius: 50%;
-  padding: token('border.width.medium');
-  line-height: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1;
-}
-
 .accordionBody {
   display: flex;
   flex-direction: column;
