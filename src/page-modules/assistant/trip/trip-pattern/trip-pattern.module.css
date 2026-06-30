@@ -58,20 +58,29 @@
 }
 
 .legs__legsAndLine {
-  display: flex;
-  align-items: center;
-  min-width: 0;
+  position: relative;
   flex: 1;
-  gap: token('spacing.xSmall');
+  min-width: 0;
 }
 
-.legs__expandedLegs {
+.legs__visibleRow {
   display: flex;
   align-items: center;
-  overflow: hidden;
   gap: token('spacing.xSmall');
-  flex: 0 1 auto;
   min-width: 0;
+}
+
+.legs__measureRow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  gap: token('spacing.xSmall');
+  overflow: hidden;
+  visibility: hidden;
+  pointer-events: none;
 }
 
 .legs__leg {
