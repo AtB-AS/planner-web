@@ -247,7 +247,7 @@ export default function TripPattern({
                   >
                     <ColorIcon
                       icon={messageTypeToColorIcon(overflowNotificationType)}
-                      size="xSmall"
+                      size="small"
                     />
                   </span>
                 )}

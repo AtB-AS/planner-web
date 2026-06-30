@@ -42,7 +42,8 @@
   padding-top: token('spacing.small');
 }
 .intermediateToggle {
-  border: 2px solid token('color.foreground.emphasis.interactive');
+  border: token('border.width.medium') solid
+    token('color.foreground.emphasis.interactive');
 }
 .intermediateToggle.intermediateToggle {
   color: token('color.foreground.emphasis.interactive');
@@ -52,7 +53,8 @@
   color: token('color.foreground.emphasis.interactive');
 }
 .intermediateToggle:active {
-  border: 2px solid token('color.interactive.0.outline.background');
+  border: token('border.width.medium') solid
+    token('color.interactive.0.outline.background');
 }
 .chevron {
   transition: transform 0.2s ease;
