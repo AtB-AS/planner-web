@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import { Fragment, useId, useRef, useState } from 'react';
+import { useId, useRef, useState } from 'react';
 import { getFilteredLegsByWalkOrWaitTime, tripSummary } from './utils';
 import { PageText, useTranslation } from '@atb/translations';
 import style from './trip-pattern.module.css';
@@ -44,20 +44,36 @@ type TripPatternProps = {
   testId?: string;
 };
 
-function countOverflowingLegs(container: HTMLElement | null): number {
-  if (!container) return 0;
-  const containerRight = container.getBoundingClientRect().right;
+type VisibleLegsState = { visibleCount: number; hasOverflow: boolean };
+
+function computeVisibleLegs(container: HTMLElement | null): VisibleLegsState {
+  if (!container) return { visibleCount: Infinity, hasOverflow: false };
+
   const legElements = Array.from(
     container.querySelectorAll('[data-leg-index]'),
   );
-  let hiddenCount = 0;
+  const total = legElements.length;
+  const containerRight = container.getBoundingClientRect().right;
+
+  const allFit = legElements.every(
+    (el) => el.getBoundingClientRect().right <= containerRight + 1,
+  );
+  if (allFit) return { visibleCount: total, hasOverflow: false };
+
+  const pill = container.querySelector('[data-overflow-pill]');
+  const pillWidth = pill ? pill.getBoundingClientRect().width : 0;
+  const gap = parseFloat(getComputedStyle(container).columnGap) || 0;
+  const limit = containerRight - pillWidth - gap;
+
+  let visibleCount = 0;
   for (const el of legElements) {
-    const elRect = el.getBoundingClientRect();
-    if (elRect.right > containerRight + 1) {
-      hiddenCount++;
+    if (el.getBoundingClientRect().right <= limit + 1) {
+      visibleCount++;
+    } else {
+      break;
     }
   }
-  return hiddenCount;
+  return { visibleCount, hasOverflow: true };
 }
 
 function toMostCriticalNotificationStatus(
@@ -126,11 +142,12 @@ export default function TripPattern({
   const router = useRouter();
   const id = useId();
 
-  const legsContainerRef = useRef<HTMLDivElement>(null);
-  const [overflowCount, setOverflowCount] = useState(0);
+  const measureRef = useRef<HTMLDivElement>(null);
+  const [{ visibleCount, hasOverflow }, setVisibleLegs] =
+    useState<VisibleLegsState>({ visibleCount: Infinity, hasOverflow: false });
 
-  useResizeObserver(legsContainerRef, () => {
-    setOverflowCount(countOverflowingLegs(legsContainerRef.current));
+  useResizeObserver(measureRef, () => {
+    setVisibleLegs(computeVisibleLegs(measureRef.current));
   });
 
   const tripIsInPast = isInPast(tripPattern.legs[0].expectedStartTime);
@@ -149,22 +166,72 @@ export default function TripPattern({
     return leg && leg.interchangeTo?.staySeated === true;
   };
 
-  const overflowNotificationType: StatusColorName | undefined =
-    overflowCount > 0
-      ? filteredLegs
-          .slice(-overflowCount)
-          .map((leg) =>
-            getMsgTypeForMostCriticalSituationOrNotice(
-              leg.situations,
-              getNoticesForLeg(leg),
-              leg.fromEstimatedCall?.cancellation,
-            ),
-          )
-          .reduce<StatusColorName | undefined>(
-            toMostCriticalNotificationStatus,
-            undefined,
-          )
-      : undefined;
+  const renderedLegs = filteredLegs
+    .map((leg, originalIndex) => ({ leg, originalIndex }))
+    .filter(({ originalIndex }) => !staySeated(originalIndex - 1));
+
+  const visibleLegs = hasOverflow
+    ? renderedLegs.slice(0, visibleCount)
+    : renderedLegs;
+  const hiddenLegs = hasOverflow ? renderedLegs.slice(visibleCount) : [];
+  const overflowCount = hiddenLegs.length;
+
+  const overflowNotificationType = hiddenLegs
+    .map(({ leg }) =>
+      getMsgTypeForMostCriticalSituationOrNotice(
+        leg.situations,
+        getNoticesForLeg(leg),
+        leg.fromEstimatedCall?.cancellation,
+      ),
+    )
+    .reduce<StatusColorName | undefined>(
+      toMostCriticalNotificationStatus,
+      undefined,
+    );
+
+  const renderLeg = ({
+    leg,
+    originalIndex,
+  }: {
+    leg: ExtendedLegType;
+    originalIndex: number;
+  }) => (
+    <div
+      className={style.legs__leg}
+      data-leg-index={originalIndex}
+      key={`leg-${leg.expectedStartTime}-${originalIndex}`}
+    >
+      <TransportIconWithDuration
+        transportMode={leg.mode}
+        transportSubmode={leg.transportSubmode}
+        label={
+          leg.mode === 'foot' ? undefined : (leg.line?.publicCode ?? undefined)
+        }
+        duration={leg.mode === 'foot' ? leg.duration : undefined}
+        isFlexible={isLineFlexibleTransport(leg.line)}
+        notificationType={getLegNotificationType(
+          leg,
+          filteredLegs[originalIndex - 1],
+        )}
+      />
+    </div>
+  );
+
+  const overflowPill = (forMeasurement: boolean) => (
+    <div className={style.legs__collapsedLegsContainer}>
+      <div
+        className={style.legs__collapsedLegs}
+        data-overflow-pill={forMeasurement ? '' : undefined}
+      >
+        <Typo.span textType="body__m__strong">+{overflowCount}</Typo.span>
+      </div>
+      {!forMeasurement && overflowNotificationType && (
+        <TransportNotificationBadge
+          notificationType={overflowNotificationType}
+        />
+      )}
+    </div>
+  );
 
   return (
     <div className={style.tripPatternContainer}>
@@ -204,48 +271,18 @@ export default function TripPattern({
 
         <div className={style.legs}>
           <div className={style.legs__legsAndLine}>
-            <div className={style.legs__expandedLegs} ref={legsContainerRef}>
-              {filteredLegs.map((leg, i) => (
-                <Fragment key={`leg-${leg.expectedStartTime}-${i}`}>
-                  {staySeated(i - 1) ? null : (
-                    <div className={style.legs__leg} data-leg-index={i}>
-                      <TransportIconWithDuration
-                        transportMode={leg.mode}
-                        transportSubmode={leg.transportSubmode}
-                        label={
-                          leg.mode === 'foot'
-                            ? undefined
-                            : (leg.line?.publicCode ?? undefined)
-                        }
-                        duration={
-                          leg.mode === 'foot' ? leg.duration : undefined
-                        }
-                        isFlexible={isLineFlexibleTransport(leg.line)}
-                        notificationType={getLegNotificationType(
-                          leg,
-                          filteredLegs[i - 1],
-                        )}
-                      />
-                    </div>
-                  )}
-                </Fragment>
-              ))}
+            <div className={style.legs__visibleRow}>
+              {visibleLegs.map(renderLeg)}
+              {overflowCount > 0 && overflowPill(false)}
             </div>
-
-            {overflowCount > 0 && (
-              <div className={style.legs__collapsedLegsContainer}>
-                <div className={style.legs__collapsedLegs}>
-                  <Typo.span textType="body__m__strong">
-                    +{overflowCount}
-                  </Typo.span>
-                </div>
-                {overflowNotificationType && (
-                  <TransportNotificationBadge
-                    notificationType={overflowNotificationType}
-                  />
-                )}
-              </div>
-            )}
+            <div
+              className={style.legs__measureRow}
+              ref={measureRef}
+              aria-hidden="true"
+            >
+              {renderedLegs.map(renderLeg)}
+              {overflowPill(true)}
+            </div>
           </div>
           <Button
             title={
