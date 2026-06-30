@@ -1,5 +1,4 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import { ColorIcon } from '@atb/components/icon';
 import { Fragment, useId, useRef, useState } from 'react';
 import { getFilteredLegsByWalkOrWaitTime, tripSummary } from './utils';
 import { PageText, useTranslation } from '@atb/translations';
@@ -8,7 +7,10 @@ import { isInPast, secondsBetween } from '@atb/utils/date';
 import { TripPatternHeader } from './trip-pattern-header';
 import { TintedMonoIcon } from '@atb/components/icon';
 import { Typo } from '@atb/components/typography';
-import { TransportIconWithDuration } from '@atb/modules/transport-mode';
+import {
+  TransportIconWithDuration,
+  TransportNotificationBadge,
+} from '@atb/modules/transport-mode';
 import { andIf } from '@atb/utils/css';
 import { useRouter } from 'next/router';
 import {
@@ -26,10 +28,7 @@ import { getInterchangeDetails } from '@atb/page-modules/assistant/details/trip-
 import { getLegWaitDetails } from '@atb/page-modules/assistant/details/trip-section/wait-section.tsx';
 import { TripSummaryPanel } from '@atb/page-modules/assistant/trip-summary-panel';
 import useResizeObserver from '@react-hook/resize-observer';
-import {
-  getMsgTypeForMostCriticalSituationOrNotice,
-  messageTypeToColorIcon,
-} from '@atb/modules/situations';
+import { getMsgTypeForMostCriticalSituationOrNotice } from '@atb/modules/situations';
 import { getNoticesForLeg } from '@atb/page-modules/assistant/utils';
 import { StatusColorName } from '@atb/modules/theme';
 import { TransportSubmode } from '@atb/modules/graphql-types/journeyplanner-types_v3.generated.ts';
@@ -241,15 +240,9 @@ export default function TripPattern({
                   </Typo.span>
                 </div>
                 {overflowNotificationType && (
-                  <span
-                    className={style.legs__collapsedLegs__notification}
-                    aria-hidden="true"
-                  >
-                    <ColorIcon
-                      icon={messageTypeToColorIcon(overflowNotificationType)}
-                      size="small"
-                    />
-                  </span>
+                  <TransportNotificationBadge
+                    notificationType={overflowNotificationType}
+                  />
                 )}
               </div>
             )}

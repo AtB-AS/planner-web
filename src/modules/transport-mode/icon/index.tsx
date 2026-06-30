@@ -140,12 +140,21 @@ export function TransportIconWithDuration({
   return (
     <span className={style.transportIconWithLabelContainer}>
       {pill}
-      <span className={style.transportIconNotification} aria-hidden="true">
-        <ColorIcon
-          icon={messageTypeToColorIcon(notificationType)}
-          size="small"
-        />
-      </span>
+      <TransportNotificationBadge notificationType={notificationType} />
+    </span>
+  );
+}
+
+export type TransportNotificationBadgeProps = {
+  notificationType: StatusColorName;
+};
+
+export function TransportNotificationBadge({
+  notificationType,
+}: TransportNotificationBadgeProps) {
+  return (
+    <span className={style.transportIconNotification} aria-hidden="true">
+      <ColorIcon icon={messageTypeToColorIcon(notificationType)} size="small" />
     </span>
   );
 }
