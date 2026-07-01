@@ -20,8 +20,6 @@
   composes: typo-body__s;
   color: token('color.foreground.dynamic.secondary');
 }
-/* Icon + label sitting together in the content column (right of the line):
- * transport leg, walk and wait rows. */
 .iconRow {
   display: flex;
   align-items: center;

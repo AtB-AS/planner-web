@@ -8,14 +8,9 @@ import style from './trip-summary-panel.module.css';
 
 type TripSummaryPanelProps = {
   tripPattern: ExtendedTripPatternWithDetailsType;
-  /** Whether to fetch the trip price (gates the network request). */
   shouldFetchPrice: boolean;
 };
 
-/**
- * Price + total travel time + total walk distance card. Map is rendered by the
- * caller as a sibling so each call site picks the map variant it wants.
- */
 export function TripSummaryPanel({
   tripPattern,
   shouldFetchPrice,

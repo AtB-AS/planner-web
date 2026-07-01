@@ -117,9 +117,6 @@ export default function TripSection({
           <WalkSection walkDuration={leg.duration} />
         ) : (
           <TripRow>
-            {/* Transport icon (with line number) sits in the content column,
-             * to the right of the decoration line — matching the app. The line
-             * number lives in the icon, so the destination text omits it. */}
             <div className={style.iconRow}>
               <TransportIconWithDuration
                 transportMode={leg.mode}

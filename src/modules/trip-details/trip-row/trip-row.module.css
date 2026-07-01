@@ -12,8 +12,6 @@
 }
 .leftColumn {
   display: flex;
-  /* Only the departure time lives here now — every other label sits to the
-   * right of the line — so the column left-aligns with the trip's left edge. */
   justify-content: flex-start;
   min-width: var(--labelWidth);
 }
