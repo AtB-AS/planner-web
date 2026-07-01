@@ -20,6 +20,7 @@ import {
   ExtendedTripPatternWithDetailsType,
 } from '@atb/page-modules/assistant';
 import { Button, ButtonLink } from '@atb/components/button';
+import { MiniMap } from '@atb/components/map';
 import { AssistantDetailsBody } from '@atb/page-modules/assistant/details-body';
 import { Price } from './price';
 import { useInView } from 'react-intersection-observer';
@@ -313,7 +314,17 @@ export default function TripPattern({
             exit={{ height: 0, transition: { duration: ANIMATION_DURATION } }}
           >
             <div className={style.accordionBody}>
-              <AssistantDetailsBody tripPattern={tripPattern} />
+              <AssistantDetailsBody
+                tripPattern={tripPattern}
+                mapSlot={
+                  <MiniMap
+                    mapLegs={tripPattern.legs.flatMap(
+                      (leg: ExtendedLegType) => leg.mapLegs,
+                    )}
+                    href={`/assistant/${tripPattern.compressedQuery}?filter=${router.query.filter}`}
+                  />
+                }
+              />
             </div>
             <div className={style.accordionFooter}>
               <ButtonLink

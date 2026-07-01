@@ -19,6 +19,9 @@
 .mapContainer {
   grid-area: map;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: token('spacing.medium');
 }
 
 .tripMessages {

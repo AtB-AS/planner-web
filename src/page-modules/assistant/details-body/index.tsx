@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import {
   GlobalMessageContextEnum,
   GlobalMessages,
@@ -6,7 +7,7 @@ import { MessageBox } from '@atb/components/message-box';
 import TripSection from '@atb/page-modules/assistant/details/trip-section';
 import { getInterchangeDetails } from '@atb/page-modules/assistant/details/trip-section/interchange-section.tsx';
 import { getLegWaitDetails } from '@atb/page-modules/assistant/details/trip-section/wait-section.tsx';
-import { TripSummaryPanel } from '@atb/page-modules/assistant/trip-summary-panel';
+import { TripSummaryPanel } from '@atb/page-modules/assistant/trip/trip-pattern/trip-summary-panel';
 import { PageText, useTranslation } from '@atb/translations';
 import { getBookingStatus } from '@atb/modules/flexible';
 import style from './details-body.module.css';
@@ -17,9 +18,13 @@ import {
 
 type DetailsBodyProps = {
   tripPattern: ExtendedTripPatternWithDetailsType;
+  mapSlot: ReactNode;
 };
 
-export function AssistantDetailsBody({ tripPattern }: DetailsBodyProps) {
+export function AssistantDetailsBody({
+  tripPattern,
+  mapSlot,
+}: DetailsBodyProps) {
   const { t } = useTranslation();
 
   const requireTicketBooking = tripPattern.legs.some((leg: ExtendedLegType) => {
@@ -33,11 +38,8 @@ export function AssistantDetailsBody({ tripPattern }: DetailsBodyProps) {
   return (
     <div className={style.bodyContainer}>
       <div className={style.mapContainer}>
-        <TripSummaryPanel
-          tripPattern={tripPattern}
-          shouldFetchPrice={true}
-          mapHeight="page"
-        />
+        {mapSlot}
+        <TripSummaryPanel tripPattern={tripPattern} shouldFetchPrice={true} />
       </div>
       <GlobalMessages
         className={style.tripMessages}

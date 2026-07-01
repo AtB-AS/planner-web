@@ -1,20 +1,3 @@
-.container {
-  display: flex;
-  flex-direction: column;
-  gap: token('spacing.medium');
-}
-
-/* The Map component rounds its own corners, so no overflow handling is needed
- * here — only a height. */
-.mapContainer {
-  height: 22rem;
-  width: 100%;
-}
-
-.mapContainer__page {
-  height: 37.5rem;
-}
-
 .summaryCard {
   display: flex;
   flex-direction: column;
@@ -44,11 +27,4 @@
 
 .summaryRow__label {
   color: token('color.foreground.dynamic.secondary');
-}
-
-@media (max-width: 650px) {
-  .mapContainer,
-  .mapContainer__page {
-    height: 16rem;
-  }
 }

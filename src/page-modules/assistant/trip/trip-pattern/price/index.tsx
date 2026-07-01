@@ -12,7 +12,7 @@ import { isSubModeBoat } from '@atb/modules/transport-mode';
 import style from './price.module.css';
 import { Loading } from '@atb/components/loading';
 import { MonoIcon } from '@atb/components/icon';
-import { SummaryRow } from '../../../trip-summary-panel/summary-row';
+import { SummaryRow } from '@atb/page-modules/assistant/trip/trip-pattern/trip-summary-panel/summary-row';
 
 type FoundBehaviour = 'show-icon' | 'hide-icon';
 type NotFoundBehaviour = 'show-text' | 'hide-text';

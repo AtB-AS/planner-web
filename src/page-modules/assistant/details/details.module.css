@@ -11,3 +11,14 @@
   flex-direction: column;
   gap: token('spacing.large');
 }
+
+.pageMap {
+  height: 37.5rem;
+  width: 100%;
+}
+
+@media (max-width: 650px) {
+  .pageMap {
+    height: 16rem;
+  }
+}

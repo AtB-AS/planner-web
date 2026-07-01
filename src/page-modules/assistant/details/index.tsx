@@ -3,7 +3,11 @@ import dictionary from '@atb/translations/dictionary';
 import { MonoIcon } from '@atb/components/icon';
 import style from './details.module.css';
 import { Button } from '@atb/components/button';
-import { ExtendedTripPatternWithDetailsType } from '@atb/page-modules/assistant';
+import { Map } from '@atb/components/map';
+import {
+  ExtendedLegType,
+  ExtendedTripPatternWithDetailsType,
+} from '@atb/page-modules/assistant';
 import { AssistantDetailsHeader } from '@atb/page-modules/assistant/details/details-header';
 import { AssistantDetailsBody } from '@atb/page-modules/assistant/details-body';
 import { useGoBack } from '@atb/utils/use-go-back';
@@ -29,7 +33,19 @@ export function AssistantDetails({ tripPatterns }: AssistantDetailsProps) {
         />
         <AssistantDetailsHeader tripPattern={tripPattern} />
       </div>
-      <AssistantDetailsBody tripPattern={tripPattern} />
+      <AssistantDetailsBody
+        tripPattern={tripPattern}
+        mapSlot={
+          <div className={style.pageMap}>
+            <Map
+              mapLegs={tripPattern.legs.flatMap(
+                (leg: ExtendedLegType) => leg.mapLegs,
+              )}
+              aria-hidden
+            />
+          </div>
+        }
+      />
     </div>
   );
 }
