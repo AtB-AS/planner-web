@@ -3,7 +3,7 @@
   flex-direction: column;
   gap: token('spacing.medium');
   padding: token('spacing.large');
-  border: 1px solid token('color.background.neutral.1.background');
+  border: 1px solid token('color.border.primary.background');
   border-radius: token('border.radius.regular');
 }
 
