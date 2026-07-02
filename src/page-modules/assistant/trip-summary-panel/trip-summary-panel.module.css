@@ -49,6 +49,6 @@
 @media (max-width: 650px) {
   .mapContainer,
   .mapContainer__page {
-    height: 16rem;
+    height: auto;
   }
 }
