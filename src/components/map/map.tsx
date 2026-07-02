@@ -27,7 +27,6 @@ import { logSpecificEvent } from '@atb/modules/firebase';
 export type MapProps = {
   layer?: string;
   onSelectStopPlace?: (id: string) => void;
-  interactive?: boolean;
 } & (
   | { position?: PositionType; initialZoom?: number }
   | { mapLegs: MapLegType[] }
@@ -37,7 +36,6 @@ export type MapProps = {
 export default function Map({
   layer,
   onSelectStopPlace,
-  interactive = true,
   ...props
 }: MapProps) {
   const mapWrapper = useRef<HTMLDivElement>(null);
@@ -64,9 +62,8 @@ export default function Map({
       center: position,
       zoom: initialZoom,
       bounds, // If bounds is specified, it overrides center and zoom constructor options.
-      interactive,
     });
-  }, [position, initialZoom, bounds, interactive]);
+  }, [position, initialZoom, bounds]);
 
   useEffect(() => () => map.current?.remove(), []);
 
@@ -87,14 +84,12 @@ export default function Map({
 
   return (
     <div className={style.map} aria-hidden="true">
-      {interactive && (
-        <Button
-          className={style.fullscreenButton}
-          title={t(ComponentText.Map.map.openFullscreenButton)}
-          icon={{ left: <MonoIcon icon="map/Map" /> }}
-          onClick={openFullscreen}
-        />
-      )}
+      <Button
+        className={style.fullscreenButton}
+        title={t(ComponentText.Map.map.openFullscreenButton)}
+        icon={{ left: <MonoIcon icon="map/Map" /> }}
+        onClick={openFullscreen}
+      />
 
       <div className={style.mapWrapper} ref={mapWrapper}>
         <FocusScope
@@ -102,33 +97,29 @@ export default function Map({
           restoreFocus
           autoFocus={isFullscreen}
         >
-          {interactive && (
-            <>
-              <Button
-                className={style.closeButton}
-                onClick={closeFullscreen}
-                size="small"
-                icon={{
-                  left: (
-                    <MonoIcon icon="navigation/ArrowLeft" overrideMode="dark" />
-                  ),
-                }}
-                mode="interactive_0"
-                buttonProps={{
-                  'aria-label': t(ComponentText.Map.map.closeFullscreenButton),
-                }}
-              />
-              <Button
-                className={style.buttonsContainer}
-                size="small"
-                icon={{ left: <MonoIcon icon="places/Location" /> }}
-                onClick={() => centerMap(position)}
-                buttonProps={{
-                  'aria-label': t(ComponentText.Map.map.centerMapButton),
-                }}
-              />
-            </>
-          )}
+          <Button
+            className={style.closeButton}
+            onClick={closeFullscreen}
+            size="small"
+            icon={{
+              left: (
+                <MonoIcon icon="navigation/ArrowLeft" overrideMode="dark" />
+              ),
+            }}
+            mode="interactive_0"
+            buttonProps={{
+              'aria-label': t(ComponentText.Map.map.closeFullscreenButton),
+            }}
+          />
+          <Button
+            className={style.buttonsContainer}
+            size="small"
+            icon={{ left: <MonoIcon icon="places/Location" /> }}
+            onClick={() => centerMap(position)}
+            buttonProps={{
+              'aria-label': t(ComponentText.Map.map.centerMapButton),
+            }}
+          />
           <div
             ref={mapContainer}
             className={and(
