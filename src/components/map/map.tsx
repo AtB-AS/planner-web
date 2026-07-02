@@ -69,7 +69,7 @@ export default function Map({
   }, [position, initialZoom, bounds, interactive]);
 
   useEffect(() => {
-    if (isMobileDevice) return;
+    if (isMobileDevice && interactive) return;
     initializeMap();
     return () => map.current?.remove();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -85,10 +85,10 @@ export default function Map({
   useMapTariffZones(map);
 
   useEffect(() => {
-    if (!isMobileDevice) {
+    if (!isMobileDevice || !interactive) {
       initializeMap();
     }
-  }, [isMobileDevice, initializeMap]);
+  }, [isMobileDevice, interactive, initializeMap]);
 
   return (
     <div className={style.map} aria-hidden="true">

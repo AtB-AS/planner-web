@@ -13,6 +13,8 @@ export const Map = {
   map: {
     openFullscreenButton: _('Se i kart', 'See in map', 'Sjå i kart'),
     closeFullscreenButton: _('Lukk kart', 'Close map', 'Lukk kart'),
+    showMap: _('Vis kart', 'Show map', 'Vis kart'),
+    hideMap: _('Skjul kart', 'Hide map', 'Skjul kart'),
     centerMapButton: _(
       'Tilbakestill kartvisning',
       'Reset map view',

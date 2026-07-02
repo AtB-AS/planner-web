@@ -2,14 +2,14 @@ import { useClientWidth } from '@atb/utils/use-client-width';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Fragment, useEffect, useId, useState } from 'react';
 import { getFilteredLegsByWalkOrWaitTime, tripSummary } from './utils';
-import { PageText, useTranslation } from '@atb/translations';
+import { ComponentText, PageText, useTranslation } from '@atb/translations';
 import style from './trip-pattern.module.css';
 import { formatToClock, isInPast, secondsBetween } from '@atb/utils/date';
 import { TripPatternHeader } from './trip-pattern-header';
 import { MonoIcon } from '@atb/components/icon';
 import { Typo } from '@atb/components/typography';
 import { TransportIconWithDuration } from '@atb/modules/transport-mode';
-import { andIf } from '@atb/utils/css';
+import { and, andIf } from '@atb/utils/css';
 import { useRouter } from 'next/router';
 import {
   getBookingStatus,
@@ -51,6 +51,7 @@ export default function TripPattern({
     filteredLegs.length,
   );
   const [isOpen, setIsOpen] = useState(false);
+  const [isMapOpen, setIsMapOpen] = useState(false);
   const router = useRouter();
   const id = useId();
 
@@ -317,15 +318,37 @@ export default function TripPattern({
               <AssistantDetailsBody
                 tripPattern={tripPattern}
                 mapSlot={
-                  <div className={style.tripMap}>
-                    <Map
-                      mapLegs={tripPattern.legs.flatMap(
-                        (leg: ExtendedLegType) => leg.mapLegs,
+                  <>
+                    <button
+                      type="button"
+                      className={style.showMapButton}
+                      onClick={() => setIsMapOpen((v) => !v)}
+                      aria-expanded={isMapOpen}
+                    >
+                      <MonoIcon icon="map/Map" />
+                      <Typo.span textType="body__m">
+                        {t(
+                          isMapOpen
+                            ? ComponentText.Map.map.hideMap
+                            : ComponentText.Map.map.showMap,
+                        )}
+                      </Typo.span>
+                    </button>
+                    <div
+                      className={and(
+                        style.tripMap,
+                        andIf({ [style.tripMap__mobileOpen]: isMapOpen }),
                       )}
-                      interactive={false}
-                      aria-hidden
-                    />
-                  </div>
+                    >
+                      <Map
+                        mapLegs={tripPattern.legs.flatMap(
+                          (leg: ExtendedLegType) => leg.mapLegs,
+                        )}
+                        interactive={false}
+                        aria-hidden
+                      />
+                    </div>
+                  </>
                 }
               />
             </div>
