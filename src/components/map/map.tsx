@@ -71,9 +71,9 @@ export default function Map({
   useEffect(() => () => map.current?.remove(), []);
 
   useEffect(() => {
-    if (isMobileDevice && interactive) return;
+    if (isMobileDevice) return;
     initializeMap();
-  }, [isMobileDevice, interactive, initializeMap]);
+  }, [isMobileDevice, initializeMap]);
 
   const { centerMap } = useMapInteractions(map, onSelectStopPlace);
   const { openFullscreen, closeFullscreen, isFullscreen } = useFullscreenMap(
