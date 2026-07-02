@@ -8,11 +8,6 @@ type SummaryRowProps = {
   label?: ReactNode;
 };
 
-/**
- * A single row in the trip summary card: an icon, a prominent value, and an
- * optional secondary label below it. Shared by the price, travel-time and
- * walk-distance rows so they stay visually consistent.
- */
 export function SummaryRow({ icon, value, label }: SummaryRowProps) {
   return (
     <div className={style.summaryRow}>

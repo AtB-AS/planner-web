@@ -428,8 +428,6 @@ const AssistantInternal = {
     },
     quayPublicCodePrefix: _('', '', ''),
     mapSection: {
-      // Label/value pairs used by the trip summary card, where the value is
-      // shown prominently above a secondary label.
       travelTimeLabel: _(
         'Total reisetid',
         'Total travel time',

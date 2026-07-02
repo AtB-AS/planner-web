@@ -21,11 +21,6 @@ type PriceProps = {
   tripPattern: ExtendedTripPatternWithDetailsType;
   inView: boolean;
   size?: 'small' | 'regular';
-  /**
-   * 'inline' renders "Voksen: 50 kr" on a single line (default).
-   * 'summary' renders a SummaryRow with the price prominent above a
-   * "pris (1 voksen)" label, for the trip summary card.
-   */
   variant?: 'inline' | 'summary';
   behaviour?: {
     ifFound?: FoundBehaviour;
@@ -80,8 +75,6 @@ export function Price({
         />
       );
     }
-    // No price available (404 or feature returned nothing) — hide the row so
-    // the summary card stays clean rather than showing an error.
     if (!price) return null;
     const travellerTypeText = t(
       PageText.Assistant.trip.tripPattern.userType(price.userType),

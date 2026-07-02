@@ -4,8 +4,6 @@
   gap: token('spacing.medium');
 }
 
-/* The Map component rounds its own corners, so no overflow handling is needed
- * here — only a height. */
 .mapContainer {
   height: 22rem;
   width: 100%;

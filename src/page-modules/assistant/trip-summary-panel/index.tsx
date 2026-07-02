@@ -13,20 +13,10 @@ import style from './trip-summary-panel.module.css';
 
 type TripSummaryPanelProps = {
   tripPattern: ExtendedTripPatternWithDetailsType;
-  /** Whether to fetch the trip price (gates the network request). */
   shouldFetchPrice: boolean;
-  /**
-   * 'card' (default) uses a compact map for the expanded result card; 'page'
-   * uses the taller map of the standalone details page.
-   */
   mapHeight?: 'card' | 'page';
 };
 
-/**
- * The map + summary card shown beside the trip timeline: route map on top,
- * then price, total travel time and total walk distance. Shared by the
- * expanded search-result card and the details page.
- */
 export function TripSummaryPanel({
   tripPattern,
   shouldFetchPrice,
