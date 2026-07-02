@@ -213,8 +213,14 @@
 }
 
 .tripMap {
+  display: block;
   width: 100%;
   height: 22rem;
+  cursor: pointer;
+}
+
+.tripMap > * {
+  pointer-events: none;
 }
 
 .showMapButton {

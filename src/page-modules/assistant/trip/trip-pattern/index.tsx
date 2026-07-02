@@ -10,6 +10,7 @@ import { MonoIcon } from '@atb/components/icon';
 import { Typo } from '@atb/components/typography';
 import { TransportIconWithDuration } from '@atb/modules/transport-mode';
 import { and, andIf } from '@atb/utils/css';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import {
   getBookingStatus,
@@ -334,11 +335,14 @@ export default function TripPattern({
                         )}
                       </Typo.span>
                     </button>
-                    <div
+                    <Link
+                      href={`/assistant/${tripPattern.compressedQuery}?filter=${router.query.filter}`}
                       className={and(
                         style.tripMap,
                         andIf({ [style.tripMap__mobileOpen]: isMapOpen }),
                       )}
+                      aria-hidden="true"
+                      tabIndex={-1}
                     >
                       <Map
                         mapLegs={tripPattern.legs.flatMap(
@@ -347,7 +351,7 @@ export default function TripPattern({
                         interactive={false}
                         aria-hidden
                       />
-                    </div>
+                    </Link>
                   </>
                 }
               />
