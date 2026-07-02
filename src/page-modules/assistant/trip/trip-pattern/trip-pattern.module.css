@@ -213,41 +213,12 @@
 }
 
 .tripMap {
-  display: block;
   width: 100%;
   height: 22rem;
-  cursor: pointer;
-}
-
-.tripMap > * {
-  pointer-events: none;
-}
-
-.showMapButton {
-  display: none;
 }
 
 @media (max-width: 650px) {
   .tripMap {
-    display: none;
-  }
-
-  .tripMap__mobileOpen {
-    display: block;
-    height: 16rem;
-  }
-
-  .showMapButton {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: token('spacing.small');
-    width: 100%;
-    padding: token('spacing.medium');
-    background: token('color.background.neutral.0.background');
-    color: token('color.background.neutral.0.foreground.primary');
-    border: 1px solid token('color.border.primary.background');
-    border-radius: token('border.radius.regular');
-    cursor: pointer;
+    height: auto;
   }
 }

@@ -37,10 +37,6 @@ export function AssistantDetailsBody({
 
   return (
     <div className={style.bodyContainer}>
-      <div className={style.mapContainer}>
-        {mapSlot}
-        <TripSummaryPanel tripPattern={tripPattern} shouldFetchPrice={true} />
-      </div>
       <GlobalMessages
         className={style.tripMessages}
         context={GlobalMessageContextEnum.plannerWebDetails}
@@ -69,6 +65,10 @@ export function AssistantDetailsBody({
             )}
           />
         ))}
+      </div>
+      <div className={style.mapContainer}>
+        {mapSlot}
+        <TripSummaryPanel tripPattern={tripPattern} shouldFetchPrice={true} />
       </div>
     </div>
   );
