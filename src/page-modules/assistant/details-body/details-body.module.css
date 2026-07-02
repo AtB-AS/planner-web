@@ -10,9 +10,9 @@
   .bodyContainer {
     grid-template-columns: 1fr;
     grid-template-areas:
-      'map'
       'messages'
-      'trip';
+      'trip'
+      'map';
   }
 }
 
