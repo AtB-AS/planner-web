@@ -211,3 +211,14 @@
     align-items: flex-start;
   }
 }
+
+.tripMap {
+  width: 100%;
+  height: 22rem;
+}
+
+@media (max-width: 650px) {
+  .tripMap {
+    height: 16rem;
+  }
+}

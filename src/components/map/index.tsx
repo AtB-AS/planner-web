@@ -6,6 +6,4 @@ export * from './types';
 
 export { Map } from './dynamic-map';
 
-export { MiniMap } from './mini-map';
-
 export { getStaticMapUrl } from './static-map';

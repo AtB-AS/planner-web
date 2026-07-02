@@ -20,7 +20,7 @@ import {
   ExtendedTripPatternWithDetailsType,
 } from '@atb/page-modules/assistant';
 import { Button, ButtonLink } from '@atb/components/button';
-import { MiniMap } from '@atb/components/map';
+import { Map } from '@atb/components/map';
 import { AssistantDetailsBody } from '@atb/page-modules/assistant/details-body';
 import { Price } from './price';
 import { useInView } from 'react-intersection-observer';
@@ -317,12 +317,15 @@ export default function TripPattern({
               <AssistantDetailsBody
                 tripPattern={tripPattern}
                 mapSlot={
-                  <MiniMap
-                    mapLegs={tripPattern.legs.flatMap(
-                      (leg: ExtendedLegType) => leg.mapLegs,
-                    )}
-                    href={`/assistant/${tripPattern.compressedQuery}?filter=${router.query.filter}`}
-                  />
+                  <div className={style.tripMap}>
+                    <Map
+                      mapLegs={tripPattern.legs.flatMap(
+                        (leg: ExtendedLegType) => leg.mapLegs,
+                      )}
+                      interactive={false}
+                      aria-hidden
+                    />
+                  </div>
                 }
               />
             </div>
