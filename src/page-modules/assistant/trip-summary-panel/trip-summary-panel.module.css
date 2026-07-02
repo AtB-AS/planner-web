@@ -5,12 +5,8 @@
 }
 
 .mapContainer {
-  height: 22rem;
-  width: 100%;
-}
-
-.mapContainer__page {
   height: 37.5rem;
+  width: 100%;
 }
 
 .summaryCard {
@@ -45,8 +41,7 @@
 }
 
 @media (max-width: 650px) {
-  .mapContainer,
-  .mapContainer__page {
+  .mapContainer {
     height: auto;
   }
 }

@@ -36,7 +36,6 @@ export function AssistantDetailsBody({ tripPattern }: DetailsBodyProps) {
         <TripSummaryPanel
           tripPattern={tripPattern}
           shouldFetchPrice={true}
-          mapHeight="page"
         />
       </div>
       <GlobalMessages

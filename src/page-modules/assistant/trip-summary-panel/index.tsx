@@ -2,7 +2,6 @@ import { Map } from '@atb/components/map';
 import { MonoIcon } from '@atb/components/icon';
 import { PageText, useTranslation } from '@atb/translations';
 import { secondsBetween, secondsToDurationShort } from '@atb/utils/date';
-import { and } from '@atb/utils/css';
 import {
   ExtendedLegType,
   ExtendedTripPatternWithDetailsType,
@@ -14,13 +13,11 @@ import style from './trip-summary-panel.module.css';
 type TripSummaryPanelProps = {
   tripPattern: ExtendedTripPatternWithDetailsType;
   shouldFetchPrice: boolean;
-  mapHeight?: 'card' | 'page';
 };
 
 export function TripSummaryPanel({
   tripPattern,
   shouldFetchPrice,
-  mapHeight = 'card',
 }: TripSummaryPanelProps) {
   const { t, language } = useTranslation();
 
@@ -36,13 +33,7 @@ export function TripSummaryPanel({
 
   return (
     <div className={style.container}>
-      <div
-        className={and(
-          style.mapContainer,
-          mapHeight === 'page' && style.mapContainer__page,
-        )}
-        tabIndex={-1}
-      >
+      <div className={style.mapContainer} tabIndex={-1}>
         <Map mapLegs={mapLegs} aria-hidden />
       </div>
       <div className={style.summaryCard}>
