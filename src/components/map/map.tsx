@@ -68,11 +68,12 @@ export default function Map({
     });
   }, [position, initialZoom, bounds, interactive]);
 
+  useEffect(() => () => map.current?.remove(), []);
+
   useEffect(() => {
     if (isMobileDevice && interactive) return;
     initializeMap();
-    return () => map.current?.remove();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [isMobileDevice, interactive, initializeMap]);
 
   const { centerMap } = useMapInteractions(map, onSelectStopPlace);
   const { openFullscreen, closeFullscreen, isFullscreen } = useFullscreenMap(
@@ -83,12 +84,6 @@ export default function Map({
   useMapPin(map, position, layer);
   useMapLegs(map, mapLegs);
   useMapTariffZones(map);
-
-  useEffect(() => {
-    if (!isMobileDevice || !interactive) {
-      initializeMap();
-    }
-  }, [isMobileDevice, interactive, initializeMap]);
 
   return (
     <div className={style.map} aria-hidden="true">
