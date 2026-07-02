@@ -33,7 +33,11 @@ export type MapProps = {
   | {}
 );
 
-export default function Map({ layer, onSelectStopPlace, ...props }: MapProps) {
+export default function Map({
+  layer,
+  onSelectStopPlace,
+  ...props
+}: MapProps) {
   const mapWrapper = useRef<HTMLDivElement>(null);
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | undefined>(undefined);
@@ -61,11 +65,12 @@ export default function Map({ layer, onSelectStopPlace, ...props }: MapProps) {
     });
   }, [position, initialZoom, bounds]);
 
+  useEffect(() => () => map.current?.remove(), []);
+
   useEffect(() => {
     if (isMobileDevice) return;
     initializeMap();
-    return () => map.current?.remove();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [isMobileDevice, initializeMap]);
 
   const { centerMap } = useMapInteractions(map, onSelectStopPlace);
   const { openFullscreen, closeFullscreen, isFullscreen } = useFullscreenMap(
@@ -76,12 +81,6 @@ export default function Map({ layer, onSelectStopPlace, ...props }: MapProps) {
   useMapPin(map, position, layer);
   useMapLegs(map, mapLegs);
   useMapFareZones(map);
-
-  useEffect(() => {
-    if (!isMobileDevice) {
-      initializeMap();
-    }
-  }, [isMobileDevice, initializeMap]);
 
   return (
     <div className={style.map} aria-hidden="true">

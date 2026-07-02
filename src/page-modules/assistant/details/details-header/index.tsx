@@ -1,15 +1,10 @@
 import { PageText, useTranslation } from '@atb/translations';
-import {
-  formatToSimpleDate,
-  formatToWeekday,
-  formatTripDuration,
-} from '@atb/utils/date';
+import { formatToSimpleDate, formatToWeekday } from '@atb/utils/date';
 import { ColorIcon, MonoIcon } from '@atb/components/icon';
 import { Typo } from '@atb/components/typography';
 
 import style from './details-header.module.css';
 import { ExtendedTripPatternWithDetailsType } from '@atb/page-modules/assistant';
-import { Price } from '../../trip/trip-pattern/price';
 
 export type DetailsHeaderProps = {
   tripPattern: ExtendedTripPatternWithDetailsType;
@@ -24,18 +19,6 @@ export function AssistantDetailsHeader({ tripPattern }: DetailsHeaderProps) {
     language,
     'EEEE',
   )} ${formatToSimpleDate(tripPattern.expectedStartTime, language)}`;
-
-  const {
-    duration: tripDuration,
-    departure,
-    arrival,
-  } = formatTripDuration(
-    tripPattern.expectedStartTime,
-    tripPattern.expectedEndTime,
-    language,
-  );
-
-  const timeRange = `${departure} - ${arrival}`;
 
   const isCancelled = tripPattern.legs.some(
     (leg) => leg.fromEstimatedCall?.cancellation,
@@ -73,24 +56,6 @@ export function AssistantDetailsHeader({ tripPattern }: DetailsHeaderProps) {
           <Typo.p textType={isCancelled ? 'body__m__strike' : 'body__m'}>
             {weekdayAndDate}
           </Typo.p>
-        </div>
-        <div className={style.duration} data-testid={'detailsHeader-duration'}>
-          <MonoIcon icon="time/Duration" />
-          <Typo.p textType={isCancelled ? 'body__m__strike' : 'body__m'}>
-            {timeRange}
-          </Typo.p>
-          <Typo.p
-            textType={isCancelled ? 'body__m__strike' : 'body__m__strong'}
-          >
-            {t(PageText.Assistant.details.header.travelTime(tripDuration))}
-          </Typo.p>
-        </div>
-        <div className={style.duration} data-testid={'detailsHeader-duration'}>
-          <Price
-            tripPattern={tripPattern}
-            inView={true}
-            behaviour={{ ifFound: 'show-icon' }}
-          />
         </div>
       </div>
     </div>

@@ -17,18 +17,19 @@ export default function WalkSection({ walkDuration }: WalkSectionProps) {
   const isWalkTimeOfSignificance =
     walkDuration > MIN_SIGNIFICANT_WALK_IN_SECONDS;
   return (
-    <TripRow
-      rowLabel={<TransportIcon transportMode={Mode.Foot} size="xSmall" />}
-    >
-      <Typo.p textType="body__s" className={style.walkTime}>
-        {isWalkTimeOfSignificance
-          ? t(
-              PageText.Assistant.details.tripSection.walk.label(
-                secondsToDuration(walkDuration, language),
-              ),
-            )
-          : t(PageText.Assistant.details.tripSection.shortWalk)}
-      </Typo.p>
+    <TripRow>
+      <div className={style.iconRow}>
+        <TransportIcon transportMode={Mode.Foot} size="xSmall" />
+        <Typo.p textType="body__s" className={style.walkTime}>
+          {isWalkTimeOfSignificance
+            ? t(
+                PageText.Assistant.details.tripSection.walk.label(
+                  secondsToDuration(walkDuration, language),
+                ),
+              )
+            : t(PageText.Assistant.details.tripSection.shortWalk)}
+        </Typo.p>
+      </div>
     </TripRow>
   );
 }

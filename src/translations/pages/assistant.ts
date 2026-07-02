@@ -428,17 +428,23 @@ const AssistantInternal = {
     },
     quayPublicCodePrefix: _('', '', ''),
     mapSection: {
-      travelTime: (time: string) =>
+      travelTimeLabel: _(
+        'Total reisetid',
+        'Total travel time',
+        'Total reisetid',
+      ),
+      walkDistanceLabel: _(
+        'Total gangavstand',
+        'Total walking distance',
+        'Total gangavstand',
+      ),
+      walkDistanceValue: (distance: string) =>
+        _(`${distance} m`, `${distance} m`, `${distance} m`),
+      priceLabel: (traveller: string) =>
         _(
-          `Total reisetid: ${time}`,
-          `Total trip time: ${time}`,
-          `Total reisetid: ${time}`,
-        ),
-      walkDistance: (distance: string) =>
-        _(
-          `Total gangavstand: ${distance} m`,
-          `Total walking distance: ${distance} m`,
-          `Total gangavstand: ${distance} m`,
+          `Pris (1 ${traveller})`,
+          `Price (1 ${traveller})`,
+          `Pris (1 ${traveller})`,
         ),
     },
     tripSection: {

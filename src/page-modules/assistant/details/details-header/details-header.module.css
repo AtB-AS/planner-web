@@ -13,8 +13,7 @@
   flex-direction: column;
   gap: token('spacing.small');
 }
-.date,
-.duration {
+.date {
   display: flex;
   gap: token('spacing.small');
   color: token('color.foreground.dynamic.secondary');
