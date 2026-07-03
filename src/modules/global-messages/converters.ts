@@ -1,5 +1,6 @@
-import { GlobalMessageType, globalMessageTypeSchema } from './types';
 import { QueryDocumentSnapshot } from 'firebase/firestore';
+import { GlobalMessageType, GlobalMessageSchema } from './types';
+import { isDefined } from '@atb/utils/presence';
 
 export const globalMessageConverter = {
   toFirestore(_any: any) {
@@ -9,31 +10,41 @@ export const globalMessageConverter = {
     snapshot: QueryDocumentSnapshot<GlobalMessageType>,
   ): GlobalMessageType | undefined {
     const data = snapshot.data();
-    const potential = {
-      id: snapshot.id,
-      active: data.active,
-      title: data.title,
-      body: data.body,
-      type: data.type,
-      subtle: data.subtle,
-      context: data.context,
-      isDismissable: data.isDismissable,
-      startDate: firestoreTimestampToDate(data.startDate),
-      endDate: firestoreTimestampToDate(data.endDate),
-      link: data.link,
-      linkText: data.linkText,
-    };
-
-    const validated = globalMessageTypeSchema.safeParse(potential);
-
-    if (validated.success) {
-      return validated.data;
-    }
-
-    return undefined;
+    return mapToGlobalMessage(snapshot.id, data);
   },
 };
 
-function firestoreTimestampToDate(timestamp: any) {
-  return timestamp?.toDate?.();
+export function mapToGlobalMessages(
+  result: QueryDocumentSnapshot<any>[],
+): GlobalMessageType[] {
+  if (!result) return [];
+  return result
+    .map((message) => mapToGlobalMessage(message.id, message.data()))
+    .filter(isDefined);
+}
+
+function mapToGlobalMessage(
+  id: string,
+  result: any,
+): GlobalMessageType | undefined {
+  if (!result) return;
+  result.id = id;
+  result.endDate = firestoreTimestampToMillis(result.endDate);
+  result.startDate = firestoreTimestampToMillis(result.startDate);
+
+  const parseResult = GlobalMessageSchema.safeParse(result);
+
+  if (!parseResult.success) {
+    console.warn(
+      `GlobalMessageRaw validation failed for id: ${id}, errors: ${JSON.stringify(
+        parseResult.error.message,
+      )}`,
+    );
+    return;
+  }
+  return parseResult.data;
+}
+
+function firestoreTimestampToMillis(timestamp: any) {
+  return timestamp?.toMillis?.();
 }
