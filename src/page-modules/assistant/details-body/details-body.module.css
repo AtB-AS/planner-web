@@ -2,7 +2,7 @@
   display: grid;
   grid-template-areas:
     'messages messages'
-    'trip map';
+    'trip summary';
   grid-template-columns: 2fr 3fr;
   gap: token('spacing.medium');
 }
@@ -10,14 +10,14 @@
   .bodyContainer {
     grid-template-columns: 1fr;
     grid-template-areas:
-      'map'
       'messages'
-      'trip';
+      'trip'
+      'summary';
   }
 }
 
-.mapContainer {
-  grid-area: map;
+.summaryPanel {
+  grid-area: summary;
   width: 100%;
 }
 

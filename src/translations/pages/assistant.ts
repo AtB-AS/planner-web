@@ -427,7 +427,7 @@ const AssistantInternal = {
         ),
     },
     quayPublicCodePrefix: _('', '', ''),
-    mapSection: {
+    summaryPanel: {
       travelTimeLabel: _(
         'Total reisetid',
         'Total travel time',

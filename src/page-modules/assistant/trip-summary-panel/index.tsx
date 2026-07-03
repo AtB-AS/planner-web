@@ -6,19 +6,15 @@ import {
   ExtendedLegType,
   ExtendedTripPatternWithDetailsType,
 } from '@atb/page-modules/assistant';
-import { Price } from '../trip/trip-pattern/price';
+import { PriceSummaryRow } from './price-summary-row';
 import { SummaryRow } from './summary-row';
 import style from './trip-summary-panel.module.css';
 
 type TripSummaryPanelProps = {
   tripPattern: ExtendedTripPatternWithDetailsType;
-  shouldFetchPrice: boolean;
 };
 
-export function TripSummaryPanel({
-  tripPattern,
-  shouldFetchPrice,
-}: TripSummaryPanelProps) {
+export function TripSummaryPanel({ tripPattern }: TripSummaryPanelProps) {
   const { t, language } = useTranslation();
 
   const mapLegs = tripPattern.legs.flatMap(
@@ -37,24 +33,20 @@ export function TripSummaryPanel({
         <Map mapLegs={mapLegs} aria-hidden />
       </div>
       <div className={style.summaryCard}>
-        <Price
-          tripPattern={tripPattern}
-          inView={shouldFetchPrice}
-          variant="summary"
-        />
+        <PriceSummaryRow tripPattern={tripPattern} />
         <SummaryRow
           icon={<MonoIcon icon="time/Duration" />}
           value={duration}
-          label={t(PageText.Assistant.details.mapSection.travelTimeLabel)}
+          label={t(PageText.Assistant.details.summaryPanel.travelTimeLabel)}
         />
         <SummaryRow
           icon={<MonoIcon icon="transportation/WalkFill" />}
           value={t(
-            PageText.Assistant.details.mapSection.walkDistanceValue(
+            PageText.Assistant.details.summaryPanel.walkDistanceValue(
               walkDistance,
             ),
           )}
-          label={t(PageText.Assistant.details.mapSection.walkDistanceLabel)}
+          label={t(PageText.Assistant.details.summaryPanel.walkDistanceLabel)}
         />
       </div>
     </div>

@@ -32,12 +32,6 @@ export function AssistantDetailsBody({ tripPattern }: DetailsBodyProps) {
 
   return (
     <div className={style.bodyContainer}>
-      <div className={style.mapContainer}>
-        <TripSummaryPanel
-          tripPattern={tripPattern}
-          shouldFetchPrice={true}
-        />
-      </div>
       <GlobalMessages
         className={style.tripMessages}
         context={GlobalMessageContextEnum.plannerWebDetails}
@@ -66,6 +60,9 @@ export function AssistantDetailsBody({ tripPattern }: DetailsBodyProps) {
             )}
           />
         ))}
+      </div>
+      <div className={style.summaryPanel}>
+        <TripSummaryPanel tripPattern={tripPattern} />
       </div>
     </div>
   );
