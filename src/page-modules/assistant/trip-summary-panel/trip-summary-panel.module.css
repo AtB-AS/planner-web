@@ -1,0 +1,47 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: token('spacing.medium');
+}
+
+.mapContainer {
+  height: 37.5rem;
+  width: 100%;
+}
+
+.summaryCard {
+  display: flex;
+  flex-direction: column;
+  gap: token('spacing.medium');
+  padding: token('spacing.large');
+  border: 1px solid token('color.border.primary.background');
+  border-radius: token('border.radius.regular');
+}
+
+.summaryRow {
+  display: flex;
+  align-items: center;
+  gap: token('spacing.medium');
+}
+
+.summaryRow__icon {
+  display: flex;
+  flex-shrink: 0;
+  color: token('color.foreground.dynamic.secondary');
+}
+
+.summaryRow__text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.summaryRow__label {
+  color: token('color.foreground.dynamic.secondary');
+}
+
+@media (max-width: 650px) {
+  .mapContainer {
+    height: auto;
+  }
+}

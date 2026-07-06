@@ -1,6 +1,3 @@
-import { Map } from '@atb/components/map';
-import { MonoIcon } from '@atb/components/icon';
-import { Typo } from '@atb/components/typography';
 import {
   GlobalMessageContextEnum,
   GlobalMessages,
@@ -9,7 +6,7 @@ import { MessageBox } from '@atb/components/message-box';
 import TripSection from '@atb/page-modules/assistant/details/trip-section';
 import { getInterchangeDetails } from '@atb/page-modules/assistant/details/trip-section/interchange-section.tsx';
 import { getLegWaitDetails } from '@atb/page-modules/assistant/details/trip-section/wait-section.tsx';
-import { formatTripDuration } from '@atb/utils/date.ts';
+import { TripSummaryPanel } from '@atb/page-modules/assistant/trip-summary-panel';
 import { PageText, useTranslation } from '@atb/translations';
 import { getBookingStatus } from '@atb/modules/flexible';
 import style from './details-body.module.css';
@@ -23,15 +20,7 @@ type DetailsBodyProps = {
 };
 
 export function AssistantDetailsBody({ tripPattern }: DetailsBodyProps) {
-  const { t, language } = useTranslation();
-  const mapLegs = tripPattern.legs
-    .map((leg: ExtendedLegType) => leg.mapLegs)
-    .flat();
-  const { duration } = formatTripDuration(
-    tripPattern.expectedStartTime,
-    tripPattern.expectedEndTime,
-    language,
-  );
+  const { t } = useTranslation();
 
   const requireTicketBooking = tripPattern.legs.some((leg: ExtendedLegType) => {
     if (!leg.bookingArrangements) return false;
@@ -43,27 +32,6 @@ export function AssistantDetailsBody({ tripPattern }: DetailsBodyProps) {
 
   return (
     <div className={style.bodyContainer}>
-      <div className={style.mapContainer} tabIndex={-1}>
-        <Map mapLegs={mapLegs} aria-hidden />
-        <div className={style.tripDetails}>
-          <div className={style.duration}>
-            <MonoIcon icon="time/Duration" />
-            <Typo.p textType="body__m">
-              {t(PageText.Assistant.details.mapSection.travelTime(duration))}
-            </Typo.p>
-          </div>
-          <div className={style.walkDistance}>
-            <MonoIcon icon="transportation/WalkFill" />
-            <Typo.p textType="body__m">
-              {t(
-                PageText.Assistant.details.mapSection.walkDistance(
-                  (tripPattern.streetDistance ?? 0).toFixed(),
-                ),
-              )}
-            </Typo.p>
-          </div>
-        </div>
-      </div>
       <GlobalMessages
         className={style.tripMessages}
         context={GlobalMessageContextEnum.plannerWebDetails}
@@ -92,6 +60,9 @@ export function AssistantDetailsBody({ tripPattern }: DetailsBodyProps) {
             )}
           />
         ))}
+      </div>
+      <div className={style.summaryPanel}>
+        <TripSummaryPanel tripPattern={tripPattern} />
       </div>
     </div>
   );
