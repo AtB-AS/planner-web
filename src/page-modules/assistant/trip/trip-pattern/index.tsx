@@ -344,10 +344,7 @@ export default function TripPattern({
                 ))}
               </div>
               <div className={style.detailsAside}>
-                <TripSummaryPanel
-                  tripPattern={displayTripPattern}
-                  shouldFetchPrice={isOpen}
-                />
+                <TripSummaryPanel tripPattern={displayTripPattern} />
                 <ButtonLink
                   href={`/assistant/${displayTripPattern.compressedQuery}?filter=${router.query.filter}`}
                   title={t(PageText.Assistant.trip.tripPattern.details)}
