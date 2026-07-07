@@ -26,7 +26,7 @@ import { getInterchangeDetails } from '@atb/page-modules/assistant/details/trip-
 import { getLegWaitDetails } from '@atb/page-modules/assistant/details/trip-section/wait-section.tsx';
 import { TripSummaryPanel } from '@atb/page-modules/assistant/trip-summary-panel';
 import useResizeObserver from '@react-hook/resize-observer';
-import { getMsgTypeForMostCriticalSituationOrNotice } from '@atb/modules/situations';
+import { getMsgTypeForMostCriticalSituationOrNotice } from '@atb/modules/notifications';
 import { getNoticesForLeg } from '@atb/page-modules/assistant/utils';
 import { StatusColorName } from '@atb/modules/theme';
 import { TransportSubmode } from '@atb/modules/graphql-types/journeyplanner-types_v3.generated.ts';
