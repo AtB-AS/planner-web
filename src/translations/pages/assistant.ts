@@ -473,6 +473,12 @@ const AssistantInternal = {
       walk: {
         label: (duration: string) =>
           _(`Gå i ${duration}`, `Walk for ${duration}`, `Gå i ${duration}`),
+        labelWithDistance: (duration: string, distance: string) =>
+          _(
+            `Gå ${distance} (${duration})`,
+            `Walk ${distance} (${duration})`,
+            `Gå ${distance} (${duration})`,
+          ),
       },
       shortWalk: _(
         `Gå i mindre enn ett minutt`,

@@ -118,7 +118,10 @@ export default function TripSection({
         )}
 
         {isWalkSection ? (
-          <WalkSection walkDuration={leg.duration} />
+          <WalkSection
+            walkDuration={leg.duration}
+            walkDistance={leg.distance}
+          />
         ) : (
           <TripRow>
             <div className={style.transportLine}>
