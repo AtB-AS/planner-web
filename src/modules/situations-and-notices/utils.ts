@@ -32,6 +32,24 @@ export const getMsgTypeForMostCriticalSituationOrNotice = (
     );
 };
 
+const statusColorSeverity: Record<StatusColorName, number> = {
+  error: 3,
+  warning: 2,
+  info: 1,
+  valid: 0,
+};
+
+export const getMostCriticalStatusColor = (
+  statusColors: (StatusColorName | undefined)[],
+): StatusColorName | undefined =>
+  statusColors.reduce<StatusColorName | undefined>((mostCritical, current) => {
+    if (!current) return mostCritical;
+    if (!mostCritical) return current;
+    return statusColorSeverity[current] >= statusColorSeverity[mostCritical]
+      ? current
+      : mostCritical;
+  }, undefined);
+
 export const getIconForMostCriticalSituationOrNotice = (
   situations: SituationFragment[],
   notices?: NoticeFragment[],

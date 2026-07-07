@@ -26,7 +26,10 @@ import { getInterchangeDetails } from '@atb/page-modules/assistant/details/trip-
 import { getLegWaitDetails } from '@atb/page-modules/assistant/details/trip-section/wait-section.tsx';
 import { TripSummaryPanel } from '@atb/page-modules/assistant/trip-summary-panel';
 import useResizeObserver from '@react-hook/resize-observer';
-import { getMsgTypeForMostCriticalSituationOrNotice } from '@atb/modules/notifications';
+import {
+  getMostCriticalStatusColor,
+  getMsgTypeForMostCriticalSituationOrNotice,
+} from '@atb/modules/notifications';
 import { getNoticesForLeg } from '@atb/page-modules/assistant/utils';
 import { StatusColorName } from '@atb/modules/theme';
 import { TransportSubmode } from '@atb/modules/graphql-types/journeyplanner-types_v3.generated.ts';
@@ -74,21 +77,6 @@ function computeVisibleLegs(container: HTMLElement | null): VisibleLegsState {
   return { visibleCount, hasOverflow: true };
 }
 
-function toMostCriticalNotificationStatus(
-  a: StatusColorName | undefined,
-  b: StatusColorName | undefined,
-): StatusColorName | undefined {
-  const priority: Record<StatusColorName, number> = {
-    error: 3,
-    warning: 2,
-    info: 1,
-    valid: 0,
-  };
-  if (!a) return b;
-  if (!b) return a;
-  return (priority[a] ?? 0) >= (priority[b] ?? 0) ? a : b;
-}
-
 function getLegNotificationType(
   leg: ExtendedLegType,
   previousLeg: ExtendedLegType | undefined,
@@ -117,15 +105,12 @@ function getLegNotificationType(
       : undefined;
   })();
 
-  return [
+  return getMostCriticalStatusColor([
     situationsMsgType,
     railReplacementMsgType,
     bookingMsgType,
     shortTransferMsgType,
-  ].reduce<StatusColorName | undefined>(
-    toMostCriticalNotificationStatus,
-    undefined,
-  );
+  ]);
 }
 
 export default function TripPattern({
@@ -176,17 +161,15 @@ export default function TripPattern({
   const hiddenLegs = hasOverflow ? renderedLegs.slice(visibleCount) : [];
   const overflowCount = hiddenLegs.length;
 
-  const overflowNotificationType = hiddenLegs
-    .map(({ leg }) =>
+  const overflowNotificationType = getMostCriticalStatusColor(
+    hiddenLegs.map(({ leg }) =>
       getMsgTypeForMostCriticalSituationOrNotice(
         leg.situations,
         getNoticesForLeg(leg),
         leg.fromEstimatedCall?.cancellation,
       ),
-    )
-    .reduce<
-      StatusColorName | undefined
-    >(toMostCriticalNotificationStatus, undefined);
+    ),
+  );
 
   const renderLeg = ({
     leg,
