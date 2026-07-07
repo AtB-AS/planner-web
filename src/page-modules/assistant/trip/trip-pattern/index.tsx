@@ -14,10 +14,7 @@ import {
 } from '@atb/modules/transport-mode';
 import { andIf } from '@atb/utils/css';
 import { useRouter } from 'next/router';
-import {
-  getBookingStatus,
-  isLineFlexibleTransport,
-} from '@atb/modules/flexible';
+import { isLineFlexibleTransport } from '@atb/modules/flexible';
 import {
   ExtendedLegType,
   ExtendedTripPatternWithDetailsType,
