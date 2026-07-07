@@ -116,18 +116,20 @@ export function TripPatternHeader({
     'ceil',
   );
 
-  const aimedStartTime = tripPattern.legs[0]?.aimedStartTime;
+  const aimedStartTime =
+    tripPattern.aimedStartTime ?? tripPattern.legs[0]?.aimedStartTime;
   const aimedEndTime =
+    tripPattern.aimedEndTime ??
     tripPattern.legs[tripPattern.legs.length - 1]?.aimedEndTime;
 
   const aimedStartTimeLabel = formatToClock(aimedStartTime, language, 'floor');
   const aimedEndTimeLabel = formatToClock(aimedEndTime, language, 'ceil');
 
   const startTimeDiffers =
-    secondsBetween(aimedStartTime, tripPattern.expectedStartTime) >
+    Math.abs(secondsBetween(aimedStartTime, tripPattern.expectedStartTime)) >
     DEFAULT_THRESHOLD_AIMED_EXPECTED_IN_SECONDS;
   const endTimeDiffers =
-    secondsBetween(aimedEndTime, tripPattern.expectedEndTime) >
+    Math.abs(secondsBetween(aimedEndTime, tripPattern.expectedEndTime)) >
     DEFAULT_THRESHOLD_AIMED_EXPECTED_IN_SECONDS;
   const showAimedTime = startTimeDiffers || endTimeDiffers;
 
