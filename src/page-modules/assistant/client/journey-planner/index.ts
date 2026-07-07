@@ -108,7 +108,8 @@ function getTripPatternCount(data: TripApiReturnType[] | undefined) {
   return data?.reduce((acc, curr) => acc + curr.tripPatterns.length, 0) ?? 0;
 }
 
-const TRIP_REFRESH_INTERVAL_MS = 30_000;
+const TRIP_REFRESH_INTERVAL_MS = 30000;
+const TRIP_REFRESH_DEDUPE_MS = 30000;
 
 /**
  * Polls /api/assistant/refresh-trip with the given (original) trip pattern,
@@ -127,7 +128,9 @@ export function useRefreshedTripPattern(
     swrPostFetcher,
     {
       refreshInterval: TRIP_REFRESH_INTERVAL_MS,
+      dedupingInterval: TRIP_REFRESH_DEDUPE_MS,
       revalidateOnFocus: false,
+      revalidateOnMount: false,
     },
   );
 

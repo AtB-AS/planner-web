@@ -1,5 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { useId, useRef, useState } from 'react';
+import { useInView } from 'react-intersection-observer';
 import { getFilteredLegsByWalkOrWaitTime, tripSummary } from './utils';
 import { PageText, useTranslation } from '@atb/translations';
 import style from './trip-pattern.module.css';
@@ -142,6 +143,8 @@ export default function TripPattern({
   const router = useRouter();
   const id = useId();
 
+  const { ref, inView } = useInView({ rootMargin: '100px' });
+
   const measureRef = useRef<HTMLDivElement>(null);
   const [{ visibleCount, hasOverflow }, setVisibleLegs] =
     useState<VisibleLegsState>({ visibleCount: Infinity, hasOverflow: false });
@@ -156,7 +159,7 @@ export default function TripPattern({
     (leg) => leg.fromEstimatedCall?.cancellation,
   );
 
-  const { refreshedTripPattern } = useRefreshedTripPattern(tripPattern, true);
+  const { refreshedTripPattern } = useRefreshedTripPattern(tripPattern, inView);
   const displayTripPattern = refreshedTripPattern ?? tripPattern;
 
   const filteredLegs = getFilteredLegsByWalkOrWaitTime(displayTripPattern);
@@ -184,10 +187,9 @@ export default function TripPattern({
         leg.fromEstimatedCall?.cancellation,
       ),
     )
-    .reduce<StatusColorName | undefined>(
-      toMostCriticalNotificationStatus,
-      undefined,
-    );
+    .reduce<
+      StatusColorName | undefined
+    >(toMostCriticalNotificationStatus, undefined);
 
   const renderLeg = ({
     leg,
@@ -234,7 +236,7 @@ export default function TripPattern({
   );
 
   return (
-    <div className={style.tripPatternContainer}>
+    <div ref={ref} className={style.tripPatternContainer}>
       <motion.div
         id={`${id}-details-region`}
         role="button"
