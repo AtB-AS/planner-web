@@ -15,7 +15,7 @@ import { MessageBox } from '@atb/components/message-box';
 import {
   SituationMessageBox,
   SituationOrNoticeIcon,
-} from '@atb/modules/situations';
+} from '@atb/modules/situations-and-notices';
 import { PageText, useTranslation } from '@atb/translations';
 import { InterchangeDetails, InterchangeSection } from './interchange-section';
 import { formatLineName, getPlaceName } from '../utils';

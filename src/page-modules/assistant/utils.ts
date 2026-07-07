@@ -2,7 +2,7 @@ import { searchTimeToQueryString } from '@atb/modules/search-time';
 import { GeocoderFeature } from '@atb/modules/geocoder';
 import { FromToTripQuery, TripQuery, TripQuerySchema } from './types';
 import { TravelSearchFiltersType } from '@atb-as/config-specs';
-import { filterNotices } from '@atb/modules/situations';
+import { filterNotices } from '@atb/modules/situations-and-notices';
 import { LegWithDetailsFragment } from './journey-gql/trip-with-details.generated';
 import { MEDIUM_WALK_SPEED } from './walk-speed-input';
 import { defaultTransferSlack } from './transfer-slack-input';

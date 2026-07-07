@@ -13,7 +13,7 @@ import {
 import {
   SituationMessageBox,
   SituationOrNoticeIcon,
-} from '@atb/modules/situations';
+} from '@atb/modules/situations-and-notices';
 import { formatQuayName, getSituationsToShowForCall } from './utils';
 import { DecorationLine, TripRow } from '@atb/modules/trip-details';
 import { DepartureTime } from '@atb/components/departure-time';

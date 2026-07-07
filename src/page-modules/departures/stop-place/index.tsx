@@ -13,7 +13,7 @@ import {
   isSituationValidAtDate,
   SituationMessageBox,
   SituationOrNoticeIcon,
-} from '@atb/modules/situations';
+} from '@atb/modules/situations-and-notices';
 import { PageText, useTranslation } from '@atb/translations';
 import { Departures } from '@atb/translations/pages';
 import { and, andIf } from '@atb/utils/css';

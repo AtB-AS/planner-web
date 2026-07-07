@@ -4,7 +4,7 @@ import { useTranslation, PageText, TranslateFunction } from '@atb/translations';
 import { formatTripDuration } from '@atb/utils/date';
 import { flatMap } from 'lodash';
 import { RailReplacementBusMessage } from './rail-replacement-bus';
-import { SituationOrNoticeIcon } from '@atb/modules/situations';
+import { SituationOrNoticeIcon } from '@atb/modules/situations-and-notices';
 import { isSubModeBoat } from '@atb/modules/transport-mode';
 import { ColorIcon } from '@atb/components/icon';
 import { Assistant } from '@atb/translations/pages';

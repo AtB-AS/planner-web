@@ -2,7 +2,7 @@ import { useTranslation } from '@atb/translations';
 import { StatusColorName, useTheme } from '@atb/modules/theme';
 import { andIf } from '@atb/utils/css';
 import { MonoIcon, MonoIconProps } from '@atb/components/icon';
-import { messageTypeToMonoIcon } from '@atb/modules/situations';
+import { messageTypeToMonoIcon } from '@atb/modules/situations-and-notices';
 import { Button } from '@atb/components/button';
 import dictionary from '@atb/translations/dictionary';
 import { Typo } from '@atb/components/typography';
