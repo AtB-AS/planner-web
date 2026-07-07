@@ -5,6 +5,7 @@ import {
 } from '@atb/utils/date';
 import { Language, TranslateFunction, PageText } from '@atb/translations';
 import dictionary from '@atb/translations/dictionary';
+import { humanizeDistance } from '@atb/utils/distance';
 import { screenReaderPause } from '@atb/components/typography/utils';
 import { transportModeToTranslatedString } from '@atb/modules/transport-mode';
 import { getTimeRepresentationType } from '@atb/modules/time-representation';
@@ -23,13 +24,7 @@ export const tripSummary = (
   listPosition: number,
   isCancelled: boolean,
 ) => {
-  const distance = Math.round(tripPattern.legs[0].distance);
-  let humanizedDistance;
-  if (distance >= 1000) {
-    humanizedDistance = `${distance / 1000} ${t(dictionary.distance.km)}`;
-  } else {
-    humanizedDistance = `${distance} ${t(dictionary.distance.m)}`;
-  }
+  const humanizedDistance = humanizeDistance(tripPattern.legs[0].distance, t);
 
   let startText = '';
 

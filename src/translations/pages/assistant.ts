@@ -460,8 +460,6 @@ const AssistantInternal = {
         'Total walking distance',
         'Total gangavstand',
       ),
-      walkDistanceValue: (distance: string) =>
-        _(`${distance} m`, `${distance} m`, `${distance} m`),
       priceLabel: (traveller: string) =>
         _(
           `Pris (1 ${traveller})`,
