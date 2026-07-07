@@ -5,7 +5,7 @@ import {
 } from '@atb/modules/trip-details';
 import style from './trip-section.module.css';
 import {
-  TransportIcon,
+  TransportIconWithDuration,
   useTransportationThemeColor,
 } from '@atb/modules/transport-mode';
 import { Typo } from '@atb/components/typography';
@@ -18,7 +18,7 @@ import {
 } from '@atb/modules/situations-and-notices';
 import { PageText, useTranslation } from '@atb/translations';
 import { InterchangeDetails, InterchangeSection } from './interchange-section';
-import { formatLineName, getPlaceName } from '../utils';
+import { getLineDestinationName, getPlaceName } from '../utils';
 import WaitSection, { type LegWaitDetails } from './wait-section';
 import { EstimatedCallsSection } from './estimated-calls-section';
 import { DepartureTime } from '@atb/components/departure-time';
@@ -120,23 +120,21 @@ export default function TripSection({
         {isWalkSection ? (
           <WalkSection walkDuration={leg.duration} />
         ) : (
-          <TripRow
-            rowLabel={
-              <TransportIcon
+          <TripRow>
+            <div className={style.transportLine}>
+              <TransportIconWithDuration
                 transportMode={leg.mode}
                 transportSubmode={leg.transportSubmode}
+                label={leg.line?.publicCode ?? undefined}
                 isFlexible={isFlexible}
-                size="xSmall"
               />
-            }
-          >
-            <Typo.p textType="body__m__strong">
-              {formatLineName(
-                leg.fromEstimatedCall?.destinationDisplay?.frontText,
-                leg.line?.name,
-                leg.line?.publicCode,
-              )}
-            </Typo.p>
+              <Typo.p textType="body__m__strong">
+                {getLineDestinationName(
+                  leg.fromEstimatedCall?.destinationDisplay?.frontText,
+                  leg.line?.name,
+                )}
+              </Typo.p>
+            </div>
             {isFlexible && (
               <Typo.p
                 textType="body__s"

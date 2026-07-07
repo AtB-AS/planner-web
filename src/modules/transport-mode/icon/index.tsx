@@ -32,11 +32,22 @@ export function TransportIcon({
   isFlexible,
 }: TransportIconProps) {
   const { t } = useTranslation();
-  const { backgroundColor, overrideMode } = useTransportationThemeColor({
+  const {
+    color: { background },
+  } = useTheme();
+  let { backgroundColor, overrideMode } = useTransportationThemeColor({
     transportMode,
     transportSubmode,
     isFlexible,
   });
+
+  if (transportMode === 'foot') {
+    backgroundColor = background.neutral[2].background;
+    overrideMode = colorToOverrideMode(
+      background.neutral[2].foreground.primary,
+    );
+  }
+
   return (
     <span className={style.transportIcon} style={{ backgroundColor }}>
       <MonoIcon
