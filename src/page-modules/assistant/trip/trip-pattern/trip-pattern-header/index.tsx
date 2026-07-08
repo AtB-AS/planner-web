@@ -146,9 +146,7 @@ export function TripPatternHeader({
         )}
         <div className={style.header__timesRow}>
           <Typo.span
-            textType={
-              isCancelled ? 'body__m__strong__strike' : 'body__m__strong'
-            }
+            textType={isCancelled ? 'body__m__strike' : 'body__m__strong'}
             testID="expectedTimeRange"
           >
             {`${expectedStartTimeLabel} - ${expectedEndTimeLabel}`}
