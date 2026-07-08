@@ -22,7 +22,7 @@ import {
   RefreshLegQuery,
   RefreshLegQueryVariables,
 } from '@atb/page-modules/assistant/journey-gql/refresh-leg.generated';
-import { filterNotices } from '@atb/modules/situations';
+import { filterNotices } from '@atb/modules/situations-and-notices';
 import {
   compressToEncodedURIComponent,
   decompressFromEncodedURIComponent,

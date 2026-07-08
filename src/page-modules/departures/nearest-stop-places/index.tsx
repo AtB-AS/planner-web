@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 import VenueIcon from '@atb/components/venue-icon';
 import { PageText, useTranslation } from '@atb/translations';
 import EmptyMessage from '@atb/components/empty-message';
-import { SituationOrNoticeIcon } from '@atb/modules/situations';
+import { SituationOrNoticeIcon } from '@atb/modules/situations-and-notices';
 import ScreenReaderOnly from '@atb/components/screen-reader-only';
 import {
   OpenGraphDescription,

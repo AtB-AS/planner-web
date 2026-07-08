@@ -4,7 +4,10 @@ import LineChip from '@atb/components/line-chip';
 import { Map } from '@atb/components/map';
 import { MessageBox } from '@atb/components/message-box';
 import { Typo } from '@atb/components/typography';
-import { SituationMessageBox, filterNotices } from '@atb/modules/situations';
+import {
+  SituationMessageBox,
+  filterNotices,
+} from '@atb/modules/situations-and-notices';
 import { useRealtimeText } from '@atb/modules/trip-details';
 import { PageText, useTranslation } from '@atb/translations';
 import dictionary from '@atb/translations/dictionary';
