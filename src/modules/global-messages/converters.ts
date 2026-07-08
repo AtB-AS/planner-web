@@ -1,27 +1,17 @@
+import { GlobalMessageSchema, GlobalMessageType } from '@atb-as/utils';
 import { QueryDocumentSnapshot } from 'firebase/firestore';
-import { GlobalMessageType, GlobalMessageSchema } from './types';
-import { isDefined } from '@atb/utils/presence';
 
 export const globalMessageConverter = {
   toFirestore(_any: any) {
     throw new Error('Not implemented or used');
   },
   fromFirestore(
-    snapshot: QueryDocumentSnapshot<GlobalMessageType>,
+    snapshot: QueryDocumentSnapshot<any>,
   ): GlobalMessageType | undefined {
     const data = snapshot.data();
     return mapToGlobalMessage(snapshot.id, data);
   },
 };
-
-export function mapToGlobalMessages(
-  result: QueryDocumentSnapshot<any>[],
-): GlobalMessageType[] {
-  if (!result) return [];
-  return result
-    .map((message) => mapToGlobalMessage(message.id, message.data()))
-    .filter(isDefined);
-}
 
 function mapToGlobalMessage(
   id: string,

@@ -6,8 +6,8 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { GlobalMessageContextEnum } from '.';
-import { GlobalMessageType } from './types';
+import { GlobalMessageContextEnum } from './types';
+import { GlobalMessageType } from '@atb-as/utils';
 import app from '@atb/modules/firebase/firebase';
 import {
   collection,
