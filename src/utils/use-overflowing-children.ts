@@ -1,104 +1,71 @@
-import { RefObject, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect';
 
 type OverflowState = {
   visibleCount: number;
-  overflowIndices: number[];
-  ready: boolean;
+
+  // To determine how many elements fit before overflow, we need to lay out all
+  // elements and measure (with some hidden if they don't fit).
+  // But that means that if we need an overflow indicator, another element
+  // already has its position in the flex flow
+  //
+  // Therefore, we absolutely position the overflow indicator at this position:
+  overflowIndicatorPositionLeft: number;
 };
 
-type UseOverflowingChildrenOptions = {
-  reservePx: number;
-  depKey: string;
-  childSelector?: string;
-};
-
-type UseOverflowingChildrenResult = OverflowState & {
-  rootRef: RefObject<HTMLDivElement | null>;
-};
-
-const DEFAULT_CHILD_SELECTOR = '[data-leg-index]';
-const FULLY_VISIBLE_RATIO = 0.999;
-
-function sameIndices(a: number[], b: number[]): boolean {
-  if (a.length !== b.length) return false;
-  return a.every((value, index) => value === b[index]);
-}
-
-export function useOverflowingChildren({
-  reservePx,
-  depKey,
-  childSelector = DEFAULT_CHILD_SELECTOR,
-}: UseOverflowingChildrenOptions): UseOverflowingChildrenResult {
+export function useOverflowingChildren(depKey: string) {
   const rootRef = useRef<HTMLDivElement | null>(null);
+  const overflowIndicatorProbeRef = useRef<HTMLDivElement | null>(null);
   const [state, setState] = useState<OverflowState>({
     visibleCount: Number.POSITIVE_INFINITY,
-    overflowIndices: [],
-    ready: false,
+    overflowIndicatorPositionLeft: 0,
   });
 
   useIsomorphicLayoutEffect(() => {
     const root = rootRef.current;
-    if (!root || typeof IntersectionObserver === 'undefined') return;
-
-    const children = Array.from(
-      root.querySelectorAll<HTMLElement>(childSelector),
-    );
-    const total = children.length;
-
-    if (total === 0) {
-      setState({ visibleCount: 0, overflowIndices: [], ready: true });
+    const overflowIndicatorProbe = overflowIndicatorProbeRef.current;
+    if (
+      !root ||
+      !overflowIndicatorProbe ||
+      typeof ResizeObserver === 'undefined'
+    )
       return;
-    }
 
-    const indexByElement = new Map<Element, number>();
-    children.forEach((element, index) => indexByElement.set(element, index));
-
-    const hiddenFlags = new Array<boolean>(total).fill(false);
-
-    const commit = () => {
-      let visibleCount = total;
-      for (let index = 0; index < total; index++) {
-        if (hiddenFlags[index]) {
-          visibleCount = index;
-          break;
+    const measure = () => {
+      const rootRect = root.getBoundingClientRect();
+      if (rootRect.width === 0) return;
+      const rects = Array.from(root.children, (child) =>
+        child.getBoundingClientRect(),
+      );
+      const lastRect = rects[rects.length - 1];
+      let visibleCount = rects.length;
+      let overflowIndicatorPositionLeft = 0;
+      if (lastRect && lastRect.right > rootRect.right) {
+        const gap = parseFloat(getComputedStyle(root).columnGap) || 0;
+        const limit = rootRect.right - overflowIndicatorProbe.offsetWidth - gap;
+        visibleCount = 0;
+        for (const rect of rects) {
+          if (rect.right > limit) break;
+          visibleCount++;
+          overflowIndicatorPositionLeft = rect.right - rootRect.left + gap;
         }
       }
-      const overflowIndices: number[] = [];
-      for (let index = visibleCount; index < total; index++) {
-        overflowIndices.push(index);
-      }
       setState((previous) =>
-        previous.ready &&
         previous.visibleCount === visibleCount &&
-        sameIndices(previous.overflowIndices, overflowIndices)
+        previous.overflowIndicatorPositionLeft === overflowIndicatorPositionLeft
           ? previous
-          : { visibleCount, overflowIndices, ready: true },
+          : { visibleCount, overflowIndicatorPositionLeft },
       );
     };
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          const index = indexByElement.get(entry.target);
-          if (index === undefined) continue;
-          hiddenFlags[index] =
-            entry.boundingClientRect.width > 0 &&
-            entry.intersectionRatio < FULLY_VISIBLE_RATIO;
-        }
-        commit();
-      },
-      {
-        root,
-        rootMargin: `0px -${Math.max(0, Math.round(reservePx))}px 0px 0px`,
-        threshold: [FULLY_VISIBLE_RATIO, 1],
-      },
-    );
-
-    children.forEach((element) => observer.observe(element));
+    const observer = new ResizeObserver(measure);
+    observer.observe(root);
+    observer.observe(overflowIndicatorProbe);
+    Array.from(root.children).forEach((child) => observer.observe(child));
+    measure();
 
     return () => observer.disconnect();
-  }, [reservePx, childSelector, depKey]);
+  }, [depKey]);
 
-  return { rootRef, ...state };
+  return { rootRef, overflowIndicatorProbeRef, ...state };
 }

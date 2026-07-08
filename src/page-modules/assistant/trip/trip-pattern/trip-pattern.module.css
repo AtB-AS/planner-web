@@ -89,10 +89,11 @@
   align-items: center;
 }
 
-.legs__pillProbe {
+.legs__overflowIndicatorProbe {
   position: absolute;
   top: 0;
-  left: -9999px;
+  left: 0;
+  width: max-content;
   display: flex;
   align-items: center;
   visibility: hidden;
