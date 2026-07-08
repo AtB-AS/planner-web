@@ -2,7 +2,7 @@ import MonoIcon, { MonoIconProps } from '@atb/components/icon/mono-icon';
 import { ColorIcon } from '@atb/components/icon';
 import {
   ContrastColor,
-  StatusColorName,
+  Statuses,
   TransportColors,
   useTheme,
 } from '@atb/modules/theme';
@@ -80,7 +80,7 @@ export type TransportIconWithDurationProps = {
   label?: string;
   duration?: number;
   isFlexible?: boolean;
-  notificationType?: StatusColorName;
+  notificationType?: Statuses;
 };
 
 export function TransportIconWithDuration({
@@ -157,7 +157,7 @@ export function TransportIconWithDuration({
 }
 
 export type TransportNotificationBadgeProps = {
-  notificationType: StatusColorName;
+  notificationType: Statuses;
 };
 
 export function TransportNotificationBadge({

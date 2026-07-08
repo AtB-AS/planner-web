@@ -4,7 +4,7 @@ import { getTextForLanguage } from '@atb/translations/utils';
 import { daysBetween, isBetween } from '@atb/utils/date';
 import { onlyUniques, onlyUniquesBasedOnField } from '@atb/utils/only-uniques';
 import { isDefined } from '@atb/utils/presence';
-import { StatusColorName } from '@atb/modules/theme';
+import { Statuses } from '@atb/modules/theme';
 import { isAfter, isBefore } from 'date-fns';
 import {
   NoticeFragment,
@@ -18,7 +18,7 @@ export const getMsgTypeForMostCriticalSituationOrNotice = (
   situations: SituationFragment[],
   notices?: NoticeFragment[],
   cancellation: boolean = false,
-): StatusColorName | undefined => {
+): Statuses | undefined => {
   if (cancellation) return 'error';
   if (!situations.length) {
     return notices?.length ? 'info' : undefined;
@@ -32,20 +32,20 @@ export const getMsgTypeForMostCriticalSituationOrNotice = (
     );
 };
 
-const statusColorSeverity: Record<StatusColorName, number> = {
+const statusSeverity: Record<Statuses, number> = {
   error: 3,
   warning: 2,
   info: 1,
   valid: 0,
 };
 
-export const getMostCriticalStatusColor = (
-  statusColors: (StatusColorName | undefined)[],
-): StatusColorName | undefined =>
-  statusColors.reduce<StatusColorName | undefined>((mostCritical, current) => {
+export const getMostCriticalStatus = (
+  statusColors: (Statuses | undefined)[],
+): Statuses | undefined =>
+  statusColors.reduce<Statuses | undefined>((mostCritical, current) => {
     if (!current) return mostCritical;
     if (!mostCritical) return current;
-    return statusColorSeverity[current] >= statusColorSeverity[mostCritical]
+    return statusSeverity[current] >= statusSeverity[mostCritical]
       ? current
       : mostCritical;
   }, undefined);
@@ -63,9 +63,7 @@ export const getIconForMostCriticalSituationOrNotice = (
   return msgType && messageTypeToColorIcon(msgType);
 };
 
-export const messageTypeToColorIcon = (
-  messageType: StatusColorName,
-): ColorIcons => {
+export const messageTypeToColorIcon = (messageType: Statuses): ColorIcons => {
   switch (messageType) {
     case 'warning':
       return 'status/Warning';
@@ -78,9 +76,7 @@ export const messageTypeToColorIcon = (
   }
 };
 
-export const messageTypeToMonoIcon = (
-  messageType: StatusColorName,
-): MonoIcons => {
+export const messageTypeToMonoIcon = (messageType: Statuses): MonoIcons => {
   switch (messageType) {
     case 'warning':
       return 'status/Warning';

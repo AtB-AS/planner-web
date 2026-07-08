@@ -26,11 +26,11 @@ import { getInterchangeDetails } from '@atb/page-modules/assistant/details/trip-
 import { getLegWaitDetails } from '@atb/page-modules/assistant/details/trip-section/wait-section.tsx';
 import { TripSummaryPanel } from '@atb/page-modules/assistant/trip-summary-panel';
 import {
-  getMostCriticalStatusColor,
+  getMostCriticalStatus,
   getMsgTypeForMostCriticalSituationOrNotice,
 } from '@atb/modules/situations-and-notices';
 import { getNoticesForLeg } from '@atb/page-modules/assistant/utils';
-import { StatusColorName } from '@atb/modules/theme';
+import { Statuses } from '@atb/modules/theme';
 import { TransportSubmode } from '@atb/modules/graphql-types/journeyplanner-types_v3.generated.ts';
 import { useOverflowingChildren } from '@atb/utils/use-overflowing-children';
 
@@ -47,7 +47,7 @@ type TripPatternProps = {
 
 function getLegOverflowNotificationType(
   leg: ExtendedLegType,
-): StatusColorName | undefined {
+): Statuses | undefined {
   return getMsgTypeForMostCriticalSituationOrNotice(
     leg.situations,
     getNoticesForLeg(leg),
@@ -58,7 +58,7 @@ function getLegOverflowNotificationType(
 function getLegNotificationType(
   leg: ExtendedLegType,
   previousLeg: ExtendedLegType | undefined,
-): StatusColorName | undefined {
+): Statuses | undefined {
   const situationsMsgType = getLegOverflowNotificationType(leg);
   const railReplacementMsgType =
     leg.transportSubmode === TransportSubmode.RailReplacementBus
@@ -67,7 +67,7 @@ function getLegNotificationType(
   const bookingMsgType = leg.bookingArrangements
     ? ('warning' as const)
     : undefined;
-  const shortTransferMsgType: StatusColorName | undefined = (() => {
+  const shortTransferMsgType: Statuses | undefined = (() => {
     if (!previousLeg) return undefined;
     const waitSeconds = secondsBetween(
       previousLeg.expectedEndTime,
@@ -79,7 +79,7 @@ function getLegNotificationType(
       : undefined;
   })();
 
-  return getMostCriticalStatusColor([
+  return getMostCriticalStatus([
     situationsMsgType,
     railReplacementMsgType,
     bookingMsgType,
@@ -138,7 +138,7 @@ export default function TripPattern({
   const hasOverflow = visibleCount < renderedLegs.length;
   const overflowCount = hasOverflow ? renderedLegs.length - visibleCount : 0;
 
-  const overflowNotificationType = getMostCriticalStatusColor(
+  const overflowNotificationType = getMostCriticalStatus(
     hasOverflow ? legNotificationTypes.slice(visibleCount) : [],
   );
 

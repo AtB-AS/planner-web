@@ -1,5 +1,5 @@
 import { useTranslation } from '@atb/translations';
-import { StatusColorName, useTheme } from '@atb/modules/theme';
+import { Statuses, useTheme } from '@atb/modules/theme';
 import { andIf } from '@atb/utils/css';
 import { MonoIcon, MonoIconProps } from '@atb/components/icon';
 import { messageTypeToMonoIcon } from '@atb/modules/situations-and-notices';
@@ -11,7 +11,7 @@ import { colorToOverrideMode } from '@atb/utils/color';
 import { HTMLAttributes } from 'react';
 import Link from 'next/link';
 
-export type MessageMode = StatusColorName;
+export type MessageMode = Statuses;
 
 export type OnClickConfig = {
   text: string;
