@@ -6,7 +6,8 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { GlobalMessageContextEnum, GlobalMessageType } from './types';
+import { GlobalMessageContextEnum } from './types';
+import { GlobalMessageType } from '@atb-as/utils';
 import app from '@atb/modules/firebase/firebase';
 import {
   collection,
@@ -150,8 +151,8 @@ const isMessageActiveAtTimestamp = (
   const startDate = globalMessage.startDate;
   const endDate = globalMessage.endDate;
   return (
-    (!startDate || startDate.getTime() <= timestampMillis) &&
-    (!endDate || endDate.getTime() >= timestampMillis)
+    (!startDate || startDate.valueOf() <= timestampMillis) &&
+    (!endDate || endDate.valueOf() >= timestampMillis)
   );
 };
 
