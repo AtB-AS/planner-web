@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect';
+import { useIsomorphicLayoutEffect } from '@atb/utils/use-isomorphic-layout-effect';
 
 type OverflowState = {
   visibleCount: number;
@@ -15,7 +15,7 @@ type OverflowState = {
 
 export function useOverflowingChildren(depKey: string) {
   const rootRef = useRef<HTMLDivElement | null>(null);
-  const overflowIndicatorProbeRef = useRef<HTMLDivElement | null>(null);
+  const overflowProbeRef = useRef<HTMLDivElement | null>(null);
   const [state, setState] = useState<OverflowState>({
     visibleCount: Number.POSITIVE_INFINITY,
     overflowIndicatorPositionLeft: 0,
@@ -23,7 +23,7 @@ export function useOverflowingChildren(depKey: string) {
 
   useIsomorphicLayoutEffect(() => {
     const root = rootRef.current;
-    const overflowIndicatorProbe = overflowIndicatorProbeRef.current;
+    const overflowIndicatorProbe = overflowProbeRef.current;
     if (
       !root ||
       !overflowIndicatorProbe ||
@@ -67,5 +67,5 @@ export function useOverflowingChildren(depKey: string) {
     return () => observer.disconnect();
   }, [depKey]);
 
-  return { rootRef, overflowIndicatorProbeRef, ...state };
+  return { rootRef, overflowProbeRef, ...state };
 }

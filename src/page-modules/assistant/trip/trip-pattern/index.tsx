@@ -7,7 +7,6 @@ import style from './trip-pattern.module.css';
 import { isInPast, secondsBetween } from '@atb/utils/date';
 import { TripPatternHeader } from './trip-pattern-header';
 import { TintedMonoIcon } from '@atb/components/icon';
-import { Typo } from '@atb/components/typography';
 import {
   TransportIconWithDuration,
   TransportNotificationBadge,
@@ -32,7 +31,8 @@ import {
 import { getNoticesForLeg } from '@atb/page-modules/assistant/utils';
 import { Statuses } from '@atb/modules/theme';
 import { TransportSubmode } from '@atb/modules/graphql-types/journeyplanner-types_v3.generated.ts';
-import { useOverflowingChildren } from '@atb/utils/use-overflowing-children';
+import { OverflowContainer } from '@atb/components/overflow-container';
+import { CounterBox } from '@atb/components/counter-box';
 
 const SHORT_TRANSFER_SECONDS = 180;
 const MIN_SIGNIFICANT_WAIT_SECONDS = 30;
@@ -125,43 +125,21 @@ export default function TripPattern({
     getLegNotificationType(leg, filteredLegs[originalIndex - 1]),
   );
 
-  const anyOverflowBadge = legNotificationTypes.some(Boolean);
-
-  const legsKey = renderedLegs.map(({ leg }, i) => leg.id ?? i).join('|');
-  const {
-    rootRef,
-    overflowIndicatorProbeRef,
-    visibleCount,
-    overflowIndicatorPositionLeft,
-  } = useOverflowingChildren(legsKey);
-
-  const hasOverflow = visibleCount < renderedLegs.length;
-  const overflowCount = hasOverflow ? renderedLegs.length - visibleCount : 0;
-
-  const overflowNotificationType = getMostCriticalStatus(
-    hasOverflow ? legNotificationTypes.slice(visibleCount) : [],
-  );
-
   const renderLeg = (
     { leg }: { leg: ExtendedLegType; originalIndex: number },
     i: number,
   ) => (
-    <div
-      className={style.legs__leg}
-      data-overflowing={hasOverflow && i >= visibleCount ? 'true' : undefined}
+    <TransportIconWithDuration
       key={leg.id ?? i}
-    >
-      <TransportIconWithDuration
-        transportMode={leg.mode}
-        transportSubmode={leg.transportSubmode}
-        label={
-          leg.mode === 'foot' ? undefined : (leg.line?.publicCode ?? undefined)
-        }
-        duration={leg.mode === 'foot' ? leg.duration : undefined}
-        isFlexible={isLineFlexibleTransport(leg.line)}
-        notificationType={legNotificationTypes[i]}
-      />
-    </div>
+      transportMode={leg.mode}
+      transportSubmode={leg.transportSubmode}
+      label={
+        leg.mode === 'foot' ? undefined : (leg.line?.publicCode ?? undefined)
+      }
+      duration={leg.mode === 'foot' ? leg.duration : undefined}
+      isFlexible={isLineFlexibleTransport(leg.line)}
+      notificationType={legNotificationTypes[i]}
+    />
   );
 
   return (
@@ -201,42 +179,28 @@ export default function TripPattern({
         />
 
         <div className={style.legs}>
-          <div className={style.legs__legsAndLine}>
-            <div className={style.legs__row} ref={rootRef}>
-              {renderedLegs.map(renderLeg)}
-            </div>
-            {hasOverflow && (
-              <div
-                className={style.legs__collapsedLegsContainer}
-                style={{ left: overflowIndicatorPositionLeft }}
-              >
-                <div className={style.legs__collapsedLegs}>
-                  <Typo.span textType="body__m__strong">
-                    +{overflowCount}
-                  </Typo.span>
-                </div>
-                {overflowNotificationType && (
-                  <TransportNotificationBadge
-                    notificationType={overflowNotificationType}
-                  />
-                )}
-              </div>
-            )}
-            <div
-              className={style.legs__overflowIndicatorProbe}
-              aria-hidden="true"
-              ref={overflowIndicatorProbeRef}
-            >
-              <div className={style.legs__collapsedLegs}>
-                <Typo.span textType="body__m__strong">
-                  +{renderedLegs.length}
-                </Typo.span>
-              </div>
-              {anyOverflowBadge && (
-                <TransportNotificationBadge notificationType="warning" />
-              )}
-            </div>
-          </div>
+          <OverflowContainer
+            className={style.legs__legsAndLine}
+            overflow={(hiddenCount) => {
+              const notificationType = getMostCriticalStatus(
+                legNotificationTypes.slice(-hiddenCount),
+              );
+              return (
+                <CounterBox
+                  count={hiddenCount}
+                  notification={
+                    notificationType && (
+                      <TransportNotificationBadge
+                        notificationType={notificationType}
+                      />
+                    )
+                  }
+                />
+              );
+            }}
+          >
+            {renderedLegs.map(renderLeg)}
+          </OverflowContainer>
           <Button
             title={
               isOpen

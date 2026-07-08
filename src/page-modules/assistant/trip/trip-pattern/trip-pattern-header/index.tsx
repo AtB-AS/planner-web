@@ -163,10 +163,10 @@ export function TripPatternHeader({
           </Typo.span>
         )}
       </div>
-      <div className={style.header__metaArea}>
+      <div className={style.header__duration}>
         <Typo.span
           textType="body__s"
-          className={style.header__duration}
+          className={style.header__durationText}
           testID="resultDuration"
         >
           {duration}

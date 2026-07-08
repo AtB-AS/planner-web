@@ -58,55 +58,8 @@
 }
 
 .legs__legsAndLine {
-  position: relative;
   flex: 1;
-  min-width: 0;
-}
-
-.legs__row {
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: center;
-  gap: token('spacing.xSmall');
-  min-width: 0;
-  overflow: hidden;
-}
-
-.legs__leg {
-  display: flex;
-  flex-shrink: 0;
-}
-
-.legs__leg[data-overflowing='true'] {
-  visibility: hidden;
-}
-
-.legs__collapsedLegsContainer {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  display: flex;
-  align-items: center;
-}
-
-.legs__overflowIndicatorProbe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: max-content;
-  display: flex;
-  align-items: center;
-  visibility: hidden;
-  pointer-events: none;
-}
-
-.legs__collapsedLegs {
-  background-color: token('color.background.neutral.2.background');
-  border-radius: token('border.radius.circle');
-  padding: token('spacing.small') token('spacing.medium');
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  --overflow-container-gap: token('spacing.xSmall');
 }
 
 .accordionBody {
