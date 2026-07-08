@@ -5,16 +5,7 @@ import style from './overflow-container.module.css';
 
 export type OverflowContainerProps = {
   children: ReactNode[];
-  /**
-   * Renders the overflow indicator (e.g. a "+N" pill). Called with the number
-   * of hidden children (always >= 1) when overflowing, and with
-   * children.length inside a hidden probe to reserve worst-case width.
-   */
   overflow: (hiddenCount: number) => ReactNode;
-  /**
-   * Applied to the root container. Use it for layout (e.g. flex: 1) and to
-   * set the item gap via `--overflow-container-gap` (default 0).
-   */
   className?: string;
 };
 
