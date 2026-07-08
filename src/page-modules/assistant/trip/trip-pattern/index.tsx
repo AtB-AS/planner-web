@@ -6,7 +6,7 @@ import { PageText, useTranslation } from '@atb/translations';
 import style from './trip-pattern.module.css';
 import { isInPast, secondsBetween } from '@atb/utils/date';
 import { TripPatternHeader } from './trip-pattern-header';
-import { TintedMonoIcon } from '@atb/components/icon';
+import { MonoIcon, TintedMonoIcon } from '@atb/components/icon';
 import {
   TransportIconWithDuration,
   TransportNotificationBadge,
@@ -217,7 +217,7 @@ export default function TripPattern({
             onClick={() => setIsOpen(!isOpen)}
             icon={{
               right: (
-                <TintedMonoIcon
+                <MonoIcon
                   icon="navigation/ExpandMore"
                   className={andIf({
                     [style.chevron]: true,
@@ -271,7 +271,7 @@ export default function TripPattern({
                   display="block"
                   className={style.goToDetailsButton}
                   icon={{
-                    right: <TintedMonoIcon icon="navigation/ArrowRight" />,
+                    right: <MonoIcon icon="navigation/ChevronRight" />,
                   }}
                   testID="moreDetailsButton"
                 />

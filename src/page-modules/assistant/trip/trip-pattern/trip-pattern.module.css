@@ -31,8 +31,8 @@
 
 .detailsGrid {
   display: grid;
-  grid-template-columns: 2fr 3fr;
-  gap: token('spacing.medium');
+  grid-template-columns: 3fr 2fr;
+  gap: token('spacing.xLarge');
   padding: token('spacing.large') token('spacing.medium')
     token('spacing.medium');
 }
@@ -46,6 +46,7 @@
 .detailsAside {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   gap: token('spacing.medium');
 }
 
@@ -81,25 +82,22 @@
   flex-shrink: 0;
   align-self: flex-end;
 }
-.seeMoreButton.seeMoreButton {
+.seeMoreButton {
   padding-right: 0;
   color: token('color.foreground.emphasis.interactive');
 }
-.seeMoreButton.seeMoreButton:hover,
-.seeMoreButton.seeMoreButton:active {
+.seeMoreButton:hover,
+.seeMoreButton:active {
   color: token('color.foreground.emphasis.interactive');
 }
 
 .goToDetailsButton {
   border: token('border.width.medium') solid
     token('color.foreground.emphasis.interactive');
-}
-.goToDetailsButton.goToDetailsButton {
-  color: token('color.foreground.emphasis.interactive');
   text-align: center;
 }
-.goToDetailsButton.goToDetailsButton:hover,
-.goToDetailsButton.goToDetailsButton:active {
+.goToDetailsButton:hover,
+.goToDetailsButton:active {
   color: token('color.foreground.emphasis.interactive');
 }
 
