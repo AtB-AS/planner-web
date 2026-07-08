@@ -217,7 +217,7 @@ export default function TripPattern({
             onClick={() => setIsOpen(!isOpen)}
             icon={{
               right: (
-                <MonoIcon
+                <TintedMonoIcon
                   icon="navigation/ExpandMore"
                   className={andIf({
                     [style.chevron]: true,
