@@ -28,7 +28,7 @@ import { TripSummaryPanel } from '@atb/page-modules/assistant/trip-summary-panel
 import {
   getMostCriticalStatusColor,
   getMsgTypeForMostCriticalSituationOrNotice,
-} from '@atb/modules/notifications';
+} from '@atb/modules/situations-and-notices';
 import { getNoticesForLeg } from '@atb/page-modules/assistant/utils';
 import { StatusColorName } from '@atb/modules/theme';
 import { TransportSubmode } from '@atb/modules/graphql-types/journeyplanner-types_v3.generated.ts';

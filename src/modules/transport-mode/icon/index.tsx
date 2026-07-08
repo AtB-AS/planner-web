@@ -11,7 +11,7 @@ import { isSubModeBoat, transportModeToTranslatedString } from '../utils';
 import { colorToOverrideMode } from '@atb/utils/color';
 import { Typo } from '@atb/components/typography';
 import { secondsToMinutes } from '@atb/utils/date';
-import { messageTypeToColorIcon } from '@atb/modules/notifications';
+import { messageTypeToColorIcon } from '@atb/modules/situations-and-notices';
 import { and } from '@atb/utils/css';
 
 import style from './icon.module.css';
