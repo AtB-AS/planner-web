@@ -27,6 +27,62 @@ type TravelCardLegsProps = {
   tripPattern: ExtendedTripPatternWithDetailsType;
 };
 
+export function TravelCardLegs({ tripPattern }: TravelCardLegsProps) {
+  const filteredLegs = getFilteredLegsByWalkOrWaitTime(tripPattern);
+
+  const staySeated = (idx: number) => {
+    const leg = filteredLegs[idx];
+    return leg && leg.interchangeTo?.staySeated === true;
+  };
+
+  const renderedLegs = filteredLegs.filter((_, i) => !staySeated(i - 1));
+
+  const legNotificationTypes = renderedLegs.map((leg, i) =>
+    getLegNotificationType(leg, filteredLegs[i - 1]),
+  );
+
+  return (
+    <div className={style.legs}>
+      <OverflowContainer
+        className={style.legsAndLine}
+        overflow={(hiddenCount) => {
+          const notificationType = getMostCriticalStatus(
+            legNotificationTypes.slice(-hiddenCount),
+          );
+          return (
+            <CounterBox
+              count={hiddenCount}
+              notification={
+                notificationType && (
+                  <TransportNotificationBadge
+                    notificationType={notificationType}
+                  />
+                )
+              }
+            />
+          );
+        }}
+      >
+        {renderedLegs.map((leg, i) => (
+          <TransportIconWithDuration
+            key={leg.id ?? i}
+            transportMode={leg.mode}
+            transportSubmode={leg.transportSubmode}
+            label={
+              leg.mode === 'foot'
+                ? undefined
+                : (leg.line?.publicCode ?? undefined)
+            }
+            duration={leg.mode === 'foot' ? leg.duration : undefined}
+            isFlexible={isLineFlexibleTransport(leg.line)}
+            notificationType={legNotificationTypes[i]}
+          />
+        ))}
+      </OverflowContainer>
+    </div>
+  );
+}
+
 function getLegOverflowNotificationType(
   leg: ExtendedLegType,
 ): Statuses | undefined {
@@ -67,65 +123,4 @@ function getLegNotificationType(
     bookingMsgType,
     shortTransferMsgType,
   ]);
-}
-
-export function TravelCardLegs({ tripPattern }: TravelCardLegsProps) {
-  const filteredLegs = getFilteredLegsByWalkOrWaitTime(tripPattern);
-
-  const staySeated = (idx: number) => {
-    const leg = filteredLegs[idx];
-    return leg && leg.interchangeTo?.staySeated === true;
-  };
-
-  const renderedLegs = filteredLegs
-    .map((leg, originalIndex) => ({ leg, originalIndex }))
-    .filter(({ originalIndex }) => !staySeated(originalIndex - 1));
-
-  const legNotificationTypes = renderedLegs.map(({ leg, originalIndex }) =>
-    getLegNotificationType(leg, filteredLegs[originalIndex - 1]),
-  );
-
-  const renderLeg = (
-    { leg }: { leg: ExtendedLegType; originalIndex: number },
-    i: number,
-  ) => (
-    <TransportIconWithDuration
-      key={leg.id ?? i}
-      transportMode={leg.mode}
-      transportSubmode={leg.transportSubmode}
-      label={
-        leg.mode === 'foot' ? undefined : (leg.line?.publicCode ?? undefined)
-      }
-      duration={leg.mode === 'foot' ? leg.duration : undefined}
-      isFlexible={isLineFlexibleTransport(leg.line)}
-      notificationType={legNotificationTypes[i]}
-    />
-  );
-
-  return (
-    <div className={style.legs}>
-      <OverflowContainer
-        className={style.legsAndLine}
-        overflow={(hiddenCount) => {
-          const notificationType = getMostCriticalStatus(
-            legNotificationTypes.slice(-hiddenCount),
-          );
-          return (
-            <CounterBox
-              count={hiddenCount}
-              notification={
-                notificationType && (
-                  <TransportNotificationBadge
-                    notificationType={notificationType}
-                  />
-                )
-              }
-            />
-          );
-        }}
-      >
-        {renderedLegs.map(renderLeg)}
-      </OverflowContainer>
-    </div>
-  );
 }
