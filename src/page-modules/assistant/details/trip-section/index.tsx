@@ -153,22 +153,23 @@ export default function TripSection({
         )}
 
         {leg.situations.map((situation) => (
-          <TripRow
-            key={situation.id}
-            rowLabel={<SituationOrNoticeIcon situation={situation} />}
-          >
-            <SituationMessageBox noStatusIcon situation={situation} />
+          <TripRow key={situation.id}>
+            <SituationMessageBox
+              situation={situation}
+              statusIcon={<SituationOrNoticeIcon situation={situation} />}
+            />
           </TripRow>
         ))}
 
         {leg.notices.map(
           (notice) =>
             notice.text && (
-              <TripRow
-                key={notice.id}
-                rowLabel={<ColorIcon icon="status/Info" />}
-              >
-                <MessageBox type="info" noStatusIcon message={notice.text} />
+              <TripRow key={notice.id}>
+                <MessageBox
+                  type="info"
+                  message={notice.text}
+                  statusIcon={<ColorIcon icon="status/Info" />}
+                />
               </TripRow>
             ),
         )}

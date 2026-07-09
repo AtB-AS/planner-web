@@ -48,6 +48,8 @@ export default function TripPatternCollapse({
     (leg) => leg.fromEstimatedCall?.cancellation,
   );
 
+  const detailsHref = `/assistant/${displayTripPattern.compressedQuery}?filter=${router.query.filter}`;
+
   return (
     <div ref={ref} className={style.collapseContainer}>
       <motion.div
@@ -117,9 +119,13 @@ export default function TripPatternCollapse({
                 ))}
               </div>
               <div className={style.detailsAside}>
-                <TripSummaryPanel tripPattern={displayTripPattern} />
+                <TripSummaryPanel
+                  tripPattern={displayTripPattern}
+                  variant="compact"
+                  detailsHref={detailsHref}
+                />
                 <ButtonLink
-                  href={`/assistant/${displayTripPattern.compressedQuery}?filter=${router.query.filter}`}
+                  href={detailsHref}
                   title={t(PageText.Assistant.trip.tripPattern.details)}
                   mode="interactive_2"
                   size="small"

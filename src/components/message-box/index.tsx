@@ -23,6 +23,7 @@ export type MessageBoxProps = {
   textId?: string;
   message: string;
   noStatusIcon?: boolean;
+  statusIcon?: React.ReactNode;
   onClickConfig?: OnClickConfig;
   onDismiss?: () => void;
   borderRadius?: boolean;
@@ -31,6 +32,7 @@ export type MessageBoxProps = {
 
 export const MessageBox = ({
   noStatusIcon,
+  statusIcon,
   type,
   message,
   textId,
@@ -69,12 +71,13 @@ export const MessageBox = ({
       })}
       style={backgroundColorStyle}
     >
-      {!noStatusIcon && (
-        <MonoIcon
-          icon={messageTypeToMonoIcon(type)}
-          overrideMode={overrideMode}
-        />
-      )}
+      {!noStatusIcon &&
+        (statusIcon ?? (
+          <MonoIcon
+            icon={messageTypeToMonoIcon(type)}
+            overrideMode={overrideMode}
+          />
+        ))}
       <div className={style.content}>
         {title && <Typo.h2 textType="body__m__strong">{title}</Typo.h2>}
         <Typo.p textType="body__m" id={textId} {...aria}>

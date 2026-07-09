@@ -5,8 +5,13 @@
 }
 
 .mapContainer {
-  min-height: 20rem;
+  height: 20rem;
   width: 100%;
+  display: block;
+}
+
+.mapContainer__expanded {
+  height: 37.5rem;
 }
 
 .summaryCard {
@@ -14,7 +19,7 @@
   flex-direction: column;
   gap: token('spacing.medium');
   padding: token('spacing.large');
-  border: 1px solid token('color.border.primary.background');
+  border: red;
   border-radius: token('border.radius.regular');
 }
 
@@ -41,7 +46,9 @@
 }
 
 @media (max-width: 650px) {
-  .mapContainer {
-    min-height: auto;
+  .mapContainer,
+  .mapContainer__expanded {
+    height: auto;
+    aspect-ratio: 1 / 1;
   }
 }

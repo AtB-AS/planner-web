@@ -9,7 +9,7 @@
   position: relative;
   overflow: hidden;
   gap: 1rem;
-  --labelWidth: 5rem;
+  --labelWidth: 2.625rem;
   --decorationContainerWidth: 1.25rem;
   --decorationLineWidth: 0.25rem;
   --decorationLineEndWidth: 0.75rem;
