@@ -46,12 +46,12 @@ export default function TripPatternCollapse({
 
   const tripIsInPast = isInPast(tripPattern.legs[0].expectedStartTime);
 
-  const isCancelled = tripPattern.legs.some(
-    (leg) => leg.fromEstimatedCall?.cancellation,
-  );
-
   const { refreshedTripPattern } = useRefreshedTripPattern(tripPattern, inView);
   const displayTripPattern = refreshedTripPattern ?? tripPattern;
+
+  const isCancelled = displayTripPattern.legs.some(
+    (leg) => leg.fromEstimatedCall?.cancellation,
+  );
 
   return (
     <div ref={ref} className={style.collapseContainer}>

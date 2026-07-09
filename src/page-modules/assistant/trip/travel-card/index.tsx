@@ -23,12 +23,12 @@ export default function TravelCard({
   const { t } = useTranslation();
   const { ref, inView } = useInView({ rootMargin: '100px' });
 
-  const isCancelled = tripPattern.legs.some(
-    (leg) => leg.fromEstimatedCall?.cancellation,
-  );
-
   const { refreshedTripPattern } = useRefreshedTripPattern(tripPattern, inView);
   const displayTripPattern = refreshedTripPattern ?? tripPattern;
+
+  const isCancelled = displayTripPattern.legs.some(
+    (leg) => leg.fromEstimatedCall?.cancellation,
+  );
 
   return (
     <div ref={ref} className={style.container}>
