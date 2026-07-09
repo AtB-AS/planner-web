@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { getAffectedStopNames } from '../utils';
+import { getAffectedStopNames, getMostCriticalStatus } from '../utils';
 import { SituationFragment } from '@atb/page-modules/assistant/journey-gql/trip-with-details.generated.ts';
 
 type Affects = SituationFragment['affects'];
@@ -50,5 +50,26 @@ describe('getAffectedStopNames', () => {
       { __typename: 'AffectedStopPlaceOnLine', stopPlace: { name: 'A' } },
     ];
     expect(getAffectedStopNames(affects)).toEqual(['A', 'B']);
+  });
+});
+
+describe('getMostCriticalStatusColor', () => {
+  it('returns undefined for an empty list', () => {
+    expect(getMostCriticalStatus([])).toBeUndefined();
+  });
+
+  it('returns undefined when every entry is undefined', () => {
+    expect(getMostCriticalStatus([undefined, undefined])).toBeUndefined();
+  });
+
+  it('ignores undefined entries', () => {
+    expect(getMostCriticalStatus([undefined, 'info', undefined])).toBe('info');
+  });
+
+  it('picks the most severe status regardless of order', () => {
+    expect(getMostCriticalStatus(['valid', 'error', 'info', 'warning'])).toBe(
+      'error',
+    );
+    expect(getMostCriticalStatus(['info', 'warning', 'valid'])).toBe('warning');
   });
 });

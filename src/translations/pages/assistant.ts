@@ -98,6 +98,7 @@ const AssistantInternal = {
       'Reiseforslag funne',
     ),
     tripPattern: {
+      originalTime: _('Opprinnelig', 'Original', 'Opphavleg'),
       travelFrom: {
         bus: (place: string) =>
           _(`Buss fra ${place}`, `Bus from ${place}`, `Buss frå ${place}`),
@@ -201,6 +202,27 @@ const AssistantInternal = {
           'Denne reisen er innstilt',
           'This trip is cancelled',
           'Denne reisa er innstilt',
+        ),
+      },
+      statusText: {
+        cancelled: _('Innstilt', 'Cancelled', 'Innstilt'),
+        impossible: _('Ikke mulig', 'Not possible', 'Ikkje mogleg'),
+        ended: _('Reisen er ferdig', 'Trip ended', 'Reisa er ferdig'),
+        started: _('Reisen har startet', 'Trip started', 'Reisa har starta'),
+        bookingDeadlineExceeded: _(
+          'Bestillingsfristen er passert',
+          'Booking deadline exceeded',
+          'Bestillingsfristen er passert',
+        ),
+        requiresBooking: _(
+          'Krever bestilling',
+          'Requires booking',
+          'Krev bestilling',
+        ),
+        stale: _(
+          'Resultatene kan være utdaterte',
+          'Results may be outdated',
+          'Resultata kan vera utdaterte',
         ),
       },
     },
@@ -438,8 +460,6 @@ const AssistantInternal = {
         'Total walking distance',
         'Total gangavstand',
       ),
-      walkDistanceValue: (distance: string) =>
-        _(`${distance} m`, `${distance} m`, `${distance} m`),
       priceLabel: (traveller: string) =>
         _(
           `Pris (1 ${traveller})`,
@@ -451,6 +471,12 @@ const AssistantInternal = {
       walk: {
         label: (duration: string) =>
           _(`Gå i ${duration}`, `Walk for ${duration}`, `Gå i ${duration}`),
+        labelWithDistance: (duration: string, distance: string) =>
+          _(
+            `Gå ${distance} (${duration})`,
+            `Walk ${distance} (${duration})`,
+            `Gå ${distance} (${duration})`,
+          ),
       },
       shortWalk: _(
         `Gå i mindre enn ett minutt`,

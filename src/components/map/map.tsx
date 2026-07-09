@@ -84,7 +84,7 @@ export default function Map({ layer, onSelectStopPlace, ...props }: MapProps) {
   }, [isMobileDevice, initializeMap]);
 
   return (
-    <div className={style.map} aria-hidden="true">
+    <div className={style.map}>
       <Button
         className={style.fullscreenButton}
         title={t(ComponentText.Map.map.openFullscreenButton)}
@@ -95,7 +95,7 @@ export default function Map({ layer, onSelectStopPlace, ...props }: MapProps) {
       <div className={style.mapWrapper} ref={mapWrapper}>
         <FocusScope
           contain={isFullscreen}
-          restoreFocus
+          restoreFocus={isFullscreen}
           autoFocus={isFullscreen}
         >
           <Button
@@ -123,6 +123,7 @@ export default function Map({ layer, onSelectStopPlace, ...props }: MapProps) {
           />
           <div
             ref={mapContainer}
+            aria-hidden="true"
             className={and(
               style.mapContainer,
               mapLegs && style.mapContainer__borderRadius,

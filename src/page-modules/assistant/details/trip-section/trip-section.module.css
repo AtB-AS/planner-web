@@ -36,3 +36,8 @@
   color: token('color.foreground.dynamic.secondary');
   padding-top: token('spacing.small');
 }
+.transportLine {
+  display: flex;
+  align-items: center;
+  gap: token('spacing.small');
+}

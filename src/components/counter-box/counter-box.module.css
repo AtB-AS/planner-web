@@ -1,0 +1,8 @@
+.counterBox {
+  background-color: token('color.background.neutral.2.background');
+  border-radius: token('border.radius.circle');
+  padding: token('spacing.small') token('spacing.medium');
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

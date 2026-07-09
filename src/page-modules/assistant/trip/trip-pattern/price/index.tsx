@@ -18,7 +18,6 @@ type NotFoundBehaviour = 'show-text' | 'hide-text';
 
 type PriceProps = {
   tripPattern: ExtendedTripPatternWithDetailsType;
-  inView: boolean;
   size?: 'small' | 'regular';
   behaviour?: {
     ifFound?: FoundBehaviour;
@@ -28,7 +27,6 @@ type PriceProps = {
 
 export function Price({
   tripPattern,
-  inView,
   size = 'regular',
   behaviour,
 }: PriceProps) {
@@ -40,9 +38,8 @@ export function Price({
 
   const { ifFound = 'hide-icon', ifNotFound = 'hide-text' } = behaviour ?? {};
 
-  const shouldFetch =
+  const enableFetch =
     isEnabled &&
-    inView &&
     !disableBoatCombinationTripPatterns(
       tripPattern,
       !!disableBoatComboPriceSearch,
@@ -55,7 +52,7 @@ export function Price({
   } = useTripPatternPrice(
     new Date(tripPattern.legs[0].serviceDate),
     tripPattern.legs,
-    shouldFetch,
+    enableFetch,
   );
 
   if (!isEnabled) {

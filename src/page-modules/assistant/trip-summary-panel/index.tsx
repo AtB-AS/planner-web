@@ -2,6 +2,7 @@ import { Map } from '@atb/components/map';
 import { MonoIcon } from '@atb/components/icon';
 import { PageText, useTranslation } from '@atb/translations';
 import { secondsBetween, secondsToDurationShort } from '@atb/utils/date';
+import { humanizeDistance } from '@atb/utils/distance';
 import {
   ExtendedLegType,
   ExtendedTripPatternWithDetailsType,
@@ -25,7 +26,7 @@ export function TripSummaryPanel({ tripPattern }: TripSummaryPanelProps) {
     secondsBetween(tripPattern.expectedStartTime, tripPattern.expectedEndTime),
     language,
   );
-  const walkDistance = (tripPattern.streetDistance ?? 0).toFixed();
+  const walkDistance = humanizeDistance(tripPattern.streetDistance ?? 0, t);
 
   return (
     <div className={style.container}>
@@ -41,11 +42,7 @@ export function TripSummaryPanel({ tripPattern }: TripSummaryPanelProps) {
         />
         <SummaryRow
           icon={<MonoIcon icon="transportation/WalkFill" />}
-          value={t(
-            PageText.Assistant.details.summaryPanel.walkDistanceValue(
-              walkDistance,
-            ),
-          )}
+          value={walkDistance}
           label={t(PageText.Assistant.details.summaryPanel.walkDistanceLabel)}
         />
       </div>

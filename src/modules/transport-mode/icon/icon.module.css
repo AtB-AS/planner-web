@@ -3,18 +3,41 @@
   gap: 0.125rem;
 }
 
-.transportIcon,
-.transportIconWithLabel {
+.transportIcon {
   display: inline-block;
-  border-radius: token('border.radius.small');
+  border-radius: token('border.radius.circle');
   padding: token('spacing.xSmall');
+}
+
+.transportIconWithLabelContainer {
+  display: flex;
+  align-items: center;
 }
 
 .transportIconWithLabel {
   display: flex;
   justify-content: center;
   align-items: center;
+  border-radius: token('border.radius.circle');
   padding: token('spacing.small') token('spacing.medium');
+}
+
+.transportIconWithLabel__hasNotification {
+  padding-right: calc(token('spacing.medium') + token('spacing.small'));
+}
+
+.transportIconNotification {
+  margin-left: calc(
+    -1 * (token('border.width.medium') + token('icon.size.small') / 2)
+  );
+  background-color: token('color.background.neutral.0.background');
+  border-radius: 50%;
+  padding: token('border.width.medium');
+  line-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
 }
 
 .transportIcon img,

@@ -1,19 +1,40 @@
 .header {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-areas: 'times  duration';
   gap: token('spacing.small');
-  align-items: center;
-  padding: token('spacing.small') token('spacing.medium');
+  align-items: start;
+  padding: token('spacing.medium') token('spacing.medium') 0;
 }
 
-@media (max-width: 650px) {
-  .header {
-    align-items: center;
-  }
+.header__timesArea {
+  grid-area: times;
+  display: flex;
+  flex-direction: column;
+  gap: token('spacing.xSmall');
+  min-width: 0;
+}
+
+.header__timesRow {
+  display: flex;
+  align-items: center;
+  gap: token('spacing.small');
+}
+
+.header__aimedTime {
+  color: token('color.foreground.dynamic.secondary');
 }
 
 .header__duration {
+  grid-area: duration;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: token('spacing.xSmall');
+}
+
+.header__durationText {
   color: token('color.foreground.dynamic.secondary');
-  margin-left: auto;
 }
 
 .situationIcon {

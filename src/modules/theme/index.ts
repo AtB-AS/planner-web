@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 export type {
   InteractiveColor,
   InteractiveState,
-  StatusColorName,
+  StatusColorName as Statuses,
   TransportColors,
   ContrastColor,
   TextColorType,

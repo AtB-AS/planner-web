@@ -319,7 +319,7 @@ export function createJourneyApi(
       return {
         trip: {
           tripPatterns: [
-            {
+            withDerivedTripTimes({
               ...singleTripPattern,
               compressedQuery: generateSingleTripQueryString(
                 extractServiceJourneyIds(singleTripPattern),
@@ -329,7 +329,7 @@ export function createJourneyApi(
               legs: singleTripPattern.legs.map((leg) =>
                 extendLeg(leg, refreshedAt),
               ),
-            },
+            }),
           ],
         },
       };
@@ -524,6 +524,31 @@ function generateSingleTripQueryString(
   );
 }
 
+function withDerivedTripTimes<
+  T extends {
+    legs: ExtendedLegType[];
+    expectedStartTime: string;
+    expectedEndTime: string;
+  },
+>(
+  tripPattern: T,
+): T & {
+  aimedStartTime: string;
+  aimedEndTime: string;
+} {
+  const adjustedLegs = adjustNonTransitExpectedTimes(tripPattern.legs);
+  const { aimedStartTime, aimedEndTime } =
+    computeTripAimedStartEnd(adjustedLegs);
+  return {
+    ...tripPattern,
+    aimedStartTime,
+    aimedEndTime,
+    expectedStartTime: adjustedLegs[0].expectedStartTime,
+    expectedEndTime: adjustedLegs[adjustedLegs.length - 1].expectedEndTime,
+    legs: adjustedLegs,
+  };
+}
+
 export function mapRawTripResponse(
   rawTrip: TripsWithDetailsQuery['trip'],
   queryVariables: TripsWithDetailsQueryVariables,
@@ -531,15 +556,17 @@ export function mapRawTripResponse(
   const refreshedAt = new Date().toISOString();
   return {
     ...rawTrip,
-    tripPatterns: rawTrip.tripPatterns.map((tripPattern) => ({
-      ...tripPattern,
-      compressedQuery: generateSingleTripQueryString(
-        extractServiceJourneyIds(tripPattern),
-        tripPattern.legs[0].aimedStartTime,
-        queryVariables,
-      ),
-      legs: tripPattern.legs.map((leg) => extendLeg(leg, refreshedAt)),
-    })),
+    tripPatterns: rawTrip.tripPatterns.map((tripPattern) =>
+      withDerivedTripTimes({
+        ...tripPattern,
+        compressedQuery: generateSingleTripQueryString(
+          extractServiceJourneyIds(tripPattern),
+          tripPattern.legs[0].aimedStartTime,
+          queryVariables,
+        ),
+        legs: tripPattern.legs.map((leg) => extendLeg(leg, refreshedAt)),
+      }),
+    ),
   };
 }
 
@@ -730,15 +757,17 @@ async function getSortedViaTrips(
 
   return {
     trip: {
-      tripPatterns: tripPatternsSortedByExpectedEndTime.map((tripPattern) => ({
-        ...tripPattern,
-        compressedQuery: generateSingleTripQueryString(
-          extractServiceJourneyIds(tripPattern),
-          tripPattern.legs[0].aimedStartTime,
-          queryVariables,
-        ),
-        legs: tripPattern.legs.map((leg) => extendLeg(leg, refreshedAt)),
-      })),
+      tripPatterns: tripPatternsSortedByExpectedEndTime.map((tripPattern) =>
+        withDerivedTripTimes({
+          ...tripPattern,
+          compressedQuery: generateSingleTripQueryString(
+            extractServiceJourneyIds(tripPattern),
+            tripPattern.legs[0].aimedStartTime,
+            queryVariables,
+          ),
+          legs: tripPattern.legs.map((leg) => extendLeg(leg, refreshedAt)),
+        }),
+      ),
     },
   };
 }

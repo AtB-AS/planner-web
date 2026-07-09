@@ -1,10 +1,18 @@
 import MonoIcon, { MonoIconProps } from '@atb/components/icon/mono-icon';
-import { ContrastColor, TransportColors, useTheme } from '@atb/modules/theme';
+import { ColorIcon } from '@atb/components/icon';
+import {
+  ContrastColor,
+  Statuses,
+  TransportColors,
+  useTheme,
+} from '@atb/modules/theme';
 import { useTranslation } from '@atb/translations';
 import { isSubModeBoat, transportModeToTranslatedString } from '../utils';
 import { colorToOverrideMode } from '@atb/utils/color';
 import { Typo } from '@atb/components/typography';
 import { secondsToMinutes } from '@atb/utils/date';
+import { messageTypeToColorIcon } from '@atb/modules/situations-and-notices';
+import { and } from '@atb/utils/css';
 
 import style from './icon.module.css';
 import { TransportSubmode } from '@atb/modules/graphql-types/journeyplanner-types_v3.generated.ts';
@@ -24,11 +32,22 @@ export function TransportIcon({
   isFlexible,
 }: TransportIconProps) {
   const { t } = useTranslation();
-  const { backgroundColor, overrideMode } = useTransportationThemeColor({
+  const {
+    color: { background },
+  } = useTheme();
+  let { backgroundColor, overrideMode } = useTransportationThemeColor({
     transportMode,
     transportSubmode,
     isFlexible,
   });
+
+  if (transportMode === 'foot') {
+    backgroundColor = background.neutral[2].background;
+    overrideMode = colorToOverrideMode(
+      background.neutral[2].foreground.primary,
+    );
+  }
+
   return (
     <span className={style.transportIcon} style={{ backgroundColor }}>
       <MonoIcon
@@ -61,6 +80,7 @@ export type TransportIconWithDurationProps = {
   label?: string;
   duration?: number;
   isFlexible?: boolean;
+  notificationType?: Statuses;
 };
 
 export function TransportIconWithDuration({
@@ -69,6 +89,7 @@ export function TransportIconWithDuration({
   label,
   duration,
   isFlexible,
+  notificationType,
 }: TransportIconWithDurationProps) {
   const { t } = useTranslation();
   const {
@@ -91,9 +112,12 @@ export function TransportIconWithDuration({
     };
   }
 
-  return (
+  const pill = (
     <span
-      className={style.transportIconWithLabel}
+      className={and(
+        style.transportIconWithLabel,
+        notificationType && style.transportIconWithLabel__hasNotification,
+      )}
       style={{ backgroundColor: colors.backgroundColor }}
     >
       <MonoIcon
@@ -119,6 +143,29 @@ export function TransportIconWithDuration({
           {secondsToMinutes(duration)}
         </Typo.span>
       )}
+    </span>
+  );
+
+  if (!notificationType) return pill;
+
+  return (
+    <span className={style.transportIconWithLabelContainer}>
+      {pill}
+      <TransportNotificationBadge notificationType={notificationType} />
+    </span>
+  );
+}
+
+export type TransportNotificationBadgeProps = {
+  notificationType: Statuses;
+};
+
+export function TransportNotificationBadge({
+  notificationType,
+}: TransportNotificationBadgeProps) {
+  return (
+    <span className={style.transportIconNotification} aria-hidden="true">
+      <ColorIcon icon={messageTypeToColorIcon(notificationType)} size="small" />
     </span>
   );
 }
