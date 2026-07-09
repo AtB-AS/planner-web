@@ -1,4 +1,4 @@
-.tripPatternContainer {
+.collapseContainer {
   border-radius: token('border.radius.regular');
   background-color: token('color.background.neutral.0.background');
   max-width: 100%;
@@ -7,21 +7,21 @@
   transition: opacity 150ms ease-in-out;
 }
 
-.tripPattern {
+.travelCard {
   display: flex;
   flex-direction: column;
 }
-.tripPattern:hover {
+.travelCard:hover {
   cursor: pointer;
 }
-.tripPattern:focus {
+.travelCard:focus {
   outline: 0;
   box-shadow: inset 0 0 0 token('border.width.medium')
     token('color.interactive.2.outline.background');
   border-radius: token('border.radius.regular');
 }
 
-.details {
+.expanded {
   display: flex;
   flex-direction: column;
   border-top: token('border.width.slim') solid
@@ -48,47 +48,6 @@
   flex-direction: column;
   justify-content: space-between;
   gap: token('spacing.medium');
-}
-
-.legs {
-  display: flex;
-  align-items: center;
-  padding: token('spacing.medium');
-  gap: token('spacing.small');
-  min-width: 0;
-}
-
-.legs__legsAndLine {
-  flex: 1;
-  --overflow-container-gap: token('spacing.xSmall');
-}
-
-.accordionBody {
-  display: flex;
-  flex-direction: column;
-  gap: token('spacing.medium');
-  background-color: token('color.background.neutral.0.background');
-}
-
-.chevron {
-  transition: transform 0.2s ease;
-}
-
-.chevron__rotated {
-  transform: rotate(180deg);
-}
-
-.seeMoreButton {
-  flex-shrink: 0;
-  align-self: flex-end;
-}
-.seeMoreButton {
-  padding-right: 0;
-  color: token('color.foreground.emphasis.interactive');
-}
-.seeMoreButton:hover,
-.seeMoreButton:active {
-  color: token('color.foreground.emphasis.interactive');
 }
 
 .goToDetailsButton {

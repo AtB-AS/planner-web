@@ -2,7 +2,7 @@ import { cleanup, render, screen } from '@testing-library/react';
 import mockRouter from 'next-router-mock';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { createDynamicRouteParser } from 'next-router-mock/dynamic-routes';
-import { tripPatternFixture } from './trip-pattern.fixture';
+import { tripPatternFixture } from './trip-pattern.fixture.ts';
 import {
   AppCookiesProvider,
   AppCookiesProviderProps,
@@ -13,9 +13,9 @@ import {
   Language,
   useTranslation,
 } from '@atb/translations';
-import { tripSummary } from '../utils';
 import { formatToClock } from '@atb/utils/date';
-import { tripPatternWithDetailsFixture } from '@atb/page-modules/assistant/trip/trip-pattern/trip-pattern-header/__tests__/trip-pattern.fixture.ts';
+import { tripPatternWithDetailsFixture } from './trip-pattern.fixture.ts';
+import { tripSummary } from '../../utils.ts';
 
 afterEach(function () {
   cleanup();

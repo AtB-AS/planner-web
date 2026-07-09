@@ -1,10 +1,10 @@
 .header {
+  grid-area: header;
   display: grid;
   grid-template-columns: 1fr auto;
   grid-template-areas: 'times  duration';
   gap: token('spacing.small');
   align-items: start;
-  padding: token('spacing.medium') token('spacing.medium') 0;
 }
 
 .header__timesArea {

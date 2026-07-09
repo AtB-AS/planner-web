@@ -3,7 +3,7 @@ import { getOrgData, WEBSHOP_ORGS } from '@atb/modules/org-data';
 import {
   ExtendedLegType,
   ExtendedTripPatternWithDetailsType,
-} from '@atb/page-modules/assistant/types';
+} from '@atb/page-modules/assistant/types.ts';
 import { useTripPatternPrice } from '@atb/page-modules/sales/client/search';
 import { PageText, useTranslation } from '@atb/translations';
 import { Mode } from '@atb/modules/graphql-types';

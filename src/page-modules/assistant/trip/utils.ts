@@ -1,20 +1,24 @@
 import {
-  formatToClock,
-  formatTripDuration,
-  secondsBetween,
-} from '@atb/utils/date';
-import { Language, TranslateFunction, PageText } from '@atb/translations';
-import dictionary from '@atb/translations/dictionary';
-import { humanizeDistance } from '@atb/utils/distance';
-import { screenReaderPause } from '@atb/components/typography/utils';
-import { transportModeToTranslatedString } from '@atb/modules/transport-mode';
-import { getTimeRepresentationType } from '@atb/modules/time-representation';
+  LegWithDetailsFragment,
+  QuayFragment,
+} from '@atb/page-modules/assistant/journey-gql/trip-with-details.generated.ts';
 import {
   ExtendedLegType,
   ExtendedTripPatternWithDetailsType,
 } from '@atb/page-modules/assistant';
-import { getQuayOrPlaceName } from '@atb/page-modules/assistant/trip/trip-pattern/trip-pattern-header';
-import { LegWithDetailsFragment } from '../../journey-gql/trip-with-details.generated';
+import {
+  formatToClock,
+  formatTripDuration,
+  secondsBetween,
+} from '@atb/utils/date.ts';
+import { Language, TranslateFunction } from '@atb/translations';
+import { Assistant } from '@atb/translations/pages';
+import { getTimeRepresentationType } from '@atb/modules/time-representation';
+import { humanizeDistance } from '@atb/utils/distance.ts';
+import { screenReaderPause } from '@atb/components/typography';
+import { PageText } from '@atb/translations';
+import { transportModeToTranslatedString } from '@atb/modules/transport-mode';
+import dictionary from '@atb/translations/dictionary.ts';
 
 export const tripSummary = (
   tripPattern: ExtendedTripPatternWithDetailsType,
@@ -187,24 +191,16 @@ export const tripSummary = (
   return texts.join(screenReaderPause);
 };
 
-function getLegRequiresBooking(leg: LegWithDetailsFragment): boolean {
-  return isLegFlexibleTransport(leg);
+export function isLegFlexibleTransport(leg: LegWithDetailsFragment): boolean {
+  return !!leg.line?.flexibleLineType;
 }
 
-function getTripPatternBookingsRequiredCount(
+export function getFilteredLegsByWalkOrWaitTime(
   tripPattern: ExtendedTripPatternWithDetailsType,
-): number {
-  return tripPattern?.legs?.filter((leg) => getLegRequiresBooking(leg)).length;
-}
-
-function isSignificantDifference(leg: LegWithDetailsFragment) {
-  return (
-    getTimeRepresentationType({
-      missingRealTime: !leg.realtime,
-      aimedTime: leg.aimedStartTime,
-      expectedTime: leg.expectedStartTime,
-      cancelled: leg.fromEstimatedCall?.cancellation ?? false,
-    }) === 'significant-difference'
+): ExtendedLegType[] {
+  const legs = tripPattern.legs;
+  return legs.filter((leg, i) =>
+    isSignificantFootLegWalkOrWaitTime(leg, legs[i + 1]),
   );
 }
 
@@ -235,15 +231,34 @@ function isSignificantFootLegWalkOrWaitTime(
   return mustWait || mustWalk;
 }
 
-export function getFilteredLegsByWalkOrWaitTime(
-  tripPattern: ExtendedTripPatternWithDetailsType,
-): ExtendedLegType[] {
-  const legs = tripPattern.legs;
-  return legs.filter((leg, i) =>
-    isSignificantFootLegWalkOrWaitTime(leg, legs[i + 1]),
+export function getQuayOrPlaceName(
+  t: TranslateFunction,
+  quay?: QuayFragment,
+  name?: string,
+): string | undefined {
+  if (!quay) return name;
+  if (!quay.publicCode) return quay.name;
+  const prefix = t(Assistant.trip.tripPattern.quayPublicCodePrefix);
+  return `${quay.name}${prefix ? prefix : ' '}${quay.publicCode}`;
+}
+
+function isSignificantDifference(leg: LegWithDetailsFragment) {
+  return (
+    getTimeRepresentationType({
+      missingRealTime: !leg.realtime,
+      aimedTime: leg.aimedStartTime,
+      expectedTime: leg.expectedStartTime,
+      cancelled: leg.fromEstimatedCall?.cancellation ?? false,
+    }) === 'significant-difference'
   );
 }
 
-function isLegFlexibleTransport(leg: LegWithDetailsFragment): boolean {
-  return !!leg.line?.flexibleLineType;
+function getTripPatternBookingsRequiredCount(
+  tripPattern: ExtendedTripPatternWithDetailsType,
+): number {
+  return tripPattern?.legs?.filter((leg) => getLegRequiresBooking(leg)).length;
+}
+
+function getLegRequiresBooking(leg: LegWithDetailsFragment): boolean {
+  return isLegFlexibleTransport(leg);
 }

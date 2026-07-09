@@ -6,7 +6,7 @@ import { DEV_MODE_COOKIE_NAME } from '@atb/modules/cookies/constants';
 import { TripsWithDetailsDocument } from '@atb/page-modules/assistant/journey-gql/trip-with-details.generated';
 import { print, getIntrospectionQuery, buildClientSchema } from 'graphql';
 import type { GraphQLSchema } from 'graphql';
-import TripPattern from '@atb/page-modules/assistant/trip/trip-pattern';
+import TripPatternCollapse from '@atb/page-modules/assistant/trip/trip-pattern-collapse';
 import type { ExtendedTripPatternWithDetailsType } from '@atb/page-modules/assistant';
 import type { GeocoderFeature } from '@atb/modules/geocoder';
 import Search from '@atb/components/search';
@@ -383,7 +383,7 @@ const DevTripPatternPage: NextPage<DevTripPatternPageProps> = (props) => {
                         />
                       )}
                       <div className={style.tripPatternMain}>
-                        <TripPattern
+                        <TripPatternCollapse
                           tripPattern={tripPattern}
                           delay={i * 0.05}
                           index={i}

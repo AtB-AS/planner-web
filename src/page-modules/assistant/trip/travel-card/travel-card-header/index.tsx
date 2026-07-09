@@ -1,4 +1,4 @@
-import style from './trip-pattern-header.module.css';
+import style from './travel-card-header.module.css';
 import { Typo } from '@atb/components/typography';
 import { useTranslation, PageText, TranslateFunction } from '@atb/translations';
 import {
@@ -7,17 +7,17 @@ import {
   isInPast,
   secondsBetween,
 } from '@atb/utils/date';
-import { Assistant } from '@atb/translations/pages';
 import { ExtendedTripPatternWithDetailsType } from '@atb/page-modules/assistant';
-import { QuayFragment } from '@atb/page-modules/assistant/journey-gql/trip-with-details.generated.ts';
 import { StatusText, StatusType } from './status-text';
 import { getBookingStatus } from '@atb/modules/flexible';
 
 const DEFAULT_THRESHOLD_AIMED_EXPECTED_IN_SECONDS = 60;
 
-type TripPatternHeaderProps = {
+type TravelCardHeaderProps = {
   tripPattern: ExtendedTripPatternWithDetailsType;
   isCancelled?: boolean;
+  includeDayInfo?: boolean;
+  includeFromToInfo?: boolean;
 };
 
 type StatusConfig = {
@@ -93,10 +93,12 @@ function getStatusConfig(
   return undefined;
 }
 
-export function TripPatternHeader({
+export function TravelCardHeader({
   tripPattern,
   isCancelled = false,
-}: TripPatternHeaderProps) {
+  includeDayInfo = false,
+  includeFromToInfo = false,
+}: TravelCardHeaderProps) {
   const { t, language } = useTranslation();
 
   const { duration } = formatTripDuration(
@@ -174,15 +176,4 @@ export function TripPatternHeader({
       </div>
     </header>
   );
-}
-
-export function getQuayOrPlaceName(
-  t: TranslateFunction,
-  quay?: QuayFragment,
-  name?: string,
-): string | undefined {
-  if (!quay) return name;
-  if (!quay.publicCode) return quay.name;
-  const prefix = t(Assistant.trip.tripPattern.quayPublicCodePrefix);
-  return `${quay.name}${prefix ? prefix : ' '}${quay.publicCode}`;
 }

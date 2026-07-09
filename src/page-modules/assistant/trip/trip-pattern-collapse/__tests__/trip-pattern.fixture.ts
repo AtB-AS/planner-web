@@ -1,6 +1,5 @@
 import { ExtendedTripPatternType } from '@atb/page-modules/assistant';
-import { Mode } from '@atb/modules/graphql-types/journeyplanner-types_v3.generated.ts';
-import { TransportSubmode } from '@atb/modules/graphql-types';
+import { Mode, TransportSubmode } from '@atb/modules/graphql-types';
 
 export const tripPatternFixture: ExtendedTripPatternType = {
   expectedStartTime: '2023-01-01T01:00:00+01:00',
@@ -11,7 +10,7 @@ export const tripPatternFixture: ExtendedTripPatternType = {
       distance: 1,
       duration: 1,
       aimedStartTime: '2023-01-01T01:00:00+01:00',
-      aimedEndTime: '2023-01-01T02:00:00+01:00',
+      aimedEndTime: '2023-01-02T01:00:00+01:00',
       expectedEndTime: '2023-01-01T02:00:00+01:00',
       expectedStartTime: '2023-01-01T01:00:00+01:00',
       realtime: false,
@@ -27,7 +26,7 @@ export const tripPatternFixture: ExtendedTripPatternType = {
       },
       situations: [],
       fromPlace: {
-        name: 'From',
+        name: 'FromPlaceName',
         quay: {
           publicCode: '1',
           name: 'From',

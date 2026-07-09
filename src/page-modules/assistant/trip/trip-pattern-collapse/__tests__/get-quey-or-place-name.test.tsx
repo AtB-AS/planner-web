@@ -1,18 +1,13 @@
-import { cleanup, render, screen } from '@testing-library/react';
-import mockRouter from 'next-router-mock';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { createDynamicRouteParser } from 'next-router-mock/dynamic-routes';
-import { getQuayOrPlaceName, TripPatternHeader } from '..';
-import {
-  tripPatternFixture,
-  tripPatternWithDetailsFixture,
-} from './trip-pattern.fixture';
-import {
-  AppCookiesProvider,
-  AppCookiesProviderProps,
-} from '@atb/modules/cookies/cookies-context';
-import React from 'react';
 import { AppLanguageProvider, useTranslation } from '@atb/translations';
+import { getQuayOrPlaceName } from '../../utils.ts';
+import mockRouter from 'next-router-mock';
+import { createDynamicRouteParser } from 'next-router-mock/dynamic-routes';
+import { AppCookiesProviderProps } from '@atb/modules/cookies/cookies-context.tsx';
+import React from 'react';
+import { cleanup, render, screen } from '@testing-library/react';
+import { AppCookiesProvider } from '@atb/modules/cookies';
+import { tripPatternFixture } from './trip-pattern.fixture.ts';
 
 afterEach(function () {
   cleanup();
@@ -35,46 +30,7 @@ const customRender = (
   );
 };
 
-describe('trip pattern header', function () {
-  it('should render trip pattern header with duration and ended status', async () => {
-    render(<TripPatternHeader tripPattern={tripPatternWithDetailsFixture} />);
-
-    expect(screen.getByTestId('resultDuration')).toBeInTheDocument();
-    expect(screen.getByText('Reisen er ferdig')).toBeInTheDocument();
-  });
-
-  it('should render trip pattern header in english', async () => {
-    customRender(
-      <TripPatternHeader tripPattern={tripPatternWithDetailsFixture} />,
-      {
-        providerProps: {
-          initialCookies: {
-            darkmode: true,
-            language: 'en-US',
-          },
-        },
-      },
-    );
-
-    expect(screen.getByText('Trip ended')).toBeInTheDocument();
-  });
-
-  it('should render trip pattern header in nynorsk', async () => {
-    customRender(
-      <TripPatternHeader tripPattern={tripPatternWithDetailsFixture} />,
-      {
-        providerProps: {
-          initialCookies: {
-            darkmode: true,
-            language: 'nn',
-          },
-        },
-      },
-    );
-
-    expect(screen.getByText('Reisa er ferdig')).toBeInTheDocument();
-  });
-
+describe('getQuayOrPlaceName', () => {
   it('should get quay name from quay', () => {
     const Test = function () {
       const { t } = useTranslation();
