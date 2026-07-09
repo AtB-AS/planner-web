@@ -41,7 +41,7 @@ export default function TravelCard({
         isCancelled={isCancelled}
       />
 
-      <TravelCardLegs tripPattern={tripPattern} />
+      <TravelCardLegs tripPattern={displayTripPattern} />
       <Button
         title={
           isOpen
