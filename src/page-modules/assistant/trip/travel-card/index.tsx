@@ -12,8 +12,6 @@ import { andIf } from '@atb/utils/css.ts';
 type TravelCardProps = {
   tripPattern: ExtendedTripPatternWithDetailsType;
   isOpen: boolean;
-  includeDayInfo?: boolean;
-  includeFromToInfo?: boolean;
   onClick?: () => void;
 };
 
@@ -21,8 +19,6 @@ export default function TravelCard({
   tripPattern,
   isOpen,
   onClick,
-  includeDayInfo = false,
-  includeFromToInfo = false,
 }: TravelCardProps) {
   const { t } = useTranslation();
   const { ref, inView } = useInView({ rootMargin: '100px' });

@@ -16,8 +16,6 @@ const DEFAULT_THRESHOLD_AIMED_EXPECTED_IN_SECONDS = 60;
 type TravelCardHeaderProps = {
   tripPattern: ExtendedTripPatternWithDetailsType;
   isCancelled?: boolean;
-  includeDayInfo?: boolean;
-  includeFromToInfo?: boolean;
 };
 
 type StatusConfig = {
@@ -96,8 +94,6 @@ function getStatusConfig(
 export function TravelCardHeader({
   tripPattern,
   isCancelled = false,
-  includeDayInfo = false,
-  includeFromToInfo = false,
 }: TravelCardHeaderProps) {
   const { t, language } = useTranslation();
 
