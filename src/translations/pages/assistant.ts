@@ -441,12 +441,6 @@ const AssistantInternal = {
           `${fromName}  -  ${toName}`,
           `${fromName}  -  ${toName}`,
         ),
-      travelTime: (duration: string) =>
-        _(
-          `${duration} reisetid`,
-          `${duration} travel time`,
-          `${duration} reisetid`,
-        ),
     },
     quayPublicCodePrefix: _('', '', ''),
     summaryPanel: {
