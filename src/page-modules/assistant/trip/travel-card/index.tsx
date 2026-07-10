@@ -1,7 +1,5 @@
-import { useInView } from 'react-intersection-observer';
 import { TravelCardHeader } from './travel-card-header';
 import { ExtendedTripPatternWithDetailsType } from '@atb/page-modules/assistant';
-import { useRefreshedTripPattern } from '@atb/page-modules/assistant/client';
 import { TravelCardLegs } from '@atb/page-modules/assistant/trip/travel-card/travel-card-legs';
 import { Button } from '@atb/components/button';
 import { PageText, useTranslation } from '@atb/translations';
@@ -21,23 +19,16 @@ export default function TravelCard({
   onClick,
 }: TravelCardProps) {
   const { t } = useTranslation();
-  const { ref, inView } = useInView({ rootMargin: '100px' });
 
-  const { refreshedTripPattern } = useRefreshedTripPattern(tripPattern, inView);
-  const displayTripPattern = refreshedTripPattern ?? tripPattern;
-
-  const isCancelled = displayTripPattern.legs.some(
+  const isCancelled = tripPattern.legs.some(
     (leg) => leg.fromEstimatedCall?.cancellation,
   );
 
   return (
-    <div ref={ref} className={style.container}>
-      <TravelCardHeader
-        tripPattern={displayTripPattern}
-        isCancelled={isCancelled}
-      />
+    <div className={style.container}>
+      <TravelCardHeader tripPattern={tripPattern} isCancelled={isCancelled} />
 
-      <TravelCardLegs tripPattern={displayTripPattern} />
+      <TravelCardLegs tripPattern={tripPattern} />
       <Button
         title={
           isOpen

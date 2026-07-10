@@ -18,13 +18,11 @@ import { tripSummary } from '../utils.ts';
 
 const ANIMATION_DURATION = 0.2;
 
-type TravelCardProps = {
+type TripPatternCollapseProps = {
   tripPattern: ExtendedTripPatternWithDetailsType;
   delay: number;
   index: number;
   testId?: string;
-  includeDayInfo?: boolean;
-  includeFromToInfo?: boolean;
 };
 
 export default function TripPatternCollapse({
@@ -32,9 +30,7 @@ export default function TripPatternCollapse({
   delay,
   index,
   testId,
-  includeDayInfo = false,
-  includeFromToInfo = false,
-}: TravelCardProps) {
+}: TripPatternCollapseProps) {
   const { t, language } = useTranslation();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -84,7 +80,7 @@ export default function TripPatternCollapse({
         )}. ${isOpen ? t(PageText.Assistant.trip.tripPattern.activateToCollapse) : t(PageText.Assistant.trip.tripPattern.activateToExpand)}`}
       >
         <TravelCard
-          tripPattern={tripPattern}
+          tripPattern={displayTripPattern}
           onClick={() => setIsOpen((prev) => !prev)}
           isOpen={isOpen}
         />
