@@ -11,11 +11,11 @@ import { PriceSummaryRow } from './price-summary-row';
 import { SummaryRow } from './summary-row';
 import style from './trip-summary-panel.module.css';
 
-type TripSummaryPanelProps = {
+type Props = {
   tripPattern: ExtendedTripPatternWithDetailsType;
 };
 
-export function TripSummaryPanel({ tripPattern }: TripSummaryPanelProps) {
+export function TripSummaryPanel({ tripPattern }: Props) {
   const { t, language } = useTranslation();
 
   const mapLegs = tripPattern.legs.flatMap(

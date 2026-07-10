@@ -23,11 +23,11 @@ import { getFilteredLegsByWalkOrWaitTime } from '@atb/page-modules/assistant/tri
 const SHORT_TRANSFER_SECONDS = 180;
 const MIN_SIGNIFICANT_WAIT_SECONDS = 30;
 
-type TravelCardLegsProps = {
+type Props = {
   tripPattern: ExtendedTripPatternWithDetailsType;
 };
 
-export function TravelCardLegs({ tripPattern }: TravelCardLegsProps) {
+export function TravelCardLegs({ tripPattern }: Props) {
   const filteredLegs = getFilteredLegsByWalkOrWaitTime(tripPattern);
 
   const staySeated = (idx: number) => {
@@ -38,7 +38,7 @@ export function TravelCardLegs({ tripPattern }: TravelCardLegsProps) {
   const renderedLegs = filteredLegs.filter((_, i) => !staySeated(i - 1));
 
   const legNotificationTypes = renderedLegs.map((leg, i) =>
-    getLegNotificationType(leg, filteredLegs[i - 1]),
+    getLegNotificationType(leg, renderedLegs[i - 1]),
   );
 
   return (

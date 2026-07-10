@@ -13,7 +13,7 @@ import { getBookingStatus } from '@atb/modules/flexible';
 
 const DEFAULT_THRESHOLD_AIMED_EXPECTED_IN_SECONDS = 60;
 
-type TravelCardHeaderProps = {
+type Props = {
   tripPattern: ExtendedTripPatternWithDetailsType;
   isCancelled?: boolean;
 };
@@ -23,78 +23,7 @@ type StatusConfig = {
   text: string;
 };
 
-function getStatusConfig(
-  tripPattern: ExtendedTripPatternWithDetailsType,
-  isCancelled: boolean,
-  t: ReturnType<typeof useTranslation>['t'],
-): StatusConfig | undefined {
-  if (isCancelled) {
-    return {
-      statusType: 'error',
-      text: t(PageText.Assistant.trip.tripPattern.statusText.cancelled),
-    };
-  }
-
-  if (tripPattern.status === 'impossible') {
-    return {
-      statusType: 'error',
-      text: t(PageText.Assistant.trip.tripPattern.statusText.impossible),
-    };
-  }
-
-  const endIsInPast = isInPast(tripPattern.expectedEndTime);
-  const startIsInPast = isInPast(tripPattern.expectedStartTime);
-
-  if (endIsInPast) {
-    return {
-      statusType: 'error',
-      text: t(PageText.Assistant.trip.tripPattern.statusText.ended),
-    };
-  }
-
-  if (startIsInPast) {
-    return {
-      statusType: 'info',
-      text: t(PageText.Assistant.trip.tripPattern.statusText.started),
-    };
-  }
-
-  const bookingLegs = tripPattern.legs.filter((leg) => leg.bookingArrangements);
-  if (bookingLegs.length > 0) {
-    const anyDeadlineExceeded = bookingLegs.some(
-      (leg) =>
-        getBookingStatus(leg.bookingArrangements!, leg.aimedStartTime) ===
-        'late',
-    );
-    if (anyDeadlineExceeded) {
-      return {
-        statusType: 'interactive',
-        text: t(
-          PageText.Assistant.trip.tripPattern.statusText
-            .bookingDeadlineExceeded,
-        ),
-      };
-    }
-    return {
-      statusType: 'info',
-      text: t(PageText.Assistant.trip.tripPattern.statusText.requiresBooking),
-    };
-  }
-
-  if (tripPattern.status === 'stale') {
-    return {
-      statusType: 'info',
-      text: t(PageText.Assistant.trip.tripPattern.statusText.stale),
-    };
-  }
-
-  return undefined;
-}
-
-export function TravelCardHeader({
-  tripPattern,
-  isCancelled = false,
-}: TravelCardHeaderProps) {
+export function TravelCardHeader({ tripPattern, isCancelled = false }: Props) {
   const { t, language } = useTranslation();
 
   const { duration } = formatTripDuration(
@@ -172,4 +101,72 @@ export function TravelCardHeader({
       </div>
     </header>
   );
+}
+
+function getStatusConfig(
+  tripPattern: ExtendedTripPatternWithDetailsType,
+  isCancelled: boolean,
+  t: ReturnType<typeof useTranslation>['t'],
+): StatusConfig | undefined {
+  if (isCancelled) {
+    return {
+      statusType: 'error',
+      text: t(PageText.Assistant.trip.tripPattern.statusText.cancelled),
+    };
+  }
+
+  if (tripPattern.status === 'impossible') {
+    return {
+      statusType: 'error',
+      text: t(PageText.Assistant.trip.tripPattern.statusText.impossible),
+    };
+  }
+
+  const endIsInPast = isInPast(tripPattern.expectedEndTime);
+  const startIsInPast = isInPast(tripPattern.expectedStartTime);
+
+  if (endIsInPast) {
+    return {
+      statusType: 'error',
+      text: t(PageText.Assistant.trip.tripPattern.statusText.ended),
+    };
+  }
+
+  if (startIsInPast) {
+    return {
+      statusType: 'info',
+      text: t(PageText.Assistant.trip.tripPattern.statusText.started),
+    };
+  }
+
+  const bookingLegs = tripPattern.legs.filter((leg) => leg.bookingArrangements);
+  if (bookingLegs.length > 0) {
+    const anyDeadlineExceeded = bookingLegs.some(
+      (leg) =>
+        getBookingStatus(leg.bookingArrangements!, leg.aimedStartTime) ===
+        'late',
+    );
+    if (anyDeadlineExceeded) {
+      return {
+        statusType: 'interactive',
+        text: t(
+          PageText.Assistant.trip.tripPattern.statusText
+            .bookingDeadlineExceeded,
+        ),
+      };
+    }
+    return {
+      statusType: 'info',
+      text: t(PageText.Assistant.trip.tripPattern.statusText.requiresBooking),
+    };
+  }
+
+  if (tripPattern.status === 'stale') {
+    return {
+      statusType: 'info',
+      text: t(PageText.Assistant.trip.tripPattern.statusText.stale),
+    };
+  }
+
+  return undefined;
 }

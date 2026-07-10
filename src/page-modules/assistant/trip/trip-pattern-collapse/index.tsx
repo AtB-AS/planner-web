@@ -18,7 +18,7 @@ import { tripSummary } from '../utils.ts';
 
 const ANIMATION_DURATION = 0.2;
 
-type TripPatternCollapseProps = {
+type Props = {
   tripPattern: ExtendedTripPatternWithDetailsType;
   delay: number;
   index: number;
@@ -30,7 +30,7 @@ export default function TripPatternCollapse({
   delay,
   index,
   testId,
-}: TripPatternCollapseProps) {
+}: Props) {
   const { t, language } = useTranslation();
 
   const [isOpen, setIsOpen] = useState(false);
