@@ -35,10 +35,12 @@ export function TravelCardLegs({ tripPattern }: Props) {
     return leg && leg.interchangeTo?.staySeated === true;
   };
 
-  const renderedLegs = filteredLegs.filter((_, i) => !staySeated(i - 1));
+  const renderedLegs = filteredLegs
+    .map((leg, originalIndex) => ({ leg, originalIndex }))
+    .filter(({ originalIndex }) => !staySeated(originalIndex - 1));
 
-  const legNotificationTypes = renderedLegs.map((leg, i) =>
-    getLegNotificationType(leg, renderedLegs[i - 1]),
+  const legNotificationTypes = renderedLegs.map(({ leg, originalIndex }) =>
+    getLegNotificationType(leg, filteredLegs[originalIndex - 1]),
   );
 
   return (
@@ -63,7 +65,7 @@ export function TravelCardLegs({ tripPattern }: Props) {
           );
         }}
       >
-        {renderedLegs.map((leg, i) => (
+        {renderedLegs.map(({ leg }, i) => (
           <TransportIconWithDuration
             key={leg.id ?? i}
             transportMode={leg.mode}
