@@ -48,7 +48,10 @@ export default function TripPatternCollapse({
     (leg) => leg.fromEstimatedCall?.cancellation,
   );
 
-  const detailsHref = `/assistant/${displayTripPattern.compressedQuery}?filter=${router.query.filter}`;
+  const filter = Array.isArray(router.query.filter)
+    ? router.query.filter.join(',')
+    : router.query.filter;
+  const detailsHref = `/assistant/${displayTripPattern.compressedQuery}${filter ? `?filter=${filter}` : ''}`;
 
   return (
     <div ref={ref} className={style.collapseContainer}>

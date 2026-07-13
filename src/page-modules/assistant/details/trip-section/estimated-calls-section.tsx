@@ -59,9 +59,9 @@ export function EstimatedCallsSection({
       </TripRow>
 
       {expanded &&
-        intermediateEstimatedCalls.map((call, index) => (
+        intermediateEstimatedCalls.map((call) => (
           <TripRow
-            key={`${index}-${call.quay.name}`}
+            key={`${call.aimedDepartureTime}-${call.quay.name}`}
             rowLabel={
               <DepartureTime
                 aimedDepartureTime={call.aimedDepartureTime}
