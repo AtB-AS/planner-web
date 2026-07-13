@@ -201,13 +201,8 @@ export default function TripSection({
         {leg.authority && <AuthoritySection authority={leg.authority} />}
 
         <EstimatedCallsSection
-          numberOfIntermediateEstimatedCalls={
-            leg.intermediateEstimatedCalls.length
-          }
+          intermediateEstimatedCalls={leg.intermediateEstimatedCalls}
           duration={leg.duration}
-          serviceJourneyId={leg.serviceJourney?.id ?? null}
-          date={leg.serviceDate}
-          fromQuayId={leg.fromPlace.quay?.id ?? null}
         />
 
         {showTo && (
