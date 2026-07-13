@@ -6,7 +6,6 @@ import { mapboxData } from '@atb/modules/org-data';
 import { Button } from '@atb/components/button';
 import { MonoIcon } from '@atb/components/icon';
 import { ComponentText, useTranslation } from '@atb/translations';
-import { FocusScope } from '@react-aria/focus';
 import {
   ZOOM_LEVEL,
   defaultPosition,
@@ -15,7 +14,6 @@ import {
   hasMapLegs,
 } from './utils';
 import { useMapInteractions } from './use-map-interactions';
-import { useFullscreenMap } from './use-fullscreen-map';
 import { useMapPin } from './use-map-pin';
 import { useMapLegs } from './use-map-legs';
 import { and } from '@atb/utils/css';
@@ -31,6 +29,7 @@ import MapLoading from './map-loading';
 export type MapProps = {
   layer?: string;
   onSelectStopPlace?: (id: string) => void;
+  interactive?: boolean;
 } & (
   | { position?: PositionType; initialZoom?: number }
   | { mapLegs: MapLegType[] }
@@ -58,13 +57,12 @@ function MapWithStyle({
   mapboxJsonStyle,
   layer,
   onSelectStopPlace,
+  interactive = true,
   ...props
 }: MapProps & { mapboxJsonStyle: StyleSpecification }) {
-  const mapWrapper = useRef<HTMLDivElement>(null);
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | undefined>(undefined);
   const { t } = useTranslation();
-  const isMobileDevice = useMediaQuery('(max-width: 650px)');
 
   const mapLegs = hasMapLegs(props) ? props.mapLegs : undefined;
   const { position, initialZoom = ZOOM_LEVEL } = hasInitialPosition(props)
@@ -74,7 +72,6 @@ function MapWithStyle({
 
   const initializeMap = useCallback(() => {
     if (!mapContainer.current || map.current) return;
-    // If browsers doesn't support WebGL, don't initialize map
     if (!mapboxgl.supported()) return;
     logSpecificEvent('initialize_map');
     map.current = new mapboxgl.Map({
@@ -83,62 +80,33 @@ function MapWithStyle({
       style: mapboxJsonStyle,
       center: position,
       zoom: initialZoom,
-      bounds, // If bounds is specified, it overrides center and zoom constructor options.
+      bounds,
+      interactive,
     });
-  }, [position, initialZoom, bounds, mapboxJsonStyle]);
+  }, [position, initialZoom, bounds, mapboxJsonStyle, interactive]);
 
   useEffect(() => {
-    if (isMobileDevice) return;
     initializeMap();
     return () => map.current?.remove();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+  useEffect(() => {
+    if (!mapContainer.current || typeof ResizeObserver === 'undefined') return;
+    const resizeObserver = new ResizeObserver(() => map.current?.resize());
+    resizeObserver.observe(mapContainer.current);
+    return () => resizeObserver.disconnect();
+  }, []);
+
   const { centerMap } = useMapInteractions(map, onSelectStopPlace);
-  const { openFullscreen, closeFullscreen, isFullscreen } = useFullscreenMap(
-    mapWrapper,
-    map,
-    initializeMap,
-  );
   useMapPin(map, position, layer);
   useMapLegs(map, mapLegs);
   useMapFareZones(map);
   useNationalStopRegistryLayers(map);
 
-  useEffect(() => {
-    if (!isMobileDevice) {
-      initializeMap();
-    }
-  }, [isMobileDevice, initializeMap]);
-
   return (
     <div className={style.map}>
-      <Button
-        className={style.fullscreenButton}
-        title={t(ComponentText.Map.map.openFullscreenButton)}
-        icon={{ left: <MonoIcon icon="map/Map" /> }}
-        onClick={openFullscreen}
-      />
-
-      <div className={style.mapWrapper} ref={mapWrapper}>
-        <FocusScope
-          contain={isFullscreen}
-          restoreFocus={isFullscreen}
-          autoFocus={isFullscreen}
-        >
-          <Button
-            className={style.closeButton}
-            onClick={closeFullscreen}
-            size="small"
-            icon={{
-              left: (
-                <MonoIcon icon="navigation/ArrowLeft" overrideMode="dark" />
-              ),
-            }}
-            mode="interactive_0"
-            buttonProps={{
-              'aria-label': t(ComponentText.Map.map.closeFullscreenButton),
-            }}
-          />
+      <div className={style.mapWrapper}>
+        {interactive && (
           <Button
             className={style.buttonsContainer}
             size="small"
@@ -148,15 +116,15 @@ function MapWithStyle({
               'aria-label': t(ComponentText.Map.map.centerMapButton),
             }}
           />
-          <div
-            ref={mapContainer}
-            aria-hidden="true"
-            className={and(
-              style.mapContainer,
-              mapLegs && style.mapContainer__borderRadius,
-            )}
-          />
-        </FocusScope>
+        )}
+        <div
+          ref={mapContainer}
+          aria-hidden="true"
+          className={and(
+            style.mapContainer,
+            mapLegs && style.mapContainer__borderRadius,
+          )}
+        />
       </div>
     </div>
   );

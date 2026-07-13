@@ -7,6 +7,20 @@
   align-items: start;
 }
 
+.header__withFromToRow {
+  grid-template-areas:
+    'times  duration'
+    'fromTo fromTo';
+}
+
+.header__fromToRow {
+  grid-area: fromTo;
+}
+
+.header__timesText__cancelled {
+  text-decoration: line-through;
+}
+
 .header__timesArea {
   grid-area: times;
   display: flex;

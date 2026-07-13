@@ -20,13 +20,13 @@ import { SituationFragment } from '@atb/page-modules/assistant/journey-gql/trip-
 
 export type Props = {
   situation: SituationFragment;
-  noStatusIcon?: MessageBoxProps['noStatusIcon'];
+  statusIcon?: MessageBoxProps['statusIcon'];
   borderRadius?: boolean;
 };
 
 export const SituationMessageBox = ({
   situation,
-  noStatusIcon,
+  statusIcon,
   borderRadius = true,
 }: Props) => {
   const { language, t } = useTranslation();
@@ -94,7 +94,7 @@ export const SituationMessageBox = ({
       <MessageBox
         borderRadius={borderRadius}
         type={messageType}
-        noStatusIcon={noStatusIcon}
+        statusIcon={statusIcon}
         message={text}
         onClickConfig={{
           text: t(dictionary.readMore),

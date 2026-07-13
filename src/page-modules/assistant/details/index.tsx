@@ -4,7 +4,7 @@ import { MonoIcon } from '@atb/components/icon';
 import style from './details.module.css';
 import { Button } from '@atb/components/button';
 import { ExtendedTripPatternWithDetailsType } from '@atb/page-modules/assistant';
-import { AssistantDetailsHeader } from '@atb/page-modules/assistant/details/details-header';
+import { TravelCardHeader } from '@atb/page-modules/assistant/trip/travel-card/travel-card-header';
 import { AssistantDetailsBody } from '@atb/page-modules/assistant/details-body';
 import { useGoBack } from '@atb/utils/use-go-back';
 
@@ -18,6 +18,10 @@ export function AssistantDetails({ tripPatterns }: AssistantDetailsProps) {
   if (!tripPatterns.length) return null;
   const tripPattern = tripPatterns[0];
 
+  const isCancelled = tripPattern.legs.some(
+    (leg) => leg.fromEstimatedCall?.cancellation,
+  );
+
   return (
     <div className={style.container}>
       <div className={style.headerContainer}>
@@ -27,7 +31,14 @@ export function AssistantDetails({ tripPatterns }: AssistantDetailsProps) {
           title={t(dictionary.back)}
           icon={{ left: <MonoIcon icon="navigation/ArrowLeft" /> }}
         />
-        <AssistantDetailsHeader tripPattern={tripPattern} />
+        <TravelCardHeader
+          tripPattern={tripPattern}
+          size="large"
+          includeFromToInfo
+          includeDayInfo
+          includeDuration={false}
+          isCancelled={isCancelled}
+        />
       </div>
       <AssistantDetailsBody tripPattern={tripPattern} />
     </div>

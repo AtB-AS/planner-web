@@ -62,7 +62,7 @@ export function AssistantDetailsBody({ tripPattern }: DetailsBodyProps) {
         ))}
       </div>
       <div className={style.summaryPanel}>
-        <TripSummaryPanel tripPattern={tripPattern} />
+        <TripSummaryPanel tripPattern={tripPattern} variant="expanded" />
       </div>
     </div>
   );

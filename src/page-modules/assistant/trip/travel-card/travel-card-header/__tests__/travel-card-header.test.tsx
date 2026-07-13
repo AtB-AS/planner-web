@@ -71,4 +71,57 @@ describe('travel card header', function () {
 
     expect(screen.getByText('Reisa er ferdig')).toBeInTheDocument();
   });
+
+  it('should render the from-to row as a level 2 heading when includeFromToInfo is set', async () => {
+    render(
+      <TravelCardHeader
+        tripPattern={tripPatternWithDetailsFixture}
+        size="large"
+        includeFromToInfo
+      />,
+    );
+
+    expect(screen.getByRole('heading', { level: 2 })).toHaveTextContent(
+      'From 1 - To 2',
+    );
+  });
+
+  it('should not render a heading or from-to row by default', async () => {
+    render(<TravelCardHeader tripPattern={tripPatternWithDetailsFixture} />);
+
+    expect(screen.queryByRole('heading')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('fromToRow')).not.toBeInTheDocument();
+  });
+
+  it('should prefix the start time with the date when includeDayInfo is set and the trip is not today', async () => {
+    render(
+      <TravelCardHeader
+        tripPattern={tripPatternWithDetailsFixture}
+        includeDayInfo
+      />,
+    );
+
+    expect(screen.getByTestId('expectedTimeRange')).toHaveTextContent(
+      '1. januar, 01:00 - 02:00',
+    );
+  });
+
+  it('should not prefix the start time with the date by default', async () => {
+    render(<TravelCardHeader tripPattern={tripPatternWithDetailsFixture} />);
+
+    expect(screen.getByTestId('expectedTimeRange')).toHaveTextContent(
+      /^01:00 - 02:00$/,
+    );
+  });
+
+  it('should not render the duration when includeDuration is false', async () => {
+    render(
+      <TravelCardHeader
+        tripPattern={tripPatternWithDetailsFixture}
+        includeDuration={false}
+      />,
+    );
+
+    expect(screen.queryByTestId('resultDuration')).not.toBeInTheDocument();
+  });
 });
