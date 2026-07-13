@@ -31,8 +31,12 @@ export function InterchangeSection(props: InterchangeSectionProps) {
   return (
     <div className={style.rowContainer}>
       <DecorationLine color={unknownTransportationColor.backgroundColor} />
-      <TripRow rowLabel={<MonoIcon icon="actions/Interchange" />}>
-        <MessageBox noStatusIcon type="info" message={message} />
+      <TripRow>
+        <MessageBox
+          type="info"
+          statusIcon={<MonoIcon icon="actions/Interchange" />}
+          message={message}
+        />
       </TripRow>
     </div>
   );

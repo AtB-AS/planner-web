@@ -186,11 +186,11 @@ function EstimatedCallRow({
         )}
       </TripRow>
       {situations.map((situation) => (
-        <TripRow
-          key={situation.situationNumber}
-          rowLabel={<SituationOrNoticeIcon situation={situation} />}
-        >
-          <SituationMessageBox noStatusIcon={true} situation={situation} />
+        <TripRow key={situation.situationNumber}>
+          <SituationMessageBox
+            statusIcon={<SituationOrNoticeIcon situation={situation} />}
+            situation={situation}
+          />
         </TripRow>
       ))}
       {collapseButton as React.ReactNode}

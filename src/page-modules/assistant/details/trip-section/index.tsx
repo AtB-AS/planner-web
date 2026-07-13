@@ -184,10 +184,10 @@ export default function TripSection({
         )}
 
         {leg.transportSubmode === 'railReplacementBus' && (
-          <TripRow rowLabel={<ColorIcon icon="status/Warning" />}>
+          <TripRow>
             <MessageBox
               type="warning"
-              noStatusIcon
+              statusIcon={<ColorIcon icon="status/Warning" />}
               message={t(
                 PageText.Assistant.details.tripSection
                   .departureIsRailReplacementBus,
