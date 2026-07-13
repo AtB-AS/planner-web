@@ -47,7 +47,7 @@ export default function Map(props: MapProps) {
   if (!mapboxJsonStyle) return <MapLoading />;
   return (
     <MapWithStyle
-      key={isDarkMode ? 'dark' : 'light'} // For remounting on theme toogle
+      key={isDarkMode ? 'dark' : 'light'} // For remounting on theme toggle
       mapboxJsonStyle={mapboxJsonStyle}
       {...props}
     />
