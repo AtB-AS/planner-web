@@ -153,22 +153,23 @@ export default function TripSection({
         )}
 
         {leg.situations.map((situation) => (
-          <TripRow
-            key={situation.id}
-            rowLabel={<SituationOrNoticeIcon situation={situation} />}
-          >
-            <SituationMessageBox noStatusIcon situation={situation} />
+          <TripRow key={situation.id}>
+            <SituationMessageBox
+              situation={situation}
+              statusIcon={<SituationOrNoticeIcon situation={situation} />}
+            />
           </TripRow>
         ))}
 
         {leg.notices.map(
           (notice) =>
             notice.text && (
-              <TripRow
-                key={notice.id}
-                rowLabel={<ColorIcon icon="status/Info" />}
-              >
-                <MessageBox type="info" noStatusIcon message={notice.text} />
+              <TripRow key={notice.id}>
+                <MessageBox
+                  type="info"
+                  message={notice.text}
+                  statusIcon={<ColorIcon icon="status/Info" />}
+                />
               </TripRow>
             ),
         )}
@@ -183,10 +184,10 @@ export default function TripSection({
         )}
 
         {leg.transportSubmode === 'railReplacementBus' && (
-          <TripRow rowLabel={<ColorIcon icon="status/Warning" />}>
+          <TripRow>
             <MessageBox
               type="warning"
-              noStatusIcon
+              statusIcon={<ColorIcon icon="status/Warning" />}
               message={t(
                 PageText.Assistant.details.tripSection
                   .departureIsRailReplacementBus,
@@ -200,13 +201,8 @@ export default function TripSection({
         {leg.authority && <AuthoritySection authority={leg.authority} />}
 
         <EstimatedCallsSection
-          numberOfIntermediateEstimatedCalls={
-            leg.intermediateEstimatedCalls.length
-          }
+          intermediateEstimatedCalls={leg.intermediateEstimatedCalls}
           duration={leg.duration}
-          serviceJourneyId={leg.serviceJourney?.id ?? null}
-          date={leg.serviceDate}
-          fromQuayId={leg.fromPlace.quay?.id ?? null}
         />
 
         {showTo && (

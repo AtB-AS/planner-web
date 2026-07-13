@@ -441,12 +441,6 @@ const AssistantInternal = {
           `${fromName}  -  ${toName}`,
           `${fromName}  -  ${toName}`,
         ),
-      travelTime: (duration: string) =>
-        _(
-          `${duration} reisetid`,
-          `${duration} travel time`,
-          `${duration} reisetid`,
-        ),
     },
     quayPublicCodePrefix: _('', '', ''),
     summaryPanel: {
@@ -518,13 +512,13 @@ const AssistantInternal = {
           _(`Vent i ${time}`, `Wait for ${time}`, `Vent i ${time}`),
         shortTime: _('Kort byttetid', 'Short changeover time', 'Kort bytetid'),
       },
-      intermediateStops: (count: number) =>
+      intermediateStops: (count: number, duration: string) =>
         _(
-          `${count} mellomstopp`,
+          `${count} mellomstopp (${duration})`,
           count > 1
-            ? `${count} intermediate stops`
-            : `${count} intermediate stop`,
-          `${count} mellomstopp`,
+            ? `${count} intermediate stops (${duration})`
+            : `${count} intermediate stop (${duration})`,
+          `${count} mellomstopp (${duration})`,
         ),
       flexibleTransport: {
         bookOnline: _(`Reserver på nett`, `Book online`, `Reserver på nett`),

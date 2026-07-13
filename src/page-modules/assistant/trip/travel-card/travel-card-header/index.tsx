@@ -10,12 +10,18 @@ import {
 import { ExtendedTripPatternWithDetailsType } from '@atb/page-modules/assistant';
 import { StatusText, StatusType } from './status-text';
 import { getBookingStatus } from '@atb/modules/flexible';
+import { getDayPrefixedStartLabel, getTripFromToNames } from './utils';
+import { and } from '@atb/utils/css';
 
 const DEFAULT_THRESHOLD_AIMED_EXPECTED_IN_SECONDS = 60;
 
 type Props = {
   tripPattern: ExtendedTripPatternWithDetailsType;
   isCancelled?: boolean;
+  size?: 'standard' | 'large';
+  includeFromToInfo?: boolean;
+  includeDayInfo?: boolean;
+  includeDuration?: boolean;
 };
 
 type StatusConfig = {
@@ -23,7 +29,14 @@ type StatusConfig = {
   text: string;
 };
 
-export function TravelCardHeader({ tripPattern, isCancelled = false }: Props) {
+export function TravelCardHeader({
+  tripPattern,
+  isCancelled = false,
+  size = 'standard',
+  includeFromToInfo = false,
+  includeDayInfo = false,
+  includeDuration = true,
+}: Props) {
   const { t, language } = useTranslation();
 
   const { duration } = formatTripDuration(
@@ -32,10 +45,14 @@ export function TravelCardHeader({ tripPattern, isCancelled = false }: Props) {
     language,
   );
 
-  const expectedStartTimeLabel = formatToClock(
+  const hasStarted = isInPast(tripPattern.expectedStartTime);
+
+  const expectedStartTimeLabel = getDayPrefixedStartLabel(
     tripPattern.expectedStartTime,
+    formatToClock(tripPattern.expectedStartTime, language, 'floor'),
+    includeDayInfo,
     language,
-    'floor',
+    t,
   );
   const expectedEndTimeLabel = formatToClock(
     tripPattern.expectedEndTime,
@@ -49,8 +66,16 @@ export function TravelCardHeader({ tripPattern, isCancelled = false }: Props) {
     tripPattern.aimedEndTime ??
     tripPattern.legs[tripPattern.legs.length - 1]?.aimedEndTime;
 
-  const aimedStartTimeLabel = formatToClock(aimedStartTime, language, 'floor');
+  const aimedStartTimeLabel = getDayPrefixedStartLabel(
+    aimedStartTime,
+    formatToClock(aimedStartTime, language, 'floor'),
+    includeDayInfo && hasStarted,
+    language,
+    t,
+  );
   const aimedEndTimeLabel = formatToClock(aimedEndTime, language, 'ceil');
+
+  const { fromName, toName } = getTripFromToNames(tripPattern, t);
 
   const startTimeDiffers =
     Math.abs(secondsBetween(aimedStartTime, tripPattern.expectedStartTime)) >
@@ -63,7 +88,12 @@ export function TravelCardHeader({ tripPattern, isCancelled = false }: Props) {
   const statusConfig = getStatusConfig(tripPattern, isCancelled, t);
 
   return (
-    <header className={style.header}>
+    <header
+      className={and(
+        style.header,
+        includeFromToInfo && style.header__withFromToRow,
+      )}
+    >
       <div className={style.header__timesArea}>
         {statusConfig && (
           <StatusText
@@ -73,7 +103,18 @@ export function TravelCardHeader({ tripPattern, isCancelled = false }: Props) {
         )}
         <div className={style.header__timesRow}>
           <Typo.span
-            textType={isCancelled ? 'body__m__strike' : 'body__m__strong'}
+            textType={
+              size === 'large'
+                ? 'heading__l'
+                : isCancelled
+                  ? 'body__m__strike'
+                  : 'body__m__strong'
+            }
+            className={and(
+              size === 'large' &&
+                isCancelled &&
+                style.header__timesText__cancelled,
+            )}
             testID="expectedTimeRange"
           >
             {`${expectedStartTimeLabel} - ${expectedEndTimeLabel}`}
@@ -90,15 +131,33 @@ export function TravelCardHeader({ tripPattern, isCancelled = false }: Props) {
           </Typo.span>
         )}
       </div>
-      <div className={style.header__duration}>
-        <Typo.span
-          textType="body__s"
-          className={style.header__durationText}
-          testID="resultDuration"
+      {includeDuration && (
+        <div className={style.header__duration}>
+          <Typo.span
+            textType="body__s"
+            className={style.header__durationText}
+            testID="resultDuration"
+          >
+            {duration}
+          </Typo.span>
+        </div>
+      )}
+      {includeFromToInfo && (
+        <Typo.h2
+          textType="body__m"
+          className={style.header__fromToRow}
+          testID="fromToRow"
         >
-          {duration}
-        </Typo.span>
-      </div>
+          {fromName && toName
+            ? t(
+                PageText.Assistant.details.header.titleFromTo({
+                  fromName,
+                  toName,
+                }),
+              )
+            : t(PageText.Assistant.details.header.title)}
+        </Typo.h2>
+      )}
     </header>
   );
 }

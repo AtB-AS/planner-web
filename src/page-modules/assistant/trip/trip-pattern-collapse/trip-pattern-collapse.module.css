@@ -31,7 +31,7 @@
 
 .detailsGrid {
   display: grid;
-  grid-template-columns: 3fr 2fr;
+  grid-template-columns: fit-content(66%) 1fr;
   gap: token('spacing.xLarge');
   padding: token('spacing.large') token('spacing.medium')
     token('spacing.medium');
@@ -48,6 +48,7 @@
   flex-direction: column;
   justify-content: space-between;
   gap: token('spacing.medium');
+  padding: token('spacing.medium');
 }
 
 .goToDetailsButton {
