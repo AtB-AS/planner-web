@@ -4,6 +4,10 @@
   gap: token('spacing.medium');
 }
 
+.container__expanded {
+  height: 100%;
+}
+
 .mapContainer {
   height: 20rem;
   width: 100%;
@@ -11,7 +15,10 @@
 }
 
 .mapContainer__expanded {
-  height: 37.5rem;
+  height: auto;
+  flex: 1 1 auto;
+  min-height: 20rem;
+  max-height: 50rem;
 }
 
 .summaryCard {

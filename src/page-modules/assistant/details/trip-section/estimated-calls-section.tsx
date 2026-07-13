@@ -37,7 +37,7 @@ export function EstimatedCallsSection({
             ),
           )}
           mode="interactive_2"
-          size="small"
+          size="pill"
           radiusSize="circular"
           display="inline"
           className={style.intermediateToggle}

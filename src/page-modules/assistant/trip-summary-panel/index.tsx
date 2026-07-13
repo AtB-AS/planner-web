@@ -37,7 +37,12 @@ export function TripSummaryPanel(props: Props) {
   );
 
   return (
-    <div className={style.container}>
+    <div
+      className={and(
+        style.container,
+        variant === 'expanded' && style.container__expanded,
+      )}
+    >
       {variant === 'compact' ? (
         <Link
           href={props.detailsHref}
