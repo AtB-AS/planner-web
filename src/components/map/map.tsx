@@ -67,6 +67,13 @@ export default function Map({
     return () => map.current?.remove();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+  useEffect(() => {
+    if (!mapContainer.current) return;
+    const resizeObserver = new ResizeObserver(() => map.current?.resize());
+    resizeObserver.observe(mapContainer.current);
+    return () => resizeObserver.disconnect();
+  }, []);
+
   const { centerMap } = useMapInteractions(map, onSelectStopPlace);
   useMapPin(map, position, layer);
   useMapLegs(map, mapLegs);
