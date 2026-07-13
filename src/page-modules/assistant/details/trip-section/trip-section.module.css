@@ -45,11 +45,13 @@
   border: token('border.width.medium') solid
     token('color.foreground.emphasis.interactive');
 }
-.intermediateToggle.intermediateToggle {
-  color: token('color.foreground.emphasis.interactive');
-}
+.intermediateToggle.intermediateToggle,
 .intermediateToggle.intermediateToggle:hover,
 .intermediateToggle.intermediateToggle:active {
+  background-color: transparent;
+}
+.intermediateToggle:hover,
+.intermediateToggle:active {
   color: token('color.foreground.emphasis.interactive');
 }
 .intermediateToggle:active {
