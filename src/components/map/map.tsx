@@ -68,7 +68,7 @@ export default function Map({
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (!mapContainer.current) return;
+    if (!mapContainer.current || typeof ResizeObserver === 'undefined') return;
     const resizeObserver = new ResizeObserver(() => map.current?.resize());
     resizeObserver.observe(mapContainer.current);
     return () => resizeObserver.disconnect();
