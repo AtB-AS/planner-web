@@ -10,6 +10,9 @@ vi.stubEnv(
   'NEXT_PUBLIC_MAPBOX_STOP_PLACES_STYLE_URL',
   'mapbox://styles/name/aaaaaaaaaaaaaaaaaaaaaaaaaa',
 );
+vi.stubEnv('NEXT_PUBLIC_MAPBOX_USER_NAME', 'test-user');
+vi.stubEnv('NEXT_PUBLIC_MAPBOX_NSR_TILESET_ID', 'test-user.aaaaaaaa');
+vi.stubEnv('NEXT_PUBLIC_MAPBOX_NSR_SOURCE_LAYER_ID', 'test-layer');
 vi.stubEnv('NEXT_PUBLIC_MAPBOX_DEFAULT_LAT', '62.4722');
 vi.stubEnv('NEXT_PUBLIC_MAPBOX_DEFAULT_LNG', '6.1495');
 

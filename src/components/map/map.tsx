@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useCallback } from 'react';
-import mapboxgl from 'mapbox-gl';
+import mapboxgl, { type StyleSpecification } from 'mapbox-gl';
 import style from './map.module.css';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { mapboxData } from '@atb/modules/org-data';
@@ -21,8 +21,12 @@ import { useMapLegs } from './use-map-legs';
 import { and } from '@atb/utils/css';
 import { MapLegType, PositionType } from './types';
 import { useMapFareZones } from './use-map-fare-zones';
+import { useMapboxJsonStyle } from './use-mapbox-json-style';
+import { useNationalStopRegistryLayers } from './national-stop-registry';
+import { useDarkMode } from '@atb/modules/theme';
 import useMediaQuery from '@atb/utils/user-media-query';
 import { logSpecificEvent } from '@atb/modules/firebase';
+import MapLoading from './map-loading';
 
 export type MapProps = {
   layer?: string;
@@ -33,7 +37,29 @@ export type MapProps = {
   | {}
 );
 
-export default function Map({ layer, onSelectStopPlace, ...props }: MapProps) {
+export default function Map(props: MapProps) {
+  // Style depends on an async Firestore fetch. Wait until it's ready so that
+  // the inner component can initialize the map synchronously — otherwise the
+  // layer-installing hooks (fare zones, legs, NSR) would run once with
+  // mapRef.current undefined and never re-run.
+  const mapboxJsonStyle = useMapboxJsonStyle();
+  const [isDarkMode] = useDarkMode();
+  if (!mapboxJsonStyle) return <MapLoading />;
+  return (
+    <MapWithStyle
+      key={isDarkMode ? 'dark' : 'light'} // For remounting on theme toogle
+      mapboxJsonStyle={mapboxJsonStyle}
+      {...props}
+    />
+  );
+}
+
+function MapWithStyle({
+  mapboxJsonStyle,
+  layer,
+  onSelectStopPlace,
+  ...props
+}: MapProps & { mapboxJsonStyle: StyleSpecification }) {
   const mapWrapper = useRef<HTMLDivElement>(null);
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | undefined>(undefined);
@@ -54,12 +80,12 @@ export default function Map({ layer, onSelectStopPlace, ...props }: MapProps) {
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       accessToken: mapboxData.accessToken,
-      style: mapboxData.style,
+      style: mapboxJsonStyle,
       center: position,
       zoom: initialZoom,
       bounds, // If bounds is specified, it overrides center and zoom constructor options.
     });
-  }, [position, initialZoom, bounds]);
+  }, [position, initialZoom, bounds, mapboxJsonStyle]);
 
   useEffect(() => {
     if (isMobileDevice) return;
@@ -76,6 +102,7 @@ export default function Map({ layer, onSelectStopPlace, ...props }: MapProps) {
   useMapPin(map, position, layer);
   useMapLegs(map, mapLegs);
   useMapFareZones(map);
+  useNationalStopRegistryLayers(map);
 
   useEffect(() => {
     if (!isMobileDevice) {

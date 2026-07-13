@@ -14,6 +14,9 @@ importers:
       '@atb-as/config-specs':
         specifier: 11.1.0
         version: 11.1.0(zod@4.1.11)
+      '@atb-as/mapbox-shared':
+        specifier: ^1.0.4
+        version: 1.0.4(@atb-as/theme@15.2.0)
       '@atb-as/theme':
         specifier: ^15.2.0
         version: 15.2.0
@@ -341,6 +344,11 @@ packages:
   '@atb-as/generate-assets@18.16.0':
     resolution: {integrity: sha512-0+IqmDI2Ya8PYHyV2fl04BhkjQ4Bq5dUY0g6xLDnVx9rpubeYqO8Rl1Ebfl0+btgyQIujmc2GbDEJ/0lHzovmA==}
     hasBin: true
+
+  '@atb-as/mapbox-shared@1.0.4':
+    resolution: {integrity: sha512-jrH5TteMl/nvmBxJ2ik1D2H/Q5YI4KqinzF9gmJfGqcugBSGU9r2IJZ6imoSwDz9tMhj0BbvqanoulRUZ2Bk+A==}
+    peerDependencies:
+      '@atb-as/theme': '>=15'
 
   '@atb-as/theme@14.0.1':
     resolution: {integrity: sha512-NYL92rDfXfkc4OAOWZNdhMvlCrqe6RExPbLGICkXHhpFQgEK77pzJNFO85Rj43+DRYeu32nGOBtEjJsIe1rINA==}
@@ -6804,6 +6812,10 @@ snapshots:
       micromatch: 4.0.8
       normalize-path: 3.0.0
       stream-editor: 1.11.0
+
+  '@atb-as/mapbox-shared@1.0.4(@atb-as/theme@15.2.0)':
+    dependencies:
+      '@atb-as/theme': 15.2.0
 
   '@atb-as/theme@14.0.1':
     dependencies:
