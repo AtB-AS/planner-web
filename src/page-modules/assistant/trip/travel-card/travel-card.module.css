@@ -1,0 +1,29 @@
+.container {
+  display: grid;
+  grid-template-areas:
+    'header header'
+    'legs button';
+  grid-template-columns: 1fr auto;
+  padding: token('spacing.medium');
+  row-gap: token('spacing.small');
+}
+
+.seeMoreButton {
+  grid-area: button;
+  padding-right: 0;
+  color: token('color.foreground.emphasis.interactive');
+  flex-shrink: 0;
+  align-self: flex-end;
+}
+.seeMoreButton:hover,
+.seeMoreButton:active {
+  color: token('color.foreground.emphasis.interactive');
+}
+
+.chevron {
+  transition: transform 0.2s ease;
+}
+
+.chevron__rotated {
+  transform: rotate(180deg);
+}

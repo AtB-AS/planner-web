@@ -17,7 +17,7 @@ import { NonTransitTrip } from '../non-transit-pill';
 import { isSameDay } from 'date-fns';
 import { capitalize } from 'lodash';
 import EmptySearchResults from '@atb/components/empty-message';
-import TripPattern from './trip-pattern';
+import TripPatternCollapse from './trip-pattern-collapse';
 import EmptySearch from '@atb/components/loading-empty-results';
 import ScreenReaderOnly from '@atb/components/screen-reader-only';
 import {
@@ -31,6 +31,11 @@ export type TripProps = {
   tripQuery: FromToTripQuery;
   fallback?: TripsType['trip'];
 };
+
+export {
+  isLegFlexibleTransport,
+  getFilteredLegsByWalkOrWaitTime,
+} from './utils.ts';
 
 export default function Trip({ tripQuery, fallback }: TripProps) {
   const { t } = useTranslation();
@@ -124,7 +129,7 @@ export default function Trip({ tripQuery, fallback }: TripProps) {
                   departureTime={tripPattern.expectedStartTime}
                   previousDepartureTime={getPreviousDepartureTime(tripIndex, i)}
                 />
-                <TripPattern
+                <TripPatternCollapse
                   tripPattern={tripPattern}
                   delay={i * 0.1}
                   index={i}

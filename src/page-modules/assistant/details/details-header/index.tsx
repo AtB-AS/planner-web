@@ -9,7 +9,7 @@ import { Typo } from '@atb/components/typography';
 
 import style from './details-header.module.css';
 import { ExtendedTripPatternWithDetailsType } from '@atb/page-modules/assistant';
-import { Price } from '../../trip/trip-pattern/price';
+import { Price } from '@atb/page-modules/assistant/trip/price';
 
 export type DetailsHeaderProps = {
   tripPattern: ExtendedTripPatternWithDetailsType;

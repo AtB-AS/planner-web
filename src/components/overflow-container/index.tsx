@@ -4,7 +4,7 @@ import { useOverflowingChildren } from './use-overflowing-children';
 import style from './overflow-container.module.css';
 
 export type OverflowContainerProps = {
-  children: ReactNode[];
+  children: ReactNode;
   overflow: (hiddenCount: number) => ReactNode;
   className?: string;
 };

@@ -4,17 +4,13 @@ import style from './status-text.module.css';
 
 export type StatusType = 'error' | 'info' | 'interactive';
 
-type StatusTextProps = {
+type Props = {
   statusType: StatusType;
   text: string;
   showIcon?: boolean;
 };
 
-export function StatusText({
-  statusType,
-  text,
-  showIcon = false,
-}: StatusTextProps) {
+export function StatusText({ statusType, text, showIcon = false }: Props) {
   return (
     <div className={style.container}>
       {showIcon && (
