@@ -53,7 +53,7 @@ export default function SearchTimeSelector({
         : {
             mode,
             dateTime: new Date(
-              selectedDate.toISOString().slice(0, 10) + 'T' + selectedTime,
+              format(selectedDate, 'yyyy-MM-dd') + 'T' + selectedTime,
             ).getTime(),
           };
     setSelectedMode(newState);
@@ -114,7 +114,7 @@ export default function SearchTimeSelector({
     onChange({
       mode: selectedMode.mode,
       dateTime: new Date(
-        selectedDate.toISOString().slice(0, 10) + 'T' + time,
+        format(selectedDate, 'yyyy-MM-dd') + 'T' + time,
       ).getTime(),
     });
   };
