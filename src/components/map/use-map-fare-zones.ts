@@ -66,13 +66,16 @@ export const useMapFareZones = (
 
   useEffect(() => {
     if (!mapRef.current) return;
+    const map = mapRef.current;
 
-    mapRef.current.on('style.load', () => setIsStyleLoaded(true));
+    const handleStyleLoad = () => setIsStyleLoaded(true);
+    map.on('style.load', handleStyleLoad);
 
     // If the map is already loaded, call the handler manually
-    if (mapRef.current.isStyleLoaded()) setIsStyleLoaded(true);
+    if (map.isStyleLoaded()) setIsStyleLoaded(true);
 
     return () => {
+      map.off('style.load', handleStyleLoad);
       setIsStyleLoaded(false);
     };
   }, [setIsStyleLoaded, mapRef]);
