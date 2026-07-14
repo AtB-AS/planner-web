@@ -8,7 +8,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  left: calc(token('spacing.large') / 2 + var(--labelWidth));
+  left: calc(var(--decorationContainerWidth) / 2 + var(--labelWidth));
   transform: translateX(-50%);
   border-radius: token('border.radius.circle');
 }
