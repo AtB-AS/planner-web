@@ -4,6 +4,7 @@ import { useTranslation, PageText } from '@atb/translations';
 import { formatToClock, formatTripDuration, isInPast } from '@atb/utils/date';
 import { ExtendedTripPatternWithDetailsType } from '@atb/page-modules/assistant';
 import { StatusText } from './status-text';
+import ScreenReaderOnly from '@atb/components/screen-reader-only';
 import { getDayPrefixedStartLabel, getTripFromToNames } from './utils';
 import {
   getStatusConfig,
@@ -100,19 +101,40 @@ export function TravelCardHeader({
                 style.header__timesText__cancelled,
             )}
             testID="expectedTimeRange"
+            aria-hidden="true"
           >
             {`${expectedStartTimeLabel} - ${expectedEndTimeLabel}`}
           </Typo.span>
+          <ScreenReaderOnly
+            text={t(
+              PageText.Assistant.trip.tripPattern.expectedTime.a11yLabel(
+                expectedStartTimeLabel,
+                expectedEndTimeLabel,
+                showAimedTime,
+              ),
+            )}
+          />
         </div>
         {showAimedTime && (
-          <Typo.span
-            textType="body__s"
-            className={style.header__aimedTime}
-            testID="aimedTimeRange"
-          >
-            {t(PageText.Assistant.trip.tripPattern.originalTime)}{' '}
-            {aimedStartTimeLabel} - {aimedEndTimeLabel}
-          </Typo.span>
+          <>
+            <Typo.span
+              textType="body__s"
+              className={style.header__aimedTime}
+              testID="aimedTimeRange"
+              aria-hidden="true"
+            >
+              {t(PageText.Assistant.trip.tripPattern.originalTime)}{' '}
+              {aimedStartTimeLabel} - {aimedEndTimeLabel}
+            </Typo.span>
+            <ScreenReaderOnly
+              text={t(
+                PageText.Assistant.trip.tripPattern.aimedTime.a11yLabel(
+                  aimedStartTimeLabel,
+                  aimedEndTimeLabel,
+                ),
+              )}
+            />
+          </>
         )}
       </div>
       {includeDuration && (

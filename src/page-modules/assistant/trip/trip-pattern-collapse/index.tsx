@@ -70,12 +70,7 @@ export default function TripPatternCollapse({
         transition={{
           delay,
         }}
-        aria-label={`${tripSummary(
-          displayTripPattern,
-          t,
-          language,
-          index + 1,
-        )}. ${isOpen ? t(PageText.Assistant.trip.tripPattern.activateToCollapse) : t(PageText.Assistant.trip.tripPattern.activateToExpand)}`}
+        aria-label={tripSummary(displayTripPattern, t, language, index + 1)}
       >
         <TravelCard
           tripPattern={displayTripPattern}
