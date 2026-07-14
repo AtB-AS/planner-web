@@ -118,8 +118,12 @@ export default function Trip({ tripQuery, fallback }: TripProps) {
           </div>
         )}
 
-        {trips?.map((trip, tripIndex) =>
-          trip.tripPatterns.map(
+        {trips?.map((trip, tripIndex) => {
+          const previousPatternsCount = trips
+            .slice(0, tripIndex)
+            .reduce((total, trip) => total + trip.tripPatterns.length, 0);
+
+          return trip.tripPatterns.map(
             (tripPattern: ExtendedTripPatternWithDetailsType, i) => (
               <div
                 key={`tripPattern-${tripPattern.expectedStartTime}-${i}`}
@@ -132,13 +136,13 @@ export default function Trip({ tripQuery, fallback }: TripProps) {
                 <TripPatternCollapse
                   tripPattern={tripPattern}
                   delay={i * 0.1}
-                  index={i}
+                  index={previousPatternsCount + i}
                   testId={`tripPattern`}
                 />
               </div>
             ),
-          ),
-        )}
+          );
+        })}
       </div>
 
       {tripQuery.via ? (
