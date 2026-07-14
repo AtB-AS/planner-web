@@ -49,7 +49,6 @@ export default function TripPatternCollapse({
   return (
     <div ref={ref} className={style.collapseContainer}>
       <motion.div
-        id={`${id}-details-region`}
         role="button"
         tabIndex={0}
         onClick={() => setIsOpen(!isOpen)}
@@ -60,6 +59,7 @@ export default function TripPatternCollapse({
           }
         }}
         aria-expanded={isOpen}
+        aria-controls={`${id}-details-region`}
         className={style.travelCard}
         data-testid={testId}
         initial={{ opacity: 0, x: -10 }}
@@ -84,6 +84,7 @@ export default function TripPatternCollapse({
       <AnimatePresence>
         {isOpen && (
           <motion.div
+            id={`${id}-details-region`}
             className={style.expanded}
             initial={{ height: 0 }}
             animate={{
