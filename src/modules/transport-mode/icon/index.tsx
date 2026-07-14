@@ -163,7 +163,10 @@ export function TransportNotificationBadge({
 }: TransportNotificationBadgeProps) {
   return (
     <span className={style.transportIconNotification} aria-hidden="true">
-      <ColorIcon icon={messageTypeToColorIcon(notificationType)} size="small" />
+      <ColorIcon
+        icon={messageTypeToColorIcon(notificationType)}
+        size="normal"
+      />
     </span>
   );
 }

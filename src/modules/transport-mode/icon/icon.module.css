@@ -28,7 +28,7 @@
 
 .transportIconNotification {
   margin-left: calc(
-    -1 * (token('border.width.medium') + token('icon.size.small') / 2)
+    -1 * (token('border.width.medium') + token('icon.size.normal') / 2)
   );
   background-color: token('color.background.neutral.0.background');
   border-radius: 50%;
