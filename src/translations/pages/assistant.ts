@@ -99,6 +99,26 @@ const AssistantInternal = {
     ),
     tripPattern: {
       originalTime: _('Opprinnelig', 'Original', 'Opphavleg'),
+      expectedTime: {
+        a11yLabel: (
+          startTime: string,
+          endTime: string,
+          hasAimedTime: boolean,
+        ) =>
+          _(
+            `${hasAimedTime ? 'Ny tid fra' : 'Fra'} ${startTime} til ${endTime}`,
+            `${hasAimedTime ? 'New time from' : 'From'} ${startTime} to ${endTime}`,
+            `${hasAimedTime ? 'Ny tid frå' : 'Frå'} ${startTime} til ${endTime}`,
+          ),
+      },
+      aimedTime: {
+        a11yLabel: (startTime: string, endTime: string) =>
+          _(
+            `Opprinnelig fra ${startTime} til ${endTime}`,
+            `Originally scheduled from ${startTime} to ${endTime}`,
+            `Opphavleg frå ${startTime} til ${endTime}`,
+          ),
+      },
       travelFrom: {
         bus: (place: string) =>
           _(`Buss fra ${place}`, `Bus from ${place}`, `Buss frå ${place}`),
@@ -176,16 +196,6 @@ const AssistantInternal = {
       ),
       seeMore: _('Se mer', 'See more', 'Sjå meir'),
       seeLess: _('Se mindre', 'See less', 'Sjå mindre'),
-      activateToExpand: _(
-        'Trykk for å utvide',
-        'Activate to expand',
-        'Trykk for å utvide',
-      ),
-      activateToCollapse: _(
-        'Trykk for å lukke',
-        'Activate to collapse',
-        'Trykk for å lukke',
-      ),
       hasSituationsTip: _(
         'Denne reisen har driftsmeldinger. Se detaljer for mer info',
         'There are service messages affecting your journey. See details for more info ',

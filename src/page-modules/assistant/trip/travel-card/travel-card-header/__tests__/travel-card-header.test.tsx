@@ -124,4 +124,37 @@ describe('travel card header', function () {
 
     expect(screen.queryByTestId('resultDuration')).not.toBeInTheDocument();
   });
+
+  it('should provide a screen reader label for the time range', async () => {
+    render(<TravelCardHeader tripPattern={tripPatternWithDetailsFixture} />);
+
+    expect(screen.getByTestId('expectedTimeRange')).toHaveAttribute(
+      'aria-hidden',
+      'true',
+    );
+    expect(screen.getByText('Fra 01:00 til 02:00')).toBeInTheDocument();
+  });
+
+  it('should announce new and original times when the trip is delayed', async () => {
+    const delayedTripPattern = {
+      ...tripPatternWithDetailsFixture,
+      legs: [
+        {
+          ...tripPatternWithDetailsFixture.legs[0],
+          aimedStartTime: '2023-01-01T00:45:00+01:00',
+        },
+      ],
+    };
+
+    render(<TravelCardHeader tripPattern={delayedTripPattern} />);
+
+    expect(screen.getByText('Ny tid fra 01:00 til 02:00')).toBeInTheDocument();
+    expect(
+      screen.getByText('Opprinnelig fra 00:45 til 02:00'),
+    ).toBeInTheDocument();
+    expect(screen.getByTestId('aimedTimeRange')).toHaveAttribute(
+      'aria-hidden',
+      'true',
+    );
+  });
 });
