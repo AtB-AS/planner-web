@@ -9,7 +9,6 @@ import {
 import { useTranslation } from '@atb/translations';
 import { isSubModeBoat, transportModeToTranslatedString } from '../utils';
 import { colorToOverrideMode } from '@atb/utils/color';
-import { Typo } from '@atb/components/typography';
 import { secondsToMinutes } from '@atb/utils/date';
 import { messageTypeToColorIcon } from '@atb/modules/situations-and-notices';
 import { and } from '@atb/utils/css';
@@ -135,13 +134,12 @@ export function TransportIconWithDuration({
         </span>
       )}
       {!label && duration && (
-        <Typo.span
-          textType="body__xs"
+        <span
           style={{ color: colors.textColor }}
-          className={style.transportIconWithLabel__duration}
+          className={style.transportIconWithLabel__label}
         >
           {secondsToMinutes(duration)}
-        </Typo.span>
+        </span>
       )}
     </span>
   );

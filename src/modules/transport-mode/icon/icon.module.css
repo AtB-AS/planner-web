@@ -48,9 +48,3 @@
 .transportIconWithLabel__label {
   margin-left: token('spacing.xSmall');
 }
-
-.transportIconWithLabel__duration {
-  align-self: flex-end;
-  transform: translateY(25%);
-  margin-left: -0.125rem;
-}
