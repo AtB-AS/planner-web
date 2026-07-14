@@ -18,10 +18,6 @@ export function AssistantDetails({ tripPatterns }: AssistantDetailsProps) {
   if (!tripPatterns.length) return null;
   const tripPattern = tripPatterns[0];
 
-  const isCancelled = tripPattern.legs.some(
-    (leg) => leg.fromEstimatedCall?.cancellation,
-  );
-
   return (
     <div className={style.container}>
       <div className={style.headerContainer}>
@@ -37,7 +33,6 @@ export function AssistantDetails({ tripPatterns }: AssistantDetailsProps) {
           includeFromToInfo
           includeDayInfo
           includeDuration={false}
-          isCancelled={isCancelled}
         />
       </div>
       <AssistantDetailsBody tripPattern={tripPattern} />

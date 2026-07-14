@@ -80,7 +80,7 @@ export const tripPatternWithDetailsFixture: ExtendedTripPatternWithDetailsType =
         distance: 1,
         duration: 1,
         aimedStartTime: '2023-01-01T01:00:00+01:00',
-        aimedEndTime: '2023-01-01T01:00:00+01:00',
+        aimedEndTime: '2023-01-01T02:00:00+01:00',
         expectedEndTime: '2023-01-01T02:00:00+01:00',
         expectedStartTime: '2023-01-01T01:00:00+01:00',
         realtime: false,

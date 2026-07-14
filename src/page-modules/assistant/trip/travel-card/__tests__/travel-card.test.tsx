@@ -1,6 +1,6 @@
 import { cleanup, render, screen } from '@testing-library/react';
 import mockRouter from 'next-router-mock';
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { createDynamicRouteParser } from 'next-router-mock/dynamic-routes';
 import { tripPatternFixture } from './trip-pattern.fixture.ts';
 import {
@@ -16,8 +16,16 @@ import {
 import { formatToClock } from '@atb/utils/date';
 import { tripPatternWithDetailsFixture } from './trip-pattern.fixture.ts';
 import { tripSummary } from '../../utils.ts';
+import { ExtendedTripPatternWithDetailsType } from '@atb/page-modules/assistant';
+import { PurchaseWhen } from '@atb/modules/graphql-types/journeyplanner-types_v3.generated.ts';
+
+beforeEach(function () {
+  vi.useFakeTimers({ toFake: ['Date'] });
+  vi.setSystemTime(new Date('2022-12-31T12:00:00+01:00'));
+});
 
 afterEach(function () {
+  vi.useRealTimers();
   cleanup();
 });
 
@@ -46,32 +54,31 @@ const customRender = (
   );
 };
 
+const renderSummary = (
+  tripPattern: ExtendedTripPatternWithDetailsType,
+  listPosition: number = 1,
+  providerProps?: AppCookiesProviderProps,
+) => {
+  const Test = function () {
+    const { t, language } = useTranslation();
+
+    const summary = tripSummary(tripPattern, t, language, listPosition);
+    return (
+      <div data-testid="test-id" aria-label={summary}>
+        {summary}
+      </div>
+    );
+  };
+
+  customRender(<Test />, providerProps ? { providerProps } : {});
+
+  return screen.getByTestId('test-id').getAttribute('aria-label');
+};
+
 describe('trip pattern', function () {
   describe('trip summary', function () {
     it('should create correct summary', () => {
-      const Test = function () {
-        const { t, language } = useTranslation();
-
-        const summary = tripSummary(
-          tripPatternWithDetailsFixture,
-          t,
-          language,
-          false,
-          1,
-          false,
-        );
-        return (
-          <div data-testid="test-id" aria-label={summary}>
-            {summary}
-          </div>
-        );
-      };
-
-      customRender(<Test />, {});
-
-      const ariaLabel = screen
-        .getByTestId('test-id')
-        .getAttribute('aria-label');
+      const ariaLabel = renderSummary(tripPatternWithDetailsFixture);
 
       const startTime = formatToClock(
         tripPatternFixture.expectedStartTime,
@@ -90,36 +97,12 @@ describe('trip pattern', function () {
     });
 
     it('should create summary in English', () => {
-      const Test = function () {
-        const { t, language } = useTranslation();
-
-        const summary = tripSummary(
-          tripPatternWithDetailsFixture,
-          t,
-          language,
-          false,
-          1,
-          false,
-        );
-        return (
-          <div data-testid="test-id" aria-label={summary}>
-            {summary}
-          </div>
-        );
-      };
-
-      customRender(<Test />, {
-        providerProps: {
-          initialCookies: {
-            darkmode: false,
-            language: 'en-US',
-          },
+      const ariaLabel = renderSummary(tripPatternWithDetailsFixture, 1, {
+        initialCookies: {
+          darkmode: false,
+          language: 'en-US',
         },
       });
-
-      const ariaLabel = screen
-        .getByTestId('test-id')
-        .getAttribute('aria-label');
 
       const startTime = formatToClock(
         tripPatternFixture.expectedStartTime,
@@ -138,36 +121,12 @@ describe('trip pattern', function () {
     });
 
     it('should create summary in nynorsk', () => {
-      const Test = function () {
-        const { t, language } = useTranslation();
-
-        const summary = tripSummary(
-          tripPatternWithDetailsFixture,
-          t,
-          language,
-          false,
-          1,
-          false,
-        );
-        return (
-          <div data-testid="test-id" aria-label={summary}>
-            {summary}
-          </div>
-        );
-      };
-
-      customRender(<Test />, {
-        providerProps: {
-          initialCookies: {
-            darkmode: false,
-            language: 'nn',
-          },
+      const ariaLabel = renderSummary(tripPatternWithDetailsFixture, 1, {
+        initialCookies: {
+          darkmode: false,
+          language: 'nn',
         },
       });
-
-      const ariaLabel = screen
-        .getByTestId('test-id')
-        .getAttribute('aria-label');
 
       const startTime = formatToClock(
         tripPatternFixture.expectedStartTime,
@@ -185,94 +144,126 @@ describe('trip pattern', function () {
       expect(ariaLabel).toBe(expected);
     });
 
-    it('should create summary with trip in the past', () => {
-      const Test = function () {
-        const { t, language } = useTranslation();
+    it('should create summary with information about started trip', () => {
+      vi.setSystemTime(new Date('2023-01-01T01:30:00+01:00'));
 
-        const summary = tripSummary(
-          tripPatternWithDetailsFixture,
-          t,
-          language,
-          true,
-          1,
-          false,
-        );
-        return (
-          <div data-testid="test-id" aria-label={summary}>
-            {summary}
-          </div>
-        );
-      };
+      const ariaLabel = renderSummary(tripPatternWithDetailsFixture);
 
-      customRender(<Test />, {});
+      expect(ariaLabel).toContain('Reisen har startet');
+    });
 
-      const ariaLabel = screen
-        .getByTestId('test-id')
-        .getAttribute('aria-label');
+    it('should create summary with information about ended trip', () => {
+      vi.setSystemTime(new Date('2023-01-02T12:00:00+01:00'));
 
-      const expected = 'Passert reise';
+      const ariaLabel = renderSummary(tripPatternWithDetailsFixture);
 
-      expect(ariaLabel).toContain(expected);
+      expect(ariaLabel).toContain('Reisen er ferdig');
     });
 
     it('should create summary with correct result number', () => {
-      const Test = function () {
-        const { t, language } = useTranslation();
+      const ariaLabel = renderSummary(tripPatternWithDetailsFixture, 5);
 
-        const summary = tripSummary(
-          tripPatternWithDetailsFixture,
-          t,
-          language,
-          true,
-          5,
-          false,
-        );
-        return (
-          <div data-testid="test-id" aria-label={summary}>
-            {summary}
-          </div>
-        );
-      };
-
-      customRender(<Test />, {});
-
-      const ariaLabel = screen
-        .getByTestId('test-id')
-        .getAttribute('aria-label');
-
-      const expected = 'Reiseresultat 5';
-
-      expect(ariaLabel).toContain(expected);
+      expect(ariaLabel).toContain('Reiseresultat 5');
     });
 
     it('should create summary with information about cancelled trip', () => {
-      const Test = function () {
-        const { t, language } = useTranslation();
-
-        const summary = tripSummary(
-          tripPatternWithDetailsFixture,
-          t,
-          language,
-          true,
-          5,
-          true,
-        );
-        return (
-          <div data-testid="test-id" aria-label={summary}>
-            {summary}
-          </div>
-        );
+      const cancelledTripPattern = {
+        ...tripPatternWithDetailsFixture,
+        legs: [
+          {
+            ...tripPatternWithDetailsFixture.legs[0],
+            fromEstimatedCall: {
+              notices: [],
+              cancellation: true,
+            },
+          },
+        ],
       };
 
-      customRender(<Test />, {});
+      const ariaLabel = renderSummary(cancelledTripPattern);
 
-      const ariaLabel = screen
-        .getByTestId('test-id')
-        .getAttribute('aria-label');
+      expect(ariaLabel).toContain('Denne reisen er innstilt');
+    });
 
-      const expected = 'Denne reisen er innstilt';
+    it('should create summary with information about impossible trip', () => {
+      const ariaLabel = renderSummary({
+        ...tripPatternWithDetailsFixture,
+        status: 'impossible',
+      });
 
-      expect(ariaLabel).toContain(expected);
+      expect(ariaLabel).toContain('Ikke mulig');
+    });
+
+    it('should create summary with information about stale trip', () => {
+      const ariaLabel = renderSummary({
+        ...tripPatternWithDetailsFixture,
+        status: 'stale',
+      });
+
+      expect(ariaLabel).toContain('Resultatene kan være utdaterte');
+    });
+
+    it('should create summary with information about required booking', () => {
+      const bookingTripPattern = {
+        ...tripPatternWithDetailsFixture,
+        legs: [
+          {
+            ...tripPatternWithDetailsFixture.legs[0],
+            bookingArrangements: {},
+          },
+        ],
+      };
+
+      const ariaLabel = renderSummary(bookingTripPattern);
+
+      expect(ariaLabel).toContain('Krever bestilling');
+    });
+
+    it('should create summary with information about exceeded booking deadline', () => {
+      const bookingTripPattern = {
+        ...tripPatternWithDetailsFixture,
+        legs: [
+          {
+            ...tripPatternWithDetailsFixture.legs[0],
+            bookingArrangements: {
+              bookWhen: PurchaseWhen.UntilPreviousDay,
+              latestBookingTime: '10:00:00',
+            },
+          },
+        ],
+      };
+
+      const ariaLabel = renderSummary(bookingTripPattern);
+
+      expect(ariaLabel).toContain('Bestillingsfristen er passert');
+    });
+
+    it('should create summary with original times when expected times differ', () => {
+      const delayedTripPattern = {
+        ...tripPatternWithDetailsFixture,
+        legs: [
+          {
+            ...tripPatternWithDetailsFixture.legs[0],
+            aimedStartTime: '2023-01-01T00:45:00+01:00',
+          },
+        ],
+      };
+
+      const ariaLabel = renderSummary(delayedTripPattern);
+
+      const aimedStartTime = formatToClock(
+        '2023-01-01T00:45:00+01:00',
+        Language.Norwegian,
+      );
+      expect(ariaLabel).toContain(
+        `Opprinnelig start klokken ${aimedStartTime}`,
+      );
+    });
+
+    it('should not include original times when they match expected times', () => {
+      const ariaLabel = renderSummary(tripPatternWithDetailsFixture);
+
+      expect(ariaLabel).not.toContain('Opprinnelig');
     });
   });
 });

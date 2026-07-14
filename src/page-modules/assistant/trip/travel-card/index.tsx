@@ -20,13 +20,9 @@ export default function TravelCard({
 }: TravelCardProps) {
   const { t } = useTranslation();
 
-  const isCancelled = tripPattern.legs.some(
-    (leg) => leg.fromEstimatedCall?.cancellation,
-  );
-
   return (
     <div className={style.container}>
-      <TravelCardHeader tripPattern={tripPattern} isCancelled={isCancelled} />
+      <TravelCardHeader tripPattern={tripPattern} />
 
       <TravelCardLegs tripPattern={tripPattern} />
       <Button

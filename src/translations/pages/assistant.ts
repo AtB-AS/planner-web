@@ -243,7 +243,6 @@ const AssistantInternal = {
       unknown: _('Ukjent', 'Unknown', 'Ukjent'),
     },
     tripSummary: {
-      passedTrip: _('Passert reise, ', 'Passed trip, ', 'Passert reise, '),
       header: {
         title: (mode: string, placeName: string) =>
           _(
@@ -389,6 +388,12 @@ const AssistantInternal = {
             }.`,
           );
         },
+        originalTripTimes: (startTime: string, endTime: string) =>
+          _(
+            `Opprinnelig start klokken ${startTime}, ankomst klokken ${endTime}.`,
+            `Originally scheduled to start at ${startTime}, arrive at ${endTime}.`,
+            `Opphavleg start klokka ${startTime}, framkomst klokka ${endTime}.`,
+          ),
         realtime: (
           fromPlace: string,
           realtimeDepartureTime: string,

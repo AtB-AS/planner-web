@@ -3,7 +3,6 @@ import { useId, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { PageText, useTranslation } from '@atb/translations';
 import style from './trip-pattern-collapse.module.css';
-import { isInPast } from '@atb/utils/date';
 import { MonoIcon } from '@atb/components/icon';
 import { useRouter } from 'next/router';
 import { ExtendedTripPatternWithDetailsType } from '@atb/page-modules/assistant';
@@ -39,14 +38,8 @@ export default function TripPatternCollapse({
 
   const { ref, inView } = useInView({ rootMargin: '100px' });
 
-  const tripIsInPast = isInPast(tripPattern.legs[0].expectedStartTime);
-
   const { refreshedTripPattern } = useRefreshedTripPattern(tripPattern, inView);
   const displayTripPattern = refreshedTripPattern ?? tripPattern;
-
-  const isCancelled = displayTripPattern.legs.some(
-    (leg) => leg.fromEstimatedCall?.cancellation,
-  );
 
   const filter = Array.isArray(router.query.filter)
     ? router.query.filter.join(',')
@@ -79,9 +72,7 @@ export default function TripPatternCollapse({
           displayTripPattern,
           t,
           language,
-          tripIsInPast,
           index + 1,
-          isCancelled,
         )}. ${isOpen ? t(PageText.Assistant.trip.tripPattern.activateToCollapse) : t(PageText.Assistant.trip.tripPattern.activateToExpand)}`}
       >
         <TravelCard
