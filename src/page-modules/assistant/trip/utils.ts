@@ -9,8 +9,11 @@ import {
 import {
   formatToClock,
   formatTripDuration,
+  isInPast,
   secondsBetween,
 } from '@atb/utils/date.ts';
+import { getBookingStatus } from '@atb/modules/flexible';
+import { StatusType } from './travel-card/travel-card-header/status-text';
 import { Language, TranslateFunction } from '@atb/translations';
 import { Assistant } from '@atb/translations/pages';
 import { getTimeRepresentationType } from '@atb/modules/time-representation';
@@ -24,9 +27,7 @@ export const tripSummary = (
   tripPattern: ExtendedTripPatternWithDetailsType,
   t: TranslateFunction,
   language: Language,
-  isInPast: boolean,
   listPosition: number,
-  isCancelled: boolean,
 ) => {
   const humanizedDistance = humanizeDistance(tripPattern.legs[0].distance, t);
 
@@ -73,10 +74,6 @@ export const tripSummary = (
       listPosition,
     ),
   );
-  const passedTripText = isInPast
-    ? t(PageText.Assistant.trip.tripSummary.passedTrip)
-    : undefined;
-
   const modeAndNumberText = firstLeg
     ? t(transportModeToTranslatedString(firstLeg.mode)) +
       (firstLeg.line?.publicCode
@@ -171,25 +168,134 @@ export const tripSummary = (
         )
       : undefined;
 
-  const isCancelledText = isCancelled
-    ? t(PageText.Assistant.trip.tripPattern.isCancelled.label)
+  const status = getTripPatternStatus(tripPattern);
+  const statusConfig = getStatusConfig(status, t);
+  const statusText =
+    status === 'cancelled'
+      ? t(PageText.Assistant.trip.tripPattern.isCancelled.label)
+      : status === 'requiresBooking' && bookingsRequiredCount > 0
+        ? undefined
+        : statusConfig?.text;
+
+  const { aimedStartTime, aimedEndTime } =
+    getTripPatternAimedTimes(tripPattern);
+  const originalTimesText = shouldShowAimedTime(tripPattern)
+    ? t(
+        PageText.Assistant.trip.tripSummary.journeySummary.originalTripTimes(
+          formatToClock(aimedStartTime, language, 'floor'),
+          formatToClock(aimedEndTime, language, 'ceil'),
+        ),
+      )
     : undefined;
 
   const texts = [
     resultNumberText,
-    isCancelledText,
+    statusText,
     requiresBookingText,
-    passedTripText,
     startText,
     modeAndNumberText,
     realTimeText,
     numberOfFootLegsText,
     walkDistanceText,
     travelTimesText,
+    originalTimesText,
   ].filter((text) => text !== undefined);
 
   return texts.join(screenReaderPause);
 };
+
+export type TripPatternStatusType =
+  | 'cancelled'
+  | 'impossible'
+  | 'ended'
+  | 'started'
+  | 'bookingDeadlineExceeded'
+  | 'requiresBooking'
+  | 'stale';
+
+export type StatusConfig = {
+  statusType: StatusType;
+  text: string;
+};
+
+export function getTripPatternStatus(
+  tripPattern: ExtendedTripPatternWithDetailsType,
+): TripPatternStatusType | undefined {
+  if (tripPattern.legs.some((leg) => leg.fromEstimatedCall?.cancellation))
+    return 'cancelled';
+  if (tripPattern.status === 'impossible') return 'impossible';
+  if (isInPast(tripPattern.expectedEndTime)) return 'ended';
+  if (isInPast(tripPattern.expectedStartTime)) return 'started';
+
+  const bookingLegs = tripPattern.legs.filter((leg) => leg.bookingArrangements);
+  if (bookingLegs.length > 0) {
+    const anyDeadlineExceeded = bookingLegs.some(
+      (leg) =>
+        getBookingStatus(leg.bookingArrangements!, leg.aimedStartTime) ===
+        'late',
+    );
+    return anyDeadlineExceeded ? 'bookingDeadlineExceeded' : 'requiresBooking';
+  }
+
+  if (tripPattern.status === 'stale') return 'stale';
+  return undefined;
+}
+
+export function getStatusConfig(
+  status: TripPatternStatusType | undefined,
+  t: TranslateFunction,
+): StatusConfig | undefined {
+  const statusTexts = PageText.Assistant.trip.tripPattern.statusText;
+  switch (status) {
+    case 'cancelled':
+      return { statusType: 'error', text: t(statusTexts.cancelled) };
+    case 'impossible':
+      return { statusType: 'error', text: t(statusTexts.impossible) };
+    case 'ended':
+      return { statusType: 'error', text: t(statusTexts.ended) };
+    case 'started':
+      return { statusType: 'info', text: t(statusTexts.started) };
+    case 'bookingDeadlineExceeded':
+      return {
+        statusType: 'interactive',
+        text: t(statusTexts.bookingDeadlineExceeded),
+      };
+    case 'requiresBooking':
+      return { statusType: 'info', text: t(statusTexts.requiresBooking) };
+    case 'stale':
+      return { statusType: 'info', text: t(statusTexts.stale) };
+    default:
+      return undefined;
+  }
+}
+
+const DEFAULT_THRESHOLD_AIMED_EXPECTED_IN_SECONDS = 60;
+
+export function getTripPatternAimedTimes(
+  tripPattern: ExtendedTripPatternWithDetailsType,
+) {
+  return {
+    aimedStartTime:
+      tripPattern.aimedStartTime ?? tripPattern.legs[0]?.aimedStartTime,
+    aimedEndTime:
+      tripPattern.aimedEndTime ??
+      tripPattern.legs[tripPattern.legs.length - 1]?.aimedEndTime,
+  };
+}
+
+export function shouldShowAimedTime(
+  tripPattern: ExtendedTripPatternWithDetailsType,
+): boolean {
+  const { aimedStartTime, aimedEndTime } =
+    getTripPatternAimedTimes(tripPattern);
+  const startTimeDiffers =
+    Math.abs(secondsBetween(aimedStartTime, tripPattern.expectedStartTime)) >
+    DEFAULT_THRESHOLD_AIMED_EXPECTED_IN_SECONDS;
+  const endTimeDiffers =
+    Math.abs(secondsBetween(aimedEndTime, tripPattern.expectedEndTime)) >
+    DEFAULT_THRESHOLD_AIMED_EXPECTED_IN_SECONDS;
+  return startTimeDiffers || endTimeDiffers;
+}
 
 export function isLegFlexibleTransport(leg: LegWithDetailsFragment): boolean {
   return !!leg.line?.flexibleLineType;
