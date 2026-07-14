@@ -1,22 +1,30 @@
 import { MessageBox } from '@atb/components/message-box';
 import { getTextForLanguage, useTranslation } from '@atb/translations';
 import { and } from '@atb/utils/css';
-import { useActiveGlobalMessages } from './context';
+import { useGlobalMessageContext } from './context';
 import { GlobalMessageContextEnum } from './types';
 import style from './global-messages.module.css';
 import { motion } from 'framer-motion';
+import { RuleVariables } from '@atb-as/utils';
 
 export type GlobalMessagesProps = {
   context: GlobalMessageContextEnum;
+  ruleVariables?: RuleVariables;
   className?: string;
 };
 
-export function GlobalMessages({ context, className }: GlobalMessagesProps) {
+export function GlobalMessages({
+  context,
+  ruleVariables,
+  className,
+}: GlobalMessagesProps) {
   const { language } = useTranslation();
-  const { activeGlobalMessages, dismissGlobalMessage } =
-    useActiveGlobalMessages();
+  const { findGlobalMessages, dismissGlobalMessage } =
+    useGlobalMessageContext();
 
-  if (!activeGlobalMessages.length) return null;
+  const globalMessages = findGlobalMessages(context, ruleVariables ?? {});
+
+  if (!globalMessages.length) return null;
 
   return (
     <motion.div
@@ -33,7 +41,7 @@ export function GlobalMessages({ context, className }: GlobalMessagesProps) {
       animate="show"
       className={and(style.container, className)}
     >
-      {activeGlobalMessages
+      {globalMessages
         .filter((message) => message.context.includes(context))
         .map((message) => {
           const link = getTextForLanguage(message.link, language);

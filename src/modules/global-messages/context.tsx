@@ -7,7 +7,7 @@ import {
   useState,
 } from 'react';
 import { GlobalMessageContextEnum } from './types';
-import { GlobalMessageType } from '@atb-as/utils';
+import { checkRules, GlobalMessageType, RuleVariables } from '@atb-as/utils';
 import app from '@atb/modules/firebase/firebase';
 import {
   collection,
@@ -21,6 +21,10 @@ import useLocalStorage from '@atb/utils/use-localstorage.ts';
 import { useNow } from '@atb/utils/use-now.ts';
 
 type GlobalMessagesState = {
+  findGlobalMessages: (
+    context: GlobalMessageContextEnum,
+    ruleVariables: RuleVariables,
+  ) => GlobalMessageType[];
   activeGlobalMessages: GlobalMessageType[];
   dismissGlobalMessage: (message: GlobalMessageType) => void;
 };
@@ -101,9 +105,26 @@ export function GlobalMessageContextProvider({
     [allGlobalMessages, setDismissedGlobalMessages, dismissedGlobalMessages],
   );
 
+  const findGlobalMessages = useCallback(
+    (context: GlobalMessageContextEnum, ruleVariables: RuleVariables = {}) => {
+      return activeGlobalMessages.filter((gm) => {
+        const withSameContext = gm.context.find((c) => c === context);
+        if (!withSameContext) return false;
+        if (gm.rules?.length) {
+          const passRules = checkRules(gm.rules, ruleVariables);
+          if (!passRules) return false;
+        }
+
+        return true;
+      });
+    },
+    [activeGlobalMessages],
+  );
+
   return (
     <GlobalMessageContext.Provider
       value={{
+        findGlobalMessages,
         activeGlobalMessages,
         dismissGlobalMessage,
       }}
@@ -156,11 +177,11 @@ const isMessageActiveAtTimestamp = (
   );
 };
 
-export function useActiveGlobalMessages(): GlobalMessagesState {
+export function useGlobalMessageContext(): GlobalMessagesState {
   const context = useContext(GlobalMessageContext);
   if (context === undefined) {
     throw new Error(
-      'useActiveGlobalMessages must be used within a GlobalMessageContextProvider',
+      'useGlobalMessageContext must be used within a GlobalMessageContextProvider',
     );
   }
   return context;
