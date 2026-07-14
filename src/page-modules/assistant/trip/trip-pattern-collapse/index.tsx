@@ -1,4 +1,4 @@
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { useId, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { PageText, useTranslation } from '@atb/translations';
@@ -35,6 +35,8 @@ export default function TripPatternCollapse({
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
   const id = useId();
+  const shouldReduceMotion = useReducedMotion();
+  const animationDuration = shouldReduceMotion ? 0 : ANIMATION_DURATION;
 
   const { ref, inView } = useInView({ rootMargin: '100px' });
 
@@ -62,9 +64,9 @@ export default function TripPatternCollapse({
         aria-controls={`${id}-details-region`}
         className={style.travelCard}
         data-testid={testId}
-        initial={{ opacity: 0, x: -10 }}
+        initial={{ opacity: 0, x: shouldReduceMotion ? 0 : -10 }}
         animate={{ opacity: 1, x: 0 }}
-        exit={{ opacity: 0, x: -10 }}
+        exit={{ opacity: 0, x: shouldReduceMotion ? 0 : -10 }}
         transition={{
           delay,
         }}
@@ -89,9 +91,9 @@ export default function TripPatternCollapse({
             initial={{ height: 0 }}
             animate={{
               height: 'auto',
-              transition: { duration: ANIMATION_DURATION },
+              transition: { duration: animationDuration },
             }}
-            exit={{ height: 0, transition: { duration: ANIMATION_DURATION } }}
+            exit={{ height: 0, transition: { duration: animationDuration } }}
           >
             <div className={style.detailsGrid}>
               <div className={style.accordionBody}>
