@@ -71,6 +71,10 @@ export function StopPlace({ departures, fromQuery }: StopPlaceProps) {
   const router = useRouter();
   const { searchTime } = fromQuery;
 
+  const selectedQuayId = Array.isArray(router.query.quay)
+    ? router.query.quay[0]
+    : router.query.quay;
+
   const navigateSearchTime = (newSearchTime: SearchTime) => {
     const { searchMode: _, searchTime: __, ...rest } = router.query;
     router.push(
@@ -130,6 +134,7 @@ export function StopPlace({ departures, fromQuery }: StopPlaceProps) {
           <EstimatedCallList
             key={`${quay.id}-${searchTimeKey(searchTime)}`}
             quay={quay}
+            defaultCollapsed={!!selectedQuayId && quay.id !== selectedQuayId}
           />
         ))}
       </div>
@@ -146,11 +151,15 @@ export function StopPlace({ departures, fromQuery }: StopPlaceProps) {
 
 type EstimatedCallListProps = {
   quay: ExtendedDepartureQuayType;
+  defaultCollapsed?: boolean;
 };
 
-export function EstimatedCallList({ quay }: EstimatedCallListProps) {
+export function EstimatedCallList({
+  quay,
+  defaultCollapsed = false,
+}: EstimatedCallListProps) {
   const { t } = useTranslation();
-  const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
+  const [isCollapsed, setIsCollapsed] = useState<boolean>(defaultCollapsed);
   const [departures, setDepartures] = useState<ExtendedDepartureType[]>(
     quay.estimatedCalls,
   );
