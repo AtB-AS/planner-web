@@ -22,6 +22,9 @@ import { screenReaderPause } from '@atb/components/typography';
 import { PageText } from '@atb/translations';
 import { transportModeToTranslatedString } from '@atb/modules/transport-mode';
 import dictionary from '@atb/translations/dictionary.ts';
+import { Leg } from '@atb/modules/graphql-types';
+import { isDefined } from '@atb/utils/presence';
+import { onlyUniques } from '@atb/utils/only-uniques';
 
 export const tripSummary = (
   tripPattern: ExtendedTripPatternWithDetailsType,
@@ -368,3 +371,18 @@ function getTripPatternBookingsRequiredCount(
 function getLegRequiresBooking(leg: LegWithDetailsFragment): boolean {
   return isLegFlexibleTransport(leg);
 }
+
+/**
+ * Collects a single value from every leg across all trip patterns, dropping
+ * nullish values and de-duplicating the result. Used to derive rule-engine
+ * inputs (transport modes, authorities, etc.) from a set of trip patterns.
+ */
+export const uniqueLegValues = <T>(
+  tripPatterns: { legs: ExtendedLegType[] }[],
+  selector: (leg: ExtendedLegType) => T | undefined | null,
+): NonNullable<T>[] =>
+  tripPatterns
+    .flatMap((tp) => tp.legs)
+    .map(selector)
+    .filter(isDefined)
+    .filter(onlyUniques);

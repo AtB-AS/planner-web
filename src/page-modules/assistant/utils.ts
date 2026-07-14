@@ -6,6 +6,7 @@ import { filterNotices } from '@atb/modules/situations-and-notices';
 import { LegWithDetailsFragment } from './journey-gql/trip-with-details.generated';
 import { MEDIUM_WALK_SPEED } from './walk-speed-input';
 import { defaultTransferSlack } from './transfer-slack-input';
+import { Mode } from '@atb/modules/graphql-types';
 
 function featuresToFromToQuery(
   from: GeocoderFeature | null,
@@ -142,3 +143,21 @@ export const getNoticesForLeg = (leg: LegWithDetailsFragment) =>
     ...(leg.fromEstimatedCall?.notices || []),
     ...(leg.toEstimatedCall?.notices || []),
   ]);
+
+export function withinZoneIds(legs: LegWithDetailsFragment[]): string[] {
+  const allZoneIds = new Set<string>();
+  legs.forEach((leg) => {
+    leg.fromPlace.quay?.tariffZones?.forEach((zone) => allZoneIds.add(zone.id));
+    leg.toPlace.quay?.tariffZones?.forEach((zone) => allZoneIds.add(zone.id));
+  });
+  const containingZones = Array.from(allZoneIds).filter((zoneId) =>
+    legs
+      .filter((a) => a.mode !== Mode.Foot)
+      .every(
+        (leg) =>
+          leg.fromPlace.quay?.tariffZones?.some((zone) => zone.id === zoneId) &&
+          leg.toPlace.quay?.tariffZones?.some((zone) => zone.id === zoneId),
+      ),
+  );
+  return containingZones;
+}

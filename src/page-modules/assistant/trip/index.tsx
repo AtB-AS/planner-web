@@ -26,6 +26,7 @@ import {
 } from '@atb/modules/global-messages';
 import dictionary from '@atb/translations/dictionary.ts';
 import { useTheme } from '@atb/modules/theme';
+import { uniqueLegValues } from './utils.ts';
 
 export type TripProps = {
   tripQuery: FromToTripQuery;
@@ -45,6 +46,7 @@ export default function Trip({ tripQuery, fallback }: TripProps) {
   const { nonTransitTrips } = useNonTransitTrip(tripQuery);
 
   const nonTransits = nonTransitTrips ? Object.entries(nonTransitTrips) : [];
+  const allTripPatterns = trips?.map((trip) => trip.tripPatterns).flat() ?? [];
 
   if (isLoadingFirstTrip) {
     return <EmptySearch isSearching={isLoadingFirstTrip} type="trip" />;
@@ -108,7 +110,24 @@ export default function Trip({ tripQuery, fallback }: TripProps) {
         role="status"
       />
 
-      <GlobalMessages context={GlobalMessageContextEnum.plannerWebTrip} />
+      <GlobalMessages
+        context={GlobalMessageContextEnum.plannerWebTrip}
+        ruleVariables={{
+          transportModes: uniqueLegValues(allTripPatterns, (leg) => leg.mode),
+          transportSubmodes: uniqueLegValues(
+            allTripPatterns,
+            (leg) => leg.transportSubmode,
+          ),
+          authorities: uniqueLegValues(
+            allTripPatterns,
+            (leg) => leg.authority?.id,
+          ),
+          publicCodes: uniqueLegValues(
+            allTripPatterns,
+            (leg) => leg.line?.publicCode,
+          ),
+        }}
+      />
       <div className={style.tripResults}>
         {nonTransitTrips && nonTransits.length > 0 && (
           <div className={style.nonTransitResult}>

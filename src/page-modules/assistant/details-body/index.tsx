@@ -14,6 +14,8 @@ import {
   ExtendedLegType,
   ExtendedTripPatternWithDetailsType,
 } from '@atb/page-modules/assistant';
+import { isDefined } from '@atb/utils/presence';
+import { withinZoneIds } from '../utils';
 
 type DetailsBodyProps = {
   tripPattern: ExtendedTripPatternWithDetailsType;
@@ -35,6 +37,16 @@ export function AssistantDetailsBody({ tripPattern }: DetailsBodyProps) {
       <GlobalMessages
         className={style.tripMessages}
         context={GlobalMessageContextEnum.plannerWebDetails}
+        ruleVariables={{
+          modes: tripPattern.legs.map((l) => l.mode),
+          subModes: tripPattern.legs
+            .map((l) => l.transportSubmode)
+            .filter(isDefined),
+          withinZoneIds: withinZoneIds(tripPattern.legs),
+          publicCodes: tripPattern.legs
+            .map((l) => l.line?.publicCode)
+            .filter(isDefined),
+        }}
       />
       <div className={style.tripContainer} data-testid="tripDetails">
         {requireTicketBooking && (

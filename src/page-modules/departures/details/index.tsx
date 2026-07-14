@@ -97,6 +97,11 @@ export function DeparturesDetails({
         </div>
         <GlobalMessages
           context={GlobalMessageContextEnum.plannerWebDeparturesDetails}
+          ruleVariables={{
+            mode: serviceJourney?.transportMode || null,
+            subMode: serviceJourney?.transportSubmode || null,
+            publicCode: serviceJourney.line.publicCode ?? null,
+          }}
         />
         {realtimeText && !focusedCall.cancellation && (
           <div className={style.realtimeText}>
