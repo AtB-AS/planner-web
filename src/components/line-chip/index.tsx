@@ -36,6 +36,7 @@ export default function LineChip({
       <TransportIcon
         transportMode={transportMode}
         transportSubmode={transportSubmode}
+        rounded={true}
       />
       {publicCode && (
         <Typo.span

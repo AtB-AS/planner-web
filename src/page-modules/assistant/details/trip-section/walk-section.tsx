@@ -39,7 +39,7 @@ export default function WalkSection({
   return (
     <TripRow>
       <div className={style.transportLine}>
-        <TransportIcon transportMode={Mode.Foot} />
+        <TransportIcon transportMode={Mode.Foot} rounded={true} />
         <Typo.p textType="body__s" className={style.walkTime}>
           {walkText}
         </Typo.p>
