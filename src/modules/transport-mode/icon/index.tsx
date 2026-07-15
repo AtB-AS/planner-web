@@ -9,7 +9,7 @@ import {
 import { useTranslation } from '@atb/translations';
 import { isSubModeBoat, transportModeToTranslatedString } from '../utils';
 import { colorToOverrideMode } from '@atb/utils/color';
-import { secondsToMinutes } from '@atb/utils/date';
+import { secondsToMinutes, secondsToMinutesShort } from '@atb/utils/date';
 import { messageTypeToColorIcon } from '@atb/modules/situations-and-notices';
 import { and } from '@atb/utils/css';
 
@@ -80,15 +80,24 @@ export function TransportIconWithDuration({
   isFlexible,
   notificationType,
 }: TransportIconWithDurationProps) {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
   const colors = useTransportationThemeColor({
     transportMode,
     transportSubmode,
     isFlexible,
   });
 
+  const modeName = t(transportModeToTranslatedString(transportMode));
+  const pillA11yLabel = label
+    ? `${modeName} ${label}`
+    : duration
+      ? `${modeName} ${secondsToMinutesShort(duration, language)}`
+      : modeName;
+
   const pill = (
     <span
+      role="img"
+      aria-label={pillA11yLabel}
       className={and(
         style.transportIconWithLabel,
         notificationType && style.transportIconWithLabel__hasNotification,
@@ -97,8 +106,6 @@ export function TransportIconWithDuration({
     >
       <MonoIcon
         icon={getTransportModeIcon(transportMode, transportSubmode)}
-        role="img"
-        alt={t(transportModeToTranslatedString(transportMode))}
         overrideMode={colors.overrideMode}
       />
       {label && (
@@ -157,14 +164,15 @@ export function useTransportationThemeColor(props: {
   } = useTheme();
   const isNeutralMode =
     props.transportMode === 'foot' || props.transportMode === 'unknown';
-  const color = isNeutralMode
-    ? background.neutral[3]
-    : transportModeToColor(
-        transport,
-        props.transportMode,
-        props.transportSubmode,
-        props.isFlexible,
-      );
+  const color =
+    isNeutralMode && false
+      ? background.neutral[3]
+      : transportModeToColor(
+          transport,
+          props.transportMode,
+          props.transportSubmode,
+          props.isFlexible,
+        );
   return {
     backgroundColor: color.background,
     textColor: color.foreground.primary,
