@@ -43,6 +43,12 @@
   }
 }
 
+.accordionBody {
+  display: flex;
+  flex-direction: column;
+  gap: token('spacing.medium');
+}
+
 .detailsAside {
   display: flex;
   flex-direction: column;
