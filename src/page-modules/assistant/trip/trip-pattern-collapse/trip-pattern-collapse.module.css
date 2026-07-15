@@ -34,7 +34,7 @@
   grid-template-columns: fit-content(66%) 1fr;
   gap: token('spacing.xLarge');
   padding: token('spacing.large') token('spacing.medium')
-    token('spacing.medium');
+    token('spacing.medium') token('spacing.large');
 }
 
 @media (max-width: 650px) {
