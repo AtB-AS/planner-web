@@ -1,6 +1,5 @@
 import { Button } from '@atb/components/button';
 import { ColorIcon, MonoIcon } from '@atb/components/icon';
-import LineChip from '@atb/components/line-chip';
 import { Map } from '@atb/components/map';
 import { MessageBox } from '@atb/components/message-box';
 import { Typo } from '@atb/components/typography';
@@ -22,6 +21,7 @@ import {
 import { ServiceJourneyType } from '@atb/page-modules/departures/types.ts';
 import { TransportMode } from '@atb/modules/graphql-types/journeyplanner-types_v3.generated.ts';
 import { useGoBack } from '@atb/utils/use-go-back';
+import { TransportIconWithDuration } from '@atb/modules/transport-mode';
 
 export type DeparturesDetailsProps = {
   fromQuayId?: string;
@@ -60,7 +60,6 @@ export function DeparturesDetails({
       </section>
     );
 
-  const title = `${serviceJourney.line.publicCode} ${formatDestinationDisplay(t, focusedCall.destinationDisplay)}`;
   const estimatedCallsWithMetadata = addMetadataToEstimatedCalls(
     serviceJourney.estimatedCalls,
     fromQuayId,
@@ -85,14 +84,16 @@ export function DeparturesDetails({
           icon={{ left: <MonoIcon icon="navigation/ArrowLeft" /> }}
         />
         <div className={style.header}>
-          <LineChip
+          <TransportIconWithDuration
             transportMode={
               serviceJourney.transportMode ?? TransportMode.Unknown
             }
             transportSubmode={serviceJourney.transportSubmode}
-            publicCode={serviceJourney.line.publicCode}
+            label={serviceJourney.line.publicCode}
           />
-          <Typo.h2 textType="heading__xl">{title}</Typo.h2>
+          <Typo.h2 textType="heading__xl">
+            {formatDestinationDisplay(t, focusedCall.destinationDisplay)}
+          </Typo.h2>
         </div>
         <GlobalMessages
           context={GlobalMessageContextEnum.plannerWebDeparturesDetails}
