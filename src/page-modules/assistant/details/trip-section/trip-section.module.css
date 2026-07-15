@@ -42,6 +42,19 @@
   align-items: center;
   gap: token('spacing.small');
 }
+.buyTicketButton {
+  border: token('border.width.slim') solid
+    token('color.foreground.emphasis.interactive');
+}
+.buyTicketButton.buyTicketButton,
+.buyTicketButton.buyTicketButton:hover,
+.buyTicketButton.buyTicketButton:active {
+  background-color: transparent;
+}
+.buyTicketButton:hover,
+.buyTicketButton:active {
+  color: token('color.foreground.emphasis.interactive');
+}
 .intermediateToggle {
   border: token('border.width.medium') solid
     token('color.foreground.emphasis.interactive');
