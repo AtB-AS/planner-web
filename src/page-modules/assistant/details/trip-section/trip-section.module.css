@@ -42,6 +42,10 @@
   align-items: center;
   gap: token('spacing.small');
 }
+.waitIcon {
+  display: flex;
+  padding: token('spacing.xSmall');
+}
 .buyTicketButton {
   border: token('border.width.slim') solid
     token('color.foreground.emphasis.interactive');

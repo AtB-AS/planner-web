@@ -51,10 +51,15 @@ export default function WaitSection({ legWaitDetails }: WaitSectionProps) {
           />
         </TripRow>
       )}
-      <TripRow rowLabel={<MonoIcon icon="time/Time" />}>
-        <Typo.p textType="body__s" className={style.waitTime}>
-          {t(PageText.Assistant.details.tripSection.wait.label(waitTime))}
-        </Typo.p>
+      <TripRow>
+        <div className={style.transportLine}>
+          <span className={style.waitIcon}>
+            <MonoIcon icon="time/Time" />
+          </span>
+          <Typo.p textType="body__s" className={style.waitTime}>
+            {t(PageText.Assistant.details.tripSection.wait.label(waitTime))}
+          </Typo.p>
+        </div>
       </TripRow>
     </div>
   );
