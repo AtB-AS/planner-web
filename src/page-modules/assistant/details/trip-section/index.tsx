@@ -196,9 +196,9 @@ export default function TripSection({
           </TripRow>
         )}
 
-        {realtimeText && <RealtimeSection realtimeText={realtimeText} />}
-
         {leg.authority && <AuthoritySection authority={leg.authority} />}
+
+        {realtimeText && <RealtimeSection realtimeText={realtimeText} />}
 
         <EstimatedCallsSection
           intermediateEstimatedCalls={leg.intermediateEstimatedCalls}
