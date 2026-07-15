@@ -9,8 +9,7 @@ import {
 import { useTranslation } from '@atb/translations';
 import { isSubModeBoat, transportModeToTranslatedString } from '../utils';
 import { colorToOverrideMode } from '@atb/utils/color';
-import { Typo } from '@atb/components/typography';
-import { secondsToMinutes } from '@atb/utils/date';
+import { secondsToMinutes, secondsToMinutesShort } from '@atb/utils/date';
 import { messageTypeToColorIcon } from '@atb/modules/situations-and-notices';
 import { and } from '@atb/utils/css';
 
@@ -91,7 +90,7 @@ export function TransportIconWithDuration({
   isFlexible,
   notificationType,
 }: TransportIconWithDurationProps) {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
   const {
     color: { background },
   } = useTheme();
@@ -101,7 +100,6 @@ export function TransportIconWithDuration({
     isFlexible,
   });
 
-  // Walking legs should have a lighter background color in the trip pattern view.
   if (transportMode === 'foot') {
     colors = {
       backgroundColor: background.neutral[2].background,
@@ -112,8 +110,17 @@ export function TransportIconWithDuration({
     };
   }
 
+  const modeName = t(transportModeToTranslatedString(transportMode));
+  const pillA11yLabel = label
+    ? `${modeName} ${label}`
+    : duration
+      ? `${modeName} ${secondsToMinutesShort(duration, language)}`
+      : modeName;
+
   const pill = (
     <span
+      role="img"
+      aria-label={pillA11yLabel}
       className={and(
         style.transportIconWithLabel,
         notificationType && style.transportIconWithLabel__hasNotification,
@@ -122,8 +129,6 @@ export function TransportIconWithDuration({
     >
       <MonoIcon
         icon={getTransportModeIcon(transportMode, transportSubmode)}
-        role="img"
-        alt={t(transportModeToTranslatedString(transportMode))}
         overrideMode={colors.overrideMode}
       />
       {label && (
@@ -135,13 +140,12 @@ export function TransportIconWithDuration({
         </span>
       )}
       {!label && duration && (
-        <Typo.span
-          textType="body__xs"
+        <span
           style={{ color: colors.textColor }}
-          className={style.transportIconWithLabel__duration}
+          className={style.transportIconWithLabel__label}
         >
           {secondsToMinutes(duration)}
-        </Typo.span>
+        </span>
       )}
     </span>
   );
@@ -165,7 +169,10 @@ export function TransportNotificationBadge({
 }: TransportNotificationBadgeProps) {
   return (
     <span className={style.transportIconNotification} aria-hidden="true">
-      <ColorIcon icon={messageTypeToColorIcon(notificationType)} size="small" />
+      <ColorIcon
+        icon={messageTypeToColorIcon(notificationType)}
+        size="normal"
+      />
     </span>
   );
 }
@@ -178,7 +185,7 @@ export function useTransportationThemeColor(props: {
   const {
     color: { transport },
   } = useTheme();
-  let color = transportModeToColor(
+  const color = transportModeToColor(
     transport,
     props.transportMode,
     props.transportSubmode,

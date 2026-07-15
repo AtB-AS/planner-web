@@ -140,7 +140,7 @@ export function TravelCardHeader({
       {includeDuration && (
         <div className={style.header__duration}>
           <Typo.span
-            textType="body__s"
+            textType="body__m"
             className={style.header__durationText}
             testID="resultDuration"
           >

@@ -71,6 +71,7 @@
   --decorationContainerWidth: 1.25rem;
   --decorationLineWidth: 0.25rem;
   --decorationLineEndWidth: 0.75rem;
+  --decorationLineInset: 1rem;
 }
 .boardingInfo {
   color: token('color.foreground.dynamic.secondary');

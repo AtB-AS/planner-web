@@ -34,13 +34,19 @@
   grid-template-columns: fit-content(66%) 1fr;
   gap: token('spacing.xLarge');
   padding: token('spacing.large') token('spacing.medium')
-    token('spacing.medium');
+    token('spacing.medium') token('spacing.large');
 }
 
 @media (max-width: 650px) {
   .detailsGrid {
     grid-template-columns: 1fr;
   }
+}
+
+.accordionBody {
+  display: flex;
+  flex-direction: column;
+  gap: token('spacing.medium');
 }
 
 .detailsAside {
@@ -52,16 +58,5 @@
 }
 
 .goToDetailsButton {
-  border: token('border.width.medium') solid
-    token('color.foreground.emphasis.interactive');
   text-align: center;
-}
-.goToDetailsButton:hover,
-.goToDetailsButton:active {
-  color: token('color.foreground.emphasis.interactive');
-}
-
-.goToDetailsButton:active {
-  border: token('border.width.medium') solid
-    token('color.interactive.0.outline.background');
 }

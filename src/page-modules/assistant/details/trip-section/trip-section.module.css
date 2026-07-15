@@ -10,9 +10,10 @@
   overflow: hidden;
   gap: 1rem;
   --labelWidth: 2.625rem;
-  --decorationContainerWidth: 1.25rem;
+  --decorationContainerWidth: 2rem;
   --decorationLineWidth: 0.25rem;
   --decorationLineEndWidth: 0.75rem;
+  --decorationLineInset: 1rem;
 }
 .walkTime,
 .waitTime,
@@ -41,22 +42,9 @@
   align-items: center;
   gap: token('spacing.small');
 }
-.intermediateToggle {
-  border: token('border.width.medium') solid
-    token('color.foreground.emphasis.interactive');
-}
-.intermediateToggle.intermediateToggle,
-.intermediateToggle.intermediateToggle:hover,
-.intermediateToggle.intermediateToggle:active {
-  background-color: transparent;
-}
-.intermediateToggle:hover,
-.intermediateToggle:active {
-  color: token('color.foreground.emphasis.interactive');
-}
-.intermediateToggle:active {
-  border: token('border.width.medium') solid
-    token('color.interactive.0.outline.background');
+.waitIcon {
+  display: flex;
+  padding: token('spacing.xSmall');
 }
 .chevron {
   transition: transform 0.2s ease;

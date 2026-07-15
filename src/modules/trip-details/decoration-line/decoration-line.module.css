@@ -1,20 +1,31 @@
 .decoration {
   position: absolute;
-  height: 100%;
+  top: 0;
+  bottom: 0;
   width: var(--decorationLineWidth);
   display: flex;
   flex: 1;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  left: calc(token('spacing.large') / 2 + var(--labelWidth));
+  left: calc(var(--decorationContainerWidth) / 2 + var(--labelWidth));
   transform: translateX(-50%);
+  border-radius: token('border.radius.circle');
+}
+
+.decoration__insetTop {
+  top: var(--decorationLineInset);
+}
+
+.decoration__insetBottom {
+  bottom: var(--decorationLineInset);
 }
 
 .decorationMarker {
   width: var(--decorationLineEndWidth);
   height: var(--decorationLineWidth);
   left: -0.25rem;
+  border-radius: token('border.radius.circle');
 }
 
 .decorationMarker__start {
