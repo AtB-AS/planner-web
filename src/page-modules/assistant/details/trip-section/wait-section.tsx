@@ -20,7 +20,7 @@ export type WaitSectionProps = {
 
 export default function WaitSection({ legWaitDetails }: WaitSectionProps) {
   const { t, language } = useTranslation();
-  const unknownTransportationColor = useTransportationThemeColor({
+  const waitColor = useTransportationThemeColor({
     transportMode: 'unknown',
   });
 
@@ -40,7 +40,7 @@ export default function WaitSection({ legWaitDetails }: WaitSectionProps) {
       <DecorationLine
         hasStart={false}
         hasEnd={false}
-        color={unknownTransportationColor.backgroundColor}
+        color={waitColor.backgroundColor}
       />
       {shortWait && (
         <TripRow>

@@ -31,21 +31,11 @@ export function TransportIcon({
   isFlexible,
 }: TransportIconProps) {
   const { t } = useTranslation();
-  const {
-    color: { background },
-  } = useTheme();
-  let { backgroundColor, overrideMode } = useTransportationThemeColor({
+  const { backgroundColor, overrideMode } = useTransportationThemeColor({
     transportMode,
     transportSubmode,
     isFlexible,
   });
-
-  if (transportMode === 'foot') {
-    backgroundColor = background.neutral[2].background;
-    overrideMode = colorToOverrideMode(
-      background.neutral[2].foreground.primary,
-    );
-  }
 
   return (
     <span className={style.transportIcon} style={{ backgroundColor }}>
@@ -91,25 +81,11 @@ export function TransportIconWithDuration({
   notificationType,
 }: TransportIconWithDurationProps) {
   const { t } = useTranslation();
-  const {
-    color: { background },
-  } = useTheme();
-  let colors = useTransportationThemeColor({
+  const colors = useTransportationThemeColor({
     transportMode,
     transportSubmode,
     isFlexible,
   });
-
-  // Walking legs should have a lighter background color in the trip pattern view.
-  if (transportMode === 'foot') {
-    colors = {
-      backgroundColor: background.neutral[2].background,
-      textColor: background.neutral[2].foreground.primary,
-      overrideMode: colorToOverrideMode(
-        background.neutral[2].foreground.primary,
-      ),
-    };
-  }
 
   const pill = (
     <span
@@ -177,14 +153,18 @@ export function useTransportationThemeColor(props: {
   isFlexible?: boolean;
 }) {
   const {
-    color: { transport },
+    color: { transport, background },
   } = useTheme();
-  let color = transportModeToColor(
-    transport,
-    props.transportMode,
-    props.transportSubmode,
-    props.isFlexible,
-  );
+  const isNeutralMode =
+    props.transportMode === 'foot' || props.transportMode === 'unknown';
+  const color = isNeutralMode
+    ? background.neutral[3]
+    : transportModeToColor(
+        transport,
+        props.transportMode,
+        props.transportSubmode,
+        props.isFlexible,
+      );
   return {
     backgroundColor: color.background,
     textColor: color.foreground.primary,
