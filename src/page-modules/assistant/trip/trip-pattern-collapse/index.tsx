@@ -126,6 +126,7 @@ export default function TripPatternCollapse({
                   size="small"
                   radiusSize="circular"
                   display="block"
+                  className={style.goToDetailsButton}
                   icon={{
                     right: <MonoIcon icon="navigation/ChevronRight" />,
                   }}

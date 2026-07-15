@@ -56,3 +56,7 @@
   gap: token('spacing.medium');
   padding: token('spacing.medium');
 }
+
+.goToDetailsButton {
+  text-align: center;
+}
