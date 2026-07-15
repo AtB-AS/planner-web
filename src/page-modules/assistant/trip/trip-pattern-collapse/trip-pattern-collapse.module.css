@@ -50,18 +50,3 @@
   gap: token('spacing.medium');
   padding: token('spacing.medium');
 }
-
-.goToDetailsButton {
-  border: token('border.width.medium') solid
-    token('color.foreground.emphasis.interactive');
-  text-align: center;
-}
-.goToDetailsButton:hover,
-.goToDetailsButton:active {
-  color: token('color.foreground.emphasis.interactive');
-}
-
-.goToDetailsButton:active {
-  border: token('border.width.medium') solid
-    token('color.interactive.0.outline.background');
-}

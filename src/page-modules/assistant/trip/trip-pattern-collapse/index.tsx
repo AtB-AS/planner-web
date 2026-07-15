@@ -8,6 +8,7 @@ import { useRouter } from 'next/router';
 import { ExtendedTripPatternWithDetailsType } from '@atb/page-modules/assistant';
 import { useRefreshedTripPattern } from '@atb/page-modules/assistant/client';
 import { ButtonLink } from '@atb/components/button';
+import { useTheme } from '@atb/modules/theme';
 import TripSection from '@atb/page-modules/assistant/details/trip-section';
 import { getInterchangeDetails } from '@atb/page-modules/assistant/details/trip-section/interchange-section.tsx';
 import { getLegWaitDetails } from '@atb/page-modules/assistant/details/trip-section/wait-section.tsx';
@@ -31,6 +32,7 @@ export default function TripPatternCollapse({
   testId,
 }: Props) {
   const { t, language } = useTranslation();
+  const { color } = useTheme();
 
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
@@ -119,11 +121,11 @@ export default function TripPatternCollapse({
                 <ButtonLink
                   href={detailsHref}
                   title={t(PageText.Assistant.trip.tripPattern.details)}
-                  mode="interactive_2"
+                  mode="secondary"
+                  backgroundColor={color.background.neutral[0]}
                   size="small"
                   radiusSize="circular"
                   display="block"
-                  className={style.goToDetailsButton}
                   icon={{
                     right: <MonoIcon icon="navigation/ChevronRight" />,
                   }}
