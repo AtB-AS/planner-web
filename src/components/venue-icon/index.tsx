@@ -39,7 +39,14 @@ function isFeatureCategory(categories: any): categories is FeatureCategory[] {
   );
 }
 
-type VenueIconType = 'bus' | 'tram' | 'rail' | 'air' | 'water' | 'unknown';
+type VenueIconType =
+  | 'bus'
+  | 'tram'
+  | 'rail'
+  | 'air'
+  | 'water'
+  | 'metro'
+  | 'unknown';
 type IconComponentProps = {
   iconType: VenueIconType;
 } & Omit<MonoIconProps, 'icon'>;
@@ -96,6 +103,16 @@ function IconComponent({ iconType, ...props }: IconComponentProps) {
           {...props}
         />
       );
+    case 'metro':
+      return (
+        <MonoIcon
+          icon="transportation/MetroFill"
+          key="metro"
+          role="img"
+          alt={t(ComponentText.VenueIcon.metro)}
+          {...props}
+        />
+      );
     case 'unknown':
     default:
       return (
@@ -128,7 +145,6 @@ function mapLocationCategoryToVenueType(
     case 'tramStation':
       return 'tram';
     case 'railStation':
-    case 'metroStation':
       return 'rail';
     case 'airport':
       return 'air';
@@ -136,6 +152,8 @@ function mapLocationCategoryToVenueType(
     case 'ferryPort':
     case 'ferryStop':
       return 'water';
+    case 'metroStation':
+      return 'metro';
     default:
       return 'unknown';
   }
