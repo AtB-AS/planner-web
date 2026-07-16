@@ -64,6 +64,7 @@ export type ServiceJourneyInput = {
   id: string;
   date: Date;
   fromQuayId: string;
+  toQuayId?: string;
 };
 
 export type JourneyPlannerApi = {
@@ -251,6 +252,12 @@ export function createJourneyApi(
         (call) => call.quay.id === input.fromQuayId,
       )?.quay?.stopPlace;
 
+      const toStopPlace = input.toQuayId
+        ? serviceJourney?.estimatedCalls?.find(
+            (call) => call.quay.id === input.toQuayId,
+          )?.quay?.stopPlace
+        : undefined;
+
       return {
         ...serviceJourney,
         mapLegs: mapToMapLegs(
@@ -258,6 +265,7 @@ export function createJourneyApi(
           transportMode,
           transportSubmode,
           fromStopPlace,
+          toStopPlace,
         ),
       };
     },
