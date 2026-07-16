@@ -22,6 +22,7 @@ export type TransportIconProps = {
   transportSubmode?: TransportSubmodeType;
   size?: MonoIconProps['size'];
   isFlexible?: boolean;
+  rounded?: boolean;
 };
 
 export function TransportIcon({
@@ -29,6 +30,7 @@ export function TransportIcon({
   transportSubmode,
   size = 'normal',
   isFlexible,
+  rounded = false,
 }: TransportIconProps) {
   const { t } = useTranslation();
   const {
@@ -48,7 +50,13 @@ export function TransportIcon({
   }
 
   return (
-    <span className={style.transportIcon} style={{ backgroundColor }}>
+    <span
+      className={and(
+        style.transportIcon,
+        rounded && style.transportIcon__rounded,
+      )}
+      style={{ backgroundColor }}
+    >
       <MonoIcon
         size={size}
         icon={getTransportModeIcon(transportMode, transportSubmode)}

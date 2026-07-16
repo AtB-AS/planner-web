@@ -1,12 +1,11 @@
-.transportIcons {
-  display: flex;
-  gap: 0.125rem;
-}
-
 .transportIcon {
   display: inline-block;
-  border-radius: token('border.radius.circle');
+  border-radius: token('border.radius.regular');
   padding: token('spacing.xSmall');
+}
+
+.transportIcon__rounded {
+  border-radius: token('border.radius.circle');
 }
 
 .transportIconWithLabelContainer {
