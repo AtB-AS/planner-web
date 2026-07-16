@@ -25,11 +25,13 @@ import { useGoBack } from '@atb/utils/use-go-back';
 
 export type DeparturesDetailsProps = {
   fromQuayId?: string;
+  toQuayId?: string;
   serviceJourney: ServiceJourneyType;
 };
 
 export function DeparturesDetails({
   fromQuayId,
+  toQuayId,
   serviceJourney,
 }: DeparturesDetailsProps) {
   const { t } = useTranslation();
@@ -64,7 +66,7 @@ export function DeparturesDetails({
   const estimatedCallsWithMetadata = addMetadataToEstimatedCalls(
     serviceJourney.estimatedCalls,
     fromQuayId,
-    undefined,
+    toQuayId,
   );
 
   const notices = getNoticesForServiceJourney(serviceJourney, fromQuayId);
@@ -143,6 +145,7 @@ export function DeparturesDetails({
           mode={serviceJourney.transportMode ?? 'unknown'}
           subMode={serviceJourney.transportSubmode}
           alreadyShownSituationNumbers={alreadyShownSituationNumbers}
+          toQuayId={toQuayId}
         />
       </div>
     </section>

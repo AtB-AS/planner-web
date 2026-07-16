@@ -56,7 +56,9 @@ export const useMapLegs = (
         t(ComponentText.Map.map.startPoint),
         background.accent[0],
       );
-      const endTextPoint = createStartEndTextPoint(endMapLeg.points[0]);
+      const endTextPoint = createStartEndTextPoint(
+        endMapLeg.points[endMapLeg.points.length - 1],
+      );
       const endTextLayer = createStartEndTextLayer(
         endTextSourceId,
         t(ComponentText.Map.map.endPoint),
