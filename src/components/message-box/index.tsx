@@ -1,8 +1,8 @@
 import { useTranslation } from '@atb/translations';
 import { Statuses, useTheme } from '@atb/modules/theme';
 import { andIf } from '@atb/utils/css';
-import { MonoIcon, MonoIconProps } from '@atb/components/icon';
-import { messageTypeToMonoIcon } from '@atb/modules/situations-and-notices';
+import { ColorIcon, MonoIcon, MonoIconProps } from '@atb/components/icon';
+import { messageTypeToColorIcon } from '@atb/modules/situations-and-notices';
 import { Button } from '@atb/components/button';
 import dictionary from '@atb/translations/dictionary';
 import { Typo } from '@atb/components/typography';
@@ -69,12 +69,7 @@ export const MessageBox = ({
       })}
       style={backgroundColorStyle}
     >
-      {statusIcon ?? (
-        <MonoIcon
-          icon={messageTypeToMonoIcon(type)}
-          overrideMode={overrideMode}
-        />
-      )}
+      {statusIcon ?? <ColorIcon icon={messageTypeToColorIcon(type)} />}
       <div className={style.content}>
         {title && <Typo.h2 textType="body__m__strong">{title}</Typo.h2>}
         <Typo.p textType="body__m" id={textId} {...aria}>
