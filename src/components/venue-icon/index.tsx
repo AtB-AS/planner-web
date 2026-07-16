@@ -2,19 +2,14 @@ import { ComponentText, useTranslation } from '@atb/translations';
 import { MonoIcon, MonoIconProps } from '@atb/components/icon';
 import { FeatureCategory } from '@atb/modules/geocoder';
 import style from './venue-icon.module.css';
+import { onlyUniques } from '@atb/utils/only-uniques';
 
 export type VenueIconProps = {
-  categories: FeatureCategory[] | string[];
+  categories: FeatureCategory[];
 } & Omit<MonoIconProps, 'icon'>;
 
 export default function VenueIcon({ categories, ...props }: VenueIconProps) {
-  let venueIconTypes: VenueIconType[] = [];
-
-  if (isFeatureCategory(categories)) {
-    venueIconTypes = getVenueIconTypes(categories);
-  } else {
-    venueIconTypes = categories as VenueIconType[];
-  }
+  const venueIconTypes: VenueIconType[] = getVenueIconTypes(categories);
 
   if (!venueIconTypes.length) {
     return <MonoIcon icon="map/Pin" key="unknown" {...props} />;
@@ -128,9 +123,7 @@ function IconComponent({ iconType, ...props }: IconComponentProps) {
 }
 
 function getVenueIconTypes(category: FeatureCategory[]): VenueIconType[] {
-  return category
-    .map(mapLocationCategoryToVenueType)
-    .filter((v, i, arr) => arr.indexOf(v) === i); // get distinct values
+  return category.map(mapLocationCategoryToVenueType).filter(onlyUniques);
 }
 
 function mapLocationCategoryToVenueType(
