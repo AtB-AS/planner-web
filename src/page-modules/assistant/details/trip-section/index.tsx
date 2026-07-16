@@ -77,6 +77,14 @@ export default function TripSection({
     flexBookingNumberOfDaysAvailable,
   );
 
+  const departureDetailsHref =
+    !isFlexible &&
+    leg.serviceJourney?.id &&
+    leg.serviceDate &&
+    leg.fromPlace.quay?.id
+      ? `/departures/details/${leg.serviceJourney.id}?date=${leg.serviceDate}&fromQuayId=${leg.fromPlace.quay.id}`
+      : undefined;
+
   return (
     <div className={style.container} data-testid="trip-leg">
       <div className={style.rowContainer}>
@@ -123,7 +131,7 @@ export default function TripSection({
             walkDistance={leg.distance}
           />
         ) : (
-          <TripRow>
+          <TripRow href={departureDetailsHref}>
             <div className={style.transportLine}>
               <TransportIconWithDuration
                 transportMode={leg.mode}
