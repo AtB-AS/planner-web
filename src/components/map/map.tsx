@@ -25,11 +25,26 @@ import { useDarkMode } from '@atb/modules/theme';
 import useMediaQuery from '@atb/utils/user-media-query';
 import { logSpecificEvent } from '@atb/modules/firebase';
 import MapLoading from './map-loading';
+import { useLiveVehicle } from './use-live-vehicle';
+import { useMapFollow } from './use-map-follow';
+import type { VehicleWithPosition } from '@atb/page-modules/departures/client/vehicles';
+import type {
+  TransportMode,
+  TransportSubmode,
+} from '@atb/modules/graphql-types/journeyplanner-types_v3.generated.ts';
+
+export type LiveVehicleProps = {
+  vehicle?: VehicleWithPosition;
+  isDisconnected: boolean;
+  mode?: TransportMode;
+  subMode?: TransportSubmode;
+};
 
 export type MapProps = {
   layer?: string;
   onSelectStopPlace?: (id: string) => void;
   interactive?: boolean;
+  liveVehicle?: LiveVehicleProps;
 } & (
   | { position?: PositionType; initialZoom?: number }
   | { mapLegs: MapLegType[] }
@@ -58,6 +73,7 @@ function MapWithStyle({
   layer,
   onSelectStopPlace,
   interactive = true,
+  liveVehicle,
   ...props
 }: MapProps & { mapboxJsonStyle: StyleSpecification }) {
   const mapContainer = useRef<HTMLDivElement>(null);
@@ -102,6 +118,16 @@ function MapWithStyle({
   useMapLegs(map, mapLegs);
   useMapFareZones(map);
   useNationalStopRegistryLayers(map);
+  const { onMarkerClick } = useMapFollow(map, liveVehicle?.vehicle, {
+    enabled: !!liveVehicle,
+  });
+  useLiveVehicle(map, {
+    vehicle: liveVehicle?.vehicle,
+    isDisconnected: liveVehicle?.isDisconnected ?? false,
+    mode: liveVehicle?.mode,
+    subMode: liveVehicle?.subMode,
+    onMarkerClick,
+  });
 
   return (
     <div className={style.map}>
