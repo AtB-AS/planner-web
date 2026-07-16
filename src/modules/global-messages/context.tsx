@@ -25,7 +25,6 @@ type GlobalMessagesState = {
     context: GlobalMessageContextEnum,
     ruleVariables: RuleVariables,
   ) => GlobalMessageType[];
-  activeGlobalMessages: GlobalMessageType[];
   dismissGlobalMessage: (message: GlobalMessageType) => void;
 };
 
@@ -125,7 +124,6 @@ export function GlobalMessageContextProvider({
     <GlobalMessageContext.Provider
       value={{
         findGlobalMessages,
-        activeGlobalMessages,
         dismissGlobalMessage,
       }}
     >
