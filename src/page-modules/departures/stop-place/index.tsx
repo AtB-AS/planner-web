@@ -1,7 +1,6 @@
 import { Button } from '@atb/components/button';
 import { DepartureTime } from '@atb/components/departure-time';
-import { ColorIcon, MonoIcon } from '@atb/components/icon';
-import LineChip from '@atb/components/line-chip';
+import { MonoIcon } from '@atb/components/icon';
 import { Map } from '@atb/components/map';
 import {
   OpenGraphDescription,
@@ -10,9 +9,9 @@ import {
 import ScreenReaderOnly from '@atb/components/screen-reader-only';
 import { Typo } from '@atb/components/typography';
 import {
+  getMsgTypeForMostCriticalSituationOrNotice,
   isSituationValidAtDate,
   SituationMessageBox,
-  SituationOrNoticeIcon,
 } from '@atb/modules/situations-and-notices';
 import { PageText, useTranslation } from '@atb/translations';
 import { Departures } from '@atb/translations/pages';
@@ -40,7 +39,10 @@ import {
   TransportMode,
   TransportSubmode,
 } from '@atb/modules/graphql-types/journeyplanner-types_v3.generated';
-import { TransportIcon } from '@atb/modules/transport-mode';
+import {
+  TransportIcon,
+  TransportIconWithDuration,
+} from '@atb/modules/transport-mode';
 import { SearchTime, searchTimeToQueryString } from '@atb/modules/search-time';
 import { DatePagination } from './date-pagination';
 
@@ -305,33 +307,20 @@ export function EstimatedCallItem({
         <div className={style.transportInfo}>
           {(departure.serviceJourney.line.transportMode ||
             departure.serviceJourney.line.publicCode) && (
-            <>
-              {departure.cancellation ? (
-                <ColorIcon
-                  icon="status/Error"
-                  className={style.situationIcon}
-                />
-              ) : (
-                <SituationOrNoticeIcon
-                  situations={departure.situations}
-                  notices={departure.notices}
-                  className={style.situationIcon}
-                />
+            <TransportIconWithDuration
+              transportMode={
+                departure.serviceJourney.line.transportMode ??
+                TransportMode.Unknown
+              }
+              label={departure.serviceJourney.line.publicCode}
+              transportSubmode={departure.serviceJourney.line.transportSubmode}
+              notificationType={getMsgTypeForMostCriticalSituationOrNotice(
+                departure.situations,
+                departure.notices,
+                departure.cancellation,
               )}
-
-              <LineChip
-                transportMode={
-                  departure.serviceJourney.line.transportMode ??
-                  TransportMode.Unknown
-                }
-                publicCode={departure.serviceJourney.line.publicCode}
-                transportSubmode={
-                  departure.serviceJourney.line.transportSubmode
-                }
-              />
-            </>
+            />
           )}
-
           <Typo.p
             className={departure.cancellation ? style.textColor__secondary : ''}
             textType={departure.cancellation ? 'body__m__strike' : 'body__m'}

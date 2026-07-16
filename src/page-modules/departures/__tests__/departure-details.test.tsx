@@ -27,11 +27,7 @@ describe('departure details page', function () {
         serviceJourney={serviceJourneyFixture}
       />,
     );
-    expect(
-      output.getByText(
-        `${serviceJourneyFixture.line.publicCode} Vestlia via sentrum`,
-      ),
-    ).toBeInTheDocument();
+    expect(output.getByText(`Vestlia via sentrum`)).toBeInTheDocument();
   });
 
   it('should not render passed quays', () => {
