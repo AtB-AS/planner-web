@@ -78,6 +78,11 @@ const DeparturesInternal = {
       'No departures in the selected period of time.',
       'Ingen avgangar i dette tidsrommet.',
     ),
+    noQuays: _(
+      'Ingen avganger fra denne holdeplassen.',
+      'No departures from this stop place.',
+      'Ingen avgangar frå denne haldeplassen.',
+    ),
     dateNavigation: {
       today: _('I dag', 'Today', 'I dag'),
       a11yNextDayHint: _(
