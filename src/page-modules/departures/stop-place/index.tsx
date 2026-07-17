@@ -45,6 +45,7 @@ import {
 } from '@atb/modules/transport-mode';
 import { SearchTime, searchTimeToQueryString } from '@atb/modules/search-time';
 import { DatePagination } from './date-pagination';
+import { MessageBox } from '@atb/components/message-box';
 
 const NUMBER_OF_DEPARTURES = 7;
 
@@ -132,6 +133,9 @@ export function StopPlace({ departures, fromQuery }: StopPlaceProps) {
             navigateSearchTime(changeDay(searchTime, days))
           }
         />
+        {departures.stopPlace.quays.length === 0 && (
+          <MessageBox type="info" message={t(Departures.stopPlace.noQuays)} />
+        )}
         {departures.stopPlace.quays.map((quay) => (
           <EstimatedCallList
             key={`${quay.id}-${searchTimeKey(searchTime)}`}
