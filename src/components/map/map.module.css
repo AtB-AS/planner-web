@@ -56,11 +56,6 @@
 .mapContainer__borderRadius {
   border-radius: token('border.radius.regular');
 }
-@media (max-width: 650px) {
-  .mapContainer {
-    border-radius: 0;
-  }
-}
 
 .header__leftContainer {
   display: flex;
