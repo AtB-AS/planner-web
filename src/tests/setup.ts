@@ -22,6 +22,19 @@ vi.stubEnv('NEXT_PUBLIC_FIREBASE_PROJECT_ID', 'aaaaaaaaaaaaaaaaaaaaaaa');
 vi.stubEnv('NEXT_PUBLIC_FIREBASE_APP_ID', 'aaaaaaaaaaaaaaaaaaaaaaa');
 
 vi.stubEnv('NEXT_PUBLIC_BFF_URL', 'https://test.api.mittatb.no');
+vi.stubEnv('NEXT_PUBLIC_WS_API_BASE_URL', 'wss://test.api.mittatb.no');
+
+// The test environment has no working WebSocket implementation.
+vi.stubGlobal(
+  'WebSocket',
+  class WebSocket {
+    onmessage = null;
+    onclose = null;
+    onopen = null;
+    close() {}
+    send() {}
+  },
+);
 
 vi.mock('mapbox-gl/dist/mapbox-gl.js', () => {
   return {

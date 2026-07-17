@@ -12,8 +12,9 @@ import { PageText, useTranslation } from '@atb/translations';
 import dictionary from '@atb/translations/dictionary';
 import style from './details.module.css';
 import { EstimatedCallRows } from './estimated-call-rows';
-import { addMetadataToEstimatedCalls } from './utils';
+import { addMetadataToEstimatedCalls, getShouldShowLiveVehicle } from './utils';
 import { formatDestinationDisplay } from '../utils';
+import { useLiveVehicleSubscription } from '@atb/page-modules/departures/client/vehicles';
 import {
   GlobalMessageContextEnum,
   GlobalMessages,
@@ -49,6 +50,13 @@ export function DeparturesDetails({
       cancelled: c.cancellation,
     })),
   );
+  const shouldShowLiveVehicle = getShouldShowLiveVehicle(
+    serviceJourney.estimatedCalls,
+  );
+  const [liveVehicle, isLiveVehicleDisconnected] = useLiveVehicleSubscription({
+    serviceJourneyId: serviceJourney.id,
+    enabled: shouldShowLiveVehicle,
+  });
 
   if (!focusedCall)
     return (
@@ -126,6 +134,16 @@ export function DeparturesDetails({
           }
           mapLegs={serviceJourney.mapLegs}
           initialZoom={13.5}
+          liveVehicle={
+            shouldShowLiveVehicle
+              ? {
+                  vehicle: liveVehicle,
+                  isDisconnected: isLiveVehicleDisconnected,
+                  mode: serviceJourney.transportMode ?? undefined,
+                  subMode: serviceJourney.transportSubmode ?? undefined,
+                }
+              : undefined
+          }
         />
       </div>
 
