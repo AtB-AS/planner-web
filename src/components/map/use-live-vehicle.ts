@@ -92,8 +92,6 @@ export function useLiveVehicle(
       }
     };
 
-    // Registered outside setup so they are re-attached even when the layers
-    // survived a previous effect cleanup (e.g. strict-mode remount).
     map.on('click', VEHICLE_LAYER_ID, handleClick);
     map.on('mouseenter', VEHICLE_LAYER_ID, handleMouseEnter);
     map.on('mouseleave', VEHICLE_LAYER_ID, handleMouseLeave);
@@ -146,6 +144,10 @@ export function useLiveVehicle(
 
     if (map.isStyleLoaded()) update();
     else map.once('load', update);
+
+    return () => {
+      map.off('load', update);
+    };
   }, [mapRef, vehicle, iconImage, arrowImage, isStale, isDisconnected]);
 }
 
