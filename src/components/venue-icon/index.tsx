@@ -2,19 +2,14 @@ import { ComponentText, useTranslation } from '@atb/translations';
 import { MonoIcon, MonoIconProps } from '@atb/components/icon';
 import { FeatureCategory } from '@atb/modules/geocoder';
 import style from './venue-icon.module.css';
+import { onlyUniques } from '@atb/utils/only-uniques';
 
 export type VenueIconProps = {
-  categories: FeatureCategory[] | string[];
+  categories: FeatureCategory[];
 } & Omit<MonoIconProps, 'icon'>;
 
 export default function VenueIcon({ categories, ...props }: VenueIconProps) {
-  let venueIconTypes: VenueIconType[] = [];
-
-  if (isFeatureCategory(categories)) {
-    venueIconTypes = getVenueIconTypes(categories);
-  } else {
-    venueIconTypes = categories as VenueIconType[];
-  }
+  const venueIconTypes: VenueIconType[] = getVenueIconTypes(categories);
 
   if (!venueIconTypes.length) {
     return <MonoIcon icon="map/Pin" key="unknown" {...props} />;
@@ -39,7 +34,14 @@ function isFeatureCategory(categories: any): categories is FeatureCategory[] {
   );
 }
 
-type VenueIconType = 'bus' | 'tram' | 'rail' | 'air' | 'water' | 'unknown';
+type VenueIconType =
+  | 'bus'
+  | 'tram'
+  | 'rail'
+  | 'air'
+  | 'water'
+  | 'metro'
+  | 'unknown';
 type IconComponentProps = {
   iconType: VenueIconType;
 } & Omit<MonoIconProps, 'icon'>;
@@ -96,6 +98,16 @@ function IconComponent({ iconType, ...props }: IconComponentProps) {
           {...props}
         />
       );
+    case 'metro':
+      return (
+        <MonoIcon
+          icon="transportation/MetroFill"
+          key="metro"
+          role="img"
+          alt={t(ComponentText.VenueIcon.metro)}
+          {...props}
+        />
+      );
     case 'unknown':
     default:
       return (
@@ -111,9 +123,7 @@ function IconComponent({ iconType, ...props }: IconComponentProps) {
 }
 
 function getVenueIconTypes(category: FeatureCategory[]): VenueIconType[] {
-  return category
-    .map(mapLocationCategoryToVenueType)
-    .filter((v, i, arr) => arr.indexOf(v) === i); // get distinct values
+  return category.map(mapLocationCategoryToVenueType).filter(onlyUniques);
 }
 
 function mapLocationCategoryToVenueType(
@@ -128,7 +138,6 @@ function mapLocationCategoryToVenueType(
     case 'tramStation':
       return 'tram';
     case 'railStation':
-    case 'metroStation':
       return 'rail';
     case 'airport':
       return 'air';
@@ -136,6 +145,8 @@ function mapLocationCategoryToVenueType(
     case 'ferryPort':
     case 'ferryStop':
       return 'water';
+    case 'metroStation':
+      return 'metro';
     default:
       return 'unknown';
   }
