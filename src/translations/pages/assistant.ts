@@ -477,6 +477,12 @@ const AssistantInternal = {
         ),
     },
     tripSection: {
+      followVehicle: (transportMode: string) =>
+        _(
+          `Følg ${transportMode}`,
+          `Follow ${transportMode}`,
+          `Følg ${transportMode}`,
+        ),
       walk: {
         label: (duration: string) =>
           _(`Gå i ${duration}`, `Walk for ${duration}`, `Gå i ${duration}`),

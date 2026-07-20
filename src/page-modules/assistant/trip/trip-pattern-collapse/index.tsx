@@ -12,6 +12,7 @@ import { useTheme } from '@atb/modules/theme';
 import TripSection from '@atb/page-modules/assistant/details/trip-section';
 import { getInterchangeDetails } from '@atb/page-modules/assistant/details/trip-section/interchange-section.tsx';
 import { getLegWaitDetails } from '@atb/page-modules/assistant/details/trip-section/wait-section.tsx';
+import { useLiveVehicleServiceJourneyIds } from '@atb/page-modules/assistant/details/use-live-vehicle-ids';
 import { TripSummaryPanel } from '@atb/page-modules/assistant/trip-summary-panel';
 import TravelCard from '@atb/page-modules/assistant/trip/travel-card';
 import { tripSummary } from '../utils.ts';
@@ -44,6 +45,11 @@ export default function TripPatternCollapse({
 
   const { refreshedTripPattern } = useRefreshedTripPattern(tripPattern, inView);
   const displayTripPattern = refreshedTripPattern ?? tripPattern;
+
+  const liveVehicleServiceJourneyIds = useLiveVehicleServiceJourneyIds(
+    displayTripPattern.legs,
+    isOpen,
+  );
 
   const filter = Array.isArray(router.query.filter)
     ? router.query.filter.join(',')
@@ -100,6 +106,10 @@ export default function TripPatternCollapse({
                     isFirst={index === 0}
                     isLast={index === displayTripPattern.legs.length - 1}
                     leg={leg}
+                    hasLiveVehicle={
+                      !!leg.serviceJourney?.id &&
+                      liveVehicleServiceJourneyIds.has(leg.serviceJourney.id)
+                    }
                     interchangeDetails={getInterchangeDetails(
                       displayTripPattern.legs,
                       leg.interchangeTo?.toServiceJourney?.id,

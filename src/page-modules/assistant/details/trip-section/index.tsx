@@ -6,11 +6,14 @@ import {
 import style from './trip-section.module.css';
 import {
   TransportIconWithDuration,
+  transportModeToTranslatedString,
   useTransportationThemeColor,
 } from '@atb/modules/transport-mode';
 import { Typo } from '@atb/components/typography';
 import WalkSection from './walk-section';
-import { ColorIcon } from '@atb/components/icon';
+import { ColorIcon, MonoIcon } from '@atb/components/icon';
+import { ButtonLink } from '@atb/components/button';
+import { useTheme } from '@atb/modules/theme';
 import { MessageBox } from '@atb/components/message-box';
 import {
   SituationMessageBox,
@@ -32,6 +35,7 @@ export type TripSectionProps = {
   isFirst: boolean;
   isLast: boolean;
   leg: ExtendedLegType;
+  hasLiveVehicle?: boolean;
   interchangeDetails?: InterchangeDetails;
   legWaitDetails?: LegWaitDetails;
 };
@@ -39,10 +43,12 @@ export default function TripSection({
   isFirst,
   isLast,
   leg,
+  hasLiveVehicle,
   interchangeDetails,
   legWaitDetails,
 }: TripSectionProps) {
   const { t } = useTranslation();
+  const { color } = useTheme();
   const isWalkSection = leg.mode === 'foot';
   const isFlexible = !!leg.line?.flexibleLineType;
   const legColor = useTransportationThemeColor({
@@ -208,6 +214,25 @@ export default function TripSection({
         {leg.authority && <AuthoritySection authority={leg.authority} />}
 
         {realtimeText && <RealtimeSection realtimeText={realtimeText} />}
+
+        {hasLiveVehicle && departureDetailsHref && (
+          <TripRow>
+            <ButtonLink
+              href={departureDetailsHref}
+              mode="secondary"
+              backgroundColor={color.background.neutral[0]}
+              size="pill"
+              radiusSize="circular"
+              display="inline"
+              title={t(
+                PageText.Assistant.details.tripSection.followVehicle(
+                  t(transportModeToTranslatedString(leg.mode)).toLowerCase(),
+                ),
+              )}
+              icon={{ left: <MonoIcon icon="map/Map" /> }}
+            />
+          </TripRow>
+        )}
 
         <EstimatedCallsSection
           intermediateEstimatedCalls={leg.intermediateEstimatedCalls}

@@ -16,6 +16,7 @@ import {
 } from '@atb/page-modules/assistant';
 import { isDefined } from '@atb/utils/presence';
 import { withinZoneIds } from '../utils';
+import { useLiveVehicleServiceJourneyIds } from '@atb/page-modules/assistant/details/use-live-vehicle-ids';
 
 type DetailsBodyProps = {
   tripPattern: ExtendedTripPatternWithDetailsType;
@@ -31,6 +32,10 @@ export function AssistantDetailsBody({ tripPattern }: DetailsBodyProps) {
       'none'
     );
   });
+
+  const liveVehicleServiceJourneyIds = useLiveVehicleServiceJourneyIds(
+    tripPattern.legs,
+  );
 
   return (
     <div className={style.bodyContainer}>
@@ -61,6 +66,10 @@ export function AssistantDetailsBody({ tripPattern }: DetailsBodyProps) {
             isFirst={index === 0}
             isLast={index === tripPattern.legs.length - 1}
             leg={leg as ExtendedLegType}
+            hasLiveVehicle={
+              !!leg.serviceJourney?.id &&
+              liveVehicleServiceJourneyIds.has(leg.serviceJourney.id)
+            }
             interchangeDetails={getInterchangeDetails(
               tripPattern.legs,
               leg.interchangeTo?.toServiceJourney?.id,
