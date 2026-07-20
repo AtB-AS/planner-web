@@ -31,6 +31,12 @@
   width: 100%;
   margin: 0 auto;
 }
+@media (max-width: 650px) {
+  .mapContainer {
+    aspect-ratio: 1 / 1;
+    max-height: none;
+  }
+}
 .serviceJourneyContainer {
   grid-area: serviceJourney;
   display: flex;
