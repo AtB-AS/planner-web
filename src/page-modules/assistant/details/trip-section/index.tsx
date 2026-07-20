@@ -6,13 +6,13 @@ import {
 import style from './trip-section.module.css';
 import {
   TransportIconWithDuration,
+  transportModeToTranslatedString,
   useTransportationThemeColor,
 } from '@atb/modules/transport-mode';
 import { Typo } from '@atb/components/typography';
 import WalkSection from './walk-section';
 import { ColorIcon, MonoIcon } from '@atb/components/icon';
 import { ButtonLink } from '@atb/components/button';
-import { transportModeToTranslatedString } from '@atb/modules/transport-mode';
 import { useTheme } from '@atb/modules/theme';
 import { MessageBox } from '@atb/components/message-box';
 import {
