@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useCallback } from 'react';
+import React, { useRef, useEffect, useCallback, useMemo } from 'react';
 import mapboxgl, { type StyleSpecification } from 'mapbox-gl';
 import style from './map.module.css';
 import 'mapbox-gl/dist/mapbox-gl.css';
@@ -58,10 +58,13 @@ export default function Map(props: MapProps) {
   // mapRef.current undefined and never re-run.
   const mapboxJsonStyle = useMapboxJsonStyle();
   const [isDarkMode] = useDarkMode();
+  const { language } = useTranslation();
   if (!mapboxJsonStyle) return <MapLoading />;
   return (
     <MapWithStyle
-      key={isDarkMode ? 'dark' : 'light'} // For remounting on theme toggle
+      // Remount on theme toggle and language change, so the map re-initializes
+      // with the correct style and localized cooperative-gesture text.
+      key={`${isDarkMode ? 'dark' : 'light'}-${language}`}
       mapboxJsonStyle={mapboxJsonStyle}
       {...props}
     />
@@ -98,6 +101,8 @@ function MapWithStyle({
       zoom: initialZoom,
       bounds,
       interactive,
+      // Let the scroll wheel scroll the page instead of zooming the map.
+      cooperativeGestures: interactive,
     });
   }, [position, initialZoom, bounds, mapboxJsonStyle, interactive]);
 
