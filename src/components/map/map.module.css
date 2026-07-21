@@ -77,9 +77,27 @@
 
 .buttonsContainer {
   position: absolute;
-  right: token('spacing.xLarge');
+  right: token('spacing.large');
   bottom: 3rem;
   z-index: 250;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: token('spacing.small');
+}
+
+.zoomControl {
+  display: flex;
+  flex-direction: column;
+}
+
+.zoomControl__button {
+  justify-content: center;
+}
+
+.zoomControl__button__divider {
+  box-shadow: inset 0 token('border.width.slim') 0
+    token('color.border.primary.background');
 }
 
 .pinSvg__fill {

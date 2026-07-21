@@ -16,6 +16,8 @@ export const Map = {
       'Reset map view',
       'Tilbakestill kartvisning',
     ),
+    zoomInButton: _('Zoom inn', 'Zoom in', 'Zoom inn'),
+    zoomOutButton: _('Zoom ut', 'Zoom out', 'Zoom ut'),
     startPoint: _('Start', 'Start', 'Start'),
     endPoint: _('Slutt', 'End', 'Slutt'),
   },

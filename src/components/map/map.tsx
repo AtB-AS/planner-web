@@ -113,7 +113,10 @@ function MapWithStyle({
     return () => resizeObserver.disconnect();
   }, []);
 
-  const { centerMap } = useMapInteractions(map, onSelectStopPlace);
+  const { centerMap, zoomIn, zoomOut } = useMapInteractions(
+    map,
+    onSelectStopPlace,
+  );
   useMapPin(map, position, layer);
   useMapLegs(map, mapLegs);
   useMapFareZones(map);
@@ -133,15 +136,44 @@ function MapWithStyle({
     <div className={style.map}>
       <div className={style.mapWrapper}>
         {interactive && (
-          <Button
-            className={style.buttonsContainer}
-            size="small"
-            icon={{ left: <MonoIcon icon="places/Location" /> }}
-            onClick={() => centerMap(position)}
-            buttonProps={{
-              'aria-label': t(ComponentText.Map.map.centerMapButton),
-            }}
-          />
+          <div className={style.buttonsContainer}>
+            <Button
+              size="small"
+              radiusSize="circular"
+              icon={{ left: <MonoIcon icon="places/Location" /> }}
+              onClick={() => centerMap(position)}
+              buttonProps={{
+                'aria-label': t(ComponentText.Map.map.centerMapButton),
+              }}
+            />
+            <div className={style.zoomControl}>
+              <Button
+                className={style.zoomControl__button}
+                size="small"
+                radius="top"
+                radiusSize="circular"
+                icon={{ left: <MonoIcon icon="actions/Add" /> }}
+                onClick={zoomIn}
+                buttonProps={{
+                  'aria-label': t(ComponentText.Map.map.zoomInButton),
+                }}
+              />
+              <Button
+                className={and(
+                  style.zoomControl__button,
+                  style.zoomControl__button__divider,
+                )}
+                size="small"
+                radius="bottom"
+                radiusSize="circular"
+                icon={{ left: <MonoIcon icon="actions/Subtract" /> }}
+                onClick={zoomOut}
+                buttonProps={{
+                  'aria-label': t(ComponentText.Map.map.zoomOutButton),
+                }}
+              />
+            </div>
+          </div>
         )}
         <div
           ref={mapContainer}
