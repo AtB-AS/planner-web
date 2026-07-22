@@ -50,5 +50,8 @@ export function useMapInteractions(
     mapRef.current.flyTo({ center: position, zoom: ZOOM_LEVEL, speed: 2 });
   };
 
-  return { centerMap };
+  const zoomIn = () => mapRef.current?.zoomIn();
+  const zoomOut = () => mapRef.current?.zoomOut();
+
+  return { centerMap, zoomIn, zoomOut };
 }

@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useCallback } from 'react';
+import React, { useRef, useEffect, useCallback, useMemo } from 'react';
 import mapboxgl, { type StyleSpecification } from 'mapbox-gl';
 import style from './map.module.css';
 import 'mapbox-gl/dist/mapbox-gl.css';
@@ -58,10 +58,13 @@ export default function Map(props: MapProps) {
   // mapRef.current undefined and never re-run.
   const mapboxJsonStyle = useMapboxJsonStyle();
   const [isDarkMode] = useDarkMode();
+  const { language } = useTranslation();
   if (!mapboxJsonStyle) return <MapLoading />;
   return (
     <MapWithStyle
-      key={isDarkMode ? 'dark' : 'light'} // For remounting on theme toggle
+      // Remount on theme toggle and language change, so the map re-initializes
+      // with the correct style and localized cooperative-gesture text.
+      key={`${isDarkMode ? 'dark' : 'light'}-${language}`}
       mapboxJsonStyle={mapboxJsonStyle}
       {...props}
     />
@@ -98,6 +101,8 @@ function MapWithStyle({
       zoom: initialZoom,
       bounds,
       interactive,
+      // Let the scroll wheel scroll the page instead of zooming the map.
+      cooperativeGestures: interactive,
     });
   }, [position, initialZoom, bounds, mapboxJsonStyle, interactive]);
 
@@ -113,7 +118,10 @@ function MapWithStyle({
     return () => resizeObserver.disconnect();
   }, []);
 
-  const { centerMap } = useMapInteractions(map, onSelectStopPlace);
+  const { centerMap, zoomIn, zoomOut } = useMapInteractions(
+    map,
+    onSelectStopPlace,
+  );
   useMapPin(map, position, layer);
   useMapLegs(map, mapLegs);
   useMapFareZones(map);
@@ -133,15 +141,44 @@ function MapWithStyle({
     <div className={style.map}>
       <div className={style.mapWrapper}>
         {interactive && (
-          <Button
-            className={style.buttonsContainer}
-            size="small"
-            icon={{ left: <MonoIcon icon="places/Location" /> }}
-            onClick={() => centerMap(position)}
-            buttonProps={{
-              'aria-label': t(ComponentText.Map.map.centerMapButton),
-            }}
-          />
+          <div className={style.buttonsContainer}>
+            <Button
+              size="small"
+              radiusSize="circular"
+              icon={{ left: <MonoIcon icon="places/Location" /> }}
+              onClick={() => centerMap(position)}
+              buttonProps={{
+                'aria-label': t(ComponentText.Map.map.centerMapButton),
+              }}
+            />
+            <div className={style.zoomControl}>
+              <Button
+                className={style.zoomControl__button}
+                size="small"
+                radius="top"
+                radiusSize="circular"
+                icon={{ left: <MonoIcon icon="actions/Add" /> }}
+                onClick={zoomIn}
+                buttonProps={{
+                  'aria-label': t(ComponentText.Map.map.zoomInButton),
+                }}
+              />
+              <Button
+                className={and(
+                  style.zoomControl__button,
+                  style.zoomControl__button__divider,
+                )}
+                size="small"
+                radius="bottom"
+                radiusSize="circular"
+                icon={{ left: <MonoIcon icon="actions/Subtract" /> }}
+                onClick={zoomOut}
+                buttonProps={{
+                  'aria-label': t(ComponentText.Map.map.zoomOutButton),
+                }}
+              />
+            </div>
+          </div>
         )}
         <div
           ref={mapContainer}
