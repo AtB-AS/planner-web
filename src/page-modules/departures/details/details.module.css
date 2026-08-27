@@ -27,6 +27,7 @@
 }
 .mapContainer {
   grid-area: map;
+  min-height: 20rem;
   max-height: 37.5rem;
   width: 100%;
   margin: 0 auto;
