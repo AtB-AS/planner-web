@@ -13,10 +13,15 @@ import {
   SuccessContent,
   ErrorContent,
 } from '@mrfylke/contact-form';
-import LostPropertyContent from '@mrfylke/contact-form/lost-property';
+import LostPropertyFormContent from '@mrfylke/contact-form/lost-property';
+import LostPropertyStaticLinkContent from '@atb/page-modules/contact/lost-property';
 import GroupTravelContent from '@mrfylke/contact-form/group-travel';
+import { byOrg } from '@atb/modules/org-data';
 import { useRouter } from 'next/router';
 import type { JSX } from 'react';
+
+const LostPropertyContent =
+  byOrg({ fram: LostPropertyStaticLinkContent }) ?? LostPropertyFormContent;
 
 const slugToContent: Record<string, JSX.Element> = {
   'ticket-control': <TicketControlPageContent />,
