@@ -37,10 +37,17 @@ export function ContactFormContactContent({
 }: ContactFormContactContentProps) {
   const router = useRouter();
   const { layout, pagesOverrides } = useContactFormConfig();
+  const backLink = layout?.backLinkDefault ?? {
+    href: '/',
+    label: PageText.Contact.contactPageLayout.homeLink,
+  };
   const slug = (router.query.slug as string[] | undefined) ?? slugProp;
-  const first = Array.isArray(slug) ? slug[0] : slug;
-  const key = first ?? 'refund';
 
+  if (!slug) {
+    return <ContactPageLayout title="Contact" backLink={backLink} />;
+  }
+
+  const key = Array.isArray(slug) ? slug[0] : slug;
   const externalUrl = pagesOverrides?.externalUrlByPageId?.[key];
 
   let content: JSX.Element;
@@ -51,13 +58,8 @@ export function ContactFormContactContent({
   } else if (key === 'error') {
     content = (layout?.errorContent ?? <ErrorContent />) as JSX.Element;
   } else {
-    content = slugToContent[key] ?? <RefundContent />;
+    content = slugToContent[key] ?? null;
   }
-
-  const backLink = layout?.backLinkDefault ?? {
-    href: '/',
-    label: PageText.Contact.contactPageLayout.homeLink,
-  };
 
   if (key === 'success' || key === 'error') {
     return <>{content}</>;
