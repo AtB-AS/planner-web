@@ -4,12 +4,20 @@ import { useDarkMode } from '@mrfylke/contact-form';
 import { adaptAtbTheme } from '@mrfylke/contact-form/config';
 import { theme } from '@atb/modules/theme';
 import { getOrgData } from '@atb/modules/org-data';
+import type { WEBSHOP_ORGS } from '@atb/modules/org-data';
 import {
   PageText,
   ComponentText,
   CommonText,
   ServerText,
 } from '@atb/translations';
+
+function orgSpecificConfig<T>(
+  orgId: WEBSHOP_ORGS,
+  byOrg: Partial<Record<WEBSHOP_ORGS, T>>,
+): T | undefined {
+  return byOrg[orgId];
+}
 
 function createIconComponent(iconName: string): IconComponent {
   const Icon = ({
@@ -127,6 +135,9 @@ function getContactFormConfig(): ContactFormConfig {
       successPath: '/contact/success',
       errorPath: '/contact/error',
     },
+    pagesOverrides: orgSpecificConfig(org.orgId, {
+      fram: { hidePageIds: ['skoleskyss'] },
+    }),
     translations: {
       pages: PageText,
       components: ComponentText,
