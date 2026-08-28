@@ -12,29 +12,25 @@ export const config = {
   },
 };
 
-function getSubmitForFormType(
-  client: {
-    submitTicketControlForm: (body: unknown) => Promise<ContactApiReturnType>;
-    submitRefundForm: (body: unknown) => Promise<ContactApiReturnType>;
-    submitMeansOfTransportForm: (
-      body: unknown,
-    ) => Promise<ContactApiReturnType>;
-    submitTicketingForm: (body: unknown) => Promise<ContactApiReturnType>;
-    submitJourneyInfoForm: (body: unknown) => Promise<ContactApiReturnType>;
-  },
-  formType: FormSchemaName,
-): (body: Record<string, unknown>) => Promise<ContactApiReturnType> {
-  const map: Record<
-    FormSchemaName,
-    (body: Record<string, unknown>) => Promise<ContactApiReturnType>
-  > = {
+function getSubmitForFormType(client: {
+  submitTicketControlForm: (body: unknown) => Promise<ContactApiReturnType>;
+  submitRefundForm: (body: unknown) => Promise<ContactApiReturnType>;
+  submitMeansOfTransportForm: (body: unknown) => Promise<ContactApiReturnType>;
+  submitTicketingForm: (body: unknown) => Promise<ContactApiReturnType>;
+  submitJourneyInfoForm: (body: unknown) => Promise<ContactApiReturnType>;
+  submitLostPropertyForm: (body: unknown) => Promise<ContactApiReturnType>;
+}): Record<
+  FormSchemaName,
+  (body: Record<string, unknown>) => Promise<ContactApiReturnType>
+> {
+  return {
     ticketControl: (body) => client.submitTicketControlForm(body),
     refund: (body) => client.submitRefundForm(body),
     meansOfTransport: (body) => client.submitMeansOfTransportForm(body),
     ticketing: (body) => client.submitTicketingForm(body),
     journeyInfo: (body) => client.submitJourneyInfoForm(body),
+    lostProperty: (body) => client.submitLostPropertyForm(body),
   };
-  return map[formType];
 }
 
 export default handlerWithContactFormClient<ContactApiReturnType>({
@@ -43,23 +39,18 @@ export default handlerWithContactFormClient<ContactApiReturnType>({
       const { formType, ...body } = req.body as Record<string, unknown> & {
         formType?: FormSchemaName;
       };
+      const submitForFormType = getSubmitForFormType(client);
       if (
         !formType ||
         typeof formType !== 'string' ||
-        ![
-          'ticketControl',
-          'refund',
-          'meansOfTransport',
-          'ticketing',
-          'journeyInfo',
-        ].includes(formType)
+        !(formType in submitForFormType)
       ) {
         return res.status(400).json({
           success: false,
           message: 'Missing or invalid formType',
         });
       }
-      const submit = getSubmitForFormType(client, formType as FormSchemaName);
+      const submit = submitForFormType[formType as FormSchemaName];
       return ok(await submit(body as Record<string, unknown>));
     });
   },
