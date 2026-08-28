@@ -7,6 +7,7 @@ export type ContactApi = {
   submitMeansOfTransportForm(formData: any): Promise<ContactApiReturnType>;
   submitTicketingForm(formData: any): Promise<ContactApiReturnType>;
   submitJourneyInfoForm(formData: any): Promise<ContactApiReturnType>;
+  submitLostPropertyForm(formData: any): Promise<ContactApiReturnType>;
 };
 
 export function createContactApi(
@@ -51,6 +52,15 @@ export function createContactApi(
 
     async submitJourneyInfoForm(formData) {
       const response = await request('/journey-info', {
+        method: 'POST',
+        body: formData,
+      });
+      const data: ContactApiReturnType = await response.json();
+      return data;
+    },
+
+    async submitLostPropertyForm(formData) {
+      const response = await request('/lost-property', {
         method: 'POST',
         body: formData,
       });
