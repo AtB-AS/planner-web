@@ -8,3 +8,4 @@ allowBuilds:
   unrs-resolver: true
 minimumReleaseAgeExclude:
   - "@atb-as/*"
+  - '@mrfylke/contact-form@0.1.21'
