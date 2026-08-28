@@ -130,6 +130,17 @@ function getContactFormConfig(): ContactFormConfig {
     pagesOverrides: byOrg({
       fram: { hidePageIds: ['skoleskyss'] },
     }),
+    formSchemaOverrides: byOrg({
+      fram: {
+        refund: {
+          enabledFormCategories: [
+            'refundOfTicket',
+            'refundAndTravelGuarantee',
+            'residualValueOnTravelCard',
+          ],
+        },
+      },
+    }),
     translations: {
       pages: PageText,
       components: ComponentText,
