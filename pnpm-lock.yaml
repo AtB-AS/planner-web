@@ -41,6 +41,9 @@ importers:
       '@codemirror/view':
         specifier: ^6.41.1
         version: 6.43.1
+      '@emotion/is-prop-valid':
+        specifier: ^1.4.0
+        version: 1.4.0
       '@github/combobox-nav':
         specifier: ^3.0.1
         version: 3.0.1
@@ -56,6 +59,9 @@ importers:
       '@mapbox/polyline':
         specifier: ^1.2.1
         version: 1.2.1
+      '@mrfylke/contact-form':
+        specifier: ^0.1.21
+        version: 0.1.21(@atb-as/generate-assets@18.16.0)(@atb-as/theme@15.2.0)(@atb-as/token@0.0.4(@atb-as/theme@15.2.0)(postcss@8.5.15))(@emotion/is-prop-valid@1.4.0)(@internationalized/date@3.12.2)(@types/react@19.1.10)(graphql-ws@6.0.8(graphql@16.14.2)(ws@8.21.0))(lodash@4.18.1)(next@15.4.10(@babel/core@7.29.7)(@playwright/test@1.60.0)(react-dom@19.1.4(react@19.1.4))(react@19.1.4))(react-aria-components@1.18.0(react-dom@19.1.4(react@19.1.4))(react@19.1.4))(react-dom@19.1.4(react@19.1.4))(react@19.1.4)(swr@2.4.1(react@19.1.4))(uuid@11.1.1)(zod@4.1.11)
       '@react-aria/focus':
         specifier: ^3.21.0
         version: 3.22.1(react-dom@19.1.4(react@19.1.4))(react@19.1.4)
@@ -109,7 +115,7 @@ importers:
         version: 12.14.0
       framer-motion:
         specifier: ^12.23.12
-        version: 12.40.0(react-dom@19.1.4(react@19.1.4))(react@19.1.4)
+        version: 12.40.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.1.4(react@19.1.4))(react@19.1.4)
       graphql:
         specifier: ^16.11.0
         version: 16.14.2
@@ -337,6 +343,12 @@ packages:
 
   '@atb-as/config-specs@11.1.0':
     resolution: {integrity: sha512-i5CnKYcStq4qt/XOw7y8AroL9mdGNqykeiT1mQD1gN0CemipLrb1JMm1mgKj6U0vwt1AQWkPfBwUFtVSVYexUw==}
+    hasBin: true
+    peerDependencies:
+      zod: ^4.1.11
+
+  '@atb-as/config-specs@9.6.1':
+    resolution: {integrity: sha512-QFoqCNbbK3Dqz7UwOSL2e6cBWNT9tpUhndLQbmVN6CJY0zbZumxFbsVPHTZnBEsd/g/f1dGbeQ1A+8JQEC9FNA==}
     hasBin: true
     peerDependencies:
       zod: ^4.1.11
@@ -1315,6 +1327,12 @@ packages:
 
   '@emnapi/wasi-threads@1.2.1':
     resolution: {integrity: sha512-uTII7OYF+/Mes/MrcIOYp5yOtSMLBWSIoLPpcgwipoiKbli6k322tcoFsxoIIxPDqW01SQGAgko4EzZi2BNv2w==}
+
+  '@emotion/is-prop-valid@1.4.0':
+    resolution: {integrity: sha512-QgD4fyscGcbbKwJmqNvUMSE02OsHUa+lAWKdEUIJKgqe5IwRSKd7+KhibEWdaKwgjLj0DRSHA9biAIqGBk05lw==}
+
+  '@emotion/memoize@0.9.0':
+    resolution: {integrity: sha512-30FAj7/EoJ5mwVPOWhAyCX+FPfMDrVecJAM+Iw9NRoSl4BBAQeqj4cApHHUXOVvIPgLVDsCFoz/hGD+5QQD1GQ==}
 
   '@envelop/core@5.5.1':
     resolution: {integrity: sha512-3DQg8sFskDo386TkL5j12jyRAdip/8yzK3x7YGbZBgobZ4aKXrvDU0GppU0SnmrpQnNaiTUsxBs9LKkwQ/eyvw==}
@@ -2331,6 +2349,21 @@ packages:
 
   '@microsoft/tsdoc@0.16.0':
     resolution: {integrity: sha512-xgAyonlVVS+q7Vc7qLW0UrJU7rSFcETRWsqdXZtjzRU8dF+6CkozTK4V4y1LwOX7j8r/vHphjDeMeGI4tNGeGA==}
+
+  '@mrfylke/contact-form@0.1.21':
+    resolution: {integrity: sha512-/qlUG5r2iE0R5XLleiLcLQKVunKHqDcxoOKDjoLiEI8+AMdp5XD8ULt8/mJrJoOKtN3KlMxu58d6zflR7o6RWA==}
+    peerDependencies:
+      '@atb-as/generate-assets': ^18.7.0
+      '@atb-as/theme': ^15.0.0
+      '@atb-as/token': ^0.0.4
+      '@internationalized/date': ^3.11.0
+      lodash: ^4.6.2
+      next: '>=14.0.0'
+      react: ^18.0.0
+      react-aria-components: ^1.15.1
+      react-dom: ^18.0.0
+      swr: ^2.2.5
+      uuid: ^13.0.0
 
   '@napi-rs/wasm-runtime@1.1.4':
     resolution: {integrity: sha512-3NQNNgA1YSlJb/kMH1ildASP9HW7/7kYnRI2szWJaofaS1hWmbGI4H+d3+22aGzXXN9IJ+n+GiFVcGipJP18ow==}
@@ -4255,6 +4288,7 @@ packages:
   eslint@9.39.4:
     resolution: {integrity: sha512-XoMjdBOwe/esVgEvLmNsD3IRHkm7fbKIUGvrleloJXUZgDHig2IPWNniv+GwjyJXzuNqVjlr5+4yVUZjycJwfQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+    deprecated: This version is no longer supported. Please see https://eslint.org/version-support for other options.
     hasBin: true
     peerDependencies:
       jiti: '*'
@@ -4485,6 +4519,11 @@ packages:
 
   glob@7.2.3:
     resolution: {integrity: sha512-nFR0zLpU2YCaRxwoCJvL6UvCH2JFyFVIvwTLsIf21AuHlMskA1hhTdk+LlYJtOlYt9v6dvszD2BGRqBL+iQK9Q==}
+    deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+
+  glob@9.3.5:
+    resolution: {integrity: sha512-e1LleDykUz2Iu+MTYdkSsuWX8lvAjAcs0Xef0lNIu0S2wOAzuTxCJtcd9S3cijlwYF18EsU3rzb8jPVobxDh9Q==}
+    engines: {node: '>=16 || 14 >=14.17'}
     deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
 
   globals@14.0.0:
@@ -5054,6 +5093,9 @@ packages:
   lowlight@1.20.0:
     resolution: {integrity: sha512-8Ktj+prEb1RoCPkEOrPMYUN/nCggB7qAWe3a7OpMjWQkh3l2RD5wKRQ+o8Q8YuI9RG/xs95waaI/E6ym/7NsTw==}
 
+  lru-cache@10.4.3:
+    resolution: {integrity: sha512-JNAzZcXrCt42VGLuYz0zfAzDfAvJWW6AfYlDBQyDV5DClI2m5sAmK+OIO7s59XfsRsWHp02jAJrRadPRGTt6SQ==}
+
   lru-cache@11.5.1:
     resolution: {integrity: sha512-RPimw/7aMdv2oqRrxKwvZXcPfwBrn/JZ2xYcY9Hus/6LaS3VOAKVWKWgNLCFSiOm1ESXinjsDlidVU7JlnCN2A==}
     engines: {node: 20 || >=22}
@@ -5134,6 +5176,10 @@ packages:
   minimatch@3.1.5:
     resolution: {integrity: sha512-VgjWUsnnT6n+NUk6eZq77zeFdpW2LWDzP6zFGrCbHXiYNul5Dzqk2HHQ5uFH2DNW5Xbp8+jVzaeNt94ssEEl4w==}
 
+  minimatch@8.0.7:
+    resolution: {integrity: sha512-V+1uQNdzybxa14e/p00HZnQNNcTjnRJjDxg2V8wtkjFctq4M7hXFws4oekyTP0Jebeq7QYtpFyOeBAjc88zvYg==}
+    engines: {node: '>=16 || 14 >=14.17'}
+
   minimatch@9.0.9:
     resolution: {integrity: sha512-OBwBN9AL4dqmETlpS2zasx+vTeWclWzkblfZk7KTA5j3jeOONz/tRCnZomUyvNg83wL5Zv9Ss6HMJXAgL8R2Yg==}
     engines: {node: '>=16 || 14 >=14.17'}
@@ -5144,6 +5190,10 @@ packages:
 
   minimist@1.2.8:
     resolution: {integrity: sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==}
+
+  minipass@4.2.8:
+    resolution: {integrity: sha512-fNzuVyifolSLFL4NzpF+wEF4qrgqaaKX0haXPQEdQ7NKAN+WecoKMHV09YcuL/DHxrUsYQOK3MiuDf7Ip2OXfQ==}
+    engines: {node: '>=8'}
 
   minipass@7.1.3:
     resolution: {integrity: sha512-tEBHqDnIoM/1rXME1zgka9g6Q2lcoCkxHLuc7ODJ5BxbP5d4c2Z5cGgtXAku59200Cx7diuHTOYfSBD8n6mm8A==}
@@ -5429,6 +5479,10 @@ packages:
   path-root@0.1.1:
     resolution: {integrity: sha512-QLcPegTHF11axjfojBIoDygmS2E3Lf+8+jI6wOVmNVenrKSo3mFdSGiIgdSHenczw3wPtlVMQaFVwGmM7BJdtg==}
     engines: {node: '>=0.10.0'}
+
+  path-scurry@1.11.1:
+    resolution: {integrity: sha512-Xa4Nw17FS9ApQFJ9umLiJS4orGjm7ZzwUrwamcGQuHSzDyth9boKDaycYdDcZDuqYATXw4HFXgaqWTctW/v1HA==}
+    engines: {node: '>=16 || 14 >=14.18'}
 
   path-scurry@2.0.2:
     resolution: {integrity: sha512-3O/iVVsJAPsOnpwWIeD+d6z/7PmqApyQePUtCndjatj/9I5LylHvt5qluFaBT3I5h3r1ejfR056c+FCv+NnNXg==}
@@ -6804,6 +6858,15 @@ snapshots:
       yargs: 17.7.2
       zod: 4.1.11
 
+  '@atb-as/config-specs@9.6.1(zod@4.1.11)':
+    dependencies:
+      ajv: 8.20.0
+      ajv-formats: 3.0.1(ajv@8.20.0)
+      glob: 9.3.5
+      js-yaml: 4.2.0
+      yargs: 17.7.2
+      zod: 4.1.11
+
   '@atb-as/generate-assets@18.16.0':
     dependencies:
       '@atb-as/theme': 14.0.1
@@ -8011,6 +8074,12 @@ snapshots:
     dependencies:
       tslib: 2.8.1
     optional: true
+
+  '@emotion/is-prop-valid@1.4.0':
+    dependencies:
+      '@emotion/memoize': 0.9.0
+
+  '@emotion/memoize@0.9.0': {}
 
   '@envelop/core@5.5.1':
     dependencies:
@@ -9308,6 +9377,35 @@ snapshots:
       resolve: 1.22.12
 
   '@microsoft/tsdoc@0.16.0': {}
+
+  '@mrfylke/contact-form@0.1.21(@atb-as/generate-assets@18.16.0)(@atb-as/theme@15.2.0)(@atb-as/token@0.0.4(@atb-as/theme@15.2.0)(postcss@8.5.15))(@emotion/is-prop-valid@1.4.0)(@internationalized/date@3.12.2)(@types/react@19.1.10)(graphql-ws@6.0.8(graphql@16.14.2)(ws@8.21.0))(lodash@4.18.1)(next@15.4.10(@babel/core@7.29.7)(@playwright/test@1.60.0)(react-dom@19.1.4(react@19.1.4))(react@19.1.4))(react-aria-components@1.18.0(react-dom@19.1.4(react@19.1.4))(react@19.1.4))(react-dom@19.1.4(react@19.1.4))(react@19.1.4)(swr@2.4.1(react@19.1.4))(uuid@11.1.1)(zod@4.1.11)':
+    dependencies:
+      '@apollo/client': 3.14.1(@types/react@19.1.10)(graphql-ws@6.0.8(graphql@16.14.2)(ws@8.21.0))(graphql@16.14.2)(react-dom@19.1.4(react@19.1.4))(react@19.1.4)
+      '@atb-as/config-specs': 9.6.1(zod@4.1.11)
+      '@atb-as/generate-assets': 18.16.0
+      '@atb-as/theme': 15.2.0
+      '@atb-as/token': 0.0.4(@atb-as/theme@15.2.0)(postcss@8.5.15)
+      '@internationalized/date': 3.12.2
+      '@leile/lobo-t': 1.0.5(react@19.1.4)
+      '@xstate/react': 6.1.0(@types/react@19.1.10)(react@19.1.4)(xstate@5.32.0)
+      detect-nearest-browser-locale: 19.0.0
+      detect-nearest-locale: 1.0.1
+      framer-motion: 12.40.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.1.4(react@19.1.4))(react@19.1.4)
+      graphql: 16.14.2
+      lodash: 4.18.1
+      next: 15.4.10(@babel/core@7.29.7)(@playwright/test@1.60.0)(react-dom@19.1.4(react@19.1.4))(react@19.1.4)
+      react: 19.1.4
+      react-aria-components: 1.18.0(react-dom@19.1.4(react@19.1.4))(react@19.1.4)
+      react-dom: 19.1.4(react@19.1.4)
+      swr: 2.4.1(react@19.1.4)
+      uuid: 11.1.1
+      xstate: 5.32.0
+    transitivePeerDependencies:
+      - '@emotion/is-prop-valid'
+      - '@types/react'
+      - graphql-ws
+      - subscriptions-transport-ws
+      - zod
 
   '@napi-rs/wasm-runtime@1.1.4(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)':
     dependencies:
@@ -11527,12 +11625,13 @@ snapshots:
 
   fraction.js@5.3.4: {}
 
-  framer-motion@12.40.0(react-dom@19.1.4(react@19.1.4))(react@19.1.4):
+  framer-motion@12.40.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.1.4(react@19.1.4))(react@19.1.4):
     dependencies:
       motion-dom: 12.40.0
       motion-utils: 12.39.0
       tslib: 2.8.1
     optionalDependencies:
+      '@emotion/is-prop-valid': 1.4.0
       react: 19.1.4
       react-dom: 19.1.4(react@19.1.4)
 
@@ -11628,6 +11727,13 @@ snapshots:
       minimatch: 3.1.5
       once: 1.4.0
       path-is-absolute: 1.0.1
+
+  glob@9.3.5:
+    dependencies:
+      fs.realpath: 1.0.0
+      minimatch: 8.0.7
+      minipass: 4.2.8
+      path-scurry: 1.11.1
 
   globals@14.0.0: {}
 
@@ -12187,6 +12293,8 @@ snapshots:
       fault: 1.0.4
       highlight.js: 10.7.3
 
+  lru-cache@10.4.3: {}
+
   lru-cache@11.5.1: {}
 
   lru-cache@5.1.1:
@@ -12257,6 +12365,10 @@ snapshots:
     dependencies:
       brace-expansion: 1.1.15
 
+  minimatch@8.0.7:
+    dependencies:
+      brace-expansion: 2.1.1
+
   minimatch@9.0.9:
     dependencies:
       brace-expansion: 2.1.1
@@ -12268,6 +12380,8 @@ snapshots:
       kind-of: 6.0.3
 
   minimist@1.2.8: {}
+
+  minipass@4.2.8: {}
 
   minipass@7.1.3: {}
 
@@ -12586,6 +12700,11 @@ snapshots:
   path-root@0.1.1:
     dependencies:
       path-root-regex: 0.1.2
+
+  path-scurry@1.11.1:
+    dependencies:
+      lru-cache: 10.4.3
+      minipass: 7.1.3
 
   path-scurry@2.0.2:
     dependencies:
