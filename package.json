@@ -49,7 +49,7 @@
     "@isaacs/ttlcache": "^1.4.1",
     "@leile/lobo-t": "^1.0.5",
     "@mapbox/polyline": "^1.2.1",
-    "@mrfylke/contact-form": "^0.1.9",
+    "@mrfylke/contact-form": "^0.1.21",
     "@react-aria/focus": "^3.21.0",
     "@react-hook/resize-observer": "^2.0.2",
     "@resvg/resvg-js": "^2.6.2",
