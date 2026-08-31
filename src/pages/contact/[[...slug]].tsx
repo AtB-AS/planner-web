@@ -1,8 +1,10 @@
 import DefaultLayout from '@atb/layouts/default';
 import { withAccessLogging } from '@atb/modules/logging';
 import { withGlobalData, type WithGlobalData } from '@atb/modules/global-data';
-import { shouldShowContactPage } from '@mrfylke/contact-form';
-import { getContactPageTitle } from '@atb/server/contact/utils';
+import {
+  getContactPageTitle,
+  shouldShowContactPage,
+} from '@atb/server/contact/utils';
 import {
   ContactFormWrapper,
   ContactFormContactContent,
