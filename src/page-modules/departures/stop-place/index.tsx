@@ -9,6 +9,7 @@ import {
 import ScreenReaderOnly from '@atb/components/screen-reader-only';
 import { Typo } from '@atb/components/typography';
 import {
+  getMostCriticalStatus,
   getMsgTypeForMostCriticalSituationOrNotice,
   isSituationValidAtDate,
   SituationMessageBox,
@@ -318,11 +319,14 @@ export function EstimatedCallItem({
               }
               label={departure.serviceJourney.line.publicCode}
               transportSubmode={departure.serviceJourney.line.transportSubmode}
-              notificationType={getMsgTypeForMostCriticalSituationOrNotice(
-                departure.situations,
-                departure.notices,
-                departure.cancellation,
-              )}
+              notificationType={getMostCriticalStatus([
+                getMsgTypeForMostCriticalSituationOrNotice(
+                  departure.situations,
+                  departure.notices,
+                  departure.cancellation,
+                ),
+                departure.requestStop ? 'info' : undefined,
+              ])}
             />
           )}
           <Typo.p

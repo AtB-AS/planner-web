@@ -26,6 +26,7 @@ export const departureDataFixture: ExtendedDeparturesType = {
             expectedDepartureTime: '2025-04-04T13:55:00+02:00',
             realtime: false,
             cancellation: false,
+            requestStop: false,
             quay: {
               id: 'NSR:Quay:71184',
             },
@@ -55,6 +56,7 @@ export const departureDataFixture: ExtendedDeparturesType = {
             expectedDepartureTime: '2025-04-04T13:57:00+02:00',
             realtime: false,
             cancellation: false,
+            requestStop: false,
             quay: {
               id: 'NSR:Quay:71184',
             },
@@ -93,6 +95,7 @@ export const departureDataFixture: ExtendedDeparturesType = {
             expectedDepartureTime: '2025-04-04T13:53:00+02:00',
             realtime: false,
             cancellation: false,
+            requestStop: false,
             quay: {
               id: 'NSR:Quay:71181',
             },
@@ -122,6 +125,7 @@ export const departureDataFixture: ExtendedDeparturesType = {
             expectedDepartureTime: '2025-04-04T13:54:00+02:00',
             realtime: false,
             cancellation: false,
+            requestStop: false,
             quay: {
               id: 'NSR:Quay:71181',
             },

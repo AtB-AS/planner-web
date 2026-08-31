@@ -36,6 +36,7 @@ fragment serviceJourneyEstimatedCall on EstimatedCall {
   expectedArrivalTime
   forAlighting
   forBoarding
+  requestStop
   realtime
   quay {
     id
