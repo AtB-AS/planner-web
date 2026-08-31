@@ -19,6 +19,10 @@ export type RefreshableLeg = {
   expectedEndTime: string;
   serviceJourney?: { id: string } | null;
   refreshedAt?: string;
+  interchangeTo?: {
+    guaranteed?: boolean | null;
+    maximumWaitTime?: number | null;
+  } | null;
 };
 
 export function isTransitLeg(leg: RefreshableLeg): boolean {
@@ -28,14 +32,54 @@ export function isTransitLeg(leg: RefreshableLeg): boolean {
 /**
  * Checks if any leg N+1's expectedStartTime is before leg N's expectedEndTime,
  * indicating a missed connection (impossible trip).
+ *
+ * Overlaps at a guaranteed interchange are ignored: the connecting service has
+ * committed to waiting for the delayed one, so a negative gap there is not a
+ * missed connection.
  */
 export function hasTemporalOverlap(legs: RefreshableLeg[]): boolean {
   for (let i = 1; i < legs.length; i++) {
     const prev = legs[i - 1];
     const curr = legs[i];
     if (parseISO(curr.expectedStartTime) < parseISO(prev.expectedEndTime)) {
+      if (hasGuaranteedInterchangeInto(legs, i)) continue;
       return true;
     }
+  }
+  return false;
+}
+
+/**
+ * Whether the interchange into the leg at `index` still guarantees the
+ * connection, given when you actually arrive.
+ *
+ * Walks back past non-transit legs, because the interchange relationship lives
+ * on the transit leg you alight from: a bus -> walk -> bus transfer overlaps on
+ * the (walk, bus) pair, but it is the first bus that carries `interchangeTo`.
+ *
+ * A guarantee is bounded by `maximumWaitTime`: the connecting service only
+ * holds for that many seconds past its own scheduled departure. Arriving after
+ * that deadline is a missed connection despite the guarantee. Arrival is the
+ * end of the leg immediately before the connection, so an intervening walk
+ * counts against the deadline. An absent `maximumWaitTime` means the service
+ * waits however long it takes.
+ */
+function hasGuaranteedInterchangeInto(
+  legs: RefreshableLeg[],
+  index: number,
+): boolean {
+  for (let i = index - 1; i >= 0; i--) {
+    if (!isTransitLeg(legs[i])) continue;
+
+    const interchange = legs[i].interchangeTo;
+    if (interchange?.guaranteed !== true) return false;
+    if (interchange.maximumWaitTime == null) return true;
+
+    const deadline = addSeconds(
+      parseISO(legs[index].aimedStartTime),
+      interchange.maximumWaitTime,
+    );
+    return parseISO(legs[index - 1].expectedEndTime) <= deadline;
   }
   return false;
 }
