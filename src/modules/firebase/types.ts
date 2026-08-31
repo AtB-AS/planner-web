@@ -1,7 +1,7 @@
 import { languageAndTextSchema } from '@atb/translations/types';
 import { z } from 'zod';
 
-export const tariffZoneSchema = z.object({
+export const fareZoneSchema = z.object({
   geometry: z.object({
     coordinates: z.array(z.array(z.array(z.number()))),
     type: z.literal('Polygon'),
@@ -12,4 +12,4 @@ export const tariffZoneSchema = z.object({
   isDefault: z.boolean().optional(),
 });
 
-export type TariffZone = z.infer<typeof tariffZoneSchema>;
+export type FareZone = z.infer<typeof fareZoneSchema>;

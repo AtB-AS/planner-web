@@ -1,0 +1,15 @@
+.dateNavigation {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: token('spacing.small');
+}
+
+.dateNavigation__date {
+  text-align: center;
+}
+
+.dateNavigation__buttonHidden {
+  visibility: hidden;
+}

@@ -31,15 +31,21 @@ export const getServerSideProps = withAccessLogging(
         const id = params.id.toString();
         const date = new Date(query.date.toString());
         const fromQuayId = query.fromQuayId.toString();
+        const toQuayId = query.toQuayId?.toString();
 
         const serviceJourney = await client.serviceJourney({
           id,
           date,
           fromQuayId,
+          toQuayId,
         });
 
         return {
-          props: { fromQuayId, serviceJourney: serviceJourney },
+          props: {
+            fromQuayId,
+            serviceJourney: serviceJourney,
+            ...(toQuayId ? { toQuayId } : {}),
+          },
         };
       },
     ),

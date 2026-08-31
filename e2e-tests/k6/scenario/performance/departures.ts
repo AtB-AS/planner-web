@@ -3,7 +3,7 @@ import { Measures } from '../../measurements/measures.ts';
 import { Metrics } from '../../measurements/metrics.ts';
 import { Departures } from '../../pages/departures.ts';
 import Conf from '../../conf/conf.ts';
-import { errorLog, screenshot } from '../../utils/utils.ts';
+import { errorLog, randomSleep, screenshot } from '../../utils/utils.ts';
 import { getFromLocation } from '../../data/locations.ts';
 import { FromLocationType } from '../../types';
 import { Search } from '../../pages/search.ts';
@@ -28,6 +28,7 @@ export async function departures(page: Page, metrics: Metrics) {
     const searchToFirstResult = await measures.measure(
       'measure-search-firstResult',
     );
+    randomSleep();
 
     // Open departure details
     await firstDeparture.click();
@@ -40,6 +41,7 @@ export async function departures(page: Page, metrics: Metrics) {
     const openDepDetails = await measures.measure(
       'measure-departures-details-open',
     );
+    randomSleep(2, 5);
 
     metrics.metricDeparturesShow(searchToFirstResult);
     metrics.metricDeparturesDetailsOpen(openDepDetails);

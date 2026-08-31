@@ -98,6 +98,27 @@ const AssistantInternal = {
       'Reiseforslag funne',
     ),
     tripPattern: {
+      originalTime: _('Opprinnelig', 'Original', 'Opphavleg'),
+      expectedTime: {
+        a11yLabel: (
+          startTime: string,
+          endTime: string,
+          hasAimedTime: boolean,
+        ) =>
+          _(
+            `${hasAimedTime ? 'Ny tid fra' : 'Fra'} ${startTime} til ${endTime}`,
+            `${hasAimedTime ? 'New time from' : 'From'} ${startTime} to ${endTime}`,
+            `${hasAimedTime ? 'Ny tid frå' : 'Frå'} ${startTime} til ${endTime}`,
+          ),
+      },
+      aimedTime: {
+        a11yLabel: (startTime: string, endTime: string) =>
+          _(
+            `Opprinnelig fra ${startTime} til ${endTime}`,
+            `Originally scheduled from ${startTime} to ${endTime}`,
+            `Opphavleg frå ${startTime} til ${endTime}`,
+          ),
+      },
       travelFrom: {
         bus: (place: string) =>
           _(`Buss fra ${place}`, `Bus from ${place}`, `Buss frå ${place}`),
@@ -193,6 +214,27 @@ const AssistantInternal = {
           'Denne reisa er innstilt',
         ),
       },
+      statusText: {
+        cancelled: _('Innstilt', 'Cancelled', 'Innstilt'),
+        impossible: _('Ikke mulig', 'Not possible', 'Ikkje mogleg'),
+        ended: _('Reisen er ferdig', 'Trip ended', 'Reisa er ferdig'),
+        started: _('Reisen har startet', 'Trip started', 'Reisa har starta'),
+        bookingDeadlineExceeded: _(
+          'Bestillingsfristen er passert',
+          'Booking deadline exceeded',
+          'Bestillingsfristen er passert',
+        ),
+        requiresBooking: _(
+          'Krever bestilling',
+          'Requires booking',
+          'Krev bestilling',
+        ),
+        stale: _(
+          'Resultatene kan være utdaterte',
+          'Results may be outdated',
+          'Resultata kan vera utdaterte',
+        ),
+      },
     },
     fetchMore: _(
       'Last inn flere reiseforslag',
@@ -211,7 +253,6 @@ const AssistantInternal = {
       unknown: _('Ukjent', 'Unknown', 'Ukjent'),
     },
     tripSummary: {
-      passedTrip: _('Passert reise, ', 'Passed trip, ', 'Passert reise, '),
       header: {
         title: (mode: string, placeName: string) =>
           _(
@@ -357,6 +398,12 @@ const AssistantInternal = {
             }.`,
           );
         },
+        originalTripTimes: (startTime: string, endTime: string) =>
+          _(
+            `Opprinnelig start klokken ${startTime}, ankomst klokken ${endTime}.`,
+            `Originally scheduled to start at ${startTime}, arrive at ${endTime}.`,
+            `Opphavleg start klokka ${startTime}, framkomst klokka ${endTime}.`,
+          ),
         realtime: (
           fromPlace: string,
           realtimeDepartureTime: string,
@@ -396,11 +443,6 @@ const AssistantInternal = {
       'Vi kunne ikkje oppdatere reiseforslaget ditt. Det kan hende reisa har endra seg eller er utdatert.',
     ),
     header: {
-      backLink: _(
-        'Tilbake til reiseforslag',
-        'Back to travel suggestions',
-        'Tilbake til reiseforslag',
-      ),
       title: _('Reisedetaljer', 'Trip details', 'Reisedetaljar'),
       titleFromTo: ({
         fromName,
@@ -414,32 +456,42 @@ const AssistantInternal = {
           `${fromName}  -  ${toName}`,
           `${fromName}  -  ${toName}`,
         ),
-      travelTime: (duration: string) =>
-        _(
-          `${duration} reisetid`,
-          `${duration} travel time`,
-          `${duration} reisetid`,
-        ),
     },
     quayPublicCodePrefix: _('', '', ''),
-    mapSection: {
-      travelTime: (time: string) =>
+    summaryPanel: {
+      travelTimeLabel: _(
+        'Total reisetid',
+        'Total travel time',
+        'Total reisetid',
+      ),
+      walkDistanceLabel: _(
+        'Total gangavstand',
+        'Total walking distance',
+        'Total gangavstand',
+      ),
+      priceLabel: (traveller: string) =>
         _(
-          `Total reisetid: ${time}`,
-          `Total trip time: ${time}`,
-          `Total reisetid: ${time}`,
-        ),
-      walkDistance: (distance: string) =>
-        _(
-          `Total gangavstand: ${distance} m`,
-          `Total walking distance: ${distance} m`,
-          `Total gangavstand: ${distance} m`,
+          `Pris (1 ${traveller})`,
+          `Price (1 ${traveller})`,
+          `Pris (1 ${traveller})`,
         ),
     },
     tripSection: {
+      followVehicle: (transportMode: string) =>
+        _(
+          `Følg ${transportMode}`,
+          `Follow ${transportMode}`,
+          `Følg ${transportMode}`,
+        ),
       walk: {
         label: (duration: string) =>
           _(`Gå i ${duration}`, `Walk for ${duration}`, `Gå i ${duration}`),
+        labelWithDistance: (duration: string, distance: string) =>
+          _(
+            `Gå ${distance} (${duration})`,
+            `Walk ${distance} (${duration})`,
+            `Gå ${distance} (${duration})`,
+          ),
       },
       shortWalk: _(
         `Gå i mindre enn ett minutt`,
@@ -481,13 +533,13 @@ const AssistantInternal = {
           _(`Vent i ${time}`, `Wait for ${time}`, `Vent i ${time}`),
         shortTime: _('Kort byttetid', 'Short changeover time', 'Kort bytetid'),
       },
-      intermediateStops: (count: number) =>
+      intermediateStops: (count: number, duration: string) =>
         _(
-          `${count} mellomstopp`,
+          `${count} mellomstopp (${duration})`,
           count > 1
-            ? `${count} intermediate stops`
-            : `${count} intermediate stop`,
-          `${count} mellomstopp`,
+            ? `${count} intermediate stops (${duration})`
+            : `${count} intermediate stop (${duration})`,
+          `${count} mellomstopp (${duration})`,
         ),
       flexibleTransport: {
         bookOnline: _(`Reserver på nett`, `Book online`, `Reserver på nett`),
@@ -537,6 +589,7 @@ const AssistantInternal = {
         'Ticket can be bought from',
         'Billett kan kjøpast frå',
       ),
+      appName: _('AtB-appen', 'AtB app', 'AtB-appen'),
     },
     ticketBooking: {
       globalMessage: _(
@@ -569,6 +622,9 @@ export const Assistant = orgSpecificTranslations(AssistantInternal, {
           'Reisa krev billett som ikkje er tilgjengeleg i denne appen, eller som må kjøpast frå eit anna selskap enn Reis Nordland.',
         ),
       },
+      tripSection: {
+        appName: _('Reis-appen', 'Reis app', 'Reis-appen'),
+      },
     },
   },
   fram: {
@@ -591,6 +647,9 @@ export const Assistant = orgSpecificTranslations(AssistantInternal, {
           'Reisa krev billett som ikkje er tilgjengeleg i denne appen, eller som må kjøpast frå eit anna selskap enn FRAM.',
         ),
       },
+      tripSection: {
+        appName: _('FRAM-appen', 'FRAM app', 'FRAM-appen'),
+      },
     },
   },
   farte: {
@@ -612,6 +671,9 @@ export const Assistant = orgSpecificTranslations(AssistantInternal, {
           'This journey requires a ticket that is not available from this app, or must be purchased from a provider other than Farte.',
           'Reisa krev billett som ikkje er tilgjengeleg i denne appen, eller som må kjøpast frå eit anna selskap enn Farte.',
         ),
+      },
+      tripSection: {
+        appName: _('Farte-appen', 'Farte app', 'Farte-appen'),
       },
     },
   },
@@ -636,10 +698,20 @@ export const Assistant = orgSpecificTranslations(AssistantInternal, {
           'Denne reisa inkluderer transport som ikkje vert tilbydd av VKT. VKT sel per i dag berre billettar til lokalbuss. Billett til annan transport må kjøpast via nettside/app til det aktuelle transportselskapet.',
         ),
       },
+      tripSection: {
+        appName: _('VKT-appen', 'VKT app', 'VKT-appen'),
+      },
     },
     trip: {
       tripPattern: {
         quayPublicCodePrefix: _(' - Spor ', ' - Track ', ' - Spor '),
+      },
+    },
+  },
+  troms: {
+    details: {
+      tripSection: {
+        appName: _('Svipper-appen', 'Svipper app', 'Svipper-appen'),
       },
     },
   },

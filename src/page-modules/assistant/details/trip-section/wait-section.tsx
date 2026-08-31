@@ -20,9 +20,8 @@ export type WaitSectionProps = {
 
 export default function WaitSection({ legWaitDetails }: WaitSectionProps) {
   const { t, language } = useTranslation();
-  const unknownTransportationColor = useTransportationThemeColor({
+  const waitColor = useTransportationThemeColor({
     transportMode: 'unknown',
-    transportSubModes: undefined,
   });
 
   const showWaitSection =
@@ -41,21 +40,26 @@ export default function WaitSection({ legWaitDetails }: WaitSectionProps) {
       <DecorationLine
         hasStart={false}
         hasEnd={false}
-        color={unknownTransportationColor.backgroundColor}
+        color={waitColor.backgroundColor}
       />
       {shortWait && (
-        <TripRow rowLabel={<ColorIcon icon="status/Info" />}>
+        <TripRow>
           <MessageBox
-            noStatusIcon
             type="info"
+            statusIcon={<ColorIcon icon="status/Info" />}
             message={t(PageText.Assistant.details.tripSection.wait.shortTime)}
           />
         </TripRow>
       )}
-      <TripRow rowLabel={<MonoIcon icon="time/Time" />}>
-        <Typo.p textType="body__s" className={style.waitTime}>
-          {t(PageText.Assistant.details.tripSection.wait.label(waitTime))}
-        </Typo.p>
+      <TripRow>
+        <div className={style.transportLine}>
+          <span className={style.waitIcon}>
+            <MonoIcon icon="time/Time" />
+          </span>
+          <Typo.p textType="body__s" className={style.waitTime}>
+            {t(PageText.Assistant.details.tripSection.wait.label(waitTime))}
+          </Typo.p>
+        </div>
       </TripRow>
     </div>
   );

@@ -1,0 +1,17 @@
+.container {
+  display: flex;
+  align-items: center;
+  gap: token('spacing.xSmall');
+}
+
+.error {
+  color: token('color.foreground.emphasis.error');
+}
+
+.info {
+  color: token('color.foreground.emphasis.info');
+}
+
+.interactive {
+  color: token('color.foreground.emphasis.interactive');
+}

@@ -7,6 +7,7 @@ const orgId = process.env.NEXT_PUBLIC_PLANNER_ORG_ID;
  */
 const nextConfig = {
   output: 'standalone',
+  transpilePackages: ['@atb-as/mapbox-shared'],
   async headers() {
     return [
       {

@@ -16,6 +16,9 @@ class Conf {
   isPerformanceTest: boolean = __ENV.performanceTest === 'true';
 
   /* @ts-ignore */
+  skipSleep: boolean = __ENV.skipSleep === 'true';
+
+  /* @ts-ignore */
   usecase = (metrics: Metrics): Promise<void> => {
     scenarios(__ENV.usecase || 'smoke', metrics);
   };

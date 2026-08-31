@@ -6,13 +6,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v3
         with:
-          node-version: 20
-          cache: 'yarn'
-      - run: yarn
-      - run: yarn generate
-      - run: yarn setup
+          node-version-file: '.nvmrc'
+          cache: 'pnpm'
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm generate
+      - run: pnpm setup
         env:
           NEXT_PUBLIC_PLANNER_ORG_ID: atb
-      - run: yarn test
+      - run: pnpm test

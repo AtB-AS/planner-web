@@ -7,13 +7,17 @@ import { SearchTime, SearchTimeSelector } from '@atb/modules/search-time';
 import type { GeocoderFeature } from '@atb/modules/geocoder';
 import { PageText, useTranslation } from '@atb/translations';
 import { useRouter } from 'next/router';
-import { FormEventHandler, PropsWithChildren, useState } from 'react';
+import {
+  FormEventHandler,
+  PropsWithChildren,
+  useEffect,
+  useState,
+} from 'react';
 import style from './departures.module.css';
 import type { FromDepartureQuery } from './types';
 import { createFromQuery } from './utils';
 import { TabLink } from '@atb/components/tab-link';
 import { logSpecificEvent } from '@atb/modules/firebase/analytics';
-import { getOrgData } from '@atb/modules/org-data';
 import {
   GlobalMessageContextEnum,
   GlobalMessages,
@@ -31,6 +35,11 @@ function DeparturesLayout({ children, fromQuery }: DeparturesLayoutProps) {
   );
   const [isSearching, setIsSearching] = useState(false);
   const [geolocationError, setGeolocationError] = useState<string | null>(null);
+
+  // Keep the tracked search time in sync when the URL's search time changes
+  useEffect(() => {
+    setSearchTime(fromQuery.searchTime);
+  }, [fromQuery.searchTime]);
 
   const doSearch = async (override: Partial<FromDepartureQuery>) => {
     setIsSearching(true);
@@ -72,7 +81,7 @@ function DeparturesLayout({ children, fromQuery }: DeparturesLayoutProps) {
               {t(PageText.Departures.search.date.label)}
             </Typo.h2>
             <SearchTimeSelector
-              initialState={searchTime}
+              initialState={fromQuery.searchTime}
               onChange={setSearchTime}
               options={['now', 'departBy']}
             />

@@ -1,13 +1,13 @@
-import { StatusColorName, useTheme } from '@atb/modules/theme';
+import { Statuses, useTheme } from '@atb/modules/theme';
 import { andIf } from '@atb/utils/css';
 import { ColorIcon, MonoIcon, MonoIcons } from '@atb/components/icon';
-import { messageTypeToColorIcon } from '@atb/modules/situations';
+import { messageTypeToColorIcon } from '@atb/modules/situations-and-notices';
 import { Typo } from '@atb/components/typography';
 
 import style from './tag.module.css';
 import { HTMLAttributes } from 'react';
 
-type TagStatuses = 'primary' | 'secondary' | StatusColorName;
+type TagStatuses = 'primary' | 'secondary' | Statuses;
 
 type TagSize = 'small' | 'regular';
 

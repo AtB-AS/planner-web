@@ -25,6 +25,12 @@
   scrollbar-width: none;
 }
 
+/* Hide outline on the listbox container itself — focus indication is
+   shown on the active option via .numberItemFocused instead. */
+.scrollView:focus {
+  outline: none;
+}
+
 .scrollView::-webkit-scrollbar {
   display: none;
 }
@@ -36,6 +42,13 @@
 
 .numberItem:hover {
   background: token('color.interactive.0.active.background');
+}
+
+/* Visual focus indicator for the option highlighted via keyboard
+   navigation (aria-activedescendant pattern). */
+.numberItemFocused {
+  outline: 2px solid token('color.foreground.dynamic.primary');
+  outline-offset: -2px;
 }
 
 .numberItemSelected {

@@ -23,7 +23,7 @@ export const perfOptions: Options = {
     ui: {
       executor: 'shared-iterations',
       vus: 5,
-      iterations: 20,
+      iterations: 30,
       maxDuration: '10m',
       options: {
         browser: {

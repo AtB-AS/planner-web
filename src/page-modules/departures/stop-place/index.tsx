@@ -1,8 +1,7 @@
 import { Button } from '@atb/components/button';
 import { DepartureTime } from '@atb/components/departure-time';
-import { ColorIcon, MonoIcon } from '@atb/components/icon';
-import LineChip from '@atb/components/line-chip';
-import { MapWithHeader } from '@atb/components/map';
+import { MonoIcon } from '@atb/components/icon';
+import { Map } from '@atb/components/map';
 import {
   OpenGraphDescription,
   OpenGraphImage,
@@ -10,20 +9,21 @@ import {
 import ScreenReaderOnly from '@atb/components/screen-reader-only';
 import { Typo } from '@atb/components/typography';
 import {
+  getMsgTypeForMostCriticalSituationOrNotice,
   isSituationValidAtDate,
   SituationMessageBox,
-  SituationOrNoticeIcon,
-} from '@atb/modules/situations';
+} from '@atb/modules/situations-and-notices';
 import { PageText, useTranslation } from '@atb/translations';
 import { Departures } from '@atb/translations/pages';
 import { and, andIf } from '@atb/utils/css';
+import { isInPast } from '@atb/utils/date';
+import { addDays } from 'date-fns';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { nextDepartures } from '../client';
 import style from './stop-place.module.css';
 import { formatDestinationDisplay } from '../utils';
-import { useTheme } from '@atb/modules/theme';
 import { formatQuayName } from '@atb/page-modules/departures/details/utils';
 import {
   GlobalMessageContextEnum,
@@ -33,31 +33,61 @@ import {
   ExtendedDepartureQuayType,
   ExtendedDeparturesType,
   ExtendedDepartureType,
+  FromDepartureQuery,
 } from '@atb/page-modules/departures/types.ts';
 import {
   TransportMode,
   TransportSubmode,
 } from '@atb/modules/graphql-types/journeyplanner-types_v3.generated';
+import {
+  TransportIcon,
+  TransportIconWithDuration,
+} from '@atb/modules/transport-mode';
+import { SearchTime, searchTimeToQueryString } from '@atb/modules/search-time';
+import { DatePagination } from './date-pagination';
+import { MessageBox } from '@atb/components/message-box';
+
+const NUMBER_OF_DEPARTURES = 7;
 
 export type StopPlaceProps = {
   departures: ExtendedDeparturesType;
+  fromQuery: FromDepartureQuery;
 };
 
-export function StopPlace({ departures }: StopPlaceProps) {
-  const { t } = useTranslation();
-  const {
-    color: { interactive },
-  } = useTheme();
-  const router = useRouter();
-  const [isHoveringRefreshButton, setIsHoveringRefreshButton] = useState(false);
+function changeDay(current: SearchTime, days: number): SearchTime {
+  const baseDate =
+    current.mode === 'now' ? new Date().setHours(0, 0, 0, 0) : current.dateTime;
+  const date = addDays(baseDate, days);
+  if (isInPast(date)) {
+    return { mode: 'now' };
+  }
+  const mode = current.mode === 'now' ? 'departBy' : current.mode;
+  return { mode, dateTime: date.getTime() };
+}
 
-  // if the stop place contains mode === Bus, then append LocalBus into it so the header color is correct
-  // this change is made, so the logic on the transport icon color assignment can be consistent with the app
-  const submodes =
-    departures.stopPlace.transportSubmode &&
-    departures.stopPlace.transportMode?.includes(TransportMode.Bus)
-      ? [...departures.stopPlace.transportSubmode, TransportSubmode.LocalBus]
-      : departures.stopPlace.transportSubmode;
+function searchTimeKey(searchTime: SearchTime): string {
+  return searchTime.mode === 'now' ? 'now' : String(searchTime.dateTime);
+}
+
+export function StopPlace({ departures, fromQuery }: StopPlaceProps) {
+  const { t } = useTranslation();
+  const router = useRouter();
+  const { searchTime } = fromQuery;
+
+  const selectedQuayId = Array.isArray(router.query.quay)
+    ? router.query.quay[0]
+    : router.query.quay;
+
+  const navigateSearchTime = (newSearchTime: SearchTime) => {
+    const { searchMode: _, searchTime: __, ...rest } = router.query;
+    router.push(
+      {
+        query: { ...rest, ...searchTimeToQueryString(newSearchTime) },
+      },
+      undefined,
+      { scroll: false },
+    );
+  };
 
   return (
     <section className={style.stopPlaceContainer}>
@@ -80,34 +110,45 @@ export function StopPlace({ departures }: StopPlaceProps) {
         className={style.stopPlaceMessages}
         context={GlobalMessageContextEnum.plannerWebDepartures}
       />
+      <div className={style.quaysHeader}>
+        {departures.stopPlace.transportMode
+          ?.sort((a, b) => a.localeCompare(b, 'en-US'))
+          ?.map((mode) => (
+            <TransportIcon
+              key={mode}
+              transportMode={mode}
+              transportSubmode={
+                mode === TransportMode.Bus
+                  ? TransportSubmode.LocalBus
+                  : undefined
+              }
+            />
+          ))}
+        <Typo.h2 textType="heading__m">{departures.stopPlace.name}</Typo.h2>
+      </div>
       <div className={style.quaysContainer}>
-        <button
-          onClick={() => router.reload()}
-          className={style.refreshButton}
-          onMouseEnter={() => setIsHoveringRefreshButton(true)}
-          onMouseLeave={() => setIsHoveringRefreshButton(false)}
-        >
-          <Typo.span textType="body__m">
-            {t(PageText.Departures.stopPlace.quaySection.refreshButton)}
-          </Typo.span>
-          <MonoIcon
-            icon={'actions/ArrowsCounterClockwise'}
-            interactiveColor={interactive[1]}
-            interactiveState={isHoveringRefreshButton ? 'hover' : undefined}
-          />
-        </button>
+        <DatePagination
+          searchTime={searchTime}
+          onChangeDay={(days) =>
+            navigateSearchTime(changeDay(searchTime, days))
+          }
+        />
+        {departures.stopPlace.quays.length === 0 && (
+          <MessageBox type="info" message={t(Departures.stopPlace.noQuays)} />
+        )}
         {departures.stopPlace.quays.map((quay) => (
-          <EstimatedCallList key={quay.id} quay={quay} />
+          <EstimatedCallList
+            key={`${quay.id}-${searchTimeKey(searchTime)}`}
+            quay={quay}
+            defaultCollapsed={!!selectedQuayId && quay.id !== selectedQuayId}
+          />
         ))}
       </div>
       <div className={style.mapContainer}>
-        <MapWithHeader
-          name={departures.stopPlace.name}
+        <Map
           position={departures.stopPlace.position}
           layer="venue"
           onSelectStopPlace={(id) => router.push(`/departures/${id}`)}
-          transportModes={departures.stopPlace.transportMode}
-          transportSubmodes={[TransportSubmode.LocalBus]}
         />
       </div>
     </section>
@@ -116,22 +157,38 @@ export function StopPlace({ departures }: StopPlaceProps) {
 
 type EstimatedCallListProps = {
   quay: ExtendedDepartureQuayType;
+  defaultCollapsed?: boolean;
 };
 
-export function EstimatedCallList({ quay }: EstimatedCallListProps) {
+export function EstimatedCallList({
+  quay,
+  defaultCollapsed = false,
+}: EstimatedCallListProps) {
   const { t } = useTranslation();
-  const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
+  const [isCollapsed, setIsCollapsed] = useState<boolean>(defaultCollapsed);
   const [departures, setDepartures] = useState<ExtendedDepartureType[]>(
     quay.estimatedCalls,
   );
   const [isFetchingDepartures, setIsFetchingDepartures] = useState(false);
+  // If we have fewer than requested departures means there are no more to load
+  // for this time range.
+  const [hasMoreDepartures, setHasMoreDepartures] = useState(
+    quay.estimatedCalls.length >= NUMBER_OF_DEPARTURES,
+  );
 
   const getMoreDepartures = async () => {
     setIsFetchingDepartures(true);
     const latestDeparture = departures[departures.length - 1];
 
     const date = new Date(latestDeparture.aimedDepartureTime);
-    const data = await nextDepartures(quay.id, date.toISOString());
+    // The departure at startTime is included in the response, so request one
+    // extra to account for the overlapping departure we already have.
+    const numberToRequest = NUMBER_OF_DEPARTURES + 1;
+    const data = await nextDepartures(
+      quay.id,
+      date.toISOString(),
+      numberToRequest,
+    );
 
     const getKey = (departure: ExtendedDepartureType) =>
       `${departure.serviceJourney.id} - ${departure.aimedDepartureTime}`;
@@ -141,11 +198,14 @@ export function EstimatedCallList({ quay }: EstimatedCallListProps) {
     );
 
     setDepartures([...departures, ...filteredDepartures]);
+    if (data.length < numberToRequest) {
+      setHasMoreDepartures(false);
+    }
     setIsFetchingDepartures(false);
   };
 
   return (
-    <div data-testid="estimatedCallsList">
+    <div data-testid="estimatedCallsList" className={style.estimatedCallsList}>
       <button
         className={andIf({
           [style.listHeader]: true,
@@ -194,7 +254,7 @@ export function EstimatedCallList({ quay }: EstimatedCallListProps) {
               ))}
           {departures.length > 0 ? (
             <>
-              {departures.map((departure, index) => (
+              {departures.map((departure) => (
                 <EstimatedCallItem
                   key={departure.id}
                   departure={departure}
@@ -210,16 +270,18 @@ export function EstimatedCallList({ quay }: EstimatedCallListProps) {
               </Typo.p>
             </li>
           )}
-          <li>
-            <Button
-              className={and(style.listItem, style.listItem__last)}
-              aria-label={t(Departures.stopPlace.quaySection.a11yToQuayHint)}
-              onClick={getMoreDepartures}
-              state={isFetchingDepartures ? 'loading' : undefined}
-              title={t(Departures.stopPlace.quaySection.moreDepartures)}
-              icon={{ right: <MonoIcon icon={'navigation/ExpandMore'} /> }}
-            />
-          </li>
+          {hasMoreDepartures && (
+            <li>
+              <Button
+                className={and(style.listItem, style.seeMoreButton)}
+                aria-label={t(Departures.stopPlace.quaySection.a11yToQuayHint)}
+                onClick={getMoreDepartures}
+                state={isFetchingDepartures ? 'loading' : undefined}
+                title={t(Departures.stopPlace.quaySection.moreDepartures)}
+                icon={{ right: <MonoIcon icon={'navigation/ExpandMore'} /> }}
+              />
+            </li>
+          )}
         </ul>
       )}
     </div>
@@ -249,32 +311,20 @@ export function EstimatedCallItem({
         <div className={style.transportInfo}>
           {(departure.serviceJourney.line.transportMode ||
             departure.serviceJourney.line.publicCode) && (
-            <>
-              {departure.cancellation ? (
-                <ColorIcon
-                  icon="status/Error"
-                  className={style.situationIcon}
-                />
-              ) : (
-                <SituationOrNoticeIcon
-                  situations={departure.situations}
-                  notices={departure.notices}
-                  className={style.situationIcon}
-                />
+            <TransportIconWithDuration
+              transportMode={
+                departure.serviceJourney.line.transportMode ??
+                TransportMode.Unknown
+              }
+              label={departure.serviceJourney.line.publicCode}
+              transportSubmode={departure.serviceJourney.line.transportSubmode}
+              notificationType={getMsgTypeForMostCriticalSituationOrNotice(
+                departure.situations,
+                departure.notices,
+                departure.cancellation,
               )}
-
-              <LineChip
-                transportMode={
-                  departure.serviceJourney.line.transportMode || 'unknown'
-                }
-                publicCode={departure.serviceJourney.line.publicCode}
-                transportSubmode={
-                  departure.serviceJourney.line.transportSubmode
-                }
-              />
-            </>
+            />
           )}
-
           <Typo.p
             className={departure.cancellation ? style.textColor__secondary : ''}
             textType={departure.cancellation ? 'body__m__strike' : 'body__m'}
@@ -290,6 +340,7 @@ export function EstimatedCallItem({
           relativeTime
           realtime={departure.realtime}
           withRealtimeIndicator
+          roundingMethod="floor"
         />
       </Link>
     </li>

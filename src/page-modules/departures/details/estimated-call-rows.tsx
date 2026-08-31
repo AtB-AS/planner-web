@@ -13,7 +13,7 @@ import {
 import {
   SituationMessageBox,
   SituationOrNoticeIcon,
-} from '@atb/modules/situations';
+} from '@atb/modules/situations-and-notices';
 import { formatQuayName, getSituationsToShowForCall } from './utils';
 import { DecorationLine, TripRow } from '@atb/modules/trip-details';
 import { DepartureTime } from '@atb/components/departure-time';
@@ -25,6 +25,7 @@ export type EstimatedCallRowsProps = {
   mode: TransportModeType;
   subMode?: TransportSubmode;
   alreadyShownSituationNumbers: string[];
+  toQuayId?: string;
 };
 
 export function EstimatedCallRows({
@@ -32,6 +33,7 @@ export function EstimatedCallRows({
   mode,
   subMode,
   alreadyShownSituationNumbers,
+  toQuayId,
 }: EstimatedCallRowsProps) {
   const { t } = useTranslation();
   const [collapsed, setCollapsed] = useState(true);
@@ -89,6 +91,7 @@ export function EstimatedCallRows({
                 situations={getSituationsToShowForCall(
                   call,
                   alreadyShownSituationNumbers,
+                  toQuayId,
                 )}
               />
             </motion.div>
@@ -145,7 +148,7 @@ function EstimatedCallRow({
   const isBetween = !isStartOfGroup && !isEndOfGroup;
   const iconColor = useTransportationThemeColor({
     transportMode: group === 'trip' ? mode : 'unknown',
-    transportSubModes: subMode ? [subMode] : undefined,
+    transportSubmode: subMode,
   });
 
   return (
@@ -162,6 +165,7 @@ function EstimatedCallRow({
             aimedDepartureTime={call.aimedDepartureTime}
             expectedDepartureTime={call.expectedDepartureTime}
             realtime={call.realtime}
+            roundingMethod="floor"
           />
         }
         alignChildren={
@@ -185,11 +189,11 @@ function EstimatedCallRow({
         )}
       </TripRow>
       {situations.map((situation) => (
-        <TripRow
-          key={situation.situationNumber}
-          rowLabel={<SituationOrNoticeIcon situation={situation} />}
-        >
-          <SituationMessageBox noStatusIcon={true} situation={situation} />
+        <TripRow key={situation.situationNumber}>
+          <SituationMessageBox
+            statusIcon={<SituationOrNoticeIcon situation={situation} />}
+            situation={situation}
+          />
         </TripRow>
       ))}
       {collapseButton as React.ReactNode}

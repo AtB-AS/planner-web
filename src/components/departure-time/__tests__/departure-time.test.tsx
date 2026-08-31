@@ -16,6 +16,7 @@ describe('departure time component', function () {
       <DepartureTime
         aimedDepartureTime="2021-09-01T12:00:00+02:00"
         expectedDepartureTime="2021-09-01T12:00:00+02:00"
+        roundingMethod="floor"
       />,
     );
 
@@ -26,8 +27,9 @@ describe('departure time component', function () {
     const output = render(
       <DepartureTime
         aimedDepartureTime="2021-09-01T12:00:00+02:00"
-        expectedDepartureTime="2021-09-01T12:00:14+02:00"
+        expectedDepartureTime="2021-09-01T12:00:30+02:00"
         realtime
+        roundingMethod="floor"
       />,
     );
     expect(output.getByLabelText('Sanntid 12:00')).toBeInTheDocument();
@@ -39,6 +41,7 @@ describe('departure time component', function () {
       <DepartureTime
         aimedDepartureTime="2021-09-01T12:00:00+02:00"
         expectedDepartureTime="2021-09-01T12:05:00+02:00"
+        roundingMethod="floor"
       />,
     );
 
@@ -52,6 +55,7 @@ describe('departure time component', function () {
         aimedDepartureTime="2021-09-01T12:00:00+02:00"
         expectedDepartureTime="2021-09-01T12:05:00+02:00"
         realtime
+        roundingMethod="floor"
       />,
     );
     expect(output.getByLabelText('Rutetid 12:00')).toBeInTheDocument();
@@ -68,6 +72,7 @@ describe('departure time component', function () {
         expectedDepartureTime="2021-09-01T12:05:00+02:00"
         realtime
         withRealtimeIndicator
+        roundingMethod="floor"
       />,
     );
     expect(output.queryByTestId('rt-indicator')).toBeInTheDocument();
@@ -80,6 +85,7 @@ describe('departure time component', function () {
         expectedDepartureTime="2021-09-01T12:05:00+02:00"
         realtime={false}
         withRealtimeIndicator
+        roundingMethod="floor"
       />,
     );
     expect(output.queryByTestId('rt-indicator')).toBeNull();
@@ -91,6 +97,7 @@ describe('departure time component', function () {
         aimedDepartureTime="2021-09-01T12:00:00+02:00"
         expectedDepartureTime="2021-09-01T12:05:00+02:00"
         realtime
+        roundingMethod="floor"
       />,
     );
     expect(output.queryByTestId('rt-indicator')).toBeNull();
@@ -103,6 +110,7 @@ describe('departure time component', function () {
         expectedDepartureTime="2021-09-01T12:05:00+02:00"
         cancelled
         realtime
+        roundingMethod="floor"
       />,
     );
     expect(output.getByText('12:00')).toHaveClass('typo-body__m__strike');
@@ -123,6 +131,7 @@ describe('departure time component', function () {
         aimedDepartureTime={data}
         expectedDepartureTime={data}
         relativeTime
+        roundingMethod="floor"
       />,
     );
 
@@ -144,6 +153,7 @@ describe('departure time component', function () {
           expectedDepartureTime={addMinutes(now, delayInMinutes).toISOString()}
           relativeTime
           realtime
+          roundingMethod="floor"
         />,
       );
 
@@ -174,6 +184,7 @@ describe('departure time component', function () {
         aimedDepartureTime={now.toISOString()}
         expectedDepartureTime={now.toISOString()}
         relativeTime
+        roundingMethod="floor"
       />,
     );
 
@@ -183,5 +194,32 @@ describe('departure time component', function () {
     )}`;
 
     expect(output.getByLabelText(expectedLabel)).toBeInTheDocument();
+  });
+
+  it('should round up if roundingMethod is ceil', () => {
+    const output = render(
+      <DepartureTime
+        aimedDepartureTime="2021-09-01T12:00:00+02:00"
+        expectedDepartureTime="2021-09-01T12:05:01+02:00"
+        realtime
+        roundingMethod="ceil"
+      />,
+    );
+    expect(output.getByLabelText('Sanntid 12:06')).toBeInTheDocument();
+  });
+
+  it('should not show both aimed and expected if they are the same', () => {
+    const output = render(
+      <DepartureTime
+        aimedDepartureTime="2021-09-01T16:10:00+02:00"
+        expectedDepartureTime="2021-09-01T16:10:49+02:00"
+        realtime
+        roundingMethod="floor"
+      />,
+    );
+    expect(output.queryByLabelText('Rutetid', { exact: false })).toBeNull();
+    expect(
+      output.getByLabelText('Sanntid', { exact: false }),
+    ).toBeInTheDocument();
   });
 });

@@ -1,0 +1,11 @@
+.legs {
+  grid-area: legs;
+  display: flex;
+  align-items: center;
+  gap: token('spacing.small');
+  min-width: 0;
+}
+.legsAndLine {
+  flex: 1;
+  --overflow-container-gap: token('spacing.xSmall');
+}

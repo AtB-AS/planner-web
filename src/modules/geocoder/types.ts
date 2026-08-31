@@ -45,7 +45,7 @@ export type Feature = {
     postalcode: string;
     source: string;
     source_id: string;
-    street: string;
+    street?: string;
     tariff_zones?: string[];
   };
 };
@@ -59,5 +59,5 @@ export type GeocoderFeature = {
   geometry: {
     coordinates: number[];
   };
-  street?: string;
+  street?: string | null;
 };

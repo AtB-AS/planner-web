@@ -4,14 +4,16 @@ import { ComponentText, useTranslation } from '@atb/translations';
 import { and } from '@atb/utils/css';
 import { MonoIcon } from '@atb/components/icon';
 
-import { TransportModeType, TransportIcon } from '@atb/modules/transport-mode';
-import { TransportSubmode } from '@atb/modules/graphql-types/journeyplanner-types_v3.generated';
+import { TransportIcon } from '@atb/modules/transport-mode';
+import {
+  TransportMode,
+  TransportSubmode,
+} from '@atb/modules/graphql-types/journeyplanner-types_v3.generated';
 
 export type MapHeaderProps = {
   name: string; // StopPlace name or address
   layer: 'address' | 'venue';
-  transportModes?: TransportModeType[];
-  transportSubmodes?: Array<TransportSubmode>;
+  transportModes?: TransportMode[];
   position?: { lat: number; lon: number };
 };
 
@@ -19,7 +21,6 @@ export function MapHeader({
   name,
   layer,
   transportModes,
-  transportSubmodes,
   position,
 }: MapHeaderProps) {
   const { t } = useTranslation();
@@ -35,10 +36,16 @@ export function MapHeader({
             transportModes.map((transportMode) => (
               <div key={`${transportMode}-icon`}>
                 <TransportIcon
-                  mode={{
-                    transportMode: transportMode,
-                    transportSubModes: transportSubmodes,
-                  }}
+                  transportMode={transportMode}
+                  /*
+                  For bus transport mode, we set the submode to LocalBus to ensure the correct icon color is used.
+                  Otherwise it defaults to region bus. This is the same logic as in the app.
+                   */
+                  transportSubmode={
+                    transportMode === TransportMode.Bus
+                      ? TransportSubmode.LocalBus
+                      : undefined
+                  }
                   size="large"
                 />
               </div>

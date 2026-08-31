@@ -1,6 +1,7 @@
 import style from './map.module.css';
 import { MapHeader, MapHeaderProps } from './map-header';
-import Map, { MapProps } from './map';
+import { MapProps } from './map';
+import { Map } from './dynamic-map';
 
 export type MapWithHeaderProps = MapHeaderProps & MapProps;
 

@@ -11,13 +11,13 @@ export const Map = {
       _(`Ligger i ${address}`, `Located on ${address}`, `Ligg i ${address}`),
   },
   map: {
-    openFullscreenButton: _('Se i kart', 'See in map', 'Sjå i kart'),
-    closeFullscreenButton: _('Lukk kart', 'Close map', 'Lukk kart'),
     centerMapButton: _(
       'Tilbakestill kartvisning',
       'Reset map view',
       'Tilbakestill kartvisning',
     ),
+    zoomInButton: _('Zoom inn', 'Zoom in', 'Zoom inn'),
+    zoomOutButton: _('Zoom ut', 'Zoom out', 'Zoom ut'),
     startPoint: _('Start', 'Start', 'Start'),
     endPoint: _('Slutt', 'End', 'Slutt'),
   },

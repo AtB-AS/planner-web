@@ -6,6 +6,7 @@ import Conf from '../../conf/conf.ts';
 import {
   attachRequestLogger,
   errorLog,
+  randomSleep,
   screenshot,
 } from '../../utils/utils.ts';
 import {
@@ -51,6 +52,7 @@ export async function assistant(
     const searchToLastResult = await measures.measure(
       'measure-search-lastResult',
     );
+    randomSleep();
 
     // Open trip summary
     await trip.click();
@@ -76,6 +78,7 @@ export async function assistant(
     const openTripDetails = await measures.measure(
       'measure-assistant-details-open',
     );
+    randomSleep(2, 5);
 
     metrics.metricAssistantFirstResult(searchToFirstResult, region);
     metrics.metricAssistantLastResult(searchToLastResult, region);

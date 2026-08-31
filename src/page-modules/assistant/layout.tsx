@@ -60,10 +60,19 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
     override: Partial<FromToTripQuery>,
     replace = false,
   ) => {
+    // Refresh search time if mode now
+    const effectiveSearchTime: SearchTime =
+      searchTime.mode === 'now'
+        ? { mode: 'now', dateTime: Date.now() }
+        : searchTime;
+    if (effectiveSearchTime !== searchTime) {
+      setSearchTime(effectiveSearchTime);
+    }
+
     const query = createTripQuery({
       ...tripQuery,
       ...override,
-      searchTime,
+      searchTime: effectiveSearchTime,
     });
 
     // Only show loading if we have both from and to selected.
@@ -91,7 +100,7 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
   };
 
   const onClearViaLocation = () => {
-    setValuesWithLoading({ ...tripQuery, via: null });
+    setValuesWithLoading({ via: null });
   };
 
   const onSubmitHandler: FormEventHandler<HTMLFormElement> = async (e) => {

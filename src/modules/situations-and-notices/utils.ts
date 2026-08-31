@@ -1,0 +1,166 @@
+import { ColorIcons, MonoIcons } from '@atb/components/icon';
+import { Language } from '@atb/translations';
+import { getTextForLanguage } from '@atb/translations/utils';
+import { daysBetween, isBetween } from '@atb/utils/date';
+import { onlyUniques, onlyUniquesBasedOnField } from '@atb/utils/only-uniques';
+import { isDefined } from '@atb/utils/presence';
+import { Statuses } from '@atb/modules/theme';
+import { isAfter, isBefore } from 'date-fns';
+import {
+  NoticeFragment,
+  SituationFragment,
+} from '@atb/page-modules/assistant/journey-gql/trip-with-details.generated.ts';
+
+export const getMessageTypeForSituation = (situation: SituationFragment) =>
+  situation.reportType === 'incident' ? 'warning' : 'info';
+
+export const getMsgTypeForMostCriticalSituationOrNotice = (
+  situations: SituationFragment[],
+  notices?: NoticeFragment[],
+  cancellation: boolean = false,
+): Statuses | undefined => {
+  if (cancellation) return 'error';
+  if (!situations.length) {
+    return notices?.length ? 'info' : undefined;
+  }
+  return situations
+    .map(getMessageTypeForSituation)
+    .reduce(
+      (mostCritical, msgType) =>
+        msgType === 'warning' ? 'warning' : mostCritical,
+      'info',
+    );
+};
+
+const statusSeverity: Record<Statuses, number> = {
+  error: 3,
+  warning: 2,
+  info: 1,
+  valid: 0,
+};
+
+export const getMostCriticalStatus = (
+  statusColors: (Statuses | undefined)[],
+): Statuses | undefined =>
+  statusColors.reduce<Statuses | undefined>((mostCritical, current) => {
+    if (!current) return mostCritical;
+    if (!mostCritical) return current;
+    return statusSeverity[current] >= statusSeverity[mostCritical]
+      ? current
+      : mostCritical;
+  }, undefined);
+
+export const getIconForMostCriticalSituationOrNotice = (
+  situations: SituationFragment[],
+  notices?: NoticeFragment[],
+  cancellation: boolean = false,
+) => {
+  const msgType = getMsgTypeForMostCriticalSituationOrNotice(
+    situations,
+    notices,
+    cancellation,
+  );
+  return msgType && messageTypeToColorIcon(msgType);
+};
+
+export const messageTypeToColorIcon = (messageType: Statuses): ColorIcons => {
+  switch (messageType) {
+    case 'warning':
+      return 'status/Warning';
+    case 'error':
+      return 'status/Error';
+    case 'valid':
+      return 'status/Check';
+    default:
+      return 'status/Info';
+  }
+};
+
+export const messageTypeToMonoIcon = (messageType: Statuses): MonoIcons => {
+  switch (messageType) {
+    case 'warning':
+      return 'status/Warning';
+    case 'error':
+      return 'status/Error';
+    case 'valid':
+      return 'status/Check';
+    default:
+      return 'status/Info';
+  }
+};
+
+/**
+ * Filter notices by removing duplicates (by id), removing those without text,
+ * and also sorting them since the order from Entur may change on each request.
+ */
+export const filterNotices = (
+  notices: NoticeFragment[],
+): Required<NoticeFragment>[] =>
+  notices
+    .filter((n): n is Required<NoticeFragment> => !!n.text)
+    .filter(onlyUniquesBasedOnField('id'))
+    .sort((s1, s2) => s1.id.localeCompare(s2.id));
+
+/**
+ * Get the situation summary, with a fallback to the description.
+ */
+export const getSituationSummary = (
+  situation: SituationFragment,
+  language: Language,
+): string | undefined => {
+  let text = getTextForLanguage(situation.summary, language);
+  if (!text) {
+    text = getTextForLanguage(situation.description, language);
+  }
+  return text || undefined;
+};
+
+/**
+ * If end time is further ahead than 1 year, than return undefined. This is
+ * because some companies set an end time really far ahead (2050, 9999 etc.)
+ * when they don't know when the situation message will end.
+ */
+export const validateEndTime = (endTime?: string) =>
+  endTime && daysBetween(new Date(), endTime) <= 365 ? endTime : undefined;
+
+/**
+ * Extract unique stop place / quay names from a situation's affects list.
+ */
+export const getAffectedStopNames = (
+  affects: SituationFragment['affects'],
+): string[] =>
+  affects
+    .map((affect) => {
+      switch (affect.__typename) {
+        case 'AffectedStopPlace':
+        case 'AffectedStopPlaceOnServiceJourney':
+        case 'AffectedStopPlaceOnLine':
+          return affect.stopPlace?.name ?? affect.quay?.name;
+        default:
+          return undefined;
+      }
+    })
+    .filter(isDefined)
+    .filter(onlyUniques);
+
+/**
+ * Check if a situation is valid at a specific date by comparing it to the
+ * validity period of the situation. If the situation has neither start time nor
+ * end time it will be considered valid at all times.
+ *
+ * This function uses currying of the date to enable inline use in filter
+ * functions.
+ */
+export const isSituationValidAtDate =
+  (date: string | Date = new Date()) =>
+  (situation: SituationFragment) => {
+    const { startTime, endTime } = situation.validityPeriod || {};
+    if (startTime && endTime) {
+      return isBetween(date, startTime, endTime);
+    } else if (startTime) {
+      return isAfter(date, startTime);
+    } else if (endTime) {
+      return isBefore(date, endTime);
+    }
+    return true;
+  };

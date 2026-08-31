@@ -8,7 +8,7 @@ import {
 import { PositionType } from '@atb/components/map/types.ts';
 
 export function useMapInteractions(
-  mapRef: React.MutableRefObject<mapboxgl.Map | undefined>,
+  mapRef: React.RefObject<mapboxgl.Map | undefined>,
   onSelectStopPlace?: (id: string) => void,
 ) {
   useEffect(() => {
@@ -50,5 +50,8 @@ export function useMapInteractions(
     mapRef.current.flyTo({ center: position, zoom: ZOOM_LEVEL, speed: 2 });
   };
 
-  return { centerMap };
+  const zoomIn = () => mapRef.current?.zoomIn();
+  const zoomOut = () => mapRef.current?.zoomOut();
+
+  return { centerMap, zoomIn, zoomOut };
 }

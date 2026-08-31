@@ -6,16 +6,25 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { GlobalMessageContextEnum, GlobalMessageType } from './types';
-import { collection, onSnapshot, query, where } from '@firebase/firestore';
+import { GlobalMessageContextEnum } from './types';
+import { checkRules, GlobalMessageType, RuleVariables } from '@atb-as/utils';
 import app from '@atb/modules/firebase/firebase';
-import { getFirestore } from 'firebase/firestore';
+import {
+  collection,
+  onSnapshot,
+  query,
+  where,
+  getFirestore,
+} from 'firebase/firestore';
 import { globalMessageConverter } from './converters';
 import useLocalStorage from '@atb/utils/use-localstorage.ts';
 import { useNow } from '@atb/utils/use-now.ts';
 
 type GlobalMessagesState = {
-  activeGlobalMessages: GlobalMessageType[];
+  findGlobalMessages: (
+    context: GlobalMessageContextEnum,
+    ruleVariables: RuleVariables,
+  ) => GlobalMessageType[];
   dismissGlobalMessage: (message: GlobalMessageType) => void;
 };
 
@@ -95,10 +104,26 @@ export function GlobalMessageContextProvider({
     [allGlobalMessages, setDismissedGlobalMessages, dismissedGlobalMessages],
   );
 
+  const findGlobalMessages = useCallback(
+    (context: GlobalMessageContextEnum, ruleVariables: RuleVariables = {}) => {
+      return activeGlobalMessages.filter((gm) => {
+        const withSameContext = gm.context.find((c) => c === context);
+        if (!withSameContext) return false;
+        if (gm.rules?.length) {
+          const passRules = checkRules(gm.rules, ruleVariables);
+          if (!passRules) return false;
+        }
+
+        return true;
+      });
+    },
+    [activeGlobalMessages],
+  );
+
   return (
     <GlobalMessageContext.Provider
       value={{
-        activeGlobalMessages,
+        findGlobalMessages,
         dismissGlobalMessage,
       }}
     >
@@ -124,10 +149,10 @@ function subscribeToActiveGlobalMessagesFromFirestore(
     ),
   ).withConverter<GlobalMessageType | undefined>(globalMessageConverter);
 
-  return onSnapshot(q, (querySnapshot) => {
+  return onSnapshot(q, (querySnapshot: any) => {
     const activeGlobalMessages: GlobalMessageType[] = [];
 
-    querySnapshot.forEach((doc) => {
+    querySnapshot.forEach((doc: any) => {
       const data = doc.data();
       if (data) {
         activeGlobalMessages.push(data);
@@ -145,16 +170,16 @@ const isMessageActiveAtTimestamp = (
   const startDate = globalMessage.startDate;
   const endDate = globalMessage.endDate;
   return (
-    (!startDate || startDate.getTime() <= timestampMillis) &&
-    (!endDate || endDate.getTime() >= timestampMillis)
+    (!startDate || startDate.valueOf() <= timestampMillis) &&
+    (!endDate || endDate.valueOf() >= timestampMillis)
   );
 };
 
-export function useActiveGlobalMessages(): GlobalMessagesState {
+export function useGlobalMessageContext(): GlobalMessagesState {
   const context = useContext(GlobalMessageContext);
   if (context === undefined) {
     throw new Error(
-      'useActiveGlobalMessages must be used within a GlobalMessageContextProvider',
+      'useGlobalMessageContext must be used within a GlobalMessageContextProvider',
     );
   }
   return context;

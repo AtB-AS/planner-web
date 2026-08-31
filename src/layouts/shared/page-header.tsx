@@ -33,7 +33,7 @@ export default function PageHeader() {
                   sizes="100vw"
                   style={{ width: '100%', height: 'auto' }}
                   src={fylkeskommuneLogo}
-                  alt={fylkeskommune?.name || ''}
+                  alt={fylkeskommune?.name || t(CommonText.Titles.siteTitle)}
                 />
               ) : (
                 <>

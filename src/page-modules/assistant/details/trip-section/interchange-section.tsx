@@ -24,7 +24,6 @@ export type InterchangeSectionProps = {
 export function InterchangeSection(props: InterchangeSectionProps) {
   const unknownTransportationColor = useTransportationThemeColor({
     transportMode: 'unknown',
-    transportSubModes: undefined,
   });
 
   const message = useInterchangeTextTranslation(props);
@@ -32,8 +31,12 @@ export function InterchangeSection(props: InterchangeSectionProps) {
   return (
     <div className={style.rowContainer}>
       <DecorationLine color={unknownTransportationColor.backgroundColor} />
-      <TripRow rowLabel={<MonoIcon icon="actions/Interchange" />}>
-        <MessageBox noStatusIcon type="info" message={message} />
+      <TripRow>
+        <MessageBox
+          type="info"
+          statusIcon={<MonoIcon icon="actions/Interchange" />}
+          message={message}
+        />
       </TripRow>
     </div>
   );

@@ -1,9 +1,11 @@
 import { serviceJourneyFixture } from './service-journey-data.fixture';
 import { cleanup, render, screen } from '@testing-library/react';
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import userEvent from '@testing-library/user-event';
 import { DeparturesDetails } from '../details';
 import { GlobalMessageContextProvider } from '@atb/modules/global-messages';
+
+vi.mock('next/router', () => require('next-router-mock'));
 
 afterEach(function () {
   cleanup();
@@ -25,11 +27,7 @@ describe('departure details page', function () {
         serviceJourney={serviceJourneyFixture}
       />,
     );
-    expect(
-      output.getByText(
-        `${serviceJourneyFixture.line.publicCode} Vestlia via sentrum`,
-      ),
-    ).toBeInTheDocument();
+    expect(output.getByText(`Vestlia via sentrum`)).toBeInTheDocument();
   });
 
   it('should not render passed quays', () => {

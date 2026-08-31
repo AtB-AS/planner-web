@@ -24,11 +24,9 @@ export function getPlaceName(
     : fallback;
 }
 
-export function formatLineName(
+export function getLineDestinationName(
   frontText?: string,
   lineName?: string,
-  publicCode?: string | null,
 ): string {
-  const name = frontText ?? lineName ?? '';
-  return publicCode ? `${publicCode} ${name}` : name;
+  return frontText ?? lineName ?? '';
 }

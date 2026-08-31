@@ -1,0 +1,41 @@
+.container {
+  position: relative;
+  min-width: 0;
+}
+
+.row {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: var(--overflow-container-gap, 0);
+  min-width: 0;
+  overflow: hidden;
+}
+
+.item {
+  display: flex;
+  flex-shrink: 0;
+}
+
+.item[data-overflowing='true'] {
+  visibility: hidden;
+}
+
+.indicator {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+}
+
+.probe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: max-content;
+  display: flex;
+  align-items: center;
+  visibility: hidden;
+  pointer-events: none;
+}

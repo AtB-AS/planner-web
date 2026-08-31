@@ -5,6 +5,8 @@ import {
 } from '../types';
 import { TranslateFunction } from '@atb/translations';
 import { Departures } from '@atb/translations/pages';
+import { differenceInMinutes } from 'date-fns';
+import { ServiceJourneyEstimatedCallFragment } from '@atb/page-modules/departures/journey-gql/service-journey-with-estimated-calls.generated.ts';
 
 export function addMetadataToEstimatedCalls(
   estimatedCalls: ServiceJourneyType['estimatedCalls'],
@@ -61,6 +63,17 @@ export function getSituationsToShowForCall(
       !s.situationNumber ||
       !alreadyShownSituationNumbers.includes(s.situationNumber),
   );
+}
+
+export function getShouldShowLiveVehicle(
+  estimatedCalls: Pick<
+    ServiceJourneyEstimatedCallFragment,
+    'aimedDepartureTime'
+  >[],
+): boolean {
+  const aimedStartTime = estimatedCalls[0]?.aimedDepartureTime;
+  if (!aimedStartTime) return false;
+  return differenceInMinutes(new Date(), aimedStartTime) > -10;
 }
 
 export function formatQuayName(

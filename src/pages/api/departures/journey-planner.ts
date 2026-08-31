@@ -11,6 +11,7 @@ export default handlerWithDepartureClient<EstimatedCallsApiReturnType>({
       .object({
         quayId: z.string(),
         startTime: z.string(),
+        numberOfDepartures: z.coerce.number(),
       })
       .safeParse(req.query);
 
@@ -27,6 +28,7 @@ export default handlerWithDepartureClient<EstimatedCallsApiReturnType>({
         await client.estimatedCalls({
           quayId: query.data.quayId,
           startTime: query.data.startTime,
+          numberOfDepartures: query.data.numberOfDepartures,
         }),
       );
     });

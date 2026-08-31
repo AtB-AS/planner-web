@@ -81,10 +81,10 @@ export default function Footer({ withoutSettings = false }: FooterProps) {
                   </a>
                 </li>
               )}
-              {urls.ticketsUrl && (
+              {urls.ticketInfoUrl && (
                 <li>
                   <a
-                    href={getConfigUrl(urls.ticketsUrl, language)}
+                    href={getConfigUrl(urls.ticketInfoUrl, language)}
                     target="_blank"
                     rel="noreferrer"
                   >

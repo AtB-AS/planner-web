@@ -5,20 +5,23 @@ import {
 } from '@atb/modules/trip-details';
 import style from './trip-section.module.css';
 import {
-  TransportIcon,
+  TransportIconWithDuration,
+  transportModeToTranslatedString,
   useTransportationThemeColor,
 } from '@atb/modules/transport-mode';
 import { Typo } from '@atb/components/typography';
 import WalkSection from './walk-section';
-import { ColorIcon } from '@atb/components/icon';
+import { ColorIcon, MonoIcon } from '@atb/components/icon';
+import { ButtonLink } from '@atb/components/button';
+import { useTheme } from '@atb/modules/theme';
 import { MessageBox } from '@atb/components/message-box';
 import {
   SituationMessageBox,
   SituationOrNoticeIcon,
-} from '@atb/modules/situations';
+} from '@atb/modules/situations-and-notices';
 import { PageText, useTranslation } from '@atb/translations';
 import { InterchangeDetails, InterchangeSection } from './interchange-section';
-import { formatLineName, getPlaceName } from '../utils';
+import { getLineDestinationName, getPlaceName } from '../utils';
 import WaitSection, { type LegWaitDetails } from './wait-section';
 import { EstimatedCallsSection } from './estimated-calls-section';
 import { DepartureTime } from '@atb/components/departure-time';
@@ -32,6 +35,7 @@ export type TripSectionProps = {
   isFirst: boolean;
   isLast: boolean;
   leg: ExtendedLegType;
+  hasLiveVehicle?: boolean;
   interchangeDetails?: InterchangeDetails;
   legWaitDetails?: LegWaitDetails;
 };
@@ -39,19 +43,19 @@ export default function TripSection({
   isFirst,
   isLast,
   leg,
+  hasLiveVehicle,
   interchangeDetails,
   legWaitDetails,
 }: TripSectionProps) {
   const { t } = useTranslation();
+  const { color } = useTheme();
   const isWalkSection = leg.mode === 'foot';
   const isFlexible = !!leg.line?.flexibleLineType;
-  const legColor = useTransportationThemeColor(
-    {
-      transportMode: leg.mode,
-      transportSubModes: leg.transportSubmode && [leg.transportSubmode],
-    },
+  const legColor = useTransportationThemeColor({
+    transportMode: leg.mode,
+    transportSubmode: leg.transportSubmode,
     isFlexible,
-  );
+  });
 
   const showFrom = !isWalkSection || (isFirst && isWalkSection);
   const showTo = !isWalkSection || (isLast && isWalkSection);
@@ -79,6 +83,15 @@ export default function TripSection({
     flexBookingNumberOfDaysAvailable,
   );
 
+  const departureDetailsHref =
+    !isFlexible &&
+    leg.serviceJourney?.id &&
+    leg.serviceDate &&
+    leg.fromPlace.quay?.id
+      ? `/departures/details/${leg.serviceJourney.id}?date=${leg.serviceDate}&fromQuayId=${leg.fromPlace.quay.id}` +
+        (leg.toPlace.quay?.id ? `&toQuayId=${leg.toPlace.quay.id}` : '')
+      : undefined;
+
   return (
     <div className={style.container} data-testid="trip-leg">
       <div className={style.rowContainer}>
@@ -95,6 +108,7 @@ export default function TripSection({
                 aimedDepartureTime={leg.aimedStartTime}
                 expectedDepartureTime={leg.expectedStartTime}
                 realtime={leg.realtime}
+                roundingMethod="floor"
               />
             }
             alignChildren="flex-start"
@@ -119,29 +133,26 @@ export default function TripSection({
         )}
 
         {isWalkSection ? (
-          <WalkSection walkDuration={leg.duration} />
+          <WalkSection
+            walkDuration={leg.duration}
+            walkDistance={leg.distance}
+          />
         ) : (
-          <TripRow
-            rowLabel={
-              <TransportIcon
-                mode={{
-                  transportMode: leg.mode,
-                  transportSubModes: leg.transportSubmode && [
-                    leg.transportSubmode,
-                  ],
-                }}
+          <TripRow href={departureDetailsHref}>
+            <div className={style.transportLine}>
+              <TransportIconWithDuration
+                transportMode={leg.mode}
+                transportSubmode={leg.transportSubmode}
+                label={leg.line?.publicCode ?? undefined}
                 isFlexible={isFlexible}
-                size="xSmall"
               />
-            }
-          >
-            <Typo.p textType="body__m__strong">
-              {formatLineName(
-                leg.fromEstimatedCall?.destinationDisplay?.frontText,
-                leg.line?.name,
-                leg.line?.publicCode,
-              )}
-            </Typo.p>
+              <Typo.p textType="body__m__strong">
+                {getLineDestinationName(
+                  leg.fromEstimatedCall?.destinationDisplay?.frontText,
+                  leg.line?.name,
+                )}
+              </Typo.p>
+            </div>
             {isFlexible && (
               <Typo.p
                 textType="body__s"
@@ -157,22 +168,23 @@ export default function TripSection({
         )}
 
         {leg.situations.map((situation) => (
-          <TripRow
-            key={situation.id}
-            rowLabel={<SituationOrNoticeIcon situation={situation} />}
-          >
-            <SituationMessageBox noStatusIcon situation={situation} />
+          <TripRow key={situation.id}>
+            <SituationMessageBox
+              situation={situation}
+              statusIcon={<SituationOrNoticeIcon situation={situation} />}
+            />
           </TripRow>
         ))}
 
         {leg.notices.map(
           (notice) =>
             notice.text && (
-              <TripRow
-                key={notice.id}
-                rowLabel={<ColorIcon icon="status/Info" />}
-              >
-                <MessageBox type="info" noStatusIcon message={notice.text} />
+              <TripRow key={notice.id}>
+                <MessageBox
+                  type="info"
+                  message={notice.text}
+                  statusIcon={<ColorIcon icon="status/Info" />}
+                />
               </TripRow>
             ),
         )}
@@ -187,10 +199,10 @@ export default function TripSection({
         )}
 
         {leg.transportSubmode === 'railReplacementBus' && (
-          <TripRow rowLabel={<ColorIcon icon="status/Warning" />}>
+          <TripRow>
             <MessageBox
               type="warning"
-              noStatusIcon
+              statusIcon={<ColorIcon icon="status/Warning" />}
               message={t(
                 PageText.Assistant.details.tripSection
                   .departureIsRailReplacementBus,
@@ -199,18 +211,32 @@ export default function TripSection({
           </TripRow>
         )}
 
-        {realtimeText && <RealtimeSection realtimeText={realtimeText} />}
-
         {leg.authority && <AuthoritySection authority={leg.authority} />}
 
+        {realtimeText && <RealtimeSection realtimeText={realtimeText} />}
+
+        {hasLiveVehicle && departureDetailsHref && (
+          <TripRow>
+            <ButtonLink
+              href={departureDetailsHref}
+              mode="secondary"
+              backgroundColor={color.background.neutral[0]}
+              size="pill"
+              radiusSize="circular"
+              display="inline"
+              title={t(
+                PageText.Assistant.details.tripSection.followVehicle(
+                  t(transportModeToTranslatedString(leg.mode)).toLowerCase(),
+                ),
+              )}
+              icon={{ left: <MonoIcon icon="map/Map" /> }}
+            />
+          </TripRow>
+        )}
+
         <EstimatedCallsSection
-          numberOfIntermediateEstimatedCalls={
-            leg.intermediateEstimatedCalls.length
-          }
+          intermediateEstimatedCalls={leg.intermediateEstimatedCalls}
           duration={leg.duration}
-          serviceJourneyId={leg.serviceJourney?.id ?? null}
-          date={leg.serviceDate}
-          fromQuayId={leg.fromPlace.quay?.id ?? null}
         />
 
         {showTo && (
@@ -220,6 +246,7 @@ export default function TripSection({
                 aimedDepartureTime={leg.aimedEndTime}
                 expectedDepartureTime={leg.expectedEndTime}
                 realtime={leg.realtime}
+                roundingMethod="ceil"
               />
             }
             alignChildren="flex-start"

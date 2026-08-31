@@ -9,10 +9,11 @@
   position: relative;
   overflow: hidden;
   gap: 1rem;
-  --labelWidth: 5rem;
-  --decorationContainerWidth: 1.25rem;
+  --labelWidth: 2.625rem;
+  --decorationContainerWidth: 2rem;
   --decorationLineWidth: 0.25rem;
   --decorationLineEndWidth: 0.75rem;
+  --decorationLineInset: 1rem;
 }
 .walkTime,
 .waitTime,
@@ -35,4 +36,19 @@
   composes: typo-body__s;
   color: token('color.foreground.dynamic.secondary');
   padding-top: token('spacing.small');
+}
+.transportLine {
+  display: flex;
+  align-items: center;
+  gap: token('spacing.small');
+}
+.waitIcon {
+  display: flex;
+  padding: token('spacing.xSmall');
+}
+.chevron {
+  transition: transform 0.2s ease;
+}
+.chevron__rotated {
+  transform: rotate(180deg);
 }

@@ -10,6 +10,9 @@ vi.stubEnv(
   'NEXT_PUBLIC_MAPBOX_STOP_PLACES_STYLE_URL',
   'mapbox://styles/name/aaaaaaaaaaaaaaaaaaaaaaaaaa',
 );
+vi.stubEnv('NEXT_PUBLIC_MAPBOX_USER_NAME', 'test-user');
+vi.stubEnv('NEXT_PUBLIC_MAPBOX_NSR_TILESET_ID', 'test-user.aaaaaaaa');
+vi.stubEnv('NEXT_PUBLIC_MAPBOX_NSR_SOURCE_LAYER_ID', 'test-layer');
 vi.stubEnv('NEXT_PUBLIC_MAPBOX_DEFAULT_LAT', '62.4722');
 vi.stubEnv('NEXT_PUBLIC_MAPBOX_DEFAULT_LNG', '6.1495');
 
@@ -19,6 +22,19 @@ vi.stubEnv('NEXT_PUBLIC_FIREBASE_PROJECT_ID', 'aaaaaaaaaaaaaaaaaaaaaaa');
 vi.stubEnv('NEXT_PUBLIC_FIREBASE_APP_ID', 'aaaaaaaaaaaaaaaaaaaaaaa');
 
 vi.stubEnv('NEXT_PUBLIC_BFF_URL', 'https://test.api.mittatb.no');
+vi.stubEnv('NEXT_PUBLIC_WS_API_BASE_URL', 'wss://test.api.mittatb.no');
+
+// The test environment has no working WebSocket implementation.
+vi.stubGlobal(
+  'WebSocket',
+  class WebSocket {
+    onmessage = null;
+    onclose = null;
+    onopen = null;
+    close() {}
+    send() {}
+  },
+);
 
 vi.mock('mapbox-gl/dist/mapbox-gl.js', () => {
   return {

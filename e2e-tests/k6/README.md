@@ -17,7 +17,7 @@ Install k6 and the xk6-extension to write to file (error log in `/logs`). On Mac
 $ brew install k6
 $ go install go.k6.io/xk6/cmd/xk6@latest
 $ xk6 build v1.4.0 --with github.com/avitalique/xk6-file@latest
-$ yarn install
+$ pnpm install
 ```
 
 Run functional test

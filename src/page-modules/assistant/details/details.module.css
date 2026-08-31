@@ -2,7 +2,6 @@
   margin: 0 auto;
   max-width: var(--maxPageWidth);
   padding: token('spacing.xLarge');
-
 }
 .headerContainer {
   display: flex;

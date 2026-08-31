@@ -1,12 +1,11 @@
-import React, { useRef, useEffect, useCallback } from 'react';
-import mapboxgl from 'mapbox-gl';
+import React, { useRef, useEffect, useCallback, useMemo } from 'react';
+import mapboxgl, { type StyleSpecification } from 'mapbox-gl';
 import style from './map.module.css';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { mapboxData } from '@atb/modules/org-data';
 import { Button } from '@atb/components/button';
 import { MonoIcon } from '@atb/components/icon';
 import { ComponentText, useTranslation } from '@atb/translations';
-import { FocusScope } from '@react-aria/focus';
 import {
   ZOOM_LEVEL,
   defaultPosition,
@@ -15,30 +14,74 @@ import {
   hasMapLegs,
 } from './utils';
 import { useMapInteractions } from './use-map-interactions';
-import { useFullscreenMap } from './use-fullscreen-map';
 import { useMapPin } from './use-map-pin';
 import { useMapLegs } from './use-map-legs';
 import { and } from '@atb/utils/css';
 import { MapLegType, PositionType } from './types';
-import { useMapTariffZones } from './use-map-tariff-zones';
+import { useMapFareZones } from './use-map-fare-zones';
+import { useMapboxJsonStyle } from './use-mapbox-json-style';
+import { useNationalStopRegistryLayers } from './national-stop-registry';
+import { useDarkMode } from '@atb/modules/theme';
 import useMediaQuery from '@atb/utils/user-media-query';
 import { logSpecificEvent } from '@atb/modules/firebase';
+import MapLoading from './map-loading';
+import { useLiveVehicle } from './use-live-vehicle';
+import { useMapFollow } from './use-map-follow';
+import type { VehicleWithPosition } from '@atb/page-modules/departures/client/vehicles';
+import type {
+  TransportMode,
+  TransportSubmode,
+} from '@atb/modules/graphql-types/journeyplanner-types_v3.generated.ts';
+
+export type LiveVehicleProps = {
+  vehicle?: VehicleWithPosition;
+  isDisconnected: boolean;
+  mode?: TransportMode;
+  subMode?: TransportSubmode;
+};
 
 export type MapProps = {
   layer?: string;
   onSelectStopPlace?: (id: string) => void;
+  interactive?: boolean;
+  liveVehicle?: LiveVehicleProps;
 } & (
   | { position?: PositionType; initialZoom?: number }
   | { mapLegs: MapLegType[] }
   | {}
 );
 
-export default function Map({ layer, onSelectStopPlace, ...props }: MapProps) {
-  const mapWrapper = useRef<HTMLDivElement>(null);
+export default function Map(props: MapProps) {
+  // Style depends on an async Firestore fetch. Wait until it's ready so that
+  // the inner component can initialize the map synchronously — otherwise the
+  // layer-installing hooks (fare zones, legs, NSR) would run once with
+  // mapRef.current undefined and never re-run.
+  const mapboxJsonStyle = useMapboxJsonStyle();
+  const [isDarkMode] = useDarkMode();
+  const { language } = useTranslation();
+  if (!mapboxJsonStyle) return <MapLoading />;
+  return (
+    <MapWithStyle
+      // Remount on theme toggle and language change, so the map re-initializes
+      // with the correct style and localized cooperative-gesture text.
+      key={`${isDarkMode ? 'dark' : 'light'}-${language}`}
+      mapboxJsonStyle={mapboxJsonStyle}
+      {...props}
+    />
+  );
+}
+
+function MapWithStyle({
+  mapboxJsonStyle,
+  layer,
+  onSelectStopPlace,
+  interactive = true,
+  liveVehicle,
+  ...props
+}: MapProps & { mapboxJsonStyle: StyleSpecification }) {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | undefined>(undefined);
   const { t } = useTranslation();
-  const isMobileDevice = useMediaQuery('(max-width: 650px)');
 
   const mapLegs = hasMapLegs(props) ? props.mapLegs : undefined;
   const { position, initialZoom = ZOOM_LEVEL } = hasInitialPosition(props)
@@ -48,87 +91,103 @@ export default function Map({ layer, onSelectStopPlace, ...props }: MapProps) {
 
   const initializeMap = useCallback(() => {
     if (!mapContainer.current || map.current) return;
-    // If browsers doesn't support WebGL, don't initialize map
     if (!mapboxgl.supported()) return;
     logSpecificEvent('initialize_map');
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       accessToken: mapboxData.accessToken,
-      style: mapboxData.style,
+      style: mapboxJsonStyle,
       center: position,
       zoom: initialZoom,
-      bounds, // If bounds is specified, it overrides center and zoom constructor options.
+      bounds,
+      interactive,
+      // Let the scroll wheel scroll the page instead of zooming the map.
+      cooperativeGestures: interactive,
     });
-  }, [position, initialZoom, bounds]);
+  }, [position, initialZoom, bounds, mapboxJsonStyle, interactive]);
 
   useEffect(() => {
-    if (isMobileDevice) return;
     initializeMap();
     return () => map.current?.remove();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const { centerMap } = useMapInteractions(map, onSelectStopPlace);
-  const { openFullscreen, closeFullscreen, isFullscreen } = useFullscreenMap(
-    mapWrapper,
+  useEffect(() => {
+    if (!mapContainer.current || typeof ResizeObserver === 'undefined') return;
+    const resizeObserver = new ResizeObserver(() => map.current?.resize());
+    resizeObserver.observe(mapContainer.current);
+    return () => resizeObserver.disconnect();
+  }, []);
+
+  const { centerMap, zoomIn, zoomOut } = useMapInteractions(
     map,
-    initializeMap,
+    onSelectStopPlace,
   );
   useMapPin(map, position, layer);
   useMapLegs(map, mapLegs);
-  useMapTariffZones(map);
-
-  useEffect(() => {
-    if (!isMobileDevice) {
-      initializeMap();
-    }
-  }, [isMobileDevice, initializeMap]);
+  useMapFareZones(map);
+  useNationalStopRegistryLayers(map);
+  const { onMarkerClick } = useMapFollow(map, liveVehicle?.vehicle, {
+    enabled: !!liveVehicle,
+  });
+  useLiveVehicle(map, {
+    vehicle: liveVehicle?.vehicle,
+    isDisconnected: liveVehicle?.isDisconnected ?? false,
+    mode: liveVehicle?.mode,
+    subMode: liveVehicle?.subMode,
+    onMarkerClick,
+  });
 
   return (
-    <div className={style.map} aria-hidden="true">
-      <Button
-        className={style.fullscreenButton}
-        title={t(ComponentText.Map.map.openFullscreenButton)}
-        icon={{ left: <MonoIcon icon="map/Map" /> }}
-        onClick={openFullscreen}
-      />
-
-      <div className={style.mapWrapper} ref={mapWrapper}>
-        <FocusScope
-          contain={isFullscreen}
-          restoreFocus
-          autoFocus={isFullscreen}
-        >
-          <Button
-            className={style.closeButton}
-            onClick={closeFullscreen}
-            size="small"
-            icon={{
-              left: (
-                <MonoIcon icon="navigation/ArrowLeft" overrideMode="dark" />
-              ),
-            }}
-            mode="interactive_0"
-            buttonProps={{
-              'aria-label': t(ComponentText.Map.map.closeFullscreenButton),
-            }}
-          />
-          <Button
-            className={style.buttonsContainer}
-            size="small"
-            icon={{ left: <MonoIcon icon="places/Location" /> }}
-            onClick={() => centerMap(position)}
-            buttonProps={{
-              'aria-label': t(ComponentText.Map.map.centerMapButton),
-            }}
-          />
-          <div
-            ref={mapContainer}
-            className={and(
-              style.mapContainer,
-              mapLegs && style.mapContainer__borderRadius,
-            )}
-          />
-        </FocusScope>
+    <div className={style.map}>
+      <div className={style.mapWrapper}>
+        {interactive && (
+          <div className={style.buttonsContainer}>
+            <Button
+              size="small"
+              radiusSize="circular"
+              icon={{ left: <MonoIcon icon="places/Location" /> }}
+              onClick={() => centerMap(position)}
+              buttonProps={{
+                'aria-label': t(ComponentText.Map.map.centerMapButton),
+              }}
+            />
+            <div className={style.zoomControl}>
+              <Button
+                className={style.zoomControl__button}
+                size="small"
+                radius="top"
+                radiusSize="circular"
+                icon={{ left: <MonoIcon icon="actions/Add" /> }}
+                onClick={zoomIn}
+                buttonProps={{
+                  'aria-label': t(ComponentText.Map.map.zoomInButton),
+                }}
+              />
+              <Button
+                className={and(
+                  style.zoomControl__button,
+                  style.zoomControl__button__divider,
+                )}
+                size="small"
+                radius="bottom"
+                radiusSize="circular"
+                icon={{ left: <MonoIcon icon="actions/Subtract" /> }}
+                onClick={zoomOut}
+                buttonProps={{
+                  'aria-label': t(ComponentText.Map.map.zoomOutButton),
+                }}
+              />
+            </div>
+          </div>
+        )}
+        <div
+          ref={mapContainer}
+          aria-hidden="true"
+          className={and(
+            style.mapContainer,
+            mapLegs && style.mapContainer__borderRadius,
+          )}
+        />
       </div>
     </div>
   );

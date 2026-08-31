@@ -4,16 +4,17 @@ import Link from 'next/link';
 import style from './nearest-stop-places.module.css';
 import { Typo } from '@atb/components/typography';
 import { useRouter } from 'next/router';
-import VenueIcon from '@atb/components/venue-icon';
 import { PageText, useTranslation } from '@atb/translations';
 import EmptyMessage from '@atb/components/empty-message';
-import { SituationOrNoticeIcon } from '@atb/modules/situations';
+import { SituationOrNoticeIcon } from '@atb/modules/situations-and-notices';
 import ScreenReaderOnly from '@atb/components/screen-reader-only';
 import {
   OpenGraphDescription,
   OpenGraphImage,
 } from '@atb/components/open-graph';
 import { NearestStopPlaceType } from '@atb/page-modules/departures/types';
+import { TransportIcon } from '@atb/modules/transport-mode';
+import { TransportMode, TransportSubmode } from '@atb/modules/graphql-types';
 
 export type NearestStopPlacesProps = {
   fromQuery: FromDepartureQuery;
@@ -128,9 +129,19 @@ export default function StopPlaceItem({ item }: StopPlaceItemProps) {
         {item.stopPlace.situations.length > 0 && (
           <SituationOrNoticeIcon situations={item.stopPlace.situations} />
         )}
-        {item.stopPlace.transportMode?.map((mode: string) => (
-          <VenueIcon key={item.stopPlace.id} categories={[mode]} size="large" />
-        ))}
+        {item.stopPlace.transportMode
+          ?.sort((a, b) => a.localeCompare(b, 'en-US'))
+          .map((mode) => (
+            <TransportIcon
+              key={item.stopPlace.id}
+              transportMode={mode}
+              transportSubmode={
+                mode === TransportMode.Bus
+                  ? TransportSubmode.LocalBus
+                  : undefined
+              }
+            />
+          ))}
       </div>
     </Link>
   );

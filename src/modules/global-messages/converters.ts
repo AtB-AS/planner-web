@@ -1,4 +1,4 @@
-import { GlobalMessageType, globalMessageTypeSchema } from './types';
+import { GlobalMessageSchema, GlobalMessageType } from '@atb-as/utils';
 import { QueryDocumentSnapshot } from 'firebase/firestore';
 
 export const globalMessageConverter = {
@@ -6,34 +6,35 @@ export const globalMessageConverter = {
     throw new Error('Not implemented or used');
   },
   fromFirestore(
-    snapshot: QueryDocumentSnapshot<GlobalMessageType>,
+    snapshot: QueryDocumentSnapshot<any>,
   ): GlobalMessageType | undefined {
     const data = snapshot.data();
-    const potential = {
-      id: snapshot.id,
-      active: data.active,
-      title: data.title,
-      body: data.body,
-      type: data.type,
-      subtle: data.subtle,
-      context: data.context,
-      isDismissable: data.isDismissable,
-      startDate: firestoreTimestampToDate(data.startDate),
-      endDate: firestoreTimestampToDate(data.endDate),
-      link: data.link,
-      linkText: data.linkText,
-    };
-
-    const validated = globalMessageTypeSchema.safeParse(potential);
-
-    if (validated.success) {
-      return validated.data;
-    }
-
-    return undefined;
+    return mapToGlobalMessage(snapshot.id, data);
   },
 };
 
-function firestoreTimestampToDate(timestamp: any) {
-  return timestamp?.toDate?.();
+function mapToGlobalMessage(
+  id: string,
+  result: any,
+): GlobalMessageType | undefined {
+  if (!result) return;
+  result.id = id;
+  result.endDate = firestoreTimestampToMillis(result.endDate);
+  result.startDate = firestoreTimestampToMillis(result.startDate);
+
+  const parseResult = GlobalMessageSchema.safeParse(result);
+
+  if (!parseResult.success) {
+    console.warn(
+      `GlobalMessageRaw validation failed for id: ${id}, errors: ${JSON.stringify(
+        parseResult.error.message,
+      )}`,
+    );
+    return;
+  }
+  return parseResult.data;
+}
+
+function firestoreTimestampToMillis(timestamp: any) {
+  return timestamp?.toMillis?.();
 }

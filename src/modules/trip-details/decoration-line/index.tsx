@@ -16,7 +16,14 @@ export default function DecorationLine({
 }: DecorationLineProps) {
   const colorStyle = { backgroundColor: color };
   return (
-    <div className={style.decoration} style={colorStyle}>
+    <div
+      className={and(
+        style.decoration,
+        hasStart && style.decoration__insetTop,
+        hasEnd && style.decoration__insetBottom,
+      )}
+      style={colorStyle}
+    >
       {hasStart && (
         <div
           className={and(style.decorationMarker, style.decorationMarker__start)}

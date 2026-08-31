@@ -38,7 +38,9 @@ function DeparturesRouting(props: DeparturesContentProps) {
       />
     );
   } else if ('stopPlace' in props && props.departures) {
-    return <StopPlace departures={props.departures} />;
+    return (
+      <StopPlace departures={props.departures} fromQuery={props.fromQuery} />
+    );
   }
 }
 

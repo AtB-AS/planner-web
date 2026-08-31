@@ -11,6 +11,9 @@ export type MAPBOX_DATA = {
   accessToken: string;
   style: string;
   styleAndId: string;
+  mapboxUserName: string;
+  mapboxNsrTilesetId: string;
+  mapboxNsrSourceLayerId: string;
   defaultLat: number;
   defaultLng: number;
 };
@@ -50,7 +53,10 @@ export type OrgData = {
       name: string;
       href: string;
     };
-    ticketsUrl?: TranslatableUrl;
+    ticketInfoUrl?: TranslatableUrl;
+    purchaseTicketUrl?: TranslatableUrl;
+    androidAppUrl?: TranslatableUrl;
+    iosAppUrl?: TranslatableUrl;
 
     sitemapUrls: {
       dev: string;
@@ -115,10 +121,22 @@ function getCurrentOrg(): WEBSHOP_ORGS {
 function getMapboxData(): MAPBOX_DATA {
   const accessToken = process.env.NEXT_PUBLIC_MAPBOX_API_TOKEN;
   const style = process.env.NEXT_PUBLIC_MAPBOX_STOP_PLACES_STYLE_URL;
+  const mapboxUserName = process.env.NEXT_PUBLIC_MAPBOX_USER_NAME;
+  const mapboxNsrTilesetId = process.env.NEXT_PUBLIC_MAPBOX_NSR_TILESET_ID;
+  const mapboxNsrSourceLayerId =
+    process.env.NEXT_PUBLIC_MAPBOX_NSR_SOURCE_LAYER_ID;
   const defaultLat = process.env.NEXT_PUBLIC_MAPBOX_DEFAULT_LAT;
   const defaultLng = process.env.NEXT_PUBLIC_MAPBOX_DEFAULT_LNG;
 
-  if (!accessToken || !style || !defaultLat || !defaultLng) {
+  if (
+    !accessToken ||
+    !style ||
+    !mapboxUserName ||
+    !mapboxNsrTilesetId ||
+    !mapboxNsrSourceLayerId ||
+    !defaultLat ||
+    !defaultLng
+  ) {
     throw new Error('Mapbox data required but missing');
   }
 
@@ -128,6 +146,9 @@ function getMapboxData(): MAPBOX_DATA {
     accessToken,
     style,
     styleAndId,
+    mapboxUserName,
+    mapboxNsrTilesetId,
+    mapboxNsrSourceLayerId,
     defaultLat: parseFloat(parseFloat(defaultLat).toFixed(10)),
     defaultLng: parseFloat(parseFloat(defaultLng).toFixed(10)),
   };

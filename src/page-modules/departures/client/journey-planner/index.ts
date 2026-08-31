@@ -4,9 +4,10 @@ export type EstimatedCallsApiReturnType = EstimatedCallFragment[];
 export async function nextDepartures(
   quayId: string,
   startTime: string,
+  numberOfDepartures: number,
 ): Promise<EstimatedCallsApiReturnType> {
   const result = await fetch(
-    `/api/departures/journey-planner?quayId=${quayId}&startTime=${startTime}`,
+    `/api/departures/journey-planner?quayId=${quayId}&startTime=${startTime}&numberOfDepartures=${numberOfDepartures}`,
   );
 
   return await result.json();

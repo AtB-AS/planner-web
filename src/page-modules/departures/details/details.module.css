@@ -27,9 +27,16 @@
 }
 .mapContainer {
   grid-area: map;
+  min-height: 20rem;
   max-height: 37.5rem;
   width: 100%;
   margin: 0 auto;
+}
+@media (max-width: 650px) {
+  .mapContainer {
+    aspect-ratio: 1 / 1;
+    max-height: none;
+  }
 }
 .serviceJourneyContainer {
   grid-area: serviceJourney;
@@ -71,6 +78,7 @@
   --decorationContainerWidth: 1.25rem;
   --decorationLineWidth: 0.25rem;
   --decorationLineEndWidth: 0.75rem;
+  --decorationLineInset: 1rem;
 }
 .boardingInfo {
   color: token('color.foreground.dynamic.secondary');
@@ -79,7 +87,8 @@
   padding: token('spacing.xSmall');
   margin-bottom: token('spacing.medium');
   margin-left: calc(
-    var(--labelWidth) + var(--decorationContainerWidth) - token('spacing.xSmall')
+    var(--labelWidth) + var(--decorationContainerWidth) -
+      token('spacing.xSmall')
   );
   color: token('color.foreground.dynamic.secondary');
 }

@@ -45,16 +45,17 @@ export function BookingSection({
 
   return (
     <>
-      <TripRow
-        rowLabel={
-          <ColorIcon
-            icon={bookingStatus === 'late' ? 'status/Error' : 'status/Warning'}
-          />
-        }
-      >
+      <TripRow>
         {bookingMessage && (
           <MessageBox
             type={bookingStatus === 'late' ? 'error' : 'warning'}
+            statusIcon={
+              <ColorIcon
+                icon={
+                  bookingStatus === 'late' ? 'status/Error' : 'status/Warning'
+                }
+              />
+            }
             message={bookingMessage}
           />
         )}

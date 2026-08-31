@@ -36,6 +36,9 @@ import {
   NearestStopPlacesQueryVariables,
 } from '@atb/page-modules/departures/journey-gql/nearest-stop-places.generated.ts';
 import { SituationFragment } from '@atb/page-modules/assistant/journey-gql/trip-with-details.generated.ts';
+import { getSecondsUntilMidnight } from '@atb/utils/date';
+
+const NUMBER_OF_DEPARTURES = 7;
 
 export type DepartureInput = {
   id: string;
@@ -54,12 +57,14 @@ export type NearestStopPlacesInput = {
 export type EstimatedCallsInput = {
   quayId: string;
   startTime: string;
+  numberOfDepartures: number;
 };
 
 export type ServiceJourneyInput = {
   id: string;
   date: Date;
   fromQuayId: string;
+  toQuayId?: string;
 };
 
 export type JourneyPlannerApi = {
@@ -77,6 +82,10 @@ export function createJourneyApi(
 ): JourneyPlannerApi {
   const api: JourneyPlannerApi = {
     async departures(input) {
+      const startTime = input.date
+        ? new Date(input.date).toISOString()
+        : new Date().toISOString();
+
       const result = await client.query<
         StopPlaceQuayDeparturesQuery,
         StopPlaceQuayDeparturesQueryVariables
@@ -84,10 +93,9 @@ export function createJourneyApi(
         query: StopPlaceQuayDeparturesDocument,
         variables: {
           id: input.id,
-          startTime: input.date
-            ? new Date(input.date).toISOString()
-            : new Date().toISOString(),
-          numberOfDepartures: 10,
+          startTime,
+          numberOfDepartures: NUMBER_OF_DEPARTURES,
+          timeRange: getSecondsUntilMidnight(startTime),
         },
       });
 
@@ -198,8 +206,9 @@ export function createJourneyApi(
         query: QuayEstimatedCallsDocument,
         variables: {
           id: input.quayId,
-          numberOfDepartures: 6,
+          numberOfDepartures: input.numberOfDepartures,
           startTime: new Date(input.startTime),
+          timeRange: getSecondsUntilMidnight(input.startTime),
         },
       });
 
@@ -243,6 +252,12 @@ export function createJourneyApi(
         (call) => call.quay.id === input.fromQuayId,
       )?.quay?.stopPlace;
 
+      const toStopPlace = input.toQuayId
+        ? serviceJourney?.estimatedCalls?.find(
+            (call) => call.quay.id === input.toQuayId,
+          )?.quay?.stopPlace
+        : undefined;
+
       return {
         ...serviceJourney,
         mapLegs: mapToMapLegs(
@@ -250,6 +265,7 @@ export function createJourneyApi(
           transportMode,
           transportSubmode,
           fromStopPlace,
+          toStopPlace,
         ),
       };
     },

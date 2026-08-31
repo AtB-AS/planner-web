@@ -70,6 +70,6 @@ function mapGeocoderFeatures(data: Feature[]): GeocoderFeature[] {
     category: f.properties.category as FeatureCategory[],
     layer: f.properties.layer,
     geometry: f.geometry,
-    street: f.properties.street,
+    street: f.properties.street ?? null,
   }));
 }

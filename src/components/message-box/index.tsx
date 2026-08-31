@@ -1,8 +1,8 @@
 import { useTranslation } from '@atb/translations';
-import { StatusColorName, useTheme } from '@atb/modules/theme';
+import { Statuses, useTheme } from '@atb/modules/theme';
 import { andIf } from '@atb/utils/css';
-import { MonoIcon, MonoIconProps } from '@atb/components/icon';
-import { messageTypeToMonoIcon } from '@atb/modules/situations';
+import { ColorIcon, MonoIcon, MonoIconProps } from '@atb/components/icon';
+import { messageTypeToColorIcon } from '@atb/modules/situations-and-notices';
 import { Button } from '@atb/components/button';
 import dictionary from '@atb/translations/dictionary';
 import { Typo } from '@atb/components/typography';
@@ -11,7 +11,7 @@ import { colorToOverrideMode } from '@atb/utils/color';
 import { HTMLAttributes } from 'react';
 import Link from 'next/link';
 
-export type MessageMode = StatusColorName;
+export type MessageMode = Statuses;
 
 export type OnClickConfig = {
   text: string;
@@ -22,7 +22,7 @@ export type MessageBoxProps = {
   title?: string;
   textId?: string;
   message: string;
-  noStatusIcon?: boolean;
+  statusIcon?: React.ReactNode;
   onClickConfig?: OnClickConfig;
   onDismiss?: () => void;
   borderRadius?: boolean;
@@ -30,7 +30,7 @@ export type MessageBoxProps = {
 };
 
 export const MessageBox = ({
-  noStatusIcon,
+  statusIcon,
   type,
   message,
   textId,
@@ -69,12 +69,7 @@ export const MessageBox = ({
       })}
       style={backgroundColorStyle}
     >
-      {!noStatusIcon && (
-        <MonoIcon
-          icon={messageTypeToMonoIcon(type)}
-          overrideMode={overrideMode}
-        />
-      )}
+      {statusIcon ?? <ColorIcon icon={messageTypeToColorIcon(type)} />}
       <div className={style.content}>
         {title && <Typo.h2 textType="body__m__strong">{title}</Typo.h2>}
         <Typo.p textType="body__m" id={textId} {...aria}>

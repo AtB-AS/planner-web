@@ -15,7 +15,6 @@ export type { InitialCookieData };
 export type GlobalCookiesData = {
   initialCookies: InitialCookieData;
   headersAcceptLanguage: string;
-  referer: string;
 };
 export function getGlobalCookies(req?: {
   cookies: NextApiRequestCookies;
@@ -30,6 +29,5 @@ export function getGlobalCookies(req?: {
       language: req?.cookies[LANGUAGE_COOKIE_NAME] ?? null,
     },
     headersAcceptLanguage: req?.headers['accept-language'] ?? '',
-    referer: req?.headers.referer ?? '',
   };
 }

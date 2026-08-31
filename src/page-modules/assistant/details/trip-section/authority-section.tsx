@@ -7,18 +7,34 @@ import { AuthorityFragment } from '../../journey-gql/trip-with-details.generated
 import { ButtonLink } from '@atb/components/button';
 import { MonoIcon } from '@atb/components/icon';
 import { useTheme } from '@atb/modules/theme';
-import { getOrgData } from '@atb/modules/org-data';
+import { getConfigUrl, getOrgData } from '@atb/modules/org-data';
+import type { OrgData } from '@atb/modules/org-data';
+import type { Language } from '@atb/translations';
+import {
+  useDevicePlatform,
+  type DevicePlatform,
+} from '@atb/utils/use-device-platform';
 
 export type AuthoritySectionProps = {
   authority: AuthorityFragment;
 };
 
 export function AuthoritySection({ authority }: AuthoritySectionProps) {
-  const { t } = useTranslation();
+  const { language, t } = useTranslation();
   const { color } = useTheme();
-  const { authorityId } = getOrgData();
+  const { authorityId, urls } = getOrgData();
+  const devicePlatform = useDevicePlatform();
 
-  if (!authority.url || authority.id === authorityId) return null;
+  const isCurrentAuthority = authority.id == authorityId;
+  const authorityFareUrl = authority.fareUrl ?? authority.url;
+
+  if (!isCurrentAuthority && !authorityFareUrl) return null;
+
+  const url = isCurrentAuthority
+    ? getTicketUrlForPlatform(devicePlatform, urls, language)
+    : authorityFareUrl;
+
+  if (!url) return null;
 
   return (
     <TripRow>
@@ -27,8 +43,12 @@ export function AuthoritySection({ authority }: AuthoritySectionProps) {
           {t(PageText.Assistant.details.tripSection.buyTicketFrom)}
         </Typo.p>
         <ButtonLink
-          href={authority.url || '#'}
-          title={authority.name}
+          href={url}
+          title={
+            isCurrentAuthority && devicePlatform !== 'desktop'
+              ? t(PageText.Assistant.details.tripSection.appName)
+              : authority.name
+          }
           icon={{ left: <MonoIcon icon="navigation/ExternalLink" /> }}
           mode="secondary"
           backgroundColor={color.background.neutral[0]}
@@ -40,4 +60,22 @@ export function AuthoritySection({ authority }: AuthoritySectionProps) {
       </div>
     </TripRow>
   );
+}
+
+function getTicketUrlForPlatform(
+  platform: DevicePlatform,
+  urls: OrgData['urls'],
+  language: Language,
+): string | undefined {
+  const resolve = (url: OrgData['urls']['purchaseTicketUrl']) =>
+    url ? getConfigUrl(url, language) : undefined;
+
+  switch (platform) {
+    case 'android':
+      return resolve(urls.androidAppUrl) ?? resolve(urls.purchaseTicketUrl);
+    case 'ios':
+      return resolve(urls.iosAppUrl) ?? resolve(urls.purchaseTicketUrl);
+    default:
+      return resolve(urls.purchaseTicketUrl);
+  }
 }

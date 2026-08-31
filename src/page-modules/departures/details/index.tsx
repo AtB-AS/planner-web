@@ -1,34 +1,42 @@
-import { ButtonLink } from '@atb/components/button';
+import { Button } from '@atb/components/button';
 import { ColorIcon, MonoIcon } from '@atb/components/icon';
-import LineChip from '@atb/components/line-chip';
 import { Map } from '@atb/components/map';
 import { MessageBox } from '@atb/components/message-box';
 import { Typo } from '@atb/components/typography';
-import { SituationMessageBox, filterNotices } from '@atb/modules/situations';
+import {
+  SituationMessageBox,
+  filterNotices,
+} from '@atb/modules/situations-and-notices';
 import { useRealtimeText } from '@atb/modules/trip-details';
 import { PageText, useTranslation } from '@atb/translations';
+import dictionary from '@atb/translations/dictionary';
 import style from './details.module.css';
 import { EstimatedCallRows } from './estimated-call-rows';
-import { addMetadataToEstimatedCalls } from './utils';
+import { addMetadataToEstimatedCalls, getShouldShowLiveVehicle } from './utils';
 import { formatDestinationDisplay } from '../utils';
+import { useLiveVehicleSubscription } from '@atb/page-modules/departures/client/vehicles';
 import {
   GlobalMessageContextEnum,
   GlobalMessages,
 } from '@atb/modules/global-messages';
 import { ServiceJourneyType } from '@atb/page-modules/departures/types.ts';
+import { TransportMode } from '@atb/modules/graphql-types/journeyplanner-types_v3.generated.ts';
+import { useGoBack } from '@atb/utils/use-go-back';
+import { TransportIconWithDuration } from '@atb/modules/transport-mode';
 
 export type DeparturesDetailsProps = {
   fromQuayId?: string;
+  toQuayId?: string;
   serviceJourney: ServiceJourneyType;
-  referer?: string;
 };
 
 export function DeparturesDetails({
   fromQuayId,
+  toQuayId,
   serviceJourney,
-  referer,
 }: DeparturesDetailsProps) {
   const { t } = useTranslation();
+  const goBack = useGoBack();
   const focusedCall =
     serviceJourney.estimatedCalls.find((call) => call.quay.id === fromQuayId) ||
     serviceJourney.estimatedCalls[0];
@@ -42,6 +50,13 @@ export function DeparturesDetails({
       cancelled: c.cancellation,
     })),
   );
+  const shouldShowLiveVehicle = getShouldShowLiveVehicle(
+    serviceJourney.estimatedCalls,
+  );
+  const [liveVehicle, isLiveVehicleDisconnected] = useLiveVehicleSubscription({
+    serviceJourneyId: serviceJourney.id,
+    enabled: shouldShowLiveVehicle,
+  });
 
   if (!focusedCall)
     return (
@@ -55,11 +70,10 @@ export function DeparturesDetails({
       </section>
     );
 
-  const title = `${serviceJourney.line.publicCode} ${formatDestinationDisplay(t, focusedCall.destinationDisplay)}`;
   const estimatedCallsWithMetadata = addMetadataToEstimatedCalls(
     serviceJourney.estimatedCalls,
     fromQuayId,
-    undefined,
+    toQuayId,
   );
 
   const notices = getNoticesForServiceJourney(serviceJourney, fromQuayId);
@@ -70,33 +84,34 @@ export function DeparturesDetails({
     .map((s) => s.situationNumber)
     .filter((s): s is string => !!s);
 
-  const backLink = referer?.includes('departures/')
-    ? `/departures/${focusedCall.quay.stopPlace?.id}`
-    : referer;
-
   return (
     <section className={style.container}>
       <div className={style.headerContainer}>
-        <ButtonLink
+        <Button
           mode="transparent"
-          href={backLink ?? '/'}
-          title={
-            backLink?.includes('departures/')
-              ? t(PageText.Departures.details.backToDepartures)
-              : t(PageText.Departures.details.backToAssistant)
-          }
+          onClick={goBack}
+          title={t(dictionary.back)}
           icon={{ left: <MonoIcon icon="navigation/ArrowLeft" /> }}
         />
         <div className={style.header}>
-          <LineChip
-            transportMode={serviceJourney.transportMode ?? 'unknown'}
+          <TransportIconWithDuration
+            transportMode={
+              serviceJourney.transportMode ?? TransportMode.Unknown
+            }
             transportSubmode={serviceJourney.transportSubmode}
-            publicCode={serviceJourney.line.publicCode}
+            label={serviceJourney.line.publicCode}
           />
-          <Typo.h2 textType="heading__xl">{title}</Typo.h2>
+          <Typo.h2 textType="heading__xl">
+            {formatDestinationDisplay(t, focusedCall.destinationDisplay)}
+          </Typo.h2>
         </div>
         <GlobalMessages
           context={GlobalMessageContextEnum.plannerWebDeparturesDetails}
+          ruleVariables={{
+            mode: serviceJourney?.transportMode || null,
+            subMode: serviceJourney?.transportSubmode || null,
+            publicCode: serviceJourney.line.publicCode ?? null,
+          }}
         />
         {realtimeText && !focusedCall.cancellation && (
           <div className={style.realtimeText}>
@@ -119,6 +134,16 @@ export function DeparturesDetails({
           }
           mapLegs={serviceJourney.mapLegs}
           initialZoom={13.5}
+          liveVehicle={
+            shouldShowLiveVehicle
+              ? {
+                  vehicle: liveVehicle,
+                  isDisconnected: isLiveVehicleDisconnected,
+                  mode: serviceJourney.transportMode ?? undefined,
+                  subMode: serviceJourney.transportSubmode ?? undefined,
+                }
+              : undefined
+          }
         />
       </div>
 
@@ -144,6 +169,7 @@ export function DeparturesDetails({
           mode={serviceJourney.transportMode ?? 'unknown'}
           subMode={serviceJourney.transportSubmode}
           alreadyShownSituationNumbers={alreadyShownSituationNumbers}
+          toQuayId={toQuayId}
         />
       </div>
     </section>

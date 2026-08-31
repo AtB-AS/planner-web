@@ -15,7 +15,7 @@ import type { createWidget, PlannerWebOutput } from '@atb/widget/widget';
 
 import style from '@atb/page-modules/widget/widget.module.css';
 import { useTranslation } from '@atb/translations';
-import { formatToLongDateTime } from '@atb/utils/date';
+import { legacyFormatToLongDateTime } from '@atb/utils/date';
 import { withAccessLogging } from '@atb/modules/logging';
 
 type WidgetPagePropsContent = {
@@ -286,7 +286,7 @@ function WidgetContent({
             <summary>
               <h3>
                 {mod.version} (Created{' '}
-                {formatToLongDateTime(mod.created, language)})
+                {legacyFormatToLongDateTime(mod.created, language)})
               </h3>
             </summary>
 

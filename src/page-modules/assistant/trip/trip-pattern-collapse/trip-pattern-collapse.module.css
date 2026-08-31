@@ -1,0 +1,62 @@
+.collapseContainer {
+  border-radius: token('border.radius.regular');
+  background-color: token('color.background.neutral.0.background');
+  max-width: 100%;
+  width: 100%;
+  text-decoration: none;
+  transition: opacity 150ms ease-in-out;
+}
+
+.travelCard {
+  display: flex;
+  flex-direction: column;
+}
+.travelCard:hover {
+  cursor: pointer;
+}
+.travelCard:focus {
+  outline: 0;
+  box-shadow: inset 0 0 0 token('border.width.medium')
+    token('color.interactive.2.outline.background');
+  border-radius: token('border.radius.regular');
+}
+
+.expanded {
+  display: flex;
+  flex-direction: column;
+  border-top: token('border.width.slim') solid
+    token('color.background.neutral.1.background');
+  background-color: token('color.background.neutral.0.background');
+}
+
+.detailsGrid {
+  display: grid;
+  grid-template-columns: fit-content(66%) 1fr;
+  gap: token('spacing.xLarge');
+  padding: token('spacing.large') token('spacing.medium')
+    token('spacing.medium') token('spacing.large');
+}
+
+@media (max-width: 650px) {
+  .detailsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.accordionBody {
+  display: flex;
+  flex-direction: column;
+  gap: token('spacing.medium');
+}
+
+.detailsAside {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: token('spacing.medium');
+  padding: token('spacing.medium');
+}
+
+.goToDetailsButton {
+  text-align: center;
+}

@@ -1,0 +1,58 @@
+.header {
+  grid-area: header;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-areas: 'times  duration';
+  gap: token('spacing.small');
+  align-items: start;
+}
+
+.header__withFromToRow {
+  grid-template-areas:
+    'times  duration'
+    'fromTo fromTo';
+}
+
+.header__fromToRow {
+  grid-area: fromTo;
+}
+
+.header__timesText__cancelled {
+  text-decoration: line-through;
+}
+
+.header__timesArea {
+  grid-area: times;
+  display: flex;
+  flex-direction: column;
+  gap: token('spacing.xSmall');
+  min-width: 0;
+}
+
+.header__timesRow {
+  display: flex;
+  align-items: center;
+  gap: token('spacing.small');
+}
+
+.header__aimedTime {
+  color: token('color.foreground.dynamic.secondary');
+}
+
+.header__duration {
+  grid-area: duration;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: token('spacing.xSmall');
+}
+
+.header__durationText {
+  color: token('color.foreground.dynamic.secondary');
+}
+
+.situationIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

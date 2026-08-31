@@ -17,7 +17,7 @@ import { NonTransitTrip } from '../non-transit-pill';
 import { isSameDay } from 'date-fns';
 import { capitalize } from 'lodash';
 import EmptySearchResults from '@atb/components/empty-message';
-import TripPattern from './trip-pattern';
+import TripPatternCollapse from './trip-pattern-collapse';
 import EmptySearch from '@atb/components/loading-empty-results';
 import ScreenReaderOnly from '@atb/components/screen-reader-only';
 import {
@@ -26,11 +26,17 @@ import {
 } from '@atb/modules/global-messages';
 import dictionary from '@atb/translations/dictionary.ts';
 import { useTheme } from '@atb/modules/theme';
+import { uniqueLegValues } from './utils.ts';
 
 export type TripProps = {
   tripQuery: FromToTripQuery;
   fallback?: TripsType['trip'];
 };
+
+export {
+  isLegFlexibleTransport,
+  getFilteredLegsByWalkOrWaitTime,
+} from './utils.ts';
 
 export default function Trip({ tripQuery, fallback }: TripProps) {
   const { t } = useTranslation();
@@ -40,6 +46,7 @@ export default function Trip({ tripQuery, fallback }: TripProps) {
   const { nonTransitTrips } = useNonTransitTrip(tripQuery);
 
   const nonTransits = nonTransitTrips ? Object.entries(nonTransitTrips) : [];
+  const allTripPatterns = trips?.map((trip) => trip.tripPatterns).flat() ?? [];
 
   if (isLoadingFirstTrip) {
     return <EmptySearch isSearching={isLoadingFirstTrip} type="trip" />;
@@ -103,7 +110,24 @@ export default function Trip({ tripQuery, fallback }: TripProps) {
         role="status"
       />
 
-      <GlobalMessages context={GlobalMessageContextEnum.plannerWebTrip} />
+      <GlobalMessages
+        context={GlobalMessageContextEnum.plannerWebTrip}
+        ruleVariables={{
+          transportModes: uniqueLegValues(allTripPatterns, (leg) => leg.mode),
+          transportSubmodes: uniqueLegValues(
+            allTripPatterns,
+            (leg) => leg.transportSubmode,
+          ),
+          authorities: uniqueLegValues(
+            allTripPatterns,
+            (leg) => leg.authority?.id,
+          ),
+          publicCodes: uniqueLegValues(
+            allTripPatterns,
+            (leg) => leg.line?.publicCode,
+          ),
+        }}
+      />
       <div className={style.tripResults}>
         {nonTransitTrips && nonTransits.length > 0 && (
           <div className={style.nonTransitResult}>
@@ -113,8 +137,12 @@ export default function Trip({ tripQuery, fallback }: TripProps) {
           </div>
         )}
 
-        {trips?.map((trip, tripIndex) =>
-          trip.tripPatterns.map(
+        {trips?.map((trip, tripIndex) => {
+          const previousPatternsCount = trips
+            .slice(0, tripIndex)
+            .reduce((total, trip) => total + trip.tripPatterns.length, 0);
+
+          return trip.tripPatterns.map(
             (tripPattern: ExtendedTripPatternWithDetailsType, i) => (
               <div
                 key={`tripPattern-${tripPattern.expectedStartTime}-${i}`}
@@ -124,16 +152,16 @@ export default function Trip({ tripQuery, fallback }: TripProps) {
                   departureTime={tripPattern.expectedStartTime}
                   previousDepartureTime={getPreviousDepartureTime(tripIndex, i)}
                 />
-                <TripPattern
+                <TripPatternCollapse
                   tripPattern={tripPattern}
                   delay={i * 0.1}
-                  index={i}
+                  index={previousPatternsCount + i}
                   testId={`tripPattern`}
                 />
               </div>
             ),
-          ),
-        )}
+          );
+        })}
       </div>
 
       {tripQuery.via ? (
@@ -184,13 +212,13 @@ function DayLabel({ departureTime, previousDepartureTime }: DayLabelProps) {
 
   if (isFirst || !isSameDay(prevDate, departureDate)) {
     return (
-      <Typo.p
+      <Typo.h2
         textType="heading__l"
         className={style.dayLabel}
         testID="dayLabel"
       >
         {dayLabel}
-      </Typo.p>
+      </Typo.h2>
     );
   }
   return null;

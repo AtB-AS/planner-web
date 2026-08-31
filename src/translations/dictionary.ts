@@ -55,6 +55,7 @@ const dictionary = {
   a11yRouteTimePrefix: _('rutetid ', 'route time ', `rutetid `),
   missingRealTimePrefix: _('ca. ', 'ca. ', `ca. `),
   readMore: _('Les mer', 'Read more', `Les meir`),
+  back: _('Tilbake', 'Back', 'Tilbake'),
   close: _('Lukk', 'Close', 'Lukk'),
   listConcatWord: _('og', 'and', 'og'),
   via: _('via', 'via', 'via'),

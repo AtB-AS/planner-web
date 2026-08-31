@@ -1,13 +1,13 @@
 import { errorResultAsJson, tryResult } from '@atb/modules/api-server';
 import {
   fetchFromToTripQuery,
-  StreetMode,
   type NonTransitTripApiReturnType,
 } from '@atb/page-modules/assistant';
 import { handlerWithAssistantClient } from '@atb/page-modules/assistant/server';
 import { MEDIUM_WALK_SPEED } from '@atb/page-modules/assistant/walk-speed-input';
 import { ServerText } from '@atb/translations';
 import { constants } from 'http2';
+import { StreetMode } from '@atb/modules/graphql-types/journeyplanner-types_v3.generated.ts';
 
 export default handlerWithAssistantClient<NonTransitTripApiReturnType>({
   async GET(req, res, { client, ok }) {

@@ -7,6 +7,7 @@ import {
   isBefore,
   isPast,
   isSameDay,
+  isSameYear,
   Locale,
   parseISO,
   setMinutes,
@@ -31,7 +32,7 @@ import {
 
 const humanizer = humanizeDuration.humanizer({});
 const CET = 'Europe/Oslo';
-const ONE_HOUR = 3600000;
+const ONE_HOUR_MS = 3600000;
 
 export function parseIfNeeded(a: string | Date): Date {
   return a instanceof Date ? a : parseISO(a);
@@ -42,6 +43,26 @@ export function maybeParseISO(a: string | undefined): Date | undefined {
 }
 
 export function formatToLongDateTime(
+  isoDate: string | Date,
+  language: Language,
+) {
+  const parsed = parseIfNeeded(isoDate);
+  const now = new Date();
+  if (isSameDay(parsed, now)) {
+    return formatToClock(parsed, language, 'floor');
+  }
+  if (isSameYear(parsed, now)) {
+    return format(parsed, 'dd. MMM HH:mm', {
+      locale: languageToLocale(language),
+    });
+  }
+  return format(parsed, 'dd. MMM yyyy, HH:mm', {
+    locale: languageToLocale(language),
+  });
+}
+
+// TODO: Remove once widget is removed from this repo
+export function legacyFormatToLongDateTime(
   isoDate: string | Date,
   language: Language,
 ) {
@@ -353,18 +374,11 @@ export function formatTripDuration(
   originalArrivalTimeISO: string,
   language: Language,
 ) {
-  const regex = /T(\d{2}:\d{2}):\d{2}\+/;
   const departure = formatToClock(originalDepartureTimeISO, language, 'floor');
   const arrival = formatToClock(originalArrivalTimeISO, language, 'ceil');
 
-  const departureTime = originalDepartureTimeISO.replace(
-    regex,
-    `T${departure}:00+`,
-  );
-  const arrivalTime = originalArrivalTimeISO.replace(regex, `T${arrival}:00+`);
-
   const duration = secondsToDuration(
-    secondsBetween(departureTime, arrivalTime),
+    secondsBetween(originalDepartureTimeISO, originalArrivalTimeISO),
     language,
   );
 
@@ -377,12 +391,12 @@ export function setTimezone(date: Date): Date {
 
 export function fromLocalTimeToCET(localTime: number) {
   const hoursDifference = getHoursDifferenceFromCET(localTime); // difference from CET.
-  return localTime + ONE_HOUR * hoursDifference;
+  return localTime + ONE_HOUR_MS * hoursDifference;
 }
 
 export function fromCETToLocalTime(cet: number) {
   const hoursDifference = getHoursDifferenceFromCET(cet);
-  return cet - ONE_HOUR * hoursDifference;
+  return cet - ONE_HOUR_MS * hoursDifference;
 }
 
 function getUTCOffset(date: Date, timeZone: string): number {
@@ -495,4 +509,25 @@ export function formatToShortDateTimeWithRelativeDayNames(
       t(dictionary.date.relativeDayNames(daysDifference)) + ' ' + formattedTime;
   }
   return formattedTime;
+}
+
+/**
+ * Get seconds until midnight in Oslo time / CET, regardless of the server time
+ * zone.
+ */
+export function getSecondsUntilMidnight(isoTime: string): number {
+  const instant = parseISO(isoTime);
+
+  // Oslo calendar date of the instant (en-CA formats as YYYY-MM-DD)
+  const osloDate = instant.toLocaleDateString('en-CA', { timeZone: CET });
+
+  // Start of the next Oslo day, computed in UTC first (UTC has no DST, so a day
+  // is always 24h)
+  const nextDayUtc =
+    parseISO(`${osloDate}T00:00:00Z`).getTime() + 24 * ONE_HOUR_MS;
+
+  // Then shift back by Oslo's UTC offset to get actual Oslo midnight.
+  const nextOsloMidnight =
+    nextDayUtc - getUTCOffset(new Date(nextDayUtc), CET) * ONE_HOUR_MS;
+  return differenceInSeconds(nextOsloMidnight, instant);
 }
