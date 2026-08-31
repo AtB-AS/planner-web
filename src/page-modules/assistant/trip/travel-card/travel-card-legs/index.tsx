@@ -107,6 +107,10 @@ function getLegNotificationType(
   const bookingMsgType = leg.bookingArrangements
     ? ('warning' as const)
     : undefined;
+  const requestStopMsgType =
+    leg.fromEstimatedCall?.requestStop || leg.toEstimatedCall?.requestStop
+      ? 'info'
+      : undefined;
   const shortTransferMsgType: Statuses | undefined = (() => {
     if (!previousLeg) return undefined;
     const waitSeconds = secondsBetween(
@@ -123,6 +127,7 @@ function getLegNotificationType(
     situationsMsgType,
     railReplacementMsgType,
     bookingMsgType,
+    requestStopMsgType,
     shortTransferMsgType,
   ]);
 }

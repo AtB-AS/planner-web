@@ -4,16 +4,19 @@
   display: flex;
   flex-direction: column;
   gap: token('spacing.medium');
-}
-.rowContainer {
-  position: relative;
-  overflow: hidden;
-  gap: 1rem;
   --labelWidth: 2.625rem;
   --decorationContainerWidth: 2rem;
   --decorationLineWidth: 0.25rem;
   --decorationLineEndWidth: 0.75rem;
   --decorationLineInset: 1rem;
+}
+.rowContainer {
+  position: relative;
+  overflow: hidden;
+  gap: 1rem;
+}
+.toEstimatedCallInfo {
+  margin-top: calc(-1 * token('spacing.medium'));
 }
 .walkTime,
 .waitTime,
