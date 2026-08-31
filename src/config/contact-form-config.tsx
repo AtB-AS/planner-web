@@ -1,6 +1,6 @@
 import type { ContactFormConfig, IconComponent } from '@mrfylke/contact-form';
 import type { FormSchemaName } from '@mrfylke/contact-form';
-import { useDarkMode } from '@mrfylke/contact-form';
+import { useTheme } from '@mrfylke/contact-form';
 import { adaptAtbTheme } from '@mrfylke/contact-form/config';
 import { theme } from '@atb/modules/theme';
 import { getOrgData, byOrg } from '@atb/modules/org-data';
@@ -23,7 +23,7 @@ function createIconComponent(iconName: string): IconComponent {
     style?: React.CSSProperties;
     alt?: string;
   }) => {
-    const [isDarkMode] = useDarkMode();
+    const { isDarkMode } = useTheme();
     const sizeMap = { small: 20, normal: 24, large: 32 };
     const px = sizeMap[size];
     const mode = isDarkMode ? 'dark' : 'light';
@@ -112,7 +112,6 @@ function getContactFormConfig(): ContactFormConfig {
       logo,
     },
     features: {
-      enableDarkMode: true,
       enableFileUploads: true,
     },
     layout: {
