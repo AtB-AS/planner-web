@@ -82,6 +82,7 @@ export const tripPatternsFromVia: ViaTripsWithDetailsQuery['viaTrip']['tripPatte
           },
           fromEstimatedCall: {
             cancellation: false,
+            requestStop: false,
             notices: [],
           },
           situations: [],
@@ -182,6 +183,7 @@ export const tripPatternsFromVia: ViaTripsWithDetailsQuery['viaTrip']['tripPatte
           },
           fromEstimatedCall: {
             cancellation: false,
+            requestStop: false,
             notices: [],
           },
           situations: [],
@@ -315,6 +317,7 @@ export const tripPatternsViaTo: ViaTripsWithDetailsQuery['viaTrip']['tripPattern
           },
           fromEstimatedCall: {
             cancellation: false,
+            requestStop: false,
             notices: [],
           },
           situations: [],
@@ -408,6 +411,7 @@ export const tripPatternsViaTo: ViaTripsWithDetailsQuery['viaTrip']['tripPattern
           },
           fromEstimatedCall: {
             cancellation: false,
+            requestStop: false,
             notices: [],
           },
           situations: [
@@ -497,6 +501,7 @@ export const tripPatternsFromViaTo: ViaTripsWithDetailsQuery['viaTrip']['tripPat
           },
           fromEstimatedCall: {
             cancellation: false,
+            requestStop: false,
             notices: [],
           },
           situations: [],
@@ -619,6 +624,7 @@ export const tripPatternsFromViaTo: ViaTripsWithDetailsQuery['viaTrip']['tripPat
           },
           fromEstimatedCall: {
             cancellation: false,
+            requestStop: false,
             notices: [],
           },
           situations: [],
@@ -712,6 +718,7 @@ export const tripPatternsFromViaTo: ViaTripsWithDetailsQuery['viaTrip']['tripPat
           },
           fromEstimatedCall: {
             cancellation: false,
+            requestStop: false,
             notices: [],
           },
           situations: [

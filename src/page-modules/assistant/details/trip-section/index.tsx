@@ -132,6 +132,18 @@ export default function TripSection({
           </TripRow>
         )}
 
+        {leg.fromEstimatedCall?.requestStop && (
+          <TripRow>
+            <MessageBox
+              type="info"
+              message={t(
+                PageText.Assistant.details.tripSection.requestStopBoarding,
+              )}
+              statusIcon={<ColorIcon icon="status/Info" />}
+            />
+          </TripRow>
+        )}
+
         {isWalkSection ? (
           <WalkSection
             walkDuration={leg.duration}
@@ -262,6 +274,21 @@ export default function TripSection({
           </TripRow>
         )}
       </div>
+
+      {leg.toEstimatedCall?.requestStop && (
+        <div className={style.toEstimatedCallInfo}>
+          <TripRow>
+            <MessageBox
+              type="info"
+              message={t(
+                PageText.Assistant.details.tripSection.requestStopAlighting,
+              )}
+              statusIcon={<ColorIcon icon="status/Info" />}
+            />
+          </TripRow>
+        </div>
+      )}
+
       {showInterchangeSection && (
         <InterchangeSection
           interchangeDetails={interchangeDetails}

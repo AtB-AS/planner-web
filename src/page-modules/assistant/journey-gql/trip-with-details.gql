@@ -114,6 +114,7 @@ fragment legWithDetails on Leg {
       frontText
     }
     cancellation
+    requestStop
   }
   toEstimatedCall {
     notices {
@@ -123,6 +124,7 @@ fragment legWithDetails on Leg {
       frontText
     }
     cancellation
+    requestStop
   }
   interchangeTo {
     guaranteed

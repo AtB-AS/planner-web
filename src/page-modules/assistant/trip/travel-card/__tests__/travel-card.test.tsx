@@ -175,6 +175,7 @@ describe('trip pattern', function () {
             fromEstimatedCall: {
               notices: [],
               cancellation: true,
+              requestStop: false,
             },
           },
         ],
