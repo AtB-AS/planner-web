@@ -10,7 +10,6 @@ import {
 import type { GetServerSideProps } from 'next';
 
 type ContactCatchAllPagePropsContent = {
-  acceptLanguage: string | null;
   slug: string[] | null;
 };
 
@@ -18,13 +17,12 @@ export type ContactCatchAllPageProps =
   WithGlobalData<ContactCatchAllPagePropsContent>;
 
 export default function ContactCatchAllPage({
-  acceptLanguage,
   slug,
   ...layoutProps
 }: ContactCatchAllPageProps) {
   return (
     <DefaultLayout {...layoutProps} title={getContactPageTitle()}>
-      <ContactFormWrapper acceptLanguageHeader={acceptLanguage}>
+      <ContactFormWrapper>
         <ContactFormContactContent slug={slug} />
       </ContactFormWrapper>
     </DefaultLayout>
@@ -37,12 +35,9 @@ export const getServerSideProps: GetServerSideProps<ContactCatchAllPageProps> =
       if (!shouldShowContactPage()) {
         return { notFound: true };
       }
-      const acceptLanguage =
-        (context.req?.headers?.['accept-language'] as string) ?? null;
       const slug = context.params?.slug as string[] | undefined;
       return {
         props: {
-          acceptLanguage,
           slug: slug ?? null,
         },
       };
