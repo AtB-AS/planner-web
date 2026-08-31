@@ -35,7 +35,7 @@ import {
   TripsWithDetailsQuery,
   TripsWithDetailsQueryVariables,
 } from '@atb/page-modules/assistant/journey-gql/trip-with-details.generated';
-import { mapToMapLegs, MapLegType } from '@atb/components/map';
+import { MapLegType, mapToMapLegs } from '@atb/components/map';
 import { getOrgData } from '@atb/modules/org-data';
 import {
   ViaTripsWithDetailsDocument,
@@ -53,9 +53,9 @@ import {
   LinesQueryVariables,
 } from '@atb/page-modules/assistant/journey-gql/lines.generated';
 import {
+  TripsNonTransitDocument,
   TripsNonTransitQuery,
   TripsNonTransitQueryVariables,
-  TripsNonTransitDocument,
 } from '@atb/page-modules/assistant/journey-gql/non-transit-trip.generated';
 import { MEDIUM_WALK_SPEED } from '@atb/page-modules/assistant/walk-speed-input';
 import {
@@ -184,10 +184,10 @@ export function createJourneyApi(
     },
     async trip(input) {
       const journeyModes: JourneyModes = {
-        accessMode: StreetMode.Foot,
+        accessMode: StreetMode.Flexible,
         // Show specific non-transit suggestions through separate API call
-        directMode: undefined,
-        egressMode: StreetMode.Foot,
+        directMode: StreetMode.Flexible,
+        egressMode: StreetMode.Flexible,
         transportModes: input.transportModes ?? [],
       };
 
