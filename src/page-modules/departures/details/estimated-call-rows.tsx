@@ -146,6 +146,8 @@ function EstimatedCallRow({
   const { t } = useTranslation();
   const { group, isStartOfGroup, isEndOfGroup } = call.metadata;
   const isBetween = !isStartOfGroup && !isEndOfGroup;
+  const isStartOfTripGroup = group === 'trip' && isStartOfGroup;
+  const isEndOfTripGroup = group === 'trip' && isEndOfGroup;
   const iconColor = useTransportationThemeColor({
     transportMode: group === 'trip' ? mode : 'unknown',
     transportSubmode: subMode,
@@ -185,6 +187,17 @@ function EstimatedCallRow({
         {!call.forBoarding && !call.metadata.isEndOfServiceJourney && (
           <Typo.p textType="body__s" className={style.boardingInfo}>
             {t(PageText.Departures.details.messages.noBoarding)}
+          </Typo.p>
+        )}
+        {call.requestStop && (
+          <Typo.p textType="body__s" className={style.boardingInfo}>
+            {t(
+              isStartOfTripGroup
+                ? PageText.Departures.details.messages.requestStopBoarding
+                : isEndOfTripGroup
+                  ? PageText.Departures.details.messages.requestStopAlighting
+                  : PageText.Departures.details.messages.requestStop,
+            )}
           </Typo.p>
         )}
       </TripRow>

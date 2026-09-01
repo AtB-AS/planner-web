@@ -164,6 +164,14 @@ export function DeparturesDetails({
               />
             ),
         )}
+        {focusedCall.requestStop && (
+          <MessageBox
+            type="info"
+            message={t(
+              PageText.Departures.details.messages.requestStopBoarding,
+            )}
+          />
+        )}
         <EstimatedCallRows
           calls={estimatedCallsWithMetadata}
           mode={serviceJourney.transportMode ?? 'unknown'}
