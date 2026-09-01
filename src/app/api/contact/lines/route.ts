@@ -1,6 +1,6 @@
 import { createLinesRouteHandler } from '@mrfylke/contact-form/server';
 import { getOrgData } from '@atb/modules/org-data';
 
-export default createLinesRouteHandler({
+export const GET = createLinesRouteHandler({
   getAuthorityId: () => getOrgData().authorityId,
 });

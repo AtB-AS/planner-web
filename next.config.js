@@ -38,16 +38,21 @@ const nextConfig = {
       (rule) => typeof rule.oneOf === 'object',
     );
     if (oneOf) {
-      const moduleCssRule = oneOf.oneOf.find(
-        (rule) => regexEqual(rule.test, /\.module\.css$/),
+      const moduleCssRules = oneOf.oneOf.filter((rule) =>
+        regexEqual(rule.test, /\.module\.css$/),
         // regexEqual(rule.test, /\.module\.(scss|sass)$/)
       );
-      if (moduleCssRule) {
+      for (const moduleCssRule of moduleCssRules) {
         const cssLoader = moduleCssRule.use.find(({ loader }) =>
           loader.includes('css-loader'),
         );
         if (cssLoader) {
-          cssLoader.options.modules.mode = 'local';
+          cssLoader.options.modules = {
+            ...(typeof cssLoader.options.modules === 'object'
+              ? cssLoader.options.modules
+              : {}),
+            mode: 'local',
+          };
         }
       }
     }
