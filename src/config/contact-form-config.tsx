@@ -1,6 +1,6 @@
 import type { ContactFormConfig, IconComponent } from '@mrfylke/contact-form';
 import type { FormSchemaName } from '@mrfylke/contact-form';
-import { useTheme } from '@mrfylke/contact-form';
+import { useTheme, buildEnabledPageIds } from '@mrfylke/contact-form';
 import { adaptAtbTheme } from '@mrfylke/contact-form/config';
 import { theme } from '@atb/modules/theme';
 import { getOrgData, byOrg } from '@atb/modules/org-data';
@@ -126,9 +126,29 @@ function getContactFormConfig(): ContactFormConfig {
       successPath: '/contact/success',
       errorPath: '/contact/error',
     },
-    pagesOverrides: byOrg({
-      fram: { hidePageIds: ['skoleskyss'] },
-    }),
+    pages: {
+      enabledPageIds:
+        byOrg({
+          fram: buildEnabledPageIds([
+            'ticket-control',
+            'refund',
+            'means-of-transport',
+            'ticketing',
+            'lost-property-external',
+            'group-travel',
+            'journey-info',
+          ]),
+        }) ??
+        buildEnabledPageIds([
+          'ticket-control',
+          'refund',
+          'means-of-transport',
+          'ticketing',
+          'lost-property',
+          'group-travel',
+          'journey-info',
+        ]),
+    },
     formSchemaOverrides: byOrg({
       fram: {
         refund: {
