@@ -5,43 +5,29 @@ import {
   getContactPageTitle,
   shouldShowContactPage,
 } from '@atb/server/contact/utils';
-import {
-  ContactFormWrapper,
-  ContactFormContactContent,
-} from '@atb/components/contact-form';
+import { ContactFormWrapper } from '@atb/components/contact-form';
+import { ContactPageLayout } from '@mrfylke/contact-form';
 import type { GetServerSideProps } from 'next';
 
-type ContactCatchAllPagePropsContent = {
-  slug: string[] | null;
-};
-
-export type ContactCatchAllPageProps =
-  WithGlobalData<ContactCatchAllPagePropsContent>;
-
-export default function ContactCatchAllPage({
-  slug,
-  ...layoutProps
-}: ContactCatchAllPageProps) {
+export default function ContactCatchAllPage(
+  layoutProps: WithGlobalData<Record<string, never>>,
+) {
   return (
     <DefaultLayout {...layoutProps} title={getContactPageTitle()}>
       <ContactFormWrapper>
-        <ContactFormContactContent slug={slug} />
+        <ContactPageLayout />
       </ContactFormWrapper>
     </DefaultLayout>
   );
 }
 
-export const getServerSideProps: GetServerSideProps<ContactCatchAllPageProps> =
-  withAccessLogging(
-    withGlobalData<ContactCatchAllPagePropsContent>(async (context) => {
-      if (!shouldShowContactPage()) {
-        return { notFound: true };
-      }
-      const slug = context.params?.slug as string[] | undefined;
-      return {
-        props: {
-          slug: slug ?? null,
-        },
-      };
-    }),
-  );
+export const getServerSideProps: GetServerSideProps<
+  WithGlobalData<Record<string, never>>
+> = withAccessLogging(
+  withGlobalData<Record<string, never>>(async () => {
+    if (!shouldShowContactPage()) {
+      return { notFound: true };
+    }
+    return { props: {} };
+  }),
+);
