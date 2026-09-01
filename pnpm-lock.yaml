@@ -57,8 +57,8 @@ importers:
         specifier: ^1.2.1
         version: 1.2.1
       '@mrfylke/contact-form':
-        specifier: ^0.1.23
-        version: 0.1.23(@atb-as/generate-assets@18.16.0)(@atb-as/theme@15.2.0)(@atb-as/token@0.0.4(@atb-as/theme@15.2.0)(postcss@8.5.15))(@emotion/is-prop-valid@1.4.0)(@internationalized/date@3.12.2)(@types/react@19.1.10)(graphql-ws@6.0.8(graphql@16.14.2)(ws@8.21.0))(lodash@4.18.1)(next@15.4.10(@babel/core@7.29.7)(@playwright/test@1.60.0)(react-dom@19.1.4(react@19.1.4))(react@19.1.4))(react-aria-components@1.18.0(react-dom@19.1.4(react@19.1.4))(react@19.1.4))(react-dom@19.1.4(react@19.1.4))(react@19.1.4)(swr@2.4.1(react@19.1.4))(uuid@11.1.1)(zod@4.1.11)
+        specifier: ^0.1.24
+        version: 0.1.24(@atb-as/generate-assets@18.16.0)(@atb-as/theme@15.2.0)(@atb-as/token@0.0.4(@atb-as/theme@15.2.0)(postcss@8.5.15))(@emotion/is-prop-valid@1.4.0)(@internationalized/date@3.12.2)(@types/react@19.1.10)(graphql-ws@6.0.8(graphql@16.14.2)(ws@8.21.0))(lodash@4.18.1)(next@15.4.10(@babel/core@7.29.7)(@playwright/test@1.60.0)(react-dom@19.1.4(react@19.1.4))(react@19.1.4))(react-aria-components@1.18.0(react-dom@19.1.4(react@19.1.4))(react@19.1.4))(react-dom@19.1.4(react@19.1.4))(react@19.1.4)(swr@2.4.1(react@19.1.4))(uuid@11.1.1)(zod@4.1.11)
       '@react-aria/focus':
         specifier: ^3.21.0
         version: 3.22.1(react-dom@19.1.4(react@19.1.4))(react@19.1.4)
@@ -2347,8 +2347,8 @@ packages:
   '@microsoft/tsdoc@0.16.0':
     resolution: {integrity: sha512-xgAyonlVVS+q7Vc7qLW0UrJU7rSFcETRWsqdXZtjzRU8dF+6CkozTK4V4y1LwOX7j8r/vHphjDeMeGI4tNGeGA==}
 
-  '@mrfylke/contact-form@0.1.23':
-    resolution: {integrity: sha512-olCMak/keI4jk046plavuCVQrEcrkLXT3NXDAAlTt+ZEnak1XR80lBy5b5JFdnxsZ6hTRgEkzm+EduM1936dig==}
+  '@mrfylke/contact-form@0.1.24':
+    resolution: {integrity: sha512-2KmFbcroyfB14HtZ+rO75zg2auo4oHDSvI3q0vpPZONqLM8iLR4mMgJRn/xxnxkvlmMJSfVHbQp7lu/I722JeQ==}
     peerDependencies:
       '@atb-as/generate-assets': ^18.7.0
       '@atb-as/theme': ^15.0.0
@@ -9377,7 +9377,7 @@ snapshots:
 
   '@microsoft/tsdoc@0.16.0': {}
 
-  '@mrfylke/contact-form@0.1.23(@atb-as/generate-assets@18.16.0)(@atb-as/theme@15.2.0)(@atb-as/token@0.0.4(@atb-as/theme@15.2.0)(postcss@8.5.15))(@emotion/is-prop-valid@1.4.0)(@internationalized/date@3.12.2)(@types/react@19.1.10)(graphql-ws@6.0.8(graphql@16.14.2)(ws@8.21.0))(lodash@4.18.1)(next@15.4.10(@babel/core@7.29.7)(@playwright/test@1.60.0)(react-dom@19.1.4(react@19.1.4))(react@19.1.4))(react-aria-components@1.18.0(react-dom@19.1.4(react@19.1.4))(react@19.1.4))(react-dom@19.1.4(react@19.1.4))(react@19.1.4)(swr@2.4.1(react@19.1.4))(uuid@11.1.1)(zod@4.1.11)':
+  '@mrfylke/contact-form@0.1.24(@atb-as/generate-assets@18.16.0)(@atb-as/theme@15.2.0)(@atb-as/token@0.0.4(@atb-as/theme@15.2.0)(postcss@8.5.15))(@emotion/is-prop-valid@1.4.0)(@internationalized/date@3.12.2)(@types/react@19.1.10)(graphql-ws@6.0.8(graphql@16.14.2)(ws@8.21.0))(lodash@4.18.1)(next@15.4.10(@babel/core@7.29.7)(@playwright/test@1.60.0)(react-dom@19.1.4(react@19.1.4))(react@19.1.4))(react-aria-components@1.18.0(react-dom@19.1.4(react@19.1.4))(react@19.1.4))(react-dom@19.1.4(react@19.1.4))(react@19.1.4)(swr@2.4.1(react@19.1.4))(uuid@11.1.1)(zod@4.1.11)':
     dependencies:
       '@apollo/client': 3.14.1(@types/react@19.1.10)(graphql-ws@6.0.8(graphql@16.14.2)(ws@8.21.0))(graphql@16.14.2)(react-dom@19.1.4(react@19.1.4))(react@19.1.4)
       '@atb-as/config-specs': 9.6.1(zod@4.1.11)
