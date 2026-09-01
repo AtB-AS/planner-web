@@ -1,19 +1,17 @@
 import DefaultLayout from '@atb/layouts/default';
 import { withAccessLogging } from '@atb/modules/logging';
 import { withGlobalData, type WithGlobalData } from '@atb/modules/global-data';
-import {
-  getContactPageTitle,
-  shouldShowContactPage,
-} from '@atb/server/contact/utils';
+import { shouldShowContactPage } from '@atb/server/contact/utils';
 import { ContactFormWrapper } from '@atb/components/contact-form';
 import { ContactPageLayout } from '@mrfylke/contact-form';
 import type { GetServerSideProps } from 'next';
+import { PageText } from '@atb/translations';
 
 export default function ContactCatchAllPage(
   layoutProps: WithGlobalData<Record<string, never>>,
 ) {
   return (
-    <DefaultLayout {...layoutProps} title={getContactPageTitle()}>
+    <DefaultLayout {...layoutProps} title={[PageText.Contact.pageTitle]}>
       <ContactFormWrapper>
         <ContactPageLayout />
       </ContactFormWrapper>
