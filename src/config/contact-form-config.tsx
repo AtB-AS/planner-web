@@ -1,13 +1,16 @@
-import type { ContactFormConfig, IconComponent } from '@mrfylke/contact-form';
-import type { FormSchemaName } from '@mrfylke/contact-form';
-import { useTheme, buildEnabledPageIds } from '@mrfylke/contact-form';
+import type {
+  ContactFormConfig,
+  FormSchemaName,
+  IconComponent,
+} from '@mrfylke/contact-form';
+import { buildEnabledPageIds, useTheme } from '@mrfylke/contact-form';
 import { adaptAtbTheme } from '@mrfylke/contact-form/config';
 import { theme } from '@atb/modules/theme';
-import { getOrgData, byOrg } from '@atb/modules/org-data';
+import { byOrg } from '@atb/modules/org-data';
 import {
-  PageText,
-  ComponentText,
   CommonText,
+  ComponentText,
+  PageText,
   ServerText,
 } from '@atb/translations';
 
@@ -65,108 +68,68 @@ const iconSet: ContactFormConfig['icons'] = {
   'status/ErrorFill': createIconComponent('status/ErrorFill'),
 };
 
-const atbThemes = theme;
-const contactFormTheme = adaptAtbTheme(atbThemes);
+const contactFormTheme = adaptAtbTheme(theme);
 
-const baseUrl = typeof window !== 'undefined' ? '' : '';
 const submitEndpoint = '/api/contact/submit';
 
-const onSubmit = async (
+const onSubmit = (
   schemaName: FormSchemaName,
   state: Record<string, unknown>,
 ): Promise<Response> => {
-  const response = await fetch(`${baseUrl}${submitEndpoint}`, {
+  return fetch(submitEndpoint, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ ...state, formType: schemaName }),
   });
-  return response;
 };
 
-function getContactFormConfig(): ContactFormConfig {
-  const org = getOrgData();
-  const logo =
-    org.fylkeskommune != null
-      ? {
-          src: org.fylkeskommune.logoSrc,
-          srcDark: org.fylkeskommune.logoSrcDark,
-          alt: org.fylkeskommune.name,
-        }
-      : undefined;
-
-  return {
-    theme: contactFormTheme,
-    icons: iconSet,
-    api: {
-      baseUrl,
-      endpoints: {
-        submitForm: submitEndpoint,
-        lines: '/api/contact/lines',
-      },
-      onSubmit,
-    },
-    org: {
-      name: org.fylkeskommune?.name ?? org.orgId,
-      supportEmail: org.supportEmail,
-      authorityId: org.authorityId,
-      logo,
-    },
-    features: {
-      enableFileUploads: true,
-    },
-    layout: {
-      basePath: '/contact',
-      backLinkDefault: {
-        href: '/',
-        label: PageText.Contact.contactPageLayout.homeLink as unknown as Record<
-          string,
-          string
-        >,
-      },
-      successPath: '/contact/success',
-      errorPath: '/contact/error',
-    },
-    pages: {
-      enabledPageIds:
-        byOrg({
-          fram: buildEnabledPageIds([
-            'ticket-control',
-            'refund',
-            'means-of-transport',
-            'ticketing',
-            'lost-property-external',
-            'group-travel',
-            'journey-info',
-          ]),
-        }) ??
-        buildEnabledPageIds([
+export const contactFormConfig: ContactFormConfig = {
+  theme: contactFormTheme,
+  icons: iconSet,
+  api: {
+    onSubmit,
+  },
+  features: {
+    enableFileUploads: true,
+  },
+  pages: {
+    enabledPageIds:
+      byOrg({
+        fram: buildEnabledPageIds([
           'ticket-control',
           'refund',
           'means-of-transport',
           'ticketing',
-          'lost-property',
+          'lost-property-external',
           'group-travel',
           'journey-info',
         ]),
-    },
-    formSchemaOverrides: byOrg({
-      fram: {
-        refund: {
-          enabledFormCategories: [
-            'refundOfTicket',
-            'refundAndTravelGuarantee',
-            'residualValueOnTravelCard',
-          ],
-        },
+      }) ??
+      buildEnabledPageIds([
+        'ticket-control',
+        'refund',
+        'means-of-transport',
+        'ticketing',
+        'lost-property',
+        'group-travel',
+        'journey-info',
+      ]),
+  },
+  formSchemaOverrides: byOrg({
+    fram: {
+      refund: {
+        enabledFormCategories: [
+          'refundOfTicket',
+          'refundAndTravelGuarantee',
+          'residualValueOnTravelCard',
+        ],
       },
-    }),
-    translations: {
-      pages: PageText,
-      components: ComponentText,
-      common: CommonText,
-      server: ServerText,
     },
-  };
-}
-
-export const contactFormConfig = getContactFormConfig();
+  }),
+  translations: {
+    pages: PageText,
+    components: ComponentText,
+    common: CommonText,
+    server: ServerText,
+  },
+};
