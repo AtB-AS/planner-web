@@ -3,20 +3,32 @@ import { withAccessLogging } from '@atb/modules/logging';
 import { withGlobalData, type WithGlobalData } from '@atb/modules/global-data';
 import { shouldShowContactPage } from '@atb/server/contact/utils';
 import { ContactFormWrapper } from '@atb/components/contact-form';
-import { ContactPageLayout } from '@mrfylke/contact-form';
+import {
+  ContactPageLayout,
+  useActiveContactPageTitle,
+} from '@mrfylke/contact-form';
+import { contactFormConfig } from '@atb/config/contact-form-config';
 import type { GetServerSideProps } from 'next';
 import { PageText } from '@atb/translations';
 
 export default function ContactCatchAllPage(
   layoutProps: WithGlobalData<Record<string, never>>,
 ) {
+  const title = usePageTitle();
   return (
-    <DefaultLayout {...layoutProps} title={[PageText.Contact.pageTitle]}>
+    <DefaultLayout {...layoutProps} title={title}>
       <ContactFormWrapper>
         <ContactPageLayout />
       </ContactFormWrapper>
     </DefaultLayout>
   );
+}
+
+function usePageTitle() {
+  const subPageTitle = useActiveContactPageTitle(contactFormConfig);
+  return subPageTitle
+    ? [subPageTitle, PageText.Contact.pageTitle]
+    : [PageText.Contact.pageTitle];
 }
 
 export const getServerSideProps: GetServerSideProps<
