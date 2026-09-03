@@ -1,6 +1,7 @@
 name: Docker Build, Push & Deploy
 
 on:
+  workflow_dispatch:
   release:
     types: [published]
   push:
@@ -12,6 +13,7 @@ jobs:
     with:
       image: gcr.io/atb-mobility-platform/planner-web
       build_args: |
+        NEXT_PUBLIC_BUILD_ID=${{ github.sha }}
         ATB_NEXT_PUBLIC_MAPBOX_DEFAULT_LAT=63.43457
         ATB_NEXT_PUBLIC_MAPBOX_DEFAULT_LNG=10.39844
         ATB_NEXT_PUBLIC_FIREBASE_PROJECT_ID=${{ github.event_name == 'release' && 'atb-mobility-platform' || 'atb-mobility-platform-staging'}}
