@@ -27,7 +27,7 @@ function createIconComponent(iconName: string): IconComponent {
     alt?: string;
   }) => {
     const { isDarkMode } = useTheme();
-    const sizeMap = { small: 20, normal: 24, large: 32 };
+    const sizeMap = { small: 16, normal: 20, large: 28 };
     const px = sizeMap[size];
     const mode = isDarkMode ? 'dark' : 'light';
     const assetPath = `/assets/mono/${mode}/${iconName}.svg`;
