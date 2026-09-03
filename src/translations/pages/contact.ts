@@ -1,7 +1,4 @@
-import {
-  ReasonForTransportFailure,
-  TicketTypeId,
-} from '@atb/page-modules/contact/types';
+import { ReasonForTransportFailure, TicketTypeId } from '@mrfylke/contact-form';
 import { translation as _ } from '@atb/translations/commons';
 import { orgSpecificTranslations } from '../utils';
 
