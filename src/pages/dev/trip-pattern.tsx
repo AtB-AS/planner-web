@@ -444,9 +444,7 @@ const DevTripPatternPage: NextPage<DevTripPatternPageProps> = (props) => {
       <footer className={style.buildInfo}>
         <span>org: {process.env.NEXT_PUBLIC_PLANNER_ORG_ID}</span>
         <span>env: {process.env.NEXT_PUBLIC_ENVIRONMENT || '-'}</span>
-        <span>
-          firebase: {process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID}
-        </span>
+        <span>firebase: {process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID}</span>
         <span>build: {process.env.NEXT_PUBLIC_BUILD_ID || '-'}</span>
       </footer>
     </DefaultLayout>
