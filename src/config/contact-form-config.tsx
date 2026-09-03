@@ -1,9 +1,5 @@
-import type {
-  ContactFormConfig,
-  FormSchemaName,
-  IconComponent,
-} from '@mrfylke/contact-form';
-import { buildEnabledPageIds, useTheme } from '@mrfylke/contact-form';
+import type { ContactFormConfig, FormSchemaName } from '@mrfylke/contact-form';
+import { buildEnabledPageIds } from '@mrfylke/contact-form';
 import { adaptAtbTheme } from '@mrfylke/contact-form/config';
 import { theme } from '@atb/modules/theme';
 import { byOrg } from '@atb/modules/org-data';
@@ -13,60 +9,6 @@ import {
   PageText,
   ServerText,
 } from '@atb/translations';
-
-function createIconComponent(iconName: string): IconComponent {
-  const Icon = ({
-    size = 'normal',
-    className,
-    style,
-    alt = '',
-  }: {
-    size?: 'small' | 'normal' | 'large';
-    className?: string;
-    style?: React.CSSProperties;
-    alt?: string;
-  }) => {
-    const { isDarkMode } = useTheme();
-    const sizeMap = { small: 16, normal: 20, large: 28 };
-    const px = sizeMap[size];
-    const mode = isDarkMode ? 'dark' : 'light';
-    const assetPath = `/assets/mono/${mode}/${iconName}.svg`;
-    return (
-      <img
-        src={assetPath}
-        width={px}
-        height={px}
-        className={className}
-        style={style}
-        alt={alt}
-      />
-    );
-  };
-  Icon.displayName = `Icon(${iconName})`;
-  return Icon;
-}
-
-const iconSet: ContactFormConfig['icons'] = {
-  'transportation/BusFill': createIconComponent('transportation/BusFill'),
-  'transportation/TramFill': createIconComponent('transportation/TramFill'),
-  'transportation/TrainFill': createIconComponent('transportation/TrainFill'),
-  'transportation/WalkFill': createIconComponent('transportation/WalkFill'),
-  'transportation/BicycleFill': createIconComponent(
-    'transportation/BicycleFill',
-  ),
-  'transportation/PlaneFill': createIconComponent('transportation/PlaneFill'),
-  'transportation/BoatFill': createIconComponent('transportation/BoatFill'),
-  'transportation/FerryFill': createIconComponent('transportation/FerryFill'),
-  'transportation/MetroFill': createIconComponent('transportation/MetroFill'),
-  'transportation/UnknownFill': createIconComponent(
-    'transportation/UnknownFill',
-  ),
-  'actions/Close': createIconComponent('actions/Close'),
-  'actions/Clear': createIconComponent('actions/Clear'),
-  'actions/Add': createIconComponent('actions/Add'),
-  'status/CheckmarkFill': createIconComponent('status/CheckmarkFill'),
-  'status/ErrorFill': createIconComponent('status/ErrorFill'),
-};
 
 const contactFormTheme = adaptAtbTheme(theme);
 
@@ -85,7 +27,6 @@ const onSubmit = (
 
 export const contactFormConfig: ContactFormConfig = {
   theme: contactFormTheme,
-  icons: iconSet,
   api: {
     onSubmit,
   },
