@@ -210,7 +210,6 @@ export const tripSummary = (
 
 export type TripPatternStatusType =
   | 'cancelled'
-  | 'transferUnlikely'
   | 'transferUncertain'
   | 'ended'
   | 'started'
@@ -228,8 +227,6 @@ export function getTripPatternStatus(
 ): TripPatternStatusType | undefined {
   if (tripPattern.legs.some((leg) => leg.fromEstimatedCall?.cancellation))
     return 'cancelled';
-  if (tripPattern.transferRisk === TransferRisk.Unlikely)
-    return 'transferUnlikely';
   if (tripPattern.transferRisk === TransferRisk.Uncertain)
     return 'transferUncertain';
   if (isInPast(tripPattern.expectedEndTime)) return 'ended';
@@ -257,8 +254,6 @@ export function getStatusConfig(
   switch (status) {
     case 'cancelled':
       return { statusType: 'error', text: t(statusTexts.cancelled) };
-    case 'transferUnlikely':
-      return { statusType: 'error', text: t(statusTexts.transferUnlikely) };
     case 'transferUncertain':
       return { statusType: 'info', text: t(statusTexts.transferUncertain) };
     case 'ended':

@@ -5,7 +5,7 @@ import {
   computeTripAimedStartEnd,
   determineTripStatus,
   withTransferRisk,
-  worstTransferRisk,
+  getTripTransferRisk,
   type RefreshableLeg,
 } from '../server/journey-planner/refresh-trip-utils';
 
@@ -42,26 +42,20 @@ function makeFootLeg(overrides: Partial<RefreshableLeg> = {}): RefreshableLeg {
   };
 }
 
-describe('withTransferRisk / worstTransferRisk', () => {
-  it('stamps the risk on the leg you might miss, not the one before', () => {
+// The rule itself is covered in @atb-as/utils. These check that this repo's
+// leg type feeds it correctly and that the trip-level value reaches the caller.
+describe('transfer risk over planner-web legs', () => {
+  it('stamps the leg you might miss and reports it at trip level', () => {
     const legs = withTransferRisk([
       makeTransitLeg({ expectedEndTime: '2024-01-01T10:10:00.000Z' }),
       makeTransitLeg({ expectedStartTime: '2024-01-01T10:09:00.000Z' }),
     ]);
     expect(legs[0].transferRisk).toBeUndefined();
     expect(legs[1].transferRisk).toBe(TransferRisk.Uncertain);
-    expect(worstTransferRisk(legs)).toBe(TransferRisk.Uncertain);
+    expect(getTripTransferRisk(legs)).toBe(TransferRisk.Uncertain);
   });
 
-  it('leaves legs untouched when there is time to spare', () => {
-    const legs = withTransferRisk([
-      makeTransitLeg({ expectedEndTime: '2024-01-01T10:10:00.000Z' }),
-      makeTransitLeg({ expectedStartTime: '2024-01-01T10:15:00.000Z' }),
-    ]);
-    expect(worstTransferRisk(legs)).toBeUndefined();
-  });
-
-  it('does not stamp a guaranteed transfer', () => {
+  it('reads interchangeTo off a planner-web leg, so the gate fires', () => {
     const legs = withTransferRisk([
       makeTransitLeg({
         expectedEndTime: '2024-01-01T10:10:00.000Z',
@@ -69,48 +63,8 @@ describe('withTransferRisk / worstTransferRisk', () => {
       }),
       makeTransitLeg({ expectedStartTime: '2024-01-01T10:00:00.000Z' }),
     ]);
-    expect(worstTransferRisk(legs)).toBeUndefined();
-  });
-
-  it('stamps once the guaranteed maximum wait time is exceeded', () => {
-    const legs = withTransferRisk([
-      makeTransitLeg({
-        expectedEndTime: '2024-01-01T10:20:00.000Z',
-        interchangeTo: { guaranteed: true, maximumWaitTime: 300 },
-      }),
-      makeTransitLeg({
-        aimedStartTime: '2024-01-01T10:08:00.000Z',
-        expectedStartTime: '2024-01-01T10:08:00.000Z',
-      }),
-    ]);
-    expect(worstTransferRisk(legs)).toBe(TransferRisk.Unlikely);
-  });
-
-  it('clears a risk echoed back by the client when the gap is now fine', () => {
-    // The browser POSTs the pattern back, so legs arrive pre-stamped.
-    const legs = withTransferRisk([
-      makeTransitLeg({ expectedEndTime: '2024-01-01T10:10:00.000Z' }),
-      makeTransitLeg({
-        expectedStartTime: '2024-01-01T10:15:00.000Z',
-        transferRisk: TransferRisk.Unlikely,
-      }),
-    ]);
     expect(legs[1].transferRisk).toBeUndefined();
-    expect(worstTransferRisk(legs)).toBeUndefined();
-  });
-
-  it('reports the worst risk across legs', () => {
-    const legs = withTransferRisk([
-      makeTransitLeg({ expectedEndTime: '2024-01-01T10:10:00.000Z' }),
-      makeTransitLeg({
-        expectedStartTime: '2024-01-01T10:09:00.000Z',
-        expectedEndTime: '2024-01-01T10:20:00.000Z',
-      }),
-      makeTransitLeg({ expectedStartTime: '2024-01-01T10:14:00.000Z' }),
-    ]);
-    expect(legs[1].transferRisk).toBe(TransferRisk.Uncertain);
-    expect(legs[2].transferRisk).toBe(TransferRisk.Unlikely);
-    expect(worstTransferRisk(legs)).toBe(TransferRisk.Unlikely);
+    expect(getTripTransferRisk(legs)).toBeUndefined();
   });
 });
 
@@ -311,8 +265,8 @@ describe('determineTripStatus', () => {
     ];
     // Overlap is no longer a status; it surfaces as transferRisk.
     expect(determineTripStatus(legs)).toBe('valid');
-    expect(worstTransferRisk(withTransferRisk(legs))).toBe(
-      TransferRisk.Unlikely,
+    expect(getTripTransferRisk(withTransferRisk(legs))).toBe(
+      TransferRisk.Uncertain,
     );
   });
 

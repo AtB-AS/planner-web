@@ -17,7 +17,7 @@ import {
   computeTripAimedStartEnd,
   determineTripStatus,
   withTransferRisk,
-  worstTransferRisk,
+  getTripTransferRisk,
 } from './refresh-trip-utils';
 import {
   RefreshLegDocument,
@@ -385,7 +385,7 @@ export function createJourneyApi(
       );
 
       const status = determineTripStatus(adjustedLegs);
-      const transferRisk = worstTransferRisk(adjustedLegs);
+      const transferRisk = getTripTransferRisk(adjustedLegs);
       const { aimedStartTime, aimedEndTime } =
         computeTripAimedStartEnd(adjustedLegs);
 

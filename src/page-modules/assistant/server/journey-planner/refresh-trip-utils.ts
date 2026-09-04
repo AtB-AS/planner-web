@@ -1,10 +1,5 @@
 import { addSeconds, parseISO } from 'date-fns';
-import {
-  getLegTransferRisk,
-  isTransitLeg,
-  TransferRisk,
-  type TransferLeg,
-} from '@atb-as/utils';
+import { isTransitLeg, TransferRisk, type TransferLeg } from '@atb-as/utils';
 import type { TripPatternStatus } from '../../types';
 
 /**
@@ -23,39 +18,9 @@ export type RefreshableLeg = TransferLeg & {
   transferRisk?: TransferRisk;
 };
 
-const TRANSFER_RISK_SEVERITY: Record<TransferRisk, number> = {
-  [TransferRisk.Uncertain]: 1,
-  [TransferRisk.Unlikely]: 2,
-};
-
-/**
- * Stamps `transferRisk` on each transit leg you are at risk of missing, using
- * the shared rule from `@atb-as/utils`.
- *
- * Always overwrites. The browser POSTs the pattern back to
- * /api/assistant/refresh-trip and the body schema is loose, so a leg that
- * fails to refresh arrives carrying the risk from a previous response.
- */
-export function withTransferRisk<T extends RefreshableLeg>(legs: T[]): T[] {
-  return legs.map((leg, index) => ({
-    ...leg,
-    transferRisk: getLegTransferRisk(legs, index),
-  }));
-}
-
-/** The worst risk across stamped legs, for the trip-level field. */
-export function worstTransferRisk(
-  legs: RefreshableLeg[],
-): TransferRisk | undefined {
-  return legs.reduce<TransferRisk | undefined>((worst, leg) => {
-    const risk = leg.transferRisk;
-    if (!risk) return worst;
-    if (!worst) return risk;
-    return TRANSFER_RISK_SEVERITY[risk] > TRANSFER_RISK_SEVERITY[worst]
-      ? risk
-      : worst;
-  }, undefined);
-}
+// Transfer risk and its trip-level aggregation come from @atb-as/utils,
+// shared with atb-bff and the app. Re-exported so callers keep one import.
+export { withTransferRisk, getTripTransferRisk } from '@atb-as/utils';
 
 /**
  * Computes the trip-level aimedStartTime and aimedEndTime.

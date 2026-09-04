@@ -216,7 +216,6 @@ const AssistantInternal = {
       },
       statusText: {
         cancelled: _('Innstilt', 'Cancelled', 'Innstilt'),
-        transferUnlikely: _('Ikke mulig', 'Not possible', 'Ikkje mogleg'),
         transferUncertain: _(
           'Usikker overgang',
           'Uncertain transfer',
