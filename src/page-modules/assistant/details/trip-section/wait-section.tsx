@@ -29,14 +29,11 @@ export default function WaitSection({ legWaitDetails }: WaitSectionProps) {
 
   const { waitTime, mustWaitForNextLeg, transferRisk } = legWaitDetails;
   const transfer = getTransferMessage(transferRisk, t);
-  // Any wait at all is worth showing, matching the app. Stop times are rounded
-  // to whole minutes — arrivals up, departures down — so a transfer of a few
-  // seconds can read as if the next service leaves before this one arrives.
-  // The message is what explains that.
+  // Any wait at all, matching the app: stop times are rounded to whole minutes,
+  // so a few seconds can look like no gap and the message is what explains it.
   const showWait = mustWaitForNextLeg;
 
-  // A transfer at risk has no wait time to show — the next departure is before
-  // this arrival — so the two messages never appear together in practice.
+  // Mutually exclusive in practice: a risky transfer has no wait time.
   if (!transfer && !showWait) return null;
 
   return (
@@ -85,8 +82,7 @@ function getWaitMessage(
     };
   }
 
-  // Rounded up to whole minutes, so a 75-second wait reads "under 2 minutes"
-  // rather than quoting seconds back at the reader. Matches the app.
+  // Rounded up, so 75 seconds reads "under 2 minutes". Matches the app.
   const wholeMinutes = Math.ceil(waitTime / ONE_MINUTE_IN_SECONDS);
   return {
     icon: 'status/Warning',
@@ -156,8 +152,7 @@ export function getLegWaitDetails(
   return {
     waitTime,
     mustWaitForNextLeg,
-    // The risk is stamped on the leg you might miss, which is the one this
-    // wait leads into.
+    // Stamped on the leg you might miss, which this wait leads into.
     transferRisk: nextLeg.transferRisk,
   };
 }

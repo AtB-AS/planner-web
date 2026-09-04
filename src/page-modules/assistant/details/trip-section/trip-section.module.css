@@ -45,9 +45,9 @@
   align-items: center;
   gap: token('spacing.small');
 }
-/* Mirrors the app: the label column borrows the decoration column's width, so
-   the icon ends up right beside its message while children still start at the
-   same offset as stop place names. Values track .container above. */
+/* The label column borrows the decoration column's width, so the icon sits
+   beside its message while children still line up with stop place names.
+   Values track .container above. */
 .waitRow {
   --labelWidth: calc(2.625rem + 2rem - token('spacing.small'));
   --decorationContainerWidth: token('spacing.small');
@@ -57,7 +57,7 @@
   flex: 1;
   justify-content: flex-end;
 }
-/* Title above message, mirroring the app's wait/transfer rows. */
+/* Title above message. */
 .waitMessage {
   display: flex;
   flex-direction: column;
@@ -66,7 +66,7 @@
 .waitMessageTitle {
   composes: typo-body__s;
 }
-/* Colours both the title and its icon, which masks against currentColor. */
+/* Colours the title and its icon, which masks against currentColor. */
 .emphasis__info {
   color: token('color.foreground.emphasis.info');
 }

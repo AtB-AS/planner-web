@@ -1,3 +1,4 @@
+import { nextDisplayedDeparture } from '@atb/page-modules/assistant/trip/utils';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { useId, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
@@ -118,6 +119,10 @@ export default function TripPatternCollapse({
                     legWaitDetails={getLegWaitDetails(
                       leg,
                       displayTripPattern.legs[index + 1],
+                    )}
+                    nextLegStartTime={nextDisplayedDeparture(
+                      displayTripPattern.legs,
+                      index,
                     )}
                   />
                 ))}

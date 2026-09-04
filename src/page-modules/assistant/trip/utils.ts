@@ -208,6 +208,19 @@ export const tripSummary = (
   return texts.join(screenReaderPause);
 };
 
+/**
+ * The next departure time actually shown after leg `index` arrives. Walk legs
+ * render no departure row, so they are skipped. Undefined when nothing follows
+ * that shows one.
+ */
+export function nextDisplayedDeparture(
+  legs: Pick<ExtendedLegType, 'mode' | 'expectedStartTime'>[],
+  index: number,
+): string | undefined {
+  return legs.slice(index + 1).find((leg) => leg.mode !== 'foot')
+    ?.expectedStartTime;
+}
+
 export type TripPatternStatusType =
   | 'cancelled'
   | 'transferUncertain'
