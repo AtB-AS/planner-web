@@ -1,3 +1,4 @@
+import { TransferRisk } from '@atb-as/utils';
 import {
   LegWithDetailsFragment,
   QuayFragment,
@@ -209,7 +210,8 @@ export const tripSummary = (
 
 export type TripPatternStatusType =
   | 'cancelled'
-  | 'impossible'
+  | 'transferUnlikely'
+  | 'transferUncertain'
   | 'ended'
   | 'started'
   | 'bookingDeadlineExceeded'
@@ -226,7 +228,10 @@ export function getTripPatternStatus(
 ): TripPatternStatusType | undefined {
   if (tripPattern.legs.some((leg) => leg.fromEstimatedCall?.cancellation))
     return 'cancelled';
-  if (tripPattern.status === 'impossible') return 'impossible';
+  if (tripPattern.transferRisk === TransferRisk.Unlikely)
+    return 'transferUnlikely';
+  if (tripPattern.transferRisk === TransferRisk.Uncertain)
+    return 'transferUncertain';
   if (isInPast(tripPattern.expectedEndTime)) return 'ended';
   if (isInPast(tripPattern.expectedStartTime)) return 'started';
 
@@ -252,8 +257,10 @@ export function getStatusConfig(
   switch (status) {
     case 'cancelled':
       return { statusType: 'error', text: t(statusTexts.cancelled) };
-    case 'impossible':
-      return { statusType: 'error', text: t(statusTexts.impossible) };
+    case 'transferUnlikely':
+      return { statusType: 'error', text: t(statusTexts.transferUnlikely) };
+    case 'transferUncertain':
+      return { statusType: 'info', text: t(statusTexts.transferUncertain) };
     case 'ended':
       return { statusType: 'error', text: t(statusTexts.ended) };
     case 'started':

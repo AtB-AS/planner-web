@@ -216,7 +216,12 @@ const AssistantInternal = {
       },
       statusText: {
         cancelled: _('Innstilt', 'Cancelled', 'Innstilt'),
-        impossible: _('Ikke mulig', 'Not possible', 'Ikkje mogleg'),
+        transferUnlikely: _('Ikke mulig', 'Not possible', 'Ikkje mogleg'),
+        transferUncertain: _(
+          'Usikker overgang',
+          'Uncertain transfer',
+          'Usikker overgang',
+        ),
         ended: _('Reisen er ferdig', 'Trip ended', 'Reisa er ferdig'),
         started: _('Reisen har startet', 'Trip started', 'Reisa har starta'),
         bookingDeadlineExceeded: _(
