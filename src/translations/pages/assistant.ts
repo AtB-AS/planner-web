@@ -545,7 +545,27 @@ const AssistantInternal = {
       wait: {
         label: (time: string) =>
           _(`Vent i ${time}`, `Wait for ${time}`, `Vent i ${time}`),
-        shortTime: _('Kort byttetid', 'Short changeover time', 'Kort bytetid'),
+        shortTime: _('Kort byttetid', 'Short transfer time', 'Kort byttetid'),
+        shortWait: (time: string) =>
+          _(
+            `Under ${time} ventetid`,
+            `Less than ${time} waiting time`,
+            `Under ${time} ventetid`,
+          ),
+        transfer: {
+          uncertain: {
+            label: _(
+              'Usikker overgang',
+              'Uncertain transfer',
+              'Usikker overgang',
+            ),
+            message: _(
+              'Det er ikke sikkert du rekker denne overgangen',
+              'You might not be able to catch the next vehicle',
+              'Det er ikkje sikkert du rekk denne overgangen',
+            ),
+          },
+        },
       },
       intermediateStops: (count: number, duration: string) =>
         _(
