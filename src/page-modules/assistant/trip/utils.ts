@@ -1,3 +1,4 @@
+import { TransferRisk } from '@atb-as/utils';
 import {
   LegWithDetailsFragment,
   QuayFragment,
@@ -207,9 +208,22 @@ export const tripSummary = (
   return texts.join(screenReaderPause);
 };
 
+/**
+ * The next departure time actually shown after leg `index` arrives. Walk legs
+ * render no departure row, so they are skipped. Undefined when nothing follows
+ * that shows one.
+ */
+export function nextDisplayedDeparture(
+  legs: Pick<ExtendedLegType, 'mode' | 'expectedStartTime'>[],
+  index: number,
+): string | undefined {
+  return legs.slice(index + 1).find((leg) => leg.mode !== 'foot')
+    ?.expectedStartTime;
+}
+
 export type TripPatternStatusType =
   | 'cancelled'
-  | 'impossible'
+  | 'transferUncertain'
   | 'ended'
   | 'started'
   | 'bookingDeadlineExceeded'
@@ -226,7 +240,8 @@ export function getTripPatternStatus(
 ): TripPatternStatusType | undefined {
   if (tripPattern.legs.some((leg) => leg.fromEstimatedCall?.cancellation))
     return 'cancelled';
-  if (tripPattern.status === 'impossible') return 'impossible';
+  if (tripPattern.transferRisk === TransferRisk.Uncertain)
+    return 'transferUncertain';
   if (isInPast(tripPattern.expectedEndTime)) return 'ended';
   if (isInPast(tripPattern.expectedStartTime)) return 'started';
 
@@ -252,8 +267,8 @@ export function getStatusConfig(
   switch (status) {
     case 'cancelled':
       return { statusType: 'error', text: t(statusTexts.cancelled) };
-    case 'impossible':
-      return { statusType: 'error', text: t(statusTexts.impossible) };
+    case 'transferUncertain':
+      return { statusType: 'info', text: t(statusTexts.transferUncertain) };
     case 'ended':
       return { statusType: 'error', text: t(statusTexts.ended) };
     case 'started':

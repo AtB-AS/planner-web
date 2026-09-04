@@ -186,13 +186,13 @@ describe('trip pattern', function () {
       expect(ariaLabel).toContain('Denne reisen er innstilt');
     });
 
-    it('should create summary with information about impossible trip', () => {
+    it('should create summary with information about an uncertain transfer', () => {
       const ariaLabel = renderSummary({
         ...tripPatternWithDetailsFixture,
-        status: 'impossible',
+        transferRisk: 'uncertain',
       });
 
-      expect(ariaLabel).toContain('Ikke mulig');
+      expect(ariaLabel).toContain('Usikker overgang');
     });
 
     it('should create summary with information about stale trip', () => {

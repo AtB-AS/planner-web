@@ -1,88 +1,26 @@
 import { addSeconds, parseISO } from 'date-fns';
+import { isTransitLeg, TransferRisk, type TransferLeg } from '@atb-as/utils';
 import type { TripPatternStatus } from '../../types';
 
 /**
- * Pure utilities for refreshing a single trip pattern, ported from atb-bff's
- * singleTrip v3 implementation (src/service/impl/trips/utils.ts) so web and
- * app share the same semantics. Times are serialized as UTC ISO strings
- * (instead of the BFF's local-offset formatISO) — same instants, timezone-
- * independent output.
+ * Pure utilities for refreshing a single trip pattern. Transfer risk comes from
+ * `@atb-as/utils`, shared with the app and atb-bff; the time adjustments mirror
+ * atb-bff's singleTrip v3 (src/service/impl/trips/utils.ts), but serialize as
+ * UTC ISO strings rather than its local-offset formatISO — same instants.
  */
 
-/** The minimal leg shape the refresh utilities operate on. */
-export type RefreshableLeg = {
+/** `TransferLeg` plus the fields the time adjustments read. */
+export type RefreshableLeg = TransferLeg & {
   duration: number;
   distance: number;
-  aimedStartTime: string;
   aimedEndTime: string;
-  expectedStartTime: string;
-  expectedEndTime: string;
-  serviceJourney?: { id: string } | null;
   refreshedAt?: string;
-  interchangeTo?: {
-    guaranteed?: boolean | null;
-    maximumWaitTime?: number | null;
-  } | null;
+  transferRisk?: TransferRisk;
 };
 
-export function isTransitLeg(leg: RefreshableLeg): boolean {
-  return leg.serviceJourney != null;
-}
-
-/**
- * Checks if any leg N+1's expectedStartTime is before leg N's expectedEndTime,
- * indicating a missed connection (impossible trip).
- *
- * Overlaps at a guaranteed interchange are ignored: the connecting service has
- * committed to waiting for the delayed one, so a negative gap there is not a
- * missed connection.
- */
-export function hasTemporalOverlap(legs: RefreshableLeg[]): boolean {
-  for (let i = 1; i < legs.length; i++) {
-    const prev = legs[i - 1];
-    const curr = legs[i];
-    if (parseISO(curr.expectedStartTime) < parseISO(prev.expectedEndTime)) {
-      if (hasGuaranteedInterchangeInto(legs, i)) continue;
-      return true;
-    }
-  }
-  return false;
-}
-
-/**
- * Whether the interchange into the leg at `index` still guarantees the
- * connection, given when you actually arrive.
- *
- * Walks back past non-transit legs, because the interchange relationship lives
- * on the transit leg you alight from: a bus -> walk -> bus transfer overlaps on
- * the (walk, bus) pair, but it is the first bus that carries `interchangeTo`.
- *
- * A guarantee is bounded by `maximumWaitTime`: the connecting service only
- * holds for that many seconds past its own scheduled departure. Arriving after
- * that deadline is a missed connection despite the guarantee. Arrival is the
- * end of the leg immediately before the connection, so an intervening walk
- * counts against the deadline. An absent `maximumWaitTime` means the service
- * waits however long it takes.
- */
-function hasGuaranteedInterchangeInto(
-  legs: RefreshableLeg[],
-  index: number,
-): boolean {
-  for (let i = index - 1; i >= 0; i--) {
-    if (!isTransitLeg(legs[i])) continue;
-
-    const interchange = legs[i].interchangeTo;
-    if (interchange?.guaranteed !== true) return false;
-    if (interchange.maximumWaitTime == null) return true;
-
-    const deadline = addSeconds(
-      parseISO(legs[index].aimedStartTime),
-      interchange.maximumWaitTime,
-    );
-    return parseISO(legs[index - 1].expectedEndTime) <= deadline;
-  }
-  return false;
-}
+// Transfer risk and its trip-level aggregation come from @atb-as/utils,
+// shared with atb-bff and the app. Re-exported so callers keep one import.
+export { withTransferRisk, getTripTransferRisk } from '@atb-as/utils';
 
 /**
  * Computes the trip-level aimedStartTime and aimedEndTime.
@@ -143,27 +81,17 @@ export function computeTripAimedStartEnd(legs: RefreshableLeg[]): {
 const STALE_THRESHOLD_SECONDS = 10;
 
 /**
- * Determines the overall trip pattern status.
- * Priority: stale > impossible > valid
+ * Data freshness only — transfer risk is a separate axis, see
+ * `withTransferRisk`. A failed RefreshLeg(id) leaves its leg with an old
+ * `refreshedAt` while the rest get a fresh one; more than
+ * STALE_THRESHOLD_SECONDS behind the newest leg counts as stale.
  *
- * Staleness is derived from the `refreshedAt` timestamps on each leg.
- * A stale leg typically occurs when the RefreshLeg(id) call fails,
- * causing the leg to keep its old `refreshedAt` while other legs get
- * a fresh timestamp. A leg is considered stale if its `refreshedAt` is
- * more than STALE_THRESHOLD_SECONDS older than the most recently refreshed
- * leg.
- *
- * We compare against the newest leg rather than the current time to avoid
- * false positives: if the batch of parallel leg refreshes takes a few
- * seconds, early-refreshed legs would otherwise appear stale relative
- * to `Date.now()`.
+ * Compared against the newest leg rather than `Date.now()`, so a slow batch of
+ * parallel refreshes does not mark its early legs stale.
  */
 export function determineTripStatus(legs: RefreshableLeg[]): TripPatternStatus {
   if (hasStaleLegs(legs)) {
     return 'stale';
-  }
-  if (hasTemporalOverlap(legs)) {
-    return 'impossible';
   }
   return 'valid';
 }
@@ -184,26 +112,16 @@ function hasStaleLegs(legs: RefreshableLeg[]): boolean {
 }
 
 /**
- * Adjusts expectedStartTime and expectedEndTime on non-transit legs based on
- * updated expected times from adjacent transit legs.
+ * Re-anchors non-transit legs to the adjacent transit legs. Refreshing only
+ * updates transit legs, so walk times still reflect the original schedule even
+ * when the bus around them has shifted.
  *
- * After refreshing transit legs, non-transit leg expected times become stale —
- * they still reflect the original schedule even though adjacent transit legs
- * may have shifted due to delays. This function recalculates them:
+ * - Leading/trailing: derived from the first/last transit leg. At most one of
+ *   each, matching how Entur structures trip patterns.
+ * - Intermediate: chain forward from the previous transit leg's
+ *   expectedEndTime; any gap left before the next transit leg is wait time.
  *
- * - Leading non-transit leg: derived from first transit leg's
- *   expectedStartTime
- * - Trailing non-transit leg: derived from last transit leg's expectedEndTime
- * - Intermediate non-transit legs: chain forward from previous transit leg's
- *   expectedEndTime, each leg's end becoming the next leg's start. Any
- *   remaining gap before the next transit leg is wait time.
- *
- * Assumes at most one leading and one trailing non-transit leg — which matches
- * how Entur structures trip patterns (a single walk to/from the first/last
- * stop).
- *
- * Transit legs are returned unchanged. If there are no transit legs, all legs
- * are returned unchanged (no anchor to derive from).
+ * Transit legs, and all legs on a trip with none, are returned unchanged.
  */
 export function adjustNonTransitExpectedTimes<T extends RefreshableLeg>(
   legs: T[],
@@ -218,7 +136,7 @@ export function adjustNonTransitExpectedTimes<T extends RefreshableLeg>(
   return legs.map((leg, i) => {
     if (isTransitLeg(leg)) return leg;
 
-    // Leading non-transit leg: the single leg immediately before first transit
+    // Leading: the leg immediately before the first transit leg
     if (i === firstTransitIndex - 1) {
       const transitStart = parseISO(legs[firstTransitIndex].expectedStartTime);
       return {
@@ -231,7 +149,7 @@ export function adjustNonTransitExpectedTimes<T extends RefreshableLeg>(
       };
     }
 
-    // Trailing non-transit leg: the single leg immediately after last transit
+    // Trailing: the leg immediately after the last transit leg
     if (i === lastTransitIndex + 1) {
       const transitEnd = parseISO(legs[lastTransitIndex].expectedEndTime);
       return {
@@ -241,16 +159,10 @@ export function adjustNonTransitExpectedTimes<T extends RefreshableLeg>(
       };
     }
 
-    // Intermediate: the legs between two transit legs are non-scheduled walks/
-    // transfers whose times are derived from the previous transit leg's end
-    // time. When there are multiple consecutive non-transit legs, we need to
-    // account for the duration of the ones before this one. durationBefore is
-    // the sum of durations of non-transit legs between the previous transit
-    // leg and this leg. In the common case of a single walk leg,
-    // durationBefore is 0 and the leg starts directly at the previous transit
-    // leg's end time. This assumes all non-transit legs between two transit
-    // legs are sequential with no gaps — any wait time comes after the last
-    // non-transit leg.
+    // Intermediate: start at the previous transit leg's end, offset by any
+    // non-transit legs in between (0 for the common single walk, so the walk
+    // starts exactly when the bus arrives). Assumes those legs run back to
+    // back, with any wait time falling after the last of them.
     const prevTransitIdx = findLastIndex(legs.slice(0, i), isTransitLeg);
     const durationBefore = legs
       .slice(prevTransitIdx + 1, i)

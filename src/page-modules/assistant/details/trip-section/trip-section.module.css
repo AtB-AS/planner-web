@@ -45,9 +45,33 @@
   align-items: center;
   gap: token('spacing.small');
 }
-.waitIcon {
+/* The label column borrows the decoration column's width, so the icon sits
+   beside its message while children still line up with stop place names.
+   Values track .container above. */
+.waitRow {
+  --labelWidth: calc(2.625rem + 2rem - token('spacing.small'));
+  --decorationContainerWidth: token('spacing.small');
+}
+.waitRowLabel {
   display: flex;
-  padding: token('spacing.xSmall');
+  flex: 1;
+  justify-content: flex-end;
+}
+/* Title above message. */
+.waitMessage {
+  display: flex;
+  flex-direction: column;
+  gap: token('spacing.xSmall');
+}
+.waitMessageTitle {
+  composes: typo-body__s;
+}
+/* Colours the title and its icon, which masks against currentColor. */
+.emphasis__info {
+  color: token('color.foreground.emphasis.info');
+}
+.emphasis__error {
+  color: token('color.foreground.emphasis.error');
 }
 .chevron {
   transition: transform 0.2s ease;

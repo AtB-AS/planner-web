@@ -174,6 +174,29 @@ function roundMinute(date: Date, roundingMethod: RoundingMethod) {
 
 export type RoundingMethod = 'ceil' | 'floor' | 'nearest';
 
+/**
+ * Arrivals round up and departures round down, so a transfer of a few seconds
+ * within one minute would show the connection leaving before the arrival.
+ * Round the arrival down in that case; both then read as the same minute.
+ *
+ * Only when rounding is the whole problem — a genuinely missed connection
+ * keeps rounding up, so it still looks missed.
+ */
+export function arrivalRoundingMethod(
+  arrival: string | Date,
+  nextDeparture: string | Date | undefined,
+): RoundingMethod {
+  if (!nextDeparture) return 'ceil';
+
+  const arrivalTime = setTimezone(parseIfNeeded(arrival));
+  const departureTime = setTimezone(parseIfNeeded(nextDeparture));
+  if (arrivalTime > departureTime) return 'ceil';
+
+  const roundedArrival = roundMinute(arrivalTime, 'ceil');
+  const roundedDeparture = roundMinute(departureTime, 'floor');
+  return roundedArrival > roundedDeparture ? 'floor' : 'ceil';
+}
+
 export function formatToClock(
   isoDate: string | Date,
   language: Language,
