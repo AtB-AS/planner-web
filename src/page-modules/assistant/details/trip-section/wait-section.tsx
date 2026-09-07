@@ -140,15 +140,24 @@ export type LegWaitDetails = {
   transferRisk?: TransferRisk;
 };
 export function getLegWaitDetails(
-  leg: ExtendedLegType,
-  nextLeg: ExtendedLegType,
+  legs: ExtendedLegType[],
+  index: number,
 ): LegWaitDetails | undefined {
-  if (!nextLeg) return undefined;
+  const leg = legs[index];
+  const nextLeg = legs[index + 1];
+  if (!leg || !nextLeg) return undefined;
+
   const waitTime = secondsBetween(
     leg.expectedEndTime,
     nextLeg.expectedStartTime,
   );
-  const mustWaitForNextLeg = waitTime >= 0;
+
+  // Only count zero transfer time on real transfers.
+  // Do not count walking to bus stop, or from bus stop to destination.
+  const isTransfer =
+    nextLeg.mode !== 'foot' &&
+    legs.slice(0, index + 1).some((l) => l.mode !== 'foot');
+  const mustWaitForNextLeg = isTransfer ? waitTime >= 0 : waitTime > 0;
 
   return {
     waitTime,
