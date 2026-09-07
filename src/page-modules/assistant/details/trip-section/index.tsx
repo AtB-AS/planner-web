@@ -3,6 +3,7 @@ import {
   TripRow,
   useRealtimeText,
 } from '@atb/modules/trip-details';
+import { arrivalRoundingMethod } from '@atb/utils/date';
 import style from './trip-section.module.css';
 import {
   TransportIconWithDuration,
@@ -38,6 +39,9 @@ export type TripSectionProps = {
   hasLiveVehicle?: boolean;
   interchangeDetails?: InterchangeDetails;
   legWaitDetails?: LegWaitDetails;
+  /** Next *displayed* departure, for `arrivalRoundingMethod`. Walk legs show
+   * no departure row, so they are not it. */
+  nextLegStartTime?: string;
 };
 export default function TripSection({
   isFirst,
@@ -46,6 +50,7 @@ export default function TripSection({
   hasLiveVehicle,
   interchangeDetails,
   legWaitDetails,
+  nextLegStartTime,
 }: TripSectionProps) {
   const { t } = useTranslation();
   const { color } = useTheme();
@@ -258,7 +263,10 @@ export default function TripSection({
                 aimedDepartureTime={leg.aimedEndTime}
                 expectedDepartureTime={leg.expectedEndTime}
                 realtime={leg.realtime}
-                roundingMethod="ceil"
+                roundingMethod={arrivalRoundingMethod(
+                  leg.expectedEndTime,
+                  nextLegStartTime,
+                )}
               />
             }
             alignChildren="flex-start"
