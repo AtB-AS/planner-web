@@ -21,7 +21,6 @@ import style from './travel-card-legs.module.css';
 import { getFilteredLegsByWalkOrWaitTime } from '@atb/page-modules/assistant/trip';
 
 const SHORT_TRANSFER_SECONDS = 180;
-const MIN_SIGNIFICANT_WAIT_SECONDS = 30;
 
 type Props = {
   tripPattern: ExtendedTripPatternWithDetailsType;
@@ -113,12 +112,14 @@ function getLegNotificationType(
       : undefined;
   const shortTransferMsgType: Statuses | undefined = (() => {
     if (!previousLeg) return undefined;
+    // Only a leg you board is a transfer. The gap into a walk leg is
+    // systematically zero, so it would badge every walk in the trip.
+    if (leg.mode === 'foot') return undefined;
     const waitSeconds = secondsBetween(
       previousLeg.expectedEndTime,
       leg.expectedStartTime,
     );
-    return waitSeconds > MIN_SIGNIFICANT_WAIT_SECONDS &&
-      waitSeconds <= SHORT_TRANSFER_SECONDS
+    return waitSeconds >= 0 && waitSeconds <= SHORT_TRANSFER_SECONDS
       ? 'info'
       : undefined;
   })();

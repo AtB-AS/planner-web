@@ -82,8 +82,9 @@ function getWaitMessage(
     };
   }
 
-  // Rounded up, so 75 seconds reads "under 2 minutes". Matches the app.
-  const wholeMinutes = Math.ceil(waitTime / ONE_MINUTE_IN_SECONDS);
+  // Rounded up, so 75 seconds reads "under 2 minutes". Matches the app. At
+  // least one minute, so a 0-seconds transfer does not read "under 0 minutes".
+  const wholeMinutes = Math.max(1, Math.ceil(waitTime / ONE_MINUTE_IN_SECONDS));
   return {
     icon: 'status/Warning',
     emphasis: 'info',
@@ -147,7 +148,7 @@ export function getLegWaitDetails(
     leg.expectedEndTime,
     nextLeg.expectedStartTime,
   );
-  const mustWaitForNextLeg = waitTime > 0;
+  const mustWaitForNextLeg = waitTime >= 0;
 
   return {
     waitTime,
