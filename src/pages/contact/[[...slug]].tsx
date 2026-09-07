@@ -27,8 +27,8 @@ export default function ContactCatchAllPage(
 function usePageTitle() {
   const subPageTitle = useActiveContactPageTitle(contactFormConfig);
   return subPageTitle
-    ? [subPageTitle, PageText.Contact.pageTitle]
-    : [PageText.Contact.pageTitle];
+    ? [subPageTitle, PageText.contactPageTitle]
+    : [PageText.contactPageTitle];
 }
 
 export const getServerSideProps: GetServerSideProps<
