@@ -117,8 +117,8 @@ export default function TripPatternCollapse({
                       t,
                     )}
                     legWaitDetails={getLegWaitDetails(
-                      leg,
-                      displayTripPattern.legs[index + 1],
+                      displayTripPattern.legs,
+                      index,
                     )}
                     nextLegStartTime={nextDisplayedDeparture(
                       displayTripPattern.legs,

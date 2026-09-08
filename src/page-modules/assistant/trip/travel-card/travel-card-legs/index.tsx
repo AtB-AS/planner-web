@@ -1,3 +1,4 @@
+import { isTransitLeg } from '@atb-as/utils';
 import { secondsBetween } from '@atb/utils/date';
 import {
   TransportIconWithDuration,
@@ -21,7 +22,6 @@ import style from './travel-card-legs.module.css';
 import { getFilteredLegsByWalkOrWaitTime } from '@atb/page-modules/assistant/trip';
 
 const SHORT_TRANSFER_SECONDS = 180;
-const MIN_SIGNIFICANT_WAIT_SECONDS = 30;
 
 type Props = {
   tripPattern: ExtendedTripPatternWithDetailsType;
@@ -39,8 +39,8 @@ export function TravelCardLegs({ tripPattern }: Props) {
     .map((leg, originalIndex) => ({ leg, originalIndex }))
     .filter(({ originalIndex }) => !staySeated(originalIndex - 1));
 
-  const legNotificationTypes = renderedLegs.map(({ leg, originalIndex }) =>
-    getLegNotificationType(leg, filteredLegs[originalIndex - 1]),
+  const legNotificationTypes = renderedLegs.map(({ originalIndex }) =>
+    getLegNotificationType(filteredLegs, originalIndex),
   );
 
   return (
@@ -96,9 +96,11 @@ function getLegOverflowNotificationType(
 }
 
 function getLegNotificationType(
-  leg: ExtendedLegType,
-  previousLeg: ExtendedLegType | undefined,
+  legs: ExtendedLegType[],
+  index: number,
 ): Statuses | undefined {
+  const leg = legs[index];
+  const previousLeg = legs[index - 1];
   const situationsMsgType = getLegOverflowNotificationType(leg);
   const railReplacementMsgType =
     leg.transportSubmode === TransportSubmode.RailReplacementBus
@@ -113,12 +115,14 @@ function getLegNotificationType(
       : undefined;
   const shortTransferMsgType: Statuses | undefined = (() => {
     if (!previousLeg) return undefined;
+    const isTransfer =
+      isTransitLeg(leg) && legs.slice(0, index).some(isTransitLeg);
+    if (!isTransfer) return undefined;
     const waitSeconds = secondsBetween(
       previousLeg.expectedEndTime,
       leg.expectedStartTime,
     );
-    return waitSeconds > MIN_SIGNIFICANT_WAIT_SECONDS &&
-      waitSeconds <= SHORT_TRANSFER_SECONDS
+    return waitSeconds >= 0 && waitSeconds <= SHORT_TRANSFER_SECONDS
       ? 'info'
       : undefined;
   })();

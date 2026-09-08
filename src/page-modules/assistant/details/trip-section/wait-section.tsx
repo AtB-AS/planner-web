@@ -10,7 +10,7 @@ import { secondsBetween, secondsToDuration } from '@atb/utils/date';
 import style from './trip-section.module.css';
 import { MonoIcon, TintedMonoIcon, type MonoIcons } from '@atb/components/icon';
 import { ExtendedLegType } from '@atb/page-modules/assistant';
-import { TransferRisk } from '@atb-as/utils';
+import { isTransitLeg, TransferRisk } from '@atb-as/utils';
 import { and } from '@atb/utils/css';
 
 // Set number of seconds required before showing short waiting indicator
@@ -82,8 +82,9 @@ function getWaitMessage(
     };
   }
 
-  // Rounded up, so 75 seconds reads "under 2 minutes". Matches the app.
-  const wholeMinutes = Math.ceil(waitTime / ONE_MINUTE_IN_SECONDS);
+  // Rounded up, so 75 seconds reads "under 2 minutes". Matches the app. At
+  // least one minute, so a 0-seconds transfer does not read "under 0 minutes".
+  const wholeMinutes = Math.max(1, Math.ceil(waitTime / ONE_MINUTE_IN_SECONDS));
   return {
     icon: 'status/Warning',
     emphasis: 'info',
@@ -139,15 +140,23 @@ export type LegWaitDetails = {
   transferRisk?: TransferRisk;
 };
 export function getLegWaitDetails(
-  leg: ExtendedLegType,
-  nextLeg: ExtendedLegType,
+  legs: ExtendedLegType[],
+  index: number,
 ): LegWaitDetails | undefined {
-  if (!nextLeg) return undefined;
+  const leg = legs[index];
+  const nextLeg = legs[index + 1];
+  if (!leg || !nextLeg) return undefined;
+
   const waitTime = secondsBetween(
     leg.expectedEndTime,
     nextLeg.expectedStartTime,
   );
-  const mustWaitForNextLeg = waitTime > 0;
+
+  // Only count zero transfer time on real transfers.
+  // Do not count walking to bus stop, or from bus stop to destination.
+  const isTransfer =
+    isTransitLeg(nextLeg) && legs.slice(0, index + 1).some(isTransitLeg);
+  const mustWaitForNextLeg = isTransfer ? waitTime >= 0 : waitTime > 0;
 
   return {
     waitTime,

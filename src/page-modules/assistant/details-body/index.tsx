@@ -77,8 +77,8 @@ export function AssistantDetailsBody({ tripPattern }: DetailsBodyProps) {
               t,
             )}
             legWaitDetails={getLegWaitDetails(
-              leg as ExtendedLegType,
-              tripPattern.legs[index + 1],
+              tripPattern.legs as ExtendedLegType[],
+              index,
             )}
             nextLegStartTime={nextDisplayedDeparture(tripPattern.legs, index)}
           />
