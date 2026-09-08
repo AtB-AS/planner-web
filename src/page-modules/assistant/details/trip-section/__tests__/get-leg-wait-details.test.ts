@@ -11,9 +11,17 @@ const busLeg = (
 ) =>
   ({
     mode: 'bus',
+    serviceJourney: { id: 'ATB:ServiceJourney:1' },
     expectedStartTime: at(start),
     expectedEndTime: at(end),
     transferRisk,
+  }) as ExtendedLegType;
+
+const bicycleLeg = (start: string, end: string) =>
+  ({
+    mode: 'bicycle',
+    expectedStartTime: at(start),
+    expectedEndTime: at(end),
   }) as ExtendedLegType;
 
 const footLeg = (start: string, end: string) =>
@@ -86,6 +94,13 @@ describe('getLegWaitDetails', () => {
       busLeg('10:09', '10:20', 'uncertain'),
     ];
     expect(getLegWaitDetails(legs, 0)?.transferRisk).toBe('uncertain');
+  });
+
+  it('ignores the zero-seconds gap out of a non-transit access leg', () => {
+    const legs = [bicycleLeg('10:00', '10:10'), busLeg('10:10', '10:20')];
+    const details = getLegWaitDetails(legs, 0);
+    expect(details?.waitTime).toBe(0);
+    expect(details?.mustWaitForNextLeg).toBe(false);
   });
 
   it('is undefined on the last leg', () => {

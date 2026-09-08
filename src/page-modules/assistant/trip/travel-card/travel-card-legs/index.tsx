@@ -1,3 +1,4 @@
+import { isTransitLeg } from '@atb-as/utils';
 import { secondsBetween } from '@atb/utils/date';
 import {
   TransportIconWithDuration,
@@ -115,8 +116,7 @@ function getLegNotificationType(
   const shortTransferMsgType: Statuses | undefined = (() => {
     if (!previousLeg) return undefined;
     const isTransfer =
-      leg.mode !== 'foot' &&
-      legs.slice(0, index).some((l) => l.mode !== 'foot');
+      isTransitLeg(leg) && legs.slice(0, index).some(isTransitLeg);
     if (!isTransfer) return undefined;
     const waitSeconds = secondsBetween(
       previousLeg.expectedEndTime,

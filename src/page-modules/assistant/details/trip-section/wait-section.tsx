@@ -10,7 +10,7 @@ import { secondsBetween, secondsToDuration } from '@atb/utils/date';
 import style from './trip-section.module.css';
 import { MonoIcon, TintedMonoIcon, type MonoIcons } from '@atb/components/icon';
 import { ExtendedLegType } from '@atb/page-modules/assistant';
-import { TransferRisk } from '@atb-as/utils';
+import { isTransitLeg, TransferRisk } from '@atb-as/utils';
 import { and } from '@atb/utils/css';
 
 // Set number of seconds required before showing short waiting indicator
@@ -155,8 +155,7 @@ export function getLegWaitDetails(
   // Only count zero transfer time on real transfers.
   // Do not count walking to bus stop, or from bus stop to destination.
   const isTransfer =
-    nextLeg.mode !== 'foot' &&
-    legs.slice(0, index + 1).some((l) => l.mode !== 'foot');
+    isTransitLeg(nextLeg) && legs.slice(0, index + 1).some(isTransitLeg);
   const mustWaitForNextLeg = isTransfer ? waitTime >= 0 : waitTime > 0;
 
   return {
