@@ -38,8 +38,8 @@ export function TravelCardLegs({ tripPattern }: Props) {
     .map((leg, originalIndex) => ({ leg, originalIndex }))
     .filter(({ originalIndex }) => !staySeated(originalIndex - 1));
 
-  const legNotificationTypes = renderedLegs.map(({ leg, originalIndex }) =>
-    getLegNotificationType(leg, filteredLegs[originalIndex - 1]),
+  const legNotificationTypes = renderedLegs.map(({ originalIndex }) =>
+    getLegNotificationType(filteredLegs, originalIndex),
   );
 
   return (
@@ -95,9 +95,11 @@ function getLegOverflowNotificationType(
 }
 
 function getLegNotificationType(
-  leg: ExtendedLegType,
-  previousLeg: ExtendedLegType | undefined,
+  legs: ExtendedLegType[],
+  index: number,
 ): Statuses | undefined {
+  const leg = legs[index];
+  const previousLeg = legs[index - 1];
   const situationsMsgType = getLegOverflowNotificationType(leg);
   const railReplacementMsgType =
     leg.transportSubmode === TransportSubmode.RailReplacementBus
@@ -112,9 +114,10 @@ function getLegNotificationType(
       : undefined;
   const shortTransferMsgType: Statuses | undefined = (() => {
     if (!previousLeg) return undefined;
-    // Only a leg you board is a transfer. The gap into a walk leg is
-    // systematically zero, so it would badge every walk in the trip.
-    if (leg.mode === 'foot') return undefined;
+    const isTransfer =
+      leg.mode !== 'foot' &&
+      legs.slice(0, index).some((l) => l.mode !== 'foot');
+    if (!isTransfer) return undefined;
     const waitSeconds = secondsBetween(
       previousLeg.expectedEndTime,
       leg.expectedStartTime,
