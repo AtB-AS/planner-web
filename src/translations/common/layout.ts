@@ -1,28 +1,14 @@
+import { CommonText } from '@mrfylke/contact-form';
+import type { ContactFormTranslationsOverride } from '@mrfylke/contact-form';
 import { translation as _ } from '@atb/translations/commons';
+import { byOrg } from '@atb/modules/org-data';
 import { orgSpecificTranslations } from '@atb/translations/utils';
 
-const LayoutInternal = {
-  skipToContent: _(
-    'Hopp til hovedinnhold',
-    'Skip to main content',
-    'Hopp til hovudinnhald',
-  ),
+type LayoutOverride = NonNullable<
+  ContactFormTranslationsOverride['common']
+>['Layout'];
 
-  homeLink: (name: string) =>
-    _(`Gå til ${name}`, `Go to ${name}`, `Gå til ${name}`),
-
-  contactLink: _('Kontaktskjema', 'Contact form', 'Kontaktskjema'),
-
-  meta: {
-    defaultDescription: _(
-      'Finn rutetider, holdeplasser og tilbud for buss, trikk, båt og tog i Trøndelag med reiseplanleggeren.',
-      'Find timetables, stops and offers for bus, tram, boat and train in Trøndelag with the travel planner.',
-      'Finn rutetider, haldeplassar og tilbod for buss, trikk, båt og tog i Trøndelag med reiseplanleggaren.',
-    ),
-  },
-};
-
-export const Layout = orgSpecificTranslations(LayoutInternal, {
+const layoutOrgOverrides = {
   nfk: {
     meta: {
       defaultDescription: _(
@@ -68,4 +54,22 @@ export const Layout = orgSpecificTranslations(LayoutInternal, {
       ),
     },
   },
-});
+};
+
+/**
+ * Full, resolved Layout translations for the current org - used directly by
+ * planner-web's own general pages, not just the widget.
+ *
+ * TODO: this couples planner-web's own general layout text to the
+ * contact-form package's override mechanism (it's built from the same
+ * org-delta that feeds LayoutOverride below). Decouple these once
+ * planner-web's non-contact-form layout text has a home that isn't shaped
+ * around the widget's translation overrides.
+ */
+export const Layout: typeof CommonText.Layout = orgSpecificTranslations(
+  CommonText.Layout,
+  layoutOrgOverrides,
+);
+
+/** Partial override fed into the contact-form widget's config.translations. */
+export const LayoutOverride: LayoutOverride = byOrg(layoutOrgOverrides) ?? {};

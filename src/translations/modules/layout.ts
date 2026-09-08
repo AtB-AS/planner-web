@@ -3,6 +3,11 @@ import { orgSpecificTranslations } from '../utils';
 
 export const LayoutInternal = {
   base: {
+    skipToContent: _(
+      'Hopp til hovedinnhold',
+      'Skip to main content',
+      'Hopp til hovudinnhald',
+    ),
     footer: {
       sections: {
         general: {

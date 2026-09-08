@@ -1,14 +1,18 @@
+import type {
+  CommonText,
+  ContactFormTranslationsOverride,
+} from '@mrfylke/contact-form';
 import { translation as _ } from '@atb/translations/commons';
-import { orgSpecificTranslations } from '../utils';
+import { byOrg } from '@atb/modules/org-data';
 
-const TitlesInternal = {
-  siteTitle: _('AtB Reisesøk', 'AtB Travel Search', 'AtB Reisesøk'),
-};
+type TitlesFull = typeof CommonText.Titles;
+type TitlesOverride = NonNullable<
+  ContactFormTranslationsOverride['common']
+>['Titles'];
 
-export const Titles = orgSpecificTranslations(TitlesInternal, {
-  nfk: {
-    siteTitle: _('Reis Reisesøk', 'Reis Travel Search', 'Reis Reisesøk'),
-  },
+const titlesByOrg = {
+  atb: { siteTitle: _('AtB Reisesøk', 'AtB Travel Search', 'AtB Reisesøk') },
+  nfk: { siteTitle: _('Reis Reisesøk', 'Reis Travel Search', 'Reis Reisesøk') },
   fram: {
     siteTitle: _(
       'FRAM Reiseplanlegger',
@@ -33,4 +37,19 @@ export const Titles = orgSpecificTranslations(TitlesInternal, {
   farte: {
     siteTitle: _('Farte Reisesøk', 'Farte Travel Search', 'Farte Reisesøk'),
   },
-});
+};
+
+/**
+ * Full, resolved Titles for the current org - used directly by planner-web's
+ * own general pages.
+ *
+ * TODO: this couples planner-web's own site title to the contact-form
+ * package's override mechanism (it's built from the same org data that feeds
+ * TitlesOverride below). Decouple these once planner-web's non-contact-form
+ * branding text has a home that isn't shaped around the widget's translation
+ * overrides.
+ */
+export const Titles: TitlesFull = byOrg(titlesByOrg)!;
+
+/** Partial override fed into the contact-form widget's config.translations. */
+export const TitlesOverride: TitlesOverride = byOrg(titlesByOrg) ?? {};
