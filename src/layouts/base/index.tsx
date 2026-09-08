@@ -7,6 +7,7 @@ import { useHtmlDarkMode, useTheme } from '@atb/modules/theme';
 import {
   CommonText,
   Language,
+  ModuleText,
   TranslatedString,
   useTranslation,
 } from '@atb/translations';
@@ -51,7 +52,7 @@ export function BaseLayout({ children, title }: BaseLayoutProps) {
         </Head>
         <OpenGraphBase title={siteTitle} />
         <a href="#main-content" className={style.skipLink}>
-          {t(CommonText.Layout.skipToContent)}
+          {t(ModuleText.Layout.base.skipToContent)}
         </a>
         <PageHeader />
         <main id="main-content" tabIndex={-1} className={style.main}>

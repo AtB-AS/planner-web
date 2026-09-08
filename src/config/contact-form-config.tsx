@@ -70,7 +70,10 @@ export const contactFormConfig: ContactFormConfig = {
   translations: {
     pages: PageText,
     components: ComponentText,
-    common: CommonText,
-    server: ServerText,
+    common: {
+      Titles: CommonText.TitlesOverride,
+      Layout: CommonText.LayoutOverride,
+    },
+    server: { Endpoints: ServerText.EndpointsOverride },
   },
 };
