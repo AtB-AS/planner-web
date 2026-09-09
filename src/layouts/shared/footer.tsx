@@ -63,7 +63,7 @@ export default function Footer({ withoutSettings = false }: FooterProps) {
         <div className={style.footer__top}>
           <section className={style.footer__section}>
             <h3 className={style.footer__title}>
-              {t(ModuleText.Layout.base.footer.sections.general.header)}
+              {t(ModuleText.Layout.footer.sections.general.header)}
             </h3>
 
             <ul className={style.footer__linkList}>
@@ -74,10 +74,7 @@ export default function Footer({ withoutSettings = false }: FooterProps) {
                     target="_blank"
                     rel="noreferrer"
                   >
-                    {t(
-                      ModuleText.Layout.base.footer.sections.general
-                        .helpPageLink,
-                    )}
+                    {t(ModuleText.Layout.footer.sections.general.helpPageLink)}
                   </a>
                 </li>
               )}
@@ -89,7 +86,7 @@ export default function Footer({ withoutSettings = false }: FooterProps) {
                     rel="noreferrer"
                   >
                     {t(
-                      ModuleText.Layout.base.footer.sections.general
+                      ModuleText.Layout.footer.sections.general
                         .ticketPricesPageLink,
                     )}
                   </a>
@@ -100,7 +97,7 @@ export default function Footer({ withoutSettings = false }: FooterProps) {
 
           <section className={style.footer__section}>
             <h3 className={style.footer__title}>
-              {t(ModuleText.Layout.base.footer.sections.contact.header)}
+              {t(ModuleText.Layout.footer.sections.contact.header)}
             </h3>
 
             <ul className={style.footer__linkList}>
@@ -120,8 +117,7 @@ export default function Footer({ withoutSettings = false }: FooterProps) {
                     rel="noreferrer"
                   >
                     {t(
-                      ModuleText.Layout.base.footer.sections.general
-                        .supportPageLink,
+                      ModuleText.Layout.footer.sections.general.supportPageLink,
                     )}
                   </a>
                 </li>
@@ -134,8 +130,8 @@ export default function Footer({ withoutSettings = false }: FooterProps) {
               <h3 className={style.footer__title}>
                 {t(
                   !isForcingTheme
-                    ? ModuleText.Layout.base.footer.sections.settings.header
-                    : ModuleText.Layout.base.footer.sections.settings
+                    ? ModuleText.Layout.footer.sections.settings.header
+                    : ModuleText.Layout.footer.sections.settings
                         .forcedThemeHeader,
                 )}
               </h3>
@@ -151,11 +147,11 @@ export default function Footer({ withoutSettings = false }: FooterProps) {
                     >
                       {isDarkMode
                         ? t(
-                            ModuleText.Layout.base.footer.sections.settings
+                            ModuleText.Layout.footer.sections.settings
                               .toggleLightMode,
                           )
                         : t(
-                            ModuleText.Layout.base.footer.sections.settings
+                            ModuleText.Layout.footer.sections.settings
                               .toggleDarkMode,
                           )}
                     </button>
@@ -166,9 +162,8 @@ export default function Footer({ withoutSettings = false }: FooterProps) {
               <p className={style.footer__cookieWarning}>
                 {t(
                   !isForcingTheme
-                    ? ModuleText.Layout.base.footer.sections.settings
-                        .cookiesWarning
-                    : ModuleText.Layout.base.footer.sections.settings
+                    ? ModuleText.Layout.footer.sections.settings.cookiesWarning
+                    : ModuleText.Layout.footer.sections.settings
                         .languageCookiesWarning,
                 )}
               </p>
@@ -207,7 +202,7 @@ export default function Footer({ withoutSettings = false }: FooterProps) {
               target="_blank"
               rel="noreferrer"
             >
-              {t(ModuleText.Layout.base.footer.bottomLinks.privacy)}
+              {t(ModuleText.Layout.footer.bottomLinks.privacy)}
             </a>
             <span aria-hidden="true">•</span>
             <a
@@ -215,10 +210,7 @@ export default function Footer({ withoutSettings = false }: FooterProps) {
               target="_blank"
               rel="noreferrer"
             >
-              {t(
-                ModuleText.Layout.base.footer.bottomLinks
-                  .accessibilityStatement,
-              )}
+              {t(ModuleText.Layout.footer.bottomLinks.accessibilityStatement)}
             </a>
           </div>
 
@@ -246,9 +238,7 @@ function LanguageSelections() {
             onClick={() => setLanguage(Language.Norwegian)}
             style={buttonStyle}
           >
-            {t(
-              ModuleText.Layout.base.footer.sections.settings.setLanguage.norsk,
-            )}
+            {t(ModuleText.Layout.footer.sections.settings.setLanguage.norsk)}
           </button>
         </li>
       )}
@@ -260,10 +250,7 @@ function LanguageSelections() {
             style={buttonStyle}
             data-testid="setLanguageToEnglish"
           >
-            {t(
-              ModuleText.Layout.base.footer.sections.settings.setLanguage
-                .english,
-            )}
+            {t(ModuleText.Layout.footer.sections.settings.setLanguage.english)}
           </button>
         </li>
       )}
@@ -274,10 +261,7 @@ function LanguageSelections() {
             style={buttonStyle}
             onClick={() => setLanguage(Language.Nynorsk)}
           >
-            {t(
-              ModuleText.Layout.base.footer.sections.settings.setLanguage
-                .nynorsk,
-            )}
+            {t(ModuleText.Layout.footer.sections.settings.setLanguage.nynorsk)}
           </button>
         </li>
       )}
