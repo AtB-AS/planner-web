@@ -1,4 +1,4 @@
-import type { ContactFormConfig, FormSchemaName } from '@mrfylke/contact-form';
+import type { ContactFormConfig } from '@mrfylke/contact-form';
 import { buildEnabledPageIds } from '@mrfylke/contact-form';
 import { adaptAtbTheme } from '@mrfylke/contact-form/config';
 import { theme } from '@atb/modules/theme';
@@ -7,24 +7,8 @@ import { translations } from '@atb/translations/contact-form';
 
 const contactFormTheme = adaptAtbTheme(theme);
 
-const submitEndpoint = '/api/contact/submit';
-
-const onSubmit = (
-  schemaName: FormSchemaName,
-  state: Record<string, unknown>,
-): Promise<Response> => {
-  return fetch(submitEndpoint, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ ...state, formType: schemaName }),
-  });
-};
-
 export const contactFormConfig: ContactFormConfig = {
   theme: contactFormTheme,
-  api: {
-    onSubmit,
-  },
   features: {
     enableFileUploads: true,
   },
