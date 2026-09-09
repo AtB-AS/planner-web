@@ -52,7 +52,7 @@ export function BaseLayout({ children, title }: BaseLayoutProps) {
         </Head>
         <OpenGraphBase title={siteTitle} />
         <a href="#main-content" className={style.skipLink}>
-          {t(ModuleText.Layout.base.skipToContent)}
+          {t(ModuleText.Layout.skipToContent)}
         </a>
         <PageHeader />
         <main id="main-content" tabIndex={-1} className={style.main}>
