@@ -1,8 +1,6 @@
 import { translation as _ } from '@atb/translations/commons';
 import { orgSpecificTranslations } from '../utils';
 
-// Not consumed by the contact-form package at all (it never reads
-// CommonText.Layout), so this is planner-web's own general-site text only.
 const LayoutInternal = {
   homeLink: (name: string) =>
     _(`Gå til ${name}`, `Go to ${name}`, `Gå til ${name}`),
