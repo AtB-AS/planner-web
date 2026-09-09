@@ -3,12 +3,7 @@ import { buildEnabledPageIds } from '@mrfylke/contact-form';
 import { adaptAtbTheme } from '@mrfylke/contact-form/config';
 import { theme } from '@atb/modules/theme';
 import { byOrg } from '@atb/modules/org-data';
-import {
-  CommonText,
-  ComponentText,
-  PageText,
-  ServerText,
-} from '@atb/translations';
+import { translations } from '@atb/translations/contact-form';
 
 const contactFormTheme = adaptAtbTheme(theme);
 
@@ -67,13 +62,5 @@ export const contactFormConfig: ContactFormConfig = {
       },
     },
   }),
-  translations: {
-    pages: PageText,
-    components: ComponentText,
-    common: {
-      Titles: CommonText.TitlesOverride,
-      Layout: CommonText.LayoutOverride,
-    },
-    server: { Endpoints: ServerText.EndpointsOverride },
-  },
+  translations,
 };

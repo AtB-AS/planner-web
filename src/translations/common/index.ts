@@ -1,2 +1,2 @@
-export { Titles, TitlesOverride } from './titles';
-export { Layout, LayoutOverride } from './layout';
+export { Titles } from './titles';
+export { Layout } from './layout';

@@ -1,1 +1,1 @@
-export { Endpoints, EndpointsOverride } from './endpoints';
+export { Endpoints } from './endpoints';
