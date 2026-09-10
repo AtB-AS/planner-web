@@ -1,3 +1,5 @@
+'use client';
+
 import { useLanguageCookie } from '@atb/modules/cookies';
 import { Language } from '@atb/translations';
 import { appLanguages, DEFAULT_LANGUAGE } from '@atb/translations/commons';
