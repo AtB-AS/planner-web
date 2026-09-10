@@ -11,6 +11,10 @@ export const contactFormConfig: ContactFormConfig = {
   theme: contactFormTheme,
   features: {
     enableFileUploads: true,
+    includeOtherTicketTypeSelector: true,
+    includeCustomerNumberAndPurchasePlatformInAppTicketRefund: true,
+    enableRequiredLineInServiceOffering: true,
+    includeOrderIdAndAmountInOtherTicketRefund: true,
   },
   pages: {
     enabledPageIds:
