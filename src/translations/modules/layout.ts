@@ -94,6 +94,9 @@ export const Layout = orgSpecificTranslations(LayoutInternal, {
         contact: {
           header: _('Kontakt AtB', 'Contact AtB', 'Kontakt AtB'),
         },
+        general: {
+          supportPageLink: _('Kontaktskjema', 'Contact form', 'Kontaktskjema'),
+        },
       },
     },
   },

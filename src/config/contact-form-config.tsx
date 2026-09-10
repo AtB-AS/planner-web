@@ -50,6 +50,15 @@ export const contactFormConfig: ContactFormConfig = {
         ],
       },
     },
+    atb: {
+      refund: {
+        enabledFormCategories: [
+          'refundOfTicket',
+          'refundAndTravelGuarantee',
+          'residualValueOnTravelCard',
+        ],
+      },
+    },
   }),
   translations,
 };
