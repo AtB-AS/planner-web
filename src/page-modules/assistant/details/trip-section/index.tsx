@@ -165,7 +165,8 @@ export default function TripSection({
               />
               <Typo.p textType="body__m__strong">
                 {getLineDestinationName(
-                  leg.fromEstimatedCall?.destinationDisplay?.frontText,
+                  t,
+                  leg.fromEstimatedCall?.destinationDisplay,
                   leg.line?.name,
                 )}
               </Typo.p>

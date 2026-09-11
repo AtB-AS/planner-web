@@ -13,7 +13,7 @@ import dictionary from '@atb/translations/dictionary';
 import style from './details.module.css';
 import { EstimatedCallRows } from './estimated-call-rows';
 import { addMetadataToEstimatedCalls, getShouldShowLiveVehicle } from './utils';
-import { formatDestinationDisplay } from '../utils';
+import { formatDestinationDisplay } from '@atb/utils/destination-display';
 import { useLiveVehicleSubscription } from '@atb/page-modules/departures/client/vehicles';
 import {
   GlobalMessageContextEnum,

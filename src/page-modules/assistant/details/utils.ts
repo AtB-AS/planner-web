@@ -1,4 +1,8 @@
 import { TranslateFunction } from '@atb/translations';
+import {
+  DestinationDisplayType,
+  formatDestinationDisplay,
+} from '@atb/utils/destination-display';
 import { Assistant } from '@atb/translations/pages';
 
 export function formatQuayName(
@@ -25,8 +29,9 @@ export function getPlaceName(
 }
 
 export function getLineDestinationName(
-  frontText?: string,
+  t: TranslateFunction,
+  destinationDisplay?: DestinationDisplayType,
   lineName?: string,
 ): string {
-  return frontText ?? lineName ?? '';
+  return formatDestinationDisplay(t, destinationDisplay) ?? lineName ?? '';
 }
