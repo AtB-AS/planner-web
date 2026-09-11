@@ -10,11 +10,9 @@ import { secondsBetween, secondsToDuration } from '@atb/utils/date';
 import style from './trip-section.module.css';
 import { MonoIcon, TintedMonoIcon, type MonoIcons } from '@atb/components/icon';
 import { ExtendedLegType } from '@atb/page-modules/assistant';
-import { isTransitLeg, TransferRisk } from '@atb-as/utils';
+import { TransferRisk } from '@atb-as/utils';
+import { isShortWaitTime, isTransferInto } from '@atb/modules/trip-patterns';
 import { and } from '@atb/utils/css';
-
-// Set number of seconds required before showing short waiting indicator
-const SHOW_SHORT_WAIT_TIME_THRESHOLD_IN_SECONDS = 180;
 
 const ONE_MINUTE_IN_SECONDS = 60;
 
@@ -75,7 +73,7 @@ function getWaitMessage(
 ): WaitMessage {
   const texts = PageText.Assistant.details.tripSection.wait;
 
-  if (waitTime > SHOW_SHORT_WAIT_TIME_THRESHOLD_IN_SECONDS) {
+  if (!isShortWaitTime(waitTime)) {
     return {
       icon: 'time/Time',
       message: t(texts.label(secondsToDuration(waitTime, language))),
@@ -154,8 +152,7 @@ export function getLegWaitDetails(
 
   // Only count zero transfer time on real transfers.
   // Do not count walking to bus stop, or from bus stop to destination.
-  const isTransfer =
-    isTransitLeg(nextLeg) && legs.slice(0, index + 1).some(isTransitLeg);
+  const isTransfer = isTransferInto(legs, index + 1);
   const mustWaitForNextLeg = isTransfer ? waitTime >= 0 : waitTime > 0;
 
   return {

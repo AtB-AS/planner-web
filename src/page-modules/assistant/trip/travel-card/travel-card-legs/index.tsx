@@ -1,4 +1,3 @@
-import { isTransitLeg } from '@atb-as/utils';
 import { secondsBetween } from '@atb/utils/date';
 import {
   TransportIconWithDuration,
@@ -20,8 +19,7 @@ import { OverflowContainer } from '@atb/components/overflow-container';
 import { CounterBox } from '@atb/components/counter-box';
 import style from './travel-card-legs.module.css';
 import { getFilteredLegsByWalkOrWaitTime } from '@atb/page-modules/assistant/trip';
-
-const SHORT_TRANSFER_SECONDS = 180;
+import { isShortWaitTime, isTransferInto } from '@atb/modules/trip-patterns';
 
 type Props = {
   tripPattern: ExtendedTripPatternWithDetailsType;
@@ -100,7 +98,6 @@ function getLegNotificationType(
   index: number,
 ): Statuses | undefined {
   const leg = legs[index];
-  const previousLeg = legs[index - 1];
   const situationsMsgType = getLegOverflowNotificationType(leg);
   const railReplacementMsgType =
     leg.transportSubmode === TransportSubmode.RailReplacementBus
@@ -114,17 +111,13 @@ function getLegNotificationType(
       ? 'info'
       : undefined;
   const shortTransferMsgType: Statuses | undefined = (() => {
-    if (!previousLeg) return undefined;
-    const isTransfer =
-      isTransitLeg(leg) && legs.slice(0, index).some(isTransitLeg);
-    if (!isTransfer) return undefined;
+    if (!isTransferInto(legs, index)) return undefined;
+    // A transfer has a leg before it by definition, so there is a gap to measure.
     const waitSeconds = secondsBetween(
-      previousLeg.expectedEndTime,
+      legs[index - 1].expectedEndTime,
       leg.expectedStartTime,
     );
-    return waitSeconds >= 0 && waitSeconds <= SHORT_TRANSFER_SECONDS
-      ? 'info'
-      : undefined;
+    return isShortWaitTime(waitSeconds) ? 'info' : undefined;
   })();
 
   return getMostCriticalStatus([
