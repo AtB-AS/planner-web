@@ -15,6 +15,7 @@ export const contactFormConfig: ContactFormConfig = {
     includeCustomerNumberAndPurchasePlatformInAppTicketRefund: true,
     enableRequiredLineInServiceOffering: true,
     includeOrderIdAndAmountInOtherTicketRefund: true,
+    enableRequiredAttachmentInOtherTicketRefund: true,
   },
   pages: {
     enabledPageIds:
