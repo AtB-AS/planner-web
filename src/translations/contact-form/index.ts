@@ -20,6 +20,11 @@ export const translations: ContactFormTranslationsOverride = {
               },
             },
           },
+          refund: {
+            refundCar: {
+              info: _('', '', ''),
+            },
+          },
         },
       }) ?? {},
   },
