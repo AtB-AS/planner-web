@@ -112,6 +112,7 @@ fragment legWithDetails on Leg {
     }
     destinationDisplay {
       frontText
+      via
     }
     cancellation
     requestStop
@@ -122,6 +123,7 @@ fragment legWithDetails on Leg {
     }
     destinationDisplay {
       frontText
+      via
     }
     cancellation
     requestStop

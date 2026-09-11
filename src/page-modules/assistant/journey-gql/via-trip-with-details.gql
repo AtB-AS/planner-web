@@ -83,6 +83,7 @@ query ViaTripsWithDetails(
             }
             destinationDisplay {
               frontText
+              via
             }
             cancellation
             requestStop
@@ -94,6 +95,7 @@ query ViaTripsWithDetails(
             }
             destinationDisplay {
               frontText
+              via
             }
             cancellation
             requestStop
