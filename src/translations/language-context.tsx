@@ -1,3 +1,5 @@
+'use client';
+
 import { useLanguageCookie } from '@atb/modules/cookies';
 import { Language } from '@atb/translations';
 import { appLanguages, DEFAULT_LANGUAGE } from '@atb/translations/commons';
@@ -7,7 +9,6 @@ import detectNearestLocale from 'detect-nearest-locale';
 import {
   createContext,
   PropsWithChildren,
-  useCallback,
   useContext,
   useEffect,
   useState,
@@ -52,14 +53,12 @@ function mapLanguageStringToEnum(language: string | undefined): Language {
 
 type LanguageState = {
   setLanguage: (value: Language) => void;
-  toggleLanguage: () => void;
   language: Language;
   languages: readonly Language[];
 };
 
 const LanguageContext = createContext<LanguageState>({
   setLanguage() {},
-  toggleLanguage() {},
   language: DEFAULT_LANGUAGE,
   languages: appLanguages,
 });
@@ -74,17 +73,9 @@ export default function AppLanguageProvider({
   const fromHeaders = getLocalesFromAcceptLanguage(serverAcceptLanguage);
   const [language, setLanguage] = useSelectedLanguage(fromHeaders);
 
-  const toggleLanguage = useCallback(() => {
-    if (language == Language.English) {
-      setLanguage(Language.Norwegian);
-    } else {
-      setLanguage(Language.English);
-    }
-  }, [language, setLanguage]);
-
   return (
     <LanguageContext.Provider
-      value={{ toggleLanguage, setLanguage, language, languages: appLanguages }}
+      value={{ setLanguage, language, languages: appLanguages }}
     >
       <lobot.LanguageProvider value={language}>
         {children}
@@ -98,7 +89,6 @@ export function useLanguageSettings() {
   if (!context) {
     return {
       setLanguage() {},
-      toggleLanguage() {},
       language: DEFAULT_LANGUAGE,
       languages: appLanguages,
     };

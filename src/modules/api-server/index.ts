@@ -7,6 +7,7 @@ import {
 } from './requesters/types';
 
 export { genericError, tryResult, errorResultAsJson } from './requesters/utils';
+export { createRequester } from './requesters/http-requester';
 
 import { ExternalClient, ExternalClientFactory } from './external-client';
 

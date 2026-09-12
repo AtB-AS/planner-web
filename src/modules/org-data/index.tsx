@@ -98,6 +98,14 @@ export function getConfigUrl(url: TranslatableUrl, lang: Language) {
   return url[lang] ?? url.default;
 }
 
+export function byOrg<T>(values: Record<WEBSHOP_ORGS, T>): T;
+export function byOrg<T>(values: { [org in WEBSHOP_ORGS]?: T }): T | undefined;
+export function byOrg<T>(values: {
+  [org in WEBSHOP_ORGS]?: T;
+}): T | undefined {
+  return values[currentOrg];
+}
+
 function getCurrentOrg(): WEBSHOP_ORGS {
   const orgId = process.env.NEXT_PUBLIC_PLANNER_ORG_ID;
   switch (orgId) {
