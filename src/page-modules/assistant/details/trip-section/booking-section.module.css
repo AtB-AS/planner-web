@@ -1,0 +1,5 @@
+.bookingActions {
+  display: flex;
+  flex-direction: column;
+  gap: token('spacing.medium');
+}

@@ -8,9 +8,11 @@ import {
   getLatestBookingDate,
 } from '@atb/modules/flexible';
 import { TripRow } from '@atb/modules/trip-details';
+import { useTheme } from '@atb/modules/theme';
 import { PageText, useTranslation } from '@atb/translations';
 import { formatToShortDateTimeWithRelativeDayNames } from '@atb/utils/date';
 import { BookingArrangementType } from '@atb/page-modules/assistant';
+import style from './booking-section.module.css';
 
 type BookingSectionProps = {
   bookingStatus: BookingStatus;
@@ -26,6 +28,7 @@ export function BookingSection({
   flexBookingNumberOfDaysAvailable,
 }: BookingSectionProps) {
   const { t } = useTranslation();
+  const { color } = useTheme();
   const bookingMessage = useBookingMessage(
     bookingArrangements,
     aimedStartTime,
@@ -63,32 +66,37 @@ export function BookingSection({
 
       {bookingStatus === 'bookable' && (
         <TripRow>
-          {showBookOnlineOption && (
-            <ButtonLink
-              title={t(
-                PageText.Assistant.details.tripSection.flexibleTransport
-                  .bookOnline,
-              )}
-              href={bookingUrl}
-              size="small"
-              mode="interactive_0"
-              icon={{ right: <MonoIcon icon="navigation/ExternalLink" /> }}
-            />
-          )}
+          <div className={style.bookingActions}>
+            {showBookOnlineOption && (
+              <ButtonLink
+                title={t(
+                  PageText.Assistant.details.tripSection.flexibleTransport
+                    .bookOnline,
+                )}
+                href={bookingUrl}
+                size="small"
+                mode="interactive_0"
+                radiusSize="circular"
+                icon={{ right: <MonoIcon icon="navigation/ExternalLink" /> }}
+              />
+            )}
 
-          {showBookByPhoneOption && (
-            <ButtonLink
-              title={t(
-                PageText.Assistant.details.tripSection.flexibleTransport.bookByPhone(
-                  bookingPhone,
-                ),
-              )}
-              href={`tel:${bookingPhone}`}
-              size="small"
-              mode="interactive_3"
-              icon={{ right: <MonoIcon icon="navigation/ExternalLink" /> }}
-            />
-          )}
+            {showBookByPhoneOption && (
+              <ButtonLink
+                title={t(
+                  PageText.Assistant.details.tripSection.flexibleTransport.bookByPhone(
+                    bookingPhone,
+                  ),
+                )}
+                href={`tel:${bookingPhone}`}
+                size="small"
+                mode="secondary"
+                backgroundColor={color.background.neutral[0]}
+                radiusSize="circular"
+                icon={{ right: <MonoIcon icon="devices/Phone" /> }}
+              />
+            )}
+          </div>
         </TripRow>
       )}
     </>
