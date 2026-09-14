@@ -28,8 +28,7 @@ export const LayoutInternal = {
         ),
       },
       contact: {
-        header: _('Kontakt AtB', 'Contact AtB', 'Kontakt AtB'),
-        contactLink: _('Kontakt AtB', 'Contact AtB', 'Kontakt AtB'),
+        header: _('Kontakt', 'Contact', 'Kontakt'),
       },
       settings: {
         header: _(
@@ -89,16 +88,20 @@ export const LayoutInternal = {
 };
 
 export const Layout = orgSpecificTranslations(LayoutInternal, {
+  atb: {
+    footer: {
+      sections: {
+        contact: {
+          header: _('Kontakt AtB', 'Contact AtB', 'Kontakt AtB'),
+        },
+      },
+    },
+  },
   nfk: {
     footer: {
       sections: {
         contact: {
           header: _(
-            'Kontakt Reis Nordland',
-            'Contact Reis Nordland',
-            'Kontakt Reis Nordland',
-          ),
-          contactLink: _(
             'Kontakt Reis Nordland',
             'Contact Reis Nordland',
             'Kontakt Reis Nordland',
@@ -111,8 +114,7 @@ export const Layout = orgSpecificTranslations(LayoutInternal, {
     footer: {
       sections: {
         contact: {
-          header: _('Kontakt', 'Contact', 'Kontakt'),
-          contactLink: _('Kontakt FRAM', 'Contact FRAM', 'Kontakt FRAM'),
+          header: _('Kontakt FRAM', 'Contact FRAM', 'Kontakt FRAM'),
         },
         general: {
           supportPageLink: _('Kontaktskjema', 'Contact form', 'Kontaktskjema'),
@@ -125,11 +127,6 @@ export const Layout = orgSpecificTranslations(LayoutInternal, {
       sections: {
         contact: {
           header: _('Kontakt Svipper', 'Contact Svipper', 'Kontakt Svipper'),
-          contactLink: _(
-            'Kontakt Svipper',
-            'Contact Svipper',
-            'Kontakt Svipper',
-          ),
         },
       },
     },
@@ -143,11 +140,6 @@ export const Layout = orgSpecificTranslations(LayoutInternal, {
             'Contact Vestfold Kollektivtrafikk',
             'Kontakt Vestfold Kollektivtrafikk',
           ),
-          contactLink: _(
-            'Kontakt Vestfold Kollektivtrafikk',
-            'Contact Vestfold Kollektivtrafikk',
-            'Kontakt Vestfold Kollektivtrafikk',
-          ),
         },
       },
     },
@@ -157,7 +149,6 @@ export const Layout = orgSpecificTranslations(LayoutInternal, {
       sections: {
         contact: {
           header: _('Kontakt Farte', 'Contact Farte', 'Kontakt Farte'),
-          contactLink: _('Kontakt Farte', 'Contact Farte', 'Kontakt Farte'),
         },
       },
     },
