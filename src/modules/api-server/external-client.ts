@@ -1,4 +1,4 @@
-import { ServerText } from '@atb/translations';
+import * as ServerText from '@atb/translations/server';
 import type { IncomingMessage } from 'http';
 import { constants } from 'http2';
 import type {

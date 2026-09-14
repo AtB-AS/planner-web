@@ -1,4 +1,4 @@
-import { Language } from '@atb/translations';
+import { Language } from '@atb/translations/commons';
 import atb from '../../../orgs/atb.json';
 import fram from '../../../orgs/fram.json';
 import nfk from '../../../orgs/nfk.json';
