@@ -114,6 +114,18 @@ export const translations: ContactFormTranslationsOverride = {
             },
             travelCard: {
               orderTravelCard: {
+                detailsList: [
+                  _(
+                    'Et reisekort er et fysisk plastkort. På reisekortet kan du legge periodebilletter.',
+                    'A travel card is a physical plastic card. You can add period tickets to the travel card',
+                    'Eit reisekort er eit fysisk plastkort. På reisekortet kan du legge periodebillettar.',
+                  ),
+                  _(
+                    'Reisekort får du tak i hos sjåføren om bord i bussen, eller matrosen om bord i hurtigbåten. Det er også tilgjengelig på salgskontoret i Molde og Ålesund. De har tomme kort som er gratis ved utlevering.',
+                    'Travel cards can be provided by the bus driver, or the sailor on board the express boat. They can also be obtained at sales offices in Molde and Ålesund. Blank cards are provided free of charge upon delivery.',
+                    'Reisekort får du tak i hos sjåføren om bord i bussen, eller matrosen om bord i hurtigbåten. Det er også tilgjengeleg på salskontoret i Molde og Ålesund. Dei har tomme kort som er gratis ved utlevering.',
+                  ),
+                ],
                 detailWithUrl: {
                   href: _(
                     'https://nettbutikk.frammr.no/',
