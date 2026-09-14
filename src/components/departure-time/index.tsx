@@ -25,6 +25,10 @@ type DepartureTimeProps = {
   cancelled?: boolean;
   relativeTime?: boolean;
   withRealtimeIndicator?: boolean;
+  /**
+   * Take the struck aimed time out of flow so it doesn't add height to the row.
+   */
+  floatingAimedTime?: boolean;
 };
 
 export function DepartureTime({
@@ -35,6 +39,7 @@ export function DepartureTime({
   cancelled = false,
   relativeTime = false,
   withRealtimeIndicator = false,
+  floatingAimedTime = false,
 }: DepartureTimeProps) {
   const { t } = useTranslation();
 
@@ -72,7 +77,12 @@ export function DepartureTime({
       // all cancelled departures are without realtime.
       // But using to make it consistent.
       return (
-        <div className={style.significantDifferenceContainer}>
+        <div
+          className={and(
+            style.significantDifferenceContainer,
+            floatingAimedTime && style.floatingContainer,
+          )}
+        >
           <div className={style.significantDifference}>
             <TimeContainer
               time={expected}
@@ -83,6 +93,7 @@ export function DepartureTime({
           </div>
 
           <Typo.p
+            className={floatingAimedTime ? style.floatingAimedTime : undefined}
             textType="body__xs__strike"
             color="secondary"
             aria-label={`${t(

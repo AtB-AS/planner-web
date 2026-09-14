@@ -7,6 +7,15 @@
   flex-direction: column;
   align-items: flex-end;
 }
+.floatingContainer {
+  position: relative;
+}
+
+.floatingAimedTime {
+  position: absolute;
+  top: 100%;
+  right: 0;
+}
 .significantDifference {
   display: flex;
   align-items: center;

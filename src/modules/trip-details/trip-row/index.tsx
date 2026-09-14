@@ -8,6 +8,7 @@ type TripRowProps = PropsWithChildren<{
   alignChildren?: 'flex-start' | 'flex-end' | 'center';
   href?: string;
   isBetween?: boolean;
+  className?: string;
 }>;
 export default function TripRow({
   rowLabel,
@@ -15,6 +16,7 @@ export default function TripRow({
   alignChildren = 'center',
   href,
   isBetween = false,
+  className,
 }: TripRowProps) {
   const rowContent = (
     <>
@@ -28,7 +30,11 @@ export default function TripRow({
     return (
       <Link
         href={href}
-        className={and(style.container, isBetween && style.middleRow)}
+        className={and(
+          style.container,
+          isBetween && style.middleRow,
+          className,
+        )}
         style={{ alignItems: alignChildren }}
       >
         {rowContent}
@@ -38,7 +44,7 @@ export default function TripRow({
 
   return (
     <div
-      className={and(style.container, isBetween && style.middleRow)}
+      className={and(style.container, isBetween && style.middleRow, className)}
       style={{ alignItems: alignChildren }}
     >
       {rowContent}

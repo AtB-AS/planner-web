@@ -144,6 +144,20 @@ export const getNoticesForLeg = (leg: LegWithDetailsFragment) =>
     ...(leg.toEstimatedCall?.notices || []),
   ]);
 
+/** Notices on "route" level: Line, ServiceJourney and JourneyPattern. */
+export const getNoticesForRoute = (leg: LegWithDetailsFragment) =>
+  filterNotices([
+    ...(leg.line?.notices || []),
+    ...(leg.serviceJourney?.notices || []),
+    ...(leg.serviceJourney?.journeyPattern?.notices || []),
+  ]);
+
+export const getNoticesForFromEstimatedCall = (leg: LegWithDetailsFragment) =>
+  filterNotices(leg.fromEstimatedCall?.notices || []);
+
+export const getNoticesForToEstimatedCall = (leg: LegWithDetailsFragment) =>
+  filterNotices(leg.toEstimatedCall?.notices || []);
+
 export function withinZoneIds(legs: LegWithDetailsFragment[]): string[] {
   const allZoneIds = new Set<string>();
   legs.forEach((leg) => {

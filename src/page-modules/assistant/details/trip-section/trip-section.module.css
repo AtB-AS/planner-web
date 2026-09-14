@@ -18,6 +18,11 @@
 .toEstimatedCallInfo {
   margin-top: calc(-1 * token('spacing.medium'));
 }
+/* Subtle inline messages (notices, request stop) sit tight under their leg row
+   instead of adding the default row top padding on top of the row above. */
+.messageRow {
+  padding-top: 0;
+}
 .walkTime,
 .waitTime,
 .textColor__secondary {
