@@ -1,4 +1,3 @@
-import { TicketTypeId } from '@mrfylke/contact-form';
 import type { ContactFormTranslationsOverride } from '@mrfylke/contact-form';
 import { translation as _ } from '@atb/translations/commons';
 import { byOrg } from '@atb/modules/org-data';
@@ -162,38 +161,6 @@ export const translations: ContactFormTranslationsOverride = {
                 'The customer number consists of 7 digits and can be found under My user in the FRAM app, or in the webshop',
                 'Kundenummeret består av 7 siffer og du finn det under Min bruker i FRAM-appen, eller i nettbutikken.',
               ),
-            },
-            ticketType: {
-              options: [
-                {
-                  id: TicketTypeId.SingleTicket,
-                  name: _('Enkeltbillett', 'Single ticket', 'Enkeltbillett'),
-                },
-                {
-                  id: TicketTypeId.PeriodTicket,
-                  name: _(
-                    'Periodebillett (sonebasert)',
-                    'Period ticket (zone-based)',
-                    'Periodebillett (sonebasert)',
-                  ),
-                },
-                {
-                  id: TicketTypeId.FramYoung,
-                  name: _('FRAM Ung', 'FRAM Ung', 'FRAM Ung'),
-                },
-                {
-                  id: TicketTypeId.FramStudent,
-                  name: _('FRAM Student', 'FRAM Student', 'FRAM Student'),
-                },
-                {
-                  id: TicketTypeId.FramAdult,
-                  name: _('FRAM Vaksen', 'FRAM Vaksen', 'FRAM Vaksen'),
-                },
-                {
-                  id: TicketTypeId.FramSenior,
-                  name: _('FRAM Honnør', 'FRAM Honnør', 'FRAM Honnør'),
-                },
-              ],
             },
           },
         },
