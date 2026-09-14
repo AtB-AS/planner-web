@@ -34,22 +34,3 @@ export function translation(
 export function isTranslatedString(a: any): a is TranslatedString {
   return typeof a[Language.Norwegian] !== 'undefined';
 }
-
-export type LocalizedString = {
-  lang: 'nob' | 'eng' | 'nno';
-  value: string;
-};
-
-export function convertLocalizedString(
-  language: Language,
-  localizedStrings: LocalizedString[],
-): string | undefined {
-  const messageLanguages = {
-    nob: 'no',
-    eng: 'en-US',
-    nno: 'nn',
-  };
-
-  return localizedStrings.find((ls) => messageLanguages[ls.lang] === language)
-    ?.value;
-}

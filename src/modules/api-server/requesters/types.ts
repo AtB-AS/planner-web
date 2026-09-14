@@ -1,4 +1,4 @@
-import { TranslatedString } from '@atb/translations';
+import { TranslatedString } from '@atb/translations/commons';
 import { IncomingHttpHeaders } from 'http';
 import { NextApiResponse } from 'next';
 

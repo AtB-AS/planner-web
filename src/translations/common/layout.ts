@@ -1,13 +1,7 @@
 import { translation as _ } from '@atb/translations/commons';
-import { orgSpecificTranslations } from '@atb/translations/utils';
+import { orgSpecificTranslations } from '../utils';
 
 const LayoutInternal = {
-  skipToContent: _(
-    'Hopp til hovedinnhold',
-    'Skip to main content',
-    'Hopp til hovudinnhald',
-  ),
-
   homeLink: (name: string) =>
     _(`Gå til ${name}`, `Go to ${name}`, `Gå til ${name}`),
 
@@ -22,7 +16,7 @@ const LayoutInternal = {
   },
 };
 
-export const Layout = orgSpecificTranslations(LayoutInternal, {
+const layoutOrgOverrides = {
   nfk: {
     meta: {
       defaultDescription: _(
@@ -68,4 +62,9 @@ export const Layout = orgSpecificTranslations(LayoutInternal, {
       ),
     },
   },
-});
+};
+
+export const Layout = orgSpecificTranslations(
+  LayoutInternal,
+  layoutOrgOverrides,
+);

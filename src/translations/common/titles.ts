@@ -1,14 +1,9 @@
-import { translation as _ } from '@atb/translations/commons';
-import { orgSpecificTranslations } from '../utils';
+import { TranslatedString, translation as _ } from '@atb/translations/commons';
+import { byOrg, WEBSHOP_ORGS } from '@atb/modules/org-data';
 
-const TitlesInternal = {
-  siteTitle: _('AtB Reisesøk', 'AtB Travel Search', 'AtB Reisesøk'),
-};
-
-export const Titles = orgSpecificTranslations(TitlesInternal, {
-  nfk: {
-    siteTitle: _('Reis Reisesøk', 'Reis Travel Search', 'Reis Reisesøk'),
-  },
+const titlesByOrg: Record<WEBSHOP_ORGS, { siteTitle: TranslatedString }> = {
+  atb: { siteTitle: _('AtB Reisesøk', 'AtB Travel Search', 'AtB Reisesøk') },
+  nfk: { siteTitle: _('Reis Reisesøk', 'Reis Travel Search', 'Reis Reisesøk') },
   fram: {
     siteTitle: _(
       'FRAM Reiseplanlegger',
@@ -33,4 +28,6 @@ export const Titles = orgSpecificTranslations(TitlesInternal, {
   farte: {
     siteTitle: _('Farte Reisesøk', 'Farte Travel Search', 'Farte Reisesøk'),
   },
-});
+};
+
+export const Titles = byOrg(titlesByOrg);

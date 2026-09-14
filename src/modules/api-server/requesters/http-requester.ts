@@ -1,4 +1,5 @@
-import { ServerText, translation } from '@atb/translations';
+import * as ServerText from '@atb/translations/server';
+import { translation } from '@atb/translations/commons';
 import { v4 as uuidv4 } from 'uuid';
 import {
   ApplicationError,
