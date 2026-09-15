@@ -23,6 +23,11 @@ import {
 import { PageText, useTranslation } from '@atb/translations';
 import { InterchangeDetails, InterchangeSection } from './interchange-section';
 import { getLineDestinationName, getPlaceName } from '../utils';
+import {
+  getNoticesForFromEstimatedCall,
+  getNoticesForRoute,
+  getNoticesForToEstimatedCall,
+} from '@atb/page-modules/assistant/utils';
 import WaitSection, { type LegWaitDetails } from './wait-section';
 import { EstimatedCallsSection } from './estimated-calls-section';
 import { DepartureTime } from '@atb/components/departure-time';
@@ -54,6 +59,11 @@ export default function TripSection({
 }: TripSectionProps) {
   const { t } = useTranslation();
   const { color } = useTheme();
+
+  const routeNotices = getNoticesForRoute(leg);
+  const fromEstimatedCallNotices = getNoticesForFromEstimatedCall(leg);
+  const toEstimatedCallNotices = getNoticesForToEstimatedCall(leg);
+
   const isWalkSection = leg.mode === 'foot';
   const isFlexible = !!leg.line?.flexibleLineType;
   const legColor = useTransportationThemeColor({
@@ -114,6 +124,7 @@ export default function TripSection({
                 expectedDepartureTime={leg.expectedStartTime}
                 realtime={leg.realtime}
                 roundingMethod="floor"
+                floatingAimedTime
               />
             }
             alignChildren="flex-start"
@@ -137,9 +148,24 @@ export default function TripSection({
           </TripRow>
         )}
 
+        {fromEstimatedCallNotices.map(
+          (notice) =>
+            notice.text && (
+              <TripRow key={notice.id} className={style.messageRow}>
+                <MessageBox
+                  subtle
+                  type="info"
+                  message={notice.text}
+                  statusIcon={<ColorIcon icon="status/Info" />}
+                />
+              </TripRow>
+            ),
+        )}
+
         {leg.fromEstimatedCall?.requestStop && (
-          <TripRow>
+          <TripRow className={style.messageRow}>
             <MessageBox
+              subtle
               type="info"
               message={t(
                 PageText.Assistant.details.tripSection.requestStopBoarding,
@@ -194,11 +220,12 @@ export default function TripSection({
           </TripRow>
         ))}
 
-        {leg.notices.map(
+        {routeNotices.map(
           (notice) =>
             notice.text && (
-              <TripRow key={notice.id}>
+              <TripRow key={notice.id} className={style.messageRow}>
                 <MessageBox
+                  subtle
                   type="info"
                   message={notice.text}
                   statusIcon={<ColorIcon icon="status/Info" />}
@@ -268,6 +295,7 @@ export default function TripSection({
                   leg.expectedEndTime,
                   nextLegStartTime,
                 )}
+                floatingAimedTime
               />
             }
             alignChildren="flex-start"
@@ -284,17 +312,34 @@ export default function TripSection({
         )}
       </div>
 
-      {leg.toEstimatedCall?.requestStop && (
+      {(toEstimatedCallNotices.length > 0 ||
+        leg.toEstimatedCall?.requestStop) && (
         <div className={style.toEstimatedCallInfo}>
-          <TripRow>
-            <MessageBox
-              type="info"
-              message={t(
-                PageText.Assistant.details.tripSection.requestStopAlighting,
-              )}
-              statusIcon={<ColorIcon icon="status/Info" />}
-            />
-          </TripRow>
+          {toEstimatedCallNotices.map(
+            (notice) =>
+              notice.text && (
+                <TripRow key={notice.id} className={style.messageRow}>
+                  <MessageBox
+                    subtle
+                    type="info"
+                    message={notice.text}
+                    statusIcon={<ColorIcon icon="status/Info" />}
+                  />
+                </TripRow>
+              ),
+          )}
+          {leg.toEstimatedCall?.requestStop && (
+            <TripRow className={style.messageRow}>
+              <MessageBox
+                subtle
+                type="info"
+                message={t(
+                  PageText.Assistant.details.tripSection.requestStopAlighting,
+                )}
+                statusIcon={<ColorIcon icon="status/Info" />}
+              />
+            </TripRow>
+          )}
         </div>
       )}
 
