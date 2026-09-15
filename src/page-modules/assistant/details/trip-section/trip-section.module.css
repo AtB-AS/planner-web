@@ -12,7 +12,6 @@
 }
 .rowContainer {
   position: relative;
-  overflow: hidden;
   gap: 1rem;
 }
 .toEstimatedCallInfo {
