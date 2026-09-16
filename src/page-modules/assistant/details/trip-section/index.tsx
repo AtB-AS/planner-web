@@ -148,19 +148,16 @@ export default function TripSection({
           </TripRow>
         )}
 
-        {fromEstimatedCallNotices.map(
-          (notice) =>
-            notice.text && (
-              <TripRow key={notice.id} className={style.messageRow}>
-                <MessageBox
-                  subtle
-                  type="info"
-                  message={notice.text}
-                  statusIcon={<ColorIcon icon="status/Info" />}
-                />
-              </TripRow>
-            ),
-        )}
+        {fromEstimatedCallNotices.map((notice) => (
+          <TripRow key={notice.id} className={style.messageRow}>
+            <MessageBox
+              subtle
+              type="info"
+              message={notice.text}
+              statusIcon={<ColorIcon icon="status/Info" />}
+            />
+          </TripRow>
+        ))}
 
         {leg.fromEstimatedCall?.requestStop && (
           <TripRow className={style.messageRow}>

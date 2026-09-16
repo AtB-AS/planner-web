@@ -22,6 +22,11 @@
 .messageRow {
   padding-top: 0;
 }
+.intermediateCallContent {
+  display: flex;
+  flex-direction: column;
+  gap: token('spacing.xSmall');
+}
 .walkTime,
 .waitTime,
 .textColor__secondary {

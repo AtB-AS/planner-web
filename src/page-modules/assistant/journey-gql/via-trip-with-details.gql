@@ -115,6 +115,9 @@ query ViaTripsWithDetails(
             quay {
               name
             }
+            notices {
+              ...notice
+            }
           }
           situations {
             ...situation

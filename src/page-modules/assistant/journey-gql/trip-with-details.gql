@@ -143,6 +143,9 @@ fragment legWithDetails on Leg {
     quay {
       name
     }
+    notices {
+      ...notice
+    }
   }
   situations {
     ...situation
