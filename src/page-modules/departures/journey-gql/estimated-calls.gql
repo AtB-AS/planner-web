@@ -26,6 +26,7 @@ fragment estimatedCall on EstimatedCall {
   expectedDepartureTime
   realtime
   cancellation
+  requestStop
   quay {
     id
   }

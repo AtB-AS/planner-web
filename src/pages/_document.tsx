@@ -31,10 +31,15 @@ class MyDocument extends Document<Props> {
     return (
       <Html lang={language} data-theme={theme}>
         <Head>
+          <link rel="preconnect" href="https://fonts.googleapis.com/" />
           <link
             rel="preconnect"
-            href="https://fonts.googleapis.com/"
+            href="https://fonts.gstatic.com/"
             crossOrigin=""
+          />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600&display=swap"
+            rel="stylesheet"
           />
         </Head>
         <body>

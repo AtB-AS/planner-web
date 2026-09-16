@@ -9,6 +9,7 @@ import {
 import ScreenReaderOnly from '@atb/components/screen-reader-only';
 import { Typo } from '@atb/components/typography';
 import {
+  getMostCriticalStatus,
   getMsgTypeForMostCriticalSituationOrNotice,
   isSituationValidAtDate,
   SituationMessageBox,
@@ -23,7 +24,7 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { nextDepartures } from '../client';
 import style from './stop-place.module.css';
-import { formatDestinationDisplay } from '../utils';
+import { formatDestinationDisplay } from '@atb/utils/destination-display';
 import { formatQuayName } from '@atb/page-modules/departures/details/utils';
 import {
   GlobalMessageContextEnum,
@@ -318,11 +319,14 @@ export function EstimatedCallItem({
               }
               label={departure.serviceJourney.line.publicCode}
               transportSubmode={departure.serviceJourney.line.transportSubmode}
-              notificationType={getMsgTypeForMostCriticalSituationOrNotice(
-                departure.situations,
-                departure.notices,
-                departure.cancellation,
-              )}
+              notificationType={getMostCriticalStatus([
+                getMsgTypeForMostCriticalSituationOrNotice(
+                  departure.situations,
+                  departure.notices,
+                  departure.cancellation,
+                ),
+                departure.requestStop ? 'info' : undefined,
+              ])}
             />
           )}
           <Typo.p

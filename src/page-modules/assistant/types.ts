@@ -1,3 +1,4 @@
+import type { TransferRisk } from '@atb-as/utils';
 import { z } from 'zod';
 import { searchModeSchema, type SearchTime } from '@atb/modules/search-time';
 import { NoticeFragment } from '@atb/page-modules/assistant/journey-gql/trip-with-details.generated.ts';
@@ -132,15 +133,16 @@ export type ExtendedLegType = LegWithDetailsFragment & {
   notices: NoticeFragment[];
   /** When this leg's data was last fetched or refreshed from journey-planner. */
   refreshedAt?: string;
+  /** Set on the transit leg you are at risk of missing. */
+  transferRisk?: TransferRisk;
 };
 
 /**
- * Status of a trip pattern after a refresh (see refreshSingleTrip):
- * - valid: all legs refreshed and temporally consistent
- * - impossible: a leg starts before the previous one ends (missed connection)
- * - stale: one or more legs could not be refreshed, so data may be outdated
+ * Freshness of a trip pattern after a refresh (see refreshSingleTrip): `stale`
+ * means some leg could not be refreshed, so its data may be outdated. Transfer
+ * risk is a separate axis — see `transferRisk`.
  */
-export type TripPatternStatus = 'valid' | 'impossible' | 'stale';
+export type TripPatternStatus = 'valid' | 'stale';
 
 export type ExtendedTripPatternWithDetailsType = Omit<
   TripPatternWithDetailsFragment,
@@ -149,6 +151,7 @@ export type ExtendedTripPatternWithDetailsType = Omit<
   compressedQuery: string;
   legs: ExtendedLegType[];
   status?: TripPatternStatus;
+  transferRisk?: TransferRisk;
   aimedStartTime?: string;
   aimedEndTime?: string;
 };

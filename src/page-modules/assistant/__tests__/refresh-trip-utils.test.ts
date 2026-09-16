@@ -1,9 +1,11 @@
+import { TransferRisk } from '@atb-as/utils';
 import { describe, expect, it } from 'vitest';
 import {
   adjustNonTransitExpectedTimes,
   computeTripAimedStartEnd,
   determineTripStatus,
-  hasTemporalOverlap,
+  withTransferRisk,
+  getTripTransferRisk,
   type RefreshableLeg,
 } from '../server/journey-planner/refresh-trip-utils';
 
@@ -40,51 +42,29 @@ function makeFootLeg(overrides: Partial<RefreshableLeg> = {}): RefreshableLeg {
   };
 }
 
-describe('hasTemporalOverlap', () => {
-  it('returns false when legs are sequential', () => {
-    const legs = [
+// The rule itself is covered in @atb-as/utils. These check that this repo's
+// leg type feeds it correctly and that the trip-level value reaches the caller.
+describe('transfer risk over planner-web legs', () => {
+  it('stamps the leg you might miss and reports it at trip level', () => {
+    const legs = withTransferRisk([
+      makeTransitLeg({ expectedEndTime: '2024-01-01T10:10:00.000Z' }),
+      makeTransitLeg({ expectedStartTime: '2024-01-01T10:09:00.000Z' }),
+    ]);
+    expect(legs[0].transferRisk).toBeUndefined();
+    expect(legs[1].transferRisk).toBe(TransferRisk.Uncertain);
+    expect(getTripTransferRisk(legs)).toBe(TransferRisk.Uncertain);
+  });
+
+  it('reads interchangeTo off a planner-web leg, so the gate fires', () => {
+    const legs = withTransferRisk([
       makeTransitLeg({
-        expectedStartTime: '2024-01-01T10:00:00.000Z',
         expectedEndTime: '2024-01-01T10:10:00.000Z',
+        interchangeTo: { guaranteed: true },
       }),
-      makeTransitLeg({
-        expectedStartTime: '2024-01-01T10:15:00.000Z',
-        expectedEndTime: '2024-01-01T10:25:00.000Z',
-      }),
-    ];
-    expect(hasTemporalOverlap(legs)).toBe(false);
-  });
-
-  it('returns true when legs overlap', () => {
-    const legs = [
-      makeTransitLeg({
-        expectedStartTime: '2024-01-01T10:00:00.000Z',
-        expectedEndTime: '2024-01-01T10:20:00.000Z',
-      }),
-      makeTransitLeg({
-        expectedStartTime: '2024-01-01T10:15:00.000Z',
-        expectedEndTime: '2024-01-01T10:25:00.000Z',
-      }),
-    ];
-    expect(hasTemporalOverlap(legs)).toBe(true);
-  });
-
-  it('returns false for a single leg', () => {
-    expect(hasTemporalOverlap([makeTransitLeg()])).toBe(false);
-  });
-
-  it('returns false when legs are exactly adjacent', () => {
-    const legs = [
-      makeTransitLeg({
-        expectedStartTime: '2024-01-01T10:00:00.000Z',
-        expectedEndTime: '2024-01-01T10:10:00.000Z',
-      }),
-      makeTransitLeg({
-        expectedStartTime: '2024-01-01T10:10:00.000Z',
-        expectedEndTime: '2024-01-01T10:20:00.000Z',
-      }),
-    ];
-    expect(hasTemporalOverlap(legs)).toBe(false);
+      makeTransitLeg({ expectedStartTime: '2024-01-01T10:00:00.000Z' }),
+    ]);
+    expect(legs[1].transferRisk).toBeUndefined();
+    expect(getTripTransferRisk(legs)).toBeUndefined();
   });
 });
 
@@ -234,6 +214,24 @@ describe('adjustNonTransitExpectedTimes', () => {
 });
 
 describe('determineTripStatus', () => {
+  it('returns valid when the only overlap is at a guaranteed interchange', () => {
+    const now = new Date().toISOString();
+    const legs = [
+      makeTransitLeg({
+        expectedStartTime: '2024-01-01T10:00:00.000Z',
+        expectedEndTime: '2024-01-01T10:10:00.000Z',
+        interchangeTo: { guaranteed: true },
+        refreshedAt: now,
+      }),
+      makeTransitLeg({
+        expectedStartTime: '2024-01-01T10:09:00.000Z',
+        expectedEndTime: '2024-01-01T10:20:00.000Z',
+        refreshedAt: now,
+      }),
+    ];
+    expect(determineTripStatus(legs)).toBe('valid');
+  });
+
   it('returns valid when legs are sequential', () => {
     const now = new Date().toISOString();
     const legs = [
@@ -251,7 +249,7 @@ describe('determineTripStatus', () => {
     expect(determineTripStatus(legs)).toBe('valid');
   });
 
-  it('returns impossible when legs have temporal overlap', () => {
+  it('leaves an overlapping trip valid, reporting it as transferRisk', () => {
     const now = new Date().toISOString();
     const legs = [
       makeTransitLeg({
@@ -265,7 +263,11 @@ describe('determineTripStatus', () => {
         refreshedAt: now,
       }),
     ];
-    expect(determineTripStatus(legs)).toBe('impossible');
+    // Overlap is no longer a status; it surfaces as transferRisk.
+    expect(determineTripStatus(legs)).toBe('valid');
+    expect(getTripTransferRisk(withTransferRisk(legs))).toBe(
+      TransferRisk.Uncertain,
+    );
   });
 
   it('returns stale when a leg has an old refreshedAt', () => {
@@ -295,7 +297,7 @@ describe('determineTripStatus', () => {
     expect(determineTripStatus(legs)).toBe('valid');
   });
 
-  it('returns stale over impossible when both conditions apply', () => {
+  it('returns stale even when legs overlap', () => {
     const now = new Date().toISOString();
     const old = new Date(Date.now() - 60_000).toISOString();
     const legs = [

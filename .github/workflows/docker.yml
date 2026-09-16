@@ -1,6 +1,7 @@
 name: Docker Build, Push & Deploy
 
 on:
+  workflow_dispatch:
   release:
     types: [published]
   push:
@@ -12,6 +13,7 @@ jobs:
     with:
       image: gcr.io/atb-mobility-platform/planner-web
       build_args: |
+        NEXT_PUBLIC_BUILD_ID=${{ github.sha }}
         ATB_NEXT_PUBLIC_MAPBOX_DEFAULT_LAT=63.43457
         ATB_NEXT_PUBLIC_MAPBOX_DEFAULT_LNG=10.39844
         ATB_NEXT_PUBLIC_FIREBASE_PROJECT_ID=${{ github.event_name == 'release' && 'atb-mobility-platform' || 'atb-mobility-platform-staging'}}
@@ -19,6 +21,7 @@ jobs:
         ATB_NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=${{ github.event_name == 'release' && 'atb-mobility-platform.firebaseapp.com' || 'atb-mobility-platform-staging.firebaseapp.com' }}
         ATB_NEXT_PUBLIC_FIREBASE_APP_ID=${{ github.event_name == 'release' && '1:827196677776:web:c4b1d8924bb5778bf50215' || '1:939812594010:web:0308b2a9cdc80b0d069363' }}
         ATB_NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=${{ github.event_name == 'release' && '' || '' }}
+        ATB_NEXT_PUBLIC_CONTACT_API_URL=${{ github.event_name == 'release' && '' || 'https://boomerang-connect-atb-staging-eca2aa087fc1.herokuapp.com'}}
         ATB_NEXT_PUBLIC_BFF_URL=${{ github.event_name == 'release' && 'https://atb-prod.api.mittatb.no/bff' || 'https://atb-staging.api.mittatb.no/bff' }}
         ATB_NEXT_PUBLIC_WS_API_BASE_URL=${{ github.event_name == 'release' && 'wss://atb-prod.api.mittatb.no' || 'wss://atb-staging.api.mittatb.no' }}
         NFK_NEXT_PUBLIC_MAPBOX_DEFAULT_LAT=67.280357

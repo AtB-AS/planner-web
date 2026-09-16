@@ -165,6 +165,21 @@ const DeparturesInternal = {
       loading: _('Laster detaljer', 'Loading details', 'Lastar detaljar'),
       noAlighting: _('Ingen avstigning', 'No disembarking', 'Ingen avstiging'),
       noBoarding: _('Ingen påstigning', 'No boarding', 'Ingen påstiging'),
+      requestStopBoarding: _(
+        'Stopper kun ved behov. Stå synlig og rekk ut hånden så føreren ser deg.',
+        'Stops on request only. Stand visibly and raise your hand so the driver can see you.',
+        'Stoppar berre ved behov. Stå synleg og rekk ut handa så føraren ser deg.',
+      ),
+      requestStopAlighting: _(
+        'Stopper kun ved behov. Si ifra til føreren eller konduktøren på forhånd.',
+        'Stops on request only. Let the driver or conductor know in advance.',
+        'Stoppar berre ved behov. Sei ifrå til føraren eller konduktøren på førehand.',
+      ),
+      requestStop: _(
+        'Stopper kun ved behov',
+        'Stops on request only',
+        'Stoppar berre ved behov',
+      ),
       noActiveItem: _(
         'Ojda! Noe gikk galt med lasting av detaljer for denne reisen.',
         'Oops! We had some issues loading the details for this journey.',

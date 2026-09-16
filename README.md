@@ -77,15 +77,12 @@ You can see the status of each deploy
 
 ### Deploy to prod
 
-Built versions of the widget gets released as part of this release process. See
-details below for how to build new widget versions.
+To release to production, merge the open Release PR (created automatically by
+release-please), which publishes a GitHub Release and triggers the production
+deployment.
 
-1. Go to [Releases](https://github.com/AtB-AS/planner-web/releases)
-2. Changes to `main` branch will automatically create a new draft release
-3. Select previous released tag/version as base for the new release. This will
-   automatically populate the changelog with all changes since the last release.
-4. Click "Generate release notes"
-5. Click "Publish release"
+The version is bumped automatically from the Conventional Commit PR titles. Use
+a breaking change (feat!:) to bump the major version.
 
 You can see the status of the deploy
 [here](https://github.com/AtB-AS/planner-web/actions/workflows/docker.yml).
@@ -109,8 +106,10 @@ All versions of widgets should be checked in the repo, with specific versions.
 This will allow for referring to specific versions and keeping them stable when
 integrating. This also means that we should never change existing files.
 
-Version is based on `package.json`. We should always keep this in sync with the
-generated version in Releases so the changelog is correct.
+Version is based on `package.json`, which is now owned by release-please. Widget
+assets are generated with whatever version is currently in `package.json`, so
+generate a new widget version right after a prod release — see the release flow
+below.
 
 ### Versioning
 
@@ -131,9 +130,8 @@ This will set correct version in releases on Github.
 
 #### Release flow
 
-1. Bump version in `package.json`. Should match the coming release on Github
-
-2. Generate new asset files to check in by running the following command:
+Widget assets are versioned from `package.json`. Generate new asset files to
+check in by running the following command:
 
 ```sh
 pnpm generate-all-widgets

@@ -1,4 +1,5 @@
-import { ServerText, TranslatedString } from '@atb/translations';
+import * as ServerText from '@atb/translations/server';
+import { TranslatedString } from '@atb/translations/commons';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { ApplicationError, ReqWithHeaders, ServerErrorMessage } from './types';
 import { logger } from '@atb/modules/logging';

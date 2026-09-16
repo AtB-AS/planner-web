@@ -83,8 +83,10 @@ query ViaTripsWithDetails(
             }
             destinationDisplay {
               frontText
+              via
             }
             cancellation
+            requestStop
           }
           toEstimatedCall {
             notices {
@@ -93,8 +95,10 @@ query ViaTripsWithDetails(
             }
             destinationDisplay {
               frontText
+              via
             }
             cancellation
+            requestStop
           }
           interchangeTo {
             guaranteed

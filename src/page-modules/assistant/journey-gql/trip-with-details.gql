@@ -112,8 +112,10 @@ fragment legWithDetails on Leg {
     }
     destinationDisplay {
       frontText
+      via
     }
     cancellation
+    requestStop
   }
   toEstimatedCall {
     notices {
@@ -121,8 +123,10 @@ fragment legWithDetails on Leg {
     }
     destinationDisplay {
       frontText
+      via
     }
     cancellation
+    requestStop
   }
   interchangeTo {
     guaranteed

@@ -24,6 +24,7 @@ export const serviceJourneyFixture: ServiceJourneyType = {
       expectedArrivalTime: '2023-11-10T14:59:24+01:00',
       forAlighting: false,
       forBoarding: true,
+      requestStop: false,
       realtime: true,
       quay: {
         publicCode: '',
@@ -53,6 +54,7 @@ export const serviceJourneyFixture: ServiceJourneyType = {
       expectedArrivalTime: '2023-11-10T15:01:22+01:00',
       forAlighting: true,
       forBoarding: true,
+      requestStop: false,
       realtime: true,
       quay: {
         publicCode: '',
@@ -82,6 +84,7 @@ export const serviceJourneyFixture: ServiceJourneyType = {
       expectedArrivalTime: '2023-11-10T15:02:11+01:00',
       forAlighting: true,
       forBoarding: true,
+      requestStop: false,
       realtime: true,
       quay: {
         publicCode: '',
@@ -111,6 +114,7 @@ export const serviceJourneyFixture: ServiceJourneyType = {
       expectedArrivalTime: '2023-11-10T15:03:04+01:00',
       forAlighting: true,
       forBoarding: true,
+      requestStop: false,
       realtime: true,
       quay: {
         publicCode: '',
@@ -140,6 +144,7 @@ export const serviceJourneyFixture: ServiceJourneyType = {
       expectedArrivalTime: '2023-11-10T15:03:54+01:00',
       forAlighting: true,
       forBoarding: true,
+      requestStop: false,
       realtime: true,
       quay: {
         publicCode: '',
@@ -169,6 +174,7 @@ export const serviceJourneyFixture: ServiceJourneyType = {
       expectedArrivalTime: '2023-11-10T15:04:42+01:00',
       forAlighting: true,
       forBoarding: true,
+      requestStop: false,
       realtime: true,
       quay: {
         publicCode: '',
@@ -198,6 +204,7 @@ export const serviceJourneyFixture: ServiceJourneyType = {
       expectedArrivalTime: '2023-11-10T15:05:19+01:00',
       forAlighting: true,
       forBoarding: true,
+      requestStop: false,
       realtime: true,
       quay: {
         publicCode: '',
@@ -227,6 +234,7 @@ export const serviceJourneyFixture: ServiceJourneyType = {
       expectedArrivalTime: '2023-11-10T15:06:34+01:00',
       forAlighting: true,
       forBoarding: true,
+      requestStop: false,
       realtime: true,
       quay: {
         publicCode: '',
@@ -256,6 +264,7 @@ export const serviceJourneyFixture: ServiceJourneyType = {
       expectedArrivalTime: '2023-11-10T15:07:52+01:00',
       forAlighting: true,
       forBoarding: true,
+      requestStop: false,
       realtime: true,
       quay: {
         publicCode: '',
@@ -285,6 +294,7 @@ export const serviceJourneyFixture: ServiceJourneyType = {
       expectedArrivalTime: '2023-11-10T15:09:56+01:00',
       forAlighting: true,
       forBoarding: true,
+      requestStop: false,
       realtime: true,
       quay: {
         publicCode: '',

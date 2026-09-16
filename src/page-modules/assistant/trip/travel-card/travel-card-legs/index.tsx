@@ -19,9 +19,7 @@ import { OverflowContainer } from '@atb/components/overflow-container';
 import { CounterBox } from '@atb/components/counter-box';
 import style from './travel-card-legs.module.css';
 import { getFilteredLegsByWalkOrWaitTime } from '@atb/page-modules/assistant/trip';
-
-const SHORT_TRANSFER_SECONDS = 180;
-const MIN_SIGNIFICANT_WAIT_SECONDS = 30;
+import { isShortWaitTime, isTransferInto } from '@atb/modules/trip-patterns';
 
 type Props = {
   tripPattern: ExtendedTripPatternWithDetailsType;
@@ -39,8 +37,8 @@ export function TravelCardLegs({ tripPattern }: Props) {
     .map((leg, originalIndex) => ({ leg, originalIndex }))
     .filter(({ originalIndex }) => !staySeated(originalIndex - 1));
 
-  const legNotificationTypes = renderedLegs.map(({ leg, originalIndex }) =>
-    getLegNotificationType(leg, filteredLegs[originalIndex - 1]),
+  const legNotificationTypes = renderedLegs.map(({ originalIndex }) =>
+    getLegNotificationType(filteredLegs, originalIndex),
   );
 
   return (
@@ -96,9 +94,10 @@ function getLegOverflowNotificationType(
 }
 
 function getLegNotificationType(
-  leg: ExtendedLegType,
-  previousLeg: ExtendedLegType | undefined,
+  legs: ExtendedLegType[],
+  index: number,
 ): Statuses | undefined {
+  const leg = legs[index];
   const situationsMsgType = getLegOverflowNotificationType(leg);
   const railReplacementMsgType =
     leg.transportSubmode === TransportSubmode.RailReplacementBus
@@ -107,22 +106,25 @@ function getLegNotificationType(
   const bookingMsgType = leg.bookingArrangements
     ? ('warning' as const)
     : undefined;
-  const shortTransferMsgType: Statuses | undefined = (() => {
-    if (!previousLeg) return undefined;
-    const waitSeconds = secondsBetween(
-      previousLeg.expectedEndTime,
-      leg.expectedStartTime,
-    );
-    return waitSeconds > MIN_SIGNIFICANT_WAIT_SECONDS &&
-      waitSeconds <= SHORT_TRANSFER_SECONDS
+  const requestStopMsgType =
+    leg.fromEstimatedCall?.requestStop || leg.toEstimatedCall?.requestStop
       ? 'info'
       : undefined;
+  const shortTransferMsgType: Statuses | undefined = (() => {
+    if (!isTransferInto(legs, index)) return undefined;
+    // A transfer has a leg before it by definition, so there is a gap to measure.
+    const waitSeconds = secondsBetween(
+      legs[index - 1].expectedEndTime,
+      leg.expectedStartTime,
+    );
+    return isShortWaitTime(waitSeconds) ? 'info' : undefined;
   })();
 
   return getMostCriticalStatus([
     situationsMsgType,
     railReplacementMsgType,
     bookingMsgType,
+    requestStopMsgType,
     shortTransferMsgType,
   ]);
 }

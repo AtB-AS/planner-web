@@ -1,3 +1,4 @@
+import { nextDisplayedDeparture } from '@atb/page-modules/assistant/trip/utils';
 import {
   GlobalMessageContextEnum,
   GlobalMessages,
@@ -76,9 +77,10 @@ export function AssistantDetailsBody({ tripPattern }: DetailsBodyProps) {
               t,
             )}
             legWaitDetails={getLegWaitDetails(
-              leg as ExtendedLegType,
-              tripPattern.legs[index + 1],
+              tripPattern.legs as ExtendedLegType[],
+              index,
             )}
+            nextLegStartTime={nextDisplayedDeparture(tripPattern.legs, index)}
           />
         ))}
       </div>

@@ -113,8 +113,9 @@ const TRIP_REFRESH_DEDUPE_MS = 30000;
 
 /**
  * Polls /api/assistant/refresh-trip with the given (original) trip pattern,
- * returning a refreshed version with up-to-date leg times and a trip-level
- * `status` ('valid' | 'impossible' | 'stale').
+ * returning a refreshed version with up-to-date leg times, a trip-level
+ * `status` ('valid' | 'stale') for data freshness, and `transferRisk` on the
+ * legs at risk of being missed.
  *
  * The SWR key is based on the original pattern, which is stable across
  * refreshes, so polling does not churn the cache key.

@@ -216,7 +216,11 @@ const AssistantInternal = {
       },
       statusText: {
         cancelled: _('Innstilt', 'Cancelled', 'Innstilt'),
-        impossible: _('Ikke mulig', 'Not possible', 'Ikkje mogleg'),
+        transferUncertain: _(
+          'Usikker overgang',
+          'Uncertain transfer',
+          'Usikker overgang',
+        ),
         ended: _('Reisen er ferdig', 'Trip ended', 'Reisa er ferdig'),
         started: _('Reisen har startet', 'Trip started', 'Reisa har starta'),
         bookingDeadlineExceeded: _(
@@ -503,6 +507,16 @@ const AssistantInternal = {
         'Rail replacement bus',
         'Buss for tog',
       ),
+      requestStopBoarding: _(
+        'Stopper kun ved behov. Stå synlig og rekk ut hånden så føreren ser deg.',
+        'Stops on request only. Stand visibly and raise your hand so the driver can see you.',
+        'Stoppar berre ved behov. Stå synleg og rekk ut handa så føraren ser deg.',
+      ),
+      requestStopAlighting: _(
+        'Stopper kun ved behov. Si ifra til føreren eller konduktøren på forhånd.',
+        'Stops on request only. Let the driver or conductor know in advance.',
+        'Stoppar berre ved behov. Sei ifrå til føraren eller konduktøren på førehand.',
+      ),
       interchange: (
         fromPublicCode: string,
         toPublicCode: string,
@@ -531,7 +545,27 @@ const AssistantInternal = {
       wait: {
         label: (time: string) =>
           _(`Vent i ${time}`, `Wait for ${time}`, `Vent i ${time}`),
-        shortTime: _('Kort byttetid', 'Short changeover time', 'Kort bytetid'),
+        shortTime: _('Kort byttetid', 'Short transfer time', 'Kort byttetid'),
+        shortWait: (time: string) =>
+          _(
+            `Under ${time} ventetid`,
+            `Less than ${time} waiting time`,
+            `Under ${time} ventetid`,
+          ),
+        transfer: {
+          uncertain: {
+            label: _(
+              'Usikker overgang',
+              'Uncertain transfer',
+              'Usikker overgang',
+            ),
+            message: _(
+              'Det er ikke sikkert du rekker denne overgangen',
+              'You might not be able to catch the next vehicle',
+              'Det er ikkje sikkert du rekk denne overgangen',
+            ),
+          },
+        },
       },
       intermediateStops: (count: number, duration: string) =>
         _(
