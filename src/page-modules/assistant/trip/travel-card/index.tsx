@@ -4,7 +4,7 @@ import { TravelCardLegs } from '@atb/page-modules/assistant/trip/travel-card/tra
 import { Button } from '@atb/components/button';
 import { PageText, useTranslation } from '@atb/translations';
 import style from './travel-card.module.css';
-import { TintedMonoIcon } from '@atb/components/icon';
+import { MonoIcon } from '@atb/components/icon';
 import { andIf } from '@atb/utils/css.ts';
 
 type TravelCardProps = {
@@ -41,7 +41,7 @@ export default function TravelCard({
         onClick={onClick}
         icon={{
           right: (
-            <TintedMonoIcon
+            <MonoIcon
               icon="navigation/ExpandMore"
               className={andIf({
                 [style.chevron]: true,
