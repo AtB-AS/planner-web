@@ -507,6 +507,8 @@ const AssistantInternal = {
         'Rail replacement bus',
         'Buss for tog',
       ),
+      noAlighting: _('Ingen avstigning', 'No disembarking', 'Ingen avstiging'),
+      noBoarding: _('Ingen påstigning', 'No boarding', 'Ingen påstiging'),
       requestStopBoarding: _(
         'Stopper kun ved behov. Stå synlig og rekk ut hånden så føreren ser deg.',
         'Stops on request only. Stand visibly and raise your hand so the driver can see you.',

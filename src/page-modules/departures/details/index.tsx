@@ -195,6 +195,7 @@ export const getNoticesForServiceJourney = (
 
   return filterNotices([
     ...serviceJourney.notices,
+    ...(serviceJourney.journeyPattern?.notices ?? []),
     ...serviceJourney.line.notices,
     ...(focusedEstimatedCall?.notices ?? []),
   ]);

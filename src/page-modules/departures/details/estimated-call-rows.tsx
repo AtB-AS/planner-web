@@ -8,6 +8,7 @@ import { MonoIcon } from '@atb/components/icon';
 import { Button } from '@atb/components/button';
 import {
   type TransportModeType,
+  transportModeToTranslatedString,
   useTransportationThemeColor,
 } from '@atb/modules/transport-mode';
 import {
@@ -179,16 +180,29 @@ function EstimatedCallRow({
         <Typo.p textType="body__m">
           {formatQuayName(t, call.quay.name, call.quay.publicCode)}
         </Typo.p>
-        {!call.forAlighting && !call.metadata.isStartOfServiceJourney && (
+        {call.cancellation && !call.metadata.isStartOfServiceJourney && (
           <Typo.p textType="body__s" className={style.boardingInfo}>
-            {t(PageText.Departures.details.messages.noAlighting)}
+            {t(
+              PageText.Departures.details.messages.notStoppingHere(
+                t(transportModeToTranslatedString(mode)),
+              ),
+            )}
           </Typo.p>
         )}
-        {!call.forBoarding && !call.metadata.isEndOfServiceJourney && (
-          <Typo.p textType="body__s" className={style.boardingInfo}>
-            {t(PageText.Departures.details.messages.noBoarding)}
-          </Typo.p>
-        )}
+        {!call.cancellation &&
+          !call.forAlighting &&
+          !call.metadata.isStartOfServiceJourney && (
+            <Typo.p textType="body__s" className={style.boardingInfo}>
+              {t(PageText.Departures.details.messages.noAlighting)}
+            </Typo.p>
+          )}
+        {!call.cancellation &&
+          !call.forBoarding &&
+          !call.metadata.isEndOfServiceJourney && (
+            <Typo.p textType="body__s" className={style.boardingInfo}>
+              {t(PageText.Departures.details.messages.noBoarding)}
+            </Typo.p>
+          )}
         {call.requestStop && (
           <Typo.p textType="body__s" className={style.boardingInfo}>
             {t(

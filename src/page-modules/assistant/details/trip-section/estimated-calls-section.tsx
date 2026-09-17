@@ -63,7 +63,28 @@ export function EstimatedCallsSection({
 
       {expanded &&
         intermediateEstimatedCalls.map((call) => {
-          const notices = filterNotices(call.notices);
+          const infoTexts = [
+            ...(!call.forAlighting
+              ? [
+                  {
+                    key: 'noAlighting',
+                    text: t(PageText.Assistant.details.tripSection.noAlighting),
+                  },
+                ]
+              : []),
+            ...(!call.forBoarding
+              ? [
+                  {
+                    key: 'noBoarding',
+                    text: t(PageText.Assistant.details.tripSection.noBoarding),
+                  },
+                ]
+              : []),
+            ...filterNotices(call.notices).map((notice) => ({
+              key: notice.id,
+              text: notice.text,
+            })),
+          ];
           return (
             <TripRow
               key={`${call.aimedDepartureTime}-${call.quay.name}`}
@@ -84,13 +105,13 @@ export function EstimatedCallsSection({
                 >
                   {call.quay.name}
                 </Typo.p>
-                {notices.map((notice) => (
+                {infoTexts.map((info) => (
                   <Typo.p
-                    key={notice.id}
+                    key={info.key}
                     textType="body__s"
                     className={style.textColor__secondary}
                   >
-                    {notices.length > 1 ? `• ${notice.text}` : notice.text}
+                    {infoTexts.length > 1 ? `• ${info.text}` : info.text}
                   </Typo.p>
                 ))}
               </div>
