@@ -169,6 +169,7 @@ function EstimatedCallRow({
             expectedDepartureTime={call.expectedDepartureTime}
             realtime={call.realtime}
             roundingMethod="floor"
+            cancelled={call.cancellation}
           />
         }
         alignChildren={
