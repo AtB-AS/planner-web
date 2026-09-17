@@ -1,7 +1,9 @@
-import React, { CSSProperties, ReactNode } from 'react';
+import React, { CSSProperties, ReactNode, isValidElement } from 'react';
 import { and } from '@atb/utils/css';
 import style from './button.module.css';
 import { LoadingIcon } from '../loading';
+import { MonoIcon, MonoIconProps } from '@atb/components/icon/mono-icon';
+import { TintedMonoIcon } from '@atb/components/icon/tinted-mono-icon';
 import { ContrastColor } from '@atb-as/theme';
 
 export type ButtonModes =
@@ -133,11 +135,24 @@ function ButtonBase({ title, icon, state }: ButtonBaseProps) {
 
   return (
     <>
-      {loadingIconLeft ?? icon?.left ?? null}
+      {loadingIconLeft ?? asTintedIcon(icon?.left) ?? null}
       {title && <span className={style.button__text}>{title}</span>}
-      {loadingIconRight ?? icon?.right ?? null}
+      {loadingIconRight ?? asTintedIcon(icon?.right) ?? null}
     </>
   );
+}
+
+/**
+ * Render a `MonoIcon` as a `TintedMonoIcon` so it inherits `currentColor` and
+ * matches the button's text color for the current mode and state. Other icons
+ * like transport-icons are left untouched.
+ */
+function asTintedIcon(node: ReactNode): ReactNode {
+  if (isValidElement(node) && node.type === MonoIcon) {
+    const { icon, size, className } = node.props as MonoIconProps;
+    return <TintedMonoIcon icon={icon} size={size} className={className} />;
+  }
+  return node;
 }
 
 export { ButtonBase };

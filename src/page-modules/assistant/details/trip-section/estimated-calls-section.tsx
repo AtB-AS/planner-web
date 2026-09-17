@@ -3,7 +3,7 @@ import { Typo } from '@atb/components/typography';
 import { TripRow } from '@atb/modules/trip-details';
 import { DepartureTime } from '@atb/components/departure-time';
 import { Button } from '@atb/components/button';
-import { TintedMonoIcon } from '@atb/components/icon';
+import { MonoIcon } from '@atb/components/icon';
 import { useTheme } from '@atb/modules/theme';
 import { PageText, useTranslation } from '@atb/translations';
 import { secondsToDurationShort } from '@atb/utils/date';
@@ -48,7 +48,7 @@ export function EstimatedCallsSection({
           buttonProps={{ 'aria-expanded': expanded }}
           icon={{
             right: (
-              <TintedMonoIcon
+              <MonoIcon
                 icon="navigation/ExpandMore"
                 size="small"
                 className={andIf({
