@@ -9,6 +9,7 @@ import { PageText, useTranslation } from '@atb/translations';
 import { secondsToDurationShort } from '@atb/utils/date';
 import { andIf } from '@atb/utils/css';
 import { ExtendedLegType } from '@atb/page-modules/assistant';
+import { filterNotices } from '@atb/modules/situations-and-notices';
 
 import style from './trip-section.module.css';
 
@@ -61,24 +62,62 @@ export function EstimatedCallsSection({
       </TripRow>
 
       {expanded &&
-        intermediateEstimatedCalls.map((call) => (
-          <TripRow
-            key={`${call.aimedDepartureTime}-${call.quay.name}`}
-            rowLabel={
-              <DepartureTime
-                aimedDepartureTime={call.aimedDepartureTime}
-                expectedDepartureTime={call.expectedDepartureTime}
-                realtime={call.realtime}
-                roundingMethod="floor"
-              />
-            }
-            alignChildren="flex-start"
-          >
-            <Typo.p textType="body__s" className={style.textColor__secondary}>
-              {call.quay.name}
-            </Typo.p>
-          </TripRow>
-        ))}
+        intermediateEstimatedCalls.map((call) => {
+          const infoTexts = [
+            ...(!call.forAlighting
+              ? [
+                  {
+                    key: 'noAlighting',
+                    text: t(PageText.Assistant.details.tripSection.noAlighting),
+                  },
+                ]
+              : []),
+            ...(!call.forBoarding
+              ? [
+                  {
+                    key: 'noBoarding',
+                    text: t(PageText.Assistant.details.tripSection.noBoarding),
+                  },
+                ]
+              : []),
+            ...filterNotices(call.notices).map((notice) => ({
+              key: notice.id,
+              text: notice.text,
+            })),
+          ];
+          return (
+            <TripRow
+              key={`${call.aimedDepartureTime}-${call.quay.name}`}
+              rowLabel={
+                <DepartureTime
+                  aimedDepartureTime={call.aimedDepartureTime}
+                  expectedDepartureTime={call.expectedDepartureTime}
+                  realtime={call.realtime}
+                  roundingMethod="floor"
+                />
+              }
+              alignChildren="flex-start"
+            >
+              <div className={style.intermediateCallContent}>
+                <Typo.p
+                  textType="body__s"
+                  className={style.textColor__secondary}
+                >
+                  {call.quay.name}
+                </Typo.p>
+                {infoTexts.map((info) => (
+                  <Typo.p
+                    key={info.key}
+                    textType="body__s"
+                    className={style.textColor__secondary}
+                  >
+                    {infoTexts.length > 1 ? `• ${info.text}` : info.text}
+                  </Typo.p>
+                ))}
+              </div>
+            </TripRow>
+          );
+        })}
     </>
   );
 }

@@ -112,8 +112,13 @@ query ViaTripsWithDetails(
             aimedDepartureTime
             expectedDepartureTime
             realtime
+            forBoarding
+            forAlighting
             quay {
               name
+            }
+            notices {
+              ...notice
             }
           }
           situations {

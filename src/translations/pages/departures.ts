@@ -163,6 +163,12 @@ const DeparturesInternal = {
     },
     messages: {
       loading: _('Laster detaljer', 'Loading details', 'Lastar detaljar'),
+      notStoppingHere: (transportMode: string) =>
+        _(
+          `${transportMode} stopper ikke her`,
+          `${transportMode} does not stop here`,
+          `${transportMode} stoppar ikkje her`,
+        ),
       noAlighting: _('Ingen avstigning', 'No disembarking', 'Ingen avstiging'),
       noBoarding: _('Ingen påstigning', 'No boarding', 'Ingen påstiging'),
       requestStopBoarding: _(

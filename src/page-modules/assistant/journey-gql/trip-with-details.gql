@@ -140,8 +140,13 @@ fragment legWithDetails on Leg {
     aimedDepartureTime
     expectedDepartureTime
     realtime
+    forBoarding
+    forAlighting
     quay {
       name
+    }
+    notices {
+      ...notice
     }
   }
   situations {
