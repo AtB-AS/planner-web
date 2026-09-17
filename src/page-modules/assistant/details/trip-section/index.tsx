@@ -240,21 +240,6 @@ export default function TripSection({
           />
         )}
 
-        {/* TEMP: preview icon tinting on booking buttons — remove before commit */}
-        {leg.mode !== 'foot' && (
-          <BookingSection
-            bookingStatus="bookable"
-            bookingArrangements={{
-              bookingMethods: ['online', 'callOffice'],
-              bookingContact: {
-                url: 'https://example.com',
-                phone: '+4712345678',
-              },
-            }}
-            aimedStartTime={leg.aimedStartTime}
-          />
-        )}
-
         {leg.transportSubmode === 'railReplacementBus' && (
           <TripRow>
             <MessageBox
