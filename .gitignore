@@ -29,7 +29,6 @@
 .env*.atb
 .env*.fram
 .env*.nfk
-.env*.troms
 
 # vercel
 .vercel

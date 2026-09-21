@@ -11,13 +11,6 @@ const titlesByOrg: Record<WEBSHOP_ORGS, { siteTitle: TranslatedString }> = {
       'FRAM Reiseplanleggar',
     ),
   },
-  troms: {
-    siteTitle: _(
-      'Svipper Reisesøk',
-      'Svipper Travel Search',
-      'Svipper Reisesøk',
-    ),
-  },
   vkt: {
     siteTitle: _(
       'Vestfold Kollektivtrafikk Reisesøk',

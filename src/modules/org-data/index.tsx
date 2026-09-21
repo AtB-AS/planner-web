@@ -2,11 +2,10 @@ import { Language } from '@atb/translations/commons';
 import atb from '../../../orgs/atb.json';
 import fram from '../../../orgs/fram.json';
 import nfk from '../../../orgs/nfk.json';
-import troms from '../../../orgs/troms.json';
 import vkt from '../../../orgs/vkt.json';
 import farte from '../../../orgs/farte.json';
 
-export type WEBSHOP_ORGS = 'nfk' | 'atb' | 'fram' | 'troms' | 'vkt' | 'farte';
+export type WEBSHOP_ORGS = 'nfk' | 'atb' | 'fram' | 'vkt' | 'farte';
 export type MAPBOX_DATA = {
   accessToken: string;
   style: string;
@@ -81,8 +80,6 @@ export function getOrgData(): OrgData {
       return nfk as OrgData;
     case 'fram':
       return fram as OrgData;
-    case 'troms':
-      return troms as OrgData;
     case 'vkt':
       return vkt as OrgData;
     case 'farte':
@@ -115,8 +112,6 @@ function getCurrentOrg(): WEBSHOP_ORGS {
       return 'nfk';
     case 'fram':
       return 'fram';
-    case 'troms':
-      return 'troms';
     case 'vkt':
       return 'vkt';
     case 'farte':

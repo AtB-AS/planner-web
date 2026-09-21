@@ -13,7 +13,7 @@ cp .env.example .env.local
 And populate the `.env.local` file with settings for your org.
 
 ```
-# What ORG to activate (nfk | atb | fram | troms | vkt | farte)
+# What ORG to activate (nfk | atb | fram | vkt | farte)
 NEXT_PUBLIC_PLANNER_ORG_ID=atb
 
 

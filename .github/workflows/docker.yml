@@ -43,15 +43,6 @@ jobs:
         FRAM_NEXT_PUBLIC_CONTACT_API_URL=${{ github.event_name == 'release' && 'https://pureservice-connect-9ccec9fd5b4f.herokuapp.com' || 'https://pureservice-connect-staging-744284a2bb1b.herokuapp.com'}}
         FRAM_NEXT_PUBLIC_BFF_URL=${{ github.event_name == 'release' && 'https://fram-prod.api.mittatb.no/bff' || 'https://fram-staging.api.mittatb.no/bff' }}
         FRAM_NEXT_PUBLIC_WS_API_BASE_URL=${{ github.event_name == 'release' && 'wss://fram-prod.api.mittatb.no' || 'wss://fram-staging.api.mittatb.no' }}
-        TROMS_NEXT_PUBLIC_MAPBOX_DEFAULT_LAT=69.665229
-        TROMS_NEXT_PUBLIC_MAPBOX_DEFAULT_LNG=18.9070347
-        TROMS_NEXT_PUBLIC_FIREBASE_PROJECT_ID=${{ github.event_name == 'release' && 'troms-prod' || 'troms-staging'}}
-        TROMS_NEXT_PUBLIC_FIREBASE_PUBLIC_API_KEY=${{ github.event_name == 'release' && 'AIzaSyAzGgJ8ne8N4CIfASHao3YpOsUvZfOAdiE' || 'AIzaSyCtJMximw0SL9N8YNH21TWDO0s_mv_9crE' }}
-        TROMS_NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=${{ github.event_name == 'release' && 'troms-prod.firebaseapp.com' || 'troms-staging.firebaseapp.com' }}
-        TROMS_NEXT_PUBLIC_FIREBASE_APP_ID=${{ github.event_name == 'release' && '1:667141878008:web:b1a8f3e21716e96e954b0d' || '1:973624729382:web:a84d8a489613a14be12be7' }}
-        TROMS_NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=${{ github.event_name == 'release' && 'G-ZDRTXVTCQD' || '' }}
-        TROMS_NEXT_PUBLIC_BFF_URL=${{ github.event_name == 'release' && 'https://troms-prod.api.mittatb.no/bff' || 'https://troms-staging.api.mittatb.no/bff' }}
-        TROMS_NEXT_PUBLIC_WS_API_BASE_URL=${{ github.event_name == 'release' && 'wss://troms-prod.api.mittatb.no' || 'wss://troms-staging.api.mittatb.no' }}
         VKT_NEXT_PUBLIC_MAPBOX_DEFAULT_LAT=59.2676
         VKT_NEXT_PUBLIC_MAPBOX_DEFAULT_LNG=10.4076
         VKT_NEXT_PUBLIC_FIREBASE_PROJECT_ID=${{ github.event_name == 'release' && 'vkt-prod' || 'vkt-staging'}}
@@ -89,11 +80,6 @@ jobs:
         FRAM_NEXT_PUBLIC_MAPBOX_USER_NAME=${{ secrets.FRAM_NEXT_PUBLIC_MAPBOX_USER_NAME }}
         FRAM_NEXT_PUBLIC_MAPBOX_NSR_TILESET_ID=${{ secrets.FRAM_NEXT_PUBLIC_MAPBOX_NSR_TILESET_ID }}
         FRAM_NEXT_PUBLIC_MAPBOX_NSR_SOURCE_LAYER_ID=${{ secrets.FRAM_NEXT_PUBLIC_MAPBOX_NSR_SOURCE_LAYER_ID }}
-        TROMS_NEXT_PUBLIC_MAPBOX_API_TOKEN=${{ secrets.TROMS_NEXT_PUBLIC_MAPBOX_API_TOKEN }}
-        TROMS_NEXT_PUBLIC_MAPBOX_STOP_PLACES_STYLE_URL=${{ secrets.TROMS_NEXT_PUBLIC_MAPBOX_STOP_PLACES_STYLE_URL }}
-        TROMS_NEXT_PUBLIC_MAPBOX_USER_NAME=${{ secrets.TROMS_NEXT_PUBLIC_MAPBOX_USER_NAME }}
-        TROMS_NEXT_PUBLIC_MAPBOX_NSR_TILESET_ID=${{ secrets.TROMS_NEXT_PUBLIC_MAPBOX_NSR_TILESET_ID }}
-        TROMS_NEXT_PUBLIC_MAPBOX_NSR_SOURCE_LAYER_ID=${{ secrets.TROMS_NEXT_PUBLIC_MAPBOX_NSR_SOURCE_LAYER_ID }}
         VKT_NEXT_PUBLIC_MAPBOX_API_TOKEN=${{ secrets.VKT_NEXT_PUBLIC_MAPBOX_API_TOKEN }}
         VKT_NEXT_PUBLIC_MAPBOX_STOP_PLACES_STYLE_URL=${{ secrets.VKT_NEXT_PUBLIC_MAPBOX_STOP_PLACES_STYLE_URL }}
         VKT_NEXT_PUBLIC_MAPBOX_USER_NAME=${{ secrets.VKT_NEXT_PUBLIC_MAPBOX_USER_NAME }}

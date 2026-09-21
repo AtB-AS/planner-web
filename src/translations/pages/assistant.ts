@@ -744,11 +744,4 @@ export const Assistant = orgSpecificTranslations(AssistantInternal, {
       },
     },
   },
-  troms: {
-    details: {
-      tripSection: {
-        appName: _('Svipper-appen', 'Svipper app', 'Svipper-appen'),
-      },
-    },
-  },
 });
