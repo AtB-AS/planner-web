@@ -23,7 +23,6 @@ import type { OwnedTicket } from '@atb/page-modules/dev/trip-pattern/utils';
 import atb from '../../../orgs/atb.json';
 import fram from '../../../orgs/fram.json';
 import nfk from '../../../orgs/nfk.json';
-import troms from '../../../orgs/troms.json';
 import vkt from '../../../orgs/vkt.json';
 import farte from '../../../orgs/farte.json';
 import {
@@ -56,7 +55,7 @@ type DevTripPatternPageProps = WithGlobalData<{
 }>;
 
 // Authorities selectable in the dev config panel, the current org's first.
-const ALL_AUTHORITIES = [atb, nfk, fram, troms, vkt, farte]
+const ALL_AUTHORITIES = [atb, nfk, fram, vkt, farte]
   .map((org) => ({ orgId: org.orgId, authorityId: org.authorityId }))
   .sort((a, b) =>
     a.orgId === currentOrg ? -1 : b.orgId === currentOrg ? 1 : 0,

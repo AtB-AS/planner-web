@@ -35,15 +35,6 @@ const layoutOrgOverrides = {
       ),
     },
   },
-  troms: {
-    meta: {
-      defaultDescription: _(
-        'Finn rutetider, holdeplasser, kaier og tilbud for buss, hurtigbåt og ferge i Troms med reiseplanleggeren.',
-        'Find timetables, stops and offers for bus, boat and ferry in Troms with the travel planner.',
-        'Finn rutetider, haldeplassar, kaier og tilbod for buss, hurtigbåt og ferje i Troms med reiseplanleggaren.',
-      ),
-    },
-  },
   vkt: {
     meta: {
       defaultDescription: _(

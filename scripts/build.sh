@@ -7,7 +7,7 @@ set -e
 
 mkdir dist
 
-for orgId in atb nfk fram troms vkt farte; do
+for orgId in atb nfk fram vkt farte; do
   mkdir dist/$orgId
   export NEXT_PUBLIC_PLANNER_ORG_ID=$orgId
   # @TODO FIX THIS

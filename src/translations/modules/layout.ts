@@ -125,15 +125,6 @@ export const Layout = orgSpecificTranslations(LayoutInternal, {
       },
     },
   },
-  troms: {
-    footer: {
-      sections: {
-        contact: {
-          header: _('Kontakt Svipper', 'Contact Svipper', 'Kontakt Svipper'),
-        },
-      },
-    },
-  },
   vkt: {
     footer: {
       sections: {

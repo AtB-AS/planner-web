@@ -22,8 +22,6 @@ function getThemeVariant(orgId: WEBSHOP_ORGS): ThemeVariant {
       return ThemeVariant.Nfk;
     case 'fram':
       return ThemeVariant.FRAM;
-    case 'troms':
-      return ThemeVariant.Troms;
     case 'vkt':
       return ThemeVariant.VKT;
     case 'farte':

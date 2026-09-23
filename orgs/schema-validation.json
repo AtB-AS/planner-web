@@ -38,7 +38,7 @@
           "required": ["enableShowTripPatternPrice"]
         },
         "orgId": {
-          "enum": ["atb", "fram", "nfk", "troms", "vkt", "farte"],
+          "enum": ["atb", "fram", "nfk", "vkt", "farte"],
           "type": "string"
         },
         "authorityId": {

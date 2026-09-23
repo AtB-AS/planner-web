@@ -10,9 +10,6 @@ switch (orgId) {
   case 'fram':
     require('./dist/fram/standalone/server.js');
     break;
-  case 'troms':
-    require('./dist/troms/standalone/server.js');
-    break;
   case 'vkt':
     require('./dist/vkt/standalone/server.js');
     break;
