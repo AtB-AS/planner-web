@@ -9,3 +9,8 @@
   flex: 1;
   --overflow-container-gap: token('spacing.xSmall');
 }
+.legGroup {
+  display: flex;
+  align-items: center;
+  gap: token('spacing.xSmall');
+}

@@ -104,8 +104,19 @@ query ViaTripsWithDetails(
             guaranteed
             maximumWaitTime
             staySeated
+            fromServiceJourney {
+              id
+              publicCode
+              line {
+                publicCode
+              }
+            }
             toServiceJourney {
               id
+              publicCode
+              line {
+                publicCode
+              }
             }
           }
           intermediateEstimatedCalls {

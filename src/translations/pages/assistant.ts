@@ -519,30 +519,16 @@ const AssistantInternal = {
         'Stops on request only. Let the driver or conductor know in advance.',
         'Stoppar berre ved behov. Sei ifrå til føraren eller konduktøren på førehand.',
       ),
-      interchange: (
-        fromPublicCode: string,
-        toPublicCode: string,
-        location: string,
-      ) =>
+      interchangeMainText: _(
+        'Korrespondanse',
+        'Correspondence',
+        'Korrespondanse',
+      ),
+      interchangeSubText: (maxWaitTime?: string) =>
         _(
-          `Korrespondanse mellom ${fromPublicCode} og ${toPublicCode} på ${location}.`,
-          `Correspondance between ${fromPublicCode} and ${toPublicCode} on ${location}.`,
-          `Korrespondanse mellom ${fromPublicCode} og ${toPublicCode} på ${location}.`,
-        ),
-      interchangeWithUnknownFromPublicCode: (
-        toPublicCode: string,
-        location: string,
-      ) =>
-        _(
-          `Korrespondanse med ${toPublicCode} på ${location}.`,
-          `Correspondance with ${toPublicCode} on ${location}.`,
-          `Korrespondanse med ${toPublicCode} på ${location}.`,
-        ),
-      interchangeMaxWait: (maxWaitTime: string) =>
-        _(
-          `Venter inntil ${maxWaitTime}.`,
-          `Waiting up to ${maxWaitTime}.`,
-          `Ventar i opp til ${maxWaitTime}.`,
+          `Ved forsinkelser vil avgangen vente${maxWaitTime ? ` inntil ${maxWaitTime}` : ''}`,
+          `In case of delays, the departure will wait${maxWaitTime ? ` up to ${maxWaitTime}` : ''}`,
+          `Ved forseinkingar vil avgangen vente${maxWaitTime ? ` i opp til ${maxWaitTime}` : ''}`,
         ),
       wait: {
         label: (time: string) =>
@@ -614,12 +600,15 @@ const AssistantInternal = {
             `Kva er ${publicCode}?`,
           ),
       },
-      lineChangeStaySeated: (fromPublicCode: string, toPublicCode: string) =>
-        _(
-          `Du kan bli sittende. Linjenummeret endres fra ${fromPublicCode} til ${toPublicCode}.`,
-          `You may stay seated. The line number is changing from ${fromPublicCode} to ${toPublicCode}.`,
-          `Du kan bli sittande. Linjenummeret endrar seg frå ${fromPublicCode} til ${toPublicCode}.`,
-        ),
+      staySeatedMainText: _('Bli sittende', 'Stay seated', 'Bli sittande'),
+      staySeatedSubText: (fromPublicCode?: string, toPublicCode?: string) => {
+        const hasCodes = !!fromPublicCode && !!toPublicCode;
+        return _(
+          `Linjenummeret endres${hasCodes ? ` fra ${fromPublicCode} til ${toPublicCode}` : ''} på dette stoppet`,
+          `The line number is changing${hasCodes ? ` from ${fromPublicCode} to ${toPublicCode}` : ''} at this stop`,
+          `Linjenummeret endrar seg${hasCodes ? ` frå ${fromPublicCode} til ${toPublicCode}` : ''} på dette stoppet`,
+        );
+      },
       buyTicketFrom: _(
         'Billett kan kjøpes fra',
         'Ticket can be bought from',

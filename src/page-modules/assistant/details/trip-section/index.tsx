@@ -21,7 +21,7 @@ import {
   SituationOrNoticeIcon,
 } from '@atb/modules/situations-and-notices';
 import { PageText, useTranslation } from '@atb/translations';
-import { InterchangeDetails, InterchangeSection } from './interchange-section';
+import { InterchangeSection } from './interchange-section';
 import { getLineDestinationName, getPlaceName } from '../utils';
 import {
   getNoticesForFromEstimatedCall,
@@ -42,7 +42,6 @@ export type TripSectionProps = {
   isLast: boolean;
   leg: ExtendedLegType;
   hasLiveVehicle?: boolean;
-  interchangeDetails?: InterchangeDetails;
   legWaitDetails?: LegWaitDetails;
   /** Next *displayed* departure, for `arrivalRoundingMethod`. Walk legs show
    * no departure row, so they are not it. */
@@ -53,7 +52,6 @@ export default function TripSection({
   isLast,
   leg,
   hasLiveVehicle,
-  interchangeDetails,
   legWaitDetails,
   nextLegStartTime,
 }: TripSectionProps) {
@@ -74,9 +72,6 @@ export default function TripSection({
 
   const showFrom = !isWalkSection || (isFirst && isWalkSection);
   const showTo = !isWalkSection || (isLast && isWalkSection);
-
-  const showInterchangeSection =
-    interchangeDetails && leg.interchangeTo?.guaranteed && leg.line;
 
   const realtimeText = useRealtimeText(
     leg.serviceJourneyEstimatedCalls.map((estimatedCall) => ({
@@ -340,13 +335,8 @@ export default function TripSection({
         </div>
       )}
 
-      {showInterchangeSection && (
-        <InterchangeSection
-          interchangeDetails={interchangeDetails}
-          publicCode={leg.line?.publicCode}
-          maximumWaitTime={leg.interchangeTo?.maximumWaitTime}
-          staySeated={leg.interchangeTo?.staySeated}
-        />
+      {leg.interchangeTo?.guaranteed && leg.line && (
+        <InterchangeSection interchange={leg.interchangeTo} />
       )}
 
       <WaitSection legWaitDetails={legWaitDetails} />

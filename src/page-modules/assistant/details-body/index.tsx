@@ -5,7 +5,6 @@ import {
 } from '@atb/modules/global-messages';
 import { MessageBox } from '@atb/components/message-box';
 import TripSection from '@atb/page-modules/assistant/details/trip-section';
-import { getInterchangeDetails } from '@atb/page-modules/assistant/details/trip-section/interchange-section.tsx';
 import { getLegWaitDetails } from '@atb/page-modules/assistant/details/trip-section/wait-section.tsx';
 import { TripSummaryPanel } from '@atb/page-modules/assistant/trip-summary-panel';
 import { PageText, useTranslation } from '@atb/translations';
@@ -71,11 +70,6 @@ export function AssistantDetailsBody({ tripPattern }: DetailsBodyProps) {
               !!leg.serviceJourney?.id &&
               liveVehicleServiceJourneyIds.has(leg.serviceJourney.id)
             }
-            interchangeDetails={getInterchangeDetails(
-              tripPattern.legs,
-              leg.interchangeTo?.toServiceJourney?.id,
-              t,
-            )}
             legWaitDetails={getLegWaitDetails(
               tripPattern.legs as ExtendedLegType[],
               index,

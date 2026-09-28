@@ -132,8 +132,19 @@ fragment legWithDetails on Leg {
     guaranteed
     maximumWaitTime
     staySeated
+    fromServiceJourney {
+      id
+      publicCode
+      line {
+        publicCode
+      }
+    }
     toServiceJourney {
       id
+      publicCode
+      line {
+        publicCode
+      }
     }
   }
   intermediateEstimatedCalls {

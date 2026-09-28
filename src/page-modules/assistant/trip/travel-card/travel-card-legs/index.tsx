@@ -20,17 +20,30 @@ import { CounterBox } from '@atb/components/counter-box';
 import style from './travel-card-legs.module.css';
 import { getFilteredLegsByWalkOrWaitTime } from '@atb/page-modules/assistant/trip';
 import { isShortWaitTime, isTransferInto } from '@atb/modules/trip-patterns';
+import { MonoIcon } from '@atb/components/icon';
+import { PageText, useTranslation } from '@atb/translations';
 
 type Props = {
   tripPattern: ExtendedTripPatternWithDetailsType;
 };
 
 export function TravelCardLegs({ tripPattern }: Props) {
+  const { t } = useTranslation();
   const filteredLegs = getFilteredLegsByWalkOrWaitTime(tripPattern);
 
   const staySeated = (idx: number) => {
     const leg = filteredLegs[idx];
     return leg && leg.interchangeTo?.staySeated === true;
+  };
+
+  // A guaranteed (non-stay-seated) correspondence into this leg: shown as a
+  // connection icon before the leg, matching the app.
+  const showInterchange = (idx: number) => {
+    const previousLeg = filteredLegs[idx - 1];
+    return (
+      !!previousLeg?.interchangeTo?.guaranteed &&
+      previousLeg.interchangeTo?.staySeated !== true
+    );
   };
 
   const renderedLegs = filteredLegs
@@ -63,20 +76,30 @@ export function TravelCardLegs({ tripPattern }: Props) {
           );
         }}
       >
-        {renderedLegs.map(({ leg }, i) => (
-          <TransportIconWithDuration
-            key={leg.id ?? i}
-            transportMode={leg.mode}
-            transportSubmode={leg.transportSubmode}
-            label={
-              leg.mode === 'foot'
-                ? undefined
-                : (leg.line?.publicCode ?? undefined)
-            }
-            duration={leg.mode === 'foot' ? leg.duration : undefined}
-            isFlexible={isLineFlexibleTransport(leg.line)}
-            notificationType={legNotificationTypes[i]}
-          />
+        {renderedLegs.map(({ leg, originalIndex }, i) => (
+          <div className={style.legGroup} key={leg.id ?? i}>
+            {showInterchange(originalIndex) && (
+              <MonoIcon
+                icon="miscellaneous/Connection"
+                role="img"
+                alt={t(
+                  PageText.Assistant.details.tripSection.interchangeMainText,
+                )}
+              />
+            )}
+            <TransportIconWithDuration
+              transportMode={leg.mode}
+              transportSubmode={leg.transportSubmode}
+              label={
+                leg.mode === 'foot'
+                  ? undefined
+                  : (leg.line?.publicCode ?? undefined)
+              }
+              duration={leg.mode === 'foot' ? leg.duration : undefined}
+              isFlexible={isLineFlexibleTransport(leg.line)}
+              notificationType={legNotificationTypes[i]}
+            />
+          </div>
         ))}
       </OverflowContainer>
     </div>
