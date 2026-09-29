@@ -1,118 +1,93 @@
 import { useTransportationThemeColor } from '@atb/modules/transport-mode';
-import { DecorationLine, TripRow } from '@atb/modules/trip-details';
-import { MonoIcon } from '@atb/components/icon';
-import { MessageBox } from '@atb/components/message-box';
-import { getPlaceName } from '../utils';
-import { PageText, TranslateFunction, useTranslation } from '@atb/translations';
-
+import { TripRow } from '@atb/modules/trip-details';
+import { MonoIcon, TintedMonoIcon, type MonoIcons } from '@atb/components/icon';
+import { Typo } from '@atb/components/typography';
+import { PageText, useTranslation } from '@atb/translations';
+import { and } from '@atb/utils/css';
 import style from './trip-section.module.css';
 import { secondsToDuration } from '@atb/utils/date';
 import { LegWithDetailsFragment } from '@atb/page-modules/assistant/journey-gql/trip-with-details.generated.ts';
 
-export type InterchangeDetails = {
-  publicCode: string;
-  fromPlace: string;
+type Interchange = NonNullable<LegWithDetailsFragment['interchangeTo']>;
+type InterchangeServiceJourney = Interchange['fromServiceJourney'];
+
+type Props = {
+  interchange: Interchange;
 };
 
-export type InterchangeSectionProps = {
-  interchangeDetails: InterchangeDetails;
-  publicCode?: string | null;
-  maximumWaitTime?: number;
-  staySeated: boolean | undefined | null;
-};
+export function InterchangeSection({ interchange }: Props) {
+  const { t, language } = useTranslation();
+  const texts = PageText.Assistant.details.tripSection;
 
-export function InterchangeSection(props: InterchangeSectionProps) {
-  const unknownTransportationColor = useTransportationThemeColor({
-    transportMode: 'unknown',
-  });
+  const fromPublicCode = getPublicCode(interchange.fromServiceJourney);
+  const toPublicCode = getPublicCode(interchange.toServiceJourney);
 
-  const message = useInterchangeTextTranslation(props);
+  if (interchange.staySeated) {
+    return (
+      <InterchangeRow
+        icon="miscellaneous/StaySeated"
+        boxed
+        title={t(texts.staySeatedMainText)}
+        message={t(texts.staySeatedSubText(fromPublicCode, toPublicCode))}
+      />
+    );
+  }
+
+  const maxWaitTime =
+    interchange.maximumWaitTime && interchange.maximumWaitTime > 0
+      ? secondsToDuration(interchange.maximumWaitTime, language)
+      : undefined;
 
   return (
-    <div className={style.rowContainer}>
-      <DecorationLine color={unknownTransportationColor.backgroundColor} />
-      <TripRow>
-        <MessageBox
-          type="info"
-          statusIcon={<MonoIcon icon="actions/Interchange" />}
-          message={message}
-        />
+    <InterchangeRow
+      icon="miscellaneous/Connection"
+      title={t(texts.interchangeMainText)}
+      message={t(texts.interchangeSubText(maxWaitTime))}
+    />
+  );
+}
+
+const getPublicCode = (sj: InterchangeServiceJourney) =>
+  sj?.publicCode ?? sj?.line.publicCode;
+
+type InterchangeRowProps = {
+  icon: MonoIcons;
+  title: string;
+  message: string;
+  boxed?: boolean;
+};
+
+function InterchangeRow({ icon, title, message, boxed }: InterchangeRowProps) {
+  const walkColor = useTransportationThemeColor({ transportMode: 'foot' });
+
+  return (
+    <div className={and(style.rowContainer, style.interchangeRow)}>
+      <TripRow
+        rowLabel={
+          <span className={style.interchangeRowLabel}>
+            {boxed ? (
+              <span
+                className={style.interchangeIconBox}
+                style={{
+                  backgroundColor: walkColor.backgroundColor,
+                  color: walkColor.textColor,
+                }}
+              >
+                <TintedMonoIcon icon={icon} />
+              </span>
+            ) : (
+              <MonoIcon icon={icon} />
+            )}
+          </span>
+        }
+      >
+        <div className={style.interchangeContent}>
+          <Typo.p textType="body__m">{title}</Typo.p>
+          <Typo.p textType="body__s" className={style.textColor__secondary}>
+            {message}
+          </Typo.p>
+        </div>
       </TripRow>
     </div>
   );
-}
-
-function useInterchangeTextTranslation({
-  publicCode,
-  interchangeDetails,
-  maximumWaitTime = 0,
-  staySeated,
-}: InterchangeSectionProps) {
-  const { t, language } = useTranslation();
-
-  // If maximum wait time is defined or over 0, append it to the message.
-  const appendWaitTime = (text: string) =>
-    maximumWaitTime > 0
-      ? [
-          text,
-          t(
-            PageText.Assistant.details.tripSection.interchangeMaxWait(
-              secondsToDuration(maximumWaitTime, language),
-            ),
-          ),
-        ].join(' ')
-      : text;
-
-  if (publicCode && staySeated) {
-    return t(
-      PageText.Assistant.details.tripSection.lineChangeStaySeated(
-        publicCode,
-        interchangeDetails.publicCode,
-      ),
-    );
-  }
-  if (publicCode) {
-    return appendWaitTime(
-      t(
-        PageText.Assistant.details.tripSection.interchange(
-          publicCode,
-          interchangeDetails.publicCode,
-          interchangeDetails.fromPlace,
-        ),
-      ),
-    );
-  }
-
-  return appendWaitTime(
-    t(
-      PageText.Assistant.details.tripSection.interchangeWithUnknownFromPublicCode(
-        interchangeDetails.publicCode,
-        interchangeDetails.fromPlace,
-      ),
-    ),
-  );
-}
-
-export function getInterchangeDetails(
-  legs: LegWithDetailsFragment[],
-  id: string | undefined,
-  t: TranslateFunction,
-): InterchangeDetails | undefined {
-  if (!id) return undefined;
-  const interchangeLeg = legs.find(
-    (leg) => leg.line && leg.serviceJourney?.id === id,
-  );
-
-  if (interchangeLeg?.line?.publicCode) {
-    return {
-      publicCode: interchangeLeg.line.publicCode,
-      fromPlace: getPlaceName(
-        t,
-        interchangeLeg.fromPlace.name,
-        interchangeLeg.fromPlace.quay?.name,
-        interchangeLeg.fromPlace.quay?.publicCode,
-      ),
-    };
-  }
-  return undefined;
 }

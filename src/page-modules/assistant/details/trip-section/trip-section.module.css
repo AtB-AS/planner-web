@@ -75,6 +75,27 @@
 .waitMessageTitle {
   composes: typo-body__s;
 }
+/* Correspondence (interchange) row: icon on the decoration axis, matching the
+   wait row. Values track .container above. */
+.interchangeRow {
+  --labelWidth: calc(2.625rem + 2rem - token('spacing.small'));
+  --decorationContainerWidth: token('spacing.small');
+}
+.interchangeRowLabel {
+  display: flex;
+  flex: 1;
+  justify-content: flex-end;
+}
+.interchangeContent {
+  display: flex;
+  flex-direction: column;
+  gap: token('spacing.xSmall');
+}
+.interchangeIconBox {
+  display: inline-flex;
+  padding: token('spacing.small');
+  border-radius: token('border.radius.regular');
+}
 /* Colours the title and its icon, which masks against currentColor. */
 .emphasis__info {
   color: token('color.foreground.emphasis.info');

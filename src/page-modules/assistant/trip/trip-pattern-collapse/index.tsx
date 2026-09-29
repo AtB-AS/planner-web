@@ -11,7 +11,6 @@ import { useRefreshedTripPattern } from '@atb/page-modules/assistant/client';
 import { ButtonLink } from '@atb/components/button';
 import { useTheme } from '@atb/modules/theme';
 import TripSection from '@atb/page-modules/assistant/details/trip-section';
-import { getInterchangeDetails } from '@atb/page-modules/assistant/details/trip-section/interchange-section.tsx';
 import { getLegWaitDetails } from '@atb/page-modules/assistant/details/trip-section/wait-section.tsx';
 import { useLiveVehicleServiceJourneyIds } from '@atb/page-modules/assistant/details/use-live-vehicle-ids';
 import { TripSummaryPanel } from '@atb/page-modules/assistant/trip-summary-panel';
@@ -111,11 +110,6 @@ export default function TripPatternCollapse({
                       !!leg.serviceJourney?.id &&
                       liveVehicleServiceJourneyIds.has(leg.serviceJourney.id)
                     }
-                    interchangeDetails={getInterchangeDetails(
-                      displayTripPattern.legs,
-                      leg.interchangeTo?.toServiceJourney?.id,
-                      t,
-                    )}
                     legWaitDetails={getLegWaitDetails(
                       displayTripPattern.legs,
                       index,
