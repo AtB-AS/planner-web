@@ -30,51 +30,66 @@ import app from './firebase';
  * Uses the Web SDK (same public config as the browser) so it works everywhere
  * the app runs — GKE, local dev, and Vercel previews — with no extra credentials.
  *
- * Populated at startup by `src/instrumentation.ts` so the first request is
- * already warm. Server-only (holds process-wide listener state); do not import
- * from client components or via the `@atb/modules/firebase` barrel.
+ * - Parse failures keep the last-good value instead of clobbering config to empty.
+ * - Readiness is only signalled by a *server-backed* snapshot (not a cached one),
+ *   with a bounded timeout so startup/getters never hang if a doc is slow/offline.
+ * - A terminal listener error re-subscribes with backoff (the SDK does not resume
+ *   a listener after its error callback fires).
+ * - Readiness is tracked per document, so a slow doc can't block unrelated getters.
+ *
+ * Populated at startup by `src/instrumentation.ts`. Server-only (holds
+ * process-wide listener state); do not import from client components or via the
+ * `@atb/modules/firebase` barrel.
  */
 
 type TransportModeFilter = ReturnType<
   typeof TravelSearchFilters.parse
 >['transportModes'];
 
-// Parsed values, refreshed by the listener callbacks.
+// Max time a getter / startup warmup waits for a doc's first server snapshot
+// before proceeding with whatever value we have (fail-open, degraded).
+const READY_TIMEOUT_MS = 5000;
+// Delay before re-subscribing after a terminal listener error.
+const RESUBSCRIBE_DELAY_MS = 5000;
+
+// Parsed values, refreshed by the listener callbacks. Seeded empty; each parse
+// function only overwrites its value on a *successful* parse (else keeps last-good).
 let transportModeFilter: TransportModeFilter = [];
 let preassignedFareProducts: PreassignedFareProduct[] = [];
 let fareZones: FareZone[] = [];
 let mapboxSpriteUrl: string | undefined = undefined;
 
-const unsubscribers: Array<() => void> = [];
-let readyPromise: Promise<void> | null = null;
-
 function parseTransportModeFilter(data: DocumentData | undefined) {
-  if (!data) {
-    transportModeFilter = [];
-    return;
-  }
+  if (!data) return; // missing/offline event — keep last-good
   const validated = TravelSearchFilters.safeParse(data);
-  transportModeFilter = validated.success ? validated.data.transportModes : [];
+  if (validated.success) {
+    transportModeFilter = validated.data.transportModes;
+  } else {
+    console.error(
+      'server-config-store: invalid travelSearchFilters; keeping previous value',
+      validated.error,
+    );
+  }
 }
 
 // `referenceData` carries both preassigned fare products and fare zones, so a
 // single listener feeds both getters (no duplicate read of the same doc).
 function parseReferenceData(data: DocumentData | undefined) {
-  if (!data) {
-    preassignedFareProducts = [];
-    fareZones = [];
-    return;
-  }
+  if (!data) return; // missing/offline event — keep last-good
 
   try {
-    preassignedFareProducts = JSON.parse(data.preassignedFareProducts_v2)
+    const parsed = JSON.parse(data.preassignedFareProducts_v2)
       .map((product: unknown) => {
-        const parsed = PreassignedFareProductSchema.safeParse(product);
-        return parsed.success ? parsed.data : undefined;
+        const result = PreassignedFareProductSchema.safeParse(product);
+        return result.success ? result.data : undefined;
       })
       .filter(isDefined);
-  } catch {
-    preassignedFareProducts = [];
+    preassignedFareProducts = parsed;
+  } catch (error) {
+    console.error(
+      'server-config-store: invalid preassignedFareProducts_v2; keeping previous value',
+      error,
+    );
   }
 
   try {
@@ -85,21 +100,24 @@ function parseReferenceData(data: DocumentData | undefined) {
       if (validated.success) result.push(validated.data);
     }
     fareZones = result;
-  } catch {
-    fareZones = [];
+  } catch (error) {
+    console.error(
+      'server-config-store: invalid fareZones; keeping previous value',
+      error,
+    );
   }
 }
 
 function parseUrls(data: DocumentData | undefined) {
-  if (!data) {
-    mapboxSpriteUrl = undefined;
-    return;
-  }
+  if (!data) return; // missing/offline event — keep last-good
   const parsed = AppVersionedConfigurableLinkSchema.array().safeParse(
     data.mapboxSpriteUrls,
   );
   if (!parsed.success) {
-    mapboxSpriteUrl = undefined;
+    console.error(
+      'server-config-store: invalid urls.mapboxSpriteUrls; keeping previous value',
+      parsed.error,
+    );
     return;
   }
   // Web has no app version — prefer the entry with no upper bound (the
@@ -116,81 +134,113 @@ const WATCHED: Record<string, (data: DocumentData | undefined) => void> = {
   urls: parseUrls,
 };
 
+// Per-document readiness, resolved on the first server-backed snapshot.
+const ready = new Map<
+  string,
+  { promise: Promise<void>; resolve: () => void }
+>();
+const unsubscribers = new Map<string, () => void>();
+let started = false;
+
+function getReady(id: string) {
+  let entry = ready.get(id);
+  if (!entry) {
+    let resolve!: () => void;
+    const promise = new Promise<void>((r) => (resolve = r));
+    entry = { promise, resolve };
+    ready.set(id, entry);
+  }
+  return entry;
+}
+
+function subscribe(
+  id: string,
+  handle: (data: DocumentData | undefined) => void,
+) {
+  const firestore = getFirestore(app);
+  const unsubscribe = onSnapshot(
+    doc(firestore, 'configuration', id),
+    (snapshot) => {
+      handle(snapshot.exists() ? snapshot.data() : undefined);
+      // Only treat a server-confirmed snapshot as "ready" — a cached event at
+      // startup (e.g. offline) could otherwise publish stale/empty config.
+      if (!snapshot.metadata.fromCache) getReady(id).resolve();
+    },
+    (error) => {
+      console.error(
+        `server-config-store: listener error for configuration/${id}; re-subscribing`,
+        error,
+      );
+      // The listener is terminal after this callback — re-establish it. Unblock
+      // readiness so getters/startup fall back to last-good rather than hang.
+      getReady(id).resolve();
+      setTimeout(() => subscribe(id, handle), RESUBSCRIBE_DELAY_MS);
+    },
+  );
+  unsubscribers.set(id, unsubscribe);
+}
+
+function ensureStarted() {
+  if (started) return;
+  started = true;
+  for (const [id, handle] of Object.entries(WATCHED)) {
+    getReady(id); // create the readiness promise up front
+    subscribe(id, handle);
+  }
+}
+
+function delay(ms: number) {
+  return new Promise<void>((resolve) => setTimeout(resolve, ms));
+}
+
+/** Wait for one doc's first server snapshot, bounded by READY_TIMEOUT_MS. */
+async function awaitDoc(id: string) {
+  ensureStarted();
+  await Promise.race([getReady(id).promise, delay(READY_TIMEOUT_MS)]);
+}
+
 /**
- * Subscribe to all watched config docs. Idempotent — returns the same promise on
- * repeated calls. Resolves once every doc has produced its first snapshot.
+ * Start listeners and wait (bounded) for the first server snapshot of every doc.
+ * Called at startup from instrumentation to pre-warm. Never rejects and never
+ * hangs past READY_TIMEOUT_MS.
  */
 export function subscribeToServerConfig(): Promise<void> {
-  if (readyPromise) return readyPromise;
-
-  const firestore = getFirestore(app);
-
-  const firstSnapshots = Object.entries(WATCHED).map(
-    ([id, handle]) =>
-      new Promise<void>((resolve) => {
-        let settled = false;
-        const settle = () => {
-          if (!settled) {
-            settled = true;
-            resolve();
-          }
-        };
-
-        const unsubscribe = onSnapshot(
-          doc(firestore, 'configuration', id),
-          (snapshot) => {
-            handle(snapshot.exists() ? snapshot.data() : undefined);
-            settle();
-          },
-          (error) => {
-            console.error(
-              `server-config-store: listener error for configuration/${id}`,
-              error,
-            );
-            // Resolve anyway so startup isn't blocked; readers keep the last
-            // known value and the SDK auto-reconnects on transient errors.
-            settle();
-          },
-        );
-
-        unsubscribers.push(unsubscribe);
-      }),
+  ensureStarted();
+  return Promise.all(Object.keys(WATCHED).map((id) => awaitDoc(id))).then(
+    () => undefined,
   );
-
-  readyPromise = Promise.all(firstSnapshots).then(() => undefined);
-  return readyPromise;
 }
 
 export async function getServerTransportModeFilter(): Promise<TransportModeFilter> {
-  await subscribeToServerConfig();
+  await awaitDoc('travelSearchFilters');
   return transportModeFilter;
 }
 
 export async function getServerPreassignedFareProducts(): Promise<
   PreassignedFareProduct[]
 > {
-  await subscribeToServerConfig();
+  await awaitDoc('referenceData');
   return preassignedFareProducts;
 }
 
 export async function getServerFareZones(): Promise<FareZone[]> {
-  await subscribeToServerConfig();
+  await awaitDoc('referenceData');
   return fareZones;
 }
 
 export async function getServerMapboxSpriteUrl(): Promise<string | undefined> {
-  await subscribeToServerConfig();
+  await awaitDoc('urls');
   return mapboxSpriteUrl;
 }
 
 /** Tear down all listeners. Mainly for tests / graceful shutdown. */
 export function unsubscribeFromServerConfig() {
-  while (unsubscribers.length) {
-    unsubscribers.pop()?.();
-  }
+  unsubscribers.forEach((unsubscribe) => unsubscribe());
+  unsubscribers.clear();
+  ready.clear();
+  started = false;
   transportModeFilter = [];
   preassignedFareProducts = [];
   fareZones = [];
   mapboxSpriteUrl = undefined;
-  readyPromise = null;
 }
