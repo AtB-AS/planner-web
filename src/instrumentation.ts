@@ -3,14 +3,14 @@
  *
  * We use it to pre-warm the Firestore config listeners so the very first request
  * is served from memory instead of paying a cold Firestore round-trip. The
- * dynamic import keeps firebase-admin out of the Edge runtime bundle.
+ * dynamic import keeps the config store (and its Firestore listeners) out of the
+ * Edge runtime bundle.
  */
 export async function register() {
   if (process.env.NEXT_RUNTIME !== 'nodejs') return;
 
-  const { subscribeToServerConfig } = await import(
-    '@atb/modules/firebase/server-config-store'
-  );
+  const { subscribeToServerConfig } =
+    await import('@atb/modules/firebase/server-config-store');
 
   try {
     await subscribeToServerConfig();
