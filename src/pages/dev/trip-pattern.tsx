@@ -11,7 +11,7 @@ import type { ExtendedTripPatternWithDetailsType } from '@atb/page-modules/assis
 import type { GeocoderFeature } from '@atb/modules/geocoder';
 import Search from '@atb/components/search';
 import { TransportModeFilter } from '@atb/modules/transport-mode';
-import { getTransportModeFilter } from '@atb/modules/firebase/transport-mode-filter';
+import { swrFetcher } from '@atb/modules/api-browser';
 import useSWRImmutable from 'swr/immutable';
 import dynamic from 'next/dynamic';
 import style from './trip-pattern.module.css';
@@ -100,8 +100,8 @@ const DevTripPatternPage: NextPage<DevTripPatternPageProps> = (props) => {
   // Loaded the same way as the assistant layout so the available transport
   // modes match the real travel search filters.
   const { data: transportModeFilterData } = useSWRImmutable(
-    'transportModeFilter',
-    getTransportModeFilter,
+    '/api/config/transport-modes',
+    swrFetcher,
   );
 
   // Fetch introspection schema for autocomplete

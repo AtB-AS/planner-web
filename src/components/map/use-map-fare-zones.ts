@@ -3,7 +3,8 @@ import { Language, useTranslation } from '@atb/translations';
 import { LayerSpecification } from 'mapbox-gl';
 import { getReferenceDataName } from '@atb/utils/reference-data';
 import { centroid } from '@turf/centroid';
-import { type FareZone, getFareZones } from '@atb/modules/firebase';
+import { type FareZone } from '@atb/modules/firebase';
+import { swrFetcher } from '@atb/modules/api-browser';
 import { addLayerIfNotExists, addSourceIfNotExists } from '.';
 import useSWRImmutable from 'swr/immutable';
 
@@ -17,7 +18,10 @@ export const useMapFareZones = (
   const { language } = useTranslation();
   const [isZonesVisible, setIsZonesVisible] = useState(false);
   const [isStyleLoaded, setIsStyleLoaded] = useState(false);
-  const { data } = useSWRImmutable('fareZones', getFareZones);
+  const { data } = useSWRImmutable<FareZone[]>(
+    '/api/config/fare-zones',
+    swrFetcher,
+  );
 
   const addFareZonesToMap = useCallback(
     (map: mapboxgl.Map) => {

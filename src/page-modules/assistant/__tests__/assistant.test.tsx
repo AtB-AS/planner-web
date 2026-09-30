@@ -40,11 +40,14 @@ afterEach(function () {
 });
 
 vi.mock('next/router', () => require('next-router-mock'));
-vi.mock('@atb/modules/firebase/transport-mode-filter', () => ({
-  getTransportModeFilter: vi.fn(),
-}));
-vi.mock('@atb/modules/firebase/preassigned-fare-products', () => ({
-  getPreassignedFareProducts: vi.fn().mockResolvedValue([]),
+// Config now comes from the server config store, surfaced to the client via
+// /api/config/* and fetched with swrFetcher (mocked below).
+vi.mock('@atb/modules/firebase/server-config-store', () => ({
+  getServerTransportModeFilter: vi.fn().mockResolvedValue([]),
+  getServerPreassignedFareProducts: vi.fn().mockResolvedValue([]),
+  getServerFareZones: vi.fn().mockResolvedValue([]),
+  getServerMapboxSpriteUrl: vi.fn().mockResolvedValue(undefined),
+  subscribeToServerConfig: vi.fn().mockResolvedValue(undefined),
 }));
 vi.mock('@atb/modules/api-browser', () => ({
   swrFetcher: vi.fn().mockRejectedValue(new Error('Network error')),

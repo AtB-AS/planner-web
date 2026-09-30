@@ -5,7 +5,7 @@ import {
 } from '@atb/modules/graphql-types/journeyplanner-types_v3.generated.ts';
 import { enumFromString } from '@atb/utils/enum-from-string.ts';
 import { isDefined } from '@atb/utils/presence.ts';
-import { getTransportModeFilter } from '@atb/modules/firebase/transport-mode-filter.ts';
+import { getServerTransportModeFilter } from '@atb/modules/firebase/server-config-store.ts';
 import { uniq } from 'lodash';
 
 /**
@@ -17,7 +17,7 @@ import { uniq } from 'lodash';
 export async function mapToJourneyPlannerTransportModes(
   filterOptions?: string[] | null,
 ): Promise<TransportModes[]> {
-  const transportModeFilters = await getTransportModeFilter();
+  const transportModeFilters = await getServerTransportModeFilter();
   if (!transportModeFilters) return [];
 
   const filters = transportModeFilters.filter(

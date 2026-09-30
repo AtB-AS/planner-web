@@ -1,33 +1,17 @@
-import TTLCache from '@isaacs/ttlcache';
 import { PreassignedFareProduct } from '@atb-as/config-specs';
-import { getOrgData } from '@atb/modules/org-data';
-import { getPreassignedFareProducts } from '@atb/modules/firebase';
+import { getServerPreassignedFareProducts } from '@atb/modules/firebase/server-config-store.ts';
 
-let priceProductCache: TTLCache<string, PreassignedFareProduct[]> | null = null;
-
-function getPriceProductCacheInstance(): TTLCache<
-  string,
-  PreassignedFareProduct[]
-> {
-  if (!priceProductCache) {
-    priceProductCache = new TTLCache({ ttl: 1800000 }); // TTL: 30 minutes
-  }
-
-  return priceProductCache;
-}
-
+/**
+ * Preassigned fare products enabled for the trip-search offer.
+ *
+ * Backed by the server config store (a live `onSnapshot` listener), so there is
+ * no per-request Firestore round-trip and no separate TTL layer to manage — the
+ * store already holds the parsed `referenceData` in memory. Kept as a named
+ * function so existing call sites are unchanged.
+ */
 export async function getPriceProductsIfCached(): Promise<
   PreassignedFareProduct[]
 > {
-  const orgId = getOrgData().orgId;
-  const cacheInstance = getPriceProductCacheInstance();
-
-  if (!cacheInstance.has(orgId)) {
-    const preassignedFareProducts = await getPreassignedFareProducts().then(
-      (val) => val.filter((p) => p.isEnabledForTripSearchOffer),
-    );
-    cacheInstance.set(orgId, preassignedFareProducts);
-  }
-
-  return cacheInstance.get(orgId) ?? [];
+  const preassignedFareProducts = await getServerPreassignedFareProducts();
+  return preassignedFareProducts.filter((p) => p.isEnabledForTripSearchOffer);
 }

@@ -13,10 +13,9 @@ import { getAssistantTripIfCached } from '@atb/page-modules/assistant/server/tri
 import type { GetServerSideProps, NextPage } from 'next';
 import { withGlobalData, type WithGlobalData } from '@atb/modules/global-data';
 import { withAccessLogging } from '@atb/modules/logging';
-import { getTransportModeFilter } from '@atb/modules/firebase/transport-mode-filter.ts';
+import { getServerTransportModeFilter } from '@atb/modules/firebase/server-config-store.ts';
 import qs from 'query-string';
 import { createTripQuery } from '@atb/page-modules/assistant/utils.ts';
-import { getPreassignedFareProducts } from '@atb/modules/firebase';
 
 export type AssistantContentProps =
   | { tripQuery: FromToTripQuery; empty: true }
@@ -51,7 +50,7 @@ function isMissingTransportModeFilter(tripQuery: FromToTripQuery): boolean {
   );
 }
 async function getDefaultTransportModeFiltersString(): Promise<string> {
-  const transportModeFilter = await getTransportModeFilter();
+  const transportModeFilter = await getServerTransportModeFilter();
   if (transportModeFilter) {
     return `${qs.stringify(
       {
