@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import type { LayerSpecification, StyleSpecification } from 'mapbox-gl';
 import useSWRImmutable from 'swr/immutable';
 import { mapboxData } from '@atb/modules/org-data';
-import { getMapboxSpriteUrl } from '@atb/modules/firebase';
+import { swrFetcher } from '@atb/modules/api-browser';
 import { useDarkMode } from '@atb/modules/theme';
 import { getMapboxLightStyle, getMapboxDarkStyle } from '@atb-as/mapbox-shared';
 
@@ -24,9 +24,9 @@ const emissiveByType: Record<string, Record<string, number>> = {
 };
 
 export const useMapboxJsonStyle = (): StyleSpecification | undefined => {
-  const { data: spriteUrl } = useSWRImmutable(
-    'mapboxSpriteUrl',
-    getMapboxSpriteUrl,
+  const { data: spriteUrl } = useSWRImmutable<string | null>(
+    '/api/config/mapbox-sprite',
+    swrFetcher,
   );
   const [isDarkMode] = useDarkMode();
 

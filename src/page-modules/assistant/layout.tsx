@@ -18,7 +18,7 @@ import { FromToTripQuery } from './types';
 import { createTripQuery } from './utils';
 import { TabLink } from '@atb/components/tab-link';
 import { logSpecificEvent } from '@atb/modules/firebase';
-import { getTransportModeFilter } from '@atb/modules/firebase/transport-mode-filter';
+import { swrFetcher } from '@atb/modules/api-browser';
 import useSWRImmutable from 'swr/immutable';
 import { debounce } from 'lodash';
 import LineFilter from './line-filter';
@@ -52,8 +52,8 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
   // avoids the data loading when the filter is mounted which causes the
   // height to be incorrect and the animation to be janky.
   const { data: transportModeFilter } = useSWRImmutable(
-    'transportModeFilter',
-    getTransportModeFilter,
+    '/api/config/transport-modes',
+    swrFetcher,
   );
 
   const setValuesWithLoading = async (
