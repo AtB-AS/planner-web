@@ -10,9 +10,10 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   const spriteUrl = await getServerMapboxSpriteUrl();
+  // Only cache when we actually have a URL.
   res.setHeader(
     'Cache-Control',
-    'public, max-age=300, stale-while-revalidate=3600',
+    spriteUrl ? 'public, max-age=300, stale-while-revalidate=3600' : 'no-store',
   );
   res.status(200).json(spriteUrl ?? null);
 }

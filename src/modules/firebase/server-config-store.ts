@@ -42,9 +42,11 @@ import app from './firebase';
  * `@atb/modules/firebase` barrel.
  */
 
-type TransportModeFilter = ReturnType<
-  typeof TravelSearchFilters.parse
->['transportModes'];
+// `transportModes` is optional in the schema; the store always exposes an array
+// (empty when absent) so callers never have to null-check.
+type TransportModeFilter = NonNullable<
+  ReturnType<typeof TravelSearchFilters.parse>['transportModes']
+>;
 
 // Max time a getter / startup warmup waits for a doc's first server snapshot
 // before proceeding with whatever value we have (fail-open, degraded).
@@ -63,7 +65,7 @@ function parseTransportModeFilter(data: DocumentData | undefined) {
   if (!data) return; // missing/offline event — keep last-good
   const validated = TravelSearchFilters.safeParse(data);
   if (validated.success) {
-    transportModeFilter = validated.data.transportModes;
+    transportModeFilter = validated.data.transportModes ?? [];
   } else {
     console.error(
       'server-config-store: invalid travelSearchFilters; keeping previous value',

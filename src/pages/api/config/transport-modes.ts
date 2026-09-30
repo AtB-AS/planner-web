@@ -10,9 +10,12 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   const transportModeFilter = await getServerTransportModeFilter();
+  // Only cache a healthy (non-empty) response
   res.setHeader(
     'Cache-Control',
-    'public, max-age=300, stale-while-revalidate=3600',
+    transportModeFilter.length > 0
+      ? 'public, max-age=300, stale-while-revalidate=3600'
+      : 'no-store',
   );
   res.status(200).json(transportModeFilter);
 }
