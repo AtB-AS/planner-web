@@ -1,0 +1,12 @@
+# Ignore file for perf/Dockerfile (BuildKit picks up <dockerfile>.dockerignore).
+# NOTE: unlike the repo .dockerignore we must KEEP `dist/` (it's what we ship),
+# and we must NOT use `**/node_modules` because the standalone bundle under
+# dist/<org>/standalone/node_modules is required at runtime.
+/.git
+/node_modules
+/.next
+/e2e-tests
+/playwright-report
+/test-results
+/docs
+/public
