@@ -6,6 +6,7 @@
   border: 1px solid token('color.background.neutral.2.background');
   border-radius: token('border.radius.circle');
   align-items: center;
+  gap: token('spacing.xSmall');
 }
 
 .options:focus-within {
@@ -42,6 +43,10 @@
 
 .option__input:checked + .option__label {
   color: token('color.interactive.0.default.foreground.primary');
+}
+
+.option__input:not(:checked):hover + .option__label {
+  background: token('color.interactive.2.hover.background');
 }
 
 .option {
