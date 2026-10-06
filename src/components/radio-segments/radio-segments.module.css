@@ -27,7 +27,7 @@
   justify-content: center;
   cursor: pointer;
   border-radius: token('border.radius.circle');
-  padding: token('spacing.small');
+  padding: token('spacing.medium') token('spacing.xLarge');
 }
 
 .option__input {
@@ -47,7 +47,7 @@
 
 .option__input:not(:checked):hover + .option__label {
   background: token('color.interactive.2.hover.background');
-}
+} 
 
 .option {
   position: relative;
