@@ -101,7 +101,7 @@
   border: none;
   background-color: token('color.background.neutral.0.background');
   border: token('border.width.slim') solid
-    token('color.foreground.dynamic.disabled');
+    token('color.interactive.2.outline.background');
   padding: token('spacing.small');
   border-radius: 50%;
   cursor: pointer;
