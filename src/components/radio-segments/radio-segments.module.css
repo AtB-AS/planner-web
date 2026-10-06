@@ -3,13 +3,13 @@
   grid-template-columns: repeat(var(--number-of-options), minmax(0, 1fr));
   padding: token('spacing.xSmall');
   background: token('color.background.neutral.0.background');
-  border: 1px solid token('color.foreground.dynamic.disabled');
-  border-radius: token('border.radius.regular');
+  border: 1px solid token('color.background.neutral.2.background');
+  border-radius: token('border.radius.circle');
   align-items: center;
 }
 
 .options:focus-within {
-  border-radius: token('border.radius.regular');
+  border-radius: token('border.radius.circle');
   outline: 0;
   box-shadow: inset 0 0 0 token('border.width.medium')
     token('color.interactive.2.outline.background');
@@ -25,6 +25,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  border-radius: token('border.radius.circle');
   padding: token('spacing.small');
 }
 
@@ -52,7 +53,7 @@
   width: 100%;
   height: 100%;
   position: absolute;
-  border-radius: token('border.radius.regular');
+  border-radius: token('border.radius.circle');
   border: token('border.width.medium') solid
     token('color.interactive.2.outline.background');
 }
