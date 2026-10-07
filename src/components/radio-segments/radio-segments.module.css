@@ -47,7 +47,7 @@
 
 .option__input:not(:checked):hover + .option__label {
   background: token('color.interactive.2.hover.background');
-} 
+}
 
 .option {
   position: relative;
