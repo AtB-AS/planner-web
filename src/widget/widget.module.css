@@ -3,6 +3,7 @@
 @value departures: "../page-modules/departures/departures.module.css";
 @value search: "../components/search/search.module.css";
 @value selector: "../modules/search-time/selector/selector.module.css";
+@value radioSegments: "../components/radio-segments/radio-segments.module.css";
 @value buttonComponent: "../components/button/button.module.css";
 
 :root {
@@ -140,36 +141,51 @@ a.tabSelected {
 }
 
 .selector_options {
-  composes: options from selector;
-  border: 1px solid token('color.foreground.dynamic.disabled');
+  composes: options from radioSegments;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  width: fit-content;
 }
 .selector_options__small {
-  composes: options from selector;
+  composes: options from radioSegments;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+  width: fit-content;
+}
+
+@media (max-width: 650px) {
+  .selector_options,
+  .selector_options__small {
+    width: 100%;
+  }
 }
 .selector_option {
-  composes: option from selector;
+  composes: option from radioSegments;
 }
 
 .selector_option__text {
-  composes: option__text from selector;
+  composes: option__text from radioSegments;
+
+  font-size: var(--baseTypo-body__s-fontSize, 0.875rem);
+  line-height: var(--baseTypo-body__s-lineHeight, 1.125rem);
+  letter-spacing: var(--baseTypo-body__s-letterSpacing, 0.015625rem);
+  font-weight: var(--baseTypo-body__s-fontWeight, 400);
 }
 .selector_option__label {
-  composes: option__label from selector;
-  position: relative;
-  height: 95%;
-  width: 95%;
-  top: 2.5%;
-  left: 2.5%;
+  composes: option__label from radioSegments;
 }
 .selector_option__input {
-  composes: option__input from selector;
+  composes: option__input from radioSegments;
 }
 .selector_option__input:checked + .selector_option__label {
-  color: token('color.foreground.dynamic.primary');
-  background: token('color.interactive.0.active.background');
+  color: token('color.interactive.0.default.foreground.primary');
+  background: token('color.interactive.2.active.background');
   border-radius: token('border.radius.regular');
-  border: 1px solid token('color.interactive.2.outline.background');
+  border: token('border.width.medium') solid
+    token('color.interactive.2.outline.background');
+}
+.selector_option__input:checked
+  + .selector_option__label
+  .selector_option__text {
+  font-weight: var(--baseTypo-body__s__strong-fontWeight, 500);
 }
 
 .selector_dateAndTimeSelectorsWrapper {

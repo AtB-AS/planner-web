@@ -1163,7 +1163,7 @@ const texts: Record<Languages, Texts> = {
     },
     searchTime: {
       title: 'Når vil du reise?',
-      now: 'Dra nå',
+      now: 'Nå',
       arrive: 'Ankomst',
       depart: 'Avreise',
       date: 'Dato',
@@ -1194,7 +1194,7 @@ const texts: Record<Languages, Texts> = {
     },
     searchTime: {
       title: 'Når vil du reise?',
-      now: 'Dra no',
+      now: 'No',
       arrive: 'Framkomst',
       depart: 'Avreise',
       date: 'Dato',
@@ -1225,7 +1225,7 @@ const texts: Record<Languages, Texts> = {
     },
     searchTime: {
       title: 'When do you want to travel?',
-      now: 'Leave now',
+      now: 'Now',
       arrive: 'Arrive by',
       depart: 'Leave at',
       date: 'Date',
