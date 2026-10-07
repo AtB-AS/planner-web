@@ -38,11 +38,10 @@
 .label {
   composes: typo-body__s;
   height: var(--height);
-  min-width: 3.5rem;
   display: flex;
   align-items: center;
   font-weight: 600;
-  padding: token('spacing.medium');
+  padding: token('spacing.medium') 0 token('spacing.medium') token('spacing.medium');
   border-bottom-left-radius: 0.75rem;
   border-top-left-radius: 0.75rem;
 }
