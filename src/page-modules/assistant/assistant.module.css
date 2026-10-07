@@ -40,6 +40,15 @@
   grid-template-rows: 1fr 1fr;
 }
 
+
+/**
+ * Should we move this into a prop, secondary: boolean?
+ */
+
+.searchSection > div:nth-of-type(2) input::placeholder {
+  color: token('color.foreground.dynamic.disabled');
+}
+
 .button {
   text-align: center;
 }
@@ -100,6 +109,7 @@
   height: var(--height);
   border: none;
   background-color: token('color.background.neutral.0.background');
+  color: token('color.interactive.2.outline.background');
   border: token('border.width.slim') solid
     token('color.interactive.2.outline.background');
   padding: token('spacing.small');

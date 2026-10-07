@@ -41,6 +41,7 @@
   min-width: 3.5rem;
   display: flex;
   align-items: center;
+  font-weight: 600;
   padding: token('spacing.medium');
   border-bottom-left-radius: 0.75rem;
   border-top-left-radius: 0.75rem;
