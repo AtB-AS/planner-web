@@ -58,7 +58,7 @@ export default handlerWithDepartureClient<{}>({
           position: 'relative',
         }}
       >
-        <img alt="Map" width="1200" height="630" src={mapUrl} />
+        <img alt="Map" width={1200} height={630} src={mapUrl} />
 
         <div
           style={{
@@ -100,7 +100,7 @@ export default handlerWithDepartureClient<{}>({
           {fylkeskommune?.logoSrcDark && (
             <img
               src={`${prodUrl}${fylkeskommune.logoSrcDark}`}
-              height="40px"
+              height={40}
               alt=""
             />
           )}
