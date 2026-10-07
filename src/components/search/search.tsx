@@ -23,6 +23,8 @@ type SearchProps = {
   selectedItem?: GeocoderFeature;
   autocompleteFocusPoint?: GeocoderFeature;
   testID?: string;
+  /** Controls the visual style of the placeholder text */
+  variant?: 'primary' | 'secondary';
 };
 
 export default function Search({
@@ -35,6 +37,7 @@ export default function Search({
   selectedItem,
   autocompleteFocusPoint,
   testID,
+  variant = 'primary',
 }: SearchProps) {
   const [query, setQuery] = useState('');
   const [focus, setFocus] = useState(false);
@@ -136,7 +139,11 @@ export default function Search({
           >
             <input
               type="text"
-              className={style.input}
+              className={andIf({
+                [style.input]: true,
+                [style.inputPrimary]: variant === 'primary',
+                [style.inputSecondary]: variant === 'secondary',
+              })}
               placeholder={placeholder}
               {...getInputProps({
                 // We want the Enter key to work as a toggle for the checkbox

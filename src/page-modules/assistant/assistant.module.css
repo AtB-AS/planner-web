@@ -41,14 +41,6 @@
 }
 
 
-/**
- * Should we move this into a prop, secondary: boolean?
- */
-
-.searchSection > div:nth-of-type(2) input::placeholder {
-  color: token('color.foreground.dynamic.disabled');
-}
-
 .button {
   text-align: center;
 }

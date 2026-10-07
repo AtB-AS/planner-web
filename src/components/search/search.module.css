@@ -63,8 +63,15 @@
 }
 
 .input::placeholder {
-  color: token('color.foreground.dynamic.secondary');
   opacity: 1;
+}
+
+.inputPrimary::placeholder {
+  color: token('color.foreground.dynamic.secondary');
+}
+
+.inputSecondary::placeholder {
+  color: token('color.foreground.dynamic.disabled');
 }
 
 .menu {
