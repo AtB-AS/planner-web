@@ -13,6 +13,9 @@ export class Departures {
   get findDeparturesButton(): Locator {
     return this.page.locator('[data-testid="findDeparturesButton"]');
   }
+  get map(): Locator {
+    return this.page.locator('[data-testid="map"]');
+  }
   get mapContainer(): Locator {
     return this.page.locator('[data-testid="mapContainer"]');
   }
@@ -23,6 +26,11 @@ export class Departures {
   }
   get getNearbyStopPlaces() {
     return this.page.locator(`[data-testid="list-item-stop-place"]`);
+  }
+  get searchLoading(): Locator {
+    return this.page.getByText('Loading departures...', {
+      exact: true,
+    });
   }
 
   // Return the departure time for a departure
@@ -49,10 +57,12 @@ export class Departures {
 
   // Return the stop place name
   async getStopPlaceName() {
-    const map = this.mapContainer;
+    const map = this.map;
     await map.waitFor({ state: 'visible' });
     return (
-      (await map.locator('[data-testid="stopPlaceName"]').textContent()) ?? ''
+      (await this.page
+        .locator('[data-testid="stopPlaceName"]')
+        .textContent()) ?? ''
     );
   }
 

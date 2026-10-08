@@ -5,8 +5,7 @@ import { departures } from './performance/departures.ts';
 import {
   shouldGetResultsGivenTime,
   shouldHaveCorrectDetails,
-  shouldShowPassedDepartureWarning,
-  shouldShowBooking,
+  shouldShowTripEndedStatus,
   shouldShowPrice,
 } from './functional/assistant.ts';
 import {
@@ -38,7 +37,7 @@ export async function scenarios(usecase: string, metrics: Metrics) {
 async function test(metrics: Metrics) {
   const page: Page = await browser.newPage();
   try {
-    await shouldShowPrice(page);
+    await shouldShowNearbyStopPlaces(page);
   } finally {
     await page.close();
   }
@@ -54,8 +53,7 @@ async function functional() {
     await shouldGetResultsGivenTime(page);
     await shouldHaveCorrectDetails(page);
     await shouldShowPrice(page);
-    await shouldShowBooking(page);
-    await shouldShowPassedDepartureWarning(page);
+    await shouldShowTripEndedStatus(page);
 
     // Departures
     await shouldGetDeparturesGivenTime(page);

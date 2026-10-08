@@ -57,7 +57,7 @@ export async function assistant(
     // Open trip summary
     await trip.click();
     await measures.mark('assistant-summary-open');
-    const tripSummary = assistant.tripDetails;
+    const tripSummary = assistant.moreDetails;
     await tripSummary.waitFor({
       state: 'visible',
     });
