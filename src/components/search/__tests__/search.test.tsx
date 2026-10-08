@@ -20,6 +20,7 @@ import userEvent from '@testing-library/user-event';
 import { SWRConfig } from 'swr';
 import React from 'react';
 import SwapButton from '../swap-button';
+import style from '../search.module.css';
 
 const result = [
   {
@@ -237,5 +238,48 @@ describe('search box', () => {
 
     const inputElement = screen.getByPlaceholderText(testPlaceholder);
     expect(inputElement).toBeInTheDocument();
+  });
+
+  it('should use the primary variant by default', () => {
+    customRender(
+      <Search label="Test" placeholder="Test" onChange={() => {}} />,
+    );
+
+    const input = screen.getByRole('textbox', { name: /test/i });
+
+    expect(input).toHaveClass(style.input, style.inputPrimary);
+    expect(input).not.toHaveClass(style.inputSecondary);
+  });
+
+  it('should apply the primary variant class', () => {
+    customRender(
+      <Search
+        label="Test"
+        placeholder="Test"
+        onChange={() => {}}
+        variant="primary"
+      />,
+    );
+
+    const input = screen.getByRole('textbox', { name: /test/i });
+
+    expect(input).toHaveClass(style.input, style.inputPrimary);
+    expect(input).not.toHaveClass(style.inputSecondary);
+  });
+
+  it('should apply the secondary variant class', () => {
+    customRender(
+      <Search
+        label="Test"
+        placeholder="Test"
+        onChange={() => {}}
+        variant="secondary"
+      />,
+    );
+
+    const input = screen.getByRole('textbox', { name: /test/i });
+
+    expect(input).toHaveClass(style.input, style.inputSecondary);
+    expect(input).not.toHaveClass(style.inputPrimary);
   });
 });
