@@ -16,7 +16,7 @@ export default function SwapButton({
 
   return isLoading ? (
     <div className={className}>
-      <LoadingIcon size="large" />
+      <LoadingIcon />
     </div>
   ) : (
     <button
@@ -27,7 +27,7 @@ export default function SwapButton({
       type="button"
       data-testid="swapButton"
     >
-      <TintedMonoIcon icon="actions/Swap" size="large" />
+      <TintedMonoIcon icon="actions/Swap" />
     </button>
   );
 }

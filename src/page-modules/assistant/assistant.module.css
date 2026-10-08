@@ -103,7 +103,7 @@
   color: token('color.interactive.2.outline.background');
   border: token('border.width.slim') solid
     token('color.interactive.2.outline.background');
-  padding: token('spacing.small');
+  padding: token('spacing.medium');
   border-radius: 50%;
   cursor: pointer;
   display: flex;
