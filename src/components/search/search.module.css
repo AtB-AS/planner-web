@@ -1,4 +1,5 @@
 @value typo-body__s from "@atb/theme/typography.module.css";
+@value typo-body__m from "@atb/theme/typography.module.css";
 
 .container {
   --height: 2.75rem;
@@ -36,7 +37,7 @@
 }
 
 .label {
-  composes: typo-body__s;
+  composes: typo-body__m;
   height: var(--height);
   display: flex;
   align-items: center;
