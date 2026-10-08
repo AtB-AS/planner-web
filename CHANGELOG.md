@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.26.1](https://github.com/AtB-AS/planner-web/compare/v3.26.0...v3.26.1) (2026-10-07)
+
+
+### Bug Fixes
+
+* use numbers instead of strings in open graph images ([#803](https://github.com/AtB-AS/planner-web/issues/803)) ([9204466](https://github.com/AtB-AS/planner-web/commit/92044662472c814b3202a27704d6b504560e8ce7))
+* **widget:** Update widget design to match latest standard ([#802](https://github.com/AtB-AS/planner-web/issues/802)) ([2d3e1dc](https://github.com/AtB-AS/planner-web/commit/2d3e1dc46115f3a57c22096ebc9515d96d19049d))
+
 ## [3.26.0](https://github.com/AtB-AS/planner-web/compare/v3.25.1...v3.26.0) (2026-10-02)
 
 
