@@ -99,7 +99,8 @@
 .searchInputButton {
   background-color: token('color.background.neutral.0.background');
   border: none;
-  padding: 0;
+  /* To be compliant with the 24px WCAG minimum touch target */
+  padding: token('spacing.xSmall');
   border-radius: 50%;
   cursor: pointer;
   display: flex;
