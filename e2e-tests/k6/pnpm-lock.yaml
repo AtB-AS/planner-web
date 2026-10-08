@@ -9,14 +9,14 @@ importers:
   .:
     devDependencies:
       '@types/k6':
-        specifier: 1.7.0
-        version: 1.7.0
+        specifier: 2.3.0
+        version: 2.3.0
 
 packages:
 
-  '@types/k6@1.7.0':
-    resolution: {integrity: sha512-oL4mckVcOPIA2HUrCVj3aQXCJgCqsQe35Uc4fRTffmrQuR24v92GJImnagqUaRnC1TQVJFx85o3aHQPP+0bxpg==}
+  '@types/k6@2.3.0':
+    resolution: {integrity: sha512-kEiRQx9MRQZ0vAwWgZUyYvuEc1JC++OZbH9uHVLsSOIKFLwHz8UeIV1EuIlB4Fqn03A4ZM+E624zVsvQPAAp6Q==}
 
 snapshots:
 
-  '@types/k6@1.7.0': {}
+  '@types/k6@2.3.0': {}
