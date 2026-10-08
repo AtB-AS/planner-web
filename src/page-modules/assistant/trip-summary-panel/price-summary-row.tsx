@@ -64,6 +64,7 @@ export function PriceSummaryRow({ tripPattern }: PriceSummaryRowProps) {
           travellerTypeText.toLowerCase(),
         ),
       )}
+      testID="priceSummary"
     />
   );
 }

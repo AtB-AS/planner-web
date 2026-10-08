@@ -16,7 +16,11 @@ export function StatusText({ statusType, text, showIcon = false }: Props) {
       {showIcon && (
         <ColorIcon icon={statusTypeToColorIcon(statusType)} size="xSmall" />
       )}
-      <Typo.span textType="body__s__strong" className={style[statusType]}>
+      <Typo.span
+        textType="body__s__strong"
+        className={style[statusType]}
+        testID="tripStatus"
+      >
         {text}
       </Typo.span>
     </div>

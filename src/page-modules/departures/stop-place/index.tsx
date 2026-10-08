@@ -125,7 +125,9 @@ export function StopPlace({ departures, fromQuery }: StopPlaceProps) {
               }
             />
           ))}
-        <Typo.h2 textType="heading__m">{departures.stopPlace.name}</Typo.h2>
+        <Typo.h2 textType="heading__m" testID="stopPlaceName">
+          {departures.stopPlace.name}
+        </Typo.h2>
       </div>
       <div className={style.quaysContainer}>
         <DatePagination
