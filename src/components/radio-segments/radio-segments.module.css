@@ -6,7 +6,6 @@
   border: 1px solid token('color.background.neutral.2.background');
   border-radius: token('border.radius.circle');
   align-items: center;
-  gap: token('spacing.xSmall');
 }
 
 .options:focus-within {
@@ -46,7 +45,14 @@
 }
 
 .option__input:not(:checked):hover + .option__label {
-  background: token('color.interactive.2.hover.background');
+  background-color: token('color.interactive.2.hover.background');
+  transition: background-color 0.3s ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .option__input:not(:checked):hover + .option__label {
+    transition: none;
+  }
 }
 
 .option {
