@@ -170,7 +170,7 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
               />
 
               <SwapButton
-                className={style.searchInputButton}
+                className={style.swapButton}
                 onSwap={onSwap}
                 isLoading={isSwapping}
               />
