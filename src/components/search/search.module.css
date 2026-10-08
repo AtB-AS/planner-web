@@ -10,6 +10,7 @@
   border-radius: token('border.radius.regular');
   background-color: token('color.background.neutral.0.background');
   box-shadow: 0 0 0 token('border.width.slim')
+    /* Replace with appropriate color token when the new color set is available. ref: https://github.com/AtB-AS/planner-web/pull/805#discussion_r4218911727 */
     token('color.background.neutral.2.background');
 }
 .container:focus-within {
