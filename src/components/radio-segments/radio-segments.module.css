@@ -3,6 +3,7 @@
   grid-template-columns: repeat(var(--number-of-options), minmax(0, 1fr));
   padding: token('spacing.xSmall');
   background: token('color.background.neutral.0.background');
+  /* Replace with appropriate color token when the new color set is available. ref: https://github.com/AtB-AS/planner-web/pull/805#discussion_r4218911727 */
   border: 1px solid token('color.background.neutral.2.background');
   border-radius: token('border.radius.circle');
   align-items: center;
