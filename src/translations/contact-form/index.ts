@@ -326,8 +326,6 @@ export const translations: ContactFormTranslationsOverride = {
                 ),
                 href: _(
                   'https://www.atb.no/billettrefusjon/refusjon-t-kort-verdi/',
-                  'https://www.atb.no/billettrefusjon/refusjon-t-kort-verdi/',
-                  'https://www.atb.no/billettrefusjon/refusjon-t-kort-verdi/',
                 ),
               },
             },
