@@ -3,13 +3,14 @@
   grid-template-columns: repeat(var(--number-of-options), minmax(0, 1fr));
   padding: token('spacing.xSmall');
   background: token('color.background.neutral.0.background');
-  border: 1px solid token('color.foreground.dynamic.disabled');
-  border-radius: token('border.radius.regular');
+  /* Replace with appropriate color token when the new color set is available. ref: https://github.com/AtB-AS/planner-web/pull/805#discussion_r4218911727 */
+  border: 1px solid token('color.background.neutral.2.background');
+  border-radius: token('border.radius.circle');
   align-items: center;
 }
 
-.options:focus-within {
-  border-radius: token('border.radius.regular');
+.options:has(:focus-visible) {
+  border-radius: token('border.radius.circle');
   outline: 0;
   box-shadow: inset 0 0 0 token('border.width.medium')
     token('color.interactive.2.outline.background');
@@ -25,7 +26,8 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  padding: token('spacing.small');
+  border-radius: token('border.radius.circle');
+  padding: token('spacing.medium') token('spacing.xLarge');
 }
 
 .option__input {
@@ -43,6 +45,17 @@
   color: token('color.interactive.0.default.foreground.primary');
 }
 
+.option__input:not(:checked):hover + .option__label {
+  background-color: token('color.interactive.2.hover.background');
+  transition: background-color 0.3s ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .option__input:not(:checked):hover + .option__label {
+    transition: none;
+  }
+}
+
 .option {
   position: relative;
 }
@@ -52,7 +65,7 @@
   width: 100%;
   height: 100%;
   position: absolute;
-  border-radius: token('border.radius.regular');
+  border-radius: token('border.radius.circle');
   border: token('border.width.medium') solid
     token('color.interactive.2.outline.background');
 }
