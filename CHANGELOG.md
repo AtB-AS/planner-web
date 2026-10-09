@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.26.2](https://github.com/AtB-AS/planner-web/compare/v3.26.1...v3.26.2) (2026-10-09)
+
+
+### Bug Fixes
+
+* Adjust search styling to match design ([#805](https://github.com/AtB-AS/planner-web/issues/805)) ([0ec18d8](https://github.com/AtB-AS/planner-web/commit/0ec18d824b7d48081f10eba8905fa8579678fb54))
+
 ## [3.26.1](https://github.com/AtB-AS/planner-web/compare/v3.26.0...v3.26.1) (2026-10-07)
 
 
