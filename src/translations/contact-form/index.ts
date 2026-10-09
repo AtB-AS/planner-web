@@ -1,4 +1,7 @@
-import type { ContactFormTranslationsOverride } from '@mrfylke/contact-form';
+import type {
+  ContactFormTranslationsOverride,
+  ReasonForTransportFailure,
+} from '@mrfylke/contact-form';
 import { translation as _ } from '@atb/translations/commons';
 import { byOrg } from '@atb/modules/org-data';
 
@@ -173,9 +176,60 @@ export const translations: ContactFormTranslationsOverride = {
                 'Ved å sende inn skjemaet, blir betalingsfristen utsett med 14 dagar frå opphaveleg forfallsdato, dvs. totalt 60 dagars betalingsfrist. Du vel sjølv om du vil dele opp betalinga og gjere fleire innbetalingar i løpet av denne perioden eller betale heile beløpet på ein gong',
               ),
             },
+            feeComplaint: {
+              secondAgreement: {
+                info: _(
+                  'Har du krav på rabatt, men har fått gebyr fordi du ikke kunne framvise gyldig legitimasjon, kan du få redusert gebyret ditt til kr. 150,- ved å besøke vårt kundesenter og fremvise dokumentasjon eller sende det til oss innen 7 dager.',
+                  'If you are eligible for a discount but were charged a fee because you were unable to present valid identification, you can have your fee reduced to 150 NOK by visiting our customer service center and presenting the necessary documentation or by sending it to us within 7 days.',
+                  'Har du krav på rabatt, men har fått gebyr fordi du ikkje kunne vise fram gyldig legitimasjon, kan du få redusert gebyret ditt til kr 150,- ved å besøkje kundesenteret vårt og vise fram dokumentasjon eller sende dokumentasjonen til oss innan 7 dagar.',
+                ),
+                rules: [
+                  _(
+                    'Kunden bruker et skjermbilde av billett eller en forfalsket billett.',
+                    'The customer uses a screenshot of a ticket or a counterfeit ticket.',
+                    'Kunden brukar eit skjermbilde av billett eller ein forfalska billett.',
+                  ),
+                  _(
+                    'Kunden kjøper billett til seg selv eller andre for seint, for eksempel etter ombordstiging.',
+                    'The customer buys a ticket for themselves or others too late, for example, after boarding.',
+                    'Kunden kjøper billett til seg sjølv eller andre for seint, for eksempel etter ombordstiging.',
+                  ),
+                  _(
+                    'Kunden har glemt å fornye periodebillett.',
+                    'The customer has forgotten to renew the ticket.',
+                    'Kunden har gløymt å fornye periodebillett.',
+                  ),
+                  _(
+                    'Reisekortet ligger igjen hjemme.',
+                    'The travel card is left at home.',
+                    'Reisekortet ligg igjen heime.',
+                  ),
+                ],
+              },
+            },
           },
           refund: {
+            title: _(
+              'Refusjon og reisegaranti',
+              'Refund and travel guarantee',
+              'Refusjon og reisegaranti',
+            ),
+            refundAndTravelGuarantee: {
+              description: _(
+                'Reisegaranti',
+                'Travel guarantee',
+                'Reisegaranti',
+              ),
+              refundCar: {
+                label: _(
+                  'Jeg ønsker refusjon for kjøregodtgjørelse',
+                  'I would like a refund for my mileage expenses.',
+                  'Eg ønskjer refusjon for køyregodtgjersle',
+                ),
+              },
+            },
             agreement: {
+              title: _('Reisegaranti', 'Travel guarantee', 'Reisegaranti'),
               travelGuaranteeExceptions: {
                 exceptions: [
                   {
@@ -237,11 +291,42 @@ export const translations: ContactFormTranslationsOverride = {
                 ],
                 link: {
                   href: _(
-                    'https://www.atb.no/reisegaranti/',
+                    'https://www.atb.no/reisegaranti-buss/',
                     'https://www.atb.no/en/travel-guarantee/',
-                    'https://www.atb.no/reisegaranti/',
+                    'https://www.atb.no/reisegaranti-buss/',
                   ),
                 },
+              },
+            },
+            refundTaxi: {
+              taxiReceipt: {
+                info: _(
+                  'Last opp en kopi eller et bilde av kvitteringen fra billettkjøpet. Kvittering/billett må inneholde produkt kjøpt, dato og salgsreferanse',
+                  'Upload a copy or a photo of the receipt from your ticket purchase. The receipt/ticket must include the product purchased, the date, and the sales reference.',
+                  'Last opp ein kopi eller eit bilete av kvitteringa frå billettkjøpet. Kvitteringa/billetten må innehalde kva produkt som er kjøpt, dato og salsreferanse',
+                ),
+              },
+            },
+            residualValueOnTravelCard: {
+              title: _(
+                'Søk refusjon av saldo',
+                'Apply for a refund of remaining balance',
+                'Søk refusjon av saldo',
+              ),
+              description: _(
+                'Refusjon av saldo',
+                'Refund of remaining balance',
+                'Refusjon av saldo',
+              ),
+              link: {
+                text: _(
+                  'Skjema for refusjon av saldo',
+                  'Form for refund of remaining balance',
+                  'Skjema for refusjon av saldo',
+                ),
+                href: _(
+                  'https://www.atb.no/billettrefusjon/refusjon-t-kort-verdi/',
+                ),
               },
             },
           },
@@ -256,11 +341,9 @@ export const translations: ContactFormTranslationsOverride = {
           },
           ticketing: {
             additionalTicketingInfo: {
-              href: _(
-                'https://www.atb.no/en/ferry-ticket/',
-                'https://www.atb.no/en/ferry-ticket/',
-                'https://www.atb.no/en/ferry-ticket/',
-              ),
+              detail: _(''),
+              linkText: _(''),
+              href: _(''),
             },
             travelCard: {
               orderTravelCard: {
@@ -273,6 +356,50 @@ export const translations: ContactFormTranslationsOverride = {
                 },
               },
             },
+            refund: {
+              initialAgreement: {
+                ticketRefundAvailability: {
+                  rules: [
+                    _(
+                      'Hvis du endrer adresse, blir sykemeldt eller endrer reisemønster på grunn av jobb eller skole. Slike forhold må dokumenteres.',
+                      'If you change your address, go on sick leave, or change your travel patterns due to work or school. Such circumstances must be documented.',
+                      'Dersom du endrar adresse, blir sjukmeld eller endrar reisemønster på grunn av arbeid eller skule. Slike forhold må dokumenterast.',
+                    ),
+                    _(
+                      'Ved kjøp av feil reisestrekning, passasjerkategori eller tidspunkt/dato. Vi vil refundere billetten som du har kjøpt feil dersom du kjøper ny, korrekt billett.',
+                      'When purchasing the wrong journey, passenger category or time/date. We will refund the ticket that you bought incorrectly if you buy a new, correct ticket.',
+                      'Ved kjøp av feil reisestrekning, passasjerkategori eller tidspunkt/dato. Vi vil refundere billetten som du har kjøpt feil dersom du kjøper ny, korrekt billett.',
+                    ),
+                  ],
+                },
+                refundableTicketTypes: {
+                  rules: [
+                    _(
+                      'Periodebilletter: Du får refusjon for gjenværende dager etter kjøp av ny billett',
+                      'Period tickets: You’ll be refunded for the remaining days after purchasing a new ticket.',
+                      'Periodebillettar: Du får refusjon for attverande dagar etter kjøp av ny billett',
+                    ),
+                    _(
+                      'Klippekort: Du får refusjon for antall gjenværende klipp. Klipp utgått på dato refunderes ikke.',
+                      'Carnet: You’ll receive a refund for any unused clips. Expired clips are not refundable.',
+                      'Klippekort: Du får refusjon for dei klippa du har att. Klipp som har gått ut på dato, blir ikkje refunderte.',
+                    ),
+                    _(
+                      'Enkeltbillett refunderes i utgangspunktet kun ved feilkjøp og når ny, riktig billett er kjøpt.',
+                      'Single tickets are generally only refunded if they were purchased in error and a new, correct ticket has been purchased.',
+                      'Enkeltbillett blir i utgangspunktet berre refundert ved feilkjøp og når ein ny, korrekt billett er kjøpt.',
+                    ),
+                  ],
+                },
+              },
+              otherTicketRefund: {
+                label: _(
+                  'Billett kjøpt om bord eller på utsalgssted',
+                  'Ticket purchased on board or at a ticket office',
+                  'Billett kjøpt om bord eller på utsalsstad',
+                ),
+              },
+            },
           },
           groupTravel: {
             description: {
@@ -280,6 +407,15 @@ export const translations: ContactFormTranslationsOverride = {
                 'https://www.atb.no/gruppereise/',
                 'https://www.atb.no/group-travels/',
                 'https://www.atb.no/gruppereise/',
+              ),
+            },
+          },
+          modeOfTransport: {
+            injury: {
+              info: _(
+                'Ønsker du å kreve erstatning for tap av eller skade på gjenstander eller person, må krav sendes til AtB kundesenter innen rimelig tid. Erstatningskravet må dokumenteres.',
+                'If you wish to claim compensation for loss of or damage to property, or for personal injury, you must submit your claim to the AtB service center within a reasonable time. The compensation claim must be supported by evidence.',
+                'Ønskjer du å krevje erstatning for tap av eller skade på gjenstandar eller person, må krav sendast til AtB kundesenter innan rimeleg tid. Erstatningskravet må dokumenterast.',
               ),
             },
           },
@@ -296,6 +432,42 @@ export const translations: ContactFormTranslationsOverride = {
                 'The customer number consists of 7 digits and can be found under Profile in the AtB app, or in the webshop',
                 'Kundenummeret består av 7 siffer og du finn det under Profil i AtB-appen, eller i nettbutikken.',
               ),
+            },
+            reasonForTransportFailure: {
+              options: [
+                {
+                  id: 'transportDidNotArrive',
+                  name: _(
+                    'Transportmiddel kom ikke',
+                    'Mode of transport did not arrive',
+                    'Transportmiddel kom ikkje',
+                  ),
+                },
+                {
+                  id: 'missedNextTransport',
+                  name: _(
+                    'Mistet neste transportmiddel',
+                    'Lost next mode of transport',
+                    'Mista neste transportmiddel',
+                  ),
+                },
+                {
+                  id: 'didNotStopAtStop',
+                  name: _(
+                    'Stoppet ikke på holdeplassen',
+                    'Did not stop at the stop',
+                    'Stoppa ikkje på haldeplassen',
+                  ),
+                },
+                {
+                  id: 'incorrectAppInformation',
+                  name: _(
+                    'Feil informasjon i app eller reiseplanlegger',
+                    'Incorrect information in app or travel planner',
+                    'Feil informasjon i app eller reiseplanlegger',
+                  ),
+                },
+              ] satisfies ReasonForTransportFailure[],
             },
           },
         },

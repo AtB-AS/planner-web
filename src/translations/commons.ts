@@ -19,15 +19,21 @@ export const FALLBACK_LANGUAGE = Language.English;
 export type TranslatedString = Translatable<typeof Language, string>;
 
 export type TranslateFunction = TFunc<typeof Language>;
+export function translation(invariant: string): TranslatedString;
 export function translation(
   norwegian: string,
   english: string,
   nynorsk: string,
+): TranslatedString;
+export function translation(
+  norwegianOrInvariant: string,
+  english?: string,
+  nynorsk?: string,
 ): TranslatedString {
   return {
-    [Language.Norwegian]: norwegian,
-    [Language.English]: english,
-    [Language.Nynorsk]: nynorsk,
+    [Language.Norwegian]: norwegianOrInvariant,
+    [Language.English]: english ?? norwegianOrInvariant,
+    [Language.Nynorsk]: nynorsk ?? norwegianOrInvariant,
   };
 }
 
