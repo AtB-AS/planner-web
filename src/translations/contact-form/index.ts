@@ -438,6 +438,14 @@ export const translations: ContactFormTranslationsOverride = {
             reasonForTransportFailure: {
               options: [
                 {
+                  id: 'transportDidNotArrive',
+                  name: _(
+                    'Transportmiddel kom ikke',
+                    'Mode of transport did not arrive',
+                    'Transportmiddel kom ikkje',
+                  ),
+                },
+                {
                   id: 'missedNextTransport',
                   name: _(
                     'Mistet neste transportmiddel',
