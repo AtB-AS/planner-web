@@ -97,12 +97,10 @@
 }
 
 .searchInputButton {
-  height: var(--height);
-  border: none;
   background-color: token('color.background.neutral.0.background');
-  border: token('border.width.slim') solid
-    token('color.foreground.dynamic.disabled');
-  padding: token('spacing.small');
+  border: none;
+  /* To be compliant with the 24px WCAG minimum touch target */
+  padding: token('spacing.xSmall');
   border-radius: 50%;
   cursor: pointer;
   display: flex;
@@ -112,6 +110,14 @@
   right: token('spacing.medium');
   transform: translate(0, -50%);
   z-index: 100;
+}
+
+.swapButton {
+  composes: searchInputButton;
+  color: token('color.interactive.2.outline.background');
+  border: token('border.width.slim') solid
+    token('color.interactive.2.outline.background');
+  padding: token('spacing.medium');
 }
 
 .walkSpeedSegments {

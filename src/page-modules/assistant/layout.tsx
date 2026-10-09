@@ -150,6 +150,7 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
             </Typo.h2>
             <div className={style.searchSection}>
               <Search
+                variant="primary"
                 label={t(PageText.Assistant.search.input.from)}
                 placeholder={t(PageText.Assistant.search.input.placeholder)}
                 onChange={onFromSelected}
@@ -158,6 +159,7 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
                 onGeolocationError={setGeolocationError}
               />
               <Search
+                variant="secondary"
                 label={t(PageText.Assistant.search.input.to)}
                 placeholder={t(PageText.Assistant.search.input.placeholder)}
                 onChange={onToSelected}
@@ -168,7 +170,7 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
               />
 
               <SwapButton
-                className={style.searchInputButton}
+                className={style.swapButton}
                 onSwap={onSwap}
                 isLoading={isSwapping}
               />

@@ -132,7 +132,7 @@ a.tabSelected {
 }
 
 .button_swap {
-  composes: searchInputButton from assistant;
+  composes: swapButton from assistant;
 }
 /* Selector */
 

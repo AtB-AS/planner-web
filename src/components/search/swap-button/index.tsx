@@ -1,4 +1,4 @@
-import { MonoIcon } from '@atb/components/icon';
+import { TintedMonoIcon } from '@atb/components/icon';
 import { LoadingIcon } from '@atb/components/loading';
 import { ComponentText, useTranslation } from '@atb/translations';
 
@@ -27,7 +27,7 @@ export default function SwapButton({
       type="button"
       data-testid="swapButton"
     >
-      <MonoIcon icon="actions/Swap" />
+      <TintedMonoIcon icon="actions/Swap" />
     </button>
   );
 }

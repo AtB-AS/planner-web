@@ -1,4 +1,5 @@
 @value typo-body__s from "@atb/theme/typography.module.css";
+@value typo-body__m from "@atb/theme/typography.module.css";
 
 .container {
   --height: 2.75rem;
@@ -9,7 +10,8 @@
   border-radius: token('border.radius.regular');
   background-color: token('color.background.neutral.0.background');
   box-shadow: 0 0 0 token('border.width.slim')
-    token('color.foreground.dynamic.disabled');
+    /* Replace with appropriate color token when the new color set is available. ref: https://github.com/AtB-AS/planner-web/pull/805#discussion_r4218911727 */
+    token('color.background.neutral.2.background');
 }
 .container:focus-within {
   outline: 0;
@@ -36,12 +38,13 @@
 }
 
 .label {
-  composes: typo-body__s;
+  composes: typo-body__m;
   height: var(--height);
-  min-width: 3.5rem;
   display: flex;
   align-items: center;
-  padding: token('spacing.medium');
+  font-weight: 600;
+  padding: token('spacing.medium') 0 token('spacing.medium')
+    token('spacing.medium');
   border-bottom-left-radius: 0.75rem;
   border-top-left-radius: 0.75rem;
 }
@@ -62,8 +65,15 @@
 }
 
 .input::placeholder {
-  color: token('color.foreground.dynamic.secondary');
   opacity: 1;
+}
+
+.inputPrimary::placeholder {
+  color: token('color.foreground.dynamic.secondary');
+}
+
+.inputSecondary::placeholder {
+  color: token('color.foreground.dynamic.disabled');
 }
 
 .menu {
