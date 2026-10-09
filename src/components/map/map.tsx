@@ -138,7 +138,7 @@ function MapWithStyle({
   });
 
   return (
-    <div className={style.map}>
+    <div className={style.map} data-testid="map">
       <div className={style.mapWrapper}>
         {interactive && (
           <div className={style.buttonsContainer}>

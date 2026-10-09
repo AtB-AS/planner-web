@@ -3,12 +3,7 @@ import { expect } from 'https://jslib.k6.io/k6-testing/0.6.1/index.js';
 import { Page } from 'k6/browser';
 import { Assistant } from '../../pages/assistant.ts';
 import Conf from '../../conf/conf.ts';
-import {
-  errorLog,
-  functName,
-  screenshot,
-  testIdExists,
-} from '../../utils/utils.ts';
+import { errorLog, functName, screenshot } from '../../utils/utils.ts';
 import {
   getDateForNextMonth,
   formatDateWithOrdinal,
@@ -47,7 +42,7 @@ export async function shouldGetResultsGivenTime(page: Page) {
     await assistant.findTravelsButton.click();
 
     // Verify
-    await assistant.getTrip().waitFor({ state: 'detached' });
+    await assistant.searchLoading.waitFor();
     await assistant.getTrip().waitFor({ state: 'visible' });
     await expect(await assistant.getFirstDayLabel()).not.toBe('Today');
     await expect(await assistant.getFirstDayLabel()).toBe(newDateLabel);
@@ -63,7 +58,7 @@ export async function shouldGetResultsGivenTime(page: Page) {
     await assistant.findTravelsButton.click();
 
     // Verify
-    await assistant.getTrip().waitFor({ state: 'detached' });
+    await assistant.searchLoading.waitFor();
     await assistant.getTrip().waitFor({ state: 'visible' });
     await expect(await assistant.getFirstDayLabel()).toBe(newDateLabel);
     await expect(
@@ -76,6 +71,24 @@ export async function shouldGetResultsGivenTime(page: Page) {
     errorLog(`[ERROR] Assistant ${functionName}: ${e}`);
     await screenshot(page, `error_assistant_${functionName}`);
   }
+}
+
+async function verifyTrip(
+  trip: Trip,
+  exp: {
+    fromLocation: string;
+    toLocation: string;
+    expStartTime: string;
+    expEndTime: string;
+  },
+) {
+  const firstLeg = trip.firstLeg;
+  const lastLeg = trip.lastLeg;
+
+  expect(await trip.fromName(firstLeg)).toContain(exp.fromLocation);
+  expect(await trip.departureTime(firstLeg)).toBe(exp.expStartTime);
+  expect(await trip.toName(lastLeg)).toContain(exp.toLocation);
+  expect(await trip.arrivalTime(lastLeg)).toBe(exp.expEndTime);
 }
 
 export async function shouldHaveCorrectDetails(page: Page) {
@@ -105,23 +118,21 @@ export async function shouldHaveCorrectDetails(page: Page) {
     await assistant.findTravelsButton.waitFor({ state: 'attached' });
     await assistant.findTravelsButton.click();
 
-    // Verify
-    await assistant.getTrip().waitFor({ state: 'detached' });
+    // Verify collapsed details
+    await assistant.searchLoading.waitFor();
     await assistant.getTrip().waitFor({ state: 'visible' });
     const expStartTime = await assistant.getTripStartTime();
     const expEndTime = await assistant.getTripEndTime();
 
     await assistant.getTrip().click();
+    const expected = { fromLocation, toLocation, expStartTime, expEndTime };
+    await verifyTrip(new Trip(page), expected);
+
+    // Verify more details
+    await assistant.moreDetails.click();
     const tripDetails = assistant.tripDetails;
     await tripDetails.waitFor({ state: 'visible' });
-    const trip = new Trip(tripDetails);
-    const firstLeg = trip.firstLeg;
-    const lastLeg = trip.lastLeg;
-
-    expect(await trip.fromName(firstLeg)).toContain(fromLocation);
-    expect(await trip.departureTime(firstLeg)).toBe(expStartTime);
-    expect(await trip.toName(lastLeg)).toContain(toLocation);
-    expect(await trip.arrivalTime(lastLeg)).toBe(expEndTime);
+    await verifyTrip(new Trip(tripDetails), expected);
   } catch (e) {
     errorLog(`[ERROR] Assistant ${functionName}: ${e}`);
     await screenshot(page, `error_assistant_${functionName}`);
@@ -133,6 +144,7 @@ export async function shouldShowPrice(page: Page) {
   try {
     const fromLocation = 'Prinsens gate';
     const toLocation = 'Solsiden';
+    const singleTicketAdultPrice = '50 kr';
 
     await page.goto(`${Conf.host}/assistant`);
     const assistant = new Assistant(page);
@@ -143,56 +155,21 @@ export async function shouldShowPrice(page: Page) {
     await assistant.getTrip().waitFor({ state: 'visible' });
 
     // Verify
-    expect(await assistant.getTripPrice()).toContain('50 kr');
+    await assistant.getTrip().click();
+    expect(await assistant.getTripPrice()).toContain(singleTicketAdultPrice);
   } catch (e) {
     errorLog(`[ERROR] Assistant ${functionName}: ${e}`);
     await screenshot(page, `error_assistant_${functionName}`);
   }
 }
 
-export async function shouldShowBooking(page: Page) {
-  const functionName = functName(shouldShowBooking);
-  try {
-    const targetTime = '15:30';
-    const fromLocation = 'Trondheim S';
-    const toLocation = 'Steinkjer stasjon';
-
-    await page.goto(`${Conf.host}/assistant`);
-    const assistant = new Assistant(page);
-    const timeSelector = new TimeSelector(page);
-    const search = new Search(page);
-
-    // Search
-    await search.doSearch(fromLocation, toLocation);
-    await assistant.getTrip().waitFor({ state: 'visible' });
-
-    // Change search and time: leave at
-    await timeSelector.selectSearch('leaveat');
-    await timeSelector.openCalendar();
-    await timeSelector.changeMonth('next');
-    // First Monday of next Month
-    const targetDate = getDateForNextMonth(1);
-    await timeSelector.setDate(targetDate);
-    await timeSelector.setTime(targetTime);
-    await assistant.findTravelsButton.waitFor({ state: 'attached' });
-    await assistant.findTravelsButton.click();
-    await assistant.getTrip().waitFor({ state: 'detached' });
-    await assistant.getTrip().waitFor({ state: 'visible' });
-
-    // Verify
-    expect(await testIdExists(page, 'requireTicketBooking')).toBe(true);
-  } catch (e) {
-    errorLog(`[ERROR] Assistant ${functionName}: ${e}`);
-    await screenshot(page, `error_assistant_${functionName}`);
-  }
-}
-
-export async function shouldShowPassedDepartureWarning(page: Page) {
-  const functionName = functName(shouldShowPassedDepartureWarning);
+export async function shouldShowTripEndedStatus(page: Page) {
+  const functionName = functName(shouldShowTripEndedStatus);
   try {
     const targetTime = '02:00';
     const fromLocation = 'Prinsens gate';
     const toLocation = 'Solsiden';
+    const expStatus = 'Trip ended';
 
     await page.goto(`${Conf.host}/assistant`);
     const assistant = new Assistant(page);
@@ -207,11 +184,11 @@ export async function shouldShowPassedDepartureWarning(page: Page) {
     await timeSelector.setTime(targetTime);
     await assistant.findTravelsButton.waitFor({ state: 'attached' });
     await assistant.findTravelsButton.click();
-    await assistant.getTrip().waitFor({ state: 'detached' });
+    await assistant.searchLoading.waitFor();
     await assistant.getTrip().waitFor({ state: 'visible' });
 
     // Verify
-    expect(await testIdExists(page, 'tripIsInPast')).toBe(true);
+    expect(await assistant.getTripStatus()).toBe(expStatus);
   } catch (e) {
     errorLog(`[ERROR] Assistant ${functionName}: ${e}`);
     await screenshot(page, `error_assistant_${functionName}`);

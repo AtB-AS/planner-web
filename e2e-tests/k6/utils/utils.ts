@@ -1,4 +1,4 @@
-import { Page } from 'k6/browser';
+import { Locator, Page } from 'k6/browser';
 import Conf from '../conf/conf.ts';
 /* @ts-ignore */
 import file from 'k6/x/file';
@@ -85,10 +85,10 @@ export const attachRequestLogger = (page: Page) => {
 };
 
 export async function testIdExists(
-  page: Page,
+  locator: Locator | Page,
   testId: string,
 ): Promise<boolean> {
-  return (await page.locator(`[data-testid="${testId}"]`).count()) > 0;
+  return (await locator.locator(`[data-testid="${testId}"]`).count()) > 0;
 }
 
 export function functName(fn: Function) {

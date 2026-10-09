@@ -44,9 +44,7 @@ export async function shouldGetDeparturesGivenTime(page: Page) {
     await departures.findDeparturesButton.click();
 
     // Verify
-    await departures
-      .getDeparture(fromLocation.quay)
-      .waitFor({ state: 'detached' });
+    await departures.searchLoading.waitFor();
     await departures
       .getDeparture(fromLocation.quay)
       .waitFor({ state: 'visible' });

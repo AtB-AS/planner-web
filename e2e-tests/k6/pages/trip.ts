@@ -1,7 +1,8 @@
-import { Locator } from 'k6/browser';
+import { Locator, Page } from 'k6/browser';
 
 export class Trip {
-  constructor(private locator: Locator) {}
+  // Scope: a Page (collapsed view) or a Locator (e.g. the tripDetails container)
+  constructor(private locator: Locator | Page) {}
 
   // ### Return test-id locators ####
   get firstLeg(): Locator {
