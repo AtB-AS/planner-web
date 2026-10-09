@@ -8,7 +8,7 @@
   align-items: center;
 }
 
-.options:focus-within {
+.options:has(:focus-visible) {
   border-radius: token('border.radius.circle');
   outline: 0;
   box-shadow: inset 0 0 0 token('border.width.medium')
