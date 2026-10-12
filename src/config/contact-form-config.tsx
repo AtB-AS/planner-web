@@ -29,6 +29,14 @@ export const contactFormConfig: ContactFormConfig = {
           'group-travel',
           'journey-info',
         ]),
+        atb: buildEnabledPageIds([
+          'ticket-control',
+          'refund',
+          'means-of-transport',
+          'ticketing',
+          'lost-property',
+          'journey-info',
+        ]),
       }) ??
       buildEnabledPageIds([
         'ticket-control',
