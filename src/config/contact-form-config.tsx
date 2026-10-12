@@ -4,6 +4,8 @@ import { adaptAtbTheme } from '@mrfylke/contact-form/config';
 import { theme } from '@atb/modules/theme';
 import { byOrg } from '@atb/modules/org-data';
 import { translations } from '@atb/translations/contact-form';
+import CompanyContent from '@atb/page-modules/contact/company';
+import { CompanyText } from '@atb/page-modules/contact/company/text.ts';
 
 const contactFormTheme = adaptAtbTheme(theme);
 
@@ -39,6 +41,7 @@ export const contactFormConfig: ContactFormConfig = {
           'means-of-transport',
           'ticketing',
           'lost-property',
+          'extra-company',
           'journey-info',
         ]),
       }) ??
@@ -51,6 +54,17 @@ export const contactFormConfig: ContactFormConfig = {
         'group-travel',
         'journey-info',
       ]),
+    extraPages: byOrg({
+      atb: [
+        {
+          id: 'extra-company',
+          title: CompanyText.title,
+          slug: 'company',
+          icon: 'places/City',
+          Component: CompanyContent,
+        },
+      ],
+    }),
   },
   transportModes: byOrg({
     atb: ['bus', 'tram', 'expressboat', 'ferry'],

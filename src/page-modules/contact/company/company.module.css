@@ -1,0 +1,61 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: token('spacing.large');
+}
+
+.optionsList {
+  list-style-type: none;
+  padding: 0;
+}
+
+.submitButton {
+  margin: token('spacing.large');
+  margin-top: 0;
+  max-width: 6rem;
+  text-align: center;
+}
+
+.examplesList {
+  padding-left: token('spacing.xLarge');
+}
+
+.travelCards {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: token('spacing.small');
+}
+
+.travelCards > * {
+  width: 100%;
+}
+
+.travelCards > button {
+  width: auto;
+}
+
+.travelCardRow {
+  display: flex;
+  gap: token('spacing.small');
+}
+
+.input {
+  background: transparent;
+  color: token('color.foreground.dynamic.primary');
+  padding: token('spacing.small');
+  border: token('border.width.slim') solid
+    token('color.foreground.dynamic.primary');
+  border-radius: token('border.radius.small');
+  width: 100%;
+}
+
+.input:focus {
+  outline: 0;
+  box-shadow: inset 0 0 0 token('border.width.slim')
+    token('color.interactive.2.outline.background');
+}
+
+.inputError {
+  border-color: token('color.status.error.primary.background');
+}
