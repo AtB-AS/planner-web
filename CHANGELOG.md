@@ -1,5 +1,21 @@
 # Changelog
 
+## [3.27.0](https://github.com/AtB-AS/planner-web/compare/v3.26.1...v3.27.0) (2026-10-12)
+
+
+### Features
+
+* **atb-contact:** hide group-travel page ([#813](https://github.com/AtB-AS/planner-web/issues/813)) ([72d8a3f](https://github.com/AtB-AS/planner-web/commit/72d8a3fe6582edbe8150c27d33e992a781360075))
+* **atb-contact:** initial org-specific translations ([#808](https://github.com/AtB-AS/planner-web/issues/808)) ([4f39fae](https://github.com/AtB-AS/planner-web/commit/4f39fae43507921468b701fe80322edf474c4806))
+
+
+### Bug Fixes
+
+* Adjust radio segment styling to match design ([#807](https://github.com/AtB-AS/planner-web/issues/807)) ([b77a688](https://github.com/AtB-AS/planner-web/commit/b77a68875cabacad0d13152ed18474495743ebfb))
+* Adjust search styling to match design ([#805](https://github.com/AtB-AS/planner-web/issues/805)) ([0ec18d8](https://github.com/AtB-AS/planner-web/commit/0ec18d824b7d48081f10eba8905fa8579678fb54))
+* **atb-contact:** 'Ruteinformasjon' → 'Reiseinformasjon' ([#812](https://github.com/AtB-AS/planner-web/issues/812)) ([5f763ea](https://github.com/AtB-AS/planner-web/commit/5f763ea8b7256a43d3f4ce9a430b297533426594))
+* **atb:** disable contact form in production ([#814](https://github.com/AtB-AS/planner-web/issues/814)) ([dacbdc5](https://github.com/AtB-AS/planner-web/commit/dacbdc5697fc5b068c732ec5fd4f2ef423c5c468))
+
 ## [3.26.1](https://github.com/AtB-AS/planner-web/compare/v3.26.0...v3.26.1) (2026-10-07)
 
 
