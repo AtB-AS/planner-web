@@ -16,6 +16,7 @@ export const contactFormConfig: ContactFormConfig = {
     enableRequiredLineInServiceOffering: true,
     includeOrderIdAndAmountInOtherTicketRefund: true,
     enableRequiredAttachmentInOtherTicketRefund: true,
+    enableInternationalBankAccountInRefund: byOrg({ atb: false }),
   },
   pages: {
     enabledPageIds:
