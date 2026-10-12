@@ -3,6 +3,7 @@ import type {
   ReasonForTransportFailure,
 } from '@mrfylke/contact-form';
 import { translation as _ } from '@atb/translations/commons';
+import { richTranslation as _rich } from '@mrfylke/contact-form';
 import { byOrg } from '@atb/modules/org-data';
 
 export const translations: ContactFormTranslationsOverride = {
@@ -127,14 +128,12 @@ export const translations: ContactFormTranslationsOverride = {
                     'Travel cards can be provided by the bus driver, or the sailor on board the express boat. They can also be obtained at sales offices in Molde and Ålesund. Blank cards are provided free of charge upon delivery.',
                     'Reisekort får du tak i hos sjåføren om bord i bussen, eller matrosen om bord i hurtigbåten. Det er også tilgjengeleg på salskontoret i Molde og Ålesund. Dei har tomme kort som er gratis ved utlevering.',
                   ),
-                ],
-                detailWithUrl: {
-                  href: _(
-                    'https://nettbutikk.frammr.no/',
-                    'https://nettbutikk.frammr.no/',
-                    'https://nettbutikk.frammr.no/',
+                  _rich(
+                    'Du trenger ikke kjøpe produktet hos sjåfør. Du kan ta med deg et kort og fylle på det produktet du vil i [nettbutikken](https://nettbutikk.frammr.no/)',
+                    'You don’t need to purchase the product from the driver. You can take a card with you and top up the desired product later in the [webshop](https://nettbutikk.frammr.no/)',
+                    'Du treng ikkje kjøpe produktet hos sjåfør. Du kan ta med deg eit kort og fylle på det produktet du vil i [nettbutikken](https://nettbutikk.frammr.no/)',
                   ),
-                },
+                ],
               },
             },
           },
@@ -347,13 +346,18 @@ export const translations: ContactFormTranslationsOverride = {
             },
             travelCard: {
               orderTravelCard: {
-                detailWithUrl: {
-                  href: _(
-                    'https://www.atb.no/billett/',
-                    'https://www.atb.no/en/ticket/',
-                    'https://www.atb.no/billett/',
+                detailsList: [
+                  _rich(
+                    'Et t:kort er et fysisk plastkort. Du kan bestille det [her](https://www.atb.no/bestill-tkort/).',
+                    'A travel card is a physical plastic card. You can order one [here](https://www.atb.no/bestill-tkort/).',
+                    'Eit t:kort er eit fysisk plastkort. Du kan bestille det [her](https://www.atb.no/bestill-tkort/).',
                   ),
-                },
+                  _rich(
+                    't:kort kan fylles på i [nettbutikk](https://nettbutikk.atb.no/) eller i kundesenteret vårt i Prinsens gate 41, 7011 Trondheim.',
+                    'You can top up your travel card in the [webshop](https://nettbutikk.atb.no/) or at our customer service center at Prinsens gate 41, 7011 Trondheim.',
+                    't:kort kan fyllast på i [nettbutikken](https://nettbutikk.atb.no/) eller i kundesenteret vårt i Prinsens gate 41, 7011 Trondheim.',
+                  ),
+                ],
               },
             },
             refund: {
