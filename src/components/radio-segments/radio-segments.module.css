@@ -47,7 +47,7 @@
 
 .option__input:not(:checked):hover + .option__label {
   background-color: token('color.interactive.2.hover.background');
-  transition: background-color 0.3s ease-in-out;
+  transition: background-color 150ms ease;
 }
 
 @media (prefers-reduced-motion: reduce) {
