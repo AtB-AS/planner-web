@@ -51,6 +51,9 @@ export const contactFormConfig: ContactFormConfig = {
       },
     },
     atb: {
+      ticketControl: {
+        enabledFormTypes: ['feeComplaint', 'feedback'],
+      },
       refund: {
         enabledFormCategories: [
           'refundOfTicket',
