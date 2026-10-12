@@ -187,7 +187,7 @@ export const translations: ContactFormTranslationsOverride = {
                   _(
                     'Kunden bruker et skjermbilde av billett eller en forfalsket billett.',
                     'The customer uses a screenshot of a ticket or a counterfeit ticket.',
-                    'Kunden brukar eit skjermbilde av billett eller ein forfalska billett.',
+                    'Kunden brukar eit skjermbilete av billett eller ein forfalska billett.',
                   ),
                   _(
                     'Kunden kjøper billett til seg selv eller andre for seint, for eksempel etter ombordstiging.',
