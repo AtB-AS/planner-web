@@ -419,6 +419,20 @@ export const translations: ContactFormTranslationsOverride = {
               ),
             },
           },
+          journeyInfo: {
+            title: _(
+              'Reiseinformasjon',
+              'Travel information',
+              'Reiseinformasjon',
+            ),
+            info: {
+              useTravelSearch: _(
+                'Du kan bruke reiseplanleggeren for å finne oppdatert reiseinformasjon om linjene, holdeplassene, tidene og annet.',
+                'You can use the journey planner to find updated travel information about the lines, stops, times and other.',
+                'Du kan bruke reiseplanleggaren for å finne oppdatert reiseinformasjon om linjene, haldeplassene, tidene og anna.',
+              ),
+            },
+          },
           input: {
             purchasePlatform: {
               platforms: {
