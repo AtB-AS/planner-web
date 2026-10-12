@@ -51,6 +51,9 @@ export const contactFormConfig: ContactFormConfig = {
         'journey-info',
       ]),
   },
+  transportModes: byOrg({
+    atb: ['bus', 'tram', 'expressboat', 'ferry'],
+  }),
   formSchemaOverrides: byOrg({
     fram: {
       refund: {
