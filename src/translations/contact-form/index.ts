@@ -1,5 +1,6 @@
 import {
   T,
+  TicketTypeId,
   type ContactFormTranslationsOverride,
   type ReasonForTransportFailure,
 } from '@mrfylke/contact-form';
@@ -505,6 +506,22 @@ export const translations: ContactFormTranslationsOverride = {
                   ),
                 },
               ] satisfies ReasonForTransportFailure[],
+            },
+            ticketType: {
+              options: [
+                {
+                  id: TicketTypeId.SingleTicket,
+                  name: _('Enkeltbillett', 'Single ticket', 'Enkeltbillett'),
+                },
+                {
+                  id: TicketTypeId.PeriodTicket,
+                  name: _('Periodebillett', 'Period ticket', 'Periodebillett'),
+                },
+                {
+                  id: 'carnet',
+                  name: _('Klippekort', 'Carnet', 'Klippekort'),
+                },
+              ],
             },
           },
         },
