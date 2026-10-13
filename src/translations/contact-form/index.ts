@@ -220,6 +220,13 @@ export const translations: ContactFormTranslationsOverride = {
                 'Travel guarantee',
                 'Reisegaranti',
               ),
+              refundTaxi: {
+                label: _(
+                  'Jeg ønsker refusjon for alternativ transport',
+                  'I would like a refund for alternative transportation',
+                  'Eg ønsker refusjon for alternativ transport',
+                ),
+              },
               refundCar: {
                 label: _(
                   'Jeg ønsker refusjon for kjøregodtgjørelse',
@@ -300,10 +307,15 @@ export const translations: ContactFormTranslationsOverride = {
             },
             refundTaxi: {
               taxiReceipt: {
+                title: _(
+                  'Informasjon fra kvitteringen',
+                  'Information from the receipt',
+                  'Informasjon frå kvitteringa',
+                ),
                 info: _(
-                  'Last opp en kopi eller et bilde av kvitteringen fra billettkjøpet. Kvittering/billett må inneholde produkt kjøpt, dato og salgsreferanse',
-                  'Upload a copy or a photo of the receipt from your ticket purchase. The receipt/ticket must include the product purchased, the date, and the sales reference.',
-                  'Last opp ein kopi eller eit bilete av kvitteringa frå billettkjøpet. Kvitteringa/billetten må innehalde kva produkt som er kjøpt, dato og salsreferanse',
+                  'Last opp en kopi eller et bilde av kvitteringen fra turen. Kvitteringen må inneholde informasjon om hvor du reiste fra og til.',
+                  'Upload a copy or a photo of the receipt from the ride. The receipt must contain information about where you traveled from and to.',
+                  'Last opp ein kopi eller eit bilde av kvitteringa frå turen. Kvitteringa må innehalde informasjon om kor du reiste frå og til.',
                 ),
               },
             },
