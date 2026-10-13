@@ -14,7 +14,9 @@ export const contactFormConfig: ContactFormConfig = {
     includeOtherTicketTypeSelector: true,
     includeCustomerNumberAndPurchasePlatformInAppTicketRefund: true,
     enableRequiredLineInServiceOffering: true,
-    includeOrderIdAndAmountInOtherTicketRefund: true,
+    includeOrderIdInOtherTicketRefund: true,
+    includeAmountInOtherTicketRefund: byOrg({ atb: false }) ?? true,
+    includeAmountInRefundTaxi: byOrg({ atb: false }) ?? true,
     enableRequiredAttachmentInOtherTicketRefund: true,
   },
   pages: {
