@@ -26,6 +26,7 @@ export default defineConfig({
       include: [
         resolve(__dirname, 'widget.ts'),
         resolve(__dirname, '../types/additional.d.ts'),
+        resolve(__dirname, '../types/svg.d.ts'),
       ],
       rollupTypes: true,
     }),
