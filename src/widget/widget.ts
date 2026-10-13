@@ -6,6 +6,7 @@ import Combobox from '@github/combobox-nav';
 
 import style from './widget.module.css';
 import { andIf } from '../utils/css';
+import swapIconSvg from '../../public/assets/mono/actions/Swap.svg?raw';
 
 const DEFAULT_DEBOUNCE_TIME = 300;
 
@@ -700,13 +701,7 @@ function createOutput(
                 aria-label="${texts.geoButton}"
                 type="button"
               >
-                <img
-                  src="${URL_BASE}/assets/mono/actions/Swap.svg"
-                  width="20"
-                  height="20"
-                  role="none"
-                  alt=""
-                />
+                ${tintedSvg(swapIconSvg, 20)}
               </button>
             </pw-swapbutton>
             <pw-messagebox></pw-messagebox>
@@ -892,6 +887,20 @@ function el<K extends keyof HTMLElementTagNameMap>(
   }
   item.className = className;
   return item;
+}
+
+/**
+ * Make a mono SVG follow the surrounding text color, like TintedMonoIcon.
+ *
+ * Note: This assumes a certain attribute structure to the svg.
+ * Always double check if it renders correctly.
+ */
+function tintedSvg(svg: string, size: number) {
+  return svg
+    .replace(/fill="(?!none)[^"]*"/g, 'fill="currentColor"')
+    .replace(/width="\d+"/, `width="${size}"`)
+    .replace(/height="\d+"/, `height="${size}"`)
+    .replace('<svg', '<svg aria-hidden="true" focusable="false"');
 }
 
 function safeParse(input: string | null, defaultValue: number) {
