@@ -471,6 +471,13 @@ export const translations: ContactFormTranslationsOverride = {
                 'Kundenummeret består av 7 siffer og du finn det under Profil i AtB-appen, eller i nettbutikken.',
               ),
             },
+            refundReason: {
+              description: _(
+                'Ved avvik/feilkjøp og bruk av alternativ transport må dette dokumenteres med vedlegg. For eksempel billett/kvittering fra flybuss, tog, reise med sparkesykkel med mer.',
+                'In case of deviations/incorrect purchases and use of alternative transport, this must be documented with attachments. For example, a ticket/receipt from the airport bus, train, e-scooter trip and more.',
+                'Ved avvik/feilkjøp og bruk av alternativ transport må dette dokumenterast med vedlegg. Til dømes billett/kvittering frå flybuss, tog, reise med sparkesykkel med meir.',
+              ),
+            },
             reasonForTransportFailure: {
               options: [
                 {
