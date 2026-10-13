@@ -1,4 +1,5 @@
 /** @type {import('next').NextConfig} */
+const { version } = require('./package.json');
 
 const orgId = process.env.NEXT_PUBLIC_PLANNER_ORG_ID;
 
@@ -7,6 +8,7 @@ const orgId = process.env.NEXT_PUBLIC_PLANNER_ORG_ID;
  */
 const nextConfig = {
   output: 'standalone',
+  env: { PLANNER_WEB_VERSION: version },
   transpilePackages: ['@atb-as/mapbox-shared', '@mrfylke/contact-form'],
   async headers() {
     return [
