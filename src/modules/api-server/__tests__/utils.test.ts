@@ -154,4 +154,22 @@ describe('requester utils', () => {
       }),
     );
   });
+
+  it('should send planner web version', async () => {
+    vi.stubEnv('PLANNER_WEB_VERSION', '1.2.3');
+    const requester = createRequester('http-bff');
+
+    try {
+      await requester('/');
+    } catch (e) {}
+
+    expect(mockFetch).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.objectContaining({
+        headers: expect.objectContaining({
+          'Atb-Planner-Web-Version': '1.2.3',
+        }),
+      }),
+    );
+  });
 });

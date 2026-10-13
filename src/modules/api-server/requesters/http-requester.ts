@@ -36,6 +36,7 @@ export function createRequester<T extends HttpEndpoints>(
         headers: {
           ...init?.headers,
           ...getEtNameHeaders(),
+          'Atb-Planner-Web-Version': process.env.PLANNER_WEB_VERSION || '',
           ...headers,
           Accept: 'application/json',
           'Content-Type': 'application/json',
