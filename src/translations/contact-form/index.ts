@@ -237,6 +237,11 @@ export const translations: ContactFormTranslationsOverride = {
             },
             agreement: {
               title: _('Reisegaranti', 'Travel guarantee', 'Reisegaranti'),
+              delayedRefundText: _(
+                'Ved forsinkelser eller innstillinger på buss, bestillingstransport eller hurtigbåt, kan du ha rett til refusjon for utlegg til annen skyss. Merk at vi ikke betaler ut reisegaranti til utenlandsk konto.',
+                'If your bus, on-demand transport, or express boat is delayed or canceled, you may be entitled to a refund for the cost of alternative transportation. Please note that we do not make travel guarantee payments to international bank accounts.',
+                'Ved forseinkingar eller innstillingar på buss, bestillingstransport eller hurtigbåt kan du ha rett til refusjon for utlegg til annan skyss. Merk at vi ikkje betaler ut reisegaranti til utanlandsk konto.',
+              ),
               travelGuaranteeExceptions: {
                 exceptions: [
                   {
