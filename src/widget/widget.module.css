@@ -34,6 +34,10 @@
   composes: container from assistant;
 }
 
+.form_departures {
+  composes: form;
+}
+
 @media (max-width: 650px) {
   .form {
     padding: 0;
@@ -155,6 +159,11 @@ a.tabSelected {
   .selector_options,
   .selector_options__small {
     width: 100%;
+  }
+  .form_departures .button,
+  .form_departures .buttonLightOutline {
+    flex: 1;
+    text-align: center;
   }
 }
 .selector_option {

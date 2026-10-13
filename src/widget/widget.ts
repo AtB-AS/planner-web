@@ -721,7 +721,7 @@ function createOutput(
   `;
   const departures = html`
     <form
-      class="${style.form}"
+      class="${style.form_departures}"
       action="${URL_BASE}/departures"
       id="pw-form-departures"
       method="get"
