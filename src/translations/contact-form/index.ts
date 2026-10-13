@@ -280,68 +280,26 @@ export const translations: ContactFormTranslationsOverride = {
               travelGuaranteeExceptions: {
                 exceptions: [
                   {
-                    text: _(
-                      'Reisegarantien gjelder ikke for båtene. Reisegarantien gjelder heller ikke for kommersielle busslinjer.',
-                      'The travel guarantee does not apply to the boats. The travel guarantee also does not apply to commercial bus lines.',
-                      'Reisegarantien gjeld ikkje for båtane. Reisegarantien gjeld heller ikkje for kommersielle busslinjer.',
+                    text: _rich(
+                      'Les mer om [reisegaranti for buss](https://www.atb.no/reisegaranti-buss/)',
+                      'Read more about [travel guarantee for bus](https://www.atb.no/reisegaranti-buss/)',
+                      'Les meir om [reisegaranti for buss](https://www.atb.no/reisegaranti-buss/)',
                     ),
                     examples: [],
                   },
                   {
-                    text: _(
-                      'Reisegarantien gjelder ikke dersom det er 20 minutter eller mindre til neste avgang i henhold til rutetabellen.',
-                      'The travel guarantee does not apply if there are 20 minutes or less until the next departure according to the timetable.',
-                      'Reisegarantien gjeld ikkje dersom det er 20 minutt eller mindre til neste avgang i følgje rutetabellen.',
+                    text: _rich(
+                      'Les mer om [reisegaranti for hurtigbåt](https://www.atb.no/reisegaranti-hurtigbat/)',
+                      'Read more about [travel guarantee for express boat](https://www.atb.no/reisegaranti-hurtigbat/)',
+                      'Les meir om [reisegaranti for hurtigbåt](https://www.atb.no/reisegaranti-hurtigbat/)',
                     ),
                     examples: [],
-                  },
-                  {
-                    text: _(
-                      'Reisegarantien gjelder heller ikke hvis forsinkelsen eller innstillingen skyldes forhold utenfor kontrollen til AtB eller operatøren. Dette inkluderer situasjoner som (for eksempel):',
-                      'The travel guarantee also does not apply if the delay or cancellation is due to circumstances beyond the control of AtB or the operator. These are cases such as (for example):',
-                      'Reisegarantien gjeld heller ikkje dersom forseinkinga eller innstillinga skjer på grunn av forhold utanfor kontrollen til AtB eller operatøren. Dette er tilfelle som (for eksempel):',
-                    ),
-                    examples: [
-                      _(
-                        'offentlige påbud og forbud',
-                        'public orders and prohibitions',
-                        'offentlege påbod og forbod',
-                      ),
-                      _(
-                        'streik og lignende',
-                        'strikes and similar situations',
-                        'streik og liknande',
-                      ),
-                      _(
-                        'naturkatastrofer',
-                        'natural disasters',
-                        'naturkatastrofar',
-                      ),
-                      _(
-                        'ekstraordinære værforhold',
-                        'extraordinary weather conditions',
-                        'ekstraordinære vêrforhold',
-                      ),
-                      _(
-                        'vegarbeid eller uforutsette problemer med kjøreveien',
-                        'roadworks or unforeseen issues with the road',
-                        'vegarbeid eller uførutsette problem med køyrevegen',
-                      ),
-                      _(
-                        'større arrangementer eller andre trafikale forhold som i stor grad rammer kollektivtrafikken',
-                        'major events or other traffic conditions that significantly affect public transportation',
-                        'større arrangement eller andre trafikale forhold som i stor grad rammar kollektivtrafikken',
-                      ),
-                      _('pandemi', 'pandemic', 'pandemi'),
-                    ],
                   },
                 ],
+                exclusion: _(''),
                 link: {
-                  href: _(
-                    'https://www.atb.no/reisegaranti-buss/',
-                    'https://www.atb.no/en/travel-guarantee/',
-                    'https://www.atb.no/reisegaranti-buss/',
-                  ),
+                  text: _(''),
+                  href: _(''),
                 },
               },
             },
