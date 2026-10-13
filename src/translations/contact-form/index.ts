@@ -1,12 +1,48 @@
-import type {
-  ContactFormTranslationsOverride,
-  ReasonForTransportFailure,
+import {
+  T,
+  type ContactFormTranslationsOverride,
+  type ReasonForTransportFailure,
 } from '@mrfylke/contact-form';
 import { translation as _ } from '@atb/translations/commons';
 import { richTranslation as _rich } from '@mrfylke/contact-form';
 import { byOrg } from '@atb/modules/org-data';
 
 export const translations: ContactFormTranslationsOverride = {
+  terms: byOrg<ContactFormTranslationsOverride['terms']>({
+    atb: {
+      travelCard: {
+        base: _('t:kort', 't:card', 't:kort'),
+        indefinite: _('et t:kort', 'a t:card', 'eit t:kort'),
+        definite: _('t:kortet', 'the t:card', 't:kortet'),
+        plural: _('t:kort', 't:cards', 't:kort'),
+        // t:kort is never capitalized.
+        capitalized: {
+          base: _('t:kort', 't:card', 't:kort'),
+          definite: _('t:kortet', 'The t:card', 't:kortet'),
+          plural: _('t:kort', 't:cards', 't:kort'),
+        },
+      },
+      travelCardNumber: {
+        base: _('t:kortnummer', 't:card number', 't:kortnummer'),
+        definite: _('t:kortnummeret', 'the t:card number', 't:kortnummeret'),
+        capitalized: {
+          base: _('t:kortnummer', 't:card number', 't:kortnummer'),
+          definite: _('t:kortnummeret', 'The t:card number', 't:kortnummeret'),
+        },
+      },
+      orgApp: {
+        base: _('AtB-appen', 'the AtB app', 'AtB-appen'),
+        definite: _('AtB-appen', 'the AtB app', 'AtB-appen'),
+        // Standalone label, without "the".
+        capitalized: {
+          base: _('AtB-appen', 'AtB app', 'AtB-appen'),
+        },
+      },
+      ticketApp: {
+        base: _('AtB-appen', 'AtB app', 'AtB-appen'),
+      },
+    },
+  }),
   pages: {
     Contact:
       byOrg<NonNullable<ContactFormTranslationsOverride['pages']>['Contact']>({
@@ -451,7 +487,6 @@ export const translations: ContactFormTranslationsOverride = {
           input: {
             purchasePlatform: {
               platforms: {
-                framApp: _('AtB-appen', 'AtB app', 'AtB-appen'),
                 framWeb: _('AtB nettbutikk', 'AtB webshop', 'AtB nettbutikk'),
               },
             },
@@ -491,9 +526,9 @@ export const translations: ContactFormTranslationsOverride = {
                 {
                   id: 'incorrectAppInformation',
                   name: _(
-                    'Feil informasjon i app eller reiseplanlegger',
-                    'Incorrect information in app or travel planner',
-                    'Feil informasjon i app eller reiseplanlegger',
+                    `Feil informasjon i ${T.orgApp.base} eller reiseplanlegger`,
+                    `Incorrect information in ${T.orgApp.base} or travel planner`,
+                    `Feil informasjon i ${T.orgApp.base} eller reiseplanlegger`,
                   ),
                 },
               ] satisfies ReasonForTransportFailure[],
