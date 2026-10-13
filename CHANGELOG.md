@@ -1,5 +1,18 @@
 # Changelog
 
+## [3.27.1](https://github.com/AtB-AS/planner-web/compare/v3.27.0...v3.27.1) (2026-10-13)
+
+
+### Features
+
+* **atb-contact:** update travel guarantee translations ([#817](https://github.com/AtB-AS/planner-web/issues/817)) ([4e697c0](https://github.com/AtB-AS/planner-web/commit/4e697c0e3b137aed3398c5c70fa532f3ac3405c8))
+* **atb-contact:** update travel guarantee translations ([#820](https://github.com/AtB-AS/planner-web/issues/820)) ([3bdf827](https://github.com/AtB-AS/planner-web/commit/3bdf827ccf5847d2ab408af48e086478d922aea7))
+
+
+### Miscellaneous Chores
+
+* release 3.27.1 ([d45bc36](https://github.com/AtB-AS/planner-web/commit/d45bc36f56e34727131f68cff92b88a6487c7bcf))
+
 ## [3.27.0](https://github.com/AtB-AS/planner-web/compare/v3.26.1...v3.27.0) (2026-10-12)
 
 
