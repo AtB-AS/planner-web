@@ -16,6 +16,7 @@ export const contactFormConfig: ContactFormConfig = {
     includeOrderIdInOtherTicketRefund: true,
     includeAmountInOtherTicketRefund: byOrg({ atb: false }) ?? true,
     includeAmountInRefundTaxi: byOrg({ atb: false }) ?? true,
+    includePhoneNumberInPriceAndTravelSuggestion: byOrg({ atb: true }),
     enableRequiredReceiptAttachmentInOtherTicketRefund: true,
     enableIdentificationAttachmentInOtherTicketRefund: byOrg({ atb: true }),
     enableInternationalBankAccountInTravelGuarantee: byOrg({ atb: false }),
