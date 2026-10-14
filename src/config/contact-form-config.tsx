@@ -10,14 +10,13 @@ const contactFormTheme = adaptAtbTheme(theme);
 export const contactFormConfig: ContactFormConfig = {
   theme: contactFormTheme,
   features: {
-    enableFileUploads: true,
     includeOtherTicketTypeSelector: true,
     includeCustomerNumberAndPurchasePlatformInAppTicketRefund: true,
     enableRequiredLineInServiceOffering: true,
     includeOrderIdInOtherTicketRefund: true,
     includeAmountInOtherTicketRefund: byOrg({ atb: false }) ?? true,
     includeAmountInRefundTaxi: byOrg({ atb: false }) ?? true,
-    enableRequiredAttachmentInOtherTicketRefund: true,
+    enableRequiredReceiptAttachmentInOtherTicketRefund: true,
     enableInternationalBankAccountInTravelGuarantee: byOrg({ atb: false }),
   },
   pages: {
