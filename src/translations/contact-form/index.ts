@@ -468,6 +468,16 @@ export const translations: ContactFormTranslationsOverride = {
           },
           modeOfTransport: {
             injury: {
+              description: _(
+                'Melde fra om personskade eller skade på eiendel',
+                'Report personal injury or damage to property',
+                'Melde frå om personskade eller skade på eigedel',
+              ),
+              feedbackDescription: _(
+                'Unngå å oppgi personlig informasjon som bankkortnummer eller helseopplysninger. Vi vil spørre deg senere om det er nødvendig. Utlegg (som for eksempel rens av klær eller reparasjon på eiendel/kjøretøy) må dokumenteres med vedlegg.',
+                'Avoid providing personal information such as bank card numbers or health information. We will ask you later if it is necessary. Expenses (for example cleaning of clothes or repair of property/vehicle) must be documented with attachments.',
+                'Unngå å oppgi personopplysningar som bankkortnummer eller helseopplysningar. Vi spør deg seinare viss det er nødvendig. Utlegg (som til dømes reinsing av klede eller reparasjon av eigedel/køyretøy) må dokumenterast med vedlegg.',
+              ),
               info: _(
                 'Ønsker du å kreve erstatning for tap av eller skade på gjenstander eller person, må krav sendes til AtB kundesenter innen rimelig tid. Erstatningskravet må dokumenteres.',
                 'If you wish to claim compensation for loss of or damage to property, or for personal injury, you must submit your claim to the AtB service center within a reasonable time. The compensation claim must be supported by evidence.',
