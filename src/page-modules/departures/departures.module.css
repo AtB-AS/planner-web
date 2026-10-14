@@ -49,7 +49,7 @@
 .buttons {
   align-self: end;
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
   gap: token('spacing.medium');
   width: 100%;
   max-width: var(--maxPageWidth);
@@ -78,6 +78,8 @@
   }
 
   .buttons {
+    display: grid;
+    grid-template-columns: 1fr;
     grid-area: buttons;
     position: relative;
   }

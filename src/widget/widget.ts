@@ -510,7 +510,7 @@ function createOutput(
 
   customElements.define('pw-autocomplete', AutocompleteBox);
 
-  const buttons = html`
+  const buttons = (label: string) => html`
     <div class="${style.buttonGroup}">
       <button
         type="submit"
@@ -518,7 +518,7 @@ function createOutput(
           ? style.button
           : style.buttonLightOutline}"
       >
-        <span>${texts.searchButton}</span>
+        <span>${label}</span>
       </button>
     </div>
   `;
@@ -711,12 +711,12 @@ function createOutput(
           ? searchTime('pw-assistant')
           : ''}
       </div>
-      ${buttons}
+      ${buttons(texts.searchButton)}
     </form>
   `;
   const departures = html`
     <form
-      class="${style.form}"
+      class="${style.form_departures}"
       action="${URL_BASE}/departures"
       id="pw-form-departures"
       method="get"
@@ -765,7 +765,7 @@ function createOutput(
           ? searchTime('pw-departures', false)
           : ''}
       </div>
-      ${buttons}
+      ${buttons(texts.departure.searchButton)}
     </form>
   `;
 
@@ -1135,6 +1135,7 @@ type Texts = {
     link: string;
     title: string;
     from: string;
+    searchButton: string;
   };
   searchTime: {
     title: string;
@@ -1169,6 +1170,7 @@ const texts: Record<Languages, Texts> = {
       link: 'Se avganger',
       title: 'Hvor vil du reise fra?',
       from: 'Fra',
+      searchButton: 'Finn avganger',
     },
     searchTime: {
       title: 'Når vil du reise?',
@@ -1200,6 +1202,7 @@ const texts: Record<Languages, Texts> = {
       link: 'Sjå avganger',
       title: 'Kor vil du reise frå?',
       from: 'Frå',
+      searchButton: 'Finn avgangar',
     },
     searchTime: {
       title: 'Når vil du reise?',
@@ -1231,6 +1234,7 @@ const texts: Record<Languages, Texts> = {
       link: 'See departures',
       title: 'Where do you want to travel from?',
       from: 'From',
+      searchButton: 'Find departures',
     },
     searchTime: {
       title: 'When do you want to travel?',

@@ -260,6 +260,17 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
           ].join(' ')}
         >
           <Button
+            title={t(PageText.Assistant.search.buttons.find.title)}
+            className={style.button}
+            mode={'primary'}
+            radiusSize="circular"
+            disabled={
+              !tripQuery.from || !tripQuery.to || isPerformingSearchNavigation
+            }
+            buttonProps={{ type: 'submit' }}
+            testID="findTravelsButton"
+          />
+          <Button
             title={
               showAlternatives
                 ? t(PageText.Assistant.search.buttons.alternatives.less)
@@ -273,20 +284,8 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
             onClick={() => setShowAlternatives(!showAlternatives)}
             icon={{ right: <MonoIcon icon="actions/Adjust" /> }}
           />
-          <Button
-            title={t(PageText.Assistant.search.buttons.find.title)}
-            className={style.button}
-            mode={'primary'}
-            radiusSize="circular"
-            disabled={
-              !tripQuery.from || !tripQuery.to || isPerformingSearchNavigation
-            }
-            buttonProps={{ type: 'submit' }}
-            testID="findTravelsButton"
-          />
         </div>
       </form>
-
       <section className={style.contentContainer}>
         <GlobalMessages context={GlobalMessageContextEnum.plannerWeb} />
         <EmptySearch
