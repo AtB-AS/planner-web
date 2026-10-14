@@ -372,6 +372,13 @@ export const translations: ContactFormTranslationsOverride = {
               },
             },
             refund: {
+              appTicketRefund: {
+                label: _(
+                  `Billetter kjøpt i ${T.orgApp.base}, nettbutikk eller SMS`,
+                  `Tickets purchased in ${T.orgApp.base}, webshop or by SMS`,
+                  `Billettar kjøpte i ${T.orgApp.base}, nettbutikk eller SMS`,
+                ),
+              },
               initialAgreement: {
                 ticketRefundAvailability: {
                   rules: [

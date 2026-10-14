@@ -74,7 +74,7 @@ export const contactFormConfig: ContactFormConfig = {
           'refundAndTravelGuarantee',
           'residualValueOnTravelCard',
         ],
-        enabledPurchasePlatforms: ['framApp', 'framWeb'],
+        enabledPurchasePlatforms: ['framApp', 'framWeb', 'sms'],
       },
     },
   }),
