@@ -28,6 +28,8 @@
      shrinking below the content. */
   flex: 1 1 0;
   min-width: max-content;
+  /* Keep them from growing very wide, e.g. in a wide widget container. */
+  max-width: 16rem;
   --height: 2.75rem;
   /* padding: 0 token('spacing.medium'); */
   border-radius: token('border.radius.regular');
