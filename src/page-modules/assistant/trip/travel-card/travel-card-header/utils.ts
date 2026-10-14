@@ -9,11 +9,9 @@ export function getTripFromToNames(
   tripPattern: ExtendedTripPatternWithDetailsType,
   t: TranslateFunction,
 ) {
-  const firstLeg = tripPattern.legs[0];
-  const fromLeg =
-    firstLeg?.mode === 'foot' && tripPattern.legs[1]
-      ? tripPattern.legs[1]
-      : firstLeg;
+  // use starting place name as "from" name,
+  // instead of the first transit quay.
+  const fromLeg = tripPattern.legs[0];
   const toLeg = tripPattern.legs[tripPattern.legs.length - 1];
 
   return {
