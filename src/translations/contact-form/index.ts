@@ -1,11 +1,48 @@
-import type {
-  ContactFormTranslationsOverride,
-  ReasonForTransportFailure,
+import {
+  T,
+  type ContactFormTranslationsOverride,
+  type ReasonForTransportFailure,
 } from '@mrfylke/contact-form';
 import { translation as _ } from '@atb/translations/commons';
+import { richTranslation as _rich } from '@mrfylke/contact-form';
 import { byOrg } from '@atb/modules/org-data';
 
 export const translations: ContactFormTranslationsOverride = {
+  terms: byOrg<ContactFormTranslationsOverride['terms']>({
+    atb: {
+      travelCard: {
+        base: _('t:kort', 't:card', 't:kort'),
+        indefinite: _('et t:kort', 'a t:card', 'eit t:kort'),
+        definite: _('t:kortet', 'the t:card', 't:kortet'),
+        plural: _('t:kort', 't:cards', 't:kort'),
+        // t:kort is never capitalized.
+        capitalized: {
+          base: _('t:kort', 't:card', 't:kort'),
+          definite: _('t:kortet', 'The t:card', 't:kortet'),
+          plural: _('t:kort', 't:cards', 't:kort'),
+        },
+      },
+      travelCardNumber: {
+        base: _('t:kortnummer', 't:card number', 't:kortnummer'),
+        definite: _('t:kortnummeret', 'the t:card number', 't:kortnummeret'),
+        capitalized: {
+          base: _('t:kortnummer', 't:card number', 't:kortnummer'),
+          definite: _('t:kortnummeret', 'The t:card number', 't:kortnummeret'),
+        },
+      },
+      orgApp: {
+        base: _('AtB-appen', 'the AtB app', 'AtB-appen'),
+        definite: _('AtB-appen', 'the AtB app', 'AtB-appen'),
+        // Standalone label, without "the".
+        capitalized: {
+          base: _('AtB-appen', 'AtB app', 'AtB-appen'),
+        },
+      },
+      ticketApp: {
+        base: _('AtB-appen', 'AtB app', 'AtB-appen'),
+      },
+    },
+  }),
   pages: {
     Contact:
       byOrg<NonNullable<ContactFormTranslationsOverride['pages']>['Contact']>({
@@ -127,14 +164,12 @@ export const translations: ContactFormTranslationsOverride = {
                     'Travel cards can be provided by the bus driver, or the sailor on board the express boat. They can also be obtained at sales offices in Molde and Ålesund. Blank cards are provided free of charge upon delivery.',
                     'Reisekort får du tak i hos sjåføren om bord i bussen, eller matrosen om bord i hurtigbåten. Det er også tilgjengeleg på salskontoret i Molde og Ålesund. Dei har tomme kort som er gratis ved utlevering.',
                   ),
-                ],
-                detailWithUrl: {
-                  href: _(
-                    'https://nettbutikk.frammr.no/',
-                    'https://nettbutikk.frammr.no/',
-                    'https://nettbutikk.frammr.no/',
+                  _rich(
+                    'Du trenger ikke kjøpe produktet hos sjåfør. Du kan ta med deg et kort og fylle på det produktet du vil i [nettbutikken](https://nettbutikk.frammr.no/)',
+                    'You don’t need to purchase the product from the driver. You can take a card with you and top up the desired product later in the [webshop](https://nettbutikk.frammr.no/)',
+                    'Du treng ikkje kjøpe produktet hos sjåfør. Du kan ta med deg eit kort og fylle på det produktet du vil i [nettbutikken](https://nettbutikk.frammr.no/)',
                   ),
-                },
+                ],
               },
             },
           },
@@ -335,15 +370,14 @@ export const translations: ContactFormTranslationsOverride = {
                 'Refund of remaining balance',
                 'Refusjon av saldo',
               ),
-              link: {
-                text: _(
-                  'Skjema for refusjon av saldo',
-                  'Form for refund of remaining balance',
-                  'Skjema for refusjon av saldo',
-                ),
-                href: _(
-                  'https://www.atb.no/billettrefusjon/refusjon-t-kort-verdi/',
-                ),
+              text: _(
+                '**t:kort verdi**\nDu kan ikke lenger bruke t:kort for buss, trikk og hurtigbåt med verdi. Hvis du har igjen penger på t:kortet, må du søke om refusjon innen 30. mars 2028. Etter det blir refusjonskrav foreldet.\n\n[Søk refusjon for saldo på t:kort](https://www.atb.no/billettrefusjon/refusjon-t-kort-verdi/)\n\n**Mobillett konto**\nAppen AtB Mobillett er avviklet og erstattet med AtB-appen. Hvis du har saldo igjen på Mobillett konto, må du søke om refusjon innen 30. april 2027. Etter det blir refusjonskrav foreldet.\n\n[Søk refusjon for saldo på Mobillettkonto](https://www.atb.no/billettrefusjon/refusjon-mobillett-konto/)',
+                '**t:card value**\nYou can no longer use a t:card with value for bus, tram and express boat. If you have money left on your t:card, you must apply for a refund by 30 March 2028. After that, refund claims expire.\n\n[Apply for a refund of remaining t:card balance](https://www.atb.no/en/ticket-refund/)\n\n**Mobillett account**\nThe AtB Mobillett app has been discontinued and replaced by the AtB app. If you have a remaining balance on your Mobillett account, you must apply for a refund by 30 April 2027. After that, refund claims expire.\n\n[Apply for a refund of remaining Mobillett account balance](https://www.atb.no/en/ticket-refund/)',
+                '**t:kort verdi**\nDu kan ikkje lenger bruke t:kort for buss, trikk og hurtigbåt med verdi. Viss du har att pengar på t:kortet, må du søkje om refusjon innan 30. mars 2028. Etter det blir refusjonskrav forelda.\n\n[Søk refusjon for saldo på t:kort](https://www.atb.no/billettrefusjon/refusjon-t-kort-verdi/)\n\n**Mobillett konto**\nAppen AtB Mobillett er avvikla og erstatta med AtB-appen. Viss du har saldo att på Mobillett konto, må du søkje om refusjon innan 30. april 2027. Etter det blir refusjonskrav forelda.\n\n[Søk refusjon for saldo på Mobillettkonto](https://www.atb.no/billettrefusjon/refusjon-mobillett-konto/)',
+              ),
+              automatedProcessNotice: {
+                note: _(''),
+                text: _(''),
               },
             },
           },
@@ -364,13 +398,18 @@ export const translations: ContactFormTranslationsOverride = {
             },
             travelCard: {
               orderTravelCard: {
-                detailWithUrl: {
-                  href: _(
-                    'https://www.atb.no/billett/',
-                    'https://www.atb.no/en/ticket/',
-                    'https://www.atb.no/billett/',
+                detailsList: [
+                  _rich(
+                    'Et t:kort er et fysisk plastkort. Du kan bestille det [her](https://www.atb.no/bestill-tkort/).',
+                    'A travel card is a physical plastic card. You can order one [here](https://www.atb.no/bestill-tkort/).',
+                    'Eit t:kort er eit fysisk plastkort. Du kan bestille det [her](https://www.atb.no/bestill-tkort/).',
                   ),
-                },
+                  _rich(
+                    't:kort kan fylles på i [nettbutikk](https://nettbutikk.atb.no/) eller i kundesenteret vårt i Prinsens gate 41, 7011 Trondheim.',
+                    'You can top up your travel card in the [webshop](https://nettbutikk.atb.no/) or at our customer service center at Prinsens gate 41, 7011 Trondheim.',
+                    't:kort kan fyllast på i [nettbutikken](https://nettbutikk.atb.no/) eller i kundesenteret vårt i Prinsens gate 41, 7011 Trondheim.',
+                  ),
+                ],
               },
             },
             refund: {
@@ -453,7 +492,6 @@ export const translations: ContactFormTranslationsOverride = {
           input: {
             purchasePlatform: {
               platforms: {
-                framApp: _('AtB-appen', 'AtB app', 'AtB-appen'),
                 framWeb: _('AtB nettbutikk', 'AtB webshop', 'AtB nettbutikk'),
               },
             },
@@ -493,9 +531,9 @@ export const translations: ContactFormTranslationsOverride = {
                 {
                   id: 'incorrectAppInformation',
                   name: _(
-                    'Feil informasjon i app eller reiseplanlegger',
-                    'Incorrect information in app or travel planner',
-                    'Feil informasjon i app eller reiseplanlegger',
+                    `Feil informasjon i ${T.orgApp.base} eller reiseplanlegger`,
+                    `Incorrect information in ${T.orgApp.base} or travel planner`,
+                    `Feil informasjon i ${T.orgApp.base} eller reiseplanlegger`,
                   ),
                 },
               ] satisfies ReasonForTransportFailure[],

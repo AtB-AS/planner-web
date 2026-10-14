@@ -14,8 +14,11 @@ export const contactFormConfig: ContactFormConfig = {
     includeOtherTicketTypeSelector: true,
     includeCustomerNumberAndPurchasePlatformInAppTicketRefund: true,
     enableRequiredLineInServiceOffering: true,
-    includeOrderIdAndAmountInOtherTicketRefund: true,
+    includeOrderIdInOtherTicketRefund: true,
+    includeAmountInOtherTicketRefund: byOrg({ atb: false }) ?? true,
+    includeAmountInRefundTaxi: byOrg({ atb: false }) ?? true,
     enableRequiredAttachmentInOtherTicketRefund: true,
+    enableInternationalBankAccountInTravelGuarantee: byOrg({ atb: false }),
   },
   pages: {
     enabledPageIds:
@@ -48,6 +51,9 @@ export const contactFormConfig: ContactFormConfig = {
         'journey-info',
       ]),
   },
+  transportModes: byOrg({
+    atb: ['bus', 'tram', 'expressboat', 'ferry'],
+  }),
   formSchemaOverrides: byOrg({
     fram: {
       refund: {
@@ -65,6 +71,7 @@ export const contactFormConfig: ContactFormConfig = {
           'refundAndTravelGuarantee',
           'residualValueOnTravelCard',
         ],
+        enabledPurchasePlatforms: ['framApp', 'framWeb'],
       },
     },
   }),
