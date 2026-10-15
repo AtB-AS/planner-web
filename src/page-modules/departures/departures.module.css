@@ -65,7 +65,7 @@
     token('border.radius.regular');
 }
 
-@media (max-width: 600px) {
+@media (max-width: 650px) {
   .container {
     padding: token('spacing.medium');
     grid-template-areas:
