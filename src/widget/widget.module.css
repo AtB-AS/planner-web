@@ -215,6 +215,26 @@ a.tabSelected {
   composes: timeSelector from selector;
 }
 
+/* The native inputs can't fully match the assistant's date and time
+   selectors (e.g. Firefox's calendar icon can't be hidden), so only the
+   label and value are styled like them. */
+.selector_dateSelector label,
+.selector_timeSelector label {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  padding-left: token('spacing.medium');
+  padding-right: token('spacing.xSmall');
+  font-weight: var(--baseTypo-body__m__strong-fontWeight, 500);
+}
+.selector_dateSelector input[type='date'],
+.selector_timeSelector input[type='time'] {
+  font: inherit;
+  padding: 0 token('spacing.medium') 0 0;
+  min-width: 0;
+  color: token('color.background.neutral.0.foreground.secondary');
+}
+
 .buttonGroup {
   display: flex;
   justify-content: flex-start;
