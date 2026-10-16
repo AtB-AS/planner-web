@@ -1,5 +1,19 @@
 # Changelog
 
+## [3.28.0](https://github.com/AtB-AS/planner-web/compare/v3.27.1...v3.28.0) (2026-10-16)
+
+
+### Features
+
+* **atb-contact:** hide postponePayment form ([#810](https://github.com/AtB-AS/planner-web/issues/810)) ([35f6367](https://github.com/AtB-AS/planner-web/commit/35f63673d941f87bad74c992c0ef823ce46c34bc))
+
+
+### Bug Fixes
+
+* Adjust buttons alignment to match design ([#816](https://github.com/AtB-AS/planner-web/issues/816)) ([db96bfa](https://github.com/AtB-AS/planner-web/commit/db96bfaa4bc618fc2cd9781ba84ea4f24c568f9d))
+* Adjust date and time input to match design ([#823](https://github.com/AtB-AS/planner-web/issues/823)) ([d69651f](https://github.com/AtB-AS/planner-web/commit/d69651f3961b5f6218168042327fc2c9753465a1))
+* Adjust widget icon to match design ([#811](https://github.com/AtB-AS/planner-web/issues/811)) ([1e8df11](https://github.com/AtB-AS/planner-web/commit/1e8df11fd55a4db43f040f4e7baad65dd81b59e7))
+
 ## [3.27.1](https://github.com/AtB-AS/planner-web/compare/v3.27.0...v3.27.1) (2026-10-13)
 
 
