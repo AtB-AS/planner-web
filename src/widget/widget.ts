@@ -526,7 +526,7 @@ function createOutput(
   const searchTime = (prefix: string, withArriveBy: boolean = true) => html`
     <fieldset class="${style.inputBoxes}">
       <legend class="${style.heading}">${texts.searchTime.title}</legend>
-      <div>
+      <div class="${style.selector_group}">
         <div
           class="${style.selector_options} ${!withArriveBy
             ? style.selector_options__small
