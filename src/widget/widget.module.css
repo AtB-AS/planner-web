@@ -343,6 +343,32 @@ a.tabSelected {
   display: block;
   height: 1.25rem;
 }
+.transportIcon {
+  display: block;
+  border-radius: token('border.radius.regular');
+  padding: token('spacing.xSmall');
+  line-height: 0;
+}
+.transportIcon__bus {
+  background-color: token('color.transport.region.primary.background');
+  color: token('color.transport.region.primary.foreground.primary');
+}
+.transportIcon__tram {
+  background-color: token('color.transport.city.primary.background');
+  color: token('color.transport.city.primary.foreground.primary');
+}
+.transportIcon__rail {
+  background-color: token('color.transport.train.primary.background');
+  color: token('color.transport.train.primary.foreground.primary');
+}
+.transportIcon__air {
+  background-color: token('color.transport.other.primary.background');
+  color: token('color.transport.other.primary.foreground.primary');
+}
+.transportIcon__water {
+  background-color: token('color.transport.boat.primary.background');
+  color: token('color.transport.boat.primary.foreground.primary');
+}
 .itemLocality {
   composes: itemLocality from search;
 }

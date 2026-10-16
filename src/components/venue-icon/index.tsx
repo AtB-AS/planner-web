@@ -1,134 +1,54 @@
 import { ComponentText, useTranslation } from '@atb/translations';
 import { MonoIcon, MonoIconProps } from '@atb/components/icon';
 import { FeatureCategory } from '@atb/modules/geocoder';
+import { TransportIcon } from '@atb/modules/transport-mode';
 import style from './venue-icon.module.css';
 import { onlyUniques } from '@atb/utils/only-uniques';
+import { TransportModeType } from '@atb-as/config-specs';
 
 export type VenueIconProps = {
   categories: FeatureCategory[];
-} & Omit<MonoIconProps, 'icon'>;
+  size?: MonoIconProps['size'];
+};
 
-export default function VenueIcon({ categories, ...props }: VenueIconProps) {
-  const venueIconTypes: VenueIconType[] = getVenueIconTypes(categories);
+export default function VenueIcon({ categories, size }: VenueIconProps) {
+  const { t } = useTranslation();
+  const transportModes = getTransportModes(categories);
 
-  if (!venueIconTypes.length) {
-    return <MonoIcon icon="map/Pin" key="unknown" {...props} />;
+  if (!transportModes.length) {
+    return (
+      <MonoIcon
+        icon="map/Pin"
+        role="img"
+        alt={t(ComponentText.VenueIcon.unknown)}
+        size={size}
+      />
+    );
   }
 
-  if (venueIconTypes.length > 1) {
+  if (transportModes.length > 1) {
     return (
       <div className={style.multipleContainer}>
-        {venueIconTypes.map((it) => (
-          <IconComponent iconType={it} key={it} {...props} />
+        {transportModes.map((mode) => (
+          <TransportIcon key={mode} transportMode={mode} size={size} />
         ))}
       </div>
     );
   }
 
-  return <IconComponent iconType={venueIconTypes[0]} {...props} />;
+  return <TransportIcon transportMode={transportModes[0]} size={size} />;
 }
 
-function isFeatureCategory(categories: any): categories is FeatureCategory[] {
-  return categories.every((c: FeatureCategory) =>
-    Object.values(FeatureCategory).includes(c),
-  );
+function getTransportModes(categories: FeatureCategory[]): TransportModeType[] {
+  return categories
+    .map(mapLocationCategoryToTransportMode)
+    .filter((mode): mode is TransportModeType => mode !== undefined)
+    .filter(onlyUniques);
 }
 
-type VenueIconType =
-  | 'bus'
-  | 'tram'
-  | 'rail'
-  | 'air'
-  | 'water'
-  | 'metro'
-  | 'unknown';
-type IconComponentProps = {
-  iconType: VenueIconType;
-} & Omit<MonoIconProps, 'icon'>;
-function IconComponent({ iconType, ...props }: IconComponentProps) {
-  const { t } = useTranslation();
-  switch (iconType) {
-    case 'bus':
-      return (
-        <MonoIcon
-          icon="transportation/BusFill"
-          key="bus"
-          role="img"
-          alt={t(ComponentText.VenueIcon.bus)}
-          {...props}
-        />
-      );
-    case 'tram':
-      return (
-        <MonoIcon
-          icon="transportation/TramFill"
-          key="tram"
-          role="img"
-          alt={t(ComponentText.VenueIcon.tram)}
-          {...props}
-        />
-      );
-    case 'rail':
-      return (
-        <MonoIcon
-          icon="transportation/TrainFill"
-          key="rail"
-          role="img"
-          alt={t(ComponentText.VenueIcon.rail)}
-          {...props}
-        />
-      );
-    case 'air':
-      return (
-        <MonoIcon
-          icon="transportation/PlaneFill"
-          key="airport"
-          role="img"
-          alt={t(ComponentText.VenueIcon.air)}
-          {...props}
-        />
-      );
-    case 'water':
-      return (
-        <MonoIcon
-          icon="transportation/FerryFill"
-          key="boat"
-          role="img"
-          alt={t(ComponentText.VenueIcon.water)}
-          {...props}
-        />
-      );
-    case 'metro':
-      return (
-        <MonoIcon
-          icon="transportation/MetroFill"
-          key="metro"
-          role="img"
-          alt={t(ComponentText.VenueIcon.metro)}
-          {...props}
-        />
-      );
-    case 'unknown':
-    default:
-      return (
-        <MonoIcon
-          icon="map/Pin"
-          key="unknown"
-          role="img"
-          alt={t(ComponentText.VenueIcon.unknown)}
-          {...props}
-        />
-      );
-  }
-}
-
-function getVenueIconTypes(category: FeatureCategory[]): VenueIconType[] {
-  return category.map(mapLocationCategoryToVenueType).filter(onlyUniques);
-}
-
-function mapLocationCategoryToVenueType(
+function mapLocationCategoryToTransportMode(
   category: FeatureCategory,
-): VenueIconType {
+): TransportModeType | undefined {
   switch (category) {
     case 'onstreetBus':
     case 'busStation':
@@ -148,6 +68,6 @@ function mapLocationCategoryToVenueType(
     case 'metroStation':
       return 'metro';
     default:
-      return 'unknown';
+      return undefined;
   }
 }

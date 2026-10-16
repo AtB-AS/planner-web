@@ -7,6 +7,12 @@ import Combobox from '@github/combobox-nav';
 import style from './widget.module.css';
 import { andIf } from '../utils/css';
 import swapIconSvg from '../../public/assets/mono/actions/Swap.svg?raw';
+import busIconSvg from '../../public/assets/mono/light/transportation/BusFill.svg?raw';
+import tramIconSvg from '../../public/assets/mono/light/transportation/TramFill.svg?raw';
+import trainIconSvg from '../../public/assets/mono/light/transportation/TrainFill.svg?raw';
+import metroIconSvg from '../../public/assets/mono/light/transportation/MetroFill.svg?raw';
+import planeIconSvg from '../../public/assets/mono/light/transportation/PlaneFill.svg?raw';
+import ferryIconSvg from '../../public/assets/mono/light/transportation/FerryFill.svg?raw';
 
 const DEFAULT_DEBOUNCE_TIME = 300;
 
@@ -282,16 +288,40 @@ function createOutput(
   }
 
   function venueIcon(item: GeocoderFeature) {
-    const icon = iconData(item.category);
+    const venueIconTypes = getVenueIconTypes(item.category);
 
-    const img = el('img');
-    img.src = `${URL_BASE}assets/mono/light/${icon.icon}.svg`;
-    img.alt = icon.alt;
-    img.role = 'img';
+    let icons: HTMLElement[];
+    if (!venueIconTypes.length) {
+      const img = el('img');
+      img.src = `${URL_BASE}assets/mono/light/map/Pin.svg`;
+      img.alt = 'unknown';
+      img.role = 'img';
+      icons = [img];
+    } else {
+      icons = venueIconTypes.map(transportIcon);
+    }
 
-    const div = el('div', [img], style.itemIcon);
+    const div = el('div', icons, style.itemIcon);
     div.ariaHidden = 'true';
     return div;
+  }
+
+  function transportIcon(iconType: VenueIconType) {
+    const span = el(
+      'span',
+      [],
+      andIf({
+        [style.transportIcon]: true,
+        [style.transportIcon__bus]: iconType === 'bus',
+        [style.transportIcon__tram]: iconType === 'tram',
+        [style.transportIcon__rail]:
+          iconType === 'rail' || iconType === 'metro',
+        [style.transportIcon__air]: iconType === 'air',
+        [style.transportIcon__water]: iconType === 'water',
+      }),
+    );
+    span.innerHTML = tintedSvg(transportIconSvg[iconType], 20);
+    return span;
   }
 
   class SwapButton extends HTMLElement {
@@ -362,7 +392,7 @@ function createOutput(
         img.ariaHidden = 'true';
         const title = el('span', [texts.geoButton], style.itemTitle);
         const text = el('div', [title], style.itemText);
-        const li = el('li', [divImg, text], style.listItem);
+        const li = el('li', [text, divImg], style.listItem);
         li.classList.add('itemLocation');
         li.role = 'option';
         return li;
@@ -939,36 +969,27 @@ enum FeatureCategory {
   BYDEL = 'bydel',
   OTHER = 'other',
 }
-type VenueIconType = 'bus' | 'tram' | 'rail' | 'airport' | 'boat' | 'unknown';
+type VenueIconType = 'bus' | 'tram' | 'rail' | 'air' | 'water' | 'metro';
 
-function iconData(category: FeatureCategory[]) {
-  const iconType = getVenueIconTypes(category)[0];
-  switch (iconType) {
-    case 'bus':
-      return { icon: 'transportation-entur/Bus', alt: 'bus' };
-    case 'tram':
-      return { icon: 'transportation-entur/Tram', alt: 'tram' };
-    case 'rail':
-      return { icon: 'transportation-entur/Train', alt: 'rail' };
-    case 'airport':
-      return { icon: 'transportation-entur/Plane', alt: 'air' };
-    case 'boat':
-      return { icon: 'transportation-entur/Ferry', alt: 'water' };
-    case 'unknown':
-    default:
-      return { icon: 'map/Pin', alt: 'unknown' };
-  }
-}
+const transportIconSvg: Record<VenueIconType, string> = {
+  bus: busIconSvg,
+  tram: tramIconSvg,
+  rail: trainIconSvg,
+  air: planeIconSvg,
+  water: ferryIconSvg,
+  metro: metroIconSvg,
+};
 
 function getVenueIconTypes(category: FeatureCategory[]): VenueIconType[] {
   return category
     .map(mapLocationCategoryToVenueType)
+    .filter((v): v is VenueIconType => v !== undefined)
     .filter((v, i, arr) => arr.indexOf(v) === i); // get distinct values
 }
 
 function mapLocationCategoryToVenueType(
   category: FeatureCategory,
-): VenueIconType {
+): VenueIconType | undefined {
   switch (category) {
     case 'onstreetBus':
     case 'busStation':
@@ -978,16 +999,17 @@ function mapLocationCategoryToVenueType(
     case 'tramStation':
       return 'tram';
     case 'railStation':
-    case 'metroStation':
       return 'rail';
     case 'airport':
-      return 'airport';
+      return 'air';
     case 'harbourPort':
     case 'ferryPort':
     case 'ferryStop':
-      return 'boat';
+      return 'water';
+    case 'metroStation':
+      return 'metro';
     default:
-      return 'unknown';
+      return undefined;
   }
 }
 

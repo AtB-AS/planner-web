@@ -1,4 +1,4 @@
 .multipleContainer {
   display: flex;
-  flex-direction: column;
+  gap: token('spacing.xSmall');
 }
