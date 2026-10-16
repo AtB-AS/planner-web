@@ -42,7 +42,11 @@ export default function TimeSelector({
       data-testid="searchTimeSelector-time"
       granularity="minute"
     >
-      <Button className={style.editButton} onPress={() => setOpen(true)}>
+      <Button
+        className={style.editButton}
+        onPress={() => setOpen(true)}
+        data-testid="timePickerButton"
+      >
         <MonoIcon icon="time/Time" className={style.selectorIcon} />
       </Button>
       <Label className={style.timeSelectorLabel}>
@@ -60,7 +64,7 @@ export default function TimeSelector({
         </DateInput>
 
         <DialogTrigger isOpen={isOpen} onOpenChange={setOpen}>
-          <Button className={style.editButton} data-testid="timePickerButton">
+          <Button className={style.editButton} data-testid="timeEditButton">
             <TintedMonoIcon icon="actions/Edit" />
           </Button>
 

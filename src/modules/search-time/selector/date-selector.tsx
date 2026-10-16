@@ -40,7 +40,7 @@ export default function DateSelector({
       className={style.dateSelector}
       shouldForceLeadingZeros
     >
-      <Button className={style.editButton} data-testid="dateButton">
+      <Button className={style.editButton} data-testid="calendarButton">
         <MonoIcon icon="time/Date" />
       </Button>
       <Label className={style.timeSelectorLabel}>
@@ -55,7 +55,7 @@ export default function DateSelector({
             />
           )}
         </DateInput>
-        <Button className={style.editButton} data-testid="calendarButton">
+        <Button className={style.editButton} data-testid="dateEditButton">
           <TintedMonoIcon icon="actions/Edit" />
         </Button>
       </Group>
