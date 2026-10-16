@@ -22,12 +22,9 @@
 
 .dateSelector,
 .timeSelector {
-  /* Share the row equally, but wrap onto separate lines instead of
-     shrinking below the content. */
   flex: 1 1 0;
   min-width: max-content;
   --height: 2.75rem;
-  /* padding: 0 token('spacing.medium'); */
   border-radius: token('border.radius.regular');
   overflow: hidden;
   background-color: token('color.background.neutral.0.background');
