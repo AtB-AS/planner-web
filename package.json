@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "vitest",
-    "test:e2e-local": "E2E_URL=https://localhost:3000 pnpm playwright test",
+    "test:e2e-local": "E2E_URL=http://localhost:3000 pnpm playwright test",
     "dev": "next dev",
     "build": "next build",
     "build:widget": "pnpm vite build ./src/widget --emptyOutDir",
