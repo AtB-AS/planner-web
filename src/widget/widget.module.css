@@ -335,6 +335,9 @@ a.tabSelected {
 
 .itemIcon {
   composes: itemTitle from search;
+  display: flex;
+  align-items: center;
+  gap: token('spacing.xSmall');
 }
 .itemIcon img {
   display: block;

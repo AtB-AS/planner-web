@@ -269,7 +269,7 @@ function createOutput(
     const title = el('span', [item.name], style.itemTitle);
     const locality = el('span', [item.locality ?? ''], style.itemLocality);
     const itemText = el('div', [title, locality], style.itemText);
-    const li = el('li', [img, itemText], style.listItem);
+    const li = el('li', [itemText, img], style.listItem);
     li.role = 'option';
     li.setAttribute('data-feature-id', item.id);
     return li;
