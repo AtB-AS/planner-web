@@ -15,6 +15,11 @@ const compressedOrgId = compressToEncodedURIComponent(orgId);
 export default defineConfig({
   resolve: {
     alias: {
+      /**
+       * We should maybe only load the light theme instead of the full theme.css
+       * My reasoning is that we set data-theme="light" in the HTML, so we might only need the light theme CSS.
+       * '@atb/theme/theme.css': `@atb-as/theme/lib/generated/themes/${orgId}-theme/light.css`,
+       */
       '@atb/theme/theme.css': `@atb-as/theme/lib/generated/themes/${orgId}-theme/theme.css`,
       '@atb/theme/typography.css': '@atb-as/theme/lib/generated/typography.css',
       '@atb/theme/typography.module.css':
