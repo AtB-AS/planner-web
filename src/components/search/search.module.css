@@ -81,7 +81,7 @@
   background-color: token('color.background.neutral.0.background');
   border-radius: 0.75rem;
   border: token('border.width.slim') solid
-    token('color.background.neutral.3.background');
+    token('color.interactive.2.outline.background');
   position: absolute;
   top: calc(100% + token('spacing.xSmall'));
   overflow: hidden;
@@ -115,6 +115,7 @@
 
 .menuHeading {
   composes: typo-body__s;
+  color: token('color.foreground.dynamic.secondary');
 }
 
 .itemHighlighted {
