@@ -963,7 +963,7 @@ enum FeatureCategory {
   VEHICLE_RAIL_INTERCHANGE = 'vehicleRailInterchange',
   GROUP_OF_STOP_PLACES = 'GroupOfStopPlaces',
   POI = 'poi',
-  VEGADRESSE = 'Vegadresse',
+  VEGADRESSE = 'vegadresse',
   STREET = 'street',
   TETTSTEDDEL = 'tettsteddel',
   BYDEL = 'bydel',
