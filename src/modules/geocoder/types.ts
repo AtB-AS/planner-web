@@ -14,7 +14,7 @@ export enum FeatureCategory {
   VEHICLE_RAIL_INTERCHANGE = 'vehicleRailInterchange',
   GROUP_OF_STOP_PLACES = 'GroupOfStopPlaces',
   POI = 'poi',
-  VEGADRESSE = 'vegadresse',
+  VEGADRESSE = 'Vegadresse',
   STREET = 'street',
   TETTSTEDDEL = 'tettsteddel',
   BYDEL = 'bydel',
