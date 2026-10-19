@@ -56,3 +56,5 @@ src/components/icon/generated-icons.ts
 /public/robots.txt
 /public/sitemap.xml
 /public/favicon.ico
+# Widget build used by `pnpm size:widget`
+/.widget-size/

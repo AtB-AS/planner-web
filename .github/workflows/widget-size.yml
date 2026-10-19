@@ -1,0 +1,37 @@
+name: Widget size
+on:
+  pull_request:
+    paths:
+      - 'src/widget/**'
+      - 'src/components/search/**'
+      - 'src/components/radio-segments/**'
+      - 'src/components/button/**'
+      - 'src/modules/search-time/selector/**'
+      - 'src/page-modules/assistant/assistant.module.css'
+      - 'src/page-modules/departures/departures.module.css'
+      - 'src/utils/css.ts'
+      - 'scripts/build-widget.sh'
+      - 'scripts/build-widget-size.sh'
+      - 'scripts/prune-widget-css.js'
+      - 'postcss.config.js'
+      - '.size-limit.json'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - '.github/workflows/widget-size.yml'
+jobs:
+  size:
+    name: Widget size
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'pnpm'
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm generate
+      - run: pnpm setup
+        env:
+          NEXT_PUBLIC_PLANNER_ORG_ID: atb
+      - run: pnpm size:widget

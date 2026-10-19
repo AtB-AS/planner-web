@@ -29,6 +29,7 @@
     "predev": "pnpm generate",
     "generate-widget": "dotenv -e .env.local -- sh ./scripts/build-widget.sh",
     "generate-all-widgets": "sh ./scripts/build-all-widgets.sh",
+    "size:widget": "sh ./scripts/build-widget-size.sh && size-limit",
     "postbuild": "next-sitemap --config next-sitemap.js"
   },
   "dependencies": {
@@ -98,6 +99,7 @@
     "@graphql-codegen/typescript-generic-sdk": "^4.0.2",
     "@graphql-codegen/typescript-operations": "^4.6.1",
     "@playwright/test": "^1.54.2",
+    "@size-limit/file": "^14.2.0",
     "@svgr/webpack": "^6.5.1",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.7.0",
@@ -128,6 +130,7 @@
     "postcss-preset-env": "^10.2.4",
     "prettier": "^3.6.2",
     "rimraf": "^6.0.1",
+    "size-limit": "^14.2.0",
     "typescript": "5.9.2",
     "vite": "^7.1.2",
     "vite-plugin-dts": "^4.5.4",
