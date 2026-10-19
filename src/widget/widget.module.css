@@ -324,9 +324,7 @@ a.tabSelected {
 .listItem:hover {
   color: token('color.interactive.2.hover.foreground.primary');
   background-color: token('color.interactive.2.hover.background');
-  outline: token('border.width.medium') solid
-    token('color.interactive.2.outline.background');
-  border-radius: token('border.radius.small');
+  border-radius: token('border.radius.regular');
 }
 
 .itemTitle {
@@ -349,9 +347,10 @@ a.tabSelected {
   padding: token('spacing.xSmall');
   line-height: 0;
 }
+/* Matches VenueIcon, which defaults bus to the local bus (city) color. */
 .transportIcon__bus {
-  background-color: token('color.transport.region.primary.background');
-  color: token('color.transport.region.primary.foreground.primary');
+  background-color: token('color.transport.city.primary.background');
+  color: token('color.transport.city.primary.foreground.primary');
 }
 .transportIcon__tram {
   background-color: token('color.transport.city.primary.background');

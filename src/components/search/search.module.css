@@ -121,9 +121,7 @@
 .itemHighlighted {
   color: token('color.interactive.2.hover.foreground.primary');
   background-color: token('color.interactive.2.hover.background');
-  outline: token('border.width.medium') solid
-    token('color.interactive.2.outline.background');
-  border-radius: token('border.radius.small');
+  border-radius: token('border.radius.regular');
 }
 
 .itemIcon {
