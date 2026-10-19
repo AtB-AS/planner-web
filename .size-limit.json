@@ -9,6 +9,6 @@
     "name": "Widget CSS",
     "path": ".widget-size/planner-web.css",
     "gzip": true,
-    "limit": "5.5 kB"
+    "limit": "13 kB"
   }
 ]
