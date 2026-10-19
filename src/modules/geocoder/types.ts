@@ -60,4 +60,5 @@ export type GeocoderFeature = {
     coordinates: number[];
   };
   street?: string | null;
+  housenumber?: string | null;
 };
