@@ -13,4 +13,3 @@ NEXT_PUBLIC_PLANNER_ORG_ID=atb pnpm vite build ./src/widget \
 
 # Same PostCSS workaround as in build-widget.sh
 npx postcss --config . "$OUT_DIR/planner-web.css" -o "$OUT_DIR/planner-web.css"
-# node ./scripts/prune-widget-css.js "$OUT_DIR/planner-web.css"

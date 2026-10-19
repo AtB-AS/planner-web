@@ -12,7 +12,6 @@ on:
       - 'src/utils/css.ts'
       - 'scripts/build-widget.sh'
       - 'scripts/build-widget-size.sh'
-      - 'scripts/prune-widget-css.js'
       - 'postcss.config.js'
       - '.size-limit.json'
       - 'package.json'
@@ -20,13 +19,12 @@ on:
       - '.github/workflows/widget-size.yml'
 
 jobs:
-  # Builds the widget for both the PR and its base branch. Runs the PR's code,
-  # so it only gets read access.
-  measure:
-    name: Measure widget size
+  size:
+    name: Widget size
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      pull-requests: write
     steps:
       - uses: actions/checkout@v4
       - uses: actions/checkout@v4
@@ -68,29 +66,10 @@ jobs:
           sh ./scripts/build-widget-size.sh
           ./node_modules/.bin/size-limit --json > "$RUNNER_TEMP/head.json" || true
 
-      - uses: actions/upload-artifact@v4
-        with:
-          name: widget-size
-          path: ${{ runner.temp }}/*.json
-
-      - name: Check size limits
-        run: ./node_modules/.bin/size-limit
-
-  # Posts the result as a PR comment. Does not run any code from the PR.
-  comment:
-    name: Comment widget size
-    needs: measure
-    # Fork PRs get a read-only token and can't comment
-    if: ${{ !cancelled() && github.event.pull_request.head.repo.full_name == github.repository }}
-    runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write
-    steps:
-      - uses: actions/download-artifact@v4
-        with:
-          name: widget-size
-          path: sizes
-      - uses: actions/github-script@v7
+      - name: Comment on PR
+        # Fork PRs get a read-only token and can't comment
+        if: github.event.pull_request.head.repo.full_name == github.repository
+        uses: actions/github-script@v7
         with:
           script: |
             const fs = require('fs');
@@ -98,7 +77,7 @@ jobs:
 
             function read(file) {
               try {
-                return JSON.parse(fs.readFileSync(`sizes/${file}`, 'utf8'));
+                return JSON.parse(fs.readFileSync(`${process.env.RUNNER_TEMP}/${file}`, 'utf8'));
               } catch {
                 return null;
               }
@@ -146,3 +125,6 @@ jobs:
             } else {
               await github.rest.issues.createComment({ owner, repo, issue_number, body });
             }
+
+      - name: Check size limits
+        run: ./node_modules/.bin/size-limit
