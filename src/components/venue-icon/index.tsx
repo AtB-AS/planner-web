@@ -9,14 +9,30 @@ import { TransportSubmode } from '@atb/modules/graphql-types/journeyplanner-type
 
 export type VenueIconProps = {
   categories: FeatureCategory[];
+  housenumber?: string | null;
   size?: MonoIconProps['size'];
 };
 
-export default function VenueIcon({ categories, size }: VenueIconProps) {
+export default function VenueIcon({
+  categories,
+  housenumber,
+  size,
+}: VenueIconProps) {
   const { t } = useTranslation();
   const transportModes = getTransportModes(categories);
 
   if (!transportModes.length) {
+    if (housenumber) {
+      return (
+        <MonoIcon
+          icon="places/House"
+          role="img"
+          alt={t(ComponentText.VenueIcon.address)}
+          size={size}
+        />
+      );
+    }
+
     return (
       <MonoIcon
         icon="map/Pin"

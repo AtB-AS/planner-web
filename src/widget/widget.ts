@@ -292,9 +292,12 @@ function createOutput(
 
     let icons: HTMLElement[];
     if (!venueIconTypes.length) {
+      const isAddress = !!item.housenumber;
       const img = el('img');
-      img.src = `${URL_BASE}assets/mono/light/map/Pin.svg`;
-      img.alt = 'unknown';
+      img.src = isAddress
+        ? `${URL_BASE}assets/mono/light/places/House.svg`
+        : `${URL_BASE}assets/mono/light/map/Pin.svg`;
+      img.alt = isAddress ? 'address' : 'unknown';
       img.role = 'img';
       icons = [img];
     } else {

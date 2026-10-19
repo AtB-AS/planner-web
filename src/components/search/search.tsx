@@ -225,7 +225,10 @@ export default function Search({
                       </span>
                     </div>
                     <div className={style.itemIcon} aria-hidden>
-                      <VenueIcon categories={item.category} />
+                      <VenueIcon
+                        categories={item.category}
+                        housenumber={item.housenumber}
+                      />
                     </div>
                   </li>
                 ))}
@@ -286,7 +289,10 @@ export default function Search({
                       </span>
                     </div>
                     <div className={style.itemIcon} aria-hidden>
-                      <VenueIcon categories={item.category} />
+                      <VenueIcon
+                        categories={item.category}
+                        housenumber={item.housenumber}
+                      />
                     </div>
                   </li>
                 ))}
