@@ -1,10 +1,13 @@
 import { defineConfig, devices } from '@playwright/test';
+import dotenv from 'dotenv';
 
 /**
- * Read environment variables from file.
+ * Read environment variables from .env.local, so org specific tests
+ * (NEXT_PUBLIC_PLANNER_ORG_ID) match the org the local app runs with.
+ * Variables already set in the environment, like in CI, take precedence.
  * https://github.com/motdotla/dotenv
  */
-// require('dotenv').config();
+dotenv.config({ path: '.env.local', quiet: true });
 
 /**
  * See https://playwright.dev/docs/test-configuration.

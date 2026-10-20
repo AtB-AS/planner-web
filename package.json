@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "vitest",
-    "test:e2e-local": "E2E_URL=https://localhost:3000 pnpm playwright test",
+    "test:e2e-local": "E2E_URL=http://localhost:3000 pnpm playwright test",
     "dev": "next dev",
     "build": "next build",
     "build:widget": "pnpm vite build ./src/widget --emptyOutDir",
@@ -29,6 +29,7 @@
     "predev": "pnpm generate",
     "generate-widget": "dotenv -e .env.local -- sh ./scripts/build-widget.sh",
     "generate-all-widgets": "sh ./scripts/build-all-widgets.sh",
+    "screenshot-widgets": "sh ./scripts/screenshot-widgets.sh",
     "size:widget": "sh ./scripts/build-widget-size.sh && size-limit",
     "postbuild": "next-sitemap --config next-sitemap.js"
   },
