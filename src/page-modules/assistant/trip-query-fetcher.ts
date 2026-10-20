@@ -74,8 +74,27 @@ async function getLocationPromise(
   if (!hasProperties(tripQuery, locationType)) {
     return null;
   }
+  const { name, id, lat, lon, layer } = getProperties(tripQuery, locationType);
 
-  const { name, id, lat, lon } = getProperties(tripQuery, locationType);
+  // The URL already contains everything needed to search for trips, so only
+  // fall back to the geocoder when some of the properties are missing (e.g.
+  // hand-crafted or external links).
+  if (
+    name !== undefined &&
+    id !== undefined &&
+    lat !== undefined &&
+    lon !== undefined &&
+    layer !== undefined
+  ) {
+    return {
+      id,
+      name,
+      layer,
+      geometry: { coordinates: [lon, lat] },
+      locality: null,
+      category: [],
+    };
+  }
 
   const result = await client.autocomplete(name, {
     lat,
@@ -161,7 +180,8 @@ function hasProperties(
  *
  * @param query - Trip query object containing location-specific properties.
  * @param locationType - Type of the location ('from', 'to', etc.).
- * @returns An object containing name, id, latitude, and longitude properties.
+ * @returns An object containing name, id, latitude, longitude and layer
+ * properties.
  */
 function getProperties(
   query: Required<
@@ -172,19 +192,22 @@ function getProperties(
       | `${LocationType}Lat`
       | `${LocationType}Lon`
     >
-  >,
+  > &
+    Pick<TripQuery, `${LocationType}Layer`>,
   locationType: LocationType,
 ) {
   const nameKey = `${locationType}Name` as const;
   const idKey = `${locationType}Id` as const;
   const latKey = `${locationType}Lat` as const;
   const lonKey = `${locationType}Lon` as const;
+  const layerKey = `${locationType}Layer` as const;
 
   return {
     name: query[nameKey],
     id: query[idKey],
     lat: query[latKey],
     lon: query[lonKey],
+    layer: query[layerKey],
   };
 }
 
