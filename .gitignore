@@ -59,3 +59,7 @@ src/components/icon/generated-icons.ts
 
 # Widget screenshots from `pnpm screenshot-widgets`
 /widget-screenshots/
+
+# Widget build used by `pnpm size:widget`
+/.widget-size/
+

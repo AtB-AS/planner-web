@@ -13,7 +13,7 @@ import {
   Popover,
 } from 'react-aria-components';
 
-import { MonoIcon } from '@atb/components/icon';
+import { MonoIcon, TintedMonoIcon } from '@atb/components/icon';
 import { ModuleText, useTranslation } from '@atb/translations';
 import { fromDate, parseDate } from '@internationalized/date';
 import style from './selector.module.css';
@@ -40,6 +40,9 @@ export default function DateSelector({
       className={style.dateSelector}
       shouldForceLeadingZeros
     >
+      <Button className={style.editButton} data-testid="calendarButton">
+        <MonoIcon icon="time/Date" />
+      </Button>
       <Label className={style.timeSelectorLabel}>
         {t(ModuleText.SearchTime.date)}
       </Label>
@@ -52,8 +55,8 @@ export default function DateSelector({
             />
           )}
         </DateInput>
-        <Button className={style.calendarButton} data-testid="calendarButton">
-          <MonoIcon icon="time/Date" />
+        <Button className={style.editButton} data-testid="dateEditButton">
+          <TintedMonoIcon icon="actions/Edit" />
         </Button>
       </Group>
       <Popover className={style.calendarDialog} placement="bottom right">

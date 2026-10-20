@@ -7,8 +7,9 @@ import {
   DialogTrigger,
   Group,
 } from 'react-aria-components';
+import { useState } from 'react';
 
-import { MonoIcon } from '@atb/components/icon';
+import { MonoIcon, TintedMonoIcon } from '@atb/components/icon';
 import { ModuleText, useTranslation } from '@atb/translations';
 import { parseTime } from '@internationalized/date';
 import style from './selector.module.css';
@@ -26,6 +27,7 @@ export default function TimeSelector({
 }: TimeSelectorProps) {
   const { t } = useTranslation();
   const parsedValue = parseTime(selectedTime);
+  const [isOpen, setOpen] = useState(false);
 
   return (
     <TimeField
@@ -40,6 +42,13 @@ export default function TimeSelector({
       data-testid="searchTimeSelector-time"
       granularity="minute"
     >
+      <Button
+        className={style.editButton}
+        onPress={() => setOpen(true)}
+        data-testid="timePickerButton"
+      >
+        <MonoIcon icon="time/Time" className={style.selectorIcon} />
+      </Button>
       <Label className={style.timeSelectorLabel}>
         {t(ModuleText.SearchTime.time)}
       </Label>
@@ -54,12 +63,9 @@ export default function TimeSelector({
           )}
         </DateInput>
 
-        <DialogTrigger>
-          <Button
-            className={style.timePickerButton}
-            data-testid="timePickerButton"
-          >
-            <MonoIcon icon="time/Time" />
+        <DialogTrigger isOpen={isOpen} onOpenChange={setOpen}>
+          <Button className={style.editButton} data-testid="timeEditButton">
+            <TintedMonoIcon icon="actions/Edit" />
           </Button>
 
           <TimeSelectorDropdown
