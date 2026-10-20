@@ -16,37 +16,45 @@ export async function fetchFromDepartureQuery(
   if (id) {
     const stopPlace = await client.stopPlace({ id });
     if (stopPlace.position.lat && stopPlace.position.lon) {
-      const from = await client.reverse(
-        stopPlace.position.lat,
-        stopPlace.position.lon,
-        ['venue'],
-      );
       return {
         isAddress: false,
         searchTime,
-        from: from ?? null,
+        from: {
+          id: stopPlace.id,
+          name: stopPlace.name,
+          layer: 'venue',
+          geometry: {
+            coordinates: [stopPlace.position.lon, stopPlace.position.lat],
+          },
+          locality: null,
+          category: [],
+        },
       };
     }
   } else if (query.lat && query.lon) {
-    const position = {
-      lat: parseFloat(query.lat.toString()),
-      lon: parseFloat(query.lon.toString()),
-    };
+    const lat = parseFloat(query.lat.toString());
+    const lon = parseFloat(query.lon.toString());
+    const name = query.name?.toString();
 
-    const from = await client
-      .autocomplete(query.name, {
-        lat: position.lat,
-        lon: position.lon,
-      })
-      .then((result) => {
-        return result[0];
-      });
+    if (!Number.isNaN(lat) && !Number.isNaN(lon)) {
+      // Only use the geocoder to find a name when the URL lacks one.
+      const from = name
+        ? {
+            id: `${lat},${lon}`,
+            name,
+            layer: 'address' as const,
+            geometry: { coordinates: [lon, lat] },
+            locality: null,
+            category: [],
+          }
+        : await client.reverse(lat, lon, ['address']);
 
-    return {
-      isAddress: true,
-      from: from ?? null,
-      searchTime,
-    };
+      return {
+        isAddress: true,
+        from: from ?? null,
+        searchTime,
+      };
+    }
   }
 
   return {
