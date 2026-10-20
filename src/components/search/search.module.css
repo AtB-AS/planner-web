@@ -81,7 +81,7 @@
   background-color: token('color.background.neutral.0.background');
   border-radius: 0.75rem;
   border: token('border.width.slim') solid
-    token('color.background.neutral.3.background');
+    token('color.interactive.2.outline.background');
   position: absolute;
   top: calc(100% + token('spacing.xSmall'));
   overflow: hidden;
@@ -115,14 +115,13 @@
 
 .menuHeading {
   composes: typo-body__s;
+  color: token('color.foreground.dynamic.secondary');
 }
 
 .itemHighlighted {
   color: token('color.interactive.2.hover.foreground.primary');
   background-color: token('color.interactive.2.hover.background');
-  outline: token('border.width.medium') solid
-    token('color.interactive.2.outline.background');
-  border-radius: token('border.radius.small');
+  border-radius: token('border.radius.regular');
 }
 
 .itemIcon {
@@ -133,6 +132,7 @@
 .itemInfo {
   display: flex;
   flex-direction: column;
+  flex: 1;
 }
 
 .itemName {

@@ -213,9 +213,6 @@ export default function Search({
                     })}
                     data-testid={`list-item-${item.layer}`}
                   >
-                    <div className={style.itemIcon} aria-hidden>
-                      <VenueIcon categories={item.category} />
-                    </div>
                     <div className={style.itemInfo}>
                       <span
                         className={style.itemName}
@@ -226,6 +223,12 @@ export default function Search({
                       <span className={style.itemLocality}>
                         {item.locality}
                       </span>
+                    </div>
+                    <div className={style.itemIcon} aria-hidden>
+                      <VenueIcon
+                        categories={item.category}
+                        housenumber={item.housenumber}
+                      />
                     </div>
                   </li>
                 ))}
@@ -244,19 +247,19 @@ export default function Search({
                   })}
                   data-testid={`list-item-XX`}
                 >
-                  <div className={style.itemIcon} aria-hidden>
-                    {isGeolocationLoading ? (
-                      <LoadingIcon />
-                    ) : (
-                      <MonoIcon icon="places/Location" />
-                    )}
-                  </div>
                   <div className={style.itemInfo}>
                     <span className={style.itemName}>
                       {isGeolocationUnavailable || isGeolocationError
                         ? t(ComponentText.SearchInput.positionNotAvailable)
                         : t(ComponentText.SearchInput.myPosition)}
                     </span>
+                  </div>
+                  <div className={style.itemIcon} aria-hidden>
+                    {isGeolocationLoading ? (
+                      <LoadingIcon />
+                    ) : (
+                      <MonoIcon icon="places/Location" />
+                    )}
                   </div>
                 </li>
                 {recentFeatureSearches.length > 0 && (
@@ -279,14 +282,17 @@ export default function Search({
                     })}
                     data-testid={`list-item-${index + 1}`}
                   >
-                    <div className={style.itemIcon} aria-hidden>
-                      <VenueIcon categories={item.category} />
-                    </div>
                     <div className={style.itemInfo}>
                       <span className={style.itemName}>{item.name}</span>
                       <span className={style.itemLocality}>
                         {item.locality}
                       </span>
+                    </div>
+                    <div className={style.itemIcon} aria-hidden>
+                      <VenueIcon
+                        categories={item.category}
+                        housenumber={item.housenumber}
+                      />
                     </div>
                   </li>
                 ))}

@@ -343,9 +343,7 @@ a.tabSelected {
 .listItem:hover {
   color: token('color.interactive.2.hover.foreground.primary');
   background-color: token('color.interactive.2.hover.background');
-  outline: token('border.width.medium') solid
-    token('color.interactive.2.outline.background');
-  border-radius: token('border.radius.small');
+  border-radius: token('border.radius.regular');
 }
 
 .itemTitle {
@@ -354,10 +352,40 @@ a.tabSelected {
 
 .itemIcon {
   composes: itemTitle from search;
+  display: flex;
+  align-items: center;
+  gap: token('spacing.xSmall');
 }
 .itemIcon img {
   display: block;
   height: 1.25rem;
+}
+.transportIcon {
+  display: block;
+  border-radius: token('border.radius.regular');
+  padding: token('spacing.xSmall');
+  line-height: 0;
+}
+/* Matches VenueIcon, which defaults bus to the local bus (city) color. */
+.transportIcon__bus {
+  background-color: token('color.transport.city.primary.background');
+  color: token('color.transport.city.primary.foreground.primary');
+}
+.transportIcon__tram {
+  background-color: token('color.transport.city.primary.background');
+  color: token('color.transport.city.primary.foreground.primary');
+}
+.transportIcon__rail {
+  background-color: token('color.transport.train.primary.background');
+  color: token('color.transport.train.primary.foreground.primary');
+}
+.transportIcon__air {
+  background-color: token('color.transport.other.primary.background');
+  color: token('color.transport.other.primary.foreground.primary');
+}
+.transportIcon__water {
+  background-color: token('color.transport.boat.primary.background');
+  color: token('color.transport.boat.primary.foreground.primary');
 }
 .itemLocality {
   composes: itemLocality from search;

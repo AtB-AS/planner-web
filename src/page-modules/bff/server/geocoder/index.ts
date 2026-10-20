@@ -71,5 +71,6 @@ function mapGeocoderFeatures(data: Feature[]): GeocoderFeature[] {
     layer: f.properties.layer,
     geometry: f.geometry,
     street: f.properties.street ?? null,
+    housenumber: f.properties.housenumber ?? null,
   }));
 }

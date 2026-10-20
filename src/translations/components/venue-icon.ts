@@ -7,5 +7,6 @@ export const VenueIcon = {
   tram: _('Trikk', 'Tram', 'Trikk'),
   water: _('Båt', 'Boat', 'Båt'),
   metro: _('T-bane', 'Metro', 'T-bane'),
+  address: _('Adresse', 'Address', 'Adresse'),
   unknown: _('Ukjent', 'Unknown', 'Ukjend'),
 };
