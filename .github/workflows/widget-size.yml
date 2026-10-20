@@ -1,0 +1,140 @@
+name: Widget size
+on:
+  pull_request:
+    paths:
+      - 'src/widget/**'
+      - 'src/components/search/**'
+      - 'src/components/radio-segments/**'
+      - 'src/components/button/**'
+      - 'src/modules/search-time/selector/**'
+      - 'src/page-modules/assistant/assistant.module.css'
+      - 'src/page-modules/departures/departures.module.css'
+      - 'src/utils/css.ts'
+      - 'scripts/build-widget.sh'
+      - 'scripts/build-widget-size.sh'
+      - 'postcss.config.js'
+      - '.size-limit.json'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - '.github/workflows/widget-size.yml'
+
+jobs:
+  size:
+    name: Widget size
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      # Checkout the base branch to compare widget sizes against
+      - uses: actions/checkout@v4
+      # Checkout the head branch to measure widget sizes for the PR
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          path: base
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'pnpm'
+          cache-dependency-path: |
+            pnpm-lock.yaml
+            base/pnpm-lock.yaml
+
+      - name: Measure base branch
+        working-directory: base
+        continue-on-error: true
+        env:
+          NEXT_PUBLIC_PLANNER_ORG_ID: atb
+        run: |
+          if [ ! -f .size-limit.json ] || [ ! -f scripts/build-widget-size.sh ]; then
+            echo "Base branch has no widget size setup, skipping comparison"
+            exit 0
+          fi
+          pnpm install --frozen-lockfile
+          pnpm generate
+          pnpm setup
+          sh ./scripts/build-widget-size.sh
+          ./node_modules/.bin/size-limit --json > "$RUNNER_TEMP/base.json" || true
+
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm generate
+      - run: pnpm setup
+        env:
+          NEXT_PUBLIC_PLANNER_ORG_ID: atb
+      - name: Measure PR
+        run: |
+          sh ./scripts/build-widget-size.sh
+          ./node_modules/.bin/size-limit --json > "$RUNNER_TEMP/head.json" || true
+
+      - name: Comment on PR
+        # Fork PRs get a read-only token and can't comment
+        if: github.event.pull_request.head.repo.full_name == github.repository
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const marker = '<!-- widget-size -->';
+
+            // size-limit writes { error } instead of a list when it fails
+            function read(file) {
+              try {
+                const data = JSON.parse(fs.readFileSync(`${process.env.RUNNER_TEMP}/${file}`, 'utf8'));
+                return Array.isArray(data) ? data : null;
+              } catch {
+                return null;
+              }
+            }
+
+            const kB = (bytes) => `${(bytes / 1000).toFixed(2)} kB`;
+
+            function change(size, baseSize) {
+              if (baseSize === undefined) return '–';
+              const diff = size - baseSize;
+              if (diff === 0) return 'No change';
+              const sign = diff > 0 ? '+' : '−';
+              if (baseSize === 0) return `${sign}${kB(Math.abs(diff))}`;
+              const percent = ((Math.abs(diff) / baseSize) * 100).toFixed(1);
+              return `${sign}${kB(Math.abs(diff))} (${sign}${percent}%)`;
+            }
+
+            const head = read('head.json');
+            const base = read('base.json');
+            const baseSizes = new Map((base ?? []).map((r) => [r.name, r.size]));
+
+            let body = `${marker}\n### Widget size\n\n`;
+            if (!head) {
+              body += 'Could not measure the widget size. See the workflow logs.';
+            } else {
+              body += '| | Size (gzip) | Limit | Change |\n|---|---|---|---|\n';
+              for (const r of head) {
+                const status = r.passed ? '✅' : '❌';
+                body += `| ${status} ${r.name} | ${kB(r.size)} | ${kB(r.sizeLimit)} | ${change(r.size, baseSizes.get(r.name))} |\n`;
+              }
+              if (!base) {
+                body += `\nNo size data for \`${context.payload.pull_request.base.ref}\` to compare against.`;
+              }
+            }
+
+            const { owner, repo } = context.repo;
+            const issue_number = context.issue.number;
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner,
+              repo,
+              issue_number,
+            });
+            const existing = comments.find((c) => c.body?.startsWith(marker));
+            if (existing) {
+              await github.rest.issues.updateComment({ owner, repo, comment_id: existing.id, body });
+            } else {
+              await github.rest.issues.createComment({ owner, repo, issue_number, body });
+            }
+
+      - name: Check size limits
+        run: |
+          cat "$RUNNER_TEMP/head.json"
+          jq -e 'type == "array" and all(.passed)' "$RUNNER_TEMP/head.json" > /dev/null || {
+            echo "::error::Widget is over its size limit, or its size could not be measured"
+            exit 1
+          }

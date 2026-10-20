@@ -145,6 +145,7 @@
 
 @media (max-width: 650px) {
   .container {
+    min-width: 0;
     max-width: 100%;
   }
 }

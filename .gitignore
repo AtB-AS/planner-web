@@ -56,3 +56,10 @@ src/components/icon/generated-icons.ts
 /public/robots.txt
 /public/sitemap.xml
 /public/favicon.ico
+
+# Widget screenshots from `pnpm screenshot-widgets`
+/widget-screenshots/
+
+# Widget build used by `pnpm size:widget`
+/.widget-size/
+
