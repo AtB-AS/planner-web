@@ -1,0 +1,14 @@
+[
+  {
+    "name": "Widget JS",
+    "path": ".widget-size/planner-web.umd.js",
+    "gzip": true,
+    "limit": "13 kB"
+  },
+  {
+    "name": "Widget CSS",
+    "path": ".widget-size/planner-web.css",
+    "gzip": true,
+    "limit": "13 kB"
+  }
+]
