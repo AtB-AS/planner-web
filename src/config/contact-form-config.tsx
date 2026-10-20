@@ -6,6 +6,7 @@ import { byOrg } from '@atb/modules/org-data';
 import { translations } from '@atb/translations/contact-form';
 import CompanyContent from '@atb/page-modules/contact/company';
 import { CompanyText } from '@atb/page-modules/contact/company/text.ts';
+import { atbLostPropertyModes } from '@atb/page-modules/contact/lost-property/modes';
 
 const contactFormTheme = adaptAtbTheme(theme);
 
@@ -91,6 +92,7 @@ export const contactFormConfig: ContactFormConfig = {
         ],
         enabledPurchasePlatforms: ['framApp', 'framWeb', 'sms'],
       },
+      lostProperty: { modes: atbLostPropertyModes },
     },
   }),
   translations,
