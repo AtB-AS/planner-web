@@ -24,7 +24,7 @@ const reverseFeature: GeocoderFeature = {
   locality: 'Trondheim',
   category: [],
   layer: 'address',
-  geometry: { coordinates: [10.38, 63.42] },
+  geometry: { coordinates: [10.381, 63.421] },
 };
 
 describe('fetchFromDepartureQuery', () => {
@@ -78,6 +78,9 @@ describe('fetchFromDepartureQuery', () => {
 
     expect(reverse).toHaveBeenCalledTimes(1);
     expect(fromQuery.isAddress).toBe(true);
-    expect(fromQuery.from).toEqual(reverseFeature);
+    expect(fromQuery.from).toEqual({
+      ...reverseFeature,
+      geometry: { coordinates: [10.38, 63.42] },
+    });
   });
 });
