@@ -41,6 +41,7 @@ export default function Search({
 }: SearchProps) {
   const [query, setQuery] = useState('');
   const [focus, setFocus] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [onlyStopPlaces, setOnlyStopPlaces] = useLocalStorage<boolean>(
     'onlyStopPlaces',
     true,
@@ -49,6 +50,9 @@ export default function Search({
     query,
     autocompleteFocusPoint,
     onlyStopPlaces,
+    // Downshift also sets the input value when an item is selected, so only
+    // search while the menu is open to avoid requests for the selected name.
+    isMenuOpen,
   );
   const { t } = useTranslation();
   const [recentFeatureSearches, setRecentFeatureSearches] = useLocalStorage<
@@ -114,6 +118,9 @@ export default function Search({
         return setQuery(inputValue || '');
       }}
       onChange={handleOnChange}
+      onStateChange={(changes) => {
+        if (changes.isOpen !== undefined) setIsMenuOpen(changes.isOpen);
+      }}
       itemToString={geocoderFeatureToString}
       selectedItem={selectedItem || initialFeature || null}
       getA11yStatusMessage={getA11yStatusMessage}
