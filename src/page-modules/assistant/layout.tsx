@@ -11,11 +11,9 @@ import type { GeocoderFeature } from '@atb/modules/geocoder';
 import { PageText, useTranslation } from '@atb/translations';
 import { FocusScope } from '@react-aria/focus';
 import { AnimatePresence, motion } from 'framer-motion';
-import { useRouter } from 'next/router';
 import { FormEventHandler, PropsWithChildren, useState } from 'react';
 import style from './assistant.module.css';
 import { FromToTripQuery } from './types';
-import { createTripQuery } from './utils';
 import { TabLink } from '@atb/components/tab-link';
 import { logSpecificEvent } from '@atb/modules/firebase';
 import { swrFetcher } from '@atb/modules/api-browser';
@@ -29,6 +27,7 @@ import {
 } from '@atb/modules/global-messages';
 import { WalkSpeedInput } from './walk-speed-input';
 import { TransferSlackInput } from './transfer-slack-input';
+import { useTripQueryNavigation } from './use-trip-query-navigation';
 
 export type AssistantLayoutProps = PropsWithChildren<{
   tripQuery: FromToTripQuery;
@@ -37,15 +36,14 @@ export type AssistantLayoutProps = PropsWithChildren<{
 function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
   const { t } = useTranslation();
   const { color } = useTheme();
-  const router = useRouter();
 
   const [showAlternatives, setShowAlternatives] = useState(false);
   const [searchTime, setSearchTime] = useState<SearchTime>(
     tripQuery.searchTime,
   );
   const [isSwapping, setIsSwapping] = useState(false);
-  const [isPerformingSearchNavigation, setIsPerformingSearchNavigation] =
-    useState(false);
+  const { navigate, getLatestTripQuery, isPerformingSearchNavigation } =
+    useTripQueryNavigation(tripQuery);
   const [geolocationError, setGeolocationError] = useState<string | null>(null);
 
   // Loading the transport mode filter data here instead of in the component
@@ -69,32 +67,17 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
       setSearchTime(effectiveSearchTime);
     }
 
-    const query = createTripQuery({
-      ...tripQuery,
-      ...override,
-      searchTime: effectiveSearchTime,
-    });
-
-    // Only show loading if we have both from and to selected.
-    if ((tripQuery.from && query.toId) || (tripQuery.to && query.fromId)) {
-      setIsPerformingSearchNavigation(true);
-    }
-
     logSpecificEvent('search_assistant');
 
-    if (replace) {
-      await router.replace({ query });
-    } else {
-      await router.push({ query });
-    }
-    setIsPerformingSearchNavigation(false);
+    await navigate({ ...override, searchTime: effectiveSearchTime }, replace);
   };
 
   const onSwap = async () => {
     setIsSwapping(true);
+    const latestTripQuery = getLatestTripQuery();
     await setValuesWithLoading({
-      from: tripQuery.to,
-      to: tripQuery.from,
+      from: latestTripQuery.to,
+      to: latestTripQuery.from,
     });
     setIsSwapping(false);
   };
