@@ -34,6 +34,7 @@ import {
 import { FromToTripQuery } from '../types';
 import { GlobalMessageContextProvider } from '@atb/modules/global-messages';
 import { BffGeocoderApi } from '@atb/page-modules/bff/server/geocoder';
+import { GeocoderFeature } from '@atb/modules/geocoder';
 
 afterEach(function () {
   cleanup();
@@ -55,6 +56,24 @@ vi.mock('@atb/modules/api-browser', () => ({
 }));
 
 mockRouter.useParser(createDynamicRouteParser(['/assistant']));
+
+// The locations created from the query in getServerSideProps.
+const fromQueryFeature: GeocoderFeature = {
+  id: '638651',
+  name: 'Strindheim',
+  layer: 'address',
+  geometry: { coordinates: [10.4560389, 63.4266611] },
+  locality: null,
+  category: [],
+};
+const toQueryFeature: GeocoderFeature = {
+  id: 'NSR:StopPlace:43984',
+  name: 'Byåsen skole',
+  layer: 'venue',
+  geometry: { coordinates: [10.358037, 63.398886] },
+  locality: null,
+  category: [],
+};
 
 const customRender = (ui: React.ReactNode) => {
   return render(
@@ -121,8 +140,8 @@ describe('assistant page', function () {
 
     (await expectProps(result)).toMatchObject<AssistantContentProps>({
       tripQuery: {
-        from: fromFeature,
-        to: toFeature,
+        from: fromQueryFeature,
+        to: toQueryFeature,
         via: null,
         searchTime: {
           mode: 'departBy',
@@ -320,8 +339,8 @@ describe('assistant page', function () {
     await mockRouter.push('/assistant');
 
     const cachedFromToTripQuery: FromToTripQuery = {
-      from: fromFeature,
-      to: toFeature,
+      from: fromQueryFeature,
+      to: toQueryFeature,
       searchTime: {
         mode: 'departBy',
         dateTime: 123,
