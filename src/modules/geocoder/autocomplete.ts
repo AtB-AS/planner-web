@@ -12,6 +12,7 @@ export function useAutocomplete(
   q: string,
   autocompleteFocusPoint?: GeocoderFeature,
   onlyStopPlaces?: boolean,
+  enabled = true,
 ) {
   const debouncedQuery = useDebounce(q, DEBOUNCE_TIME_AUTOCOMPLETE_IN_MS);
 
@@ -23,7 +24,7 @@ export function useAutocomplete(
   };
 
   return useSWRImmutable<AutocompleteApiReturnType>(
-    debouncedQuery !== ''
+    enabled && debouncedQuery !== ''
       ? `/api/departures/autocomplete?${qs.stringify(query)}`
       : null,
     swrFetcher,
