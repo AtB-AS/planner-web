@@ -19,12 +19,14 @@ export function useTripQueryNavigation(tripQuery: FromToTripQuery) {
   const [isPerformingSearchNavigation, setIsPerformingSearchNavigation] =
     useState(false);
 
+  const tripQueryPropRef = useRef(tripQuery);
   const latestTripQueryRef = useRef(tripQuery);
   const navigationIdRef = useRef(0);
   const isNavigatingRef = useRef(false);
 
-  // Sync with navigations not started here, e.g. back/forward.
   useEffect(() => {
+    tripQueryPropRef.current = tripQuery;
+    // Sync with navigations not started here, e.g. back/forward.
     if (!isNavigatingRef.current) {
       latestTripQueryRef.current = tripQuery;
     }
@@ -49,16 +51,20 @@ export function useTripQueryNavigation(tripQuery: FromToTripQuery) {
       setIsPerformingSearchNavigation(true);
     }
 
+    let didNavigate = false;
     try {
-      if (replace) {
-        await router.replace({ query });
-      } else {
-        await router.push({ query });
-      }
+      didNavigate = replace
+        ? await router.replace({ query })
+        : await router.push({ query });
     } finally {
       // An older, cancelled navigation must not reset the state of a newer one.
       if (navigationId === navigationIdRef.current) {
         isNavigatingRef.current = false;
+        // If the navigation failed or was cancelled, the URL never changed, so
+        // go back to the trip query the page shows.
+        if (!didNavigate) {
+          latestTripQueryRef.current = tripQueryPropRef.current;
+        }
         setIsPerformingSearchNavigation(false);
       }
     }

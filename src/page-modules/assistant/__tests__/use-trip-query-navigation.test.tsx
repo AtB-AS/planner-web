@@ -140,6 +140,48 @@ describe('useTripQueryNavigation', () => {
     });
   });
 
+  it('should reset to the current trip query when the navigation fails', async () => {
+    const navigation = pendingNavigation();
+    const { result } = renderHook(() => useTripQueryNavigation(emptyTripQuery));
+
+    let navigatePromise!: Promise<void>;
+    act(() => {
+      navigatePromise = result.current.navigate({ from: fromFeature });
+    });
+    expect(result.current.getLatestTripQuery().from).toBe(fromFeature);
+
+    await act(async () => {
+      navigation.reject(new Error('Navigation failed'));
+      await navigatePromise.catch(() => {});
+    });
+    expect(result.current.getLatestTripQuery()).toBe(emptyTripQuery);
+  });
+
+  it('should reset to the current trip query when the navigation is cancelled', async () => {
+    const navigation = pendingNavigation();
+    const { result } = renderHook(() => useTripQueryNavigation(emptyTripQuery));
+
+    act(() => {
+      result.current.navigate({ from: fromFeature });
+    });
+
+    // E.g. cancelled by the user pressing back.
+    await act(async () => navigation.resolve(false));
+    expect(result.current.getLatestTripQuery()).toBe(emptyTripQuery);
+  });
+
+  it('should keep the requested trip query when the navigation succeeds', async () => {
+    const navigation = pendingNavigation();
+    const { result } = renderHook(() => useTripQueryNavigation(emptyTripQuery));
+
+    act(() => {
+      result.current.navigate({ from: fromFeature });
+    });
+
+    await act(async () => navigation.resolve(true));
+    expect(result.current.getLatestTripQuery().from).toBe(fromFeature);
+  });
+
   it('should use replace when requested', () => {
     replace.mockReturnValueOnce(new Promise(() => {}));
     const { result } = renderHook(() => useTripQueryNavigation(emptyTripQuery));
