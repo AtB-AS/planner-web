@@ -108,8 +108,23 @@ describe('useTripQueryNavigation', () => {
     expect(result.current.isPerformingSearchNavigation).toBe(false);
   });
 
-  it('should sync with the trip query from the server when the navigation completes', async () => {
-    const navigation = pendingNavigation();
+  it('should sync with the trip query when not navigating, e.g. back/forward', () => {
+    const { result, rerender } = renderHook(
+      ({ tripQuery }) => useTripQueryNavigation(tripQuery),
+      { initialProps: { tripQuery: emptyTripQuery } },
+    );
+
+    const previousTripQuery: FromToTripQuery = {
+      ...emptyTripQuery,
+      from: fromFeature,
+    };
+    rerender({ tripQuery: previousTripQuery });
+
+    expect(result.current.getLatestTripQuery()).toBe(previousTripQuery);
+  });
+
+  it('should not overwrite pending changes when the trip query changes during a navigation', () => {
+    pendingNavigation();
     const { result, rerender } = renderHook(
       ({ tripQuery }) => useTripQueryNavigation(tripQuery),
       { initialProps: { tripQuery: emptyTripQuery } },
@@ -118,16 +133,11 @@ describe('useTripQueryNavigation', () => {
     act(() => {
       result.current.navigate({ from: fromFeature });
     });
+    rerender({ tripQuery: { ...emptyTripQuery, to: toFeature } });
 
-    const serverTripQuery: FromToTripQuery = {
-      ...emptyTripQuery,
+    expect(result.current.getLatestTripQuery()).toMatchObject({
       from: fromFeature,
-      transportModeFilter: ['bus'],
-    };
-    rerender({ tripQuery: serverTripQuery });
-    await act(async () => navigation.resolve(true));
-
-    expect(result.current.getLatestTripQuery()).toBe(serverTripQuery);
+    });
   });
 
   it('should use replace when requested', () => {

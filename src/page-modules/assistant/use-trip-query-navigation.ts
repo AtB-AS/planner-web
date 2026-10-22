@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { FromToTripQuery } from './types';
 import { createTripQuery } from './utils';
 
@@ -19,16 +19,12 @@ export function useTripQueryNavigation(tripQuery: FromToTripQuery) {
   const [isPerformingSearchNavigation, setIsPerformingSearchNavigation] =
     useState(false);
 
-  const tripQueryPropRef = useRef(tripQuery);
   const latestTripQueryRef = useRef(tripQuery);
   const navigationIdRef = useRef(0);
   const isNavigatingRef = useRef(false);
 
-  // A layout effect runs before Next.js resolves a navigation, so the prop ref
-  // is up to date when the navigation's `finally` block below reads it.
-  useLayoutEffect(() => {
-    tripQueryPropRef.current = tripQuery;
-    // Sync with navigations not started here, e.g. back/forward.
+  // Sync with navigations not started here, e.g. back/forward.
+  useEffect(() => {
     if (!isNavigatingRef.current) {
       latestTripQueryRef.current = tripQuery;
     }
@@ -63,9 +59,6 @@ export function useTripQueryNavigation(tripQuery: FromToTripQuery) {
       // An older, cancelled navigation must not reset the state of a newer one.
       if (navigationId === navigationIdRef.current) {
         isNavigatingRef.current = false;
-        // Use the trip query the server resolved, or the current one if the
-        // navigation failed.
-        latestTripQueryRef.current = tripQueryPropRef.current;
         setIsPerformingSearchNavigation(false);
       }
     }
