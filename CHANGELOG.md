@@ -1,5 +1,24 @@
 # Changelog
 
+## [3.28.0](https://github.com/AtB-AS/planner-web/compare/v3.27.1...v3.28.0) (2026-10-21)
+
+
+### Features
+
+* **atb-contact:** hide postponePayment form ([#810](https://github.com/AtB-AS/planner-web/issues/810)) ([35f6367](https://github.com/AtB-AS/planner-web/commit/35f63673d941f87bad74c992c0ef823ce46c34bc))
+* **atb-contact:** update package config and translations ([#821](https://github.com/AtB-AS/planner-web/issues/821)) ([4b9c821](https://github.com/AtB-AS/planner-web/commit/4b9c8217e4ce6b50bc9268621401faead24a1033))
+
+
+### Bug Fixes
+
+* Adjust autoComplete results to match design ([#826](https://github.com/AtB-AS/planner-web/issues/826)) ([119fd90](https://github.com/AtB-AS/planner-web/commit/119fd90f2f34d37cf71a2f462833ac6e15fcacbc))
+* Adjust buttons alignment to match design ([#816](https://github.com/AtB-AS/planner-web/issues/816)) ([db96bfa](https://github.com/AtB-AS/planner-web/commit/db96bfaa4bc618fc2cd9781ba84ea4f24c568f9d))
+* Adjust date and time input to match design ([#823](https://github.com/AtB-AS/planner-web/issues/823)) ([d69651f](https://github.com/AtB-AS/planner-web/commit/d69651f3961b5f6218168042327fc2c9753465a1))
+* Adjust widget icon to match design ([#811](https://github.com/AtB-AS/planner-web/issues/811)) ([1e8df11](https://github.com/AtB-AS/planner-web/commit/1e8df11fd55a4db43f040f4e7baad65dd81b59e7))
+* avoid autocomplete requests when swapping or changing search ([#829](https://github.com/AtB-AS/planner-web/issues/829)) ([603ed7e](https://github.com/AtB-AS/planner-web/commit/603ed7e731e6896b494c67ab12fe3e731a4adc31))
+* use departure locations from stop place and URL instead of geocoding ([#828](https://github.com/AtB-AS/planner-web/issues/828)) ([3be0156](https://github.com/AtB-AS/planner-web/commit/3be0156ebb95cdecb1e0a1517e66314a1bfd9073))
+* use trip query locations from URL instead of geocoding ([#827](https://github.com/AtB-AS/planner-web/issues/827)) ([a1db99b](https://github.com/AtB-AS/planner-web/commit/a1db99b75fbd1276434933af7ffe33e35ec0f236))
+
 ## [3.27.1](https://github.com/AtB-AS/planner-web/compare/v3.27.0...v3.27.1) (2026-10-13)
 
 
