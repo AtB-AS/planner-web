@@ -4,27 +4,15 @@ import { FromToTripQuery } from './types';
 import { createTripQuery } from './utils';
 
 /**
- * Updates the trip search URL without losing changes the user just made.
+ * Updates the trip search URL without losing changes that are still loading.
  *
- * This was made after users experiencing being unable to trigger search
- * even though the form showed the correct values.
+ * Each change builds on the latest requested search instead of the `tripQuery`
+ * prop, which only updates once the server responds. Otherwise, picking "from"
+ * and then "to" on a slow connection could end up with only "to" selected.
  *
- * @details Every change to the search (from, to, filters, etc.) updates the URL, and
- * the page waits for the server before showing the new values. On a slow
- * connection, the user can make a second change before the first one has
- * finished loading. If the second change was based on what the page currently
- * shows, the first change would be lost. For example, picking "from" and then
- * "to" quickly could end up with only "to" selected.
- *
- *
- * @param tripQuery - The trip query the page currently shows (from the server)
- * @returns An object containing:
- * - `navigate` - Applies a change to the search and updates the URL. Pass
- *   `replace` to replace the current history entry instead of adding a new one.
- * - `getLatestTripQuery` - Returns the search including all changes made so
- *   far, even ones that are still loading.
- * - `isPerformingSearchNavigation` - Whether a search with both from and to is
- *   loading.
+ * @param tripQuery - The trip query the page currently shows
+ * @returns `navigate` to change the search, `getLatestTripQuery` to read it
+ * including pending changes, and `isPerformingSearchNavigation`.
  */
 export function useTripQueryNavigation(tripQuery: FromToTripQuery) {
   const router = useRouter();
