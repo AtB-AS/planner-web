@@ -196,9 +196,9 @@ export const translations: ContactFormTranslationsOverride = {
             },
             customerNumber: {
               description: _(
-                'Kundenummeret består av 7 siffer og du finner det under Min bruker i FRAM-appen, eller i nettbutikken.',
-                'The customer number consists of 7 digits and can be found under My user in the FRAM app, or in the webshop',
-                'Kundenummeret består av 7 siffer og du finn det under Min bruker i FRAM-appen, eller i nettbutikken.',
+                'Består av 7 siffer og står under Min bruker i FRAM-appen eller i nettbutikken.',
+                'Consists of 7 digits and is shown under My user in the FRAM app or in the webshop.',
+                'Består av 7 siffer og står under Min bruker i FRAM-appen eller i nettbutikken.',
               ),
             },
           },
@@ -473,9 +473,9 @@ export const translations: ContactFormTranslationsOverride = {
             },
             customerNumber: {
               description: _(
-                'Kundenummeret består av 7 siffer og du finner det under Profil i AtB-appen, eller i nettbutikken.',
-                'The customer number consists of 7 digits and can be found under Profile in the AtB app, or in the webshop',
-                'Kundenummeret består av 7 siffer og du finn det under Profil i AtB-appen, eller i nettbutikken.',
+                'Består av 7 siffer og står under Profil i AtB-appen eller i nettbutikken.',
+                'Consists of 7 digits and is shown under Profile in the AtB app or in the webshop.',
+                'Består av 7 siffer og står under Profil i AtB-appen eller i nettbutikken.',
               ),
             },
             refundReason: {
