@@ -21,6 +21,7 @@ module.exports = {
   generateIndexSitemap: false,
   sitemapSize: 7000,
   generateRobotsTxt: true,
+  exclude: ['/embed', '/embed/*'],
   robotsTxtOptions: {
     policies:
       environment === 'production'
