@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Language, useTranslation } from '@atb/translations';
-import { LayerSpecification } from 'mapbox-gl';
+import type { LayerSpecification, LngLatBoundsLike } from 'mapbox-gl';
 import { getReferenceDataName } from '@atb/utils/reference-data';
 import { centroid } from '@turf/centroid';
 import { type FareZone } from '@atb/modules/firebase';
@@ -11,9 +11,11 @@ import useSWRImmutable from 'swr/immutable';
 const FARE_ZONE_SOURCE_ID = 'fare-zones';
 const ZONE_BOUNDARY_LAYER_ID = 'zone-boundary-layer';
 const ZONE_NAMES_LAYER_ID = 'zone-names-layer';
+const FARE_ZONES_BOUNDS_PADDING = 32;
 
 export const useMapFareZones = (
   mapRef: React.RefObject<mapboxgl.Map | undefined>,
+  { fitToZones = false }: { fitToZones?: boolean } = {},
 ) => {
   const { language } = useTranslation();
   const [isZonesVisible, setIsZonesVisible] = useState(false);
@@ -21,6 +23,23 @@ export const useMapFareZones = (
   const { data } = useSWRImmutable<FareZone[]>(
     '/api/config/fare-zones',
     swrFetcher,
+  );
+
+  const fareZonesBounds = useMemo(
+    () => (data ? getFareZonesBounds(data) : undefined),
+    [data],
+  );
+  const hasFittedToZones = useRef(false);
+
+  const fitBoundsToFareZones = useCallback(
+    (options?: { animate?: boolean }) => {
+      if (!mapRef.current || !fareZonesBounds) return;
+      mapRef.current.fitBounds(fareZonesBounds, {
+        padding: FARE_ZONES_BOUNDS_PADDING,
+        animate: options?.animate ?? true,
+      });
+    },
+    [mapRef, fareZonesBounds],
   );
 
   const addFareZonesToMap = useCallback(
@@ -90,6 +109,40 @@ export const useMapFareZones = (
     }
     addFareZonesToMap(mapRef.current);
   }, [addFareZonesToMap, data, isZonesVisible, mapRef, isStyleLoaded]);
+
+  useEffect(() => {
+    if (!fitToZones || hasFittedToZones.current || !fareZonesBounds) return;
+    hasFittedToZones.current = true;
+    fitBoundsToFareZones({ animate: false });
+  }, [fitToZones, fareZonesBounds, fitBoundsToFareZones]);
+
+  return { fitBoundsToFareZones };
+};
+
+export const getFareZonesBounds = (
+  fareZones: FareZone[],
+): LngLatBoundsLike | undefined => {
+  let minLon = Infinity;
+  let minLat = Infinity;
+  let maxLon = -Infinity;
+  let maxLat = -Infinity;
+  // Polygons can be detailed, so avoid spreading all positions into Math.min.
+  for (const fareZone of fareZones) {
+    for (const ring of fareZone.geometry.coordinates) {
+      for (const [lon, lat] of ring) {
+        minLon = Math.min(minLon, lon);
+        minLat = Math.min(minLat, lat);
+        maxLon = Math.max(maxLon, lon);
+        maxLat = Math.max(maxLat, lat);
+      }
+    }
+  }
+  if (minLon === Infinity) return undefined;
+
+  return [
+    [minLon, minLat],
+    [maxLon, maxLat],
+  ];
 };
 
 const createFareZonesFeatureCollection = (

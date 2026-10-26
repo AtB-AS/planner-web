@@ -45,6 +45,7 @@ export type MapProps = {
   onSelectStopPlace?: (id: string) => void;
   interactive?: boolean;
   liveVehicle?: LiveVehicleProps;
+  fitToFareZones?: boolean;
 } & (
   | { position?: PositionType; initialZoom?: number }
   | { mapLegs: MapLegType[] }
@@ -77,6 +78,7 @@ function MapWithStyle({
   onSelectStopPlace,
   interactive = true,
   liveVehicle,
+  fitToFareZones = false,
   ...props
 }: MapProps & { mapboxJsonStyle: StyleSpecification }) {
   const mapContainer = useRef<HTMLDivElement>(null);
@@ -124,7 +126,9 @@ function MapWithStyle({
   );
   useMapPin(map, position, layer);
   useMapLegs(map, mapLegs);
-  useMapFareZones(map);
+  const { fitBoundsToFareZones } = useMapFareZones(map, {
+    fitToZones: fitToFareZones,
+  });
   useNationalStopRegistryLayers(map);
   const { onMarkerClick } = useMapFollow(map, liveVehicle?.vehicle, {
     enabled: !!liveVehicle,
@@ -146,7 +150,9 @@ function MapWithStyle({
               size="small"
               radiusSize="circular"
               icon={{ left: <MonoIcon icon="places/Location" /> }}
-              onClick={() => centerMap(position)}
+              onClick={() =>
+                fitToFareZones ? fitBoundsToFareZones() : centerMap(position)
+              }
               buttonProps={{
                 'aria-label': t(ComponentText.Map.map.centerMapButton),
               }}
