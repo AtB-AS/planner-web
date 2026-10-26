@@ -196,9 +196,9 @@ export const translations: ContactFormTranslationsOverride = {
             },
             customerNumber: {
               description: _(
-                'Kundenummeret består av 7 siffer og du finner det under Min bruker i FRAM-appen, eller i nettbutikken.',
-                'The customer number consists of 7 digits and can be found under My user in the FRAM app, or in the webshop',
-                'Kundenummeret består av 7 siffer og du finn det under Min bruker i FRAM-appen, eller i nettbutikken.',
+                'Består av 7 siffer og står under Min bruker i FRAM-appen eller i nettbutikken.',
+                'Consists of 7 digits and is shown under My user in the FRAM app or in the webshop.',
+                'Består av 7 siffer og står under Min bruker i FRAM-appen eller i nettbutikken.',
               ),
             },
           },
@@ -349,6 +349,34 @@ export const translations: ContactFormTranslationsOverride = {
               ),
             },
           },
+          lostAndFound: {
+            info: _rich(
+              `Har du glemt igjen eller mistet noe om bord, blir det tatt hånd om av AtB kundesenter eller operatøren for transportmiddelet.
+
+**Bybuss:** Beskriv gjenstanden i skjemaet, så tar vi kontakt hvis vi finner den. Utlevering skjer kun etter avtale.
+**Andre transportmidler:** Bruk informasjonen til å kontakte riktig hittegodskontor.
+
+Har du mistet ${T.travelCard.definite} ditt, må du kontakte AtB kundesenter.
+
+[Les mer om hittegods på atb.no](https://www.atb.no/hittegods/)`,
+              `If you have left something behind or lost something on board, it is handled by AtB customer service or the operator of that mode of transport.
+
+**City bus:** Describe the item in the form, and we will contact you if we find it. Items can only be collected by appointment.
+**Other transport modes:** Use the information to contact the right lost property office.
+
+If you have lost your ${T.travelCard.base}, contact AtB customer service.
+
+[Read more about lost property on atb.no](https://www.atb.no/en/lost-and-found/)`,
+              `Har du gløymt igjen eller mista noko om bord, blir det teke hand om av AtB kundesenter eller operatøren for transportmiddelet.
+
+**Bybuss:** Skildre gjenstanden i skjemaet, så tek vi kontakt viss vi finn han. Utlevering skjer berre etter avtale.
+**Andre transportmiddel:** Bruk informasjonen til å kontakte rett hittegodskontor.
+
+Har du mista ${T.travelCard.definite} ditt, må du kontakte AtB kundesenter.
+
+[Les meir om hittegods på atb.no](https://www.atb.no/hittegods/)`,
+            ),
+          },
           ticketing: {
             additionalTicketingInfo: {
               detail: _(''),
@@ -473,9 +501,9 @@ export const translations: ContactFormTranslationsOverride = {
             },
             customerNumber: {
               description: _(
-                'Kundenummeret består av 7 siffer og du finner det under Profil i AtB-appen, eller i nettbutikken.',
-                'The customer number consists of 7 digits and can be found under Profile in the AtB app, or in the webshop',
-                'Kundenummeret består av 7 siffer og du finn det under Profil i AtB-appen, eller i nettbutikken.',
+                'Består av 7 siffer og står under Profil i AtB-appen eller i nettbutikken.',
+                'Consists of 7 digits and is shown under Profile in the AtB app or in the webshop.',
+                'Består av 7 siffer og står under Profil i AtB-appen eller i nettbutikken.',
               ),
             },
             refundReason: {
