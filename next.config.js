@@ -3,6 +3,17 @@ const { version } = require('./package.json');
 
 const orgId = process.env.NEXT_PUBLIC_PLANNER_ORG_ID;
 
+/** Sites allowed to show /embed pages in an iframe. */
+function getEmbedFrameAncestors() {
+  const orgData = orgId ? require(`./orgs/${orgId}.json`) : undefined;
+  const origins = [
+    "'self'",
+    ...(orgData?.embed?.allowedOrigins ?? []),
+    ...(process.env.NODE_ENV !== 'production' ? ['http://localhost:*'] : []),
+  ];
+  return `frame-ancestors ${origins.join(' ')}`;
+}
+
 /**
  * @type {import('next').NextConfig}
  */
@@ -24,6 +35,15 @@ const nextConfig = {
           },
         ],
       },
+      {
+        source: '/embed/:path+',
+        headers: [
+          {
+            key: 'Content-Security-Policy',
+            value: getEmbedFrameAncestors(),
+          },
+        ],
+      },
     ];
   },
 
@@ -40,8 +60,8 @@ const nextConfig = {
       (rule) => typeof rule.oneOf === 'object',
     );
     if (oneOf) {
-      const moduleCssRules = oneOf.oneOf.filter((rule) =>
-        regexEqual(rule.test, /\.module\.css$/),
+      const moduleCssRules = oneOf.oneOf.filter(
+        (rule) => regexEqual(rule.test, /\.module\.css$/),
         // regexEqual(rule.test, /\.module\.(scss|sass)$/)
       );
       for (const moduleCssRule of moduleCssRules) {

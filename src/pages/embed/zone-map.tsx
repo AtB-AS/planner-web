@@ -1,5 +1,4 @@
 import EmbedLayout from '@atb/layouts/embed';
-import { setEmbedFrameAncestors } from '@atb/page-modules/embed/frame-ancestors';
 import {
   parseZoneMapQuery,
   ZoneMap,
@@ -22,8 +21,7 @@ const ZoneMapPage: NextPage<ZoneMapPageProps> = (props) => {
 export default ZoneMapPage;
 
 export const getServerSideProps = withAccessLogging(
-  withGlobalData<ZoneMapProps>(async function ({ query, res }) {
-    setEmbedFrameAncestors(res);
+  withGlobalData<ZoneMapProps>(async function ({ query }) {
     return { props: parseZoneMapQuery(query) };
   }),
 );

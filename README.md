@@ -144,8 +144,9 @@ Pages under `/embed/*` are made to be embedded on other websites in an iframe
 
 ### Allowed websites
 
-Embedding is limited by a `Content-Security-Policy: frame-ancestors` header.
-Allowed origins are configured per org in `orgs/<org>.json`:
+Embedding is limited by a `Content-Security-Policy: frame-ancestors` header, set
+for all `/embed/*` routes in `next.config.js`. Allowed origins are configured
+per org in `orgs/<org>.json`:
 
 ```json
 "embed": {
@@ -158,8 +159,8 @@ when not running a production build.
 
 ### Adding a new embed page
 
-Use `EmbedLayout` (no header/footer) and call `setEmbedFrameAncestors(res)` in
-`getServerSideProps`, otherwise the page can be embedded anywhere.
+Add the page under `src/pages/embed/` and use `EmbedLayout` (no header/footer).
+Iframe restrictions are applied automatically to all embed pages
 
 ## Sitemap & Stop Place overview
 
