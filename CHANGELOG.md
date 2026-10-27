@@ -1,5 +1,19 @@
 # Changelog
 
+## [3.29.0](https://github.com/AtB-AS/planner-web/compare/v3.28.0...v3.29.0) (2026-10-27)
+
+
+### Features
+
+* **atb-contact:** pre-purchased ticket and lost property forms ([#833](https://github.com/AtB-AS/planner-web/issues/833)) ([ed870f1](https://github.com/AtB-AS/planner-web/commit/ed870f1e1426b6d1ea0ddb4ee202be0b89980e04))
+
+
+### Bug Fixes
+
+* Search navigation race condition ([#830](https://github.com/AtB-AS/planner-web/issues/830)) ([76864b5](https://github.com/AtB-AS/planner-web/commit/76864b517e09de4f3d9cffe394f42df61dfbfbb0))
+* **widget:** select clicked autocomplete item instead of first ([#835](https://github.com/AtB-AS/planner-web/issues/835)) ([882f34e](https://github.com/AtB-AS/planner-web/commit/882f34eff23e9902e2be2bc8de69bea93d4d1aab))
+* **widget:** Update widget design to match latest standard ([#832](https://github.com/AtB-AS/planner-web/issues/832)) ([83d82d4](https://github.com/AtB-AS/planner-web/commit/83d82d43c509e8defbef1df8146940859f17f9d0))
+
 ## [3.28.0](https://github.com/AtB-AS/planner-web/compare/v3.27.1...v3.28.0) (2026-10-21)
 
 
