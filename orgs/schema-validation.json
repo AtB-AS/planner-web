@@ -138,6 +138,19 @@
             }
           },
           "type": "object"
+        },
+        "embed": {
+          "additionalProperties": false,
+          "properties": {
+            "allowedOrigins": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "required": ["allowedOrigins"],
+          "type": "object"
         }
       },
       "required": ["featureConfig", "orgId", "supportEmail", "urls"],

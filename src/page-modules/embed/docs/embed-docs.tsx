@@ -1,4 +1,5 @@
 import { DEFAULT_ZONE_MAP_ZOOM } from '@atb/page-modules/embed/zone-map';
+import { getOrgData } from '@atb/modules/org-data';
 import dynamic from 'next/dynamic';
 import style from './embed-docs.module.css';
 
@@ -17,6 +18,7 @@ export type EmbedDocsProps = {
 
 export function EmbedDocs({ urlBase }: EmbedDocsProps) {
   const zoneMapUrl = `${urlBase}/embed/zone-map`;
+  const allowedOrigins = getOrgData().embed?.allowedOrigins ?? [];
 
   const basicExample = html`
     <iframe
@@ -46,6 +48,23 @@ export function EmbedDocs({ urlBase }: EmbedDocsProps) {
       <p>
         Pages that can be embedded on your own website using an{' '}
         <code>iframe</code>.
+      </p>
+
+      <h2>Allowed websites</h2>
+      <p>
+        Embed pages can only be shown on approved websites. On other websites
+        the browser will refuse to show the page. Currently allowed:
+      </p>
+      <ul className={style.list}>
+        {allowedOrigins.map((origin) => (
+          <li key={origin}>
+            <code>{origin}</code>
+          </li>
+        ))}
+      </ul>
+      <p>
+        To embed on another website, the domain has to be added to{' '}
+        <code>embed.allowedOrigins</code> in the planner-web org configuration.
       </p>
 
       <h2>Zone map</h2>
