@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Language, useTranslation } from '@atb/translations';
-import { LayerSpecification } from 'mapbox-gl';
+import { LayerSpecification, type LngLatBoundsLike } from 'mapbox-gl';
 import { getReferenceDataName } from '@atb/utils/reference-data';
 import { centroid } from '@turf/centroid';
 import { type FareZone } from '@atb/modules/firebase';
@@ -14,9 +14,11 @@ const ZONE_NAMES_LAYER_ID = 'zone-names-layer';
 
 export const useMapFareZones = (
   mapRef: React.RefObject<mapboxgl.Map | undefined>,
+  { fitOnLoad = false }: { fitOnLoad?: boolean } = {},
 ) => {
   const { language } = useTranslation();
   const [isZonesVisible, setIsZonesVisible] = useState(false);
+  const hasFittedOnLoad = useRef(false);
   const [isStyleLoaded, setIsStyleLoaded] = useState(false);
   const { data } = useSWRImmutable<FareZone[]>(
     '/api/config/fare-zones',
@@ -37,7 +39,7 @@ export const useMapFareZones = (
         type: 'line',
         source: FARE_ZONE_SOURCE_ID,
         paint: {
-          'line-width': 1,
+          'line-width': 2,
           'line-color': '#666666',
         },
       };
@@ -90,6 +92,48 @@ export const useMapFareZones = (
     }
     addFareZonesToMap(mapRef.current);
   }, [addFareZonesToMap, data, isZonesVisible, mapRef, isStyleLoaded]);
+
+  const fitToFareZones = useCallback(
+    (options?: { animate?: boolean }) => {
+      if (!mapRef.current || !data) return;
+      const bounds = getFareZonesBounds(data);
+      if (!bounds) return;
+      mapRef.current.fitBounds(bounds, { padding: 32, speed: 2, ...options });
+    },
+    [mapRef, data],
+  );
+
+  useEffect(() => {
+    if (!fitOnLoad || hasFittedOnLoad.current || !data) return;
+    hasFittedOnLoad.current = true;
+    fitToFareZones({ animate: false });
+  }, [fitOnLoad, data, fitToFareZones]);
+
+  return { fitToFareZones };
+};
+
+export const getFareZonesBounds = (
+  fareZones: FareZone[],
+): LngLatBoundsLike | undefined => {
+  const coordinates = fareZones.flatMap((fareZone) =>
+    fareZone.geometry.coordinates.flat(),
+  );
+  if (!coordinates.length) return undefined;
+
+  // Loop instead of Math.min(...spread), zone polygons can have many points.
+  let [west, south] = coordinates[0];
+  let [east, north] = coordinates[0];
+  for (const [lon, lat] of coordinates) {
+    west = Math.min(west, lon);
+    east = Math.max(east, lon);
+    south = Math.min(south, lat);
+    north = Math.max(north, lat);
+  }
+
+  return [
+    [west, south],
+    [east, north],
+  ];
 };
 
 const createFareZonesFeatureCollection = (

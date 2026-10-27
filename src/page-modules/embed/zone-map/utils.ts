@@ -1,4 +1,4 @@
-import { defaultPosition, type PositionType } from '@atb/components/map';
+import { type PositionType } from '@atb/components/map';
 import type { ParsedUrlQuery } from 'querystring';
 import z from 'zod';
 
@@ -6,7 +6,8 @@ import z from 'zod';
 export const DEFAULT_ZONE_MAP_ZOOM = 9;
 
 export type ZoneMapOptions = {
-  position: PositionType;
+  // null when not set, the map then starts fitted to all fare zones.
+  position: PositionType | null;
   zoom: number;
 };
 
@@ -30,8 +31,7 @@ export function parseZoneMapQuery(query: ParsedUrlQuery): ZoneMapOptions {
   const { lat, lon, zoom } = zoneMapQuerySchema.parse(query);
 
   return {
-    position:
-      lat !== undefined && lon !== undefined ? { lat, lon } : defaultPosition,
+    position: lat !== undefined && lon !== undefined ? { lat, lon } : null,
     zoom: zoom ?? DEFAULT_ZONE_MAP_ZOOM,
   };
 }

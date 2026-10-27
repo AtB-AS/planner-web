@@ -1,11 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { defaultPosition } from '@atb/components/map';
 import { DEFAULT_ZONE_MAP_ZOOM, parseZoneMapQuery } from '../utils';
 
 describe('parseZoneMapQuery', () => {
   it('should use defaults when no query params are given', () => {
     expect(parseZoneMapQuery({})).toEqual({
-      position: defaultPosition,
+      position: null,
       zoom: DEFAULT_ZONE_MAP_ZOOM,
     });
   });
@@ -19,13 +18,9 @@ describe('parseZoneMapQuery', () => {
     });
   });
 
-  it('should use default position when only one of lat and lon is given', () => {
-    expect(parseZoneMapQuery({ lat: '63.43' }).position).toEqual(
-      defaultPosition,
-    );
-    expect(parseZoneMapQuery({ lon: '10.39' }).position).toEqual(
-      defaultPosition,
-    );
+  it('should leave position unset when only one of lat and lon is given', () => {
+    expect(parseZoneMapQuery({ lat: '63.43' }).position).toBeNull();
+    expect(parseZoneMapQuery({ lon: '10.39' }).position).toBeNull();
   });
 
   it('should keep valid params when another param is invalid', () => {
@@ -39,7 +34,7 @@ describe('parseZoneMapQuery', () => {
 
   it('should treat empty values as missing', () => {
     expect(parseZoneMapQuery({ lat: '', lon: '', zoom: '' })).toEqual({
-      position: defaultPosition,
+      position: null,
       zoom: DEFAULT_ZONE_MAP_ZOOM,
     });
   });
@@ -55,8 +50,8 @@ describe('parseZoneMapQuery', () => {
     { lat: '90.1', lon: '10.39' },
     { lat: '63.43', lon: '-180.1' },
     { lat: '63.43', lon: '180.1' },
-  ])('should use default position for out of range %o', (query) => {
-    expect(parseZoneMapQuery(query).position).toEqual(defaultPosition);
+  ])('should leave position unset for out of range %o', (query) => {
+    expect(parseZoneMapQuery(query).position).toBeNull();
   });
 
   it('should accept boundary values', () => {
