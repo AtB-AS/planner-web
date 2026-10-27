@@ -45,9 +45,8 @@ export type MapProps = {
   onSelectStopPlace?: (id: string) => void;
   interactive?: boolean;
   liveVehicle?: LiveVehicleProps;
-  // Center button fits all fare zones instead of flying to the position.
+  /** Center button fits all fare zones instead of flying to the position */
   centerOnFareZones?: boolean;
-  // Start the map fitted to all fare zones once they are loaded.
   fitFareZonesOnLoad?: boolean;
 } & (
   | { position?: PositionType; initialZoom?: number }
