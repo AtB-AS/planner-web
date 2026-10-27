@@ -49,44 +49,22 @@ export function EmbedDocs({ urlBase }: EmbedDocsProps) {
         Pages that can be embedded on your own website using an{' '}
         <code>iframe</code>.
       </p>
-
-      <h2>Allowed websites</h2>
-      <p>
-        Embed pages can only be shown on approved websites. On other websites
-        the browser will refuse to show the page. Currently allowed:
-      </p>
-      <ul className={style.list}>
-        {allowedOrigins.map((origin) => (
-          <li key={origin}>
-            <code>{origin}</code>
-          </li>
-        ))}
-      </ul>
-      <p>
-        To embed on another website, the domain has to be added to{' '}
-        <code>embed.allowedOrigins</code> in the planner-web org configuration.
-      </p>
-
       <h2>Zone map</h2>
       <p>
         A map showing all fare zones. By default the map starts zoomed to fit
         all zones, and the center button fits all zones again.
       </p>
-
       <iframe
         className={style.demo}
         src="/embed/zone-map"
         title="Zone map"
         loading="lazy"
       />
-
       <h3>Installation</h3>
       <p>Copy the HTML below into your website.</p>
       <CopyMarkup content={basicExample} />
-
       <h3>Options</h3>
       <p>Options are set as query parameters on the URL.</p>
-
       <table className={style.table}>
         <thead>
           <tr>
@@ -119,14 +97,28 @@ export function EmbedDocs({ urlBase }: EmbedDocsProps) {
           </tr>
         </tbody>
       </table>
-
       <p>
         <code>lat</code> and <code>lon</code> must both be set to start at a
         position. <code>zoom</code> is only used together with them. Invalid
         values are ignored and the default is used instead.
       </p>
-
       <CopyMarkup content={positionExample} />
+      <h2>Allowed websites</h2>
+      <p>
+        Embed pages can only be shown on approved websites. On other websites
+        the browser will refuse to show the page. Currently allowed:
+      </p>
+      <ul className={style.list}>
+        {allowedOrigins.map((origin) => (
+          <li key={origin}>
+            <code>{origin}</code>
+          </li>
+        ))}
+      </ul>
+      <p>
+        To embed on another website, the domain has to be added to{' '}
+        <code>embed.allowedOrigins</code> in the planner-web org configuration.
+      </p>
     </div>
   );
 }
