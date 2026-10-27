@@ -52,6 +52,8 @@ function EmbedBaseLayout({
       <Head>
         <title>{siteTitle}</title>
         <link rel="icon" href="/assets/colors/icons/favicon.svg" />
+        {/* Only meant to be shown embedded, not as standalone search results. */}
+        <meta name="robots" content="noindex" />
       </Head>
       <main className={style.main}>{children}</main>
     </I18nProvider>
