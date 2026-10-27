@@ -39,7 +39,7 @@ export const useMapFareZones = (
         type: 'line',
         source: FARE_ZONE_SOURCE_ID,
         paint: {
-          'line-width': 2,
+          'line-width': 1,
           'line-color': '#666666',
         },
       };
