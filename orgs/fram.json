@@ -62,5 +62,27 @@
     "walkingReluctance": 4.0,
     "transferPenalty": 0,
     "defaultTransferSlack": 120
+  },
+  "appLinks": {
+    "staging": {
+      "iosAppIds": [
+        "PC69T9L894.no.mrfylke.fram.staging",
+        "PC69T9L894.no.mrfylke.fram.debug"
+      ],
+      "androidApps": [
+        {
+          "packageName": "no.mrfylke.fram.staging",
+          "sha256CertFingerprints": [
+            "71:00:A5:F4:49:19:EA:0A:2B:C0:A5:98:07:AC:F3:E2:D1:C0:37:EF:E9:76:A7:C1:29:F9:95:EC:44:1A:8F:ED"
+          ]
+        },
+        {
+          "packageName": "no.mrfylke.fram.debug",
+          "sha256CertFingerprints": [
+            "FA:C6:17:45:DC:09:03:78:6F:B9:ED:E6:2A:96:2B:39:9F:73:48:F0:BB:6F:89:9B:83:32:66:75:91:03:3B:9C"
+          ]
+        }
+      ]
+    }
   }
 }

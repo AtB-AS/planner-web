@@ -63,5 +63,38 @@
     "walkingReluctance": 4.0,
     "transferPenalty": 0,
     "defaultTransferSlack": 120
+  },
+  "appLinks": {
+    "staging": {
+      "iosAppIds": [
+        "CSV447Q97L.no.mittatb.staging",
+        "CSV447Q97L.no.mittatb.debug"
+      ],
+      "androidApps": [
+        {
+          "packageName": "no.mittatb.staging",
+          "sha256CertFingerprints": [
+            "B1:41:B6:A9:A2:42:18:1A:68:96:45:15:F1:E9:86:F6:A1:D2:09:AF:7A:DD:BA:B2:B2:25:CA:5A:DD:C3:5F:B4"
+          ]
+        },
+        {
+          "packageName": "no.mittatb.debug",
+          "sha256CertFingerprints": [
+            "FA:C6:17:45:DC:09:03:78:6F:B9:ED:E6:2A:96:2B:39:9F:73:48:F0:BB:6F:89:9B:83:32:66:75:91:03:3B:9C"
+          ]
+        }
+      ]
+    },
+    "prod": {
+      "iosAppIds": ["CSV447Q97L.no.mittatb.store"],
+      "androidApps": [
+        {
+          "packageName": "no.mittatb.store",
+          "sha256CertFingerprints": [
+            "B1:41:B6:A9:A2:42:18:1A:68:96:45:15:F1:E9:86:F6:A1:D2:09:AF:7A:DD:BA:B2:B2:25:CA:5A:DD:C3:5F:B4"
+          ]
+        }
+      ]
+    }
   }
 }

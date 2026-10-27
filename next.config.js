@@ -26,6 +26,11 @@ const nextConfig = {
       },
     ];
   },
+  async rewrites() {
+    return [
+      { source: '/.well-known/:path*', destination: '/api/well-known/:path*' },
+    ];
+  },
 
   webpack(config) {
     config.resolve.alias = {
