@@ -1,5 +1,6 @@
 import { DEFAULT_ZONE_MAP_ZOOM } from '@atb/page-modules/embed/zone-map';
 import { getOrgData } from '@atb/modules/org-data';
+import { defaultPosition } from '@atb/components/map';
 import dynamic from 'next/dynamic';
 import style from './embed-docs.module.css';
 
@@ -19,6 +20,9 @@ export type EmbedDocsProps = {
 export function EmbedDocs({ urlBase }: EmbedDocsProps) {
   const zoneMapUrl = `${urlBase}/embed/zone-map`;
   const allowedOrigins = getOrgData().embed?.allowedOrigins ?? [];
+  // Use the org's default position so the example starts inside its zones.
+  const exampleLat = defaultPosition.lat.toFixed(4);
+  const exampleLon = defaultPosition.lon.toFixed(4);
 
   const basicExample = html`
     <iframe
@@ -33,7 +37,7 @@ export function EmbedDocs({ urlBase }: EmbedDocsProps) {
 
   const positionExample = html`
     <iframe
-      src="${zoneMapUrl}?lat=63.43&lon=10.39&zoom=11"
+      src="${zoneMapUrl}?lat=${exampleLat}&lon=${exampleLon}&zoom=11"
       title="Zone map"
       width="100%"
       height="500"
