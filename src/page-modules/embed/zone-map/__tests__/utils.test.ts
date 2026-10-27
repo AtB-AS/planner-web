@@ -39,6 +39,29 @@ describe('parseZoneMapQuery', () => {
     });
   });
 
+  it('should treat whitespace-only values as missing', () => {
+    expect(parseZoneMapQuery({ lat: ' ', lon: ' ', zoom: ' ' })).toEqual({
+      position: null,
+      zoom: DEFAULT_ZONE_MAP_ZOOM,
+    });
+  });
+
+  it('should trim surrounding whitespace', () => {
+    expect(
+      parseZoneMapQuery({ lat: ' 63.43 ', lon: '10.39 ', zoom: ' 11' }),
+    ).toEqual({
+      position: { lat: 63.43, lon: 10.39 },
+      zoom: 11,
+    });
+  });
+
+  it.each(['0x10', '1e1', '+10', '.5', '10.', 'Infinity'])(
+    'should ignore non-decimal value %s',
+    (zoom) => {
+      expect(parseZoneMapQuery({ zoom }).zoom).toBe(DEFAULT_ZONE_MAP_ZOOM);
+    },
+  );
+
   it('should ignore repeated params', () => {
     expect(parseZoneMapQuery({ zoom: ['10', '12'] }).zoom).toBe(
       DEFAULT_ZONE_MAP_ZOOM,

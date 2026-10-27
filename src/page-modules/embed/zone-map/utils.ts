@@ -11,13 +11,20 @@ export type ZoneMapOptions = {
   zoom: number;
 };
 
+// Plain decimal numbers only, so values like " ", "0x10" or "1e2" are not
+// coerced into unexpected numbers.
+const DECIMAL_NUMBER = /^-?\d+(\.\d+)?$/;
+
 // Invalid values fall back to undefined per field, so one bad param doesn't
-// discard the others. Empty strings are treated as missing instead of 0.
+// discard the others.
 const queryNumber = (min: number, max: number) =>
   z
     .preprocess(
-      (value) => (value === '' ? undefined : value),
-      z.coerce.number().min(min).max(max).optional(),
+      (value) =>
+        typeof value === 'string' && DECIMAL_NUMBER.test(value.trim())
+          ? Number(value.trim())
+          : undefined,
+      z.number().min(min).max(max).optional(),
     )
     .catch(undefined);
 
