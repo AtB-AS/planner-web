@@ -137,6 +137,30 @@ check in by running the following command:
 pnpm generate-all-widgets
 ```
 
+## Embeddable pages
+
+Pages under `/embed/*` are made to be embedded on other websites in an iframe
+(e.g. `/embed/zone-map`). Usage docs for orgs are at `/embed`.
+
+### Allowed websites
+
+Embedding is limited by a `Content-Security-Policy: frame-ancestors` header.
+Allowed origins are configured per org in `orgs/<org>.json`:
+
+```json
+"embed": {
+  "allowedOrigins": ["https://atb.no", "https://*.atb.no"]
+}
+```
+
+The site itself (`'self'`) is always allowed. `http://localhost:*` is allowed
+when not running a production build.
+
+### Adding a new embed page
+
+Use `EmbedLayout` (no header/footer) and call `setEmbedFrameAncestors(res)` in
+`getServerSideProps`, otherwise the page can be embedded anywhere.
+
 ## Sitemap & Stop Place overview
 
 Sitemap is generated automatically and has an overview of all links to departure
