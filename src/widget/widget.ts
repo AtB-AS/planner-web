@@ -422,11 +422,22 @@ function createOutput(
         toggleList(true);
       }
 
+      // True when the input text has changed since the last committed item.
+      // Used to avoid re-committing (or committing "my position") when the
+      // user only focuses and blurs the input again.
+      let hasUncommittedInput = false;
+
       function selectFirstItem() {
-        if (list && !list.hidden && input.value.trim() !== '') {
+        if (
+          hasUncommittedInput &&
+          list &&
+          !list.hidden &&
+          input.value.trim() !== ''
+        ) {
           const firstItem = list.firstElementChild;
 
-          if (firstItem) {
+          // Only auto-select actual search results, never the geolocation item.
+          if (firstItem?.hasAttribute('data-feature-id')) {
             firstItem.dispatchEvent(
               new CustomEvent('combobox-commit', {
                 bubbles: true,
@@ -440,9 +451,12 @@ function createOutput(
         try {
           if (!input.value) {
             list.innerHTML = '';
+            if (document.activeElement === input) toggleList(true);
             return;
           }
           const data = await autocomplete(URL_BASE, input.value);
+          // Don't reopen the list if the input lost focus while fetching.
+          if (document.activeElement !== input) return;
           if (data.length === 0) {
             return showEmpty();
           }
@@ -465,10 +479,18 @@ function createOutput(
           toggleList(false);
         }
       });
-      input.addEventListener('input', (e) =>
-        fetcher(e.target as HTMLInputElement),
-      );
-      input.addEventListener('focus', () => toggleList(true));
+      input.addEventListener('input', (e) => {
+        hasUncommittedInput = true;
+        fetcher(e.target as HTMLInputElement);
+      });
+      input.addEventListener('focus', () => {
+        // Show results for the current text instead of only "my position".
+        if (input.value.trim() !== '') {
+          fetcher(input);
+        } else {
+          toggleList(true);
+        }
+      });
       input.addEventListener('blur', () => {
         selectFirstItem();
         toggleList(false);
@@ -527,6 +549,7 @@ function createOutput(
           newValue = `${item.name}`;
         }
         input.value = newValue;
+        hasUncommittedInput = false;
         document.dispatchEvent(
           new CustomEvent('search-selected', {
             bubbles: true,
