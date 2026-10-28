@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.30.0](https://github.com/AtB-AS/planner-web/compare/v3.29.0...v3.30.0) (2026-10-28)
+
+
+### Features
+
+* add universal link support in staging ([#837](https://github.com/AtB-AS/planner-web/issues/837)) ([fe061f4](https://github.com/AtB-AS/planner-web/commit/fe061f4ff4755d262b6f343aafad91aa0fa5fba5))
+
 ## [3.29.0](https://github.com/AtB-AS/planner-web/compare/v3.28.0...v3.29.0) (2026-10-27)
 
 
