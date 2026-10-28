@@ -84,17 +84,6 @@
           ]
         }
       ]
-    },
-    "prod": {
-      "iosAppIds": ["CSV447Q97L.no.mittatb.store"],
-      "androidApps": [
-        {
-          "packageName": "no.mittatb.store",
-          "sha256CertFingerprints": [
-            "B1:41:B6:A9:A2:42:18:1A:68:96:45:15:F1:E9:86:F6:A1:D2:09:AF:7A:DD:BA:B2:B2:25:CA:5A:DD:C3:5F:B4"
-          ]
-        }
-      ]
     }
   }
 }
