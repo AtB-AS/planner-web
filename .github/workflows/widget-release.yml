@@ -1,0 +1,61 @@
+# Generates a new widget version on the release-please PR, so the widget is
+# released together with the app. Skipped if the widget output is unchanged
+# since the previous widget version, unless the PR has the
+# force-widget-release label.
+name: Widget release
+on:
+  pull_request:
+    branches:
+      - main
+    types: [opened, synchronize, reopened, labeled, unlabeled]
+
+jobs:
+  generate:
+    name: Generate widget
+    # Only rerun on label changes for the force label
+    if: >-
+      startsWith(github.head_ref, 'release-please--') &&
+      (!contains(fromJSON('["labeled", "unlabeled"]'), github.event.action) ||
+        github.event.label.name == 'force-widget-release')
+    concurrency:
+      group: widget-release-${{ github.head_ref }}
+      cancel-in-progress: true
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      # Push with GH_PAT so the commit triggers the PR checks
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          token: ${{ secrets.GH_PAT }}
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'pnpm'
+
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm generate
+      - run: pnpm run setup
+        env:
+          NEXT_PUBLIC_PLANNER_ORG_ID: atb
+
+      - run: bash ./scripts/release-widgets.sh
+        env:
+          FORCE_WIDGET_RELEASE:
+            ${{ contains(github.event.pull_request.labels.*.name,
+            'force-widget-release') }}
+
+      - name: Commit widget
+        run: |
+          git add public/widget src/page-modules/widget/available-widgets
+          if git diff --cached --quiet; then
+            echo "No widget changes to commit"
+            exit 0
+          fi
+          VERSION=$(node -p "require('./package.json').version")
+          git config user.name "atb-build"
+          git config user.email "65347237+atb-build@users.noreply.github.com"
+          git commit -m "chore(widget): generate widget version $VERSION"
+          git push
