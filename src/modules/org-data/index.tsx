@@ -6,6 +6,7 @@ import vkt from '../../../orgs/vkt.json';
 import farte from '../../../orgs/farte.json';
 
 export type WEBSHOP_ORGS = 'nfk' | 'atb' | 'fram' | 'vkt' | 'farte';
+export type ENVIRONMENT = 'dev' | 'staging' | 'prod';
 export type MAPBOX_DATA = {
   accessToken: string;
   style: string;
@@ -20,6 +21,10 @@ export type MAPBOX_DATA = {
 export type TranslatableUrl = { default: string } & Partial<{
   [isoCode in `${Language}`]: string;
 }>;
+export type AppLinks = {
+  iosAppIds: string[];
+  androidApps: { packageName: string; sha256CertFingerprints: string[] }[];
+};
 export type OrgData = {
   orgId: WEBSHOP_ORGS;
   authorityId: string;
@@ -69,6 +74,7 @@ export type OrgData = {
     transferPenalty?: number;
     defaultTransferSlack?: number;
   };
+  appLinks?: Partial<Record<ENVIRONMENT, AppLinks>>;
 };
 
 export function getOrgData(): OrgData {
@@ -90,6 +96,11 @@ export function getOrgData(): OrgData {
 }
 export const currentOrg = getCurrentOrg();
 export const mapboxData = getMapboxData();
+
+export function getAppLinks(): AppLinks | undefined {
+  const environment = process.env.NEXT_PUBLIC_ENVIRONMENT as ENVIRONMENT;
+  return getOrgData().appLinks?.[environment];
+}
 
 export function getConfigUrl(url: TranslatableUrl, lang: Language) {
   return url[lang] ?? url.default;
