@@ -1,6 +1,10 @@
 import { HttpRequester, genericError } from '@atb/modules/api-server';
 import { first } from 'lodash';
-import { Feature, FeatureCategory } from '../../../../modules/geocoder/types';
+import {
+  Feature,
+  FeatureCategory,
+  GeocoderLayer,
+} from '../../../../modules/geocoder/types';
 import { GeocoderFeature } from '@atb/modules/geocoder';
 import qs from 'query-string';
 
@@ -10,13 +14,13 @@ export type BffGeocoderApi = {
     options?: {
       lat?: string | number;
       lon?: string | number;
-      layers?: string[];
+      layers?: GeocoderLayer[];
     },
   ): Promise<GeocoderFeature[]>;
   reverse(
     lat: number | string,
     lon: number | string,
-    layers: string[],
+    layers: GeocoderLayer[],
   ): Promise<GeocoderFeature | undefined>;
 };
 
@@ -25,13 +29,13 @@ export function createBffGeocoderApi(
 ): BffGeocoderApi {
   return {
     async autocomplete(query, options) {
-      const url = '/v1/geocoder/features';
+      const url = '/v2/geocoder/features';
 
       const queryObject = {
         query,
         ...options,
         limit: 10,
-        multiModal: 'parent', // This is set to the same as in the app.
+        multimodal: 'parent', // This is set to the same as in the app.
       };
       const result = await request(
         `${url}?${qs.stringify(queryObject, { skipNull: true })}`,
@@ -41,7 +45,7 @@ export function createBffGeocoderApi(
     },
 
     async reverse(lat, lon, layers) {
-      const url = '/v1/geocoder/reverse';
+      const url = '/v2/geocoder/reverse';
 
       const query = {
         lat: lat,
@@ -62,15 +66,21 @@ export function createBffGeocoderApi(
   };
 }
 
+const featureCategories = new Set<string>(Object.values(FeatureCategory));
+
+// Maps geocoder v3 features to the v1 shape that the rest of the app (and the
+// externally embedded widget) expects. Matches the mapping in the app.
 function mapGeocoderFeatures(data: Feature[]): GeocoderFeature[] {
-  return data.map((f) => ({
-    id: f.properties.id,
-    name: f.properties.name,
-    locality: f.properties.locality ?? null,
-    category: f.properties.category as FeatureCategory[],
-    layer: f.properties.layer,
-    geometry: f.geometry,
-    street: f.properties.street ?? null,
-    housenumber: f.properties.housenumber ?? null,
+  return data.map(({ geometry, properties }) => ({
+    id: properties.id,
+    name: properties.names.default,
+    locality: properties.address?.locality ?? null,
+    category: (properties.stopPlaceTypes ?? []).filter(
+      (t): t is FeatureCategory => featureCategories.has(t),
+    ),
+    layer: properties.layer === 'stopPlace' ? 'venue' : 'address',
+    geometry,
+    street: properties.address?.streetName ?? null,
+    housenumber: properties.address?.houseNumber ?? null,
   }));
 }
