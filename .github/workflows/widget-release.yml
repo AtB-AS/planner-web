@@ -10,13 +10,35 @@ on:
     types: [opened, synchronize, reopened, labeled, unlabeled]
 
 jobs:
-  generate:
-    name: Generate widget
+  check:
+    name: Check if widget should be generated
     # Only rerun on label changes for the force label
     if: >-
       startsWith(github.head_ref, 'release-please--') &&
       (!contains(fromJSON('["labeled", "unlabeled"]'), github.event.action) ||
         github.event.label.name == 'force-widget-release')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      skip: ${{ steps.check.outputs.skip }}
+    steps:
+      # Skip the run triggered by our own widget commit, as it would build the
+      # same output again
+      - id: check
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          MESSAGE=$(gh api "repos/${{ github.repository }}/commits/${{ github.event.pull_request.head.sha }}" --jq .commit.message)
+          if [[ "${{ github.event.action }}" == synchronize && "$MESSAGE" == "chore(widget): generate widget version"* ]]; then
+            echo "Last commit is the widget commit, skipping"
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          fi
+
+  generate:
+    name: Generate widget
+    needs: check
+    if: needs.check.outputs.skip != 'true'
     concurrency:
       group: widget-release-${{ github.head_ref }}
       cancel-in-progress: true
