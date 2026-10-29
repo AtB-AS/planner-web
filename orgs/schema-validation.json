@@ -151,6 +151,15 @@
           },
           "required": ["allowedOrigins"],
           "type": "object"
+        },
+        "appLinks": {
+          "additionalProperties": false,
+          "properties": {
+            "dev": { "$ref": "#/definitions/AppLinks" },
+            "staging": { "$ref": "#/definitions/AppLinks" },
+            "prod": { "$ref": "#/definitions/AppLinks" }
+          },
+          "type": "object"
         }
       },
       "required": ["featureConfig", "orgId", "supportEmail", "urls"],
@@ -173,6 +182,32 @@
         }
       },
       "required": ["default"],
+      "type": "object"
+    },
+    "AppLinks": {
+      "additionalProperties": false,
+      "properties": {
+        "iosAppIds": {
+          "items": { "type": "string" },
+          "type": "array"
+        },
+        "androidApps": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "packageName": { "type": "string" },
+              "sha256CertFingerprints": {
+                "items": { "type": "string" },
+                "type": "array"
+              }
+            },
+            "required": ["packageName", "sha256CertFingerprints"],
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": ["iosAppIds", "androidApps"],
       "type": "object"
     }
   }

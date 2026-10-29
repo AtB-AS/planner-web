@@ -66,5 +66,27 @@
   },
   "embed": {
     "allowedOrigins": ["https://reisnordland.no", "https://*.reisnordland.no"]
+  },
+  "appLinks": {
+    "staging": {
+      "iosAppIds": [
+        "7U3L7LAA9V.no.reisnordland.reis.staging",
+        "7U3L7LAA9V.no.reisnordland.reis.debug"
+      ],
+      "androidApps": [
+        {
+          "packageName": "no.reisnordland.reis.staging",
+          "sha256CertFingerprints": [
+            "3E:3F:5B:F0:C1:BD:3B:C9:2B:32:6A:48:D1:65:11:4D:BD:9E:F2:D1:35:F4:46:1F:00:E4:7E:D6:9F:7D:88:BD"
+          ]
+        },
+        {
+          "packageName": "no.reisnordland.reis.debug",
+          "sha256CertFingerprints": [
+            "FA:C6:17:45:DC:09:03:78:6F:B9:ED:E6:2A:96:2B:39:9F:73:48:F0:BB:6F:89:9B:83:32:66:75:91:03:3B:9C"
+          ]
+        }
+      ]
+    }
   }
 }

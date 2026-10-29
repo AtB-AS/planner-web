@@ -473,6 +473,9 @@ function createOutput(
         selectFirstItem();
         toggleList(false);
       });
+      // Keep focus in the input when pressing a list item. Otherwise blur
+      // fires before click and commits the first item instead.
+      list.addEventListener('mousedown', (e) => e.preventDefault());
       document.addEventListener('click', (e) => {
         if (!hasParent(e.target as HTMLElement, this)) {
           toggleList(false);
