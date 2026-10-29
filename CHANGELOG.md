@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.30.1](https://github.com/AtB-AS/planner-web/compare/v3.30.0...v3.30.1) (2026-10-29)
+
+
+### Bug Fixes
+
+* **widget:** Prevent location being selected on blur ([#839](https://github.com/AtB-AS/planner-web/issues/839)) ([e890922](https://github.com/AtB-AS/planner-web/commit/e890922b1c242cc2b95ddc6548055477f4cb3418))
+
 ## [3.30.0](https://github.com/AtB-AS/planner-web/compare/v3.29.0...v3.30.0) (2026-10-28)
 
 
