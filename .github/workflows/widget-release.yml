@@ -8,6 +8,10 @@ on:
     branches:
       - main
     types: [opened, synchronize, reopened, labeled, unlabeled]
+    # Release PRs always bump the version. The PR branch can't be filtered on
+    # here, so it is checked in the job instead.
+    paths:
+      - package.json
 
 jobs:
   check:
