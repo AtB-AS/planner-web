@@ -63,6 +63,9 @@
     "transferPenalty": 0,
     "defaultTransferSlack": 120
   },
+  "embed": {
+    "allowedOrigins": ["https://frammr.no", "https://*.frammr.no"]
+  },
   "appLinks": {
     "staging": {
       "iosAppIds": [

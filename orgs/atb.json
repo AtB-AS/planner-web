@@ -64,6 +64,9 @@
     "transferPenalty": 0,
     "defaultTransferSlack": 120
   },
+  "embed": {
+    "allowedOrigins": ["https://atb.no", "https://*.atb.no"]
+  },
   "appLinks": {
     "staging": {
       "iosAppIds": [

@@ -61,5 +61,8 @@
     "walkingReluctance": 4.0,
     "transferPenalty": 0,
     "defaultTransferSlack": 0
+  },
+  "embed": {
+    "allowedOrigins": ["https://farte.no", "https://*.farte.no"]
   }
 }

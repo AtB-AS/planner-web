@@ -1,11 +1,15 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Language, useTranslation } from '@atb/translations';
 import { LayerSpecification } from 'mapbox-gl';
 import { getReferenceDataName } from '@atb/utils/reference-data';
 import { centroid } from '@turf/centroid';
 import { type FareZone } from '@atb/modules/firebase';
 import { swrFetcher } from '@atb/modules/api-browser';
-import { addLayerIfNotExists, addSourceIfNotExists } from '.';
+import {
+  addLayerIfNotExists,
+  addSourceIfNotExists,
+  getFareZonesBounds,
+} from '.';
 import useSWRImmutable from 'swr/immutable';
 
 const FARE_ZONE_SOURCE_ID = 'fare-zones';
@@ -14,9 +18,11 @@ const ZONE_NAMES_LAYER_ID = 'zone-names-layer';
 
 export const useMapFareZones = (
   mapRef: React.RefObject<mapboxgl.Map | undefined>,
+  { fitOnLoad = false }: { fitOnLoad?: boolean } = {},
 ) => {
   const { language } = useTranslation();
   const [isZonesVisible, setIsZonesVisible] = useState(false);
+  const hasFittedOnLoad = useRef(false);
   const [isStyleLoaded, setIsStyleLoaded] = useState(false);
   const { data } = useSWRImmutable<FareZone[]>(
     '/api/config/fare-zones',
@@ -90,6 +96,25 @@ export const useMapFareZones = (
     }
     addFareZonesToMap(mapRef.current);
   }, [addFareZonesToMap, data, isZonesVisible, mapRef, isStyleLoaded]);
+
+  // Returns whether the map was fitted.
+  const fitToFareZones = useCallback(
+    (options?: { animate?: boolean }) => {
+      if (!mapRef.current || !data) return false;
+      const bounds = getFareZonesBounds(data);
+      if (!bounds) return false;
+      mapRef.current.fitBounds(bounds, { padding: 32, speed: 2, ...options });
+      return true;
+    },
+    [mapRef, data],
+  );
+
+  useEffect(() => {
+    if (!fitOnLoad || hasFittedOnLoad.current) return;
+    hasFittedOnLoad.current = fitToFareZones({ animate: false });
+  }, [fitOnLoad, fitToFareZones]);
+
+  return { fitToFareZones };
 };
 
 const createFareZonesFeatureCollection = (

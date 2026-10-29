@@ -64,6 +64,9 @@
     "transferPenalty": 0,
     "defaultTransferSlack": 0
   },
+  "embed": {
+    "allowedOrigins": ["https://reisnordland.no", "https://*.reisnordland.no"]
+  },
   "appLinks": {
     "staging": {
       "iosAppIds": [
