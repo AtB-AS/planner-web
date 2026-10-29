@@ -59,6 +59,8 @@ if [[ "$CHANGED" == true ]]; then
   echo "Widget changed, keeping version $VERSION"
 elif [[ "$FORCE_WIDGET_RELEASE" == true ]]; then
   echo "Widget unchanged, but FORCE_WIDGET_RELEASE is set, keeping version $VERSION"
+elif [[ -n "$(git ls-files -- "$BASE_DIR/*/$VERSION/*")" ]]; then
+  echo "Widget unchanged, but $VERSION is already committed, keeping it"
 else
   echo "Widget unchanged since previous version, discarding $VERSION"
   # Only touch what this script generated, to keep other local changes
