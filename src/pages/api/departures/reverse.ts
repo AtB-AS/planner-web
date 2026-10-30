@@ -22,7 +22,9 @@ export default handlerWithBffClient<ReverseApiReturnType>(
       }
 
       return tryResult(req, res, async () => {
-        return ok(await client.reverse(lat.data, lon.data, ['address']));
+        return ok(
+          await client.reverse(lat.data, lon.data, ['address', 'street']),
+        );
       });
     },
   },
