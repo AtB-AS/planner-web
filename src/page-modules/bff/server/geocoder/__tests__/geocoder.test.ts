@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 import { createBffGeocoderApi } from '..';
-import type { Feature } from '../../../../../modules/geocoder/types';
+import type { Feature } from '@atb/modules/geocoder/types';
 
 const stopPlaceFeature: Feature = {
   geometry: { coordinates: [10.399, 63.4305], type: 'Point' },

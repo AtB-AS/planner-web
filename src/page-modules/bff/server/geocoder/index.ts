@@ -4,7 +4,7 @@ import {
   Feature,
   FeatureCategory,
   GeocoderLayer,
-} from '../../../../modules/geocoder/types';
+} from '@atb/modules/geocoder/types';
 import { GeocoderFeature } from '@atb/modules/geocoder';
 import qs from 'query-string';
 
