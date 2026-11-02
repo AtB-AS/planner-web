@@ -68,8 +68,6 @@ export function createBffGeocoderApi(
 
 const featureCategories = new Set<string>(Object.values(FeatureCategory));
 
-// Maps geocoder v3 features to the v1 shape that the rest of the app (and the
-// externally embedded widget) expects. Matches the mapping in the app.
 function mapGeocoderFeatures(data: Feature[]): GeocoderFeature[] {
   return data.map(({ geometry, properties }) => ({
     id: properties.id,
