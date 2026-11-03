@@ -33,7 +33,11 @@ export async function tryResult(
         },
         e.message,
       );
-      return errorResultAsJson(res, e.statusCode, ServerText.Endpoints.invalidData);
+      return errorResultAsJson(
+        res,
+        e.statusCode,
+        ServerText.Endpoints.invalidData,
+      );
     } else if (e instanceof ZodError) {
       logger.warn(
         {
@@ -49,7 +53,13 @@ export async function tryResult(
     } else {
       const message = e instanceof Error ? e.message : 'server error';
       logger.error(
-        { err: e, severity: 'ERROR', message, url: req.url, method: req.method },
+        {
+          err: e,
+          severity: 'ERROR',
+          message,
+          url: req.url,
+          method: req.method,
+        },
         message,
       );
       return errorResultAsJson(res, 500, ServerText.Endpoints.serverError);
