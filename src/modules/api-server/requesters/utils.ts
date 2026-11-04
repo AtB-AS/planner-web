@@ -2,7 +2,6 @@ import * as ServerText from '@atb/translations/server';
 import { TranslatedString } from '@atb/translations/commons';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { ApiError } from 'next/dist/server/api-utils';
-import { ZodError } from 'zod';
 import { ApplicationError, ReqWithHeaders, ServerErrorMessage } from './types';
 import { logger } from '@atb/modules/logging';
 import { currentOrg } from '../../org-data';
@@ -38,18 +37,6 @@ export async function tryResult(
         e.statusCode,
         ServerText.Endpoints.invalidData,
       );
-    } else if (e instanceof ZodError) {
-      logger.warn(
-        {
-          err: e,
-          severity: 'WARNING',
-          message: e.message,
-          url: req.url,
-          method: req.method,
-        },
-        e.message,
-      );
-      return errorResultAsJson(res, 400, ServerText.Endpoints.invalidData);
     } else {
       const message = e instanceof Error ? e.message : 'server error';
       logger.error(
