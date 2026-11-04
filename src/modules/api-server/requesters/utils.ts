@@ -98,6 +98,8 @@ function logApplicationError(
   } else {
     logger.error(
       {
+        severity: 'ERROR',
+        message: e.message,
         upstream: e.upstreamResponse,
         correlationId: e.correlationId,
         res,
