@@ -68,13 +68,15 @@ export type ServiceJourneyInput = {
 };
 
 export type JourneyPlannerApi = {
-  departures(input: DepartureInput): Promise<ExtendedDeparturesType>;
+  departures(input: DepartureInput): Promise<ExtendedDeparturesType | null>;
   stopPlace(input: StopPlaceInput): Promise<StopPlaceType>;
   nearestStopPlaces(
     input: NearestStopPlacesInput,
   ): Promise<NearestStopPlaceType[]>;
   estimatedCalls(input: EstimatedCallsInput): Promise<EstimatedCallFragment[]>;
-  serviceJourney(input: ServiceJourneyInput): Promise<ServiceJourneyType>;
+  serviceJourney(
+    input: ServiceJourneyInput,
+  ): Promise<ServiceJourneyType | null>;
 };
 
 export function createJourneyApi(
@@ -100,8 +102,13 @@ export function createJourneyApi(
       });
 
       if (result.error || result.errors) {
-        throw result.error || result.errors;
+        throw result.error ?? new Error(JSON.stringify(result.errors));
       }
+
+      if (!result.data.stopPlace) {
+        return null;
+      }
+
       const data = result.data as ExtendedDeparturesType;
       data.stopPlace?.quays?.sort(sortQuays);
       return {
@@ -235,8 +242,12 @@ export function createJourneyApi(
         },
       });
 
-      if (result.error || result.errors || !result.data.serviceJourney) {
-        throw result.error || result.errors;
+      if (result.error || result.errors) {
+        throw result.error ?? new Error(JSON.stringify(result.errors));
+      }
+
+      if (!result.data.serviceJourney) {
+        return null;
       }
 
       const serviceJourney = result.data.serviceJourney;

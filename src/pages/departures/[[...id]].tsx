@@ -109,6 +109,10 @@ export const getServerSideProps = withAccessLogging(
               : null,
         });
 
+        if (!departures) {
+          return { notFound: true };
+        }
+
         return {
           props: {
             stopPlace: true,
