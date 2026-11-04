@@ -21,7 +21,10 @@ export default handlerWithBffClient<{}>({
       return notfound(res);
     }
 
-    const from = await client.reverse(position.lat, position.lon, ['address']);
+    const from = await client.reverse(position.lat, position.lon, [
+      'address',
+      'street',
+    ]);
 
     if (!from) {
       notfound(res);

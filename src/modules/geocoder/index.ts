@@ -4,3 +4,4 @@ export type { AutocompleteApiReturnType } from './autocomplete';
 export type { ReverseApiReturnType } from './reverse';
 export type { GeocoderFeature } from './types';
 export { FeatureCategory } from './types';
+export type { GeocoderLayer } from './types';

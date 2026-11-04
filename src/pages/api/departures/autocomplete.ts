@@ -40,7 +40,7 @@ export default handlerWithBffClient<AutocompleteApiReturnType>(
       const options = {
         lat: lat.data ?? mapboxData.defaultLat,
         lon: lon.data ?? mapboxData.defaultLng,
-        layers: onlyStopPlaces.data ? ['venue'] : ['venue', 'address'],
+        layers: onlyStopPlaces.data ? ['stopPlace' as const] : undefined,
       };
 
       return tryResult(req, res, async () => {

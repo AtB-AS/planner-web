@@ -47,7 +47,7 @@ export async function fetchFromDepartureQuery(
             locality: null,
             category: [],
           }
-        : await client.reverse(lat, lon, ['address']).then(
+        : await client.reverse(lat, lon, ['address', 'street']).then(
             // Keep the requested position, as the address can be further away.
             (feature) =>
               feature && { ...feature, geometry: { coordinates: [lon, lat] } },

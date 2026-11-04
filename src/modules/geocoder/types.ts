@@ -21,6 +21,17 @@ export enum FeatureCategory {
   OTHER = 'other',
 }
 
+export const geocoderLayers = [
+  'stopPlace',
+  'address',
+  'street',
+  'groupOfStopPlaces',
+  'poi',
+  'place',
+] as const;
+
+export type GeocoderLayer = (typeof geocoderLayers)[number];
+
 export type Feature = {
   geometry: {
     coordinates: [number, number];
@@ -28,25 +39,30 @@ export type Feature = {
   };
   properties: {
     id: string;
-    name: string;
-    label?: string;
-    borough: string;
-    accuracy: 'point';
-    layer: 'venue' | 'address';
-    borough_gid: string;
-    category: FeatureCategory[];
-    country_gid: string;
-    county: string;
-    county_gid: string;
-    gid: string;
-    housenumber?: string;
-    locality: string;
-    locality_gid: string;
-    postalcode: string;
-    source: string;
-    source_id: string;
-    street?: string;
-    tariff_zones?: string[];
+    names: {
+      default: string;
+      display: string;
+    };
+    layer: GeocoderLayer;
+    address?: {
+      streetName?: string;
+      houseNumber?: string;
+      postalCode?: string;
+      locality?: string;
+      localityId?: string;
+      county?: string;
+      countyId?: string;
+      countryCode?: string;
+    };
+    transportModes?: Array<{
+      mode: string;
+      subMode?: string;
+    }>;
+    stopPlaceTypes?: string[];
+    categories?: string[];
+    fareZones?: string[];
+    source?: string;
+    distance?: number;
   };
 };
 
