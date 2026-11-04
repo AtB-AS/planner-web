@@ -11,7 +11,7 @@ afterEach(function () {
   cleanup();
 });
 
-const fromQuayId = 'NSR:Quay:74990';
+const fromStopPosition = 7;
 
 const customRender = (ui: React.ReactNode) => {
   return render(
@@ -23,7 +23,7 @@ describe('departure details page', function () {
   it('should render correct header', () => {
     const output = customRender(
       <DeparturesDetails
-        fromQuayId={fromQuayId}
+        fromStopPosition={fromStopPosition}
         serviceJourney={serviceJourneyFixture}
       />,
     );
@@ -33,7 +33,7 @@ describe('departure details page', function () {
   it('should not render passed quays', () => {
     const output = customRender(
       <DeparturesDetails
-        fromQuayId={fromQuayId}
+        fromStopPosition={fromStopPosition}
         serviceJourney={serviceJourneyFixture}
       />,
     );
@@ -51,16 +51,16 @@ describe('departure details page', function () {
     ).not.toBeInTheDocument();
 
     const fromQuayName =
-      serviceJourneyFixture.estimatedCalls
-        .map((call) => call.quay)
-        .find((quay) => quay.id === fromQuayId)?.name || '';
+      serviceJourneyFixture.estimatedCalls.find(
+        (call) => call.stopPositionInPattern === fromStopPosition,
+      )?.quay.name || '';
     expect(output.queryByText(fromQuayName)).toBeInTheDocument();
   });
 
   it('should render passed departures when collapse button is clicked', async () => {
     const output = customRender(
       <DeparturesDetails
-        fromQuayId={fromQuayId}
+        fromStopPosition={fromStopPosition}
         serviceJourney={serviceJourneyFixture}
       />,
     );
@@ -87,7 +87,7 @@ describe('departure details page', function () {
 
   it('should render all departures', async () => {
     const fromQuayIndex = serviceJourneyFixture.estimatedCalls.findIndex(
-      (call) => call.quay.id === fromQuayId,
+      (call) => call.stopPositionInPattern === fromStopPosition,
     );
     const expectedDepartures = serviceJourneyFixture.estimatedCalls.slice(
       fromQuayIndex,
@@ -95,7 +95,7 @@ describe('departure details page', function () {
     );
     const output = customRender(
       <DeparturesDetails
-        fromQuayId={fromQuayId}
+        fromStopPosition={fromStopPosition}
         serviceJourney={serviceJourneyFixture}
       />,
     );

@@ -28,6 +28,7 @@ query serviceJourneyWithEstimatedCalls($id: String!, $date: Date) {
 }
 
 fragment serviceJourneyEstimatedCall on EstimatedCall {
+  stopPositionInPattern
   actualArrivalTime
   actualDepartureTime
   aimedArrivalTime

@@ -25,21 +25,22 @@ import { useGoBack } from '@atb/utils/use-go-back';
 import { TransportIconWithDuration } from '@atb/modules/transport-mode';
 
 export type DeparturesDetailsProps = {
-  fromQuayId?: string;
-  toQuayId?: string;
+  fromStopPosition?: number;
+  toStopPosition?: number;
   serviceJourney: ServiceJourneyType;
 };
 
 export function DeparturesDetails({
-  fromQuayId,
-  toQuayId,
+  fromStopPosition,
+  toStopPosition,
   serviceJourney,
 }: DeparturesDetailsProps) {
   const { t } = useTranslation();
   const goBack = useGoBack();
   const focusedCall =
-    serviceJourney.estimatedCalls.find((call) => call.quay.id === fromQuayId) ||
-    serviceJourney.estimatedCalls[0];
+    serviceJourney.estimatedCalls.find(
+      (call) => call.stopPositionInPattern === fromStopPosition,
+    ) || serviceJourney.estimatedCalls[0];
   const realtimeText = useRealtimeText(
     serviceJourney.estimatedCalls.map((c) => ({
       actualDepartureTime: c.actualDepartureTime,
@@ -72,11 +73,11 @@ export function DeparturesDetails({
 
   const estimatedCallsWithMetadata = addMetadataToEstimatedCalls(
     serviceJourney.estimatedCalls,
-    fromQuayId,
-    toQuayId,
+    fromStopPosition,
+    toStopPosition,
   );
 
-  const notices = getNoticesForServiceJourney(serviceJourney, fromQuayId);
+  const notices = getNoticesForServiceJourney(serviceJourney, fromStopPosition);
   const situations = focusedCall.situations.sort((n1, n2) =>
     n1.id.localeCompare(n2.id),
   );
@@ -177,7 +178,7 @@ export function DeparturesDetails({
           mode={serviceJourney.transportMode ?? 'unknown'}
           subMode={serviceJourney.transportSubmode}
           alreadyShownSituationNumbers={alreadyShownSituationNumbers}
-          toQuayId={toQuayId}
+          toStopPosition={toStopPosition}
         />
       </div>
     </section>
@@ -186,11 +187,11 @@ export function DeparturesDetails({
 
 export const getNoticesForServiceJourney = (
   serviceJourney: ServiceJourneyType,
-  fromQuayId?: string,
+  fromStopPosition?: number,
 ) => {
   const focusedEstimatedCall =
     serviceJourney.estimatedCalls?.find(
-      ({ quay }) => quay?.id && quay.id === fromQuayId,
+      ({ stopPositionInPattern }) => stopPositionInPattern === fromStopPosition,
     ) ?? serviceJourney.estimatedCalls?.[0];
 
   return filterNotices([

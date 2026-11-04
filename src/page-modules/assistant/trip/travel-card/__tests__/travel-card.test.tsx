@@ -173,6 +173,7 @@ describe('trip pattern', function () {
           {
             ...tripPatternWithDetailsFixture.legs[0],
             fromEstimatedCall: {
+              stopPositionInPattern: 0,
               notices: [],
               cancellation: true,
               requestStop: false,

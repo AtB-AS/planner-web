@@ -21,6 +21,7 @@ export const departureDataFixture: ExtendedDeparturesType = {
         description: 'ved Bunnpris',
         estimatedCalls: [
           {
+            stopPositionInPattern: 0,
             aimedDepartureTime: '2025-04-04T13:55:00+02:00',
             date: '2025-04-04',
             expectedDepartureTime: '2025-04-04T13:55:00+02:00',
@@ -51,6 +52,7 @@ export const departureDataFixture: ExtendedDeparturesType = {
             situations: [],
           },
           {
+            stopPositionInPattern: 0,
             aimedDepartureTime: '2025-04-04T13:57:00+02:00',
             date: '2025-04-04',
             expectedDepartureTime: '2025-04-04T13:57:00+02:00',
@@ -90,6 +92,7 @@ export const departureDataFixture: ExtendedDeparturesType = {
         description: 'ved AtB Kundesenter',
         estimatedCalls: [
           {
+            stopPositionInPattern: 0,
             aimedDepartureTime: '2025-04-04T13:53:00+02:00',
             date: '2025-04-04',
             expectedDepartureTime: '2025-04-04T13:53:00+02:00',
@@ -120,6 +123,7 @@ export const departureDataFixture: ExtendedDeparturesType = {
             situations: [],
           },
           {
+            stopPositionInPattern: 0,
             aimedDepartureTime: '2025-04-04T13:54:00+02:00',
             date: '2025-04-04',
             expectedDepartureTime: '2025-04-04T13:54:00+02:00',

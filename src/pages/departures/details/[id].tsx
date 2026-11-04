@@ -23,28 +23,30 @@ export const getServerSideProps = withAccessLogging(
   withGlobalData(
     withDepartureClient<DeparturesDetailsProps, { id: string[] | undefined }>(
       async function ({ client, params, query }) {
-        if (!params?.id || !query.date || !query.fromQuayId) {
+        if (!params?.id || !query.date || !query.fromStopPosition) {
           return {
             notFound: true,
           };
         }
         const id = params.id.toString();
         const date = new Date(query.date.toString());
-        const fromQuayId = query.fromQuayId.toString();
-        const toQuayId = query.toQuayId?.toString();
+        const fromStopPosition = Number(query.fromStopPosition);
+        const toStopPosition = query.toStopPosition
+          ? Number(query.toStopPosition)
+          : undefined;
 
         const serviceJourney = await client.serviceJourney({
           id,
           date,
-          fromQuayId,
-          toQuayId,
+          fromStopPosition,
+          toStopPosition,
         });
 
         return {
           props: {
-            fromQuayId,
+            fromStopPosition,
             serviceJourney: serviceJourney,
-            ...(toQuayId ? { toQuayId } : {}),
+            ...(toStopPosition !== undefined ? { toStopPosition } : {}),
           },
         };
       },

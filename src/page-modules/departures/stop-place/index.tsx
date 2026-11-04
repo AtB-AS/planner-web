@@ -259,9 +259,8 @@ export function EstimatedCallList({
             <>
               {departures.map((departure) => (
                 <EstimatedCallItem
-                  key={departure.id}
+                  key={`${departure.id}-${departure.stopPositionInPattern}`}
                   departure={departure}
-                  quayId={quay.id}
                   testID={`estimatedCallItem-${quay.publicCode}`}
                 />
               ))}
@@ -292,13 +291,11 @@ export function EstimatedCallList({
 }
 
 type EstimatedCallItemProps = {
-  quayId: string;
   departure: ExtendedDepartureType;
   testID?: string;
 };
 
 export function EstimatedCallItem({
-  quayId,
   departure,
   testID,
 }: EstimatedCallItemProps) {
@@ -308,7 +305,7 @@ export function EstimatedCallItem({
     <li>
       <Link
         className={style.listItem}
-        href={`details/${departure.id}?date=${departure.date}&fromQuayId=${quayId}`}
+        href={`details/${departure.id}?date=${departure.date}&fromStopPosition=${departure.stopPositionInPattern}`}
         data-testid={testID}
       >
         <div className={style.transportInfo}>

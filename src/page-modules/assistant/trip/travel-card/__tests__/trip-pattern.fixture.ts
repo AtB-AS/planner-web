@@ -25,6 +25,7 @@ export const tripPatternFixture: ExtendedTripPatternType = {
         notices: [],
       },
       fromEstimatedCall: {
+        stopPositionInPattern: 0,
         notices: [],
         cancellation: false,
         requestStop: false,
@@ -96,6 +97,7 @@ export const tripPatternWithDetailsFixture: ExtendedTripPatternWithDetailsType =
           notices: [],
         },
         fromEstimatedCall: {
+          stopPositionInPattern: 0,
           notices: [],
           cancellation: false,
           requestStop: false,
