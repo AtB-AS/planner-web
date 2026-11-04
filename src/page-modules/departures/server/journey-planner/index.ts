@@ -63,7 +63,7 @@ export type EstimatedCallsInput = {
 export type ServiceJourneyInput = {
   id: string;
   date: Date;
-  fromStopPosition: number;
+  fromStopPosition?: number;
   toStopPosition?: number;
 };
 

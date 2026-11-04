@@ -23,17 +23,34 @@ export const getServerSideProps = withAccessLogging(
   withGlobalData(
     withDepartureClient<DeparturesDetailsProps, { id: string[] | undefined }>(
       async function ({ client, params, query }) {
-        if (!params?.id || !query.date || !query.fromStopPosition) {
+        if (
+          !params?.id ||
+          !query.date ||
+          (!query.fromStopPosition && !query.fromQuayId)
+        ) {
           return {
             notFound: true,
           };
         }
         const id = params.id.toString();
         const date = new Date(query.date.toString());
-        const fromStopPosition = Number(query.fromStopPosition);
-        const toStopPosition = query.toStopPosition
+        let fromStopPosition = Number(query.fromStopPosition);
+        let toStopPosition = query.toStopPosition
           ? Number(query.toStopPosition)
           : undefined;
+
+        // Temporary: Backwards compatibility for links with quay ids
+        if (!query.fromStopPosition) {
+          const { estimatedCalls } = await client.serviceJourney({ id, date });
+          fromStopPosition =
+            estimatedCalls.find((c) => c.quay.id === query.fromQuayId)
+              ?.stopPositionInPattern ?? 0;
+          toStopPosition = estimatedCalls.find(
+            (c) =>
+              c.quay.id === query.toQuayId &&
+              c.stopPositionInPattern > fromStopPosition,
+          )?.stopPositionInPattern;
+        }
 
         const serviceJourney = await client.serviceJourney({
           id,
