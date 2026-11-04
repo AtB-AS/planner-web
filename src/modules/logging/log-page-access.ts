@@ -44,7 +44,14 @@ export function logPageAccess({
       resolvedProps: stringifiedProps,
     };
     logger.info(ct);
-  })();
+  })().catch((err) => {
+    // Fire-and-forget: without this, a rejection here (e.g. resolving props)
+    // becomes an unhandledRejection that Next logs as unformatted text.
+    logger.error(
+      { err, severity: 'ERROR', message: 'logPageAccess failed', url, method },
+      'logPageAccess failed',
+    );
+  });
 }
 
 export function limitedStringify<T>(obj: T, maxDepth: number = 2): string {

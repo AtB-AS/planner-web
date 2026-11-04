@@ -1,6 +1,7 @@
 import * as ServerText from '@atb/translations/server';
 import { TranslatedString } from '@atb/translations/commons';
 import { NextApiRequest, NextApiResponse } from 'next';
+import { ApiError } from 'next/dist/server/api-utils';
 import { ApplicationError, ReqWithHeaders, ServerErrorMessage } from './types';
 import { logger } from '@atb/modules/logging';
 import { currentOrg } from '../../org-data';
@@ -18,8 +19,36 @@ export async function tryResult(
       const properError = errorMapper?.(e) ?? e;
       logApplicationError(properError, req, res);
       return errorResultAsJson(res, properError.status, properError.data);
+    } else if (e instanceof ApiError) {
+      // Routes throw ApiError for client errors (e.g. failed body validation).
+      // Log it as a warning with its real status instead of a 500-level error.
+      logger.warn(
+        {
+          err: e,
+          severity: 'WARNING',
+          message: e.message,
+          url: req.url,
+          method: req.method,
+        },
+        e.message,
+      );
+      return errorResultAsJson(
+        res,
+        e.statusCode,
+        ServerText.Endpoints.invalidData,
+      );
     } else {
-      logger.error(e);
+      const message = e instanceof Error ? e.message : 'server error';
+      logger.error(
+        {
+          err: e,
+          severity: 'ERROR',
+          message,
+          url: req.url,
+          method: req.method,
+        },
+        message,
+      );
       return errorResultAsJson(res, 500, ServerText.Endpoints.serverError);
     }
   }
@@ -56,6 +85,8 @@ function logApplicationError(
   } else {
     logger.error(
       {
+        severity: 'ERROR',
+        message: e.message,
         upstream: e.upstreamResponse,
         correlationId: e.correlationId,
         res,

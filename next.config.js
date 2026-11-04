@@ -10,6 +10,8 @@ const nextConfig = {
   output: 'standalone',
   env: { PLANNER_WEB_VERSION: version },
   transpilePackages: ['@atb-as/mapbox-shared', '@mrfylke/contact-form'],
+  // Emit source maps for the server build so production stack traces resolve to original TypeScript
+  experimental: { serverSourceMaps: true },
   async headers() {
     return [
       {

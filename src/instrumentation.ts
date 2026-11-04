@@ -20,3 +20,38 @@ export async function register() {
     console.error('instrumentation: failed to pre-warm server config', error);
   }
 }
+
+/**
+ * Next.js calls this for every error thrown while handling a request (SSR, API
+ * routes, app router), including ones Next would otherwise print itself as
+ * unformatted text. We re-emit them as structured JSON matching the `severity`/
+ * `message` field convention our other logs use. Edge-runtime routes can't use
+ * bunyan, so fall back to a JSON console line there.
+ */
+export async function onRequestError(
+  error: unknown,
+  request: { path?: string; method?: string },
+  context: { routerKind?: string; routePath?: string; routeType?: string },
+) {
+  const payload = {
+    severity: 'ERROR',
+    message: error instanceof Error ? error.message : 'request error',
+    time: new Date().toISOString(),
+    url: request?.path,
+    method: request?.method,
+    routerKind: context?.routerKind,
+    routePath: context?.routePath,
+    routeType: context?.routeType,
+  };
+
+  if (process.env.NEXT_RUNTIME === 'nodejs') {
+    const { logger } = await import('@atb/modules/logging');
+    logger.error({ ...payload, err: error }, payload.message);
+  } else {
+    const err =
+      error instanceof Error
+        ? { message: error.message, name: error.name, stack: error.stack }
+        : error;
+    console.error(JSON.stringify({ ...payload, err }));
+  }
+}

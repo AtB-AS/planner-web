@@ -1,4 +1,23 @@
 import bunyan from 'bunyan';
+import { inspect } from 'node:util';
+
+// Next unmaps `err.stack`; `util.inspect` gives source-mapped frames.
+// https://github.com/vercel/next.js/issues/74646
+const errSerializer = (err: unknown) => {
+  if (!(err instanceof Error)) return err;
+  let stack: string;
+  try {
+    stack = inspect(err, { colors: false, depth: 4 });
+  } catch {
+    stack = err.stack ?? String(err);
+  }
+  return {
+    name: err.name,
+    message: err.message,
+    code: (err as { code?: unknown }).code,
+    stack,
+  };
+};
 
 export const logger = bunyan.createLogger({
   name: 'planner-web',
@@ -22,6 +41,6 @@ export const logger = bunyan.createLogger({
         statusText: up.statusText,
       };
     },
-    err: bunyan.stdSerializers.err,
+    err: errSerializer,
   },
 });
