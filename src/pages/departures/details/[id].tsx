@@ -40,6 +40,10 @@ export const getServerSideProps = withAccessLogging(
           toQuayId,
         });
 
+        if (!serviceJourney) {
+          return { notFound: true };
+        }
+
         return {
           props: {
             fromQuayId,

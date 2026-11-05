@@ -263,8 +263,10 @@ export function createJourneyApi(
         });
 
         if (result.error || result.errors) {
-          throw result.error || result.errors;
+          throw result.error ?? new Error(JSON.stringify(result.errors));
         }
+
+        if (!result.data.viaTrip) return;
 
         const { tripPatternCombinations, tripPatternsPerSegment } =
           result.data.viaTrip;
@@ -299,8 +301,10 @@ export function createJourneyApi(
         });
 
         if (result.error || result.errors) {
-          throw result.error || result.errors;
+          throw result.error ?? new Error(JSON.stringify(result.errors));
         }
+
+        if (!result.data.trip) return;
 
         formattedResult = { trip: result.data.trip.tripPatterns };
       }

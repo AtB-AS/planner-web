@@ -4,7 +4,6 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import { ExternalClient } from '@atb/modules/api-server';
 import { JourneyPlannerApi } from '../server/journey-planner';
 import { getServerSideProps } from '@atb/pages/departures/[[...id]]';
-import { expectProps } from '@atb/tests/utils';
 import { createDynamicRouteParser } from 'next-router-mock/dynamic-routes';
 import { departureDataFixture } from './departure-data.fixture';
 import { StopPlace } from '../stop-place';
@@ -30,24 +29,8 @@ const customRender = (ui: React.ReactNode) => {
 };
 
 describe('departure page', function () {
-  it('Should return props from getServerSideProps', async () => {
+  it('Should 404 when a path id does not resolve to a stop place', async () => {
     await mockRouter.push('/departures/NSR:StopPlace:123');
-
-    const expectedDeparturesResult = {
-      empty: true,
-      fromQuery: {
-        from: null,
-        isAddress: false,
-        searchTime: {
-          mode: 'now',
-        },
-      },
-      headersAcceptLanguage: '',
-      initialCookies: {
-        darkmode: null,
-        language: null,
-      },
-    };
 
     const gqlClient: ExternalClient<
       'graphql-journeyPlanner3' | 'http-bff',
@@ -94,7 +77,7 @@ describe('departure page', function () {
       ...context,
     } as any);
 
-    (await expectProps(result)).toMatchObject(expectedDeparturesResult);
+    expect(result).toEqual({ notFound: true });
   });
 
   const stopPlaceFromQuery = {
