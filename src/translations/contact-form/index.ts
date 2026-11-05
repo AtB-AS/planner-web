@@ -501,9 +501,16 @@ Har du mista ${T.travelCard.definite} ditt, må du kontakte AtB kundesenter.
             },
             customerNumber: {
               description: _(
-                'Består av 7 siffer og står under Profil i AtB-appen eller i nettbutikken.',
-                'Consists of 7 digits and is shown under Profile in the AtB app or in the webshop.',
-                'Består av 7 siffer og står under Profil i AtB-appen eller i nettbutikken.',
+                'Består av 7 eller 8 siffer og står under Profil i AtB-appen eller i nettbutikken.',
+                'Consists of 7 or 8 digits and is shown under Profile in the AtB app or in the webshop.',
+                'Består av 7 eller 8 siffer og står under Profil i AtB-appen eller i nettbutikken.',
+              ),
+            },
+            feeNumber: {
+              description: _(
+                'Består av 5 eller 6 siffer og står øverst i høyre hjørne på gebyret.',
+                'Consists of 5 or 6 digits and is in the top right corner of the fee.',
+                'Består av 5 eller 6 siffer og står øvst i høgre hjørne på gebyret.',
               ),
             },
             refundReason: {
