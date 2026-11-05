@@ -135,7 +135,11 @@ export const getServerSideProps = withAccessLogging(
             fromQuery,
           },
         };
+      } else if (params?.id) {
+        // A path id was supplied but didn't resolve to a stop place/address → 404.
+        return { notFound: true };
       } else {
+        // Bare /departures without an id keeps the empty state.
         return {
           props: { empty: true, fromQuery },
         };
