@@ -52,9 +52,9 @@ export const CompanyText = {
       `${T.travelCardNumber.Base} (valfritt)`,
     ),
     travelCardNumberInfo: _(
-      `For påfyll av eksisterende ${T.travelCard.base}, skriv inn fullt ${T.travelCardNumber.base} uten mellomrom. Eks: 1616000120333228 eller 1616006082212111.`,
-      `To top up an existing ${T.travelCard.base}, enter the full ${T.travelCardNumber.base} without spaces. E.g. 1616000120333228 or 1616006082212111.`,
-      `For påfyll av eksisterande ${T.travelCard.base}, skriv inn fullt ${T.travelCardNumber.base} utan mellomrom. Døme: 1616000120333228 eller 1616006082212111.`,
+      `For påfyll av eksisterende ${T.travelCard.base}, skriv inn fullt ${T.travelCardNumber.base} uten mellomrom. Eks: 1616000123456789 eller 1616006082212345.`,
+      `To top up an existing ${T.travelCard.base}, enter the full ${T.travelCardNumber.base} without spaces. E.g. 1616000123456789 or 1616006082212111.`,
+      `For påfyll av eksisterande ${T.travelCard.base}, skriv inn fullt ${T.travelCardNumber.base} utan mellomrom. Døme: 1616000123456789 eller 1616006082212345.`,
     ),
     removeTravelCard: _('Fjern', 'Remove', 'Fjern'),
     addTravelCard: _(
