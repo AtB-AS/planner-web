@@ -296,17 +296,6 @@ describe('widget autocomplete', () => {
       expectLocationLast();
       expect(getList()).toHaveTextContent('No results');
     });
-
-    it('when focusing a field with text', async () => {
-      const input = getInput();
-      await typeAndLeave(input, 'Lerk', [lerkendal]);
-
-      input.focus();
-      await waitForDebounce();
-      await respond('Lerkendal', [lerkendal]);
-
-      expectLocationLast();
-    });
   });
 
   it('shows "Use my location" again when the text is cleared', async () => {
@@ -426,6 +415,19 @@ describe('widget autocomplete', () => {
     expect(url.searchParams.get('q')).toBe(text);
   });
 
+  it('does not send a request when focusing a field with unchanged text', async () => {
+    const input = getInput();
+    await typeAndLeave(input, 'Lerk', [lerkendal]);
+    fetchMock.mockClear();
+
+    input.focus();
+    await waitForDebounce();
+
+    expect(fetchMock).not.toHaveBeenCalled();
+    // Like the web app, focusing a selected place opens nothing.
+    expect(getList().hidden).toBe(true);
+  });
+
   // The it.fails tests below describe the expected behaviour and fail on the
   // current code. Change them to `it` once the fix is in.
 
@@ -501,18 +503,4 @@ describe('widget autocomplete', () => {
     expect(input.value).toBe('xyzzy');
     expect(selected.at(-1)).toBeUndefined();
   });
-
-  it.fails(
-    'does not send a request when focusing a field with unchanged text',
-    async () => {
-      const input = getInput();
-      await typeAndLeave(input, 'Lerk', [lerkendal]);
-      fetchMock.mockClear();
-
-      input.focus();
-      await waitForDebounce();
-
-      expect(fetchMock).not.toHaveBeenCalled();
-    },
-  );
 });

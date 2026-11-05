@@ -480,10 +480,12 @@ function createOutput(
       });
 
       input.addEventListener('focus', () => {
-        if (input.value.trim() !== '') {
-          fetcher(input);
-        } else {
+        if (input.value.trim() === '') {
           toggleList(true);
+        } else if (isDirty) {
+          // Only search again if the text has changed since a place was
+          // selected. Like the web app, focusing a selected place opens nothing.
+          fetcher(input);
         }
       });
       input.addEventListener('blur', () => {
