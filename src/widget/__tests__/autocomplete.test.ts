@@ -411,6 +411,21 @@ describe('widget autocomplete', () => {
     });
   });
 
+  it('sends the search text unchanged, even with special characters', async () => {
+    const input = getInput();
+    input.focus();
+
+    const text = 'Sjøsiden & Co #1 + 2';
+    type(input, text);
+    await waitForDebounce();
+
+    // Check what the server receives rather than the exact encoding, since
+    // encoders differ (e.g. `%20` or `+` for spaces).
+    const url = new URL(fetchMock.mock.calls[0][0]);
+    expect(url.pathname).toBe('/api/departures/autocomplete');
+    expect(url.searchParams.get('q')).toBe(text);
+  });
+
   // The it.fails tests below describe the expected behaviour and fail on the
   // current code. Change them to `it` once the fix is in.
 
@@ -500,16 +515,4 @@ describe('widget autocomplete', () => {
       expect(fetchMock).not.toHaveBeenCalled();
     },
   );
-
-  it.fails('URL-encodes the search text', async () => {
-    const input = getInput();
-    input.focus();
-
-    type(input, 'Sjøsiden & Co');
-    await waitForDebounce();
-
-    expect(fetchMock).toHaveBeenCalledWith(
-      `${URL_BASE}api/departures/autocomplete?q=${encodeURIComponent('Sjøsiden & Co')}`,
-    );
-  });
 });
