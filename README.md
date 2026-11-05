@@ -106,9 +106,8 @@ All versions of widgets should be checked in the repo, with specific versions.
 This will allow for referring to specific versions and keeping them stable when
 integrating. This also means that we should never change existing files.
 
-Version is based on `package.json`, which is now owned by release-please. Widget
-assets are generated with whatever version is currently in `package.json`, so
-generate a new widget version right after a prod release — see the release flow
+Version is based on `package.json`, which is owned by release-please. New widget
+versions are generated automatically on the release PR — see the release flow
 below.
 
 ### Versioning
@@ -130,8 +129,31 @@ This will set correct version in releases on Github.
 
 #### Release flow
 
-Widget assets are versioned from `package.json`. Generate new asset files to
-check in by running the following command:
+The `Widget release` workflow runs on the release-please PR. It builds the widget
+for all orgs with the new version from `package.json` and compares the output
+to the previous widget version. If anything changed, it commits the new assets
+and manifests to the release PR, so the widget is released together with the
+app. If nothing changed, no new widget version is created.
+
+To release a new widget version even if no change is detected, add the
+`force-widget-release` label to the release PR.
+
+> [!WARNING]
+> Removing the label does not remove a widget version that was already
+> committed to the release PR. The files stay until release-please rebuilds the
+> PR, which happens on the next merge to main. To undo a forced release before
+> merging, check out the release PR branch, delete the new version folders in
+> `public/widget` and their entries in
+> `src/page-modules/widget/available-widgets`, then commit and push to the
+> release PR branch.
+
+To run the same steps locally:
+
+```sh
+bash ./scripts/release-widgets.sh
+```
+
+To generate assets for the current version unconditionally:
 
 ```sh
 pnpm generate-all-widgets

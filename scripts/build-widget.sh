@@ -3,7 +3,9 @@
 # This script generates widget for all orgs based on version found
 # in package.json.
 
-mkdir public/widget
+set -e
+
+mkdir -p public/widget
 
 if [ -n "$NEXT_PUBLIC_PLANNER_ORG_ID" ]; then
     ORG_ID="$NEXT_PUBLIC_PLANNER_ORG_ID"
