@@ -440,14 +440,18 @@ function createOutput(
       }
 
       const fetcher = debounce(async (input: HTMLInputElement) => {
+        const query = input.value;
         try {
-          if (!input.value) {
+          if (!query) {
             list.innerHTML = '';
             // Don't show the list if the input is not focused.
             if (document.activeElement === input) toggleList(true);
             return;
           }
-          const data = await autocomplete(URL_BASE, input.value);
+          const data = await autocomplete(URL_BASE, query);
+          // Ignore the response if the text has changed since the request.
+          // Otherwise a slow response for older text can replace newer results.
+          if (query !== input.value) return;
           // Don't reopen the list if the input lost focus while fetching.
           if (document.activeElement !== input) return;
           if (data.length === 0) {
@@ -462,6 +466,7 @@ function createOutput(
           }
           toggleList(true);
         } catch (e) {
+          if (query !== input.value) return;
           // Don't reopen the list if the input lost focus while fetching.
           if (document.activeElement !== input) return;
           showEmpty();

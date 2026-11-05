@@ -428,6 +428,46 @@ describe('widget autocomplete', () => {
     expect(getList().hidden).toBe(true);
   });
 
+  describe('ignores responses for older text', () => {
+    function shownSuggestions() {
+      return Array.from(getList().querySelectorAll('[data-feature-id]'), (li) =>
+        li.getAttribute('data-feature-id'),
+      );
+    }
+
+    it('when they arrive after the response for the current text', async () => {
+      const input = getInput();
+      input.focus();
+
+      type(input, 'Mo');
+      await waitForDebounce();
+      type(input, 'Moholt');
+      await waitForDebounce();
+
+      // The response for "Moholt" arrives before the one for "Mo".
+      await respond('Moholt', [moholt]);
+      await respond('Mo', [moa]);
+
+      expect(shownSuggestions()).toEqual([moholt.id]);
+    });
+
+    it('when the request for older text fails late', async () => {
+      const input = getInput();
+      input.focus();
+
+      type(input, 'Mo');
+      await waitForDebounce();
+      type(input, 'Moholt');
+      await waitForDebounce();
+
+      await respond('Moholt', [moholt]);
+      await respondWithError('Mo');
+
+      expect(shownSuggestions()).toEqual([moholt.id]);
+      expect(getList()).not.toHaveTextContent('No results');
+    });
+  });
+
   // The it.fails tests below describe the expected behaviour and fail on the
   // current code. Change them to `it` once the fix is in.
 
@@ -462,26 +502,6 @@ describe('widget autocomplete', () => {
       expect(selected.at(-1)).toEqual(moholt);
     },
   );
-
-  it.fails('ignores responses that arrive after a newer one', async () => {
-    const input = getInput();
-    input.focus();
-
-    type(input, 'Mo');
-    await waitForDebounce();
-    type(input, 'Moholt');
-    await waitForDebounce();
-
-    // The response for "Moholt" arrives before the one for "Mo".
-    await respond('Moholt', [moholt]);
-    await respond('Mo', [moa]);
-
-    input.blur();
-    await flush();
-
-    expect(input.value).toBe('Moholt');
-    expect(selected.at(-1)).toEqual(moholt);
-  });
 
   it.fails('clears the selection when the text has no results', async () => {
     const input = getInput();
