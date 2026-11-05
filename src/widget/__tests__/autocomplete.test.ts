@@ -267,6 +267,48 @@ describe('widget autocomplete', () => {
     expect(selected).toEqual([]);
   });
 
+  describe('"Use my location" is always the last item', () => {
+    function expectLocationLast() {
+      const list = getList();
+      expect(list.hidden).toBe(false);
+      expect(list.lastElementChild).toHaveClass('itemLocation');
+      expect(list.querySelectorAll('.itemLocation')).toHaveLength(1);
+    }
+
+    it('after the suggestions', async () => {
+      const input = getInput();
+      input.focus();
+      type(input, 'Mo');
+      await waitForDebounce();
+      await respond('Mo', [moa, moholt]);
+
+      expectLocationLast();
+      expect(getList().children).toHaveLength(3);
+    });
+
+    it('after "No results"', async () => {
+      const input = getInput();
+      input.focus();
+      type(input, 'xyzzy');
+      await waitForDebounce();
+      await respond('xyzzy', []);
+
+      expectLocationLast();
+      expect(getList()).toHaveTextContent('No results');
+    });
+
+    it('when focusing a field with text', async () => {
+      const input = getInput();
+      await typeAndLeave(input, 'Lerk', [lerkendal]);
+
+      input.focus();
+      await waitForDebounce();
+      await respond('Lerkendal', [lerkendal]);
+
+      expectLocationLast();
+    });
+  });
+
   it('shows "Use my location" again when the text is cleared', async () => {
     const input = getInput();
     input.focus();
@@ -456,19 +498,6 @@ describe('widget autocomplete', () => {
       await waitForDebounce();
 
       expect(fetchMock).not.toHaveBeenCalled();
-    },
-  );
-
-  it.fails(
-    'shows "Use my location" right away when focusing a field with text',
-    async () => {
-      const input = getInput();
-      await typeAndLeave(input, 'Lerk', [lerkendal]);
-
-      input.focus();
-
-      expect(getList().hidden).toBe(false);
-      expect(getList().querySelector('.itemLocation')).not.toBeNull();
     },
   );
 
