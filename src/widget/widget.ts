@@ -1108,7 +1108,7 @@ function createTripQueryForDeparture(
 }
 
 async function autocomplete(urlBase: string, q: string) {
-  const url = `${urlBase}api/departures/autocomplete?q=${q}`;
+  const url = `${urlBase}api/departures/autocomplete?q=${encodeURIComponent(q)}`;
   const result = await fetch(url);
 
   if (!result.ok) {
