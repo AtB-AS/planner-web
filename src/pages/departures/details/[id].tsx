@@ -41,7 +41,11 @@ export const getServerSideProps = withAccessLogging(
 
         // Temporary: Backwards compatibility for links with quay ids
         if (!query.fromStopPosition) {
-          const { estimatedCalls } = await client.serviceJourney({ id, date });
+          const journey = await client.serviceJourney({ id, date });
+          if (!journey) {
+            return { notFound: true };
+          }
+          const { estimatedCalls } = journey;
           fromStopPosition =
             estimatedCalls.find((c) => c.quay.id === query.fromQuayId)
               ?.stopPositionInPattern ?? 0;
