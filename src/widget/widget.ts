@@ -124,6 +124,7 @@ function init() {
       )
       .forEach((input) => {
         input.value = '';
+        delete input.dataset.selectedName;
       });
   });
 
@@ -338,10 +339,16 @@ function createOutput(
       button.addEventListener('click', async () => {
         MessageBox.clearMessageBox();
         const searchInputs = document.getElementsByClassName(
-          'widget-module__search_input',
+          style.search_input,
         );
         const [input1, input2] = Array.from(searchInputs) as HTMLInputElement[];
         [input1.value, input2.value] = [input2.value, input1.value];
+        const [name1, name2] = [
+          input1.dataset.selectedName,
+          input2.dataset.selectedName,
+        ];
+        setSelectedName(input1, name2);
+        setSelectedName(input2, name1);
 
         document.dispatchEvent(new CustomEvent('swap-selected'));
       });
@@ -402,13 +409,13 @@ function createOutput(
       };
 
       function toggleList(show?: boolean) {
-        const locationLi = createLocationItem();
         if (!show) {
           list.innerHTML = '';
+          listQuery = null;
           combobox.clearSelection();
           combobox.stop();
         } else {
-          list.appendChild(locationLi);
+          list.appendChild(createLocationItem());
           combobox.start();
         }
         list.hidden = !show;
@@ -422,32 +429,81 @@ function createOutput(
         toggleList(true);
       }
 
-      let isDirty = false;
+      // The text differs from the selected place's name.
+      function isDirty() {
+        return input.value.trim() !== (input.dataset.selectedName ?? '');
+      }
 
-      function selectFirstItem() {
-        if (isDirty && list && !list.hidden && input.value.trim() !== '') {
-          const firstItem = list.firstElementChild;
+      function emitSelected(item?: GeocoderFeature) {
+        setSelectedName(input, item?.name);
+        document.dispatchEvent(
+          new CustomEvent('search-selected', {
+            bubbles: true,
+            detail: {
+              key: input.name,
+              item,
+            },
+          }),
+        );
+      }
 
-          // Only auto-select actual search results, never the geolocation item.
-          if (firstItem?.hasAttribute('data-feature-id')) {
-            firstItem.dispatchEvent(
-              new CustomEvent('combobox-commit', {
-                bubbles: true,
-              }),
-            );
-          }
+      // The text the suggestions in the list were fetched for.
+      let listQuery: string | null = null;
+
+      // On blur: picks the highlighted suggestion, otherwise the first one.
+      function selectOnLeave() {
+        if (!isDirty()) return;
+
+        const highlighted = list.querySelector('[aria-selected="true"]');
+        const item = highlighted?.hasAttribute('data-feature-id')
+          ? highlighted
+          : list.firstElementChild;
+
+        // Never "Use my location" or suggestions for older text.
+        const text = input.value.trim();
+        if (
+          !list.hidden &&
+          text !== '' &&
+          listQuery === text &&
+          item?.hasAttribute('data-feature-id')
+        ) {
+          item.dispatchEvent(
+            new CustomEvent('combobox-commit', {
+              bubbles: true,
+            }),
+          );
+          return;
         }
+
+        // No match: keep the text, but clear the selection.
+        emitSelected(undefined);
+      }
+
+      let searchController: AbortController | undefined;
+
+      // Cancels both a debounced search and one in flight.
+      function abortSearch() {
+        fetcher.cancel();
+        searchController?.abort();
+        searchController = undefined;
       }
 
       const fetcher = debounce(async (input: HTMLInputElement) => {
+        abortSearch();
+        const query = input.value.trim();
+        if (!query) {
+          list.innerHTML = '';
+          listQuery = null;
+          // Don't show the list if the input is not focused.
+          if (document.activeElement === input) toggleList(true);
+          return;
+        }
+
+        const controller = new AbortController();
+        searchController = controller;
         try {
-          if (!input.value) {
-            list.innerHTML = '';
-            // Don't show the list if the input is not focused.
-            if (document.activeElement === input) toggleList(true);
-            return;
-          }
-          const data = await autocomplete(URL_BASE, input.value);
+          const data = await autocomplete(URL_BASE, query, controller.signal);
+          if (controller.signal.aborted) return;
           // Don't reopen the list if the input lost focus while fetching.
           if (document.activeElement !== input) return;
           if (data.length === 0) {
@@ -461,7 +517,9 @@ function createOutput(
             list.appendChild(li);
           }
           toggleList(true);
+          listQuery = query;
         } catch (e) {
+          if (controller.signal.aborted) return;
           // Don't reopen the list if the input lost focus while fetching.
           if (document.activeElement !== input) return;
           showEmpty();
@@ -469,31 +527,35 @@ function createOutput(
       }, debounceTime);
 
       input.addEventListener('keydown', (event) => {
+        // Escape only closes the list, without picking a suggestion.
         if (event.key === 'Escape') {
-          selectFirstItem();
+          abortSearch();
           toggleList(false);
         }
       });
       input.addEventListener('input', (e) => {
-        isDirty = true;
+        abortSearch();
         fetcher(e.target as HTMLInputElement);
       });
 
       input.addEventListener('focus', () => {
-        if (input.value.trim() !== '') {
-          fetcher(input);
-        } else {
+        if (input.value.trim() === '') {
           toggleList(true);
+        } else if (isDirty()) {
+          fetcher(input);
         }
       });
       input.addEventListener('blur', () => {
-        selectFirstItem();
+        selectOnLeave();
+        abortSearch();
         toggleList(false);
       });
       // Keep focus in the input when pressing a list item. Otherwise blur
       // fires before click and commits the first item instead.
       list.addEventListener('mousedown', (e) => e.preventDefault());
       document.addEventListener('click', (e) => {
+        // Keep the list open while the input has focus (e.g. label clicks).
+        if (input.matches(':focus')) return;
         if (!hasParent(e.target as HTMLElement, this)) {
           toggleList(false);
         }
@@ -504,19 +566,10 @@ function createOutput(
         try {
           const item = await getGeolocation(URL_BASE, texts);
 
-          const input = self.parentElement?.querySelector('input');
-          if (input) {
-            input.value = item ? `${item.name}` : input.value;
+          if (item) {
+            input.value = `${item.name}`;
           }
-          document.dispatchEvent(
-            new CustomEvent('search-selected', {
-              bubbles: true,
-              detail: {
-                key: 'from',
-                item,
-              },
-            }),
-          );
+          emitSelected(item);
         } catch (e) {
           if (e instanceof Error) {
             document.dispatchEvent(
@@ -532,6 +585,7 @@ function createOutput(
       };
 
       list.addEventListener('combobox-commit', function (event) {
+        abortSearch();
         if ((event.target as HTMLElement).classList.contains('itemLocation')) {
           setGeolocationPlace();
         }
@@ -544,16 +598,7 @@ function createOutput(
           newValue = `${item.name}`;
         }
         input.value = newValue;
-        isDirty = false;
-        document.dispatchEvent(
-          new CustomEvent('search-selected', {
-            bubbles: true,
-            detail: {
-              key: input.name,
-              item,
-            },
-          }),
-        );
+        emitSelected(item);
 
         list.hidden = true;
         combobox.clearSelection();
@@ -911,14 +956,25 @@ function tabBar() {
     });
 }
 
+// Stored on the input so swap and reset can move or clear it with the text.
+function setSelectedName(input: HTMLInputElement, name?: string) {
+  if (name) {
+    input.dataset.selectedName = name.trim();
+  } else {
+    delete input.dataset.selectedName;
+  }
+}
+
 function debounce(func: Function, wait: number) {
   let timeoutId: ReturnType<typeof setTimeout> | null = null;
-  return function (...args: any[]) {
+  const debounced = function (...args: any[]) {
     clearTimeout(timeoutId!);
     timeoutId = setTimeout(() => {
       func(...args);
     }, wait);
   };
+  debounced.cancel = () => clearTimeout(timeoutId!);
+  return debounced;
 }
 
 type SelectedSearchEvent = {
@@ -1037,25 +1093,24 @@ function mapLocationCategoryToVenueType(
   }
 }
 
+// Each end is added on its own, like the web app, so a missing From doesn't
+// drop a selected To.
 function featuresToFromToQuery(from?: GeocoderFeature, to?: GeocoderFeature) {
-  if (!from) return {};
-
-  const toFlattened = to
-    ? {
-        toId: to.id,
-        toName: to.name,
-        toLon: to.geometry.coordinates[0].toString(),
-        toLat: to.geometry.coordinates[1].toString(),
-        toLayer: to.layer as string,
-      }
-    : undefined;
   return {
-    fromId: from.id,
-    fromName: from.name,
-    fromLon: from.geometry.coordinates[0].toString(),
-    fromLat: from.geometry.coordinates[1].toString(),
-    fromLayer: from.layer as string,
-    ...toFlattened,
+    ...(from && {
+      fromId: from.id,
+      fromName: from.name,
+      fromLon: from.geometry.coordinates[0].toString(),
+      fromLat: from.geometry.coordinates[1].toString(),
+      fromLayer: from.layer as string,
+    }),
+    ...(to && {
+      toId: to.id,
+      toName: to.name,
+      toLon: to.geometry.coordinates[0].toString(),
+      toLat: to.geometry.coordinates[1].toString(),
+      toLayer: to.layer as string,
+    }),
   };
 }
 
@@ -1107,9 +1162,9 @@ function createTripQueryForDeparture(
   };
 }
 
-async function autocomplete(urlBase: string, q: string) {
-  const url = `${urlBase}api/departures/autocomplete?q=${q}`;
-  const result = await fetch(url);
+async function autocomplete(urlBase: string, q: string, signal?: AbortSignal) {
+  const url = `${urlBase}api/departures/autocomplete?q=${encodeURIComponent(q)}`;
+  const result = await fetch(url, { signal });
 
   if (!result.ok) {
     throw new Error(`Error fetching autocomplete data from ${url}`);
