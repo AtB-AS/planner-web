@@ -343,8 +343,6 @@ function createOutput(
         );
         const [input1, input2] = Array.from(searchInputs) as HTMLInputElement[];
         [input1.value, input2.value] = [input2.value, input1.value];
-        // Move each field's selected place with its text, so the fields know
-        // whether their text has been edited.
         const [name1, name2] = [
           input1.dataset.selectedName,
           input2.dataset.selectedName,
@@ -431,15 +429,11 @@ function createOutput(
         toggleList(true);
       }
 
-      // The text has been edited since a place was selected, i.e. it isn't
-      // the selected place's name. Worked out from the text instead of kept
-      // as a flag, so it stays right when the text is changed from code
-      // (swap, reset, a failed "Use my location").
+      // The text differs from the selected place's name.
       function isDirty() {
         return input.value.trim() !== (input.dataset.selectedName ?? '');
       }
 
-      // Tells the form which place this field now holds.
       function emitSelected(item?: GeocoderFeature) {
         setSelectedName(input, item?.name);
         document.dispatchEvent(
@@ -453,13 +447,10 @@ function createOutput(
         );
       }
 
-      // The text the suggestions in the list were fetched for. The user can
-      // keep typing before the next search runs, so the list can hold
-      // suggestions for older text.
+      // The text the suggestions in the list were fetched for.
       let listQuery: string | null = null;
 
-      // Called when the user leaves the field (blur). Picks the suggestion
-      // highlighted with the arrow keys, otherwise the first one.
+      // On blur: picks the highlighted suggestion, otherwise the first one.
       function selectOnLeave() {
         if (!isDirty()) return;
 
@@ -468,8 +459,7 @@ function createOutput(
           ? highlighted
           : list.firstElementChild;
 
-        // Only auto-select actual search results for the current text, never
-        // the geolocation item or suggestions for older text.
+        // Never "Use my location" or suggestions for older text.
         const text = input.value.trim();
         if (
           !list.hidden &&
@@ -485,19 +475,13 @@ function createOutput(
           return;
         }
 
-        // No suggestion matches the text (no results, none yet, suggestions
-        // for older text, or the text was cleared). Keep the text, but clear
-        // the selection so a place the field no longer shows isn't searched
-        // for.
+        // No match: keep the text, but clear the selection.
         emitSelected(undefined);
       }
 
-      // The search request in flight. It's aborted whenever the text changes
-      // or the user leaves the field, so a slow response for older text can't
-      // replace newer results or reopen the list.
       let searchController: AbortController | undefined;
 
-      // Cancels both a search waiting for the debounce and one in flight.
+      // Cancels both a debounced search and one in flight.
       function abortSearch() {
         fetcher.cancel();
         searchController?.abort();
@@ -543,7 +527,7 @@ function createOutput(
       }, debounceTime);
 
       input.addEventListener('keydown', (event) => {
-        // Escape only closes the list. It never picks a suggestion.
+        // Escape only closes the list, without picking a suggestion.
         if (event.key === 'Escape') {
           abortSearch();
           toggleList(false);
@@ -558,8 +542,6 @@ function createOutput(
         if (input.value.trim() === '') {
           toggleList(true);
         } else if (isDirty()) {
-          // Only search again if the text has changed since a place was
-          // selected. Like the web app, focusing a selected place opens nothing.
           fetcher(input);
         }
       });
@@ -572,8 +554,7 @@ function createOutput(
       // fires before click and commits the first item instead.
       list.addEventListener('mousedown', (e) => e.preventDefault());
       document.addEventListener('click', (e) => {
-        // Clicking the field's label keeps focus in the input. The user is
-        // still in the field, so keep the list open.
+        // Keep the list open while the input has focus (e.g. label clicks).
         if (input.matches(':focus')) return;
         if (!hasParent(e.target as HTMLElement, this)) {
           toggleList(false);
@@ -604,7 +585,6 @@ function createOutput(
       };
 
       list.addEventListener('combobox-commit', function (event) {
-        // The text is about to change, so a pending search is out of date.
         abortSearch();
         if ((event.target as HTMLElement).classList.contains('itemLocation')) {
           setGeolocationPlace();
@@ -976,8 +956,7 @@ function tabBar() {
     });
 }
 
-// The name of the place selected in a search field, stored on the input so
-// swap and reset can move or clear it along with the text.
+// Stored on the input so swap and reset can move or clear it with the text.
 function setSelectedName(input: HTMLInputElement, name?: string) {
   if (name) {
     input.dataset.selectedName = name.trim();
