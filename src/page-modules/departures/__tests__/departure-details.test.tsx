@@ -3,6 +3,7 @@ import { cleanup, render, screen } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import userEvent from '@testing-library/user-event';
 import { DeparturesDetails } from '../details';
+import { addMetadataToEstimatedCalls } from '../details/utils';
 import { GlobalMessageContextProvider } from '@atb/modules/global-messages';
 
 vi.mock('next/router', () => require('next-router-mock'));
@@ -11,7 +12,9 @@ afterEach(function () {
   cleanup();
 });
 
+// Tyholtveien is visited at 3 and 7, Magnus Berrføtts veg at 1 and 8
 const fromStopPosition = 7;
+const toStopPosition = 8;
 
 const customRender = (ui: React.ReactNode) => {
   return render(
@@ -55,6 +58,20 @@ describe('departure details page', function () {
         (call) => call.stopPositionInPattern === fromStopPosition,
       )?.quay.name || '';
     expect(output.queryByText(fromQuayName)).toBeInTheDocument();
+  });
+
+  it('should keep earlier visits of repeated quays in passed group', () => {
+    const groups = addMetadataToEstimatedCalls(
+      serviceJourneyFixture.estimatedCalls,
+      fromStopPosition,
+      toStopPosition,
+    ).map((call) => call.metadata.group);
+    expect(groups).toEqual([
+      ...Array(7).fill('passed'),
+      'trip',
+      'trip',
+      'after',
+    ]);
   });
 
   it('should render passed departures when collapse button is clicked', async () => {
