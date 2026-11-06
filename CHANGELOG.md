@@ -1,5 +1,23 @@
 # Changelog
 
+## [3.31.0](https://github.com/AtB-AS/planner-web/compare/v3.30.1...v3.31.0) (2026-11-06)
+
+
+### Features
+
+* **atb-contact:** enable in production ([#852](https://github.com/AtB-AS/planner-web/issues/852)) ([63c782d](https://github.com/AtB-AS/planner-web/commit/63c782d2784cb496056a7b48ac59e7e01753c947))
+* Bff Geocoder v2 ([#843](https://github.com/AtB-AS/planner-web/issues/843)) ([eeb0ae1](https://github.com/AtB-AS/planner-web/commit/eeb0ae1ebcb59cf086419b9d35be62030b423306))
+* **contact:** use contact form url from config only ([#851](https://github.com/AtB-AS/planner-web/issues/851)) ([5740f58](https://github.com/AtB-AS/planner-web/commit/5740f588c4e5870c0f3de879692e73c328a3b36d))
+* use stopPositionInPattern on departure details ([#849](https://github.com/AtB-AS/planner-web/issues/849)) ([abf6124](https://github.com/AtB-AS/planner-web/commit/abf6124ee8af23bf6ffff243c2a8be15e78bf9e5))
+
+
+### Bug Fixes
+
+* Make missing service journies and stop places 404 ([#848](https://github.com/AtB-AS/planner-web/issues/848)) ([c38bb03](https://github.com/AtB-AS/planner-web/commit/c38bb03f2df940a7438974150c2d497171acb977))
+* Next js minor update ([#844](https://github.com/AtB-AS/planner-web/issues/844)) ([bcb9eab](https://github.com/AtB-AS/planner-web/commit/bcb9eab77db4229743fccf9fbfeb667b5f4097c1))
+* resolve error after merge ([#849](https://github.com/AtB-AS/planner-web/issues/849) / c38bb03f2) ([#854](https://github.com/AtB-AS/planner-web/issues/854)) ([317a4eb](https://github.com/AtB-AS/planner-web/commit/317a4eb1093d82ed0f85a7388e4120c3c092f5b6))
+* update app link package name for nfk dev ([#850](https://github.com/AtB-AS/planner-web/issues/850)) ([8e8db4e](https://github.com/AtB-AS/planner-web/commit/8e8db4e1b55a72c613f20f9ef0db3a16da5f916a))
+
 ## [3.30.1](https://github.com/AtB-AS/planner-web/compare/v3.30.0...v3.30.1) (2026-10-29)
 
 
