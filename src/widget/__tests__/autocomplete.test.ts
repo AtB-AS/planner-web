@@ -42,6 +42,7 @@ let selected: Array<GeocoderFeature | undefined> = [];
 // Which field each selection was for ("from" or "to").
 let selectedKeys: string[] = [];
 let output: string;
+let init: () => void;
 
 function onSearchSelected(event: Event) {
   const { detail } = event as CustomEvent<{
@@ -138,7 +139,9 @@ async function typeAndLeave(
 describe('widget autocomplete', () => {
   beforeAll(() => {
     // createWidget registers the custom elements, which can only be done once.
-    output = createWidget({ urlBase: URL_BASE }).output;
+    const widget = createWidget({ urlBase: URL_BASE });
+    output = widget.output;
+    init = widget.init;
   });
 
   beforeEach(() => {
@@ -812,5 +815,38 @@ describe('widget autocomplete', () => {
       expect(input.value).toBe('Moholt');
       expect(selected).toEqual([undefined]);
     });
+  });
+
+  it('keeps a selected To when From has no matching place on submit', async () => {
+    // init() wires up the selected places and the submit handler.
+    init();
+    const from = getInput();
+    const to = document.querySelector<HTMLInputElement>('#pw-to-1-input')!;
+
+    await typeAndLeave(from, 'Moho', [moholt]);
+    await typeAndLeave(to, 'Lerk', [lerkendal]);
+
+    // Edit From to text with no results, which clears its selection.
+    from.focus();
+    type(from, 'xyzzy');
+    await waitForDebounce();
+    await respond('xyzzy', []);
+    from.blur();
+    await flush();
+
+    const navigate = vi
+      .spyOn(window.location, 'href', 'set')
+      .mockImplementation(() => {});
+    document
+      .querySelector<HTMLFormElement>('#pw-form-assistant')!
+      .dispatchEvent(new Event('submit', { cancelable: true }));
+    const url = navigate.mock.calls[0]?.[0];
+    navigate.mockRestore();
+
+    expect(url).toBeDefined();
+    const params = new URL(url!).searchParams;
+    expect(params.has('fromId')).toBe(false);
+    expect(params.get('toId')).toBe(lerkendal.id);
+    expect(params.get('toName')).toBe('Lerkendal');
   });
 });
