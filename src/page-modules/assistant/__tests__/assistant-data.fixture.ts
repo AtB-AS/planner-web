@@ -81,6 +81,7 @@ export const tripPatternsFromVia: ViaTripsWithDetailsQuery['viaTrip']['tripPatte
             notices: [],
           },
           fromEstimatedCall: {
+            stopPositionInPattern: 0,
             cancellation: false,
             requestStop: false,
             notices: [],
@@ -182,6 +183,7 @@ export const tripPatternsFromVia: ViaTripsWithDetailsQuery['viaTrip']['tripPatte
             notices: [],
           },
           fromEstimatedCall: {
+            stopPositionInPattern: 0,
             cancellation: false,
             requestStop: false,
             notices: [],
@@ -316,6 +318,7 @@ export const tripPatternsViaTo: ViaTripsWithDetailsQuery['viaTrip']['tripPattern
             notices: [],
           },
           fromEstimatedCall: {
+            stopPositionInPattern: 0,
             cancellation: false,
             requestStop: false,
             notices: [],
@@ -410,6 +413,7 @@ export const tripPatternsViaTo: ViaTripsWithDetailsQuery['viaTrip']['tripPattern
             notices: [],
           },
           fromEstimatedCall: {
+            stopPositionInPattern: 0,
             cancellation: false,
             requestStop: false,
             notices: [],
@@ -500,6 +504,7 @@ export const tripPatternsFromViaTo: ViaTripsWithDetailsQuery['viaTrip']['tripPat
             notices: [],
           },
           fromEstimatedCall: {
+            stopPositionInPattern: 0,
             cancellation: false,
             requestStop: false,
             notices: [],
@@ -623,6 +628,7 @@ export const tripPatternsFromViaTo: ViaTripsWithDetailsQuery['viaTrip']['tripPat
             notices: [],
           },
           fromEstimatedCall: {
+            stopPositionInPattern: 0,
             cancellation: false,
             requestStop: false,
             notices: [],
@@ -717,6 +723,7 @@ export const tripPatternsFromViaTo: ViaTripsWithDetailsQuery['viaTrip']['tripPat
             notices: [],
           },
           fromEstimatedCall: {
+            stopPositionInPattern: 0,
             cancellation: false,
             requestStop: false,
             notices: [],

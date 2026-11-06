@@ -63,8 +63,8 @@ export type EstimatedCallsInput = {
 export type ServiceJourneyInput = {
   id: string;
   date: Date;
-  fromQuayId: string;
-  toQuayId?: string;
+  fromStopPosition?: number;
+  toStopPosition?: number;
 };
 
 export type JourneyPlannerApi = {
@@ -260,14 +260,15 @@ export function createJourneyApi(
       const transportSubmode = serviceJourney?.transportSubmode;
 
       const fromStopPlace = serviceJourney?.estimatedCalls?.find(
-        (call) => call.quay.id === input.fromQuayId,
+        (call) => call.stopPositionInPattern === input.fromStopPosition,
       )?.quay?.stopPlace;
 
-      const toStopPlace = input.toQuayId
-        ? serviceJourney?.estimatedCalls?.find(
-            (call) => call.quay.id === input.toQuayId,
-          )?.quay?.stopPlace
-        : undefined;
+      const toStopPlace =
+        input.toStopPosition !== undefined
+          ? serviceJourney?.estimatedCalls?.find(
+              (call) => call.stopPositionInPattern === input.toStopPosition,
+            )?.quay?.stopPlace
+          : undefined;
 
       return {
         ...serviceJourney,

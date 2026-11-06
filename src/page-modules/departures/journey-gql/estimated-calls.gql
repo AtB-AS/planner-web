@@ -21,6 +21,7 @@ query quayEstimatedCalls(
 }
 
 fragment estimatedCall on EstimatedCall {
+  stopPositionInPattern
   aimedDepartureTime
   date
   expectedDepartureTime

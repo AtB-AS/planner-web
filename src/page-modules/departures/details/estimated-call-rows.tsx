@@ -26,7 +26,7 @@ export type EstimatedCallRowsProps = {
   mode: TransportModeType;
   subMode?: TransportSubmode;
   alreadyShownSituationNumbers: string[];
-  toQuayId?: string;
+  toStopPosition?: number;
 };
 
 export function EstimatedCallRows({
@@ -34,7 +34,7 @@ export function EstimatedCallRows({
   mode,
   subMode,
   alreadyShownSituationNumbers,
-  toQuayId,
+  toStopPosition,
 }: EstimatedCallRowsProps) {
   const { t } = useTranslation();
   const [collapsed, setCollapsed] = useState(true);
@@ -92,7 +92,7 @@ export function EstimatedCallRows({
                 situations={getSituationsToShowForCall(
                   call,
                   alreadyShownSituationNumbers,
-                  toQuayId,
+                  toStopPosition,
                 )}
               />
             </motion.div>

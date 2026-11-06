@@ -10,6 +10,7 @@ export const serviceJourneyFixture: ServiceJourneyType = {
   notices: [],
   estimatedCalls: [
     {
+      stopPositionInPattern: 0,
       actualArrivalTime: '2023-11-10T14:59:24+01:00',
       actualDepartureTime: '2023-11-10T14:59:24+01:00',
       aimedArrivalTime: '2023-11-10T14:59:00+01:00',
@@ -40,6 +41,7 @@ export const serviceJourneyFixture: ServiceJourneyType = {
       notices: [],
     },
     {
+      stopPositionInPattern: 1,
       actualArrivalTime: '2023-11-10T15:01:22+01:00',
       actualDepartureTime: '2023-11-10T15:01:40+01:00',
       aimedArrivalTime: '2023-11-10T15:00:00+01:00',
@@ -70,6 +72,7 @@ export const serviceJourneyFixture: ServiceJourneyType = {
       notices: [],
     },
     {
+      stopPositionInPattern: 2,
       actualArrivalTime: '2023-11-10T15:02:11+01:00',
       actualDepartureTime: '2023-11-10T15:02:50+01:00',
       aimedArrivalTime: '2023-11-10T15:01:00+01:00',
@@ -100,6 +103,7 @@ export const serviceJourneyFixture: ServiceJourneyType = {
       notices: [],
     },
     {
+      stopPositionInPattern: 3,
       actualArrivalTime: '2023-11-10T15:03:04+01:00',
       actualDepartureTime: '2023-11-10T15:03:43+01:00',
       aimedArrivalTime: '2023-11-10T15:02:00+01:00',
@@ -130,6 +134,7 @@ export const serviceJourneyFixture: ServiceJourneyType = {
       notices: [],
     },
     {
+      stopPositionInPattern: 4,
       actualArrivalTime: '2023-11-10T15:03:54+01:00',
       actualDepartureTime: '2023-11-10T15:04:09+01:00',
       aimedArrivalTime: '2023-11-10T15:03:00+01:00',
@@ -160,6 +165,7 @@ export const serviceJourneyFixture: ServiceJourneyType = {
       notices: [],
     },
     {
+      stopPositionInPattern: 5,
       actualArrivalTime: '2023-11-10T15:04:42+01:00',
       actualDepartureTime: '2023-11-10T15:05:07+01:00',
       aimedArrivalTime: '2023-11-10T15:04:00+01:00',
@@ -190,6 +196,7 @@ export const serviceJourneyFixture: ServiceJourneyType = {
       notices: [],
     },
     {
+      stopPositionInPattern: 6,
       actualArrivalTime: '2023-11-10T15:05:19+01:00',
       actualDepartureTime: '2023-11-10T15:05:56+01:00',
       aimedArrivalTime: '2023-11-10T15:05:00+01:00',
@@ -220,6 +227,7 @@ export const serviceJourneyFixture: ServiceJourneyType = {
       notices: [],
     },
     {
+      stopPositionInPattern: 7,
       actualArrivalTime: '2023-11-10T15:06:34+01:00',
       actualDepartureTime: '2023-11-10T15:07:14+01:00',
       aimedArrivalTime: '2023-11-10T15:06:00+01:00',
@@ -238,18 +246,19 @@ export const serviceJourneyFixture: ServiceJourneyType = {
       realtime: true,
       quay: {
         publicCode: '',
-        name: 'Persaunet leir',
-        id: 'NSR:Quay:74990',
+        name: 'Tyholtveien',
+        id: 'NSR:Quay:71678',
         stopPlace: {
-          id: 'NSR:StopPlace:43687',
-          longitude: 10.441777,
-          latitude: 63.431544,
+          id: 'NSR:StopPlace:41882',
+          longitude: 10.442998,
+          latitude: 63.427611,
         },
       },
       situations: [],
       notices: [],
     },
     {
+      stopPositionInPattern: 8,
       actualArrivalTime: '2023-11-10T15:07:52+01:00',
       actualDepartureTime: '2023-11-10T15:08:22+01:00',
       aimedArrivalTime: '2023-11-10T15:07:00+01:00',
@@ -268,18 +277,19 @@ export const serviceJourneyFixture: ServiceJourneyType = {
       realtime: true,
       quay: {
         publicCode: '',
-        name: 'Brian Smiths gate',
-        id: 'NSR:Quay:75371',
+        name: 'Magnus Berrføtts veg',
+        id: 'NSR:Quay:72609',
         stopPlace: {
-          id: 'NSR:StopPlace:43896',
-          longitude: 10.447941,
-          latitude: 63.434554,
+          id: 'NSR:StopPlace:42400',
+          longitude: 10.438533,
+          latitude: 63.421314,
         },
       },
       situations: [],
       notices: [],
     },
     {
+      stopPositionInPattern: 9,
       actualArrivalTime: '2023-11-10T15:09:56+01:00',
       actualDepartureTime: '2023-11-10T15:10:33+01:00',
       aimedArrivalTime: '2023-11-10T15:09:00+01:00',

@@ -97,9 +97,11 @@ export default function TripSection({
     !isFlexible &&
     leg.serviceJourney?.id &&
     leg.serviceDate &&
-    leg.fromPlace.quay?.id
-      ? `/departures/details/${leg.serviceJourney.id}?date=${leg.serviceDate}&fromQuayId=${leg.fromPlace.quay.id}` +
-        (leg.toPlace.quay?.id ? `&toQuayId=${leg.toPlace.quay.id}` : '')
+    leg.fromEstimatedCall
+      ? `/departures/details/${leg.serviceJourney.id}?date=${leg.serviceDate}&fromStopPosition=${leg.fromEstimatedCall.stopPositionInPattern}` +
+        (leg.toEstimatedCall
+          ? `&toStopPosition=${leg.toEstimatedCall.stopPositionInPattern}`
+          : '')
       : undefined;
 
   return (

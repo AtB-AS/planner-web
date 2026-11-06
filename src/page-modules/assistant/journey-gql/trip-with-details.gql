@@ -107,6 +107,7 @@ fragment legWithDetails on Leg {
     }
   }
   fromEstimatedCall {
+    stopPositionInPattern
     notices {
       ...notice
     }
@@ -118,6 +119,7 @@ fragment legWithDetails on Leg {
     requestStop
   }
   toEstimatedCall {
+    stopPositionInPattern
     notices {
       ...notice
     }

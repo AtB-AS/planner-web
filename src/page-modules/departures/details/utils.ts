@@ -10,15 +10,15 @@ import { ServiceJourneyEstimatedCallFragment } from '@atb/page-modules/departure
 
 export function addMetadataToEstimatedCalls(
   estimatedCalls: ServiceJourneyType['estimatedCalls'],
-  fromQuayId?: string,
-  toQuayId?: string,
+  fromStopPosition?: number,
+  toStopPosition?: number,
 ): EstimatedCallWithMetadata[] {
   let currentGroup: EstimatedCallMetadata['group'] = 'passed';
 
   return estimatedCalls.reduce<EstimatedCallWithMetadata[]>(
     (calls, currentCall, index) => {
       const previousCall = calls[calls.length - 1];
-      if (currentCall.quay?.id === fromQuayId) {
+      if (currentCall.stopPositionInPattern === fromStopPosition) {
         if (previousCall) previousCall.metadata.isEndOfGroup = true;
         currentGroup = 'trip';
       }
@@ -31,7 +31,7 @@ export function addMetadataToEstimatedCalls(
         isEndOfGroup: index === estimatedCalls.length - 1,
       };
 
-      if (currentCall.quay?.id === toQuayId) {
+      if (currentCall.stopPositionInPattern === toStopPosition) {
         metadata.isEndOfGroup = true;
         currentGroup = 'after';
       }
@@ -54,10 +54,10 @@ export function addMetadataToEstimatedCalls(
 export function getSituationsToShowForCall(
   { situations, metadata: { group, isEndOfGroup } }: EstimatedCallWithMetadata,
   alreadyShownSituationNumbers: string[],
-  toQuayId?: string,
+  toStopPosition?: number,
 ) {
   if (group === 'passed' || group === 'after') return [];
-  if (toQuayId && !isEndOfGroup) return [];
+  if (toStopPosition !== undefined && !isEndOfGroup) return [];
   return situations.filter(
     (s) =>
       !s.situationNumber ||
