@@ -439,19 +439,36 @@ function createOutput(
         }
       }
 
+      // The search request in flight. It's aborted whenever the text changes
+      // or the user leaves the field, so a slow response for older text can't
+      // replace newer results or reopen the list.
+      let searchController: AbortController | undefined;
+
+      // Cancels both a search waiting for the debounce and one in flight.
+      function abortSearch() {
+        fetcher.cancel();
+        searchController?.abort();
+        searchController = undefined;
+      }
+
       const fetcher = debounce(async (input: HTMLInputElement) => {
-        const query = input.value;
+        abortSearch();
+        if (!input.value.trim()) {
+          list.innerHTML = '';
+          // Don't show the list if the input is not focused.
+          if (document.activeElement === input) toggleList(true);
+          return;
+        }
+
+        const controller = new AbortController();
+        searchController = controller;
         try {
-          if (!query) {
-            list.innerHTML = '';
-            // Don't show the list if the input is not focused.
-            if (document.activeElement === input) toggleList(true);
-            return;
-          }
-          const data = await autocomplete(URL_BASE, query);
-          // Ignore the response if the text has changed since the request.
-          // Otherwise a slow response for older text can replace newer results.
-          if (query !== input.value) return;
+          const data = await autocomplete(
+            URL_BASE,
+            input.value,
+            controller.signal,
+          );
+          if (controller.signal.aborted) return;
           // Don't reopen the list if the input lost focus while fetching.
           if (document.activeElement !== input) return;
           if (data.length === 0) {
@@ -466,7 +483,7 @@ function createOutput(
           }
           toggleList(true);
         } catch (e) {
-          if (query !== input.value) return;
+          if (controller.signal.aborted) return;
           // Don't reopen the list if the input lost focus while fetching.
           if (document.activeElement !== input) return;
           showEmpty();
@@ -476,11 +493,13 @@ function createOutput(
       input.addEventListener('keydown', (event) => {
         if (event.key === 'Escape') {
           selectFirstItem();
+          abortSearch();
           toggleList(false);
         }
       });
       input.addEventListener('input', (e) => {
         isDirty = true;
+        abortSearch();
         fetcher(e.target as HTMLInputElement);
       });
 
@@ -495,12 +514,16 @@ function createOutput(
       });
       input.addEventListener('blur', () => {
         selectFirstItem();
+        abortSearch();
         toggleList(false);
       });
       // Keep focus in the input when pressing a list item. Otherwise blur
       // fires before click and commits the first item instead.
       list.addEventListener('mousedown', (e) => e.preventDefault());
       document.addEventListener('click', (e) => {
+        // Clicking the field's label keeps focus in the input. The user is
+        // still in the field, so keep the list open.
+        if (input.matches(':focus')) return;
         if (!hasParent(e.target as HTMLElement, this)) {
           toggleList(false);
         }
@@ -539,6 +562,8 @@ function createOutput(
       };
 
       list.addEventListener('combobox-commit', function (event) {
+        // The text is about to change, so a pending search is out of date.
+        abortSearch();
         if ((event.target as HTMLElement).classList.contains('itemLocation')) {
           setGeolocationPlace();
         }
@@ -920,12 +945,14 @@ function tabBar() {
 
 function debounce(func: Function, wait: number) {
   let timeoutId: ReturnType<typeof setTimeout> | null = null;
-  return function (...args: any[]) {
+  const debounced = function (...args: any[]) {
     clearTimeout(timeoutId!);
     timeoutId = setTimeout(() => {
       func(...args);
     }, wait);
   };
+  debounced.cancel = () => clearTimeout(timeoutId!);
+  return debounced;
 }
 
 type SelectedSearchEvent = {
@@ -1114,9 +1141,9 @@ function createTripQueryForDeparture(
   };
 }
 
-async function autocomplete(urlBase: string, q: string) {
+async function autocomplete(urlBase: string, q: string, signal?: AbortSignal) {
   const url = `${urlBase}api/departures/autocomplete?q=${encodeURIComponent(q)}`;
-  const result = await fetch(url);
+  const result = await fetch(url, { signal });
 
   if (!result.ok) {
     throw new Error(`Error fetching autocomplete data from ${url}`);

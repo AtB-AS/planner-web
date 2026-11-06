@@ -32,6 +32,7 @@ const osloS = feature('NSR:StopPlace:4', 'Oslo S');
 type PendingRequest = {
   url: string;
   q: string;
+  signal?: AbortSignal;
   resolve: (data: GeocoderFeature[]) => void;
   fail: () => void;
 };
@@ -47,12 +48,18 @@ function onSearchSelected(event: Event) {
 
 // Each autocomplete request stays pending until the test responds to it, so
 // the tests decide the order responses arrive in.
-const fetchMock = vi.fn((url: string) => {
-  return new Promise((resolve) => {
+// Like a real fetch, an aborted request rejects with an AbortError.
+const fetchMock = vi.fn((url: string, init?: RequestInit) => {
+  return new Promise((resolve, reject) => {
     const q = url.split('?q=')[1] ?? '';
+    const signal = init?.signal ?? undefined;
+    signal?.addEventListener('abort', () =>
+      reject(new DOMException('Aborted', 'AbortError')),
+    );
     requests.push({
       url,
       q: decodeURIComponent(q),
+      signal,
       resolve: (data) => resolve({ ok: true, json: async () => data }),
       fail: () => resolve({ ok: false, json: async () => ({}) }),
     });
@@ -82,13 +89,18 @@ async function waitForDebounce() {
   await vi.advanceTimersByTimeAsync(DEBOUNCE_MS);
 }
 
-function takeRequest(q: string) {
+function requestFor(q: string) {
   const request = requests.find((r) => r.q === q);
   if (!request) {
     throw new Error(
       `No autocomplete request for "${q}". Requests: ${requests.map((r) => `"${r.q}"`).join(', ')}`,
     );
   }
+  return request;
+}
+
+function takeRequest(q: string) {
+  const request = requestFor(q);
   requests = requests.filter((r) => r !== request);
   return request;
 }
@@ -101,13 +113,6 @@ async function respond(q: string, data: GeocoderFeature[]) {
 async function respondWithError(q: string) {
   takeRequest(q).fail();
   await flush();
-}
-
-/** Answers any pending requests for `q`, such as the one sent on focus. */
-async function respondIfRequested(q: string, data: GeocoderFeature[]) {
-  if (requests.some((r) => r.q === q)) {
-    await respond(q, data);
-  }
 }
 
 /** Types text, waits for the results and leaves the field without choosing. */
@@ -184,12 +189,10 @@ describe('widget autocomplete', () => {
       const input = getInput();
       await typeAndLeave(input, 'Lerk', [lerkendal]);
 
-      // Leave right away, while "Use my location" may be the only item.
       input.focus();
       input.blur();
       await flush();
       await waitForDebounce();
-      await respondIfRequested('Lerkendal', [lerkendal]);
 
       expect(input.value).toBe('Lerkendal');
       expect(getCurrentPositionMock).not.toHaveBeenCalled();
@@ -259,7 +262,6 @@ describe('widget autocomplete', () => {
 
     input.focus();
     await waitForDebounce();
-    await respondIfRequested('Lerkendal', [moholt]);
     input.blur();
     await flush();
 
@@ -296,6 +298,18 @@ describe('widget autocomplete', () => {
       expectLocationLast();
       expect(getList()).toHaveTextContent('No results');
     });
+  });
+
+  it('treats whitespace-only text as empty', async () => {
+    const input = getInput();
+    input.focus();
+    type(input, '  ');
+    await waitForDebounce();
+
+    expect(fetchMock).not.toHaveBeenCalled();
+    expect(getList().hidden).toBe(false);
+    expect(getList().children).toHaveLength(1);
+    expect(getList().firstElementChild).toHaveClass('itemLocation');
   });
 
   it('shows "Use my location" again when the text is cleared', async () => {
@@ -340,9 +354,32 @@ describe('widget autocomplete', () => {
     input.focus();
     expect(getList().hidden).toBe(false);
 
+    // In a browser, pressing somewhere else moves focus away before the click.
+    // happy-dom doesn't do that, so do it here.
+    input.blur();
     document.body.click();
 
     expect(getList().hidden).toBe(true);
+  });
+
+  it("keeps the list open when clicking the field's label", async () => {
+    const input = getInput();
+    input.focus();
+    type(input, 'Mo');
+    await waitForDebounce();
+
+    // Clicking the label keeps focus in the input, so the user is still in
+    // the field.
+    document.querySelector<HTMLElement>('#pw-from-1-label')!.click();
+    expect(document.activeElement).toBe(input);
+    expect(getList().hidden).toBe(false);
+    expect(requestFor('Mo').signal?.aborted).toBe(false);
+
+    await respond('Mo', [moa]);
+    expect(getList().hidden).toBe(false);
+    expect(
+      getList().querySelector(`[data-feature-id="${moa.id}"]`),
+    ).not.toBeNull();
   });
 
   // Escape works like blur: after typing, it picks the first suggestion
@@ -381,6 +418,12 @@ describe('widget autocomplete', () => {
 
       expect(getCurrentPositionMock).not.toHaveBeenCalled();
       expect(getList().hidden).toBe(true);
+
+      // The search that was waiting for the debounce is cancelled, so it
+      // doesn't reopen the list.
+      await waitForDebounce();
+      expect(fetchMock).not.toHaveBeenCalled();
+      expect(getList().hidden).toBe(true);
     });
 
     it('closes the list without changing anything when nothing was typed', async () => {
@@ -390,7 +433,6 @@ describe('widget autocomplete', () => {
 
       input.focus();
       await waitForDebounce();
-      await respondIfRequested('Lerkendal', [moholt]);
       pressEscape(input);
       await flush();
 
@@ -428,43 +470,97 @@ describe('widget autocomplete', () => {
     expect(getList().hidden).toBe(true);
   });
 
-  describe('ignores responses for older text', () => {
+  describe('cancels searches for older text', () => {
     function shownSuggestions() {
       return Array.from(getList().querySelectorAll('[data-feature-id]'), (li) =>
         li.getAttribute('data-feature-id'),
       );
     }
 
-    it('when they arrive after the response for the current text', async () => {
+    it('when the user keeps typing while a request is in flight', async () => {
       const input = getInput();
       input.focus();
-
       type(input, 'Mo');
       await waitForDebounce();
-      type(input, 'Moholt');
-      await waitForDebounce();
 
-      // The response for "Moholt" arrives before the one for "Mo".
+      type(input, 'Moholt');
+      await flush();
+
+      // The request for "Mo" is aborted, and the abort error isn't shown as
+      // "No results".
+      expect(requestFor('Mo').signal?.aborted).toBe(true);
+      expect(getList()).not.toHaveTextContent('No results');
+
+      await waitForDebounce();
       await respond('Moholt', [moholt]);
-      await respond('Mo', [moa]);
 
       expect(shownSuggestions()).toEqual([moholt.id]);
     });
 
-    it('when the request for older text fails late', async () => {
+    it('when the text changes just as a response arrives', async () => {
       const input = getInput();
       input.focus();
-
       type(input, 'Mo');
       await waitForDebounce();
+
+      // The response for "Mo" has arrived, but the text changes before the
+      // widget handles it.
+      requestFor('Mo').resolve([moa]);
       type(input, 'Moholt');
+      await flush();
+
+      expect(shownSuggestions()).toEqual([]);
+    });
+
+    it('when a suggestion is chosen before the debounce has fired', async () => {
+      const input = getInput();
+      input.focus();
+      type(input, 'Moho');
+      await waitForDebounce();
+      await respond('Moho', [moholt]);
+      fetchMock.mockClear();
+
+      // Type more and click the suggestion straight away.
+      type(input, 'Moholt');
+      getList()
+        .querySelector<HTMLElement>(`[data-feature-id="${moholt.id}"]`)!
+        .click();
+      await flush();
       await waitForDebounce();
 
-      await respond('Moholt', [moholt]);
-      await respondWithError('Mo');
+      expect(fetchMock).not.toHaveBeenCalled();
+      expect(input.value).toBe('Moholt');
+      expect(selected).toEqual([moholt]);
+      expect(getList().hidden).toBe(true);
+    });
 
-      expect(shownSuggestions()).toEqual([moholt.id]);
-      expect(getList()).not.toHaveTextContent('No results');
+    it('when a suggestion is chosen while a request is in flight', async () => {
+      const input = getInput();
+      input.focus();
+      type(input, 'Moho');
+      await waitForDebounce();
+      await respond('Moho', [moholt]);
+
+      type(input, 'Moholt');
+      await waitForDebounce();
+      getList()
+        .querySelector<HTMLElement>(`[data-feature-id="${moholt.id}"]`)!
+        .click();
+      await flush();
+
+      expect(requestFor('Moholt').signal?.aborted).toBe(true);
+      expect(getList().hidden).toBe(true);
+    });
+
+    it('when leaving the field before the debounce has fired', async () => {
+      const input = getInput();
+      input.focus();
+      type(input, 'Lerk');
+      input.blur();
+      await flush();
+      await waitForDebounce();
+
+      expect(fetchMock).not.toHaveBeenCalled();
     });
   });
 
@@ -475,31 +571,19 @@ describe('widget autocomplete', () => {
     'does not pick a suggestion for older text when leaving the field quickly',
     async () => {
       const input = getInput();
-      await typeAndLeave(input, 'Lerkendal', [lerkendal]);
-
-      // Focusing fetches suggestions for the text already in the field.
       input.focus();
+      type(input, 'Mo');
       await waitForDebounce();
-      if (requests.some((r) => r.q === 'Lerkendal')) {
-        await respond('Lerkendal', [lerkendal]);
-      }
+      await respond('Mo', [moa]);
 
-      // Change the text and leave before the debounce has fired.
-      selected = [];
+      // Change the text and leave before the search for it has run. The list
+      // still holds the suggestions for "Mo", which must not be used.
       type(input, 'Moholt');
       input.blur();
       await flush();
 
-      // The list still holds the "Lerkendal" suggestions, which must not be used.
       expect(input.value).toBe('Moholt');
-      expect(selected).not.toContainEqual(lerkendal);
-
-      await waitForDebounce();
-      await respond('Moholt', [moholt]);
-
-      expect(selected).not.toContainEqual(lerkendal);
-      expect(input.value).toBe('Moholt');
-      expect(selected.at(-1)).toEqual(moholt);
+      expect(selected).not.toContainEqual(moa);
     },
   );
 
@@ -509,11 +593,6 @@ describe('widget autocomplete', () => {
     expect(selected.at(-1)).toEqual(osloS);
 
     input.focus();
-    await waitForDebounce();
-    if (requests.some((r) => r.q === 'Oslo S')) {
-      await respond('Oslo S', [osloS]);
-    }
-
     type(input, 'xyzzy');
     await waitForDebounce();
     await respond('xyzzy', []);
