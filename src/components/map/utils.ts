@@ -1,9 +1,11 @@
 import type {
   GeoJSONFeature,
   LayerSpecification,
+  LngLatBoundsLike,
   SourceSpecification,
   Map,
 } from 'mapbox-gl';
+import type { FareZone } from '@atb/modules/firebase';
 import { mapboxData } from '@atb/modules/org-data';
 import { MapLegType, PositionType } from './types';
 import haversineDistance from 'haversine-distance';
@@ -133,6 +135,30 @@ export const getMapBounds = (
   return [
     [sw.lon, sw.lat],
     [ne.lon, ne.lat],
+  ];
+};
+
+export const getFareZonesBounds = (
+  fareZones: FareZone[],
+): LngLatBoundsLike | undefined => {
+  const coordinates = fareZones.flatMap((fareZone) =>
+    fareZone.geometry.coordinates.flat(),
+  );
+  if (!coordinates.length) return undefined;
+
+  // Loop instead of Math.min(...spread), zone polygons can have many points.
+  let [west, south] = coordinates[0];
+  let [east, north] = coordinates[0];
+  for (const [lon, lat] of coordinates) {
+    west = Math.min(west, lon);
+    east = Math.max(east, lon);
+    south = Math.min(south, lat);
+    north = Math.max(north, lat);
+  }
+
+  return [
+    [west, south],
+    [east, north],
   ];
 };
 

@@ -19,6 +19,7 @@ const environment = process.env.NEXT_PUBLIC_ENVIRONMENT;
 module.exports = {
   siteUrl: environment ? environmentUrls[environment] : environmentUrls['dev'],
   generateIndexSitemap: false,
+  exclude: ['/embed', '/embed/*'],
   sitemapSize: 7000,
   generateRobotsTxt: true,
   robotsTxtOptions: {

@@ -74,6 +74,11 @@ export type OrgData = {
     transferPenalty?: number;
     defaultTransferSlack?: number;
   };
+  embed?: {
+    // Origins allowed to embed /embed pages in an iframe (CSP frame-ancestors),
+    // e.g. "https://atb.no" or "https://*.atb.no".
+    allowedOrigins: string[];
+  };
   appLinks?: Partial<Record<ENVIRONMENT, AppLinks>>;
 };
 
