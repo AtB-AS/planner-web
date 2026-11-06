@@ -5,11 +5,20 @@ as atb.no. It doesn't use React or the web app's `Search` component.
 
 ## Autocomplete
 
-Leaving a field (blur or Escape) after typing, without choosing a suggestion,
-picks the first suggestion. This differs from the web app on purpose: typed text
-must be carried over to the planner, using the first suggestion if none is
-selected (https://github.com/AtB-AS/kundevendt/issues/20821). Don't flag it as a
-bug.
+Leaving a field (blur) after typing, without choosing a suggestion, picks the
+suggestion highlighted with the arrow keys, or else the first one. This differs
+from the web app on purpose: typed text must be carried over to the planner,
+using the first suggestion if none is selected
+(https://github.com/AtB-AS/kundevendt/issues/20821). Don't flag it as a bug.
+
+If no suggestion matches (no results, none yet, suggestions for older text, or
+the text was cleared), the text is kept and the selection is cleared. Only
+selected places are sent to the planner, so this stops a place the field no
+longer shows from being searched for.
+
+Escape only closes the list. It never picks a suggestion, not even a highlighted
+one. Leaving the field afterwards follows the rules above, and since the list is
+closed, no suggestion matches.
 
 ### Decisions already made
 

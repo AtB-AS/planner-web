@@ -402,13 +402,13 @@ function createOutput(
       };
 
       function toggleList(show?: boolean) {
-        const locationLi = createLocationItem();
         if (!show) {
           list.innerHTML = '';
+          listQuery = null;
           combobox.clearSelection();
           combobox.stop();
         } else {
-          list.appendChild(locationLi);
+          list.appendChild(createLocationItem());
           combobox.start();
         }
         list.hidden = !show;
@@ -424,19 +424,56 @@ function createOutput(
 
       let isDirty = false;
 
-      function selectFirstItem() {
-        if (isDirty && list && !list.hidden && input.value.trim() !== '') {
-          const firstItem = list.firstElementChild;
+      // Tells the form which place this field now holds.
+      function emitSelected(item?: GeocoderFeature) {
+        document.dispatchEvent(
+          new CustomEvent('search-selected', {
+            bubbles: true,
+            detail: {
+              key: input.name,
+              item,
+            },
+          }),
+        );
+      }
 
-          // Only auto-select actual search results, never the geolocation item.
-          if (firstItem?.hasAttribute('data-feature-id')) {
-            firstItem.dispatchEvent(
-              new CustomEvent('combobox-commit', {
-                bubbles: true,
-              }),
-            );
-          }
+      // The text the suggestions in the list were fetched for. The user can
+      // keep typing before the next search runs, so the list can hold
+      // suggestions for older text.
+      let listQuery: string | null = null;
+
+      // Called when the user leaves the field (blur). Picks the suggestion
+      // highlighted with the arrow keys, otherwise the first one.
+      function selectOnLeave() {
+        if (!isDirty) return;
+
+        const highlighted = list.querySelector('[aria-selected="true"]');
+        const item = highlighted?.hasAttribute('data-feature-id')
+          ? highlighted
+          : list.firstElementChild;
+
+        // Only auto-select actual search results for the current text, never
+        // the geolocation item or suggestions for older text.
+        const text = input.value.trim();
+        if (
+          !list.hidden &&
+          text !== '' &&
+          listQuery === text &&
+          item?.hasAttribute('data-feature-id')
+        ) {
+          item.dispatchEvent(
+            new CustomEvent('combobox-commit', {
+              bubbles: true,
+            }),
+          );
+          return;
         }
+
+        // No suggestion matches the text (no results, none yet, suggestions
+        // for older text, or the text was cleared). Keep the text, but clear
+        // the selection so a place the field no longer shows isn't searched
+        // for.
+        emitSelected(undefined);
       }
 
       // The search request in flight. It's aborted whenever the text changes
@@ -453,8 +490,10 @@ function createOutput(
 
       const fetcher = debounce(async (input: HTMLInputElement) => {
         abortSearch();
-        if (!input.value.trim()) {
+        const query = input.value.trim();
+        if (!query) {
           list.innerHTML = '';
+          listQuery = null;
           // Don't show the list if the input is not focused.
           if (document.activeElement === input) toggleList(true);
           return;
@@ -463,11 +502,7 @@ function createOutput(
         const controller = new AbortController();
         searchController = controller;
         try {
-          const data = await autocomplete(
-            URL_BASE,
-            input.value,
-            controller.signal,
-          );
+          const data = await autocomplete(URL_BASE, query, controller.signal);
           if (controller.signal.aborted) return;
           // Don't reopen the list if the input lost focus while fetching.
           if (document.activeElement !== input) return;
@@ -482,6 +517,7 @@ function createOutput(
             list.appendChild(li);
           }
           toggleList(true);
+          listQuery = query;
         } catch (e) {
           if (controller.signal.aborted) return;
           // Don't reopen the list if the input lost focus while fetching.
@@ -491,8 +527,8 @@ function createOutput(
       }, debounceTime);
 
       input.addEventListener('keydown', (event) => {
+        // Escape only closes the list. It never picks a suggestion.
         if (event.key === 'Escape') {
-          selectFirstItem();
           abortSearch();
           toggleList(false);
         }
@@ -513,7 +549,7 @@ function createOutput(
         }
       });
       input.addEventListener('blur', () => {
-        selectFirstItem();
+        selectOnLeave();
         abortSearch();
         toggleList(false);
       });
@@ -534,19 +570,10 @@ function createOutput(
         try {
           const item = await getGeolocation(URL_BASE, texts);
 
-          const input = self.parentElement?.querySelector('input');
-          if (input) {
-            input.value = item ? `${item.name}` : input.value;
+          if (item) {
+            input.value = `${item.name}`;
           }
-          document.dispatchEvent(
-            new CustomEvent('search-selected', {
-              bubbles: true,
-              detail: {
-                key: 'from',
-                item,
-              },
-            }),
-          );
+          emitSelected(item);
         } catch (e) {
           if (e instanceof Error) {
             document.dispatchEvent(
@@ -577,15 +604,7 @@ function createOutput(
         }
         input.value = newValue;
         isDirty = false;
-        document.dispatchEvent(
-          new CustomEvent('search-selected', {
-            bubbles: true,
-            detail: {
-              key: input.name,
-              item,
-            },
-          }),
-        );
+        emitSelected(item);
 
         list.hidden = true;
         combobox.clearSelection();

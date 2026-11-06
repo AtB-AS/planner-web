@@ -39,11 +39,17 @@ type PendingRequest = {
 
 let requests: PendingRequest[] = [];
 let selected: Array<GeocoderFeature | undefined> = [];
+// Which field each selection was for ("from" or "to").
+let selectedKeys: string[] = [];
 let output: string;
 
 function onSearchSelected(event: Event) {
-  const { detail } = event as CustomEvent<{ item?: GeocoderFeature }>;
+  const { detail } = event as CustomEvent<{
+    key: string;
+    item?: GeocoderFeature;
+  }>;
   selected.push(detail.item);
+  selectedKeys.push(detail.key);
 }
 
 // Each autocomplete request stays pending until the test responds to it, so
@@ -145,6 +151,7 @@ describe('widget autocomplete', () => {
     });
     requests = [];
     selected = [];
+    selectedKeys = [];
     // Mounting the markup again gives each test fresh autocomplete elements.
     // happy-dom runs connectedCallback before the children are parsed when
     // setting innerHTML on a connected element, so parse it detached first.
@@ -382,9 +389,7 @@ describe('widget autocomplete', () => {
     ).not.toBeNull();
   });
 
-  // Escape works like blur: after typing, it picks the first suggestion
-  // (kundevendt#20821: "Use the first suggestion from the AutoComplete if
-  // none is selected").
+  // Escape only closes the list. It never picks a suggestion.
   describe('Escape', () => {
     function pressEscape(input: HTMLInputElement) {
       input.dispatchEvent(
@@ -392,7 +397,7 @@ describe('widget autocomplete', () => {
       );
     }
 
-    it('picks the first suggestion after typing (kundevendt#20821)', async () => {
+    it('closes the list without picking a suggestion after typing', async () => {
       const input = getInput();
       input.focus();
       type(input, 'Lerk');
@@ -402,9 +407,26 @@ describe('widget autocomplete', () => {
       pressEscape(input);
       await flush();
 
-      expect(input.value).toBe('Lerkendal');
-      expect(selected).toEqual([lerkendal]);
+      expect(input.value).toBe('Lerk');
+      expect(selected).toEqual([]);
       expect(getList().hidden).toBe(true);
+    });
+
+    it('leaving the field afterwards does not pick the closed suggestions', async () => {
+      const input = getInput();
+      input.focus();
+      type(input, 'Lerk');
+      await waitForDebounce();
+      await respond('Lerk', [lerkendal]);
+
+      pressEscape(input);
+      input.blur();
+      await flush();
+
+      // No suggestion matches any more, so the text is kept and the selection
+      // cleared.
+      expect(input.value).toBe('Lerk');
+      expect(selected).toEqual([undefined]);
     });
 
     it('never picks "Use my location" (#839)', async () => {
@@ -564,13 +586,152 @@ describe('widget autocomplete', () => {
     });
   });
 
-  // The it.fails tests below describe the expected behaviour and fail on the
-  // current code. Change them to `it` once the fix is in.
+  describe('picks the suggestion highlighted with the arrow keys', () => {
+    function press(input: HTMLInputElement, key: string) {
+      input.dispatchEvent(new KeyboardEvent('keydown', { key, bubbles: true }));
+    }
 
-  it.fails(
-    'does not pick a suggestion for older text when leaving the field quickly',
-    async () => {
+    let offsetWidth: { mockRestore: () => void };
+
+    beforeEach(() => {
+      // combobox-nav skips options without a size, and happy-dom has no
+      // layout.
+      offsetWidth = vi
+        .spyOn(HTMLElement.prototype, 'offsetWidth', 'get')
+        .mockReturnValue(100);
+    });
+
+    afterEach(() => {
+      offsetWidth.mockRestore();
+    });
+
+    async function highlightSecond(input: HTMLInputElement) {
+      input.focus();
+      type(input, 'Mo');
+      await waitForDebounce();
+      await respond('Mo', [moa, moholt]);
+      press(input, 'ArrowDown');
+      press(input, 'ArrowDown');
+      expect(getList().querySelector('[aria-selected="true"]')).toHaveAttribute(
+        'data-feature-id',
+        moholt.id,
+      );
+    }
+
+    it('when leaving the field', async () => {
       const input = getInput();
+      await highlightSecond(input);
+
+      input.blur();
+      await flush();
+
+      expect(input.value).toBe('Moholt');
+      expect(selected).toEqual([moholt]);
+    });
+
+    it('but not when pressing Escape', async () => {
+      const input = getInput();
+      await highlightSecond(input);
+
+      press(input, 'Escape');
+      await flush();
+
+      expect(input.value).toBe('Mo');
+      expect(selected).toEqual([]);
+    });
+  });
+
+  it('ignores spaces around the text when matching the suggestions', async () => {
+    const input = getInput();
+    input.focus();
+    type(input, 'Moa');
+    await waitForDebounce();
+    await respond('Moa', [moa]);
+
+    // A trailing space doesn't make the suggestions out of date.
+    type(input, 'Moa ');
+    input.blur();
+    await flush();
+
+    expect(selected).toEqual([moa]);
+  });
+
+  it('sets "Use my location" on the field it was chosen in', async () => {
+    const location = feature('location', 'Min posisjon');
+    getCurrentPositionMock.mockImplementationOnce((success: PositionCallback) =>
+      success({
+        coords: { latitude: 63.4, longitude: 10.4 },
+      } as GeolocationPosition),
+    );
+
+    const toInput = document.querySelector<HTMLInputElement>('#pw-to-1-input')!;
+    toInput.focus();
+    document.querySelector<HTMLElement>('#to-popup-1 .itemLocation')!.click();
+    await flush();
+
+    // The reverse lookup of the position.
+    const reverse = requests.find((r) => r.url.includes('/reverse'))!;
+    reverse.resolve(location as unknown as GeocoderFeature[]);
+    await flush();
+
+    expect(toInput.value).toBe('Min posisjon');
+    expect(selected.at(-1)).toEqual(location);
+    expect(selectedKeys).not.toContain('from');
+  });
+
+  describe('keeps the text but clears the selection when no suggestion matches', () => {
+    async function selectOsloS(input: HTMLInputElement) {
+      await typeAndLeave(input, 'Oslo', [osloS]);
+      expect(selected.at(-1)).toEqual(osloS);
+      selected = [];
+    }
+
+    it('when the text has no results', async () => {
+      const input = getInput();
+      await selectOsloS(input);
+
+      input.focus();
+      type(input, 'xyzzy');
+      await waitForDebounce();
+      await respond('xyzzy', []);
+      input.blur();
+      await flush();
+
+      expect(input.value).toBe('xyzzy');
+      expect(selected).toEqual([undefined]);
+    });
+
+    it('when leaving before the suggestions have arrived', async () => {
+      const input = getInput();
+      await selectOsloS(input);
+
+      input.focus();
+      type(input, 'Lerk');
+      input.blur();
+      await flush();
+
+      expect(input.value).toBe('Lerk');
+      expect(selected).toEqual([undefined]);
+      expect(getCurrentPositionMock).not.toHaveBeenCalled();
+    });
+
+    it('when the text was cleared', async () => {
+      const input = getInput();
+      await selectOsloS(input);
+
+      input.focus();
+      type(input, '');
+      input.blur();
+      await flush();
+
+      expect(input.value).toBe('');
+      expect(selected).toEqual([undefined]);
+    });
+
+    it('when the list still holds suggestions for older text', async () => {
+      const input = getInput();
+      await selectOsloS(input);
+
       input.focus();
       type(input, 'Mo');
       await waitForDebounce();
@@ -583,23 +744,7 @@ describe('widget autocomplete', () => {
       await flush();
 
       expect(input.value).toBe('Moholt');
-      expect(selected).not.toContainEqual(moa);
-    },
-  );
-
-  it.fails('clears the selection when the text has no results', async () => {
-    const input = getInput();
-    await typeAndLeave(input, 'Oslo', [osloS]);
-    expect(selected.at(-1)).toEqual(osloS);
-
-    input.focus();
-    type(input, 'xyzzy');
-    await waitForDebounce();
-    await respond('xyzzy', []);
-    input.blur();
-    await flush();
-
-    expect(input.value).toBe('xyzzy');
-    expect(selected.at(-1)).toBeUndefined();
+      expect(selected).toEqual([undefined]);
+    });
   });
 });
