@@ -124,6 +124,7 @@ function init() {
       )
       .forEach((input) => {
         input.value = '';
+        delete input.dataset.selectedName;
       });
   });
 
@@ -338,10 +339,18 @@ function createOutput(
       button.addEventListener('click', async () => {
         MessageBox.clearMessageBox();
         const searchInputs = document.getElementsByClassName(
-          'widget-module__search_input',
+          style.search_input,
         );
         const [input1, input2] = Array.from(searchInputs) as HTMLInputElement[];
         [input1.value, input2.value] = [input2.value, input1.value];
+        // Move each field's selected place with its text, so the fields know
+        // whether their text has been edited.
+        const [name1, name2] = [
+          input1.dataset.selectedName,
+          input2.dataset.selectedName,
+        ];
+        setSelectedName(input1, name2);
+        setSelectedName(input2, name1);
 
         document.dispatchEvent(new CustomEvent('swap-selected'));
       });
@@ -422,10 +431,17 @@ function createOutput(
         toggleList(true);
       }
 
-      let isDirty = false;
+      // The text has been edited since a place was selected, i.e. it isn't
+      // the selected place's name. Worked out from the text instead of kept
+      // as a flag, so it stays right when the text is changed from code
+      // (swap, reset, a failed "Use my location").
+      function isDirty() {
+        return input.value.trim() !== (input.dataset.selectedName ?? '');
+      }
 
       // Tells the form which place this field now holds.
       function emitSelected(item?: GeocoderFeature) {
+        setSelectedName(input, item?.name);
         document.dispatchEvent(
           new CustomEvent('search-selected', {
             bubbles: true,
@@ -445,7 +461,7 @@ function createOutput(
       // Called when the user leaves the field (blur). Picks the suggestion
       // highlighted with the arrow keys, otherwise the first one.
       function selectOnLeave() {
-        if (!isDirty) return;
+        if (!isDirty()) return;
 
         const highlighted = list.querySelector('[aria-selected="true"]');
         const item = highlighted?.hasAttribute('data-feature-id')
@@ -534,7 +550,6 @@ function createOutput(
         }
       });
       input.addEventListener('input', (e) => {
-        isDirty = true;
         abortSearch();
         fetcher(e.target as HTMLInputElement);
       });
@@ -542,7 +557,7 @@ function createOutput(
       input.addEventListener('focus', () => {
         if (input.value.trim() === '') {
           toggleList(true);
-        } else if (isDirty) {
+        } else if (isDirty()) {
           // Only search again if the text has changed since a place was
           // selected. Like the web app, focusing a selected place opens nothing.
           fetcher(input);
@@ -603,7 +618,6 @@ function createOutput(
           newValue = `${item.name}`;
         }
         input.value = newValue;
-        isDirty = false;
         emitSelected(item);
 
         list.hidden = true;
@@ -960,6 +974,16 @@ function tabBar() {
         }),
       );
     });
+}
+
+// The name of the place selected in a search field, stored on the input so
+// swap and reset can move or clear it along with the text.
+function setSelectedName(input: HTMLInputElement, name?: string) {
+  if (name) {
+    input.dataset.selectedName = name.trim();
+  } else {
+    delete input.dataset.selectedName;
+  }
 }
 
 function debounce(func: Function, wait: number) {

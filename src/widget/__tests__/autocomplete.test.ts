@@ -656,6 +656,72 @@ describe('widget autocomplete', () => {
     expect(selected).toEqual([moa]);
   });
 
+  describe('knows whether a field has been edited after the text changes from code', () => {
+    function getToInput() {
+      return document.querySelector<HTMLInputElement>('#pw-to-1-input')!;
+    }
+
+    it('after swapping the fields', async () => {
+      const from = getInput();
+      const to = getToInput();
+
+      // From holds a selected place, To holds typed text that wasn't resolved.
+      await typeAndLeave(from, 'Moho', [moholt]);
+      to.focus();
+      type(to, 'Lerk');
+      to.blur();
+      await flush();
+
+      document.querySelector<HTMLElement>('pw-swapbutton button')!.click();
+      expect(from.value).toBe('Lerk');
+      expect(to.value).toBe('Moholt');
+      fetchMock.mockClear();
+      selected = [];
+
+      // From now holds the unresolved text, so focusing it searches again.
+      from.focus();
+      await waitForDebounce();
+      expect(requestFor('Lerk')).toBeDefined();
+      from.blur();
+      await flush();
+
+      // To now holds the selected place, so focusing and leaving it changes
+      // nothing.
+      fetchMock.mockClear();
+      selectedKeys = [];
+      to.focus();
+      await waitForDebounce();
+      to.blur();
+      await flush();
+      expect(fetchMock).not.toHaveBeenCalled();
+      expect(selectedKeys).not.toContain('to');
+    });
+
+    it('after "Use my location" fails', async () => {
+      getCurrentPositionMock.mockImplementationOnce(
+        (_success: PositionCallback, error: PositionErrorCallback) =>
+          error({ code: 1 } as GeolocationPositionError),
+      );
+      const input = getInput();
+      input.focus();
+      type(input, 'Moa');
+      await waitForDebounce();
+      await respond('Moa', [moa]);
+
+      getList().querySelector<HTMLElement>('.itemLocation')!.click();
+      await flush();
+      expect(input.value).toBe('Moa');
+
+      // The text was never resolved, so focusing the field searches again.
+      input.blur();
+      await flush();
+      fetchMock.mockClear();
+      input.focus();
+      await waitForDebounce();
+      expect(requestFor('Moa')).toBeDefined();
+    });
+  });
+
   it('sets "Use my location" on the field it was chosen in', async () => {
     const location = feature('location', 'Min posisjon');
     getCurrentPositionMock.mockImplementationOnce((success: PositionCallback) =>

@@ -34,7 +34,18 @@ Don't suggest changing these in reviews:
   and at the start of a search). Some calls overlap. That's intended, so each
   handler is safe on its own. Don't suggest removing the "redundant" calls.
 - The outside-click handler does nothing while the input has focus, so clicking
-  the field's label keeps the list open.
+  the field's label keeps the list open. Clicks elsewhere move focus away, so
+  blur closes the list. Don't flag host pages that block `mousedown` as a case
+  where the list stays open.
+- Pressing Enter without a highlighted suggestion submits the form as it is. The
+  typed text isn't resolved first, so the previous selection (or none) is sent.
+  This is intended; don't flag it or suggest resolving the text on Enter or
+  submit.
+- Whether a field has been edited is worked out by comparing its text with the
+  selected place's name (`data-selected-name` on the input), not kept as a flag.
+  Swap and reset move or clear that name with the text. Don't suggest an
+  `isDirty` flag instead; it went out of step whenever the text changed from
+  code.
 - Focusing a field that holds a selected place opens nothing and sends no
   search, like the web app. "Use my location" is reached by clearing the text.
   Don't suggest opening the list on focus.
