@@ -139,6 +139,19 @@
           },
           "type": "object"
         },
+        "embed": {
+          "additionalProperties": false,
+          "properties": {
+            "allowedOrigins": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "required": ["allowedOrigins"],
+          "type": "object"
+        },
         "appLinks": {
           "additionalProperties": false,
           "properties": {
