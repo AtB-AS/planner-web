@@ -31,10 +31,7 @@ vi.mock('@atb/modules/org-data', async (importOriginal) => {
     ...actual,
     getOrgData: () => ({
       ...orgData,
-      featureConfig: {
-        ...orgData.featureConfig,
-        enabledLanguages: undefined, // enable all languages for the test org
-      },
+      enabledLanguages: undefined, // enable all languages for the test org
     }),
   };
 });

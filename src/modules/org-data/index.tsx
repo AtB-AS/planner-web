@@ -29,6 +29,7 @@ export type OrgData = {
   orgId: WEBSHOP_ORGS;
   authorityId: string;
   supportEmail: string;
+  enabledLanguages?: Language[];
 
   fylkeskommune?: {
     name: string;
@@ -41,7 +42,6 @@ export type OrgData = {
     forceTheme?: 'light' | 'dark';
     enableShowTripPatternPrice: boolean;
     disableBoatComboPriceSearch?: boolean;
-    enabledLanguages?: Language[];
   };
 
   urls: {

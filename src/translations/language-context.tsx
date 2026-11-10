@@ -17,7 +17,7 @@ export const lobot = initLobot<typeof Language>(DEFAULT_LANGUAGE);
 
 export const useTranslation = lobot.useTranslation;
 
-const { enabledLanguages } = getOrgData().featureConfig;
+const { enabledLanguages } = getOrgData();
 // The default language is always enabled, regardless of org config.
 const languages = appLanguages.filter(
   (l) =>
