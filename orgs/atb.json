@@ -13,7 +13,8 @@
 
   "featureConfig": {
     "enableShowTripPatternPrice": true,
-    "disableBoatComboPriceSearch": true
+    "disableBoatComboPriceSearch": true,
+    "enabledLanguages": ["no", "en-US"]
   },
 
   "urls": {

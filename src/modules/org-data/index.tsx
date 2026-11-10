@@ -41,6 +41,7 @@ export type OrgData = {
     forceTheme?: 'light' | 'dark';
     enableShowTripPatternPrice: boolean;
     disableBoatComboPriceSearch?: boolean;
+    enabledLanguages?: Language[];
   };
 
   urls: {

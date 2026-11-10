@@ -24,6 +24,21 @@ vi.stubEnv('NEXT_PUBLIC_FIREBASE_APP_ID', 'aaaaaaaaaaaaaaaaaaaaaaa');
 vi.stubEnv('NEXT_PUBLIC_BFF_URL', 'https://test.api.mittatb.no');
 vi.stubEnv('NEXT_PUBLIC_WS_API_BASE_URL', 'wss://test.api.mittatb.no');
 
+vi.mock('@atb/modules/org-data', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@atb/modules/org-data')>();
+  const orgData = actual.getOrgData();
+  return {
+    ...actual,
+    getOrgData: () => ({
+      ...orgData,
+      featureConfig: {
+        ...orgData.featureConfig,
+        enabledLanguages: undefined, // enable all languages for the test org
+      },
+    }),
+  };
+});
+
 // The test environment has no working WebSocket implementation.
 vi.stubGlobal(
   'WebSocket',

@@ -33,6 +33,10 @@
             },
             "enableShowTripPatternPrice": {
               "type": "boolean"
+            },
+            "enabledLanguages": {
+              "type": "array",
+              "items": { "enum": ["no", "en-US", "nn"] }
             }
           },
           "required": ["enableShowTripPatternPrice"]

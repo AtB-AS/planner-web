@@ -1,4 +1,5 @@
 import { useLanguageCookie } from '@atb/modules/cookies';
+import { getOrgData } from '@atb/modules/org-data';
 import { Language } from '@atb/translations';
 import { appLanguages, DEFAULT_LANGUAGE } from '@atb/translations/commons';
 import { initLobot } from '@leile/lobo-t';
@@ -15,6 +16,13 @@ import {
 export const lobot = initLobot<typeof Language>(DEFAULT_LANGUAGE);
 
 export const useTranslation = lobot.useTranslation;
+
+const { enabledLanguages } = getOrgData().featureConfig;
+// The default language is always enabled, regardless of org config.
+const languages = appLanguages.filter(
+  (l) =>
+    l === DEFAULT_LANGUAGE || !enabledLanguages || enabledLanguages.includes(l),
+);
 
 function useSelectedLanguage(
   onServerside: Language,
@@ -37,16 +45,7 @@ function useSelectedLanguage(
 }
 
 function mapLanguageStringToEnum(language: string | undefined): Language {
-  if (language == Language.English) {
-    return Language.English;
-  }
-  if (language == Language.Norwegian) {
-    return Language.Norwegian;
-  }
-  if (language == Language.Nynorsk) {
-    return Language.Nynorsk;
-  }
-  return DEFAULT_LANGUAGE;
+  return languages.find((l) => l === language) ?? DEFAULT_LANGUAGE;
 }
 
 type LanguageState = {
@@ -58,7 +57,7 @@ type LanguageState = {
 const LanguageContext = createContext<LanguageState>({
   setLanguage() {},
   language: DEFAULT_LANGUAGE,
-  languages: appLanguages,
+  languages,
 });
 
 export type AppLanguageProviderProps = PropsWithChildren<{
@@ -72,9 +71,7 @@ export default function AppLanguageProvider({
   const [language, setLanguage] = useSelectedLanguage(fromHeaders);
 
   return (
-    <LanguageContext.Provider
-      value={{ setLanguage, language, languages: appLanguages }}
-    >
+    <LanguageContext.Provider value={{ setLanguage, language, languages }}>
       <lobot.LanguageProvider value={language}>
         {children}
       </lobot.LanguageProvider>
@@ -88,7 +85,7 @@ export function useLanguageSettings() {
     return {
       setLanguage() {},
       language: DEFAULT_LANGUAGE,
-      languages: appLanguages,
+      languages,
     };
   }
   return context;
@@ -97,7 +94,7 @@ export function useLanguageSettings() {
 export function getLocalesFromAcceptLanguage(headerStr: string) {
   const preferred =
     headerStr?.split(',').map((type) => type.split(';')[0].trim()) ?? [];
-  const selected = detectNearestLocale(appLanguages, preferred);
+  const selected = detectNearestLocale(languages, preferred);
   return mapLanguageStringToEnum(selected);
 }
 
@@ -114,7 +111,7 @@ function usePreferredBrowserLanguage(onServerside: Language) {
   useEffect(
     function () {
       if (typeof window === 'undefined') return;
-      const defaultLocale = detectNearestBrowserLocale(appLanguages);
+      const defaultLocale = detectNearestBrowserLocale(languages);
       const selectedLanguage = mapLanguageStringToEnum(defaultLocale);
 
       setPreferredLanguage(selectedLanguage);
