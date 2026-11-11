@@ -1,6 +1,8 @@
 import { resolve } from 'path';
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
+import postcss from 'postcss';
+import postcssrc from 'postcss-load-config';
 import { compressToEncodedURIComponent } from 'lz-string';
 
 import { version } from '../../package.json';
@@ -11,6 +13,54 @@ if (!orgId) {
   throw new Error('Missing env NEXT_PUBLIC_PLANNER_ORG_ID');
 }
 const compressedOrgId = compressToEncodedURIComponent(orgId);
+
+const ROOT_DIR = resolve(__dirname, '../..');
+const CSS_FILE_NAME = 'planner-web.css';
+// `token(` as a function call, not as the end of another name like `my-token(`.
+const UNPROCESSED_TOKEN = /(^|[^\w-])token\(/;
+
+/**
+ * Runs the project's PostCSS config once more on the bundled CSS.
+ *
+ * The widget uses `composes` to reuse CSS modules from the web app. Those files
+ * are loaded by the CSS modules handling and skip the PostCSS plugins, so e.g.
+ * `token()` from them is still unprocessed in the bundle.
+ */
+function bundledCssPostcssPass() {
+  return {
+    name: 'widget-bundled-css-postcss-pass',
+    apply: 'build',
+    // The CSS is only added to the bundle by Vite's own (later) plugins.
+    enforce: 'post',
+    async generateBundle(_, bundle) {
+      const css = bundle[CSS_FILE_NAME];
+      if (css?.type !== 'asset') {
+        this.error(`Missing ${CSS_FILE_NAME} in the widget bundle`);
+      }
+
+      const source =
+        typeof css.source === 'string'
+          ? css.source
+          : new TextDecoder().decode(css.source);
+
+      const { plugins, options } = await postcssrc({}, ROOT_DIR);
+      const result = await postcss(plugins).process(source, {
+        ...options,
+        // A path inside the project, so plugins like autoprefixer find the
+        // same browserslist config as in the first pass.
+        from: resolve(__dirname, CSS_FILE_NAME),
+      });
+
+      for (const warning of result.warnings()) {
+        this.warn(warning.toString());
+      }
+      if (UNPROCESSED_TOKEN.test(result.css)) {
+        this.error(`Unprocessed token() in ${CSS_FILE_NAME}`);
+      }
+      css.source = result.css;
+    },
+  };
+}
 
 export default defineConfig({
   resolve: {
@@ -35,6 +85,7 @@ export default defineConfig({
       ],
       rollupTypes: true,
     }),
+    bundledCssPostcssPass(),
   ],
   define: {
     'process.env': {
@@ -58,7 +109,7 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: undefined,
-        assetFileNames: `planner-web.css`,
+        assetFileNames: CSS_FILE_NAME,
       },
     },
   },
