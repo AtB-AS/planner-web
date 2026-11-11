@@ -28,6 +28,7 @@
     "prestart": "pnpm generate",
     "predev": "pnpm generate",
     "generate-widget": "dotenv -e .env.local -- sh ./scripts/build-widget.sh",
+    "generate-widget-next": "dotenv -e .env.local -- bash ./scripts/build-widget-next.sh",
     "generate-all-widgets": "sh ./scripts/build-all-widgets.sh",
     "screenshot-widgets": "sh ./scripts/screenshot-widgets.sh",
     "size:widget": "sh ./scripts/build-widget-size.sh && size-limit",

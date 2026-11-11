@@ -12,6 +12,8 @@ if (!orgId) {
 }
 const compressedOrgId = compressToEncodedURIComponent(orgId);
 
+const widgetVersion = process.env.WIDGET_VERSION || version;
+
 export default defineConfig({
   resolve: {
     alias: {
@@ -38,7 +40,7 @@ export default defineConfig({
   ],
   define: {
     'process.env': {
-      MODULE_VERSION: version,
+      MODULE_VERSION: widgetVersion,
       COMPRESSED_ORG: compressedOrgId,
       ORG_ID: orgId,
     },
@@ -53,7 +55,7 @@ export default defineConfig({
     },
     outDir: resolve(
       __dirname,
-      `../../public/widget/${compressedOrgId}/${version}`,
+      `../../public/widget/${compressedOrgId}/${widgetVersion}`,
     ),
     rollupOptions: {
       output: {

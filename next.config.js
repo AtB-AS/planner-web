@@ -1,7 +1,27 @@
 /** @type {import('next').NextConfig} */
 const { version } = require('./package.json');
 
+const { existsSync } = require('fs');
+const { join } = require('path');
+const { compressToEncodedURIComponent } = require('lz-string');
+
 const orgId = process.env.NEXT_PUBLIC_PLANNER_ORG_ID;
+
+/**
+ * Whether the unreleased `next` widget (scripts/build-widget-next.sh) was built
+ * before this build. Read at build time, as it is never built for production.
+ */
+function hasNextWidget() {
+  if (!orgId) return false;
+  return existsSync(
+    join(
+      __dirname,
+      'public/widget',
+      compressToEncodedURIComponent(orgId),
+      'next/planner-web.umd.js',
+    ),
+  );
+}
 
 /** Sites allowed to show /embed pages in an iframe. */
 function getEmbedFrameAncestors() {
@@ -19,7 +39,10 @@ function getEmbedFrameAncestors() {
  */
 const nextConfig = {
   output: 'standalone',
-  env: { PLANNER_WEB_VERSION: version },
+  env: {
+    PLANNER_WEB_VERSION: version,
+    WIDGET_NEXT_AVAILABLE: hasNextWidget() ? 'true' : '',
+  },
   transpilePackages: ['@atb-as/mapbox-shared', '@mrfylke/contact-form'],
   // Emit source maps for the server build so production stack traces resolve to original TypeScript
   experimental: { serverSourceMaps: true },
@@ -36,6 +59,12 @@ const nextConfig = {
                 : 'no-cache',
           },
         ],
+      },
+      // The `next` widget is rebuilt on every deploy under the same URL, so it
+      // must not be cached. Has to come after the rule above to override it.
+      {
+        source: '/widget/:org/next/:path*',
+        headers: [{ key: 'Cache-Control', value: 'no-cache' }],
       },
       {
         source: '/embed/:path+',
