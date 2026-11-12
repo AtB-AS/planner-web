@@ -37,8 +37,7 @@ import {
 } from '@atb/page-modules/departures/journey-gql/nearest-stop-places.generated.ts';
 import { SituationFragment } from '@atb/page-modules/assistant/journey-gql/trip-with-details.generated.ts';
 import { getSecondsUntilMidnight } from '@atb/utils/date';
-
-const NUMBER_OF_DEPARTURES = 7;
+import { NUMBER_OF_DEPARTURES } from '@atb/page-modules/departures/utils';
 
 export type DepartureInput = {
   id: string;

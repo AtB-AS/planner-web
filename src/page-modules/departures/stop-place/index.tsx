@@ -47,8 +47,7 @@ import {
 import { SearchTime, searchTimeToQueryString } from '@atb/modules/search-time';
 import { DatePagination } from './date-pagination';
 import { MessageBox } from '@atb/components/message-box';
-
-const NUMBER_OF_DEPARTURES = 7;
+import { NUMBER_OF_DEPARTURES } from '@atb/page-modules/departures/utils';
 
 export type StopPlaceProps = {
   departures: ExtendedDeparturesType;
