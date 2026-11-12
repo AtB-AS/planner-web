@@ -2,6 +2,8 @@ import { FromDepartureQuery } from './types';
 import { searchTimeToQueryString } from '@atb/modules/search-time';
 import { ParsedUrlQueryInput } from 'querystring';
 
+export const NUMBER_OF_DEPARTURES = 5;
+
 export function createFromQuery(tripQuery: FromDepartureQuery): {
   pathname: string;
   query: ParsedUrlQueryInput;
