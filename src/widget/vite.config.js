@@ -14,7 +14,6 @@ if (!orgId) {
 }
 const compressedOrgId = compressToEncodedURIComponent(orgId);
 
-
 const widgetVersion = process.env.WIDGET_VERSION || version;
 const ROOT_DIR = resolve(__dirname, '../..');
 const CSS_FILE_NAME = 'planner-web.css';
