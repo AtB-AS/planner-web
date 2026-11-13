@@ -15,7 +15,7 @@ echo "Running pnpm setup && pnpm build for $NEXT_PUBLIC_PLANNER_ORG_ID"
 pnpm setup
 
 if [ "$NEXT_PUBLIC_ENVIRONMENT" != "prod" ]; then
-  bash ./scripts/build-widget-next.sh
+  sh ./scripts/build-widget-next.sh
 fi
 
 pnpm build
