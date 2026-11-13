@@ -23,10 +23,6 @@ for ORG_FILE in orgs/*.json; do
   echo "Building widget for $ORG_ID"
   NEXT_PUBLIC_PLANNER_ORG_ID=$ORG_ID pnpm vite build ./src/widget \
     --outDir "$BUILD_DIR/$ORG_ID" --emptyOutDir
-
-  # Same PostCSS workaround as in build-widget.sh
-  npx postcss --config . "$BUILD_DIR/$ORG_ID/planner-web.css" \
-    -o "$BUILD_DIR/$ORG_ID/planner-web.css"
 done
 
 rm -rf widget-screenshots

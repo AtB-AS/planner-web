@@ -76,7 +76,7 @@ type JourneyModes = {
 const { journeyApiConfigurations } = getOrgData();
 
 const DEFAULT_JOURNEY_CONFIG = {
-  numTripPatterns: 8, // The maximum number of trip patterns to return.
+  numTripPatterns: 5, // The maximum number of trip patterns to return.
   waitReluctance: journeyApiConfigurations.waitReluctance ?? 1, // Setting this to a value lower than 1 indicates that waiting is better than staying on a vehicle.
   walkReluctance: journeyApiConfigurations.walkingReluctance ?? 4, // This is the main parameter to use for limiting walking.
   transferPenalty: journeyApiConfigurations.transferPenalty ?? 10, // An extra penalty added on transfers (i.e. all boardings except the first one)
