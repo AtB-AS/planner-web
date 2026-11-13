@@ -50,6 +50,10 @@
         "supportEmail": {
           "type": "string"
         },
+        "enabledLanguages": {
+          "type": "array",
+          "items": { "enum": ["no", "en-US", "nn"] }
+        },
         "urls": {
           "additionalProperties": false,
           "properties": {

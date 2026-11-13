@@ -4,6 +4,7 @@
   "authorityId": "ATB:Authority:2",
 
   "supportEmail": "kundeservice@atb.no",
+  "enabledLanguages": ["no", "en-US"],
 
   "fylkeskommune": {
     "logoSrc": "/trl_fylkeskommune.svg",
