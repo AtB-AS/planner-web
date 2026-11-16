@@ -38,7 +38,9 @@ for ORG_DIR in "$BASE_DIR"/*/; do
     fi
   done
 
-  PREVIOUS=$(ls "$ORG_DIR" | grep -vxF "$VERSION" | sort -V | tail -n 1)
+  # Only released versions, not e.g. the unreleased `next` build
+  PREVIOUS=$(ls "$ORG_DIR" | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' |
+    grep -vxF "$VERSION" | sort -V | tail -n 1)
   if [[ -z "$PREVIOUS" ]]; then
     echo "$ORG_DIR: no previous version"
     CHANGED=true

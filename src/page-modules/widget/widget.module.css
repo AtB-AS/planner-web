@@ -15,6 +15,14 @@
   margin-bottom: token('spacing.medium');
 }
 
+.nextWidgetInfo {
+  margin-top: token('spacing.medium');
+  padding: token('spacing.medium');
+  border-radius: token('border.radius.regular');
+  background-color: token('color.status.info.secondary.background');
+  color: token('color.status.info.secondary.foreground.primary');
+}
+
 .main details summary {
   cursor: pointer;
   margin: token('spacing.medium') 0;

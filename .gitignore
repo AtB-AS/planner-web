@@ -60,6 +60,9 @@ src/components/icon/generated-icons.ts
 # Widget screenshots from `pnpm screenshot-widgets`
 /widget-screenshots/
 
+# Unreleased widget build from `pnpm generate-widget-next`
+/public/widget/*/next/
+
 # Widget build used by `pnpm size:widget`
 /.widget-size/
 

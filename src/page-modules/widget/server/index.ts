@@ -4,7 +4,14 @@ import { compressToEncodedURIComponent } from 'lz-string';
 export type PlannerWidgetData = {
   latest: PlannerModule;
   all: PlannerModule[];
+  /**
+   * Unreleased widget built from the current source. Only in non-production
+   * builds, see scripts/build-widget-next.sh.
+   */
+  next?: UnreleasedPlannerModule;
 };
+
+export type UnreleasedPlannerModule = Pick<PlannerModule, 'version' | 'urls'>;
 
 export type PlannerModule = {
   version: string;
@@ -26,5 +33,17 @@ export async function getWidgetData(): Promise<PlannerWidgetData> {
     `../available-widgets/${compressedOrgId}/manifest.json`
   );
 
-  return data.default as PlannerWidgetData;
+  const widgetData = data.default as PlannerWidgetData;
+  if (!process.env.WIDGET_NEXT_AVAILABLE) return widgetData;
+
+  return { ...widgetData, next: nextWidget };
 }
+
+const nextWidget: UnreleasedPlannerModule = {
+  version: 'next',
+  urls: {
+    umd: `/widget/${compressedOrgId}/next/planner-web.umd.js`,
+    esm: `/widget/${compressedOrgId}/next/planner-web.mjs`,
+    css: `/widget/${compressedOrgId}/next/planner-web.css`,
+  },
+};

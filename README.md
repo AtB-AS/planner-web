@@ -95,10 +95,35 @@ Check that NEXT_PUBLIC_PLANNER_ORG_ID is set in your .env.local file, and run
 pnpm generate-widget
 ```
 
-This will place asset inside `public/widget/<VERSION>` which will be reachable
-through `http://localhost:3000/widget` or
-`http://localhost:3000/widget/<VERSION>` (omitting the version will default to
-the most recent one).
+This will place assets inside `public/widget/<ORG>/<VERSION>`, using the version
+from `package.json`, and add the version to the manifest in
+`src/page-modules/widget/available-widgets`. The widget is then reachable
+through `http://localhost:3000/widget`, or in fullscreen through
+`http://localhost:3000/widget/<VERSION>`.
+
+`/widget` shows the most recent version, unless the unreleased widget has been
+built (see below).
+
+### Testing unreleased widget changes
+
+New widget versions are only generated on the release PR. Until then, the latest
+widget version does not include widget changes merged to `main`, so they can't
+be tested on staging. Staging therefore also has an unreleased widget, built
+from the current code on every deploy:
+
+- `/widget` shows the unreleased widget, with a link to switch to the latest
+  released version.
+- `/widget/next` shows it in fullscreen.
+
+It is built as the version `next` into `public/widget/<ORG>/next`. This folder
+is not checked in, not listed in the manifests and not built for production, so
+`next` should never be used in integrations.
+
+To get it locally, run this and restart `pnpm dev`:
+
+```
+pnpm generate-widget-next
+```
 
 ### Releases and Widget Development
 

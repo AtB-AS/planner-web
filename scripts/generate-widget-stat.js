@@ -45,7 +45,10 @@ async function getExistingCreated(manifestFile) {
 
 async function getWidgetData(existingCreated) {
   const baseUrl = join(process.cwd(), '/public/widget', compressedOrgId);
-  const dirs = await readdir(baseUrl);
+  // Only released versions, not e.g. the unreleased `next` build.
+  const dirs = (await readdir(baseUrl)).filter((dir) =>
+    /^\d+\.\d+\.\d+$/.test(dir),
+  );
 
   // return all files from /public/widget based on dirs
   const allP = dirs.map(async (dir) => {

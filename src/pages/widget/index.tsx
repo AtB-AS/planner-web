@@ -4,6 +4,7 @@ import {
   CopyMarkup,
   CopyMarkupLarge,
   type PlannerWidgetData,
+  type UnreleasedPlannerModule,
 } from '@atb/page-modules/widget';
 import type { NextPage } from 'next';
 import Head from 'next/head';
@@ -20,6 +21,8 @@ import { withAccessLogging } from '@atb/modules/logging';
 
 type WidgetPagePropsContent = {
   data: PlannerWidgetData;
+  /** The widget version shown in the demo. */
+  active: UnreleasedPlannerModule;
 };
 export type WidgetPageProps = WithGlobalData<WidgetPagePropsContent>;
 
@@ -104,7 +107,7 @@ const outputCodeExample2 = html`
   </script>
 `;
 
-const WidgetPage: NextPage<WidgetPageProps> = ({ data, ...props }) => {
+const WidgetPage: NextPage<WidgetPageProps> = ({ data, active, ...props }) => {
   const [isLoaded, setLoaded] = useState(false);
   const [html, setHtml] = useState('');
   const lib = useRef<PlannerWebOutput | null>(null);
@@ -119,10 +122,10 @@ const WidgetPage: NextPage<WidgetPageProps> = ({ data, ...props }) => {
     <DefaultLayout {...props}>
       <Head>
         {/* eslint-disable-next-line @next/next/no-css-tags */}
-        <link rel="stylesheet" href={data.latest.urls.css} />
+        <link rel="stylesheet" href={active.urls.css} />
       </Head>
       <Script
-        src={data.latest.urls.umd}
+        src={active.urls.umd}
         strategy="lazyOnload"
         onLoad={() => {
           setLoaded(true);
@@ -143,6 +146,8 @@ const WidgetPage: NextPage<WidgetPageProps> = ({ data, ...props }) => {
       <main className={style.main}>
         <h1>Widget documentation</h1>
 
+        {data.next && <NextWidgetInfo data={data} active={active} />}
+
         {!isLoaded && <p>Loading...</p>}
 
         {isLoaded && lib.current && (
@@ -155,17 +160,62 @@ const WidgetPage: NextPage<WidgetPageProps> = ({ data, ...props }) => {
 
 export default WidgetPage;
 
+/**
+ * Shows the "next" version by default. On testing envs only if available
+ */
 export const getServerSideProps = withAccessLogging(
-  withGlobalData<WidgetPagePropsContent>(async function () {
+  withGlobalData<WidgetPagePropsContent>(async function ({ query }) {
     const data = await getWidgetData();
+
+    const showNext = data.next && query.version !== RELEASED_QUERY_VALUE;
 
     return {
       props: {
         data,
+        active: showNext && data.next ? data.next : data.latest,
       },
     };
   }),
 );
+
+const RELEASED_QUERY_VALUE = 'released';
+
+/**
+ * Shown where the unreleased `next` widget exists (not in production). Uses
+ * plain links to reload the page, as two widget versions can't be loaded at
+ * the same time.
+ */
+function NextWidgetInfo({
+  data,
+  active,
+}: {
+  data: PlannerWidgetData;
+  active: UnreleasedPlannerModule;
+}) {
+  const isNext = active.version === data.next?.version;
+  const buildId = process.env.NEXT_PUBLIC_BUILD_ID;
+
+  return (
+    <p className={style.nextWidgetInfo}>
+      {isNext ? (
+        <>
+          <strong>Unreleased widget</strong>
+          {buildId ? ` (${buildId.slice(0, 8)})` : ''}.{' '}
+          <a href={`/widget?version=${RELEASED_QUERY_VALUE}`}>
+            Show v{data.latest.version}
+          </a>
+        </>
+      ) : (
+        <>
+          <strong>Released widget v{data.latest.version}</strong>.{' '}
+          {/* Needs a full page load to swap the widget script. */}
+          {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
+          <a href="/widget">Show unreleased</a>
+        </>
+      )}
+    </p>
+  );
+}
 
 function WidgetContent({
   html,
