@@ -14,14 +14,3 @@ fi
 
 echo "Building next widget for $NEXT_PUBLIC_PLANNER_ORG_ID"
 WIDGET_VERSION=next pnpm build:widget
-
-ORG_DIR=$(node -p "require('lz-string').compressToEncodedURIComponent(process.env.NEXT_PUBLIC_PLANNER_ORG_ID)")
-CSS_FILE="public/widget/$ORG_DIR/next/planner-web.css"
-
-# Same PostCSS workaround as in build-widget.sh
-npx postcss --config . "$CSS_FILE" -o "$CSS_FILE"
-
-if grep -q 'token(' "$CSS_FILE"; then
-  echo "Unprocessed token() found in $CSS_FILE"
-  exit 1
-fi
