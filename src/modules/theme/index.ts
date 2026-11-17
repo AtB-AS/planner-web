@@ -1,7 +1,13 @@
-import { createThemesFor, ThemeVariant } from '@atb-as/theme';
+import { createThemesFor } from '@atb-as/theme';
 import { useDarkmodeCookie } from '@atb/modules/cookies';
-import { currentOrg, getOrgData, WEBSHOP_ORGS } from '@atb/modules/org-data';
+import { currentOrg } from '@atb/modules/org-data';
 import { useEffect } from 'react';
+import {
+  useDevOrgTheme,
+  useDevOrgThemeStyles,
+  useThemeOrgData,
+} from './dev-org-theme';
+import { getThemeVariant } from './theme-variant';
 
 export type {
   InteractiveColor,
@@ -14,25 +20,10 @@ export type {
 
 export const theme = createThemesFor(getThemeVariant(currentOrg));
 
-function getThemeVariant(orgId: WEBSHOP_ORGS): ThemeVariant {
-  switch (orgId) {
-    case 'atb':
-      return ThemeVariant.AtB;
-    case 'nfk':
-      return ThemeVariant.Nfk;
-    case 'fram':
-      return ThemeVariant.FRAM;
-    case 'vkt':
-      return ThemeVariant.VKT;
-    case 'farte':
-      return ThemeVariant.Farte;
-  }
-}
-
 export function useTheme() {
   const [isDarkMode, toggleDarkmode] = useDarkMode();
   return {
-    ...theme[isDarkMode ? 'dark' : 'light'],
+    ...(useDevOrgTheme() ?? theme)[isDarkMode ? 'dark' : 'light'],
     isDarkMode,
     toggleDarkmode,
   };
@@ -40,7 +31,7 @@ export function useTheme() {
 
 export function useDarkMode(): [boolean, (value: boolean) => void] {
   const [enabledState, setEnabledState] = useDarkmodeCookie();
-  const forceTheme = getOrgData().featureConfig.forceTheme;
+  const forceTheme = useThemeOrgData().featureConfig.forceTheme;
   if (forceTheme) {
     return [forceTheme == 'dark', () => {}];
   }
@@ -53,6 +44,7 @@ export function useDarkMode(): [boolean, (value: boolean) => void] {
 
 export function useHtmlDarkMode() {
   const [isDarkMode] = useDarkMode();
+  useDevOrgThemeStyles();
 
   useEffect(
     function () {

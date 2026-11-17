@@ -83,23 +83,24 @@ export type OrgData = {
   appLinks?: Partial<Record<ENVIRONMENT, AppLinks>>;
 };
 
-export function getOrgData(): OrgData {
-  const orgId = process.env.NEXT_PUBLIC_PLANNER_ORG_ID;
-  switch (orgId) {
-    case 'atb':
-      return atb as OrgData;
-    case 'nfk':
-      return nfk as OrgData;
-    case 'fram':
-      return fram as OrgData;
-    case 'vkt':
-      return vkt as OrgData;
-    case 'farte':
-      return farte as OrgData;
-  }
+const orgDataById: Record<WEBSHOP_ORGS, OrgData> = {
+  atb: atb as OrgData,
+  nfk: nfk as OrgData,
+  fram: fram as OrgData,
+  vkt: vkt as OrgData,
+  farte: farte as OrgData,
+};
 
-  throw new Error('NEXT_PUBLIC_PLANNER_ORG_ID required but missing');
+export const allOrgs = Object.keys(orgDataById) as WEBSHOP_ORGS[];
+
+export function getOrgDataFor(orgId: WEBSHOP_ORGS): OrgData {
+  return orgDataById[orgId];
 }
+
+export function getOrgData(): OrgData {
+  return getOrgDataFor(getCurrentOrg());
+}
+
 export const currentOrg = getCurrentOrg();
 export const mapboxData = getMapboxData();
 
