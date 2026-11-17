@@ -1,6 +1,9 @@
 import { getGlobalCookies } from '@atb/modules/cookies';
 import { DEFAULT_LANGUAGE } from '@atb/translations';
-import { getLocalesFromAcceptLanguage } from '@atb/translations/language-context';
+import {
+  getLocalesFromAcceptLanguage,
+  mapLanguageStringToEnum,
+} from '@atb/translations/language-context';
 import Document, {
   DocumentContext,
   Head,
@@ -18,9 +21,9 @@ class MyDocument extends Document<Props> {
   static async getInitialProps(ctx: DocumentContext) {
     const d = getGlobalCookies(ctx.req as any);
     const initialProps = await Document.getInitialProps(ctx);
-    const language =
-      d.initialCookies.language ||
-      getLocalesFromAcceptLanguage(d.headersAcceptLanguage);
+    const language = d.initialCookies.language
+      ? mapLanguageStringToEnum(d.initialCookies.language)
+      : getLocalesFromAcceptLanguage(d.headersAcceptLanguage);
 
     return { ...initialProps, darkmode: d.initialCookies.darkmode, language };
   }

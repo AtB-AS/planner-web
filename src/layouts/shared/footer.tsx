@@ -2,7 +2,12 @@
 import { ButtonLink } from '@atb/components/button';
 import { getConfigUrl, getOrgData } from '@atb/modules/org-data';
 import { useTheme } from '@atb/modules/theme';
-import { Language, ModuleText, useTranslation } from '@atb/translations';
+import {
+  Language,
+  ModuleText,
+  TranslatedString,
+  useTranslation,
+} from '@atb/translations';
 import { useLanguageSettings } from '@atb/translations/language-context';
 
 import style from './footer.module.css';
@@ -219,48 +224,45 @@ export default function Footer({ withoutSettings = false }: FooterProps) {
 }
 
 function LanguageSelections() {
-  const { language, setLanguage } = useLanguageSettings();
-  const { t } = useTranslation();
-  const { color } = useTheme();
-  const buttonStyle = getButtonStyleForColor(color.background.accent['4']);
+  const texts = ModuleText.Layout.footer.sections.settings.setLanguage;
 
   return (
     <>
-      {language !== Language.Norwegian && (
-        <li>
-          <button
-            className={style.buttonLink}
-            onClick={() => setLanguage(Language.Norwegian)}
-            style={buttonStyle}
-          >
-            {t(ModuleText.Layout.footer.sections.settings.setLanguage.norsk)}
-          </button>
-        </li>
-      )}
-      {language !== Language.English && (
-        <li>
-          <button
-            className={style.buttonLink}
-            onClick={() => setLanguage(Language.English)}
-            style={buttonStyle}
-            data-testid="setLanguageToEnglish"
-          >
-            {t(ModuleText.Layout.footer.sections.settings.setLanguage.english)}
-          </button>
-        </li>
-      )}
-      {language !== Language.Nynorsk && (
-        <li>
-          <button
-            className={style.buttonLink}
-            style={buttonStyle}
-            onClick={() => setLanguage(Language.Nynorsk)}
-          >
-            {t(ModuleText.Layout.footer.sections.settings.setLanguage.nynorsk)}
-          </button>
-        </li>
-      )}
+      <LanguageButton lang={Language.Norwegian} label={texts.norsk} />
+      <LanguageButton
+        lang={Language.English}
+        label={texts.english}
+        testId="setLanguageToEnglish"
+      />
+      <LanguageButton lang={Language.Nynorsk} label={texts.nynorsk} />
     </>
+  );
+}
+
+type LanguageButtonProps = {
+  lang: Language;
+  label: TranslatedString;
+  testId?: string;
+};
+
+function LanguageButton({ lang, label, testId }: LanguageButtonProps) {
+  const { language, languages, setLanguage } = useLanguageSettings();
+  const { t } = useTranslation();
+  const { color } = useTheme();
+
+  if (!languages.includes(lang) || language === lang) return null;
+
+  return (
+    <li>
+      <button
+        className={style.buttonLink}
+        onClick={() => setLanguage(lang)}
+        style={getButtonStyleForColor(color.background.accent['4'])}
+        data-testid={testId}
+      >
+        {t(label)}
+      </button>
+    </li>
   );
 }
 
