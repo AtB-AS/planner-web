@@ -44,7 +44,9 @@ function useSelectedLanguage(
   return [lang, setLanguage];
 }
 
-function mapLanguageStringToEnum(language: string | undefined): Language {
+export function mapLanguageStringToEnum(
+  language: string | undefined,
+): Language {
   return languages.find((l) => l === language) ?? DEFAULT_LANGUAGE;
 }
 
