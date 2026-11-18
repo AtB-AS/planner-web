@@ -36,14 +36,16 @@
   justify-content: center;
   z-index: 1;
   img {
-    filter: drop-shadow(1px 0 0 token('color.background.neutral.0.background'))
-      drop-shadow(-1px 0 0 token('color.background.neutral.0.background'))
-      drop-shadow(0 1px 0 token('color.background.neutral.0.background'))
-      drop-shadow(0 -1px 0 token('color.background.neutral.0.background'))
-      drop-shadow(1px 1px 0 token('color.background.neutral.0.background'))
-      drop-shadow(-1px -1px 0 token('color.background.neutral.0.background'))
-      drop-shadow(1px -1px 0 token('color.background.neutral.0.background'))
-      drop-shadow(-1px 1px 0 token('color.background.neutral.0.background'));
+    filter: drop-shadow(
+        1px 0 0 token('color.surface.neutral.strong.background')
+      )
+      drop-shadow(-1px 0 0 token('color.surface.neutral.strong.background'))
+      drop-shadow(0 1px 0 token('color.surface.neutral.strong.background'))
+      drop-shadow(0 -1px 0 token('color.surface.neutral.strong.background'))
+      drop-shadow(1px 1px 0 token('color.surface.neutral.strong.background'))
+      drop-shadow(-1px -1px 0 token('color.surface.neutral.strong.background'))
+      drop-shadow(1px -1px 0 token('color.surface.neutral.strong.background'))
+      drop-shadow(-1px 1px 0 token('color.surface.neutral.strong.background'));
   }
 }
 

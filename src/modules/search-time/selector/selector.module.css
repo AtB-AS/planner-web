@@ -27,8 +27,8 @@
   --height: 2.75rem;
   border-radius: token('border.radius.regular');
   overflow: hidden;
-  background-color: token('color.background.neutral.0.background');
-  border: 1px solid token('color.background.neutral.2.background');
+  background-color: token('color.surface.neutral.strong.background');
+  border: 1px solid token('color.surface.neutral.subtle.background');
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -53,7 +53,7 @@
   padding: token('spacing.medium');
   border: none;
   background-color: transparent;
-  color: token('color.background.neutral.0.foreground.primary');
+  color: token('color.surface.neutral.strong.foreground.primary');
   flex: 1;
   border-top-right-radius: 0.75rem;
   border-bottom-right-radius: 0.75rem;
@@ -78,14 +78,14 @@
 .timeSelectorInput {
   height: var(--height);
   flex-grow: 1;
-  color: token('color.background.neutral.0.foreground.secondary');
+  color: token('color.surface.neutral.strong.foreground.secondary');
   border-top-right-radius: 0.75rem;
   border-bottom-right-radius: 0.75rem;
   display: flex;
   align-items: center;
 }
 .timeSelectorSegment:focus {
-  background: token('color.background.neutral.2.background');
+  background: token('color.surface.neutral.subtle.background');
 }
 
 .editButton {
@@ -93,7 +93,7 @@
   align-items: center;
   background-color: transparent;
   border: none;
-  color: token('color.interactive.2.outline.background');
+  color: token('color.surface.accent.strong.background');
   cursor: pointer;
 }
 
@@ -105,12 +105,12 @@
 .dateSelector:focus-within,
 .timeSelector:focus-within {
   box-shadow: inset 0 0 0 token('border.width.medium')
-    token('color.interactive.2.outline.background');
+    token('color.surface.accent.strong.background');
 }
 
 .calendarDialog {
   padding: token('spacing.xSmall');
-  background: token('color.background.neutral.0.background');
+  background: token('color.surface.neutral.strong.background');
   box-shadow: 0.2rem 0.2rem 0.3rem rgba(0, 0, 0, 0.15);
 }
 .calendarDialog__header {
@@ -144,8 +144,8 @@
   cursor: default;
 }
 .calendarGrid__cell[data-selected] {
-  background-color: token('color.interactive.2.active.background');
-  color: token('color.interactive.2.active.foreground.primary');
+  background-color: token('color.surface.accent.subtle.background');
+  color: token('color.surface.accent.subtle.foreground.primary');
   font-weight: bold;
   border-radius: token('border.radius.small');
 }

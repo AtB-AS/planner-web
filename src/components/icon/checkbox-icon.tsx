@@ -31,7 +31,7 @@ export function CheckBoxIcon({
     <Icon
       width={wh}
       height={wh}
-      fill={theme.color.interactive[0].default.background}
+      fill={theme.color.surface.accent.strong.background}
     />
   );
 }

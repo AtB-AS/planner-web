@@ -11,8 +11,8 @@
   display: flex;
   align-items: center;
   gap: token('spacing.medium');
-  background: token('color.background.neutral.0.background');
-  color: token('color.background.neutral.0.foreground.primary');
+  background: token('color.surface.neutral.strong.background');
+  color: token('color.surface.neutral.strong.foreground.primary');
   border-radius: token('border.radius.regular') token('border.radius.regular') 0
     0;
   padding: token('spacing.medium');
@@ -24,7 +24,7 @@
 }
 
 .header__icons div {
-  color: token('color.background.accent.0.foreground.primary');
+  color: token('color.foreground.dynamic.primary');
   display: flex;
   justify-content: center;
   align-items: center;
@@ -50,7 +50,7 @@
   position: relative;
   height: 100%;
   width: 100%;
-  background-color: token('color.background.neutral.0.background');
+  background-color: token('color.surface.neutral.strong.background');
 }
 
 .mapContainer__borderRadius {
@@ -101,7 +101,7 @@
 }
 
 .pinSvg__fill {
-  fill: token('color.interactive.0.default.background');
+  fill: token('color.surface.accent.strong.background');
 }
 
 @media only screen and (max-width: 650px) {
@@ -130,7 +130,7 @@
   align-items: center;
   justify-content: center;
   min-height: 10rem;
-  background-color: token('color.background.neutral.0.background');
+  background-color: token('color.surface.neutral.strong.background');
 
   border-radius: 0 0 token('border.radius.regular')
     token('border.radius.regular');

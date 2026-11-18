@@ -23,7 +23,7 @@
 }
 
 .wrapper {
-  background-color: token('color.background.neutral.0.background');
+  background-color: token('color.surface.neutral.strong.background');
   box-sizing: border-box;
 }
 .wrapper * {
@@ -55,14 +55,14 @@
   padding: 0;
   margin: 0;
   gap: token('spacing.xLarge');
-  color: token('color.background.accent.0.foreground.primary');
+  color: token('color.foreground.dynamic.primary');
 }
 
 .tabs a {
   text-decoration: none;
   display: block;
   padding-bottom: token('spacing.medium');
-  color: token('color.background.accent.0.foreground.primary');
+  color: token('color.foreground.dynamic.primary');
   border-bottom: 1px solid token('color.foreground.dynamic.secondary');
   box-sizing: border-box;
 }
@@ -72,10 +72,10 @@ a.tabSelected {
   font-weight: var(--baseTypo-body__m__strong-fontWeight, 500);
 }
 .tabs a:hover {
-  color: token('color.background.accent.1.foreground.primary');
+  color: token('color.foreground.dynamic.primary');
 }
 .tabs a:active {
-  color: token('color.background.accent.0.foreground.primary');
+  color: token('color.foreground.dynamic.primary');
 }
 
 .main {
@@ -108,7 +108,7 @@ a.tabSelected {
 }
 .search_container {
   composes: container from search;
-  background-color: token('color.background.neutral.0.background');
+  background-color: token('color.surface.neutral.strong.background');
 }
 .search_inputContainer {
   composes: inputContainer from search;
@@ -184,11 +184,11 @@ a.tabSelected {
   composes: option__input from radioSegments;
 }
 .selector_option__input:checked + .selector_option__label {
-  color: token('color.interactive.0.default.foreground.primary');
-  background: token('color.interactive.2.active.background');
+  color: token('color.surface.accent.subtle.foreground.primary');
+  background: token('color.surface.accent.subtle.background');
   border-radius: token('border.radius.circle');
   box-shadow: inset 0 0 0 token('border.width.medium')
-    token('color.interactive.2.outline.background');
+    token('color.surface.accent.strong.background');
 }
 .selector_option__input:checked
   + .selector_option__label
@@ -231,13 +231,13 @@ a.tabSelected {
   font: inherit;
   padding: 0 token('spacing.medium') 0 0;
   min-width: 0;
-  color: token('color.background.neutral.0.foreground.secondary');
+  color: token('color.surface.neutral.strong.foreground.secondary');
 }
 
 .buttonGroup {
   display: flex;
   justify-content: flex-start;
-  background-color: token('color.background.neutral.0.background');
+  background-color: token('color.surface.neutral.strong.background');
 }
 
 .button,
@@ -271,64 +271,35 @@ a.tabSelected {
 }
 
 .button {
-  color: token('color.foreground.inverse.primary');
-  background-color: token('color.interactive.0.default.background');
-}
-
-.button:visited {
-  color: token('color.foreground.dynamic.primary');
-  background-color: token('color.interactive.0.active.background');
-  box-shadow: inset 0 0 0 token('border.width.slim')
-    token('color.interactive.0.default.foreground.primary');
+  color: token('color.surface.accent.strong.foreground.primary');
+  background-color: token('color.surface.accent.strong.background');
 }
 .button:hover {
-  color: token('color.foreground.dynamic.primary');
-  background-color: token('color.interactive.0.active.background');
+  color: token('color.surface.accent.strongHighlight.foreground.primary');
+  background-color: token('color.surface.accent.strongHighlight.background');
 }
 .button:active {
-  background-color: token('color.interactive.0.active.background');
-  color: token('color.interactive.0.active.foreground.primary');
+  color: token('color.surface.accent.strongPressed.foreground.primary');
+  background-color: token('color.surface.accent.strongPressed.background');
 }
 .button:disabled,
 .button.button--disabled {
-  background-color: token('color.interactive.0.disabled.background');
-  color: token('color.interactive.0.disabled.foreground.primary');
+  opacity: 0.6;
 }
 .button:focus {
-  outline: 0;
-  box-shadow: inset 0 0 0 token('border.width.medium')
-    token('color.interactive.0.outline.background');
+  outline: token('border.width.medium') solid
+    token('color.border.focus.background');
+  outline-offset: token('border.width.medium');
 }
 
-/* Interactive button 0 bordered alternative background. */
-.buttonLightOutline,
-.buttonLightOutline:visited {
-  background-color: token('color.interactive.0.default.background');
-  color: token('color.interactive.0.default.foreground.primary');
-  box-shadow: inset 0 0 0 token('border.width.slim')
-    token('color.interactive.0.default.foreground.primary');
+/* Button with a lighter focus outline, for use on dark backgrounds. */
+.buttonLightOutline {
+  composes: button;
 }
-
-.buttonLightOutline:hover {
-  background-color: token('color.interactive.0.hover.background');
-  color: token('color.interactive.0.hover.foreground.primary');
-}
-
-.buttonLightOutline:active {
-  background-color: token('color.interactive.1.hover.background');
-  color: token('color.interactive.1.active.foreground.primary');
-}
-
-.buttonLightOutline:disabled,
-.buttonLightOutline.button--disabled {
-  background-color: token('color.interactive.0.disabled.background');
-  color: token('color.interactive.0.disabled.foreground.primary');
-}
-
 .buttonLightOutline:focus {
   outline: 0;
   box-shadow: inset 0 0 0 token('border.width.medium')
-    token('color.interactive.0.active.background');
+    token('color.surface.accent.subtle.background');
 }
 
 /* Autocomplete */
@@ -341,8 +312,8 @@ a.tabSelected {
 }
 .listItem[aria-selected='true'],
 .listItem:hover {
-  color: token('color.interactive.2.hover.foreground.primary');
-  background-color: token('color.interactive.2.hover.background');
+  color: token('color.surface.neutral.strongHighlight.foreground.primary');
+  background-color: token('color.surface.neutral.strongHighlight.background');
   border-radius: token('border.radius.regular');
 }
 
@@ -368,24 +339,24 @@ a.tabSelected {
 }
 /* Matches VenueIcon, which defaults bus to the local bus (city) color. */
 .transportIcon__bus {
-  background-color: token('color.transport.city.primary.background');
-  color: token('color.transport.city.primary.foreground.primary');
+  background-color: token('color.transport.city.background');
+  color: token('color.transport.city.foreground.primary');
 }
 .transportIcon__tram {
-  background-color: token('color.transport.city.primary.background');
-  color: token('color.transport.city.primary.foreground.primary');
+  background-color: token('color.transport.city.background');
+  color: token('color.transport.city.foreground.primary');
 }
 .transportIcon__rail {
-  background-color: token('color.transport.train.primary.background');
-  color: token('color.transport.train.primary.foreground.primary');
+  background-color: token('color.transport.train.background');
+  color: token('color.transport.train.foreground.primary');
 }
 .transportIcon__air {
-  background-color: token('color.transport.other.primary.background');
-  color: token('color.transport.other.primary.foreground.primary');
+  background-color: token('color.transport.other.background');
+  color: token('color.transport.other.foreground.primary');
 }
 .transportIcon__water {
-  background-color: token('color.transport.boat.primary.background');
-  color: token('color.transport.boat.primary.foreground.primary');
+  background-color: token('color.transport.boat.background');
+  color: token('color.transport.boat.foreground.primary');
 }
 .itemLocality {
   composes: itemLocality from search;
@@ -399,7 +370,7 @@ a.tabSelected {
   left: 0;
   list-style-position: inside;
   margin: 0;
-  background-color: token('color.background.neutral.0.background');
+  background-color: token('color.surface.neutral.strong.background');
 }
 
 .messageBox {

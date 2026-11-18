@@ -1,7 +1,7 @@
 .timeSelectorDialog {
   display: flex;
   padding: token('spacing.xSmall');
-  background: token('color.background.neutral.0.background');
+  background: token('color.surface.neutral.strong.background');
   box-shadow: 0.2rem 0.2rem 0.3rem rgba(0, 0, 0, 0.15);
   outline: none;
 }
@@ -41,7 +41,7 @@
 }
 
 .numberItem:hover {
-  background: token('color.interactive.0.active.background');
+  background: token('color.surface.neutral.strongHighlight.background');
 }
 
 /* Visual focus indicator for the option highlighted via keyboard
@@ -52,5 +52,5 @@
 }
 
 .numberItemSelected {
-  background: token('color.interactive.2.active.background');
+  background: token('color.surface.accent.subtle.background');
 }

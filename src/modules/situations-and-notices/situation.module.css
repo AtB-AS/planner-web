@@ -25,8 +25,8 @@
   flex-direction: column;
   gap: token('spacing.medium');
   padding: token('spacing.large');
-  background-color: token('color.background.neutral.0.background');
-  color: token('color.background.neutral.0.foreground.primary');
+  background-color: token('color.surface.neutral.strong.background');
+  color: token('color.surface.neutral.strong.foreground.primary');
   border-radius: token('border.radius.regular');
 }
 .dialog__button {

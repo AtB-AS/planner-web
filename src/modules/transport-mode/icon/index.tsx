@@ -34,7 +34,7 @@ export function TransportIcon({
 }: TransportIconProps) {
   const { t } = useTranslation();
   const {
-    color: { background },
+    color: { surface },
   } = useTheme();
   let { backgroundColor, overrideMode } = useTransportationThemeColor({
     transportMode,
@@ -43,9 +43,9 @@ export function TransportIcon({
   });
 
   if (transportMode === 'foot') {
-    backgroundColor = background.neutral[2].background;
+    backgroundColor = surface.neutral.subtle.background;
     overrideMode = colorToOverrideMode(
-      background.neutral[2].foreground.primary,
+      surface.neutral.subtle.foreground.primary,
     );
   }
 
@@ -100,7 +100,7 @@ export function TransportIconWithDuration({
 }: TransportIconWithDurationProps) {
   const { t, language } = useTranslation();
   const {
-    color: { background },
+    color: { surface },
   } = useTheme();
   let colors = useTransportationThemeColor({
     transportMode,
@@ -110,10 +110,10 @@ export function TransportIconWithDuration({
 
   if (transportMode === 'foot') {
     colors = {
-      backgroundColor: background.neutral[2].background,
-      textColor: background.neutral[2].foreground.primary,
+      backgroundColor: surface.neutral.subtle.background,
+      textColor: surface.neutral.subtle.foreground.primary,
       overrideMode: colorToOverrideMode(
-        background.neutral[2].foreground.primary,
+        surface.neutral.subtle.foreground.primary,
       ),
     };
   }
@@ -212,41 +212,41 @@ export function transportModeToColor(
   transportSubMode?: TransportSubmodeType,
   isFlexible?: boolean,
 ): ContrastColor {
-  if (isFlexible) return transportColors.flexible.primary;
+  if (isFlexible) return transportColors.flexible;
   switch (transportMode) {
     case 'bus':
     case 'coach':
       if (transportSubMode === TransportSubmode.LocalBus) {
-        return transportColors.city.primary;
+        return transportColors.city;
       }
       if (transportSubMode === TransportSubmode.AirportLinkBus) {
-        return transportColors.airportExpress.primary;
+        return transportColors.airportExpress;
       }
-      return transportColors.region.primary;
+      return transportColors.region;
 
     case 'rail':
       if (transportSubMode === TransportSubmode.AirportLinkRail) {
-        return transportColors.airportExpress.primary;
+        return transportColors.airportExpress;
       }
-      return transportColors.train.primary;
+      return transportColors.train;
 
     case 'tram':
-      return transportColors.city.primary;
+      return transportColors.city;
 
     case 'bicycle':
-      return transportColors.bike.primary;
+      return transportColors.bike;
 
     case 'water':
-      return transportColors.boat.primary;
+      return transportColors.boat;
 
     case 'air':
-      return transportColors.other.primary;
+      return transportColors.other;
 
     case 'metro':
-      return transportColors.train.primary;
+      return transportColors.train;
 
     default:
-      return transportColors.other.primary;
+      return transportColors.other;
   }
 }
 

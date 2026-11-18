@@ -58,7 +58,7 @@ export default function TravelCardNumbers({ values, errors, onChange }: Props) {
               {values.length > 1 && (
                 <Button
                   title={t(tx.order.removeTravelCard)}
-                  mode="interactive_0--bordered"
+                  mode="primary"
                   buttonProps={{
                     'aria-label': `${t(tx.order.removeTravelCard)} ${label} ${i + 1}`,
                   }}
@@ -78,7 +78,7 @@ export default function TravelCardNumbers({ values, errors, onChange }: Props) {
 
       <Button
         title={t(tx.order.addTravelCard)}
-        mode="interactive_0--bordered"
+        mode="primary"
         onClick={() => onChange([...values, ''])}
       />
     </div>

@@ -163,8 +163,8 @@
 }
 
 .buttonPrimary {
-  background: var(--color-interactive-0-default-background, #007aff);
-  color: var(--color-interactive-0-default-foreground, #fff);
+  background: var(--color-surface-accent-strong-background, #007aff);
+  color: var(--color-surface-accent-strong-foreground-primary, #fff);
 }
 
 .buttonSecondary {

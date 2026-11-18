@@ -85,7 +85,7 @@ export const SituationMessageBox = ({
           <Button
             buttonProps={{ formMethod: 'dialog' }}
             title={t(dictionary.close)}
-            mode="interactive_0"
+            mode="primary"
             className={style.dialog__button}
             onClick={() => dialogRef.current?.close()}
           />

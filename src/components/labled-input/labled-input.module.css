@@ -7,8 +7,8 @@
   flex-direction: row;
   width: 100%;
   border-radius: token('border.radius.regular');
-  color: token('color.background.neutral.0.foreground.primary');
-  background-color: token('color.background.neutral.0.background');
+  color: token('color.surface.neutral.strong.foreground.primary');
+  background-color: token('color.surface.neutral.strong.background');
   border: 1px solid token('color.foreground.dynamic.disabled');
   flex-wrap: wrap;
   overflow: hidden;
@@ -25,14 +25,14 @@
 .container:focus-within {
   outline: 0;
   box-shadow: inset 0 0 0 token('border.width.medium')
-    token('color.interactive.2.outline.background');
+    token('color.surface.accent.strong.background');
 }
 
 .input {
   padding: token('spacing.medium');
   border: none;
   width: 100%;
-  color: token('color.background.neutral.0.foreground.primary');
+  color: token('color.surface.neutral.strong.foreground.primary');
   outline: 0;
   height: var(--height);
   padding-left: calc(var(--label-min-width) + token('spacing.small'));
@@ -48,7 +48,7 @@
 .input:focus-within {
   outline: 0;
   box-shadow: inset 0 0 0 token('border.width.medium')
-    token('color.interactive.2.outline.background');
+    token('color.surface.accent.strong.background');
 }
 
 .label {

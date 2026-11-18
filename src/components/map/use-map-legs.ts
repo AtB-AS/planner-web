@@ -13,7 +13,7 @@ export const useMapLegs = (
 ) => {
   const { t, language } = useTranslation();
   const {
-    color: { transport, background },
+    color: { transport, surface },
   } = useTheme();
 
   const addToMap = useCallback(
@@ -54,7 +54,7 @@ export const useMapLegs = (
       const startTextLayer = createStartEndTextLayer(
         startTextSourceId,
         t(ComponentText.Map.map.startPoint),
-        background.accent[0],
+        surface.neutral.strong,
       );
       const endTextPoint = createStartEndTextPoint(
         endMapLeg.points[endMapLeg.points.length - 1],
@@ -62,7 +62,7 @@ export const useMapLegs = (
       const endTextLayer = createStartEndTextLayer(
         endTextSourceId,
         t(ComponentText.Map.map.endPoint),
-        background.accent[0],
+        surface.neutral.strong,
       );
 
       addSourceIfNotExists(map, startTextSourceId, startTextPoint);
@@ -71,7 +71,7 @@ export const useMapLegs = (
       addLayerIfNotExists(map, startTextLayer);
       addLayerIfNotExists(map, endTextLayer);
     },
-    [background, t],
+    [surface, t],
   );
 
   /**

@@ -2,9 +2,8 @@
   display: grid;
   grid-template-columns: repeat(var(--number-of-options), minmax(0, 1fr));
   padding: token('spacing.xSmall');
-  background: token('color.background.neutral.0.background');
-  /* Replace with appropriate color token when the new color set is available. ref: https://github.com/AtB-AS/planner-web/pull/805#discussion_r4218911727 */
-  border: 1px solid token('color.background.neutral.2.background');
+  background: token('color.surface.neutral.strong.background');
+  border: 1px solid token('color.surface.neutral.subtle.background');
   border-radius: token('border.radius.circle');
   align-items: center;
 }
@@ -13,12 +12,12 @@
   border-radius: token('border.radius.circle');
   outline: 0;
   box-shadow: inset 0 0 0 token('border.width.medium')
-    token('color.interactive.2.outline.background');
+    token('color.surface.accent.strong.background');
 }
 
 .option__text {
   z-index: 2;
-  color: token('color.foreground.dynamic.primary');
+  color: token('color.surface.neutral.strong.foreground.primary');
 }
 
 .option__label {
@@ -41,13 +40,24 @@
   display: block;
 }
 
-.option__input:checked + .option__label {
-  color: token('color.interactive.0.default.foreground.primary');
+.option__input:checked + .option__label .option__text {
+  color: token('color.surface.accent.subtle.foreground.primary');
 }
 
 .option__input:not(:checked):hover + .option__label {
-  background-color: token('color.interactive.2.hover.background');
+  background-color: token('color.surface.neutral.strongHighlight.background');
   transition: background-color 150ms ease;
+}
+.option__input:not(:checked):hover + .option__label .option__text {
+  color: token('color.surface.neutral.strongHighlight.foreground.primary');
+}
+
+.option:active .option__input + .option__label,
+.option:active .option__selected {
+  background-color: token('color.surface.accent.subtlePressed.background');
+}
+.option:active .option__input + .option__label .option__text {
+  color: token('color.surface.accent.subtlePressed.foreground.primary');
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -61,11 +71,11 @@
 }
 
 .option__selected {
-  background: token('color.interactive.2.active.background');
+  background: token('color.surface.accent.subtle.background');
   width: 100%;
   height: 100%;
   position: absolute;
   border-radius: token('border.radius.circle');
   border: token('border.width.medium') solid
-    token('color.interactive.2.outline.background');
+    token('color.surface.accent.strong.background');
 }

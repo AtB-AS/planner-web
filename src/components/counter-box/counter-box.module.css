@@ -1,5 +1,5 @@
 .counterBox {
-  background-color: token('color.background.neutral.2.background');
+  background-color: token('color.surface.neutral.subtle.background');
   border-radius: token('border.radius.circle');
   padding: token('spacing.small') token('spacing.medium');
   display: flex;

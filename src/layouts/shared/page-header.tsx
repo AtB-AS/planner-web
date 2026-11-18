@@ -7,13 +7,14 @@ import { getOrgData } from '@atb/modules/org-data';
 import { MonoIcon } from '@atb/components/icon';
 import { ButtonLink } from '@atb/components/button';
 import { useOrgThemeDefinitions } from '@atb/utils/org-theme-definitions.ts';
+import { colorToOverrideMode } from '@atb/utils/color';
 
 export default function PageHeader() {
   const { t } = useTranslation();
   const { color } = useTheme();
   const { fylkeskommune, featureConfig, urls } = getOrgData();
 
-  const { fylkeskommuneLogo, overrideMonoIconMode } = useOrgThemeDefinitions();
+  const { fylkeskommuneLogo } = useOrgThemeDefinitions();
 
   return (
     <header className={style.pageHeader}>
@@ -42,7 +43,9 @@ export default function PageHeader() {
                     alt=""
                     role="none"
                     size="normal"
-                    overrideMode={overrideMonoIconMode}
+                    overrideMode={colorToOverrideMode(
+                      color.background.accent[4].foreground.primary,
+                    )}
                   />
                   <span>{t(CommonText.Titles.siteTitle)}</span>
                 </>

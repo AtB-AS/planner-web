@@ -7,11 +7,7 @@ import { TintedMonoIcon } from '@atb/components/icon/tinted-mono-icon';
 import { ContrastColor } from '@atb-as/theme';
 
 export type ButtonModes =
-  | 'interactive_0'
-  | 'interactive_0--bordered'
-  | 'interactive_0--bordered-light-outline'
-  | 'interactive_2'
-  | 'interactive_2--light-outline'
+  | 'neutral'
   | 'destructive'
   | 'transparent'
   | 'primary'
@@ -27,7 +23,7 @@ type ButtonModeAwareProps =
     }
   | {
       mode: 'secondary';
-      backgroundColor: ContrastColor;
+      backgroundColor?: ContrastColor;
     };
 
 export type ButtonBaseProps = {
@@ -38,7 +34,7 @@ export type ButtonBaseProps = {
 
   /**
    * Button mode
-   * @default interactive_2
+   * @default neutral
    */
   mode?: ButtonModes;
 
@@ -58,7 +54,7 @@ export type ButtonBaseProps = {
    * Set button state
    * @default 'none'
    */
-  state?: 'none' | 'active' | 'loading';
+  state?: 'none' | 'loading';
 
   /**
    * Set where to have border radius on button
@@ -104,7 +100,7 @@ export function getButtonStyleForColor(color: ContrastColor): CSSProperties {
 }
 
 export function getBaseButtonClassName({
-  mode = 'interactive_2',
+  mode = 'neutral',
   size = 'small',
   state = 'none',
   radius = 'top-bottom',

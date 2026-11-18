@@ -44,7 +44,7 @@ export function BaseLayout({ children, title }: BaseLayoutProps) {
           <link rel="icon" href="/assets/colors/icons/favicon.svg" />
           <meta
             name="theme-color"
-            content={theme.color.background.accent[0].background}
+            content={theme.color.background.accent[4].background}
           />
           {iosAppId && (
             <meta name="apple-itunes-app" content={`app-id=${iosAppId}`} />

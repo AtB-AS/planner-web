@@ -60,7 +60,7 @@ export function WalkSpeedInput({ initialValue, onChange }: Props) {
           <WalkFill
             width={theme.icon.size.small}
             height={theme.icon.size.small}
-            fill={theme.color.background.neutral[0].foreground.secondary}
+            fill={theme.color.surface.neutral.strong.foreground.secondary}
           />
         </div>
       </div>

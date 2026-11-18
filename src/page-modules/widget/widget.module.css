@@ -37,8 +37,8 @@
   /* Matching code block style */
   border-radius: 0.3em;
   padding: 1rem;
-  background-color: token('color.background.neutral.0.background');
-  color: token('color.background.neutral.0.foreground.primary');
+  background-color: token('color.surface.neutral.strong.background');
+  color: token('color.surface.neutral.strong.foreground.primary');
 }
 
 .copyContainerDetails pre {

@@ -1,5 +1,5 @@
 .heading {
-  color: token('color.background.accent.0.foreground.primary');
+  color: token('color.foreground.dynamic.primary');
   margin-bottom: token('spacing.medium');
 }
 
@@ -42,7 +42,7 @@
 .transportModeElement {
   padding: token('spacing.small') token('spacing.medium');
   border-radius: token('border.radius.regular');
-  background-color: token('color.interactive.2.default.background');
+  background-color: token('color.surface.neutral.strong.background');
   color: token('color.foreground.dynamic.primary');
   transition:
     border-color 150ms,
@@ -51,7 +51,7 @@
   display: flex;
   gap: token('spacing.small');
   align-items: flex-start;
-  border: 1px solid token('color.background.neutral.3.background');
+  border: 1px solid token('color.surface.neutral.subtle.background');
   min-height: 2.25rem;
 }
 
@@ -78,7 +78,7 @@
 }
 
 .infoText {
-  color: token('color.interactive.2.default.foreground.secondary');
+  color: token('color.surface.neutral.strong.foreground.secondary');
 }
 
 .transportMode input:focus-visible ~ label {
@@ -87,18 +87,21 @@
 }
 
 .transportMode input:hover ~ label {
-  background-color: token('color.interactive.2.hover.background');
+  background-color: token('color.surface.neutral.strongHighlight.background');
 }
 .transportMode input[type='checkbox']:checked ~ label {
-  background-color: token('color.interactive.2.active.background');
-  border: 1px solid token('color.interactive.2.outline.background');
+  background-color: token('color.surface.accent.subtle.background');
+  border: 1px solid token('color.surface.accent.strong.background');
 }
 .transportMode input[type='checkbox']:checked ~ label .infoText {
-  color: token('color.interactive.2.active.foreground.secondary');
+  color: token('color.surface.accent.subtle.foreground.secondary');
 }
 .transportMode input[type='checkbox']:checked:hover ~ label {
-  background-color: token('color.interactive.2.hover.background');
+  background-color: token('color.surface.accent.subtleHighlight.background');
 }
 .transportMode input[type='checkbox']:hover ~ label .infoText {
-  color: token('color.interactive.2.hover.foreground.secondary');
+  color: token('color.surface.neutral.strongHighlight.foreground.secondary');
+}
+.transportMode input[type='checkbox']:checked:hover ~ label .infoText {
+  color: token('color.surface.accent.subtleHighlight.foreground.secondary');
 }

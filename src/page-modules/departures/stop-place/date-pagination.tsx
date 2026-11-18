@@ -30,7 +30,7 @@ export function DatePagination({
       <Button
         onClick={() => onChangeDay(-1)}
         icon={{ left: <MonoIcon icon="navigation/ChevronLeft" /> }}
-        mode="interactive_2"
+        mode="neutral"
         radiusSize="circular"
         disabled={disablePreviousDay}
         buttonProps={{
@@ -61,7 +61,7 @@ export function DatePagination({
       <Button
         onClick={() => onChangeDay(1)}
         icon={{ right: <MonoIcon icon="navigation/ChevronRight" /> }}
-        mode="interactive_2"
+        mode="neutral"
         radiusSize="circular"
         buttonProps={{
           'aria-label': t(

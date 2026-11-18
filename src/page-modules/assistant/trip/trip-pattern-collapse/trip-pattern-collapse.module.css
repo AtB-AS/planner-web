@@ -1,6 +1,6 @@
 .collapseContainer {
   border-radius: token('border.radius.regular');
-  background-color: token('color.background.neutral.0.background');
+  background-color: token('color.surface.neutral.strong.background');
   max-width: 100%;
   width: 100%;
   text-decoration: none;
@@ -17,7 +17,7 @@
 .travelCard:focus {
   outline: 0;
   box-shadow: inset 0 0 0 token('border.width.medium')
-    token('color.interactive.2.outline.background');
+    token('color.surface.accent.strong.background');
   border-radius: token('border.radius.regular');
 }
 
@@ -25,8 +25,8 @@
   display: flex;
   flex-direction: column;
   border-top: token('border.width.slim') solid
-    token('color.background.neutral.1.background');
-  background-color: token('color.background.neutral.0.background');
+    token('color.surface.neutral.subtle.background');
+  background-color: token('color.surface.neutral.strong.background');
 }
 
 .detailsGrid {

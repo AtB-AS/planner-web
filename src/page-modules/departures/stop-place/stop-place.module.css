@@ -61,7 +61,7 @@
 }
 
 .estimatedCallsList li {
-  border-bottom: 1px solid token('color.background.neutral.2.background');
+  border-bottom: 1px solid token('color.surface.neutral.subtle.background');
 }
 .estimatedCallsList li:last-child {
   border-bottom: none;
@@ -76,25 +76,25 @@
   justify-content: space-between;
   border-radius: token('border.radius.regular') token('border.radius.regular') 0
     0;
-  border-bottom: 1px solid token('color.background.neutral.2.background');
+  border-bottom: 1px solid token('color.surface.neutral.subtle.background');
   padding: token('spacing.small') token('spacing.medium');
   cursor: pointer;
-  color: token('color.interactive.2.default.foreground.primary');
-  background-color: token('color.interactive.2.default.background');
+  color: token('color.surface.neutral.strong.foreground.primary');
+  background-color: token('color.surface.neutral.strong.background');
 }
 
 .listHeader:hover {
-  color: token('color.interactive.2.hover.foreground.primary');
-  background-color: token('color.interactive.2.hover.background');
+  color: token('color.surface.neutral.strongHighlight.foreground.primary');
+  background-color: token('color.surface.neutral.strongHighlight.background');
 }
 
 .listHeader:active {
-  color: token('color.interactive.2.active.foreground.primary');
-  background-color: token('color.interactive.2.active.background');
+  color: token('color.surface.neutral.strongPressed.foreground.primary');
+  background-color: token('color.surface.neutral.strongPressed.background');
 }
 .listHeader:disabled {
-  color: token('color.interactive.2.disabled.foreground.primary');
-  background-color: token('color.interactive.2.disabled.background');
+  color: token('color.surface.neutral.strong.foreground.disabled');
+  background-color: token('color.surface.neutral.strong.background');
 }
 
 .listHeader--collapsed {
@@ -122,23 +122,23 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: token('color.interactive.2.default.background');
-  color: token('color.interactive.2.default.foreground.primary');
+  background-color: token('color.surface.neutral.strong.background');
+  color: token('color.surface.neutral.strong.foreground.primary');
   padding: token('spacing.medium');
   text-decoration: none;
   cursor: pointer;
 }
 .listItem:hover {
-  color: token('color.interactive.2.hover.foreground.primary');
-  background-color: token('color.interactive.2.hover.background');
+  color: token('color.surface.neutral.strongHighlight.foreground.primary');
+  background-color: token('color.surface.neutral.strongHighlight.background');
 }
 .listItem:active {
-  color: token('color.interactive.2.active.foreground.primary');
-  background-color: token('color.interactive.2.active.background');
+  color: token('color.surface.neutral.strongPressed.foreground.primary');
+  background-color: token('color.surface.neutral.strongPressed.background');
 }
 .listItem:disabled {
-  color: token('color.interactive.2.disabled.foreground.primary');
-  background-color: token('color.interactive.2.disabled.background');
+  color: token('color.surface.neutral.strong.foreground.disabled');
+  background-color: token('color.surface.neutral.strong.background');
 }
 
 .transportInfo {

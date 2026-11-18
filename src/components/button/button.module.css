@@ -40,17 +40,17 @@
   color: token('color.foreground.dynamic.secondary');
 }
 .button--transparent:active {
-  background-color: token('color.interactive.0.active.background');
-  color: token('color.interactive.0.active.foreground.primary');
+  background-color: token('color.surface.accent.subtle.background');
+  color: token('color.surface.accent.subtle.foreground.primary');
 }
 .button--transparent:disabled,
 .button--transparent.button--disabled {
   opacity: 0.6;
 }
 .button--transparent:focus {
-  outline: 0;
-  box-shadow: inset 0 0 0 token('border.width.medium')
-    token('color.interactive.1.outline.background');
+  outline: token('border.width.medium') solid
+    token('color.border.focus.background');
+  outline-offset: token('border.width.medium');
 }
 
 .button--transparent--underline,
@@ -61,31 +61,34 @@
   color: token('color.foreground.dynamic.secondary');
 }
 .button--transparent--underline:active {
-  background-color: token('color.interactive.0.active.background');
-  color: token('color.interactive.0.active.foreground.primary');
+  background-color: token('color.surface.accent.subtle.background');
+  color: token('color.surface.accent.subtle.foreground.primary');
 }
 .button--transparent--underline:disabled,
 .button--transparent--underline.button--disabled {
   opacity: 0.6;
 }
 .button--transparent--underline:focus {
-  outline: 0;
-  box-shadow: inset 0 0 0 token('border.width.medium')
-    token('color.interactive.1.outline.background');
+  outline: token('border.width.medium') solid
+    token('color.border.focus.background');
+  outline-offset: token('border.width.medium');
 }
 
 /* Primary */
 .button--primary,
 .button--primary:visited {
-  color: token('color.interactive.0.default.foreground.primary');
-  background-color: token('color.interactive.0.default.background');
+  color: token('color.surface.accent.strong.foreground.primary');
+  background-color: token('color.surface.accent.strong.background');
 }
 
-.button--primary:not(:disabled):hover,
-.button--primary:not(:disabled):active,
-.button--primary.button--state_active {
-  color: token('color.interactive.0.active.foreground.primary');
-  background-color: token('color.interactive.0.active.background');
+.button--primary:not(:disabled):hover {
+  color: token('color.surface.accent.strongHighlight.foreground.primary');
+  background-color: token('color.surface.accent.strongHighlight.background');
+}
+
+.button--primary:not(:disabled):active {
+  color: token('color.surface.accent.strongPressed.foreground.primary');
+  background-color: token('color.surface.accent.strongPressed.background');
 }
 
 .button--primary:disabled,
@@ -93,9 +96,9 @@
   opacity: 0.2;
 }
 .button--primary:focus {
-  outline: 0;
-  box-shadow: inset 0 0 0 token('border.width.medium')
-    token('color.interactive.0.outline.background');
+  outline: token('border.width.medium') solid
+    token('color.border.focus.background');
+  outline-offset: token('border.width.medium');
 }
 
 /* Secondary */
@@ -107,11 +110,10 @@
 }
 
 .button--secondary:not(:disabled):hover,
-.button--secondary:not(:disabled):active,
-.button--secondary.button--state_active {
-  background-color: token('color.interactive.0.active.background');
+.button--secondary:not(:disabled):active {
+  background-color: token('color.surface.accent.subtle.background');
   border: token('border.width.slim') solid
-    token('color.interactive.0.outline.background');
+    token('color.surface.accent.strong.background');
 }
 
 .button--secondary:disabled,
@@ -119,175 +121,49 @@
   opacity: 0.2;
 }
 .button--secondary:focus {
-  outline: 0;
-  box-shadow: inset 0 0 0 token('border.width.medium')
-    token('color.interactive.0.outline.background');
+  outline: token('border.width.medium') solid
+    token('color.border.focus.background');
+  outline-offset: token('border.width.medium');
 }
 
-/* Interactive button 0 */
-.button--interactive_0,
-.button--interactive_0:visited {
-  background-color: token('color.interactive.0.default.background');
-  color: token('color.interactive.0.default.foreground.primary');
+/* Neutral */
+.button--neutral,
+.button--neutral:visited {
+  background-color: token('color.surface.neutral.strong.background');
+  color: token('color.surface.neutral.strong.foreground.primary');
 }
-.button--interactive_0:hover {
-  background-color: token('color.interactive.0.hover.background');
-  color: token('color.interactive.0.hover.foreground.primary');
+.button--neutral:not(:disabled):hover {
+  background-color: token('color.surface.neutral.strongHighlight.background');
+  color: token('color.surface.neutral.strongHighlight.foreground.primary');
 }
-.button--interactive_0:active {
-  background-color: token('color.interactive.0.active.background');
-  color: token('color.interactive.0.active.foreground.primary');
+.button--neutral:not(:disabled):active {
+  background-color: token('color.surface.neutral.strongPressed.background');
+  color: token('color.surface.neutral.strongPressed.foreground.primary');
 }
-.button--interactive_0:disabled,
-.button--interactive_0.button--disabled {
-  background-color: token('color.interactive.0.disabled.background');
-  color: token('color.interactive.0.disabled.foreground.primary');
-}
-.button--interactive_0:focus {
-  outline: 0;
-  box-shadow: inset 0 0 0 token('border.width.medium')
-    token('color.interactive.0.outline.background');
+.button--neutral:focus {
+  outline: token('border.width.medium') solid
+    token('color.border.focus.background');
+  outline-offset: token('border.width.medium');
 }
 
-/* Interactive button 0 bordered */
-.button--interactive_0--bordered,
-.button--interactive_0--bordered:visited {
-  background-color: token('color.interactive.0.default.background');
-  color: token('color.interactive.0.default.foreground.primary');
-  box-shadow: inset 0 0 0 token('border.width.slim')
-    token('color.interactive.0.default.foreground.primary');
-}
-
-.button--interactive_0--bordered:hover {
-  background-color: token('color.interactive.0.hover.background');
-  color: token('color.interactive.0.hover.foreground.primary');
-}
-
-.button--interactive_0--bordered:active {
-  background-color: token('color.interactive.0.active.background');
-  color: token('color.interactive.0.active.foreground.primary');
-}
-
-.button--interactive_0--bordered:disabled,
-.button--interactive_0--bordered.button--disabled {
-  background-color: token('color.interactive.0.disabled.background');
-  color: token('color.interactive.0.disabled.foreground.primary');
-}
-
-.button--interactive_0--bordered:focus {
-  outline: 0;
-  box-shadow: inset 0 0 0 token('border.width.medium')
-    token('color.interactive.0.outline.background');
-}
-
-.button--interactive_0--bordered-light-outline,
-.button--interactive_0--bordered-light-outline:visited {
-  background-color: token('color.interactive.0.default.background');
-  color: token('color.interactive.0.default.foreground.primary');
-  box-shadow: inset 0 0 0 token('border.width.slim')
-    token('color.interactive.0.default.foreground.primary');
-}
-
-.button--interactive_0--bordered-light-outline:hover {
-  background-color: token('color.interactive.0.hover.background');
-  color: token('color.interactive.0.hover.foreground.primary');
-}
-
-.button--interactive_0--bordered-light-outline:active {
-  background-color: token('color.interactive.1.hover.background');
-  color: token('color.interactive.1.active.foreground.primary');
-}
-
-.button--interactive_0--bordered-light-outline:disabled,
-.button--interactive_0--bordered-light-outline.button--disabled {
-  background-color: token('color.interactive.0.disabled.background');
-  color: token('color.interactive.0.disabled.foreground.primary');
-}
-
-.button--interactive_0--bordered-light-outline:focus {
-  outline: 0;
-  box-shadow: inset 0 0 0 token('border.width.medium')
-    token('color.interactive.0.active.background');
-}
-
-/* Interactive button 2 */
-
-.button--interactive_2,
-.button--interactive_2:visited {
-  background-color: token('color.interactive.2.default.background');
-  color: token('color.interactive.2.default.foreground.primary');
-}
-.button--interactive_2:hover {
-  background-color: token('color.interactive.2.hover.background');
-  color: token('color.interactive.2.hover.foreground.primary');
-}
-.button--interactive_2:active {
-  background-color: token('color.interactive.2.active.background');
-  color: token('color.interactive.2.active.foreground.primary');
-}
-.button--interactive_2:disabled,
-.button--interactive_2.button--disabled {
-  background-color: token('color.interactive.2.disabled.background');
-  color: token('color.interactive.2.disabled.foreground.primary');
-}
-.button--interactive_2:focus {
-  outline: 0;
-  box-shadow: inset 0 0 0 token('border.width.medium')
-    token('color.interactive.2.outline.background');
-}
-
-/* Interactive button 2 alternative */
-
-.button--interactive_2--light-outline,
-.button--interactive_2--light-outline:visited {
-  background-color: token('color.interactive.2.default.background');
-  color: token('color.interactive.2.default.foreground.primary');
-}
-.button--interactive_2--light-outline:hover {
-  background-color: token('color.interactive.2.hover.background');
-  color: token('color.interactive.2.hover.foreground.primary');
-}
-.button--interactive_2--light-outline:active {
-  background-color: token('color.interactive.2.active.background');
-  color: token('color.interactive.2.active.foreground.primary');
-}
-.button--interactive_2--light-outline:disabled,
-.button--interactive_2--light-outline.button--disabled {
-  background-color: token('color.interactive.2.disabled.background');
-  color: token('color.interactive.2.disabled.foreground.primary');
-}
-.button--interactive_2--light-outline:focus {
-  outline: 0;
-  box-shadow: inset 0 0 0 token('border.width.medium')
-    token('color.interactive.1.active.background');
-}
-
-/* Interactive button, destructive */
-
+/* Destructive */
 .button--destructive,
 .button--destructive:visited {
-  background-color: var(
-    --interactive-interactive_destructive-default-background
-  );
-  color: token('color.interactive.destructive.default.foreground.primary');
+  background-color: token('color.surface.error.strong.background');
+  color: token('color.surface.error.strong.foreground.primary');
 }
-.button--destructive:hover {
-  background-color: token('color.interactive.destructive.hover.background');
-  color: token('color.interactive.destructive.hover.foreground.primary');
+.button--destructive:not(:disabled):hover {
+  background-color: token('color.surface.error.strongHighlight.background');
+  color: token('color.surface.error.strongHighlight.foreground.primary');
 }
-.button--destructive:active {
-  background-color: token('color.interactive.destructive.active.background');
-  color: token('color.interactive.destructive.active.foreground.primary');
-}
-.button--destructive:disabled,
-.button--destructive.button--disabled {
-  background-color: token('color.interactive.destructive.disabled.background');
-  color: token('color.interactive.destructive.disabled.foreground.primary');
+.button--destructive:not(:disabled):active {
+  background-color: token('color.surface.error.strongPressed.background');
+  color: token('color.surface.error.strongPressed.foreground.primary');
 }
 .button--destructive:focus {
-  outline: 0;
-  box-shadow: inset 0 0 0 token('border.width.medium')
-    token('color.interactive.destructive.outline.background');
+  outline: token('border.width.medium') solid
+    token('color.border.focus.background');
+  outline-offset: token('border.width.medium');
 }
 
 .button--size_medium {

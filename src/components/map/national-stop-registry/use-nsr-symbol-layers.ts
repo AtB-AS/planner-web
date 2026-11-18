@@ -52,10 +52,10 @@ export const useNsrSymbolLayers = (): SymbolLayerSpecification[] => {
         // Text inside a quay circle: color contrasts against the city color;
         // text below an icon: dark text on light halo (and vice versa in dark).
         const textColor = isInsideCircle
-          ? theme.color.transport.city.primary.foreground.primary
+          ? theme.color.transport.city.foreground.primary
           : theme.color.foreground.dynamic.primary;
         const textHaloColor = isInsideCircle
-          ? theme.color.transport.city.primary.foreground.secondary
+          ? theme.color.transport.city.foreground.secondary
           : theme.color.foreground.inverse.primary;
         const textHaloWidth = isInsideCircle ? 0.3 : 2;
         const textVariableAnchor: ('center' | 'top')[] = isInsideCircle
@@ -116,8 +116,8 @@ export const useNsrSymbolLayers = (): SymbolLayerSpecification[] => {
     [
       theme.color.foreground.dynamic.primary,
       theme.color.foreground.inverse.primary,
-      theme.color.transport.city.primary.foreground.primary,
-      theme.color.transport.city.primary.foreground.secondary,
+      theme.color.transport.city.foreground.primary,
+      theme.color.transport.city.foreground.secondary,
       themeName,
     ],
   );
