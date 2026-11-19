@@ -93,7 +93,7 @@
   align-items: center;
   background-color: transparent;
   border: none;
-  color: token('color.surface.accent.strong.background');
+  color: token('color.foreground.emphasis.interactive');
   cursor: pointer;
 }
 
