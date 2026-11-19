@@ -114,10 +114,18 @@
 
 .swapButton {
   composes: searchInputButton;
-  color: token('color.surface.accent.strong.background');
+  color: token('color.surface.neutral.strong.foreground.primary');
   border: token('border.width.slim') solid
-    token('color.surface.accent.strong.background');
+    token('color.surface.neutral.subtle.background');
   padding: token('spacing.medium');
+}
+.swapButton:hover {
+  background-color: token('color.surface.neutral.strongHighlight.background');
+  color: token('color.surface.neutral.strongHighlight.foreground.primary');
+}
+.swapButton:active {
+  background-color: token('color.surface.neutral.strongPressed.background');
+  color: token('color.surface.neutral.strongPressed.foreground.primary');
 }
 
 .walkSpeedSegments {
