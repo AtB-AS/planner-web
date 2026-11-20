@@ -22,6 +22,7 @@ export const contactFormConfig: ContactFormConfig = {
     includePhoneNumberInPriceAndTravelSuggestion: byOrg({ atb: true }),
     enableRequiredReceiptAttachmentInOtherTicketRefund: true,
     enableIdentificationAttachmentInOtherTicketRefund: byOrg({ atb: true }),
+    travelCardNumberInOtherTicketRefund: byOrg({ atb: 'optional' }),
     enableInternationalBankAccountInTravelGuarantee: byOrg({ atb: false }),
     enablePrePurchasedTicketRefundInTravelGuarantee: byOrg({ atb: true }),
   },
