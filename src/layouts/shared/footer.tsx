@@ -1,7 +1,18 @@
 /* eslint-disable @next/next/no-img-element */
 import { ButtonLink } from '@atb/components/button';
-import { getConfigUrl, getOrgData } from '@atb/modules/org-data';
+import {
+  allOrgs,
+  currentOrg,
+  getConfigUrl,
+  getOrgData,
+  WEBSHOP_ORGS,
+} from '@atb/modules/org-data';
 import { useTheme } from '@atb/modules/theme';
+import {
+  isDevOrgThemeEnabled,
+  setDevOrg,
+  useDevOrg,
+} from '@atb/modules/theme/dev-org-theme';
 import {
   Language,
   ModuleText,
@@ -24,13 +35,15 @@ type SomeLink = {
   title: string;
 };
 
-const { urls, fylkeskommune, featureConfig, orgId } = getOrgData();
+const { urls } = getOrgData();
 
 export default function Footer({ withoutSettings = false }: FooterProps) {
   const { isDarkMode, toggleDarkmode } = useTheme();
   const { t, language } = useTranslation();
   const { color } = useTheme();
   const buttonStyle = getButtonStyleForColor(color.background.accent['4']);
+  const { orgId, fylkeskommune, fylkeskommuneLogo, isForcingTheme } =
+    useOrgThemeDefinitions();
 
   const iconSrc = (name: string) => {
     if (orgId === 'atb') {
@@ -57,9 +70,6 @@ export default function Footer({ withoutSettings = false }: FooterProps) {
       title: 'Twitter',
     },
   ].filter(Boolean) as SomeLink[];
-
-  const isForcingTheme = featureConfig.forceTheme !== undefined;
-  const { fylkeskommuneLogo } = useOrgThemeDefinitions();
 
   return (
     <footer className={style.footer}>
@@ -155,6 +165,11 @@ export default function Footer({ withoutSettings = false }: FooterProps) {
                               .toggleDarkMode,
                           )}
                     </button>
+                  </li>
+                )}
+                {isDevOrgThemeEnabled && (
+                  <li>
+                    <DevOrgThemeSelection />
                   </li>
                 )}
               </ul>
@@ -274,4 +289,24 @@ function isExternalUrl(url: string) {
   } catch {
     return false;
   }
+}
+
+function DevOrgThemeSelection() {
+  const themeOrg = useDevOrg() ?? currentOrg;
+
+  return (
+    <label className={style.devOrgTheme}>
+      Theme (dev only)
+      <select
+        value={themeOrg}
+        onChange={(e) => setDevOrg(e.target.value as WEBSHOP_ORGS)}
+      >
+        {allOrgs.map((org) => (
+          <option key={org} value={org}>
+            {org}
+          </option>
+        ))}
+      </select>
+    </label>
+  );
 }

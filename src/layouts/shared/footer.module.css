@@ -99,3 +99,9 @@
 .buttonLink:hover {
   opacity: 0.75;
 }
+
+.devOrgTheme {
+  display: flex;
+  align-items: center;
+  gap: token('spacing.small');
+}
