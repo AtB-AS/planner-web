@@ -10,7 +10,7 @@ import { getThemeVariant } from './theme-variant';
  * Follows the previewed org: colors, `featureConfig.forceTheme` (forced
  * light/dark mode and whether the dark mode toggle is shown), the county
  * (fylkeskommune) logo, the county name in the footer, and the org-specific
- * icon variants in the header and footer.
+ * icon variants in the footer.
  *
  * Stays as for the current org: texts, URLs, other feature config and
  * anything read through `getOrgData()` or the static `theme` export.

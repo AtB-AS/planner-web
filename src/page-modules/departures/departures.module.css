@@ -17,7 +17,7 @@
   padding-bottom: 5.75rem;
   margin: 0 auto;
   margin-top: token('spacing.large');
-  background-color: token('color.background.neutral.0.background');
+  background-color: token('color.surface.neutral.strong.background');
   border-radius: token('border.radius.regular');
 }
 
@@ -26,7 +26,7 @@
 }
 
 .heading {
-  color: token('color.background.accent.0.foreground.primary');
+  color: token('color.foreground.dynamic.primary');
   margin-bottom: token('spacing.small');
 }
 
@@ -60,7 +60,7 @@
   position: absolute;
   left: 0;
   right: 0;
-  background-color: token('color.background.neutral.0.background');
+  background-color: token('color.surface.neutral.strong.background');
   border-radius: 0 0 token('border.radius.regular')
     token('border.radius.regular');
 }

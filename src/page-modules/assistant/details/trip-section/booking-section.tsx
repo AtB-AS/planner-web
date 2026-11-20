@@ -8,7 +8,6 @@ import {
   getLatestBookingDate,
 } from '@atb/modules/flexible';
 import { TripRow } from '@atb/modules/trip-details';
-import { useTheme } from '@atb/modules/theme';
 import { PageText, useTranslation } from '@atb/translations';
 import { formatToShortDateTimeWithRelativeDayNames } from '@atb/utils/date';
 import { BookingArrangementType } from '@atb/page-modules/assistant';
@@ -28,7 +27,6 @@ export function BookingSection({
   flexBookingNumberOfDaysAvailable,
 }: BookingSectionProps) {
   const { t } = useTranslation();
-  const { color } = useTheme();
   const bookingMessage = useBookingMessage(
     bookingArrangements,
     aimedStartTime,
@@ -75,7 +73,7 @@ export function BookingSection({
                 )}
                 href={bookingUrl}
                 size="small"
-                mode="interactive_0"
+                mode="primary"
                 radiusSize="circular"
                 icon={{ right: <MonoIcon icon="navigation/ExternalLink" /> }}
               />
@@ -91,7 +89,6 @@ export function BookingSection({
                 href={`tel:${bookingPhone}`}
                 size="small"
                 mode="secondary"
-                backgroundColor={color.background.neutral[0]}
                 radiusSize="circular"
                 icon={{ right: <MonoIcon icon="devices/Phone" /> }}
               />

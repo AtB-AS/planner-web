@@ -10,8 +10,6 @@ import {
 import { getThemeVariant } from './theme-variant';
 
 export type {
-  InteractiveColor,
-  InteractiveState,
   StatusColorName as Statuses,
   TransportColors,
   ContrastColor,

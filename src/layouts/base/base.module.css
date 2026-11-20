@@ -14,7 +14,7 @@
   overflow: hidden;
   z-index: 1000;
   padding: token('spacing.small') token('spacing.medium');
-  background: token('color.background.neutral.0.background');
+  background: token('color.surface.neutral.strong.background');
   color: token('color.foreground.dynamic.primary');
 }
 

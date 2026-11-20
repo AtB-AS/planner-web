@@ -1,5 +1,5 @@
 .heading {
-  color: token('color.background.accent.0.foreground.primary');
+  color: token('color.foreground.dynamic.primary');
 }
 
 .container {
@@ -22,7 +22,7 @@
 }
 
 .kmphText {
-  color: token('color.background.neutral.0.foreground.secondary');
+  color: token('color.surface.neutral.strong.foreground.secondary');
 }
 
 @media (max-width: 650px) {

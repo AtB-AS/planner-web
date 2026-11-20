@@ -82,7 +82,7 @@ const AssistantInternal = {
       },
       alternatives: {
         more: _('Filter', 'Filter', 'Filter'),
-        less: _('Filter', 'Filter', 'Filter'),
+        less: _('Skjul filter', 'Hide filter', 'Skjul filter'),
       },
     },
     onlyStopPlacesCheckbox: _(

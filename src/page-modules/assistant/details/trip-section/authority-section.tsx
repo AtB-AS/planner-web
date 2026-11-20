@@ -6,7 +6,6 @@ import style from './trip-section.module.css';
 import { AuthorityFragment } from '../../journey-gql/trip-with-details.generated';
 import { ButtonLink } from '@atb/components/button';
 import { MonoIcon } from '@atb/components/icon';
-import { useTheme } from '@atb/modules/theme';
 import { getConfigUrl, getOrgData } from '@atb/modules/org-data';
 import type { OrgData } from '@atb/modules/org-data';
 import type { Language } from '@atb/translations';
@@ -21,7 +20,6 @@ export type AuthoritySectionProps = {
 
 export function AuthoritySection({ authority }: AuthoritySectionProps) {
   const { language, t } = useTranslation();
-  const { color } = useTheme();
   const { authorityId, urls } = getOrgData();
   const devicePlatform = useDevicePlatform();
 
@@ -51,7 +49,6 @@ export function AuthoritySection({ authority }: AuthoritySectionProps) {
           }
           icon={{ left: <MonoIcon icon="navigation/ExternalLink" /> }}
           mode="secondary"
-          backgroundColor={color.background.neutral[0]}
           display="block"
           radiusSize="circular"
           size="pill"

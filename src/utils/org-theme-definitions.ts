@@ -1,6 +1,5 @@
 import { useDarkMode } from '@atb/modules/theme';
 import { useThemeOrgData } from '@atb/modules/theme/dev-org-theme';
-import { MonoIconOverrideMode } from '@atb/components/icon';
 
 export function useOrgThemeDefinitions() {
   const [isDarkMode] = useDarkMode();
@@ -12,14 +11,10 @@ export function useOrgThemeDefinitions() {
       ? fylkeskommune?.logoSrcDark
       : fylkeskommune?.logoSrc;
 
-  const overrideMonoIconMode: MonoIconOverrideMode =
-    orgId === 'atb' ? (isDarkMode ? 'dark' : 'light') : 'dark';
-
   return {
     orgId,
     fylkeskommune,
     fylkeskommuneLogo,
-    overrideMonoIconMode,
     isForcingTheme,
   };
 }

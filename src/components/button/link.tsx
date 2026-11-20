@@ -40,7 +40,6 @@ export function ButtonLink({
   ...props
 }: ButtonLinkProps) {
   const className = getBaseButtonClassName(props);
-  const extraProps = props.state == 'active' ? { 'aria-current': true } : {};
   const buttonStyle = getButtonStyle(props);
 
   if (props.disabled || props.state == 'loading') {
@@ -50,7 +49,6 @@ export function ButtonLink({
         role="link"
         aria-disabled
         data-testid={testID}
-        {...extraProps}
         {...aProps}
       >
         <ButtonBase {...props} />
@@ -64,7 +62,6 @@ export function ButtonLink({
       shallow={shallow}
       className={className}
       onClick={onClick}
-      {...extraProps}
       {...aProps}
       style={buttonStyle}
       data-testid={testID}

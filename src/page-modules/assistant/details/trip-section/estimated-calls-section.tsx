@@ -4,7 +4,6 @@ import { TripRow } from '@atb/modules/trip-details';
 import { DepartureTime } from '@atb/components/departure-time';
 import { Button } from '@atb/components/button';
 import { MonoIcon } from '@atb/components/icon';
-import { useTheme } from '@atb/modules/theme';
 import { PageText, useTranslation } from '@atb/translations';
 import { secondsToDurationShort } from '@atb/utils/date';
 import { andIf } from '@atb/utils/css';
@@ -23,7 +22,6 @@ export function EstimatedCallsSection({
   duration,
 }: EstimatedCallsSectionProps) {
   const { t, language } = useTranslation();
-  const { color } = useTheme();
   const [expanded, setExpanded] = useState(false);
 
   const numberOfCalls = intermediateEstimatedCalls.length;
@@ -40,7 +38,6 @@ export function EstimatedCallsSection({
             ),
           )}
           mode="secondary"
-          backgroundColor={color.background.neutral[0]}
           size="pill"
           radiusSize="circular"
           display="inline"

@@ -292,7 +292,7 @@ export default function CompanyContent() {
       {formCategory && (
         <Button
           title={t(PageText.Contact.submit)}
-          mode="interactive_0--bordered"
+          mode="primary"
           buttonProps={{ type: 'submit' }}
           state={submitting ? 'loading' : undefined}
           className={style.submitButton}

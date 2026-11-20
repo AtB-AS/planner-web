@@ -20,7 +20,6 @@ import { swrFetcher } from '@atb/modules/api-browser';
 import useSWRImmutable from 'swr/immutable';
 import { debounce } from 'lodash';
 import LineFilter from './line-filter';
-import { useTheme } from '@atb/modules/theme';
 import {
   GlobalMessageContextEnum,
   GlobalMessages,
@@ -35,7 +34,6 @@ export type AssistantLayoutProps = PropsWithChildren<{
 
 function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
   const { t } = useTranslation();
-  const { color } = useTheme();
 
   const [showAlternatives, setShowAlternatives] = useState(false);
   const [searchTime, setSearchTime] = useState<SearchTime>(
@@ -261,8 +259,6 @@ function AssistantLayout({ children, tripQuery }: AssistantLayoutProps) {
             }
             className={style.button}
             mode="secondary"
-            backgroundColor={color.background.accent['0']}
-            state={showAlternatives ? 'active' : 'none'}
             radiusSize="circular"
             onClick={() => setShowAlternatives(!showAlternatives)}
             icon={{ right: <MonoIcon icon="actions/Adjust" /> }}

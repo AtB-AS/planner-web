@@ -14,7 +14,6 @@ import { Typo } from '@atb/components/typography';
 import WalkSection from './walk-section';
 import { ColorIcon, MonoIcon } from '@atb/components/icon';
 import { ButtonLink } from '@atb/components/button';
-import { useTheme } from '@atb/modules/theme';
 import { MessageBox } from '@atb/components/message-box';
 import {
   SituationMessageBox,
@@ -56,7 +55,6 @@ export default function TripSection({
   nextLegStartTime,
 }: TripSectionProps) {
   const { t } = useTranslation();
-  const { color } = useTheme();
 
   const routeNotices = getNoticesForRoute(leg);
   const fromEstimatedCallNotices = getNoticesForFromEstimatedCall(leg);
@@ -259,7 +257,6 @@ export default function TripSection({
             <ButtonLink
               href={departureDetailsHref}
               mode="secondary"
-              backgroundColor={color.background.neutral[0]}
               size="pill"
               radiusSize="circular"
               display="inline"

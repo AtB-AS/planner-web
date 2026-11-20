@@ -12,9 +12,8 @@ const CIRCLE_FULL_RADIUS = 11;
 
 export const useNsrCircleLayers = (): CircleLayerSpecification[] => {
   const theme = useTheme();
-  const circleColor = theme.color.transport.city.primary.background;
-  const circleStrokeColor =
-    theme.color.transport.city.primary.foreground.primary;
+  const circleColor = theme.color.transport.city.background;
+  const circleStrokeColor = theme.color.transport.city.foreground.primary;
 
   return useMemo(
     () =>
