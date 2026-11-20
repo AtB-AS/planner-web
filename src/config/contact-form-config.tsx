@@ -15,6 +15,7 @@ export const contactFormConfig: ContactFormConfig = {
   features: {
     includeOtherTicketTypeSelector: true,
     includeCustomerNumberAndPurchasePlatformInAppTicketRefund: true,
+    addressInAppTicketRefund: byOrg({ atb: 'excluded' }),
     enableRequiredLineInServiceOffering: true,
     includeOrderIdInOtherTicketRefund: true,
     includeAmountInOtherTicketRefund: byOrg({ atb: false }) ?? true,
