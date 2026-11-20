@@ -23,6 +23,7 @@ export const contactFormConfig: ContactFormConfig = {
     enableRequiredReceiptAttachmentInOtherTicketRefund: true,
     enableIdentificationAttachmentInOtherTicketRefund: byOrg({ atb: true }),
     customerNumberInFeeComplaint: byOrg({ atb: 'optional' }),
+    bankAccountInFeeComplaint: byOrg({ atb: 'optional' }),
     travelCardNumberInOtherTicketRefund: byOrg({ atb: 'optional' }),
     enableInternationalBankAccountInTravelGuarantee: byOrg({ atb: false }),
     enablePrePurchasedTicketRefundInTravelGuarantee: byOrg({ atb: true }),
