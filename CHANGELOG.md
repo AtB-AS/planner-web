@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.32.0](https://github.com/AtB-AS/planner-web/compare/v3.31.0...v3.32.0) (2026-11-20)
+
+
+### Features
+
+* add universal link support for trip search ([#863](https://github.com/AtB-AS/planner-web/issues/863)) ([060aec7](https://github.com/AtB-AS/planner-web/commit/060aec785aaedd981f2a3d3f70f115931f8fe222))
+* enabledLanguages ([#855](https://github.com/AtB-AS/planner-web/issues/855)) ([7d875e2](https://github.com/AtB-AS/planner-web/commit/7d875e22edb566058dd2851573de204aa8dd9d43))
+
 ## [3.31.0](https://github.com/AtB-AS/planner-web/compare/v3.30.1...v3.31.0) (2026-11-16)
 
 
