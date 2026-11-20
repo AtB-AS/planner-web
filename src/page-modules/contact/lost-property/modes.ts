@@ -218,18 +218,48 @@ MF Harøy: [916 69 328](tel:+4791669328)`,
 );
 
 const bestillingstransportInfo = _rich(
-  `Hittegods fra bestillingstransport tas hånd om av TrønderTaxi, som er operatør.
+  `Hittegods fra bestillingstransport tas hånd om av Vy.
 
-Telefon: [07373](tel:07373) (tastevalg 2), mandag–fredag kl. 08–16
-Adresse: Brøsetvegen 145B, 7048 Trondheim`,
-  `Lost property from on-demand transport is handled by the operator, TrønderTaxi.
+**Bestillingstransport Røros**
+Telefon: [468 84 503](tel:+4746884503), mandag–fredag kl. 10–13
+E-post: [hittegods.sor@vy.no](mailto:hittegods.sor@vy.no)
+Adresse: Franslykkja 9, 7300 Orkanger
 
-Phone: [07373](tel:07373) (press 2), Monday–Friday 08:00–16:00
-Address: Brøsetvegen 145B, 7048 Trondheim`,
-  `Hittegods frå bestillingstransport blir teke hand om av TrønderTaxi, som er operatør.
+**Bestillingstransport Overhalla**
+Telefon: [477 15 974](tel:+4747715974), mandag–fredag kl. 10–14
+Adresse: Holmenvegen 1, 7820 Spillum
 
-Telefon: [07373](tel:07373) (tastevalg 2), måndag–fredag kl. 08–16
-Adresse: Brøsetvegen 145B, 7048 Trondheim`,
+**Bestillingstransport Steinkjer og Verdal**
+Telefon: [901 26 681](tel:+4790126681), mandag–fredag kl. 09–15
+Adresse: Byaveien 50, 7715 Steinkjer`,
+  `Lost property from on-demand transport is handled by Vy.
+
+**On-demand transport Røros**
+Phone: [468 84 503](tel:+4746884503), Monday–Friday 10:00–13:00
+Email: [hittegods.sor@vy.no](mailto:hittegods.sor@vy.no)
+Address: Franslykkja 9, 7300 Orkanger
+
+**On-demand transport Overhalla**
+Phone: [477 15 974](tel:+4747715974), Monday–Friday 10:00–14:00
+Address: Holmenvegen 1, 7820 Spillum
+
+**On-demand transport Steinkjer and Verdal**
+Phone: [901 26 681](tel:+4790126681), Monday–Friday 09:00–15:00
+Address: Byaveien 50, 7715 Steinkjer`,
+  `Hittegods frå bestillingstransport blir teke hand om av Vy.
+
+**Bestillingstransport Røros**
+Telefon: [468 84 503](tel:+4746884503), måndag–fredag kl. 10–13
+E-post: [hittegods.sor@vy.no](mailto:hittegods.sor@vy.no)
+Adresse: Franslykkja 9, 7300 Orkanger
+
+**Bestillingstransport Overhalla**
+Telefon: [477 15 974](tel:+4747715974), måndag–fredag kl. 10–14
+Adresse: Holmenvegen 1, 7820 Spillum
+
+**Bestillingstransport Steinkjer og Verdal**
+Telefon: [901 26 681](tel:+4790126681), måndag–fredag kl. 09–15
+Adresse: Byaveien 50, 7715 Steinkjer`,
 );
 
 /**
@@ -250,9 +280,9 @@ export const atbLostPropertyModes: LostPropertyMode[] = [
   {
     id: 'cityBus',
     label: _(
-      'Bybuss (grønne busser)',
-      'City bus (green buses)',
-      'Bybuss (grøne bussar)',
+      'Bybuss i Trondheimsområdet (grønne busser)',
+      'City bus in the Trondheim area (green buses)',
+      'Bybuss i Trondheimsområdet (grøne bussar)',
     ),
     lines: (line) =>
       line.transportMode === 'bus' &&
@@ -260,7 +290,11 @@ export const atbLostPropertyModes: LostPropertyMode[] = [
   },
   {
     id: 'regionalBus',
-    label: _('Regionbuss', 'Regional bus', 'Regionbuss'),
+    label: _(
+      'Regionbuss (blå busser)',
+      'Regional bus (blue buses)',
+      'Regionbuss (blå bussar)',
+    ),
     info: regionalBusInfo,
   },
   { id: 'tram', label: _('Trikk', 'Tram', 'Trikk'), info: tramInfo },

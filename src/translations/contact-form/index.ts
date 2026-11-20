@@ -213,6 +213,30 @@ export const translations: ContactFormTranslationsOverride = {
               ),
             },
             feeComplaint: {
+              firstAgreement: {
+                rules: [
+                  _(
+                    'Du er selv ansvarlig for å ha gyldig billett før du går om bord.',
+                    'You are responsible for having a valid ticket before boarding.',
+                    'Du er sjølv ansvarleg for å ha gyldig billett før du går om bord.',
+                  ),
+                  _(
+                    'Har du kjøpt en billett som må aktiveres, må billetten være aktivert før du går om bord.',
+                    'If you have purchased a ticket that must be activated, the ticket must be activated before boarding.',
+                    'Har du kjøpt ein billett som må aktiverast, må billetten vere aktivert før du går om bord.',
+                  ),
+                  _(
+                    'Reiser du med en rabattert billett, må du ved billettkontroll kunne dokumentere at du har rett til rabatten og fremvise nødvendig legitimasjon.',
+                    'If you are traveling with a discounted ticket, you must be able to document your eligibility for the discount and show the necessary identification during ticket inspection.',
+                    'Reiser du med ein rabattert billett, må du ved billettkontroll kunne dokumentere at du har rett til rabatten og vise fram naudsynt legitimasjon.',
+                  ),
+                  _(
+                    'Har du ikke gyldig billett for reisen, vil du få gebyr ved billettkontroll.',
+                    'If you do not have a valid ticket for the trip, you will receive a fine during the ticket inspection.',
+                    'Har du ikkje gyldig billett for reisa, vil du få gebyr ved billettkontroll.',
+                  ),
+                ],
+              },
               secondAgreement: {
                 info: _(
                   'Har du krav på rabatt, men har fått gebyr fordi du ikke kunne framvise gyldig legitimasjon, kan du få redusert gebyret ditt til kr. 150,- ved å besøke vårt kundesenter og fremvise dokumentasjon eller sende det til oss innen 7 dager.',
@@ -241,6 +265,15 @@ export const translations: ContactFormTranslationsOverride = {
                     'Reisekortet ligg igjen heime.',
                   ),
                 ],
+              },
+              ticketStorage: {
+                app: {
+                  title: _(
+                    `${T.ticketApp.base} eller SMS`,
+                    `${T.ticketApp.base} or SMS`,
+                    `${T.ticketApp.base} eller SMS`,
+                  ),
+                },
               },
             },
           },
@@ -273,10 +306,15 @@ export const translations: ContactFormTranslationsOverride = {
             },
             agreement: {
               title: _('Reisegaranti', 'Travel guarantee', 'Reisegaranti'),
-              delayedRefundText: _(
-                'Ved forsinkelser eller innstillinger på buss, bestillingstransport eller hurtigbåt, kan du ha rett til refusjon for utlegg til annen skyss. Merk at vi ikke betaler ut reisegaranti til utenlandsk konto.',
-                'If your bus, on-demand transport, or express boat is delayed or canceled, you may be entitled to a refund for the cost of alternative transportation. Please note that we do not make travel guarantee payments to international bank accounts.',
-                'Ved forseinkingar eller innstillingar på buss, bestillingstransport eller hurtigbåt kan du ha rett til refusjon for utlegg til annan skyss. Merk at vi ikkje betaler ut reisegaranti til utanlandsk konto.',
+              delayedRefundText: _rich(
+                'Hvis bussen, bestillingstransporten eller hurtigbåten er forsinket eller innstilt, kan du få dekket utgifter til annen transport.\n\nVi utbetaler reisegaranti kun til norske bankkontoer.',
+                'If the bus, on-demand transport or express boat is delayed or canceled, you can get your expenses for alternative transport covered.\n\nWe only pay out travel guarantee to Norwegian bank accounts.',
+                'Viss bussen, bestillingstransporten eller hurtigbåten er forseinka eller innstilt, kan du få dekt utgifter til annan transport.\n\nVi betaler berre ut reisegaranti til norske bankkontoar.',
+              ),
+              ticketRefundText: _rich(
+                'Har du kjøpt feil billett eller en billett du ikke har brukt? Da skal du søke om [refusjon av billett](?type=refundOfTicket), ikke reisegaranti.',
+                'Have you bought the wrong ticket or a ticket you have not used? Then you should apply for a [refund of ticket](?type=refundOfTicket), not travel guarantee.',
+                'Har du kjøpt feil billett eller ein billett du ikkje har brukt? Då skal du søkje om [refusjon av billett](?type=refundOfTicket), ikkje reisegaranti.',
               ),
               travelGuaranteeExceptions: {
                 exceptions: [
@@ -353,26 +391,26 @@ export const translations: ContactFormTranslationsOverride = {
             info: _rich(
               `Har du glemt igjen eller mistet noe om bord, blir det tatt hånd om av AtB kundesenter eller operatøren for transportmiddelet.
 
-**Bybuss:** Beskriv gjenstanden i skjemaet, så tar vi kontakt hvis vi finner den. Utlevering skjer kun etter avtale.
-**Andre transportmidler:** Bruk informasjonen til å kontakte riktig hittegodskontor.
+**Bybuss i Trondheimsområdet (grønne busser):** Beskriv gjenstanden i skjemaet, så tar vi kontakt hvis vi finner den. Utlevering skjer kun etter avtale.
+**Andre transportmidler:** [Ta kontakt med riktig kontor for hittegods](https://www.atb.no/hittegods/).
 
-Har du mistet ${T.travelCard.definite} ditt, må du kontakte AtB kundesenter.
+Har du mistet ${T.travelCard.definite} ditt, må du [kontakte AtB kundesenter](https://www.atb.no/kontakt/).
 
 [Les mer om hittegods på atb.no](https://www.atb.no/hittegods/)`,
               `If you have left something behind or lost something on board, it is handled by AtB customer service or the operator of that mode of transport.
 
-**City bus:** Describe the item in the form, and we will contact you if we find it. Items can only be collected by appointment.
-**Other transport modes:** Use the information to contact the right lost property office.
+**City bus in the Trondheim area (green buses):** Describe the item in the form, and we will contact you if we find it. Items can only be collected by appointment.
+**Other transport modes:** [Contact the right lost property office](https://www.atb.no/en/lost-and-found/).
 
-If you have lost your ${T.travelCard.base}, contact AtB customer service.
+If you have lost your ${T.travelCard.base}, [contact AtB customer service](https://www.atb.no/kontakt/).
 
 [Read more about lost property on atb.no](https://www.atb.no/en/lost-and-found/)`,
               `Har du gløymt igjen eller mista noko om bord, blir det teke hand om av AtB kundesenter eller operatøren for transportmiddelet.
 
-**Bybuss:** Skildre gjenstanden i skjemaet, så tek vi kontakt viss vi finn han. Utlevering skjer berre etter avtale.
-**Andre transportmiddel:** Bruk informasjonen til å kontakte rett hittegodskontor.
+**Bybuss i Trondheimsområdet (grøne bussar):** Skildre gjenstanden i skjemaet, så tek vi kontakt viss vi finn han. Utlevering skjer berre etter avtale.
+**Andre transportmiddel:** [Ta kontakt med rett kontor for hittegods](https://www.atb.no/hittegods/).
 
-Har du mista ${T.travelCard.definite} ditt, må du kontakte AtB kundesenter.
+Har du mista ${T.travelCard.definite} ditt, må du [kontakte AtB kundesenter](https://www.atb.no/kontakt/).
 
 [Les meir om hittegods på atb.no](https://www.atb.no/hittegods/)`,
             ),
@@ -402,9 +440,9 @@ Har du mista ${T.travelCard.definite} ditt, må du kontakte AtB kundesenter.
             refund: {
               appTicketRefund: {
                 label: _(
-                  `Billetter kjøpt i ${T.orgApp.base}, nettbutikk eller SMS`,
-                  `Tickets purchased in ${T.orgApp.base}, webshop or by SMS`,
-                  `Billettar kjøpte i ${T.orgApp.base}, nettbutikk eller SMS`,
+                  `Jeg har kjøpt billett i ${T.orgApp.base}, nettbutikk eller SMS`,
+                  `I bought the ticket in ${T.orgApp.base}, the webshop or by SMS`,
+                  `Eg har kjøpt billett i ${T.orgApp.base}, nettbutikk eller SMS`,
                 ),
               },
               initialAgreement: {
@@ -416,37 +454,37 @@ Har du mista ${T.travelCard.definite} ditt, må du kontakte AtB kundesenter.
                       'Dersom du endrar adresse, blir sjukmeld eller endrar reisemønster på grunn av arbeid eller skule. Slike forhold må dokumenterast.',
                     ),
                     _(
-                      'Ved kjøp av feil reisestrekning, passasjerkategori eller tidspunkt/dato. Vi vil refundere billetten som du har kjøpt feil dersom du kjøper ny, korrekt billett.',
-                      'When purchasing the wrong journey, passenger category or time/date. We will refund the ticket that you bought incorrectly if you buy a new, correct ticket.',
-                      'Ved kjøp av feil reisestrekning, passasjerkategori eller tidspunkt/dato. Vi vil refundere billetten som du har kjøpt feil dersom du kjøper ny, korrekt billett.',
+                      'Hvis du har kjøpt billett for feil reisestrekning, passasjerkategori eller tidspunkt. Du får refusjon for billetten som du har kjøpt feil dersom du kjøper ny, korrekt billett.',
+                      'If you have bought a ticket for the wrong journey, passenger category or time. You will get a refund for the ticket you bought by mistake if you buy a new, correct ticket.',
+                      'Viss du har kjøpt billett for feil reisestrekning, passasjerkategori eller tidspunkt. Du får refusjon for billetten som du har kjøpt feil, dersom du kjøper ny, korrekt billett.',
                     ),
                   ],
                 },
                 refundableTicketTypes: {
                   rules: [
                     _(
-                      'Periodebilletter: Du får refusjon for gjenværende dager etter kjøp av ny billett',
-                      'Period tickets: You’ll be refunded for the remaining days after purchasing a new ticket.',
-                      'Periodebillettar: Du får refusjon for attverande dagar etter kjøp av ny billett',
+                      'Periodebillett: Du får refundert dagene som er igjen på den gamle billetten, når du har kjøpt en ny periodebillett.',
+                      'Period ticket: You will be refunded for the days remaining on the old ticket once you have purchased a new period ticket.',
+                      'Periodebillett: Du får refundert dagane som er att på den gamle billetten, når du har kjøpt ein ny periodebillett.',
                     ),
                     _(
-                      'Klippekort: Du får refusjon for antall gjenværende klipp. Klipp utgått på dato refunderes ikke.',
-                      'Carnet: You’ll receive a refund for any unused clips. Expired clips are not refundable.',
-                      'Klippekort: Du får refusjon for dei klippa du har att. Klipp som har gått ut på dato, blir ikkje refunderte.',
+                      'Klippekort: Du får refusjon for de klippene du har igjen. Du får ikke refusjon for klipp som har gått ut på dato.',
+                      'Carnet: You will get a refund for the clips you have left. You will not get a refund for expired clips.',
+                      'Klippekort: Du får refusjon for dei klippa du har att. Du får ikkje refusjon for klipp som har gått ut på dato.',
                     ),
                     _(
-                      'Enkeltbillett refunderes i utgangspunktet kun ved feilkjøp og når ny, riktig billett er kjøpt.',
-                      'Single tickets are generally only refunded if they were purchased in error and a new, correct ticket has been purchased.',
-                      'Enkeltbillett blir i utgangspunktet berre refundert ved feilkjøp og når ein ny, korrekt billett er kjøpt.',
+                      'Enkeltbillett: Du får refusjon hvis du har kjøpt feil billett og deretter kjøper en ny og riktig billett.',
+                      'Single ticket: You will get a refund if you bought the wrong ticket and then buy a new, correct ticket.',
+                      'Enkeltbillett: Du får refusjon viss du har kjøpt feil billett og deretter kjøper ein ny og rett billett.',
                     ),
                   ],
                 },
               },
               otherTicketRefund: {
                 label: _(
-                  'Billett kjøpt om bord eller på utsalgssted',
-                  'Ticket purchased on board or at a ticket office',
-                  'Billett kjøpt om bord eller på utsalsstad',
+                  'Jeg har kjøpt billetten om bord, hos AtB kundesenter eller på et annet utsalgssted',
+                  'I bought the ticket on board, at the AtB service center or at another point of sale',
+                  'Eg har kjøpt billetten om bord, hos AtB kundesenter eller på ein annan utsalsstad',
                 ),
               },
             },
@@ -461,6 +499,11 @@ Har du mista ${T.travelCard.definite} ditt, må du kontakte AtB kundesenter.
             },
           },
           modeOfTransport: {
+            title: _(
+              'Tilbakemelding om reisen',
+              'Travel feedback',
+              'Tilbakemelding om reisa',
+            ),
             injury: {
               description: _(
                 'Melde fra om personskade eller skade på eiendel',
@@ -506,6 +549,13 @@ Har du mista ${T.travelCard.definite} ditt, må du kontakte AtB kundesenter.
                 'Består av 7 eller 8 siffer og står under Profil i AtB-appen eller i nettbutikken.',
               ),
             },
+            travelCardNumber: {
+              info: _(
+                `Består av 16 siffer og står på baksiden av ${T.travelCard.definite} ditt.`,
+                `Consists of 16 digits and is on the back of your ${T.travelCard.base}.`,
+                `Består av 16 siffer og står bak på ${T.travelCard.definite} ditt.`,
+              ),
+            },
             feeNumber: {
               description: _(
                 'Består av 5 eller 6 siffer og står øverst i høyre hjørne på gebyret.',
@@ -518,6 +568,13 @@ Har du mista ${T.travelCard.definite} ditt, må du kontakte AtB kundesenter.
                 'Ved avvik/feilkjøp og bruk av alternativ transport må dette dokumenteres med vedlegg. For eksempel billett/kvittering fra flybuss, tog, reise med sparkesykkel med mer.',
                 'In case of deviations/incorrect purchases and use of alternative transport, this must be documented with attachments. For example, a ticket/receipt from the airport bus, train, e-scooter trip and more.',
                 'Ved avvik/feilkjøp og bruk av alternativ transport må dette dokumenterast med vedlegg. Til dømes billett/kvittering frå flybuss, tog, reise med sparkesykkel med meir.',
+              ),
+            },
+            plannedDepartureTime: {
+              label: _(
+                'Planlagt avgangstid fra holdeplass/kai du reiser fra',
+                'Planned departure time from the stop you are traveling from',
+                'Planlagd avgangstid frå haldeplass/kai du reiser frå',
               ),
             },
             reasonForTransportFailure: {
