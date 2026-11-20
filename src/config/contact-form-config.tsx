@@ -97,6 +97,19 @@ export const contactFormConfig: ContactFormConfig = {
         ],
         enabledPurchasePlatforms: ['framApp', 'framWeb', 'sms'],
       },
+      ticketing: {
+        enabledAppForms: [
+          'appTicketing',
+          'appTravelSuggestion',
+          'appAccount',
+          'appOther',
+        ],
+        enabledWebshopForms: [
+          'webshopTicketing',
+          'webshopAccount',
+          'webshopOther',
+        ],
+      },
       lostProperty: { modes: atbLostPropertyModes },
     },
   }),
