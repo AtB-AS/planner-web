@@ -14,7 +14,12 @@ export default function handler(_req: NextApiRequest, res: NextApiResponse) {
       details: [
         {
           appIDs: appLinks.iosAppIds,
-          components: [{ '/': '/departures/*' }],
+          components: [
+            { '/': '/departures/*' },
+            { '/': '/assistant', '?': { lineFilter: '?*' }, exclude: true },
+            { '/': '/assistant', '?': { viaId: '?*' }, exclude: true },
+            { '/': '/assistant' },
+          ],
         },
       ],
     },
