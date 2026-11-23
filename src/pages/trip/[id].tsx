@@ -1,6 +1,10 @@
 import DefaultLayout from '@atb/layouts/default';
 import { NextPage } from 'next';
-import { withAssistantClient } from '@atb/page-modules/assistant/server';
+import {
+  toExtendedTripPattern,
+  withTripClient,
+} from '@atb/page-modules/trip/server';
+import { validate as isUuid } from 'uuid';
 import {
   AssistantDetails,
   AssistantDetailsProps,
@@ -48,28 +52,28 @@ export default AssistantDetailsPage;
 
 export const getServerSideProps = withAccessLogging(
   withGlobalData(
-    withAssistantClient<
-      AssistantDetailsRoutingProps,
-      { id: string[] | undefined }
-    >(async function ({ client, params }) {
-      if (!params?.id) {
+    withTripClient<AssistantDetailsRoutingProps, { id: string | undefined }>(
+      async function ({ client, params }) {
+        if (!params?.id || !isUuid(params.id)) {
+          return {
+            props: { empty: true },
+          };
+        }
+
+        const storedTrip = await client.getTrip(params.id);
+
+        if (!storedTrip) {
+          return {
+            props: { empty: true },
+          };
+        }
+
+        const tripPattern = await client.refreshSingleTrip(storedTrip);
+
         return {
-          props: { empty: true },
+          props: { tripPatterns: [toExtendedTripPattern(tripPattern)] },
         };
-      }
-
-      const id = params.id.toString();
-      const result = await client.singleTrip(id);
-
-      if (!result) {
-        return {
-          props: { empty: true },
-        };
-      }
-
-      return {
-        props: { tripPatterns: result.trip.tripPatterns },
-      };
-    }),
+      },
+    ),
   ),
 );

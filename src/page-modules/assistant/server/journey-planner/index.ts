@@ -10,7 +10,6 @@ import type {
   NonTransitTripInput,
   TripInput,
   TripsType,
-  TripWithDetailsType,
 } from '../../types';
 import {
   adjustNonTransitExpectedTimes,
@@ -85,7 +84,6 @@ const DEFAULT_JOURNEY_CONFIG = {
 export type JourneyPlannerApi = {
   trip(input: TripInput): Promise<TripsType>;
   nonTransitTrips(input: NonTransitTripInput): Promise<NonTransitTripData>;
-  singleTrip(input: string): Promise<TripWithDetailsType | undefined>;
   refreshSingleTrip(
     tripPattern: ExtendedTripPatternWithDetailsType,
   ): Promise<ExtendedTripPatternWithDetailsType>;
@@ -245,102 +243,6 @@ export function createJourneyApi(
       return trips;
     },
 
-    async singleTrip(input) {
-      const tripQuery = parseTripQueryString(input);
-      if (!tripQuery) return;
-
-      let formattedResult;
-      if ('via' in tripQuery.query) {
-        const result = await client.query<
-          ViaTripsWithDetailsQuery,
-          ViaTripsWithDetailsQueryVariables
-        >({
-          query: ViaTripsWithDetailsDocument,
-          variables: {
-            ...tripQuery.query,
-            ...DEFAULT_JOURNEY_CONFIG,
-          },
-        });
-
-        if (result.error || result.errors) {
-          throw result.error ?? new Error(JSON.stringify(result.errors));
-        }
-
-        if (!result.data.viaTrip) return;
-
-        const { tripPatternCombinations, tripPatternsPerSegment } =
-          result.data.viaTrip;
-
-        // Create list to make all trip pattern combinations more accessable.
-        const tripPatternCombinationList = findTripPatternCombinationsList(
-          tripPatternCombinations,
-        );
-
-        // Find trip patterns from-via and via-to destination.
-        const tripPatternsFromVia = tripPatternsPerSegment[0].tripPatterns;
-        const tripPatternsViaTo = tripPatternsPerSegment[1].tripPatterns;
-
-        // Find all possible trip patterns where the legs from the from-via location and the via-to location are concatenated.
-        const tripPatternsFromViaTo = findTripPatternsFromViaToWithDetails(
-          tripPatternCombinationList,
-          tripPatternsFromVia,
-          tripPatternsViaTo,
-        );
-        formattedResult = { trip: tripPatternsFromViaTo };
-      } else {
-        const result = await client.query<
-          TripsWithDetailsQuery,
-          TripsWithDetailsQueryVariables
-        >({
-          query: TripsWithDetailsDocument,
-          variables: {
-            ...tripQuery.query,
-            arriveBy: false,
-            ...DEFAULT_JOURNEY_CONFIG,
-          },
-        });
-
-        if (result.error || result.errors) {
-          throw result.error ?? new Error(JSON.stringify(result.errors));
-        }
-
-        if (!result.data.trip) return;
-
-        formattedResult = { trip: result.data.trip.tripPatterns };
-      }
-      // Find the trip pattern that matches the journey IDs in the query
-      const singleTripPattern = formattedResult.trip.find((pattern) => {
-        const journeyIds = extractServiceJourneyIds(pattern);
-        if (journeyIds.length != tripQuery.journeyIds.length) return false; // Fast comparison
-        return (
-          JSON.stringify(journeyIds) === JSON.stringify(tripQuery.journeyIds) // Slow comparison
-        );
-      });
-
-      if (!singleTripPattern) return;
-
-      const refreshedAt = new Date().toISOString();
-
-      // Extend GraphQL-type with mapLegs for easy map rendering
-      return {
-        trip: {
-          tripPatterns: [
-            withDerivedTripTimes({
-              ...singleTripPattern,
-              compressedQuery: generateSingleTripQueryString(
-                extractServiceJourneyIds(singleTripPattern),
-                singleTripPattern.legs[0].aimedStartTime,
-                tripQuery.query,
-              ),
-              legs: singleTripPattern.legs.map((leg) =>
-                extendLeg(leg, refreshedAt),
-              ),
-            }),
-          ],
-        },
-      };
-    },
-
     async refreshSingleTrip(tripPattern: ExtendedTripPatternWithDetailsType) {
       const now = new Date().toISOString();
 
@@ -453,7 +355,7 @@ type ExtendableLeg = {
  * mapLegs for map rendering, filtered notices, and the refreshedAt timestamp
  * used to determine staleness when refreshing a trip.
  */
-function extendLeg<T extends ExtendableLeg>(
+export function extendLeg<T extends ExtendableLeg>(
   leg: T,
   refreshedAt: string,
 ): T & {
@@ -663,28 +565,6 @@ export function findTripPatternCombinationsList(
 }
 
 export function findTripPatternsFromViaTo(
-  tripPatternCombinations: { from: number; to: number }[][],
-  tripPatternsFromVia: ViaTripsWithDetailsQuery['viaTrip']['tripPatternsPerSegment'][0]['tripPatterns'],
-  tripPatternsViaTo: ViaTripsWithDetailsQuery['viaTrip']['tripPatternsPerSegment'][0]['tripPatterns'],
-) {
-  const tripPatterns: ViaTripsWithDetailsQuery['viaTrip']['tripPatternsPerSegment'][0]['tripPatterns'] =
-    [];
-  tripPatternCombinations.map((segment) => {
-    segment.map((combo) =>
-      tripPatterns.push({
-        expectedStartTime: tripPatternsFromVia[combo.from].expectedStartTime,
-        expectedEndTime: tripPatternsViaTo[combo.to].expectedEndTime,
-        legs: [
-          ...tripPatternsFromVia[combo.from].legs,
-          ...tripPatternsViaTo[combo.to].legs,
-        ],
-      }),
-    );
-  });
-  return tripPatterns;
-}
-
-export function findTripPatternsFromViaToWithDetails(
   tripPatternCombinations: { from: number; to: number }[][],
   tripPatternsFromVia: ViaTripsWithDetailsQuery['viaTrip']['tripPatternsPerSegment'][0]['tripPatterns'],
   tripPatternsViaTo: ViaTripsWithDetailsQuery['viaTrip']['tripPatternsPerSegment'][0]['tripPatterns'],

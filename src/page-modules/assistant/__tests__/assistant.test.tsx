@@ -102,9 +102,6 @@ describe('assistant page', function () {
       async reverse() {
         return {} as any;
       },
-      async singleTrip() {
-        return {} as any;
-      },
       async refreshSingleTrip() {
         return {} as any;
       },
@@ -370,9 +367,6 @@ describe('assistant page', function () {
         else return [toFeature];
       },
       async reverse() {
-        return {} as any;
-      },
-      async singleTrip() {
         return {} as any;
       },
       async refreshSingleTrip() {

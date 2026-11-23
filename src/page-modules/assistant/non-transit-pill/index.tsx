@@ -1,4 +1,4 @@
-import { ButtonLink } from '@atb/components/button';
+import { Button } from '@atb/components/button';
 import { MonoIcon } from '@atb/components/icon';
 import {
   TransportMonoIcon,
@@ -6,6 +6,7 @@ import {
 } from '@atb/modules/transport-mode';
 import { PageText, TranslateFunction, useTranslation } from '@atb/translations';
 import { secondsToDurationShort } from '@atb/utils/date';
+import { useOpenTrip } from '@atb/page-modules/trip/use-open-trip';
 
 type NonTransitTripProps = {
   nonTransit: {
@@ -17,6 +18,7 @@ type NonTransitTripProps = {
 };
 export function NonTransitTrip({ nonTransit }: NonTransitTripProps) {
   const { t, language } = useTranslation();
+  const { openTrip, isLoading } = useOpenTrip();
 
   if (!nonTransit) {
     return null;
@@ -26,10 +28,11 @@ export function NonTransitTrip({ nonTransit }: NonTransitTripProps) {
   const durationShort = secondsToDurationShort(nonTransit.duration, language);
 
   return (
-    <ButtonLink
+    <Button
       radiusSize="circular"
       size="pill"
-      href={`/assistant/${nonTransit.compressedQuery}`}
+      onClick={() => openTrip(nonTransit.compressedQuery)}
+      state={isLoading ? 'loading' : 'none'}
       title={`${modeText} ${durationShort}`}
       testID={`non-transit-pill-${mode}`}
       icon={{

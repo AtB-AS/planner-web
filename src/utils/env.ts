@@ -59,3 +59,7 @@ const getServicePort = (serviceKey: string): string => {
 export const BFFURL: string = getServiceUrl('http://', 'BFF', false) + '/bff';
 export const SALESURL: string =
   getServiceUrl('http://', 'SALES', false) + '/sales';
+// JOURNEY_BASE_URL points to a local journey service during development.
+export const JOURNEYURL: string =
+  (process.env.JOURNEY_BASE_URL ?? getServiceUrl('http://', 'JOURNEY', false)) +
+  '/journey';
