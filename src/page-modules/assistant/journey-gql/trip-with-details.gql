@@ -1,51 +1,9 @@
-query TripsWithDetails(
-  $from: Location!
-  $to: Location!
-  $arriveBy: Boolean!
-  $when: DateTime
-  $cursor: String
-  $transferPenalty: Int
-  $transferSlack: Int
-  $waitReluctance: Float
-  $walkReluctance: Float
-  $walkSpeed: Float
-  $modes: Modes
-  $numTripPatterns: Int
-  $lineFilter: [ID]
-) {
-  trip(
-    from: $from
-    to: $to
-    dateTime: $when
-    arriveBy: $arriveBy
-    pageCursor: $cursor
-    transferPenalty: $transferPenalty
-    transferSlack: $transferSlack
-    waitReluctance: $waitReluctance
-    walkReluctance: $walkReluctance
-    walkSpeed: $walkSpeed
-    modes: $modes
-    numTripPatterns: $numTripPatterns
-    searchWindow: 60 # 1 hour
-    includeRealtimeCancellations: true
-    includePlannedCancellations: true
-    whiteListed: { lines: $lineFilter }
-  ) {
-    nextPageCursor
-    previousPageCursor
-    metadata {
-      searchWindowUsed
-    }
-    tripPatterns {
-      ...tripPatternWithDetails
-    }
-  }
-}
-
+# The fields planner-web reads from trip patterns returned by atb-bff.
 fragment tripPatternWithDetails on TripPattern {
   expectedStartTime
   expectedEndTime
-  streetDistance
+  duration
+  walkDistance
   legs {
     ...legWithDetails
   }
@@ -72,6 +30,7 @@ fragment legWithDetails on Leg {
   realtime
   duration
   serviceDate
+  rentedBike
   pointsOnLink {
     points
     length
@@ -123,10 +82,6 @@ fragment legWithDetails on Leg {
     notices {
       ...notice
     }
-    destinationDisplay {
-      frontText
-      via
-    }
     cancellation
     requestStop
   }
@@ -172,7 +127,6 @@ fragment legWithDetails on Leg {
     cancellation
     quay {
       name
-      description
     }
     realtime
   }

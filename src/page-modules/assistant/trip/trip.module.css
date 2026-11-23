@@ -24,8 +24,3 @@
   align-self: center;
   margin-top: token('spacing.xLarge');
 }
-
-.disabledFetchTextContainer {
-  align-self: center;
-  margin-top: token('spacing.xLarge');
-}

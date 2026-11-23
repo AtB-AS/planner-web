@@ -1,9 +1,16 @@
 import { tryResult } from '@atb/modules/api-server';
+import {
+  type ExtendedTripPatternWithDetailsType,
+  RefreshTripRequestBodySchema,
+} from '@atb/page-modules/assistant';
+import { toBffTripPattern } from '@atb/page-modules/assistant/server/bff-trips';
 import { handlerWithTripClient } from '@atb/page-modules/trip/server';
 import { ApiError } from 'next/dist/server/api-utils';
 import { z } from 'zod';
 
-const SaveTripRequestBodySchema = z.object({ compressedQuery: z.string() });
+const SaveTripRequestBodySchema = z.object({
+  tripPattern: RefreshTripRequestBodySchema,
+});
 
 export default handlerWithTripClient<{ tripId: string }>({
   async POST(req, res, { client, ok }) {
@@ -13,12 +20,11 @@ export default handlerWithTripClient<{ tripId: string }>({
         throw new ApiError(400, bodyRes.error.message);
       }
 
-      const tripPattern = await client.findTrip(bodyRes.data.compressedQuery);
-      if (!tripPattern) {
-        throw new ApiError(404, 'Trip not found');
-      }
-
-      return ok({ tripId: await client.saveTrip(tripPattern) });
+      const tripPattern = bodyRes.data
+        .tripPattern as ExtendedTripPatternWithDetailsType;
+      return ok({
+        tripId: await client.saveTrip(toBffTripPattern(tripPattern)),
+      });
     });
   },
 });

@@ -1,7 +1,7 @@
-import { ExtendedTripPatternType } from '@atb/page-modules/assistant';
+import { TripPatternWithDetailsFragment } from '@atb/page-modules/assistant/journey-gql/trip-with-details.generated';
 import { Mode, TransportSubmode } from '@atb/modules/graphql-types';
 
-export const tripPatternFixture: ExtendedTripPatternType = {
+export const tripPatternFixture: TripPatternWithDetailsFragment = {
   expectedStartTime: '2023-01-01T01:00:00+01:00',
   expectedEndTime: '2023-01-01T02:00:00+01:00',
   legs: [
@@ -65,5 +65,4 @@ export const tripPatternFixture: ExtendedTripPatternType = {
       },
     },
   ],
-  compressedQuery: 'H4sIAAAAAAAA',
 };

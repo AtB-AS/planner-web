@@ -1,9 +1,7 @@
 import DefaultLayout from '@atb/layouts/default';
 import { NextPage } from 'next';
-import {
-  toExtendedTripPattern,
-  withTripClient,
-} from '@atb/page-modules/trip/server';
+import { withTripClient } from '@atb/page-modules/trip/server';
+import { toExtendedTripPattern } from '@atb/page-modules/assistant/server/bff-trips';
 import { validate as isUuid } from 'uuid';
 import {
   AssistantDetails,
@@ -68,10 +66,12 @@ export const getServerSideProps = withAccessLogging(
           };
         }
 
-        const tripPattern = await client.refreshSingleTrip(storedTrip);
+        const tripPattern = await client.refreshSingleTrip(
+          toExtendedTripPattern(storedTrip),
+        );
 
         return {
-          props: { tripPatterns: [toExtendedTripPattern(tripPattern)] },
+          props: { tripPatterns: [tripPattern] },
         };
       },
     ),

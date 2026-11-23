@@ -245,11 +245,6 @@ const AssistantInternal = {
       'Load more results',
       'Last inn fleire reiseforslag',
     ),
-    disabledFetchMore: _(
-      'Flere resultater er ikke tilgjengelig ved via-søk',
-      'More results are not available with via search',
-      'Fleire resultat er ikkje tilgjengeleg ved via-søk',
-    ),
     nonTransit: {
       foot: _('Gå', 'Walk', 'Gå'),
       bicycle: _('Sykkel', 'Bike', 'Sykkel'),

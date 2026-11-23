@@ -49,7 +49,7 @@ export default function TripPatternCollapse({
   );
 
   const { openTrip, isLoading: isOpeningTrip } = useOpenTrip();
-  const openDetails = () => openTrip(displayTripPattern.compressedQuery);
+  const openDetails = () => openTrip(displayTripPattern);
 
   return (
     <div ref={ref} className={style.collapseContainer}>

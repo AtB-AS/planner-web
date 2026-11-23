@@ -2,11 +2,8 @@ import { cleanup, render, screen, waitFor } from '@testing-library/react';
 import mockRouter from 'next-router-mock';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { ExternalClient } from '@atb/modules/api-server';
-import {
-  JourneyPlannerApi,
-  findTripPatternCombinationsList,
-  findTripPatternsFromViaTo,
-} from '../server/journey-planner';
+import { JourneyPlannerApi } from '../server/journey-planner';
+import { BffTripApi } from '../server/bff-trips';
 import {
   AssistantContentProps,
   getServerSideProps,
@@ -19,11 +16,6 @@ import {
   fromFeature,
   nonTransitTripResult,
   toFeature,
-  tripPatternCombinationList,
-  tripPatternCombinations,
-  tripPatternsFromVia,
-  tripPatternsFromViaTo,
-  tripPatternsViaTo,
   tripResult,
   viaFeature,
 } from './assistant-data.fixture';
@@ -87,7 +79,7 @@ describe('assistant page', function () {
 
     const gqlClient: ExternalClient<
       'graphql-journeyPlanner3' | 'http-bff',
-      BffGeocoderApi & JourneyPlannerApi
+      BffGeocoderApi & JourneyPlannerApi & BffTripApi
     > = {
       async trip() {
         return tripResult;
@@ -354,7 +346,7 @@ describe('assistant page', function () {
 
     const gqlClient: ExternalClient<
       'graphql-journeyPlanner3' | 'http-bff',
-      BffGeocoderApi & JourneyPlannerApi
+      BffGeocoderApi & JourneyPlannerApi & BffTripApi
     > = {
       async trip() {
         return tripResult;
@@ -406,25 +398,5 @@ describe('assistant page', function () {
       tripQuery: cachedFromToTripQuery,
       fallback: tripResult.trip,
     });
-  });
-});
-
-describe('findTripPatternCombinationsList', () => {
-  it('should return the correct trip pattern combinations list', () => {
-    const result = findTripPatternCombinationsList(tripPatternCombinations);
-
-    expect(result).toEqual(tripPatternCombinationList);
-  });
-});
-
-describe('findTripPatternsFromViaTo', () => {
-  it('should return the correct trip patterns from via to', () => {
-    const result = findTripPatternsFromViaTo(
-      tripPatternCombinationList,
-      tripPatternsFromVia,
-      tripPatternsViaTo,
-    );
-
-    expect(result).toEqual(tripPatternsFromViaTo);
   });
 });

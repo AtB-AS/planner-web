@@ -7,13 +7,14 @@ import {
 import { PageText, TranslateFunction, useTranslation } from '@atb/translations';
 import { secondsToDurationShort } from '@atb/utils/date';
 import { useOpenTrip } from '@atb/page-modules/trip/use-open-trip';
+import type { ExtendedTripPatternWithDetailsType } from '@atb/page-modules/assistant';
 
 type NonTransitTripProps = {
   nonTransit: {
     mode: TransportModeType;
     rentedBike: boolean;
     duration: number;
-    compressedQuery: string;
+    tripPattern: ExtendedTripPatternWithDetailsType;
   };
 };
 export function NonTransitTrip({ nonTransit }: NonTransitTripProps) {
@@ -31,7 +32,7 @@ export function NonTransitTrip({ nonTransit }: NonTransitTripProps) {
     <Button
       radiusSize="circular"
       size="pill"
-      onClick={() => openTrip(nonTransit.compressedQuery)}
+      onClick={() => openTrip(nonTransit.tripPattern)}
       state={isLoading ? 'loading' : 'none'}
       title={`${modeText} ${durationShort}`}
       testID={`non-transit-pill-${mode}`}

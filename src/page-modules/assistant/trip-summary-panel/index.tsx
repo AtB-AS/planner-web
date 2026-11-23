@@ -31,7 +31,7 @@ export function TripSummaryPanel(props: Props) {
     secondsBetween(tripPattern.expectedStartTime, tripPattern.expectedEndTime),
     language,
   );
-  const walkDistance = humanizeDistance(tripPattern.streetDistance ?? 0, t);
+  const walkDistance = humanizeDistance(tripPattern.walkDistance ?? 0, t);
 
   const mapContainerClassName = and(
     style.mapContainer,
