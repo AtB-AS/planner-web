@@ -59,8 +59,8 @@ export function createBffTripApi(
       const result = await request('/v2/trips', {
         method: 'POST',
         body: JSON.stringify({
-          from: inputToLocation(input, 'from'),
-          to: inputToLocation(input, 'to'),
+          from: toLocation(input.from),
+          to: toLocation(input.to),
           arriveBy: input.searchTime.mode === 'arriveBy',
           when: getSearchDate(input),
           cursor: input.cursor ?? undefined,
@@ -74,7 +74,7 @@ export function createBffTripApi(
           ...DEFAULT_JOURNEY_CONFIG,
           includeCancellations: true,
           lineFilter: input.lineFilter?.length ? input.lineFilter : undefined,
-          via: input.via ? [{ visit: toViaVisit(input.via) }] : undefined,
+          via: input.via ? toViaLocation(input.via) : undefined,
         }),
       });
       const {
@@ -99,8 +99,8 @@ export function createBffTripApi(
       const result = await request('/v2/trips/non-transit', {
         method: 'POST',
         body: JSON.stringify({
-          from: inputToLocation(input, 'from'),
-          to: inputToLocation(input, 'to'),
+          from: toLocation(input.from),
+          to: toLocation(input.to),
           arriveBy: input.searchTime.mode === 'arriveBy',
           when: getSearchDate(input),
           walkSpeed: input.walkSpeed,
@@ -183,33 +183,22 @@ function getSearchDate(input: NonTransitTripInput | TripInput) {
     : new Date();
 }
 
-function inputToLocation(
-  input: NonTransitTripInput | TripInput,
-  direction: 'from' | 'to',
-) {
+function toLocation(feature: GeocoderFeature) {
   return {
-    place: input[direction].id,
+    place: feature.id,
     coordinates: {
-      latitude: input[direction].geometry.coordinates[1],
-      longitude: input[direction].geometry.coordinates[0],
+      latitude: feature.geometry.coordinates[1],
+      longitude: feature.geometry.coordinates[0],
     },
-    name: input[direction].name,
+    name: feature.name,
   };
 }
 
 /**
- * Entur only accepts stop IDs as `stopLocationIds`, so other locations, such
- * as addresses, are visited by coordinate.
+ * Stop places, which are in the venue layer, are visited by ID. Other
+ * locations are visited by coordinates.
  */
-function toViaVisit(via: GeocoderFeature) {
-  if (via.id.startsWith('NSR:')) {
-    return { label: via.name, stopLocationIds: [via.id] };
-  }
-  return {
-    label: via.name,
-    coordinate: {
-      latitude: via.geometry.coordinates[1],
-      longitude: via.geometry.coordinates[0],
-    },
-  };
+function toViaLocation(via: GeocoderFeature) {
+  if (via.layer === 'venue') return { place: via.id };
+  return { coordinates: toLocation(via).coordinates };
 }
