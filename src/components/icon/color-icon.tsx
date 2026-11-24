@@ -25,7 +25,6 @@ export function ColorIcon({ icon, size = 'normal', ...props }: ColorIconProps) {
 
   if (!currentIcon.darkable) {
     const totalPath = `/assets/${currentIcon.relative}`;
-    // eslint-disable-next-line
     return (
       <img
         width={wh}
@@ -42,7 +41,6 @@ export function ColorIcon({ icon, size = 'normal', ...props }: ColorIconProps) {
       isDarkMode,
     )}`;
 
-    // eslint-disable-next-line
     return (
       <img
         width={wh}

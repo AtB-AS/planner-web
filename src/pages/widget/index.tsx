@@ -121,7 +121,6 @@ const WidgetPage: NextPage<WidgetPageProps> = ({ data, active, ...props }) => {
   return (
     <DefaultLayout {...props}>
       <Head>
-        {/* eslint-disable-next-line @next/next/no-css-tags */}
         <link rel="stylesheet" href={active.urls.css} />
       </Head>
       <Script
