@@ -21,6 +21,18 @@
   bottom: var(--decorationLineInset);
 }
 
+/* Segments of a continuous line (one per row) should only be rounded at the
+   outer ends, otherwise adjacent segments look disconnected. */
+.decoration__connectedTop {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.decoration__connectedBottom {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
 .decorationMarker {
   width: var(--decorationLineEndWidth);
   height: var(--decorationLineWidth);
