@@ -160,6 +160,7 @@ function EstimatedCallRow({
         hasStart={isStartOfGroup}
         hasCenter={isBetween}
         hasEnd={isEndOfGroup}
+        isSegment
         color={iconColor.backgroundColor}
       />
       <TripRow

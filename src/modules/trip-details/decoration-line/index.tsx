@@ -5,6 +5,7 @@ type DecorationLineProps = {
   hasStart?: boolean;
   hasCenter?: boolean;
   hasEnd?: boolean;
+  isSegment?: boolean;
   color: string;
 };
 
@@ -13,6 +14,7 @@ export default function DecorationLine({
   hasStart,
   hasCenter,
   hasEnd,
+  isSegment,
 }: DecorationLineProps) {
   const colorStyle = { backgroundColor: color };
   return (
@@ -21,6 +23,8 @@ export default function DecorationLine({
         style.decoration,
         hasStart && style.decoration__insetTop,
         hasEnd && style.decoration__insetBottom,
+        isSegment && !hasStart && style.decoration__connectedTop,
+        isSegment && !hasEnd && style.decoration__connectedBottom,
       )}
       style={colorStyle}
     >
