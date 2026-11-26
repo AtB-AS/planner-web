@@ -182,7 +182,10 @@ export function EstimatedCallList({
     setIsFetchingDepartures(true);
     const latestDeparture = departures[departures.length - 1];
 
-    const date = new Date(latestDeparture.aimedDepartureTime);
+    // Entur filters and orders estimated calls by expected time, so paginate
+    // from the last expected time. Using aimed time on a delayed departure
+    // re-fetches the same window and yields only duplicates.
+    const date = new Date(latestDeparture.expectedDepartureTime);
     // The departure at startTime is included in the response, so request one
     // extra to account for the overlapping departure we already have.
     const numberToRequest = NUMBER_OF_DEPARTURES + 1;
