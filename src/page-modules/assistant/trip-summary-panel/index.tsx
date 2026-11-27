@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { Map } from '@atb/components/map';
 import { MonoIcon } from '@atb/components/icon';
 import { PageText, useTranslation } from '@atb/translations';
@@ -15,7 +14,10 @@ import style from './trip-summary-panel.module.css';
 
 type Props = {
   tripPattern: ExtendedTripPatternWithDetailsType;
-} & ({ variant: 'expanded' } | { variant: 'compact'; detailsHref: string });
+} & (
+  | { variant: 'expanded' }
+  | { variant: 'compact'; onDetailsClick: () => void }
+);
 
 export function TripSummaryPanel(props: Props) {
   const { tripPattern, variant } = props;
@@ -29,7 +31,7 @@ export function TripSummaryPanel(props: Props) {
     secondsBetween(tripPattern.expectedStartTime, tripPattern.expectedEndTime),
     language,
   );
-  const walkDistance = humanizeDistance(tripPattern.streetDistance ?? 0, t);
+  const walkDistance = humanizeDistance(tripPattern.walkDistance ?? 0, t);
 
   const mapContainerClassName = and(
     style.mapContainer,
@@ -44,14 +46,13 @@ export function TripSummaryPanel(props: Props) {
       )}
     >
       {variant === 'compact' ? (
-        <Link
-          href={props.detailsHref}
-          className={mapContainerClassName}
+        <div
+          onClick={props.onDetailsClick}
+          className={and(mapContainerClassName, style.mapContainer__clickable)}
           aria-hidden="true"
-          tabIndex={-1}
         >
           <Map mapLegs={mapLegs} interactive={false} />
-        </Link>
+        </div>
       ) : (
         <div className={mapContainerClassName}>
           <Map mapLegs={mapLegs} />

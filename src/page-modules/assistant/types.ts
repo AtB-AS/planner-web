@@ -5,7 +5,6 @@ import { NoticeFragment } from '@atb/page-modules/assistant/journey-gql/trip-wit
 import {
   LegWithDetailsFragment,
   TripPatternWithDetailsFragment,
-  TripsWithDetailsQuery,
 } from '@atb/page-modules/assistant/journey-gql/trip-with-details.generated.ts';
 import { MapLegType } from '@atb/components/map';
 import {
@@ -102,7 +101,7 @@ export type NonTransitTripInput = {
 };
 
 export type NonTransitTripData = {
-  cycleTrip?: NonTransitTripType;
+  bicycleTrip?: NonTransitTripType;
   footTrip?: NonTransitTripType;
   bikeRentalTrip?: NonTransitTripType;
 };
@@ -115,15 +114,14 @@ export type NonTransitTripType = {
   mode: Mode;
   rentedBike: boolean;
   duration: number;
-  compressedQuery: string;
+  tripPattern: ExtendedTripPatternWithDetailsType;
 };
 
 // Extend GraphQL-types with convencience properties
-export type ExtendedTripPatternType = TripPatternWithDetailsFragment & {
-  compressedQuery: string;
-};
-export type TripsType = TripsWithDetailsQuery & {
+export type TripsType = {
   trip: {
+    nextPageCursor?: string | null;
+    previousPageCursor?: string | null;
     tripPatterns: ExtendedTripPatternWithDetailsType[];
   };
 };
@@ -148,21 +146,14 @@ export type ExtendedTripPatternWithDetailsType = Omit<
   TripPatternWithDetailsFragment,
   'legs'
 > & {
-  compressedQuery: string;
   legs: ExtendedLegType[];
   status?: TripPatternStatus;
   transferRisk?: TransferRisk;
   aimedStartTime?: string;
   aimedEndTime?: string;
 };
-export type TripWithDetailsType = TripsWithDetailsQuery & {
-  trip: {
-    tripPatterns: ExtendedTripPatternWithDetailsType[];
-  };
-};
-
 export type BookingArrangementType =
-  TripWithDetailsType['trip']['tripPatterns'][number]['legs'][number]['bookingArrangements'];
+  LegWithDetailsFragment['bookingArrangements'];
 
 const TravellerSchema = z.object({
   id: z.string(),
@@ -194,7 +185,6 @@ const RefreshTripLegStubSchema = z.looseObject({
 });
 
 export const RefreshTripRequestBodySchema = z.looseObject({
-  compressedQuery: z.string(),
   expectedStartTime: z.string(),
   expectedEndTime: z.string(),
   legs: z.array(RefreshTripLegStubSchema).min(1),

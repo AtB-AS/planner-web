@@ -162,24 +162,15 @@ export default function Trip({ tripQuery, fallback }: TripProps) {
         })}
       </div>
 
-      {tripQuery.via ? (
-        <Typo.p
-          textType="body__m__strong"
-          className={style.disabledFetchTextContainer}
-        >
-          {t(PageText.Assistant.trip.disabledFetchMore)}
-        </Typo.p>
-      ) : (
-        <Button
-          className={style.fetchButton}
-          onClick={loadMore}
-          mode="secondary"
-          radiusSize="circular"
-          title={t(PageText.Assistant.trip.fetchMore)}
-          state={isLoadingMore ? 'loading' : undefined}
-          testID="loadMoreButton"
-        />
-      )}
+      <Button
+        className={style.fetchButton}
+        onClick={loadMore}
+        mode="secondary"
+        radiusSize="circular"
+        title={t(PageText.Assistant.trip.fetchMore)}
+        state={isLoadingMore ? 'loading' : undefined}
+        testID="loadMoreButton"
+      />
     </>
   );
 }

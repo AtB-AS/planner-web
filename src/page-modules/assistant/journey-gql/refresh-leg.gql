@@ -1,5 +1,0 @@
-query RefreshLeg($id: ID!) {
-  leg(id: $id) {
-    ...legWithDetails
-  }
-}

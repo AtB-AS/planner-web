@@ -4,11 +4,12 @@ import { NextApiResponse } from 'next';
 
 import type { NormalizedCacheObject } from '@apollo/client/cache';
 import { ApolloClient, type ApolloClientOptions } from '@apollo/client/core';
-import { BFFURL, SALESURL } from '@atb/utils/env.ts';
+import { BFFURL, JOURNEYURL, SALESURL } from '@atb/utils/env.ts';
 
 export const externalHttpUrls = {
   'http-bff': BFFURL,
   'http-sales': SALESURL,
+  'http-journey': JOURNEYURL,
   'http-contact-api': process.env.NEXT_PUBLIC_CONTACT_API_URL,
 } as const;
 

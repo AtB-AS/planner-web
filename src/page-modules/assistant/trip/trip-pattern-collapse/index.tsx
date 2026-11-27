@@ -5,16 +5,16 @@ import { useInView } from 'react-intersection-observer';
 import { PageText, useTranslation } from '@atb/translations';
 import style from './trip-pattern-collapse.module.css';
 import { MonoIcon } from '@atb/components/icon';
-import { useRouter } from 'next/router';
 import { ExtendedTripPatternWithDetailsType } from '@atb/page-modules/assistant';
 import { useRefreshedTripPattern } from '@atb/page-modules/assistant/client';
-import { ButtonLink } from '@atb/components/button';
+import { Button } from '@atb/components/button';
 import TripSection from '@atb/page-modules/assistant/details/trip-section';
 import { getLegWaitDetails } from '@atb/page-modules/assistant/details/trip-section/wait-section.tsx';
 import { useLiveVehicleServiceJourneyIds } from '@atb/page-modules/assistant/details/use-live-vehicle-ids';
 import { TripSummaryPanel } from '@atb/page-modules/assistant/trip-summary-panel';
 import TravelCard from '@atb/page-modules/assistant/trip/travel-card';
 import { tripSummary } from '../utils.ts';
+import { useOpenTrip } from '@atb/page-modules/trip/use-open-trip';
 
 const ANIMATION_DURATION = 0.2;
 
@@ -34,7 +34,6 @@ export default function TripPatternCollapse({
   const { t, language } = useTranslation();
 
   const [isOpen, setIsOpen] = useState(false);
-  const router = useRouter();
   const id = useId();
   const shouldReduceMotion = useReducedMotion();
   const animationDuration = shouldReduceMotion ? 0 : ANIMATION_DURATION;
@@ -49,10 +48,8 @@ export default function TripPatternCollapse({
     isOpen,
   );
 
-  const filter = Array.isArray(router.query.filter)
-    ? router.query.filter.join(',')
-    : router.query.filter;
-  const detailsHref = `/assistant/${displayTripPattern.compressedQuery}${filter ? `?filter=${filter}` : ''}`;
+  const { openTrip, isLoading: isOpeningTrip } = useOpenTrip();
+  const openDetails = () => openTrip(displayTripPattern);
 
   return (
     <div ref={ref} className={style.collapseContainer}>
@@ -123,10 +120,11 @@ export default function TripPatternCollapse({
                 <TripSummaryPanel
                   tripPattern={displayTripPattern}
                   variant="compact"
-                  detailsHref={detailsHref}
+                  onDetailsClick={openDetails}
                 />
-                <ButtonLink
-                  href={detailsHref}
+                <Button
+                  onClick={openDetails}
+                  state={isOpeningTrip ? 'loading' : 'none'}
                   title={t(PageText.Assistant.trip.tripPattern.details)}
                   mode="secondary"
                   size="small"
