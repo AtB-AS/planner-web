@@ -1,5 +1,21 @@
 # Changelog
 
+## [3.32.0](https://github.com/AtB-AS/planner-web/compare/v3.31.0...v3.32.0) (2026-11-27)
+
+
+### Features
+
+* add universal link support for trip search ([#863](https://github.com/AtB-AS/planner-web/issues/863)) ([060aec7](https://github.com/AtB-AS/planner-web/commit/060aec785aaedd981f2a3d3f70f115931f8fe222))
+* **atb-contact:** update translations, features flags and lint rule ([#865](https://github.com/AtB-AS/planner-web/issues/865)) ([feb6db6](https://github.com/AtB-AS/planner-web/commit/feb6db6dd00b20b924b3137ab32e78644bbb1df2))
+* enabledLanguages ([#855](https://github.com/AtB-AS/planner-web/issues/855)) ([7d875e2](https://github.com/AtB-AS/planner-web/commit/7d875e22edb566058dd2851573de204aa8dd9d43))
+
+
+### Bug Fixes
+
+* **atb-contact:** travel card and fee number validation ([#869](https://github.com/AtB-AS/planner-web/issues/869)) ([d70fd79](https://github.com/AtB-AS/planner-web/commit/d70fd79cc1f30cb56e04865fec781e1712a1f790))
+* departure line indicator should be connecting ([#868](https://github.com/AtB-AS/planner-web/issues/868)) ([a3535dc](https://github.com/AtB-AS/planner-web/commit/a3535dc184b1f5aef64cf2288ec55314d3db3c92))
+* load more departures from last expected departure time ([#867](https://github.com/AtB-AS/planner-web/issues/867)) ([4921280](https://github.com/AtB-AS/planner-web/commit/49212801036a4df943a7e5bdc81ab7efc3c843bf))
+
 ## [3.31.0](https://github.com/AtB-AS/planner-web/compare/v3.30.1...v3.31.0) (2026-11-16)
 
 
