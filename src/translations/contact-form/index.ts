@@ -549,20 +549,6 @@ Har du mista ${T.travelCard.definite} ditt, må du [kontakte AtB kundesenter](ht
                 'Består av 7 eller 8 siffer og står under Profil i AtB-appen eller i nettbutikken.',
               ),
             },
-            travelCardNumber: {
-              info: _(
-                `Består av 16 siffer og står på baksiden av ${T.travelCard.definite} ditt.`,
-                `Consists of 16 digits and is on the back of your ${T.travelCard.base}.`,
-                `Består av 16 siffer og står bak på ${T.travelCard.definite} ditt.`,
-              ),
-            },
-            feeNumber: {
-              description: _(
-                'Består av 5 eller 6 siffer og står øverst i høyre hjørne på gebyret.',
-                'Consists of 5 or 6 digits and is in the top right corner of the fee.',
-                'Består av 5 eller 6 siffer og står øvst i høgre hjørne på gebyret.',
-              ),
-            },
             refundReason: {
               description: _(
                 'Ved avvik/feilkjøp og bruk av alternativ transport må dette dokumenteres med vedlegg. For eksempel billett/kvittering fra flybuss, tog, reise med sparkesykkel med mer.',

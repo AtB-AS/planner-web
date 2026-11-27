@@ -57,8 +57,8 @@ importers:
         specifier: ^1.2.1
         version: 1.2.1
       '@mrfylke/contact-form':
-        specifier: ^0.2.2
-        version: 0.2.2(@atb-as/theme@16.5.0)(@atb-as/token@0.0.4(@atb-as/theme@16.5.0)(postcss@8.5.15))(@internationalized/date@3.12.4)(@types/react@19.1.10)(graphql-ws@6.0.8(graphql@16.14.2)(ws@8.21.0))(lodash@4.18.1)(next@15.5.28(@babel/core@7.29.7)(@playwright/test@1.60.0)(@types/node@24.2.1)(react-dom@19.1.4(react@19.1.4))(react@19.1.4))(react-aria-components@1.22.1(react-dom@19.1.4(react@19.1.4))(react@19.1.4))(react-dom@19.1.4(react@19.1.4))(react@19.1.4)(rxjs@7.8.2)(swr@2.4.1(react@19.1.4))(uuid@11.1.1)
+        specifier: ^0.2.3
+        version: 0.2.3(@atb-as/theme@16.5.0)(@atb-as/token@0.0.4(@atb-as/theme@16.5.0)(postcss@8.5.15))(@internationalized/date@3.12.4)(@types/react@19.1.10)(graphql-ws@6.0.8(graphql@16.14.2)(ws@8.21.0))(lodash@4.18.1)(next@15.5.28(@babel/core@7.29.7)(@playwright/test@1.60.0)(@types/node@24.2.1)(react-dom@19.1.4(react@19.1.4))(react@19.1.4))(react-aria-components@1.22.1(react-dom@19.1.4(react@19.1.4))(react@19.1.4))(react-dom@19.1.4(react@19.1.4))(react@19.1.4)(rxjs@7.8.2)(swr@2.4.1(react@19.1.4))(uuid@11.1.1)
       '@react-aria/focus':
         specifier: ^3.21.0
         version: 3.22.1(react-dom@19.1.4(react@19.1.4))(react@19.1.4)
@@ -2423,8 +2423,8 @@ packages:
   '@microsoft/tsdoc@0.16.0':
     resolution: {integrity: sha512-xgAyonlVVS+q7Vc7qLW0UrJU7rSFcETRWsqdXZtjzRU8dF+6CkozTK4V4y1LwOX7j8r/vHphjDeMeGI4tNGeGA==}
 
-  '@mrfylke/contact-form@0.2.2':
-    resolution: {integrity: sha512-mFCQlcefvU8QOmEEXs41O15PAp868D+duKNYwd5QZnp0m+Q1qYL0G33TIK/Vv7Srl4MBmFqA5nLej80ZX7u/NQ==}
+  '@mrfylke/contact-form@0.2.3':
+    resolution: {integrity: sha512-5JQJ4FjqaMXMdn8xufM0yOgbFlYEmipsvH9RJiL+zkuJRw64Q1RTvrYhXo3MJIe/M5Tc87msznJDOBM9AAPOBw==}
     peerDependencies:
       '@atb-as/theme': ^16.5.0
       '@atb-as/token': ^0.0.4
@@ -6974,7 +6974,7 @@ snapshots:
       '@wry/equality': 0.5.7
       '@wry/trie': 0.5.0
       graphql: 16.14.2
-      graphql-tag: 2.12.6(graphql@16.14.2)
+      graphql-tag: 2.12.7(graphql@16.14.2)
       optimism: 0.18.1
       rxjs: 7.8.2
       tslib: 2.9.1
@@ -7028,7 +7028,7 @@ snapshots:
       ajv: 8.20.0
       ajv-formats: 3.0.1(ajv@8.20.0)
       glob: 13.0.6
-      js-yaml: 4.2.0
+      js-yaml: 4.3.2
       yargs: 17.7.2
       zod: 4.6.7
 
@@ -8953,7 +8953,7 @@ snapshots:
       change-case-all: 1.0.15
       dependency-graph: 0.11.0
       graphql: 16.14.2
-      graphql-tag: 2.12.6(graphql@16.14.2)
+      graphql-tag: 2.12.7(graphql@16.14.2)
       parse-filepath: 1.0.2
       tslib: 2.4.1
     transitivePeerDependencies:
@@ -8970,7 +8970,7 @@ snapshots:
       change-case-all: 1.0.15
       dependency-graph: 0.11.0
       graphql: 16.14.2
-      graphql-tag: 2.12.6(graphql@16.14.2)
+      graphql-tag: 2.12.7(graphql@16.14.2)
       parse-filepath: 1.0.2
       tslib: 2.6.3
 
@@ -9617,7 +9617,7 @@ snapshots:
 
   '@microsoft/tsdoc@0.16.0': {}
 
-  '@mrfylke/contact-form@0.2.2(@atb-as/theme@16.5.0)(@atb-as/token@0.0.4(@atb-as/theme@16.5.0)(postcss@8.5.15))(@internationalized/date@3.12.4)(@types/react@19.1.10)(graphql-ws@6.0.8(graphql@16.14.2)(ws@8.21.0))(lodash@4.18.1)(next@15.5.28(@babel/core@7.29.7)(@playwright/test@1.60.0)(@types/node@24.2.1)(react-dom@19.1.4(react@19.1.4))(react@19.1.4))(react-aria-components@1.22.1(react-dom@19.1.4(react@19.1.4))(react@19.1.4))(react-dom@19.1.4(react@19.1.4))(react@19.1.4)(rxjs@7.8.2)(swr@2.4.1(react@19.1.4))(uuid@11.1.1)':
+  '@mrfylke/contact-form@0.2.3(@atb-as/theme@16.5.0)(@atb-as/token@0.0.4(@atb-as/theme@16.5.0)(postcss@8.5.15))(@internationalized/date@3.12.4)(@types/react@19.1.10)(graphql-ws@6.0.8(graphql@16.14.2)(ws@8.21.0))(lodash@4.18.1)(next@15.5.28(@babel/core@7.29.7)(@playwright/test@1.60.0)(@types/node@24.2.1)(react-dom@19.1.4(react@19.1.4))(react@19.1.4))(react-aria-components@1.22.1(react-dom@19.1.4(react@19.1.4))(react@19.1.4))(react-dom@19.1.4(react@19.1.4))(react@19.1.4)(rxjs@7.8.2)(swr@2.4.1(react@19.1.4))(uuid@11.1.1)':
     dependencies:
       '@apollo/client': 4.3.8(graphql-ws@6.0.8(graphql@16.14.2)(ws@8.21.0))(graphql@16.14.2)(react-dom@19.1.4(react@19.1.4))(react@19.1.4)(rxjs@7.8.2)
       '@atb-as/config-specs': 12.0.0(zod@4.6.7)

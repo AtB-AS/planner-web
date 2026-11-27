@@ -72,6 +72,10 @@ export const contactFormConfig: ContactFormConfig = {
       ],
     }),
   },
+  validation: {
+    travelCardNumberLengths: byOrg({ atb: [16] }),
+    feeNumberLengths: byOrg({ atb: [5, 6] }),
+  },
   transportModes: byOrg({
     atb: ['bus', 'tram', 'expressboat', 'ferry'],
   }),
