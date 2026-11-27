@@ -33,7 +33,7 @@ export const CompanyText = {
       `When ordering period tickets, you must specify the start date of the ticket.\n\nIf you want new ${T.travelCard.plural} sent by post, a delivery address must be included in the order.\n\nCarnet products are valid for 1 year from the top-up date. After this period, remaining clips cannot be used and will not be refunded. ${T.travelCard.Definite} itself is not affected by the expiry date.`,
       `Ved bestilling av periodebillettar må du oppgi startdato for billetten.\n\nViss de ønskjer nye ${T.travelCard.plural} tilsende i posten, må leveringsadresse oppgjevast i bestillinga.\n\nKlippekortprodukt er gyldig i 1 år frå påfyllingsdato. Etter denne perioden kan attverande klipp ikkje brukast og blir ikkje refunderte. Sjølve ${T.travelCard.definite} blir ikkje påverka av utløpsdatoen.`,
     ),
-    companyName: _('Firmanavn', 'Company name', 'Firmanamn'),
+    companyName: _('Bedriftsnavn', 'Company name', 'Bedriftsnamn'),
     organizationNumber: _(
       'Organisasjonsnummer',
       'Organization number',
@@ -69,7 +69,7 @@ export const CompanyText = {
       'Do you have general questions as a company?',
       'Har du generelle spørsmål for bedrift?',
     ),
-    company: _('Firma', 'Company', 'Firma'),
+    company: _('Bedrift', 'Company', 'Bedrift'),
   },
   attachmentLabel: _('Vedlegg', 'Attachments', 'Vedlegg'),
   attachment: _('Legg ved filer', 'Attach files', 'Legg ved filer'),

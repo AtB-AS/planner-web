@@ -15,6 +15,7 @@ export const contactFormConfig: ContactFormConfig = {
   features: {
     includeOtherTicketTypeSelector: true,
     includeCustomerNumberAndPurchasePlatformInAppTicketRefund: true,
+    addressInAppTicketRefund: byOrg({ atb: 'excluded' }),
     enableRequiredLineInServiceOffering: true,
     includeOrderIdInOtherTicketRefund: true,
     includeAmountInOtherTicketRefund: byOrg({ atb: false }) ?? true,
@@ -22,6 +23,9 @@ export const contactFormConfig: ContactFormConfig = {
     includePhoneNumberInPriceAndTravelSuggestion: byOrg({ atb: true }),
     enableRequiredReceiptAttachmentInOtherTicketRefund: true,
     enableIdentificationAttachmentInOtherTicketRefund: byOrg({ atb: true }),
+    customerNumberInFeeComplaint: byOrg({ atb: 'optional' }),
+    bankAccountInFeeComplaint: byOrg({ atb: 'optional' }),
+    travelCardNumberInOtherTicketRefund: byOrg({ atb: 'optional' }),
     enableInternationalBankAccountInTravelGuarantee: byOrg({ atb: false }),
     enablePrePurchasedTicketRefundInTravelGuarantee: byOrg({ atb: true }),
   },
@@ -92,6 +96,19 @@ export const contactFormConfig: ContactFormConfig = {
           'residualValueOnTravelCard',
         ],
         enabledPurchasePlatforms: ['framApp', 'framWeb', 'sms'],
+      },
+      ticketing: {
+        enabledAppForms: [
+          'appTicketing',
+          'appTravelSuggestion',
+          'appAccount',
+          'appOther',
+        ],
+        enabledWebshopForms: [
+          'webshopTicketing',
+          'webshopAccount',
+          'webshopOther',
+        ],
       },
       lostProperty: { modes: atbLostPropertyModes },
     },
